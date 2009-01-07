@@ -12,9 +12,8 @@ if action_given
   set :application, 'plos'
   set :rails_env, instance
   set :deploy_to, "/var/rails/#{application}.#{instance}"
-  set :repository, "git@selfamusementpark.com:plos"
-  set :scm, :git
-  set :git_enable_submodules, true
+  set :repository, "svn+ssh://cvsuser@svn.plos.org/alm/tags/#{instance}"
+  set :scm, :subversion
   set :keep_releases, 5
 
   set :owner, 'www-data'
