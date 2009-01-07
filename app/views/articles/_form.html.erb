@@ -1,0 +1,12 @@
+<% article ||= form %>
+<% form_for(article) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :doi, "DOI" %><br />
+    <%= f.text_field :doi %>
+  </p>
+  <p>
+    <%= f.submit(article.new_record? ? "Create" : "Update") %>
+  </p>
+<% end %>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# Don't add a fixture for Bloglines - it'll break the tests in 
+# test/unit/source_test.
+
+crossref:
+  type: CrossRef
+  url: http://example.com
+  staleness: <%= 1.year.to_i %>
+  active: true
+

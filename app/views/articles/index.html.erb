@@ -1,0 +1,30 @@
+
+
+<h2><%= params[:cited] ? "Cited" : "All" %> Articles</h2>
+<div>
+<% if params[:cited] %>
+<%= link_to 'Show all articles', articles_path %>
+<% else %>
+<%= link_to 'Show only cited articles', articles_path(:cited => 1) %>
+<% end %>
+<%= link_to 'Add another article', new_article_path %>
+</div>
+
+<% if @articles.first %>
+  <% for article in @articles %>
+  <div class="article">
+    <span class="doi"><%= link_to article.doi, article %></span>
+    <span class="details">
+      <%= pluralize article.citations_count, "citation" %> from
+      <%= pluralize article.cited_retrievals_count, "source" %>, 
+      <%= (article.retrieved_at.year < 2000) ? 
+          "never updated" : "updated #{article.retrieved_at.to_s(:friendly)}" %>
+    </span>
+  </div>
+  <% end %>
+<% else %>
+  <div>No <%= "cited " if params[:cited] %>articles found</div>
+<% end %>
+<%= will_paginate @articles %>
+
+

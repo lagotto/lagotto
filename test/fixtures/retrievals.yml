@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  article: not_stale
+  source: crossref
+  citations_count: 1
+  other_citations_count: 0
+  retrieved_at: <%= Date.today - 1.day %>
+
+two:
+  article: stale
+  source: crossref
+  retrieved_at: <%= Date.today - 2.years %>

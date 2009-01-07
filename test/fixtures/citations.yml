@@ -1,0 +1,6 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+#
+one:
+  retrieval: one
+  uri: 10.1111/j.1432-1033.2004.04245.x
+  details: <%= { :title => "Title" }.to_json %>

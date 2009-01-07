@@ -1,0 +1,30 @@
+<p>
+  <b>Name:</b>
+  <%=h @source.type %>
+  (<%= @source.active ? "active" : "inactive" %>)
+</p>
+
+<p>
+  <b>Url:</b>
+  <%=h @source.url %>
+</p>
+
+<p>
+  <b>Username:</b>
+  <%=h @source.username %>
+</p>
+
+<p>
+  <b>Password:</b>
+  <%=h @source.password %>
+</p>
+
+<p>
+  <b>Staleness:</b>
+  <%=h @source.staleness %>
+</p>
+
+
+<%= link_to 'Edit', edit_source_path(@source) %>
+<br/>
+<%= link_to 'Back to list', sources_path %>

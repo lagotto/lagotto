@@ -1,0 +1,10 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+not_stale:
+  doi: 10.1371/journal.pbio.0000005
+  retrieved_at: <%= Date.today - 1.day %>
+
+stale:
+  doi: 10.1371/journal.pgen.1000111
+  # default retrieved_at == 1970
+

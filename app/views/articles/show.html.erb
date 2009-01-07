@@ -1,0 +1,30 @@
+<div>
+  <h2><%=h @article.doi %></h2>
+
+  <h1><%= pluralize(@article.citations_count, "citation") %>, 
+      <%= (@article.retrieved_at.year < 2000) ? "never updated" : 
+          "updated #{@article.retrieved_at.to_s(:friendly)}" %></h1>
+  <ul>
+  <% @article.retrievals.each do |retrieval| %>
+    <% if retrieval.total_citations_count > 0 %>
+      <li>
+        <%= retrieval.source.class.name %> 
+        (<%= retrieval.total_citations_count %>)<% unless retrieval.citations.empty? %>:<ul>
+        <% retrieval.citations.each do |citation| %>
+          <li><%= link_to h(citation.details.inspect), citation.uri %></li>
+        <% end %>
+        </ul><% end %>
+      </li>
+    <% end %>
+  <% end %>
+  </ul>
+</div>
+
+<% if logged_in? %>
+Refresh: <%= link_to 'now', article_path(@article, :refresh => "now") %> |
+<%= link_to 'soon', article_path(@article, :refresh => "soon") %><br/>
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Delete', @article, :confirm => 'Are you sure?', :method => :delete %>
+<br/>
+<% end %>
+<%= link_to 'Back to list', articles_path %>

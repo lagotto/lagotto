@@ -1,0 +1,7 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  retrieval: one
+  citations_count: 1
+  year: 2008
+  month: 2

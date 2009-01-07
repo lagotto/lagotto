@@ -1,0 +1,13 @@
+// count citations by source
+select sum(r.citations_count) + sum(r.other_citations_count) as count, s.type as source from retrievals r, sources s where r.source_id = s.id group by s.type;
+
+// count explicit citations
+select count(*) from citations;
+
+// find missing retrievals
+select a.doi, s.type from articles a, sources s where s.active = 1 and not exists (select 1 from retrievals r where r.article_id = a.id and r.source_id = s.id);
+
+// find citations from Nature
+select articles.doi from articles, retrievals where articles.id = retrievals.article_id and retrievals.citations_count > 0 and retrievals.source_id = 4;
+
+

@@ -1,0 +1,18 @@
+<h1>Sources</h1>
+
+<ul>
+<% for source in @sources %>
+  <li>
+    <% unless source.is_a? String %>
+      <%# Link to edit an existing source -%>
+      <h3><%= link_to h(source.class.name), edit_source_path(source) %></h3>
+      <div><%= source.active ? "Active" : "Inactive" %>; 
+           update every <%= SecondsToDuration::convert(source.staleness).inspect %></div>
+    <% else %>
+      <%# Link to create a new source for an unconfigured one -%>
+      <h3><%= link_to h(source), new_source_path(:class => source) %></h3>
+      <div>Unconfigured - click to configure.</div>
+    <% end %>
+  </li>
+<% end %>
+</ul>
