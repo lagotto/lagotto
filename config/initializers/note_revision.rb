@@ -4,10 +4,14 @@ def determine_revision
   revisionFile = Rails.root + "/REVISION"
   digits = 8
   Rails.env + begin
-    " " + File.read(revisionFile)[0...digits]
+    " " + File.read(revisionFile).strip[0...digits]
   rescue
     begin
-      " #{`git log -1`.split(" ")[1][0...digits]} #{`git branch`.split("\n")[0].split(" ")[-1]}"
+      if File.exist?(".git")
+        " #{`git log -1`.split(" ")[1][0...digits]} #{`git branch`.split("\n")[0].split(" ")[-1]}"
+      else
+        " " + XmlSimple::xml_in_string(`svn info --xml`)["entry"][0]["revision"]
+      end
     rescue
       ""
     end

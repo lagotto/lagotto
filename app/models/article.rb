@@ -48,8 +48,7 @@ class Article < ActiveRecord::Base
 
   def to_xml(options = {})
     options[:indent] ||= 2
-    source = options.delete(:source)
-    source.downcase! if source
+    sources = (options.delete(:source) || '').downcase.split(',')
     xml = options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
     xml.instruct! unless options[:skip_instruct]
     xml.tag!("article", :doi => doi, :citations_count => citations_count,
@@ -59,7 +58,7 @@ class Article < ActiveRecord::Base
                                            :skip_instruct => true)
         retrievals.each do |r| 
           r.to_xml(retrieval_options) \
-            if (source.nil? or source == r.source.name.downcase) \
+            if (sources.empty? or sources.include?(r.source.name.downcase)) \
                and (r.total_citations_count > 0)
         end
       end
@@ -81,12 +80,11 @@ class Article < ActiveRecord::Base
       }
     }
     detailed = options[:citations] or options[:history]
-    source = options.delete(:source)
-    source.downcase! if source
+    sources = (options.delete(:source) || '').downcase.split(',')
     if detailed
       result[:article][:sources] = retrievals.map do |r|
         r.to_included_json(options) \
-          if (source.nil? or source == r.source.name.downcase) \
+          if (sources.empty? or sources.include?(r.source.name.downcase)) \
              and (r.total_citations_count > 0)
       end.compact
     end

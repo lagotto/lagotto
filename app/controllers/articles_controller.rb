@@ -130,8 +130,8 @@ protected
       result[:include][:retrievals] << :histories
     end
     if params[:source]
-      result[:conditions] = ['lower(sources.type) = ?', 
-                             params[:source].downcase]
+      sources = params[:source].downcase.split(",")
+      result[:conditions] = ['lower(sources.type) in (?)', sources]
     end
     result
   end
