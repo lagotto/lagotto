@@ -25,23 +25,23 @@ PORT=22122
 LISTEN=0.0.0.0
 PIDFILE=/var/run/starling/starling.pid
 
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 NAME=starling
-INSTALL_DIR=/usr/local/bin
+INSTALL_DIR=/opt/ruby-enterprise-1.8.6-20081215/bin
+PATH=$INSTALL_DIR:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=$INSTALL_DIR/$NAME
 OPTS="-h $LISTEN -p $PORT -d -q $SPOOLDIR -P $PIDFILE -L $LOGFILE -u $DUSER -g $DGROUP"
 
 start() {
   echo -n $"Starting starling: "
 
-  daemon --pidfile=$PIDFILE $DAEMON $OPTS
+  daemon $DAEMON $OPTS
   echo
 }
 
 stop() {
   echo -n $"Stopping starling: "
 
-  killproc -p $PIDFILE starling
+  killproc starling
   echo
 }
 
