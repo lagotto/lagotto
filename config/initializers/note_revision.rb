@@ -10,7 +10,7 @@ def determine_revision
       if File.exist?(".git")
         " #{`git log -1`.split(" ")[1][0...digits]} #{`git branch`.split("\n")[0].split(" ")[-1]}"
       else
-        " " + XmlSimple::xml_in_string(`svn info --xml`)["entry"][0]["revision"]
+        " " + `svn info`.grep(%r"^Revision: ")[0].split(" ")[1]
       end
     rescue
       ""
