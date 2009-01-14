@@ -79,9 +79,8 @@ class Article < ActiveRecord::Base
         :updated_at => retrieved_at
       }
     }
-    detailed = options[:citations] or options[:history]
     sources = (options.delete(:source) || '').downcase.split(',')
-    if detailed
+    if options[:citations] or options[:history]
       result[:article][:sources] = retrievals.map do |r|
         r.to_included_json(options) \
           if (sources.empty? or sources.include?(r.source.name.downcase)) \
