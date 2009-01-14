@@ -26,8 +26,14 @@ LISTEN=0.0.0.0
 PIDFILE=/var/run/starling/starling.pid
 
 NAME=starling
-INSTALL_DIR=/opt/ruby-enterprise-1.8.6-20081215/bin
-PATH=$INSTALL_DIR:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+if [ -d /opt/ree/current/bin ]; then
+  # Use Ruby Enterprise Edition
+  INSTALL_DIR=/opt/ree/current/bin
+  PATH=$INSTALL_DIR:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+else
+  # Use the machine's default 'ruby'
+  INSTALL_DIR=/usr/bin
+fi
 DAEMON=$INSTALL_DIR/$NAME
 OPTS="-h $LISTEN -p $PORT -d -q $SPOOLDIR -P $PIDFILE -L $LOGFILE -u $DUSER -g $DGROUP"
 

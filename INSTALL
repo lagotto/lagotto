@@ -13,19 +13,17 @@ My personal experience with RedHat-based Linuxes like CentOS is minimal and anci
 
 More notes about the configuration choices I've made:
 
-- About Ruby Enterprise Edition: the current version is 1.8.6-20081215, and can be downloaded from <http://www.rubyenterpriseedition.com/download.html>. It installs into a self-contained folder: by convention, I've installed it in /opt/ruby-enterprise-(version), and created a symlink /opt/ruby/current that points at it. By placing its bin directory (via the symlink, /opt/ruby/current/bin) at the start of the PATH, its version of Ruby and corresponding libraries get used; we'll also configure Apache to use it when running our application.
+- About Ruby Enterprise Edition: the current version is 1.8.6-20081215, and can be downloaded from <http://www.rubyenterpriseedition.com/download.html>. It installs into a self-contained folder: I've installed it in /opt/ree/(version), and created a symlink /opt/ree/current that points at it. By placing its bin directory (via the symlink, /opt/ree/current/bin) at the start of the PATH, its version of Ruby and corresponding shell commands and libraries get used; we'll also configure Apache to use it when running our application.
 
-- I'm setting up the application in /opt/alm, owned by "stearns:apache" with the setgid flag on; this allows me to write to the directory, and the "apache" webserver user can read & write it too.
+- Likewise, I'm setting up the application in /opt/alm, owned by "stearns:apache" with the setgid flag on; this allows me to write to the directory, and the "apache" webserver user can read & write it too. Within that directory, I'm setting up a date-named folder (for example, "20090111") for the current version of the ALM application, and symlinking /opt/alm/current to it. This allows multiple versions of the application to sit on the machine at a time, simplifying rollback if necessary.
 
-- Within that directory, I'm setting up a date-named folder (for example, "20090111") for the current version of the ALM application, and symlinking /opt/alm/current to it. This allows multiple versions of the application to sit on the machine at a time, simplifying rollback if necessary.
-
-- I've also created a "/opt/alm/shared" directory to hold a few configuration files that shouldn't be checked into source control because they contain secrets. There's a summary of the process of deploying a new version of the application below that includes linking these files into the current-version tree in the right spots.
+- I've also created a "/opt/alm/shared" directory to hold a few configuration files that shouldn't be checked into source control because they contain database passwords & secret keys. There's a summary of the process of deploying a new version of the application below that includes linking these files into the current-version tree in the right spots.
 
 - I'm assuming that the production version will be tagged "production" (and re-tagged whenever the production version changes); thus, I'm checking out from "svn+ssh://cvsuser@svn.plos.org/alm/tags/production".
 
-- Rails applications run in specific "environments", defined by a setting in the environment or Apache configuration. Each environment has its own set of configuration settings, and has its own database & logs (so you can run different environments on the same machine). In addition to the predefined "development", "test", and "production" environments, I set up a "stage" environment that's just like "production" but without caching, and with more explicit error reporting. Naturally, I suggest you run your pre-production environment as "stage", and your production environment as "production". You don't need to set up databases, etc, on any machine where you're not planning on running that environment.
+- Rails applications run in a specific "environment": "development" by default, or "test" or "production" as defined by a setting in the environment or Apache configuration. Each environment has its own set of configuration settings, database & log (so you can run different environments on the same machine out of the same source tree if you want). I usually set up a "stage" environment that's just like "production" but with caching turned off, and with more explicit error reporting -- this is what I've been running as plos.eliot.com. Naturally, I suggest you run your pre-production environment as "stage", and your production environment as "production". (You don't need to set up databases, etc, on any machine where you're not planning on running that environment.)
 
-- I've left out setup for a feature of Rails that improves performance a little for users by splitting up static-asset requests (images, javascript, etc) across multiple subdomain names that are all aliases to this server (asset0.xxx.com, asset1.xxx.com, etc.) - it just requires extra DNS names and a bit of Apache configuration, but I've left it out because I don't think this application would benefit much from it: you don't have images or javascript (or users, for that matter :-) ). Let me know and I'll help set it up if you want.
+- I've left out setup for a feature of Rails that improves user-perceived performance a little by splitting up static-asset requests (images, javascript, etc) across multiple subdomain names that are all aliases to this server (asset0.xxx.com, asset1.xxx.com, etc.) - it just requires extra DNS names and a bit of Apache configuration, but I've left it out because I don't think this application would benefit much from it: you don't have images or javascript (or users, for that matter :-) ). Let me know and I'll help set it up if you want.
 
 As part of the install, I set up a personal account 'stearns', which I used for the setup. These notes begin after logging in as 'stearns' and opening a terminal window on the desktop.
 
@@ -51,7 +49,10 @@ vi /etc/sudoers
 # permissions; it's easier for me to use a terminal than the VNC window 
 # provided by my virtualization mechanism)
 
-# Reboot, mostly to make my apache group membership take effect.
+# Reboot, mostly to make my apache group membership take effect and start
+# the services. (I suppose you could just log out & back in, then manually
+# start the services, but I usually reboot to test that they start on
+# their own.)
 
 # From here, I logged in as "stearns" via SSH - made cutting & pasting from 
 # these notes easier!
@@ -65,6 +66,9 @@ sudo chown apache:apache /opt/alm
 sudo chmod 774 /opt/alm
 sudo chmod g+s /opt/alm
 
+# Create a directory for the Ruby Enterprise Edition install, too.
+sudo mkdir /opt/ree
+
 # Download Ruby Enterprise Edition
 wget http://rubyforge.org/frs/download.php/48623/ruby-enterprise-1.8.6-20081215.tar.gz
 tar xzf ruby-enterprise-1.8.6-20081215.tar.gz
@@ -73,16 +77,16 @@ tar xzf ruby-enterprise-1.8.6-20081215.tar.gz
 # a couple of warnings about postgresql and sqlite - you can ignore them,
 # but if it also warns you about mysql, something's missing related to the
 # mysql libraries...
-sudo ruby-enterprise-1.8.6-20081215/installer -a /opt/ruby-enterprise-1.8.6-20081215
+sudo ruby-enterprise-1.8.6-20081215/installer -a /opt/ree/1.8.6-20081215
 
 # Make a symlink to refer to the current Ruby Enterprise Edition
-sudo ln -sf /opt/ruby-enterprise-1.8.6-20081215 /opt/ruby
+sudo ln -sf /opt/ree/1.8.6-20081215 /opt/ree/current
 
 # Don't need these in my home directory anymore
-rm -rf ruby-enterprise-1.8.6-20081215 ruby-enterprise-1.8.6-20081215.tar.gz
+sudo rm -rf ruby-enterprise-1.8.6-20081215 ruby-enterprise-1.8.6-20081215.tar.gz
 
-# Force Ruby Enterprise Edition to be the default Ruby
-export PATH=/opt/ruby/bin:$PATH
+# Force Ruby Enterprise Edition to be the default Ruby during this session
+export PATH=/opt/ree/current/bin:$PATH
 # This should now say "ruby 1.8.6 [...]", not "ruby 1.8.1 [...]"
 ruby --version 
 
@@ -92,10 +96,10 @@ sudo passenger-install-apache2-module
 
 # Create a configuration file for Apache that will load Passenger 
 # and configure our application:
-sudo vi /etc/httpd/conf.d/passenger.conf
+sudo vi /etc/httpd/conf.d/alm.conf
 # Paste in the lines produced by passenger-install-apache2-module,
-# then edit the version-specific paths (eg, /opt/ruby-enterprise-.../lib/...)
-# to use the symlin (eg, /opt/ruby/lib/...)
+# then edit the version-specific paths (eg, /opt/ree/1.8.6-.../lib/...)
+# to use the symlink (eg, /opt/ree/current/lib/...)
 # Then, append all of this and fix the domain names in it:
 <VirtualHost *:80>
     ServerName alm.plos.org
@@ -136,8 +140,9 @@ sudo vi /etc/httpd/conf.d/passenger.conf
     </DirectoryMatch>
 </VirtualHost>
 
-# Set up the database - something like this; fix username & password
-# here and below.
+# Set up the database - something like this; you can change
+# the database name, username, &/or password here; you'll
+# need to change 'em below too.
 sudo mysql <<DBSETUP
 create database alm_production;
 grant all on alm_production.* to alm@localhost identified by 'alm';
@@ -147,19 +152,20 @@ DBSETUP
 
 # Install the Ruby "gems" (libraries) that the ALM application needs
 # (Because of the PATH, these will be installed into the 
-# /opt/ruby-enterprise-edition... tree, which is what we want.)
+# /opt/ree/current/ tree, which is what we want.)
 sudo gem sources --add http://gems.github.com
 sudo gem install rails --version 2.1.2
 sudo gem install mislav-will_paginate
 sudo gem install libxml-ruby
+sudo gem install daemons
 sudo gem install soap4r
 sudo gem install starling-starling
 
-# Check out the application sources, into a folder with today's date (eg, Jan 14)
-svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/20090114
+# Check out the application sources, into a folder with today's date (eg, Jan 13)
+svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/20090113
 
 # Mark them as the current version.
-ln -sf /opt/alm/20090114 /opt/alm/current
+ln -sf /opt/alm/20090113 /opt/alm/current
 
 # Create the configuration files that aren't in Subversion; we'll keep them in
 # their own "shared" directory, and symlink them into the current application
@@ -206,24 +212,25 @@ SITEKEYS
 # Finish setting up Starling, the background message queue daemon, and Workling,
 # the handler for background messages; make sure we start them at boot time.
 sudo /usr/sbin/adduser -s /sbin/nologin starling
-sudo mkdir -p /var/{log,run,spool}/starling
+sudo mkdir -p /var/{log,run,spool}/starling /var/run/workling
 sudo chown starling:starling /var/{log,run,spool}/starling
 
 # I've included init files for starling and workling in the application's 
 # initscripts directory; symlink them into /etc/init.d, so they'll always
 # be the versions from subversion.
 sudo ln -sf /opt/alm/current/initscripts/starling /etc/init.d/starling
-sudo ln -sf /opt/alm/current/initscripts/workling /etc/init.d/working
+sudo ln -sf /opt/alm/current/initscripts/workling /etc/init.d/workling
 
 # FYI: The starling gem comes with an init script that I modified to make
 # the one I checked into initscripts/ -- these are the changes I made:
-# - Change INSTALL_DIR to /opt/ruby
+# - Change INSTALL_DIR to /opt/ree/current
 # - Move the INSTALL_DIR= line above the PATH= line
 # - Prepend $INSTALL_DIR: to the PATH setting
 # - Remove "--pidfile=$PIDFILE" from the daemon command line in start()
 # - Remove "-p $PIDFILE" from the killproc command line in stop()
 #
-# I copied that script to make the workling script.
+# I copied that script and hacked it to death to make the "workling" 
+# init script.
 
 # Make sure we start starling and workling at boot time
 sudo /sbin/chkconfig starling on
@@ -231,7 +238,7 @@ sudo /sbin/chkconfig workling on
 
 # ------------------------------------------------------------------------------
 # The rest of this is the process you'll use when deploying a new version of the
-# application
+# application (or a new version of Ruby Enterprise Edition, for that matter)
 # ------------------------------------------------------------------------------
 
 # Stop our daemons: Apache, workling, and starling
@@ -250,6 +257,13 @@ ln -sf /opt/alm/20090111 /opt/alm/current
 # Install the configuration files
 ln -f /opt/alm/shared/database.yml /opt/alm/current/config/database.yml
 ln -f /opt/alm/shared/site_keys.rb /opt/alm/current/config/initializers/site_keys.rb
+
+# If you're installing a new Ruby Enterprise Edition, download it, expand it,
+# and install it in a date-named directory, then switch the symlink.
+wget http://url/from/download/page/ruby-enterprise-1.8.x-2009xxxx.tar.gz
+tar xzf ruby-enterprise-1.8.x-2009xxxx.tar.gz
+sudo ruby-enterprise-1.8.x-2009xxxx/installer -a /opt/ree/1.8.x-2009xxxx
+sudo ln -sf /opt/ree/1.8.x-2009xxxx /opt/ree/current
 
 # Make sure the database schema is up to date (also verifies that the app
 # can talk to the database!)

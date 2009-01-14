@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# workling    This shell script takes care of starting and stopping
+#                    the workling handler daemon
+# chkconfig: 345 99 99
+# description: The workling handler daemon
+# processname: workling
+# pidfile: /opt/alm/current/tmp/workling.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+[ -f /etc/sysconfig/network ] && . /etc/sysconfig/network
+
+PIDFILE=/var/run/workling_client/workling_client.pid
+
+NAME=workling
+INSTALL_DIR=/opt/alm/current
+if [ -d /opt/ree/current/bin ]; then
+  # Use Ruby Enterprise Edition
+  RUBY_DIR=/opt/ree/current/bin
+  PATH=$RUBY_DIR:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+else
+  # Use the machine's default 'ruby'
+  RUBY_DIR=/usr/bin
+fi
+
+start() {
+  echo -n $"Starting workling: "
+
+  daemon "$RUBY_DIR/ruby $INSTALL_DIR/script/workling_client"
+  echo
+}
+
+stop() {
+  echo -n $"Stopping workling: "
+
+  killproc workling_client
+  echo
+}
+
+case "$1" in
+  start)
+    start
+  ;;
+  stop)
+    stop
+  ;;
+  restart)
+    stop
+    sleep 3
+    start
+  ;;
+  status)
+    status -p $PIDFILE workling_client
+  ;;
+  *)
+    echo $"Usage: $0 {start|stop|restart|status}"
+    exit 1
+esac
