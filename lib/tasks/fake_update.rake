@@ -14,31 +14,30 @@ namespace :db do
         retrieval = article.retrievals.find_or_create_by_source_id(source.id)
 
         # For this source, create history
-        total_citations = 0
-        months = (2 ** rand(5)) - 1
-        if months > 0
-          0.step(months-1) do |m|
-            # go month by month, creating histories
-            month_citations = (4 ** rand(3)) - 1
-            if month_citations > 0
-              puts "    #{month_citations} #{m} months ago"
-              unless source.is_a? Scopus # (Scopus only tracks counts)
-                # Create this month's citations
-                1.step(month_citations) do |i|
-                  c = retrieval.citations.create(:uri => "http://example.com/bogus/#{doi}/#{source.name}/#{m}/#{i}")
-                  puts "      #{c.uri}"
-                end
+        citations_left = total_citations = (2 ** rand(6)) + rand(6)
+        current_month = 0
+        while citations_left > 0 do
+          # go month by month, creating histories
+          month_citations = rand(citations_left+1)
+          month_retrieved_at = current_month.months.ago
+          year = month_retrieved_at.year
+          month = month_retrieved_at.month
+          if month_citations > 0
+            puts "    #{month_citations} #{current_month} months ago"
+            unless source.is_a? Scopus # (Scopus only tracks counts)
+              # Create this month's citations
+              1.step(month_citations) do |i|
+                c = retrieval.citations.create(:uri => "http://example.com/bogus/#{doi}/#{source.name}/#{year}_#{month}/#{i}")
+                puts "      #{c.uri}"
               end
-
-              # Create a history for this month
-              total_citations += month_citations
-              puts "  #{total_citations} total from this source"
-              month_retrieved_at = m.months.ago
-              retrieval.histories.create(:year => month_retrieved_at.year,
-                :month => month_retrieved_at.month,
-                :citations_count => month_citations)
             end
           end
+
+          # Create a history for this month
+          retrieval.histories.create(:year => year, :month => month,
+            :citations_count => citations_left)
+          citations_left -= month_citations
+          current_month += 1
         end
         
         retrieval.reload
