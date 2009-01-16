@@ -1,5 +1,5 @@
 Setup notes for Article-Level Metrics on CentOS 4
-Bryan Stearns 090111
+Bryan Stearns 20090111 (revised 20090115)
 
 Goals: 
 - Install Ruby Enterprise Edition, a version of Ruby optimized for web applications. 
@@ -13,7 +13,7 @@ My personal experience with RedHat-based Linuxes like CentOS is minimal and anci
 
 More notes about the configuration choices I've made:
 
-- About Ruby Enterprise Edition: the current version is 1.8.6-20081215, and can be downloaded from <http://www.rubyenterpriseedition.com/download.html>. It installs into a self-contained folder: I've installed it in /opt/ree/(version), and created a symlink /opt/ree/current that points at it. By placing its bin directory (via the symlink, /opt/ree/current/bin) at the start of the PATH, its version of Ruby and corresponding shell commands and libraries get used; we'll also configure Apache to use it when running our application.
+- About Ruby Enterprise Edition: the current version is 1.8.6-20090113, and can be downloaded from <http://www.rubyenterpriseedition.com/download.html>. It installs into a self-contained folder: I've installed it in /opt/ree/(version), and created a symlink /opt/ree/current that points at it. By placing its bin directory (via the symlink, /opt/ree/current/bin) at the start of the PATH, its version of Ruby and corresponding shell commands and libraries get used; we'll also configure Apache to use it when running our application.
 
 - Likewise, I'm setting up the application in /opt/alm, owned by "stearns:apache" with the setgid flag on; this allows me to write to the directory, and the "apache" webserver user can read & write it too. Within that directory, I'm setting up a date-named folder (for example, "20090111") for the current version of the ALM application, and symlinking /opt/alm/current to it. This allows multiple versions of the application to sit on the machine at a time, simplifying rollback if necessary.
 
@@ -70,22 +70,24 @@ sudo chmod g+s /opt/alm
 sudo mkdir /opt/ree
 
 # Download Ruby Enterprise Edition
-wget http://rubyforge.org/frs/download.php/48623/ruby-enterprise-1.8.6-20081215.tar.gz
-tar xzf ruby-enterprise-1.8.6-20081215.tar.gz
+wget http://rubyforge.org/frs/download.php/48623/ruby-enterprise-1.8.6-20090113.tar.gz
+tar xzf ruby-enterprise-1.8.6-20090113.tar.gz
 
 # Build and install Ruby Enterprise Edition. Near the end of this, look for
 # a couple of warnings about postgresql and sqlite - you can ignore them,
 # but if it also warns you about mysql, something's missing related to the
 # mysql libraries...
-sudo ruby-enterprise-1.8.6-20081215/installer -a /opt/ree/1.8.6-20081215
+sudo ruby-enterprise-1.8.6-20090113/installer -a /opt/ree/1.8.6-20090113
 
 # Make a symlink to refer to the current Ruby Enterprise Edition
-sudo ln -sf /opt/ree/1.8.6-20081215 /opt/ree/current
+sudo ln -sf /opt/ree/1.8.6-20090113 /opt/ree/current
 
 # Don't need these in my home directory anymore
-sudo rm -rf ruby-enterprise-1.8.6-20081215 ruby-enterprise-1.8.6-20081215.tar.gz
+sudo rm -rf ruby-enterprise-1.8.6-20090113 ruby-enterprise-1.8.6-20090113.tar.gz
 
 # Force Ruby Enterprise Edition to be the default Ruby during this session
+# You can also put this into /etc/profile.d/ruby.sh to make it happen in
+# future sessions.
 export PATH=/opt/ree/current/bin:$PATH
 # This should now say "ruby 1.8.6 [...]", not "ruby 1.8.1 [...]"
 ruby --version 
@@ -161,11 +163,11 @@ sudo gem install daemons
 sudo gem install soap4r
 sudo gem install starling-starling
 
-# Check out the application sources, into a folder with today's date (eg, Jan 13)
-svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/20090113
+# Check out the application sources, into a folder with today's date (eg, Jan 15)
+svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/20090115
 
 # Mark them as the current version.
-ln -sf /opt/alm/20090113 /opt/alm/current
+ln -sf /opt/alm/20090115 /opt/alm/current
 
 # Create the configuration files that aren't in Subversion; we'll keep them in
 # their own "shared" directory, and symlink them into the current application
@@ -249,10 +251,10 @@ sudo /etc/init.d/starling stop
 # Check out the application sources, into a folder with today's date.
 # (You could do this with rsync instead, if you have a staging environment
 # somewhere else)
-svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/20090111
+svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/2009xxxx
 
 # Mark them as the current version.
-ln -sf /opt/alm/20090111 /opt/alm/current
+ln -sf /opt/alm/2009xxxx /opt/alm/current
 
 # Install the configuration files
 ln -f /opt/alm/shared/database.yml /opt/alm/current/config/database.yml

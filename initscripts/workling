@@ -13,10 +13,8 @@
 # Source networking configuration.
 [ -f /etc/sysconfig/network ] && . /etc/sysconfig/network
 
-PIDFILE=/var/run/workling_client/workling_client.pid
+SCRIPT_PATH=/opt/alm/current/script/workling_client
 
-NAME=workling
-INSTALL_DIR=/opt/alm/current
 if [ -d /opt/ree/current/bin ]; then
   # Use Ruby Enterprise Edition
   RUBY_DIR=/opt/ree/current/bin
@@ -28,15 +26,15 @@ fi
 
 start() {
   echo -n $"Starting workling: "
-
-  daemon "$RUBY_DIR/ruby $INSTALL_DIR/script/workling_client"
+  $RUBY_DIR/ruby $SCRIPT_PATH start
+  [ $? -eq 0 ] && success "workling startup" || failure "workling startup"
   echo
 }
 
 stop() {
   echo -n $"Stopping workling: "
-
-  killproc workling_client
+  $RUBY_DIR/ruby $SCRIPT_PATH stop
+  [ $? -eq 0 ] && success "workling shutdown" || failure "workling shutdown"
   echo
 }
 
@@ -52,10 +50,7 @@ case "$1" in
     sleep 3
     start
   ;;
-  status)
-    status -p $PIDFILE workling_client
-  ;;
   *)
-    echo $"Usage: $0 {start|stop|restart|status}"
+    echo $"Usage: $0 {start|stop|restart}"
     exit 1
 esac
