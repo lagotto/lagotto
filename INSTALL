@@ -267,6 +267,8 @@ tar xzf ruby-enterprise-1.8.x-2009xxxx.tar.gz
 sudo ruby-enterprise-1.8.x-2009xxxx/installer -a /opt/ree/1.8.x-2009xxxx
 sudo ln -sf /opt/ree/1.8.x-2009xxxx /opt/ree/current
 
+# You'll also need to reinstall gems if you have upgrade REE
+
 # Make sure the database schema is up to date (also verifies that the app
 # can talk to the database!)
 cd /opt/alm/current
