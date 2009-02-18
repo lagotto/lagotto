@@ -51,8 +51,7 @@ class Article < ActiveRecord::Base
     sources = (options.delete(:source) || '').downcase.split(',')
     xml = options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
     xml.instruct! unless options[:skip_instruct]
-    xml.tag!("article", :doi => doi, :citations_count => citations_count,
-                        :updated_at => retrieved_at) do
+    xml.tag!("article", :doi => doi, :citations_count => citations_count,:pub_med => pub_med,:pub_med_central => pub_med_central, :updated_at => retrieved_at) do
       if options[:citations] or options[:history]
         retrieval_options = options.merge!(:dasherize => false, 
                                            :skip_instruct => true)
@@ -75,6 +74,8 @@ class Article < ActiveRecord::Base
     result = { 
       :article => { 
         :doi => doi, 
+        :pub_med => pub_med,
+        :pub_med_central => pub_med_central,
         :citations_count => citations_count,
         :updated_at => retrieved_at
       }
