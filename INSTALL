@@ -13,7 +13,7 @@ My personal experience with RedHat-based Linuxes like CentOS is minimal and anci
 
 More notes about the configuration choices I've made:
 
-- About Ruby Enterprise Edition: the current version is 1.8.6-20090113, and can be downloaded from <http://www.rubyenterpriseedition.com/download.html>. It installs into a self-contained folder: I've installed it in /opt/ree/(version), and created a symlink /opt/ree/current that points at it. By placing its bin directory (via the symlink, /opt/ree/current/bin) at the start of the PATH, its version of Ruby and corresponding shell commands and libraries get used; we'll also configure Apache to use it when running our application.
+- Ruby Enterprise Edition  and can be downloaded from <http://www.rubyenterpriseedition.com/download.html>. The current version is 1.8.6-20090201, but you can use whatever the current version is. It installs into a self-contained folder: I've installed it in /opt/ree/(version), and created a symlink /opt/ree/current that points at it. By placing its bin directory (via the symlink, /opt/ree/current/bin) at the start of the PATH, its version of Ruby and corresponding shell commands and libraries get used; we'll also configure Apache to use it when running our application.
 
 - Likewise, I'm setting up the application in /opt/alm, owned by "stearns:apache" with the setgid flag on; this allows me to write to the directory, and the "apache" webserver user can read & write it too. Within that directory, I'm setting up a date-named folder (for example, "20090111") for the current version of the ALM application, and symlinking /opt/alm/current to it. This allows multiple versions of the application to sit on the machine at a time, simplifying rollback if necessary.
 
@@ -69,21 +69,23 @@ sudo chmod g+s /opt/alm
 # Create a directory for the Ruby Enterprise Edition install, too.
 sudo mkdir /opt/ree
 
-# Download Ruby Enterprise Edition
-wget http://rubyforge.org/frs/download.php/48623/ruby-enterprise-1.8.6-20090113.tar.gz
-tar xzf ruby-enterprise-1.8.6-20090113.tar.gz
+# Download Ruby Enterprise Edition (update this URL to the current version)
+wget http://rubyforge.org/frs/download.php/48623/ruby-enterprise-1.8.6-20090201.tar.gz
+tar xzf ruby-enterprise-1.8.6-20090201.tar.gz
 
 # Build and install Ruby Enterprise Edition. Near the end of this, look for
 # a couple of warnings about postgresql and sqlite - you can ignore them,
 # but if it also warns you about mysql, something's missing related to the
 # mysql libraries...
-sudo ruby-enterprise-1.8.6-20090113/installer -a /opt/ree/1.8.6-20090113
+sudo ruby-enterprise-1.8.6-20090201/installer -a /opt/ree/1.8.6-20090201
 
-# Make a symlink to refer to the current Ruby Enterprise Edition
-sudo ln -sf /opt/ree/1.8.6-20090113 /opt/ree/current
+# Make a symlink to refer to the current Ruby Enterprise Edition; remove
+# any existing one first (so it doesn't get followed)
+sudo rm -f /opt/ree/current
+sudo ln -s /opt/ree/1.8.6-20090201 /opt/ree/current
 
 # Don't need these in my home directory anymore
-sudo rm -rf ruby-enterprise-1.8.6-20090113 ruby-enterprise-1.8.6-20090113.tar.gz
+sudo rm -rf ruby-enterprise-1.8.6-20090201 ruby-enterprise-1.8.6-20090201.tar.gz
 
 # Force Ruby Enterprise Edition to be the default Ruby during this session
 # You can also put this into /etc/profile.d/ruby.sh to make it happen in
@@ -167,7 +169,8 @@ sudo gem install starling-starling
 svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/20090115
 
 # Mark them as the current version.
-ln -sf /opt/alm/20090115 /opt/alm/current
+rm -f /opt/alm/current
+ln -s /opt/alm/20090115 /opt/alm/current
 
 # Create the configuration files that aren't in Subversion; we'll keep them in
 # their own "shared" directory, and symlink them into the current application
@@ -265,9 +268,14 @@ ln -f /opt/alm/shared/site_keys.rb /opt/alm/current/config/initializers/site_key
 wget http://url/from/download/page/ruby-enterprise-1.8.x-2009xxxx.tar.gz
 tar xzf ruby-enterprise-1.8.x-2009xxxx.tar.gz
 sudo ruby-enterprise-1.8.x-2009xxxx/installer -a /opt/ree/1.8.x-2009xxxx
-sudo ln -sf /opt/ree/1.8.x-2009xxxx /opt/ree/current
+sudo rm -f /opt/ree/current
+sudo ln -s /opt/ree/1.8.x-2009xxxx /opt/ree/current
 
-# You'll also need to reinstall gems if you have upgrade REE
+# A new REE means you'll also have to
+# - re-run "sudo passenger-install-apache2-module" (though you don't have to do
+#   what it tells you to: you edited your Apache configuration's paths to use
+#   "current", not the specific version, right?)
+# - reinstall all gems (See commands above; do the "gem sources" command too)
 
 # Make sure the database schema is up to date (also verifies that the app
 # can talk to the database!)
