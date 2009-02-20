@@ -19,7 +19,7 @@ task :doi_import => :environment do
   puts "Read #{valid_dois.size} valid DOIs; ignored #{invalid_dois.size} invalid DOIs"
   if invalid_dois.size == 0
     valid_dois.each do |doi| 
-      if Article.by_doi(doi).empty?
+      unless Article.find_by_doi(doi)
         Article.create(:doi => doi)
         created_dois << doi
       else
