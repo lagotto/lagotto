@@ -8,6 +8,8 @@ namespace :db do
       puts "Creating fake history for #{doi}"
       article = Article.find_or_create_by_doi(doi, :pub_med => "pm_bogus",
         :pub_med_central => "pmc_bogus")
+      article.published_on = article.created_at.to_date
+      article.save!
       article.retrievals.destroy_all
       Source.active.each do |source|
         puts "  #{source.name}"

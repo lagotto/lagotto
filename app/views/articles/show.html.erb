@@ -1,7 +1,7 @@
 <div>
   <h2><%=h @article.doi %></h2>
 
-  <h1><%= pluralize(@article.citations_count, "citation") %>, 
+  <h1><%= "published #{@article.published_on.to_datetime.to_s(:friendly_date)}, " if @article.published_on %><%= pluralize(@article.citations_count, "citation") %>, 
       <%= (@article.retrieved_at.year < 2000) ? "never updated" : 
           "updated #{@article.retrieved_at.to_s(:friendly)}" %></h1>
   <ul>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081229214209) do
+ActiveRecord::Schema.define(:version => 20090223195720) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20081229214209) do
     t.datetime "retrieved_at",    :default => '1970-01-01 00:00:00', :null => false
     t.string   "pub_med"
     t.string   "pub_med_central"
+    t.date     "published_on"
   end
 
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
