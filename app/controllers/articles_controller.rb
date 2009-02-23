@@ -16,8 +16,8 @@ class ArticlesController < ApplicationController
         @articles = @articles.paginate(
           eager_includes.reverse_merge(:page => params[:page]))
       end
-      format.xml { render :xml => @articles }
-      format.json { render_json @articles.to_json }
+      format.xml { render :xml => @articles.all(:include => :retrievals) }
+      format.json { render_json @articles.all(:include => :retrievals).to_json }
     end
   end
 

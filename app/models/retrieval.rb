@@ -8,12 +8,8 @@ class Retrieval < ActiveRecord::Base
     citations_count + other_citations_count
   end
 
-  def retrieved_at
-    read_attribute(:retrieved_at) || (DateTime.now.utc - 100.years)
-  end
-
   def stale?
-    new_record? or (retrieved_at < source.staleness.ago)
+    new_record? or retrieved_at.nil? or (retrieved_at < source.staleness.ago)
   end
 
   def to_included_json(options = {})
