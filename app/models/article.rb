@@ -91,9 +91,4 @@ class Article < ActiveRecord::Base
     end
     result.to_json(options)
   end
-
-  def self.a
-    # For debugging: this article has existing references
-    find_by_doi("10.1371/journal.pbio.0000005")
-  end
 end

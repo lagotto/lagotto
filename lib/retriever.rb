@@ -25,6 +25,7 @@ class Retriever
 
   def update_one(retrieval, source, article)
     puts "Asking #{source.name} about #{article.doi}; last updated #{retrieval.retrieved_at}" if verbose
+    failed = false
     begin
       raw_citations = source.query(article)
       if raw_citations.is_a? Numeric
@@ -42,7 +43,9 @@ class Retriever
               citation = retrieval.citations.create(:uri => raw_citation[:uri],
                 :details => symbolize_keys_deeply(raw_citation))
             rescue
+              raise if raise_on_error
               puts "  Unable to save #{raw_citation.inspect}: #{$!}"
+              failed = true
             end
           end
         end
@@ -51,15 +54,18 @@ class Retriever
     rescue
       raise if raise_on_error
       puts "  Unable to query: #{$!}"
+      failed = true
     end
 
-    retrieval.reload.retrieved_at = DateTime.now.utc
-    retrieval.save!
+    unless failed
+      retrieval.reload.retrieved_at = DateTime.now.utc
+      retrieval.save!
 
-    history = retrieval.histories.find_or_create_by_year_and_month(retrieval.retrieved_at.year, retrieval.retrieved_at.month)
-    history.citations_count = retrieval.total_citations_count
-    history.save!
-    puts "  Saved history[#{history.id}: #{history.year}, #{history.month}] = #{history.citations_count}" if verbose
+      history = retrieval.histories.find_or_create_by_year_and_month(retrieval.retrieved_at.year, retrieval.retrieved_at.month)
+      history.citations_count = retrieval.total_citations_count
+      history.save!
+      puts "  Saved history[#{history.id}: #{history.year}, #{history.month}] = #{history.citations_count}" if verbose
+    end
   end
 
   def symbolize_keys_deeply(h)

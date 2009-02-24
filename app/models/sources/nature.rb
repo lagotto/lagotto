@@ -23,8 +23,4 @@ class Nature < Source
     end
     citations
   end
-
-  def test
-    query(Article.new(:doi => "10.1371/journal.pcbi.1000204"))
-  end
 end

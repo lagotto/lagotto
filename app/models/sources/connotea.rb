@@ -17,8 +17,4 @@ class Connotea < Source
       citations
     end
   end
-
-  def test
-    query(Article.new(:doi => "10.1038/nature03660"))
-  end
 end

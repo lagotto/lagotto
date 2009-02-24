@@ -33,10 +33,6 @@ class CrossRef < Source
     end
   end
 
-  def test
-    query(Article.new(:doi => "10.1371/journal.pbio.0000005"))
-  end
-
 protected
   def extract_contributors(contributors_element)
     contributors = []

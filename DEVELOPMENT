@@ -98,8 +98,8 @@ in bulk_update.rake:
   rake db:update:cited
     Updates only articles that already have citations -- this was useful in development when I primarily wanted to test updates that would actually get me stuff.
 
-  rake db:update:test
-    Updates one particular article that had citations on the first few sources -- also just useful in development.
+  rake db:update:one DOI=10.1371/foo
+    Updates a given article (which must already exist), non-lazily.
 
   rake db:update:reset
     Mark all articles as stale

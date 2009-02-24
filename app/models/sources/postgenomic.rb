@@ -14,8 +14,4 @@ class Postgenomic < Source
       result
     end
   end
-
-  def test
-    query(Article.new(:doi => "10.1371/journal.pone.0003832"))
-  end
 end

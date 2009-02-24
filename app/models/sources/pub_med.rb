@@ -62,10 +62,4 @@ class PubMed < Source
       unless result.nil?
     result
   end
-
-  def test
-    article = Article.new(:doi => "10.1371/journal.pcbi.1000036")
-    citations = query(article)
-    puts "#{article.doi.inspect} -> #{article.pub_med.inspect} -> #{article.pub_med_central.inspect} -> #{citations.inspect}"
-  end
 end

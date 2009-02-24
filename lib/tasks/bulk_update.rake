@@ -29,10 +29,12 @@ namespace :db do
       update_articles(articles)
     end
 
-    desc "Update the one article we know has citations, for testing"
-    task :test => :environment do
-      ENV["LAZY"] = "1"
-      update_articles([Article.a])
+    desc "Update one specified article"
+    task :one => :environment do
+      doi = ENV["DOI"] or abort("DOI not specified (eg, 'DOI=10.1371/foo')")
+      article = Article.find_by_doi(doi) or abort("Article not found: #{doi}")
+      ENV["VERBOSE"] = "1"
+      update_articles([article])
     end
 
     def update_articles(articles)

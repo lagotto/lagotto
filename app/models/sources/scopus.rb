@@ -40,10 +40,6 @@ class Scopus < Source
     countList[0].linkData[0].citedByCount.to_i
   end
 
-  def test
-    query(Article.new(:doi => "10.1371/journal.pbio.0000005"))
-  end
-
 protected
   
   def get_soap_driver(username)

@@ -8,15 +8,11 @@ class Citeulike < Source
       citations = []
       document.find("//posts/post/link").each do |cite|
         cite.gettAttrValue("link",linkURL)
-	citation = {}
-	citation[:uri] = linkURL
+        citation = {}
+        citation[:uri] = linkURL
         citations << citation
       end
       citations
     end
-  end
-
-  def test
-    query(Article.new(:doi => "10.1371/journal.pcbi.0010006"))
   end
 end

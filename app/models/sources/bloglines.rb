@@ -24,8 +24,4 @@ class Bloglines < Source
       citations
     end
   end
-
-  def test
-    query(Article.new(:doi => "10.1371/journal.pbio.0000005"))
-  end
 end
