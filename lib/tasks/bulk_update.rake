@@ -7,7 +7,9 @@ namespace :db do
     task :stale => :environment do
       limit = (ENV["LIMIT"] || 0).to_i
       stale_threshold = Date.today - Source.maximum_staleness
-      articles = Article.not_refreshed_since(stale_threshold).limit(limit)
+      articles = ENV["LAZY"] == "0" \
+        ? Article.limit(limit) \
+        : Article.not_refreshed_since(stale_threshold).limit(limit)
       puts "Updating #{articles.size} stale articles"
       update_articles(articles)
     end
