@@ -7,7 +7,7 @@ class Citeulike < Source
     get_xml(url) do |document|
       citations = []
       document.find("//posts/post/link").each do |cite|
-        cite.gettAttrValue("link",linkURL)
+        linkURL = cite.attributes['url']
         citation = {}
         citation[:uri] = linkURL
         citations << citation
