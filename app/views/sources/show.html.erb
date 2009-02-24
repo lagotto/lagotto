@@ -16,7 +16,7 @@
 
 <p>
   <b>Password:</b>
-  <%=h @source.password %>
+  '<%= ("●" * @source.password.to_s.size) %>'
 </p>
 
 <p>
