@@ -25,6 +25,12 @@ class Source < ActiveRecord::Base
     self.class.name
   end
 
+  def inspect_with_password_filtering
+    result = inspect_without_password_filtering
+    result.gsub(", password: \"#{password}\"", '') if password
+  end
+  alias_method_chain :inspect, :password_filtering
+
   def staleness
     SecondsToDuration::convert(read_attribute(:staleness))
   end
