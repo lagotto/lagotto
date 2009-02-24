@@ -64,7 +64,7 @@ case "$1" in
     start
   ;;
   status)
-    status -p $PIDFILE starling
+    status starling
   ;;
   *)
     echo $"Usage: $0 {start|stop|restart|status}"
