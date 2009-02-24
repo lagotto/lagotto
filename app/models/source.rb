@@ -27,7 +27,8 @@ class Source < ActiveRecord::Base
 
   def inspect_with_password_filtering
     result = inspect_without_password_filtering
-    result.gsub(", password: \"#{password}\"", '') if password
+    result.gsub!(", password: \"#{password}\"", '') if password
+    result
   end
   alias_method_chain :inspect, :password_filtering
 
