@@ -35,6 +35,7 @@ namespace :db do
     task :one => :environment do
       doi = ENV["DOI"] or abort("DOI not specified (eg, 'DOI=10.1371/foo')")
       article = Article.find_by_doi(doi) or abort("Article not found: #{doi}")
+      ENV["LAZY"] ||= "0"
       ENV["VERBOSE"] = "1"
       update_articles([article])
     end
