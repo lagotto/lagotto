@@ -19,7 +19,7 @@ class PubMed < Source
         pmc = cite.first.content
         if pmc
           citation = {
-            :uri => "http://www.ncbi.nlm.nih.gov/sites/entrez?cmd=Retrieve&db=pubmed&list_uids=" + pmc
+            :uri => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + pmc
           }
           citations << citation
         end
