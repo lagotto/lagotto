@@ -10,14 +10,21 @@ class Retriever
   end
 
   def update(article)
-    Source.active.each do |source|
-      if only_source.nil? or (source.name.downcase == only_source.downcase)
-        puts "Considering #{source.inspect}" if verbose
-        retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
-        puts "Retrieval is#{" (new)" if retrieval.new_record?} #{retrieval.inspect}" if verbose
-        if (not lazy) or retrieval.stale?
-          update_one(retrieval, source, article)
-        end
+    sources = Source.active
+    if only_source
+      sources = sources.select {|s| s.name.downcase == only_source.downcase }
+      puts("Source '#{only_source}' not found or not active") and return \
+        if sources.empty?
+    else
+      puts("No sources to update from") and return if sources.empty?
+    end
+
+    sources.each do |source|
+      puts "Considering #{source.inspect}" if verbose
+      retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
+      puts "Retrieval is#{" (new)" if retrieval.new_record?} #{retrieval.inspect}" if verbose
+      if (not lazy) or retrieval.stale?
+        update_one(retrieval, source, article)
       end
     end
     article.refreshed!.save!
