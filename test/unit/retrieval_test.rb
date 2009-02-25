@@ -1,7 +1,26 @@
 require 'test_helper'
 
 class RetrievalTest < ActiveSupport::TestCase
-  def test_update_should_properly_add_citations
+  def test_published_on_lazyness 
+    # we shouldn't until the day after the publication date
+    today = Date.new(2000,1,1)
+    article = Article.new(:doi => "10.0/unpublished", 
+                          :published_on => today)
+    retriever = Retriever.new
+
+    # First time we'll call it on the publication date - it should skip out.
+    Date.stubs(:today).returns(today)
+    Source.expects(:active).never
+    retriever.update(article)
+
+    # Second time we'll call it on the day after that - it should look for
+    # sources.
+    Date.stubs(:today).returns(today + 1)
+    Source.expects(:active).returns([])
+    retriever.update(article)
+  end
+
+  def test_citation_creation
     test_doi = "10.0/citable"
     article = Article.new(:doi => test_doi)
     source = sources(:crossref)

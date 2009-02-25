@@ -3,20 +3,28 @@ class Retriever
   attr_accessor :lazy, :only_source, :verbose, :raise_on_error
 
   def initialize(options={})
-    @lazy = options[:lazy] || false
+    @lazy = options[:lazy] || true
     @verbose = options[:verbose] || false
     @only_source = options[:only_source]
     @raise_on_error = options[:raise_on_error] || false
   end
 
   def update(article)
+    if lazy and article.published_on and Date.today <= article.published_on
+      puts "Skipping: not published yet" if verbose
+      return
+    end
+
     sources = Source.active
     if only_source
       sources = sources.select {|s| s.name.downcase == only_source.downcase }
-      puts("Source '#{only_source}' not found or not active") and return \
-        if sources.empty?
-    else
-      puts("No sources to update from") and return if sources.empty?
+      if sources.empty?
+        puts("Source '#{only_source}' not found or not active") if verbose
+        return
+      end
+    elsif sources.empty?
+      puts("No active sources to update from") if verbose
+      return
     end
 
     sources.each do |source|
