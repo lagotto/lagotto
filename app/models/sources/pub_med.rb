@@ -1,12 +1,7 @@
-
 class PubMed < Source
   include SourceHelper
 
-  def uses_url; true; end
-
   def query(article)
-    raise(ArgumentError, "PubMed configuration requires URL") \
-      if url.blank?
 
     # First, we need to have the PubMed and PubMedCentral IDs for this
     # article. Get 'em if we don't have 'em, and proceed only if we do.
@@ -15,9 +10,10 @@ class PubMed < Source
     article.pub_med_central ||= get_pub_med_central_from_pub_med(article.pub_med)
     return [] unless article.pub_med_central
 
-    # OK, we've got the IDs. Get the citations using the PubMedCentral ID.
+    # OK, we've got the IDs. Get the citations using the PubMed ID.
+    url = "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id="
     citations = []
-    query_url = url + article.doi
+    query_url = url + article.pub_med
     get_xml(query_url, :remove_doctype => 1) do |document|
       document.find("//PubMedToPMCcitingformSET/REFORM/PMCID").each do |cite|
         pmc = cite.first.content

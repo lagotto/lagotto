@@ -21,12 +21,11 @@ end
 fix_scopus_wsdl
 
 class Scopus < Source
-  def uses_url; true; end
   def uses_username; true; end
 
   def query(article)
-    raise(ArgumentError, "Scopus configuration requires URL & username") \
-      if url.blank? or username.blank?
+
+    url = "http://cdc315-services.elsevier.com/EWSXAbstractsMetadataWebSvc/XAbstractsMetadataServiceV7/WEB-INF/wsdl/absmet_service_v7.wsdl"
 
     driver = get_soap_driver(username)
     result = driver.getCitedByCount(build_payload(article.doi))

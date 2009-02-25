@@ -1,14 +1,16 @@
 
 class CrossRef < Source
   include SourceHelper
-
-  def uses_url; true; end
+  def uses_username; true; end
+  def uses_password; true; end
 
   def query(article)
-    raise(ArgumentError, "CrossRef configuration requires URL") \
-      if url.blank?
+    raise(ArgumentError, "Crossref configuration requires username & password") \
+      if username.blank? or password.blank?
 
-    get_xml(url + article.doi) do |document|
+    url = "http://doi.crossref.org/servlet/getForwardLinks?usr=" + username + "&pwd=" + password + "&doi="
+
+    get_xml(url + CGI.escape(article.doi)) do |document|
       document.root.namespaces.default_prefix = "x"
       citations = []
       document.find("//x:journal_cite").each do |cite|

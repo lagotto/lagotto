@@ -1,12 +1,9 @@
 class Nature < Source
   include SourceHelper
 
-  def uses_url; true; end
-
   def query(article)
-    raise(ArgumentError, "Nature configuration requires URL") \
-      if url.blank?
-
+ 
+    url = "http://blogs.nature.com/posts.json?doi="
     query_url = url + CGI.escape(article.doi)
     results = get_json(query_url)
     citations = results.map do |result|
