@@ -6,7 +6,7 @@ class RetrievalTest < ActiveSupport::TestCase
     today = Date.new(2000,1,1)
     article = Article.new(:doi => "10.0/unpublished", 
                           :published_on => today)
-    retriever = Retriever.new
+    retriever = Retriever.new(:lazy => true)
 
     # First time we'll call it on the publication date - it should skip out.
     Date.stubs(:today).returns(today)
@@ -31,7 +31,9 @@ class RetrievalTest < ActiveSupport::TestCase
           h
       end
     ]
-    source.expects(:query).with(article).returns(test_raw_citations)
+    verbose = nil # or 1 if you're trying to debug why this test is failing
+    retriever_options = { :verbose => verbose } if verbose
+    source.expects(:query).with(article, :verbose => verbose).returns(test_raw_citations)
   
     retrieval = Retrieval.new(:source => source,
                               :article => article)
@@ -45,7 +47,7 @@ class RetrievalTest < ActiveSupport::TestCase
     assert article.retrieved_at < 1.years.ago
 
     # Do it
-    Retriever.new.update(article)
+    Retriever.new(retriever_options || {}).update(article)
 
     # After
     citations = Citation.find_all_by_uri("uri")

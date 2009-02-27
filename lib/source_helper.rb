@@ -26,6 +26,8 @@ module SourceHelper
 protected
   def get_http_body(uri, options={})
     begin
+      verbose = options.fetch(:verbose, 0)
+      options = options.except(:verbose)
       url = URI.parse(uri)
       if options.empty?
         response = Net::HTTP.get_response(url)
@@ -42,6 +44,7 @@ protected
       when Net::HTTPForbidden # CrossRef returns this for "DOI not found"
         ""
       when Net::HTTPSuccess, Net::HTTPRedirection
+        puts "Requested #{uri}, got: #{response.body}" if verbose > 1
         response.body # OK
       else
         response.error!

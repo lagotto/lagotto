@@ -1,11 +1,10 @@
 class Postgenomic < Source
   include SourceHelper
 
-  def query(article)
- 
+  def query(article, options={})
     url = "http://www.postgenomic.com/api.php?type=post&format=json&citing_doi=" 
 
-    get_json(url + CGI.escape(article.doi)).map do |result|
+    get_json(url + CGI.escape(article.doi), options).map do |result|
       # Every citation has to have a URI - make one from the URL
       result[:uri] = result.delete("url")
       result

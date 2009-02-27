@@ -23,11 +23,10 @@ fix_scopus_wsdl
 class Scopus < Source
   def uses_username; true; end
 
-  def query(article)
-
+  def query(article, options={})
     url = "http://cdc315-services.elsevier.com/EWSXAbstractsMetadataWebSvc/XAbstractsMetadataServiceV7/WEB-INF/wsdl/absmet_service_v7.wsdl"
 
-    driver = get_soap_driver(username)
+    driver = get_soap_driver(username, options[:verbose])
     result = driver.getCitedByCount(build_payload(article.doi))
     return -1 unless result.status.statusCode == "OK"
 
@@ -41,9 +40,9 @@ class Scopus < Source
 
 protected
   
-  def get_soap_driver(username)
+  def get_soap_driver(username, verbose)
     driver = AbstractsMetadataServicePortType_V7.new
-    # driver.wiredump_dev = STDOUT
+    driver.wiredump_dev = STDOUT if verbose && verbose > 1
     driver.headerhandler << ScopusSoapHeader.new(username)
     driver
   end

@@ -3,12 +3,12 @@ class Bloglines < Source
   def uses_username; true; end
   def uses_password; true; end
 
-  def query(article)
+  def query(article, options={})
     raise(ArgumentError, "Bloglines configuration requires username & password") \
       if username.blank? or password.blank?
 
     url = "http://www.bloglines.com/search?format=publicapi&apiuser=#{username}&apikey=#{password}&q=#{CGI.escape(article.doi)}"
-    get_xml(url) do |document|
+    get_xml(url, options) do |document|
       citations = []
       document.find("//resultset/result").each do |cite|
         citation = {}
@@ -19,7 +19,9 @@ class Bloglines < Source
           end
         end
         citation[:uri] = citation.delete(:url)
-        citations << citation unless DOI::from_uri(citation[:uri]) == doi
+        # Ignore citations of the dx.doi.org URI itself
+        citations << citation \
+          unless DOI::from_uri(citation[:uri]) == article.doi
       end
       citations
     end

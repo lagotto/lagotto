@@ -4,13 +4,13 @@ class CrossRef < Source
   def uses_username; true; end
   def uses_password; true; end
 
-  def query(article)
+  def query(article, options={})
     raise(ArgumentError, "Crossref configuration requires username & password") \
       if username.blank? or password.blank?
 
     url = "http://doi.crossref.org/servlet/getForwardLinks?usr=" + username + "&pwd=" + password + "&doi="
 
-    get_xml(url + CGI.escape(article.doi)) do |document|
+    get_xml(url + CGI.escape(article.doi), options) do |document|
       document.root.namespaces.default_prefix = "x"
       citations = []
       document.find("//x:journal_cite").each do |cite|

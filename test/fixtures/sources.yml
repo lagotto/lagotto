@@ -5,7 +5,8 @@
 
 crossref:
   type: CrossRef
-  url: http://example.com
+  username: user
+  password: pass
   staleness: <%= 1.year.to_i %>
   active: true
 

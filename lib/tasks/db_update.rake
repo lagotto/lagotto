@@ -36,13 +36,14 @@ namespace :db do
       doi = ENV["DOI"] or abort("DOI not specified (eg, 'DOI=10.1371/foo')")
       article = Article.find_by_doi(doi) or abort("Article not found: #{doi}")
       ENV["LAZY"] ||= "0"
-      ENV["VERBOSE"] = "1"
+      ENV["VERBOSE"] ||= "1"
       update_articles([article])
     end
 
     def update_articles(articles)
-      verbose = ENV["VERBOSE"]
-      retriever = Retriever.new(:lazy => (ENV["LAZY"] || "1") == "1", 
+      verbose = ENV.fetch("VERBOSE", "0").to_i
+      lazy = ENV.fetch("LAZY", "1") == "1"
+      retriever = Retriever.new(:lazy => lazy,
         :only_source => ENV["SOURCE"], :verbose => verbose,
         :raise_on_error => ENV["RAISE_ON_ERROR"])
         

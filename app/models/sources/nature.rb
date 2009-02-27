@@ -1,11 +1,10 @@
 class Nature < Source
   include SourceHelper
 
-  def query(article)
- 
+  def query(article, options={})
     url = "http://blogs.nature.com/posts.json?doi="
     query_url = url + CGI.escape(article.doi)
-    results = get_json(query_url)
+    results = get_json(query_url, options)
     citations = results.map do |result|
       # The body's huge - don't bother saving it.
       result["post"].delete("body")

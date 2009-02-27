@@ -3,10 +3,10 @@ class Retriever
   attr_accessor :lazy, :only_source, :verbose, :raise_on_error
 
   def initialize(options={})
-    @lazy = options[:lazy] || true
-    @verbose = options[:verbose] || false
+    @lazy = options[:lazy]
+    @verbose = options[:verbose]
     @only_source = options[:only_source]
-    @raise_on_error = options[:raise_on_error] || false
+    @raise_on_error = options[:raise_on_error]
   end
 
   def update(article)
@@ -42,10 +42,11 @@ class Retriever
     puts "Asking #{source.name} about #{article.doi}; last updated #{retrieval.retrieved_at}" if verbose
     failed = false
     begin
-      raw_citations = source.query(article)
+      raw_citations = source.query(article, :verbose => verbose)
       if raw_citations.is_a? Numeric
         puts "  Got a count of #{raw_citations.inspect} citations." if verbose
         retrieval.other_citations_count = raw_citations
+        retrieval.retrieved_at = DateTime.now.utc
       else
         puts "  Got #{raw_citations.length} citation details." if verbose
         existing = retrieval.citations.inject({}) do |h, citation|
@@ -65,7 +66,9 @@ class Retriever
           end
         end
         existing.values.map(&:destroy)
+        retrieval.reload.retrieved_at = DateTime.now.utc
       end
+      retrieval.save!
     rescue
       raise if raise_on_error
       puts "  Unable to query: #{$!}"
@@ -73,9 +76,6 @@ class Retriever
     end
 
     unless failed
-      retrieval.reload.retrieved_at = DateTime.now.utc
-      retrieval.save!
-
       history = retrieval.histories.find_or_create_by_year_and_month(retrieval.retrieved_at.year, retrieval.retrieved_at.month)
       history.citations_count = retrieval.total_citations_count
       history.save!
