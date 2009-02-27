@@ -60,7 +60,7 @@ class Retriever
                 :details => symbolize_keys_deeply(raw_citation))
             rescue
               raise if raise_on_error
-              puts "  Unable to save #{raw_citation.inspect}: #{$!}"
+              log_error("Unable to save #{raw_citation.inspect}")
               failed = true
             end
           end
@@ -71,7 +71,7 @@ class Retriever
       retrieval.save!
     rescue
       raise if raise_on_error
-      puts "  Unable to query: #{$!}"
+      log_error("Unable to query")
       failed = true
     end
 
@@ -89,5 +89,10 @@ class Retriever
       result[k] = symbolize_keys_deeply(v) if v.is_a? Hash
     end
     result
+  end
+
+  def log_error(msg)
+    puts "ERROR: #{msg}: #{$!}"
+    $!.backtrace.map {|line| puts "   #{line.sub(RAILS_ROOT, '')}" }
   end
 end

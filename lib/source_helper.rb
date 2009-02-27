@@ -26,7 +26,7 @@ module SourceHelper
 protected
   def get_http_body(uri, options={})
     begin
-      verbose = options.fetch(:verbose, 0)
+      verbose = options[:verbose] || 0
       options = options.except(:verbose)
       url = URI.parse(uri)
       if options.empty?
