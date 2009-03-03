@@ -51,7 +51,7 @@ class PubMed < Source
     result
   end
 
-  def get_pub_med_central_from_pub_med(pubmed)
+  def get_pub_med_central_from_pub_med(pubmed, options={})
     query_url = "http://www.pubmedcentral.nih.gov/utils/entrezpmc.cgi?view=xml&id=" + pubmed
     result = get_xml(query_url, options.merge(:remove_doctype => 1)) \
         do |document|

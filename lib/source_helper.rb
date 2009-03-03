@@ -53,6 +53,10 @@ protected
       optsMsg = " with #{options.inspect}" unless options.empty?
       puts "Error (#{$!.class.name}) while requesting #{uri}#{optsMsg}"
       raise
+    rescue Timeout::Error
+      optsMsg = " with #{options.inspect}" unless options.empty?
+      puts "Error (#{$!.class.name}) while requesting #{uri}#{optsMsg}"
+      raise
     end
   end
 

@@ -14,6 +14,7 @@
 [ -f /etc/sysconfig/network ] && . /etc/sysconfig/network
 
 SCRIPT_PATH=/opt/alm/current/script/workling_client
+RAILS_ENV=production
 
 if [ -d /opt/ree/current/bin ]; then
   # Use Ruby Enterprise Edition
@@ -26,14 +27,14 @@ fi
 
 start() {
   echo -n $"Starting workling: "
-  $RUBY_DIR/ruby $SCRIPT_PATH start
+  RAILS_ENV=$RAILS_ENV $RUBY_DIR/ruby $SCRIPT_PATH start
   [ $? -eq 0 ] && success "workling startup" || failure "workling startup"
   echo
 }
 
 stop() {
   echo -n $"Stopping workling: "
-  $RUBY_DIR/ruby $SCRIPT_PATH stop
+  RAILS_ENV=$RAILS_ENV $RUBY_DIR/ruby $SCRIPT_PATH stop
   [ $? -eq 0 ] && success "workling shutdown" || failure "workling shutdown"
   echo
 }

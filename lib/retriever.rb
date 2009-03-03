@@ -27,15 +27,21 @@ class Retriever
       return
     end
 
+    failed = false
     sources.each do |source|
       puts "Considering #{source.inspect}" if verbose
       retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
-      puts "Retrieval is#{" (new)" if retrieval.new_record?} #{retrieval.inspect}" if verbose
+      puts "Retrieval is#{" (new)" if retrieval.new_record?} #{retrieval.inspect} (lazy=#{lazy.inspect}, stale?=#{retrieval.stale?.inspect})" if verbose
       if (not lazy) or retrieval.stale?
-        update_one(retrieval, source, article)
+        failed ||= update_one(retrieval, source, article)
       end
     end
-    article.refreshed!.save!
+    unless (only_source or failed)
+      puts "Refreshing article #{article.inspect}" if verbose
+      article.refreshed!.save!
+    else
+      puts "NOT refreshing article #{article.inspect}: failed=#{failed.inspect}" if verbose
+    end
   end
 
   def update_one(retrieval, source, article)
@@ -73,6 +79,10 @@ class Retriever
       raise if raise_on_error
       log_error("Unable to query")
       failed = true
+    rescue Timeout::Error
+      raise if raise_on_error
+      log_error("Unable to query (timeout)")
+      failed = true
     end
 
     unless failed
@@ -81,6 +91,7 @@ class Retriever
       history.save!
       puts "  Saved history[#{history.id}: #{history.year}, #{history.month}] = #{history.citations_count}" if verbose
     end
+    failed
   end
 
   def symbolize_keys_deeply(h)
