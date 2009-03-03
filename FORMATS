@@ -3,7 +3,7 @@ ALM's RESTful API
 
 A RESTful API is provided for accessing article information; this document describes URLs, query options, and output of requests via this API.
 
-RESTful API URLs generally correspond to HTML URLs; you can usually just add ".xml" or ".json" to the HTML (unsuffixed) URL and performing a GET request. Both XML and JSON formats are provided (*** CSV to come, in at least one case ***), though attribute arrangement might be different between formats (and might differ from the information included in the HTML presentation generated without the format suffix). 
+RESTful API URLs generally correspond to HTML URLs; you can usually just add ".xml" or ".json" to the HTML (unsuffixed) URL and performing a GET request. Both XML and JSON formats are provided (CSV is also supported for the article index), though attribute arrangement might be different between formats (and might differ from the information included in the HTML presentation generated without the format suffix). 
 
 All ".json" requests can be made with JSONP support by including a querystring "callback" parameter; the result will be wrapped in a Javascript function call to that parameter's value, for ease of handling on the client side. For example: 
 
@@ -30,6 +30,11 @@ Retreive an array of all articles, each of which has these attributes:
 
 Options:
 cited=1 -- Only include articles that have at least one citation; was useful for debugging.
+journal=pbio -- only include articles published in this journal; this turns into a "doi like '10.1371/journal.pbio.%'" query.
+order=doi -- Sort the results; options include "doi", "published_on".
+
+Formats:
+.xml, .json, .csv
 
 Examples:
 

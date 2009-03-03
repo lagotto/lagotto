@@ -13,6 +13,36 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:articles)
   end
 
+  def test_should_get_index_csv
+    get :index, :format => "csv"
+    assert_response :success
+    assert_equal @response.content_type, "text/csv"
+  end
+
+  def test_should_order_by_doi_by_default
+    get :index, :format => "csv"
+    assert_response :success
+    results = @response.body.split("\n")[1..-1]
+    assert results[0].starts_with?(articles(:not_stale).doi)
+    assert results[1].starts_with?(articles(:stale).doi)
+  end
+
+  def test_should_order_by_doi_by_published_on
+    get :index, :format => "csv", :order => "published_on"
+    assert_response :success
+    results = @response.body.split("\n")[1..-1]
+    assert results[0].starts_with?(articles(:not_stale).doi)
+    assert results[1].starts_with?(articles(:stale).doi)
+  end
+
+  def test_should_filter_by_journal
+    get :index, :format => "csv", :journal => "pgen"
+    assert_response :success
+    results = @response.body.split("\n")[1..-1]
+    assert results.size == 1
+    assert results[0].starts_with?(articles(:stale).doi)
+  end
+
   def test_should_get_new
     get :new
     assert_response :success

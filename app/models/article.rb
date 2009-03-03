@@ -7,7 +7,9 @@ class Article < ActiveRecord::Base
   validates_uniqueness_of :doi
 
   named_scope :by, lambda { |order|
-    { :order => "#{order}#{(order == :citations_count) ? " desc" : ""}" }
+    order_list = [ "#{order}#{(order == :citations_count) ? ' desc' : ''}" ]
+    order_list << "doi" unless order.to_sym == :doi
+    { :order => order_list.join(", ") }
   }
 
   named_scope :journal, lambda { |journal|
