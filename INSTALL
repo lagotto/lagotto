@@ -164,6 +164,7 @@ sudo gem install libxml-ruby
 sudo gem install daemons
 sudo gem install soap4r
 sudo gem install starling-starling
+sudo gem install fastercsv
 
 # Check out the application sources, into a folder with today's date (eg, Jan 15)
 svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/20090115

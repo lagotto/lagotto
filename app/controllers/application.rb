@@ -3,7 +3,11 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
-  layout "standard-layout"
+
+  # Use our standard layout for all non-AJAX/non-RSS-feed requests
+  layout proc {|c| (c.request.xhr? || \
+    %w[json csv xml pdf].any? {|fmt| c.request.format.to_s.include?(fmt) } \
+    ) ? false : "standard-layout" }
   
   include AuthenticatedSystem
   before_filter :login_from_cookie

@@ -1,0 +1,6 @@
+<%= FasterCSV.generate do |csv|
+  csv << ["doi", "published"]
+  @articles.each do |article|
+    csv << [article.doi, article.published_on]
+  end
+end -%>

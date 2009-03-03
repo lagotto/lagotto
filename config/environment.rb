@@ -32,6 +32,7 @@ Rails::Initializer.run do |config|
   config.gem 'libxml-ruby', :lib => 'xml', :version => ">=0.9.7"
   config.gem 'soap4r', :lib => 'soap/rpc/driver', :version => ">=1.5.8"
   config.gem 'starling-starling', :lib => 'starling'
+  config.gem 'fastercsv'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
