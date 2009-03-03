@@ -30,7 +30,7 @@ Retreive an array of all articles, each of which has these attributes:
 
 Options:
 cited=1 -- Only include articles that have at least one citation; was useful for debugging.
-journal=pbio -- only include articles published in this journal; this turns into a "doi like '10.1371/journal.pbio.%'" query.
+query=journal.pbio -- only include articles whose DOI includes this substring; this turns into a "doi like '%journal.pbio%'" query.
 order=doi -- Sort the results; options include "doi", "published_on".
 
 Formats:

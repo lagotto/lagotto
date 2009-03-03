@@ -1,12 +1,12 @@
 <% 
-  filtered = params[:cited] || params[:journal]
+  filtered = params[:cited] || params[:query]
   prefix = params[:cited] ? "Cited " : "All "
-  suffix = params[:journal] ? " from '#{params[:journal]}'" : ""
+  suffix = params[:query] ? " with DOIs containing '#{params[:query]}'" : ""
 -%>
 <h2><%= prefix %>Articles<%= suffix %></h2>
 <div>
 <%= link_to('Show all articles', articles_path) if filtered %>
-<%= link_to('Show only cited articles', articles_path(:cited => 1, :journal => params[:journal])) unless params[:cited] %>
+<%= link_to('Show only cited articles', articles_path(:cited => 1, :query => params[:query])) unless params[:cited] %>
 <%= link_to 'Add another article', new_article_path %>
 </div>
 

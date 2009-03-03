@@ -35,8 +35,8 @@ class ArticlesControllerTest < ActionController::TestCase
     assert results[1].starts_with?(articles(:stale).doi)
   end
 
-  def test_should_filter_by_journal
-    get :index, :format => "csv", :journal => "pgen"
+  def test_should_filter_by_query
+    get :index, :format => "csv", :query => "pgen"
     assert_response :success
     results = @response.body.split("\n")[1..-1]
     assert results.size == 1

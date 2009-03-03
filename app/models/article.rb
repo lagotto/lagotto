@@ -12,8 +12,8 @@ class Article < ActiveRecord::Base
     { :order => order_list.join(", ") }
   }
 
-  named_scope :journal, lambda { |journal|
-    { :conditions => [ "doi like ?", "10.1371/journal.#{journal}.%" ] }
+  named_scope :query, lambda { |query|
+    { :conditions => [ "doi like ?", "%#{query}%" ] }
   }
 
   named_scope :cited, { :include => :retrievals, 

@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
   # GET /articles.xml
   def index
     @articles = Article.by(params[:order] || "doi")
-    @articles = @articles.journal(params[:journal]) if params[:journal]
+    @articles = @articles.query(params[:query]) if params[:query]
     @articles = @articles.cited if params[:cited]
 
     respond_to do |format|
