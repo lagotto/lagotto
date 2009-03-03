@@ -72,7 +72,7 @@ namespace :deploy do
 
   desc "Restart Workling daemon"
   task :restart_workling_daemon do
-    run "RAILS_ENV=#{rails_env} #{current_path}/script/workling_client stop || set status 0"
+    run "RAILS_ENV=#{rails_env} sudo #{current_path}/script/workling_client stop || set status 0"
     run "RAILS_ENV=#{rails_env} #{current_path}/script/workling_client start"
   end
   after "deploy:start", "deploy:restart_workling_daemon"
