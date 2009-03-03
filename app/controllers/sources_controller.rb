@@ -22,8 +22,7 @@ class SourcesController < ApplicationController
   # GET /sources/1.xml
   def show
     @source = Source.find(params[:id])
-    @samples = @source.retrievals.all(:limit => 5, 
-      :order => "(citations_count + other_citations_count) desc")
+    @samples = @source.retrievals.most_cited_sample
     @samples.delete_if {|r| r.total_citations_count == 0 }
 
     respond_to do |format|
