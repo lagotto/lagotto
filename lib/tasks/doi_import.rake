@@ -9,27 +9,28 @@ task :doi_import => :environment do
   created = []
   updated = []
   while (line = STDIN.gets)
-    raw_doi, raw_published_on = line.strip.split(" ")
-    raw_doi.strip!
-    raw_published_on.strip!
-    doi = DOI::from_uri raw_doi
-    published_on = Date.parse(raw_published_on)
-    if (doi =~ DOI::FORMAT) and !published_on.nil?
-      valid << [doi, published_on]
+    raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
+    doi = DOI::from_uri raw_doi.strip
+    published_on = Date.parse(raw_published_on.strip) if raw_published_on
+    title = raw_title.strip if raw_title
+    if (doi =~ DOI::FORMAT) and !published_on.nil? and !title.nil?
+      valid << [doi, published_on, title]
     else
-      invalid << [raw_doi, published_on]
+      invalid << [raw_doi, raw_published_on, raw_title]
     end
   end
   puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
   if invalid.size == 0
-    valid.each do |doi, published_on| 
+    valid.each do |doi, published_on, title| 
       existing = Article.find_by_doi(doi)
       unless existing
-        Article.create(:doi => doi, :published_on => published_on)
+        Article.create(:doi => doi, :published_on => published_on, 
+                       :title => title)
         created << doi
       else
-        if existing.published_on != published_on
+        if existing.published_on != published_on or existing.title != title
           existing.published_on = published_on
+          existing.title = title
           existing.save!
           updated << doi
         else

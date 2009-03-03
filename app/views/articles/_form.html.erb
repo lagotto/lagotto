@@ -7,6 +7,10 @@
     <%= f.text_field :doi %>
   </p>
   <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
     <%= f.label :published_on %><br />
     <%= date_select 'article', 'published_on', :order => [:month, :day, :year] %>
   </p>
