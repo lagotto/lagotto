@@ -9,6 +9,11 @@ class Article < ActiveRecord::Base
   named_scope :by, lambda { |order|
     { :order => "#{order}#{(order == :citations_count) ? " desc" : ""}" }
   }
+
+  named_scope :journal, lambda { |journal|
+    { :conditions => [ "doi like ?", "10.1371/journal.#{journal}.%" ] }
+  }
+
   named_scope :cited, { :include => :retrievals, 
                         :conditions => "retrievals.citations_count > 0 or retrievals.other_citations_count > 0" }
 
