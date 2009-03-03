@@ -12,12 +12,9 @@ class ArticlesController < ApplicationController
     @articles = @articles.cited if params[:cited]
 
     respond_to do |format|
-      format.html do
-        @articles = @articles.paginate(
-          eager_includes.reverse_merge(:page => params[:page]))
-      end
-      format.xml { render :xml => @articles.all(:include => :retrievals) }
-      format.json { render_json @articles.all(:include => :retrievals).to_json }
+      format.html { @articles = @articles.paginate(:page => params[:page]) }
+      format.xml { render :xml => @articles }
+      format.json { render_json @articles.to_json }
     end
   end
 
