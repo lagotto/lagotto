@@ -33,7 +33,7 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   def test_should_be_stale_based_on_retrieval_age
-    check_staleness(articles(:stale)) { |a| a.retrievals.first.retrieved_at = 1.year.ago }
+    check_staleness(articles(:stale)) { |a| a.retrievals.first.retrieved_at = 2.years.ago }
   end
 
   def check_staleness(article, &block)

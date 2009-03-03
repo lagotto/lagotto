@@ -1,29 +1,42 @@
-<p>
-  <b>Name:</b>
-  <%=h @source.type %>
-  (<%= @source.active ? "active" : "inactive" %>)
-</p>
+<h1>Details for <%=h @source.type %> (<%= @source.active ? "active" : "inactive" %>)</h1>
 
+<% if @source.uses_url %>
 <p>
   <b>Url:</b>
   <%=h @source.url %>
 </p>
+<% end %>
 
+<% if @source.uses_username %>
 <p>
   <b>Username:</b>
   <%=h @source.username %>
 </p>
+<% end %>
 
+<% if @source.uses_password %>
 <p>
   <b>Password:</b>
   '<%= ("●" * @source.password.to_s.size) %>'
 </p>
+<% end %>
 
 <p>
   <b>Staleness:</b>
-  <%=h @source.staleness %>
+  <%=h @source.staleness_days %>
 </p>
 
+<h1>Most-cited articles</h1>
+<% if @samples.empty? %>
+<div>No articles have been cited by this source</div>
+<% else %>
+<ul>
+  <% @samples.each do |retrieval| %>
+  <li><%= link_to retrieval.article.doi, retrieval.article %>:
+    <%= retrieval.total_citations_count %></li>
+  <% end %>
+</ul>
+<% end %>
 
 <%= link_to 'Edit', edit_source_path(@source) %>
 <br/>

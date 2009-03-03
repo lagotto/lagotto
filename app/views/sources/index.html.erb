@@ -4,8 +4,8 @@
 <% for source in @sources %>
   <li>
     <% unless source.is_a? String %>
-      <%# Link to edit an existing source -%>
-      <h3><%= link_to h(source.class.name), edit_source_path(source) %></h3>
+      <%# Link to an existing source -%>
+      <h3><%= link_to h(source.class.name), source_path(source) %></h3>
       <div><%= source.active ? "Active" : "Inactive" %>; 
            update every <%= SecondsToDuration::convert(source.staleness).inspect %></div>
     <% else %>
