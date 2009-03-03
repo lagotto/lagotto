@@ -3,12 +3,17 @@
   prefix = params[:cited] ? "Cited " : "All "
   suffix = params[:query] ? " with DOIs containing '#{params[:query]}'" : ""
 -%>
-<h2><%= prefix %>Articles<%= suffix %></h2>
 <div>
-<%= link_to('Show all articles', articles_path) if filtered %>
-<%= link_to('Show only cited articles', articles_path(:cited => 1, :query => params[:query])) unless params[:cited] %>
+<% form_tag articles_path, :method => "get", :style => "display: inline" do %>
+  <span>Show only DOIs containing:</span>
+  <%= text_field_tag "query", params[:query], :size => 9 %>
+  <%= submit_tag 'Go' %>
+<% end %> | 
+<%= link_to('Show all articles', articles_path) + " | " if filtered %>
+<%= link_to('Show only cited articles', articles_path(:cited => 1, :query => params[:query])) + " | " unless params[:cited] %>
 <%= link_to 'Add another article', new_article_path %>
 </div>
+<h2><%= prefix %>Articles<%= suffix %></h2>
 
 <% if @articles.first %>
   <% for article in @articles %>
