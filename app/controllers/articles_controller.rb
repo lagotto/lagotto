@@ -16,9 +16,7 @@ class ArticlesController < ApplicationController
       format.html { @articles = @articles.paginate(:page => params[:page]) }
       format.xml { render :xml => @articles }
       format.json { render_json @articles.to_json }
-      format.csv do
-        render :csv => @articles
-      end
+      format.csv { render :csv => @articles }
     end
   end
 
