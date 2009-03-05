@@ -30,9 +30,9 @@ As part of the install, I set up a personal account 'stearns', which I used for 
 # I'll need to be root for a few of these initial steps; I'll use sudo later.
 su root
 
-# Install the old version of ruby, as well as openssh, subversion, and
+# Install the old version of ruby, as well as openssh, subversion, mysql, and
 # Apache (and its development libraries)
-yum install -y ruby openssh subversion httpd httpd-devel
+yum install -y ruby openssh subversion httpd httpd-devel mysql-server
 
 # For convenience, allow me to 'sudo' without a password
 vi /etc/sudoers
@@ -169,6 +169,10 @@ sudo gem install fastercsv
 # Check out the application sources, into a folder with today's date (eg, Jan 15)
 svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/20090115
 
+# Set ownership of the tree: the application will run as the owner of
+# /opt/alm/current/config/environment.rb, so this is important.
+chown -R apache:apache /opt/alm/2009xxxx
+
 # Mark them as the current version.
 rm -f /opt/alm/current
 ln -s /opt/alm/20090115 /opt/alm/current
@@ -256,6 +260,10 @@ sudo /etc/init.d/starling stop
 # (You could do this with rsync instead, if you have a staging environment
 # somewhere else)
 svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/2009xxxx
+
+# Set ownership of the tree: the application will run as the owner of
+# /opt/alm/current/config/environment.rb, so this is important.
+chown -R apache:apache /opt/alm/2009xxxx
 
 # Mark them as the current version.
 ln -sf /opt/alm/2009xxxx /opt/alm/current
