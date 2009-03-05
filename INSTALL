@@ -104,6 +104,13 @@ sudo vi /etc/httpd/conf.d/alm.conf
 # Paste in the lines produced by passenger-install-apache2-module,
 # then edit the version-specific paths (eg, /opt/ree/1.8.6-.../lib/...)
 # to use the symlink (eg, /opt/ree/current/lib/...)
+# Along with the other Passenger settings, include these:
+
+# Keep idle application processes running a long time
+# (With the next Passenger version, this can be 0 for "forever";
+# 36000 seconds is 10 hours.)
+PassengerPoolIdleTime 36000
+
 # Then, append all of this and fix the domain names in it:
 <VirtualHost *:80>
     ServerName alm.plos.org
