@@ -16,6 +16,8 @@
 SCRIPT_PATH=/opt/alm/current/script/workling_client
 RAILS_ENV=production
 
+[ -f /etc/workling ] && . /etc/workling
+
 if [ -d /opt/ree/current/bin ]; then
   # Use Ruby Enterprise Edition
   RUBY_DIR=/opt/ree/current/bin
