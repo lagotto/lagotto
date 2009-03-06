@@ -18,9 +18,7 @@ module SourceHelper
   end
 
   def parse_xml(text)
-    parser = XML::Parser.new
-    parser.string = text
-    parser.parse
+    XML::Parser.string(text).parse
   end
 
 protected
