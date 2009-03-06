@@ -10,17 +10,17 @@ class ArticlesController < ApplicationController
   def index
     @articles = Article.by(params[:order] || "doi")
     @articles = @articles.query(params[:query]) if params[:query]
-    if params[:cited]
-      @articles = @articles.cited
-    else
-      @articles = @articles.all(:include => "retrievals")
-    end
+    @articles = @articles.cited if params[:cited]
 
     respond_to do |format|
       format.html { @articles = @articles.paginate(:page => params[:page]) }
       format.xml { render :xml => @articles }
       format.json { render_json @articles.to_json }
-      format.csv { render :csv => @articles }
+      format.csv do
+        @articles = @articles.all(:include => "retrievals") \
+          if params[:cited].nil?
+        render :csv => @articles 
+      end
     end
   end
 
