@@ -2,8 +2,8 @@ require 'test_helper'
 
 class SourceTest < ActiveSupport::TestCase
   def test_should_report_configured_sources
-    # (This assumes we just have only the CrossRef fixture)
-    assert_equal Source.all, [sources(:crossref)]
+    assert_equal Source.all.to_set,
+      [sources(:connotea), sources(:crossref)].to_set
   end
 
   def test_should_report_unconfigured_subclasses

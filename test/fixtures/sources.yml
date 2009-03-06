@@ -10,3 +10,9 @@ crossref:
   staleness: <%= 1.year.to_i %>
   active: true
 
+connotea:
+  type: Connotea
+  username: user
+  password: pass
+  staleness: <%= 1.year.to_i %>
+  active: true

@@ -7,40 +7,48 @@ class ArticlesControllerTest < ActionController::TestCase
     login_as(:quentin)
   end
 
+  def get_csv(options={})
+    get :index, options.merge(:format => "csv")
+    assert_response :success
+    @response.body.split("\n")[1..-1].map { |r| r.split(',') }
+  end
+
   def test_should_get_index
     get :index
     assert_response :success
     assert_not_nil assigns(:articles)
   end
 
-  def test_should_get_index_csv
-    get :index, :format => "csv"
-    assert_response :success
+  def test_should_get_index_in_csv_format
+    get_csv
     assert_equal @response.content_type, "text/csv"
   end
 
   def test_should_order_by_doi_by_default
-    get :index, :format => "csv"
-    assert_response :success
-    results = @response.body.split("\n")[1..-1]
-    assert results[0].starts_with?(articles(:not_stale).doi)
-    assert results[1].starts_with?(articles(:stale).doi)
+    results = get_csv
+    assert results[0][0] == articles(:not_stale).doi
+    assert results[1][0] == articles(:stale).doi
   end
 
   def test_should_order_by_doi_by_published_on
-    get :index, :format => "csv", :order => "published_on"
-    assert_response :success
-    results = @response.body.split("\n")[1..-1]
-    assert results[0].starts_with?(articles(:not_stale).doi)
-    assert results[1].starts_with?(articles(:stale).doi)
+    results = get_csv :order => "published_on"
+    assert results[0][0] == articles(:stale).doi
+    assert results[1][0] == articles(:not_stale).doi
+  end
+
+  def test_should_include_source_counts
+    results = get_csv
+    a, b = articles(:not_stale), articles(:stale)
+    assert_equal results[0], 
+                 [a.doi, a.published_on.to_s, a.title.to_s, "0", "1"]
+    assert_equal results[1], 
+                 [b.doi, b.published_on.to_s, b.title.to_s, "0", "0"]
   end
 
   def test_should_filter_by_query
-    get :index, :format => "csv", :query => "pgen"
-    assert_response :success
-    results = @response.body.split("\n")[1..-1]
+    results = get_csv :query => "pgen"
     assert results.size == 1
-    assert results[0].starts_with?(articles(:stale).doi)
+    assert results[0][0] == articles(:stale).doi
   end
 
   def test_should_get_new

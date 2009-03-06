@@ -2,11 +2,11 @@
 
 stale:
   doi: 10.1371/journal.pgen.1000111
-  published_on: 2007-10-05
+  published_on: 2005-10-05
   # default retrieved_at == 1970
 
 not_stale:
   doi: 10.1371/journal.pbio.0000005
-  published_on: 2005-01-01
+  published_on: 2007-01-01
   retrieved_at: <%= Date.today - 1.day %>
 

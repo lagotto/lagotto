@@ -1,6 +1,14 @@
-<%= FasterCSV.generate do |csv|
-  csv << ["DOI", "Published", "Title"]
-  @articles.each do |article|
-    csv << [article.doi, article.published_on, article.title]
-  end
-end -%>
+<%= 
+  sources = Source.all.sort_by(&:name)
+
+  FasterCSV.generate do |csv|
+    csv << ["DOI", "Published", "Title"] + sources.map(&:name)
+    @articles.each do |article|
+      source_counts = sources.map do |source|
+        retrieval = article.retrievals.detect {|r| r.source_id == source.id }
+        (retrieval && retrieval.total_citations_count) || 0
+      end
+      csv << [article.doi, article.published_on, article.title] + source_counts
+    end
+  end 
+-%>
