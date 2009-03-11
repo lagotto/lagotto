@@ -69,5 +69,35 @@ namespace :db do
       History.delete_all
       Article.update_all("retrieved_at = '2000-01-01 00:00:00'")
     end
+
+    desc "Scan database for duplicate citations"
+    task :dup_check => :environment do
+      Retrieval.all.each do |retrieval|
+        dups = []
+        citations_by_uri = retrieval.citations.inject({}) do |h, citation|
+          dups << citation if (h[citation.uri] ||= citation) != citation
+          h
+        end
+        unless dups.empty?
+          dups.each do |citation|
+            puts "#{retrieval.article.doi} from #{retrieval.source.name} includes extra #{citation.uri}: #{citation.id}"
+            if ENV['CLEANUP']
+              puts "deleting citation #{citation.id}" if verbose
+              retrieval.citations.delete(citation)
+            end
+          end
+          if ENV['CLEANUP']
+            new_count = retrieval.citations.size
+            retrieval.histories.each do |h|
+              if h.citations_count > new_count
+                puts "updating history #{h.id}" if verbose
+                h.citations_count = new_count
+                h.save!
+              end
+            end
+          end
+        end
+      end
+    end
   end
 end

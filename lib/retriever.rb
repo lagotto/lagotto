@@ -54,15 +54,22 @@ class Retriever
         retrieval.other_citations_count = raw_citations
         retrieval.retrieved_at = DateTime.now.utc
       else
-        puts "  Got #{raw_citations.length} citation details." if verbose
+        # Uniquify them - Sources sometimes return duplicates
+        preunique_count = raw_citations.size
+        raw_citations = raw_citations.inject({}) do |h, citation|
+          h[citation[:uri]] = citation; h
+        end
+        puts "  Got #{raw_citations.size} citation details." if verbose
+        dupCount = preunique_count - raw_citations.size
+        puts "    (after filtering out #{dupCount} duplicates!)" if verbose and dupCount > 0
         existing = retrieval.citations.inject({}) do |h, citation|
           h[citation[:uri]] = citation; h
         end
     
-        raw_citations.each do |raw_citation|
-          if existing.delete(raw_citation[:uri]).nil?
+        raw_citations.each do |uri, raw_citation|
+          if existing.delete(uri).nil?
             begin
-              citation = retrieval.citations.create(:uri => raw_citation[:uri],
+              citation = retrieval.citations.create(:uri => uri,
                 :details => symbolize_keys_deeply(raw_citation))
             rescue
               raise if raise_on_error

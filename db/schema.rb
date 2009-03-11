@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090303222502) do
+ActiveRecord::Schema.define(:version => 20090311212528) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(:version => 20090303222502) do
     t.datetime "updated_at"
   end
 
+  add_index "citations", ["retrieval_id"], :name => "index_citations_on_retrieval_id"
+
   create_table "histories", :force => true do |t|
     t.integer  "retrieval_id",                   :null => false
     t.integer  "year",                           :null => false
@@ -52,6 +54,8 @@ ActiveRecord::Schema.define(:version => 20090303222502) do
     t.integer  "citations_count",       :default => 0
     t.integer  "other_citations_count", :default => 0
   end
+
+  add_index "retrievals", ["article_id", "citations_count", "other_citations_count"], :name => "retrievals_article_id"
 
   create_table "sources", :force => true do |t|
     t.string   "type"
