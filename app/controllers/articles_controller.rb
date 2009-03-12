@@ -24,7 +24,12 @@ class ArticlesController < ApplicationController
       format.csv do
         @articles = @articles.all(:include => "retrievals") \
           if params[:cited].nil?
-        render :csv => @articles 
+        if params[:source]
+          @source = Source.find_by_type(params[:source])
+          render :action => "index_for_source"
+        else
+          render :csv => @articles
+        end
       end
     end
   end

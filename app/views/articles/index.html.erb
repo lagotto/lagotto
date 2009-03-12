@@ -1,6 +1,13 @@
 <% 
   filtered = params[:cited] || params[:query]
-  prefix = params[:cited] ? "Cited " : "All "
+  prefix = case params[:cited] 
+  when "1"
+    "Cited "
+  when "0"
+    "Uncited "
+  else 
+    "All "
+  end
   suffix = params[:query] ? " with DOIs containing '#{params[:query]}'" : ""
 
   links = []

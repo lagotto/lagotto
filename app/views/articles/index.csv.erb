@@ -1,12 +1,21 @@
 <%= 
+  # Broken out by source, possibly for only a single month
   sources = Source.all.sort_by(&:name)
+  one_month = params[:month] && params[:year] && Date.civil(params[:year].to_i, params[:month].to_i, 1)
+  this_month = Date.today.at_beginning_of_month if one_month
 
   FasterCSV.generate do |csv|
     csv << ["DOI", "Published", "Title"] + sources.map(&:name)
     @articles.each do |article|
       source_counts = sources.map do |source|
         retrieval = article.retrievals.detect {|r| r.source_id == source.id }
-        (retrieval && retrieval.total_citations_count) || 0
+        if one_month && (one_month != this_month)
+          history = retrieval.histories.detect {|h| h.year == month_date.year && h.month == month_date.month } \
+            if retrieval
+          (history && history.citations_count) || 0
+        else
+          (retrieval && retrieval.total_citations_count) || 0
+        end
       end
       csv << [article.doi, article.published_on, article.title] + source_counts
     end
