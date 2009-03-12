@@ -127,3 +127,14 @@ in wsdl_scopus.rake:
   rake wsdl:scopus
     Re-generate the Ruby code that handles Scopus; these files are then checked into subversion like the rest of the code. You'll need to do this again if Scopus changes their API...
 
+Create an admin user:
+
+$ RAILS_ENV=development script/console
+
+In that console, do:
+ >> u = User.create(:login => "admin", :email => "admin@plos.org", :password => "booty", :password_confirmation => "booty")
+
+Then, if you do
+ >> User.all
+it'll show you that user object (or "[]" if the user didn't get created).
+

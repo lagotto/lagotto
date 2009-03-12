@@ -34,6 +34,10 @@ su root
 # Apache (and its development libraries)
 yum install -y ruby openssh subversion httpd httpd-devel mysql-server
 
+# Some additional dependencies that i discovered on a more minimal centos 4 install:
+
+yum install gcc-c++ libxml2-devel libtool readline-devel
+
 # For convenience, allow me to 'sudo' without a password
 vi /etc/sudoers
 # add at end: stearns ALL=(ALL)  NOPASSWD: ALL
