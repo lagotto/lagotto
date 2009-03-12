@@ -10,7 +10,12 @@ class ArticlesController < ApplicationController
   def index
     @articles = Article.by(params[:order] || "doi")
     @articles = @articles.query(params[:query]) if params[:query]
-    @articles = @articles.cited if params[:cited]
+    case params[:cited]
+    when "1"
+      @articles = @articles.cited
+    when "0"
+      @articles = @articles.uncited
+    end
 
     respond_to do |format|
       format.html { @articles = @articles.paginate(:page => params[:page]) }

@@ -36,6 +36,18 @@ class ArticlesControllerTest < ActionController::TestCase
     assert results[1][0] == articles(:not_stale).doi
   end
 
+  def test_should_get_only_cited_articles
+    results = get_csv :cited => "1"
+    assert_equal results.size, 1
+    assert_equal results[0][0], articles(:not_stale).doi
+  end
+
+  def test_should_get_only_uncited_articles
+    results = get_csv :cited => "0"
+    assert_equal results.size, 1
+    assert_equal results[0][0], articles(:stale).doi
+  end
+
   def test_should_include_source_counts
     results = get_csv
     a, b = articles(:not_stale), articles(:stale)

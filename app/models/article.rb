@@ -19,6 +19,9 @@ class Article < ActiveRecord::Base
   named_scope :cited, { :include => :retrievals, 
                         :conditions => "retrievals.citations_count > 0 or retrievals.other_citations_count > 0" }
 
+  named_scope :uncited, { :include => :retrievals, 
+                          :conditions => "retrievals.citations_count = 0 and retrievals.other_citations_count = 0" }
+
   named_scope :limit, lambda { |limit| (limit > 0) ? {:limit => limit} : {} }
 
   named_scope :not_refreshed_since, lambda { |last_refresh| 
