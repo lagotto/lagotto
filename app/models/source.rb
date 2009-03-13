@@ -53,6 +53,17 @@ class Source < ActiveRecord::Base
     SecondsToDuration::convert(Source.maximum(:staleness))
   end
 
+  def public_url(retrieval)
+    # When generating a public URL to an article's citations on the source
+    # site, we'll add the encoded DOI to a base URL provided by the source
+    # (or nil if none's provided)
+    base = public_url_base
+    base && base + CGI.escape(retrieval.article.doi)
+  end
+  def public_url_base
+    nil
+  end
+
   # Subclasses should override these to cause fields to appear in UI, and
   # enable their validations
   def uses_url; false; end

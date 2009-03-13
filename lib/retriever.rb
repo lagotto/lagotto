@@ -48,7 +48,8 @@ class Retriever
     puts "Asking #{source.name} about #{article.doi}; last updated #{retrieval.retrieved_at}" if verbose
     failed = false
     begin
-      raw_citations = source.query(article, :verbose => verbose)
+      raw_citations = source.query(article, :retrieval => retrieval,
+                                   :verbose => verbose)
       if raw_citations.is_a? Numeric
         puts "  Got a count of #{raw_citations.inspect} citations." if verbose
         retrieval.other_citations_count = raw_citations
@@ -79,7 +80,7 @@ class Retriever
           end
         end
         existing.values.map(&:destroy)
-        retrieval.reload.retrieved_at = DateTime.now.utc
+        retrieval.retrieved_at = DateTime.now.utc
       end
       retrieval.save!
     rescue
@@ -93,6 +94,7 @@ class Retriever
     end
 
     unless failed
+      retrieval.reload
       history = retrieval.histories.find_or_create_by_year_and_month(retrieval.retrieved_at.year, retrieval.retrieved_at.month)
       history.citations_count = retrieval.total_citations_count
       history.save!

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090311212528) do
+ActiveRecord::Schema.define(:version => 20090313213702) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20090311212528) do
     t.datetime "retrieved_at"
     t.integer  "citations_count",       :default => 0
     t.integer  "other_citations_count", :default => 0
+    t.string   "local_id"
   end
 
   add_index "retrievals", ["article_id", "citations_count", "other_citations_count"], :name => "retrievals_article_id"

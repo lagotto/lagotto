@@ -19,4 +19,8 @@ class Nature < Source
     end
     citations
   end
+
+  def public_url_base
+    "http://blogs.nature.com/posts?doi="
+  end
 end

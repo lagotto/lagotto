@@ -25,6 +25,9 @@ class Retrieval < ActiveRecord::Base
       if options[:citations] == "1" and not citations.empty?
     result[:histories] = histories.map(&:to_included_json) \
       if options[:history] == "1" and not histories.empty?
+    public_url = source.public_url(self)
+    result[:public_url] = public_url \
+      if public_url
     result
   end
 
@@ -32,8 +35,14 @@ class Retrieval < ActiveRecord::Base
     options[:indent] ||= 2
     xml = options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
     xml.instruct! unless options[:skip_instruct]
-    xml.tag!("source", :source => source.name, :updated_at => retrieved_at,
-             :count => total_citations_count) do
+    attributes = {
+      :source => source.name, 
+      :updated_at => retrieved_at,
+      :count => total_citations_count 
+    }
+    public_url = source.public_url(self)
+    attributes[:public_url] = public_url if public_url
+    xml.tag!("source", attributes) do
       nested_options = options.merge!(:dasherize => false,
                                       :skip_instruct => true)
       if options[:citations] == "1" and not citations.empty?

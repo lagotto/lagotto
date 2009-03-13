@@ -10,4 +10,8 @@ class Postgenomic < Source
       result
     end
   end
+
+  def public_url_base
+    "http://postgenomic.com/paper.php?doi="
+  end
 end

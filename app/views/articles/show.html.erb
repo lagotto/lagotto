@@ -4,14 +4,21 @@
   <div><%= "published #{@article.published_on.to_datetime.to_s(:friendly_date)}, " if @article.published_on %><%= pluralize(@article.citations_count, "citation") %>, 
       <%= (@article.retrieved_at.year < 2000) ? "never updated" : 
           "updated #{@article.retrieved_at.to_s(:friendly)}" %></div>
+  <% if logged_in? %>
   <%= content_tag(:div, "PubMed ID = '#{@article.pub_med}'") if @article.pub_med %>
   <%= content_tag(:div, "PubMedCentral ID = '#{@article.pub_med_central}'") if @article.pub_med_central %>
+  <% end %>
   <ul>
   <% @article.retrievals.each do |retrieval| %>
     <% if retrieval.total_citations_count > 0 %>
       <li>
-        <%= retrieval.source.class.name %> 
-        (<%= retrieval.total_citations_count %>)<% unless retrieval.citations.empty? %>:<ul>
+        <% 
+        public_url = retrieval.source.public_url(retrieval)
+        details = [ retrieval.total_citations_count ]
+        details << retrieval.local_id if retrieval.local_id and logged_in?
+        -%>
+        <%= link_to_unless public_url.nil?, retrieval.source.class.name, public_url %> 
+        (<%= details.join(', ') %>)<% unless retrieval.citations.empty? %>:<ul>
         <% retrieval.citations.each do |citation| %>
           <li><%= link_to h(citation.details.inspect), citation.uri %></li>
         <% end %>

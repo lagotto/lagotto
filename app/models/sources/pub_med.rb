@@ -62,4 +62,9 @@ class PubMed < Source
       if result and options[:verbose]
     result
   end
+
+  def public_url(retrieval)
+    article.pub_med && ("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=" \
+                        + retrieval.article.pub_med)
+  end
 end

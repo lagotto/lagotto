@@ -13,9 +13,17 @@ class Connotea < Source
       citations = []
       document.root.namespaces.default_prefix = 'default'
       document.find("//default:Post").each do |cite|
-        citations << { :uri => cite.find_first("@rdf:about").value }
+        uri = cite.find_first("@rdf:about").value
+        citations << { :uri => uri }
+
+        # Note CiteULike's internal ID if we haven't already
+        options[:retrieval].local_id ||= uri[uri.rindex('/')+1..-1]
       end
       citations
     end
+  end
+
+  def public_url(retrieval)
+    retrieval.local_id && ("http://www.connotea.org/uri/" + retrieval.local_id)
   end
 end

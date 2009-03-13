@@ -21,9 +21,18 @@ class Citeulike < Source
         citation[:uri] = link.attributes['url']
 	
         citations << citation
+
+        # Note CiteULike's internal ID if we haven't already
+        options[:retrieval].local_id ||= citation[:articleid]
       end
       citations
     end
   end
+
+  def public_url(retrieval)
+    retrieval.local_id && ("http://www.citeulike.org/article/" \
+                           + retrieval.local_id)
+  end
+  
 end
 
