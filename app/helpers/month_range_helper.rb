@@ -16,6 +16,13 @@ module MonthRangeHelper
         break if (d <=> @last) == @offset 
       end
     end
+
+    # Ruby 1.8.6 doesn't have Enumerable#count
+    unless self.instance_methods.include?("count")
+      def count
+        to_a.size
+      end
+    end
   end
 
   def month_range(start_date, end_date)
