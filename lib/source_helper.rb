@@ -23,9 +23,10 @@ module SourceHelper
 
 protected
   def get_http_body(uri, options={})
+    optsMsg = " with #{options.inspect}" unless options.empty?
     begin
       verbose = options[:verbose] || 0
-      options = options.except(:verbose)
+      options = options.except(:verbose, :retrieval)
       url = URI.parse(uri)
       if options.empty?
         response = Net::HTTP.get_response(url)
@@ -33,6 +34,11 @@ protected
         request = Net::HTTP::Get.new(url.path)
         request.basic_auth(options[:username], options[:password]) \
           if options[:username]
+        if verbose > 2
+          request.each_header do |key, value|
+            puts "[#{key}] = '#{value}']"
+          end
+        end
         response = Net::HTTP.new(url.host, url.port).start do |http| 
           http.request(request)
         end
@@ -42,17 +48,20 @@ protected
       when Net::HTTPForbidden # CrossRef returns this for "DOI not found"
         ""
       when Net::HTTPSuccess, Net::HTTPRedirection
-        puts "Requested #{uri}, got: #{response.body}" if verbose > 1
+        puts "Requested #{uri}#{optsMsg}, got: #{response.body}" if verbose > 1
+        if verbose > 2
+          response.each_header do |key, value|
+            puts "[#{key}] = '#{value}']"
+          end
+        end
         response.body # OK
       else
         response.error!
       end
     rescue
-      optsMsg = " with #{options.inspect}" unless options.empty?
       puts "Error (#{$!.class.name}) while requesting #{uri}#{optsMsg}"
       raise
     rescue Timeout::Error
-      optsMsg = " with #{options.inspect}" unless options.empty?
       puts "Error (#{$!.class.name}) while requesting #{uri}#{optsMsg}"
       raise
     end
