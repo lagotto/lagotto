@@ -2,11 +2,11 @@
   filtered = params[:cited] || params[:query]
   prefix = case params[:cited] 
   when "1"
-    "Cited "
+    "#{@article_count} Cited "
   when "0"
-    "Uncited "
+    "#{@article_count} Uncited "
   else 
-    "All "
+    "All #{@article_count} "
   end
   suffix = params[:query] ? " with DOIs containing '#{params[:query]}'" : ""
 

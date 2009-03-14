@@ -6,21 +6,12 @@ class Article < ActiveRecord::Base
   validates_format_of :doi, :with => DOI::FORMAT
   validates_uniqueness_of :doi
 
-  named_scope :by, lambda { |order|
-    order_list = [ "#{order}#{(order == :citations_count) ? ' desc' : ''}" ]
-    order_list << "doi" unless order.to_sym == :doi
-    { :order => order_list.join(", ") }
-  }
-
   named_scope :query, lambda { |query|
     { :conditions => [ "doi like ?", "%#{query}%" ] }
   }
 
   named_scope :cited, { :include => :retrievals, 
                         :conditions => "retrievals.citations_count > 0 or retrievals.other_citations_count > 0" }
-
-  named_scope :uncited, { :include => :retrievals, 
-                          :conditions => "retrievals.citations_count = 0 and retrievals.other_citations_count = 0" }
 
   named_scope :limit, lambda { |limit| (limit > 0) ? {:limit => limit} : {} }
 
@@ -101,5 +92,62 @@ class Article < ActiveRecord::Base
       end.compact
     end
     result.to_json(options)
+  end
+
+  def self.collect_article_ids(params)
+    # Make a list of article IDs given query parameters:
+    # cited=0|1
+    # query=(doi fragment)
+    # order=doi|published_on
+    
+    where = "where articles.doi like '%#{params[:query].gsub("'","''")}%'" if params[:query]
+    order = connection.quote("articles.#{params[:order] || "doi"}")
+
+    if params[:cited]
+      # Grab all the articles with 0 recorded citations
+      sql = <<SQL
+select articles.id, #{order} as sortorder from articles
+join retrievals on retrievals.article_id = articles.id
+#{where}
+group by articles.id
+having sum(retrievals.citations_count + retrievals.other_citations_count) #{params[:cited] == "1" ? ">" : "="} 0
+SQL
+      # if 'uncited', include the articles we haven't retrieved yet, too
+      sql += <<SQL if params[:cited] == "0"
+union
+select articles.id, #{order} as sortorder from articles
+left outer join retrievals on articles.id = retrievals.article_id
+where retrievals.article_id is null
+SQL
+    else
+      # All articles (possibly limited by the query)
+      sql = "select articles.id, #{order} as sortorder from articles #{where}"
+    end
+
+    # Always order by DOI
+    sql += " order by sortorder"
+
+    Article.connection.select_values(sql)
+  end
+
+  def self.load_articles(params, options={})
+    # Load articles given query params, for the #index
+    article_ids = collect_article_ids(params)
+    article_count = article_ids.size
+    order = %w{doi published_on}.include?(params[:order]) ? params[:order] : "doi"
+    sql = (article_count == 0) \
+      ? "select * from articles where 1 = 0" \
+      : "select * from articles where id in (#{article_ids.join(",")}) order by #{order}"
+
+    articles = options[:paginate] \
+      ? Article.paginate_by_sql(sql, :page => params[:page]) \
+      : Article.find_by_sql(sql)
+    [articles, article_count]
+  end
+
+  def self.load_article(params, options={})
+    # Load one article given query params, for the non-#index actions
+    doi = DOI::from_uri(params[:id])
+    Article.find_by_doi(doi, options) or raise ActiveRecord::RecordNotFound
   end
 end

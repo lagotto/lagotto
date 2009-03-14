@@ -8,22 +8,12 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.xml
   def index
-    @articles = Article.by(params[:order] || "doi")
-    @articles = @articles.query(params[:query]) if params[:query]
-    case params[:cited]
-    when "1"
-      @articles = @articles.cited
-    when "0"
-      @articles = @articles.uncited
-    end
-
     respond_to do |format|
-      format.html { @articles = @articles.paginate(:page => params[:page]) }
-      format.xml { render :xml => @articles }
-      format.json { render_json @articles.to_json }
+      format.html { load_articles(:paginate => true) }
+      format.xml { render :xml => load_articles }
+      format.json { render_json load_articles.to_json }
       format.csv do
-        @articles = @articles.all(:include => "retrievals") \
-          if params[:cited].nil?
+        load_articles
         if params[:source]
           @source = Source.find_by_type(params[:source])
           render :action => "index_for_source"
@@ -128,10 +118,14 @@ protected
     true # keep processing..
   end
 
+  def load_articles(options={})
+    # Load articles given query params, for #index
+    @articles, @article_count = Article.load_articles(params, options)
+  end
+
   def load_article(options={})
-    doi = DOI::from_uri(params[:id])
-    @article = Article.find_by_doi(doi, options) \
-      or raise ActiveRecord::RecordNotFound
+    # Load one article given query params, for the non-#index actions
+    @article = Article.load_article(params, options)
   end
 
   def eager_includes
