@@ -64,7 +64,7 @@ class PubMed < Source
   end
 
   def public_url(retrieval)
-    article.pub_med && ("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=" \
-                        + retrieval.article.pub_med)
+    pub_med_id = retrieval.article.pub_med 
+    pub_med_id && ("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=" + pub_med_id)
   end
 end
