@@ -40,6 +40,13 @@ namespace :db do
       update_articles([article])
     end
 
+    desc "Count stale articles"
+    task :count => :environment do
+      stale_threshold = Date.today - Source.maximum_staleness
+      article_count = Article.not_refreshed_since(stale_threshold).count
+      puts "#{article_count} stale articles found"
+    end
+
     def update_articles(articles)
       verbose = ENV.fetch("VERBOSE", "0").to_i
       lazy = ENV.fetch("LAZY", "1") == "1"

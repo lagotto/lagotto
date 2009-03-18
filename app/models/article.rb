@@ -16,7 +16,8 @@ class Article < ActiveRecord::Base
   named_scope :limit, lambda { |limit| (limit > 0) ? {:limit => limit} : {} }
 
   named_scope :not_refreshed_since, lambda { |last_refresh| 
-    { :conditions => ["articles.retrieved_at < ?", last_refresh ] }
+    { :conditions => ["articles.retrieved_at < ? and articles.published_on <= ?", last_refresh, Date.today ],
+      :order => :retrieved_at }
   }
 
   def to_param
