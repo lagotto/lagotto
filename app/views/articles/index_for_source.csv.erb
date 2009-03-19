@@ -23,7 +23,7 @@
           end
         end
       end
-      csv << [article.doi, article.published_on, article.title] + month_totals
+      csv << [article.doi, article.published_on, article.title.to_s.strip_tags] + month_totals
     end
   end
 -%>

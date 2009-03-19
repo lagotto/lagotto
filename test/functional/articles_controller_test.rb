@@ -52,9 +52,9 @@ class ArticlesControllerTest < ActionController::TestCase
     results = get_csv
     a, b = articles(:not_stale), articles(:stale)
     assert_equal results[0], 
-                 [a.doi, a.published_on.to_s, a.title.to_s, "0", "1"]
+                 [a.doi, a.published_on.to_s, a.title.to_s.strip_tags, "0", "1"]
     assert_equal results[1], 
-                 [b.doi, b.published_on.to_s, b.title.to_s, "0", "0"]
+                 [b.doi, b.published_on.to_s, b.title.to_s.strip_tags, "0", "0"]
   end
 
   def test_should_filter_by_query

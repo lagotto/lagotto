@@ -17,7 +17,7 @@
           (retrieval && retrieval.total_citations_count) || 0
         end
       end
-      csv << [article.doi, article.published_on, article.title] + source_counts
+      csv << [article.doi, article.published_on, article.title.to_s.strip_tags] + source_counts
     end
   end 
 -%>

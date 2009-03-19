@@ -2,11 +2,13 @@
 
 stale:
   doi: 10.1371/journal.pgen.1000111
+  title: Jackdaws love my big sphinx of quartz
   published_on: 2005-10-05
   # default retrieved_at == 1970
 
 not_stale:
   doi: 10.1371/journal.pbio.0000005
+  title: The merry-go-round broke down
   published_on: 2007-01-01
   retrieved_at: <%= Date.today - 1.day %>
 
