@@ -11,3 +11,10 @@ select a.doi, s.type from articles a, sources s where s.active = 1 and not exist
 select articles.doi from articles, retrievals where articles.id = retrievals.article_id and retrievals.citations_count > 0 and retrievals.source_id = 4;
 
 
+// A Ruby snippet for finding <tags> in article titles
+articles = Article.find(:all, :conditions => "title like '%<%'")
+tags = Set.new
+articles.each do |a|
+  tags += a.title.scan(/\<([^\/]+?)\>/)
+end
+puts "<#{tags.to_a.join(">, <")}>"
