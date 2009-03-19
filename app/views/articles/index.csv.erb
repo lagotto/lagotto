@@ -10,7 +10,7 @@
       source_counts = sources.map do |source|
         retrieval = article.retrievals.detect {|r| r.source_id == source.id }
         if one_month && (one_month != this_month)
-          history = retrieval.histories.detect {|h| h.year == month_date.year && h.month == month_date.month } \
+          history = retrieval.histories.detect {|h| h.year == one_month.year && h.month == one_month.month } \
             if retrieval
           (history && history.citations_count) || 0
         else
