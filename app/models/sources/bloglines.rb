@@ -7,7 +7,7 @@ class Bloglines < Source
     raise(ArgumentError, "Bloglines configuration requires username & password") \
       if username.blank? or password.blank?
 
-    url = "http://www.bloglines.com/search?format=publicapi&apiuser=#{username}&apikey=#{password}&q=#{CGI.escape(article.title)}"
+    url = "http://www.bloglines.com/search?format=publicapi&apiuser=#{username}&apikey=#{password}&q=#{CGI.escape(article.title).strip_tags}"
     get_xml(url, options) do |document|
       citations = []
       document.find("//resultset/result").each do |cite|
