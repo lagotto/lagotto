@@ -22,7 +22,7 @@ class Source < ActiveRecord::Base
   end
 
   def name
-    self.class.name
+    read_attribute(:name) || self.class.name
   end
 
   def inspect_with_password_filtering

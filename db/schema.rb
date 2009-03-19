@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090313213702) do
+ActiveRecord::Schema.define(:version => 20090318213801) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20090313213702) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "active",     :default => true
+    t.string   "name"
   end
 
   add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true

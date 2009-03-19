@@ -1,0 +1,982 @@
+/*
+----------------------------------------------------------
+Global Style Sheet for PLoS.org
+http://www.plos.org/plos.css
+
+Modified on August 4, 2006
+----------------------------------------------------------
+*/
+
+/* Global : Elements
+----------------------------------------------------------
+*/
+BODY {
+     cursor: default; 
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     background-color: #EEE; 
+     color: #333333;
+	 margin: 0 auto;
+}
+
+P {
+     font-family: Verdana, Arial, Helvetica, sans-serif;  /* need to repeat for NAV4 */
+     background-color: transparent; 
+     font-weight: normal;
+     color: #333333;
+}
+
+H1 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;  /* need to repeat for NAV4 */
+     background-color: transparent;
+     font-size: 1.5em;
+	 margin-bottom: 20px;
+     font-weight: bold;
+     color: #039;
+}
+
+H2 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;  /* need to repeat for NAV4 */
+     background-color: transparent;
+	 letter-spacing: .02em;
+     font-size: 1.3em;
+     font-weight: bold;
+     color: #3366CC;
+	 margin: 20px 0 10px 0;
+}
+
+H3 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;  /* need to repeat for NAV4 */
+     background-color: transparent;
+     font-size: 1.2em;
+     font-weight: bold;
+     color: #333333;
+}
+
+H4, H5, H6 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;  /* need to repeat for NAV4 */
+     background-color: transparent;
+     font-size: 1em;
+     font-weight: bold;
+     color: #333333; 
+}
+
+UL, OL, DL, ADDRESS, BLOCKQUOTE, CAPTION, MENU {
+     font-family: Verdana, Arial, Helvetica, sans-serif;  /* need to repeat for NAV4 */
+     background-color: transparent; 
+     font-size: 10pt; 
+     font-weight: normal;
+     color: #333333;
+     margin-left: 20px;
+}
+ul li {
+	list-style-image: url(images/bullet.gif);
+}
+blockquote {
+	font-style: italic;
+}
+
+LI,DT,DD {
+	margin-bottom: 10px;
+}
+
+A {
+     background-color: transparent;
+     font-weight: normal; 
+     text-decoration: underline;
+}
+
+/* must be in order: link, visited, hover, active */
+A:link {color: #003399; background-color: transparent;}   
+A:visited {color: #003399; background-color: transparent;} /* NAV4 will use its default rules */
+A:hover {color: #0000FF; background-color: transparent;}   /* NAV4 will use its default rules */
+A:active {color: #6699cc; background-color: transparent;}  /* NAV4 will use its default rules */
+
+/* Global : Styles
+----------------------------------------------------------
+*/
+.required {
+	font-weight: bold;
+}
+/* Global : Container : Elements
+----------------------------------------------------------
+*/
+table#container {
+	width: 800px;
+	padding: 0;
+	margin: 0 auto;
+	background: #FFF; 
+}
+#container td {
+	margin: 0;
+	padding: 0;
+}
+/* Global : Header : Elements
+----------------------------------------------------------
+*/
+#hdr {
+	background-color: #3366CC;
+	width: 800px;
+	height: 100px;
+	color: #FFF;
+	font-size: 1em;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+#hdr a {
+	color: #FFF;
+	text-decoration: none;
+	font-size: 1.8em;
+	font-weight: bold;
+}
+#hdr img {
+	border: 0;
+}
+/* Navigation : Main Menu : Elements
+----------------------------------------------------------
+*/
+div#navcontainer {
+	background: #333;
+	border-top: 1px solid #FFF;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	z-index: 10;
+	position: relative;
+}
+#navcontainer ul {
+	background-color: #333;
+	height: 2em;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 10px 0 30px 0;
+	padding: 0;
+	border: 0;
+	list-style-type: none;
+	white-space: nowrap;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+#navcontainer li {
+	float: left;
+	position: relative;
+	text-align: left;
+	cursor: default;
+	display: inline;
+	margin: 0 .6em 0 0;
+	white-space: nowrap;
+}
+#navcontainer a:link, #navcontainer a:visited {
+	font-size: .85em;
+	color: #FFF;
+	text-decoration: none;
+	background-color: #333;
+	padding: 6px 10px;
+	margin: 0;
+	display: block;
+}
+ul#nav li a:hover, ul#nav li:hover, ul#nav li.over {
+	color: #FFF;
+	background-color: #666;
+	display: block;
+}
+/* Navigation : Dropdown Menus : Elements
+----------------------------------------------------------
+*/
+/* class .none is a mac ie html hack to get drop down menus to display */
+#navcontainer .none {}
+#navcontainer li ul {
+	background: none;
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	font-weight: normal;
+	margin: 0;
+	padding: 0 0 1em 0;
+}
+#navcontainer li>ul {
+	top: auto;
+	left: auto;
+}
+/* be kind to IE lack of support for hover on non-anchor elements */
+#navcontainer li:hover ul, #navcontainer li.over ul {
+	display: block;
+	top: auto;
+}
+#navcontainer li li {
+	display: block;
+	float: none;
+	background-color: transparent;
+	border: 0;
+}
+#navcontainer li li a:link, #navcontainer li li a:visited, #navcontainer li.journalnav li a:link, #navcontainer li.journalnav li a:visited {
+	border: 1px solid #FFF;
+	border-width: 1px 1px 0 1px;
+	font-size: .75em;
+	width: 17.5em;
+	color: #333;
+	background-color: #DDD;
+	display: block;
+	text-align: left;
+	vertical-align: bottom;
+}
+#navcontainer li li a:hover, #navcontainer li.journalnav li a:hover {
+	color: #039;
+	background-color: #E4EFFD;
+}
+/* Global : Footer : Elements
+----------------------------------------------------------
+*/
+#footer ul {
+	list-style-type: none;
+	margin: 10px 17px 10px 10px;
+	padding: 10px 0;
+	border-top: 1px solid #CCC;
+}
+#footer ul li {
+	list-style-type: none;
+	padding: 0 10px;
+	margin: 5px 0;
+	text-indent: 0;
+	display: inline;
+}
+#footer li a {
+	text-decoration: none;
+	font-weight: bold;
+	font-size: .85em;
+}
+#footer img {
+	float: left;
+	margin: 0 5px 0 0;
+}
+#footer p {
+	color: #666;
+	font-size: .6em;
+	margin: 5px 0 5px 20px;
+	padding-bottom: 20px;
+}
+#footer p a {
+	font-size: 1em;
+}
+/* Home : Elements
+----------------------------------------------------------
+*/
+td#home {
+	padding: 0;
+	line-height: 1.3em;
+}
+#home h1 {
+	background: #EEE;
+	font-size: .9em;
+	padding: 4px;
+	color: #039;
+}
+#home p {
+	font-size: .7em;
+	margin: 10px 10px 20px 10px;
+}
+/* Home : Styles
+----------------------------------------------------------
+*/
+/* Layout Elements */
+div#col1 {
+	float: left;
+	width: 290px;
+	margin: 20px 15px;
+	padding: 0;
+	display: inline;
+}
+#col1 .block img {
+	float: left;
+	margin: 5px;
+}
+div#col2 {
+	float: left;
+	width: 290px;
+	margin: 20px 0;
+	padding: 0;
+	position: relative;
+	display: inline;
+}
+#col2 h2 {
+	font-size: .75em;
+	padding: 10px;
+	color: #039;
+	margin: 1px -4px 5px 0;
+}
+#col2 .block {
+	padding-top: 10px;
+	width: 280px;
+}
+/* Right-Hand Column Styles */
+div#col3 {
+	float: right;
+	width: 155px;
+	background: #FFF;
+	padding: 0;
+	margin: 20px 15px 0 15px;
+	padding: 0;
+	display: inline;
+}
+div#col3 a {
+	text-decoration: none;
+}
+#col3 h2 {
+	color: #F60;
+	background: #FFF url(images/template/h2_bg.gif) no-repeat top left;
+	margin: 10px 0 0 0;
+	padding: 5px 0 5px 10px;
+	font-size: .65em;
+	border: 1px solid #CCC;
+	border-width:  0 1px 1px 0;
+}
+#col3 ul {
+	margin: 2px 0 0 0;
+	padding: 2px 0;
+	list-style-type: none;
+	background-color: #FFF;
+	border: 1px solid #CCC;
+}
+#col3 li {
+	list-style-type: none;
+	margin: 0;
+	border-bottom: 1px solid #FFF;
+	padding: 0;
+}
+#col3 li a {
+	padding: 2px 0 2px 4px;
+	margin: 0 0 -1px 0;
+	display: block;
+	font-size: .7em;
+	font-weight: normal;
+	color: #000;
+	background: #FFF url(images/template/dottedborder.gif) repeat-x;
+}
+#col3 li a:hover {
+	background-color: #E4EFFD;
+	color: #039;
+}
+#col3 img {
+	margin: 15px 18px 0 18px;
+}
+#col3 .block h6 {
+	font-size: .6em;
+	margin: 0;
+	color: #666;
+	background: #EEE;
+	padding: 2px;
+	font-weight: bold;
+}
+#col3 div.block {
+	margin: 3px 0 0 0;
+	padding: 2px;
+	border: 1px solid #CCC;
+}
+#col3 a:hover {
+	text-decoration: none;
+}
+#col3 div.block a {
+	text-indent: 16px;
+	font-weight: normal;
+	display: block;
+	background: #FFF url(images/template/col3_ad.png) no-repeat 0 5px;
+	font-size: .7em;
+	padding: 2px;
+	color: #000;
+}
+#col3 div.block a:hover {
+	color: #FF6600;
+}
+/* Main Block Styles */
+div.block {
+	background: transparent;
+	padding: 2px 5px 4px 5px;
+	margin: 10px 0;
+	border: 1px solid #E6F0FB;
+	border-width: 1px 0;
+}
+div.block ol, div.block ul {
+	margin: 0;
+	padding: 0;
+	text-indent: 0;
+}
+div.block li {
+	font-size: .85em;
+	padding: 0 10px;
+	list-style-type: disc;
+}
+span.bottom {
+	background: #FFF url(images/template/diag.gif) repeat;
+	display: block;
+	text-align: right;
+	margin: -2px -2px 0 -2px;
+	padding: 10px 10px 0 5px;
+	position: relative;
+}
+span.first {
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #039;
+	line-height: normal;
+}
+/* Quotation Block Styles */
+#home div.quotation {
+	margin: 20px 0 0 0;
+}
+blockquote.quotation {
+	color: #039;
+	font-weight: bold;
+	font-size: .7em;
+	background: #FFF url(images/template/quote_home.gif) no-repeat 5px 5px;
+	padding: 25px 30px 30px 30px;
+	margin: 0;
+	font-style: italic;
+	line-height: 2em;
+}
+#content blockquote.quotation {
+	font-size: 1em;
+	font-style: normal;
+	font-weight: normal;
+}
+
+span.credit {
+	font-size: .8em;
+	font-weight: normal;
+	margin: 10px 0 0 0;
+	font-style: normal;
+	display: block;
+}
+/* Highlight Block Styles */
+#home a.highlight {
+	background: #FFF;
+	color: #039;
+	font-size: .7em;
+	font-weight: bold;
+	padding: 4px;
+	text-decoration: none;
+}
+#home a.highlight:hover {
+	color: #FFF;
+	background: #039;
+}
+#home ul.newsFeature {
+	border: 3px solid #E4EFFD;
+	margin: 0 0 15px 0;
+	padding: 0;
+}
+#home ul.newsFeature li {
+	list-style-type: none;
+	list-style-image: none;
+	border-bottom: 1px solid #E4EFFD;
+	margin: 0;
+	padding: 4px;
+}
+#content ul.newsFeature {
+	margin: 0 0 15px 0;
+	padding: 0;
+}
+#content ul.newsFeature li {
+	list-style-type: none;
+	list-style-image: none;
+	border-bottom: 1px solid #E4EFFD;
+	margin: 0;
+	padding: 4px;
+}
+ul.newsFeature span {
+	display: block;
+	font-size: .8em;
+	color: #666;
+	margin: 0;
+}
+/* Featured Image Block Styles */
+#featured {
+	margin: 30px 5px 20px 5px;
+	padding: 0 10px;
+	border: 6px solid #E6F0FB;
+	border-width: 4px;
+}
+#featured h1 {
+	background: transparent url(images/template/tl.png) no-repeat top left;
+	color: #F60;
+	margin: -4px -14px;
+	font-size: .75em;
+	padding: 8px 8px 4px 20px;
+	border-bottom: 2px solid #E6F0FB;
+}
+#featured span.bottom {
+	background-color: #E6F0FB;
+	background-image: none;
+}
+#featured img {
+	margin: 5px 4px 6px 4px;
+	display: block;
+}
+#featured p {
+	margin: 5px;
+	font-size: .6em;
+	color: #555;
+}
+#featured p.credit {
+	background: #EEE;
+	padding: 5px;
+	margin: 10px 5px;
+}
+/* Secondary : Content : Elements
+----------------------------------------------------------
+*/
+div#content {
+	margin: 20px 260px 20px 0;
+	padding: 20px 0 20px 30px;
+	font-size: .75em;
+	line-height: 1.6em;
+}
+#content table {
+	margin: 15px;
+	border-width: 0;
+}
+#content table td {
+	background-color: #E4EFFD;
+	border: 1px solid #FFF;
+	border-width: 2px 2px 0 0;
+	padding: 8px;
+}
+/* Secondary : Side Navigation : Elements
+----------------------------------------------------------
+*/
+div#sideNav {
+	float: right;
+	width: 250px;
+	margin: 4px;
+	text-align: left;
+}
+#sideNav h2 {
+	color: #F60;
+	background: #FFF url(images/template/h2_bg.gif) no-repeat top left;
+	padding-left: 10px;
+	font-size: .6em;
+	border: 1px solid #CCC;
+	border-width:  0 1px 1px 0;
+	margin: 45px 10px 0 20px;
+	padding: 8px 4px 8px 10px;
+	font-size: .8em;
+}
+#col3 li, #sideNav li {
+	list-style-image: none;
+}
+#col3 li a:hover {
+	background-color: #E4EFFD;
+	color: #039;
+}
+#sideNav ul {
+	margin: 1px 10px 20px 20px;
+	padding: 0;
+	list-style-type: none;
+	background-color: #FFF;
+	border: 1px solid #CCC;
+}
+#sideNav ul li {
+	list-style-type: none;
+	margin: 0;
+	border-bottom: 1px solid #FFF;
+	padding: 0;
+}
+#sideNav ul li a {
+	padding: 4px 0 4px 10px;
+	margin: 0;
+	display: block;
+	font-size: .9em;
+	font-weight: normal;
+	color: #000;
+	text-decoration: none;
+	background: #FFF url(images/template/dottedborder.gif) repeat-x;
+}
+#sideNav li a:hover {
+	color: #039;
+	background-color: #E4EFFD;
+}
+/* News : Elements
+----------------------------------------------------------
+*/
+div.newsFeature p strong {
+	font-size: 1.1em;
+}
+div.newsFeature p  {
+	margin-bottom: 0;
+	font-size: .9em;
+}
+div.newsFeature p span {
+	color: #666;
+	display: block;
+	margin-bottom: 0;
+}
+
+div.newsFeature a {
+	margin: 0 0 15px 0;
+	display: block;
+}
+div.newsFeature h2 {
+	font-size: .9em;
+}
+
+/* People : Elements
+----------------------------------------------------------
+*/
+#people {
+	float: left;
+	text-align: left;
+	margin-right: 20px;
+}
+#people ul {
+	list-style-type: none;
+	margin: 10px 0;
+	text-indent: 0;
+	padding: 0;
+}
+#people h1 {
+	margin-bottom: 50px;
+}
+#people h2 {
+	margin-top: 30px;
+	padding-bottom: 5px;
+	clear: right;
+}
+#people li {
+	padding: 0;
+	margin: 0 20px 15px 15px;
+	padding: 1px 0;
+	list-style-image: none;
+	background: transparent url(./images/people/dotted_border.gif) repeat-x bottom;
+}
+#people li.empty {
+	background-image: none;
+	height: 10px;
+}
+#people li img {
+	margin: 0 -10px -10px 0;
+	border-width: 0;
+	float: right;
+	height: 30px;
+}
+#people select, #team select {
+	float: right;
+}
+
+/* People : Styles
+----------------------------------------------------------
+*/
+span.uk {
+	padding: 0 30px 0 0;
+	background: transparent url(./images/people/uk_bullet.gif) no-repeat top right;
+}
+
+/* People : Team Pages : Elements
+----------------------------------------------------------
+*/
+#team {
+	float: left;
+	text-align: left;
+	margin-right: 20px;
+}
+#team img {
+	float: right;
+	margin: -69px 0 10px 10px;
+	padding: 5px;
+	border: 1px solid #69C;
+	background: #FFF;
+}
+#team h2 {
+	font-size: 1em;
+	margin-bottom: 0;
+	margin-top: 1.8em;
+	margin-right: 30px;
+	border-bottom: 1px solid #69C;
+	background: transparent url(./images/people/dottop_30x30.gif) no-repeat bottom right;
+	padding-bottom: 5px;
+	clear: right;
+}
+#team p.info {
+	color: #69C;
+	font-weight: bold;
+	margin-top: 0;
+	margin-right: 30px;
+	line-height: 2em;
+	background: transparent url(./images/people/dotbottom_30x30.gif) no-repeat top right;
+}
+
+.journalicon {
+	float: left;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 10px;
+}
+
+span.journalicon {
+	height: 120px;
+}
+
+.footnote {
+     font-family: Verdana, Arial, Helvetica, sans-serif;  /* need to repeat for NAV4 */
+     background-color: transparent;
+     font-size: 8pt; 
+     font-weight: normal;
+     color: #333333;
+     margin-right: 10px;
+     margin-left: 15px;
+}
+/* Donate : Elements
+----------------------------------------------------------
+*/
+table#donate, table#donate table {
+	padding: 0;
+	margin: 0;
+}
+table#donate td {
+	padding: 5px;
+	border-width: 0;
+}
+table#donate fieldset {
+	border-width: 0;
+}
+table#donate input.submit{
+	border: 2px solid #039;
+	background-color: #FFF;
+	font-weight: bold;
+	color: #039;
+	margin: 0 10px;
+}
+/* Search : Elements
+----------------------------------------------------------
+*/
+fieldset#search {
+	background-color: #E6F0FB;
+	border: 1px solid #36C;
+	padding: 30px;
+}
+fieldset#search legend {
+	background-color: #FFF;
+	padding: 2px 4px;
+	border: 1px solid #36C;
+	font-weight: bold;
+	color: #36C;
+}
+fieldset#search div {
+	display: block;
+	margin: 30px 0;
+}
+fieldset#search span.button input {
+	border: 2px solid #039;
+	background-color: #FFF;
+	font-weight: bold;
+	color: #039;
+	margin: 0 10px;
+}
+#results strong {
+	font-weight: bold;
+	font-size: .8em;
+}
+#results blockquote {
+	margin: 5px 10px 10px 10px;
+	font-size: .9em;
+	font-style: normal;
+}
+
+input.submit {
+        border: 2px solid #039;
+        background-color: #FFF;
+        font-weight: bold;
+        color: #039;
+        margin: 0 10px;
+}
+
+p.small {
+	font-size: smaller;
+}
+
+/** media block styles **/
+#mediaSet {margin-left: 10px;}
+#mediaPick {margin-bottom: 30px;}
+#mediaList {line-height: .3em;}
+
+/** media block text **/
+#mediaSet h2 {font-size: 1.2em; color: #f60;}
+#mediaSet p {line-height: 1.3em;}
+#mediaPick h3 {font-size: 1em; color: #039;}
+#mediaPick h4 {font-size: 1em; color: #f60;}
+
+
+/** media block links **/
+#mediaSet a:hover{color: #f60;}
+
+/** media block list **/
+#mediaSet li {line-height: 1.1em;}
+
+
+
+/* Pubilsh in PLoS Styles
+---------------------------------------------------------------------------
+*/
+#publish { 
+margin: 10px; 
+} 
+
+#publish hr { 
+width: 772px; 
+position: center; 
+} 
+
+#publish p { font-size: .75em; 
+line-height: 1.6em;
+margin: 5px 5px 15px 5px; }
+
+#publish a { 
+font-family: arial, sans-serif; 
+
+} 
+
+#publish img { border: 0; 
+margin: 0px 10px 10px 5px;  } 
+
+img.square {
+float: left; 
+margin: 0px 5px 5px 5px; 
+}
+
+#publish h1 { 
+text-align: center; 
+font-family: Georgia,"Times New Roman",Times,serif;
+/*letter-spacing: -0.05em;*/
+color: #000; 
+font-weight: normal; 
+/*font-size: 20px; */
+font-size: 1.25em; 
+
+} 
+
+
+
+#publish h4 { 
+color: #000; 
+font-weight: normal; 
+/*font-size: 14px;*/
+font-size: 1em ; 
+margin: 0px 5px 15px 5px; 
+line-height: 1.4em; 
+}
+
+
+#publish h3 { 
+color: #000; 
+/*font-size: 12px;*/
+font-size:  .75em; 
+font-weight: bold; 
+margin: 5px; 
+} 
+
+#publish h3 a{
+font-size: 1em; 
+font-weight: bold; 
+}
+
+
+#oa { 
+background: url(images/publish/publish_oa.jpg); 
+height: 60px;
+margin: 10px 4px; 
+width: 772px;  
+padding: 5px 0px; 
+}
+ 
+
+#oa p {
+margin: 4px 4px; 
+font-size: 12px;
+
+
+}
+
+#oa a{ 
+
+/* font-size: 16px; */
+font-size: 1.2em; 
+font-weight: bold; 
+} 
+
+#publishOne { 
+background: #e9f1fa; 
+width: 370px; 
+padding-bottom: 1px; 
+margin-left: 4px; 
+} 
+
+#publishOne p { 
+margin: 5px 10px 10px 10px; 
+} 
+
+
+#publishOne img { margin: 0} 
+
+#publishOne img.square {margin: 0px 10px 10px 10px;} 
+
+.journalBlock { 
+margin: 0 0 40px 0;
+}
+
+#container2 {
+min-height: 12em; 
+width: 780px; 
+margin: 0px 0px; 
+}
+
+#container3 {
+width: 780px; 
+height: 600px; 
+
+background-image: url(/images/publish/publish_center.jpg); 
+background-position: center top; 
+background-repeat: no-repeat; 
+
+}
+
+.left2 { 
+width: 380px;
+height: 200px;  
+
+float: left; 
+} 
+
+.right2 { 
+width: 380px; 
+float: right; 
+margin-right: -3px; 
+}
+
+.left3 { 
+width: 254px; 
+float: left; 
+margin: 0px ; 
+
+} 
+
+/*.center3 { 
+width: 263px; 
+float: left; 
+
+} */
+
+.right3 { 
+width: 254px; 
+float: right; 
+margin-right: -6px ; 
+
+}
+
+html > body .right3 { 
+margin-right: 0;
+}
+
+#journal_columns { 
+width: 780px; 
+height:1300px; 
+background-image:url(/images/publish/vert_score.gif); 
+background-position:center ; 
+background-repeat:repeat-y;
+} 

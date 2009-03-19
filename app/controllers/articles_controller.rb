@@ -15,7 +15,7 @@ class ArticlesController < ApplicationController
       format.csv do
         load_articles
         if params[:source]
-          @source = Source.find_by_type(params[:source])
+          @source = Source.find_by_name(params[:source])
           render :action => "index_for_source"
         else
           render :csv => @articles
@@ -138,7 +138,7 @@ protected
     end
     if params[:source]
       sources = params[:source].downcase.split(",")
-      result[:conditions] = ['lower(sources.type) in (?)', sources]
+      result[:conditions] = ['lower(sources.name) in (?)', sources]
     end
     result
   end

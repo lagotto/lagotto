@@ -12,8 +12,8 @@
   <input type="hidden" name="source[class]" value="<%= source.class.name %>"/>
 
   <p>
-    <%= f.label :name %><br />
-    <h2><%= h source.type %></h2>
+    <%= f.label :label %><br />
+    <%= f.text_field :name, :size => 50 %>
   </p>
   <p>
     <%= f.check_box :active %>

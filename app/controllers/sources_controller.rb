@@ -9,7 +9,7 @@ class SourcesController < ApplicationController
   # GET /sources.xml
   def index
     @sources = (Source.all + Source.unconfigured_source_names).sort_by do |s|
-      s.is_a?(Source) ? s.class.name : s
+      s.is_a?(Source) ? s.name : s
     end
 
     respond_to do |format|

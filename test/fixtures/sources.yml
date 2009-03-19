@@ -5,6 +5,7 @@
 
 crossref:
   type: CrossRef
+  name: CrossRef
   username: user
   password: pass
   staleness: <%= 1.year.to_i %>
@@ -12,6 +13,7 @@ crossref:
 
 connotea:
   type: Connotea
+  name: Connotea
   username: user
   password: pass
   staleness: <%= 1.year.to_i %>

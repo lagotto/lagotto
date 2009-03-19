@@ -17,7 +17,7 @@
         details = [ retrieval.total_citations_count ]
         details << retrieval.local_id if retrieval.local_id and logged_in?
         -%>
-        <%= link_to_unless public_url.nil?, retrieval.source.class.name, public_url %> 
+        <%= link_to_unless public_url.nil?, retrieval.source.name, public_url, :target => "_blank" %> 
         (<%= details.join(', ') %>)<% unless retrieval.citations.empty? %>:<ul>
         <% retrieval.citations.each do |citation| %>
           <li><%= link_to h(citation.details.inspect), citation.uri %></li>
