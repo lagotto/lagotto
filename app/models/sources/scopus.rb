@@ -3,6 +3,7 @@ require 'soap/rpc/element'
 require 'soap/header/simplehandler'
 $: << File.join(Rails.root, 'app', 'models', 'sources', 'scopus')
 require 'AbstractsMetadataServiceDriver.rb'
+require 'digest/md5'
 
 def fix_scopus_wsdl
   # The generated WSDL code has problems: fix them.
@@ -22,6 +23,8 @@ fix_scopus_wsdl
 
 class Scopus < Source
   def uses_username; true; end
+  def uses_live_mode; true; end
+  def uses_salt; true; end
 
   def query(article, options={})
     url = "http://cdc315-services.elsevier.com/EWSXAbstractsMetadataWebSvc/XAbstractsMetadataServiceV7/WEB-INF/wsdl/absmet_service_v7.wsdl"
@@ -36,6 +39,14 @@ class Scopus < Source
     countList = result.getCitedByCountRspPayload.citedByCountList
     return 0 if countList.nil? # we get no entry if this DOI wasn't found.
     countList[0].linkData[0].citedByCount.to_i
+  end
+
+  def public_url(retrieval)
+    query_string = "doi=" + CGI.escape(retrieval.article.doi) \
+      + "&rel=R3.0.0&partnerID=OIVxnoIl"
+    digest = Digest::MD5.hexdigest(query_string + salt)
+    "http://www.scopus.com/scopus/inward/citedby.url?" \
+      + query_string + "&md5=" + digest
   end
 
 protected

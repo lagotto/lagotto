@@ -21,6 +21,20 @@
 </p>
 <% end %>
 
+<% if @source.uses_salt %>
+<p>
+  <b>Public URL salt:</b>
+  '<%= ("●" * @source.salt.to_s.size) %>'
+</p>
+<% end %>
+
+<% if @source.uses_live_mode %>
+<p>
+  <b>Live mode?</b>
+  <%= @source.live_mode == true ? "yes" : "no" %>
+</p>
+<% end %>
+
 <p>
   <b>Staleness:</b>
   <%=h @source.staleness_days %>

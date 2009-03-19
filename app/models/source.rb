@@ -4,6 +4,7 @@ class Source < ActiveRecord::Base
   validates_presence_of :url, :if => :uses_url
   validates_presence_of :username, :if => :uses_username
   validates_presence_of :password, :if => :uses_password
+  validates_presence_of :salt, :if => :uses_salt
 
   validates_numericality_of :staleness_days,
     :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 366
@@ -69,4 +70,6 @@ class Source < ActiveRecord::Base
   def uses_url; false; end
   def uses_username; false; end
   def uses_password; false; end
+  def uses_live_mode; false; end
+  def uses_salt; false; end
 end
