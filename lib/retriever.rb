@@ -10,7 +10,7 @@ class Retriever
   end
 
   def update(article)
-    if lazy and article.published_on and Date.today <= article.published_on
+    if lazy and article.published_on and Date.today < article.published_on
       puts "Skipping: not published yet" if verbose
       return
     end
