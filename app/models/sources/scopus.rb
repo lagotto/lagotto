@@ -1,25 +1,31 @@
+require 'digest/md5'
 require 'soap/wsdlDriver'
 require 'soap/rpc/element'
 require 'soap/header/simplehandler'
-$: << File.join(Rails.root, 'app', 'models', 'sources', 'scopus')
-require 'AbstractsMetadataServiceDriver.rb'
-require 'digest/md5'
+scopus_dir = File.join(Rails.root, 'app', 'models', 'sources', 'scopus')
+if File.exist?(File.join(scopus_dir, "AbstractsMetadataServiceDriver.rb"))
+  # Avoid doing this stuff if we haven't installed the generated WSDL code yet
+  # (this file is 'require'd to get the URLs when generating the WSDL code).
 
-def fix_scopus_wsdl
-  # The generated WSDL code has problems: fix them.
-  # - it's set up to discard results, instead of returning them
-  # - it wants an EASIReq object as a parameter, instead of putting it
-  #   in the SOAP header as required by the service (we'll insert it in
-  #   the header manually below).
-  methods = AbstractsMetadataServicePortType_V7::Methods
-  if methods[0][3][:response_use] != :literal
-    methods.each do |method| 
-      method[3][:response_use] = :literal
-      method[2].delete_if {|arg| arg[0..1] == ["in", "EASIReq"] }
+  $: << scopus_dir
+  require 'AbstractsMetadataServiceDriver'
+
+  def fix_scopus_wsdl
+    # The generated WSDL code has problems: fix them.
+    # - it's set up to discard results, instead of returning them
+    # - it wants an EASIReq object as a parameter, instead of putting it
+    #   in the SOAP header as required by the service (we'll insert it in
+    #   the header manually below).
+    methods = AbstractsMetadataServicePortType_V7::Methods
+    if methods[0][3][:response_use] != :literal
+      methods.each do |method| 
+        method[3][:response_use] = :literal
+        method[2].delete_if {|arg| arg[0..1] == ["in", "EASIReq"] }
+      end
     end
   end
+  fix_scopus_wsdl
 end
-fix_scopus_wsdl
 
 class Scopus < Source
   def uses_username; true; end
@@ -27,9 +33,8 @@ class Scopus < Source
   def uses_salt; true; end
 
   def query(article, options={})
-    url = "http://cdc315-services.elsevier.com/EWSXAbstractsMetadataWebSvc/XAbstractsMetadataServiceV7/WEB-INF/wsdl/absmet_service_v7.wsdl"
-
-    driver = get_soap_driver(username, options[:verbose])
+    url = Scopus::query_url(live_mode)
+    driver = get_soap_driver(username, url, options[:verbose])
     result = driver.getCitedByCount(build_payload(article.doi))
     return -1 unless result.status.statusCode == "OK"
 
@@ -49,10 +54,17 @@ class Scopus < Source
       + query_string + "&md5=" + digest
   end
 
-protected
+  def self.query_url(live_mode)
+    "http://#{"cdc315-" unless live_mode}services.elsevier.com/EWSXAbstractsMetadataWebSvc/XAbstractsMetadataServiceV7"
+  end
+
+  def self.wsdl_url(live_mode)
+    query_url(live_mode) + "/WEB-INF/wsdl/absmet_service_v7.wsdl"
+  end
   
-  def get_soap_driver(username, verbose)
-    driver = AbstractsMetadataServicePortType_V7.new
+protected
+  def get_soap_driver(username, url, verbose)
+    driver = AbstractsMetadataServicePortType_V7.new(url)
     driver.wiredump_dev = STDOUT if verbose && verbose > 1
     driver.headerhandler << ScopusSoapHeader.new(username)
     driver
