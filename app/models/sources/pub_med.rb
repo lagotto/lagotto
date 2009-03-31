@@ -47,7 +47,7 @@ class PubMed < Source
       id_element and id_element.content.strip
     end
     puts "PM_from_DOI got #{result.inspect} for #{doi.inspect}" \
-      if result and options[:verbose]
+      if result and options[:verbose] > 3
     result
   end
 
@@ -59,7 +59,7 @@ class PubMed < Source
       id_element and id_element.content.strip
     end
     puts "PMC_from_PM got #{result.inspect} for #{pubmed.inspect}" \
-      if result and options[:verbose]
+      if result and options[:verbose] > 3
     result
   end
 

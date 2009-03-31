@@ -38,9 +38,6 @@ class Scopus < Source
     result = driver.getCitedByCount(build_payload(article.doi))
     return -1 unless result.status.statusCode == "OK"
 
-    #list = result.getCitedByCountRspPayload.citedByCountList
-    #list.each {|r| puts "#{r.inputKey.doi} => #{r.linkData[0].citedByCount} citations"}
-
     countList = result.getCitedByCountRspPayload.citedByCountList
     return 0 if countList.nil? # we get no entry if this DOI wasn't found.
     countList[0].linkData[0].citedByCount.to_i

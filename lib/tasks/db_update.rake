@@ -6,11 +6,18 @@ namespace :db do
     desc "Update stale articles"
     task :stale => :environment do
       limit = (ENV["LIMIT"] || 0).to_i
-      stale_threshold = Date.today - Source.maximum_staleness
-      articles = ENV["LAZY"] == "0" \
-        ? Article.limit(limit) \
-        : Article.not_refreshed_since(stale_threshold).limit(limit)
-      puts "Updating #{articles.size} stale articles"
+      articles = if ENV["DOI"]
+        doi = ENV["DOI"]
+        ENV["LAZY"] ||= "0"
+        article = Article.find_by_doi(doi) or abort("Article not found: #{doi}")
+        [article]
+      elsif ENV["LAZY"] == "0"
+        Article.limit(limit)
+      else
+        stale_threshold = Date.today - Source.maximum_staleness
+        Article.not_refreshed_since(stale_threshold).limit(limit)
+      end
+
       update_articles(articles)
     end
 
@@ -19,7 +26,6 @@ namespace :db do
       ENV["LAZY"] = "0"
       limit = (ENV["LIMIT"] || 0).to_i
       articles = Article.limit(limit)
-      puts "Updating #{articles.size} articles"
       update_articles(articles)
     end
 
@@ -27,8 +33,7 @@ namespace :db do
     task :cited => :environment do
       limit = (ENV["LIMIT"] || 0).to_i
       articles = Article.cited.limit(limit)
-      puts "Updating #{articles.size} cited articles"
-      update_articles(articles)
+      update_articles(articles, "cited")
     end
 
     desc "Update one specified article"
@@ -47,9 +52,12 @@ namespace :db do
       puts "#{article_count} stale articles found"
     end
 
-    def update_articles(articles)
-      verbose = ENV.fetch("VERBOSE", "0").to_i
+    def update_articles(articles, adjective=nil)
       lazy = ENV.fetch("LAZY", "1") == "1"
+      puts ["Updating", articles.size.to_s, 
+            lazy ? "stale" : nil, adjective,
+            articles.size == 1 ? "article" : "articles"].compact.join(" ")
+      verbose = ENV.fetch("VERBOSE", "0").to_i
       retriever = Retriever.new(:lazy => lazy,
         :only_source => ENV["SOURCE"], :verbose => verbose,
         :raise_on_error => ENV["RAISE_ON_ERROR"])
