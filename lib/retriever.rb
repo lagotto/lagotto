@@ -37,8 +37,8 @@ class Retriever
       end
     end
     unless (only_source or failed)
-      puts "Refreshing article #{article.inspect}" if verbose > 0
       article.refreshed!.save!
+      puts "Refreshed article #{article.doi}"
     else
       puts "NOT refreshing article #{article.inspect}: failed=#{failed.inspect}" if verbose > 0
     end
