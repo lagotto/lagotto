@@ -1,9 +1,19 @@
 <div>
   <h2><%=h @article.doi %><%=h ": \"#{@article.title}\"" unless @article.title.blank? %></h2>
 
-  <div><%= "published #{@article.published_on.to_datetime.to_s(:friendly_date)}, " if @article.published_on %><%= pluralize(@article.citations_count, "citation") %>, 
-      <%= (@article.retrieved_at.year < 2000) ? "never updated" : 
-          "updated #{@article.retrieved_at.to_s(:friendly)}" %></div>
+  <%
+    details = []
+    details << "volume #{@article.volume}" if @article.volume
+    details << "issue #{@article.issue}" if @article.issue
+    details << \
+      "published #{@article.published_on.to_datetime.to_s(:friendly_date)}" \
+      if @article.published_on
+    details << pluralize(@article.citations_count, "citation")
+    details << (@article.retrieved_at.year < 2000) ? "never updated" : \
+      "updated #{@article.retrieved_at.to_s(:friendly)}"
+  %>
+  <div><%= details.join(", ") %></div>
+
   <% if logged_in? %>
   <%= content_tag(:div, "PubMed ID = '#{@article.pub_med}'") if @article.pub_med %>
   <%= content_tag(:div, "PubMedCentral ID = '#{@article.pub_med_central}'") if @article.pub_med_central %>
