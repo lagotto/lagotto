@@ -31,7 +31,7 @@ class RetrievalTest < ActiveSupport::TestCase
           h
       end
     ]
-    verbose = nil # or 1 if you're trying to debug why this test is failing
+    verbose = 0 # or 1 if you're trying to debug why this test is failing
     retriever_options = { :verbose => verbose } if verbose
     source.expects(:query).with(article, 
                                 has_entries(:verbose => verbose,

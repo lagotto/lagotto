@@ -38,8 +38,10 @@ class ArticlesController < ApplicationController
     format_options[:history] = params[:history]
     format_options[:source] = params[:source]
 
-    RetrievalWorker.async_retrieval(:article_id => @article.id) \
-      if (params[:refresh] == "soon") or @article.stale?
+    if (params[:refresh] == "soon") or @article.stale?
+      RetrievalWorker.async_retrieval(:article_id => @article.id,
+                                      :lazy => true)
+    end
     
     respond_to do |format|
       format.html # show.html.erb
