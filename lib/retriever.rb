@@ -23,7 +23,7 @@ class Retriever
         return
       end
     elsif sources.empty?
-      puts("No active sources to update from")
+      puts("No active sources to update from") if verbose != -1
       return
     end
 
@@ -38,7 +38,7 @@ class Retriever
     end
     unless (only_source or failed)
       article.refreshed!.save!
-      puts "Refreshed article #{article.doi}"
+      puts "Refreshed article #{article.doi}" if verbose != -1
     else
       puts "NOT refreshing article #{article.inspect}: failed=#{failed.inspect}" if verbose > 0
     end
