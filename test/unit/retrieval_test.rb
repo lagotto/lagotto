@@ -6,7 +6,7 @@ class RetrievalTest < ActiveSupport::TestCase
     today = Date.new(2000,1,1)
     article = Article.new(:doi => "10.0/unpublished", 
                           :published_on => today)
-    retriever = Retriever.new(:lazy => true, :verbose => -1)
+    retriever = Retriever.new(:lazy => true)
 
     # First time we'll call it on the publication date - it should skip out.
     Date.stubs(:today).returns(today)
@@ -31,7 +31,7 @@ class RetrievalTest < ActiveSupport::TestCase
           h
       end
     ]
-    verbose = -1 # or 1 if you're trying to debug why this test is failing
+    verbose = nil # or 1 if you're trying to debug why this test is failing
     retriever_options = { :verbose => verbose } if verbose
     source.expects(:query).with(article, 
                                 has_entries(:verbose => verbose,

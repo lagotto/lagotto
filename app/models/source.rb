@@ -68,8 +68,13 @@ class Source < ActiveRecord::Base
   # Subclasses should override these to cause fields to appear in UI, and
   # enable their validations
   def uses_url; false; end
+  def uses_search_url; false end
   def uses_username; false; end
   def uses_password; false; end
   def uses_live_mode; false; end
   def uses_salt; false; end
+  
+  #When saving citations we don't overwrite old records
+  #Set this to true and old records will be replaced
+  def force_save; false; end
 end

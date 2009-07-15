@@ -1,16 +1,17 @@
 
 class Retriever
-  attr_accessor :lazy, :only_source, :verbose, :raise_on_error
+  attr_accessor :lazy, :only_source, :verbose, :raise_on_error, :forceNow
 
   def initialize(options={})
     @lazy = options[:lazy]
     @verbose = options[:verbose] || 0
     @only_source = options[:only_source]
+    @forceNow = options[:forceNow]
     @raise_on_error = options[:raise_on_error]
   end
 
   def update(article)
-    if article.published_on and article.published_on >= Date.today
+    if lazy and article.published_on and article.published_on >= Date.today
       puts "Skipping: not published yet" if verbose > 0
       return
     end
@@ -23,7 +24,7 @@ class Retriever
         return
       end
     elsif sources.empty?
-      puts("No active sources to update from") if verbose != -1
+      puts("No active sources to update from")
       return
     end
 
@@ -32,13 +33,19 @@ class Retriever
       puts("Considering #{source.inspect}") if verbose > 1
       retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
       puts "Retrieval is#{" (new)" if retrieval.new_record?} #{retrieval.inspect} (lazy=#{lazy.inspect}, stale?=#{retrieval.stale?.inspect})" if verbose > 1
-      if (not lazy) or retrieval.stale?
-        failed ||= update_one(retrieval, source, article)
+      
+      if (not lazy) or retrieval.stale? or forceNow
+        #If one fails, make note, but then keep going.
+        tmpfailed = update_one(retrieval, source, article)
+        
+        if(tmpfailed)
+          failed = tmpfailed
+        end
       end
     end
     unless (only_source or failed)
       article.refreshed!.save!
-      puts "Refreshed article #{article.doi}" if verbose != -1
+      puts "Refreshed article #{article.doi}"
     else
       puts "NOT refreshing article #{article.inspect}: failed=#{failed.inspect}" if verbose > 0
     end
@@ -70,7 +77,8 @@ class Retriever
         end
     
         raw_citations.each do |uri, raw_citation|
-          if existing.delete(uri).nil?
+          #if force save is true, don't bother deleting existing
+          if source.force_save or existing.delete(uri).nil?
             begin
               citation = retrieval.citations.create(:uri => uri,
                 :details => symbolize_keys_deeply(raw_citation))
@@ -118,3 +126,4 @@ class Retriever
     $!.backtrace.map {|line| puts "   #{line.sub(RAILS_ROOT, '')}" }
   end
 end
+

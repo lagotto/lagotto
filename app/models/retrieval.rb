@@ -18,7 +18,7 @@ class Retrieval < ActiveRecord::Base
   def to_included_json(options = {})
     result = {
       :source => source.name,
-      :updated_at => retrieved_at,
+      :updated_at => retrieved_at.to_i,
       :count => total_citations_count
     }
     result[:citations] = citations.map(&:to_included_json) \
@@ -28,6 +28,7 @@ class Retrieval < ActiveRecord::Base
     public_url = source.public_url(self)
     result[:public_url] = public_url \
       if public_url
+    result[:search_url] = source.searchURL if source.uses_search_url
     result
   end
 
@@ -42,6 +43,8 @@ class Retrieval < ActiveRecord::Base
     }
     public_url = source.public_url(self)
     attributes[:public_url] = public_url if public_url
+    attributes[:search_url] = source.searchURL if source.uses_search_url
+        
     xml.tag!("source", attributes) do
       nested_options = options.merge!(:dasherize => false,
                                       :skip_instruct => true)

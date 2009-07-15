@@ -11,14 +11,6 @@
     <%= f.text_field :title %>
   </p>
   <p>
-    <%= f.label :volume %><br />
-    <%= f.text_field :volume, :size => 8  %>
-  </p>
-  <p>
-    <%= f.label :issue %><br />
-    <%= f.text_field :issue, :size => 8  %>
-  </p>
-  <p>
     <%= f.label :published_on %><br />
     <%= date_select 'article', 'published_on', :order => [:month, :day, :year] %>
   </p>

@@ -8,15 +8,30 @@ class Citation < ActiveRecord::Base
     options[:indent] ||= 2
     xml = options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
     xml.instruct! unless options[:skip_instruct]
-    # For now, we don't expose details, because details.to_xml
-    # seems problematic...
-    xml.tag!("citation", :uri => uri)
+    
+    xml.tag!("citation", :uri => uri) { 
+      details.keys.each { | key | 
+        detail = details[key];
+
+        if(detail.is_a?(Array))
+            xml.tag!("details") {
+              detail.each { | value |
+                  xml.tag!(key, value)
+              }
+            }
+        else
+          xml.tag!(key, detail)
+        end
+      }
+    }
   end
 
   def to_included_json
-    {
-      :uri => uri,
-      :details => details,
-    }
+    { :citation => details }
   end
 end
+
+
+
+
+

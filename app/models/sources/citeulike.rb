@@ -1,5 +1,6 @@
 class Citeulike < Source
   include SourceHelper
+  def uses_search_url; true; end
 
   def query(article, options={})
     url = "http://www.citeulike.org/api/posts/for/doi/#{CGI.escape(article.doi)}"
@@ -30,7 +31,7 @@ class Citeulike < Source
   end
 
   def public_url(retrieval)
-    retrieval.local_id && ("http://www.citeulike.org/article-posts/" \
+    retrieval.local_id && ("http://www.citeulike.org/article/" \
                            + retrieval.local_id)
   end
   

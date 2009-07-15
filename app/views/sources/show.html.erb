@@ -14,6 +14,13 @@
 </p>
 <% end %>
 
+<% if @source.uses_search_url %>
+<p>
+  <b>Search URL:</b>
+  <%=h @source.searchURL %>
+</p>
+<% end %>
+
 <% if @source.uses_password %>
 <p>
   <b>Password:</b>

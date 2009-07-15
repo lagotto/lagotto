@@ -2,6 +2,7 @@ class Bloglines < Source
   include SourceHelper
   def uses_username; true; end
   def uses_password; true; end
+  def uses_search_url; true; end
 
   def query(article, options={})
     raise(ArgumentError, "Bloglines configuration requires username & password") \

@@ -59,8 +59,10 @@ class Article < ActiveRecord::Base
                                            :skip_instruct => true)
         retrievals.each do |r| 
           r.to_xml(retrieval_options) \
-            if (sources.empty? or sources.include?(r.source.name.downcase)) \
-               and (r.total_citations_count > 0)
+            if (sources.empty? or sources.include?(r.source.name.downcase)) 
+               #If the result set is emtpy, lets not return any information about the source at all
+               #\
+               #and (r.total_citations_count > 0)
         end
       end
     end
@@ -80,16 +82,18 @@ class Article < ActiveRecord::Base
         :pub_med => pub_med,
         :pub_med_central => pub_med_central,
         :citations_count => citations_count,
-        :published => published_on,
-        :updated_at => retrieved_at
+        :published => published_on.to_time.to_i,
+        :updated_at => retrieved_at.to_i
       }
     }
     sources = (options.delete(:source) || '').downcase.split(',')
     if options[:citations] or options[:history]
-      result[:article][:sources] = retrievals.map do |r|
+      result[:article][:source] = retrievals.map do |r|
         r.to_included_json(options) \
-          if (sources.empty? or sources.include?(r.source.name.downcase)) \
-             and (r.total_citations_count > 0)
+          if (sources.empty? or sources.include?(r.source.name.downcase)) 
+             #If the result set is emtpy, lets not return any information about the source at all
+             #\
+             #and (r.total_citations_count > 0)
       end.compact
     end
     result.to_json(options)

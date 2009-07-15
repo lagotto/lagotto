@@ -26,6 +26,13 @@
       <%= f.text_field :url, :size => 90 %>
     </p>
   <% end %>
+  
+  <% if source.uses_search_url %>
+    <p>
+      <%= f.label :searchURL, "Search URL" %><br />
+      <%= f.text_field :searchURL, :size => 90 %>
+    </p>
+  <% end %>
 
   <% if source.uses_username %>
     <p>

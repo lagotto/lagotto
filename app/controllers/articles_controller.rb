@@ -29,7 +29,7 @@ class ArticlesController < ApplicationController
   def show
     if params[:refresh] == "now"
       load_article
-      Retriever.update(@article)
+      Retriever.new(:lazy => false, :forceNow => true, :only_source => false).update(@article)      
       redirect_to(@article) and return
     end
     load_article(eager_includes)
@@ -38,10 +38,8 @@ class ArticlesController < ApplicationController
     format_options[:history] = params[:history]
     format_options[:source] = params[:source]
 
-    if (params[:refresh] == "soon") or @article.stale?
-      RetrievalWorker.async_retrieval(:article_id => @article.id,
-                                      :lazy => true)
-    end
+    RetrievalWorker.async_retrieval(:article_id => @article.id) \
+      if (params[:refresh] == "soon") or @article.stale?
     
     respond_to do |format|
       format.html # show.html.erb
