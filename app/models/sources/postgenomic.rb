@@ -1,5 +1,6 @@
 class Postgenomic < Source
   include SourceHelper
+  def uses_search_url; true; end
 
   def query(article, options={})
     url = "http://www.postgenomic.com/api.php?type=post&format=json&citing_doi=" 
