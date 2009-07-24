@@ -12,9 +12,9 @@ class Counter < Source
     #The Drupal API expexts the article DOI in an alternate format
     #here I do some processing on it
     #Start:10.1371/journal.pone.0003431
-    #end:10.1371/pone.3431
+    #end:10.1371/pone.0003431
     doiParts = article.doi.split(/\.|\//)
-    doi = "#{doiParts[3]}.#{doiParts[4].to_i}"
+    doi = "#{doiParts[3]}.#{doiParts[4]}"
 
      furl = "#{url}#{CGI.escape(doi)}"
      
