@@ -43,7 +43,10 @@ class ArticlesController < ApplicationController
     
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @article.to_xml(format_options) }
+      format.xml  {
+        response.headers['Content-Disposition'] = 'attachment; filename=' + params[:id].sub(/^info:/,'') + '.xml'
+        render :xml => @article.to_xml(format_options)
+      }
       format.json  { render_json @article.to_json(format_options) }
     end
   end
