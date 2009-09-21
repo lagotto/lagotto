@@ -3,7 +3,7 @@ The Rake Tasks
 As I said, I've written several rake tasks in the course of development: they're all in lib/tasks/*.rake where they'll be found automatically:
 
 in db_update.rake:
-  rake db:update [SOURCE=name] [LIMIT=n] [LAZY=0] [VERBOSE=1] [RAISE_ON_ERROR=1]
+  rake db:update [SOURCE=name] [LIMIT=0] [LAZY=1] [VERBOSE=0] [RAISE_ON_ERROR=0]
     Update articles from sources. Options:
     LIMIT=n -- if specified and non-zero, will only update this many articles (the default, 0, means "do all")
     LAZY=0 -- if specified, will update non-stale sources

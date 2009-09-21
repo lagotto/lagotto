@@ -307,6 +307,8 @@ sudo /etc/init.d/starling start
 sudo /etc/init.d/workling start
 sudo /etc/init.d/httpd start
 
+# Delete old logs from /opt/alm/old-version/log
+
 # ------------------------------------------------------------------------------
 # Also...
 # ------------------------------------------------------------------------------
