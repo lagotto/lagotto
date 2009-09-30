@@ -23,7 +23,7 @@ As part of the install, I set up a personal account 'stearns', which I used for 
 su root
 
 # Install the old version of ruby, and a number of other dependencies
-yum install -y ruby openssh subversion httpd httpd-devel mysql-server openssl-devel zlib-devel gcc-c++ libxml2-devel libtool readline-devel
+yum install gcc-c++ httpd httpd-devel libtool libxml2-devel mysql-server openssh openssl-devel readline-devel ruby subversion zlib-devel
 
 # Make sure MySQL and Apache run at startup
 /sbin/chkconfig mysqld on
@@ -147,7 +147,7 @@ svn co svn+ssh://cvsuser@svn.plos.org/alm/tags/production /opt/alm/r1234
 chown -R apache:apache /opt/alm/r1234
 
 # Mark them as the current version.
-rm -f /opt/alm/current
+rm /opt/alm/current
 ln -s /opt/alm/r1234 /opt/alm/current
 
 # Create the configuration files that aren't in Subversion; we'll keep them in
@@ -156,24 +156,16 @@ mkdir /opt/alm/shared
 
 # Create the database configuration file; fix username
 # & password to match whatever you set up.
-cat >/opt/alm/shared/database.yml <<DATABASEYML
-production:
-  adapter: mysql
-  database: alm_production
-  username: alm
-  password: alm
-  host: localhost
-  socket: /var/lib/mysql/mysql.sock
-DATABASEYML
+cp /opt/alm/current/config/database.yml.example /opt/alm/shared/database.yml
+ln -f /opt/alm/shared/database.yml /opt/alm/current/config/
 
 # Create a file with the key we use to secure REST access; you should edit this
 # string first, and be sure to keep a backup of this file!
 # (the comment refers to a file in the SVN tree.)
-cat >/opt/alm/shared/site_keys.rb <<SITEKEYS
-# See config/initializers/site_keys_example for documentation about this:
+cp /opt/alm/current/config/initializers/site_keys_example /opt/alm/shared/site_keys.rb
+ln -f /opt/alm/shared/site_keys.rb /opt/alm/current/config/initializers/
+
 REST_AUTH_SITE_KEY = 'change this value to a random string at least this long'
-REST_AUTH_DIGEST_STRETCHES = 10
-SITEKEYS
 
 # Finish setting up Starling, the background message queue daemon, and Workling,
 # the handler for background messages; make sure we start them at boot time.
@@ -201,10 +193,9 @@ ln -sf /opt/alm/current/initscripts/workling /etc/init.d/workling
 # Make sure we start starling and workling at boot time
 /sbin/chkconfig starling on
 /sbin/chkconfig workling on
-
-
+/et
 # Add logs to logrotated:
-# /opt/alm/current/logs/{production.log,workling.log,workling.output}
+# /opt/alm/current/log/{production.log,workling.log,workling.output}
 
 
 # ------------------------------------------------------------------------------
