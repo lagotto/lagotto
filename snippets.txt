@@ -18,3 +18,12 @@ articles.each do |a|
   tags += a.title.scan(/\<([^\/]+?)\>/)
 end
 puts "<#{tags.to_a.join(">, <")}>"
+
+//A Ruby snippet for adding a user
+
+./script/console
+
+u = User.create(:login => "...", :name=> "...", :password=>"...", :email=>"...", :password_confirmation=>"...")
+u.save
+
+(if false is returned, type: "u.errors")
