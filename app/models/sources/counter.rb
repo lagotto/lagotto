@@ -72,8 +72,25 @@ class Counter < Source
       citations
     end
   end
+
+  def citations_to_csv(csv, retrieval)
+    
+    csv << [ "uri", "year", "month", "get-document", "get-pdf", "get-xml" ]    
+    
+    retrieval.citations.each do |citation|
+      if(citation.details != nil)
+        uri = citation.details.fetch(:uri)
+        views = citation.details.fetch(:views)
+        
+         views.each { | month |
+          csv << [ uri, month.fetch(:year), month.fetch(:month), month.fetch(:html_views), month.fetch(:pdf_views), month.fetch(:xml_views) ]
+        }
+      end  
+    end
+  end
   
   def public_url_base
     "http://localhost/counter.xml?"
   end
 end
+

@@ -49,6 +49,22 @@ class Source < ActiveRecord::Base
   def staleness_days_before_type_cast
     @staleness_days_before_type_cast || staleness_days
   end
+  
+  #This method generates the CSV values of the values passed in.  
+  #Each source may store the citation details in a slightly
+  #different manner.  If a particular source has details that are highly 
+  #structured, override this method to simplify things a bit
+  def citations_to_csv(csv, retrieval)
+      if retrieval.citations.first
+        csv << retrieval.citations.first.details.keys
+    
+        retrieval.citations.each do |citation|
+          if(citation.details != nil)
+            csv << citation.details.map {| k, v| v }
+          end
+        end
+      end
+  end
 
   def self.maximum_staleness
     SecondsToDuration::convert(Source.maximum(:staleness))

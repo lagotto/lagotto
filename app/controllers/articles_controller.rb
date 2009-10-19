@@ -47,6 +47,7 @@ class ArticlesController < ApplicationController
         response.headers['Content-Disposition'] = 'attachment; filename=' + params[:id].sub(/^info:/,'') + '.xml'
         render :xml => @article.to_xml(format_options)
       }
+      format.csv  { render :csv => @article }
       format.json  { render_json @article.to_json(format_options) }
     end
   end
@@ -112,9 +113,9 @@ class ArticlesController < ApplicationController
 protected
   def detect_response_format
     # Because dots are a valid part of our IDs, we have to manually
-    # break off format specifiers (eg, ".json" or ".xml") here.
+    # break off format specifiers (eg, ".json", ".xml" or ".csv") here.
     id = params[:id]
-    if id and id =~ %r/(.*)\.(json|xml)/i
+    if id and id =~ %r/(.*)\.(json|xml|csv)/i
       params[:id] = $1
       request.format = $2.downcase
     end

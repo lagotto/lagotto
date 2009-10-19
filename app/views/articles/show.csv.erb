@@ -1,0 +1,11 @@
+<%=
+ FasterCSV.generate do |csv|
+    csv << ["article doi", "title", "publish date"]
+    csv << [ @article.doi, @article.title, @article.published_on.to_datetime.to_s(:friendly_date) ]
+ end
+%>
+<%
+  @article.retrievals.each do |retrieval|
+%><%=retrieval.to_csv %><%
+  end 
+%>

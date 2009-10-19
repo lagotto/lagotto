@@ -31,6 +31,21 @@ class Retrieval < ActiveRecord::Base
     result[:search_url] = source.searchURL if source.uses_search_url
     result
   end
+  
+  def to_csv(options = {})
+    csv_string = FasterCSV.generate do |csv|
+    
+      if total_citations_count > 0
+        csv << [ "name", "uri"]
+        csv << [ source.name, source.public_url(self) ]      
+        csv << ""
+        source.citations_to_csv(csv, self)
+        csv << ""
+      end
+    end
+    
+    csv_string
+  end
 
   def to_xml(options = {})
     options[:indent] ||= 2
