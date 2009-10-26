@@ -31,11 +31,20 @@ protected
       if options.empty?
         response = Net::HTTP.get_response(url)
       else
-        request = Net::HTTP::Get.new(url.path)
-        request.basic_auth(options[:username], options[:password]) \
-          if options[:username]
+        sUrl = url.path
+
+        if url.query
+          sUrl= sUrl + "?" + url.query
+        end
+        
+        request = Net::HTTP::Get.new(sUrl)
+        
+        if options[:username] 
+          request.basic_auth(options[:username], options[:password]) 
+        end
+        
         if verbose > 2
-          puts "url: #{url}"
+          puts "url: #{sUrl}"
           request.each_header do |key, value|
             puts "[#{key}] = '#{value}']"
           end
