@@ -35,6 +35,7 @@ protected
         request.basic_auth(options[:username], options[:password]) \
           if options[:username]
         if verbose > 2
+          puts "url: #{url}"
           request.each_header do |key, value|
             puts "[#{key}] = '#{value}']"
           end
@@ -48,8 +49,10 @@ protected
       when Net::HTTPForbidden # CrossRef returns this for "DOI not found"
         ""
       when Net::HTTPSuccess, Net::HTTPRedirection
-        puts "Requested #{uri}#{optsMsg}, got: #{response.body}" if verbose > 1
-        if verbose > 2
+        if verbose > 3
+          puts "Requested #{uri}#{optsMsg}, got: #{response.body}" 
+        end
+        if verbose > 3
           response.each_header do |key, value|
             puts "[#{key}] = '#{value}']"
           end
