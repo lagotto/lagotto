@@ -193,7 +193,7 @@ ln -sf /opt/alm/current/initscripts/workling /etc/init.d/workling
 # Make sure we start starling and workling at boot time
 /sbin/chkconfig starling on
 /sbin/chkconfig workling on
-/et
+
 # Add logs to logrotated:
 # /opt/alm/current/log/{production.log,workling.log,workling.output}
 
