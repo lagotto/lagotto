@@ -8,6 +8,8 @@ task :doi_import => :environment do
   duplicate = []
   created = []
   updated = []
+  sources = Source.all
+  
   while (line = STDIN.gets)
     raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
     doi = DOI::from_uri raw_doi.strip
@@ -24,8 +26,16 @@ task :doi_import => :environment do
     valid.each do |doi, published_on, title| 
       existing = Article.find_by_doi(doi)
       unless existing
-        Article.create(:doi => doi, :published_on => published_on, 
+        article = Article.create(:doi => doi, :published_on => published_on, 
                        :title => title)
+        
+        #Create an empty retrieval record for each active source to avoid a problem with
+        #joined tables breaking the UI on the front end
+        sources.each do |source|
+          retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
+          puts("Retrieval created for #{retrieval.source.name}")
+        end
+                       
         created << doi
       else
         if existing.published_on != published_on or existing.title != title

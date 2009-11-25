@@ -142,11 +142,7 @@ protected
     end
     if params[:source]
       sources = params[:source].downcase.split(",")
-      #The "sources.id = null or" statement is here because if we're querying for an article
-      #that has yet to have a retrieval record, sources will be left null from the left outer join.
-      #and no article record will be returned otherwise.
-      #This may be better off as part of the join statement as apposed to a condition.
-      result[:conditions] = ['lower(sources.name) in (?) or sources.id is null', sources]
+      result[:conditions] = ['lower(sources.name) in (?)', sources]
     end
     result
   end
