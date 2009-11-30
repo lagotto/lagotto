@@ -28,7 +28,7 @@ class Retriever
       return
     end
 
-    failed = false
+    success = true
     sources.each do |source|
       puts("Considering #{source.inspect}") if verbose > 1
       retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
@@ -36,24 +36,25 @@ class Retriever
       
       if (not lazy) or retrieval.stale? or forceNow
         #If one fails, make note, but then keep going.
-        tmpfailed = update_one(retrieval, source, article)
+        result = update_one(retrieval, source, article)
         
-        if(tmpfailed)
-          failed = tmpfailed
+        if(!result)
+          RAILS_DEFAULT_LOGGER.warn "NOT refreshing article #{article.inspect}"
+          success = false
         end
       end
     end
-    unless (only_source or failed)
+    if(success)
       article.refreshed!.save!
       puts "Refreshed article #{article.doi}"
     else
-      puts "NOT refreshing article #{article.inspect}: failed=#{failed.inspect}" if verbose > 0
+      puts "NOT refreshing article #{article.inspect}" if verbose > 0
     end
   end
 
   def update_one(retrieval, source, article)
     puts "Asking #{source.name} about #{article.doi}; last updated #{retrieval.retrieved_at}" if verbose > 1
-    failed = false
+    success = true
     begin
       raw_citations = source.query(article, :retrieval => retrieval,
                                    :verbose => verbose)
@@ -85,7 +86,7 @@ class Retriever
             rescue
               raise if raise_on_error
               log_error("Unable to save #{raw_citation.inspect}")
-              failed = true
+              success = false
             end
           end
         end
@@ -96,21 +97,21 @@ class Retriever
     rescue
       raise if raise_on_error
       log_error("Unable to query")
-      failed = true
+      success = false
     rescue Timeout::Error
       raise if raise_on_error
       log_error("Unable to query (timeout)")
-      failed = true
+      success = false
     end
 
-    unless failed
+    if success
       retrieval.reload
       history = retrieval.histories.find_or_create_by_year_and_month(retrieval.retrieved_at.year, retrieval.retrieved_at.month)
       history.citations_count = retrieval.total_citations_count
       history.save!
       puts "  Saved history[#{history.id}: #{history.year}, #{history.month}] = #{history.citations_count}" if verbose > 1
     end
-    failed
+    success
   end
 
   def symbolize_keys_deeply(h)
