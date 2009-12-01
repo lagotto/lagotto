@@ -31,7 +31,7 @@ class Article < ActiveRecord::Base
   def stale?
     return (new_record? or 
             (retrieved_at < 1.month.ago) or 
-            (retrievals.any? {|r| r.stale? }))
+            (retrievals.active_sources.any? {|r| r.stale? }))
   end
 
   def refreshed!

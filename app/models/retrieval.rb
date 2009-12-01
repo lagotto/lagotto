@@ -7,11 +7,14 @@ class Retrieval < ActiveRecord::Base
   named_scope :most_cited_sample, :limit => 5,
     :order => "(citations_count + other_citations_count) desc"
 
+  named_scope :active_sources, {:conditions => "source_id in (select id from sources where active = 1)" }
+
   def total_citations_count
     citations_count + other_citations_count
   end
 
   def stale?
+    RAILS_DEFAULT_LOGGER.debug "Is this retrieval stale? source.name:#{source.name}, retrieved_at #{retrieved_at}, source.staleness.ago: #{source.staleness.ago}"    
     new_record? or retrieved_at.nil? or (retrieved_at < source.staleness.ago)
   end
 
