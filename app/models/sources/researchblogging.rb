@@ -6,7 +6,7 @@ class Researchblogging < Source
   def uses_url; true; end
   
   def public_url_base
-    "http://www.researchbloggingconnect.com/post-search/list?search_text="
+    "http://researchblogging.org/post-search/list?article="
   end
 
   def query(article, options={})
