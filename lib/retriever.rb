@@ -1,5 +1,5 @@
-
 class Retriever
+  include Log
   attr_accessor :lazy, :only_source, :verbose, :raise_on_error, :forceNow
 
   def initialize(options={})
@@ -12,7 +12,8 @@ class Retriever
 
   def update(article)
     if lazy and article.published_on and article.published_on >= Date.today
-      puts "Skipping: not published yet" if verbose > 0
+      log_info("Skipping: not published yet")
+     
       return
     end
 
@@ -20,47 +21,51 @@ class Retriever
     if only_source
       sources = sources.select {|s| s.name.downcase == only_source.downcase }
       if sources.empty?
-        puts("Source '#{only_source}' not found or not active") if verbose > 0
+        log_info("Source '#{only_source}' not found or not active") 
+        
         return
       end
     elsif sources.empty?
-      puts("No active sources to update from")
+      log_info("No active sources to update from")
       return
     end
 
     success = true
     sources.each do |source|
-      puts("Considering #{source.inspect}") if verbose > 1
+      log_info("Considering #{source.inspect}") 
+      
       retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
-      puts "Retrieval is#{" (new)" if retrieval.new_record?} #{retrieval.inspect} (lazy=#{lazy.inspect}, stale?=#{retrieval.stale?.inspect})" if verbose > 1
+      log_info("Retrieval is#{" (new)" if retrieval.new_record?} #{retrieval.inspect} (lazy=#{lazy.inspect}, stale?=#{retrieval.stale?.inspect})")
       
       if (not lazy) or retrieval.stale? or forceNow
         #If one fails, make note, but then keep going.
         result = update_one(retrieval, source, article)
         
         if(!result)
-          RAILS_DEFAULT_LOGGER.warn "NOT refreshing article #{article.inspect}"
+          log_info("NOT refreshing article #{article.inspect}")
           success = false
         end
       end
     end
     if(success)
       article.refreshed!.save!
-      puts "Refreshed article #{article.doi}"
+      log_info("Refreshed article #{article.doi}")
     else
-      puts "NOT refreshing article #{article.inspect}" if verbose > 0
+      log_info("NOT refreshing article #{article.inspect}")
     end
   end
 
   def update_one(retrieval, source, article)
-    puts "Asking #{source.name} about #{article.doi}; last updated #{retrieval.retrieved_at}" if verbose > 1
+    log_info("Asking #{source.name} about #{article.doi}; last updated #{retrieval.retrieved_at}") 
+    
     success = true
     begin
       raw_citations = source.query(article, :retrieval => retrieval,
                                    :verbose => verbose)
+      #Scopus returns a numeric count
       if raw_citations.is_a? Numeric
-        puts "  Got a count of #{raw_citations.inspect} citations." \
-          if verbose > 1
+        log_info("Got a count of #{raw_citations.inspect} citations.")
+          
         retrieval.other_citations_count = raw_citations
         retrieval.retrieved_at = DateTime.now.utc
       else
@@ -69,27 +74,49 @@ class Retriever
         raw_citations = raw_citations.inject({}) do |h, citation|
           h[citation[:uri]] = citation; h
         end
-        puts "  Got #{raw_citations.size} citation details." if verbose > 1
+        log_info("Got #{raw_citations.size} citation details.")
+        
         dupCount = preunique_count - raw_citations.size
-        puts "    (after filtering out #{dupCount} duplicates!)" \
-          if (verbose > 1) and (dupCount > 0)
+        
+        log_info("(after filtering out #{dupCount} duplicates!)")
+            
+        #Uniquify existing citations
+        log_info("Existing Citation Count: #{retrieval.citations.size}" )
         existing = retrieval.citations.inject({}) do |h, citation|
           h[citation[:uri]] = citation; h
         end
+        log_info("After existing citations uniquified: #{existing.size}")
     
         raw_citations.each do |uri, raw_citation|
-          #if force save is true, don't bother deleting existing
-          if source.force_save or existing.delete(uri).nil?
+          #Loop through all citations, updating old, creating new.
+          #Remove any old ones from the hash.
+          dbCitation = existing.delete(uri)
+          if dbCitation.nil?
             begin
+              log_info("Creating Citation")
               citation = retrieval.citations.create(:uri => uri,
                 :details => symbolize_keys_deeply(raw_citation))
-            rescue
-              raise if raise_on_error
-              log_error("Unable to save #{raw_citation.inspect}")
-              success = false
+              rescue
+                raise if raise_on_error
+                log_error("Unable to Create #{raw_citation.inspect}")
+                success = false
+            end
+          else
+            begin
+              log_info("Updating Citation: " + dbCitation.id.to_s)
+              citation = retrieval.citations.update(dbCitation.id, {:details => symbolize_keys_deeply(raw_citation), :updated_at => DateTime.now })
+              rescue
+                raise if raise_on_error
+                log_error("Unable to Update #{raw_citation.inspect}")
+                success = false
             end
           end
         end
+        
+        #delete any existing database records that are still in the hash
+        #(This will occur if a citation was created, but the later the source
+        #giving us the citation stopped sending it
+        log_info("Deleting remaining Existing Citations: #{existing.size}")
         existing.values.map(&:destroy)
         retrieval.retrieved_at = DateTime.now.utc
       end
@@ -109,7 +136,7 @@ class Retriever
       history = retrieval.histories.find_or_create_by_year_and_month(retrieval.retrieved_at.year, retrieval.retrieved_at.month)
       history.citations_count = retrieval.total_citations_count
       history.save!
-      puts "  Saved history[#{history.id}: #{history.year}, #{history.month}] = #{history.citations_count}" if verbose > 1
+      log_info("Saved history[#{history.id}: #{history.year}, #{history.month}] = #{history.citations_count}")
     end
     success
   end
@@ -120,11 +147,6 @@ class Retriever
       result[k] = symbolize_keys_deeply(v) if v.is_a? Hash
     end
     result
-  end
-
-  def log_error(msg)
-    puts "ERROR: #{msg}: #{$!}"
-    $!.backtrace.map {|line| puts "   #{line.sub(RAILS_ROOT, '')}" }
   end
 end
 
