@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090319062813) do
+ActiveRecord::Schema.define(:version => 20091207225429) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -26,12 +26,13 @@ ActiveRecord::Schema.define(:version => 20090319062813) do
 
   create_table "citations", :force => true do |t|
     t.integer  "retrieval_id"
-    t.string   "uri"
+    t.string   "uri",          :null => false
     t.text     "details"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "citations", ["retrieval_id", "uri"], :name => "index_citations_on_retrieval_id_and_uri", :unique => true
   add_index "citations", ["retrieval_id"], :name => "index_citations_on_retrieval_id"
 
   create_table "histories", :force => true do |t|
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20090319062813) do
     t.string   "local_id"
   end
 
+  add_index "retrievals", ["source_id", "article_id"], :name => "index_retrievals_on_source_id_and_article_id", :unique => true
   add_index "retrievals", ["article_id", "citations_count", "other_citations_count"], :name => "retrievals_article_id"
 
   create_table "sources", :force => true do |t|
@@ -70,6 +72,8 @@ ActiveRecord::Schema.define(:version => 20090319062813) do
     t.string   "name"
     t.boolean  "live_mode",  :default => false
     t.string   "salt"
+    t.string   "searchURL"
+    t.integer  "timeout",    :default => 30,     :null => false
   end
 
   add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true

@@ -60,8 +60,8 @@ class Retriever
     
     success = true
     begin
-      raw_citations = source.query(article, :retrieval => retrieval,
-                                   :verbose => verbose)
+      raw_citations = source.query(article, { :retrieval => retrieval, 
+        :verbose => verbose, :timeout => source.timeout })
       #Scopus returns a numeric count
       if raw_citations.is_a? Numeric
         log_info("Got a count of #{raw_citations.inspect} citations.")

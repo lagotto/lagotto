@@ -61,6 +61,11 @@
       <%= f.label :live_mode %>
     </p>
   <% end %>
+  
+  <p>
+    <%= f.label :timeout, "Time to wait for a response from each source. (seconds)" %><br />
+    <%= f.text_field :timeout, :size => 3 %>
+  </p>  
 
   <p>
     <%= f.label :staleness_days, "Staleness between updates (days)" %><br />

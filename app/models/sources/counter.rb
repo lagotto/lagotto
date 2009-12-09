@@ -2,7 +2,6 @@ class Counter < Source
   include SourceHelper
   attr_accessor :verbose
   
-  def force_save; true; end
   def uses_url; true; end
  
   def query(article, options={})
