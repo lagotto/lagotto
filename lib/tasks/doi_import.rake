@@ -33,8 +33,9 @@ task :doi_import => :environment do
         #joined tables breaking the UI on the front end
         sources.each do |source|
           retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
-          puts("Retrieval created for #{retrieval.source.name}")
         end
+        
+        RetrievalWorker.async_retrieval(:article_id => article.id) 
                        
         created << doi
       else
