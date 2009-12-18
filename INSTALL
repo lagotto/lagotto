@@ -137,6 +137,7 @@ gem install libxml-ruby
 gem install daemons
 gem install soap4r
 gem install starling-starling
+get install SystemTimer
 gem install fastercsv
 
 # Check out the application sources, into a folder with today's date (eg, Jan 15)
