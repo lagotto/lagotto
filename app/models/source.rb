@@ -1,6 +1,7 @@
 class Source < ActiveRecord::Base
   has_many :retrievals, :dependent => :destroy
 
+  validates_presence_of :name
   validates_presence_of :url, :if => :uses_url
   validates_presence_of :username, :if => :uses_username
   validates_presence_of :password, :if => :uses_password

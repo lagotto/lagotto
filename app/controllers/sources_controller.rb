@@ -35,6 +35,7 @@ class SourcesController < ApplicationController
   # GET /sources/new.xml
   def new
     @source = source_class.new
+    @source.name = @source.class.name
 
     respond_to do |format|
       format.html # new.html.erb
