@@ -74,8 +74,10 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(params[:article])
 
+    article = @article.save
+    
     respond_to do |format|
-      if @article.save
+      if article
         flash[:notice] = 'Article was successfully created.'
         format.html { redirect_to(@article) }
         format.xml  { render :xml => @article, :status => :created, :location => @article }
@@ -84,6 +86,11 @@ class ArticlesController < ApplicationController
         format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
       end
     end
+    
+    Source.all.each do |source|
+      retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
+    end    
+    
   end
 
   # PUT /articles/1
