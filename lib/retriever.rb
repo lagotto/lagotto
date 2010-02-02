@@ -30,7 +30,8 @@ class Retriever
       return
     end
 
-    success = true
+    success_count = 0
+    
     sources.each do |source|
       log_info("Considering #{source.inspect}") 
       
@@ -41,17 +42,23 @@ class Retriever
         #If one fails, make note, but then keep going.
         result = update_one(retrieval, source, article)
         
-        if(!result)
-          log_info("NOT refreshing article #{article.inspect}")
-          success = false
+        if(result)
+          success_count = success_count + 1
+          log_info("success_count incremented: #{success_count}")
+        else
+          log_info("Not refreshing article #{article.inspect}")
         end
       end
     end
-    if(success)
+    # If we are updating only one source
+    #     do NOT update the article as refreshed
+    # If all the sources do not update successfully
+    #     do NOT update the article as refreshed
+    if(success_count == sources.size and not only_source)
       article.refreshed!.save!
       log_info("Refreshed article #{article.doi}")
     else
-      log_info("NOT refreshing article #{article.inspect}")
+      log_info("NOT refreshing article #{article.doi} count: #{success_count} only src: #{only_source}")
     end
   end
 

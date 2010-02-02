@@ -40,7 +40,8 @@ class ArticlesController < ApplicationController
 
     if (params[:refresh] == "soon" or @article.stale?)
       RAILS_DEFAULT_LOGGER.info "Queuing article #{@article.id} for retrieval"
-      RetrievalWorker.async_retrieval(:article_id => @article.id) 
+      uid = RetrievalWorker.async_retrieval(:article_id => @article.id) 
+      RAILS_DEFAULT_LOGGER.info "Item created: #{uid}"
     end
     
     respond_to do |format|

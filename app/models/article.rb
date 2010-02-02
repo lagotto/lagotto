@@ -16,8 +16,8 @@ class Article < ActiveRecord::Base
   named_scope :limit, lambda { |limit| (limit > 0) ? {:limit => limit} : {} }
 
   named_scope :not_refreshed_since, lambda { |last_refresh| 
-    { :conditions => ["articles.retrieved_at < ? and articles.published_on <= ?", last_refresh, Date.today ],
-      :order => :retrieved_at }
+  { :conditions => ["exists(select id from retrievals where retrievals.article_id = articles.id and retrievals.retrieved_at < ? and retrievals.source_id in (select id from sources where active = 1)) and articles.published_on <= ?", last_refresh, Date.today ],
+    :order => :retrieved_at }
   }
 
   def to_param
@@ -29,9 +29,7 @@ class Article < ActiveRecord::Base
   end
 
   def stale?
-    return (new_record? or 
-            (retrieved_at < 1.month.ago) or 
-            (retrievals.active_sources.any? {|r| r.stale? }))
+    return (new_record? or (retrievals.active_sources.any? {|r| r.stale? }))
   end
 
   def refreshed!
