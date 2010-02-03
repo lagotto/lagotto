@@ -7,6 +7,8 @@ module Log
   
   def log_info(msg)
     RAILS_DEFAULT_LOGGER.info(getTime() + " - INFO: #{msg}")
+    #output to STDOUT as well
+    puts(msg)
   end
   
   def getTime()
