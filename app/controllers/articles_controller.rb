@@ -29,7 +29,7 @@ class ArticlesController < ApplicationController
   def show
     if params[:refresh] == "now"
       load_article
-      Retriever.new(:lazy => false, :forceNow => true, :only_source => false).update(@article)      
+      Retriever.new(:lazy => false, :only_source => false).update(@article)      
       redirect_to(@article) and return
     end
     load_article(eager_includes)

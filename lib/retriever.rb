@@ -1,12 +1,15 @@
 class Retriever
   include Log
-  attr_accessor :lazy, :only_source, :verbose, :raise_on_error, :forceNow
+  attr_accessor :lazy, :only_source, :verbose, :raise_on_error
 
   def initialize(options={})
+    if options[:lazy] == nil
+      raise(ArgumentError, "Lazy must be specified as true or false")
+    end
+    
     @lazy = options[:lazy]
     @verbose = options[:verbose] || 0
     @only_source = options[:only_source]
-    @forceNow = options[:forceNow]
     @raise_on_error = options[:raise_on_error]
   end
 
@@ -33,21 +36,22 @@ class Retriever
     success_count = 0
     
     sources.each do |source|
-      log_info("Considering #{source.inspect}") 
-      
       retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
       log_info("Retrieval is#{" (new)" if retrieval.new_record?} #{retrieval.inspect} (lazy=#{lazy.inspect}, stale?=#{retrieval.stale?.inspect})")
       
-      if (not lazy) or retrieval.stale? or forceNow
+      if (not lazy) or retrieval.stale?
+        log_info("Refreshing Source: #{source.inspect}") 
         #If one fails, make note, but then keep going.
         result = update_one(retrieval, source, article)
         
         if(result)
           success_count = success_count + 1
-          log_info("success_count incremented: #{success_count}")
+          log_info("result=#{result}, Success_count incremented: #{success_count}")
         else
-          log_info("Not refreshing article #{article.inspect}")
+          log_info("result=#{result}, Not refreshing article #{article.inspect}")
         end
+      else
+        log_info("Not refreshing source #{source.inspect}")
       end
     end
     # If we are updating only one source
