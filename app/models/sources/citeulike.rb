@@ -1,9 +1,14 @@
 class Citeulike < Source
   include SourceHelper
+  include Log
+  
   def uses_search_url; true; end
 
   def query(article, options={})
     url = "http://www.citeulike.org/api/posts/for/doi/#{CGI.escape(article.doi)}"
+    
+    log_info("Citeulike query: #{url}")
+    
     get_xml(url, options) do |document|
       citations = []
       document.find("//posts/post").each do |cite|

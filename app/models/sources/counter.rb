@@ -1,4 +1,5 @@
 class Counter < Source
+  include Log
   include SourceHelper
   attr_accessor :verbose
   
@@ -12,7 +13,7 @@ class Counter < Source
 
     furl = "#{url}#{CGI.escape(doi)}"
      
-    puts(furl)
+    log_info("Counter query: #{furl}")
     
     get_xml(furl, options) do |document|
       views = []
@@ -60,8 +61,6 @@ class Counter < Source
         
         citations << citation
       end
-      
-      puts "Records found: #{views.size} "
       
       citations
     end

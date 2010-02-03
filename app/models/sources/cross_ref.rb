@@ -1,6 +1,8 @@
 
 class CrossRef < Source
   include SourceHelper
+  include Log
+  
   def uses_username; true; end
   def uses_password; true; end
 
@@ -9,6 +11,8 @@ class CrossRef < Source
       if username.blank? or password.blank?
 
     url = "http://doi.crossref.org/servlet/getForwardLinks?usr=" + username + "&pwd=" + password + "&doi="
+    
+    log_info("CrossRef query: #{url}")
 
     get_xml(url + CGI.escape(article.doi), options) do |document|
       document.root.namespaces.default_prefix = "x"

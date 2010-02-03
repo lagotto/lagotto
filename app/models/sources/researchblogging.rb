@@ -1,5 +1,7 @@
 class Researchblogging < Source
   include SourceHelper
+  include Log
+  
   def uses_username; true; end
   def uses_password; true; end
   def uses_search_url; true; end
@@ -14,6 +16,8 @@ class Researchblogging < Source
       if username.blank? or password.blank?
 
     furl = "#{url}?count=100&article=#{CGI.escape(article.doi)}"
+    
+    log_info("Researchblogging query: #{furl}")
     
     if(options[:verbose] > 1) 
       puts furl

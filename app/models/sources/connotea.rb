@@ -1,5 +1,7 @@
 class Connotea < Source
   include SourceHelper
+  include Log
+  
   def uses_username; true; end
   def uses_password; true; end
   def uses_search_url; true; end
@@ -9,6 +11,9 @@ class Connotea < Source
       if username.blank? or password.blank?
 
     url = "http://www.connotea.org/data/uri/#{DOI::to_url article.doi}"
+    
+    log_info("Connotea query: #{url}")
+    
     get_xml(url, options.merge(:username => username, :password => password))\
         do |document|
       citations = []

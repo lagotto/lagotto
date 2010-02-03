@@ -1,9 +1,14 @@
 class Nature < Source
   include SourceHelper
+  include Log
+  
   def uses_search_url; true; end
 
   def query(article, options={})
     url = "http://blogs.nature.com/posts.json?doi="
+    
+    log_info("Nature query: #{url}")
+    
     query_url = url + CGI.escape(article.doi)
     results = get_json(query_url, options)
     citations = results.map do |result|

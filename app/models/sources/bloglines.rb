@@ -1,5 +1,7 @@
 class Bloglines < Source
   include SourceHelper
+  include Log
+  
   def uses_username; true; end
   def uses_password; true; end
   def uses_search_url; true; end
@@ -9,6 +11,9 @@ class Bloglines < Source
       if username.blank? or password.blank?
 
     url = "http://www.bloglines.com/search?format=publicapi&apiuser=#{username}&apikey=#{password}&q=#{CGI.escape(article.title).strip_tags}"
+    
+    log_info("Bloglines query: #{url}")
+    
     get_xml(url, options) do |document|
       citations = []
       document.find("//resultset/result").each do |cite|

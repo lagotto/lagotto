@@ -28,12 +28,17 @@ if File.exist?(File.join(scopus_dir, "AbstractsMetadataServiceDriver.rb"))
 end
 
 class Scopus < Source
+  include Log
+  
   def uses_username; true; end
   def uses_live_mode; true; end
   def uses_salt; true; end
 
   def query(article, options={})
     url = Scopus::query_url(live_mode)
+    
+    log_info("Scopus query: #{url}")
+    
     driver = get_soap_driver(username, url, options[:verbose])
     result = driver.getCitedByCount(build_payload(article.doi))
     return -1 unless result.status.statusCode == "OK"
