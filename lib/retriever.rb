@@ -33,7 +33,7 @@ class Retriever
       return
     end
 
-    success_count = 0
+    sources_count = 0
     
     sources.each do |source|
       retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
@@ -45,12 +45,13 @@ class Retriever
         result = update_one(retrieval, source, article)
         
         if(result)
-          success_count = success_count + 1
-          log_info("result=#{result}, Success_count incremented: #{success_count}")
+          sources_count = sources_count + 1
+          log_info("result=#{result}, sources_count incremented: #{sources_count}")
         else
-          log_info("result=#{result}, Not refreshing article #{article.inspect}")
+          log_info("result=#{result}, Error refreshing article #{article.inspect}")
         end
       else
+        sources_count = sources_count + 1
         log_info("Not refreshing source #{source.inspect}")
       end
     end
@@ -58,11 +59,11 @@ class Retriever
     #     do NOT update the article as refreshed
     # If all the sources do not update successfully
     #     do NOT update the article as refreshed
-    if(success_count == sources.size and not only_source)
+    if(sources_count == sources.size and not only_source)
       article.refreshed!.save!
       log_info("Refreshed article #{article.doi}")
     else
-      log_info("NOT refreshing article #{article.doi} count: #{success_count} only src: #{only_source}")
+      log_info("NOT refreshing article #{article.doi} count: #{sources_count} only src: #{only_source}")
     end
   end
 
