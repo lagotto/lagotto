@@ -14,7 +14,7 @@ namespace :db do
       elsif ENV["LAZY"] == "0"
         Article.limit(limit)
       else
-        stale_threshold = Date.today - Source.maximum_staleness
+        stale_threshold = Date.today - Source.active.minimum_staleness
         Article.not_refreshed_since(stale_threshold).limit(limit)
       end
 

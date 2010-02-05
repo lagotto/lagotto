@@ -70,6 +70,10 @@ class Source < ActiveRecord::Base
   def self.maximum_staleness
     SecondsToDuration::convert(Source.maximum(:staleness))
   end
+  
+  def self.minimum_staleness
+    SecondsToDuration::convert(Source.minimum(:staleness))
+  end  
 
   def public_url(retrieval)
     # When generating a public URL to an article's citations on the source
