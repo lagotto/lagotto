@@ -48,7 +48,7 @@ class Retriever
           sources_count = sources_count + 1
           log_info("result=#{result}, sources_count incremented: #{sources_count}")
         else
-          log_info("result=#{result}, Error refreshing article #{article.inspect}")
+          log_error("result=#{result}, Error refreshing article #{article.inspect}")
         end
       else
         sources_count = sources_count + 1
