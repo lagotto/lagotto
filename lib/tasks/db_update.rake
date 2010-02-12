@@ -1,10 +1,13 @@
 require 'doi'
 
 namespace :db do
+  RAILS_DEFAULT_LOGGER = Logger.new("#{RAILS_ROOT}/log/#{RAILS_ENV}_db_update_rake.log")
+  
   task :update => :"db:update:stale"
   namespace :update do
     desc "Update stale articles"
     task :stale => :environment do
+      puts "Start: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
       limit = (ENV["LIMIT"] || 0).to_i
       articles = if ENV["DOI"]
         doi = ENV["DOI"]
@@ -14,11 +17,14 @@ namespace :db do
       elsif ENV["LAZY"] == "0"
         Article.limit(limit)
       else
-        stale_threshold = Time.new - Source.active.minimum_staleness
-        Article.not_refreshed_since(stale_threshold).limit(limit)
+        Article.stale_and_published.limit(limit)
       end
+      
+      puts "Found #{articles.size} stale articles."
 
       update_articles(articles)
+      
+      puts "Done: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
     end
 
     desc "Update all articles"
@@ -47,8 +53,7 @@ namespace :db do
 
     desc "Count stale articles"
     task :count => :environment do
-      stale_threshold = Date.today - Source.maximum_staleness
-      article_count = Article.not_refreshed_since(stale_threshold).count
+      article_count = Article.stale_and_published.count
       puts "#{article_count} stale articles found"
     end
 
@@ -65,9 +70,9 @@ namespace :db do
       articles.each do |article|
         old_count = article.citations_count
         retriever.update(article)
-        if verbose
+        if verbose > 0
           delta = article.citations_count - old_count
-          puts "  #{article.doi} count now #{article.citations_count} (#{delta})" if delta != 0
+          puts "DOI: #{article.doi} count now #{article.citations_count} (#{delta})"
         end
       end
     end

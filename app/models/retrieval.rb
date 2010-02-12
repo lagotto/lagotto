@@ -1,4 +1,5 @@
 class Retrieval < ActiveRecord::Base
+  include Log
   belongs_to :source
   belongs_to :article
   has_many :citations, :dependent => :destroy
@@ -14,7 +15,7 @@ class Retrieval < ActiveRecord::Base
   end
 
   def stale?
-    RAILS_DEFAULT_LOGGER.debug "Is this retrieval stale? source.name:#{source.name}, retrieved_at #{retrieved_at}, source.staleness.ago: #{source.staleness.ago}"    
+    log_debug "Is this retrieval stale? source.name:#{source.name}, retrieved_at #{retrieved_at}, source.staleness.ago: #{source.staleness.ago}"
     new_record? or retrieved_at.nil? or (retrieved_at < source.staleness.ago)
   end
 

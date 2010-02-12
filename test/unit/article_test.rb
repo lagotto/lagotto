@@ -24,8 +24,7 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   def test_should_find_stale_articles
-    assert_equal Article.not_refreshed_since(Source.maximum_staleness.ago),
-                 [articles(:stale)]
+    assert_equal Article.stale_and_published, [articles(:stale)]
   end
 
   def test_should_be_stale_based_on_article_age

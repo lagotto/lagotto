@@ -15,10 +15,8 @@ class Article < ActiveRecord::Base
 
   named_scope :limit, lambda { |limit| (limit > 0) ? {:limit => limit} : {} }
 
-  named_scope :not_refreshed_since, lambda { |last_refresh| 
-  { :conditions => ["exists(select id from retrievals where retrievals.article_id = articles.id and retrievals.retrieved_at < ? and retrievals.source_id in (select id from sources where active = 1)) and articles.published_on <= ?", last_refresh, Date.today ],
+  named_scope :stale_and_published, { :conditions => ["exists(select retrievals.id from retrievals join sources on retrievals.source_id = sources.id where retrievals.article_id = articles.id and retrievals.retrieved_at < CONVERT_TZ(FROM_UNIXTIME(UNIX_TIMESTAMP() - sources.staleness), '-08:00', '+00:00') and sources.active = 1) and articles.published_on <= ?", Date.today ],
     :order => :retrieved_at }
-  }
 
   def to_param
     DOI::to_uri(doi)
