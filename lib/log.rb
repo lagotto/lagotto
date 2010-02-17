@@ -2,7 +2,6 @@ module Log
 
   def log_error(msg)
     RAILS_DEFAULT_LOGGER.error(getTime() + " - ERROR: #{msg}: #{$!}")
-    $!.backtrace.map {|line| RAILS_DEFAULT_LOGGER.error "   #{line.sub(RAILS_ROOT, '')}" }
   end
   
   def log_info(msg)
