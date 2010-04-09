@@ -32,10 +32,11 @@
           <ul id="nav">
             <li class="none"><%= link_to "Articles", articles_url, :title => "Articles", :tabindex => "102" %></li>
             <li class="none"><%= link_to "Sources", sources_url, :title => "Sources", :tabindex => "103" %></li>
+            <li class="none"><%= link_to "Groups", groups_url, :title => "Group", :tabindex => "104" %></li>
             <% if logged_in? %>
-            <li class="none" style="float: right"><%= link_to "Logout", logout_url, :title => "Login", :tabindex => "104" %></li>
+            <li class="none" style="float: right"><%= link_to "Logout", logout_url, :title => "Login", :tabindex => "105" %></li>
             <% else %>
-            <li class="none" style="float: right"><%= link_to "Login", login_url, :title => "Login", :tabindex => "104" %></li>
+            <li class="none" style="float: right"><%= link_to "Login", login_url, :title => "Login", :tabindex => "105" %></li>
             <% end %>
           </ul>
         </div>
@@ -54,7 +55,6 @@
             </div>
           <% end %>
         <% end %>
-
         <%= yield %>
         </div>
       </td>

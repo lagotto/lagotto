@@ -1,0 +1,16 @@
+
+<h1>Group names:</h1>
+
+<ul>
+<% for group in @groups %>
+  <li>
+    <h3><%= link_to h(group.name), group_path(group) %></h3>
+  </li>
+<% end %>
+</ul>
+
+Groups are a way to organize sources.  You can define a group for 
+your sources by editing a source.<br/>
+<br/>
+<%= link_to 'Add a new group', new_group_path %>
+

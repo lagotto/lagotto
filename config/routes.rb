@@ -2,6 +2,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :articles, :requirements => { :id => %r([^/]+) }
   map.resources :sources
+  map.resources :groups
 
   map.root :controller => "articles"
 

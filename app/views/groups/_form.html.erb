@@ -1,0 +1,13 @@
+<% group ||= form %>
+<% form_for(group) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.submit(group.new_record? ? "Create" : "Update") %>
+  </p>
+<% end %>

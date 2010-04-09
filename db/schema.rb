@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091207225429) do
+ActiveRecord::Schema.define(:version => 20100408211121) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -34,6 +34,12 @@ ActiveRecord::Schema.define(:version => 20091207225429) do
 
   add_index "citations", ["retrieval_id", "uri"], :name => "index_citations_on_retrieval_id_and_uri", :unique => true
   add_index "citations", ["retrieval_id"], :name => "index_citations_on_retrieval_id"
+
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "histories", :force => true do |t|
     t.integer  "retrieval_id",                   :null => false
@@ -74,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20091207225429) do
     t.string   "salt"
     t.string   "searchURL"
     t.integer  "timeout",    :default => 30,     :null => false
+    t.integer  "group_id"
   end
 
   add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true

@@ -1,0 +1,7 @@
+<h1>Editing group "<%= @group.name %>"</h1>
+
+<%= render :partial => "form", :object => @group %>
+
+<%= link_to 'Show', group_path(@group) %>
+<br/>
+<%= link_to 'Back to list', groups_path %>

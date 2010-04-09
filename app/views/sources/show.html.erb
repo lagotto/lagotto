@@ -47,6 +47,13 @@
   <%=h @source.timeout %>
 </p>
 
+<% if @source.group %>
+<p>
+  <b>Group:</b>
+  <%=h @source.group.name %>
+</p>
+<% end %>
+
 <p>
   <b>Staleness:</b>
   <%=h @source.staleness_days %>

@@ -6,7 +6,7 @@
     <% unless source.is_a? String %>
       <%# Link to an existing source -%>
       <h3><%= link_to h(source.name), source_path(source) %></h3>
-      <div><%= source.active ? "Active" : "Inactive" %>; 
+      <div><%= source.active ? "<b>Active</b>" : "<b>Inactive</b>" %>; <% if source.group %> Group: <%=source.group.name %>, <% end %>
            update every <%= SecondsToDuration::convert(source.staleness).inspect %></div>
     <% else %>
       <%# Link to create a new source for an unconfigured one -%>
