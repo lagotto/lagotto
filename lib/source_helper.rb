@@ -46,7 +46,6 @@ protected
         log_info("url: #{sUrl}")
         log_info("timeout: #{options[:timeout]}")
 
-        #TODO: Move this to a configuration file
         request = Net::HTTP::Get.new(sUrl, { "User-Agent" => APP_CONFIG['useragent'] + " - " + APP_CONFIG['hostname']  })
         
         if options[:username] 
