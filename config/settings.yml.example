@@ -1,0 +1,17 @@
+development:
+  useragent: Article Metrics
+  hostname: http://dev.alm.org 
+
+test:
+  useragent: Article Metrics
+  hostname: http://test.alm.org 
+
+stage:
+  useragent: Article Metrics
+  hostname: http://stage.alm.org 
+  
+production:
+  useragent: Article Metrics
+  hostname: http://alm.org 
+
+

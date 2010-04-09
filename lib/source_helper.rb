@@ -31,6 +31,7 @@ protected
     begin
       verbose = options[:verbose] || 0
       options = options.except(:verbose, :retrieval)
+
       url = URI.parse(uri)
       
       if options.empty?
@@ -45,7 +46,8 @@ protected
         log_info("url: #{sUrl}")
         log_info("timeout: #{options[:timeout]}")
 
-        request = Net::HTTP::Get.new(sUrl)
+        #TODO: Move this to a configuration file
+        request = Net::HTTP::Get.new(sUrl, { "User-Agent" => APP_CONFIG['useragent'] + " - " + APP_CONFIG['hostname']  })
         
         if options[:username] 
           request.basic_auth(options[:username], options[:password]) 
