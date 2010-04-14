@@ -1,0 +1,17 @@
+
+<h1>Article Summaries</h1>
+
+<% for record in @result %>
+  <div class="article">
+    <span class="doi">
+    <%=link_to h(record[:article].doi), article_path(record[:article]) %></h3>
+    <span class="details">
+      <ul>
+      <% for groupcount in record[:groupcounts] %>
+        <li><%=groupcount[:name] %>:
+        <%=groupcount[:total] %></li>
+      <% end %>
+      </ul>
+    </span>
+  </div>
+<% end %>

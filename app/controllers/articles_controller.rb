@@ -39,9 +39,9 @@ class ArticlesController < ApplicationController
     format_options[:source] = params[:source]
 
     if (params[:refresh] == "soon" or @article.stale?)
-      RAILS_DEFAULT_LOGGER.info "Queuing article #{@article.id} for retrieval"
+      log_info "Queuing article #{@article.id} for retrieval"
       uid = RetrievalWorker.async_retrieval(:article_id => @article.id) 
-      RAILS_DEFAULT_LOGGER.info "Item created: #{uid}"
+      log_info "Item created: #{uid}"
     end
     
     respond_to do |format|
@@ -121,17 +121,6 @@ class ArticlesController < ApplicationController
   end
 
 protected
-  def detect_response_format
-    # Because dots are a valid part of our IDs, we have to manually
-    # break off format specifiers (eg, ".json", ".xml" or ".csv") here.
-    id = params[:id]
-    if id and id =~ %r/(.*)\.(json|xml|csv)/i
-      params[:id] = $1
-      request.format = $2.downcase
-    end
-    true # keep processing..
-  end
-
   def load_articles(options={})
     # Load articles given query params, for #index
     @articles, @article_count = Article.load_articles(params, options)
@@ -139,7 +128,7 @@ protected
 
   def load_article(options={})
     # Load one article given query params, for the non-#index actions
-    @article = Article.load_article(params, options)
+    @article = Article.load_article(params[:id], options)
   end
 
   def eager_includes

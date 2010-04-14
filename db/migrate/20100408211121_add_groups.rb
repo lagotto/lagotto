@@ -10,7 +10,7 @@ class AddGroups < ActiveRecord::Migration
     execute "insert into groups(name) values('Social Bookmarks');"
     execute "insert into groups(name) values('Citations');"
     execute "insert into groups(name) values('Blog Entries');"
-    execute "insert into groups(name) values('Usage Statistics');"
+    execute "insert into groups(name) values('Statistics');"
   end
 
   def self.down

@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  include Log
   helper :all # include all helpers, all the time
 
   # Use our standard layout for all non-AJAX/non-RSS-feed requests
@@ -40,4 +41,19 @@ protected
     end
     render({:content_type => "application/#{content_type}", :text => response}.merge(options))
   end
+
+  def detect_response_format
+    # Because dots are a valid part of our IDs, we have to manually
+    # break off format specifiers (eg, ".json", ".xml" or ".csv") here.
+    id = params[:id]
+    log_debug("detect_response_format id")
+    if id and id =~ %r/(.*)\.(json|xml|csv)/i
+      params[:id] = $1
+      request.format = $2.downcase
+    end
+    log_debug("request.format:" + request.format)
+    
+    true # keep processing..
+  end
+  
 end

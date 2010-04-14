@@ -1,4 +1,6 @@
 class Article < ActiveRecord::Base
+  include Log
+  
   has_many :retrievals, :dependent => :destroy
   has_many :sources, :through => :retrievals
   has_many :citations, :through => :retrievals
@@ -9,14 +11,18 @@ class Article < ActiveRecord::Base
   named_scope :query, lambda { |query|
     { :conditions => [ "doi like ?", "%#{query}%" ] }
   }
-
-  named_scope :cited, { :include => :retrievals, 
-                        :conditions => "retrievals.citations_count > 0 or retrievals.other_citations_count > 0" }
+  
+  named_scope :cited, { 
+    :include => :retrievals, 
+    :conditions => "retrievals.citations_count > 0 or retrievals.other_citations_count > 0" 
+  }
 
   named_scope :limit, lambda { |limit| (limit > 0) ? {:limit => limit} : {} }
 
-  named_scope :stale_and_published, { :conditions => ["exists(select retrievals.id from retrievals join sources on retrievals.source_id = sources.id where retrievals.article_id = articles.id and retrievals.retrieved_at < CONVERT_TZ(FROM_UNIXTIME(UNIX_TIMESTAMP() - sources.staleness), '-08:00', '+00:00') and sources.active = 1) and articles.published_on <= ?", Date.today ],
-    :order => :retrieved_at }
+  named_scope :stale_and_published, { 
+    :conditions => ["exists(select retrievals.id from retrievals join sources on retrievals.source_id = sources.id where retrievals.article_id = articles.id and retrievals.retrieved_at < CONVERT_TZ(FROM_UNIXTIME(UNIX_TIMESTAMP() - sources.staleness), '-08:00', '+00:00') and sources.active = 1) and articles.published_on <= ?", Date.today ],
+    :order => :retrieved_at 
+  }
 
   def to_param
     DOI::to_uri(doi)
@@ -34,7 +40,54 @@ class Article < ActiveRecord::Base
     self.retrieved_at = Time.zone.now
     self
   end
-
+  
+  #Get citation count by group from the activerecord data
+  def citations_by_group
+    groupCounts = {}
+    groupName = {}
+    
+    for ret in retrievals
+      #log_debug "ret #{ret.citations_count + ret.other_citations_count} #{ret.source.name}"
+      groupName[ret.source.group_id] = ret.source.group.name
+      if groupCounts[ret.source.group_id] == nil then
+        groupCounts[ret.source.group_id] = ret.citations_count + ret.other_citations_count
+      else
+        groupCounts[ret.source.group_id] = groupCounts[ret.source.group_id] + ret.citations_count + ret.other_citations_count
+      end
+    end
+    
+    #SQL to get the above data if we ever need it:
+    #sql = "select g.id as group_id, g.name, sum(r.citations_count + r.other_citations_count) as total from retrievals r 
+    #join sources s on r.source_id = s.id join groups g on g.id = s.group_id where r.article_id = #{id} group by g.id, g.name"
+    #recRS = connection.execute(sql)
+    
+    result = [] 
+    
+    groupCounts.each do | key, value |
+      result << {
+        :group_id => key,
+        :name => groupName[key],
+        :total => value
+      }
+    end
+    result
+  end
+  
+  #Get cites for the given source from the activeRecord data
+  def get_cites_by_group(groupname)
+    cites = []
+    
+    for ret in retrievals
+      #log_debug("ret.source.group.name.downcase: #{ret.source.group.name.downcase}")
+      if(ret.source.group.name.downcase == groupname.downcase && (ret.citations_count + ret.other_citations_count) > 0) then
+        #Cast this to an array to get around a ruby 'singularize' bug
+        cites << { :name => ret.source.name, :citations => ret.citations.to_a }
+      end
+    end
+    
+    return cites
+  end
+  
   def citations_count
     retrievals.inject(0) {|sum, r| sum += r.total_citations_count }
     # retrievals.sum(:citations_count) + retrievals.sum(:other_citations_count)
@@ -146,9 +199,9 @@ SQL
     [articles, article_count]
   end
 
-  def self.load_article(params, options={})
+  def self.load_article(uri, options={})
     # Load one article given query params, for the non-#index actions
-    doi = DOI::from_uri(params[:id])
+    doi = DOI::from_uri(uri)
     Article.find_by_doi(doi, options) or raise ActiveRecord::RecordNotFound
   end
 end

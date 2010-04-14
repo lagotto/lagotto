@@ -4,6 +4,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :sources
   map.resources :groups
 
+  map.connect '/group/articles/:id', 
+    :controller => 'groups',
+    :action     => 'groupArticleSummaries',
+    :requirements => { :id => /.+/ }
+
   map.root :controller => "articles"
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
