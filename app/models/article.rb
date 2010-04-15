@@ -48,7 +48,7 @@ class Article < ActiveRecord::Base
     
     for ret in retrievals
       #log_debug "ret #{ret.citations_count + ret.other_citations_count} #{ret.source.name}"
-      groupName[ret.source.group_id] = ret.source.group.name
+      groupName[ret.source.group_id] = ret.source.group.name.downcase
       if groupCounts[ret.source.group_id] == nil then
         groupCounts[ret.source.group_id] = ret.citations_count + ret.other_citations_count
       else
