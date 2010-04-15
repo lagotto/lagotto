@@ -81,7 +81,7 @@ class Article < ActiveRecord::Base
       #log_debug("ret.source.group.name.downcase: #{ret.source.group.name.downcase}")
       if(ret.source.group.name.downcase == groupname.downcase && (ret.citations_count + ret.other_citations_count) > 0) then
         #Cast this to an array to get around a ruby 'singularize' bug
-        cites << { :name => ret.source.name, :citations => ret.citations.to_a }
+        cites << { :name => ret.source.name.downcase, :citations => ret.citations.to_a }
       end
     end
     
