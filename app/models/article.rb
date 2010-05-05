@@ -41,36 +41,38 @@ class Article < ActiveRecord::Base
     self
   end
   
-  #Get citation count by group from the activerecord data
+  #Get citation count by group and sources from the activerecord data
   def citations_by_group
-    groupCounts = {}
-    groupName = {}
+    results = {}
     
     for ret in retrievals
       #log_debug "ret #{ret.citations_count + ret.other_citations_count} #{ret.source.name}"
-      groupName[ret.source.group_id] = ret.source.group.name.downcase
-      if groupCounts[ret.source.group_id] == nil then
-        groupCounts[ret.source.group_id] = ret.citations_count + ret.other_citations_count
+      if results[ret.source.group_id] == nil then
+        results[ret.source.group_id] = {
+          :name => ret.source.group.name.downcase,
+          :total => ret.citations_count + ret.other_citations_count,
+          :sources => []
+        }
+        results[ret.source.group_id][:sources] << {
+          :name => ret.source.name,
+          :total => ret.citations_count + ret.other_citations_count
+        }
       else
-        groupCounts[ret.source.group_id] = groupCounts[ret.source.group_id] + ret.citations_count + ret.other_citations_count
+        results[ret.source.group_id][:total] = results[ret.source.group_id][:total] + ret.citations_count + ret.other_citations_count
+        results[ret.source.group_id][:sources] << {
+          :name => ret.source.name,
+          :total => ret.citations_count + ret.other_citations_count
+        }
       end
     end
     
-    #SQL to get the above data if we ever need it:
-    #sql = "select g.id as group_id, g.name, sum(r.citations_count + r.other_citations_count) as total from retrievals r 
-    #join sources s on r.source_id = s.id join groups g on g.id = s.group_id where r.article_id = #{id} group by g.id, g.name"
-    #recRS = connection.execute(sql)
+    groupsCount = []
     
-    result = [] 
-    
-    groupCounts.each do | key, value |
-      result << {
-        :group_id => key,
-        :name => groupName[key],
-        :total => value
-      }
+    results.each do | key, value |
+      groupsCount << value
     end
-    result
+    
+    groupsCount
   end
   
   #Get cites for the given source from the activeRecord data
