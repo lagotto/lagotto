@@ -1,17 +1,17 @@
 development:
   useragent: Article Metrics
-  hostname: http://dev.alm.org 
+  hostname: http://dev.alm.example.org 
 
 test:
   useragent: Article Metrics
-  hostname: http://test.alm.org 
+  hostname: http://test.alm.example.org 
 
 stage:
   useragent: Article Metrics
-  hostname: http://stage.alm.org 
+  hostname: http://stage.alm.example.org 
   
 production:
   useragent: Article Metrics
-  hostname: http://alm.org 
+  hostname: http://alm.example.org 
 
 

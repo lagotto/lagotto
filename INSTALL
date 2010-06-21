@@ -158,13 +158,17 @@ mkdir /opt/alm/shared
 # Create the database configuration file; fix username
 # & password to match whatever you set up.
 cp /opt/alm/current/config/database.yml.example /opt/alm/shared/database.yml
-ln -f /opt/alm/shared/database.yml /opt/alm/current/config/
+ln -s /opt/alm/shared/database.yml /opt/alm/current/config/
+
+# Create the settings configuration file; fix hostnames
+cp /opt/alm/current/config/settings.yml.example /opt/alm/shared/settings.yml
+ln -s /opt/alm/shared/settings.yml /opt/alm/current/config/settings.yml
 
 # Create a file with the key we use to secure REST access; you should edit this
 # string first, and be sure to keep a backup of this file!
 # (the comment refers to a file in the SVN tree.)
 cp /opt/alm/current/config/initializers/site_keys_example /opt/alm/shared/site_keys.rb
-ln -f /opt/alm/shared/site_keys.rb /opt/alm/current/config/initializers/
+ln -s /opt/alm/shared/site_keys.rb /opt/alm/current/config/initializers/
 
 REST_AUTH_SITE_KEY = 'change this value to a random string at least this long'
 
