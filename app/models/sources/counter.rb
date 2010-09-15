@@ -25,9 +25,7 @@ class Counter < Source
     raise(ArgumentError, "Counter configuration requires url") \
       if url.blank?
     
-    doi = parseDOI(article.doi)
-
-    furl = "#{url}#{CGI.escape(doi)}"
+    furl = "#{url}#{CGI.escape(article.doi)}"
      
     Rails.logger.info "Counter query: #{furl}"
     
@@ -72,7 +70,7 @@ class Counter < Source
       
       if(views.size > 0)
         citation = {}
-        citation[:uri] = "#{url}#{CGI.escape(doi)}"
+        citation[:uri] = "#{url}#{CGI.escape(article.doi)}"
         citation[:views] = views;
         
         citations << citation
@@ -82,15 +80,6 @@ class Counter < Source
     end
   end
   
-  def parseDOI(doi)
-    #The Drupal API expexts the article DOI in an alternate format
-    #here I do some processing on it
-    #Start:10.1371/journal.pone.0003431
-    #end:10.1371/pone.0003431
-    doiParts = doi.split(/\.|\//)
-    "#{doiParts[3]}.#{doiParts[4]}"
-  end
-
   def citations_to_csv(csv, retrieval)
     
     csv << [ "uri", "year", "month", "get-document", "get-pdf", "get-xml" ]    
@@ -108,7 +97,7 @@ class Counter < Source
   end
   
   def public_url(retrieval)
-    doi = parseDOI(retrieval.article.doi)
+    doi = retrieval.article.doi
 
    "#{url}#{CGI.escape(doi)}"
   end
