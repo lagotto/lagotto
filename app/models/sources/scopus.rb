@@ -1,14 +1,36 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+## Configuration Instructions
+#
+# Change the PartnerId constant below to the one provided by Scopus.
+#
+
 require 'digest/md5'
 require 'soap/wsdlDriver'
 require 'soap/rpc/element'
 require 'soap/header/simplehandler'
-scopus_dir = File.join(Rails.root, 'app', 'models', 'sources', 'scopus')
-if File.exist?(File.join(scopus_dir, "AbstractsMetadataServiceDriver.rb"))
+scopus_dir = File.join(File.dirname(__FILE__), 'scopus')
+if File.exist?(File.join(scopus_dir, "abstracts_metadata_service_driver.rb"))
   # Avoid doing this stuff if we haven't installed the generated WSDL code yet
   # (this file is 'require'd to get the URLs when generating the WSDL code).
 
-  $: << scopus_dir
-  require 'AbstractsMetadataServiceDriver'
+  require 'scopus/abstracts_metadata_service_driver'
 
   def fix_scopus_wsdl
     # The generated WSDL code has problems: fix them.
@@ -28,18 +50,17 @@ if File.exist?(File.join(scopus_dir, "AbstractsMetadataServiceDriver.rb"))
 end
 
 class Scopus < Source
-  include Log
-  
   def uses_username; true; end
   def uses_live_mode; true; end
   def uses_salt; true; end
+  def uses_partner_id; true; end
 
-  def query(article, options={})
+  def perform_query(article, options={})
     url = Scopus::query_url(live_mode)
     
-    log_info("Scopus query: #{url}")
+    Rails.logger.info "Scopus query: #{url}"
     
-    driver = get_soap_driver(username, url, options[:verbose])
+    driver = get_soap_driver(username, url)
     result = driver.getCitedByCount(build_payload(article.doi))
     return -1 unless result.status.statusCode == "OK"
 
@@ -50,7 +71,7 @@ class Scopus < Source
 
   def public_url(retrieval)
     query_string = "doi=" + CGI.escape(retrieval.article.doi) \
-      + "&rel=R3.0.0&partnerID=OIVxnoIl"
+      + "&rel=R3.0.0&partnerID=#{partner_id}"
     digest = Digest::MD5.hexdigest(query_string + salt)
     "http://www.scopus.com/scopus/inward/citedby.url?" \
       + query_string + "&md5=" + digest
@@ -65,9 +86,8 @@ class Scopus < Source
   end
   
 protected
-  def get_soap_driver(username, url, verbose)
+  def get_soap_driver(username, url)
     driver = AbstractsMetadataServicePortType_V7.new(url)
-    driver.wiredump_dev = STDOUT if verbose && verbose > 1
     driver.headerhandler << ScopusSoapHeader.new(username)
     driver
   end
@@ -96,7 +116,7 @@ class ScopusSoapHeader < SOAP::Header::SimpleHandler
     { "ReqId" => '1',
       "Ver" => '2',
       "Consumer" => @username,
-      "ConsumerClient" => "PLoS_Article_Metrics",
+      "ConsumerClient" => "Article_Level_Metrics",
       "LogLevel" => "Default"
     }
   end

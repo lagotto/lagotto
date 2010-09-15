@@ -20,6 +20,3 @@ config.action_controller.allow_forgery_protection    = false
 # The :test delivery method accumulates sent emails in the
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
-
-config.gem "ruby-debug" # Allow debugging when running tests
-config.gem "mocha" # We use this for mocking/stubbing

@@ -1,3 +1,21 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 class Source < ActiveRecord::Base
   has_many :retrievals, :dependent => :destroy
   belongs_to :group
@@ -7,17 +25,18 @@ class Source < ActiveRecord::Base
   validates_presence_of :username, :if => :uses_username
   validates_presence_of :password, :if => :uses_password
   validates_presence_of :salt, :if => :uses_salt
+  validates_presence_of :partner_id, :if => :uses_partner_id
 
   validates_numericality_of :staleness_days,
     :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 366
 
   attr_accessor :staleness_days_before_type_cast
 
-  named_scope :active, { :conditions => {:active => true} }
+  named_scope :active, :conditions => {:active => true}
 
   def self.unconfigured_source_names
     # Collect source classnames based on the source file names we have
-    @@subclass_names ||= Dir["#{RAILS_ROOT}/app/models/sources/*.rb"].map do |file| 
+    @@subclass_names ||= Dir[Rails.root + "app/models/sources/*.rb"].map do |file|
       File.basename(file, ".rb").camelize
     end
     # Ignore any that are already configured
@@ -68,13 +87,37 @@ class Source < ActiveRecord::Base
       end
   end
 
+  def perform_query
+    raise NotImplementedError, 'Children classes should override perform_query'
+  end
+
+  def query article, options = {}
+    if disable_until and disable_until > Time.zone.now
+      Rails.logger.info "#{name} is disabled until #{disable_until}. Skipping."
+      return false
+    end
+
+    returning perform_query(article, options) do
+      self.disable_until = nil
+      self.disable_delay = Source.new.disable_delay
+    end
+  rescue Exception => e
+    Rails.logger.info "#{name} had an error. Disabling for #{SecondsToDuration::convert(disable_delay).inspect}."
+    Notifier.deliver_long_delay_warning(self)  if disable_delay > 1.day
+    self.disable_until = Time.zone.now + disable_delay.seconds
+    self.disable_delay *= 2
+    raise e
+  ensure
+    save!
+  end
+
   def self.maximum_staleness
     SecondsToDuration::convert(Source.maximum(:staleness))
   end
   
   def self.minimum_staleness
     SecondsToDuration::convert(Source.minimum(:staleness))
-  end  
+  end
 
   def public_url(retrieval)
     # When generating a public URL to an article's citations on the source
@@ -95,4 +138,5 @@ class Source < ActiveRecord::Base
   def uses_password; false; end
   def uses_live_mode; false; end
   def uses_salt; false; end
+  def uses_partner_id; false; end
 end

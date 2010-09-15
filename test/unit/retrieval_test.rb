@@ -1,3 +1,21 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 require 'test_helper'
 
 class RetrievalTest < ActiveSupport::TestCase
@@ -9,13 +27,13 @@ class RetrievalTest < ActiveSupport::TestCase
     retriever = Retriever.new(:lazy => true)
 
     # First time we'll call it on the publication date - it should skip out.
-    Date.stubs(:today).returns(today)
+    Time.zone.stubs(:today).returns(today)
     Source.expects(:active).never
     retriever.update(article)
 
     # Second time we'll call it on the day after that - it should look for
     # sources.
-    Date.stubs(:today).returns(today + 1)
+    Time.zone.stubs(:today).returns(today + 1)
     Source.expects(:active).returns([])
     retriever.update(article)
   end
@@ -31,11 +49,8 @@ class RetrievalTest < ActiveSupport::TestCase
           h
       end
     ]
-    verbose = nil # or 1 if you're trying to debug why this test is failing
-    retriever_options = { :verbose => verbose } if verbose
     source.expects(:query).with(article, 
-                                has_entries(:verbose => verbose,
-                                            :retrieval => anything))\
+                                has_entries(:retrieval => anything))\
                           .returns(test_raw_citations)
   
     retrieval = Retrieval.new(:source => source,
@@ -50,7 +65,7 @@ class RetrievalTest < ActiveSupport::TestCase
     assert article.retrieved_at < 1.years.ago
 
     # Do it
-    Retriever.new(retriever_options || {}).update(article)
+    Retriever.new({}).update(article)
 
     # After
     citations = Citation.find_all_by_uri("uri")

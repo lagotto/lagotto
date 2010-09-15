@@ -105,5 +105,23 @@ module Rails
   end
 end
 
+class Rails::Boot
+  def run
+    load_initializer
+
+    Rails::Initializer.class_eval do
+      def load_gems
+        @bundler_loaded ||= begin
+          r = Bundler.require :default
+          Bundler.require Rails.env  unless Rails.env.test?
+          r
+        end
+      end
+    end
+
+    Rails::Initializer.run(:set_load_path)
+  end
+end
+
 # All that for this:
 Rails.boot!

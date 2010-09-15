@@ -1,7 +1,27 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 class PubMed < Source
   include SourceHelper
 
-  def query(article, options={})
+  ToolID = 'ArticleLevelMetrics'
+
+  def perform_query(article, options={})
 
     # First, we need to have the PubMed and PubMedCentral IDs for this
     # article. Get 'em if we don't have 'em, and proceed only if we do.
@@ -35,7 +55,7 @@ class PubMed < Source
       'term' => doi,
       'field' => 'aid', # just search the article ID field
       'db' => 'pubmed',
-      'tool' => 'PLoSArticleMetrics', 
+      'tool' => PubMed::ToolID, 
       'usehistory' => 'n',
       'retmax' => 1
     }
@@ -46,8 +66,8 @@ class PubMed < Source
       id_element = document.find_first("//eSearchResult/IdList/Id")
       id_element and id_element.content.strip
     end
-    puts "PM_from_DOI got #{result.inspect} for #{doi.inspect}" \
-      if result and options[:verbose] > 3
+    Rails.logger.debug "PM_from_DOI got #{result.inspect} for #{doi.inspect}" \
+      if result
     result
   end
 
@@ -58,8 +78,8 @@ class PubMed < Source
       id_element = document.find_first("//PubMedToPMCreformSET/REFORM/PMCID")
       id_element and id_element.content.strip
     end
-    puts "PMC_from_PM got #{result.inspect} for #{pubmed.inspect}" \
-      if result and options[:verbose] > 3
+    rails.logger.debug "PMC_from_PM got #{result.inspect} for #{pubmed.inspect}" \
+      if result
     result
   end
 

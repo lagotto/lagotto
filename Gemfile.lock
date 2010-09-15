@@ -1,0 +1,66 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    actionmailer (2.3.8)
+      actionpack (= 2.3.8)
+    actionpack (2.3.8)
+      activesupport (= 2.3.8)
+      rack (~> 1.1.0)
+    activerecord (2.3.8)
+      activesupport (= 2.3.8)
+    activeresource (2.3.8)
+      activesupport (= 2.3.8)
+    activesupport (2.3.8)
+    columnize (0.3.1)
+    daemons (1.1.0)
+    eventmachine (0.12.10)
+    fastercsv (1.5.3)
+    haml (3.0.18)
+    httpclient (2.1.5.2)
+    libxml-ruby (1.1.4)
+    linecache (0.43)
+    memcache-client (1.8.5)
+    mocha (0.9.8)
+      rake
+    mysql (2.8.1)
+    rack (1.1.0)
+    rails (2.3.8)
+      actionmailer (= 2.3.8)
+      actionpack (= 2.3.8)
+      activerecord (= 2.3.8)
+      activeresource (= 2.3.8)
+      activesupport (= 2.3.8)
+      rake (>= 0.8.3)
+    rake (0.8.7)
+    rdiscount (1.6.5)
+    ruby-debug (0.10.3)
+      columnize (>= 0.1)
+      ruby-debug-base (~> 0.10.3.0)
+    ruby-debug-base (0.10.3)
+      linecache (>= 0.3)
+    soap4r (1.5.8)
+      httpclient (>= 2.1.1)
+    starling (0.10.1)
+      eventmachine (>= 0.12.0)
+      memcache-client (>= 1.7.0)
+    system_timer (1.0)
+    will_paginate (2.3.15)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler
+  daemons
+  fastercsv
+  haml
+  libxml-ruby (>= 0.9.7)
+  mocha
+  mysql
+  rails (= 2.3.8)
+  rdiscount
+  ruby-debug
+  soap4r (>= 1.5.8)
+  starling
+  system_timer
+  will_paginate

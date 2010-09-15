@@ -1,7 +1,26 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 require 'doi'
+require 'log4j_style_logger'
 
 namespace :db do
-  RAILS_DEFAULT_LOGGER = Logger.new("#{RAILS_ROOT}/log/#{RAILS_ENV}_db_update_rake.log")
+  RAILS_DEFAULT_LOGGER = ActiveSupport::BufferedLogger.new "#{RAILS_ROOT}/log/#{RAILS_ENV}_db_update_rake.log"
   
   task :update => :"db:update:stale"
   namespace :update do
@@ -22,7 +41,7 @@ namespace :db do
       
       puts "Found #{articles.size} stale articles."
 
-      update_articles(articles)
+      Retriever.update_articles(articles)
       
       puts "Done: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
     end
@@ -32,14 +51,14 @@ namespace :db do
       ENV["LAZY"] = "0"
       limit = (ENV["LIMIT"] || 0).to_i
       articles = Article.limit(limit)
-      update_articles(articles)
+      Retriever.update_articles(articles)
     end
 
     desc "Update cited articles"
     task :cited => :environment do
       limit = (ENV["LIMIT"] || 0).to_i
       articles = Article.cited.limit(limit)
-      update_articles(articles, "cited")
+      Retriever.update_articles(articles, "cited")
     end
 
     desc "Update one specified article"
@@ -47,8 +66,7 @@ namespace :db do
       doi = ENV["DOI"] or abort("DOI not specified (eg, 'DOI=10.1371/foo')")
       article = Article.find_by_doi(doi) or abort("Article not found: #{doi}")
       ENV["LAZY"] ||= "0"
-      ENV["VERBOSE"] ||= "1"
-      update_articles([article])
+      Retriever.update_articles([article])
     end
 
     desc "Count stale articles"
@@ -57,29 +75,10 @@ namespace :db do
       puts "#{article_count} stale articles found"
     end
 
-    def update_articles(articles, adjective=nil)
-      lazy = ENV.fetch("LAZY", "1") == "1"
-      puts ["Updating", articles.size.to_s, 
-            lazy ? "stale" : nil, adjective,
-            articles.size == 1 ? "article" : "articles"].compact.join(" ")
-      verbose = ENV.fetch("VERBOSE", "0").to_i
-      retriever = Retriever.new(:lazy => lazy,
-        :only_source => ENV["SOURCE"], :verbose => verbose,
-        :raise_on_error => ENV["RAISE_ON_ERROR"])
-        
-      articles.each do |article|
-        old_count = article.citations_count
-        retriever.update(article)
-        if verbose > 0
-          delta = article.citations_count - old_count
-          puts "DOI: #{article.doi} count now #{article.citations_count} (#{delta})"
-        end
-      end
-    end
-
     desc "Reset articles so individual sources' dates will be reconsidered"
     task :reset => :environment do
-      Article.update_all("retrieved_at = '2000-01-01 00:00:00'")
+      Article.update_all("retrieved_at = '1970-01-01 00:00:00'")
+      Retrieval.update_all("retrieved_at = '1970-01-01 00:00:00'")
     end
 
     desc "Reset all retrievals and citations"
@@ -87,7 +86,13 @@ namespace :db do
       Retrieval.delete_all
       Citation.delete_all
       History.delete_all
-      Article.update_all("retrieved_at = '2000-01-01 00:00:00'")
+      Article.update_all("retrieved_at = '1970-01-01 00:00:00'")
+    end
+
+    desc "Reenable all disabled sources"
+    task :reenable => :environment do
+      Source.update_all("disable_until = NULL")
+      Source.update_all("disable_delay = 900")
     end
 
     desc "Scan database for duplicate citations"
@@ -102,7 +107,7 @@ namespace :db do
           dups.each do |citation|
             puts "#{retrieval.article.doi} from #{retrieval.source.name} includes extra #{citation.uri}: #{citation.id}"
             if ENV['CLEANUP']
-              puts "deleting citation #{citation.id}" if verbose
+              puts "deleting citation #{citation.id}"
               retrieval.citations.delete(citation)
             end
           end
@@ -110,7 +115,7 @@ namespace :db do
             new_count = retrieval.citations.size
             retrieval.histories.each do |h|
               if h.citations_count > new_count
-                puts "updating history #{h.id}" if verbose
+                puts "updating history #{h.id}"
                 h.citations_count = new_count
                 h.save!
               end

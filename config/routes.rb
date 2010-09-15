@@ -1,16 +1,17 @@
 
 ActionController::Routing::Routes.draw do |map|
-  map.resources :articles, :requirements => { :id => %r([^/]+) }
+  map.resources :articles, :requirements => { :id => /.+?/ }
   map.resources :sources
   map.resources :groups
 
   map.connect '/group/articles/:id', 
     :controller => 'groups',
     :action     => 'groupArticleSummaries',
-    :requirements => { :id => /.+/ }
+    :requirements => { :id => /.+?/ }
 
-  map.root :controller => "articles"
+  map.root :controller => "index"
 
+  map.docs '/docs/:action', :controller => "docs"
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'

@@ -1,8 +1,57 @@
+<%#
+  # $HeadURL$
+  # $Id$
+  #
+  # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+  # http://www.plos.org/
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+-%>
+<% if @source -%>
+<%= 
+  # Broken out by month for one source
+  months = month_range(Time.zone.today, Date.civil((params[:year] || 2009).to_i, 
+                                              (params[:month] || 1).to_i, 1))
+  this_month = Time.zone.today.at_beginning_of_month
+  month_count = months.count
+  empty_row = Array.new(month_count, 0)
+  FasterCSV.generate do |csv|
+    csv << ["DOI", "Published", "Title"] + months.map {|date| "#{date.month}/#{date.year}" }
+    @articles.each do |article|
+      retrieval = article.retrievals.detect {|r| r.source_id == @source.id }
+      month_totals = if retrieval.nil? 
+        empty_row
+      else
+        months.map do |month_date|
+          if month_date == this_month
+            # special-case current month: use most-recent total, in case we haven't updated this month yet.
+            retrieval.total_citations_count
+          else
+            history = retrieval.histories.detect {|h| h.year == month_date.year && h.month == month_date.month }
+            (history && history.citations_count) || 0
+          end
+        end
+      end
+      csv << [article.doi, article.published_on, article.title.to_s.strip_tags] + month_totals
+    end
+  end
+-%>
+<% else -%>
 <%= 
   # Broken out by source, possibly for only a single month
   sources = Source.all.sort_by(&:name)
   one_month = params[:month] && params[:year] && Date.civil(params[:year].to_i, params[:month].to_i, 1)
-  this_month = Date.today.at_beginning_of_month if one_month
+  this_month = Time.zone.today.at_beginning_of_month if one_month
 
   FasterCSV.generate do |csv|
     csv << ["DOI", "Published", "Title"] + sources.map(&:name)
@@ -21,3 +70,4 @@
     end
   end 
 -%>
+<% end -%>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100408211121) do
+ActiveRecord::Schema.define(:version => 20100811225645) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -61,26 +61,30 @@ ActiveRecord::Schema.define(:version => 20100408211121) do
     t.integer  "citations_count",       :default => 0
     t.integer  "other_citations_count", :default => 0
     t.string   "local_id"
+    t.boolean  "running"
   end
 
-  add_index "retrievals", ["source_id", "article_id"], :name => "index_retrievals_on_source_id_and_article_id", :unique => true
   add_index "retrievals", ["article_id", "citations_count", "other_citations_count"], :name => "retrievals_article_id"
+  add_index "retrievals", ["source_id", "article_id"], :name => "index_retrievals_on_source_id_and_article_id", :unique => true
 
   create_table "sources", :force => true do |t|
     t.string   "type"
     t.string   "url"
     t.string   "username"
     t.string   "password"
-    t.integer  "staleness",  :default => 604800
+    t.integer  "staleness",     :default => 604800
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active",     :default => true
+    t.boolean  "active",        :default => true
     t.string   "name"
-    t.boolean  "live_mode",  :default => false
+    t.boolean  "live_mode",     :default => false
     t.string   "salt"
     t.string   "searchURL"
-    t.integer  "timeout",    :default => 30,     :null => false
+    t.integer  "timeout",       :default => 30,     :null => false
     t.integer  "group_id"
+    t.datetime "disable_until"
+    t.integer  "disable_delay", :default => 900
+    t.string   "partner_id"
   end
 
   add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true

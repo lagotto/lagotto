@@ -1,8 +1,25 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 require 'rubygems'
 require 'system_timer'
 
 module SourceHelper
-  include Log
   
   def get_json(url, options={})
     body = get_http_body(url, options)
@@ -29,8 +46,7 @@ protected
   def get_http_body(uri, options={})
     optsMsg = " with #{options.inspect}" unless options.empty?
     begin
-      verbose = options[:verbose] || 0
-      options = options.except(:verbose, :retrieval)
+      options = options.except(:retrieval)
 
       url = URI.parse(uri)
       
@@ -43,8 +59,7 @@ protected
           sUrl= sUrl + "?" + url.query
         end
 
-        log_info("url: #{sUrl}")
-        log_info("timeout: #{options[:timeout]}")
+        Rails.logger.debug "http request: #{sUrl} (timeout: #{options[:timeout]})"
 
         request = Net::HTTP::Get.new(sUrl, { "User-Agent" => APP_CONFIG['useragent'] + " - " + APP_CONFIG['hostname']  })
         
@@ -52,12 +67,11 @@ protected
           request.basic_auth(options[:username], options[:password]) 
         end
         
+        Rails.logger.debug "Request headers:"
         request.each_header do |key, value|
-          log_info("[#{key}] = '#{value}'")
+          Rails.logger.debug "[#{key}] = '#{value}'"
         end
         
-        log_info("Making Request")
-
         #There is an issue with Ruby and Socket Timeouts
         #Hostname resolvs timing out will not be caught
         #by the following system time.  At least that is the behavior 
@@ -71,16 +85,16 @@ protected
             http.request(request)
           end
         end
-        log_info("Request Complete")
       end
       case response
       when Net::HTTPForbidden # CrossRef returns this for "DOI not found"
         ""
       when Net::HTTPSuccess, Net::HTTPRedirection
-        log_info("Requested #{uri}#{optsMsg}, got: #{response.body}")
+        Rails.logger.info "Requested #{uri}#{optsMsg}, got: #{response.body}"
 
+        Rails.logger.debug "Response headers:"
         response.each_header do |key, value|
-          log_info("[#{key}] = '#{value}']")
+          Rails.logger.debug "[#{key}] = '#{value}']"
         end
         
         response.body # OK
@@ -88,10 +102,10 @@ protected
         response.error!
       end
     rescue
-      log_error("Error (#{$!.class.name}) while requesting #{uri}#{optsMsg}")
+      Rails.logger.error "Error (#{$!.class.name}: #{$!.message}) while requesting #{uri}#{optsMsg}"
       raise
     rescue Timeout::Error
-      log_error("Error (#{$!.class.name}) while requesting #{uri}#{optsMsg}")
+      Rails.logger.error "Error (#{$!.class.name}: #{$!.message}) while requesting #{uri}#{optsMsg}"
       raise
     end
   end

@@ -1,13 +1,28 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 class GroupsController < ApplicationController
   before_filter :login_required, :except => [ :index, :show, :groupArticleSummaries ]
-  before_filter :detect_response_format, :only => [ :groupArticleSummaries ]
-                
+
   #This is a way of excepting a list of DOIS and getting back summaries for them all.
   #Articles with no cites are not returned
   #This method does not check for article staleness and does not query articles for refresh
   def groupArticleSummaries
-    log_debug("groupArticleSummaries")
-
     #Ids can be a collection
     ids = params['id'].split('-')
     ids = ids.map { |id| DOI::from_uri(id) }
@@ -49,7 +64,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml { render :xml => @result }
-      format.json  { render_json @result.to_json }
+      format.json  { render :json => @result }
     end
   end
 

@@ -1,5 +1,22 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 class Retrieval < ActiveRecord::Base
-  include Log
   belongs_to :source
   belongs_to :article
   has_many :citations, :dependent => :destroy
@@ -8,15 +25,28 @@ class Retrieval < ActiveRecord::Base
   named_scope :most_cited_sample, :limit => 5,
     :order => "(citations_count + other_citations_count) desc"
 
-  named_scope :active_sources, {:conditions => "source_id in (select id from sources where active = 1)" }
+  named_scope :active_sources,
+    :conditions => "source_id in (select id from sources where active = 1)"
 
   def total_citations_count
     citations_count + other_citations_count
   end
 
   def stale?
-    log_debug "Is this retrieval stale? source.name:#{source.name}, retrieved_at #{retrieved_at}, source.staleness.ago: #{source.staleness.ago}"
     new_record? or retrieved_at.nil? or (retrieved_at < source.staleness.ago)
+  end
+
+  def try_to_exclusively
+    begin
+      acquired = transaction do
+        reload
+        return false if running
+        update_attribute :running, true
+      end
+      yield if acquired
+    ensure
+      update_attribute :running, false
+    end
   end
 
   def to_included_json(options = {})
@@ -37,8 +67,7 @@ class Retrieval < ActiveRecord::Base
   end
   
   def to_csv(options = {})
-    csv_string = FasterCSV.generate do |csv|
-    
+    FasterCSV.generate do |csv|
       if total_citations_count > 0
         csv << [ "name", "uri"]
         csv << [ source.name, source.public_url(self) ]      
@@ -47,8 +76,6 @@ class Retrieval < ActiveRecord::Base
         csv << ""
       end
     end
-    
-    csv_string
   end
 
   def to_xml(options = {})

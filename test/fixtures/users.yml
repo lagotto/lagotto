@@ -1,10 +1,27 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 quentin:
   id:                        1
   login:                     quentin
   email:                     quentin@example.com
-  salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
-  crypted_password:          6480dd200db2719d431c7a25b133887ad8b46551 # 'monkey'
+  salt:                      peanuts
+  crypted_password:          <%= User.password_digest 'monkey', 'peanuts' %>
   created_at:                <%= 5.days.ago.to_s :db  %>
   remember_token_expires_at: <%= 1.days.from_now.to_s %>
   remember_token:            77de68daecd823babbb58edb1c8e14d7106e83bb
@@ -13,8 +30,8 @@ aaron:
   id:                        2
   login:                     aaron
   email:                     aaron@example.com
-  salt:                      da4b9237bacccdf19c0760cab7aec4a8359010b0 # SHA1('1')
-  crypted_password:          8e6d13aebda15f4c76601e8e4d2178a91b53c6f0 # 'monkey'
+  salt:                      chips
+  crypted_password:          <%= User.password_digest 'monkey', 'chips' %>
   created_at:                <%= 1.days.ago.to_s :db %>
   remember_token_expires_at: 
   remember_token:            
@@ -24,8 +41,6 @@ old_password_holder:
   id:                        3
   login:                     old_password_holder
   email:                     salty_dog@example.com
-  salt:                      7e3041ebc2fc05a40c60028e2c4901a81035d3cd
-  crypted_password:          00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  salt:                      pepper
+  crypted_password:          <%= User.password_digest 'test', 'pepper' %>
   created_at:                <%= 1.days.ago.to_s :db %>
-
-

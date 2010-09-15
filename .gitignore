@@ -1,6 +1,7 @@
 .DS_Store
+.bundle
 config/database.yml
-config/initializers/site_keys.rb
+config/settings.yml
 db/*.sqlite3
 doc/api
 doc/app

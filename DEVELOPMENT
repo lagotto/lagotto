@@ -1,58 +1,86 @@
+<!--
+  $HeadURL$
+  $Id$
+
+  Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+  http://www.plos.org/
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 
 Development notes for Article-Level Metrics
+===========================================
 
-Goals:
-- Install everything necessary to develop this application on the local machine
-- Describe a process for deploying the application to production
-- Use the ancillary tools provided for bulk data import and source updating
+Goals
+-----
+
+  - Install everything necessary to develop this application on the local
+    machine
+  - Describe a process for deploying the application to production
+  - Use the ancillary tools provided for bulk data import and source updating
 
 There's more "philosophy" in this document than in the INSTALL notes, partly to convey some of the reasoning behind Rails development methodology.
 
--- Development Setup
+Development Setup
+-----------------
 
-- Make sure you've got Ruby 1.8.6 or newer (though at the moment, 1.9 is too new); you can install and use Ruby Enterprise Edition for development if you prepend its path to your PATH (as described in the INSTALL notes).
+- Make sure you've got Ruby 1.8.7 or newer (though at the moment, 1.9 is too new); you can install and use Ruby Enterprise Edition for development if you prepend its path to your PATH (as described in the INSTALL notes).
 
 - More on Rails environments: You're going to develop using the "development" environment; automated testing will use the "test" environment. These can run out of the same source tree, but "production" and/or "stage" environments would run out of their own trees.
 
 - Each environment needs its own database, too, so set up a database for "development" and "test" environments, as described in INSTALL.
 
-- Install all the gems listed in INSTALL, then this too:
-sudo gem install ruby-debug
-
 - Check out the application sources; a directory in your home directory is fine
-svn co svn+ssh://cvsuser@svn.plos.org/alm/head ~/alm
+`svn co svn+ssh://cvsuser@svn.plos.org/alm/head ~/alm`
 
-- Set up config/database.yml as described in INSTALL, with (at least) development and test configured.
+- Gem versioning and dependencies are managed with bundler. You specify which gems the application requires in the file Gemfile. Use `bundle lock` to re-resolve dependencies and lock the versions for consistent reproducibility across machines.
 
-- Set up config/initializers/site_keys.rb too, also as described in INSTALL.
+- Use bundler to install the needed gems:
+`bundle install`
+
+- Set up `config/database.yml` as described in INSTALL, with (at least) development and test configured.
+
+- Set up `config/settings.yml` too, also as described in INSTALL.
 
 - Set up Starling and Workling, on the local machine, too, and start their daemons (either via /etc/init.d scripts or manually in a shell window). I don't think you need to do anything special if you're running two environments (other than "test") on the same machine - they can share a Starling, with each Workling running from its own application directory. Let me know if you're going to do this and I'll do more research.
 
-- Start the "development" version of your application in Rails' own webserver: do "script/server" at a shell prompt when cd'd to the application's directory.
+- Start the "development" version of your application in Rails' own webserver: do `script/server` at a shell prompt when cd'd to the application's directory.
 
-- Open a browser and visit http://localhost:3000/ -- you should see the main page of the application, and the shell window where "script/server" is running will show the server & database log.
+- Open a browser and visit <http://localhost:3000/> -- you should see the main page of the application, and the shell window where `script/server` is running will show the server & database log.
 
-- There's still a bit of setup required for an instance of the application: some of the sources need configuration. I've included the configuration options (passwords, etc) in a separate email message; I've also added a rake task for dumping source configurations from the database; see below. ("rake" is Ruby's "make": instead of Makefiles, there are Rakefiles written in Ruby syntax; do "rake -T" when cd'd to the application's directory to see what rake tasks are available; I've included a few custom ones for this project that are described below).
+- There's still a bit of setup required for an instance of the application: some of the sources need configuration. I've included the configuration options (passwords, etc) in a separate email message; I've also added a rake task for dumping source configurations from the database; see below. (`rake` is Ruby's `make`: instead of Makefiles, there are Rakefiles written in Ruby syntax; do `rake -T` when cd'd to the application's directory to see what rake tasks are available; I've included a few custom ones for this project that are described below).
 
 - You can enter DOIs manually by creating new articles, or you can bulk-import them using another rake task (see below). For now, I'd suggest configuring all the sources via the web interface, then adding a couple of DOIs that you know are popular -- this will mean that updating those articles from all the sources will be a lightweight operation.
 
 There's more to explain about managing the application, but now that things are basically working, let's talk about application structure, request processing, and automated testing.
 
 Rails application structure
+---------------------------
 
 A brief structure overview: Rails is strongly model-view-controller; each of these portions of the application lives in a subdirectory of the "app" directory. When a request is received, it's routed (using config/routes.rb) to an action of a controller. An action is just a method, and REST conventions in Rails mean that you'll see the same basic methods in most controllers: "index" gets a list of things, "show" shows one thing, "new" creates the form for a new thing, "create" processes the new form, etc.
 
-The controller action collects data using models and stashes it in "local" variables; then, a view is rendered (and the view has access to the "local" variables through some Railsy magic). Often, Rails selects the view (usually a template in /app/views/some_controller/) automatically.
+The controller action collects data using models and stashes it in "local" variables; then, a view is rendered (and the view has access to the "local" variables through some Railsy magic). Often, Rails selects the view (usually a template in `app/views/some_controller/`) automatically.
 
 Let's follow a request through the controller & action that this application will most often see, an article-show request:
 
-- User requests "http://plos.eliot.com/articles/info:doi%2F10.1371%2Fjournal.pcbi.0040020". Routing determines that this request should go to the articles_controller's "show" action. Routing also strips off URL parameters into a "params" hash that's available to the action; in this case, it's the DOI, which goes in an "id" parameter.
+- User requests <http://plos.eliot.com/articles/info:doi%2F10.1371%2Fjournal.pcbi.0040020>. Routing determines that this request should go to the articles_controller's "show" action. Routing also strips off URL parameters into a "params" hash that's available to the action; in this case, it's the DOI, which goes in an "id" parameter.
 
 - "Filters" configured for this action, or all actions, are run. Filters can shortcut request processing: we use the login_required filter on some actions (though not this one) to ensure that the requesting user has logged in -- it redirects to the login action (RESTfully, that's /sessions/new) if the user hasn't. In this case, the detect_response_format filter strips off a ".xml" or ".json" from the DOI parameter; Rails would normally do this automatically, but not for us because we allow "." in DOIs.
 
-- Finally, the show action is run. Its basic job is to load the article and use one of several views to render it, based on the request format. HTML requests will be rendered using the app/views/articles/show.html.erb template, implicitly; XML & JSON requests are rendered explicitly using model methods that conditionally augment or restrict the data included in the response. (If you're thinking that MVC would suggest that XML & JSON generation ought to be in the view layer, not the model layer, you're right; I've seen it done both ways, and this way was more expedient this time.)
+- Finally, the show action is run. Its basic job is to load the article and use one of several views to render it, based on the request format. HTML requests will be rendered using the `app/views/articles/show.html.erb` template, implicitly; XML & JSON requests are rendered explicitly using model methods that conditionally augment or restrict the data included in the response. (If you're thinking that MVC would suggest that XML & JSON generation ought to be in the view layer, not the model layer, you're right; I've seen it done both ways, and this way was more expedient this time.)
 
 A bit about Rails testing
+-------------------------
 
 Rails encourages test-driven development; there are built-in mechanisms (similar to JUnit or NUnit) that use reflection to locate tests to run. There are three flavors of testing that this mechanism supports: unit tests (which test model code on its own), functional tests (which test controller code, generally with model mechanisms stubbed or mocked out), and integration tests (which test views, ideally independently of the other two layers).
 
@@ -63,8 +91,9 @@ These automated unit & functional tests run in their own environment: just like 
 All the unit and functional tests will be run if you do "rake test" at the command prompt (or just "rake" by itself: we're so test-centric that "test" is the default rake task).
 
 Adding a source
+---------------
 
-A Source is a place where we can get statistics for an article. Each is implemented as its own subclass of the Source model class; the Source base class lives in app/models/source.rb, and each subclass lives in the app/models/sources/ directory.
+A Source is a place where we can get statistics for an article. Each is implemented as its own subclass of the Source model class; the Source base class lives in `app/models/source.rb`, and each subclass lives in the `app/models/sources/` directory.
 
 Each source also has a single data row where its configuration is stored; the "sources" table holds these rows, and its schema provides columns for each configuration parameter that any source might need.
 
@@ -75,4 +104,3 @@ Each source has to implement the query(article) method, which takes an article a
 There are a couple of helper methods I've written that minimize the amount of work you need to do to create a source, since most sources present their data in XML or JSON form: get_xml produces a parsed XML DOM object that the source can then query; get_json produces a parsed JSON structure.
 
 So, for a new source, you'll generally want to copy an existing source that uses the same format (bloglines.rb uses XML, nature.rb uses JSON) and tweak it to produce the uri and whatever other details you want to save. Once you've done this, you'll need to visit the Sources list in the web application - you can configure the parameters used by the source and mark it "active" - this will create that data row.
-

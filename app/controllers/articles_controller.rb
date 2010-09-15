@@ -1,6 +1,22 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 class ArticlesController < ApplicationController
-  before_filter :detect_response_format, 
-                :only => [ :show, :edit, :update, :destroy ]
   before_filter :login_required, :except => [ :index, :show ]
   before_filter :load_article, 
                 :only => [ :edit, :update, :destroy ]
@@ -8,19 +24,23 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.xml
   def index
+    # cited=0|1
+    # query=(doi fragment)
+    # order=doi|published_on (whitelist, default to doi)
+    # source=source_name
+    collection = Article
+    collection = collection.cited(params[:cited])  if params[:cited]
+    collection = collection.query(params[:query])  if params[:query]
+    collection = collection.order(params[:order])  if params[:order]
+
+    @articles = collection.paginate :page => params[:page], :per_page => params[:per_page], :include => :retrievals
+    @source = Source.find_by_name(params[:source]) if params[:source]
+
     respond_to do |format|
-      format.html { load_articles(:paginate => true) }
-      format.xml { render :xml => load_articles }
-      format.json { render_json load_articles.to_json }
-      format.csv do
-        load_articles
-        if params[:source]
-          @source = Source.find_by_name(params[:source])
-          render :action => "index_for_source"
-        else
-          render :csv => @articles
-        end
-      end
+      format.html
+      format.xml  { render :xml => @articles }
+      format.json { render :json => @articles, :callback => params[:callback] }
+      format.csv  { render :csv => @articles }
     end
   end
 
@@ -30,28 +50,25 @@ class ArticlesController < ApplicationController
     if params[:refresh] == "now"
       load_article
       Retriever.new(:lazy => false, :only_source => false).update(@article)      
-      redirect_to(@article) and return
+      redirect_to(@article) and return  # why not just keep going with show?
     end
-    load_article(eager_includes)
-    format_options = {}
-    format_options[:citations] = params[:citations]
-    format_options[:history] = params[:history]
-    format_options[:source] = params[:source]
 
-    if (params[:refresh] == "soon" or @article.stale?)
-      log_info "Queuing article #{@article.id} for retrieval"
-      uid = RetrievalWorker.async_retrieval(:article_id => @article.id) 
-      log_info "Item created: #{uid}"
+    load_article(eager_includes)
+    format_options = params.slice :citations, :history, :source
+
+    if params[:refresh] == "soon" or @article.stale?
+      uid = RetrievalWorker.async_retrieval(:article_id => @article.id)
+      logger.info "Queuing article #{@article.id} for retrieval as #{uid}"
     end
     
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  {
+      format.xml do
         response.headers['Content-Disposition'] = 'attachment; filename=' + params[:id].sub(/^info:/,'') + '.xml'
         render :xml => @article.to_xml(format_options)
-      }
+      end
       format.csv  { render :csv => @article }
-      format.json  { render_json @article.to_json(format_options) }
+      format.json { render :json => @article.to_json(format_options), :callback => params[:callback] }
     end
   end
 
@@ -63,11 +80,8 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @article }
+      format.json { render :json => @article }
     end
-  end
-
-  # GET /articles/1/edit
-  def edit
   end
 
   # POST /articles
@@ -75,23 +89,23 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(params[:article])
 
-    article = @article.save
-    
     respond_to do |format|
-      if article
+      if @article.save
         flash[:notice] = 'Article was successfully created.'
+
+        Source.all.each do |source|
+          Retrieval.find_or_create_by_article_id_and_source_id(@article.id, source.id)
+        end    
+
         format.html { redirect_to(@article) }
         format.xml  { render :xml => @article, :status => :created, :location => @article }
+        format.json { render :json => @article, :status => :created, :location => @article }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
+        format.json { render :json => @article.errors, :status => :unprocessable_entity }
       end
     end
-    
-    Source.all.each do |source|
-      retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
-    end    
-    
   end
 
   # PUT /articles/1
@@ -102,9 +116,11 @@ class ArticlesController < ApplicationController
         flash[:notice] = 'Article was successfully updated.'
         format.html { redirect_to(@article) }
         format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
+        format.json { render :json => @article.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -117,33 +133,22 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(articles_url) }
       format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
 
 protected
-  def load_articles(options={})
-    # Load articles given query params, for #index
-    @articles, @article_count = Article.load_articles(params, options)
-  end
-
   def load_article(options={})
     # Load one article given query params, for the non-#index actions
-    @article = Article.load_article(params[:id], options)
+    doi = DOI::from_uri(params[:id])
+    @article = Article.find_by_doi!(doi, options)
   end
 
   def eager_includes
-    result = { :include => { :retrievals => [ :source ] } }
-    if params[:citations] == "1"
-      result[:include][:retrievals] << :citations
+    returning :include => { :retrievals => [ :source ] } do |r|
+      r[:include][:retrievals] << :citations if params[:citations] == "1"
+      r[:include][:retrievals] << :histories if params[:history] == "1"
+      r[:conditions] = ['LOWER(sources.name) IN (?)', params[:source].downcase.split(",")] if params[:source]
     end
-    if params[:history] == "1"
-      result[:include][:retrievals] << :histories
-    end
-    if params[:source]
-      sources = params[:source].downcase.split(",")
-      result[:conditions] = ['lower(sources.name) in (?)', sources]
-    end
-    result
   end
-
 end

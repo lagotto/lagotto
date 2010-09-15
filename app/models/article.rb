@@ -1,5 +1,22 @@
+# $HeadURL$
+# $Id$
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 class Article < ActiveRecord::Base
-  include Log
   
   has_many :retrievals, :dependent => :destroy
   has_many :sources, :through => :retrievals
@@ -12,28 +29,44 @@ class Article < ActiveRecord::Base
     { :conditions => [ "doi like ?", "%#{query}%" ] }
   }
   
-  named_scope :cited, { 
-    :include => :retrievals, 
-    :conditions => "retrievals.citations_count > 0 or retrievals.other_citations_count > 0" 
+  named_scope :cited, lambda { |cited|
+    case cited
+    when '1', 1
+      { :include => :retrievals,
+        :conditions => "retrievals.citations_count > 0 OR retrievals.other_citations_count > 0" }
+    when '0', 0
+      { :conditions => 'articles.id IN (SELECT articles.id FROM articles LEFT OUTER JOIN retrievals ON retrievals.article_id = articles.id GROUP BY articles.id HAVING IFNULL(SUM(retrievals.citations_count) + SUM(retrievals.other_citations_count), 0) = 0)' }
+    else
+      {}
+    end
   }
 
-  named_scope :limit, lambda { |limit| (limit > 0) ? {:limit => limit} : {} }
+  named_scope :limit, lambda { |limit| (limit && limit > 0) ? {:limit => limit} : {} }
 
-  named_scope :stale_and_published, { 
-    :conditions => ["exists(select retrievals.id from retrievals join sources on retrievals.source_id = sources.id where retrievals.article_id = articles.id and retrievals.retrieved_at < CONVERT_TZ(FROM_UNIXTIME(UNIX_TIMESTAMP() - sources.staleness), '-08:00', '+00:00') and sources.active = 1) and articles.published_on <= ?", Date.today ],
-    :order => :retrieved_at 
+  named_scope :order, lambda { |order|
+    if order == 'published_on'
+      { :order => 'published_on' }
+    else
+      {}
+    end
   }
+
+  named_scope :stale_and_published,
+    :conditions => ["(exists(select retrievals.id from retrievals join sources on retrievals.source_id = sources.id where retrievals.article_id = articles.id and retrievals.retrieved_at < TIMESTAMPADD(SECOND, -sources.staleness, UTC_TIMESTAMP()) and sources.active = 1 and (sources.disable_until is null or sources.disable_until < UTC_TIMESTAMP())) or not exists(select id from retrievals where retrievals.article_id = articles.id and retrieved_at is not null)) and articles.published_on <= ?", Time.zone.today],
+    :order => :retrieved_at
+
+  default_scope :order => 'articles.doi'
 
   def to_param
-    DOI::to_uri(doi)
+    DOI.to_uri(doi)
   end
 
   def doi=(new_doi)
-    write_attribute :doi, DOI::from_uri(new_doi)
+    self[:doi] = DOI.from_uri(new_doi)
   end
 
   def stale?
-    return (new_record? or (retrievals.active_sources.any? {|r| r.stale? }))
+    new_record? or retrievals.empty? or retrievals.active_sources.any?(&:stale?)
   end
 
   def refreshed!
@@ -46,7 +79,6 @@ class Article < ActiveRecord::Base
     results = {}
     
     for ret in retrievals
-      #log_debug "ret #{ret.citations_count + ret.other_citations_count} #{ret.source.name}"
       if results[ret.source.group_id] == nil then
         results[ret.source.group_id] = {
           :name => ret.source.group.name.downcase,
@@ -77,21 +109,17 @@ class Article < ActiveRecord::Base
   
   #Get cites for the given source from the activeRecord data
   def get_cites_by_group(groupname)
-    cites = []
-    
-    for ret in retrievals
-      #log_debug("ret.source.group.name.downcase: #{ret.source.group.name.downcase}")
-      if(ret.source.group.name.downcase == groupname.downcase && (ret.citations_count + ret.other_citations_count) > 0) then
+    groupname = groupname.downcase
+    retrievals.map do |ret|
+      if ret.source.group.name.downcase == groupname && (ret.citations_count + ret.other_citations_count) > 0
         #Cast this to an array to get around a ruby 'singularize' bug
-        cites << { :name => ret.source.name.downcase, :citations => ret.citations.to_a }
+        { :name => ret.source.name.downcase, :citations => ret.citations.to_a }
       end
-    end
-    
-    return cites
+    end.compact
   end
   
   def citations_count
-    retrievals.inject(0) {|sum, r| sum += r.total_citations_count }
+    retrievals.inject(0) {|sum, r| sum + r.total_citations_count }
     # retrievals.sum(:citations_count) + retrievals.sum(:other_citations_count)
   end
 
@@ -104,7 +132,7 @@ class Article < ActiveRecord::Base
     sources = (options.delete(:source) || '').downcase.split(',')
     xml = options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
     xml.instruct! unless options[:skip_instruct]
-    xml.tag!("article", :doi => doi, :title => title, :citations_count => citations_count,:pub_med => pub_med,:pub_med_central => pub_med_central, :updated_at => retrieved_at, :published => published_on) do
+    xml.tag!("article", :doi => doi, :title => title, :citations_count => citations_count,:pub_med => pub_med,:pub_med_central => pub_med_central, :updated_at => retrieved_at, :published => published_on.to_time) do
       if options[:citations] or options[:history]
         retrieval_options = options.merge!(:dasherize => false, 
                                            :skip_instruct => true)
@@ -133,8 +161,8 @@ class Article < ActiveRecord::Base
         :pub_med => pub_med,
         :pub_med_central => pub_med_central,
         :citations_count => citations_count,
-        :published => published_on.to_time.to_i,
-        :updated_at => retrieved_at.to_i
+        :published => published_on.to_time,
+        :updated_at => retrieved_at
       }
     }
     sources = (options.delete(:source) || '').downcase.split(',')
@@ -148,62 +176,5 @@ class Article < ActiveRecord::Base
       end.compact
     end
     result.to_json(options)
-  end
-
-  def self.collect_article_ids(params)
-    # Make a list of article IDs given query parameters:
-    # cited=0|1
-    # query=(doi fragment)
-    # order=doi|published_on
-    
-    where = "where articles.doi like '%#{params[:query].gsub("'","''")}%'" if params[:query]
-    order = connection.quote("articles.#{params[:order] || "doi"}")
-
-    if params[:cited]
-      # Grab all the articles with 0 recorded citations
-      sql = <<SQL
-select articles.id, #{order} as sortorder from articles
-join retrievals on retrievals.article_id = articles.id
-#{where}
-group by articles.id
-having sum(retrievals.citations_count + retrievals.other_citations_count) #{params[:cited] == "1" ? ">" : "="} 0
-SQL
-      # if 'uncited', include the articles we haven't retrieved yet, too
-      sql += <<SQL if params[:cited] == "0"
-union
-select articles.id, #{order} as sortorder from articles
-left outer join retrievals on articles.id = retrievals.article_id
-where retrievals.article_id is null
-SQL
-    else
-      # All articles (possibly limited by the query)
-      sql = "select articles.id, #{order} as sortorder from articles #{where}"
-    end
-
-    # Always order by DOI
-    sql += " order by sortorder"
-
-    Article.connection.select_values(sql)
-  end
-
-  def self.load_articles(params, options={})
-    # Load articles given query params, for the #index
-    article_ids = collect_article_ids(params)
-    article_count = article_ids.size
-    order = %w{doi published_on}.include?(params[:order]) ? params[:order] : "doi"
-    sql = (article_count == 0) \
-      ? "select * from articles where 1 = 0" \
-      : "select * from articles where id in (#{article_ids.join(",")}) order by #{order}"
-
-    articles = options[:paginate] \
-      ? Article.paginate_by_sql(sql, :page => params[:page]) \
-      : Article.find_by_sql(sql)
-    [articles, article_count]
-  end
-
-  def self.load_article(uri, options={})
-    # Load one article given query params, for the non-#index actions
-    doi = DOI::from_uri(uri)
-    Article.find_by_doi(doi, options) or raise ActiveRecord::RecordNotFound
   end
 end
