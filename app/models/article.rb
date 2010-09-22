@@ -88,14 +88,14 @@ class Article < ActiveRecord::Base
         results[ret.source.group_id][:sources] << {
           :name => ret.source.name,
           :total => ret.citations_count + ret.other_citations_count,
-          :public_url => ret.source.public_url
+          :public_url => ret.source.public_url(ret)
         }
       else
         results[ret.source.group_id][:total] = results[ret.source.group_id][:total] + ret.citations_count + ret.other_citations_count
         results[ret.source.group_id][:sources] << {
           :name => ret.source.name,
           :total => ret.citations_count + ret.other_citations_count,
-          :public_url => ret.source.public_url
+          :public_url => ret.source.public_url(ret)
         }
       end
     end
