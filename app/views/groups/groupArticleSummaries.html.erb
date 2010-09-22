@@ -29,8 +29,13 @@
     <span class="details">
       <ul>
       <% for groupcount in record[:groupcounts] %>
-        <li><%=groupcount[:name] %>:
-        <%=groupcount[:total] %></li>
+        <li><%=groupcount[:name] %>: <%=groupcount[:total] %><br/>
+          <ul>
+            <% for source in groupcount[:sources] %>
+              <li><a href="<%=source[:public_url] %>"><%=source[:name] %> (<%=source[:total] %>)</a></li>
+            <% end %>
+          </ul>
+        </li>
       <% end %>
       </ul>
     </span>
