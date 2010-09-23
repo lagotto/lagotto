@@ -16,22 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Don't add a fixture for Bloglines - it'll break the tests in 
-# test/unit/source_test.
+require 'test_helper'
 
-crossref:
-  type: CrossRef
-  name: CrossRef
-  username: user
-  password: pass
-  staleness: <%= 1.year.to_i %>
-  active: true
-  group: cool_kids
+class GroupsControllerTest < ActionController::TestCase
+  def test_articles
+    get :articles, :id => articles(:not_stale).doi
+    assert_response :success
+  end
 
-connotea:
-  type: Connotea
-  name: Connotea
-  username: user
-  password: pass
-  staleness: <%= 1.year.to_i %>
-  active: true
+  def test_articles_xml
+    get :articles, :id => articles(:not_stale).doi, :format => 'xml'
+    assert_response :success
+  end
+end

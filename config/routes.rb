@@ -4,9 +4,13 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :sources
   map.resources :groups
 
-  map.connect '/group/articles/:id', 
+  map.formatted_group_articles '/group/articles/:id.:format',
     :controller => 'groups',
-    :action     => 'groupArticleSummaries',
+    :action     => 'articles',
+    :requirements => { :id => /.+?/ }
+  map.group_articles '/group/articles/:id',
+    :controller => 'groups',
+    :action     => 'articles',
     :requirements => { :id => /.+?/ }
 
   map.root :controller => "index"

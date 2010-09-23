@@ -22,6 +22,6 @@ class IndexControllerTest < ActionController::TestCase
   test "index" do
     get :index
     assert_response :ok
-    assert_select '#content h1', :count => 3
+    assert_select 'h1'
   end
 end

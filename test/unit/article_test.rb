@@ -42,7 +42,7 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   def test_should_find_stale_articles
-    assert_equal [articles(:uncited_with_no_retrievals), articles(:stale)],
+    assert_equal [articles(:uncited_with_no_retrievals), articles(:stale), articles(:not_stale)],
       Article.stale_and_published
   end
 
@@ -66,7 +66,7 @@ class ArticleTest < ActiveSupport::TestCase
     assert Article.stale_and_published.include?(a)
   end
 
-  def test_staleness_excluding_failed_retrievals
+  def test_staleness_excludes_failed_retrievals
     a = Article.create :doi => '10.1/foo', :published_on => 1.day.ago
     assert a.errors.empty?, a.errors.full_messages
     assert a.stale?
@@ -78,12 +78,20 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   def test_staleness_excludes_disabled_sources
+    assert_equal 3, Article.stale_and_published.count
     Source.update_all :disable_until => 3.days.from_now
-    assert_equal [articles(:uncited_with_no_retrievals)], Article.stale_and_published
-    Source.update_all :disable_until => 1.hour.from_now
-    assert_equal [articles(:uncited_with_no_retrievals)], Article.stale_and_published
+    assert_equal [], Article.stale_and_published
     Source.update_all :disable_until => 1.second.ago
-    assert_equal 2, Article.stale_and_published.count
+    assert_equal 3, Article.stale_and_published.count
+  end
+
+  def test_staleness_excludes_failed_retrievals_and_disabled_sources
+    a = Article.create! :doi => '10.1/foo', :published_on => 1.day.ago
+    r = a.retrievals.create! :source => sources(:connotea)
+    assert_equal nil, r.retrieved_at
+    Source.update_all :disable_until => 3.days.from_now
+
+    assert !Article.stale_and_published.include?(a)
   end
 
   def test_cited

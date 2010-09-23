@@ -25,6 +25,7 @@ class Retriever
     @lazy = options[:lazy]
     @only_source = options[:only_source]
     @raise_on_error = options[:raise_on_error]
+    @sources = Source.active
   end
 
   def update(article)
@@ -34,7 +35,7 @@ class Retriever
       return
     end
 
-    sources = Source.active
+    sources = @sources
     if only_source
       sources = sources.select {|s| s.name.downcase == only_source.downcase }
       if sources.empty?
@@ -116,30 +117,26 @@ class Retriever
           h[citation[:uri]] = citation; h
         end
         Rails.logger.debug "After existing citations uniquified: #{existing.size}"
-    
+
         raw_citations.each do |uri, raw_citation|
           #Loop through all citations, updating old, creating new.
           #Remove any old ones from the hash.
           dbCitation = existing.delete(uri)
-          if dbCitation.nil?
-            begin
+          begin
+            if dbCitation.nil?
               Rails.logger.info "Creating citation #{uri}"
               citation = retrieval.citations.create(:uri => uri,
                 :details => symbolize_keys_deeply(raw_citation))
-              rescue
-                raise if raise_on_error
-                Rails.logger.error "Unable to create #{raw_citation.inspect}"
-                success = false
-            end
-          else
-            begin
+            else
               Rails.logger.info "Updating citation: #{dbCitation.id} "
               citation = retrieval.citations.update(dbCitation.id, {:details => symbolize_keys_deeply(raw_citation), :updated_at => DateTime.now })
-              rescue
-                raise if raise_on_error
-                Rails.logger.error "Unable to update #{raw_citation.inspect}"
-                success = false
             end
+          rescue Timeout::Error, Timeout::ExitException
+            raise
+          rescue
+            raise if raise_on_error
+            Rails.logger.error "Unable to #{dbCitation.nil? ? 'create' : 'update'} #{raw_citation.inspect}"
+            success = false
           end
         end
         
@@ -151,14 +148,11 @@ class Retriever
         retrieval.retrieved_at = DateTime.now.utc
       end
       retrieval.save!
+    rescue Timeout::Error, Timeout::ExitException
+      raise
     rescue Exception => e
       raise e if raise_on_error
       Rails.logger.error "Unable to query"
-      Rails.logger.error e.backtrace.join("\n")
-      success = false
-    rescue Timeout::Error => e
-      raise e if raise_on_error
-      Rails.logger.error "Unable to query (timeout)"
       Rails.logger.error e.backtrace.join("\n")
       success = false
     end
@@ -199,9 +193,9 @@ class Retriever
           puts "DOI: #{article.doi} count now #{article.citations_count} (#{article.citations_count - old_count})"
         end
       end
-    rescue Timeout::Error => e
+    rescue Timeout::Error
       Rails.logger.error "Timeout exceeded on article update\n" + $!.backtrace.join("\n")
-      raise e
+      raise
     end
   end
 end

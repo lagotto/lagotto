@@ -22,8 +22,8 @@ class RetrievalTest < ActiveSupport::TestCase
   def test_published_on_lazyness 
     # we shouldn't until the day after the publication date
     today = Date.new(2000,1,1)
-    article = Article.new(:doi => "10.0/unpublished", 
-                          :published_on => today)
+    article = Article.create(:doi => "10.0/unpublished", 
+                             :published_on => today)
     retriever = Retriever.new(:lazy => true)
 
     # First time we'll call it on the publication date - it should skip out.
@@ -34,7 +34,6 @@ class RetrievalTest < ActiveSupport::TestCase
     # Second time we'll call it on the day after that - it should look for
     # sources.
     Time.zone.stubs(:today).returns(today + 1)
-    Source.expects(:active).returns([])
     retriever.update(article)
   end
 
