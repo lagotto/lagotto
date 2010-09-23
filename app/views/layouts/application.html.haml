@@ -29,6 +29,10 @@
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'http://code.jquery.com/jquery.min.js'
     = yield(:head)
+    :javascript
+      $(function() {
+        $('#content .inner .flash').delay(2500).slideUp();
+      });
 %body{ :class => "#{params[:controller]} #{params[:controller]}-#{params[:action]}" }
   %header
     .inner

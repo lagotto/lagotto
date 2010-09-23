@@ -17,54 +17,38 @@
 # limitations under the License.
 
 class GroupsController < ApplicationController
-  before_filter :login_required, :except => [ :index, :show, :groupArticleSummaries ]
+  before_filter :login_required, :except => [ :index, :show, :articles ]
 
-  #This is a way of excepting a list of DOIS and getting back summaries for them all.
-  #Articles with no cites are not returned
-  #This method does not check for article staleness and does not query articles for refresh
-  def groupArticleSummaries
-    #Ids can be a collection
-    ids = params['id'].split('-')
-    ids = ids.map { |id| DOI::from_uri(id) }
-      
-    @result  = []
+  # This is a way of excepting a list of DOIS and getting back summaries for
+  # them all. Articles with no cites are not returned This method does not
+  # check for article staleness and does not query articles for refresh
+  def articles
+    # Ids can be a collection
+    ids = params[:id].split('-').map { |id| DOI::from_uri(id) }
 
-    #Specifiy the eager loading so we get all the data we need up front
+    # Specifiy the eager loading so we get all the data we need up front
     articles = Article.find(:all, 
       :include => [ :retrievals => [ :citations, { :source => :group } ]], 
       :conditions => [ "articles.doi in (?) and (retrievals.citations_count > 0 or retrievals.other_citations_count > 0)", ids ])
     
-    for article in articles
-      hash = {}
-      hash[:article] = article
-      hash[:groupcounts] = article.citations_by_group
-      
-      #If any groups are specified via URL params, get those details
-      if params[:group] != nil then
-        groups = []
+    @result = articles.map do |article|
+      returning Hash.new do |hash|
+        hash[:article] = article
+        hash[:groupcounts] = article.citations_by_group
         
-        params[:group].split(",").map { | group |
-           sources = article.get_cites_by_group(group)
-           
-           if(sources.length > 0) then
-             groupHash = {}
-             groupHash[:name] = group
-             
-             groupHash[:sources] = sources
-             groups << groupHash
-           end
-        }
-        
-        hash[:groups] = groups
+        # If any groups are specified via URL params, get those details
+        hash[:groups] = params[:group].split(",").map do |group|
+          sources = article.get_cites_by_group(group)
+          { :name => group,
+            :sources => sources } unless sources.empty?
+        end.compact if params[:group]
       end
-      
-      @result << hash
     end
   
     respond_to do |format|
       format.html # index.html.erb
-      format.xml { render :xml => @result }
-      format.json  { render :json => @result }
+      format.xml  { render :xml => @result }
+      format.json { render :json => @result }
     end
   end
 

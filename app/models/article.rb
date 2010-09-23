@@ -52,7 +52,29 @@ class Article < ActiveRecord::Base
   }
 
   named_scope :stale_and_published,
-    :conditions => ["(exists(select retrievals.id from retrievals join sources on retrievals.source_id = sources.id where retrievals.article_id = articles.id and retrievals.retrieved_at < TIMESTAMPADD(SECOND, -sources.staleness, UTC_TIMESTAMP()) and sources.active = 1 and (sources.disable_until is null or sources.disable_until < UTC_TIMESTAMP())) or not exists(select id from retrievals where retrievals.article_id = articles.id and retrieved_at is not null)) and articles.published_on <= ?", Time.zone.today],
+    :conditions => ["articles.id in (
+      select distinct article_id from (
+SELECT a.article_id AS article_id,
+       a.doi AS article_doi,
+       a.published_on,
+       CASE WHEN MAX(retrievals.retrieved_at) >= TIMESTAMPADD(SECOND, -a.staleness, UTC_TIMESTAMP()) THEN 1 ELSE 0 END AS fresh,
+       CASE WHEN a.active = 1 AND (a.disable_until IS NULL OR a.disable_until < UTC_TIMESTAMP()) THEN 1 ELSE 0 END AS active
+FROM
+  (SELECT
+    articles.doi,
+    articles.id article_id,
+    articles.published_on published_on,
+    sources.id source_id,
+    sources.staleness,
+    sources.active,
+    sources.disable_until
+  FROM articles, sources) a
+LEFT OUTER JOIN retrievals
+ON (a.article_id = retrievals.article_id AND a.source_id = retrievals.source_id)
+GROUP BY a.article_id, a.source_id
+HAVING fresh = 0 AND active = 1 AND published_on <= ?
+) b
+)", Time.zone.today],
     :order => :retrieved_at
 
   default_scope :order => 'articles.doi'
