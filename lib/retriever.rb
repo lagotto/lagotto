@@ -149,6 +149,9 @@ class Retriever
       end
       retrieval.save!
     rescue Timeout::Error, Timeout::ExitException
+      # do nothing
+      success = false
+    rescue RetrieverTimeout
       raise
     rescue Exception => e
       raise e if raise_on_error
@@ -178,7 +181,7 @@ class Retriever
   def self.update_articles(articles, adjective=nil, timeout_period=50.minutes)
     require 'timeout'
     begin
-      Timeout::timeout timeout_period.to_i do
+      Timeout::timeout timeout_period.to_i, RetrieverTimeout do
         lazy = ENV.fetch("LAZY", "1") == "1"
         Rails.logger.debug ["Updating", articles.size.to_s,
               lazy ? "stale" : nil, adjective,
@@ -188,14 +191,17 @@ class Retriever
           :raise_on_error => ENV["RAISE_ON_ERROR"])
 
         articles.each do |article|
-          old_count = article.citations_count
+          old_count = article.citations_count || 0
           retriever.update(article)
-          puts "DOI: #{article.doi} count now #{article.citations_count} (#{article.citations_count - old_count})"
+          new_count = article.citations_count || 0
+          Rails.logger.debug "DOI: #{article.doi} count now #{new_count} (#{new_count - old_count})"
         end
       end
-    rescue Timeout::Error
-      Rails.logger.error "Timeout exceeded on article update\n" + $!.backtrace.join("\n")
-      raise
+    rescue RetrieverTimeout => e
+      Rails.logger.error "Timeout exceeded on article update\n" + e.backtrace.join("\n")
+      raise e
     end
   end
+
+  class RetrieverTimeout < Exception; end
 end

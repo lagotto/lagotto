@@ -58,7 +58,7 @@ class ArticleTest < ActiveSupport::TestCase
 
   def test_staleness_on_create
     a = Article.create :doi => '10.1/foo'
-    assert a.errors.empty?, a.errors.full_messages
+    assert a.valid?, a.errors.full_messages
     assert a.stale?
 
     a.published_on = 1.day.ago
@@ -66,14 +66,20 @@ class ArticleTest < ActiveSupport::TestCase
     assert Article.stale_and_published.include?(a)
   end
 
+  def test_retrievals_created_on_newly_created_article
+    a = Article.create :doi => '10.1/foo'
+    assert a.valid?, a.errors.full_messages
+    assert_equal Source.active.count, a.retrievals.count
+  end
+
   def test_staleness_excludes_failed_retrievals
     a = Article.create :doi => '10.1/foo', :published_on => 1.day.ago
-    assert a.errors.empty?, a.errors.full_messages
+    assert a.valid?, a.errors.full_messages
     assert a.stale?
 
-    r = a.retrievals.create :source => sources(:connotea)
-    assert r.errors.empty?
-    assert_equal nil, r.retrieved_at
+    r = a.retrievals.first(:conditions => { :source_id => sources(:connotea).id })
+    assert r.valid?
+    assert_equal Time.at(0), r.retrieved_at
     assert Article.stale_and_published.include?(a)
   end
 
@@ -87,8 +93,8 @@ class ArticleTest < ActiveSupport::TestCase
 
   def test_staleness_excludes_failed_retrievals_and_disabled_sources
     a = Article.create! :doi => '10.1/foo', :published_on => 1.day.ago
-    r = a.retrievals.create! :source => sources(:connotea)
-    assert_equal nil, r.retrieved_at
+    r = a.retrievals.first(:conditions => { :source_id => sources(:connotea).id })
+    assert_equal Time.at(0), r.retrieved_at
     Source.update_all :disable_until => 3.days.from_now
 
     assert !Article.stale_and_published.include?(a)

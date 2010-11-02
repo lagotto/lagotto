@@ -30,6 +30,8 @@ class Source < ActiveRecord::Base
   validates_numericality_of :staleness_days,
     :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 366
 
+  after_save :create_retrievals
+
   attr_accessor :staleness_days_before_type_cast
 
   named_scope :active, :conditions => {:active => true}
@@ -139,4 +141,15 @@ class Source < ActiveRecord::Base
   def uses_live_mode; false; end
   def uses_salt; false; end
   def uses_partner_id; false; end
+
+  private
+    def create_retrievals
+      # Create an empty retrieval record for each active source to avoid a
+      # problem with joined tables breaking the UI on the front end
+      Retrieval.connection.execute "
+        INSERT INTO retrievals (article_id, source_id)
+          SELECT id, #{id} FROM articles
+          WHERE id NOT IN
+            (SELECT article_id FROM retrievals WHERE source_id = #{id})"
+    end
 end

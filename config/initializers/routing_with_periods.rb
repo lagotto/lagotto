@@ -23,6 +23,6 @@
 ActionController::Routing::OptionalFormatSegment.class_eval do
   @@types = Mime::SET.map(&:to_sym).join('|')
   def regexp_chunk
-    "/|(\.(#{@@types}))?"
+    "/|(\\.(#{@@types}))?"
   end
 end
