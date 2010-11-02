@@ -101,12 +101,9 @@ protected
       else
         response.error!
       end
-    rescue
-      Rails.logger.error "Error (#{$!.class.name}: #{$!.message}) while requesting #{uri}#{optsMsg}"
-      raise
-    rescue Timeout::Error
-      Rails.logger.error "Error (#{$!.class.name}: #{$!.message}) while requesting #{uri}#{optsMsg}"
-      raise
+    rescue Exception => e
+      Rails.logger.error "Error (#{e.class.name}: #{e.message}) while requesting #{uri}#{optsMsg}"
+      raise e
     end
   end
 

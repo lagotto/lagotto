@@ -46,15 +46,7 @@ task :doi_import => :environment do
       unless existing
         article = Article.create(:doi => doi, :published_on => published_on, 
                        :title => title)
-        
-        #Create an empty retrieval record for each active source to avoid a problem with
-        #joined tables breaking the UI on the front end
-        sources.each do |source|
-          retrieval = Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id)
-        end
-        
         RetrievalWorker.async_retrieval(:article_id => article.id) 
-                       
         created << doi
       else
         if existing.published_on != published_on or existing.title != title

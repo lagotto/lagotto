@@ -48,7 +48,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @result }
-      format.json { render :json => @result }
+      format.json { render :json => @result, :callback => params[:callback] }
     end
   end
 

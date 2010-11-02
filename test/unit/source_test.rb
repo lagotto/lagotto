@@ -58,4 +58,10 @@ class SourceTest < ActiveSupport::TestCase
     end
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
+
+  def test_new_source_creates_retrievals_for_all_articles
+    s = Source.create
+    assert s.valid?
+    assert_equal Article.count, s.retrievals.count
+  end
 end

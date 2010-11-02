@@ -16,21 +16,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-one:
+not_stale_crossref:
   article: not_stale
   source: crossref
   citations_count: 1
   other_citations_count: 0
   retrieved_at: <%= Time.zone.today - 1.day %>
 
-two:
+not_stale_connotea:
+  article: not_stale
+  source: connotea
+  citations_count: 0
+  # default retrieved_at == 1970
+
+stale_crossref:
   article: stale
   source: crossref
   citations_count: 1
   retrieved_at: <%= Time.zone.today - 2.years %>
 
-three:
+stale_connotea:
   article: stale
   source: connotea
   citations_count: 1
   retrieved_at: <%= Time.zone.today - 2.years %>
+
+uncited_with_no_retrievals_crossref:
+  article: uncited_with_no_retrievals
+  source: crossref
+  # default retrieved_at == 1970
+
+uncited_with_no_retrievals_connotea:
+  article: uncited_with_no_retrievals
+  source: connotea
+  # default retrieved_at == 1970

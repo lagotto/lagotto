@@ -25,6 +25,8 @@ class Article < ActiveRecord::Base
   validates_format_of :doi, :with => DOI::FORMAT
   validates_uniqueness_of :doi
 
+  after_create :create_retrievals
+
   named_scope :query, lambda { |query|
     { :conditions => [ "doi like ?", "%#{query}%" ] }
   }
@@ -52,29 +54,17 @@ class Article < ActiveRecord::Base
   }
 
   named_scope :stale_and_published,
-    :conditions => ["articles.id in (
-      select distinct article_id from (
-SELECT a.article_id AS article_id,
-       a.doi AS article_doi,
-       a.published_on,
-       CASE WHEN MAX(retrievals.retrieved_at) >= TIMESTAMPADD(SECOND, -a.staleness, UTC_TIMESTAMP()) THEN 1 ELSE 0 END AS fresh,
-       CASE WHEN a.active = 1 AND (a.disable_until IS NULL OR a.disable_until < UTC_TIMESTAMP()) THEN 1 ELSE 0 END AS active
-FROM
-  (SELECT
-    articles.doi,
-    articles.id article_id,
-    articles.published_on published_on,
-    sources.id source_id,
-    sources.staleness,
-    sources.active,
-    sources.disable_until
-  FROM articles, sources) a
-LEFT OUTER JOIN retrievals
-ON (a.article_id = retrievals.article_id AND a.source_id = retrievals.source_id)
-GROUP BY a.article_id, a.source_id
-HAVING fresh = 0 AND active = 1 AND published_on <= ?
-) b
-)", Time.zone.today],
+    :conditions => ["articles.id IN (
+	SELECT DISTINCT article_id
+	FROM retrievals 
+	JOIN sources ON retrievals.source_id = sources.id 
+	WHERE retrievals.article_id = articles.id 
+	AND retrievals.retrieved_at < TIMESTAMPADD(SECOND, - sources.staleness, UTC_TIMESTAMP())
+	AND sources.active = 1
+	AND (
+		sources.disable_until IS NULL 
+		OR sources.disable_until < UTC_TIMESTAMP()))
+	AND articles.published_on <= ?", Time.zone.today],
     :order => :retrieved_at
 
   default_scope :order => 'articles.doi'
@@ -103,7 +93,7 @@ HAVING fresh = 0 AND active = 1 AND published_on <= ?
     for ret in retrievals
       if results[ret.source.group_id] == nil then
         results[ret.source.group_id] = {
-          :name => ret.source.group.name.downcase,
+          :name => ret.source.group && ret.source.group.name.downcase,
           :total => ret.citations_count + ret.other_citations_count,
           :sources => []
         }
@@ -201,4 +191,13 @@ HAVING fresh = 0 AND active = 1 AND published_on <= ?
     end
     result.to_json(options)
   end
+
+  private
+    def create_retrievals
+      # Create an empty retrieval record for each active source to avoid a
+      # problem with joined tables breaking the UI on the front end
+      Source.active.each do |source|
+        Retrieval.find_or_create_by_article_id_and_source_id(id, source.id)
+      end
+    end
 end

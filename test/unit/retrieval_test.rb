@@ -39,7 +39,7 @@ class RetrievalTest < ActiveSupport::TestCase
 
   def test_citation_creation
     test_doi = "10.0/citable"
-    article = Article.new(:doi => test_doi)
+    article = Article.create(:doi => test_doi)
     source = sources(:crossref)
     Source.expects(:active).returns([source])
     test_raw_citations = [
@@ -52,14 +52,13 @@ class RetrievalTest < ActiveSupport::TestCase
                                 has_entries(:retrieval => anything))\
                           .returns(test_raw_citations)
   
-    retrieval = Retrieval.new(:source => source,
-                              :article => article)
+    retrieval = article.retrievals.first(:conditions => { :source_id => source.id })
     doomed_citation = Citation.new(:retrieval => retrieval,
                                    :uri => "bogus")
     doomed_citation.save!
 
     # Before
-    assert_equal retrieval.citations, [doomed_citation]
+    assert_equal [doomed_citation], retrieval.citations
     assert_equal article.citations_count, 1
     assert article.retrieved_at < 1.years.ago
 
