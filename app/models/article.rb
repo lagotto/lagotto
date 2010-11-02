@@ -64,7 +64,7 @@ class Article < ActiveRecord::Base
 	AND (
 		sources.disable_until IS NULL 
 		OR sources.disable_until < UTC_TIMESTAMP()))
-	AND articles.published_on <= ?", Time.zone.today],
+	AND articles.published_on < ?", Time.zone.today],
     :order => :retrieved_at
 
   default_scope :order => 'articles.doi'
