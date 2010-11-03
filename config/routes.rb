@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :sources
   map.resources :groups
 
-  map.formatted_group_articles '/group/articles/:id.:format',
+  map.connect '/group/articles/:id',
     :controller => 'groups',
     :action     => 'articles',
     :requirements => { :id => /.+?/ }
@@ -13,7 +13,17 @@ ActionController::Routing::Routes.draw do |map|
     :action     => 'articles',
     :requirements => { :id => /.+?/ }
 
-  map.root :controller => "index"
+  #Maps .xml/.csv/.json requests to this function when doi is passed as a parameter
+  map.connect '/group/articles.:format', 
+    :controller => 'groups',
+    :action     => 'groupArticleSummaries',
+    :requirements => { :format => /[a-z]{3,4}/ }
+
+  map.connect '/group/articles',
+    :controller => 'groups',
+    :action     => 'groupArticleSummaries'
+
+  map.root :controller => "articles"
 
   map.docs '/docs/:action', :controller => "docs"
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
