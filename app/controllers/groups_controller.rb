@@ -19,12 +19,33 @@
 class GroupsController < ApplicationController
   before_filter :login_required, :except => [ :index, :show, :articles ]
 
-  # This is a way of excepting a list of DOIS and getting back summaries for
-  # them all. Articles with no cites are not returned This method does not
-  # check for article staleness and does not query articles for refresh
-  def articles
-    # Ids can be a collection
-    ids = params[:id].split('-').map { |id| DOI::from_uri(id) }
+  #This is a way of excepting a list of DOIS and getting back summaries for them all.
+  #Articles with no cites are not returned
+  #This method does not check for article staleness and does not query articles for refresh
+  def groupArticleSummaries
+    logger.debug "groupArticleSummaries"
+
+    #Here we have to get format in a different manner 
+    #Specifying multilple DOIS without a parameter proved nightmareish
+    #So we do it here using a comma delimated list with format 
+    #Specified as a parameter
+    reqFormat = params[:format]
+
+    if reqFormat == nil or reqFormat == "" or reqFormat == "xml" or reqFormat == "csv" or reqFormat == "json"
+      request.format = reqFormat
+    else
+      raise "Bad response format requested:'" + reqFormat + "' valid values are 'xml','csv' or 'json'"
+    end
+
+    if !params[:id]
+      raise "ID parameter not specified"
+    end
+
+    #Ids can be a collection
+    ids = params[:id].split(',')
+    ids = ids.map { |id| DOI::from_uri(id) }
+      
+    @result  = []
 
     # Specifiy the eager loading so we get all the data we need up front
     articles = Article.find(:all, 
