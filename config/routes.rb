@@ -1,27 +1,41 @@
+# $HeadURL: $
+# $Id: $
+#
+# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# http://www.plos.org/
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 ActionController::Routing::Routes.draw do |map|
   map.resources :articles, :requirements => { :id => /.+?/ }
   map.resources :sources
   map.resources :groups
 
+  map.connect '/group/articles/:id:format',
+    :controller => 'groups',
+    :action     => 'groupArticleSummaries',
+    :requirements => { :id => /.+\./, :format => /[a-z]{3,4}/ }
+
   map.connect '/group/articles/:id',
     :controller => 'groups',
-    :action     => 'articles',
-    :requirements => { :id => /.+?/ }
-  map.group_articles '/group/articles/:id',
-    :controller => 'groups',
-    :action     => 'articles',
+    :action     => 'groupArticleSummaries',
     :requirements => { :id => /.+?/ }
 
   #Maps .xml/.csv/.json requests to this function when doi is passed as a parameter
-  map.connect '/group/articles.:format', 
+  map.connect '/group/articles.:format',
     :controller => 'groups',
     :action     => 'groupArticleSummaries',
     :requirements => { :format => /[a-z]{3,4}/ }
-
-  map.connect '/group/articles',
-    :controller => 'groups',
-    :action     => 'groupArticleSummaries'
 
   map.root :controller => "articles"
 
