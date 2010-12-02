@@ -63,7 +63,7 @@ As I said, I've written several rake tasks in the course of development: they're
   stale
 
 ### `rake db:update:reenable`
-  Reenables all stale sources
+  Reenables all disabled sources
 
 ### `rake db:update:dup_check`
   Scan databases for duplicate citations -- Added at some point to test for a bug. Still exists as a regression test I guess.
