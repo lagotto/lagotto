@@ -89,6 +89,10 @@ Prerequisites
     # This gem manages installing and managing other gems that the application
     # depends upon.
     gem install bundler
+ 
+    # And install some other gems that bundler misses right now
+    gem install starling
+    gem install workling
 
     # Build & install Passenger (aka mod_rails). This will produce
     # some configuration lines for Apache - copy them.

@@ -82,4 +82,3 @@ stage:
 production:
   <<: *defaults
   hostname: http://alm.example.org 
-x
