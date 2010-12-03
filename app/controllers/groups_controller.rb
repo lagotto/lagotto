@@ -25,17 +25,27 @@ class GroupsController < ApplicationController
   def groupArticleSummaries
     logger.debug "groupArticleSummaries"
 
-    #Here we have to get format in a different manner 
     #Specifying multilple DOIS without a parameter proved nightmareish
     #So we do it here using a comma delimated list with format 
-    #Specified as a parameter
+    #Specified as a parameter (ID)
+
+    #Here sometimes the :format value may have a period attached to it
+    #This will filter it out
     reqFormat = params[:format]
 
-    if reqFormat == nil or reqFormat == "" or reqFormat == "xml" or reqFormat == "csv" or reqFormat == "json"
-      request.format = reqFormat
-    else
-      raise "Bad response format requested:'" + reqFormat + "' valid values are 'xml','csv' or 'json'"
+    if reqFormat != nil
+      matchedFormat = reqFormat.match(/xml|csv|json/)
+      
+      #If we get a bad format, just default to nil (or HTML)
+      if matchedFormat == nil
+        request.format = nil
+      else
+        request.format = matchedFormat[0]
+        logger.info "format:" + request.format
+      end
     end
+
+    logger.info "ID:" + params[:id]
 
     if !params[:id]
       raise "ID parameter not specified"
