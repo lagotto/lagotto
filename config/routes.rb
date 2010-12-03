@@ -21,10 +21,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :sources
   map.resources :groups
 
+  #We originally wanted to make the "." part of the connect statement and not the regex. 
+  #But we encountered some weirdness, and this seems to work.
   map.connect '/group/articles/:id:format',
     :controller => 'groups',
     :action     => 'groupArticleSummaries',
-    :requirements => { :id => /.+\./, :format => /[a-z]{3,4}/ }
+    :requirements => { :id => /.+/, :format => /.(json|xml|csv)/ }
 
   map.connect '/group/articles/:id',
     :controller => 'groups',
@@ -35,7 +37,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/group/articles.:format',
     :controller => 'groups',
     :action     => 'groupArticleSummaries',
-    :requirements => { :format => /[a-z]{3,4}/ }
+    :requirements => { :format => /(json|xml|csv)/ }
 
   map.root :controller => "articles"
 
