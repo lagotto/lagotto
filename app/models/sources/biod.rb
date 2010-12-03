@@ -1,5 +1,5 @@
-# $HeadURL: http://svn.ambraproject.org/svn/plos/alm/head/app/models/sources/counter.rb $
-# $Id: counter.rb 4956 2010-09-15 22:07:09Z russ $
+# $HeadURL$
+# $Id$
 #
 # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
