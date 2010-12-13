@@ -1,5 +1,5 @@
 set :application, "alm"
-set :repository,  "http://svn.ambraproject.org/svn/plos/alm/branches/fortnight"
+set :repository,  "http://svn.ambraproject.org/svn/plos/alm/head"
 set :scm, :subversion
 
 set :user, "app"
