@@ -20,24 +20,24 @@ require 'test_helper'
 
 class GroupsControllerTest < ActionController::TestCase
   def test_articles
-    get :articles, :id => articles(:not_stale).doi
+    get :groupArticleSummaries, :id => articles(:not_stale).doi
     assert_response :success
   end
 
   def test_articles_xml
-    get :articles, :id => articles(:not_stale).doi, :format => 'xml'
+    get :groupArticleSummaries, :id => articles(:not_stale).doi, :format => 'xml'
     assert_response :success
   end
 
   def test_articles_json
-    get :articles, :id => articles(:not_stale).doi, :format => 'json'
+    get :groupArticleSummaries, :id => articles(:not_stale).doi, :format => 'json'
     assert_response :success
     json = ActiveSupport::JSON.decode(@response.body)
     assert_equal groups(:cool_kids).name.downcase, json[0]['groupcounts'][0]['name']
   end
 
   def test_articles_jsonp
-    get :articles, :id => articles(:not_stale).doi, :format => 'json', :callback => 'foo'
+    get :groupArticleSummaries, :id => articles(:not_stale).doi, :format => 'json', :callback => 'foo'
     assert_response :success
     assert @response.body.start_with?('foo(')
   end
