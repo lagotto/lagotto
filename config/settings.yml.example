@@ -60,7 +60,7 @@
 # * "An Illustrated Guide to Cryptographic Hashes":http://www.unixwiz.net/techtips/iguide-crypto-hashes.html
 
 defaults: &defaults
-  useragent: Article Metrics
+  useragent: Article Level Metrics
   notification_email: alm@alm.example.org
   rest_auth_site_key: #'run `rake secret` to generate a key to insert here'
   rest_auth_digest_stretches: 10

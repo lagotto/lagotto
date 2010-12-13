@@ -55,7 +55,7 @@ Prerequisites
     su - root
 
     # Install some dependencies
-    yum install gcc-c++ httpd httpd-devel libtool libxml2-devel mysql-server openssh openssl-devel readline-devel subversion zlib-devel mysql-devel
+    yum install gcc-c++ httpd httpd-devel libtool libxml2-devel mysql-server openssh openssl-devel readline-devel subversion zlib-devel mysql-devel curl-devel
 
     # Make sure MySQL and Apache run at startup
     /sbin/chkconfig mysqld on
