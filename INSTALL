@@ -65,6 +65,7 @@ Prerequisites
     useradd -d /opt/alm -m -r alm
 
     # Download Ruby Enterprise Edition from <http://www.rubyenterpriseedition.com/download.html>
+    # We've had problems with libxml bugs when using ree 1.8.7, so it's probably best to stick to 1.8.6 for now
     wget http://rubyforge.org/frs/download.php/71096/ruby-enterprise-XXX.tar.gz
     tar xzf ruby-enterprise-XXX.tar.gz
 
@@ -84,6 +85,9 @@ Prerequisites
     # Double-check that the `ruby` and `gem` commands are available
     which ruby
     which gem
+
+    # Update RubyGems
+    gem update --system
 
     # Install the Ruby "gem" (library) bundler that the ALM application needs.
     # This gem manages installing and managing other gems that the application
