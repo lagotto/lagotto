@@ -91,8 +91,9 @@ namespace :db do
 
     desc "Reenable all disabled sources"
     task :reenable => :environment do
+      # TODO: we should set disable_delay to Source.new.disable_delay, like we do in source.rb, instead of hard-coding the 10 here.
       Source.update_all("disable_until = NULL")
-      Source.update_all("disable_delay = 900")
+      Source.update_all("disable_delay = 10")
     end
 
     desc "Scan database for duplicate citations"
