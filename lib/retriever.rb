@@ -147,6 +147,10 @@ class Retriever
         existing.values.map(&:destroy)
         retrieval.retrieved_at = DateTime.now.utc
       end
+      #Note Issue: 21920, there is a strange problem where these citation counts are not always being set correctly.
+      Rails.logger.debug "Citation count: #{retrieval.citations.size}"
+      Retrieval.reset_counters retrieval.id, :citations
+  
       retrieval.save!
     rescue Timeout::Error, Timeout::ExitException
       # do nothing
