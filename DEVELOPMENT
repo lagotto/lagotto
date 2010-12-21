@@ -34,7 +34,7 @@ There's more "philosophy" in this document than in the INSTALL notes, partly to 
 Development Setup
 -----------------
 
-- Make sure you've got Ruby 1.8.7 or newer (though at the moment, 1.9 is too new); you can install and use Ruby Enterprise Edition for development if you prepend its path to your PATH (as described in the INSTALL notes).
+- Make sure you've got Ruby 1.8.6 or newer (though at the moment, 1.9 is too new); you can install and use Ruby Enterprise Edition for development if you prepend its path to your PATH (as described in the INSTALL notes).
 
 - More on Rails environments: You're going to develop using the "development" environment; automated testing will use the "test" environment. These can run out of the same source tree, but "production" and/or "stage" environments would run out of their own trees.
 
