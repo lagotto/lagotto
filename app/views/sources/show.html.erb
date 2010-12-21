@@ -87,6 +87,20 @@
   <%=h @source.staleness_days %>
 </p>
 
+<p>
+  <b>Disabled Until:</b>
+  <% if @source.disable_until %>
+    <%= h @source.disable_until %>
+  <% else %>
+    (not disabled)
+  <% end %>
+</p>
+
+<p>
+  <b>Disabled Delay (seconds):</b>
+  <%= h @source.disable_delay %>
+</p>
+
 <h1>Most-cited articles</h1>
 <% if @samples.empty? %>
 <div>No articles have been cited by this source</div>
