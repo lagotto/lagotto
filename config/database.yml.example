@@ -19,6 +19,7 @@
 development:
   adapter: mysql
   database: DBNAME
+  encoding: utf8
   username: DBUSER
   password: DBPASS
   host: DBHOST
