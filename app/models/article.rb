@@ -37,7 +37,8 @@ class Article < ActiveRecord::Base
       { :include => :retrievals,
         :conditions => "retrievals.citations_count > 0 OR retrievals.other_citations_count > 0" }
     when '0', 0
-      { :conditions => 'articles.id IN (SELECT articles.id FROM articles LEFT OUTER JOIN retrievals ON retrievals.article_id = articles.id GROUP BY articles.id HAVING IFNULL(SUM(retrievals.citations_count) + SUM(retrievals.other_citations_count), 0) = 0)' }
+      { :conditions => 'EXISTS (SELECT * from retrievals where article_id = `articles`.id GROUP BY article_id HAVING SUM(IFNULL(retrievals.citations_count,0)) + SUM(IFNULL(retrievals.other_citations_count,0)) = 0)' }
+      #articles.id IN (SELECT articles.id FROM articles LEFT OUTER JOIN retrievals ON retrievals.article_id = articles.id GROUP BY articles.id HAVING IFNULL(SUM(retrievals.citations_count) + SUM(retrievals.other_citations_count), 0) = 0)' }
     else
       {}
     end
