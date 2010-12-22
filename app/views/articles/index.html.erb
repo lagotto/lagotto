@@ -25,7 +25,7 @@
     links = []
     links << link_to('all', articles_path) if filtered
     links << link_to('cited', articles_path(:cited => "1", :query => params[:query])) unless params[:cited] == "1"
-    links << link_to('uncited', articles_path(:cited => "0", :query => params[:query])) unless params[:cited] == "0"
+    # links << link_to('uncited', articles_path(:cited => "0", :query => params[:query])) unless params[:cited] == "0"
     links = links.join(" or ")
   -%>
   <div>
