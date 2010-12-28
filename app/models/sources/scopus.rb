@@ -26,11 +26,12 @@ require 'soap/wsdlDriver'
 require 'soap/rpc/element'
 require 'soap/header/simplehandler'
 scopus_dir = File.join(File.dirname(__FILE__), 'scopus')
-if File.exist?(File.join(scopus_dir, "abstracts_metadata_service_driver.rb"))
+if File.exist?(File.join(scopus_dir, "AbstractsMetadataServiceDriver.rb"))
   # Avoid doing this stuff if we haven't installed the generated WSDL code yet
   # (this file is 'require'd to get the URLs when generating the WSDL code).
 
-  require 'scopus/abstracts_metadata_service_driver'
+  $: << scopus_dir
+  require 'AbstractsMetadataServiceDriver'
 
   def fix_scopus_wsdl
     # The generated WSDL code has problems: fix them.
