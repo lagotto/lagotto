@@ -1,26 +1,7 @@
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-require 'scopus/abstracts_metadata_service'
+require 'AbstractsMetadataService.rb'
 require 'soap/mapping'
 
 module AbstractsMetadataServiceMappingRegistry
-  silence_warnings do
   EncodedRegistry = ::SOAP::Mapping::EncodedRegistry.new
   LiteralRegistry = ::SOAP::Mapping::LiteralRegistry.new
   NsV1 = "http://webservices.elsevier.com/schemas/easi/headers/types/v1"
@@ -28,7 +9,6 @@ module AbstractsMetadataServiceMappingRegistry
   NsV2_0 = "http://webservices.elsevier.com/schemas/ae/client/types/v2"
   NsV4 = "http://webservices.elsevier.com/schemas/metadata/common/types/v4"
   NsV7 = "http://webservices.elsevier.com/schemas/metadata/abstracts/types/v7"
-  end
 
   EncodedRegistry.register(
     :class => CacheInfoType,
@@ -786,8 +766,8 @@ module AbstractsMetadataServiceMappingRegistry
     :schema_type => XSD::QName.new(NsV2, "IVIPType"),
     :schema_element => [
       ["iSSN", [nil, XSD::QName.new(nil, "ISSN")]],
-      ["iSBN", [nil, XSD::QName.new(nil, "ISBN")]],
-      ["eISSN", [nil, XSD::QName.new(nil, "EISSN")]],
+      ["iSBN", [nil, XSD::QName.new(nil, "ISBN")], [0, 1]],
+      ["eISSN", [nil, XSD::QName.new(nil, "EISSN")], [0, 1]],
       ["volume", [nil, XSD::QName.new(nil, "Volume")]],
       ["issue", ["SOAP::SOAPString", XSD::QName.new(nil, "Issue")]],
       ["page", ["SOAP::SOAPString", XSD::QName.new(nil, "Page")]]
@@ -1759,8 +1739,8 @@ module AbstractsMetadataServiceMappingRegistry
     :schema_type => XSD::QName.new(NsV2, "IVIPType"),
     :schema_element => [
       ["iSSN", [nil, XSD::QName.new(nil, "ISSN")]],
-      ["iSBN", [nil, XSD::QName.new(nil, "ISBN")]],
-      ["eISSN", [nil, XSD::QName.new(nil, "EISSN")]],
+      ["iSBN", [nil, XSD::QName.new(nil, "ISBN")], [0, 1]],
+      ["eISSN", [nil, XSD::QName.new(nil, "EISSN")], [0, 1]],
       ["volume", [nil, XSD::QName.new(nil, "Volume")]],
       ["issue", ["SOAP::SOAPString", XSD::QName.new(nil, "Issue")]],
       ["page", ["SOAP::SOAPString", XSD::QName.new(nil, "Page")]]
