@@ -78,7 +78,7 @@ class PubMed < Source
       id_element = document.find_first("//PubMedToPMCreformSET/REFORM/PMCID")
       id_element and id_element.content.strip
     end
-    rails.logger.debug "PMC_from_PM got #{result.inspect} for #{pubmed.inspect}" \
+    Rails.logger.debug "PMC_from_PM got #{result.inspect} for #{pubmed.inspect}" \
       if result
     result
   end
