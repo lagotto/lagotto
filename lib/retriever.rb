@@ -24,8 +24,7 @@ class Retriever
 
     @lazy = options[:lazy]
     @only_source = options[:only_source]
-    @raise_on_error = options[:raise_on_error]
-    @sources = Source.active
+    @raise_on_error = options[:raise_on_error]    
   end
 
   def update(article)
@@ -35,7 +34,8 @@ class Retriever
       return
     end
 
-    sources = @sources
+    # undoing revision 5150.  This way, we will always get the most current list of active sources.
+    sources = Source.active
     if only_source
       sources = sources.select {|s| s.name.downcase == only_source.downcase }
       if sources.empty?
