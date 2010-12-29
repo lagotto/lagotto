@@ -202,10 +202,8 @@ class Retriever
         end
       end
     rescue RetrieverTimeout => e
-      Rails.logger.error "Timeout exceeded on article update\n" + e.backtrace.join("\n")
+      Rails.logger.error "Timeout exceeded on article update" + e.backtrace.join("\n")
       raise e
     end
   end
-
-  class RetrieverTimeout < Exception; end
 end
