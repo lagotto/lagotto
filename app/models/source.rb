@@ -103,6 +103,9 @@ class Source < ActiveRecord::Base
       self.disable_until = nil
       self.disable_delay = Source.new.disable_delay
     end
+  rescue RetrieverTimeout => e
+    Rails.logger.info "Forced Timeout on query.  Not disabling this source."
+    raise e
   rescue Exception => e
     Rails.logger.info "#{name} had an error. Disabling for #{SecondsToDuration::convert(disable_delay).inspect}."
     Notifier.deliver_long_delay_warning(self)  if disable_delay > 1.day
