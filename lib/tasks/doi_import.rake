@@ -36,12 +36,13 @@ task :doi_import => :environment do
     if (doi =~ DOI::FORMAT) and !published_on.nil? and !title.nil?
       valid << [doi, published_on, title]
     else
+      puts "Ignoring DOI: #{raw_doi}, #{raw_published_on}, #{raw_title}"
       invalid << [raw_doi, raw_published_on, raw_title]
     end
   end
   puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
-  if invalid.size == 0
-    valid.each do |doi, published_on, title| 
+  if valid.size > 0
+    valid.each do |doi, published_on, title|
       existing = Article.find_by_doi(doi)
       unless existing
         article = Article.create(:doi => doi, :published_on => published_on, 
