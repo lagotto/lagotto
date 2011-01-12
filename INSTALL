@@ -235,3 +235,13 @@ Updating REE
     A new Passenger version means you'll have to
     - re-run `passenger-install-apache2-module`
 
+If you get this error: "uninitialized constant PhusionPassenger::Utils::PseudoIO::StringIO"
+
+Try this:
+    Edit lib/phusion_passenger/utils.rb.
+    Insert
+        require 'stringio'
+    at the top.
+
+Then restart Apache.
+ref: http://groups.google.com/group/phusion-passenger/browse_thread/thread/21f258f01ebc4126/666b85e565e3d05d?pli=1
