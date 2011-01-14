@@ -20,7 +20,7 @@ class NoSourceTypeSpecified < ArgumentError; end
 class DuplicateSourceType < ArgumentError; end
 
 class SourcesController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :except => [ :index ]
 
   # GET /sources
   # GET /sources.xml
