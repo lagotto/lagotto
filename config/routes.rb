@@ -39,7 +39,7 @@ ActionController::Routing::Routes.draw do |map|
     :action     => 'groupArticleSummaries',
     :requirements => { :format => /(json|xml|csv)/ }
 
-  map.root :controller => "articles"
+  map.root :controller => "index"
 
   map.docs '/docs/:action', :controller => "docs"
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
