@@ -23,5 +23,6 @@ class RetrievalWorker < Workling::Base
     Retriever.new(:lazy => true, :only_source => options[:source],
                   :verbose => options[:verbose]).update(article)
     Rails.logger.info "RetrievalWorker done."
+    Rails.logger.flush
   end
 end
