@@ -29,8 +29,6 @@ namespace :wsdl do
 
     puts "Regenerating code from Scopus' #{live_mode ? 'live' : 'test'}-mode WSDL (ignore ignored elements!)"
 
-    wsdl2ruby_dir = $LOAD_PATH.grep(/soap4r/).find {|dir| File.exist?(File.join(dir, "/../bin/wsdl2ruby.rb")) }
-
-    `cd #{scopus_dir}; (echo 'gem "soap4r"'; cat #{wsdl2ruby_dir}/../bin/wsdl2ruby.rb) | ruby -rubygems /dev/stdin --wsdl #{scopus_url} --classdef --mapping_registry --driver --quiet`
+    `wsdl2ruby.rb --wsdl #{scopus_url} --classdef --mapping_registry --driver --quiet`
   end
 end

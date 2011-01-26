@@ -25,29 +25,21 @@ require 'digest/md5'
 require 'soap/wsdlDriver'
 require 'soap/rpc/element'
 require 'soap/header/simplehandler'
-scopus_dir = File.join(File.dirname(__FILE__), 'scopus')
-if File.exist?(File.join(scopus_dir, "AbstractsMetadataServiceDriver.rb"))
-  # Avoid doing this stuff if we haven't installed the generated WSDL code yet
-  # (this file is 'require'd to get the URLs when generating the WSDL code).
+require 'AbstractsMetadataServiceDriver'
 
-  $: << scopus_dir
-  require 'AbstractsMetadataServiceDriver'
-
-  def fix_scopus_wsdl
-    # The generated WSDL code has problems: fix them.
-    # - it's set up to discard results, instead of returning them
-    # - it wants an EASIReq object as a parameter, instead of putting it
-    #   in the SOAP header as required by the service (we'll insert it in
-    #   the header manually below).
-    methods = AbstractsMetadataServicePortType_V7::Methods
-    if methods[0][3][:response_use] != :literal
-      methods.each do |method| 
-        method[3][:response_use] = :literal
-        method[2].delete_if {|arg| arg[0..1] == ["in", "EASIReq"] }
-      end
+def fix_scopus_wsdl
+  # The generated WSDL code has problems: fix them.
+  # - it's set up to discard results, instead of returning them
+  # - it wants an EASIReq object as a parameter, instead of putting it
+  #   in the SOAP header as required by the service (we'll insert it in
+  #   the header manually below).
+  methods = AbstractsMetadataServicePortType_V7::Methods
+  if methods[0][3][:response_use] != :literal
+    methods.each do |method| 
+      method[3][:response_use] = :literal
+      method[2].delete_if {|arg| arg[0..1] == ["in", "EASIReq"] }
     end
   end
-  fix_scopus_wsdl
 end
 
 class Scopus < Source
@@ -57,6 +49,9 @@ class Scopus < Source
   def uses_partner_id; true; end
 
   def perform_query(article, options={})
+    # Guarantee Kosher for Great Justice
+    fix_scopus_wsdl
+
     url = Scopus::query_url(live_mode)
     
     Rails.logger.info "Scopus query: #{url}"
