@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101217140525) do
+ActiveRecord::Schema.define(:version => 20101223214158) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20101217140525) do
     t.integer  "timeout",       :default => 30,     :null => false
     t.integer  "group_id"
     t.datetime "disable_until"
-    t.integer  "disable_delay", :default => 10
+    t.integer  "disable_delay", :default => 10,     :null => false
     t.string   "partner_id"
   end
 
