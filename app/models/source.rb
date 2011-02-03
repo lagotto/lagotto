@@ -26,6 +26,7 @@ class Source < ActiveRecord::Base
   validates_presence_of :password, :if => :uses_password
   validates_presence_of :salt, :if => :uses_salt
   validates_presence_of :partner_id, :if => :uses_partner_id
+  validates_presence_of :display_text, :if => :uses_display_text
 
   validates_numericality_of :staleness_days,
     :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 366
@@ -144,14 +145,22 @@ class Source < ActiveRecord::Base
   def uses_live_mode; false; end
   def uses_salt; false; end
   def uses_partner_id; false; end
+  def uses_display_text; false; end
 
   private
     def create_retrievals
       # Create an empty retrieval record for each active source to avoid a
       # problem with joined tables breaking the UI on the front end
+
+      # there are two ways to create a retrieval row.
+      # 1. logic below
+      # 2. When an article gets updated, a retrieval row is either created or updated via
+      #    Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id) method
+      # to keep the two logic consistent, created_at date has been added here
+
       Retrieval.connection.execute "
-        INSERT INTO retrievals (article_id, source_id)
-          SELECT id, #{id} FROM articles
+        INSERT INTO retrievals (article_id, source_id, created_at)
+          SELECT id, #{id}, now() FROM articles
           WHERE id NOT IN
             (SELECT article_id FROM retrievals WHERE source_id = #{id})"
     end

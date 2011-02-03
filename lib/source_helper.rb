@@ -61,7 +61,15 @@ protected
 
         Rails.logger.debug "http request: #{sUrl} (timeout: #{options[:timeout]})"
 
-        request = Net::HTTP::Get.new(sUrl, { "User-Agent" => APP_CONFIG['useragent'] + " - " + APP_CONFIG['hostname']  })
+        headers = { "User-Agent" => APP_CONFIG['useragent'] + " - " + APP_CONFIG['hostname'] }
+        if options[:extraheaders]
+          extraHeaders = options[:extraheaders]
+          extraHeaders.each do | key, value |
+            headers[key] = value
+          end
+        end
+        
+        request = Net::HTTP::Get.new(sUrl, headers)
         
         if options[:username] 
           request.basic_auth(options[:username], options[:password]) 
@@ -73,7 +81,7 @@ protected
         end
         
         #There is an issue with Ruby and Socket Timeouts
-        #Hostname resolvs timing out will not be caught
+        #Hostname resolves timing out will not be caught
         #by the following system time.  At least that is the behavior 
         #I saw.  Note the following:
         #http://www.mikeperham.com/2009/03/15/socket-timeouts-in-ruby/
@@ -81,9 +89,14 @@ protected
         #http://ph7spot.com/musings/system-timer
 
         SystemTimer.timeout_after(options[:timeout]) do
-          response = Net::HTTP.new(url.host, url.port).start do |http| 
-            http.request(request)
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true if (url.scheme == 'https')
+          if options[:postdata]
+            response = http.post(url.path, options[:postdata], headers)
+          else
+            response = http.request(request)
           end
+
         end
       end
       case response
