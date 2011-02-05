@@ -20,7 +20,6 @@ class Wos < Source
   include SourceHelper
 
   def uses_url; true; end
-  def uses_display_text; true; end
 
   def perform_query(article, options={})
     raise(ArgumentError, "Web of Science configuration requires url") \

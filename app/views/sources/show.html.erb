@@ -21,6 +21,16 @@
 <div class="page">
 <h1>Details for <%=h @source.name %> (<%= @source.active ? "active" : "inactive" %>)</h1>
 
+<p>
+  <b>Name:</b>
+  <%=h @source.class.to_s  %>
+</p>
+
+<p>
+  <b>Label:</b>
+  <%=h @source.name  %>
+</p>
+  
 <% if @source.uses_url %>
 <p>
   <b>Url:</b>
@@ -81,7 +91,7 @@
   <%=h @source.group.name %>
 </p>
 <% end %>
-
+  
 <p>
   <b>Staleness:</b>
   <%=h @source.staleness_days %>

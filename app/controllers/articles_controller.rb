@@ -27,14 +27,14 @@ class ArticlesController < ApplicationController
     # cited=0|1
     # query=(doi fragment)
     # order=doi|published_on (whitelist, default to doi)
-    # source=source_name
+    # source=source_type
     collection = Article
     collection = collection.cited(params[:cited])  if params[:cited]
     collection = collection.query(params[:query])  if params[:query]
     collection = collection.order(params[:order])  if params[:order]
 
     @articles = collection.paginate :page => params[:page], :per_page => params[:per_page], :include => :retrievals
-    @source = Source.find_by_name(params[:source]) if params[:source]
+    @source = Source.find_by_type(params[:source]) if params[:source]
 
     respond_to do |format|
       format.html
@@ -148,7 +148,7 @@ protected
     returning :include => { :retrievals => [ :source ] } do |r|
       r[:include][:retrievals] << :citations if params[:citations] == "1"
       r[:include][:retrievals] << :histories if params[:history] == "1"
-      r[:conditions] = ['LOWER(sources.name) IN (?)', params[:source].downcase.split(",")] if params[:source]
+      r[:conditions] = ['LOWER(sources.type) IN (?)', params[:source].downcase.split(",")] if params[:source]
     end
   end
 end

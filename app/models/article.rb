@@ -184,8 +184,8 @@ class Article < ActiveRecord::Base
     if options[:citations] or options[:history]
       result[:article][:source] = retrievals.map do |r|
         r.to_included_json(options) \
-          if (sources.empty? or sources.include?(r.source.name.downcase)) 
-             #If the result set is emtpy, lets not return any information about the source at all
+          if (sources.empty? or sources.include?(r.source.class.to_s.downcase))
+             #If the result set is empty, lets not return any information about the source at all
              #\
              #and (r.total_citations_count > 0)
       end.compact

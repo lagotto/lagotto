@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110203184708) do
+ActiveRecord::Schema.define(:version => 20101223214158) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(:version => 20110203184708) do
     t.string   "pub_med_central"
     t.date     "published_on"
     t.text     "title"
-    t.integer  "citations_count", :default => 0,                     :null => false
   end
 
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
@@ -86,7 +85,6 @@ ActiveRecord::Schema.define(:version => 20110203184708) do
     t.datetime "disable_until"
     t.integer  "disable_delay", :default => 10,     :null => false
     t.string   "partner_id"
-    t.string   "display_text"
   end
 
   add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true

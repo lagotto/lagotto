@@ -37,7 +37,7 @@ class Retriever
     # undoing revision 5150.  This way, we will always get the most current list of active sources.
     sources = Source.active
     if only_source
-      sources = sources.select {|s| s.name.downcase == only_source.downcase }
+      sources = sources.select {|s| s.class.to_s.downcase == only_source.downcase }
       if sources.empty?
         Rails.logger.info "Only source '#{only_source}' not found or not active"
         return

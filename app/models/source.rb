@@ -26,7 +26,6 @@ class Source < ActiveRecord::Base
   validates_presence_of :password, :if => :uses_password
   validates_presence_of :salt, :if => :uses_salt
   validates_presence_of :partner_id, :if => :uses_partner_id
-  validates_presence_of :display_text, :if => :uses_display_text
 
   validates_numericality_of :staleness_days,
     :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 366
@@ -135,7 +134,7 @@ class Source < ActiveRecord::Base
   def public_url_base
     nil
   end
-
+  
   # Subclasses should override these to cause fields to appear in UI, and
   # enable their validations
   def uses_url; false; end
@@ -145,7 +144,6 @@ class Source < ActiveRecord::Base
   def uses_live_mode; false; end
   def uses_salt; false; end
   def uses_partner_id; false; end
-  def uses_display_text; false; end
 
   private
     def create_retrievals

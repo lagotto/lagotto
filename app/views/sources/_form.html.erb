@@ -105,13 +105,6 @@
     <%= f.text_field :staleness_days, :size => 5 %>
   </p>
 
-  <% if source.uses_display_text %>
-    <p>
-      <%= f.label "Display Text" %><br />
-      <%= f.text_field :display_text %>
-    </p>
-  <% end %>
-
   <p>
     <%= f.submit(source.new_record? ? "Create" : "Update") %>
   </p>
