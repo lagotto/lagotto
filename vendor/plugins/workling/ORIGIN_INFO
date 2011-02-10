@@ -1,0 +1,16 @@
+$ git remote show origin
+
+* remote origin
+  URL: git://github.com/purzelrakete/workling.git
+  Remote branch(es) merged with 'git pull' while on branch master
+    master
+  Tracked remote branches
+    master
+
+$  git log -1
+
+commit cfb7055f11e8bbbf97615a868b7885a966989184
+Author: R. Potter <rjspotter@gmail.com>
+Date:   Sun Dec 7 21:03:32 2008 -0600
+
+    client invokable from outside the application directory

@@ -1,0 +1,150 @@
+<!--
+  $HeadURL: http://ambraproject.org/svn/plos/alm/head/FORMATS $
+  $Id: FORMATS 5693 2010-12-03 19:09:53Z josowski $
+
+  Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+  http://www.plos.org/
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+ALM's RESTful API
+=================
+
+A RESTful API is provided for accessing article information; this document describes URLs, query options, and output of requests via this API.
+
+RESTful API URLs generally correspond to HTML URLs; you can usually just add ".xml" or ".json" to the HTML (unsuffixed) URL and performing a GET request. Both XML and JSON formats are provided (CSV is also supported for the article index), though attribute arrangement might be different between formats (and might differ from the information included in the HTML presentation generated without the format suffix). 
+
+All ".json" requests can be made with JSONP support by including a querystring "callback" parameter; the result will be wrapped in a Javascript function call to that parameter's value, for ease of handling on the client side. For example: 
+
+`/articles/10.1371/bogus.json` would return something like this:
+    {"article": {"doi": "10.1371/bogus", "pub_med": null, "pub_med_central": null, "updated_at": "2009-01-04T13:59:27-08:00", "citations_count": 0}}
+
+`/articles/10.1371/bogus.json?callback=x` would return something like:
+    x({"article": {"doi": "10.1371/bogus", "pub_med": null, "pub_med_central": null, "updated_at": "2009-01-04T13:59:27-08:00", "citations_count": 0}});
+
+In XML requests, null values are returned as empty strings; in JSON requests, they're Javascript nulls.
+
+Some requests aren't intended for high-volume use; they haven't been optimized and can currently take several seconds to execute.
+
+In the examples, I've removed spaces for readability.
+
+Collections of articles
+-----------------------
+
+Retreive an array of all articles, each of which has these attributes:
+
+- `doi`: the article's DOI, without prefix
+- `pub_med`: If we've seen it, the article's PubMed ID
+- `pub_med_central`: If we've seen it, the article's PubMedCentral ID
+- `updated_at`: when we last updated this article from any source
+- `citations_count`: the total number of citations we've seen from all sources
+  for this article
+
+Options:
+
+- `cited=1` -- if 1, only include articles that have at least one citation; if
+  0, only include articles that have no citations.
+- `query=journal.pbio` -- only include articles whose DOI includes this
+  substring; this turns into a "doi like '%journal.pbio%'" query.
+- `order=doi` -- Sort the results; options include `doi`, `published_on`.
+
+Formats:
+.xml, .json, .csv
+
+Examples:
+
+### `/articles.xml`
+
+    <articles type="array">
+      <article doi="10.1371/journal.pbio.0000005" pub_med="12929205" pub_med_central="176545" 
+               updated_at="2008-12-30 20:16:15 -0800" citations_count="75"></article>
+      ...
+    <articles>
+
+### `/articles.json`
+
+    [{"article": {"doi": "10.1371/journal.pbio.0000005", "pub_med": "12929205", 
+                  "pub_med_central": "176545", "updated_at": "2008-12-30T20:16:15-08:00", 
+                  "citations_count": 75}}, 
+     ...
+    ]
+
+Information about a single article
+----------------------------------
+
+Shows information about one article, with options to include additional information:
+
+- `doi`: the article's DOI, without prefix
+- `pub_med`: If we've seen it, the article's PubMed ID
+- `pub_med_central`: If we've seen it, the article's PubMedCentral ID
+- `updated_at`: when we last updated this article from any source
+- `citations_count`: the total number of citations we've seen from all sources for this article
+
+Options:
+
+- `citations=1` -- Also include the individual citing document URIs, grouped by source.
+- `history=1` -- Also include a historical record of citation counts per month (cumulative), grouped by source.
+- `source=(name)` -- Only include one source's information.
+
+Examples:
+
+### `/articles/info:doi%2F10.1371%2Fjournal.pcbi.0010052.xml?citations=1`
+
+    <article doi="10.1371/journal.pcbi.0010052" pub_med="16322761" pub_med_central="1289384" updated_at="2009-01-04 14:05:58 -0800" citations_count="3">
+      <source source="CrossRef" count="1" updated_at="2009-01-04 14:05:54 -0800">
+        <citations>
+          <citation uri="http://dx.doi.org/10.1002/bmb.20217"/>
+        </citations>
+      </source>
+      <source source="Connotea" count="2" updated_at="2009-01-04 14:05:58 -0800">
+        <citations>
+          <citation uri="http://www.connotea.org/user/krmessner/uri/fd29070c7e006ca35afe2e22a5ad0e0a"/>
+          <citation uri="http://www.connotea.org/user/morgan/uri/f3ffbd6a9f731d7bd7ed7eebc5e76f17"/>
+        </citations>
+      </source>
+    </article>
+
+### `/articles/info:doi%2F10.1371%2Fjournal.pcbi.0010052.xml?citations=1&source=Connotea`
+
+    <article doi="10.1371/journal.pcbi.0010052" pub_med="16322761" pub_med_central="1289384" updated_at="2009-01-04 14:05:58 -0800" citations_count="2">
+      <source source="Connotea" count="2" updated_at="2009-01-04 14:05:58 -0800">
+        <citations>
+          <citation uri="http://www.connotea.org/user/krmessner/uri/fd29070c7e006ca35afe2e22a5ad0e0a"/>
+          <citation uri="http://www.connotea.org/user/morgan/uri/f3ffbd6a9f731d7bd7ed7eebc5e76f17"/>
+        </citations>
+      </source>
+    </article>
+
+### `/articles/info:doi%2F10.1371%2Fjournal.pcbi.0010052.xml?citations=1&history=1`
+
+    <article doi="10.1371/journal.pcbi.0010052" pub_med="16322761" pub_med_central="1289384" updated_at="2009-01-04 14:05:58 -0800" citations_count="3">
+      <source source="CrossRef" count="1" updated_at="2009-01-04 14:05:54 -0800">
+        <citations>
+          <citation uri="http://dx.doi.org/10.1002/bmb.20217"/>
+        </citations>
+        <histories>
+          <history month="12" year="2008" count="1"/>
+          <history month="1" year="2009" count="1"/>
+        </histories>
+      </source>
+      <source source="Connotea" count="2" updated_at="2009-01-04 14:05:58 -0800">
+        <citations>
+          <citation uri="http://www.connotea.org/user/krmessner/uri/fd29070c7e006ca35afe2e22a5ad0e0a"/>
+          <citation uri="http://www.connotea.org/user/morgan/uri/f3ffbd6a9f731d7bd7ed7eebc5e76f17"/>
+        </citations>
+        <histories>
+          <history month="1" year="2009" count="2"/>
+        </histories>
+      </source>
+    </article>
