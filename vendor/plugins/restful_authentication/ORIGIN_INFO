@@ -1,0 +1,15 @@
+$ git remote show origin
+
+* remote origin
+  URL: git://github.com/technoweenie/restful-authentication.git
+  Remote branch(es) merged with 'git pull' while on branch master
+    master
+  Tracked remote branches
+    classic master merbful_authentication modular rails-1.2
+
+$ git log -1
+commit 61cd9b377c0b481384f123dc628a2f8cc5ea5fdf
+Author: Grant Goodale <ggoodale@gmail.com>
+Date:   Thu Oct 30 09:48:21 2008 -0700
+
+    incremented version in vain attempt to get github to acknowledge me

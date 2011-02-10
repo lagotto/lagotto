@@ -1,0 +1,21 @@
+Set XSD::XMLParser::REXMLParser as XML processor.
+Loaded suite unit/retrieval_test
+Started
+EE
+Finished in 0.013109 seconds.
+
+  1) Error:
+test_citation_creation(RetrievalTest):
+Fixture::FormatError: a YAML error occurred parsing /home/josowski/Work/alm/head/test/fixtures/users.yml. Please note that YAML must be consistently indented using spaces. Tabs are not allowed. Please have a look at http://www.yaml.org/faq.html
+The exact error was:
+  ArgumentError: invalid date
+    
+
+  2) Error:
+test_published_on_lazyness(RetrievalTest):
+Fixture::FormatError: a YAML error occurred parsing /home/josowski/Work/alm/head/test/fixtures/users.yml. Please note that YAML must be consistently indented using spaces. Tabs are not allowed. Please have a look at http://www.yaml.org/faq.html
+The exact error was:
+  ArgumentError: invalid date
+    
+
+2 tests, 0 assertions, 0 failures, 2 errors
