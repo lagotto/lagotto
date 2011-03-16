@@ -1,5 +1,5 @@
-# $HeadURL: http://ambraproject.org/svn/plos/alm/head/lib/tasks/wsdl_scopus.rake $
-# $Id: wsdl_scopus.rake 6078 2011-01-26 22:08:21Z mbaehr $
+# $HeadURL$
+# $Id$
 #
 # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
