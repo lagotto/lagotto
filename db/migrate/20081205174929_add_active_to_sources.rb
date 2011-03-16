@@ -1,5 +1,5 @@
-# $HeadURL: http://ambraproject.org/svn/plos/alm/head/db/migrate/20081205174929_add_active_to_sources.rb $
-# $Id: 20081205174929_add_active_to_sources.rb 5693 2010-12-03 19:09:53Z josowski $
+# $HeadURL$
+# $Id$
 #
 # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/

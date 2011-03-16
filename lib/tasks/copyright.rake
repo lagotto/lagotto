@@ -1,5 +1,5 @@
-# $HeadURL: http://ambraproject.org/svn/plos/alm/head/lib/tasks/copyright.rake $
-# $Id: copyright.rake 5693 2010-12-03 19:09:53Z josowski $
+# $HeadURL$
+# $Id$
 #
 # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
@@ -20,8 +20,8 @@ desc "Generate the copyright message on all the source headers"
 task :copyright do
   require 'find'
   header = <<EOS
-$HeadURL: http://ambraproject.org/svn/plos/alm/head/lib/tasks/copyright.rake $
-$Id: copyright.rake 5693 2010-12-03 19:09:53Z josowski $
+$HeadURL$
+$Id$
 
 Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
 http://www.plos.org/

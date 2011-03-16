@@ -1,5 +1,5 @@
-# $HeadURL: http://ambraproject.org/svn/plos/alm/head/db/migrate/20100629212419_add_running_flag_to_retrieval.rb $
-# $Id: 20100629212419_add_running_flag_to_retrieval.rb 5693 2010-12-03 19:09:53Z josowski $
+# $HeadURL$
+# $Id$
 #
 # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/

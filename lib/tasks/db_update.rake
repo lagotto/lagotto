@@ -1,5 +1,5 @@
-# $HeadURL: http://ambraproject.org/svn/plos/alm/head/lib/tasks/db_update.rake $
-# $Id: db_update.rake 5814 2010-12-17 22:15:58Z russ $
+# $HeadURL$
+# $Id$
 #
 # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/

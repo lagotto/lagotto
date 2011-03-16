@@ -1,5 +1,5 @@
-# $HeadURL: http://ambraproject.org/svn/plos/alm/head/test/functional/groups_controller_test.rb $
-# $Id: groups_controller_test.rb 5757 2010-12-13 18:44:45Z russ $
+# $HeadURL$
+# $Id$
 #
 # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/

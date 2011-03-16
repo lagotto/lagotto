@@ -1,5 +1,5 @@
-# $HeadURL: http://ambraproject.org/svn/plos/alm/head/app/workers/retrieval_worker.rb $
-# $Id: retrieval_worker.rb 6082 2011-01-26 22:25:27Z mbaehr $
+# $HeadURL$
+# $Id$
 #
 # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/

@@ -1,5 +1,5 @@
-# $HeadURL: http://ambraproject.org/svn/plos/alm/head/app/controllers/sources_controller.rb $
-# $Id: sources_controller.rb 5992 2011-01-14 01:38:00Z josowski $
+# $HeadURL$
+# $Id$
 #
 # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
