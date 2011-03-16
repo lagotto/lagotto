@@ -30,7 +30,7 @@ class Source < ActiveRecord::Base
   validates_numericality_of :staleness_days,
     :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 366
 
-  after_save :create_retrievals
+  after_create :create_retrievals
 
   attr_accessor :staleness_days_before_type_cast
 
