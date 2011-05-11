@@ -89,7 +89,7 @@ namespace :pmc do
         
     months.each do | month |
       call_rake "pmc:update", {:MONTH => month, :YEAR => year}
-      call_rake "db:update", {:LAZY => 0, :SOURCE => "Pmc", :LIMIT => 2}
+      call_rake "db:update", {:LAZY => 0, :SOURCE => "Pmc"}
     end
 
     time = Time.new
@@ -98,7 +98,7 @@ namespace :pmc do
 
     months.each do | month |
       call_rake "pmc:update", {:MONTH => month, :YEAR => year}
-      call_rake "db:update", {:LAZY => 0, :SOURCE => "Pmc", :LIMIT => 2}
+      call_rake "db:update", {:LAZY => 0, :SOURCE => "Pmc"}
     end
   end
 
