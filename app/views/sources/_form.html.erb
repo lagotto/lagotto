@@ -105,6 +105,13 @@
     <%= f.text_field :staleness_days, :size => 5 %>
   </p>
 
+  <% if source.uses_misc %>
+    <p>
+      <%= f.label :misc %><br />
+      <%= f.text_area :misc %>
+    </p>
+  <% end %>
+
   <p>
     <%= f.submit(source.new_record? ? "Create" : "Update") %>
   </p>
