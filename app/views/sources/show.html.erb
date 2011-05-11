@@ -111,6 +111,13 @@
   <%= h @source.disable_delay %>
 </p>
 
+<% if @source.uses_misc %>
+  <p>
+    <b>Miscellaneous Information:</b>
+    <%= h @source.misc %>
+  </p>
+<% end %>  
+
 <h1>Most-cited articles</h1>
 <% if @samples.empty? %>
 <div>No articles have been cited by this source</div>
