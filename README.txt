@@ -18,6 +18,10 @@ ln -s ../../../alm.plos/sources alm/app/models/sources
 rm -rf alm/public
 ln -s ../alm.plos/public alm/public 
 
+** copy over the files underneath the lib/tasks/plos
+mkdir alm/lib/tasks/plos
+cp alm.plos/lib/tasks/plos/* alm/lib/tasks/plos/
+
 ** create symbolic links to your localized config files.  I assume here that the alm_config folder was created earlier as a manual process.
 
 ln -s ../../alm_config/database.yml alm/config/database.yml
