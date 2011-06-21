@@ -185,6 +185,15 @@ class Retriever
   def self.update_articles(articles, adjective=nil, timeout_period=50.minutes)
     require 'timeout'
     begin
+
+      # user can pass in the timeout value. expecting an integer value in minutes
+      timeout_passed_in = ENV.fetch("TIMEOUT", 0).to_i
+      if (timeout_passed_in > 0)
+        timeout_period = timeout_passed_in.minutes
+      end
+
+      Rails.logger.info "Timeout value is #{timeout_period.to_i} seconds"
+      
       Timeout::timeout timeout_period.to_i, RetrieverTimeout do
         lazy = ENV.fetch("LAZY", "1") == "1"
         Rails.logger.debug ["Updating", articles.size.to_s,
