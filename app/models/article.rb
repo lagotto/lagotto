@@ -153,7 +153,7 @@ class Article < ActiveRecord::Base
                                            :skip_instruct => true)
         retrievals.each do |r| 
           r.to_xml(retrieval_options) \
-            if (sources.empty? or sources.include?(r.source.name.downcase)) 
+            if (sources.empty? or sources.include?(r.source['type'].downcase))
                #If the result set is emtpy, lets not return any information about the source at all
                #\
                #and (r.total_citations_count > 0)
