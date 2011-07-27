@@ -34,6 +34,7 @@ class RetrievalTest < ActiveSupport::TestCase
     # Second time we'll call it on the day after that - it should look for
     # sources.
     Time.zone.stubs(:today).returns(today + 1)
+    Source.expects(:active).returns([])
     retriever.update(article)
   end
 
