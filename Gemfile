@@ -11,6 +11,7 @@ gem 'soap4r',        '1.5.8', :require => 'soap/rpc/driver'
 gem 'starling',      '0.10.1'
 gem 'system_timer',  '1.0'
 gem 'will_paginate', '2.3.15'
+gem 'koala',         '1.2.1'
 
 group :development do
   gem 'ruby-debug',  '0.10.4'
