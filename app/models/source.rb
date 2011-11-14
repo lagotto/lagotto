@@ -27,6 +27,7 @@ class Source < ActiveRecord::Base
   validates_presence_of :salt, :if => :uses_salt
   validates_presence_of :partner_id, :if => :uses_partner_id
   validates_presence_of :misc, :if => :uses_misc
+  validates_inclusion_of :keep_existing_data, :in => [true, false], :if => :uses_keep_existing_data
 
   validates_numericality_of :staleness_days,
     :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 366
@@ -146,6 +147,7 @@ class Source < ActiveRecord::Base
   def uses_salt; false; end
   def uses_partner_id; false; end
   def uses_misc; false; end
+  def uses_keep_existing_data; false; end
 
   private
     def create_retrievals

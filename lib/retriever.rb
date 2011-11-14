@@ -139,12 +139,15 @@ class Retriever
             success = false
           end
         end
-        
-        #delete any existing database records that are still in the hash
-        #(This will occur if a citation was created, but the later the source
-        #giving us the citation stopped sending it)
-        Rails.logger.debug "Deleting remaining existing citations: #{existing.size}"
-        existing.values.map(&:destroy)
+
+        unless (source.keep_existing_data)
+          #delete any existing database records that are still in the hash
+          #(This will occur if a citation was created, but the later the source
+          #giving us the citation stopped sending it)
+          Rails.logger.debug "Deleting remaining existing citations: #{existing.size}"
+          existing.values.map(&:destroy)
+        end
+
         retrieval.retrieved_at = DateTime.now.utc
       end
       #Note Issue: 21920, there is a strange problem where these citation counts are not always being set correctly.

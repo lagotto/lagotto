@@ -111,6 +111,13 @@
   <%= h @source.disable_delay %>
 </p>
 
+<% if @source.uses_keep_existing_data  %>
+  <p>
+    <b>Keep existing data?</b>
+    <%= @source.keep_existing_data == true ? "yes" : "no" %>
+  </p>
+<% end %>
+
 <% if @source.uses_misc %>
   <p>
     <b>Miscellaneous Information:</b>

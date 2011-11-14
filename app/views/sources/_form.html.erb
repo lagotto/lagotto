@@ -105,6 +105,13 @@
     <%= f.text_field :staleness_days, :size => 5 %>
   </p>
 
+  <% if source.uses_keep_existing_data %>
+    <p>
+      <%= f.check_box :keep_existing_data %>
+      <%= f.label :keep_existing_data %>
+    </p>
+  <% end %>
+
   <% if source.uses_misc %>
     <p>
       <%= f.label :misc, "Miscellaneous Information" %><br />
