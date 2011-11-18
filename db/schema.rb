@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110509214246) do
+ActiveRecord::Schema.define(:version => 20111028162020) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(:version => 20110509214246) do
     t.integer  "disable_delay", :default => 10,     :null => false
     t.string   "partner_id"
     t.text     "misc"
+    t.boolean  "keep_existing_data", :default => false    
   end
 
   add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true
