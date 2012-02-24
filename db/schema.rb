@@ -10,7 +10,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120224231024) do
+ActiveRecord::Schema.define(:version => 20120224232153) do
+
+  create_table "articles", :force => true do |t|
+    t.string   "doi",                                                :null => false
+    t.datetime "retrieved_at",    :default => '1970-01-01 00:00:00', :null => false
+    t.string   "pub_med"
+    t.string   "pub_med_central"
+    t.date     "published_on"
+    t.text     "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
