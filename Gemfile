@@ -1,33 +1,10 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
-
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
-
-gem 'mysql2'
-
-gem 'json'
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.1.5'
-  gem 'coffee-rails', '~> 3.1.1'
-  gem 'uglifier', '>= 1.0.3'
-end
-
-gem 'jquery-rails'
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug'
-
+gem 'mysql2', '0.3.11'
+gem 'json', '1.6.5'
+gem 'system_timer', '1.2.4'
+gem 'delayed_job', '3.0.1'
+gem 'delayed_job_active_record', '0.3.2'
+gem 'daemons', '1.1.8'
+gem 'libxml-ruby',   '2.2.2', :require => 'xml'
