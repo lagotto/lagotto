@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120225003212) do
+ActiveRecord::Schema.define(:version => 20120225010714) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -69,10 +69,18 @@ ActiveRecord::Schema.define(:version => 20120225003212) do
     t.integer  "disable_delay", :default => 10,    :null => false
     t.integer  "timeout",       :default => 30,    :null => false
     t.integer  "batch_size",    :default => 100,   :null => false
+    t.integer  "workers",                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
+
+  create_table "workers", :force => true do |t|
+    t.integer  "identifier", :null => false
+    t.string   "queue",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

@@ -8,6 +8,7 @@ class CreateSources < ActiveRecord::Migration
       t.integer  :disable_delay, :default => 10, :null => false
       t.integer  :timeout, :default => 30, :null => false
       t.integer  :batch_size, :default => 100, :null => false
+      t.integer  :workers, :null => false
 
       t.timestamps
     end
