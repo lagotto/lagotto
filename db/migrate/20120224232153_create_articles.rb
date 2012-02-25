@@ -1,7 +1,7 @@
 class CreateArticles < ActiveRecord::Migration
   def change
     create_table :articles do |t|
-      t.string   :doi, :null => false, :unique => true
+      t.string   :doi, :null => false
       t.datetime :retrieved_at, :default => '1970-01-01 00:00:00', :null => false
       t.string   :pub_med
       t.string   :pub_med_central
@@ -10,5 +10,7 @@ class CreateArticles < ActiveRecord::Migration
       
       t.timestamps
     end
+
+    add_index :articles, :doi, :unique => true
   end
 end
