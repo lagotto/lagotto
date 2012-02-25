@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120225001622) do
+ActiveRecord::Schema.define(:version => 20120225003212) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",                                                :null => false
@@ -40,6 +40,16 @@ ActiveRecord::Schema.define(:version => 20120225001622) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "retrieval_histories", :force => true do |t|
+    t.integer  "article_id",   :null => false
+    t.integer  "source_id",    :null => false
+    t.string   "status"
+    t.datetime "retrieved_at"
+    t.text     "error_msg"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "retrievals", :force => true do |t|
     t.integer  "article_id",                                      :null => false
