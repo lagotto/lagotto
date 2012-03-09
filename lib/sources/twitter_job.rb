@@ -1,8 +1,9 @@
 require 'source_job'
 require 'cgi'
 
+#TODO remove all the puts statement
+
 class TwitterJob < SourceJob
-  #SOURCE_URL = "http://sfdev03.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key="
   SOURCE_URL = "http://tws-mia.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key="
 
   def perform
@@ -44,6 +45,7 @@ class TwitterJob < SourceJob
     options = {}
     events = []
 
+    options[:timeout] = source.timeout
     json_data = get_json(query_url, options)
 
     if json_data.length > 0
@@ -59,6 +61,7 @@ class TwitterJob < SourceJob
         end
 
         tweet[:url] = "http://twitter.com/#!/#{username}/status/#{tweet["id_str"]}"
+        # this information is couchdb specific, remove it
         tweet.delete("_id")
         tweet.delete("_rev")
 
@@ -70,16 +73,16 @@ class TwitterJob < SourceJob
     if events.length > 0
       data = {}
       data[:doi] = doi
-      data[:updated_at] = retrieved_at
+      data[:retrieved_at] = retrieved_at
       data[:source] = source.name
       data[:events] = events;
 
       # save the data to couchdb
-      data_rev = save_data(retrieval_status.data_rev, data.clone, "#{source.name}:#{CGI.escape(doi)}")
+      data_rev = save_alm_data(retrieval_status.data_rev, data.clone, "#{source.name}:#{CGI.escape(doi)}")
       retrieval_status.data_rev = data_rev
 
       # save the data to couchdb as retrieval history data
-      save_data(nil, data, retrieval_history.id)
+      save_alm_data(nil, data, retrieval_history.id)
 
       # set retrieval history status to success
       retrieval_history.status = RetrievalHistory::SUCCESS_MSG
@@ -97,8 +100,8 @@ class TwitterJob < SourceJob
     retrieval_status.save
     retrieval_history.save
 
-    puts "twitter #{doi} done"
-    Rails.logger.debug "twitter #{doi} done"
+    puts "#{source.name} #{doi} done"
+    Rails.logger.debug "#{source.name} #{doi} done"
 
   end
 

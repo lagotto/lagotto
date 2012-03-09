@@ -1,5 +1,7 @@
 
 module SourceHelper
+  # default timeout is 60 sec
+  DEFAULT_TIMEOUT = 60
 
   def get_json(url, options={})
     body = get_http_body(url, options)
@@ -24,8 +26,7 @@ module SourceHelper
 
   def save_alm_data(data_rev, data, id)
 
-    #TODO store it as app config
-    service_url = "http://sfdev03.plos.org:5984/jentest/"
+    service_url = APP_CONFIG['couchdb_url']
 
     # set the revision information
     unless data_rev.nil?
@@ -68,8 +69,12 @@ module SourceHelper
 
       url = URI.parse(uri)
 
+      response = nil
+
       if options.empty?
-        response = Net::HTTP.get_response(url)
+        Timeout.timeout(DEFAULT_TIMEOUT) do
+          response = Net::HTTP.get_response(url)
+        end
       else
         sUrl = url.path
 
@@ -99,16 +104,8 @@ module SourceHelper
           Rails.logger.debug "[#{key}] = '#{value}'"
         end
 
-        #There is an issue with Ruby and Socket Timeouts
-        #Hostname resolves timing out will not be caught
-        #by the following system time.  At least that is the behavior
-        #I saw.  Note the following:
-        #http://www.mikeperham.com/2009/03/15/socket-timeouts-in-ruby/
-        #http://groups.google.com/group/comp.lang.ruby/browse_thread/thread/c14cfd560cf253d2/bbb0f2e8309f3467?lnk=gst&q=dns+timeout#bbb0f2e8309f3467
-        #http://ph7spot.com/musings/system-timer
-
-        #TODO what happens if timeout is not passed in?
-        Timeout::timeout(options[:timeout]) do
+        timeout = options[:timeout].nil? ? DEFAULT_TIMEOUT : options[:timeout]
+        Timeout.timeout(timeout) do
           http = Net::HTTP.new(url.host, url.port)
           http.use_ssl = true if (url.scheme == 'https')
           if options[:postdata]
@@ -116,7 +113,6 @@ module SourceHelper
           else
             response = http.request(request)
           end
-
         end
       end
 
@@ -136,6 +132,7 @@ module SourceHelper
       end
 
     rescue Exception => e
+      puts "Error #{e}"
       Rails.logger.error "Error (#{e.class.name}: #{e.message}) while requesting #{uri}#{optsMsg}"
       raise e
     end
