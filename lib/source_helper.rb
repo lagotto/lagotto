@@ -60,6 +60,11 @@ module SourceHelper
     result["rev"]
   end
 
+  def get_source_config(source_name)
+    #TODO decide on timeout value
+    get_json("#{APP_CONFIG['couchdb_url']}#{source_name}")
+  end
+
   protected
   def get_http_body(uri, options={})
     optsMsg = " with #{options.inspect}" unless options.empty?
