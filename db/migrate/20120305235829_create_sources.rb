@@ -1,6 +1,7 @@
 class CreateSources < ActiveRecord::Migration
   def change
     create_table :sources do |t|
+      t.string   :type
       t.string   :name,           :null => false                    # name of the source
       t.string   :display_name,   :null => false                    # display name of the source
       t.boolean  :active,         :default => false                 # determine if the source is active or not
@@ -12,6 +13,7 @@ class CreateSources < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :sources, :type, :unique => true
     add_index :sources, :name, :unique => true
   end
 end

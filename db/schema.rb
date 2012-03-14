@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(:version => 20120306000348) do
     t.datetime "updated_at"
   end
 
+  add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
+
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
     t.integer  "attempts",   :default => 0
@@ -65,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20120306000348) do
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
 
   create_table "sources", :force => true do |t|
+    t.string   "type"
     t.string   "name",                             :null => false
     t.string   "display_name",                     :null => false
     t.boolean  "active",        :default => false
@@ -77,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20120306000348) do
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
+  add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true
 
   create_table "workers", :force => true do |t|
     t.integer  "identifier", :null => false
