@@ -5,6 +5,8 @@ class CreateRetrievalStatuses < ActiveRecord::Migration
       t.integer  :source_id, :null => false
       t.datetime :queued_at
       t.datetime :retrieved_at, :default => '1970-01-01 00:00:00', :null => false
+      t.string   :local_id
+      t.integer  :event_count
       t.string   :data_rev
 
       t.timestamps
