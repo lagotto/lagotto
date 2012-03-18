@@ -6,7 +6,6 @@ class CreateRetrievalHistories < ActiveRecord::Migration
       t.datetime :retrieved_at
       t.string   :status
       t.string   :msg
-      t.text     :error_msg
       t.integer  :event_count
 
       t.timestamps
