@@ -1,25 +1,12 @@
 
 namespace :queue do
 
-  task :twitter => :environment do
+  task :pmc => :environment do
 
-    #while true
-      source = Source.find_by_name("twitter")
-      sleep_time = source.queue_jobs
-      puts "sleep for #{sleep_time} seconds"
-      #sleep(sleep_time)
-    #end
+    # this rake task should be scheduled to run after pmc data import rake task runs
+    source = Source.find_by_name("pmc")
+    source.queue_jobs
 
-  end
-
-  task :twitter_new_article => :environment do
-
-    #while true
-      source = Source.find_by_name("twitter")
-      sleep_time = source.queue_new_article_jobs
-      puts "sleep for #{sleep_time} seconds"
-    #  sleep(sleep_time)
-    #end
   end
 
 end
