@@ -1,27 +1,29 @@
 require 'source_helper'
 
-class SourceJob < Struct.new(:doi, :source, :retrieval_status, :retrieval_history)
+class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval_history)
   include SourceHelper
 
   def enqueue(job)
-    puts "enqueue #{doi}"
+    puts "enqueue #{article_id}"
 
     # keep track of when the article was queued up
-    retrieval_status.queued_at = DateTime.now.utc
+    retrieval_status.queued_at = Time.now.utc
     retrieval_status.save
 
   end
 
   def perform
 
-    puts "#{source.name} #{doi} perform"
-    Rails.logger.debug "#{source.name} #{doi} perform"
+    article = Article.find(article_id)
+
+    puts "#{source.name} #{article.doi} perform"
+    Rails.logger.debug "#{source.name} #{article.doi} perform"
 
     # check to see if source is active and not disabled
     # if disabled, exit
-    unless source.active && (source.disable_until.nil? || source.disable_until < DateTime.now.utc)
-      puts "#{source.name} #{doi} not active or disabled"
-      Rails.logger.debug "#{source.name} #{doi} not active or disabled"
+    unless source.active && (source.disable_until.nil? || source.disable_until < Time.now.utc)
+      puts "#{source.name} not active or disabled"
+      Rails.logger.debug "#{source.name} not active or disabled"
 
       retrieval_history.status = RetrievalHistory::SKIPPED_MSG
 
@@ -30,7 +32,7 @@ class SourceJob < Struct.new(:doi, :source, :retrieval_status, :retrieval_histor
         msg << RetrievalHistory::SOURCE_NOT_ACTIVE
       end
 
-      unless (source.disable_until.nil? || source.disable_until < DateTime.now.utc)
+      unless (source.disable_until.nil? || source.disable_until < Time.now.utc)
         msg << RetrievalHistory::SOURCE_DISABLED
       end
 
@@ -40,27 +42,28 @@ class SourceJob < Struct.new(:doi, :source, :retrieval_status, :retrieval_histor
       return
     end
 
-    puts "#{source.name} #{doi} good"
-    Rails.logger.debug "#{source.name} #{doi} good"
+    puts "#{source.name} #{article.doi} good"
+    Rails.logger.debug "#{source.name} #{article.doi} good"
 
-    puts "#{source.inspect}"
-    data_from_source = source.get_data(doi)
+    data_from_source = source.get_data(article)
 
-    events = data_from_source[0]
-    event_count = data_from_source[1]
+    events = data_from_source[:events]
+    event_count = data_from_source[:event_count]
 
-    retrieved_at = DateTime.now.utc
+    retrieved_at = Time.now.utc
     if events.length > 0
       data = {}
-      data[:doi] = doi
+      data[:doi] = article.doi
       data[:retrieved_at] = retrieved_at
       data[:source] = source.name
-      data[:events] = events;
+      data[:events] = events
 
       # save the data to couchdb
-      data_rev = save_alm_data(retrieval_status.data_rev, data.clone, "#{source.name}:#{CGI.escape(doi)}")
+      data_rev = save_alm_data(retrieval_status.data_rev, data.clone, "#{source.name}:#{CGI.escape(article.doi)}")
       retrieval_status.data_rev = data_rev
+      retrieval_status.event_count = event_count
 
+      #TODO change this to a copy
       # save the data to couchdb as retrieval history data
       save_alm_data(nil, data, retrieval_history.id)
 
@@ -80,13 +83,13 @@ class SourceJob < Struct.new(:doi, :source, :retrieval_status, :retrieval_histor
     retrieval_status.save
     retrieval_history.save
 
-    puts "#{source.name} #{doi} done"
-    Rails.logger.debug "#{source.name} #{doi} done"
+    puts "#{source.name} #{article.doi} done"
+    Rails.logger.debug "#{source.name} #{article.doi} done"
 
   end
 
   def after(job)
-    puts "after #{doi}"
+    puts "after #{article_id}"
 
     # reset the queued at value
     retrieval_status.queued_at = nil
@@ -94,15 +97,14 @@ class SourceJob < Struct.new(:doi, :source, :retrieval_status, :retrieval_histor
   end
 
   def error(job, exception)
-    puts "error #{doi}"
+    puts "error #{article_id}"
 
-    retrieval_history.retrieved_at = DateTime.now.utc
+    retrieval_history.retrieved_at = Time.now.utc
     retrieval_history.status = RetrievalHistory::ERROR_MSG
-    retrieval_history.error_msg = "#{exception.backtrace.join("\n")}"
     retrieval_history.save
 
     # disable the source if there is an error
-    source.disable_until = DateTime.now.utc + source.disable_delay.seconds
+    source.disable_until = Time.now.utc + source.disable_delay.seconds
     source.save
 
   end
