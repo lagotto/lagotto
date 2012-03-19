@@ -17,5 +17,13 @@ namespace :queue do
 
   end
 
+  task :biod => :environment do
+
+    # this rake task should be scheduled after counter data has been processed for the day
+    source = Source.find_by_name("biod")
+    source.queue_jobs
+
+  end
+
 end
 
