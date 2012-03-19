@@ -65,44 +65,4 @@ class Biod < Source
 
   end
 
-  def queue_jobs
-    # this job should be scheduled to run once a day
-
-    # determine if the source is active
-    if active && (disable_until.nil? || disable_until < Time.now.utc)
-
-      # reset disable_until value
-      unless self.disable_until.nil?
-        self.disable_until = nil
-        save
-      end
-
-      queue_jobs_helper
-    else
-      Rails.logger.error "#{name} is either inactive or is disabled."
-      raise "#{display_name} (#{name}) is either inactive or is disabled"
-    end
-  end
-
-  def queue_jobs_helper
-
-    # grab all the articles
-    retrieval_statuses = RetrievalStatus.joins(:article, :source).
-        where('sources.id = ?
-               and articles.published_on < ?
-               and queued_at is NULL',
-              id, Time.zone.today).
-        readonly(false)
-
-    retrieval_statuses.find_each do | retrieval_status |
-
-      retrieval_history = RetrievalHistory.new
-      retrieval_history.article_id = retrieval_status.article_id
-      retrieval_history.source_id = id
-      retrieval_history.save
-
-      Delayed::Job.enqueue SourceJob.new(retrieval_status.article_id, self, retrieval_status, retrieval_history), :queue => name
-    end
-  end
-
 end
