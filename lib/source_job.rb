@@ -49,6 +49,7 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
 
     events = data_from_source[:events]
     event_count = data_from_source[:event_count]
+    local_id = data_from_source[:local_id]
 
     retrieved_at = Time.now.utc
     if events.length > 0
@@ -62,6 +63,7 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
       data_rev = save_alm_data(retrieval_status.data_rev, data.clone, "#{source.name}:#{CGI.escape(article.doi)}")
       retrieval_status.data_rev = data_rev
       retrieval_status.event_count = event_count
+      retrieval_status.local_id = local_id
 
       #TODO change this to a copy
       # save the data to couchdb as retrieval history data
