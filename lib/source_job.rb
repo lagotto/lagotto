@@ -46,18 +46,30 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
     Rails.logger.debug "#{source.name} #{article.doi} good"
 
     data_from_source = source.get_data(article)
-
-    events = data_from_source[:events]
-    event_count = data_from_source[:event_count]
-    local_id = data_from_source[:local_id]
+    if data_from_source.class == Hash
+      events = data_from_source[:events]
+      event_count = data_from_source[:event_count]
+      local_id = data_from_source[:local_id]
+      attachment = data_from_source[:attachment]
+    end
 
     retrieved_at = Time.now.utc
-    if events.length > 0
+    if !events.nil? && events.length > 0
+      puts "in events if statement"
       data = {}
       data[:doi] = article.doi
       data[:retrieved_at] = retrieved_at
       data[:source] = source.name
       data[:events] = events
+
+      if !attachment.nil?
+
+        if !attachment[:filename].nil? && !attachment[:content_type].nil? && !attachment[:data].nil?
+          puts "in attachment2"
+          data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
+                                                           "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
+        end
+      end
 
       # save the data to couchdb
       data_rev = save_alm_data(retrieval_status.data_rev, data.clone, "#{source.name}:#{CGI.escape(article.doi)}")
