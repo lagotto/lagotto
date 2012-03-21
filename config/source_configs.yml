@@ -1,0 +1,16 @@
+defaults: &defaults
+  citeulike: {staleness: 7.days, batch_time_interval: 1.hour}
+  crossref:  {staleness: 7.days, batch_time_interval: 1.hour}
+  nature:    {requests_per_day: 15000}
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+stage:
+  <<: *defaults
+
+production:
+  <<: *defaults
