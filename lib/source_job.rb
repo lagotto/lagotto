@@ -55,7 +55,6 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
 
     retrieved_at = Time.now.utc
     if !events.nil? && events.length > 0
-      puts "in events if statement"
       data = {}
       data[:doi] = article.doi
       data[:retrieved_at] = retrieved_at
@@ -65,7 +64,6 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
       if !attachment.nil?
 
         if !attachment[:filename].nil? && !attachment[:content_type].nil? && !attachment[:data].nil?
-          puts "in attachment2"
           data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
                                                            "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
         end

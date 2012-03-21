@@ -36,7 +36,13 @@ class Citeulike < Source
         local_ids[citation[:articleid]] = citation[:articleid]
       end
 
-      {:events => citations, :event_count => citations.length, :local_id => local_ids.values.join(",")}
+      xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
+
+      {:events => citations,
+       :event_count => citations.length,
+       :local_id => local_ids.values.join(","),
+       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+      }
     end
   end
 

@@ -60,7 +60,12 @@ class Counter < Source
         events << event
       end
 
-      {:events => events, :event_count => event_count}
+      xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
+
+      {:events => events,
+       :event_count => event_count,
+       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+      }
     end
 
   end
