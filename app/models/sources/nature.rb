@@ -16,11 +16,10 @@ class Nature < Source
 
     results = get_json(query_url, options)
     events = results.map do |result|
-      url = result["post"]["url"]
+      url = result['post']['url']
       url = "http://#{url}" unless url.start_with?("http://")
-      result[:uri] = url
 
-      result
+      {:event => result['post'], :event_url => url}
     end
 
     {:events => events, :event_count => events.length}

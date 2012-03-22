@@ -31,8 +31,7 @@ class Mendeley < Source
 
     if result.length > 0
 
-      uri = result['mendeley_url']
-      result['uri'] = uri
+      url = result['mendeley_url']
 
       # event count is the reader number and group number combined
       total = 0
@@ -51,7 +50,10 @@ class Mendeley < Source
         result[:related] = related_articles['documents']
       end
 
-      {:events => result, :event_count => total, :local_id => result['uuid']}
+      {:events => result,
+       :events_url => url,
+       :event_count => total,
+       :local_id => result['uuid']}
     end
 
   end
