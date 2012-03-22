@@ -48,6 +48,7 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
     data_from_source = source.get_data(article)
     if data_from_source.class == Hash
       events = data_from_source[:events]
+      events_url = data_from_source[:events_url]
       event_count = data_from_source[:event_count]
       local_id = data_from_source[:local_id]
       attachment = data_from_source[:attachment]
@@ -60,6 +61,7 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
       data[:retrieved_at] = retrieved_at
       data[:source] = source.name
       data[:events] = events
+      data[:events_url] = events_url
 
       if !attachment.nil?
 

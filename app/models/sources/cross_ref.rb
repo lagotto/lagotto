@@ -15,24 +15,24 @@ class CrossRef < Source
     options[:timeout] = timeout
 
     get_xml(url, options) do |document|
-
+      events = []
       document.root.namespaces.default_prefix = "x"
-      citations = []
       document.find("//x:journal_cite").each do |cite|
         cite_string = cite.to_s(:encoding => XML::Encoding::UTF_8)
-        citation = Hash.from_xml(cite_string)
-        citation = citation["journal_cite"]
+        event = Hash.from_xml(cite_string)
+        event = event["journal_cite"]
 
-        if !citation["doi"].nil?
-          citation["uri"] = DOI::to_url(citation["doi"])
+        if !event["doi"].nil?
+          url = DOI::to_url(event["doi"])
         end
-        citations << citation
+
+        events << {:event => event, :event_url => url}
       end
 
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
-      {:events => citations,
-       :event_count => citations.length,
+      {:events => events,
+       :event_count => events.length,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
     end

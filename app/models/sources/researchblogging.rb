@@ -18,25 +18,21 @@ class Researchblogging < Source
     options[:password] = password
 
     get_xml(url, options) do |document|
-      citations = []
+      events = []
 
       document.find("//blogposts/post").each do |post|
 
         post_string = post.to_s(:encoding => XML::Encoding::UTF_8)
-        details = Hash.from_xml(post_string)
-        details = details['post']
+        event = Hash.from_xml(post_string)
+        event = event['post']
 
-        citation = {}
-        citation[:uri] = details['post_URL']
-        citation[:data] = details;
-
-        citations << citation
+        events << {:event => event, :event_url => event['post_URL']}
       end
 
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
-      {:events => citations,
-       :event_count => citations.length,
+      {:events => events,
+       :event_count => events.length,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
 

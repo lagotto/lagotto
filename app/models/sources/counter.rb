@@ -50,19 +50,10 @@ class Counter < Source
         views << curMonth
       end
 
-      events = []
-
-      if(views.size > 0)
-        event = {}
-        event[:uri] = query_url
-        event[:views] = views;
-
-        events << event
-      end
-
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
-      {:events => events,
+      {:events => views,
+       :events_url => query_url,
        :event_count => event_count,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
