@@ -6,7 +6,6 @@ class CreateArticles < ActiveRecord::Migration
       t.date     :published_on         # article publish date
       t.string   :pub_med              # pub med id
       t.string   :pub_med_central      # pub med central id
-      t.string   :mendeley             # mendeley id
 
       t.timestamps
     end
