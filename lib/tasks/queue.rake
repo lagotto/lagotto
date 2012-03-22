@@ -80,5 +80,16 @@ namespace :queue do
 
   end
 
+  task :wos => :environment do
+
+    # this rake task is setup to run forever
+    while true
+      source = Source.find_by_name("wos")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
 end
 
