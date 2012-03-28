@@ -4,6 +4,8 @@ require 'cgi'
 class Source < ActiveRecord::Base
   include SourceHelper
 
+  serialize :configuration, OpenStruct
+
   validates_presence_of :name
   validates_presence_of :display_name
   validates_presence_of :url, :if => :uses_url
