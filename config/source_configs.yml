@@ -7,6 +7,7 @@ defaults: &defaults
   wos:  {staleness: 7.days, batch_time_interval: 1.hour}
   pubmed:  {staleness: 7.days, batch_time_interval: 1.hour}
   scopus:  {staleness: 7.days, batch_time_interval: 1.hour}
+  facebook:  {staleness: 7.days, batch_time_interval: 1.hour}
 
 development:
   <<: *defaults

@@ -60,9 +60,20 @@ module SourceHelper
     result["rev"]
   end
 
-  def get_source_config(source_name)
-    #TODO decide on timeout value
-    get_json("#{APP_CONFIG['couchdb_url']}#{source_name}")
+  def get_original_url(uri_str, limit = 10)
+    raise ArgumentError, 'too many HTTP redirects' if limit == 0
+
+    response = Net::HTTP.get_response(URI(uri_str))
+
+    case response
+      when Net::HTTPSuccess then
+        uri_str
+      when Net::HTTPRedirection then
+        location = response['location']
+        get_original_url(location, limit - 1)
+      else
+        Rails.logger.info "Couldn't not follow the url all the way #{response.value}"
+    end
   end
 
   protected
