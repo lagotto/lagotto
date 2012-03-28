@@ -2,6 +2,11 @@ defaults: &defaults
   citeulike: {staleness: 7.days, batch_time_interval: 1.hour}
   crossref:  {staleness: 7.days, batch_time_interval: 1.hour}
   nature:    {requests_per_day: 15000}
+  mendeley:  {staleness: 7.days, batch_time_interval: 1.hour}
+  researchblogging:  {staleness: 7.days, batch_time_interval: 1.hour}
+  wos:  {staleness: 7.days, batch_time_interval: 1.hour}
+  pubmed:  {staleness: 7.days, batch_time_interval: 1.hour}
+  scopus:  {staleness: 7.days, batch_time_interval: 1.hour}
 
 development:
   <<: *defaults
