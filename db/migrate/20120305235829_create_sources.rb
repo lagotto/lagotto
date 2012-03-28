@@ -13,6 +13,7 @@ class CreateSources < ActiveRecord::Migration
       t.string   :username
       t.string   :password
       t.integer  :workers,        :null => false                    # number of workers for the source queue
+      t.text     :configuration
 
       t.timestamps
     end
