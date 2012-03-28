@@ -123,5 +123,27 @@ namespace :queue do
     end
 
   end
+
+  task :twitter => :environment do
+
+    # this rake task is setup to run forever
+    while true
+      source = Source.find_by_name("twitter")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
+  task :twitter_new_articles => :environment do
+
+    # this rake task is setup to run forever
+    while true
+      source = Source.find_by_name("twitter")
+      sleep_time = source.queue_new_articles
+      sleep(sleep_time)
+    end
+
+  end
 end
 

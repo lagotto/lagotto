@@ -8,6 +8,7 @@ defaults: &defaults
   pubmed:  {staleness: 7.days, batch_time_interval: 1.hour}
   scopus:  {staleness: 7.days, batch_time_interval: 1.hour}
   facebook:  {staleness: 7.days, batch_time_interval: 1.hour}
+  twitter: {staleness: 7.days, batch_time_interval: 1.hour, new_articles: {days_since_published: 49, batch_time_interval: 1.hour}}
 
 development:
   <<: *defaults
