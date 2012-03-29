@@ -3,12 +3,9 @@ class Counter < Source
 
   SOURCE_URL = 'http://www.plosreports.org/services/rest?method=usage.stats&doi='
 
-  def get_data(article)
+  def get_data(article, options={})
 
     query_url = "#{SOURCE_URL}#{CGI.escape(article.doi)}"
-
-    options = {}
-    options[:timeout] = timeout
 
     get_xml(query_url, options) do |document|
       views = []

@@ -45,7 +45,7 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
     puts "#{source.name} #{article.doi} good"
     Rails.logger.debug "#{source.name} #{article.doi} good"
 
-    data_from_source = source.get_data(article)
+    data_from_source = source.get_data(article, {:retrieval_status => retrieval_status, :timeout => source.timeout })
     if data_from_source.class == Hash
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]

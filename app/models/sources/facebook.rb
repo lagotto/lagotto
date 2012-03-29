@@ -3,21 +3,20 @@ require 'doi'
 
 class Facebook < Source
 
-  def get_data(article)
-
-    # TODO check for required fields
+  def get_data(article, options={})
+    raise(ArgumentError, "#{display_name} configuration requires api key") \
+      if config.api_key.blank?
 
     events = []
     urls = []
 
-    fbAPI = Koala::Facebook::API.new(configuration.api_key)
+    fbAPI = Koala::Facebook::API.new(config.api_key)
 
     doi_resolver_url = DOI.to_url(article.doi)
     urls = [doi_resolver_url]
 
-    rs = RetrievalStatus.where(:article_id => article.id, :source_id => id).first
     original_url = nil
-    if rs.local_id.nil?
+    if options[:retrieval_status].local_id.nil?
       begin
         original_url = get_original_url(doi_resolver_url)
       rescue => e
@@ -27,7 +26,7 @@ class Facebook < Source
         urls << original_url
       end
     else
-      urls << rs.local_id
+      urls << options[:retrieval_status].local_id
     end
 
     # if the article is one of plos articles, add plos specific doi resolver url

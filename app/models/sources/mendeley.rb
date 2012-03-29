@@ -1,20 +1,15 @@
 
 class Mendeley < Source
 
-  def get_data(article)
+  def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires api key") \
-      if api_key.blank?
-
-    options = {}
-    options[:timeout] = timeout
+      if config.api_key.blank?
 
     result = []
 
     # try mendeley id first if we have it
-    # there should be only one
-    rs = RetrievalStatus.where(:article_id => article.id, :source_id => id).first
-    if !rs.local_id.nil?
-      result = get_json_data(search_url(rs.local_id), options)
+    if !options[:retrieval_status].local_id.nil?
+      result = get_json_data(search_url(options[:retrieval_status].local_id), options)
     end
 
     # try using doi
@@ -60,14 +55,14 @@ class Mendeley < Source
 
   def search_url(id, id_type = nil)
     if id_type.nil?
-      "http://api.mendeley.com/oapi/documents/details/#{id}/?consumer_key=#{api_key}"
+      "http://api.mendeley.com/oapi/documents/details/#{id}/?consumer_key=#{config.api_key}"
     else
-      "http://api.mendeley.com/oapi/documents/details/#{id}/?type=#{id_type}&consumer_key=#{api_key}"
+      "http://api.mendeley.com/oapi/documents/details/#{id}/?type=#{id_type}&consumer_key=#{config.api_key}"
     end
   end
 
   def related_url(uuid)
-    "http://api.mendeley.com/oapi/documents/related/#{uuid}/?consumer_key=#{api_key}"
+    "http://api.mendeley.com/oapi/documents/related/#{uuid}/?consumer_key=#{config.api_key}"
   end
 
   def get_json_data(url, options={})
@@ -76,6 +71,10 @@ class Mendeley < Source
     rescue => e
       Rails.logger.error("#{display_name} #{e.message}")
       if e.respond_to?('response')
+        if e.response.kind_of?(Net::HTTPForbidden)
+          # http response 403
+          Rails.logger.error "Mendeley returned 403, they might be throttling us."
+        end
         # if the article could not be found by the Mendeley api, continue on (we will get a 404 error)
         # if we get any other error, throw it so it can be handled by the caller (ex. 503)
         unless e.response.kind_of?(Net::HTTPNotFound)

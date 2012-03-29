@@ -1,17 +1,15 @@
 
 class Twitter < Source
 
-  def get_data(article)
-    # TODO check for required fields
+  def get_data(article, options={})
+    raise(ArgumentError, "#{display_name} configuration requires a url") \
+      if config.url.blank?
 
-    query_url = "#{configuration.url}#{CGI.escape("\"#{article.doi}\"")}"
+    query_url = "#{config.url}#{CGI.escape("\"#{article.doi}\"")}"
 
     puts "#{query_url}"
 
-    options = {}
     events = []
-
-    options[:timeout] = timeout
 
     json_data = get_json(query_url, options)
 

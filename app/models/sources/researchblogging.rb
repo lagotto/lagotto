@@ -3,22 +3,17 @@ class Researchblogging < Source
 
   SOURCE_URL = 'http://researchbloggingconnect.com/blogposts'
 
-  def uses_username; true; end
-  def uses_password; true; end
-
-  def get_data(article)
+  def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires username & password") \
-      if username.blank? or password.blank?
+      if config.username.blank? or config.password.blank?
 
+    # TODO why did we set the count to 100?
     url = "#{SOURCE_URL}?count=100&article=doi:#{CGI.escape(article.doi)}"
 
-    options = {}
-    options[:timeout] = timeout
-    options[:username] = username
-    options[:password] = password
-
-    get_xml(url, options) do |document|
+    get_xml(url, options.merge(:username => config.username, :password => config.password)) do |document|
       events = []
+
+      total_count = document.root.attributes.get_attribute("total_records_found")
 
       document.find("//blogposts/post").each do |post|
 
@@ -32,7 +27,7 @@ class Researchblogging < Source
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
       {:events => events,
-       :event_count => events.length,
+       :event_count => total_count.value,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
 

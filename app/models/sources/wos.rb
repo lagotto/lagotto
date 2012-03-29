@@ -1,7 +1,7 @@
 
 class Wos < Source
 
-  def get_data(article)
+  def get_data(article, options={})
 
     doc = XML::Document.new()
     doc.root = XML::Node.new('request')
@@ -37,12 +37,7 @@ class Wos < Source
 
     url = "https://ws.isiknowledge.com/cps/xrpc"
 
-    options = {}
-    options[:timeout] = timeout
-    options[:postdata] = doc.to_s
-    options[:extraheaders] = {'Content-Type' => 'text/xml'}
-
-    get_xml(url, options) do |document|
+    get_xml(url, options.merge(:postdata => doc.to_s, :extraheaders => {'Content-Type' => 'text/xml'})) do |document|
       # there should be only one node found
       status = ""
       nodes = document.find('//xrpc:fn', 'xrpc:http://www.isinet.com/xrpc41')

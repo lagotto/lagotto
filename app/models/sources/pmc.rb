@@ -1,20 +1,15 @@
 
 class Pmc < Source
 
-  def uses_url; true; end
-
-  def get_data(article)
+  def get_data(article, options={})
     raise(ArgumentError, "#{display_name} requires url") \
-      if url.blank?
+      if config.url.blank?
 
-    query_url = "#{url}#{CGI.escape(article.doi)}"
+    query_url = "#{config.url}#{CGI.escape(article.doi)}"
 
     events = nil
     event_count = nil
     results = []
-
-    options = {}
-    options[:timeout] = timeout
 
     begin
       results = get_json(query_url, options)
