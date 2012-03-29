@@ -51,8 +51,8 @@ class Source < ActiveRecord::Base
     source_config = source_config[name]
 
     if !source_config.has_key?('batch_time_interval') || !source_config.has_key?('staleness')
-      # TODO let someone know that the source isn't configured correctly
       Rails.logger.error "#{display_name}: batch_time_interval is missing or staleness is missing"
+      raise "#{display_name}: batch_time_interval is missing or staleness is missing"
       return
     end
 
