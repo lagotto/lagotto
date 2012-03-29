@@ -44,15 +44,15 @@ class Twitter < Source
 
     # get job specific configuration
     if !source_config.has_key?('new_articles')
-      # TODO let someone know that the source isn't configured correctly
       Rails.logger.error "#{display_name}: new_articles configuration is missing"
+      raise "#{display_name}: new_articles configuration is missing"
       return
     end
 
     source_config = source_config['new_articles']
     if !source_config.has_key?('batch_time_interval') || !source_config.has_key?('days_since_published')
-      # TODO let someone know that the source isn't configured correctly
       Rails.logger.error "#{display_name}: batch_time_interval is missing or days_since_published is missing"
+      raise "#{display_name}: batch_time_interval is missing or days_since_published is missing"
       return
     end
 
