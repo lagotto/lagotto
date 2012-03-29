@@ -2,17 +2,11 @@ require 'doi'
 
 class CrossRef < Source
 
-  def uses_username; true; end
-  def uses_password; true; end
+  def get_data(article, options={})
+    raise(ArgumentError, "#{display_name} configuration requires username & password") \
+      if config.username.blank? or config.password.blank?
 
-  def get_data(article)
-    raise(ArgumentError, "Crossref configuration requires username & password") \
-      if username.blank? or password.blank?
-
-    url = "http://doi.crossref.org/servlet/getForwardLinks?usr=#{username}&pwd=#{password}&doi=#{CGI.escape(article.doi)}"
-
-    options = {}
-    options[:timeout] = timeout
+    url = "http://doi.crossref.org/servlet/getForwardLinks?usr=#{config.username}&pwd=#{config.password}&doi=#{CGI.escape(article.doi)}"
 
     get_xml(url, options) do |document|
       events = []

@@ -28,17 +28,16 @@ end
 
 class Scopus < Source
 
-  def get_data(article)
-    # TODO check for required fields
-
-    configuration.live_mode = true
+  def get_data(article, options={})
+    raise(ArgumentError, "#{display_name} configuration requires username, live_mode setting, salt and partner_id") \
+      if config.username.blank? or config.live_mode.nil? or config.salt.blank? or config.partner_id.blank?
 
     # Guarantee Kosher for Great Justice
     fix_scopus_wsdl
 
-    url = Scopus::query_url(configuration.live_mode)
+    url = Scopus::query_url(config.live_mode)
 
-    driver = get_soap_driver(username, url)
+    driver = get_soap_driver(config.username, url)
 
     result = driver.getCitedByCount(build_payload(article.doi))
     return unless result.status.statusCode == "OK"
@@ -57,9 +56,9 @@ class Scopus < Source
   def get_event_url(doi)
     #TODO this link doesn't seem to work anymore!
     query_string = "doi=" + CGI.escape(doi) \
-      + "&rel=R3.0.0&partnerID=#{configuration.partner_id}"
+      + "&rel=R3.0.0&partnerID=#{config.partner_id}"
 
-    digest = Digest::MD5.hexdigest(query_string + configuration.salt)
+    digest = Digest::MD5.hexdigest(query_string + config.salt)
 
     "http://www.scopus.com/scopus/inward/citedby.url?" \
       + query_string + "&md5=" + digest

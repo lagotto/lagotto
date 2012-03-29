@@ -3,12 +3,9 @@ class Citeulike < Source
 
   SOURCE_URL = 'http://www.citeulike.org/api/posts/for/doi/'
 
-  def get_data(article)
+  def get_data(article, options={})
 
     url = "#{SOURCE_URL}#{CGI.escape(article.doi)}"
-
-    options = {}
-    options[:timeout] = timeout
 
     get_xml(url, options) do |document|
       events = []

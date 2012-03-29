@@ -3,18 +3,25 @@ class Nature < Source
   SECONDS_IN_A_DAY = 86400
   BATCH_SIZE = 1000
 
-  def uses_api_key; true; end
-
-  def get_data(article)
+  def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires an api key") \
-      if api_key.blank?
+      if config.api_key.blank?
 
-    query_url = "http://api.nature.com/service/blogs/posts.json?api_key=#{api_key}&doi=#{CGI.escape(article.doi)}"
+    query_url = "http://api.nature.com/service/blogs/posts.json?api_key=#{config.api_key}&doi=#{CGI.escape(article.doi)}"
 
-    options = {}
-    options[:timeout] = timeout
+    begin
+      results = get_json(query_url, options)
+    rescue => e
+      Rails.logger.error("#{display_name} #{e.message}")
+      if e.respond_to?('response')
+        if e.response.kind_of?(Net::HTTPForbidden)
+          # http response 403
+          Rails.logger.error "#{display_name} returned 403, they might be throttling us."
+        end
+      end
+      raise e
+    end
 
-    results = get_json(query_url, options)
     events = results.map do |result|
       url = result['post']['url']
       url = "http://#{url}" unless url.start_with?("http://")
