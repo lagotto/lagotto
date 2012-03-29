@@ -41,7 +41,7 @@ class Nature < Source
     # get job specific configuration
     if !source_config.has_key?('requests_per_day')
       # TODO let someone know that the source isn't configured correctly
-      puts "requests_per_day is missing"
+      Rails.logger.error "#{display_name}: requests_per_day is missing"
       return
     end
 

@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(:version => 20120306000348) do
     t.date     "published_on"
     t.string   "pub_med"
     t.string   "pub_med_central"
-    t.string   "mendeley"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -48,7 +47,6 @@ ActiveRecord::Schema.define(:version => 20120306000348) do
     t.datetime "retrieved_at"
     t.string   "status"
     t.string   "msg"
-    t.text     "error_msg"
     t.integer  "event_count"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -59,6 +57,8 @@ ActiveRecord::Schema.define(:version => 20120306000348) do
     t.integer  "source_id",                                       :null => false
     t.datetime "queued_at"
     t.datetime "retrieved_at", :default => '1970-01-01 00:00:00', :null => false
+    t.string   "local_id"
+    t.integer  "event_count"
     t.string   "data_rev"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(:version => 20120306000348) do
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
 
   create_table "sources", :force => true do |t|
-    t.string   "type"
+    t.string   "type",                             :null => false
     t.string   "name",                             :null => false
     t.string   "display_name",                     :null => false
     t.boolean  "active",        :default => false
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20120306000348) do
     t.integer  "disable_delay", :default => 10,    :null => false
     t.integer  "timeout",       :default => 30,    :null => false
     t.integer  "workers",                          :null => false
+    t.text     "config"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

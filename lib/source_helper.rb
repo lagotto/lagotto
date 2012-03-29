@@ -37,7 +37,7 @@ module SourceHelper
     begin
       response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
     rescue => e
-      puts "#{e}"
+      Rails.logger.error "#{e.class.name}: #{e.message} #{e.backtrace.join("\n")}"
       if e.respond_to?('response')
         if e.response.kind_of?(Net::HTTPConflict)
           # something went wrong
@@ -78,11 +78,12 @@ module SourceHelper
 
   protected
   def get_http_body(uri, options={})
-    optsMsg = " with #{options.inspect}" unless options.empty?
-    begin
-      # TODO where does retrieval get used?
-      options = options.except(:retrieval)
+    # removing retrieval_status object from the hash
+    options = options.except(:retrieval_status)
 
+    optsMsg = " with #{options.inspect}" unless options.empty?
+
+    begin
       url = URI.parse(uri)
 
       response = nil
@@ -101,7 +102,7 @@ module SourceHelper
         Rails.logger.debug "http request: #{sUrl} (timeout: #{options[:timeout]})"
 
         headers = { "User-Agent" => APP_CONFIG['useragent'] + " - " + APP_CONFIG['hostname'] }
-        # TODO WHO USES THIS?
+
         if options[:extraheaders]
           extraHeaders = options[:extraheaders]
           extraHeaders.each do | key, value |
@@ -132,8 +133,7 @@ module SourceHelper
         end
       end
 
-      # TODO don't output everything!  makes the log file unreadable.  too much info
-      Rails.logger.info "Requested #{uri}#{optsMsg}, got: #{response.body}"
+      Rails.logger.info "Requested #{uri}#{optsMsg}, got: #{response.code}, #{response.message}"
 
       Rails.logger.debug "Response headers:"
       response.each_header do |key, value|
@@ -148,7 +148,6 @@ module SourceHelper
       end
 
     rescue Exception => e
-      puts "Error #{e}"
       Rails.logger.error "Error (#{e.class.name}: #{e.message}) while requesting #{uri}#{optsMsg}"
       raise e
     end
