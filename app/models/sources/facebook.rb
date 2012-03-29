@@ -20,7 +20,7 @@ class Facebook < Source
       begin
         original_url = get_original_url(doi_resolver_url)
       rescue => e
-        Rails.logger.error e
+        Rails.logger.error "Could not get the full url for #{doi_resolver_url} #{e.message}"
       end
       unless original_url.nil?
         urls << original_url

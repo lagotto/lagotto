@@ -52,7 +52,7 @@ class Source < ActiveRecord::Base
 
     if !source_config.has_key?('batch_time_interval') || !source_config.has_key?('staleness')
       # TODO let someone know that the source isn't configured correctly
-      Rails.logger.error "batch_time_interval is missing or staleness is missing"
+      Rails.logger.error "#{display_name}: batch_time_interval is missing or staleness is missing"
       return
     end
 
@@ -119,7 +119,7 @@ class Source < ActiveRecord::Base
       index = time_interval_config.index('.')
       number = time_interval_config[0,index]
       method = time_interval_config[index + 1, time_interval_config.length]
-      config = number.to_i.send(method)
+      return number.to_i.send(method)
     end
   end
 

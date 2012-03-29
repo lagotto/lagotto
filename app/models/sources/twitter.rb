@@ -7,8 +7,6 @@ class Twitter < Source
 
     query_url = "#{config.url}#{CGI.escape("\"#{article.doi}\"")}"
 
-    puts "#{query_url}"
-
     events = []
 
     json_data = get_json(query_url, options)
@@ -47,14 +45,14 @@ class Twitter < Source
     # get job specific configuration
     if !source_config.has_key?('new_articles')
       # TODO let someone know that the source isn't configured correctly
-      puts "new_articles configuration is missing"
+      Rails.logger.error "#{display_name}: new_articles configuration is missing"
       return
     end
 
     source_config = source_config['new_articles']
     if !source_config.has_key?('batch_time_interval') || !source_config.has_key?('days_since_published')
       # TODO let someone know that the source isn't configured correctly
-      puts "batch_time_interval is missing or days_since_published is missing"
+      Rails.logger.error "#{display_name}: batch_time_interval is missing or days_since_published is missing"
       return
     end
 
@@ -98,8 +96,7 @@ class Twitter < Source
               id, Time.zone.today, Time.zone.today - source_config['days_since_published']).
         readonly(false)
 
-    puts "#{name} total article queued #{retrieval_statuses.length}"
-    Rails.logger.debug "#{name} total article queued #{retrieval_statuses.length}"
+    Rails.logger.debug "#{name}: total article queued #{retrieval_statuses.length}"
 
     retrieval_statuses.each do | retrieval_status |
 

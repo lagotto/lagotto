@@ -4,7 +4,7 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
   include SourceHelper
 
   def enqueue(job)
-    puts "enqueue #{article_id}"
+    Rails.logger.debug "enqueue #{source.name}:#{article_id}"
 
     # keep track of when the article was queued up
     retrieval_status.queued_at = Time.now.utc
@@ -16,13 +16,11 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
 
     article = Article.find(article_id)
 
-    puts "#{source.name} #{article.doi} perform"
     Rails.logger.debug "#{source.name} #{article.doi} perform"
 
     # check to see if source is active and not disabled
     # if disabled, exit
     unless source.active && (source.disable_until.nil? || source.disable_until < Time.now.utc)
-      puts "#{source.name} not active or disabled"
       Rails.logger.debug "#{source.name} not active or disabled"
 
       retrieval_history.status = RetrievalHistory::SKIPPED_MSG
@@ -41,9 +39,6 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
       retrieval_history.save
       return
     end
-
-    puts "#{source.name} #{article.doi} good"
-    Rails.logger.debug "#{source.name} #{article.doi} good"
 
     data_from_source = source.get_data(article, {:retrieval_status => retrieval_status, :timeout => source.timeout })
     if data_from_source.class == Hash
@@ -98,14 +93,10 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
 
     retrieval_status.save
     retrieval_history.save
-
-    puts "#{source.name} #{article.doi} done"
-    Rails.logger.debug "#{source.name} #{article.doi} done"
-
   end
 
   def after(job)
-    puts "after #{article_id}"
+    Rails.logger.debug "job completed #{source.name}:#{article_id}"
 
     # reset the queued at value
     retrieval_status.queued_at = nil
@@ -113,7 +104,7 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
   end
 
   def error(job, exception)
-    puts "error #{article_id}"
+    Rails.logger.debug "job error #{source.name}:#{article_id} #{exception.message}"
 
     retrieval_history.retrieved_at = Time.now.utc
     retrieval_history.status = RetrievalHistory::ERROR_MSG
