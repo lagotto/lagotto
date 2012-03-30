@@ -1,0 +1,25 @@
+
+defaults: &defaults
+  useragent: Article Level Metrics
+  notification_email: alm@alm.example.org
+  rest_auth_site_key: #'run `rake secret` to generate a key to insert here'
+  rest_auth_digest_stretches: 10
+  session_secret: #'run `rake secret` again to generate a second key to insert here'
+  layout: application
+  couchdb_url: http://tws-mia.plos.org:5984/jentest/
+
+development:
+  <<: *defaults
+  hostname: http://dev.example.org
+
+test:
+  <<: *defaults
+  hostname: http://test.example.org
+
+stage:
+  <<: *defaults
+  hostname: http://stage.example.org
+
+production:
+  <<: *defaults
+  hostname: http://alm.example.org
