@@ -6,7 +6,7 @@ defaults: &defaults
   rest_auth_digest_stretches: 10
   session_secret: #'run `rake secret` again to generate a second key to insert here'
   layout: application
-  couchdb_url: http://tws-mia.plos.org:5984/jentest/
+  couchdb_url: http://example.org:5984/database/
 
 development:
   <<: *defaults
