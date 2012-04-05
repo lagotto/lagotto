@@ -128,8 +128,11 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   # the rest of the retrieval data can be retrieved
 
   Rake::Task["migrate_retrieval_data"].invoke("nature", old_db)
+  Rake::Task["migrate_retrieval_data"].reenable
   Rake::Task["migrate_retrieval_data"].invoke("bloglines", old_db)
+  Rake::Task["migrate_retrieval_data"].reenable
   Rake::Task["migrate_retrieval_data"].invoke("connotea", old_db)
+  Rake::Task["migrate_retrieval_data"].reenable
   Rake::Task["migrate_retrieval_data"].invoke("postgenomic", old_db)
 
   puts "End: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
