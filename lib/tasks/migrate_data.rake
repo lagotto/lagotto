@@ -127,10 +127,10 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   # migrate retrieval data for bloglines, connotea and postgenomic (they are disabled)
   # the rest of the retrieval data can be retrieved
 
-  Rake::Task["migrate_retrieval_data[nature,#{old_db}]"].invoke
-  Rake::Task["migrate_retrieval_data[bloglines,#{old_db}]"].invoke
-  Rake::Task["migrate_retrieval_data[connotea,#{old_db}]"].invoke
-  Rake::Task["migrate_retrieval_data[postgenomic,#{old_db}]"].invoke
+  Rake::Task["migrate_retrieval_data"].invoke("nature", old_db)
+  Rake::Task["migrate_retrieval_data"].invoke("bloglines", old_db)
+  Rake::Task["migrate_retrieval_data"].invoke("connotea", old_db)
+  Rake::Task["migrate_retrieval_data"].invoke("postgenomic", old_db)
 
   puts "End: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
 end
