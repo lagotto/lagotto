@@ -177,6 +177,10 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
   end
   puts "Source name #{source.name}"
 
+  if source.name == "postgenomic"
+    YAML::ENGINE.yamler= 'syck'
+  end
+
   puts "Start: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
 
   results = client.query("select c.id, a.doi, c.retrieval_id, r.retrieved_at, r.local_id, c.uri, c.details " +
@@ -233,7 +237,7 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
 
     elsif source.name == "postgenomic"
       begin
-        event = YAML.load(row["details"].inspect)
+        event = YAML.load(row["details"])
         event.delete(:uri)
         events << {:event => event, :event_url => row["uri"]}
       rescue => e
