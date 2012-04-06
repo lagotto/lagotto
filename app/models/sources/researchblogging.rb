@@ -27,6 +27,7 @@ class Researchblogging < Source
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
       {:events => events,
+       :events_url => "http://researchblogging.org/post-search/list?article=#{CGI.escape(article.doi)}",
        :event_count => total_count.value,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
