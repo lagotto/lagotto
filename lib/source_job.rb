@@ -1,16 +1,7 @@
 require 'source_helper'
 
-class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval_history)
+class SourceJobSkipEnqueue < Struct.new(:article_id, :source, :retrieval_status, :retrieval_history)
   include SourceHelper
-
-  def enqueue(job)
-    Rails.logger.debug "enqueue #{source.name}:#{article_id}"
-
-    # keep track of when the article was queued up
-    retrieval_status.queued_at = Time.now.utc
-    retrieval_status.save
-
-  end
 
   def perform
 
@@ -95,14 +86,6 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
     retrieval_history.save
   end
 
-  def after(job)
-    Rails.logger.debug "job completed #{source.name}:#{article_id}"
-
-    # reset the queued at value
-    retrieval_status.queued_at = nil
-    retrieval_status.save
-  end
-
   def error(job, exception)
     Rails.logger.debug "job error #{source.name}:#{article_id} #{exception.message}"
 
@@ -117,3 +100,28 @@ class SourceJob < Struct.new(:article_id, :source, :retrieval_status, :retrieval
   end
 
 end
+
+class SourceJob < SourceJobSkipEnqueue
+  include SourceHelper
+
+  def enqueue(job)
+    puts "enqueue #{source.name}:#{article_id}"
+    Rails.logger.debug "enqueue #{source.name}:#{article_id}"
+
+    # keep track of when the article was queued up
+    retrieval_status.queued_at = Time.now.utc
+    retrieval_status.save
+
+  end
+
+  def after(job)
+    puts "job completed #{source.name}:#{article_id}"
+    Rails.logger.debug "job completed #{source.name}:#{article_id}"
+
+    # reset the queued at value
+    retrieval_status.queued_at = nil
+    retrieval_status.save
+  end
+
+end
+

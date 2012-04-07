@@ -35,7 +35,7 @@ class Source < ActiveRecord::Base
         retrieval_history.source_id = id
         retrieval_history.save
 
-        Delayed::Job.enqueue SourceJob.new(retrieval_status.article_id, self, retrieval_status, retrieval_history), :queue => name
+        Delayed::Job.enqueue SourceJobSkipEnqueue.new(retrieval_status.article_id, self, retrieval_status, retrieval_history), :queue => name
       end
 
     else
