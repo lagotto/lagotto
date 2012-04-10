@@ -6,7 +6,7 @@ class CreateRetrievalHistories < ActiveRecord::Migration
       t.datetime :retrieved_at                 # when data was retrieved for the given article for the given source
       t.string   :status                       # status of the retrieval (success or failure)
       t.string   :msg                          # extra information about the status of the retrieval
-      t.integer  :event_count                  # event count
+      t.integer  :event_count, :default => 0   # event count
 
       t.timestamps
     end
