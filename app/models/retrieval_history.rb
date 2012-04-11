@@ -1,4 +1,6 @@
 class RetrievalHistory < ActiveRecord::Base
+  belongs_to :retrieval_status
+
   SUCCESS_MSG = "SUCCESS"
   SUCCESS_NODATA_MSG = "SUCCESS WITH NO DATA"
   ERROR_MSG = "ERROR"

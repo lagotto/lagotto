@@ -1,3 +1,5 @@
+require "csv"
+
 load "#{Rails.root}/lib/source_job.rb"
 
 Delayed::Worker.sleep_delay = 5

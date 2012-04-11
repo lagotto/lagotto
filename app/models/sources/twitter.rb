@@ -101,6 +101,7 @@ class Twitter < Source
     retrieval_statuses.each do | retrieval_status |
 
       retrieval_history = RetrievalHistory.new
+      retrieval_history.retrieval_status_id = retrieval_status.id
       retrieval_history.article_id = retrieval_status.article_id
       retrieval_history.source_id = id
       retrieval_history.save

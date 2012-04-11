@@ -1,8 +1,11 @@
 require 'source_helper'
 require 'cgi'
+require 'ostruct'
 
 class Source < ActiveRecord::Base
   include SourceHelper
+
+  has_many :retrieval_statuses, :dependent => :destroy
 
   serialize :config, OpenStruct
 
@@ -31,6 +34,7 @@ class Source < ActiveRecord::Base
       retrieval_statuses.find_each do | retrieval_status |
 
         retrieval_history = RetrievalHistory.new
+        retrieval_history.retrieval_status_id = retrieval_status.id
         retrieval_history.article_id = retrieval_status.article_id
         retrieval_history.source_id = id
         retrieval_history.save
@@ -104,6 +108,7 @@ class Source < ActiveRecord::Base
     retrieval_statuses.each do | retrieval_status |
 
       retrieval_history = RetrievalHistory.new
+      retrieval_history.retrieval_status_id = retrieval_status.id
       retrieval_history.article_id = retrieval_status.article_id
       retrieval_history.source_id = id
       retrieval_history.save
