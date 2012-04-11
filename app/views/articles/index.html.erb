@@ -12,7 +12,12 @@
        links = links.html_safe
     %>
     <div>
-      Show <%= links %> articles
+      Show <%= links %> articles |
+      <%= form_tag articles_path, :method => "get", :style => "display: inline" do %>
+          <%= label_tag 'query', 'Show only DOIs containing:' %>
+          <%= text_field_tag "query", params[:query], :size => 9 %>
+          <%= submit_tag 'Go' %>
+      <% end %>
     </div>
     <h2>
       <%=

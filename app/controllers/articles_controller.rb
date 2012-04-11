@@ -10,6 +10,7 @@ class ArticlesController < ApplicationController
 
     collection = Article
     collection = collection.cited(params[:cited])  if params[:cited]
+    collection = collection.query(params[:query])  if params[:query]
     collection = collection.order_articles(params[:order])
 
     @articles = collection.paginate(:page => params[:page], :per_page => params[:per_page])
