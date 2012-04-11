@@ -1,0 +1,51 @@
+<% if @source -%>
+<%=
+    # Broken out by month for one source
+    months = month_range(Time.zone.today, Date.civil((params[:year] || 2009).to_i,
+                                                     (params[:month] || 1).to_i, 1))
+    this_month = Time.zone.today.at_beginning_of_month
+    month_count = months.count
+    empty_row = Array.new(month_count, 0)
+    CSV.generate(:force_quotes => true) do |csv|
+      csv << ["DOI", "Published", "Title"] + months.map {|date| "#{date.month}/#{date.year}" }
+      @articles.each do |article|
+        rs = article.retrieval_statuses.detect {|r| r.source_id == @source.id }
+        month_totals = if rs.nil?
+                         empty_row
+                       else
+                         months.map do |month_date|
+                           if month_date == this_month
+                             # special-case current month: use most-recent total, in case we haven't updated this month yet.
+                             rs.event_count
+                           else
+                             history = rs.retrieval_histories.
+                                     where(:retrieved_at => month_date..Date.civil(month_date.year, month_date.month, -1)).
+                                     order("retrieved_at desc").first
+                             (history && history.event_count) || 0
+                           end
+                         end
+                       end
+        csv << [article.doi, article.published_on, strip_tags(article.title)] + month_totals
+      end
+    end.html_safe
+-%>
+<% else -%>
+<%=
+    sources = Source.all.sort_by(&:display_name)
+
+    CSV.generate(:force_quotes => true) do |csv|
+      csv << ["DOI", "Published", "Title"] + sources.map(&:display_name)
+      @articles.each do |article|
+        source_counts = sources.map do |source|
+          rs = article.retrieval_statuses.detect {|r| r.source_id == source.id }
+          if rs
+            rs.event_count
+          else
+            0
+          end
+        end
+        csv << [article.doi, article.published_on, strip_tags(article.title)] + source_counts
+      end
+    end.html_safe
+%>
+<% end -%>

@@ -1,13 +1,38 @@
 
 <div class="border">
   <div class="page">
+    <%
+       filtered = params[:cited] || params[:query]
+
+       links = []
+       links << link_to("all", articles_path) if filtered
+       links << link_to("cited", articles_path(:cited => "1", :query => params[:query])) unless params[:cited] == "1"
+       links << link_to('uncited', articles_path(:cited => "0", :query => params[:query])) unless params[:cited] == "0"
+       links = links.join(" or ")
+       links = links.html_safe
+    %>
+    <div>
+      Show <%= links %> articles
+    </div>
+    <h2>
+      <%=
+          case params[:cited]
+            when "1"
+              pluralize @articles.total_entries, 'cited article'
+            when "0"
+              pluralize @articles.total_entries, 'uncited article'
+            else
+              "All " + pluralize(@articles.total_entries, 'article')
+          end
+      %>
+    </h2>
+
     <% unless @articles.empty? %>
         <% for article in @articles %>
             <div class="article">
               <span class="doi"><%= link_to article.doi, article %></span>
               <span class="details">
-                <%= pluralize article.citations_count, "citation" %> from
-                <%= pluralize article.cited_retrievals_count, "source" %>
+                data from <%= pluralize article.cited_retrievals_count, "source" %>
               </span>
             </div>
         <% end %>
