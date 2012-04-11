@@ -26,6 +26,10 @@ class Article < ActiveRecord::Base
     end
   }
 
+  scope :query, lambda { |query|
+    { :conditions => [ "doi like ?", "%#{query}%" ] }
+  }
+
   def citations_count
     retrieval_statuses.inject(0) { |sum, r| sum + r.event_count }
   end
