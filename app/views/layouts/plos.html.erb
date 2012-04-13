@@ -32,6 +32,14 @@
         |
         <li><%= link_to("Articles", articles_path, :class => current_page?(articles_path) ? 'current' : '') %></li>
 
+        <li class="login">
+          <% if user_signed_in? %>
+            <%= link_to("Logout", destroy_user_session_path, :method => 'delete') %>
+          <% else %>
+            <%= link_to_setup_or_login %>
+          <% end %>
+        </li>
+
       </ul>
     </div>
   </nav>
@@ -39,7 +47,14 @@
 
 <div id='content'>
   <div class='inner'>
-    <!-- TODO flash -->
+    <% [ :error, :notice, :warning, :message ].each do |name| %>
+        <% if flash[name] %>
+    <div class="<%= name %> flash" id="<%= name %>">
+      <span><%= flash[name] %></span>
+    </div>
+            <% end %>
+        <% end %>
+
     <%= yield %>
   </div>
 </div>
