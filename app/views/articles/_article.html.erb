@@ -1,0 +1,26 @@
+<%= form_for article do |f| %>
+
+    <% if article.errors.any? %>
+        <ul>
+          <% article.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+    <% end %>
+
+    <p>
+      <%= f.label :doi, "DOI" %><br />
+      <%= f.text_field :doi %>
+    </p>
+    <p>
+      <%= f.label :title %><br />
+      <%= f.text_field :title %>
+    </p>
+    <p>
+      <%= f.label :published_on %><br />
+      <%= date_select 'article', 'published_on', :order => [:month, :day, :year] %>
+    </p>
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>

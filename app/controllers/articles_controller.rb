@@ -1,5 +1,6 @@
 
 class ArticlesController < ApplicationController
+  before_filter :authenticate_user!, :except => [ :index, :show ]
 
   # GET /articles
   def index
@@ -24,4 +25,45 @@ class ArticlesController < ApplicationController
     end
   end
 
+  # GET /articles/1
+  def show
+
+    load_article
+
+    respond_to do |format|
+      format.html # show.html.erb
+    end
+  end
+
+  # GET /articles/new
+  def new
+    @article = Article.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @article }
+      format.json { render :json => @article }
+    end
+  end
+
+  # POST /articles
+  def create
+    @article = Article.new(params[:article])
+
+    respond_to do |format|
+      if @article.save
+
+        format.html { redirect_to(@article) }
+      else
+        format.html { render :action => 'new' }
+      end
+    end
+  end
+
+  protected
+  def load_article()
+    # Load one article given query params, for the non-#index actions
+    doi = DOI::from_uri(params[:id])
+    @article = Article.find_by_doi!(doi)
+  end
 end
