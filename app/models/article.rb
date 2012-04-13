@@ -1,4 +1,5 @@
 require "doi"
+require "cgi"
 
 class Article < ActiveRecord::Base
 
@@ -29,6 +30,11 @@ class Article < ActiveRecord::Base
   scope :query, lambda { |query|
     { :conditions => [ "doi like ?", "%#{query}%" ] }
   }
+
+  def to_param
+    # not necessary to escape the characters make to_param work
+    CGI.escape(DOI.to_uri(doi))
+  end
 
   def citations_count
     retrieval_statuses.inject(0) { |sum, r| sum + r.event_count }

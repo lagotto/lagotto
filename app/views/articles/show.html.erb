@@ -1,0 +1,11 @@
+<div class="border">
+  <div class="page">
+    <h2><%=h @article.doi %><%=h ": \"#{@article.title}\"" unless @article.title.blank? %></h2>
+
+    <div>
+      <%= "published #{@article.published_on.to_datetime.to_s(:friendly_date)} " if @article.published_on %>
+    </div>
+
+    <%= link_to 'Back to list', articles_path %>
+  </div>
+</div>

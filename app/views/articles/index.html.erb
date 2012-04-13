@@ -17,7 +17,8 @@
           <%= label_tag 'query', 'Show only DOIs containing:' %>
           <%= text_field_tag "query", params[:query], :size => 9 %>
           <%= submit_tag 'Go' %>
-      <% end %>
+      <% end %> |
+      <%= link_to 'Add another article', new_article_path %>
     </div>
     <h2>
       <%=
@@ -40,7 +41,7 @@
             <div class="article">
               <span class="doi"><%= link_to article.doi, article %></span>
               <span class="details">
-                data from <%= pluralize article.cited_retrievals_count, "source" %>
+                <%= pluralize article.cited_retrievals_count, "source" %>
               </span>
             </div>
         <% end %>
