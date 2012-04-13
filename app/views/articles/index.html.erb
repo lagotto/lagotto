@@ -30,6 +30,9 @@
               "All " + pluralize(@articles.total_entries, 'article')
           end
       %>
+      <% if params[:query] %>
+          with DOIs containing &ldquo;<%= params[:query] %>&rdquo;
+      <% end %>
     </h2>
 
     <% unless @articles.empty? %>
