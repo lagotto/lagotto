@@ -29,14 +29,13 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   new_db = db_config["database"]
 
   # TODO migrate groups
-  # TODO migrate users
 
   # migrate articles
   puts "inserting articles"
   result = client.query("insert into #{new_db}.articles (id, doi, created_at, updated_at, pub_med, pub_med_central, published_on, title) " +
                             "select id, doi, created_at, updated_at, pub_med, pub_med_central, published_on, title from #{old_db}.articles")
 
-  #migrate sources
+  # migrate sources
   puts "inserting sources"
   result = client.query("insert into #{new_db}.sources (id, type, name, display_name, active, disable_until, disable_delay, timeout, created_at, updated_at, workers) " +
                             "select id, type, lower(type), name, active, disable_until, disable_delay, timeout, created_at, updated_at, 1 from #{old_db}.sources")
@@ -85,10 +84,10 @@ task :migrate_data, [:old_db] => :environment do |t, args|
     source.save
   end
 
-  #migrate retrievals
-  #citations_count => bloglines, citeulike, connotea, crossref, nature, postgenomic, pubmed, researchblogging,
-  #other_citations_count => scopus, wos
-  #incorrect count => counter, biod, pmc, facebook, mendeley (citations_count of 1, no need to migrate them)
+  # migrate retrievals
+  # citations_count => bloglines, citeulike, connotea, crossref, nature, postgenomic, pubmed, researchblogging,
+  # other_citations_count => scopus, wos
+  # incorrect count => counter, biod, pmc, facebook, mendeley (citations_count of 1, no need to migrate them)
 
   puts "inserting retrievals"
   result = client.query("insert into #{new_db}.retrieval_statuses (id, article_id, source_id, retrieved_at, local_id, event_count, created_at, updated_at) " +
@@ -104,7 +103,7 @@ task :migrate_data, [:old_db] => :environment do |t, args|
                             "where source_id in (select id from #{old_db}.sources where type in ('Counter', 'Biod', 'Pmc', 'Facebook', 'Mendeley'))")
 
   # migrate histories
-  puts "inserting histories #{result.inspect}"
+  puts "inserting histories"
   total = 0
   result = client.query("select count(id) as total from #{old_db}.histories")
   result.each do |row|
