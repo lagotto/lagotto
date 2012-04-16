@@ -4,8 +4,16 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+one:
+  type: Counter
+  name: counter
+  display_name: Counter
+  active: true
+  workers: 1
+
+two:
+  type: Biod
+  name: biod
+  display_name: Biod
+  active: true
+  workers: 1
