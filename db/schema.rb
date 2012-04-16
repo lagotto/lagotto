@@ -42,18 +42,18 @@ ActiveRecord::Schema.define(:version => 20120413015248) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "retrieval_histories", :force => true do |t|
-    t.integer  "article_id",          :null => false
-    t.integer  "source_id",           :null => false
+    t.integer  "retrieval_status_id",                :null => false
+    t.integer  "article_id",                         :null => false
+    t.integer  "source_id",                          :null => false
     t.datetime "retrieved_at"
     t.string   "status"
     t.string   "msg"
-    t.integer  "event_count"
+    t.integer  "event_count",         :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "retrieval_status_id"
   end
 
-  add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "rh_id_date"
+  add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
 
   create_table "retrieval_statuses", :force => true do |t|
     t.integer  "article_id",                                      :null => false
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(:version => 20120413015248) do
     t.datetime "queued_at"
     t.datetime "retrieved_at", :default => '1970-01-01 00:00:00', :null => false
     t.string   "local_id"
-    t.integer  "event_count"
+    t.integer  "event_count",  :default => 0
     t.string   "data_rev"
     t.datetime "created_at"
     t.datetime "updated_at"

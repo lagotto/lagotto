@@ -12,6 +12,6 @@ class CreateRetrievalHistories < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :retrieval_histories, [:retrieval_status_id, :retrieved_at]
+    add_index :retrieval_histories, [:retrieval_status_id, :retrieved_at], :name => 'index_rh_on_id_and_retrieved_at'
   end
 end
