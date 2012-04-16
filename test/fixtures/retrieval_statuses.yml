@@ -4,8 +4,22 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+rs_cited:
+ article: cited
+ source: one
+ event_count: 4
+
+rs_uncited:
+ article: uncited
+ source: one
+ event_count: 0
+
+rs_mix_cited1:
+  article: mix_cited
+  source: one
+  event_count: 2
+
+rs_mix_cited2:
+  article: mix_cited
+  source: two
+  event_count: 0

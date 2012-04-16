@@ -4,8 +4,17 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+cited:
+  doi: 10.1371/journal.pone.0000001
+  title: Article 1
+  published_on: 2010-01-02
+
+uncited:
+  doi: 10.1371/journal.pone.0000002
+  title: Article 2
+  published_on: 2010-01-03
+
+mix_cited:
+  doi: 10.1371/journal.pone.0000003
+  title: Article 3
+  published_on: 2011-01-02
