@@ -47,13 +47,13 @@
 
 <div id='content'>
   <div class='inner'>
-    <% [ :error, :notice, :warning, :message ].each do |name| %>
+    <% [ :error, :notice, :warning, :message, :alert ].each do |name| %>
         <% if flash[name] %>
     <div class="<%= name %> flash" id="<%= name %>">
       <span><%= flash[name] %></span>
     </div>
-            <% end %>
         <% end %>
+    <% end %>
 
     <%= yield %>
   </div>

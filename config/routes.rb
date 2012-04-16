@@ -4,7 +4,7 @@ Alm::Application.routes.draw do
   root :to => "index#index"
 
   # constraints is added to allow dot in the url (doi is used to show article)
-  resources :articles, :constraints => { :id => /.*/ }
+  resources :articles, :constraints => { :id => /.+?/, :format => /html|json|xml|csv/}
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
