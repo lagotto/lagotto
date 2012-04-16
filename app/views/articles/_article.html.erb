@@ -1,11 +1,14 @@
 <%= form_for article do |f| %>
 
     <% if article.errors.any? %>
+        <div>
+          <h3>There was a problem saving the article.</h3>
         <ul>
           <% article.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
           <% end %>
         </ul>
+        </div>
     <% end %>
 
     <p>

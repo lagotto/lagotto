@@ -2,6 +2,8 @@
 class ArticlesController < ApplicationController
   before_filter :authenticate_user!, :except => [ :index, :show ]
 
+  respond_to :html, :xml, :json
+
   # GET /articles
   def index
     # cited=0|1
@@ -17,9 +19,7 @@ class ArticlesController < ApplicationController
     @articles = collection.paginate(:page => params[:page], :per_page => params[:per_page])
     @source = Source.find_by_name(params[:source].downcase) if params[:source]
 
-    respond_to do |format|
-      format.html
-      format.xml  { render :xml => @articles }
+    respond_with(@articles) do |format|
       format.json { render :json => @articles, :callback => params[:callback] }
       format.csv  { render :csv => @articles }
     end
@@ -30,34 +30,24 @@ class ArticlesController < ApplicationController
 
     load_article
 
-    respond_to do |format|
-      format.html # show.html.erb
-    end
+    respond_with @article
   end
 
   # GET /articles/new
   def new
     @article = Article.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @article }
-      format.json { render :json => @article }
-    end
+    respond_with @article
   end
 
   # POST /articles
   def create
     @article = Article.new(params[:article])
 
-    respond_to do |format|
-      if @article.save
-
-        format.html { redirect_to(@article) }
-      else
-        format.html { render :action => 'new' }
-      end
+    if @article.save
+      flash[:notice] = 'Article was successfully created.'
     end
+    respond_with(@article)
   end
 
   protected

@@ -8,6 +8,8 @@ class Article < ActiveRecord::Base
   validates_format_of :doi, :with => DOI::FORMAT
   validates_uniqueness_of :doi
 
+  after_create :create_retrievals
+
   scope :query, lambda { |query| where("doi like ?", "%#{query}%") }
 
   scope :cited, lambda { |cited|
@@ -27,10 +29,6 @@ class Article < ActiveRecord::Base
     end
   }
 
-  scope :query, lambda { |query|
-    { :conditions => [ "doi like ?", "%#{query}%" ] }
-  }
-
   def to_param
     # not necessary to escape the characters make to_param work
     CGI.escape(DOI.to_uri(doi))
@@ -45,17 +43,16 @@ class Article < ActiveRecord::Base
   end
 
   def to_xml(options = {})
-    puts "to_xml"
     options[:indent] ||= 2
-    xml = options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
+    xml = options[:builder] ||= ::Builder::XmlMarkup.new(:indent => options[:indent])
     xml.instruct! unless options[:skip_instruct]
     xml.tag!("article",
              :doi => doi,
              :title => title,
-             :citations_count => citations_count,
              :pub_med => pub_med,
              :pub_med_central => pub_med_central,
-             :published => published_on.to_time)
+             :citations_count => citations_count,
+             :published => (published_on.nil? ? nil : published_on.to_time))
   end
 
   def as_json(options={})
@@ -66,8 +63,17 @@ class Article < ActiveRecord::Base
             :pub_med => pub_med,
             :pub_med_central => pub_med_central,
             :citations_count => citations_count,
-            :published => published_on.to_time
+            :published => (published_on.nil? ? nil : published_on.to_time)
         }
     }
+  end
+
+  private
+  def create_retrievals
+    # Create an empty retrieval record for each active source to avoid a
+    # problem with joined tables breaking the UI on the front end
+    Source.all.each do |source|
+      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id)
+    end
   end
 end

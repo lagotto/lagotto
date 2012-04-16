@@ -38,6 +38,7 @@ module Alm
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
+    #TODO do I need to add salt here?
     config.filter_parameters += [:password]
 
     # Enable the asset pipeline
