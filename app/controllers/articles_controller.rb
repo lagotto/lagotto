@@ -64,6 +64,14 @@ class ArticlesController < ApplicationController
     respond_with(@article)
   end
 
+  # DELETE /articles/:id(.:format)
+  def destroy
+    load_article
+    @article.destroy
+    flash[:notice] = 'Article was successfully deleted.'
+    respond_with(@article)
+  end
+
   protected
   def load_article()
     # Load one article given query params, for the non-#index actions
