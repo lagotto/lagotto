@@ -60,6 +60,11 @@ module SourceHelper
     result["rev"]
   end
 
+  def get_alm_data(id)
+    service_url = APP_CONFIG['couchdb_url']
+    data = get_json("#{service_url}#{id}")
+  end
+
   def get_original_url(uri_str, limit = 10)
     raise ArgumentError, 'too many HTTP redirects' if limit == 0
 
