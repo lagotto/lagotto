@@ -7,6 +7,49 @@
     </div>
 
     <% if user_signed_in? %>
+      <%= content_tag(:div, "PubMed ID = '#{@article.pub_med}'") if @article.pub_med %>
+      <%= content_tag(:div, "PubMedCentral ID = '#{@article.pub_med_central}'") if @article.pub_med_central %>
+    <% end %>
+
+    <ul>
+      <% @article.retrieval_statuses.each do |rs| %>
+          <% if rs.event_count > 0 %>
+              <li>
+                <%
+                   rs_data = rs.get_retrieval_data
+                   unless rs_data.nil?
+                     public_url = rs_data["events_url"]
+                     event_data = rs_data["events"]
+                   end
+                   details = [ rs.event_count ]
+                   details << rs.local_id if rs.local_id and user_signed_in?
+                %>
+                <%= link_to_unless public_url.nil?, rs.source.display_name, public_url, :target => "_blank" %>
+                (<%= details.join(', ') %>) updated <%= rs.retrieved_at.to_s(:friendly) %>
+
+                <% unless event_data.nil? %>
+                    <% if event_data.is_a?(Array) %>
+                        :<ul>
+                        <% event_data.each do |ed| %>
+                          <li>
+                            <% if ed.has_key?("event_url") %>
+                                <%= link_to ed["event"], ed["event_url"] %>
+                            <% else %>
+                                <%= ed %>
+                            <% end %>
+                          </li>
+                        <% end %>
+                        </ul>
+                    <% elsif event_data.is_a?(Hash) %>
+                      :<ul><li><%= event_data %></li></ul>
+                    <% end %>
+                <% end %>
+              </li>
+          <% end %>
+      <% end %>
+    </ul>
+
+    <% if user_signed_in? %>
       <%= link_to 'Edit', edit_article_path(@article) %> |
       <%= link_to 'Delete', @article, :confirm => 'Are you sure?', :method => :delete %>
       <br/>
