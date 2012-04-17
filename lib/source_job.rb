@@ -105,7 +105,6 @@ class SourceJob < SourceJobSkipEnqueue
   include SourceHelper
 
   def enqueue(job)
-    puts "enqueue #{source.name}:#{article_id}"
     Rails.logger.debug "enqueue #{source.name}:#{article_id}"
 
     # keep track of when the article was queued up
@@ -115,7 +114,6 @@ class SourceJob < SourceJobSkipEnqueue
   end
 
   def after(job)
-    puts "job completed #{source.name}:#{article_id}"
     Rails.logger.debug "job completed #{source.name}:#{article_id}"
 
     # reset the queued at value
