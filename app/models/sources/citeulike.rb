@@ -16,13 +16,9 @@ class Citeulike < Source
         event = Hash.from_xml(post_string)
         event = event['post']
         events << {:event => event, :event_url => event['link']['url']}
-
-        # Note CiteULike's internal ID if we haven't already
-        # there can be multiple internal IDs for an article
-        local_ids[event['article_id']] = event['article_id']
       end
 
-      events_url = local_ids.values.map {|article_id| "http://www.citeulike.org/article-posts/#{article_id}"}
+      events_url = "http://www.citeulike.org/doi/#{article.doi}"
 
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
