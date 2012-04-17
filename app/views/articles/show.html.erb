@@ -6,6 +6,10 @@
       <%= "published #{@article.published_on.to_datetime.to_s(:friendly_date)} " if @article.published_on %>
     </div>
 
+    <% if user_signed_in? %>
+      <%= link_to 'Edit', edit_article_path(@article) %>
+      <br/>
+    <% end %>
     <%= link_to 'Back to list', articles_path %>
   </div>
 </div>

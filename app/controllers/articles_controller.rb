@@ -50,6 +50,20 @@ class ArticlesController < ApplicationController
     respond_with(@article)
   end
 
+  # GET /articles/:id/edit
+  def edit
+    load_article
+  end
+
+  # PUT /articles/:id(.:format)
+  def update
+    load_article
+    if @article.update_attributes(params[:article])
+      flash[:notice] = 'Article was successfully updated.'
+    end
+    respond_with(@article)
+  end
+
   protected
   def load_article()
     # Load one article given query params, for the non-#index actions
