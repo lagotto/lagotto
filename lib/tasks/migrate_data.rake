@@ -166,9 +166,7 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
   end
   puts "Source name #{source.name}"
 
-  if source.name == "postgenomic" || source.name == "researchblogging"
-    YAML::ENGINE.yamler= 'syck'
-  end
+  YAML::ENGINE.yamler= 'syck'
 
   puts "Start: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
 
