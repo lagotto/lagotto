@@ -207,7 +207,7 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
           data[:events_url] = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{pub_med}"
 
         elsif source.name == "citeulike"
-          data[:events_url] = "http://www.citeulike.org/article-posts/#{local_id}"
+          data[:events_url] = "http://www.citeulike.org/doi/#{doi}"
 
         elsif source.name == "researchblogging"
           data[:events_url] = "http://researchblogging.org/post-search/list?article=#{CGI.escape(doi)}"
@@ -278,15 +278,17 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
       event.delete(:uri)
       contributors = []
       old_contributors = event.delete(:contributors)
-      old_contributors = old_contributors.split(",")
-      old_contributors.each do |contributor|
-        name = contributor.split(" ")
-        given_name = name.pop
-        surname = name.join(" ")
-        contributors << {:first_author => false, :given_name => given_name, :surname => surname}
+      unless old_contributors.nil?
+        old_contributors = old_contributors.split(",")
+        old_contributors.each do |contributor|
+          name = contributor.split(" ")
+          given_name = name.pop
+          surname = name.join(" ")
+          contributors << {:first_author => false, :given_name => given_name, :surname => surname}
+        end
+        contributors[0][:first_author] = true
+        event[:contributors] = contributors
       end
-      contributors[0][:first_author] = true
-      event[:contributors] = contributors
 
       events << {:event => event, :event_url => row["uri"]}
 
@@ -327,7 +329,7 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
       data[:events_url] = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{pub_med}"
 
     elsif source.name == "citeulike"
-      data[:events_url] = "http://www.citeulike.org/article-posts/#{local_id}"
+      data[:events_url] = "http://www.citeulike.org/doi/#{doi}"
 
     elsif source.name == "researchblogging"
       data[:events_url] = "http://researchblogging.org/post-search/list?article=#{CGI.escape(doi)}"
