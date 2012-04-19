@@ -7,4 +7,12 @@ class RetrievalHistory < ActiveRecord::Base
   SKIPPED_MSG = "SKIPPED"
   SOURCE_DISABLED = "Source disabled"
   SOURCE_NOT_ACTIVE = "Source not active"
+
+  def to_included_json
+    {
+        :updated_at => retrieved_at.to_time,
+        :count => event_count
+    }
+  end
+
 end

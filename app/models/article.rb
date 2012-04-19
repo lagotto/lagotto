@@ -66,6 +66,14 @@ class Article < ActiveRecord::Base
             :published => (published_on.nil? ? nil : published_on.to_time)
         }
     }
+
+    sources = (options.delete(:source) || '').downcase.split(',')
+    if options[:citations] or options[:history]
+      result[:article][:source] = retrieval_statuses.map do |rs|
+        rs.to_included_json(options) if (sources.empty? or sources.include?(rs.source.name.downcase))
+      end.compact
+    end
+    result
   end
 
   private

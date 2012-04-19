@@ -30,8 +30,11 @@ class ArticlesController < ApplicationController
 
     load_article
 
+    format_options = params.slice :citations, :history, :source
+
     respond_with(@article) do |format|
       format.csv  { render :csv => @article }
+      format.json { render :json => @article.to_json(format_options), :callback => params[:callback] }
     end
   end
 

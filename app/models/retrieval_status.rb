@@ -10,11 +10,13 @@ class RetrievalStatus < ActiveRecord::Base
   def get_retrieval_data
     source = Source.find(source_id)
     article = Article.find(article_id)
+    data = nil
     begin
       data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
     rescue => e
       Rails.logger.error "Failed to get data for #{source.name}:#{article.doi}.  #{e.message}"
     end
+    data
   end
 
   def to_csv
@@ -91,4 +93,22 @@ class RetrievalStatus < ActiveRecord::Base
     return data
   end
 
+  def to_included_json(options={})
+    result = {
+        :source => source.display_name,
+        :updated_at => retrieved_at.to_time,
+        :count => event_count
+    }
+
+    if options[:citations] == "1" and event_count > 0
+      data = get_retrieval_data
+      result[:citations] = data["events"] if not data.nil?
+      result[:public_url] = data["events_url"] if not data.nil? and not data["events_url"].nil?
+    end
+
+    result[:histories] = retrieval_histories.map(&:to_included_json) \
+      if options[:history] == "1" and not retrieval_histories.empty?
+
+    result
+  end
 end
