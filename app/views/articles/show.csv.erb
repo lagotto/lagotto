@@ -1,0 +1,7 @@
+<%=
+    CSV.generate(:force_quotes => true) do |csv|
+      csv << ["article doi", "title", "publish date"]
+      csv << [ @article.doi, @article.title, @article.published_on.to_datetime.to_s(:friendly_date) ]
+    end.html_safe
+%>
+<%= @article.retrieval_statuses.map(&:to_csv).join.html_safe %>

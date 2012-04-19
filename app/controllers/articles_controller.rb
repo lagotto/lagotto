@@ -30,7 +30,9 @@ class ArticlesController < ApplicationController
 
     load_article
 
-    respond_with @article
+    respond_with(@article) do |format|
+      format.csv  { render :csv => @article }
+    end
   end
 
   # GET /articles/new
