@@ -93,10 +93,10 @@ class RetrievalStatus < ActiveRecord::Base
     return data
   end
 
-  def to_included_json(options={})
+  def as_json(options={})
     result = {
         :source => source.display_name,
-        :updated_at => retrieved_at.to_time,
+        :updated_at => (retrieved_at.nil? ? nil: retrieved_at.to_time),
         :count => event_count
     }
 
@@ -106,9 +106,47 @@ class RetrievalStatus < ActiveRecord::Base
       result[:public_url] = data["events_url"] if not data.nil? and not data["events_url"].nil?
     end
 
-    result[:histories] = retrieval_histories.map(&:to_included_json) \
+    result[:histories] = retrieval_histories.map(&:as_json) \
       if options[:history] == "1" and not retrieval_histories.empty?
 
     result
   end
+
+  def to_xml(options = {})
+    options[:indent] ||= 2
+    xml = options[:builder] ||= ::Builder::XmlMarkup.new(:indent => options[:indent])
+    xml.instruct! unless options[:skip_instruct]
+    attributes = {
+        :source => source.display_name,
+        :updated_at => (retrieved_at.nil? ? nil: retrieved_at.to_time),
+        :count => event_count
+    }
+
+    xml.tag!("source", attributes) do
+      nested_options = options.merge!(:dasherize => false,
+                                      :skip_instruct => true)
+
+      if options[:citations] == "1" and event_count > 0
+        data = get_retrieval_data
+
+        if data["events"].is_a?(Array)
+          xml.tag!("citations") do
+            data["events"].each do |event|
+              xml.target! << event.to_xml(:root => "event_data", :skip_instruct => true )
+            end
+          end
+        elsif data["events"].is_a?(Hash)
+          xml.tag!("citations") { xml.target! << data["events"].to_xml(:root => "event_data", :skip_instruct => true ) }
+        elsif data["events"].is_a?(String)
+            xml.tag!("citations", data["events"])
+        end
+      end
+
+      if options[:history] == "1" and not retrieval_histories.empty?
+        xml.tag!("histories") { retrieval_histories.each {|h| h.to_xml(nested_options) } }
+      end
+
+    end
+  end
+
 end
