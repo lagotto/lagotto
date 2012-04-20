@@ -258,7 +258,7 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
 
     elsif source.name == "pubmed"
       event = row["uri"]
-      events << {:event => event[-7,7], :event_url =>  row["uri"]}
+      events << {:event => event[event.rindex("=") + 1,event.size], :event_url =>  row["uri"]}
 
     elsif source.name == "citeulike"
       event = YAML.load(row["details"])
