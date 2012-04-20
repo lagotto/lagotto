@@ -43,6 +43,8 @@ class Article < ActiveRecord::Base
   end
 
   def to_xml(options = {})
+    sources = (options.delete(:source) || '').downcase.split(',')
+
     options[:indent] ||= 2
     xml = options[:builder] ||= ::Builder::XmlMarkup.new(:indent => options[:indent])
     xml.instruct! unless options[:skip_instruct]
@@ -52,7 +54,17 @@ class Article < ActiveRecord::Base
              :pub_med => pub_med,
              :pub_med_central => pub_med_central,
              :citations_count => citations_count,
-             :published => (published_on.nil? ? nil : published_on.to_time))
+             :published => (published_on.nil? ? nil : published_on.to_time)) do
+
+      if options[:citations] or options[:history]
+        retrieval_options = options.merge!(:dasherize => false,
+                                           :skip_instruct => true)
+
+        retrieval_statuses.each do |rs|
+          rs.to_xml(retrieval_options) if (sources.empty? or sources.include?(rs.source.name.downcase))
+        end
+      end
+    end
   end
 
   def as_json(options={})
@@ -70,7 +82,7 @@ class Article < ActiveRecord::Base
     sources = (options.delete(:source) || '').downcase.split(',')
     if options[:citations] or options[:history]
       result[:article][:source] = retrieval_statuses.map do |rs|
-        rs.to_included_json(options) if (sources.empty? or sources.include?(rs.source.name.downcase))
+        rs.as_json(options) if (sources.empty? or sources.include?(rs.source.name.downcase))
       end.compact
     end
     result

@@ -34,7 +34,13 @@ class ArticlesController < ApplicationController
 
     respond_with(@article) do |format|
       format.csv  { render :csv => @article }
-      format.json { render :json => @article.to_json(format_options), :callback => params[:callback] }
+      format.json { render :json => @article.as_json(format_options), :callback => params[:callback] }
+      format.xml  do
+        response.headers['Content-Disposition'] = 'attachment; filename=' + params[:id].sub(/^info:/,'') + '.xml'
+        render :xml => @article.to_xml(:citations => format_options[:citations],
+                                       :history => format_options[:history],
+                                       :source => format_options[:source])
+      end
     end
   end
 
