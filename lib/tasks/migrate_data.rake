@@ -115,8 +115,8 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   while offset < total
     puts "inserting history rows: offset #{offset} limit #{limit} total #{total}"
 
-    result = client.query ("insert into #{new_db}.retrieval_histories (id, retrieval_status_id, article_id, source_id, retrieved_at, event_count) " +
-      "select h.id, h.retrieval_id, r.article_id, r.source_id, h.updated_at, h.citations_count from #{old_db}.histories h, #{old_db}.retrievals r where h.retrieval_id = r.id order by h.id limit #{offset},#{limit}")
+    result = client.query ("insert into #{new_db}.retrieval_histories (id, retrieval_status_id, article_id, source_id, retrieved_at, event_count, status, created_at, updated_at) " +
+      "select h.id, h.retrieval_id, r.article_id, r.source_id, h.updated_at, h.citations_count, 'SUCCESS', h.created_at, h.updated_at from #{old_db}.histories h, #{old_db}.retrievals r where h.retrieval_id = r.id order by h.id limit #{offset},#{limit}")
 
     offset += limit
 
