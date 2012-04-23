@@ -66,6 +66,7 @@ class SourceJobSkipEnqueue < Struct.new(:article_id, :source, :retrieval_status,
       end
 
       #TODO change this to a copy
+      data.delete(:_attachments)
       # save the data to couchdb as retrieval history data
       save_alm_data(nil, data, retrieval_history.id)
 
@@ -87,7 +88,7 @@ class SourceJobSkipEnqueue < Struct.new(:article_id, :source, :retrieval_status,
   end
 
   def error(job, exception)
-    Rails.logger.debug "job error #{source.name}:#{article_id} #{exception.message}"
+    Rails.logger.error "job error #{source.name}:#{article_id} #{exception.message} #{exception.backtrace.join("\n")}"
 
     retrieval_history.retrieved_at = Time.now.utc
     retrieval_history.status = RetrievalHistory::ERROR_MSG
