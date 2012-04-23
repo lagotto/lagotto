@@ -88,6 +88,19 @@ class Article < ActiveRecord::Base
     result
   end
 
+  def update_data_from_sources
+    # get a list of sources that we can get data from right now
+    # counter data can only be queried at very specific time frame only so it will be excluded
+    # nature has api limit so it will get updated if it can be updated.
+
+    sources = Source.data_retrievable_sources
+    sources.each do |source|
+      rs = RetrievalStatus.where(:article_id => id, :source_id => source.id).first
+      source.queue_article_job(rs, Source::TOP_PRIORITY)
+    end
+
+  end
+
   private
   def create_retrievals
     # Create an empty retrieval record for each active source to avoid a

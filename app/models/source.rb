@@ -9,6 +9,12 @@ class Source < ActiveRecord::Base
 
   serialize :config, OpenStruct
 
+  # for job priority
+  TOP_PRIORITY = 0
+
+  # counter data can only be queried at very specific time frame only.
+  scope :data_retrievable_sources, lambda { where("active = true and name != 'counter'") }
+
   def get_data(article, options={})
     raise NotImplementedError, 'Children classes should override get_data method'
   end
@@ -31,16 +37,7 @@ class Source < ActiveRecord::Base
                 id, Time.zone.today).
           readonly(false)
 
-      retrieval_statuses.find_each do | retrieval_status |
-
-        retrieval_history = RetrievalHistory.new
-        retrieval_history.retrieval_status_id = retrieval_status.id
-        retrieval_history.article_id = retrieval_status.article_id
-        retrieval_history.source_id = id
-        retrieval_history.save
-
-        Delayed::Job.enqueue SourceJobSkipEnqueue.new(retrieval_status.article_id, self, retrieval_status, retrieval_history), :queue => name
-      end
+      retrieval_statuses.find_each { | retrieval_status | queue_article_job(retrieval_status) }
 
     else
       Rails.logger.error "#{name} is either inactive or is disabled."
@@ -105,16 +102,20 @@ class Source < ActiveRecord::Base
 
     Rails.logger.debug "#{name} total article queued #{retrieval_statuses.length}"
 
-    retrieval_statuses.each do | retrieval_status |
+    retrieval_statuses.each { | retrieval_status | queue_article_job(retrieval_status)}
 
-      retrieval_history = RetrievalHistory.new
-      retrieval_history.retrieval_status_id = retrieval_status.id
-      retrieval_history.article_id = retrieval_status.article_id
-      retrieval_history.source_id = id
-      retrieval_history.save
+  end
 
-      Delayed::Job.enqueue SourceJob.new(retrieval_status.article_id, self, retrieval_status, retrieval_history), :queue => name
-    end
+  def queue_article_job(retrieval_status, priority=Delayed::Worker.default_priority)
+
+    retrieval_history = RetrievalHistory.new
+    retrieval_history.retrieval_status_id = retrieval_status.id
+    retrieval_history.article_id = retrieval_status.article_id
+    retrieval_history.source_id = id
+    retrieval_history.save
+
+    Delayed::Job.enqueue SourceJob.new(retrieval_status.article_id, self, retrieval_status, retrieval_history),
+                         :queue => name, :priority => priority
   end
 
   private

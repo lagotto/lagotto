@@ -30,6 +30,11 @@ class ArticlesController < ApplicationController
 
     load_article
 
+    if params[:refresh] == "1"
+      @article.update_data_from_sources
+      redirect_to(@article) and return
+    end
+
     format_options = params.slice :citations, :history, :source
 
     respond_with(@article) do |format|
