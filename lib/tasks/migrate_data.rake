@@ -28,8 +28,6 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   old_db = args.old_db
   new_db = db_config["database"]
 
-  # TODO migrate groups
-
   # migrate articles
   puts "inserting articles"
   result = client.query("insert into #{new_db}.articles (id, doi, created_at, updated_at, pub_med, pub_med_central, published_on, title) " +
@@ -37,8 +35,8 @@ task :migrate_data, [:old_db] => :environment do |t, args|
 
   # migrate sources
   puts "inserting sources"
-  result = client.query("insert into #{new_db}.sources (id, type, name, display_name, active, disable_until, disable_delay, timeout, created_at, updated_at, workers) " +
-                            "select id, type, lower(type), name, active, disable_until, disable_delay, timeout, created_at, updated_at, 1 from #{old_db}.sources")
+  result = client.query("insert into #{new_db}.sources (id, type, name, display_name, active, disable_until, disable_delay, timeout, created_at, updated_at, workers, group_id) " +
+                            "select id, type, lower(type), name, active, disable_until, disable_delay, timeout, created_at, updated_at, 1, group_id from #{old_db}.sources")
 
   puts "migrating configuration info for bloglines, connotea, crossref, researchblogging"
   result = client.query("select username, password, type from #{old_db}.sources where type in ('Bloglines', 'Connotea', 'CrossRef', 'Researchblogging')")
@@ -101,6 +99,11 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   result = client.query("insert into #{new_db}.retrieval_statuses (id, article_id, source_id, retrieved_at, local_id, created_at, updated_at) " +
                             "select id, article_id, source_id, retrieved_at, local_id, created_at, updated_at from #{old_db}.retrievals " +
                             "where source_id in (select id from #{old_db}.sources where type in ('Counter', 'Biod', 'Pmc', 'Facebook', 'Mendeley'))")
+
+  # migrate groups
+  puts "inserting groups"
+  result = client.query("insert into #{new_db}.groups (id, name, created_at, updated_at) " +
+                            "select id, name, created_at, updated_at from #{old_db}.groups;")
 
   # migrate histories
   puts "inserting histories"
