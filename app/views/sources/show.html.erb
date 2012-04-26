@@ -47,6 +47,16 @@
     <% end %>
 
     <h1>Most-cited articles</h1>
+    <% if @samples.empty? %>
+        <div>No articles have been cited by this source</div>
+    <% else %>
+        <ul>
+          <% @samples.each do |retrieval_status| %>
+              <li><%= link_to retrieval_status.article.doi, retrieval_status.article %>:
+                <%= retrieval_status.event_count %></li>
+          <% end %>
+        </ul>
+    <% end %>
 
     <%= link_to 'Edit', edit_source_path(@source) %>
     <br/>

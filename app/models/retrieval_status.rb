@@ -7,6 +7,8 @@ class RetrievalStatus < ActiveRecord::Base
   belongs_to :source
   has_many :retrieval_histories, :dependent => :destroy
 
+  scope :most_cited_sample, lambda { where("event_count > 0").order("event_count desc").limit(5) }
+
   def get_retrieval_data
     source = Source.find(source_id)
     article = Article.find(article_id)
