@@ -31,6 +31,13 @@
       <%= h @source.workers %>
     </p>
 
+    <% if @source.group %>
+        <p>
+          <b>Group:</b>
+          <%= h @source.group.name %>
+        </p>
+    <% end %>
+
     <% if not @source.get_config_fields.empty? %>
         <p>
           <b>Source Configurations</b> <br>

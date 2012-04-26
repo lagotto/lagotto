@@ -31,6 +31,13 @@
       <%= f.text_field :workers, :size => 3 %>
     </p>
 
+    <% if Group.all.size > 0 %>
+        <p>
+          <%= f.label :group %> <br/>
+          <%= collection_select(:source, :group_id, Group.all, :id, :name, :include_blank => true) %>
+        </p>
+    <% end %>
+
     <% if not @source.get_config_fields.empty? %>
         <p>
           <b>Source Configurations</b> <br>
@@ -56,6 +63,6 @@
     <% end %>
 
     <p>
-      <%= f.submit %>
+      <%= f.submit(source.new_record? ? "Create" : "Update") %>
     </p>
 <% end %>
