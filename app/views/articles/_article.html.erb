@@ -24,6 +24,6 @@
       <%= date_select 'article', 'published_on', :order => [:month, :day, :year] %>
     </p>
     <p>
-      <%= f.submit %>
+      <%= f.submit(article.new_record? ? "Create" : "Update") %>
     </p>
 <% end %>
