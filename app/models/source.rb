@@ -6,6 +6,7 @@ class Source < ActiveRecord::Base
   include SourceHelper
 
   has_many :retrieval_statuses, :dependent => :destroy
+  belongs_to :group
 
   serialize :config, OpenStruct
 

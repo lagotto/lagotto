@@ -1,0 +1,17 @@
+<div class="border">
+  <div class="page">
+    <h1>Details for <%=h @group.name %> </h1>
+
+    <p>
+      <b>Name:</b>
+      <%=h @group.name %>
+    </p>
+
+    <% if user_signed_in? %>
+        <%= link_to 'Edit', edit_group_path(@group) %> |
+        <%= link_to 'Delete', @group, :confirm => 'Are you sure?', :method => :delete %>
+    <% end %>
+    <br/>
+    <%= link_to 'Back to list', groups_path %>
+  </div>
+</div>

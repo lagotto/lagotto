@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120413015248) do
+ActiveRecord::Schema.define(:version => 20120426201516) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -40,6 +40,12 @@ ActiveRecord::Schema.define(:version => 20120413015248) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "groups", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "retrieval_histories", :force => true do |t|
     t.integer  "retrieval_status_id",                :null => false
@@ -81,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20120413015248) do
     t.text     "config"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
