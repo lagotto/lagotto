@@ -1,0 +1,23 @@
+<div class="border">
+  <div class="page">
+    <h1>Groups</h1>
+
+    <ul>
+      <% for group in @groups %>
+          <li>
+            <h3><%= link_to h(group.name), group %></h3>
+            <ul>
+              <% group.sources.each do |source| %>
+                  <li><%= link_to h(source.display_name), source_path(source) %></li>
+              <% end %>
+            </ul>
+          </li>
+      <% end %>
+    </ul>
+
+    Groups are a way to organize sources.  You can define a group for
+    your sources by editing a source.<br/>
+    <br/>
+    <%= link_to 'Add a new group', new_group_path %>
+  </div>
+</div>

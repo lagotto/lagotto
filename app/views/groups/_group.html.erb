@@ -1,0 +1,22 @@
+<%= form_for group do |f| %>
+
+    <% if group.errors.any? %>
+        <div>
+          <h3>There was a problem saving the group.</h3>
+          <ul>
+            <% group.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <p>
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </p>
+
+    <p>
+      <%= f.submit(group.new_record? ? "Create" : "Update") %>
+    </p>
+<% end %>

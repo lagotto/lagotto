@@ -10,6 +10,7 @@ class CreateSources < ActiveRecord::Migration
       t.integer  :timeout,        :default => 30, :null => false    # timeout value for http call out to the source
       t.integer  :workers,        :null => false                    # number of workers for the source queue
       t.text     :config                                            # source specific configurations
+      t.integer  :group_id                                          # group id (from groups table)
 
       t.timestamps
     end

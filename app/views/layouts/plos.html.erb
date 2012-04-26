@@ -33,6 +33,8 @@
         <li><%= link_to("Articles", articles_path, :class => current_page?(articles_path) ? 'current' : '') %></li>
         |
         <li><%= link_to("Sources", sources_path, :class => current_page?(sources_path) ? 'current' : '') %></li>
+        |
+        <li><%= link_to("Groups", groups_path, :class => current_page?(groups_path) ? 'current' : '') %></li>
 
         <li class="login">
           <% if user_signed_in? %>
