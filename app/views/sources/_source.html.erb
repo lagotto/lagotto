@@ -1,0 +1,61 @@
+<%= form_for source, :as => :source, :url => source_path(source) do |f| %>
+
+    <% if source.errors.any? %>
+        <div>
+          <h3>There was a problem saving the source.</h3>
+          <ul>
+            <% source.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <p>
+      <%= f.label :display_name, "Display Name" %><br />
+      <%= f.text_field :display_name, :size => 50 %>
+    </p>
+
+    <p>
+      <%= f.check_box :active %>
+      <%= f.label :active %>
+    </p>
+
+    <p>
+      <%= f.label :timeout, "Time to wait for a response from each source. (seconds)" %><br />
+      <%= f.text_field :timeout, :size => 3 %>
+    </p>
+
+    <p>
+      <%= f.label :workers, "Number of workers for the job queue" %><br />
+      <%= f.text_field :workers, :size => 3 %>
+    </p>
+
+    <% if not @source.get_config_fields.empty? %>
+        <p>
+          <b>Source Configurations</b> <br>
+          <% @source.get_config_fields.each do |field| %>
+              <% if field[:field_type] == "check_box" %>
+                  <%= f.check_box field[:field_name] %>
+                  <%= f.label field[:field_name], field[:field_name].gsub(/_/, " ").capitalize %>
+              <% else %>
+                  <%= f.label field[:field_name], field[:field_name].gsub(/_/, " ").capitalize %><br>
+                  <% if field[:field_type] == "text_field" %>
+                      <% if field.has_key?(:size) %>
+                          <%= f.text_field field[:field_name], :size => field[:size] %>
+                      <% else %>
+                          <%= f.text_field field[:field_name] %>
+                      <% end %>
+                  <% elsif field[:field_type] == "password_field" %>
+                      <%= f.password_field field[:field_name], :value => source.config.send(field[:field_name]) %>
+                  <% end %>
+              <% end %>
+              <br>
+          <% end %>
+        </p>
+    <% end %>
+
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>

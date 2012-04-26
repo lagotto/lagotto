@@ -1,0 +1,14 @@
+<div class="border">
+  <div class="page">
+    <h1>Sources</h1>
+
+    <ul>
+      <% for source in @sources %>
+          <li>
+            <h3><%= link_to h(source.display_name), source_path(source) %></h3>
+            <div><b><%= source.active ? "Active" : "Inactive" %></b></div>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

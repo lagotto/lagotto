@@ -9,6 +9,10 @@ class Source < ActiveRecord::Base
 
   serialize :config, OpenStruct
 
+  validates_presence_of :display_name
+  validates_numericality_of :timeout, :only_integer => true, :greater_than => 0
+  validates_numericality_of :workers, :only_integer => true, :greater_than => 0, :less_than => 10
+
   # for job priority
   TOP_PRIORITY = 0
 
@@ -116,6 +120,10 @@ class Source < ActiveRecord::Base
 
     Delayed::Job.enqueue SourceJob.new(retrieval_status.article_id, self, retrieval_status, retrieval_history),
                          :queue => name, :priority => priority
+  end
+
+  def get_config_fields
+    []
   end
 
   private

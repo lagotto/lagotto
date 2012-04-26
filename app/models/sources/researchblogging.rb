@@ -3,6 +3,10 @@ class Researchblogging < Source
 
   SOURCE_URL = 'http://researchbloggingconnect.com/blogposts'
 
+  validates_each :username, :password do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
+  end
+
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires username & password") \
       if config.username.blank? or config.password.blank?
@@ -34,5 +38,24 @@ class Researchblogging < Source
 
     end
 
+  end
+
+  def get_config_fields
+    [{:field_name => "username", :field_type => "text_field"},
+     {:field_name => "password", :field_type => "password_field"}]
+  end
+
+  def username
+    config.username
+  end
+  def username=(value)
+    config.username = value
+  end
+
+  def password
+    config.password
+  end
+  def password=(value)
+    config.password = value
   end
 end
