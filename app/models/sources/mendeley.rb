@@ -1,6 +1,10 @@
 
 class Mendeley < Source
 
+  validates_each :api_key do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
+  end
+
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires api key") \
       if config.api_key.blank?
@@ -86,4 +90,15 @@ class Mendeley < Source
     end
   end
 
+  def get_config_fields
+    [{:field_name => "api_key", :field_type => "text_field"}]
+  end
+
+  def api_key
+    config.api_key
+  end
+
+  def api_key=(value)
+    config.api_key = value
+  end
 end

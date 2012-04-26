@@ -1,6 +1,10 @@
 
 class Pmc < Source
 
+  validates_each :url do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
+  end
+
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} requires url") \
       if config.url.blank?
@@ -39,4 +43,19 @@ class Pmc < Source
     {:events => events, :event_count => event_count}
   end
 
+  def get_config_fields
+    ["url"]
+  end
+
+  def get_config_fields
+    [{:field_name => "url", :field_type => "text_field", :size => 90}]
+  end
+
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
+  end
 end

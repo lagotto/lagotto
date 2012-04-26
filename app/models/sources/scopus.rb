@@ -28,6 +28,10 @@ end
 
 class Scopus < Source
 
+  validates_each :username, :salt, :partner_id do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
+  end
+
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires username, live_mode setting, salt and partner_id") \
       if config.username.blank? or config.live_mode.nil? or config.salt.blank? or config.partner_id.blank?
@@ -70,6 +74,45 @@ class Scopus < Source
 
   def self.wsdl_url(live_mode)
     query_url(live_mode) + "/META-INF/absmet_service_v10.wsdl"
+  end
+
+  def get_config_fields
+    [{:field_name => "username", :field_type => "text_field"},
+    {:field_name => "live_mode", :field_type => "check_box"},
+    {:field_name => "salt", :field_type => "password_field"},
+    {:field_name => "partner_id", :field_type => "text_field"}]
+  end
+
+  def username
+    config.username
+  end
+  def username=(value)
+    config.username = value
+  end
+
+  def live_mode
+    config.live_mode
+  end
+  def live_mode=(value)
+    if value == "1"
+      config.live_mode = true
+    elsif value == "0"
+      config.live_mode = false
+    end
+  end
+
+  def salt
+    config.salt
+  end
+  def salt=(value)
+    config.salt = value
+  end
+
+  def partner_id
+    config.partner_id
+  end
+  def partner_id=(value)
+    config.partner_id = value
   end
 
   protected

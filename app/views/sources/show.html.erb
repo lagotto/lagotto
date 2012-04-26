@@ -1,0 +1,55 @@
+<div class="border">
+  <div class="page">
+    <h1>Details for <%=h @source.display_name %> (<%= @source.active ? "active" : "inactive" %>)</h1>
+
+    <p>
+      <b>Name:</b>
+      <%=h @source.display_name  %>
+    </p>
+
+    <p>
+      <b>Timeout:</b>
+      <%=h @source.timeout %> seconds
+    </p>
+
+    <p>
+      <b>Disabled Until:</b>
+      <% if @source.disable_until %>
+          <%= h @source.disable_until %>
+      <% else %>
+          (not disabled)
+      <% end %>
+    </p>
+
+    <p>
+      <b>Disabled Delay:</b>
+      <%= h @source.disable_delay %> seconds
+    </p>
+
+    <p>
+      <b>Workers (workers for the job queue):</b>
+      <%= h @source.workers %>
+    </p>
+
+    <% if not @source.get_config_fields.empty? %>
+        <p>
+          <b>Source Configurations</b> <br>
+          <% @source.get_config_fields.each do |field| %>
+              <b><%= field[:field_name].gsub(/_/, " ").capitalize %></b>:
+              <% if field[:field_type] == "password_field" %>
+                  '<%= ("●" * @source.config.send(field[:field_name]).to_s.size) %>'
+              <% else %>
+                  <%= @source.config.send(field[:field_name]) %>
+              <% end %>
+              <br>
+          <% end %>
+        </p>
+    <% end %>
+
+    <h1>Most-cited articles</h1>
+
+    <%= link_to 'Edit', edit_source_path(@source) %>
+    <br/>
+    <%= link_to 'Back to list', sources_path %>
+  </div>
+</div>

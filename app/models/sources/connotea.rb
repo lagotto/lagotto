@@ -2,6 +2,10 @@ require 'doi'
 
 class Connotea < Source
 
+  validates_each :username, :password do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
+  end
+
   def get_data(article, options={})
     raise(ArgumentError, "Connotea configuration requires username & password") \
       if config.username.blank? or config.password.blank?
@@ -29,6 +33,26 @@ class Connotea < Source
       }
 
     end
+  end
+
+  def get_config_fields
+    [{:field_name => "username", :field_type => "text_field"},
+     {:field_name => "password", :field_type => "password_field"}]
+  end
+
+  def username
+    config.username
+  end
+  def username=(value)
+    config.username = value
+  end
+
+  def password
+    Rails.logger.error "blogline password #{config.password}"
+    config.password
+  end
+  def password=(value)
+    config.password = value
   end
 
 end

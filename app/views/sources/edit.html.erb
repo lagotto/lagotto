@@ -1,0 +1,11 @@
+<div class="border">
+  <div class="page">
+    <h1>Editing configuration for source "<%= @source.display_name %>"</h1>
+
+    <%= render :partial => "source", :object => @source %>
+
+    <%= link_to 'Show', source_path(@source) %>
+    <br/>
+    <%= link_to 'Back to list', sources_path %>
+  </div>
+</div>
