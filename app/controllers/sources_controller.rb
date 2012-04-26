@@ -4,7 +4,7 @@ class SourcesController < ApplicationController
   respond_to :html
 
   def index
-    @sources = Source.all
+    @sources = Source.order(:display_name)
     respond_with @sources
   end
 
