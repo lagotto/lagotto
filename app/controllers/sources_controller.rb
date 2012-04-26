@@ -10,8 +10,9 @@ class SourcesController < ApplicationController
 
   def show
     @source = Source.find(params[:id])
-    respond_with @source
+    @samples = @source.retrieval_statuses.most_cited_sample
 
+    respond_with @source
   end
 
   def edit
