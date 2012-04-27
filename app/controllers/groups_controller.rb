@@ -23,7 +23,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     if @group.update_attributes(params[:group])
       flash[:notice] = 'Group was successfully updated.'
-      redirect_to groups_path
+      redirect_to groups_url
     else
       render :edit
     end
@@ -50,7 +50,7 @@ class GroupsController < ApplicationController
 
     if @group.save
       flash[:notice] = 'Group was successfully created.'
-      redirect_to groups_path
+      redirect_to groups_url
     else
       render :new
     end
