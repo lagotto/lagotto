@@ -1,0 +1,29 @@
+<div class="border">
+  <div class="page">
+
+    <h1>Article Summaries</h1>
+
+    <% @summaries.each do |summary| %>
+        <div class="article">
+          <span class="doi">
+            <%=link_to h(summary[:article].doi), article_path(summary[:article]) %>
+            <span class="details">
+              <ul>
+                <% summary[:groupcounts].each do |gc| %>
+                    <li>
+                      <%= gc[:name] %>: <%= gc[:total] %>
+                      <ul>
+                      <% gc[:sources].each do |source| %>
+                        <li><%= link_to "#{source[:name]} (#{source[:total]})", source[:public_url] %></li>
+                      <% end %>
+                      </ul>
+                    </li>
+                <% end %>
+              </ul>
+            </span>
+          </span>
+        </div>
+    <% end %>
+
+  </div>
+</div>

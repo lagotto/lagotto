@@ -8,6 +8,8 @@ Alm::Application.routes.draw do
   resources :sources
   resources :groups
 
+  match 'group/articles/:id' => 'groups#group_article_summaries', :constraints => { :id => /.+?/, :format => /html|json|xml/}
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -101,6 +101,30 @@ class Article < ActiveRecord::Base
 
   end
 
+  def get_data_by_group(group_name)
+    data = []
+    r_statuses = retrieval_statuses.joins(:source => :group).where("lower(groups.name) = lower(?)", group_name)
+    r_statuses.each do |rs|
+      data << {:name => rs.source.display_name.downcase,
+               :citations => rs.get_retrieval_data["events"]}
+    end
+    data
+  end
+
+  def group_source_info
+    group_info = {}
+    retrieval_statuses.each do |rs|
+      if not rs.source.group.nil? and rs.event_count > 0
+        group_id = rs.source.group.id
+        group_info[group_id] = [] if group_info[group_id].nil?
+        group_info[group_id] << {:name => rs.source.display_name,
+                                 :total => rs.event_count,
+                                 :public_url => rs.public_url}
+      end
+    end
+    group_info
+  end
+
   private
   def create_retrievals
     # Create an empty retrieval record for each active source to avoid a
