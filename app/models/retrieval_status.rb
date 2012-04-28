@@ -151,4 +151,8 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
 
+  def public_url
+    data = get_retrieval_data
+    data["events_url"]
+  end
 end

@@ -55,4 +55,54 @@ class GroupsController < ApplicationController
       render :new
     end
   end
+
+  def group_article_summaries
+
+    # get the list of DOIs
+    ids = params[:id].split(",")
+
+    # TODO validate the dois (format)
+
+    # get all the groups
+    groups = {}
+    gs = Group.all
+    gs.each { |group| groups[group.id] = group.name }
+
+    @summaries = []
+
+    # get the articles
+    articles = Article.where("doi in (?)", ids)
+
+    articles.each do |article|
+      summary = {}
+
+      summary[:article] = article
+
+      # for each article, group the source information by group
+      group_info = article.group_source_info
+
+      summary[:groupcounts] = []
+      group_info.each do |key, value|
+        total = value.inject(0) {|sum, source| sum + source[:total] }
+        summary[:groupcounts] << {:name => groups[key],
+                                  :total => total,
+                                  :sources => value}
+      end
+
+      # if any groups are specified via URL params, get those details
+      summary[:groups] = params[:group].split(",").map do |group|
+        sources = article.get_data_by_group(group)
+        { :name => group,
+          :sources => sources } unless sources.empty?
+      end.compact if params[:group]
+
+      @summaries << summary
+    end
+
+    respond_with(@summaries) do |format|
+      format.html
+      format.json { render :json => @summaries, :callback => params[:callback]}
+      # format.xml
+    end
+  end
 end
