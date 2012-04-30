@@ -14,7 +14,13 @@
                       <%= gc[:name] %>: <%= gc[:total] %>
                       <ul>
                       <% gc[:sources].each do |source| %>
-                        <li><%= link_to "#{source[:name]} (#{source[:total]})", source[:public_url] %></li>
+                        <li>
+                          <% if source[:public_url].nil? %>
+                              <%= "#{source[:name]} (#{source[:total]})" %>
+                          <% else %>
+                              <%= link_to "#{source[:name]} (#{source[:total]})", source[:public_url] %>
+                          <% end %>
+                        </li>
                       <% end %>
                       </ul>
                     </li>

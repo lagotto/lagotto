@@ -60,8 +60,7 @@ class GroupsController < ApplicationController
 
     # get the list of DOIs
     ids = params[:id].split(",")
-
-    # TODO validate the dois (format)
+    ids = ids.map { |id| DOI::from_uri(id) }
 
     # get all the groups
     groups = {}
@@ -71,7 +70,7 @@ class GroupsController < ApplicationController
     @summaries = []
 
     # get the articles
-    articles = Article.where("doi in (?)", ids)
+    articles = Article.where("doi in (?)", ids).includes( :retrieval_statuses => { :source => :group })
 
     articles.each do |article|
       summary = {}
@@ -89,7 +88,7 @@ class GroupsController < ApplicationController
                                   :sources => value}
       end
 
-      # if any groups are specified via URL params, get those details
+      # if any groups are specified via URL params, get data for each source that belongs to the given group
       summary[:groups] = params[:group].split(",").map do |group|
         sources = article.get_data_by_group(group)
         { :name => group,
@@ -102,7 +101,7 @@ class GroupsController < ApplicationController
     respond_with(@summaries) do |format|
       format.html
       format.json { render :json => @summaries, :callback => params[:callback]}
-      # format.xml
+      format.xml { render :xml => @summaries }
     end
   end
 end
