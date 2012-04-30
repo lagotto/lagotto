@@ -153,6 +153,10 @@ class RetrievalStatus < ActiveRecord::Base
 
   def public_url
     data = get_retrieval_data
-    data["events_url"]
+    if data.nil?
+      nil
+    else
+      data["events_url"]
+    end
   end
 end
