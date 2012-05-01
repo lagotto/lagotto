@@ -11,6 +11,7 @@ class CreateSources < ActiveRecord::Migration
       t.integer  :workers,        :null => false                    # number of workers for the source queue
       t.text     :config                                            # source specific configurations
       t.integer  :group_id                                          # group id (from groups table)
+      t.boolean  :private,        :default => false                 # determine if the source is private source or not
 
       t.timestamps
     end
