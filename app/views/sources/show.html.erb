@@ -31,6 +31,10 @@
       <%= h @source.workers %>
     </p>
 
+    <p>
+      <b>Private Source</b>: <%= @source.private ? "Private" : "Public" %>
+    </p>
+
     <% if @source.group %>
         <p>
           <b>Group:</b>

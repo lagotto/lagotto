@@ -31,6 +31,11 @@
       <%= f.text_field :workers, :size => 3 %>
     </p>
 
+    <p>
+      <%= f.check_box :private %>
+      <%= f.label :private %>
+    </p>
+
     <% if Group.all.size > 0 %>
         <p>
           <%= f.label :group %> <br/>
