@@ -20,6 +20,9 @@ class Source < ActiveRecord::Base
   # counter data can only be queried at very specific time frame only.
   scope :data_retrievable_sources, lambda { where("active = true and name != 'counter'") }
 
+  scope :public_sources, lambda { where("private = false") }
+  scope :private_sources, lambda { where("private = true") }
+
   def get_data(article, options={})
     raise NotImplementedError, 'Children classes should override get_data method'
   end

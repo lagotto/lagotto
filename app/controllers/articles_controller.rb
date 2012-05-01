@@ -17,7 +17,17 @@ class ArticlesController < ApplicationController
     collection = collection.order_articles(params[:order])
 
     @articles = collection.paginate(:page => params[:page], :per_page => params[:per_page])
+
+    # if private sources have been filtered out, the source parameter will be present and modified
+
+    # source url parameter is only used for csv format
     @source = Source.find_by_name(params[:source].downcase) if params[:source]
+
+    if params[:source]
+      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("display_name")
+    else
+      @sources = Source.order("display_name")
+    end
 
     respond_with(@articles) do |format|
       format.json { render :json => @articles, :callback => params[:callback] }
@@ -25,7 +35,7 @@ class ArticlesController < ApplicationController
     end
   end
 
-  # GET /articles/1
+  # GET /articles/:id
   def show
 
     load_article
@@ -36,6 +46,10 @@ class ArticlesController < ApplicationController
     end
 
     format_options = params.slice :citations, :history, :source
+
+    # if private sources have been filtered out, the source parameter will be present and modified
+    # private sources are filtered out in the load_article_eager_includes method by looking at source parameter
+    load_article_eager_includes
 
     respond_with(@article) do |format|
       format.csv  { render :csv => @article }
@@ -90,8 +104,17 @@ class ArticlesController < ApplicationController
 
   protected
   def load_article()
-    # Load one article given query params, for the non-#index actions
+    # Load one article given query params
     doi = DOI::from_uri(params[:id])
     @article = Article.find_by_doi!(doi)
   end
+
+  def load_article_eager_includes
+    doi = DOI::from_uri(params[:id])
+    @article = Article.where("doi = ? and lower(sources.name) in (?)", doi, params[:source].downcase.split(",")).
+        includes(:retrieval_statuses => :source).first
+
+    raise ActiveRecord::RecordNotFound, "Couldn't find Article with doi = #{doi}" if @article.nil?
+  end
+
 end
