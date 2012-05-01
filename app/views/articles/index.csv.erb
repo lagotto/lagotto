@@ -31,12 +31,10 @@
 -%>
 <% else -%>
 <%=
-    sources = Source.all.sort_by(&:display_name)
-
     CSV.generate(:force_quotes => true) do |csv|
-      csv << ["DOI", "Published", "Title"] + sources.map(&:display_name)
+      csv << ["DOI", "Published", "Title"] + @sources.map(&:display_name)
       @articles.each do |article|
-        source_counts = sources.map do |source|
+        source_counts = @sources.map do |source|
           rs = article.retrieval_statuses.detect {|r| r.source_id == source.id }
           if rs
             rs.event_count

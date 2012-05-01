@@ -69,8 +69,15 @@ class GroupsController < ApplicationController
 
     @summaries = []
 
+    # if private sources have been filtered out, the source parameter will be present and modified
+
     # get the articles
-    articles = Article.where("doi in (?)", ids).includes( :retrieval_statuses => { :source => :group })
+    if params[:source]
+      articles = Article.where("doi in (?) and lower(sources.name) in (?)", ids, params[:source].downcase.split(",")).
+          includes( :retrieval_statuses => { :source => :group })
+    else
+      articles = Article.where("doi in (?)", ids).includes( :retrieval_statuses => { :source => :group })
+    end
 
     articles.each do |article|
       summary = {}
