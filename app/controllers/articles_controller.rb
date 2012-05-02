@@ -111,8 +111,12 @@ class ArticlesController < ApplicationController
 
   def load_article_eager_includes
     doi = DOI::from_uri(params[:id])
-    @article = Article.where("doi = ? and lower(sources.name) in (?)", doi, params[:source].downcase.split(",")).
-        includes(:retrieval_statuses => :source).first
+    if params[:source]
+      @article = Article.where("doi = ? and lower(sources.name) in (?)", doi, params[:source].downcase.split(",")).
+          includes(:retrieval_statuses => :source).first
+    else
+      @article = Article.where("doi = ?", doi).includes(:retrieval_statuses => :source).first
+    end
 
     raise ActiveRecord::RecordNotFound, "Couldn't find Article with doi = #{doi}" if @article.nil?
   end

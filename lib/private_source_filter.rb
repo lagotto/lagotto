@@ -30,10 +30,10 @@ class PrivateSourceFilter
       #^http:\/\/(www.|)plospathogens.org.*
       regex = Regexp.new("^http:\/\/(www.|)" + d + ".*")
       if(regex.match(domain))
-        return true
+        return false
       end
     }
-    false
+    true
   end
 
   def self.remove_private_sources(params)
