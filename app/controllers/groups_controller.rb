@@ -1,3 +1,5 @@
+require 'doi'
+
 class GroupsController < ApplicationController
   respond_to :html
 

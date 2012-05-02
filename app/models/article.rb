@@ -106,8 +106,13 @@ class Article < ActiveRecord::Base
     data = []
     r_statuses = retrieval_statuses.joins(:source => :group).where("lower(groups.name) = lower(?)", group_name)
     r_statuses.each do |rs|
-      data << {:name => rs.source.display_name.downcase,
-               :events => rs.get_retrieval_data["events"]}
+      if rs.event_count > 0
+        events_data = rs.get_retrieval_data
+        if not events_data.nil?
+          data << {:name => rs.source.display_name.downcase,
+                   :events => events_data["events"]}
+        end
+      end
     end
     data
   end
