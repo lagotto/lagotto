@@ -1,5 +1,6 @@
 require "doi"
 require "cgi"
+require "builder"
 
 class Article < ActiveRecord::Base
 
@@ -34,7 +35,7 @@ class Article < ActiveRecord::Base
     CGI.escape(DOI.to_uri(doi))
   end
 
-  def citations_count
+  def events_count
     retrieval_statuses.inject(0) { |sum, r| sum + r.event_count }
   end
 
@@ -53,7 +54,7 @@ class Article < ActiveRecord::Base
              :title => title,
              :pub_med => pub_med,
              :pub_med_central => pub_med_central,
-             :citations_count => citations_count,
+             :events_count => events_count,
              :published => (published_on.nil? ? nil : published_on.to_time)) do
 
       if options[:citations] or options[:history]
@@ -74,7 +75,7 @@ class Article < ActiveRecord::Base
             :title => title,
             :pub_med => pub_med,
             :pub_med_central => pub_med_central,
-            :citations_count => citations_count,
+            :events_count => events_count,
             :published => (published_on.nil? ? nil : published_on.to_time)
         }
     }
@@ -106,7 +107,7 @@ class Article < ActiveRecord::Base
     r_statuses = retrieval_statuses.joins(:source => :group).where("lower(groups.name) = lower(?)", group_name)
     r_statuses.each do |rs|
       data << {:name => rs.source.display_name.downcase,
-               :citations => rs.get_retrieval_data["events"]}
+               :events => rs.get_retrieval_data["events"]}
     end
     data
   end

@@ -30,13 +30,13 @@ class ArticleTest < ActiveSupport::TestCase
     assert @article.errors.messages.has_key?(:doi)
   end
 
-  test "citations count" do
+  test "events count" do
     Article.all.each do |article|
       total = 0
       article.retrieval_statuses.each do |rs|
         total += rs.event_count
       end
-      assert(total == article.citations_count)
+      assert(total == article.events_count)
     end
   end
 
@@ -55,14 +55,14 @@ class ArticleTest < ActiveSupport::TestCase
   test "cited" do
     articles = Article.cited(1)
     articles.each do |article|
-      assert(article.citations_count > 0)
+      assert(article.events_count > 0)
     end
   end
 
   test "uncited" do
     articles = Article.cited(0)
     articles.each do |article|
-      assert(article.citations_count == 0)
+      assert(article.events_count == 0)
     end
   end
 

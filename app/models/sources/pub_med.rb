@@ -19,29 +19,29 @@ class PubMed < Source
 
     # OK, we've got the IDs. Get the citations using the PubMed ID.
     url = "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id="
-    citations = []
+    events = []
     query_url = url + article.pub_med
 
     get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
       document.find("//PubMedToPMCcitingformSET/REFORM/PMCID").each do |cite|
         pmc = cite.first.content
         if pmc
-          citation = {
+          event = {
               :event => pmc,
               :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + pmc
           }
 
           url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
 
-          citations << citation
+          events << event
         end
       end
 
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
-      {:events => citations,
+      {:events => events,
        :events_url => url,
-       :event_count => citations.length,
+       :event_count => events.length,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
 
