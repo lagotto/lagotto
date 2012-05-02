@@ -45,7 +45,7 @@ class ArticlesController < ApplicationController
       redirect_to(@article) and return
     end
 
-    format_options = params.slice :citations, :history, :source
+    format_options = params.slice :events, :history, :source
 
     # if private sources have been filtered out, the source parameter will be present and modified
     # private sources are filtered out in the load_article_eager_includes method by looking at source parameter
@@ -56,7 +56,7 @@ class ArticlesController < ApplicationController
       format.json { render :json => @article.as_json(format_options), :callback => params[:callback] }
       format.xml  do
         response.headers['Content-Disposition'] = 'attachment; filename=' + params[:id].sub(/^info:/,'') + '.xml'
-        render :xml => @article.to_xml(:citations => format_options[:citations],
+        render :xml => @article.to_xml(:events => format_options[:events],
                                        :history => format_options[:history],
                                        :source => format_options[:source])
       end

@@ -102,7 +102,7 @@ class RetrievalStatus < ActiveRecord::Base
         :count => event_count
     }
 
-    if options[:citations] == "1" and event_count > 0
+    if options[:events] == "1" and event_count > 0
       data = get_retrieval_data
       result[:events] = data["events"] if not data.nil?
       result[:public_url] = data["events_url"] if not data.nil? and not data["events_url"].nil?
@@ -128,7 +128,7 @@ class RetrievalStatus < ActiveRecord::Base
       nested_options = options.merge!(:dasherize => false,
                                       :skip_instruct => true)
 
-      if options[:citations] == "1" and event_count > 0
+      if options[:events] == "1" and event_count > 0
         data = get_retrieval_data
         if not data.nil?
           if data["events"].is_a?(Array)

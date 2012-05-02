@@ -57,7 +57,7 @@ class Article < ActiveRecord::Base
              :events_count => events_count,
              :published => (published_on.nil? ? nil : published_on.to_time)) do
 
-      if options[:citations] or options[:history]
+      if options[:events] or options[:history]
         retrieval_options = options.merge!(:dasherize => false,
                                            :skip_instruct => true)
 
@@ -81,7 +81,7 @@ class Article < ActiveRecord::Base
     }
 
     sources = (options.delete(:source) || '').downcase.split(',')
-    if options[:citations] or options[:history]
+    if options[:events] or options[:history]
       result[:article][:source] = retrieval_statuses.map do |rs|
         rs.as_json(options) if (sources.empty? or sources.include?(rs.source.name.downcase))
       end.compact
