@@ -25,7 +25,7 @@ class Bloglines < Source
         end
         # Ignore citations of the dx.doi.org URI itself
         events << event \
-          unless DOI::from_uri(citation[:url]) == article.doi
+          unless DOI::from_uri(event[:url]) == article.doi
       end
 
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
