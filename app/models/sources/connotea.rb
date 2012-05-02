@@ -15,20 +15,20 @@ class Connotea < Source
     url = "http://www.connotea.org/data/uri/#{DOI::to_url article.doi}"
 
     get_xml(url, options.merge(:username => config.username, :password => config.password)) do |document|
-      citations = []
+      events = []
       document.root.namespaces.default_prefix = 'default'
       document.find("//default:Post").each do |cite|
         uri = cite.find_first("@rdf:about").value
-        citations << {:event => uri, :event_url => uri}
+        events << {:event => uri, :event_url => uri}
         events_url = "http://www.connotea.org/uri/" + uri[uri.rindex('/')+1..-1]
       end
-      citations
+      events
 
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
-      {:events => citations,
+      {:events => events,
        :events_url => events_url,
-       :event_count => citations.length,
+       :event_count => events.length,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
 

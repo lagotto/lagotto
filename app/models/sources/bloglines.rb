@@ -14,24 +14,24 @@ class Bloglines < Source
     url = "http://www.bloglines.com/search?format=publicapi&apiuser=#{config.username}&apikey=#{config.password}&q=#{CGI.escape(title)}"
 
     get_xml(url, options) do |document|
-      citations = []
+      events = []
       document.find("//resultset/result").each do |cite|
-        citation = {}
+        event = {}
         %w[site/name site/url site/feedurl title author abstract url].each do |a|
           first = cite.find_first("#{a}")
           if first
-            citation[a.gsub('/','_').intern] = first.content
+            event[a.gsub('/','_').intern] = first.content
           end
         end
         # Ignore citations of the dx.doi.org URI itself
-        citations << citation \
+        events << event \
           unless DOI::from_uri(citation[:url]) == article.doi
       end
 
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
-      {:events => citations,
-       :event_count => citations.length,
+      {:events => events,
+       :event_count => events.length,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
 

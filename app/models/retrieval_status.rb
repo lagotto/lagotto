@@ -104,7 +104,7 @@ class RetrievalStatus < ActiveRecord::Base
 
     if options[:citations] == "1" and event_count > 0
       data = get_retrieval_data
-      result[:citations] = data["events"] if not data.nil?
+      result[:events] = data["events"] if not data.nil?
       result[:public_url] = data["events_url"] if not data.nil? and not data["events_url"].nil?
     end
 
@@ -130,17 +130,18 @@ class RetrievalStatus < ActiveRecord::Base
 
       if options[:citations] == "1" and event_count > 0
         data = get_retrieval_data
-
-        if data["events"].is_a?(Array)
-          xml.tag!("citations") do
-            data["events"].each do |event|
-              xml.target! << event.to_xml(:root => "event_data", :skip_instruct => true )
+        if not data.nil?
+          if data["events"].is_a?(Array)
+            xml.tag!("events") do
+              data["events"].each do |event|
+                xml.target! << event.to_xml(:root => "event_data", :skip_instruct => true )
+              end
             end
+          elsif data["events"].is_a?(Hash)
+            xml.tag!("events") { xml.target! << data["events"].to_xml(:root => "event_data", :skip_instruct => true ) }
+          elsif data["events"].is_a?(String)
+            xml.tag!("events", data["events"])
           end
-        elsif data["events"].is_a?(Hash)
-          xml.tag!("citations") { xml.target! << data["events"].to_xml(:root => "event_data", :skip_instruct => true ) }
-        elsif data["events"].is_a?(String)
-            xml.tag!("citations", data["events"])
         end
       end
 
