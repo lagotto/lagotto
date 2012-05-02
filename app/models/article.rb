@@ -102,14 +102,14 @@ class Article < ActiveRecord::Base
 
   end
 
-  def get_data_by_group(group_name)
+  def get_data_by_group(group)
     data = []
-    r_statuses = retrieval_statuses.joins(:source => :group).where("lower(groups.name) = lower(?)", group_name)
+    r_statuses = retrieval_statuses.joins(:source => :group).where("groups.id = ?", group.id)
     r_statuses.each do |rs|
       if rs.event_count > 0
         events_data = rs.get_retrieval_data
         if not events_data.nil?
-          data << {:name => rs.source.display_name.downcase,
+          data << {:source => rs.source.display_name,
                    :events => events_data["events"]}
         end
       end
@@ -123,8 +123,8 @@ class Article < ActiveRecord::Base
       if not rs.source.group.nil? and rs.event_count > 0
         group_id = rs.source.group.id
         group_info[group_id] = [] if group_info[group_id].nil?
-        group_info[group_id] << {:name => rs.source.display_name,
-                                 :total => rs.event_count,
+        group_info[group_id] << {:source => rs.source.display_name,
+                                 :count => rs.event_count,
                                  :public_url => rs.public_url}
       end
     end

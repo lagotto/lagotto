@@ -91,17 +91,20 @@ class GroupsController < ApplicationController
 
       summary[:groupcounts] = []
       group_info.each do |key, value|
-        total = value.inject(0) {|sum, source| sum + source[:total] }
+        total = value.inject(0) {|sum, source| sum + source[:count] }
         summary[:groupcounts] << {:name => groups[key],
-                                  :total => total,
+                                  :count => total,
                                   :sources => value}
       end
 
       # if any groups are specified via URL params, get data for each source that belongs to the given group
-      summary[:groups] = params[:group].split(",").map do |group|
-        sources = article.get_data_by_group(group)
-        { :name => group,
-          :sources => sources } unless sources.empty?
+      summary[:groups] = params[:group].split(",").map do |group_name|
+        group = Group.where("lower(name) = lower(?)", group_name).first
+        if not group.nil?
+          sources = article.get_data_by_group(group)
+          { :name => group.name,
+            :sources => sources } unless sources.empty?
+        end
       end.compact if params[:group]
 
       @summaries << summary

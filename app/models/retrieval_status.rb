@@ -134,11 +134,11 @@ class RetrievalStatus < ActiveRecord::Base
           if data["events"].is_a?(Array)
             xml.tag!("events") do
               data["events"].each do |event|
-                xml.target! << event.to_xml(:root => "event_data", :skip_instruct => true )
+                xml.target! << event.to_xml(:root => "event", :skip_instruct => true )
               end
             end
           elsif data["events"].is_a?(Hash)
-            xml.tag!("events") { xml.target! << data["events"].to_xml(:root => "event_data", :skip_instruct => true ) }
+            xml.tag!("events") { xml.target! << data["events"].to_xml(:root => "event", :skip_instruct => true ) }
           elsif data["events"].is_a?(String)
             xml.tag!("events", data["events"])
           end
