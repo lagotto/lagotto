@@ -125,3 +125,8 @@ body.index pre, body.docs pre {
 .border {
   background-color: #040a20; 
   padding: 8px;}
+
+.login div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
