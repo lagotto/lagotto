@@ -5,7 +5,7 @@ defaults: &defaults
   rest_auth_site_key: #'run `rake secret` to generate a key to insert here'
   rest_auth_digest_stretches: 10
   session_secret: #'run `rake secret` again to generate a second key to insert here'
-  layout: application
+  layout: plos 
   couchdb_url: http://example.org:5984/database/
 
 development:
