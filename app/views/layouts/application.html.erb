@@ -1,68 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>
-    <% unless Rails.env.production? %>
-        <%= "(#{Rails.env})"  %>
-    <% end %>
-    Article Level Metrics
-  </title>
-
-  <%= favicon_link_tag %>
+  <title>Alm</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
+<body>
 
-<body class="<%= "#{params[:controller]} #{params[:controller]}-#{params[:action]}" %>" >
-<%= javascript_tag do -%>
-    $('.page').corner('10px');
-    $('.border').corner('10px');
-<% end -%>
-
-<header>
-  <div class='inner'>
-    <h1>Article Level Metrics</h1>
-  </div>
-  <nav>
-    <div class='inner'>
-      <ul>
-        <li><%= link_to("Home", root_path, :class => current_page?(root_path) ? 'current' : '') %></li>
-        |
-        <li><%= link_to("Articles", articles_path, :class => current_page?(articles_path) ? 'current' : '') %></li>
-        |
-        <li><%= link_to("Sources", sources_path, :class => current_page?(sources_path) ? 'current' : '') %></li>
-        |
-        <li><%= link_to("Groups", groups_path, :class => current_page?(groups_path) ? 'current' : '') %></li>
-
-        <li class="login">
-          <% if user_signed_in? %>
-              <%= link_to("Logout", destroy_user_session_path, :method => 'delete') %>
-          <% else %>
-              <%= link_to_setup_or_login %>
-          <% end %>
-        </li>
-
-      </ul>
-    </div>
-  </nav>
-</header>
-
-<div id='content'>
-  <div class='inner'>
-    <% [ :error, :notice, :warning, :message, :alert ].each do |name| %>
-        <% if flash[name] %>
-            <div class="<%= name %> flash" id="<%= name %>">
-              <span><%= flash[name] %></span>
-            </div>
-        <% end %>
-    <% end %>
-
-    <%= yield %>
-  </div>
-</div>
+<%= yield %>
 
 </body>
-
 </html>
