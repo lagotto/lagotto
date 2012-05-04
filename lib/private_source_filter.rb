@@ -4,14 +4,24 @@
 class PrivateSourceFilter
 
   def self.filter(controller)
-    if self.filter_private_sources?(controller.env["HTTP_REFERER"])
+    if self.filter_private_sources?(controller.env, controller.params)
+      Rails.logger.debug "before filtering out private sources: #{controller.params[:source]}"
       controller.params[:source] = self.remove_private_sources(controller.params)
+      Rails.logger.debug "after filtering out private sources: #{controller.params[:source]}"
     end
   end
 
   private
 
-  def self.filter_private_sources?(domain = "")
+  def self.filter_private_sources?(env, params)
+    # the controllers we are interested in are articles and groups
+    if not ((params[:controller] == "articles" || params[:controller] == "groups") &&
+        env["REQUEST_METHOD"].upcase == "GET")
+      return false
+    end
+
+    domain = env["HTTP_REFERER"]
+
     domains = [ "plosone.org", "plosbiology.org", "plosmedicine.org" , "ploscompbiol.org", "plosgenetics.org",
                 "plospathogens.org", "plosntds.org", "ploscollections.org", "hubs.plos.org", "clinicaltrials.ploshubs.org",
                 "currents.plos.org" ]
