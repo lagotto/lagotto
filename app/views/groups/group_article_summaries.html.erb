@@ -11,14 +11,14 @@
               <ul>
                 <% summary[:groupcounts].each do |gc| %>
                     <li>
-                      <%= gc[:name] %>: <%= gc[:total] %>
+                      <%= gc[:name] %>: <%= gc[:count] %>
                       <ul>
                       <% gc[:sources].each do |source| %>
                         <li>
                           <% if source[:public_url].nil? %>
-                              <%= "#{source[:name]} (#{source[:total]})" %>
+                              <%= "#{source[:source]} (#{source[:count]})" %>
                           <% else %>
-                              <%= link_to "#{source[:name]} (#{source[:total]})", source[:public_url] %>
+                              <%= link_to "#{source[:source]} (#{source[:count]})", source[:public_url] %>
                           <% end %>
                         </li>
                       <% end %>
