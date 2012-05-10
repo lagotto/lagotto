@@ -44,11 +44,22 @@ class Pmc < Source
   end
 
   def get_config_fields
-    ["url"]
+    ["url", "filepath" ]
   end
 
   def get_config_fields
-    [{:field_name => "url", :field_type => "text_field", :size => 90}]
+    [
+      {:field_name => "url", :field_type => "text_field", :size => 90},
+      {:field_name => "filepath", :field_type => "text_field", :size => 90}
+    ]
+  end
+
+  def filepath
+    config.filepath
+  end
+
+  def filepath=(value)
+    config.filepath = value
   end
 
   def url
