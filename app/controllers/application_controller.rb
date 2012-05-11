@@ -5,6 +5,5 @@ class ApplicationController < ActionController::Base
 
   before_filter PrivateSourceFilter
 
-  APP_CONFIG = YAML.load_file("#{Rails.root}/config/settings.yml")[Rails.env]
   layout APP_CONFIG['layout']
 end
