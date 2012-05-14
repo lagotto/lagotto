@@ -9,7 +9,7 @@ class Pmc < Source
     raise(ArgumentError, "#{display_name} requires url") \
       if config.url.blank?
 
-    query_url = "#{config.url}#{CGI.escape(article.doi)}"
+    query_url = get_query_url(article)
 
     events = nil
     event_count = nil
@@ -44,14 +44,8 @@ class Pmc < Source
   end
 
   def get_config_fields
-    ["url", "filepath" ]
-  end
-
-  def get_config_fields
-    [
-      {:field_name => "url", :field_type => "text_field", :size => 90},
-      {:field_name => "filepath", :field_type => "text_field", :size => 90}
-    ]
+    [{:field_name => "url", :field_type => "text_field", :size => 90},
+     {:field_name => "filepath", :field_type => "text_field", :size => 90}]
   end
 
   def filepath

@@ -22,7 +22,7 @@
     </p>
 
     <p>
-      <%= f.label :timeout, "Time to wait for a response from each source. (seconds)" %><br />
+      <%= f.label :timeout, "Time to wait for a response from the source. (seconds)" %><br />
       <%= f.text_field :timeout, :size => 3 %>
     </p>
 
@@ -34,6 +34,11 @@
     <p>
       <%= f.check_box :private %>
       <%= f.label :private %>
+    </p>
+
+    <p>
+      <%= f.label :wait_time, "Time interval to wait before checking to see if more jobs can be added to the job queue.  (seconds)" %><br />
+      <%= f.text_field :wait_time, :size => 5 %>
     </p>
 
     <% if Group.all.size > 0 %>
@@ -57,6 +62,12 @@
                           <%= f.text_field field[:field_name], :size => field[:size] %>
                       <% else %>
                           <%= f.text_field field[:field_name] %>
+                      <% end %>
+                  <% elsif field[:field_type] == "text_area" %>
+                      <% if field.has_key?(:size) %>
+                          <%= f.text_area field[:field_name], :size => field[:size] %>
+                      <% else %>
+                          <%= f.text_area field[:field_name] %>
                       <% end %>
                   <% elsif field[:field_type] == "password_field" %>
                       <%= f.password_field field[:field_name], :value => source.config.send(field[:field_name]) %>

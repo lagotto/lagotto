@@ -1,15 +1,16 @@
 
 class Citeulike < Source
 
-  SOURCE_URL = 'http://www.citeulike.org/api/posts/for/doi/'
+  validates_each :url do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
+  end
 
   def get_data(article, options={})
 
-    url = "#{SOURCE_URL}#{CGI.escape(article.doi)}"
+    query_url = get_query_url(article)
 
-    get_xml(url, options) do |document|
+    get_xml(query_url, options) do |document|
       events = []
-      local_ids = {}
 
       document.find("//posts/post").each do |post|
         post_string = post.to_s(:encoding => XML::Encoding::UTF_8)
@@ -28,6 +29,18 @@ class Citeulike < Source
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
     end
+  end
+
+  def get_config_fields
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  end
+
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
   end
 
 end

@@ -12,6 +12,7 @@ class CreateSources < ActiveRecord::Migration
       t.text     :config                                            # source specific configurations
       t.integer  :group_id                                          # group id (from groups table)
       t.boolean  :private,        :default => false                 # determine if the source is private source or not
+      t.integer  :wait_time,      :default => 300, :null => false   # time interval to wait if there are jobs in the queue
 
       t.timestamps
     end
