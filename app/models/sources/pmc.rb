@@ -1,7 +1,7 @@
 
 class Pmc < Source
 
-  validates_each :url do |record, attr, value|
+  validates_each :url, :filepath do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
   end
 
@@ -44,7 +44,7 @@ class Pmc < Source
   end
 
   def get_config_fields
-    [{:field_name => "url", :field_type => "text_field", :size => 90},
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
      {:field_name => "filepath", :field_type => "text_field", :size => 90}]
   end
 
