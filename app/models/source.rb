@@ -13,6 +13,7 @@ class Source < ActiveRecord::Base
   validates_presence_of :display_name
   validates_numericality_of :timeout, :only_integer => true, :greater_than => 0
   validates_numericality_of :workers, :only_integer => true, :greater_than => 0, :less_than => 10
+  validates_numericality_of :wait_time, :only_integer => true, :greater_than => 0
 
   # for job priority
   TOP_PRIORITY = 0
@@ -88,7 +89,12 @@ class Source < ActiveRecord::Base
       end
 
       if queue_job
-        queue_article_jobs(source_config)
+        # if there are jobs already queued, wait a little bit
+        if get_queued_job_count > 0
+          source_config['batch_time_interval'] = wait_time
+        else
+          queue_article_jobs(source_config)
+        end
       end
     end
 
@@ -128,6 +134,14 @@ class Source < ActiveRecord::Base
 
   def get_config_fields
     []
+  end
+
+  def get_queued_job_count
+    Delayed::Job.count('id', :conditions => ["queue = ?", name])
+  end
+
+  def get_query_url(article)
+    config.url % { :doi => CGI.escape(article.doi) }
   end
 
   private

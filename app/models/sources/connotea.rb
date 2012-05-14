@@ -2,7 +2,7 @@ require 'doi'
 
 class Connotea < Source
 
-  validates_each :username, :password do |record, attr, value|
+  validates_each :url, :username, :password do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
   end
 
@@ -12,9 +12,9 @@ class Connotea < Source
 
     events_url = nil
 
-    url = "http://www.connotea.org/data/uri/#{DOI::to_url article.doi}"
+    query_url = get_query_url(article)
 
-    get_xml(url, options.merge(:username => config.username, :password => config.password)) do |document|
+    get_xml(query_url, options.merge(:username => config.username, :password => config.password)) do |document|
       events = []
       document.root.namespaces.default_prefix = 'default'
       document.find("//default:Post").each do |cite|
@@ -35,9 +35,22 @@ class Connotea < Source
     end
   end
 
+  def get_query_url(article)
+    config.url % { :doi_url => (DOI::to_url article.doi) }
+  end
+
   def get_config_fields
-    [{:field_name => "username", :field_type => "text_field"},
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
+     {:field_name => "username", :field_type => "text_field"},
      {:field_name => "password", :field_type => "password_field"}]
+  end
+
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
   end
 
   def username
@@ -48,7 +61,6 @@ class Connotea < Source
   end
 
   def password
-    Rails.logger.error "blogline password #{config.password}"
     config.password
   end
   def password=(value)

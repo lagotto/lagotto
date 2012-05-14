@@ -1,9 +1,7 @@
 
 class Researchblogging < Source
 
-  SOURCE_URL = 'http://researchbloggingconnect.com/blogposts'
-
-  validates_each :username, :password do |record, attr, value|
+  validates_each :url, :username, :password do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
   end
 
@@ -11,10 +9,9 @@ class Researchblogging < Source
     raise(ArgumentError, "#{display_name} configuration requires username & password") \
       if config.username.blank? or config.password.blank?
 
-    # TODO why did we set the count to 100?
-    url = "#{SOURCE_URL}?count=100&article=doi:#{CGI.escape(article.doi)}"
+    query_url = get_query_url(article)
 
-    get_xml(url, options.merge(:username => config.username, :password => config.password)) do |document|
+    get_xml(query_url, options.merge(:username => config.username, :password => config.password)) do |document|
       events = []
 
       total_count = document.root.attributes.get_attribute("total_records_found")
@@ -41,8 +38,17 @@ class Researchblogging < Source
   end
 
   def get_config_fields
-    [{:field_name => "username", :field_type => "text_field"},
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
+     {:field_name => "username", :field_type => "text_field"},
      {:field_name => "password", :field_type => "password_field"}]
+  end
+
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
   end
 
   def username

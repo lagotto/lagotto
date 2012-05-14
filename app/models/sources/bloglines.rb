@@ -1,7 +1,7 @@
 
 class Bloglines < Source
 
-  validates_each :username, :password do |record, attr, value|
+  validates_each :url, :username, :password do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
   end
 
@@ -9,11 +9,9 @@ class Bloglines < Source
     raise(ArgumentError, "#{display_name} configuration requires username & password") \
       if config.username.blank? or config.password.blank?
 
-    title = article.title.gsub(/<\/?[^>]*>/, "")
+    query_url = get_query_url(article)
 
-    url = "http://www.bloglines.com/search?format=publicapi&apiuser=#{config.username}&apikey=#{config.password}&q=#{CGI.escape(title)}"
-
-    get_xml(url, options) do |document|
+    get_xml(query_url, options) do |document|
       events = []
       document.find("//resultset/result").each do |cite|
         event = {}
@@ -38,9 +36,23 @@ class Bloglines < Source
     end
   end
 
+  def get_query_url(article)
+    title = article.title.gsub(/<\/?[^>]*>/, "")
+    config.url % { :username => config.username, :password => config.password, :title => CGI.escape(title) }
+  end
+
   def get_config_fields
-    [{:field_name => "username", :field_type => "text_field"},
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
+     {:field_name => "username", :field_type => "text_field"},
      {:field_name => "password", :field_type => "password_field"}]
+  end
+
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
   end
 
   def username

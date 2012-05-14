@@ -2,7 +2,7 @@ require 'doi'
 
 class CrossRef < Source
 
-  validates_each :username, :password do |record, attr, value|
+  validates_each :url, :username, :password do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
   end
 
@@ -10,9 +10,9 @@ class CrossRef < Source
     raise(ArgumentError, "#{display_name} configuration requires username & password") \
       if config.username.blank? or config.password.blank?
 
-    url = "http://doi.crossref.org/servlet/getForwardLinks?usr=#{config.username}&pwd=#{config.password}&doi=#{CGI.escape(article.doi)}"
+    query_url = get_query_url(article)
 
-    get_xml(url, options) do |document|
+    get_xml(query_url, options) do |document|
       events = []
       document.root.namespaces.default_prefix = "x"
       document.find("//x:journal_cite").each do |cite|
@@ -36,10 +36,22 @@ class CrossRef < Source
     end
   end
 
+  def get_query_url(article)
+    config.url % { :username => config.username, :password => config.password, :doi => CGI.escape(article.doi) }
+  end
 
   def get_config_fields
-    [{:field_name => "username", :field_type => "text_field"},
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
+     {:field_name => "username", :field_type => "text_field"},
      {:field_name => "password", :field_type => "password_field"}]
+  end
+
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
   end
 
   def username

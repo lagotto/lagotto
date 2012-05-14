@@ -1,11 +1,13 @@
 
 class Counter < Source
 
-  SOURCE_URL = 'http://www.plosreports.org/services/rest?method=usage.stats&doi='
+  validates_each :url do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
+  end
 
   def get_data(article, options={})
 
-    query_url = "#{SOURCE_URL}#{CGI.escape(article.doi)}"
+    query_url = get_query_url(article)
 
     get_xml(query_url, options) do |document|
       views = []
@@ -56,6 +58,18 @@ class Counter < Source
       }
     end
 
+  end
+
+  def get_config_fields
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  end
+
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
   end
 
 end
