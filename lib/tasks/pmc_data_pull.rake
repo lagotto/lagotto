@@ -45,6 +45,11 @@ namespace :pmc do
     filepath = source.filepath
     service_url = source.url
 
+    if filepath.nil? || service_url.nil?
+      Rails.logger.error("filepath or url is missing")
+      exit
+    end
+
     puts "Filepath: " + filepath
     puts "Service URL: " + service_url
 
@@ -77,26 +82,6 @@ namespace :pmc do
     end
   end
 
-  task :update_all => :environment do
-    # this code is meant to run just once, when PMC is added as a source
-    # should be removed after the deployment.
-
-    # get all the data
-    months = (1..12).to_a
-    year = 2010
-
-    months.each do | month |
-      call_rake "pmc:update", {:MONTH => month, :YEAR => year}
-    end
-
-    months = (1..12).to_a
-    year = 2011
-
-    months.each do | month |
-      call_rake "pmc:update", {:MONTH => month, :YEAR => year}
-    end
-  end
-
   # this is only used by update_all task, remove it when we remove update_all task
   def call_rake(task, options = {})
     options[:rails_env] ||= Rails.env
@@ -121,7 +106,7 @@ namespace :pmc do
       doi = attributes['doi']
 
       # create the url to get existing information about the given article
-      url = "#{service_url}#{CGI.escape(doi)}"
+      url = service_url % { :doi => CGI.escape(doi) }
 
       stat_data = nil
       views = []
