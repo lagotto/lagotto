@@ -10,4 +10,4 @@ The application implements a rest interface to query for results in CSV, XML, JS
 
 [Example](http://www.plosmedicine.org/article/metrics/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124;jsessionid=4600069FAADC7E03EE759E3962D6B828.ambra01)
 
-Also browse PLoS's statistics at [http://alm.plos.org](http://alm.plos.org)
+Also browse PLoS's statistics at [http://alm.plos.org](http://alm.plos.org) and read the documentation in the [Wiki](https://github.com/articlemetrics/alm/wiki)
