@@ -1,4 +1,4 @@
-Article-Level Metrics, is a Ruby application started by the [Public Library of Science (PLoS)](http://www.plos.org/). It stores and reports user configurable performance data on research articles. Examples of possible metrics are online usage, citations, social bookmarks, notes, comments, ratings and blog coverage.
+Article-Level Metrics, is a Ruby on Rails application started by the [Public Library of Science (PLoS)](http://www.plos.org/). It stores and reports user configurable performance data on research articles. Examples of possible metrics are online usage, citations, social bookmarks, notes, comments, ratings and blog coverage.
 
 Welcome to the Open Source project site!
 
@@ -10,4 +10,4 @@ The application implements a rest interface to query for results in CSV, XML, JS
 
 [Example](http://www.plosmedicine.org/article/metrics/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124;jsessionid=4600069FAADC7E03EE759E3962D6B828.ambra01)
 
-Also browse PLoS's statistics at [http://alm.plos.org](http://alm.plos.org) and read the documentation in the [Wiki](https://github.com/articlemetrics/alm/wiki)
+Also browse PLoS's statistics at [http://alm.plos.org](http://alm.plos.org) and read the documentation in the [Wiki](https://github.com/articlemetrics/alm/wiki).
