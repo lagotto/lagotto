@@ -123,5 +123,35 @@ namespace :queue do
     end
 
   end
+
+  task :single_job, [:doi, :source] => :environment do |t, args|
+    if args.doi.nil?
+      puts "DOI is required"
+      exit
+    end
+
+    article = Article.find_by_doi(args.doi)
+    if article.nil?
+      puts "Article with doi #{args.doi} does not exist"
+      exit
+    end
+
+    if args.source.nil?
+      puts "Source is required"
+      exit
+    end
+
+    source = Source.find_by_name(args.source)
+    if source.nil?
+      puts "Source with name #{args.source} does not exist"
+      exit
+    end
+
+    rs = RetrievalStatus.find_by_article_id_and_source_id(article.id, source.id)
+    source.queue_article_job(rs)
+
+    puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
+  end
+
 end
 
