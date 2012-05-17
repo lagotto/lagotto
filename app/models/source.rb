@@ -46,7 +46,7 @@ class Source < ActiveRecord::Base
                 id, Time.zone.today).
           readonly(false)
 
-      retrieval_statuses.find_each { | retrieval_status | queue_article_job(retrieval_status) }
+      retrieval_statuses.find_each { | retrieval_status | queue_article_job_skip_enqueue(retrieval_status) }
 
     else
       Rails.logger.error "#{name} is either inactive or is disabled."
@@ -129,6 +129,18 @@ class Source < ActiveRecord::Base
     retrieval_history.save
 
     Delayed::Job.enqueue SourceJob.new(retrieval_status.article_id, self, retrieval_status, retrieval_history),
+                         :queue => name, :priority => priority
+  end
+
+  def queue_article_job_skip_enqueue(retrieval_status, priority=Delayed::Worker.default_priority)
+
+    retrieval_history = RetrievalHistory.new
+    retrieval_history.retrieval_status_id = retrieval_status.id
+    retrieval_history.article_id = retrieval_status.article_id
+    retrieval_history.source_id = id
+    retrieval_history.save
+
+    Delayed::Job.enqueue SourceJobSkipEnqueue.new(retrieval_status.article_id, self, retrieval_status, retrieval_history),
                          :queue => name, :priority => priority
   end
 
