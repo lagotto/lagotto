@@ -28,7 +28,7 @@ namespace :queue do
   task :citeulike => :environment do
 
     # this rake task is setup to run forever
-    while true
+    loop do
       source = Source.find_by_name("citeulike")
       sleep_time = source.queue_articles
       sleep(sleep_time)
@@ -39,7 +39,7 @@ namespace :queue do
   task :crossref => :environment do
 
     # this rake task is setup to run forever
-    while true
+    loop do
       source = Source.find_by_name("crossref")
       sleep_time = source.queue_articles
       sleep(sleep_time)
@@ -50,7 +50,7 @@ namespace :queue do
   task :nature => :environment do
 
     # this rake task is setup to run forever
-    while true
+    loop do
       source = Source.find_by_name("nature")
       sleep_time = source.queue_articles
       sleep(sleep_time)
@@ -61,7 +61,7 @@ namespace :queue do
   task :mendeley => :environment do
 
     # this rake task is setup to run forever
-    while true
+    loop do
       source = Source.find_by_name("mendeley")
       sleep_time = source.queue_articles
       sleep(sleep_time)
@@ -72,7 +72,7 @@ namespace :queue do
   task :researchblogging => :environment do
 
     # this rake task is setup to run forever
-    while true
+    loop do
       source = Source.find_by_name("researchblogging")
       sleep_time = source.queue_articles
       sleep(sleep_time)
@@ -83,7 +83,7 @@ namespace :queue do
   task :wos => :environment do
 
     # this rake task is setup to run forever
-    while true
+    loop do
       source = Source.find_by_name("wos")
       sleep_time = source.queue_articles
       sleep(sleep_time)
@@ -94,7 +94,7 @@ namespace :queue do
   task :pubmed => :environment do
 
     # this rake task is setup to run forever
-    while true
+    loop do
       source = Source.find_by_name("pubmed")
       sleep_time = source.queue_articles
       sleep(sleep_time)
@@ -105,7 +105,7 @@ namespace :queue do
   task :scopus => :environment do
 
     # this rake task is setup to run forever
-    while true
+    loop do
       source = Source.find_by_name("scopus")
       sleep_time = source.queue_articles
       sleep(sleep_time)
@@ -116,7 +116,7 @@ namespace :queue do
   task :facebook => :environment do
 
     # this rake task is setup to run forever
-    while true
+    loop do
       source = Source.find_by_name("facebook")
       sleep_time = source.queue_articles
       sleep(sleep_time)
