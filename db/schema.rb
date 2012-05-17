@@ -85,9 +85,11 @@ ActiveRecord::Schema.define(:version => 20120426201516) do
     t.integer  "timeout",       :default => 30,    :null => false
     t.integer  "workers",                          :null => false
     t.text     "config"
+    t.integer  "group_id"
+    t.boolean  "private",       :default => false
+    t.integer  "wait_time",     :default => 300,   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "group_id"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
