@@ -1,0 +1,36 @@
+{
+  "name": "tomcat",
+  "description": "Installs/Configures tomcat",
+  "long_description": "Description\n===========\n\nInstalls and configures Tomcat version 6, Java servlet engine and webserver.\n\nRequirements\n============\n\nPlatform:\n\n* Debian, Ubuntu (OpenJDK, Oracle)\n* CentOS 6+, Red Hat 6+, Fedora (OpenJDK, Oracle)\n\nThe following Opscode cookbooks are dependencies:\n\n* java\n\nAttributes\n==========\n\n* `node[\"tomcat\"][\"port\"]` - The network port used by Tomcat's HTTP connector, default `8080`.\n* `node[\"tomcat\"][\"ssl_port\"]` - The network port used by Tomcat's SSL HTTP connector, default `8443`.\n* `node[\"tomcat\"][\"ajp_port\"]` - The network port used by Tomcat's AJP connector, default `8009`.\n* `node[\"tomcat\"][\"java_options\"]` - Extra options to pass to the JVM, default `-Xmx128M -Djava.awt.headless=true`.\n* `node[\"tomcat\"][\"use_security_manager\"]` - Run Tomcat under the Java Security Manager, default `false`.\n\nUsage\n=====\n\nSimply include the recipe where you want Tomcat installed.\n\nDue to the ways that some system init scripts call the configuration,\nyou may wish to set the java options to include `JAVA_OPTS`. As an\nexample for a java app server role:\n\n    name \"java-app-server\"\n    run_list(\"recipe[tomcat]\")\n    override_attributes(\n      'tomcat' => {\n        'java_options' => \"${JAVA_OPTS} -Xmx128M -Djava.awt.headless=true\"\n      }\n    )\n\nLicense and Author\n==================\n\nAuthor:: Seth Chisamore (<schisamo@opscode.com>)\n\nCopyright:: 2010-2012, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "debian": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "redhat": ">= 0.0.0",
+    "fedora": ">= 0.0.0"
+  },
+  "dependencies": {
+    "java": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "tomcat::default": "Installs and configures Tomcat"
+  },
+  "version": "0.10.4"
+}
