@@ -18,8 +18,9 @@ class Source < ActiveRecord::Base
   # for job priority
   TOP_PRIORITY = 0
 
-  # counter data can only be queried at very specific time frame only.
-  scope :data_retrievable_sources, lambda { where("active = true and name != 'counter'") }
+  # TODO: it might be a good idea to set a flag for special type of sources
+  # counter, biod, and nature data can only be queried at very specific time frame only.
+  scope :data_retrievable_sources, lambda { where("active = true and name not in ('counter', 'biod', 'nature')") }
 
   scope :public_sources, lambda { where("private = false") }
   scope :private_sources, lambda { where("private = true") }
