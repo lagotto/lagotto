@@ -17,17 +17,24 @@
 # limitations under the License.
 
 require "source_helper"
+require 'date'
 
 include SourceHelper
 
 namespace :pmc do
 
-  task :update => :environment do
+  task :update, [:month,:year] => :environment do |t, args|
 
     # looking at last month's information
-    if ENV["MONTH"] && ENV["YEAR"]
-      month = ENV["MONTH"]
-      year = ENV["YEAR"]
+    if args.month && args.year
+      month = args.month.to_i
+      year = args.year.to_i
+      begin
+        Date.new(year, month, 1)
+      rescue
+        puts "Month and/or year values were invalid.  Please try again."
+        exit
+      end
     else
       date = Date.today
       date = date.prev_month
@@ -50,6 +57,10 @@ namespace :pmc do
       exit
     end
 
+    if not filepath.end_with?("/")
+      filepath = filepath  + "/"
+    end
+
     puts "Filepath: " + filepath
     puts "Service URL: " + service_url
 
@@ -70,7 +81,7 @@ namespace :pmc do
             # good
             Rails.logger.info "Start processing #{journal} #{month} #{year}"
             puts "Start processing #{journal} #{month} #{year}"
-            
+
             process_doc(document, service_url)
           else
             Rails.logger.error "Bad status from PMC #{attributes['status']}"
@@ -78,7 +89,7 @@ namespace :pmc do
           end
         end
       end
-      
+
     end
   end
 
