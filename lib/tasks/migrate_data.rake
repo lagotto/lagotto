@@ -41,10 +41,20 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   puts "migrating configuration info for bloglines, connotea, crossref, researchblogging"
   result = client.query("select username, password, type from #{old_db}.sources where type in ('Bloglines', 'Connotea', 'CrossRef', 'Researchblogging')")
   result.each do |row|
-    source = Source.find_by_name(row["type"].downcase)
+    source_name = row["type"].downcase
+    source = Source.find_by_name(source_name)
     config = OpenStruct.new
     config.username = row["username"]
     config.password = row["password"]
+    if source_name == 'bloglines'
+      config.url = "http://www.bloglines.com/search?format=publicapi&apiuser=%{username}&apikey=%{password}&q=%{title}"
+    elsif source_name == 'connotea'
+      config.url = "http://www.connotea.org/data/uri/%{doi_url}"
+    elsif source_name == 'crossref'
+      config.url = "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
+    elsif source_name == 'researchblogging'
+      config.url = "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
+    end
     source.config = config
     source.save
   end
@@ -52,19 +62,17 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   puts "migrating configuration info for facebook, mendeley, nature"
   result = client.query("select partner_id, type from #{old_db}.sources where type in ('Facebook', 'Mendeley', 'Nature')")
   result.each do |row|
-    source = Source.find_by_name(row["type"].downcase)
+    source_name = row["type"].downcase
+    source = Source.find_by_name(source_name)
     config = OpenStruct.new
     config.api_key = row["partner_id"]
-    source.config = config
-    source.save
-  end
-
-  puts "migrating configuration info for pmc"
-  result = client.query("select url, type from #{old_db}.sources where type in ('Pmc')")
-  result.each do |row|
-    source = Source.find_by_name(row["type"].downcase)
-    config = OpenStruct.new
-    config.url = row["url"]
+    if source_name == 'mendeley'
+      config.url = "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}"
+      config.url_with_type = "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}"
+      config.related_articles_url = "http://api.mendeley.com/oapi/documents/related/%{id}/?consumer_key=%{api_key}"
+    elsif source_name == 'nature'
+      config.url = "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}"
+    end
     source.config = config
     source.save
   end
@@ -81,6 +89,56 @@ task :migrate_data, [:old_db] => :environment do |t, args|
     source.config = config
     source.save
   end
+
+  puts "adding configuration info for biod"
+  source = Source.find_by_name('biod')
+  config = OpenStruct.new
+  config.url = "http://www.plosreports.org/services/rest?method=usage.stats&journal=biod&doi=%{doi}"
+  source.config = config
+  source.save
+
+  puts "adding configuration info for citeulike"
+  source = Source.find_by_name('citeulike')
+  config = OpenStruct.new
+  config.url = "http://www.citeulike.org/api/posts/for/doi/%{doi}"
+  source.config = config
+  source.save
+
+  puts "adding configuration info for counter"
+  source = Source.find_by_name('counter')
+  config = OpenStruct.new
+  config.url = "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
+  source.config = config
+  source.save
+
+  puts "adding configuration info for postgenomic"
+  source = Source.find_by_name('postgenomic')
+  config = OpenStruct.new
+  config.url = "http://www.postgenomic.com/api.php?type=post&format=json&citing_doi=%{doi}"
+  source.config = config
+  source.save
+
+  puts "adding configuration info for pubmed"
+  source = Source.find_by_name('pubmed')
+  config = OpenStruct.new
+  config.url = "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
+  source.config = config
+  source.save
+
+  puts "adding configuration info for pmc"
+  source = Source.find_by_name('pmc')
+  config = OpenStruct.new
+  config.url = "http://rwc-couch01.int.plos.org:5984/pmc_usage_stats/%{doi}"
+  config.filepath = "/opt/alm/pmcdata/"
+  source.config = config
+  source.save
+
+  puts "adding configuration info for wos"
+  source = Source.find_by_name('wos')
+  config = OpenStruct.new
+  config.url = "https://ws.isiknowledge.com/cps/xrpc"
+  source.config = config
+  source.save
 
   # migrate retrievals
   # citations_count => bloglines, citeulike, connotea, crossref, nature, postgenomic, pubmed, researchblogging,
