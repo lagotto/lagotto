@@ -25,11 +25,12 @@ Vagrant::Config.run do |config|
   # Assign this VM to a bridged network, allowing you to connect directly to a
   # network using the host's network device. This makes the VM appear as another
   # physical device on your network.
-  config.vm.network :bridged, :bridge => 'en0: Wi-Fi (AirPort)'
+  # config.vm.network :bridged
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
   config.vm.forward_port 80, 8080
+  config.vm.forward_port 3000, 3080
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
@@ -41,25 +42,23 @@ Vagrant::Config.run do |config|
   # some recipes and/or roles.
   #
   config.vm.provision :chef_solo do |chef|	
-    # This path will be expanded relative to the project directory
-    chef.cookbooks_path = "chef/cookbooks"
-	# Setup sytem
-	chef.add_recipe "apt"
-	chef.add_recipe "build-essential"
-	chef.add_recipe "git"
-	
-	# Install databases
-    chef.add_recipe "database"
-	
-	# Install Rails
-    #chef.add_recipe "application::rails"
-	
-    # You may also specify custom JSON attributes:
-    chef.json = { 
-	  :mysql => {
-	    :server_vagrant_password => "67g22v" 
-	  }
-	}
+    # Turn on verbose Chef logging if necessary
+    chef.log_level = :info
+    
+    # Find cookbooks
+    chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+    
+    # Load main recipe that installs everything
+    chef.add_recipe "vagrant_main"
+    
+    # Add application-specific attributes:
+    chef.json.merge!({ 
+      :app => { :name => "alm", :useragent => "Article Level Metrics", :layout => "application" },
+      :rails => { :environment => "development" },
+      :passenger => { :version => "3.0.12" },
+      :admin => { :email => "admin@example.org" }
+    })
+    
   end
 
 end

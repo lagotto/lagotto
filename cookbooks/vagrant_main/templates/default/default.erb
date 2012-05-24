@@ -1,0 +1,30 @@
+<VirtualHost *:80>
+    LogLevel warn
+    ErrorLog /vagrant/log/apache_error.log
+    CustomLog /vagrant/log/apache_access.log combined
+    DocumentRoot <%= @params[:docroot] %>
+	RailsEnv <%= node[:rails][:environment] %>
+	ServerAdmin <%= node[:admin][:email] %>
+
+    <Directory />
+      Options FollowSymLinks
+      AllowOverride None
+    </Directory>
+	
+    <Directory <%= @params[:docroot] %> >
+      Options Indexes FollowSymLinks MultiViews
+      AllowOverride All
+      Order allow,deny
+      allow from all
+    </Directory>
+
+    # Important for ALM: keeps Apache from messing up encoded 
+    # embedded slashes in DOIs
+    AllowEncodedSlashes On
+
+    # Deflate
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/xhtml+xml text/javascript
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+</VirtualHost>
