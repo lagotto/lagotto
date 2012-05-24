@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.10' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.12' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -34,8 +34,8 @@ Rails::Initializer.run do |config|
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
   # Add additional load paths for your own custom dirs
-  # config.load_paths += %W( #{RAILS_ROOT}/extras )
-  config.load_paths += %W[#{RAILS_ROOT}/app/models/sources/ #{RAILS_ROOT}/app/models/sources/scopus]
+  # config.autoload_paths += %W( #{RAILS_ROOT}/extras )
+  config.autoload_paths += %W[#{RAILS_ROOT}/app/models/sources/ #{RAILS_ROOT}/app/models/sources/scopus]
 
   # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)

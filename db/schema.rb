@@ -72,21 +72,21 @@ ActiveRecord::Schema.define(:version => 20111028162020) do
     t.string   "url"
     t.string   "username"
     t.string   "password"
-    t.integer  "staleness",     :default => 604800
+    t.integer  "staleness",          :default => 604800
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active",        :default => true
+    t.boolean  "active",             :default => true
     t.string   "name"
-    t.boolean  "live_mode",     :default => false
+    t.boolean  "live_mode",          :default => false
     t.string   "salt"
     t.string   "searchURL"
-    t.integer  "timeout",       :default => 30,     :null => false
+    t.integer  "timeout",            :default => 30,     :null => false
     t.integer  "group_id"
     t.datetime "disable_until"
-    t.integer  "disable_delay", :default => 10,     :null => false
+    t.integer  "disable_delay",      :default => 10,     :null => false
     t.string   "partner_id"
     t.text     "misc"
-    t.boolean  "keep_existing_data", :default => false    
+    t.boolean  "keep_existing_data", :default => false
   end
 
   add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true

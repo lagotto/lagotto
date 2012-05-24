@@ -1,0 +1,13 @@
+<%= node[:rails][:environment] %>:
+  adapter:   mysql
+  database:  <%= node[:app][:name] %>_<%= node[:rails][:environment] %>
+  username:  root
+  password:  <%= node['mysql']['server_root_password'] %>
+  host:      localhost
+    
+test:
+  adapter:   mysql
+  database:  <%= node[:app][:name] %>_test
+  username:  root
+  password:  <%= node['mysql']['server_root_password'] %>
+  host:      localhost
