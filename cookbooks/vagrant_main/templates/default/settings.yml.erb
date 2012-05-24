@@ -1,0 +1,23 @@
+defaults: &defaults
+  useragent: <%= node[:app][:useragent] %>
+  notification_email: <%= node[:admin][:email] %>
+  rest_auth_site_key: <%= node[:app][:key] %>
+  rest_auth_digest_stretches: 10
+  session_secret: <%= node[:app][:secret] %>
+  layout: <%= node[:app][:layout] %>
+
+development:
+  <<: *defaults
+  hostname: http://dev.example.org 
+
+test:
+  <<: *defaults
+  hostname: http://test.example.org 
+
+stage:
+  <<: *defaults
+  hostname: http://stage.example.org 
+  
+production:
+  <<: *defaults
+  hostname: http://alm.example.org 
