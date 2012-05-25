@@ -5,6 +5,9 @@ require 'ostruct'
 class Source < ActiveRecord::Base
   include SourceHelper
 
+  DEFAULT_JOB_BATCH_SIZE = 50
+  MAX_JOB_BATCH_SIZE = 100
+
   has_many :retrieval_statuses, :dependent => :destroy
   belongs_to :group
 
@@ -39,15 +42,18 @@ class Source < ActiveRecord::Base
         save
       end
 
+      job_batch_size = get_job_batch_size
+
       # grab all the articles
       retrieval_statuses = RetrievalStatus.joins(:article, :source).
           where('sources.id = ?
                and articles.published_on < ?
                and queued_at is NULL',
-                id, Time.zone.today).
-          readonly(false)
+                id, Time.zone.today).select("retrieval_statuses.id")
 
-      retrieval_statuses.find_each { | retrieval_status | queue_article_job_skip_enqueue(retrieval_status) }
+      retrieval_statuses.find_in_batches(:batch_size => job_batch_size) do | rs_ids |
+        Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
+      end
 
     else
       Rails.logger.error "#{name} is either inactive or is disabled."
@@ -105,6 +111,8 @@ class Source < ActiveRecord::Base
   def queue_article_jobs(source_config)
     # find articles that need to be updated
 
+    job_batch_size = get_job_batch_size
+
     # not queued currently
     # stale from updated_at
     retrieval_statuses = RetrievalStatus.joins(:article, :source).
@@ -112,37 +120,18 @@ class Source < ActiveRecord::Base
                and articles.published_on < ?
                and queued_at is NULL
                and retrieved_at < TIMESTAMPADD(SECOND, - ?, UTC_TIMESTAMP())',
-              id, Time.zone.today, source_config['staleness'].seconds.to_i).
-        readonly(false)
+              id, Time.zone.today, source_config['staleness'].seconds.to_i).select("retrieval_statuses.id")
 
     Rails.logger.debug "#{name} total article queued #{retrieval_statuses.length}"
 
-    retrieval_statuses.each { | retrieval_status | queue_article_job(retrieval_status)}
+    retrieval_statuses.find_in_batches(:batch_size => job_batch_size) do | rs_ids |
+      Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
+    end
 
   end
 
   def queue_article_job(retrieval_status, priority=Delayed::Worker.default_priority)
-
-    retrieval_history = RetrievalHistory.new
-    retrieval_history.retrieval_status_id = retrieval_status.id
-    retrieval_history.article_id = retrieval_status.article_id
-    retrieval_history.source_id = id
-    retrieval_history.save
-
-    Delayed::Job.enqueue SourceJob.new(retrieval_status.article_id, self, retrieval_status, retrieval_history),
-                         :queue => name, :priority => priority
-  end
-
-  def queue_article_job_skip_enqueue(retrieval_status, priority=Delayed::Worker.default_priority)
-
-    retrieval_history = RetrievalHistory.new
-    retrieval_history.retrieval_status_id = retrieval_status.id
-    retrieval_history.article_id = retrieval_status.article_id
-    retrieval_history.source_id = id
-    retrieval_history.save
-
-    Delayed::Job.enqueue SourceJobSkipEnqueue.new(retrieval_status.article_id, self, retrieval_status, retrieval_history),
-                         :queue => name, :priority => priority
+    Delayed::Job.enqueue SourceJob.new([retrieval_status], id), :queue => name, :priority => priority
   end
 
   def get_config_fields
@@ -168,4 +157,14 @@ class Source < ActiveRecord::Base
     end
   end
 
+  def get_job_batch_size
+    source_config = YAML.load_file("#{Rails.root}/config/source_configs.yml")[Rails.env]
+    job_batch_size = source_config['job_batch_size']
+    if job_batch_size.nil?
+      job_batch_size = DEFAULT_JOB_BATCH_SIZE
+    elsif not (job_batch_size > 0 and job_batch_size < MAX_JOB_BATCH_SIZE)
+      job_batch_size = DEFAULT_JOB_BATCH_SIZE
+    end
+    job_batch_size
+  end
 end
