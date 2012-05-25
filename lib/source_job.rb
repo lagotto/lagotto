@@ -1,4 +1,5 @@
 require 'source_helper'
+require 'timeout'
 
 class SourceJob < Struct.new(:rs_ids, :source_id)
   include SourceHelper
@@ -20,13 +21,16 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       return
     end
 
-    rs_ids.each do | rs_id |
-      unless source.active && (source.disable_until.nil? || source.disable_until < Time.now.utc)
-        Rails.logger.info "#{source.name} not active or disabled"
-        return
-      end
+    # just in case a worker gets stuck
+    Timeout.timeout(Delayed::Worker.max_run_time) do
+      rs_ids.each do | rs_id |
+        unless source.active && (source.disable_until.nil? || source.disable_until < Time.now.utc)
+          Rails.logger.info "#{source.name} not active or disabled"
+          return
+        end
 
-      perform_get_data(rs_id, source)
+        perform_get_data(rs_id, source)
+      end
     end
 
   end
