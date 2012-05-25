@@ -107,23 +107,15 @@ class Nature < Source
           order('retrieved_at DESC').
           limit(limit).
           offset(offset).
-          readonly(false)
+          select("retrieval_statuses.id")
 
       Rails.logger.debug "#{name} total article queued #{retrieval_statuses.length}"
 
       retrieval_statuses.each do | retrieval_status |
 
-        retrieval_history = RetrievalHistory.new
-        retrieval_history.retrieval_status_id = retrieval_status.id
-        retrieval_history.article_id = retrieval_status.article_id
-        retrieval_history.source_id = id
-        retrieval_history.save
-
         run_at += source_config['seconds_between_request']
 
-        Delayed::Job.enqueue SourceJob.new(retrieval_status.article_id, self, retrieval_status, retrieval_history),
-                             :queue => name,
-                             :run_at => run_at
+        Delayed::Job.enqueue SourceJob.new([retrieval_status], id), :queue => name, :run_at => run_at
       end
 
       offset += limit
