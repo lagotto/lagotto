@@ -6,7 +6,7 @@ class Source < ActiveRecord::Base
   include SourceHelper
 
   DEFAULT_JOB_BATCH_SIZE = 50
-  MAX_JOB_BATCH_SIZE = 100
+  MAX_JOB_BATCH_SIZE = 1000
 
   has_many :retrieval_statuses, :dependent => :destroy
   belongs_to :group
