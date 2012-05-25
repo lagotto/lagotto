@@ -97,7 +97,9 @@ class Article < ActiveRecord::Base
     sources = Source.data_retrievable_sources
     sources.each do |source|
       rs = RetrievalStatus.where(:article_id => id, :source_id => source.id).first
-      source.queue_article_job(rs, Source::TOP_PRIORITY)
+      if not rs.nil?
+        source.queue_article_job(rs, Source::TOP_PRIORITY)
+      end
     end
 
   end
