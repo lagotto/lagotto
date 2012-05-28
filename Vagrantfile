@@ -46,7 +46,7 @@ Vagrant::Config.run do |config|
     chef.log_level = :info
     
     # Find cookbooks
-    chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+    chef.cookbooks_path = ["cookbooks"]
     
     # Load main recipe that installs everything
     chef.add_recipe "vagrant_main"
