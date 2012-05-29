@@ -28,6 +28,8 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   old_db = args.old_db
   new_db = db_config["database"]
 
+  default_date = '1970-01-01 00:00:00'
+
   # migrate articles
   puts "inserting articles"
   result = client.query("insert into #{new_db}.articles (id, doi, created_at, updated_at, pub_med, pub_med_central, published_on, title) " +
@@ -146,6 +148,9 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   # incorrect count => counter, biod, pmc, facebook, mendeley (citations_count of 1, no need to migrate them)
 
   puts "inserting retrievals"
+  result = client.query("update #{old_db}.retrievals set created_at = '#{default_date}' where created_at is NULL")
+  result = client.query("update #{old_db}.retrievals set updated_at = '#{default_date}' where updated_at is NULL")
+
   result = client.query("insert into #{new_db}.retrieval_statuses (id, article_id, source_id, retrieved_at, local_id, event_count, created_at, updated_at) " +
                             "select id, article_id, source_id, retrieved_at, local_id, citations_count, created_at, updated_at from #{old_db}.retrievals " +
                             "where source_id in (select id from #{old_db}.sources where type in ('Bloglines', 'Citeulike', 'Connotea', 'CrossRef', 'Nature', 'Postgenomic', 'PubMed', 'Researchblogging'))")
@@ -181,6 +186,9 @@ task :migrate_data, [:old_db] => :environment do |t, args|
 
   # migrate groups
   puts "inserting groups"
+  result = client.query("update #{old_db}.groups set created_at = '#{default_date}' where created_at is NULL")
+  result = client.query("update #{old_db}.groups set updated_at = '#{default_date}' where updated_at is NULL")
+
   result = client.query("insert into #{new_db}.groups (id, name, created_at, updated_at) " +
                             "select id, name, created_at, updated_at from #{old_db}.groups;")
 

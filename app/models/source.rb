@@ -174,7 +174,7 @@ class Source < ActiveRecord::Base
   def create_retrievals
     # Create an empty retrieval record for every article for the new source
     conn = RetrievalStatus.connection
-    sql = "insert into retrieval_statuses (article_id, source_id, created_at) select id, #{id}, now() from articles"
+    sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from articles"
     conn.execute sql
   end
 end
