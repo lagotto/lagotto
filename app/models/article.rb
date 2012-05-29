@@ -135,8 +135,7 @@ class Article < ActiveRecord::Base
 
   private
   def create_retrievals
-    # Create an empty retrieval record for each active source to avoid a
-    # problem with joined tables breaking the UI on the front end
+    # Create an empty retrieval record for every source for the new article
     Source.all.each do |source|
       RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id)
     end
