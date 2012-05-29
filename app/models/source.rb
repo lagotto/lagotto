@@ -13,6 +13,8 @@ class Source < ActiveRecord::Base
 
   serialize :config, OpenStruct
 
+  after_create :create_retrievals
+
   validates_presence_of :display_name
   validates_numericality_of :timeout, :only_integer => true, :greater_than => 0
   validates_numericality_of :workers, :only_integer => true, :greater_than => 0, :less_than => 10
@@ -166,5 +168,13 @@ class Source < ActiveRecord::Base
       job_batch_size = DEFAULT_JOB_BATCH_SIZE
     end
     job_batch_size
+  end
+
+  private
+  def create_retrievals
+    # Create an empty retrieval record for every article for the new source
+    conn = RetrievalStatus.connection
+    sql = "insert into retrieval_statuses (article_id, source_id, created_at) select id, #{id}, now() from articles"
+    conn.execute sql
   end
 end
