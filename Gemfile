@@ -13,3 +13,4 @@ gem 'jquery-rails', '2.0.2'
 gem 'will_paginate', '3.0.3'
 gem 'devise', '2.0.4'
 gem 'uglifier', '1.2.4'
+gem 'therubyracer', '0.10.1', :require => "v8"
