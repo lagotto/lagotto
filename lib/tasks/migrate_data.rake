@@ -158,6 +158,27 @@ task :migrate_data, [:old_db] => :environment do |t, args|
                             "select id, article_id, source_id, retrieved_at, local_id, created_at, updated_at from #{old_db}.retrievals " +
                             "where source_id in (select id from #{old_db}.sources where type in ('Counter', 'Biod', 'Pmc', 'Facebook', 'Mendeley'))")
 
+  # insert missing retrieval status rows
+  puts "inserting missing retrieval status rows"
+  total_articles = 0
+  results = client.query("select count(id) as total from #{old_db}.articles")
+  results.each { |row| total_articles = row['total'] }
+
+  results = client.query("select source_id, count(id) as total from #{old_db}.retrievals group by source_id")
+
+  results.each do |row|
+    source_id = row['source_id']
+    num_of_articles = row['total']
+
+    if num_of_articles != total_articles
+      source = Source.find(source_id)
+      created_at = source.created_at.strftime('%Y-%m-%d %H:%M:%S')
+      client.query("insert into #{new_db}.retrieval_statuses (article_id, source_id, created_at, updated_at) " +
+                       "select a.id, #{source_id}, '#{created_at}', '#{created_at}' from #{old_db}.articles a where not exists " +
+                       "(select * from #{old_db}.retrievals r where r.article_id = a.id and r.source_id = #{source_id})")
+    end
+  end
+
   # migrate groups
   puts "inserting groups"
   result = client.query("insert into #{new_db}.groups (id, name, created_at, updated_at) " +
