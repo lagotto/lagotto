@@ -42,6 +42,10 @@ class ArticlesController < ApplicationController
 
     if params[:refresh] == "1"
       @article.update_data_from_sources
+      # Wait 5 seconds so that you can see the refreshed article
+      # TODO add progress bar
+      # TODO refresh should be POST and not GET
+      sleep 5
       redirect_to(@article) and return
     end
 
