@@ -35,6 +35,12 @@
       <%= f.check_box :private %>
       <%= f.label :private %>
     </p>
+	
+    <p>
+      <%= f.check_box :refreshable %>
+      <%= f.label :refreshable, "User can Refresh" %>
+    </p>
+	
 
     <p>
       <%= f.label :wait_time, "Time interval to wait before checking to see if more jobs can be added to the job queue.  (seconds)" %><br />
