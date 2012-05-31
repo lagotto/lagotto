@@ -94,7 +94,7 @@ class Article < ActiveRecord::Base
     # counter data can only be queried at very specific time frame only so it will be excluded
     # nature has api limit so it will get updated if it can be updated.
 
-    sources = Source.data_retrievable_sources
+    sources = Source.refreshable_sources
     sources.each do |source|
       rs = RetrievalStatus.where(:article_id => id, :source_id => source.id).first
       if not rs.nil?
