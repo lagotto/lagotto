@@ -51,9 +51,9 @@ class Source < ActiveRecord::Base
           where('sources.id = ?
                and articles.published_on < ?
                and queued_at is NULL',
-                id, Time.zone.today).select("retrieval_statuses.id")
+                id, Time.zone.today).pluck("retrieval_statuses.id")
 
-      retrieval_statuses.find_in_batches(:batch_size => job_batch_size) do | rs_ids |
+      retrieval_statuses.each_slice(job_batch_size) do | rs_ids |
         Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
       end
 
@@ -122,18 +122,18 @@ class Source < ActiveRecord::Base
                and articles.published_on < ?
                and queued_at is NULL
                and retrieved_at < TIMESTAMPADD(SECOND, - ?, UTC_TIMESTAMP())',
-              id, Time.zone.today, source_config['staleness'].seconds.to_i).select("retrieval_statuses.id")
+              id, Time.zone.today, source_config['staleness'].seconds.to_i).pluck("retrieval_statuses.id")
 
     Rails.logger.debug "#{name} total article queued #{retrieval_statuses.length}"
 
-    retrieval_statuses.find_in_batches(:batch_size => job_batch_size) do | rs_ids |
+    retrieval_statuses.each_slice(job_batch_size) do | rs_ids |
       Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
     end
 
   end
 
   def queue_article_job(retrieval_status, priority=Delayed::Worker.default_priority)
-    Delayed::Job.enqueue SourceJob.new([retrieval_status], id), :queue => name, :priority => priority
+    Delayed::Job.enqueue SourceJob.new([retrieval_status.id], id), :queue => name, :priority => priority
   end
 
   def get_config_fields

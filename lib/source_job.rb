@@ -8,7 +8,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     Rails.logger.debug "enqueue #{rs_ids.inspect}"
 
     # keep track of when the article was queued up
-    RetrievalStatus.update_all(["queued_at = ?", Time.now.utc], ["id in (?)", rs_ids.map(&:id)] )
+    RetrievalStatus.update_all(["queued_at = ?", Time.now.utc], ["id in (?)", rs_ids] )
   end
 
   def perform
@@ -124,7 +124,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     Rails.logger.debug "job completed"
 
     #reset the queued at value
-    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids.map(&:id)] )
+    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
   end
 
 end
