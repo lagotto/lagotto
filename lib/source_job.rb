@@ -60,7 +60,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       end
 
       retrieved_at = Time.now.utc
-      if !events.nil? && events.length > 0
+      # CHANGED json sources with no events were not picked up as SUCCESS WITH NO DATA with the old code
+      if event_count > 0
         data = {}
         data[:doi] = article.doi
         data[:retrieved_at] = retrieved_at
@@ -104,11 +105,32 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
       rs.save
       rh.save
-    rescue
+    rescue Timeout::Error
+      # CHANGED handle timeout errors separately. 
+      rh.retrieved_at = Time.now.utc
+      rh.status = RetrievalHistory::ERROR_TIMEOUT_MSG
+      rh.save
+      
+      source.disable_until = Time.now.utc + source.disable_delay.seconds
+      source.save
+    rescue Source::ResponseError => e
+      # CHANGED handle response errors separately. 
+      rh.retrieved_at = Time.now.utc
+      rh.status = RetrievalHistory::ERROR_RESPONSE_MSG
+      rh.request = e.request
+      rh.response = e.response
+      rh.save
+      
+      source.disable_until = Time.now.utc + source.disable_delay.seconds
+      source.save
+    rescue Exception => e
+      # CHANGED Add error_msg to database. Add backtrace only if not in production
       rh.retrieved_at = Time.now.utc
       rh.status = RetrievalHistory::ERROR_MSG
+      rh.msg = e.inspect[2..-2] 
+      rh.backtrace = e.backtrace.join("\n") unless Rails.env.production?
       rh.save
-
+      
       # disable the source if there is an error
       source.disable_until = Time.now.utc + source.disable_delay.seconds
       source.save
