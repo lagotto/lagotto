@@ -36,8 +36,6 @@ execute "create CouchDB database #{node[:couchdb][:db_name]}" do
   ignore_failure true
 end
 
-
-
 # Generate new keys unless they have already been stored in settings.yml
 if File.exists? "/vagrant/config/settings.yml"
   settings = YAML.load_file("/vagrant/config/settings.yml")["defaults"]
@@ -92,7 +90,7 @@ bash "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}" do
 end
 
 # Install Apache and Passenger
-require_recipe "passenger_apache2::mod_rails"
+require_recipe "passenger_apache2"
 
 execute "disable-default-site" do
   command "sudo a2dissite default"
