@@ -24,7 +24,7 @@ Vagrant::Config.run do |config|
   # via the IP. Host-only networks can talk to the host machine as well as
   # any other machines on the same network, but cannot be accessed (through this
   # network interface) by any external networks.
-
+  config.vm.network :hostonly, "33.33.33.44"
 
   # Assign this VM to a bridged network, allowing you to connect directly to a
   # network using the host's network device. This makes the VM appear as another
@@ -60,7 +60,7 @@ Vagrant::Config.run do |config|
     chef.json.merge!({ 
       :app => { :layout => "greenrobo", :seed_additional_sources => true, :seed_sample_articles => true, 
                 :mendeley => { :api_key => "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5"},
-                :facebook => { :api_key => "318375554854773"},
+                :facebook => { :api_key => "318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q"},
                 :crossref=> { :username => "plos", :password => "plos1"},
                 :nature => { :api_key => "7jug74j8rh49n8rbn8atwyec"}},
       :rvm => { :global_gems => [{ 'name' => 'bundler', 'version' => '1.1.4' }, 
@@ -68,9 +68,9 @@ Vagrant::Config.run do |config|
                                  { 'name' => 'chef',  'version' => '0.10.10' }]},
       :rails => { :environment => "development" },
       :passenger => { :version => "3.0.12" },
-      :admin => { :email => "admin@example.org" },
+      :admin => { :email => "alm@plos.org" },
       :mysql => { :bind_address => "0.0.0.0", :tunable => { :innodb_buffer_pool_size => "512M" } },
-      :couchdb => { :src_version => "1.1.0", :bind_address => "0.0.0.0", :db_name => "alm" }
+      :couchdb => { :bind_address => "0.0.0.0", :db_name => "alm" }
     })
     
   end
