@@ -24,6 +24,14 @@ pubmed = PubMed.find_or_create_by_name(
   :workers => 1,
   :group_id => citations.id,
   :url => "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}")
+  
+wikipedia = Wikipedia.find_or_create_by_name(  
+  :name => "wikipedia", 
+  :display_name => "Wikipedia", 
+  :active => true, 
+  :workers => 3,
+  :group_id => citations.id,
+  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&sroffset=%{offset}&srlimit=%{limit}&maxlag=%{maxlag}")
 
 <% if node[:app][:seed_additional_sources] %>
   # The following sources require passwords/API keys
@@ -65,23 +73,15 @@ pubmed = PubMed.find_or_create_by_name(
     :group_id => blog_entries.id,
     :url => "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}",
     :api_key => "<%= node[:app][:nature][:api_key] %>")
-	
-  wikipedia = Wikipedia.find_or_create_by_name(  
-    :name => "wikipedia", 
-    :display_name => "Wikipedia", 
-    :active => true, 
-    :workers => 1,
-    :group_id => citations.id,
-    :url => "http://en.wikipedia.org/w/api.php?srprop=timestamp&srlimit=50&srsearch=%{doi}&action=query&format=json&list=search&sroffset=%{offset}&srwhat=text&indexpageids")
   
 <% end %>
 
 <% if node[:app][:seed_sample_articles] %>
   # Load sample articles
   Article.find_or_create_by_doi(
-    :doi => "10.1371/journal.ppat.1002522",
-    :title => "Biochemical Properties of Highly Neuroinvasive Prion Strains",
-    :published_on => "2012-02-02")
+    :doi => "10.1371/journal.pone.0008776",
+    :title => "The \"Island Rule\" and Deep-Sea Gastropods: Re-Examining the Evidence",
+    :published_on => "2010-01-19")
   
   Article.find_or_create_by_doi(
     :doi => "10.1371/journal.pcbi.1000204",
@@ -127,4 +127,60 @@ pubmed = PubMed.find_or_create_by_name(
       :doi => "10.1371/journal.pone.0000000",
       :title => "PLoS Journals Sandbox: A Place to Learn and Play",
       :published_on => "2006-12-20")
+	  
+	  Article.find_or_create_by_doi(
+	    :doi => "10.1371/journal.pmed.0020146",
+	    :title => "How Prevalent Is Schizophrenia?",
+	    :published_on => "2005-05-31")
+		
+	  Article.find_or_create_by_doi(
+	    :doi => "10.1371/journal.pbio.0030137",
+	    :title => "Perception Space-The Final Frontier",
+	    :published_on => "2005-04-12")
+      
+	  Article.find_or_create_by_doi(
+	    :doi => "10.1371/journal.pcbi.1002445",
+	    :title => "Circular Permutation in Proteins",
+	    :published_on => "2012-03-29")
+      
+	  Article.find_or_create_by_doi(
+	    :doi => "10.1371/journal.pone.0036790",
+	    :title => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
+	    :published_on => "2012-05-15")
+      
+	  Article.find_or_create_by_doi(
+	    :doi => "10.1371/journal.pbio.0060188",
+	    :title => "Going, Going, Gone: Is Animal Migration Disappearing",
+	    :published_on => "2008-07-29")
+        
+	  Article.find_or_create_by_doi(
+	    :doi => "10.1371/journal.pone.0020381",
+	    :title => "Dinosaur Peptides Suggest Mechanisms of Protein Survival",
+	    :published_on => "2011-06-08")
+        
+	  Article.find_or_create_by_doi(
+	    :doi => "10.1371/journal.pone.0001636",
+	    :title => "Measuring the Meltdown: Drivers of Global Amphibian Extinction and Decline",
+	    :published_on => "2008-02-20")
+      
+	  Article.find_or_create_by_doi(
+	    :doi => "10.1371/journal.pone.0006872",
+	    :title => "Persistent Exposure to Mycoplasma Induces Malignant Transformation of Human Prostate Cells",
+	    :published_on => "2009-09-01")
+      
+	  Article.find_or_create_by_doi(
+	    :doi => "10.1371/journal.pcbi.0020131",
+	    :title => "Sampling Realistic Protein Conformations Using Local Structural Bias",
+	    :published_on => "2006-09-22")
+      
+    Article.find_or_create_by_doi(
+      :doi => "10.1371/journal.pbio.0040015",
+      :title => "Thriving Community of Pathogenic Plant Viruses Found in the Human Gut",
+      :published_on => "2005-12-20")
+      
+    Article.find_or_create_by_doi(
+      :doi => "10.1371/journal.pbio.0020413",
+      :title => "Taking Stock of Biodiversity to Stem Its Rapid Decline",
+      :published_on => "2004-10-26")
+
 <% end %>
