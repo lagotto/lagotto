@@ -4,6 +4,9 @@ require 'ostruct'
 
 class Source < ActiveRecord::Base
   include SourceHelper
+  
+  # Define new error type for responses
+  class ResponseError < StandardError; end
 
   DEFAULT_JOB_BATCH_SIZE = 50
   MAX_JOB_BATCH_SIZE = 1000
