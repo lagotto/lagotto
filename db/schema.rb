@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120426201516) do
+ActiveRecord::Schema.define(:version => 20120601063450) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(:version => 20120426201516) do
     t.date     "published_on"
     t.string   "pub_med"
     t.string   "pub_med_central"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
@@ -35,16 +35,16 @@ ActiveRecord::Schema.define(:version => 20120426201516) do
     t.datetime "failed_at"
     t.string   "locked_by"
     t.string   "queue"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "groups", :force => true do |t|
     t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "retrieval_histories", :force => true do |t|
@@ -55,8 +55,11 @@ ActiveRecord::Schema.define(:version => 20120426201516) do
     t.string   "status"
     t.string   "msg"
     t.integer  "event_count",         :default => 0
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "request"
+    t.text     "response"
+    t.text     "backtrace"
   end
 
   add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
@@ -69,8 +72,8 @@ ActiveRecord::Schema.define(:version => 20120426201516) do
     t.string   "local_id"
     t.integer  "event_count",  :default => 0
     t.string   "data_rev"
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
@@ -88,8 +91,9 @@ ActiveRecord::Schema.define(:version => 20120426201516) do
     t.integer  "group_id"
     t.boolean  "private",       :default => false
     t.integer  "wait_time",     :default => 300,   :null => false
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "refreshable",   :default => true
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
@@ -107,8 +111,8 @@ ActiveRecord::Schema.define(:version => 20120426201516) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "password_salt"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "username"
   end
 
@@ -118,8 +122,8 @@ ActiveRecord::Schema.define(:version => 20120426201516) do
   create_table "workers", :force => true do |t|
     t.integer  "identifier", :null => false
     t.string   "queue",      :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
