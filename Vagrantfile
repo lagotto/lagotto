@@ -30,14 +30,10 @@ Vagrant::Config.run do |config|
   # network using the host's network device. This makes the VM appear as another
   # physical device on your network.
   # config.vm.network :bridged
-  
-  # Workaround for Vagrant bug
-  config.ssh.max_tries = 150
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
   config.vm.forward_port 80, 8080
-  config.vm.forward_port 3000, 3000
   config.vm.forward_port 5984, 5984
 
   # Share an additional folder to the guest VM. The first argument is
@@ -63,12 +59,13 @@ Vagrant::Config.run do |config|
                 :facebook => { :api_key => "318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q"},
                 :crossref=> { :username => "plos", :password => "plos1"},
                 :nature => { :api_key => "7jug74j8rh49n8rbn8atwyec"}},
-      :rvm => { :global_gems => [{ 'name' => 'bundler', 'version' => '1.1.4' }, 
+      :rvm => { :default_ruby => "ruby-1.9.3-p194",
+                :global_gems => [{ 'name' => 'bundler', 'version' => '1.1.4' }, 
                                  { 'name' => 'rake', 'version' => '0.9.2.2'},
                                  { 'name' => 'chef',  'version' => '0.10.10' }]},
       :rails => { :environment => "development" },
       :passenger => { :version => "3.0.12" },
-      :admin => { :email => "alm@plos.org" },
+      :admin => { :username => "plosalm", :email => "alm@plos.org", :password => "plosalm" },
       :mysql => { :bind_address => "0.0.0.0", :tunable => { :innodb_buffer_pool_size => "512M" } },
       :couchdb => { :bind_address => "0.0.0.0", :db_name => "alm" }
     })
