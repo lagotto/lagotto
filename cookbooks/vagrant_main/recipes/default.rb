@@ -6,6 +6,10 @@ require_recipe "git"
 require_recipe "rvm::system"
 require_recipe "rvm::vagrant"
 
+# Install Apache and Passenger
+require_recipe "apache2"
+require_recipe "passenger_apache2::mod_rails"
+
 require 'securerandom'
 require 'yaml'
 
@@ -83,15 +87,6 @@ bash "rake db:setup RAILS_ENV=#{node[:rails][:environment]}" do
   code "rake db:setup RAILS_ENV=#{node[:rails][:environment]}"
 end
 
-# Start workers
-bash "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}" do
-  cwd "/vagrant"
-  code "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}"
-end
-
-# Install Apache and Passenger
-require_recipe "passenger_apache2"
-
 execute "disable-default-site" do
   command "sudo a2dissite default"
   notifies :reload, resources(:service => "apache2"), :delayed
@@ -100,5 +95,13 @@ end
 web_app "alm" do
   docroot "/vagrant/public"
   template "alm.conf.erb"
-  notifies :reload, resources(:service => "apache2"), :delayed
+  server_name "alm.local"
+  server_aliases [ "alm", node[:hostname] ]
+  rails_env node[:rails][:environment]
+end
+
+# Start delayed_job workers
+bash "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}" do
+  cwd "/vagrant"
+  code "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}"
 end
