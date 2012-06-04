@@ -117,8 +117,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       # CHANGED handle response errors separately. 
       rh.retrieved_at = Time.now.utc
       rh.status = RetrievalHistory::ERROR_RESPONSE_MSG
-      rh.request = e.request
-      rh.response = e.response
+      rh.msg = e.message
+      rh.request = e.backtrace.first
+      rh.response = e.backtrace.last
       rh.save
       
       source.disable_until = Time.now.utc + source.disable_delay.seconds
