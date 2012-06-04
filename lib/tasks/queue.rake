@@ -164,7 +164,7 @@ namespace :queue do
     n = ENV['n'].to_i || 1
     (1..n).each do
       source.queue_article_job(rs)
-      sleep 5 if n > 1
+      sleep (source.disable_delay + 5) if n > 1
     end
 
     puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
