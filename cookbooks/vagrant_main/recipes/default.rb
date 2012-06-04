@@ -33,9 +33,10 @@ end
 
 require_recipe "mysql::server"
 
-# Install CouchDB and create default CouchDB database
+# Install CouchDB and create default CouchDB database. Drop default database first if it exists
 require_recipe "couchdb"
 execute "create CouchDB database #{node[:couchdb][:db_name]}" do
+  command "curl -X DELETE http://127.0.0.1:5984/#{node[:couchdb][:db_name]}/"
   command "curl -X PUT http://127.0.0.1:5984/#{node[:couchdb][:db_name]}/"
   ignore_failure true
 end
