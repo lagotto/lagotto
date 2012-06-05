@@ -40,8 +40,25 @@ class ScopusRest < Source
   end
   
   def get_config_fields
-    [{:field_name => "api_key", :field_type => "text_field"},
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
+    {:field_name => "api_key", :field_type => "text_field"},
     {:field_name => "partner_id", :field_type => "text_field"}]
+  end
+  
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
+  end
+  
+  def api_key
+    config.api_key
+  end
+
+  def api_key=(value)
+    config.api_key = value
   end
 
   def partner_id
