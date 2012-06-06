@@ -3,9 +3,9 @@
     ErrorLog /vagrant/log/apache_error.log
     CustomLog /vagrant/log/apache_access.log combined
     DocumentRoot <%= @params[:docroot] %>
-	  <IfModule mod_passenger.c>
+	<IfModule mod_passenger.c>
       RailsEnv <%= node[:rails][:environment] %>
-	  </IfModule>
+	</IfModule>
 	ServerAdmin <%= node[:admin][:email] %>
 
     <Directory />

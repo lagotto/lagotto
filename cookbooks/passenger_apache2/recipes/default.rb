@@ -50,6 +50,6 @@ gem_package "passenger" do
 end
 
 execute "passenger_module" do
-  command 'rvmsudo passenger-install-apache2-module --auto'
+  command 'passenger-install-apache2-module --auto'
   creates node[:passenger][:module_path]
 end
