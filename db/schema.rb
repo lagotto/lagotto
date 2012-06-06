@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120426201516) do
+ActiveRecord::Schema.define(:version => 20120528091236) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(:version => 20120426201516) do
     t.integer  "wait_time",     :default => 300,   :null => false
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
+    t.boolean  "refreshable",   :default => true
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
