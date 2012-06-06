@@ -25,6 +25,58 @@ pubmed = PubMed.find_or_create_by_name(
   :group_id => citations.id,
   :url => "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}")
 
+<% if node[:app][:seed_additional_sources] %>
+  # The following sources require passwords/API keys
+  mendeley = Mendeley.find_or_create_by_name(  
+    :name => "mendeley", 
+    :display_name => "Mendeley", 
+    :active => true, 
+    :workers => 1,
+    :group_id => social_bookmarks.id,
+    :url => "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}",
+    :url_with_type => "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}",
+    :related_articles_url => "http://api.mendeley.com/oapi/documents/related/%{id}",
+    :api_key => "<%= node[:app][:mendeley][:api_key] %>")
+  
+  crossref = CrossRef.find_or_create_by_name(  
+    :name => "crossref", 
+    :display_name => "CrossRef", 
+    :active => true, 
+    :workers => 1,
+    :group_id => citations.id,
+    :url => "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}",
+    :username => "<%= node[:app][:crossref][:username] %>",
+    :password => "<%= node[:app][:crossref][:password] %>")
+  
+  facebook = Facebook.find_or_create_by_name(  
+    :name => "facebook", 
+    :display_name => "Facebook", 
+    :active => true, 
+    :workers => 1,
+    :group_id => social_bookmarks.id,
+    :api_key => "<%= node[:app][:facebook][:api_key] %>")
+  
+  nature = Nature.find_or_create_by_name(  
+    :name => "nature", 
+    :display_name => "Nature Blogs", 
+    :active => true, 
+    :refreshable => false,
+    :workers => 1,
+    :group_id => blog_entries.id,
+    :url => "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}",
+    :api_key => "<%= node[:app][:nature][:api_key] %>")
+	
+  wikipedia = Wikipedia.find_or_create_by_name(  
+    :name => "wikipedia", 
+    :display_name => "Wikipedia", 
+    :active => true, 
+    :workers => 1,
+    :group_id => citations.id,
+    :url => "http://en.wikipedia.org/w/api.php?srprop=timestamp&srlimit=50&srsearch=%{doi}&action=query&format=json&list=search&sroffset=%{offset}&srwhat=text&indexpageids")
+  
+<% end %>
+
+<% if node[:app][:seed_sample_articles] %>
   # Load sample articles
   Article.find_or_create_by_doi(
     :doi => "10.1371/journal.ppat.1002522",
@@ -75,3 +127,4 @@ pubmed = PubMed.find_or_create_by_name(
       :doi => "10.1371/journal.pone.0000000",
       :title => "PLoS Journals Sandbox: A Place to Learn and Play",
       :published_on => "2006-12-20")
+<% end %>
