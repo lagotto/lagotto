@@ -1,3 +1,11 @@
+require_recipe "apt"
+require_recipe "build-essential"
+require_recipe "git"
+
+# Install rvm and Ruby 1.9.3. Add Chef Solo path
+require_recipe "rvm::system"
+require_recipe "rvm::vagrant"
+
 require 'securerandom'
 require 'yaml'
 
@@ -21,13 +29,14 @@ end
 
 require_recipe "mysql::server"
 
-# Install CouchDB and create default CouchDB database. Drop default database first if it exists
+# Install CouchDB and create default CouchDB database
 require_recipe "couchdb"
 execute "create CouchDB database #{node[:couchdb][:db_name]}" do
-  command "curl -X DELETE http://127.0.0.1:5984/#{node[:couchdb][:db_name]}/"
   command "curl -X PUT http://127.0.0.1:5984/#{node[:couchdb][:db_name]}/"
   ignore_failure true
 end
+
+
 
 # Generate new keys unless they have already been stored in settings.yml
 if File.exists? "/vagrant/config/settings.yml"
@@ -76,6 +85,15 @@ bash "rake db:setup RAILS_ENV=#{node[:rails][:environment]}" do
   code "rake db:setup RAILS_ENV=#{node[:rails][:environment]}"
 end
 
+# Start workers
+bash "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}" do
+  cwd "/vagrant"
+  code "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}"
+end
+
+# Install Apache and Passenger
+require_recipe "passenger_apache2::mod_rails"
+
 execute "disable-default-site" do
   command "sudo a2dissite default"
   notifies :reload, resources(:service => "apache2"), :delayed
@@ -84,13 +102,5 @@ end
 web_app "alm" do
   docroot "/vagrant/public"
   template "alm.conf.erb"
-  server_name "alm.local"
-  server_aliases [ "alm", node[:hostname] ]
-  rails_env node[:rails][:environment]
-end
-
-# Start delayed_job workers
-bash "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}" do
-  cwd "/vagrant"
-  code "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}"
+  notifies :reload, resources(:service => "apache2"), :delayed
 end

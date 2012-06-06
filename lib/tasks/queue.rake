@@ -123,17 +123,6 @@ namespace :queue do
     end
 
   end
-  
-  task :wikipedia => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("wikipedia")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
 
   task :single_job, [:doi, :source] => :environment do |t, args|
     if args.doi.nil?
@@ -159,13 +148,7 @@ namespace :queue do
     end
 
     rs = RetrievalStatus.find_by_article_id_and_source_id(article.id, source.id)
-    
-    # optionally repeat rake task n times to check for intermittend problems
-    n = ENV['n'].to_i || 1
-    (1..n).each do
-      source.queue_article_job(rs)
-      sleep (source.disable_delay + 5) if n > 1
-    end
+    source.queue_article_job(rs)
 
     puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
   end
