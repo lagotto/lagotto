@@ -5,9 +5,6 @@ require 'ostruct'
 class Source < ActiveRecord::Base
   include SourceHelper
 
-  DEFAULT_JOB_BATCH_SIZE = 50
-  MAX_JOB_BATCH_SIZE = 1000
-
   has_many :retrieval_statuses, :dependent => :destroy
   belongs_to :group
 
@@ -25,7 +22,7 @@ class Source < ActiveRecord::Base
 
   # CHANGED some sources cannot be refreshed and can only be queried at very specific time frames
   scope :refreshable_sources, lambda { where("refreshable = true") }
- 
+
   # some sources cannot be redistributed
   scope :public_sources, lambda { where("private = false") }
   scope :private_sources, lambda { where("private = true") }
@@ -82,6 +79,9 @@ class Source < ActiveRecord::Base
     if active
       queue_job = true
 
+      # check to see if there has been many failures on trying to get data from the source
+      check_for_failures
+
       # determine if the source is disabled or not
       unless self.disable_until.nil?
         queue_job = false
@@ -90,10 +90,6 @@ class Source < ActiveRecord::Base
           self.disable_until = nil
           save
           queue_job = true
-        elsif self.disable_until < (Time.now.utc + source_config['batch_time_interval'])
-          # the source will become not disabled before the next round (of job queueing)
-          # just sleep til the source will become not disabled and queue the jobs
-          source_config['batch_time_interval'] = Time.now.utc - self.disable_until
         end
       end
 
@@ -148,6 +144,22 @@ class Source < ActiveRecord::Base
     config.url % { :doi => CGI.escape(article.doi) }
   end
 
+  def check_for_failures
+    # condition for not adding more jobs and disabling the source
+
+    failed_queries = RetrievalHistory.where("source_id = :id and status = :status and updated_at > :updated_date",
+                                            {:id => id,
+                                             :status => RetrievalHistory::ERROR_MSG,
+                                             :updated_date => (Time.now.utc - max_failed_query_time_interval.seconds)}).count(:id)
+
+    if failed_queries > max_failed_queries
+      Rails.logger.error "#{display_name} has exceeded maximum failed queries.  Disabling the source."
+      # disable the source
+      self.disable_until = Time.now.utc + disable_delay.seconds
+      save
+    end
+  end
+
   private
 
   def parse_time_config(time_interval_config)
@@ -162,10 +174,12 @@ class Source < ActiveRecord::Base
   def get_job_batch_size
     source_config = YAML.load_file("#{Rails.root}/config/source_configs.yml")[Rails.env]
     job_batch_size = source_config['job_batch_size']
+    max_job_batch_size = source_config['max_job_batch_size']
+    default_job_batch_size = source_config['default_job_batch_size']
     if job_batch_size.nil?
-      job_batch_size = DEFAULT_JOB_BATCH_SIZE
-    elsif not (job_batch_size > 0 and job_batch_size < MAX_JOB_BATCH_SIZE)
-      job_batch_size = DEFAULT_JOB_BATCH_SIZE
+      job_batch_size = default_job_batch_size
+    elsif not (job_batch_size > 0 and job_batch_size < max_job_batch_size)
+      job_batch_size = default_job_batch_size
     end
     job_batch_size
   end
