@@ -69,10 +69,6 @@ class Nature < Source
           self.disable_until = nil
           save
           queue_job = true
-        elsif self.disable_until < (Time.now.utc + source_config['batch_time_interval'])
-          # the source will become not disabled before the next round (of job queueing)
-          # just sleep til the source will become not disabled and queue the jobs
-          source_config['batch_time_interval'] = Time.now.utc - self.disable_until
         end
       end
 

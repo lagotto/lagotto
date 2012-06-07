@@ -37,6 +37,7 @@ module SourceHelper
     begin
       response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
     rescue => e
+      Rails.logger.error "Failed to put #{service_url}#{id}.  Going to try to get the document to get the current _rev"
       Rails.logger.error "#{e.class.name}: #{e.message} #{e.backtrace.join("\n")}"
       if e.respond_to?('response')
         if e.response.kind_of?(Net::HTTPConflict)
