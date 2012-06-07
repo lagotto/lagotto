@@ -13,23 +13,36 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   def perform
 
-    # check to see if source is active and not disabled
-    # if disabled, exit
+    # check to see if source is active or not
     source = Source.find(source_id)
-    unless source.active && (source.disable_until.nil? || source.disable_until < Time.now.utc)
-      Rails.logger.info "#{source.name} not active or disabled"
+    unless source.active
+      Rails.logger.info "#{source.name} not active.  Exiting the job"
       return
     end
 
+    srand
+    #time to sleep between failures
+    sleep_time = 0
+
     # just in case a worker gets stuck
     Timeout.timeout(Delayed::Worker.max_run_time) do
-      rs_ids.each do | rs_id |
-        unless source.active && (source.disable_until.nil? || source.disable_until < Time.now.utc)
-          Rails.logger.info "#{source.name} not active or disabled"
-          return
-        end
+      # wait till the source isn't disabled
+      while not (source.disable_until.nil? || source.disable_until < Time.now.utc)
+        Rails.logger.info "#{source.name} is disabled.  Sleep for #{source.disable_delay} seconds."
+        sleep(source.disable_delay)
+      end
 
-        perform_get_data(rs_id, source)
+      rs_ids.each do | rs_id |
+        begin
+          perform_get_data(rs_id, source)
+        rescue => e
+          Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{source_id} failed to get data. \n#{e.message} \n#{e.backtrace.join("\n")}"
+          # each time we fail to get an answer from a source, wait longer
+          # and wait random amount of time
+          sleep_time += source.disable_delay + rand(source.disable_delay)
+          Rails.logger.info "Sleep for #{sleep_time} seconds"
+          sleep(sleep_time)
+        end
       end
     end
 
@@ -104,20 +117,20 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
       rs.save
       rh.save
-    rescue
+    rescue => e
+      Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{source_id} failed to get data. \n#{e.message} \n#{e.backtrace.join("\n")}"
+
       rh.retrieved_at = Time.now.utc
       rh.status = RetrievalHistory::ERROR_MSG
       rh.save
 
-      # disable the source if there is an error
-      source.disable_until = Time.now.utc + source.disable_delay.seconds
-      source.save
+      raise e
     end
 
   end
 
   def error(job, exception)
-    Rails.logger.error "job error #{exception.message} #{exception.backtrace.join("\n")}"
+    Rails.logger.error "job error #{exception.message} \n#{exception.backtrace.join("\n")}"
   end
 
   def after(job)

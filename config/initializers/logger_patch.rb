@@ -11,7 +11,7 @@ end
 class Formatter
 
   def call(severity, time, progname, msg)
-    "#{time.strftime('%F %T %z')} #{severity} #{msg} \n"
+    "#{time.strftime('%F %T %z')} pid:#{Process.pid} #{severity} #{msg} \n"
   end
 
 end
