@@ -1,6 +1,8 @@
 require 'doi'
 
 class GroupsController < ApplicationController
+  before_filter :authenticate_user!, :except => [ :index, :show, :group_article_summaries ]
+
   respond_to :html
 
   # GET /groups
