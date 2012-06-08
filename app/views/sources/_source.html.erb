@@ -40,11 +40,21 @@
       <%= f.check_box :refreshable %>
       <%= f.label :refreshable, "User can Refresh" %>
     </p>
-	
+
 
     <p>
       <%= f.label :wait_time, "Time interval to wait before checking to see if more jobs can be added to the job queue.  (seconds)" %><br />
       <%= f.text_field :wait_time, :size => 5 %>
+    </p>
+
+    <p>
+      <%= f.label :max_failed_queries, "Maximum number of failed queries allowed before being disabled" %><br />
+      <%= f.text_field :max_failed_queries, :size => 4 %>
+    </p>
+
+    <p>
+      <%= f.label :max_failed_query_time_interval, "Maximum number of failed queries allowed in a time interval. (seconds)" %><br/>
+      <%= f.text_field :max_failed_query_time_interval, :size => 7 %>
     </p>
 
     <% if Group.all.size > 0 %>
