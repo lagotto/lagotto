@@ -13,7 +13,7 @@
 
     <ul>
       <% @article.retrieval_statuses.each do |rs| %>
-          <% if rs.event_count > 0 %>
+          <% if not rs.data_rev.nil? %>
               <li>
                 <%
                    rs_data = rs.get_retrieval_data
