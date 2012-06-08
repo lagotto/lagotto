@@ -45,6 +45,16 @@
       (time interval to wait before checking to see if more jobs can be added to the job queue)
     </p>
 
+    <p>
+      <b>Maximum number of failed queries allowed before being disabled:</b>
+      <%=h @source.max_failed_queries %>
+    </p>
+
+    <p>
+      <b>Maximum number of failed queries allowed in a time interval:</b>
+      <%=h @source.max_failed_query_time_interval %> seconds
+    </p>
+
     <% if @source.group %>
         <p>
           <b>Group:</b>
