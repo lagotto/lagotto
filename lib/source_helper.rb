@@ -76,6 +76,14 @@ module SourceHelper
         uri_str
       when Net::HTTPRedirection then
         location = response['location']
+
+        # sometimes we can get a location that doesn't have the host information
+        uri = URI(location)
+        if uri.host.nil?
+          orig_uri = URI(uri_str)
+          location = "http://" + orig_uri.host + location
+        end
+
         get_original_url(location, limit - 1)
       else
         Rails.logger.info "Couldn't not follow the url all the way #{response.value}"
