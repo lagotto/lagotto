@@ -17,18 +17,18 @@ class Mendeley < Source
     end
 
     # try using doi
-    if result.length == 0
+    if (result.nil? || result.length == 0)
       # doi has to be double encoded.
       result = get_json_data(search_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
     end
 
     # querying by doi sometimes fails
     # try pub med id
-    if result.length == 0 && !article.pub_med.nil?
+    if (result.nil? || result.length == 0) && !article.pub_med.nil?
       result = get_json_data(search_url(article.pub_med, "pmid"), options)
     end
 
-    if result.length > 0
+    if !(result.nil? || result.length == 0)
 
       events_url = result['mendeley_url']
 
