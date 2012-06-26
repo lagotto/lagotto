@@ -8,13 +8,11 @@ Vagrant::Config.run do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "lucid32"
-  # config.vm.box = "precise64"
   # config.vm.box = "centos-57-x86_64box"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
   config.vm.box_url = "http://files.vagrantup.com/lucid32.box"
-  # config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   # config.vm.box_url = "http://dl.dropbox.com/u/8072848/centos-5.7-x86_64.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
@@ -53,8 +51,17 @@ Vagrant::Config.run do |config|
     # Turn on verbose Chef logging if necessary
     chef.log_level = :info
     
-    # Load main recipe that installs everything
-    chef.add_recipe "vagrant_main"
+    # Update system
+    chef.add_recipe "apt"
+    chef.add_recipe "build-essential"
+    chef.add_recipe "git"
+
+    # Install rvm and Ruby 1.9.3. Add Chef Solo path
+    chef.add_recipe "rvm::system"
+    chef.add_recipe "rvm::vagrant"
+    
+    # Load recipe specific for this application
+    chef.add_recipe "alm"
     
     # Add application-specific attributes:
     chef.json.merge!({ 
@@ -62,10 +69,12 @@ Vagrant::Config.run do |config|
                 :mendeley => { :api_key => "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5"},
                 :facebook => { :api_key => "318375554854773"},
                 :crossref=> { :username => "plos", :password => "plos1"},
-                :nature => { :api_key => "7jug74j8rh49n8rbn8atwyec"}},
+                :nature => { :api_key => "7jug74j8rh49n8rbn8atwyec"},
+                :scopus => { :partner_id => "OIVxnoIl"}},
       :rvm => { :global_gems => [{ 'name' => 'bundler', 'version' => '1.1.4' }, 
                                  { 'name' => 'rake', 'version' => '0.9.2.2'},
-                                 { 'name' => 'chef',  'version' => '0.10.10' }]},
+                                 { 'name' => 'chef', 'version' => '0.10.10' },
+                                 { 'name' => 'passenger', 'version' => '3.0.12'}]},
       :rails => { :environment => "development" },
       :passenger => { :version => "3.0.12" },
       :admin => { :email => "admin@example.org" },
@@ -74,5 +83,4 @@ Vagrant::Config.run do |config|
     })
     
   end
-
 end
