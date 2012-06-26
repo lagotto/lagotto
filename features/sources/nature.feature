@@ -5,7 +5,7 @@ Feature: Add Nature Blogs content
 
   Background:
     Given I am logged in
-    And there is an article
+    And an article exists
   
   @wip
   Scenario: User fails to refresh article
