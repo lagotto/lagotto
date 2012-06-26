@@ -23,8 +23,8 @@ def delete_article
 end
 
 ### GIVEN ###
-Given /^there is an article$/ do
-  create_article
+Given /^an article exists$/ do
+  pending # express the regexp above with the code you wish you had
 end
 
 Given /^an article does not exist$/ do
