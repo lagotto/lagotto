@@ -133,6 +133,8 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def to_xml(options = {})
+    data = get_retrieval_data
+
     options[:indent] ||= 2
     xml = options[:builder] ||= ::Builder::XmlMarkup.new(:indent => options[:indent])
     xml.instruct! unless options[:skip_instruct]
@@ -141,13 +143,13 @@ class RetrievalStatus < ActiveRecord::Base
         :updated_at => (retrieved_at.nil? ? nil: retrieved_at.to_time),
         :count => event_count
     }
+    attributes[:public_url] = data["events_url"] if not data.nil? and not data["events_url"].nil?
 
     xml.tag!("source", attributes) do
       nested_options = options.merge!(:dasherize => false,
                                       :skip_instruct => true)
 
       if options[:events] == "1" and event_count > 0
-        data = get_retrieval_data
         if not data.nil?
           if data["events"].is_a?(Array)
             xml.tag!("events") do
