@@ -79,18 +79,18 @@ class Wos < Source
         cite_count = node.content
       end
 
-      url = nil
+      events_url = nil
       # there should be only one node found
       # get the citing articles url information
       nodes = document.find('//xrpc:map[@name=\'WOS\']/xrpc:val[@name=\'citingArticlesURL\']', 'xrpc:http://www.isinet.com/xrpc41')
       nodes.each do | node |
-        url = node.content
+        events_url = node.content
       end
 
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
       {:events => cite_count,
-       :events_url => url,
+       :events_url => events_url,
        :event_count => cite_count,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
