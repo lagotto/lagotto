@@ -51,16 +51,15 @@ class PubMed < Source
               :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + pmc
           }
 
-          url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
-
           events << event
         end
       end
 
+      events_url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
       {:events => events,
-       :events_url => url,
+       :events_url => events_url,
        :event_count => events.length,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
