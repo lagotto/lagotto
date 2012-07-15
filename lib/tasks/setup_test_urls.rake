@@ -143,7 +143,7 @@ task :undo_test_urls => :environment do
   source.save
 
   source = Source.find_by_name('researchblogging')
-  source.config.url = "http://#{test_source_url}/blogposts?count=100&article=doi:%{doi}"
+  source.config.url = "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
   source.save
 
   source = Source.find_by_name("scopus")
