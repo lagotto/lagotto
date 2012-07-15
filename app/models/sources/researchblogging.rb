@@ -46,7 +46,7 @@ class Researchblogging < Source
 
       {:events => events,
        :events_url => "http://researchblogging.org/post-search/list?article=#{CGI.escape(article.doi)}",
-       :event_count => total_count.value,
+       :event_count => total_count.value.to_i,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
 

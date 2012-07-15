@@ -29,7 +29,7 @@ class Pmc < Source
     query_url = get_query_url(article)
 
     events = nil
-    event_count = nil
+    event_count = 0
     results = []
 
     begin
