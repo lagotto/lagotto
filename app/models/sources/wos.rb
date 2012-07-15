@@ -91,7 +91,7 @@ class Wos < Source
 
       {:events => cite_count,
        :events_url => events_url,
-       :event_count => cite_count,
+       :event_count => cite_count.to_i,
        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
       }
 

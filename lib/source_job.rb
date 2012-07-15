@@ -81,6 +81,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     Rails.logger.debug "#{source.name} #{article.doi} perform"
 
     begin
+      event_count = 0
+
       data_from_source = source.get_data(article, {:retrieval_status => rs, :timeout => source.timeout })
       if data_from_source.class == Hash
         events = data_from_source[:events]
@@ -91,13 +93,14 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       end
 
       retrieved_at = Time.now.utc
-      if !events.nil? && events.length > 0
+      if event_count > 0
         data = {}
         data[:doi] = article.doi
         data[:retrieved_at] = retrieved_at
         data[:source] = source.name
         data[:events] = events
         data[:events_url] = events_url
+        data[:doc_type] = "current"
 
         if !attachment.nil?
 
@@ -117,6 +120,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
         #TODO change this to a copy
         data.delete(:_attachments)
+        data[:doc_type] = "history"
         # save the data to couchdb as retrieval history data
         save_alm_data(nil, data, rh.id)
 
@@ -126,8 +130,12 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         rh.event_count = event_count
 
       else
+        rs.event_count = 0
+        rs.data_rev = nil
+
         # if we don't get any data, set retrieval history status to success with no data
         rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
+        rh.event_count = 0
       end
 
       rs.retrieved_at = retrieved_at

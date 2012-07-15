@@ -64,14 +64,16 @@ class Scopus < Source
     return unless result.status.statusCode == "OK"
 
     countList = result.getCitedByCountRspPayload.citedByCountList
-    return if countList.nil? # we get no entry if this DOI wasn't found.
-    countList[0].linkData[0].citedByCount.to_i
 
-    event_url = get_event_url(article.doi)
+    if not (countList.nil?)
+      event_url = get_event_url(article.doi)
 
-    {:events => countList[0].linkData[0].citedByCount,
-     :events_url => event_url,
-     :event_count => countList[0].linkData[0].citedByCount}
+      {:events => countList[0].linkData[0].citedByCount,
+       :events_url => event_url,
+       :event_count => countList[0].linkData[0].citedByCount.to_i
+      }
+    end
+
   end
 
   def get_event_url(doi)
