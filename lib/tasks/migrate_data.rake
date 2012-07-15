@@ -321,6 +321,7 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
         else
           data[:events_url] = nil
         end
+        data[:doc_type] = "current"
 
         data_rev = save_alm_data(nil, data, "#{source.name}:#{CGI.escape(doi)}")
         retrieval_status = RetrievalStatus.find(current_retrieval_id)
@@ -443,6 +444,8 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
     else
       data[:events_url] = nil
     end
+    data[:doc_type] = "current"
+
     data_rev = save_alm_data(nil, data, "#{source.name}:#{CGI.escape(doi)}")
     retrieval_status = RetrievalStatus.find(current_retrieval_id)
     retrieval_status.data_rev = data_rev
@@ -525,6 +528,7 @@ task :migrate_retrieval_data_with_count, [:source_name, :old_db] => :environment
     data[:source] = source.name
     data[:events] = row["other_citations_count"].to_s
     data[:events_url] = events_url
+    data[:doc_type] = "current"
 
     data_rev = save_alm_data(nil, data, "#{source.name}:#{CGI.escape(row["doi"])}")
     retrieval_status = RetrievalStatus.find(row["id"])
