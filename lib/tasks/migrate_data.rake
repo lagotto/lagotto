@@ -160,8 +160,15 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   source.config = config
   source.save
 
+  puts "adding configuration info for twitter"
+  source = Source.find_by_name('twitter')
+  config = OpenStruct.new
+  config.url = "http://rwc-couch01.int.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key=%{doi}"
+  source.config = config
+  source.save
+
   # migrate retrievals
-  # citations_count => bloglines, citeulike, connotea, crossref, nature, postgenomic, pubmed, researchblogging,
+  # citations_count => bloglines, citeulike, connotea, crossref, nature, postgenomic, pubmed, researchblogging,twitter
   # other_citations_count => scopus, wos
   # incorrect count => counter, biod, pmc, facebook, mendeley (citations_count of 1, no need to migrate them)
 
@@ -171,7 +178,7 @@ task :migrate_data, [:old_db] => :environment do |t, args|
 
   result = client.query("insert into #{new_db}.retrieval_statuses (id, article_id, source_id, retrieved_at, local_id, event_count, created_at, updated_at) " +
                             "select id, article_id, source_id, retrieved_at, local_id, citations_count, created_at, updated_at from #{old_db}.retrievals " +
-                            "where source_id in (select id from #{old_db}.sources where type in ('Bloglines', 'Citeulike', 'Connotea', 'CrossRef', 'Nature', 'Postgenomic', 'PubMed', 'Researchblogging'))")
+                            "where source_id in (select id from #{old_db}.sources where type in ('Bloglines', 'Citeulike', 'Connotea', 'CrossRef', 'Nature', 'Postgenomic', 'PubMed', 'Researchblogging', 'Twitter'))")
 
   result = client.query("insert into #{new_db}.retrieval_statuses (id, article_id, source_id, retrieved_at, local_id, event_count, created_at, updated_at) " +
                             "select id, article_id, source_id, retrieved_at, local_id, other_citations_count, created_at, updated_at from #{old_db}.retrievals " +
