@@ -10,6 +10,9 @@ Alm::Application.routes.draw do
 
   match 'group/articles/:id' => 'groups#group_article_summaries', :constraints => { :id => /.+?/, :format => /html|json|xml/}
 
+  # maps group/articles requests to group_article_summaries function when doi is passed as a parameter
+  match 'group/articles' => 'groups#group_article_summaries', :constraints => { :format => /json|xml/}
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
