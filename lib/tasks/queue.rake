@@ -170,5 +170,21 @@ namespace :queue do
     puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
   end
 
+  task :all_jobs, [:source] => :environment do |t, args|
+    if args.source.nil?
+      puts "Source is required"
+      exit
+    end
+
+    source = Source.find_by_name(args.source)
+    if source.nil?
+      puts "Source with name #{args.source} does not exist"
+      exit
+    end
+
+    source.queue_all_articles
+
+    puts "Jobs for all the articles for source #{source.display_name} have been queued."
+  end
 end
 
