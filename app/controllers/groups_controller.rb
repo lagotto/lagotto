@@ -80,6 +80,10 @@ class GroupsController < ApplicationController
 
   def group_article_summaries
 
+    if !params[:id]
+      raise "ID parameter not specified"
+    end
+
     # get the list of DOIs
     ids = params[:id].split(",")
     ids = ids.map { |id| DOI::from_uri(id) }
