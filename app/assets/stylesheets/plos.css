@@ -61,14 +61,14 @@ header {
   display: block;
   padding: 1em 0px 0px;
   color: #a5e583;
-  background: url("plos/header_bg.png") no-repeat 0px 0px; 
+  background: url("plos/header_bg.jpg") no-repeat 0px 34px;
   margin: 0 auto;
   width: 800px;
 }
   header h1 {
     margin: 0px;
     color: transparent;
-    height: 200px; }
+    height: 160px; }
   header nav {
     display: block;
     padding: 5px 0px;
