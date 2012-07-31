@@ -5,6 +5,7 @@ defaults: &defaults
   rest_auth_digest_stretches: 10
   session_secret: <%= node[:app][:secret] %>
   layout: <%= node[:app][:layout] %>
+  couchdb_url: http://localhost:5984/<%= node[:couchdb][:db_name] %>/
 
 development:
   <<: *defaults

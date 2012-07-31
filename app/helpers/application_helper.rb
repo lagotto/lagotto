@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-
   def link_to_setup_or_login
     if User.count > 0
-      link_to "Login", login_path, :class => current_page?(login_path) ? 'current' : ''
+      link_to "Login", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : ''
     else
-      link_to 'Setup', new_user_path, :class => current_page?(new_user_path) ? 'current' : ''
+      link_to 'Setup', new_user_registration_path, :class => current_page?(new_user_registration_path) ? 'current' : ''
     end
   end
-
 end

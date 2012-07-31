@@ -2,7 +2,7 @@
   # $HeadURL$
   # $Id$
   #
-  # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
   # http://www.plos.org/
   #
   # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,128 +17,100 @@
   # See the License for the specific language governing permissions and
   # limitations under the License.
 -%>
+
 <div class="border">
-<div class="page">
-<h1>Details for <%=h @source.name %> (<%= @source.active ? "active" : "inactive" %>)</h1>
+  <div class="page">
+    <h1>Details for <%=h @source.display_name %> (<%= @source.active ? "active" : "inactive" %>)</h1>
 
-<p>
-  <b>Name:</b>
-  <%=h @source.class.to_s  %>
-</p>
+    <p>
+      <b>Name:</b>
+      <%=h @source.display_name  %>
+    </p>
 
-<p>
-  <b>Label:</b>
-  <%=h @source.name  %>
-</p>
-  
-<% if @source.uses_url %>
-<p>
-  <b>Url:</b>
-  <%=h @source.url %>
-</p>
-<% end %>
+    <p>
+      <b>Timeout:</b>
+      <%=h @source.timeout %> seconds
+    </p>
 
-<% if @source.uses_username %>
-<p>
-  <b>Username:</b>
-  <%=h @source.username %>
-</p>
-<% end %>
+    <p>
+      <b>Disabled Until:</b>
+      <% if @source.disable_until %>
+          <%= h @source.disable_until %>
+      <% else %>
+          (not disabled)
+      <% end %>
+    </p>
 
-<% if @source.uses_search_url %>
-<p>
-  <b>Search URL:</b>
-  <%=h @source.searchURL %>
-</p>
-<% end %>
+    <p>
+      <b>Disabled Delay:</b>
+      <%= h @source.disable_delay %> seconds
+    </p>
 
-<% if @source.uses_partner_id %>
-  <p>
-    <b>Partner ID:</b>
-    <%=h @source.partner_id %>
-  </p>
-<% end %>
+    <p>
+      <b>Workers (workers for the job queue):</b>
+      <%= h @source.workers %>
+    </p>
 
-<% if @source.uses_password %>
-<p>
-  <b>Password:</b>
-  '<%= ("●" * @source.password.to_s.size) %>'
-</p>
-<% end %>
+    <p>
+      <b>Private Source</b>: <%= @source.private ? "Private" : "Public" %>
+    </p>
 
-<% if @source.uses_salt %>
-<p>
-  <b>Public URL salt:</b>
-  '<%= ("●" * @source.salt.to_s.size) %>'
-</p>
-<% end %>
+    <p>
+      <b>User can Refresh the data?</b>: <%= @source.refreshable ? "Yes" : "No" %>
+    </p>
 
-<% if @source.uses_live_mode %>
-<p>
-  <b>Live mode?</b>
-  <%= @source.live_mode == true ? "yes" : "no" %>
-</p>
-<% end %>
+    <p>
+      <b>Wait time </b>: <%= @source.wait_time %> seconds
+      <br>
+      (time interval to wait before checking to see if more jobs can be added to the job queue)
+    </p>
 
-<p>
-  <b>Timeout:</b>
-  <%=h @source.timeout %>
-</p>
+    <p>
+      <b>Maximum number of failed queries allowed before being disabled:</b>
+      <%=h @source.max_failed_queries %>
+    </p>
 
-<% if @source.group %>
-<p>
-  <b>Group:</b>
-  <%=h @source.group.name %>
-</p>
-<% end %>
-  
-<p>
-  <b>Staleness:</b>
-  <%=h @source.staleness_days %>
-</p>
+    <p>
+      <b>Maximum number of failed queries allowed in a time interval:</b>
+      <%=h @source.max_failed_query_time_interval %> seconds
+    </p>
 
-<p>
-  <b>Disabled Until:</b>
-  <% if @source.disable_until %>
-    <%= h @source.disable_until %>
-  <% else %>
-    (not disabled)
-  <% end %>
-</p>
+    <% if @source.group %>
+        <p>
+          <b>Group:</b>
+          <%= h @source.group.name %>
+        </p>
+    <% end %>
 
-<p>
-  <b>Disabled Delay (seconds):</b>
-  <%= h @source.disable_delay %>
-</p>
+    <% if not @source.get_config_fields.empty? %>
+        <p>
+          <b>Source Configurations</b> <br>
+          <% @source.get_config_fields.each do |field| %>
+              <b><%= field[:field_name].gsub(/_/, " ").capitalize %></b>:
+              <% if field[:field_type] == "password_field" %>
+                  '<%= ("●" * @source.config.send(field[:field_name]).to_s.size) %>'
+              <% else %>
+                  <%= @source.config.send(field[:field_name]) %>
+              <% end %>
+              <br>
+          <% end %>
+        </p>
+    <% end %>
 
-<% if @source.uses_keep_existing_data  %>
-  <p>
-    <b>Keep existing data?</b>
-    <%= @source.keep_existing_data == true ? "yes" : "no" %>
-  </p>
-<% end %>
+    <h1>Most-cited articles</h1>
+    <% if @samples.empty? %>
+        <div>No articles have been cited by this source</div>
+    <% else %>
+        <ul>
+          <% @samples.each do |retrieval_status| %>
+              <li><%= link_to retrieval_status.article.doi, retrieval_status.article %>:
+                <%= retrieval_status.event_count %></li>
+          <% end %>
+        </ul>
+    <% end %>
 
-<% if @source.uses_misc %>
-  <p>
-    <b>Miscellaneous Information:</b>
-    <%= h @source.misc %>
-  </p>
-<% end %>  
-
-<h1>Most-cited articles</h1>
-<% if @samples.empty? %>
-<div>No articles have been cited by this source</div>
-<% else %>
-<ul>
-  <% @samples.each do |retrieval| %>
-  <li><%= link_to retrieval.article.doi, retrieval.article %>:
-    <%= retrieval.total_citations_count %></li>
-  <% end %>
-</ul>
-<% end %>
-
-<%= link_to 'Edit', edit_source_path(@source) %>
-<br/>
-<%= link_to 'Back to list', sources_path %>
-</div>
+    <%= link_to 'Edit', edit_source_path(@source) %>
+    <br/>
+    <%= link_to 'Back to list', sources_path %>
+  </div>
 </div>

@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,57 +16,66 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'digest/sha1'
-
 class User < ActiveRecord::Base
-  include Authentication
-  include Authentication::ByPassword
-  include Authentication::ByCookieToken
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
 
-  validates_presence_of     :login
-  validates_length_of       :login,    :within => 3..40
-  validates_uniqueness_of   :login
-  validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me
 
-  validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
-  validates_length_of       :name,     :maximum => 100
+# Virtual attribute for authenticating by either username or email
+# This is in addition to a real persisted field like 'username'
+  attr_accessor :login
 
-  validates_presence_of     :email
-  validates_length_of       :email,    :within => 6..100 #r@a.wk
-  validates_uniqueness_of   :email
-  validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message
+  attr_accessible :login
 
-  
-
-  # HACK HACK HACK -- how to do attr_accessible from here?
-  # prevents a user from submitting a crafted form that bypasses activation
-  # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation
-
-
-
-  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  #
-  # uff.  this is really an authorization, not authentication routine.  
-  # We really need a Dispatch Chain here or something.
-  # This will also let us return a human error message.
-  #
-  def self.authenticate(login, password)
-    return nil if login.blank? || password.blank?
-    u = find_by_login(login) # need to get the salt
-    u && u.authenticated?(password) ? u : nil
-  end
-
-  def login=(value)
-    write_attribute :login, (value ? value.downcase : nil)
-  end
-
-  def email=(value)
-    write_attribute :email, (value ? value.downcase : nil)
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    login = conditions.delete(:login)
+    where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.strip.downcase }]).first
   end
 
   protected
-    
 
+  # Attempt to find a user by it's email. If a record is found, send new
+  # password instructions to it. If not user is found, returns a new user
+  # with an email not found error.
+  def self.send_reset_password_instructions(attributes={})
+    recoverable = find_recoverable_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
+    recoverable.send_reset_password_instructions if recoverable.persisted?
+    recoverable
+  end
 
+  def self.find_recoverable_or_initialize_with_errors(required_attributes, attributes, error=:invalid)
+    (case_insensitive_keys || []).each { |k| attributes[k].try(:downcase!) }
+
+    attributes = attributes.slice(*required_attributes)
+    attributes.delete_if { |key, value| value.blank? }
+
+    if attributes.size == required_attributes.size
+      if attributes.has_key?(:login)
+        login = attributes[:login]
+        record = find_record(login)
+      else
+        record = where(attributes).first
+      end
+    end
+
+    unless record
+      record = new
+
+      required_attributes.each do |key|
+        value = attributes[key]
+        record.send("#{key}=", value)
+        record.errors.add(key, value.present? ? error : :blank)
+      end
+    end
+    record
+  end
+
+  def self.find_record(login)
+    where(["username = :value OR email = :value", { :value => login }]).first
+  end
 end

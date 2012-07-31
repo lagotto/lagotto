@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,154 +16,199 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class Source < ActiveRecord::Base
-  has_many :retrievals, :dependent => :destroy
-  belongs_to :group
-  
-  validates_presence_of :name
-  validates_presence_of :url, :if => :uses_url
-  validates_presence_of :username, :if => :uses_username
-  validates_presence_of :password, :if => :uses_password
-  validates_presence_of :salt, :if => :uses_salt
-  validates_presence_of :partner_id, :if => :uses_partner_id
-  validates_presence_of :misc, :if => :uses_misc
-  validates_inclusion_of :keep_existing_data, :in => [true, false], :if => :uses_keep_existing_data
+require 'source_helper'
+require 'cgi'
+require 'ostruct'
 
-  validates_numericality_of :staleness_days,
-    :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 366
+class Source < ActiveRecord::Base
+  include SourceHelper
+
+  has_many :retrieval_statuses, :dependent => :destroy
+  belongs_to :group
+
+  serialize :config, OpenStruct
 
   after_create :create_retrievals
 
-  attr_accessor :staleness_days_before_type_cast
+  validates_presence_of :display_name
+  validates_numericality_of :timeout, :only_integer => true, :greater_than => 0
+  validates_numericality_of :workers, :only_integer => true, :greater_than => 0, :less_than => 10
+  validates_numericality_of :wait_time, :only_integer => true, :greater_than => 0
+  validates_numericality_of :max_failed_queries, :only_integer => true, :greater_than_or_equal_to => 0
+  validates_numericality_of :max_failed_query_time_interval, :only_integer => true, :greater_than_or_equal_to => 0
 
-  named_scope :active, :conditions => {:active => true}
+  # for job priority
+  TOP_PRIORITY = 0
 
-  def self.unconfigured_source_names
-    # Collect source classnames based on the source file names we have
-    @@subclass_names ||= Dir[Rails.root + "app/models/sources/*.rb"].map do |file|
-      File.basename(file, ".rb").camelize
+  # CHANGED some sources cannot be refreshed and can only be queried at very specific time frames
+  scope :refreshable_sources, lambda { where("refreshable = true") }
+
+  # some sources cannot be redistributed
+  scope :public_sources, lambda { where("private = false") }
+  scope :private_sources, lambda { where("private = true") }
+
+  def get_data(article, options={})
+    raise NotImplementedError, 'Children classes should override get_data method'
+  end
+
+  def queue_all_articles
+    # determine if the source is active
+    if active && (disable_until.nil? || disable_until < Time.now.utc)
+
+      # reset disable_until value
+      unless self.disable_until.nil?
+        self.disable_until = nil
+        save
+      end
+
+      job_batch_size = get_job_batch_size
+
+      # grab all the articles
+      retrieval_statuses = RetrievalStatus.joins(:article, :source).
+          where('sources.id = ?
+               and articles.published_on < ?
+               and queued_at is NULL',
+                id, Time.zone.today).pluck("retrieval_statuses.id")
+
+      retrieval_statuses.each_slice(job_batch_size) do | rs_ids |
+        Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
+      end
+
+    else
+      Rails.logger.error "#{name} is either inactive or is disabled."
+      raise "#{display_name} (#{name}) is either inactive or is disabled"
     end
-    # Ignore any that are already configured
-    @@subclass_names.reject { |k| all.any? { |c| c.class.name == k } }
   end
 
-  def name
-    read_attribute(:name) || self.class.name
-  end
+  def queue_articles
 
-  def inspect_with_password_filtering
-    result = inspect_without_password_filtering
-    result.gsub!(", password: \"#{password}\"", '') if password
-    result
-  end
-  alias_method_chain :inspect, :password_filtering
+    # get the source specific configurations
+    source_config = YAML.load_file("#{Rails.root}/config/source_configs.yml")[Rails.env]
+    source_config = source_config[name]
 
-  def staleness
-    SecondsToDuration::convert(read_attribute(:staleness))
-  end
+    if !source_config.has_key?('batch_time_interval') || !source_config.has_key?('staleness')
+      Rails.logger.error "#{display_name}: batch_time_interval is missing or staleness is missing"
+      raise "#{display_name}: batch_time_interval is missing or staleness is missing"
+      return
+    end
 
-  def staleness_days
-    read_attribute(:staleness) / 1.day
-  end
+    source_config['batch_time_interval'] = parse_time_config(source_config['batch_time_interval'])
+    source_config['staleness'] = parse_time_config(source_config['staleness'])
 
-  def staleness_days=(days)
-    @staleness_days_before_type_cast = days
-    write_attribute(:staleness, days.to_i.days)
-  end
+    # determine if the source is active
+    if active
+      queue_job = true
 
-  def staleness_days_before_type_cast
-    @staleness_days_before_type_cast || staleness_days
-  end
-  
-  #This method generates the CSV values of the values passed in.  
-  #Each source may store the citation details in a slightly
-  #different manner.  If a particular source has details that are highly 
-  #structured, override this method to simplify things a bit
-  def citations_to_csv(csv, retrieval)
-      if retrieval.citations.first
-        csv << retrieval.citations.first.details.keys
-    
-        retrieval.citations.each do |citation|
-          if(citation.details != nil)
-            csv << citation.details.map {| k, v| v }
-          end
+      # check to see if there has been many failures on trying to get data from the source
+      check_for_failures
+
+      # determine if the source is disabled or not
+      unless self.disable_until.nil?
+        queue_job = false
+
+        if self.disable_until < Time.now.utc
+          self.disable_until = nil
+          save
+          queue_job = true
         end
       end
-  end
 
-  def perform_query
-    raise NotImplementedError, 'Children classes should override perform_query'
-  end
-
-  def query article, options = {}
-    if disable_until and disable_until > Time.zone.now
-      Rails.logger.info "#{name} is disabled until #{disable_until}. Skipping."
-      return false
+      if queue_job
+        # if there are jobs already queued, wait a little bit
+        if get_queued_job_count > 0
+          source_config['batch_time_interval'] = wait_time
+        else
+          queue_article_jobs(source_config)
+        end
+      end
     end
 
-    returning perform_query(article, options) do
-      self.disable_until = nil
-      self.disable_delay = Source.new.disable_delay
+    return source_config['batch_time_interval']
+  end
+
+  def queue_article_jobs(source_config)
+    # find articles that need to be updated
+
+    job_batch_size = get_job_batch_size
+
+    # not queued currently
+    # stale from updated_at
+    retrieval_statuses = RetrievalStatus.joins(:article, :source).
+        where('sources.id = ?
+               and articles.published_on < ?
+               and queued_at is NULL
+               and retrieved_at < TIMESTAMPADD(SECOND, - ?, UTC_TIMESTAMP())',
+              id, Time.zone.today, source_config['staleness'].seconds.to_i).pluck("retrieval_statuses.id")
+
+    Rails.logger.debug "#{name} total article queued #{retrieval_statuses.length}"
+
+    retrieval_statuses.each_slice(job_batch_size) do | rs_ids |
+      Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
     end
-  rescue RetrieverTimeout => e
-    Rails.logger.info "Forced Timeout on query.  Not disabling this source."
-    raise e
-  rescue Exception => e
-    Rails.logger.info "#{name} had an error. Disabling for #{SecondsToDuration::convert(disable_delay).inspect}."
-    Notifier.deliver_long_delay_warning(self)  if disable_delay > 1.day
-    self.disable_until = Time.zone.now + disable_delay.seconds
-    self.disable_delay *= 2
-    raise e
-  ensure
-    save!
+
   end
 
-  def self.maximum_staleness
-    SecondsToDuration::convert(Source.maximum(:staleness))
-  end
-  
-  def self.minimum_staleness
-    SecondsToDuration::convert(Source.minimum(:staleness))
+  def queue_article_job(retrieval_status, priority=Delayed::Worker.default_priority)
+    Delayed::Job.enqueue SourceJob.new([retrieval_status.id], id), :queue => name, :priority => priority
   end
 
-  def public_url(retrieval)
-    # When generating a public URL to an article's citations on the source
-    # site, we'll add the encoded DOI to a base URL provided by the source
-    # (or nil if none's provided)
-    base = public_url_base
-    base && base + CGI.escape(retrieval.article.doi)
+  def get_config_fields
+    []
   end
-  def public_url_base
-    nil
+
+  def get_queued_job_count
+    Delayed::Job.count('id', :conditions => ["queue = ?", name])
   end
-  
-  # Subclasses should override these to cause fields to appear in UI, and
-  # enable their validations
-  def uses_url; false; end
-  def uses_search_url; false end
-  def uses_username; false; end
-  def uses_password; false; end
-  def uses_live_mode; false; end
-  def uses_salt; false; end
-  def uses_partner_id; false; end
-  def uses_misc; false; end
-  def uses_keep_existing_data; false; end
+
+  def get_query_url(article)
+    config.url % { :doi => CGI.escape(article.doi) }
+  end
+
+  def check_for_failures
+    # condition for not adding more jobs and disabling the source
+
+    failed_queries = RetrievalHistory.where("source_id = :id and status = :status and updated_at > :updated_date",
+                                            {:id => id,
+                                             :status => RetrievalHistory::ERROR_MSG,
+                                             :updated_date => (Time.now.utc - max_failed_query_time_interval.seconds)}).count(:id)
+
+    if failed_queries > max_failed_queries
+      Rails.logger.error "#{display_name} has exceeded maximum failed queries.  Disabling the source."
+      # disable the source
+      self.disable_until = Time.now.utc + disable_delay.seconds
+      save
+    end
+  end
 
   private
-    def create_retrievals
-      # Create an empty retrieval record for each active source to avoid a
-      # problem with joined tables breaking the UI on the front end
 
-      # there are two ways to create a retrieval row.
-      # 1. logic below
-      # 2. When an article gets updated, a retrieval row is either created or updated via
-      #    Retrieval.find_or_create_by_article_id_and_source_id(article.id, source.id) method
-      # to keep the two logic consistent, created_at date has been added here
-
-      Retrieval.connection.execute "
-        INSERT INTO retrievals (article_id, source_id, created_at)
-          SELECT id, #{id}, now() FROM articles
-          WHERE id NOT IN
-            (SELECT article_id FROM retrievals WHERE source_id = #{id})"
+  def parse_time_config(time_interval_config)
+    unless time_interval_config.nil?
+      index = time_interval_config.index('.')
+      number = time_interval_config[0,index]
+      method = time_interval_config[index + 1, time_interval_config.length]
+      return number.to_i.send(method)
     end
+  end
+
+  def get_job_batch_size
+    source_config = YAML.load_file("#{Rails.root}/config/source_configs.yml")[Rails.env]
+    job_batch_size = source_config['job_batch_size']
+    max_job_batch_size = source_config['max_job_batch_size']
+    default_job_batch_size = source_config['default_job_batch_size']
+    if job_batch_size.nil?
+      job_batch_size = default_job_batch_size
+    elsif not (job_batch_size > 0 and job_batch_size < max_job_batch_size)
+      job_batch_size = default_job_batch_size
+    end
+    job_batch_size
+  end
+
+  private
+  def create_retrievals
+    # Create an empty retrieval record for every article for the new source
+    conn = RetrievalStatus.connection
+    sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from articles"
+    conn.execute sql
+  end
 end

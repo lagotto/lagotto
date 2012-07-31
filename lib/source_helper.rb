@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'rubygems'
-require 'system_timer'
-
 module SourceHelper
-  
+  # default timeout is 60 sec
+  DEFAULT_TIMEOUT = 60
+
   def get_json(url, options={})
     body = get_http_body(url, options)
     (body.length > 0) ? ActiveSupport::JSON.decode(body) : []
@@ -42,16 +41,88 @@ module SourceHelper
     XML::Parser.string(text).parse
   end
 
-protected
-  def get_http_body(uri, options={})
-    optsMsg = " with #{options.inspect}" unless options.empty?
-    begin
-      options = options.except(:retrieval)
+  def save_alm_data(data_rev, data, id)
 
+    service_url = APP_CONFIG['couchdb_url']
+
+    # set the revision information
+    unless data_rev.nil?
+      data[:_id] = "#{id}"
+      data[:_rev] = data_rev
+    end
+
+    begin
+      response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
+    rescue => e
+      Rails.logger.error "Failed to put #{service_url}#{id}.  Going to try to get the document to get the current _rev"
+      Rails.logger.error "#{e.class.name}: #{e.message} #{e.backtrace.join("\n")}"
+      if e.respond_to?('response')
+        if e.response.kind_of?(Net::HTTPConflict)
+          # something went wrong
+          # get the most current revision value and use that to put the data one more time
+          cur_data = get_json("#{service_url}#{id}")
+          data[:_id] = cur_data["_id"]
+          data[:_rev] = cur_data["_rev"]
+
+          response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
+        else
+          raise e
+        end
+      else
+        raise e
+      end
+    end
+
+    result = ActiveSupport::JSON.decode(response.body)
+
+    result["rev"]
+  end
+
+  def get_alm_data(id)
+    service_url = APP_CONFIG['couchdb_url']
+    data = get_json("#{service_url}#{id}")
+  end
+
+  def get_original_url(uri_str, limit = 10)
+    raise ArgumentError, 'too many HTTP redirects' if limit == 0
+
+    response = Net::HTTP.get_response(URI(uri_str))
+
+    case response
+      when Net::HTTPSuccess then
+        uri_str
+      when Net::HTTPRedirection then
+        location = response['location']
+
+        # sometimes we can get a location that doesn't have the host information
+        uri = URI(location)
+        if uri.host.nil?
+          orig_uri = URI(uri_str)
+          location = "http://" + orig_uri.host + location
+        end
+
+        get_original_url(location, limit - 1)
+      else
+        Rails.logger.info "Couldn't not follow the url all the way #{response.value}"
+    end
+  end
+
+  protected
+  def get_http_body(uri, options={})
+    # removing retrieval_status object from the hash
+    options = options.except(:retrieval_status)
+
+    optsMsg = " with #{options.inspect}" unless options.empty?
+
+    begin
       url = URI.parse(uri)
-      
+
+      response = nil
+
       if options.empty?
-        response = Net::HTTP.get_response(url)
+        Timeout.timeout(DEFAULT_TIMEOUT) do
+          response = Net::HTTP.get_response(url)
+        end
       else
         sUrl = url.path
 
@@ -62,33 +133,27 @@ protected
         Rails.logger.debug "http request: #{sUrl} (timeout: #{options[:timeout]})"
 
         headers = { "User-Agent" => APP_CONFIG['useragent'] + " - " + APP_CONFIG['hostname'] }
+
         if options[:extraheaders]
           extraHeaders = options[:extraheaders]
           extraHeaders.each do | key, value |
             headers[key] = value
           end
         end
-        
+
         request = Net::HTTP::Get.new(sUrl, headers)
-        
-        if options[:username] 
-          request.basic_auth(options[:username], options[:password]) 
+
+        if options[:username]
+          request.basic_auth(options[:username], options[:password])
         end
-        
+
         Rails.logger.debug "Request headers:"
         request.each_header do |key, value|
           Rails.logger.debug "[#{key}] = '#{value}'"
         end
-        
-        #There is an issue with Ruby and Socket Timeouts
-        #Hostname resolves timing out will not be caught
-        #by the following system time.  At least that is the behavior 
-        #I saw.  Note the following:
-        #http://www.mikeperham.com/2009/03/15/socket-timeouts-in-ruby/
-        #http://groups.google.com/group/comp.lang.ruby/browse_thread/thread/c14cfd560cf253d2/bbb0f2e8309f3467?lnk=gst&q=dns+timeout#bbb0f2e8309f3467
-        #http://ph7spot.com/musings/system-timer
 
-        SystemTimer.timeout_after(options[:timeout]) do
+        timeout = options[:timeout].nil? ? DEFAULT_TIMEOUT : options[:timeout]
+        Timeout.timeout(timeout) do
           http = Net::HTTP.new(url.host, url.port)
           http.use_ssl = true if (url.scheme == 'https')
           if options[:postdata]
@@ -96,28 +161,44 @@ protected
           else
             response = http.request(request)
           end
-
         end
       end
+
+      Rails.logger.info "Requested #{uri}#{optsMsg}, got: #{response.code}, #{response.message}"
+
+      Rails.logger.debug "Response headers:"
+      response.each_header do |key, value|
+        Rails.logger.debug "[#{key}] = '#{value}']"
+      end
+
       case response
-      when Net::HTTPForbidden # CrossRef returns this for "DOI not found"
-        ""
-      when Net::HTTPSuccess, Net::HTTPRedirection
-        Rails.logger.info "Requested #{uri}#{optsMsg}, got: #{response.body}"
-
-        Rails.logger.debug "Response headers:"
-        response.each_header do |key, value|
-          Rails.logger.debug "[#{key}] = '#{value}']"
-        end
-        
-        response.body # OK
-      else
-        response.error!
+        when Net::HTTPSuccess, Net::HTTPRedirection
+          response.body # OK
+        else
+          response.error!
       end
+
     rescue Exception => e
       Rails.logger.error "Error (#{e.class.name}: #{e.message}) while requesting #{uri}#{optsMsg}"
       raise e
     end
+  end
+
+  def put_alm_data(url, json)
+
+    url = URI.parse(url)
+
+    req = Net::HTTP::Put.new(url.path)
+    req["content-type"] = "application/json"
+    req.body = json
+
+    res = Net::HTTP.start(url.host, url.port) { | http | http.request(req) }
+
+    unless res.kind_of?(Net::HTTPSuccess)
+      res.error!
+    end
+
+    res
   end
 
 end
