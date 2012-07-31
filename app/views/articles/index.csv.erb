@@ -2,7 +2,7 @@
   # $HeadURL$
   # $Id$
   #
-  # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
   # http://www.plos.org/
   #
   # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,57 +17,53 @@
   # See the License for the specific language governing permissions and
   # limitations under the License.
 -%>
+
 <% if @source -%>
-<%= 
-  # Broken out by month for one source
-  months = month_range(Time.zone.today, Date.civil((params[:year] || 2009).to_i, 
-                                              (params[:month] || 1).to_i, 1))
-  this_month = Time.zone.today.at_beginning_of_month
-  month_count = months.count
-  empty_row = Array.new(month_count, 0)
-  FasterCSV.generate do |csv|
-    csv << ["DOI", "Published", "Title"] + months.map {|date| "#{date.month}/#{date.year}" }
-    @articles.each do |article|
-      retrieval = article.retrievals.detect {|r| r.source_id == @source.id }
-      month_totals = if retrieval.nil? 
-        empty_row
-      else
-        months.map do |month_date|
-          if month_date == this_month
-            # special-case current month: use most-recent total, in case we haven't updated this month yet.
-            retrieval.total_citations_count
-          else
-            history = retrieval.histories.detect {|h| h.year == month_date.year && h.month == month_date.month }
-            (history && history.citations_count) || 0
-          end
-        end
+<%=
+    # Broken out by month for one source
+    months = month_range(Time.zone.today, Date.civil((params[:year] || 2009).to_i,
+                                                     (params[:month] || 1).to_i, 1))
+    this_month = Time.zone.today.at_beginning_of_month
+    month_count = months.count
+    empty_row = Array.new(month_count, 0)
+    CSV.generate(:force_quotes => true) do |csv|
+      csv << ["DOI", "Published", "Title"] + months.map {|date| "#{date.month}/#{date.year}" }
+      @articles.each do |article|
+        rs = article.retrieval_statuses.detect {|r| r.source_id == @source.id }
+        month_totals = if rs.nil?
+                         empty_row
+                       else
+                         months.map do |month_date|
+                           if month_date == this_month
+                             # special-case current month: use most-recent total, in case we haven't updated this month yet.
+                             rs.event_count
+                           else
+                             history = rs.retrieval_histories.
+                                     where(:retrieved_at => month_date..Date.civil(month_date.year, month_date.month, -1)).
+                                     order("retrieved_at desc").first
+                             (history && history.event_count) || 0
+                           end
+                         end
+                       end
+        csv << [article.doi, article.published_on, strip_tags(article.title)] + month_totals
       end
-      csv << [article.doi, article.published_on, article.title.to_s.strip_tags] + month_totals
-    end
-  end
+    end.html_safe
 -%>
 <% else -%>
-<%= 
-  # Broken out by source, possibly for only a single month
-  sources = Source.all.sort_by(&:name)
-  one_month = params[:month] && params[:year] && Date.civil(params[:year].to_i, params[:month].to_i, 1)
-  this_month = Time.zone.today.at_beginning_of_month if one_month
-
-  FasterCSV.generate do |csv|
-    csv << ["DOI", "Published", "Title"] + sources.map(&:name)
-    @articles.each do |article|
-      source_counts = sources.map do |source|
-        retrieval = article.retrievals.detect {|r| r.source_id == source.id }
-        if one_month && (one_month != this_month)
-          history = retrieval.histories.detect {|h| h.year == one_month.year && h.month == one_month.month } \
-            if retrieval
-          (history && history.citations_count) || 0
-        else
-          (retrieval && retrieval.total_citations_count) || 0
+<%=
+    CSV.generate(:force_quotes => true) do |csv|
+      csv << ["DOI", "Published", "Title"] + @sources.map(&:display_name)
+      @articles.each do |article|
+        source_counts = @sources.map do |source|
+          rs = article.retrieval_statuses.detect {|r| r.source_id == source.id }
+          if rs
+            rs.event_count
+          else
+            0
+          end
         end
+        csv << [article.doi, article.published_on, strip_tags(article.title)] + source_counts
       end
-      csv << [article.doi, article.published_on, article.title.to_s.strip_tags] + source_counts
-    end
-  end 
--%>
+    end.html_safe
+%>
 <% end -%>

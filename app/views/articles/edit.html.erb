@@ -2,7 +2,7 @@
   # $HeadURL$
   # $Id$
   #
-  # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
   # http://www.plos.org/
   #
   # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,14 +17,15 @@
   # See the License for the specific language governing permissions and
   # limitations under the License.
 -%>
+
 <div class="border">
-<div class="page">
-  <h1>Editing article <%=h @article.doi %></h1>
+  <div class="page">
+    <h1>Editing article <%=h @article.doi %></h1>
 
-  <%= render :partial => "form", :object => @article %>
+    <%= render @article %>
 
-  <%= link_to 'Show', @article %>
-  <br/>
-  <%= link_to 'Back to list', articles_path %>
-</div>
+    <%= link_to 'Show', @article %>
+    <br/>
+    <%= link_to 'Back to list', articles_path %>
+  </div>
 </div>

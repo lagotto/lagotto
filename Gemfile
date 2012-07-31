@@ -1,25 +1,33 @@
-source :gemcutter
+source 'http://rubygems.org'
 
-gem 'rails',         '2.3.12'
-gem 'rake',          '0.9.2.2'
-gem 'rdoc',          '2.4.3'
-gem 'mysql',         '2.8.1'
-gem 'daemons',       '1.1.0'
-gem 'fastercsv',     '1.5.3'
-gem 'haml',          '3.0.25'
-gem 'libxml-ruby',   '2.2.2', :require => 'xml'
-gem 'rdiscount',     '1.6.5'
-gem 'soap4r',        '1.5.8', :require => 'soap/rpc/driver'
-gem 'starling',      '0.10.1'
-gem 'workling',      '0.4.9.9'
-gem 'system_timer',  '1.0'
-gem 'will_paginate', '2.3.15'
-gem 'koala',         '1.2.1'
+gem 'rails', '3.2.3'
+gem 'mysql2', '0.3.11'
 
-group :development do
-  gem 'ruby-debug',  '0.10.4'
+gem 'delayed_job', '3.0.2'
+gem 'delayed_job_active_record', '0.3.2'
+gem 'daemons', '1.1.8'
+
+gem 'libxml-ruby', '2.3.2', :require => 'xml'
+gem 'mumboe-soap4r', '1.5.8.5'
+gem 'koala', '1.4.1'
+gem 'will_paginate', '3.0.3'
+gem 'devise', '2.0.4'
+
+group :assets do
+  gem 'uglifier', '1.2.4'
+  gem 'jquery-rails', '2.0.2'
+  gem 'therubyracer', '0.10.1', :require => "v8"
 end
 
 group :test do
-  gem 'mocha',       '0.9.10'
+  gem "factory_girl_rails", ">= 1.6.0"
+  gem "cucumber-rails", ">= 1.2.1"
+  gem "capybara", ">= 1.1.2"
+  gem "database_cleaner"
+  gem "launchy"
+  gem 'email_spec'
+end
+
+group :test, :development do
+  gem "rspec-rails", ">= 2.8.1"
 end

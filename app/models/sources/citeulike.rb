@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,46 +17,47 @@
 # limitations under the License.
 
 class Citeulike < Source
-  include SourceHelper
-  
-  def uses_search_url; true; end
 
-  def perform_query(article, options={})
+  validates_each :url do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
+  end
 
-    url = "http://www.citeulike.org/api/posts/for/doi/#{CGI.escape(article.doi)}"
-    
-    Rails.logger.info "Citeulike query: #{url}"
-    
-    get_xml(url, options) do |document|
-      citations = []
-      document.find("//posts/post").each do |cite|
-        link = cite.find_first("link")
-        post_time = cite.find_first("post_time")
-        tags = []
-        cite.find("tag").each do |tag|
-          tags << tag.content
-        end
+  def get_data(article, options={})
 
-        citation = {}
-        citation[:username] = cite.attributes['username']
-        citation[:articleid] = cite.attributes['article_id']
-        citation[:post_time] = post_time.content
-        citation[:tags] = tags.join ', ' 
-        citation[:uri] = link.attributes['url']
-	
-        citations << citation
+    query_url = get_query_url(article)
 
-        # Note CiteULike's internal ID if we haven't already
-        options[:retrieval].local_id ||= citation[:articleid]
+    get_xml(query_url, options) do |document|
+      events = []
+
+      document.find("//posts/post").each do |post|
+        post_string = post.to_s(:encoding => XML::Encoding::UTF_8)
+        event = Hash.from_xml(post_string)
+        event = event['post']
+        events << {:event => event, :event_url => event['link']['url']}
       end
-      citations
+
+      events_url = "http://www.citeulike.org/doi/#{article.doi}"
+
+      xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
+
+      {:events => events,
+       :events_url => events_url,
+       :event_count => events.length,
+       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+      }
     end
   end
 
-  def public_url(retrieval)
-    retrieval.local_id && ("http://www.citeulike.org/article-posts/" \
-                           + retrieval.local_id)
+  def get_config_fields
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
   end
-  
-end
 
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
+  end
+
+end

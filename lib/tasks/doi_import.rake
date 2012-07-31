@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ task :doi_import => :environment do
   created = []
   updated = []
   sources = Source.all
-  
+
   while (line = STDIN.gets)
     raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
     doi = DOI::from_uri raw_doi.strip
@@ -45,9 +45,8 @@ task :doi_import => :environment do
     valid.each do |doi, published_on, title|
       existing = Article.find_by_doi(doi)
       unless existing
-        article = Article.create(:doi => doi, :published_on => published_on, 
-                       :title => title)
-        RetrievalWorker.async_retrieval(:article_id => article.id) 
+        article = Article.create(:doi => doi, :published_on => published_on,
+                                 :title => title)
         created << doi
       else
         if existing.published_on != published_on or existing.title != title

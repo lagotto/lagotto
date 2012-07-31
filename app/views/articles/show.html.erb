@@ -2,7 +2,7 @@
   # $HeadURL$
   # $Id$
   #
-  # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
   # http://www.plos.org/
   #
   # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,44 +17,65 @@
   # See the License for the specific language governing permissions and
   # limitations under the License.
 -%>
+
 <div class="border">
-<div class="page">
-  <h2><%=h @article.doi %><%=h ": \"#{@article.title}\"" unless @article.title.blank? %></h2>
+  <div class="page">
+    <h2><%=h @article.doi %><%=h ": \"#{@article.title}\"" unless @article.title.blank? %></h2>
 
-  <div><%= "published #{@article.published_on.to_datetime.to_s(:friendly_date)}, " if @article.published_on %><%= pluralize(@article.citations_count, "citation") %>, 
-      <%= (@article.retrieved_at.year < 2000) ? "never updated" : 
-          "updated #{@article.retrieved_at.to_s(:friendly)}" %></div>
-  <% if logged_in? %>
-  <%= content_tag(:div, "PubMed ID = '#{@article.pub_med}'") if @article.pub_med %>
-  <%= content_tag(:div, "PubMedCentral ID = '#{@article.pub_med_central}'") if @article.pub_med_central %>
-  <% end %>
-  <ul>
-  <% @article.retrievals.each do |retrieval| %>
-    <% if retrieval.total_citations_count > 0 %>
-      <li>
-        <% 
-        public_url = retrieval.source.public_url(retrieval)
-        details = [ retrieval.total_citations_count ]
-        details << retrieval.local_id if retrieval.local_id and logged_in?
-        -%>
-        <%= link_to_unless public_url.nil?, retrieval.source.name, public_url, :target => "_blank" %> 
-        (<%= details.join(', ') %>)<% unless retrieval.citations.empty? %>:<ul>
-        <% retrieval.citations.each do |citation| %>
-          <li><%= link_to h(citation.details.inspect), citation.uri %></li>
-        <% end %>
-        </ul><% end %>
-      </li>
+    <div>
+      <%= "published #{@article.published_on.to_datetime.to_s(:friendly_date)} " if @article.published_on %>
+    </div>
+
+    <% if user_signed_in? %>
+      <%= content_tag(:div, "PubMed ID = '#{@article.pub_med}'") if @article.pub_med %>
+      <%= content_tag(:div, "PubMedCentral ID = '#{@article.pub_med_central}'") if @article.pub_med_central %>
     <% end %>
-  <% end %>
-  </ul>
 
-  <% if logged_in? %>
-    Refresh: <%= link_to 'now', article_path(@article, :refresh => "now") %> |
-    <%= link_to 'soon', article_path(@article, :refresh => "soon") %><br/>
-    <%= link_to 'Edit', edit_article_path(@article) %> |
-    <%= link_to 'Delete', @article, :confirm => 'Are you sure?', :method => :delete %>
-    <br/>
-  <% end %>
-  <%= link_to 'Back to list', articles_path %>
-</div>
+    <ul>
+      <% @article.retrieval_statuses.each do |rs| %>
+          <% if rs.event_count > 0 %>
+              <li>
+                <%
+                   rs_data = rs.get_retrieval_data
+                   unless rs_data.nil?
+                     public_url = rs_data["events_url"]
+                     event_data = rs_data["events"]
+                   end
+                   details = [ rs.event_count ]
+                   details << rs.local_id if rs.local_id and user_signed_in?
+                %>
+                <%= link_to_unless public_url.nil?, rs.source.display_name, public_url, :target => "_blank" %>
+                (<%= details.join(', ') %>) updated <%= rs.retrieved_at.to_s(:friendly) %>
+
+                <% unless event_data.nil? %>
+                    <% if event_data.is_a?(Array) %>
+                        :<ul>
+                        <% event_data.each do |ed| %>
+                          <li>
+                            <% if ed.has_key?("event_url") %>
+                                <%= link_to ed["event"], ed["event_url"] %>
+                            <% else %>
+                                <%= ed %>
+                            <% end %>
+                          </li>
+                        <% end %>
+                        </ul>
+                    <% elsif event_data.is_a?(Hash) %>
+                      :<ul><li><%= event_data %></li></ul>
+                    <% end %>
+                <% end %>
+              </li>
+          <% end %>
+      <% end %>
+    </ul>
+
+    <% if user_signed_in? %>
+      <%= link_to 'Refresh', article_path(@article, :refresh => "1") %>
+        <br/>
+      <%= link_to 'Edit', edit_article_path(@article) %> |
+      <%= link_to 'Delete', @article, :confirm => 'Are you sure?', :method => :delete %>
+      <br/>
+    <% end %>
+    <%= link_to 'Back to list', articles_path %>
+  </div>
 </div>

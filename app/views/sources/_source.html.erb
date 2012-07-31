@@ -1,0 +1,120 @@
+<%#
+  # $HeadURL$
+  # $Id$
+  #
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+  # http://www.plos.org/
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+-%>
+
+<%= form_for source, :as => :source, :url => source_path(source) do |f| %>
+
+    <% if source.errors.any? %>
+        <div>
+          <h3>There was a problem saving the source.</h3>
+          <ul>
+            <% source.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <p>
+      <%= f.label :display_name, "Display Name" %><br />
+      <%= f.text_field :display_name, :size => 50 %>
+    </p>
+
+    <p>
+      <%= f.check_box :active %>
+      <%= f.label :active %>
+    </p>
+
+    <p>
+      <%= f.label :timeout, "Time to wait for a response from the source. (seconds)" %><br />
+      <%= f.text_field :timeout, :size => 3 %>
+    </p>
+
+    <p>
+      <%= f.label :workers, "Number of workers for the job queue" %><br />
+      <%= f.text_field :workers, :size => 3 %>
+    </p>
+
+    <p>
+      <%= f.check_box :private %>
+      <%= f.label :private %>
+    </p>
+	
+    <p>
+      <%= f.check_box :refreshable %>
+      <%= f.label :refreshable, "User can Refresh" %>
+    </p>
+
+
+    <p>
+      <%= f.label :wait_time, "Time interval to wait before checking to see if more jobs can be added to the job queue.  (seconds)" %><br />
+      <%= f.text_field :wait_time, :size => 5 %>
+    </p>
+
+    <p>
+      <%= f.label :max_failed_queries, "Maximum number of failed queries allowed before being disabled" %><br />
+      <%= f.text_field :max_failed_queries, :size => 4 %>
+    </p>
+
+    <p>
+      <%= f.label :max_failed_query_time_interval, "Maximum number of failed queries allowed in a time interval. (seconds)" %><br/>
+      <%= f.text_field :max_failed_query_time_interval, :size => 7 %>
+    </p>
+
+    <% if Group.all.size > 0 %>
+        <p>
+          <%= f.label :group %> <br/>
+          <%= collection_select(:source, :group_id, Group.all, :id, :name, :include_blank => true) %>
+        </p>
+    <% end %>
+
+    <% if not @source.get_config_fields.empty? %>
+        <p>
+          <b>Source Configurations</b> <br>
+          <% @source.get_config_fields.each do |field| %>
+              <% if field[:field_type] == "check_box" %>
+                  <%= f.check_box field[:field_name] %>
+                  <%= f.label field[:field_name], field[:field_name].gsub(/_/, " ").capitalize %>
+              <% else %>
+                  <%= f.label field[:field_name], field[:field_name].gsub(/_/, " ").capitalize %><br>
+                  <% if field[:field_type] == "text_field" %>
+                      <% if field.has_key?(:size) %>
+                          <%= f.text_field field[:field_name], :size => field[:size] %>
+                      <% else %>
+                          <%= f.text_field field[:field_name] %>
+                      <% end %>
+                  <% elsif field[:field_type] == "text_area" %>
+                      <% if field.has_key?(:size) %>
+                          <%= f.text_area field[:field_name], :size => field[:size] %>
+                      <% else %>
+                          <%= f.text_area field[:field_name] %>
+                      <% end %>
+                  <% elsif field[:field_type] == "password_field" %>
+                      <%= f.password_field field[:field_name], :value => source.config.send(field[:field_name]) %>
+                  <% end %>
+              <% end %>
+              <br>
+          <% end %>
+        </p>
+    <% end %>
+
+    <p>
+      <%= f.submit(source.new_record? ? "Create" : "Update") %>
+    </p>
+<% end %>

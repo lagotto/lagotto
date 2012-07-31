@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,138 +17,129 @@
 # limitations under the License.
 
 class ArticlesController < ApplicationController
-  before_filter :login_required, :except => [ :index, :show ]
-  before_filter :load_article, 
-                :only => [ :edit, :update, :destroy ]
+  before_filter :authenticate_user!, :except => [ :index, :show ]
+
+  respond_to :html, :xml, :json
 
   # GET /articles
-  # GET /articles.xml
   def index
     # cited=0|1
     # query=(doi fragment)
     # order=doi|published_on (whitelist, default to doi)
     # source=source_type
+
     collection = Article
     collection = collection.cited(params[:cited])  if params[:cited]
     collection = collection.query(params[:query])  if params[:query]
-    collection = collection.order(params[:order])  if params[:order]
+    collection = collection.order_articles(params[:order])
 
-    @articles = collection.paginate :page => params[:page], :per_page => params[:per_page], :include => :retrievals
-    @source = Source.find_by_type(params[:source]) if params[:source]
+    @articles = collection.paginate(:page => params[:page], :per_page => params[:per_page])
 
-    respond_to do |format|
-      format.html
-      format.xml  { render :xml => @articles }
+    # if private sources have been filtered out, the source parameter will be present and modified
+
+    # source url parameter is only used for csv format
+    @source = Source.find_by_name(params[:source].downcase) if params[:source]
+
+    if params[:source]
+      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("display_name")
+    else
+      @sources = Source.order("display_name")
+    end
+
+    respond_with(@articles) do |format|
       format.json { render :json => @articles, :callback => params[:callback] }
       format.csv  { render :csv => @articles }
     end
   end
 
-  # GET /articles/1
-  # GET /articles/1.xml
+  # GET /articles/:id
   def show
-    if params[:refresh] == "now"
-      load_article
-      Retriever.new(:lazy => false, :only_source => false).update(@article)      
-      redirect_to(@article) and return  # why not just keep going with show?
+
+    load_article
+
+    if params[:refresh] == "1"
+      @article.update_data_from_sources
+      # Wait 5 seconds so that you can see the refreshed article
+      # TODO add progress bar
+      # TODO refresh should be POST and not GET
+      sleep 5
+      redirect_to(@article) and return
     end
 
-    load_article(eager_includes)
-    format_options = params.slice :citations, :history, :source
+    format_options = params.slice :events, :history, :source
 
-    if params[:refresh] == "soon" or @article.stale?
-      uid = RetrievalWorker.async_retrieval(:article_id => @article.id)
-      logger.info "Queuing article #{@article.id} for retrieval as #{uid}"
-    end
-    
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml do
-        response.headers['Content-Disposition'] = 'attachment; filename=' + params[:id].sub(/^info:/,'') + '.xml'
-        render :xml => @article.to_xml(format_options)
-      end
+    # if private sources have been filtered out, the source parameter will be present and modified
+    # private sources are filtered out in the load_article_eager_includes method by looking at source parameter
+    load_article_eager_includes
+
+    respond_with(@article) do |format|
       format.csv  { render :csv => @article }
-      format.json { render :json => @article.to_json(format_options), :callback => params[:callback] }
+      format.json { render :json => @article.as_json(format_options), :callback => params[:callback] }
+      format.xml  do
+        response.headers['Content-Disposition'] = 'attachment; filename=' + params[:id].sub(/^info:/,'') + '.xml'
+        render :xml => @article.to_xml(:events => format_options[:events],
+                                       :history => format_options[:history],
+                                       :source => format_options[:source])
+      end
     end
   end
 
   # GET /articles/new
-  # GET /articles/new.xml
   def new
     @article = Article.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @article }
-      format.json { render :json => @article }
-    end
+    respond_with @article
   end
 
   # POST /articles
-  # POST /articles.xml
   def create
     @article = Article.new(params[:article])
 
-    respond_to do |format|
-      if @article.save
-        flash[:notice] = 'Article was successfully created.'
-
-        Source.all.each do |source|
-          Retrieval.find_or_create_by_article_id_and_source_id(@article.id, source.id)
-        end    
-
-        format.html { redirect_to(@article) }
-        format.xml  { render :xml => @article, :status => :created, :location => @article }
-        format.json { render :json => @article, :status => :created, :location => @article }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
-        format.json { render :json => @article.errors, :status => :unprocessable_entity }
-      end
+    if @article.save
+      flash[:notice] = 'Article was successfully created.'
     end
+    respond_with(@article)
   end
 
-  # PUT /articles/1
-  # PUT /articles/1.xml
+  # GET /articles/:id/edit
+  def edit
+    load_article
+  end
+
+  # PUT /articles/:id(.:format)
   def update
-    respond_to do |format|
-      if @article.update_attributes(params[:article])
-        flash[:notice] = 'Article was successfully updated.'
-        format.html { redirect_to(@article) }
-        format.xml  { head :ok }
-        format.json { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
-        format.json { render :json => @article.errors, :status => :unprocessable_entity }
-      end
+    load_article
+    if @article.update_attributes(params[:article])
+      flash[:notice] = 'Article was successfully updated.'
     end
+    respond_with(@article)
   end
 
-  # DELETE /articles/1
-  # DELETE /articles/1.xml
+  # DELETE /articles/:id(.:format)
   def destroy
+    load_article
     @article.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(articles_url) }
-      format.xml  { head :ok }
-      format.json { head :ok }
-    end
+    flash[:notice] = 'Article was successfully deleted.'
+    respond_with(@article)
   end
 
-protected
-  def load_article(options={})
-    # Load one article given query params, for the non-#index actions
+  protected
+  def load_article()
+    # Load one article given query params
     doi = DOI::from_uri(params[:id])
-    @article = Article.find_by_doi!(doi, options)
+    @article = Article.find_by_doi!(doi)
   end
 
-  def eager_includes
-    returning :include => { :retrievals => [ :source ] } do |r|
-      r[:include][:retrievals] << :citations if params[:citations] == "1"
-      r[:include][:retrievals] << :histories if params[:history] == "1"
-      r[:conditions] = ['LOWER(sources.type) IN (?)', params[:source].downcase.split(",")] if params[:source]
+  def load_article_eager_includes
+    doi = DOI::from_uri(params[:id])
+    if params[:source]
+      @article = Article.where("doi = ? and lower(sources.name) in (?)", doi, params[:source].downcase.split(",")).
+          includes(:retrieval_statuses => :source).first
+    else
+      @article = Article.where("doi = ?", doi).includes(:retrieval_statuses => :source).first
     end
+
+    raise ActiveRecord::RecordNotFound, "Couldn't find Article with doi = #{doi}" if @article.nil?
   end
+
 end

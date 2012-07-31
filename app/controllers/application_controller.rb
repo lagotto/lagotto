@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,24 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
+require "private_source_filter"
 
 class ApplicationController < ActionController::Base
-  helper :all # include all helpers, all the time
+  protect_from_forgery
 
-  include AuthenticatedSystem
-  before_filter :login_from_cookie
+  before_filter PrivateSourceFilter
 
-  # See ActionController::RequestForgeryProtection for details
-  # Uncomment the :secret if you're not using the cookie session store
-  protect_from_forgery # :secret => 'ef6844519c2aaf111cabba8ce89d66eb'
-  
-  # See ActionController::Base for details 
-  # Uncomment this to filter the contents of submitted sensitive data parameters
-  # from your application log (in this case, all fields with names like "password"). 
-  filter_parameter_logging :password, :salt
-
-  APP_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/settings.yml")[RAILS_ENV]
   layout APP_CONFIG['layout']
 end
