@@ -4,12 +4,6 @@ For more information on how PLoS uses Article-Level Metrics, see [http://article
 
 Version 2.0 of the application was released in July 2012 and has been updated to be compatible with Ruby 1.9.3, Rails 3.2.x, and to store the results of external API calls in CouchDB. The backend processes have been completely rewritten and now uses **delayed_job**.
 
-
-More information can be found [in the wiki][wiki].
-
-[wiki]: https://github.com/articlemetrics/alm/wiki
-
-
 ## Installation
 
 ALM is a standard Ruby on Rails application with the following requirements:
@@ -122,9 +116,9 @@ Please direct questions about the library to the [mailing list].
 
 ## Apps Wiki
 Does your project or organization use this application? Add it to the [
-wiki][apps]!
+FAQ][faq]!
 
-[apps]: https://github.com/articlemetrics/alm/wiki/faq
+[faq]: https://github.com/articlemetrics/alm/wiki/faq
 
 ## Note on Patches/Pull Requests
 
@@ -136,4 +130,4 @@ wiki][apps]!
 
 ## Copyright
 
-Copyright (c) 2009-2012 by Public Library of Science. See [LICENSE](LICENSE.md) for details.
+Copyright (c) 2009-2012 by Public Library of Science. See [LICENSE](https://github.com/articlemetrics/alm/blob/master/LICENSE.md) for details.
