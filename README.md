@@ -2,7 +2,12 @@ Article Level Metrics (ALM), is a Ruby on Rails application started by the [Publ
 
 For more information on how PLoS uses Article-Level Metrics, see [http://article-level-metrics.plos.org/](http://article-level-metrics.plos.org/).
 
-Version 2.0 of the application was released in July 2012 and has been updated to be compatible with Ruby 1.9.3, Rails 3.2.x, and to store the results of external API calls in CouchDB. The backend processes have been completely rewritten and now use **delayed_job**.
+Version 2.0 of the application was released in July 2012 and has been updated to be compatible with Ruby 1.9.3, Rails 3.2.x, and to store the results of external API calls in CouchDB. The backend processes have been completely rewritten and now uses **delayed_job**.
+
+
+More information can be found [in the wiki][wiki].
+
+[wiki]: https://github.com/articlemetrics/alm/wiki
 
 
 ## Installation
@@ -55,10 +60,6 @@ All ".json" requests can be made with JSONP support by including a querystring "
 
     {"article": {"doi": "10.1371/bogus", "pub_med": null, "pub_med_central": null, "updated_at": "2009-01-04T13:59:27-08:00", 
     "citations_count": 0}}
-
-More information about data formats can be found [on the wiki][wiki].
-
-[wiki]: https://github.com/articlemetrics/alm/wiki/Formats
 
 ### Rake
 
