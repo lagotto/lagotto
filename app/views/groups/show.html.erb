@@ -2,7 +2,7 @@
   # $HeadURL$
   # $Id$
   #
-  # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
   # http://www.plos.org/
   #
   # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,18 +17,21 @@
   # See the License for the specific language governing permissions and
   # limitations under the License.
 -%>
+
 <div class="border">
-<div class="page">
-<h1>Details for <%=h @group.name %> </h1>
+  <div class="page">
+    <h1>Details for <%=h @group.name %> </h1>
 
-<p>
-  <b>Name:</b>
-  <%=h @group.name %>
-</p>
+    <p>
+      <b>Name:</b>
+      <%=h @group.name %>
+    </p>
 
-<%= link_to 'Edit', edit_group_path(@group) %>
-<%= link_to 'Delete', @group, :confirm => 'Are you sure?', :method => :delete %>
-<br/>
-<%= link_to 'Back to list', groups_path %>
-</div>
+    <% if user_signed_in? %>
+        <%= link_to 'Edit', edit_group_path(@group) %> |
+        <%= link_to 'Delete', @group, :confirm => 'Are you sure?', :method => :delete %>
+    <% end %>
+    <br/>
+    <%= link_to 'Back to list', groups_path %>
+  </div>
 </div>

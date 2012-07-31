@@ -2,7 +2,7 @@
   # $HeadURL$
   # $Id$
   #
-  # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
   # http://www.plos.org/
   #
   # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,26 +17,23 @@
   # See the License for the specific language governing permissions and
   # limitations under the License.
 -%>
+
 <div class="border">
-<div class="page">
-<h1>Sources</h1>
+  <div class="page">
+    <h1>Sources</h1>
 
-<ul>
-<% for source in @sources %>
-  <li>
-    <% unless source.is_a? String %>
-      <%# Link to an existing source -%>
-      <h3><%= link_to h(source.name), source_path(source) %></h3>
-      <div><%= source.active ? "<b>Active</b>" : "<b>Inactive</b>" %>; <% if source.group %> Group: <%=source.group.name %>, <% end %>
-           update every <%= SecondsToDuration::convert(source.staleness).inspect %></div>
-    <% else %>
-      <%# Link to create a new source for an unconfigured one -%>
-      <h3><%= link_to h(source), new_source_path(:class => source) %></h3>
-      <div>Unconfigured - click to configure.</div>
-    <% end %>
-  </li>
-<% end %>
-</ul>
+    <ul>
+      <% for source in @sources %>
+          <li>
+            <h3><%= link_to h(source.display_name), source_path(source) %></h3>
+            <div>
+              <b><%= source.active ? "Active" : "Inactive" %>;</b>
+              <% if source.group %>
+                  Group: <%= source.group.name %>
+              <% end %>
+            </div>
+          </li>
+      <% end %>
+    </ul>
+  </div>
 </div>
-</div>
-

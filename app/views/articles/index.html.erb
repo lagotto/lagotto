@@ -2,7 +2,7 @@
   # $HeadURL$
   # $Id$
   #
-  # Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
   # http://www.plos.org/
   #
   # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,58 +17,57 @@
   # See the License for the specific language governing permissions and
   # limitations under the License.
 -%>
+
 <div class="border">
-<div class="page">
-  <% 
-    filtered = params[:cited] || params[:query]
+  <div class="page">
+    <%
+       filtered = params[:cited] || params[:query]
 
-    links = []
-    links << link_to('all', articles_path) if filtered
-    links << link_to('cited', articles_path(:cited => "1", :query => params[:query])) unless params[:cited] == "1"
-    links << link_to('uncited', articles_path(:cited => "0", :query => params[:query])) unless params[:cited] == "0"
-    links = links.join(" or ")
-  -%>
-  <div>
-    Show <%= links %> articles | 
-    <% form_tag articles_path, :method => "get", :style => "display: inline" do %>
-      <%= label_tag 'query', 'Show only DOIs containing:' %>
-      <%= text_field_tag "query", params[:query], :size => 9 %>
-      <%= submit_tag 'Go' %>
-    <% end %> | 
-    <%= link_to 'Add another article', new_article_path %>
-  </div>
-  <h2>
-    <%=
-      case params[:cited] 
-      when "1"
-        pluralize @articles.total_entries, 'cited article'
-      when "0"
-        pluralize @articles.total_entries, 'uncited article'
-      else 
-        "All " + pluralize(@articles.total_entries, 'article')
-      end
+       links = []
+       links << link_to("all", articles_path) if filtered
+       links << link_to("cited", articles_path(:cited => "1", :query => params[:query])) unless params[:cited] == "1"
+       links << link_to('uncited', articles_path(:cited => "0", :query => params[:query])) unless params[:cited] == "0"
+       links = links.join(" or ")
+       links = links.html_safe
     %>
-    <% if params[:query] %>
-      with DOIs containing &ldquo;<%= params[:query] %>&rdquo;
-    <% end %>
-  </h2>
-
-  <% unless @articles.empty? %>
-    <% for article in @articles %>
-    <div class="article">
-      <span class="doi"><%= link_to article.doi, article %></span>
-      <span class="details">
-        <%= pluralize article.citations_count, "citation" %> from
-        <%= pluralize article.cited_retrievals_count, "source" %>, 
-        <%= (article.retrieved_at.year < 2000) ? 
-          "never updated" : "updated #{article.retrieved_at.to_s(:friendly)}" %>
-      </span>
+    <div>
+      Show <%= links %> articles |
+      <%= form_tag articles_path, :method => "get", :style => "display: inline" do %>
+          <%= label_tag 'query', 'Show only DOIs containing:' %>
+          <%= text_field_tag "query", params[:query], :size => 9 %>
+          <%= submit_tag 'Go' %>
+      <% end %> |
+      <%= link_to 'Add another article', new_article_path %>
     </div>
-    <% end %>
-  <% else %>
-    <div>No <%= "cited" if params[:cited] %> articles found</div>
-  <% end %>
+    <h2>
+      <%=
+          case params[:cited]
+            when "1"
+              pluralize @articles.total_entries, 'cited article'
+            when "0"
+              pluralize @articles.total_entries, 'uncited article'
+            else
+              "All " + pluralize(@articles.total_entries, 'article')
+          end
+      %>
+      <% if params[:query] %>
+          with DOIs containing &ldquo;<%= params[:query] %>&rdquo;
+      <% end %>
+    </h2>
 
-  <%= will_paginate @articles %>
-</div>
+    <% unless @articles.empty? %>
+        <% for article in @articles %>
+            <div class="article">
+              <span class="doi"><%= link_to article.doi, article %></span>
+              <span class="details">
+                <%= pluralize article.cited_retrievals_count, "source" %>
+              </span>
+            </div>
+        <% end %>
+    <% else %>
+        <div>No <%= "cited" if params[:cited] %> articles found</div>
+    <% end %>
+
+    <%= will_paginate @articles %>
+  </div>
 </div>

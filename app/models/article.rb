@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,189 +16,146 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require "doi"
+require "cgi"
+require "builder"
+
 class Article < ActiveRecord::Base
-  
-  has_many :retrievals, :dependent => :destroy
-  has_many :sources, :through => :retrievals
-  has_many :citations, :through => :retrievals
+
+  has_many :retrieval_statuses, :dependent => :destroy
 
   validates_format_of :doi, :with => DOI::FORMAT
   validates_uniqueness_of :doi
 
   after_create :create_retrievals
 
-  named_scope :query, lambda { |query|
-    { :conditions => [ "doi like ?", "%#{query}%" ] }
-  }
-  
-  named_scope :cited, lambda { |cited|
+  scope :query, lambda { |query| where("doi like ?", "%#{query}%") }
+
+  scope :cited, lambda { |cited|
     case cited
-    when '1', 1
-      { :include => :retrievals,
-        :conditions => "retrievals.citations_count > 0 OR retrievals.other_citations_count > 0" }
-    when '0', 0
-      { :conditions => 'EXISTS (SELECT * from retrievals where article_id = `articles`.id GROUP BY article_id HAVING SUM(IFNULL(retrievals.citations_count,0)) + SUM(IFNULL(retrievals.other_citations_count,0)) = 0)' }
-      #articles.id IN (SELECT articles.id FROM articles LEFT OUTER JOIN retrievals ON retrievals.article_id = articles.id GROUP BY articles.id HAVING IFNULL(SUM(retrievals.citations_count) + SUM(retrievals.other_citations_count), 0) = 0)' }
-    else
-      {}
+      when '1', 1
+        includes(:retrieval_statuses).where("retrieval_statuses.event_count > 0")
+      when '0', 0
+        where('EXISTS (SELECT * from retrieval_statuses where article_id = `articles`.id GROUP BY article_id HAVING SUM(IFNULL(retrieval_statuses.event_count,0)) = 0)')
     end
   }
 
-  named_scope :limit, lambda { |limit| (limit && limit > 0) ? {:limit => limit} : {} }
-
-  named_scope :order, lambda { |order|
+  scope :order_articles, lambda { |order|
     if order == 'published_on'
-      { :order => 'published_on' }
+      order("published_on")
     else
-      {}
+      order("doi")
     end
   }
-
-  named_scope :stale_and_published,
-    :conditions => ["articles.id IN (
-	SELECT DISTINCT article_id
-	FROM retrievals 
-	JOIN sources ON retrievals.source_id = sources.id 
-	WHERE retrievals.article_id = articles.id 
-	AND retrievals.retrieved_at < TIMESTAMPADD(SECOND, - sources.staleness, UTC_TIMESTAMP())
-	AND sources.active = 1
-	AND (
-		sources.disable_until IS NULL 
-		OR sources.disable_until < UTC_TIMESTAMP()))
-	AND articles.published_on < ?", Time.zone.today],
-    :order => :retrieved_at
-
-  default_scope :order => 'articles.doi'
 
   def to_param
-    DOI.to_uri(doi)
+    # not necessary to escape the characters make to_param work
+    CGI.escape(DOI.to_uri(doi))
   end
 
-  def doi=(new_doi)
-    self[:doi] = DOI.from_uri(new_doi)
-  end
-
-  def stale?
-    new_record? or retrievals.empty? or retrievals.active_sources.any?(&:stale?)
-  end
-
-  def refreshed!
-    self.retrieved_at = Time.zone.now
-    self
-  end
-  
-  #Get citation count by group and sources from the activerecord data
-  def citations_by_group
-    results = {}
-    
-    for ret in retrievals
-      if results[ret.source.group_id] == nil then
-        results[ret.source.group_id] = {
-          :name => ret.source.group && ret.source.group.name.downcase,
-          :total => ret.citations_count + ret.other_citations_count,
-          :sources => []
-        }
-        results[ret.source.group_id][:sources] << {
-          :name => ret.source.name,
-          :total => ret.citations_count + ret.other_citations_count,
-          :public_url => ret.source.public_url(ret)
-        }
-      else
-        results[ret.source.group_id][:total] = results[ret.source.group_id][:total] + ret.citations_count + ret.other_citations_count
-        results[ret.source.group_id][:sources] << {
-          :name => ret.source.name,
-          :total => ret.citations_count + ret.other_citations_count,
-          :public_url => ret.source.public_url(ret)
-        }
-      end
-    end
-    
-    groupsCount = []
-    
-    results.each do | key, value |
-      groupsCount << value
-    end
-    
-    groupsCount
-  end
-  
-  #Get cites for the given source from the activeRecord data
-  def get_cites_by_group(groupname)
-    groupname = groupname.downcase
-    retrievals.map do |ret|
-      if ret.source.group.name.downcase == groupname && (ret.citations_count + ret.other_citations_count) > 0
-        #Cast this to an array to get around a ruby 'singularize' bug
-        { :name => ret.source.name.downcase, :citations => ret.citations.to_a }
-      end
-    end.compact
-  end
-  
-  def citations_count
-    retrievals.inject(0) {|sum, r| sum + r.total_citations_count }
-    # retrievals.sum(:citations_count) + retrievals.sum(:other_citations_count)
+  def events_count
+    retrieval_statuses.inject(0) { |sum, r| sum + r.event_count }
   end
 
   def cited_retrievals_count
-    retrievals.select {|r| r.total_citations_count > 0 }.size
+    retrieval_statuses.select {|r| r.event_count > 0}.size
   end
 
   def to_xml(options = {})
-    options[:indent] ||= 2
     sources = (options.delete(:source) || '').downcase.split(',')
-    xml = options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
+
+    options[:indent] ||= 2
+    xml = options[:builder] ||= ::Builder::XmlMarkup.new(:indent => options[:indent])
     xml.instruct! unless options[:skip_instruct]
-    xml.tag!("article", :doi => doi, :title => title, :citations_count => citations_count,:pub_med => pub_med,:pub_med_central => pub_med_central, :updated_at => retrieved_at, :published => published_on.to_time) do
-      if options[:citations] or options[:history]
-        retrieval_options = options.merge!(:dasherize => false, 
+    xml.tag!("article",
+             :doi => doi,
+             :title => title,
+             :pub_med => pub_med,
+             :pub_med_central => pub_med_central,
+             :events_count => events_count,
+             :published => (published_on.nil? ? nil : published_on.to_time)) do
+
+      if options[:events] or options[:history]
+        retrieval_options = options.merge!(:dasherize => false,
                                            :skip_instruct => true)
-        retrievals.each do |r| 
-          r.to_xml(retrieval_options) \
-            if (sources.empty? or sources.include?(r.source['type'].downcase))
-               #If the result set is emtpy, lets not return any information about the source at all
-               #\
-               #and (r.total_citations_count > 0)
+
+        retrieval_statuses.each do |rs|
+          rs.to_xml(retrieval_options) if (sources.empty? or sources.include?(rs.source.name.downcase))
         end
       end
     end
   end
 
-  def explain
-    msgs = ["[#{id}]: #{doi} #{retrieved_at}#{" stale" if stale?}"]
-    retrievals.each {|r| msgs << "  [#{r.id}] #{r.source.name} #{r.retrieved_at}#{" stale" if r.stale?}"}
-    msgs.join("\n")
-  end
-
-  def to_json(options={})
-    result = { 
-      :article => { 
-        :doi => doi, 
-        :title => title, 
-        :pub_med => pub_med,
-        :pub_med_central => pub_med_central,
-        :citations_count => citations_count,
-        :published => published_on.to_time,
-        :updated_at => retrieved_at
-      }
+  def as_json(options={})
+    result = {
+        :article => {
+            :doi => doi,
+            :title => title,
+            :pub_med => pub_med,
+            :pub_med_central => pub_med_central,
+            :events_count => events_count,
+            :published => (published_on.nil? ? nil : published_on.to_time)
+        }
     }
+
     sources = (options.delete(:source) || '').downcase.split(',')
-    if options[:citations] or options[:history]
-      result[:article][:source] = retrievals.map do |r|
-        r.to_included_json(options) \
-          if (sources.empty? or sources.include?(r.source.class.to_s.downcase))
-             #If the result set is empty, lets not return any information about the source at all
-             #\
-             #and (r.total_citations_count > 0)
+    if options[:events] or options[:history]
+      result[:article][:source] = retrieval_statuses.map do |rs|
+        rs.as_json(options) if (sources.empty? or sources.include?(rs.source.name.downcase))
       end.compact
     end
-    result.to_json(options)
+    result
+  end
+
+  def update_data_from_sources
+    # get a list of sources that we can get data from right now
+    # counter data can only be queried at very specific time frame only so it will be excluded
+    # nature has api limit so it will get updated if it can be updated.
+
+    sources = Source.refreshable_sources
+    sources.each do |source|
+      rs = RetrievalStatus.where(:article_id => id, :source_id => source.id).first
+      if not rs.nil?
+        source.queue_article_job(rs, Source::TOP_PRIORITY)
+      end
+    end
+
+  end
+
+  def get_data_by_group(group)
+    data = []
+    r_statuses = retrieval_statuses.joins(:source => :group).where("groups.id = ?", group.id)
+    r_statuses.each do |rs|
+      if rs.event_count > 0
+        events_data = rs.get_retrieval_data
+        if not events_data.nil?
+          data << {:source => rs.source.display_name,
+                   :events => events_data["events"]}
+        end
+      end
+    end
+    data
+  end
+
+  def group_source_info
+    group_info = {}
+    retrieval_statuses.each do |rs|
+      if not rs.source.group.nil? and rs.event_count > 0
+        group_id = rs.source.group.id
+        group_info[group_id] = [] if group_info[group_id].nil?
+        group_info[group_id] << {:source => rs.source.display_name,
+                                 :count => rs.event_count,
+                                 :public_url => rs.public_url}
+      end
+    end
+    group_info
   end
 
   private
-    def create_retrievals
-      # Create an empty retrieval record for each active source to avoid a
-      # problem with joined tables breaking the UI on the front end
-      Source.active.each do |source|
-        Retrieval.find_or_create_by_article_id_and_source_id(id, source.id)
-      end
+  def create_retrievals
+    # Create an empty retrieval record for every source for the new article
+    Source.all.each do |source|
+      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id)
     end
+  end
 end

@@ -1,7 +1,7 @@
-# $HeadURL: http://ambraproject.org/svn/plos/alm/head/config/initializers/date_format.rb $
-# $Id: date_format.rb 5693 2010-12-03 19:09:53Z josowski $
+# $HeadURL$
+# $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
-   :friendly => '%m/%d/%y %I:%M%P',
-   :friendly_date => '%m/%d/%y',
-   :ordered => '%Y%m%d%H%M'
+Time::DATE_FORMATS.merge!(
+    :friendly => '%m/%d/%y %I:%M%P',
+    :friendly_date => '%m/%d/%y',
+    :ordered => '%Y%m%d%H%M'
 )

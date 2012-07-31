@@ -1,108 +1,129 @@
-# This file is auto-generated from the current state of the database. Instead of editing this file, 
-# please use the migrations feature of Active Record to incrementally modify your database, and
-# then regenerate this schema definition.
+# encoding: UTF-8
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your database schema. If you need
-# to create the application database on another system, you should be using db:schema:load, not running
-# all the migrations from scratch. The latter is a flawed and unsustainable approach (the more migrations
+# Note that this schema.rb definition is the authoritative source for your
+# database schema. If you need to create the application database on another
+# system, you should be using db:schema:load, not running all the migrations
+# from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111028162020) do
+ActiveRecord::Schema.define(:version => 20120607162536) do
 
   create_table "articles", :force => true do |t|
-    t.string   "doi",                                                :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "retrieved_at",    :default => '1970-01-01 00:00:00', :null => false
+    t.string   "doi",             :null => false
+    t.text     "title"
+    t.date     "published_on"
     t.string   "pub_med"
     t.string   "pub_med_central"
-    t.date     "published_on"
-    t.text     "title"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
 
-  create_table "citations", :force => true do |t|
-    t.integer  "retrieval_id"
-    t.string   "uri",          :null => false
-    t.text     "details"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
-  add_index "citations", ["retrieval_id", "uri"], :name => "index_citations_on_retrieval_id_and_uri", :unique => true
-  add_index "citations", ["retrieval_id"], :name => "index_citations_on_retrieval_id"
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "groups", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "name",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "histories", :force => true do |t|
-    t.integer  "retrieval_id",                   :null => false
-    t.integer  "year",                           :null => false
-    t.integer  "month",                          :null => false
-    t.integer  "citations_count", :default => 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "retrieval_histories", :force => true do |t|
+    t.integer  "retrieval_status_id",                :null => false
+    t.integer  "article_id",                         :null => false
+    t.integer  "source_id",                          :null => false
+    t.datetime "retrieved_at"
+    t.string   "status"
+    t.string   "msg"
+    t.integer  "event_count",         :default => 0
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
-  add_index "histories", ["retrieval_id", "year", "month"], :name => "index_histories_on_retrieval_id_and_year_and_month", :unique => true
+  add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
+  add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
 
-  create_table "retrievals", :force => true do |t|
-    t.integer  "article_id",                                               :null => false
-    t.integer  "source_id",                                                :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "retrieved_at",          :default => '1970-01-01 00:00:00', :null => false
-    t.integer  "citations_count",       :default => 0
-    t.integer  "other_citations_count", :default => 0
+  create_table "retrieval_statuses", :force => true do |t|
+    t.integer  "article_id",                                      :null => false
+    t.integer  "source_id",                                       :null => false
+    t.datetime "queued_at"
+    t.datetime "retrieved_at", :default => '1970-01-01 00:00:00', :null => false
     t.string   "local_id"
-    t.boolean  "running"
+    t.integer  "event_count",  :default => 0
+    t.string   "data_rev"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
   end
 
-  add_index "retrievals", ["article_id", "citations_count", "other_citations_count"], :name => "retrievals_article_id"
-  add_index "retrievals", ["source_id", "article_id"], :name => "index_retrievals_on_source_id_and_article_id", :unique => true
+  add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
 
   create_table "sources", :force => true do |t|
-    t.string   "type"
-    t.string   "url"
-    t.string   "username"
-    t.string   "password"
-    t.integer  "staleness",          :default => 604800
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "active",             :default => true
-    t.string   "name"
-    t.boolean  "live_mode",          :default => false
-    t.string   "salt"
-    t.string   "searchURL"
-    t.integer  "timeout",            :default => 30,     :null => false
-    t.integer  "group_id"
+    t.string   "type",                                              :null => false
+    t.string   "name",                                              :null => false
+    t.string   "display_name",                                      :null => false
+    t.boolean  "active",                         :default => false
     t.datetime "disable_until"
-    t.integer  "disable_delay",      :default => 10,     :null => false
-    t.string   "partner_id"
-    t.text     "misc"
-    t.boolean  "keep_existing_data", :default => false
+    t.integer  "disable_delay",                  :default => 10,    :null => false
+    t.integer  "timeout",                        :default => 30,    :null => false
+    t.integer  "workers",                                           :null => false
+    t.text     "config"
+    t.integer  "group_id"
+    t.boolean  "private",                        :default => false
+    t.integer  "wait_time",                      :default => 300,   :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
+    t.boolean  "refreshable",                    :default => true
+    t.integer  "max_failed_queries",             :default => 200
+    t.integer  "max_failed_query_time_interval", :default => 86400
   end
 
+  add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
   add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true
 
   create_table "users", :force => true do |t|
-    t.string   "login",                     :limit => 40
-    t.string   "name",                      :limit => 100, :default => ""
-    t.string   "email",                     :limit => 100
-    t.string   "crypted_password",          :limit => 40
-    t.string   "salt",                      :limit => 40
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "remember_token",            :limit => 40
-    t.datetime "remember_token_expires_at"
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "password_salt"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+    t.string   "username"
   end
 
-  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "workers", :force => true do |t|
+    t.integer  "identifier", :null => false
+    t.string   "queue",      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

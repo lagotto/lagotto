@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +17,8 @@
 # limitations under the License.
 
 class Group < ActiveRecord::Base
-  has_many :sources
+  has_many :sources, :dependent => :nullify
 
+  validates_presence_of :name
+  validates_uniqueness_of :name
 end

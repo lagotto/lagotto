@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,14 +30,7 @@ module MonthRangeHelper
       loop do
         yield d
         d >>= @offset
-        break if (d <=> @last) == @offset 
-      end
-    end
-
-    # Ruby 1.8.6 doesn't have Enumerable#count
-    unless self.instance_methods.include?("count")
-      def count
-        to_a.size
+        break if (d <=> @last) == @offset
       end
     end
   end

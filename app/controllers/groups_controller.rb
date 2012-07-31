@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,148 +16,128 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'doi'
+
 class GroupsController < ApplicationController
-  before_filter :login_required, :except => [ :index, :show, :groupArticleSummaries ]
+  before_filter :authenticate_user!, :except => [ :index, :show, :group_article_summaries ]
 
-  #This is a way of excepting a list of DOIS and getting back summaries for them all.
-  #Articles with no cites are not returned
-  #This method does not check for article staleness and does not query articles for refresh
-  def groupArticleSummaries
-    logger.debug "groupArticleSummaries"
-
-    #Specifying multilple DOIS without a parameter proved nightmareish
-    #So we do it here using a comma delimated list with format 
-    #Specified as a parameter (ID)
-
-    #Here sometimes the :format value may have a period attached to it
-    #This will filter it out
-    reqFormat = params[:format]
-
-    if reqFormat != nil
-      matchedFormat = reqFormat.match(/xml|csv|json/)
-      
-      #If we get a bad format, just default to nil (or HTML)
-      if matchedFormat == nil
-        request.format = nil
-      else
-        request.format = matchedFormat[0]
-        logger.info "format:" + request.format
-      end
-    end
-
-    logger.info "ID:" + params[:id]
-
-    if !params[:id]
-      raise "ID parameter not specified"
-    end
-
-    #Ids can be a collection
-    ids = params[:id].split(',')
-    ids = ids.map { |id| DOI::from_uri(id) }
-      
-    @result  = []
-
-    # Specifiy the eager loading so we get all the data we need up front
-    articles = Article.find(:all, 
-      :include => [ :retrievals => [ :citations, { :source => :group } ]], 
-      :conditions => [ "articles.doi in (?) and (retrievals.citations_count > 0 or retrievals.other_citations_count > 0)", ids ])
-    
-    @result = articles.map do |article|
-      returning Hash.new do |hash|
-        hash[:article] = article
-        hash[:groupcounts] = article.citations_by_group
-        
-        # If any groups are specified via URL params, get those details
-        hash[:groups] = params[:group].split(",").map do |group|
-          sources = article.get_cites_by_group(group)
-          { :name => group,
-            :sources => sources } unless sources.empty?
-        end.compact if params[:group]
-      end
-    end
-  
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @result }
-      format.json { render :json => @result, :callback => params[:callback] }
-    end
-  end
+  respond_to :html
 
   # GET /groups
   def index
-    @groups = Group.find(:all)
+    @groups = Group.order("name")
+    respond_with @groups
+  end
 
-    respond_to do |format|
-      format.html # index.html.erb
+  # GET /groups/:id
+  def show
+    @group = Group.find(params[:id])
+    respond_with @group
+  end
+
+  # GET /groups/:id/edit
+  def edit
+    @group = Group.find(params[:id])
+  end
+
+  # PUT /groups/:id
+  def update
+    @group = Group.find(params[:id])
+    if @group.update_attributes(params[:group])
+      flash[:notice] = 'Group was successfully updated.'
+      redirect_to groups_url
+    else
+      render :edit
     end
   end
 
-  # GET /groups/1
-  def show
+  # DELETE /groups/:id
+  def destroy
     @group = Group.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-    end
+    @group.destroy
+    @group.delete
+    flash[:notice] = 'Group was successfully deleted.'
+    respond_with(@group)
   end
 
   # GET /groups/new
   def new
     @group = Group.new
-    
-    respond_to do |format|
-      format.html # new.html.erb
-    end
-  end
-
-  # GET /groups/1/edit
-  def edit
-    @group = Group.find(params[:id])
+    respond_with @group
   end
 
   # POST /groups
   def create
     @group = Group.new(params[:group])
 
-    respond_to do |format|
-      if @group.save
-        flash[:notice] = 'Group was successfully created.'
-        format.html { redirect_to(groups_url) }
-      else
-        format.html { render :action => "new" }
+    if @group.save
+      flash[:notice] = 'Group was successfully created.'
+      redirect_to groups_url
+    else
+      render :new
+    end
+  end
+
+  def group_article_summaries
+
+    if !params[:id]
+      raise "ID parameter not specified"
+    end
+
+    # get the list of DOIs
+    ids = params[:id].split(",")
+    ids = ids.map { |id| DOI::from_uri(id) }
+
+    # get all the groups
+    groups = {}
+    gs = Group.all
+    gs.each { |group| groups[group.id] = group.name }
+
+    @summaries = []
+
+    # if private sources have been filtered out, the source parameter will be present and modified
+
+    # get the articles
+    if params[:source]
+      articles = Article.where("doi in (?) and lower(sources.name) in (?)", ids, params[:source].downcase.split(",")).
+          includes( :retrieval_statuses => { :source => :group })
+    else
+      articles = Article.where("doi in (?)", ids).includes( :retrieval_statuses => { :source => :group })
+    end
+
+    articles.each do |article|
+      summary = {}
+
+      summary[:article] = article
+
+      # for each article, group the source information by group
+      group_info = article.group_source_info
+
+      summary[:groupcounts] = []
+      group_info.each do |key, value|
+        total = value.inject(0) {|sum, source| sum + source[:count] }
+        summary[:groupcounts] << {:name => groups[key],
+                                  :count => total,
+                                  :sources => value}
       end
+
+      # if any groups are specified via URL params, get data for each source that belongs to the given group
+      summary[:groups] = params[:group].split(",").map do |group_name|
+        group = Group.where("lower(name) = lower(?)", group_name).first
+        if not group.nil?
+          sources = article.get_data_by_group(group)
+          { :name => group.name,
+            :sources => sources } unless sources.empty?
+        end
+      end.compact if params[:group]
+
+      @summaries << summary
+    end
+
+    respond_with(@summaries) do |format|
+      format.html
+      format.json { render :json => @summaries, :callback => params[:callback]}
+      format.xml { render :xml => @summaries }
     end
   end
-
-  # POST /groups/1
-  def update
-    @group = Group.find(params[:id])
-
-    respond_to do |format|
-      if @group.update_attributes(params[:group])
-        flash[:notice] = 'Group was successfully updated.'
-        format.html { redirect_to(groups_url) }
-      else
-        format.html { render :action => "edit" }
-      end
-    end
-  end
-
-  # DELETE /groups/1
-  def destroy
-    @group = Group.find(params[:id])
-    
-    Source.find(:all, :conditions => {  :group_id => @group.id }).each do |s| 
-      s.group = nil;
-      s.save
-    end
-    
-    @group.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(groups_url) }
-    end
-  end
-
 end
-

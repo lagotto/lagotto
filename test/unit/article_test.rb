@@ -1,21 +1,3 @@
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2010 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 require 'test_helper'
 
 class ArticleTest < ActiveSupport::TestCase
@@ -23,110 +5,93 @@ class ArticleTest < ActiveSupport::TestCase
     @article = Article.new :doi => "10.0/dummy"
   end
 
-  def test_should_save
+  test "save" do
     assert @article.save
     assert @article.errors.empty?
+    assert(@article.retrieval_statuses.size == Source.all.count)
   end
 
-  def test_should_require_doi
+  test "require doi" do
     @article.doi = nil
     assert !@article.save
-    assert @article.errors.on(:doi)
+    assert @article.errors.messages.has_key?(:doi)
   end
 
-  def test_should_require_doi_uniqueness
+  test "require doi uniqueness" do
     assert @article.save
     @article2 = Article.new :doi => "10.0/dummy"
     assert !@article2.save
-    assert @article2.errors.on(:doi)
+    assert @article2.errors.messages.has_key?(:doi)
   end
 
-  def test_should_find_stale_articles
-    assert_equal [articles(:uncited_with_no_retrievals), articles(:stale), articles(:not_stale)],
-      Article.stale_and_published
+  test "validate doi format" do
+    @article.doi = "asdfasdfasdf"
+    assert !@article.save
+    assert @article.errors.messages.has_key?(:doi)
   end
 
-  def test_should_be_stale_based_on_retrieval_age
-    check_staleness(articles(:stale)) { |a| a.retrievals.first.update_attribute :retrieved_at, 2.years.ago }
-  end
-
-  def test_staleness_on_new
-    a = Article.new
-    assert a.errors.empty?
-    assert a.stale?
-  end
-
-  def test_staleness_on_create
-    a = Article.create :doi => '10.1/foo'
-    assert a.valid?, a.errors.full_messages
-    assert a.stale?
-
-    a.published_on = 1.day.ago
-    assert a.save
-    assert Article.stale_and_published.include?(a)
-  end
-
-  def test_retrievals_created_on_newly_created_article
-    a = Article.create :doi => '10.1/foo'
-    assert a.valid?, a.errors.full_messages
-    assert_equal Source.active.count, a.retrievals.count
-  end
-
-  def test_staleness_excludes_failed_retrievals
-    a = Article.create :doi => '10.1/foo', :published_on => 1.day.ago
-    assert a.valid?, a.errors.full_messages
-    assert a.stale?
-
-    r = a.retrievals.first(:conditions => { :source_id => sources(:connotea).id })
-    assert r.valid?
-    assert_equal Time.at(0), r.retrieved_at
-    assert Article.stale_and_published.include?(a)
-  end
-
-  def test_staleness_excludes_disabled_sources
-    assert_equal 3, Article.stale_and_published.count
-    Source.update_all :disable_until => 3.days.from_now
-    assert_equal [], Article.stale_and_published
-    Source.update_all :disable_until => 1.second.ago
-    assert_equal 3, Article.stale_and_published.count
-  end
-
-  def test_staleness_excludes_failed_retrievals_and_disabled_sources
-    a = Article.create! :doi => '10.1/foo', :published_on => 1.day.ago
-    r = a.retrievals.first(:conditions => { :source_id => sources(:connotea).id })
-    assert_equal Time.at(0), r.retrieved_at
-    Source.update_all :disable_until => 3.days.from_now
-
-    assert !Article.stale_and_published.include?(a)
-  end
-
-  def test_cited
-    cited = Article.cited(1)
-    assert cited.size > 0
-    cited.each do |a|
-      assert a.citations_count > 0
+  test "events count" do
+    Article.all.each do |article|
+      total = 0
+      article.retrieval_statuses.each do |rs|
+        total += rs.event_count
+      end
+      assert(total == article.events_count)
     end
   end
 
-  def test_uncited
-    uncited = Article.cited(0)
-    assert uncited.size > 0
-    uncited.each do |a|
-      assert_equal 0, a.citations_count
+  test "cited_retrievals_count" do
+    Article.all.each do |article|
+      total = 0
+      article.retrieval_statuses.each do |rs|
+        if rs.event_count > 0
+          total += 1
+        end
+      end
+      assert(total == article.cited_retrievals_count)
     end
   end
 
-  def test_cited_consistency
+  test "cited" do
+    articles = Article.cited(1)
+    articles.each do |article|
+      assert(article.events_count > 0)
+    end
+  end
+
+  test "uncited" do
+    articles = Article.cited(0)
+    articles.each do |article|
+      assert(article.events_count == 0)
+    end
+  end
+
+  test "cited consistency" do
     assert_equal Article.count, Article.cited(1).count + Article.cited(0).count
     assert_equal Article.count, Article.cited(nil).count
     assert_equal Article.count, Article.cited('blah').count
   end
 
-  def check_staleness(article, &block)
-    article.update_attribute :retrieved_at, 1.minute.ago
-    article.retrievals.each {|r| r.update_attribute :retrieved_at, 1.minute.ago }
-    assert !article.stale?
-    yield article
-    assert article.stale?
+  test "query" do
+
   end
+
+  test "order by doi" do
+    articles = Article.order_articles("doi")
+    i = 0
+    while i < (articles.size-1)
+      assert(articles[i].doi < articles[i+1].doi)
+      i += 1
+    end
+  end
+
+  test "order by published_on" do
+    articles = Article.order_articles("published_on")
+    i = 0
+    while i < (articles.size-1)
+      assert(articles[i].published_on <= articles[i+1].published_on)
+      i += 1
+    end
+  end
+
 end
