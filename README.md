@@ -26,7 +26,6 @@ The ALM application can be installed has a hosted solution with a PaaS provider.
 
 * [Heroku](http://www.heroku.com)
 * [OpenShift](https://openshift.redhat.com/app/)
-* [AppFog](http://www.appfog.com)
 
 Several providers provide hosting for CouchDB, including [Cloudant](https://cloudant.com).
 
