@@ -33,9 +33,9 @@ Vagrant::Config.run do |config|
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
-  config.vm.forward_port('apache2', 80, 8080)
-  config.vm.forward_port('mysql', 3306, 3307)
-  config.vm.forward_port('couchdb', 5984, 5985)
+  config.vm.forward_port 80, 8080 # Apache2
+  config.vm.forward_port 3306, 3307 # MySQL
+  config.vm.forward_port 5984, 5985 # CouchDB
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
