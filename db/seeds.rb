@@ -18,7 +18,7 @@ citeulike = Citeulike.find_or_create_by_name(
   
 pubmed = PubMed.find_or_create_by_name(  
   :name => "pubmed", 
-  :display_name => "PubMed Central Citations", 
+  :display_name => "PubMed", 
   :active => true, 
   :workers => 1,
   :group_id => citations.id,
@@ -74,6 +74,7 @@ pubmed = PubMed.find_or_create_by_name(
     :username => "EXAMPLE",
     :password => "EXAMPLE")
   
+
   # Load sample articles
   Article.find_or_create_by_doi(
     :doi => "10.1371/journal.ppat.1002522",

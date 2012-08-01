@@ -23,11 +23,6 @@ Don't forget to set up the CouchDB URL in `settings.yml` and include username an
 
     AllowEncodedSlashes On
 
-The delayed_job background processes are started with
-
-    RAILS_ENV=production script/delayed_job start
-    bundle exec rake workers:start_all
-
 ### Using a Platform as a Service (PaaS) provider
 The ALM application can be installed has a hosted solution with a PaaS provider. This is the quickest strategy to get the application up and running.
 
@@ -79,6 +74,12 @@ The following configuration options for sources are available via the web interf
 
 Through these setup options the behavior of sources can be fine-tuned. Please contact us if you have any questions.
 
+### Background processes
+
+All sources 
+
+
+
 ### Adding articles
 
 Articles can be added via the web interface (after logging in as admin), or via `rake doi_import <DOI_DUMP` (see below).
@@ -86,6 +87,16 @@ Articles can be added via the web interface (after logging in as admin), or via 
 ### Adding metrics
 
 Metrics are automatically added in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results returned by external APIs are stored in CouchDB.
+
+When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We have to set up a queue and at least one worker for every source. For the two sources enabled by default they would have to be started from the command line like this:
+    
+    # queues
+    bundle exec rake queue:citeulike RAILS_ENV=production &
+    bundle exec rake queue:pubmed RAILS_ENV=production &
+    
+    # workers
+    RAILS_ENV=production ./script/delayed_job start --queue=citeulike --identifier=1
+    RAILS_ENV=production ./script/delayed_job start --queue=pubmed --identifier=2
 
 ### API
 RESTful API URLs generally correspond to HTML URLs; you can usually just add ".xml" or ".json" to the HTML (unsuffixed) URL and perform a GET request. Both XML and JSON formats are provided (CSV is also supported for the article index), though attribute arrangement might be different between formats (and might differ from the information included in the HTML presentation generated without the format suffix).
