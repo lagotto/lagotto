@@ -89,6 +89,7 @@ end
 bash "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}" do
   cwd "/vagrant"
   code "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}"
+  code "rake jobs:work RAILS_ENV=#{node[:rails][:environment]}"
 end
 
 # Install Apache and Passenger
