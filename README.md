@@ -42,6 +42,9 @@ This is the preferred way to install the ALM application as a developer. The app
 After installation is finished (this can take up to 10 min on the first run) you can access the ALM application with your web browser at
 
     http://localhost:8080
+	
+The database servers are made available at ports 3307 (MySQL) and 5985 (CouchDB). For SSH use command `vagrant ssh`.
+
 ## Usage
 
 ### API
