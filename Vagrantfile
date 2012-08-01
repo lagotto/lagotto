@@ -33,9 +33,9 @@ Vagrant::Config.run do |config|
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
-  config.vm.forward_port 80, 8080
-  config.vm.forward_port 3000, 3000
-  config.vm.forward_port 5984, 5984
+  config.vm.forward_port 80, 8080 # Apache2
+  config.vm.forward_port 3306, 3307 # MySQL
+  config.vm.forward_port 5984, 5985 # CouchDB
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
@@ -68,15 +68,15 @@ Vagrant::Config.run do |config|
                 :mendeley => { :api_key => "EXAMPLE"},
                 :facebook => { :api_key => "EXAMPLE"},
                 :crossref=> { :username => "EXAMPLE", :password => "EXAMPLE"},
-                :nature => { :api_key => "EXAMPLE"},
-                :scopus => { :partner_id => "EXAMPLE"}},
-      :rvm => { :global_gems => [{ 'name' => 'bundler', 'version' => '1.1.4' }, 
+                :researchblogging => { :username => "EXAMPLE", :password => "EXAMPLE"},
+                :nature => { :api_key => "EXAMPLE"}},
+      :rvm => { :global_gems => [{ 'name' => 'bundler', 'version' => '1.1.5' }, 
                                  { 'name' => 'rake', 'version' => '0.9.2.2'},
-                                 { 'name' => 'chef', 'version' => '0.10.10' },
-                                 { 'name' => 'passenger', 'version' => '3.0.12'}]},
+                                 { 'name' => 'chef', 'version' => '10.12.0' },
+                                 { 'name' => 'passenger', 'version' => '3.0.14'}]},
       :rails => { :environment => "development" },
-      :passenger => { :version => "3.0.12" },
-      :admin => { :email => "admin@example.org" },
+      :passenger => { :version => "3.0.14" },
+      :admin => { :email => "ADMIN@EXAMPLE.ORG" },
       :mysql => { :bind_address => "0.0.0.0", :tunable => { :innodb_buffer_pool_size => "512M" } },
       :couchdb => { :src_version => "1.1.0", :bind_address => "0.0.0.0", :db_name => "alm" }
     })
