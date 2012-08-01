@@ -74,6 +74,12 @@ The following configuration options for sources are available via the web interf
 
 Through these setup options the behavior of sources can be fine-tuned. Please contact us if you have any questions.
 
+### Background processes
+
+All sources 
+
+
+
 ### Adding articles
 
 Articles can be added via the web interface (after logging in as admin), or via `rake doi_import <DOI_DUMP` (see below).
