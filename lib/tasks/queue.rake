@@ -18,6 +18,30 @@
 
 namespace :queue do
 
+  task :pmc => :environment do
+
+    # this rake task should be scheduled to run after pmc data import rake task runs
+    source = Source.find_by_name("pmc")
+    source.queue_all_articles
+
+  end
+
+  task :counter => :environment do
+
+    # this rake task should be scheduled after counter data has been processed for the day
+    source = Source.find_by_name("counter")
+    source.queue_all_articles
+
+  end
+
+  task :biod => :environment do
+
+    # this rake task should be scheduled after counter data has been processed for the day
+    source = Source.find_by_name("biod")
+    source.queue_all_articles
+
+  end
+
   task :citeulike => :environment do
 
     # this rake task is setup to run forever
@@ -73,6 +97,17 @@ namespace :queue do
 
   end
 
+  task :wos => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("wos")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
   task :pubmed => :environment do
 
     # this rake task is setup to run forever
@@ -100,6 +135,17 @@ namespace :queue do
     # this rake task is setup to run forever
     loop do
       source = Source.find_by_name("facebook")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
+  task :twitter => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("twitter")
       sleep_time = source.queue_articles
       sleep(sleep_time)
     end
