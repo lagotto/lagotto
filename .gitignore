@@ -23,7 +23,9 @@ capybara-*.html
 /config/database.yml
 /config/settings.yml
 /config/source_configs.yml
+/config/deploy.rb
 **.orig
 rerun.txt
 pickle-email-*.html
 .vagrant
+Capfile
