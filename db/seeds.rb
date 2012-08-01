@@ -18,7 +18,7 @@ citeulike = Citeulike.find_or_create_by_name(
   
 pubmed = PubMed.find_or_create_by_name(  
   :name => "pubmed", 
-  :display_name => "PubMed", 
+  :display_name => "PubMed Central Citations", 
   :active => true, 
   :workers => 1,
   :group_id => citations.id,
@@ -28,7 +28,7 @@ pubmed = PubMed.find_or_create_by_name(
   mendeley = Mendeley.find_or_create_by_name(  
     :name => "mendeley", 
     :display_name => "Mendeley", 
-    :active => true, 
+    :active => false, 
     :workers => 1,
     :group_id => social_networks.id,
     :url => "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}",
@@ -39,7 +39,7 @@ pubmed = PubMed.find_or_create_by_name(
   crossref = CrossRef.find_or_create_by_name(  
     :name => "crossref", 
     :display_name => "CrossRef", 
-    :active => true, 
+    :active => false, 
     :workers => 1,
     :group_id => citations.id,
     :url => "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}",
@@ -49,7 +49,7 @@ pubmed = PubMed.find_or_create_by_name(
   facebook = Facebook.find_or_create_by_name(  
     :name => "facebook", 
     :display_name => "Facebook", 
-    :active => true, 
+    :active => false, 
     :workers => 1,
     :group_id => social_networks.id,
     :api_key => "EXAMPLE")
@@ -57,7 +57,7 @@ pubmed = PubMed.find_or_create_by_name(
   nature = Nature.find_or_create_by_name(  
     :name => "nature", 
     :display_name => "Nature Blogs", 
-    :active => true, 
+    :active => false, 
     :refreshable => false,
     :workers => 1,
     :group_id => blogs_media.id,
@@ -67,14 +67,13 @@ pubmed = PubMed.find_or_create_by_name(
   researchblogging = Researchblogging.find_or_create_by_name(  
     :name => "researchblogging", 
     :display_name => "Research Blogging", 
-    :active => true, 
+    :active => false, 
     :workers => 1,
     :group_id => blogs_media.id,
     :url => "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}",
     :username => "EXAMPLE",
     :password => "EXAMPLE")
   
-
   # Load sample articles
   Article.find_or_create_by_doi(
     :doi => "10.1371/journal.ppat.1002522",

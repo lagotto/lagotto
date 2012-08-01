@@ -64,12 +64,7 @@ Vagrant::Config.run do |config|
     
     # Add application-specific attributes:
     chef.json.merge!({ 
-      :app => { :layout => "greenrobo", :seed_additional_sources => true, :seed_sample_articles => true, 
-                :mendeley => { :api_key => "EXAMPLE"},
-                :facebook => { :api_key => "EXAMPLE"},
-                :crossref=> { :username => "EXAMPLE", :password => "EXAMPLE"},
-                :researchblogging => { :username => "EXAMPLE", :password => "EXAMPLE"},
-                :nature => { :api_key => "EXAMPLE"}},
+      :app => { :layout => "greenrobo", :seed_additional_sources => true, :seed_sample_articles => true },
       :rvm => { :global_gems => [{ 'name' => 'bundler', 'version' => '1.1.5' }, 
                                  { 'name' => 'rake', 'version' => '0.9.2.2'},
                                  { 'name' => 'chef', 'version' => '10.12.0' },
