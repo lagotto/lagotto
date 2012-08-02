@@ -23,14 +23,6 @@ Don't forget to set up the CouchDB URL in `settings.yml` and include username an
 
     AllowEncodedSlashes On
 
-### Using a Platform as a Service (PaaS) provider
-The ALM application can be installed has a hosted solution with a PaaS provider. This is the quickest strategy to get the application up and running.
-
-* [Heroku](http://www.heroku.com)
-* [OpenShift](https://openshift.redhat.com/app/)
-
-Several providers provide hosting for CouchDB, including [Cloudant](https://cloudant.com).
-
 ### Using Vagrant/Chef
 This is the preferred way to install the ALM application as a developer. The application will automatically be installed in a self-contained virtual machine. Download and install [**Virtualbox**][virtualbox] and [**Vagrant**][vagrant]. Then install the application with:
     
@@ -46,6 +38,14 @@ If there is an error during installation, you can re-run the installation script
     http://localhost:8080
 	
 The Rails application runs in Development mode. The database servers are made available at ports 3307 (MySQL) and 5985 (CouchDB). For SSH use command `vagrant ssh`, the application root is at `/vagrant`. The MySQL password is randomly generated and is stored at `config/database.yml`. Seven sources are preconfigured, 5 of them are not activated because you have to first supply passwords or API keys for them. CiteULike and PubMed Central Citations can be used without further configuration. Ten sample articles from PLOS are provided.
+
+### Using a Platform as a Service (PaaS) provider
+The ALM application can be installed as a hosted solution with a PaaS provider. 
+
+* [Heroku](http://www.heroku.com)
+* [OpenShift](https://openshift.redhat.com/app/)
+
+Several providers provide hosting for CouchDB, including [Cloudant](https://cloudant.com).
 
 ## Usage
 
@@ -91,90 +91,3 @@ When we have to update the metrics for an article (determined by the staleness i
     # workers
     RAILS_ENV=production ./script/delayed_job start --queue=citeulike --identifier=1
     RAILS_ENV=production ./script/delayed_job start --queue=pubmed --identifier=2
-
-### API
-RESTful API URLs generally correspond to HTML URLs; you can usually just add ".xml" or ".json" to the HTML (unsuffixed) URL and perform a GET request. Both XML and JSON formats are provided (CSV is also supported for the article index), though attribute arrangement might be different between formats (and might differ from the information included in the HTML presentation generated without the format suffix).
-
-All ".json" requests can be made with JSONP support by including a querystring "callback" parameter; the result will be wrapped in a Javascript function call to that parameter's value, for ease of handling on the client side. For example:
-
-`/articles/10.1371/bogus.json` would return something like this:
-
-    {"article": {"doi": "10.1371/bogus", "pub_med": null, "pub_med_central": null, "updated_at": "2009-01-04T13:59:27-08:00", 
-    "citations_count": 0}}
-
-### Rake
-
-The ALM application includes several rake tasks for system maintenance.
-
-#### doi_import.rake
-
-    rake doi_import <DOI_DUMP
-
-Bulk-load a file consisting of DOIs, one per line. it'll ignore (but count) invalid ones and those that already exist in the database.
-
-Format for import file: 
-
-    DOI Date(YYYY-MM-DD) Title
-
-doi_import splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
-
-#### queue.rake
-
-    rake queue::SOURCE
-    
-Queue background jobs for the specified source.
-   
-    rake queue:single_job, [SOURCE, SOURCE]
-
-Queue a background job for the specified DOI and source.
-
-#### workers.rake
-
-    rake workers:start_all
-    rake workers:stop_all
-    rake workers:start_source SOURCE
-    rake workers:stop_source SOURCE
-    
-Start or stop all workers, or all workers for a specified source.
-
-    rake workers:add_to_source SOURCE
-    
-Add another worker to a given source queue.
-
-    rake workers:monitor
-    
-Monitor workers. Check every two hours and restart them if necessary.
-
-## More Documentation
-[https://github.com/articlemetrics/alm/wiki][documentation]
-
-[documentation]: https://github.com/articlemetrics/alm/wiki
-
-## Follow @plosalm on Twitter
-You should follow [@plosalm][follow] on Twitter for announcements and updates about
-this application.
-
-[follow]: https://twitter.com/plosalm
-
-## Mailing List
-Please direct questions about the library to the [mailing list].
-
-[mailing list]: https://groups.google.com/group/plos-api-developers
-
-## List your application in the Wiki
-Does your project or organization use this application? Add it to the [
-FAQ][faq]!
-
-[faq]: https://github.com/articlemetrics/alm/wiki/faq
-
-## Note on Patches/Pull Requests
-
-* Fork the project
-* Write tests for your new feature or a test that reproduces a bug
-* Implement your feature or make a bug fix
-* Do not mess with Rakefile, version or history
-* Commit, push and make a pull request. Bonus points for topical branches.
-
-## Copyright
-
-Copyright (c) 2009-2012 by Public Library of Science. See [LICENSE](https://github.com/articlemetrics/alm/blob/master/LICENSE.md) for details.
