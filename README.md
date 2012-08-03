@@ -85,9 +85,9 @@ Metrics are automatically added in the background, using the [delayed_job](https
 When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We have to set up a queue and at least one worker for every source. For the two sources enabled by default they would have to be started from the command line like this:
     
     # queues
-    bundle exec rake queue:citeulike RAILS_ENV=production &
-    bundle exec rake queue:pubmed RAILS_ENV=production &
+    bundle exec rake queue:citeulike RAILS_ENV=development &
+    bundle exec rake queue:pubmed RAILS_ENV=development &
     
     # workers
-    RAILS_ENV=production ./script/delayed_job start --queue=citeulike --identifier=1
-    RAILS_ENV=production ./script/delayed_job start --queue=pubmed --identifier=2
+    RAILS_ENV=development ./script/delayed_job start --queue=citeulike --identifier=1
+    RAILS_ENV=development ./script/delayed_job start --queue=pubmed --identifier=2

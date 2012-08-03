@@ -46,40 +46,12 @@ Vagrant::Config.run do |config|
   # path, and data_bags path (all relative to this Vagrantfile), and adding 
   # some recipes and/or roles.
   #
-  config.vm.provision :chef_solo do |chef|	
-    # Turn on verbose Chef logging if necessary
-    chef.log_level = :info
-    
-    # Update system
-    chef.add_recipe "apt"
-    chef.add_recipe "build-essential"
-    chef.add_recipe "git"
-
-    # Install rvm and Ruby 1.9.3. Add Chef Solo path
-    chef.add_recipe "rvm::system"
-    chef.add_recipe "rvm::vagrant"
-    
-    # Load recipe specific for this application
-    chef.add_recipe "alm"
-    
-    # Add application-specific attributes:
-    chef.json.merge!({ 
-      :app => { :layout => "greenrobo", :seed_additional_sources => true, :seed_sample_articles => true, 
-                :mendeley => { :api_key => "EXAMPLE"},
-                :facebook => { :api_key => "EXAMPLE"},
-                :crossref=> { :username => "EXAMPLE", :password => "EXAMPLE"},
-                :researchblogging => { :username => "EXAMPLE", :password => "EXAMPLE"},
-                :nature => { :api_key => "EXAMPLE"}},
-      :rvm => { :global_gems => [{ 'name' => 'bundler', 'version' => '1.1.5' }, 
-                                 { 'name' => 'rake', 'version' => '0.9.2.2'},
-                                 { 'name' => 'chef', 'version' => '10.12.0' },
-                                 { 'name' => 'passenger', 'version' => '3.0.14'}]},
-      :rails => { :environment => "development" },
-      :passenger => { :version => "3.0.14" },
-      :admin => { :email => "ADMIN@EXAMPLE.ORG" },
-      :mysql => { :bind_address => "0.0.0.0", :tunable => { :innodb_buffer_pool_size => "512M" } },
-      :couchdb => { :src_version => "1.1.0", :bind_address => "0.0.0.0", :db_name => "alm" }
-    })
-    
+  config.vm.provision :chef_solo do |chef|
+    dna = JSON.parse(File.read("dna.json"))
+    dna.delete("run_list").each do |recipe|
+      chef.add_recipe(recipe)
+    end
+    chef.cookbooks_path = "vendor/cookbooks"
+    chef.json.merge!(dna)
   end
 end
