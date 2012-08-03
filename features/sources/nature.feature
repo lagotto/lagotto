@@ -5,11 +5,4 @@ Feature: Add Nature Blogs content
 
   Background:
     Given I am logged in
-    And an article exists
-  
-  @wip
-  Scenario: User fails to refresh article
-    Given that an article has no blog count
-    When I refresh an article
-    Then I should not see a blog count
-    
+    And there is an article

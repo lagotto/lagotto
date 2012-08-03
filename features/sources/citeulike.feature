@@ -5,7 +5,7 @@ Feature: Add citeulike content
 
   Background:
     Given I am logged in
-    And an article exists
+    And there is an article
   
   Scenario: Bookmark counts are created succesfully
     Given that an article has no bookmark counts
