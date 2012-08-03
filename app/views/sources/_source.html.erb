@@ -74,7 +74,7 @@
     <% if Group.all.size > 0 %>
         <p>
           <%= f.label :group %> <br/>
-          <%= collection_select(:source, :group_id, Group.all, :id, :name, :include_blank => true) %>
+          <%= collection_select(:source, :group_id, Group.all, :id, :name) %>
         </p>
     <% end %>
 

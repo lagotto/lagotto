@@ -26,6 +26,9 @@ group :test do
   gem "database_cleaner"
   gem "launchy"
   gem 'email_spec'
+  gem 'rack-test'
+  gem 'simplecov', :require => false
+  gem 'shoulda-matchers'
 end
 
 group :test, :development do
