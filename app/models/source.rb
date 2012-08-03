@@ -40,9 +40,6 @@ class Source < ActiveRecord::Base
   # for job priority
   TOP_PRIORITY = 0
 
-  # CHANGED some sources cannot be refreshed and can only be queried at very specific time frames
-  scope :refreshable_sources, lambda { where("refreshable = true") }
-
   # some sources cannot be redistributed
   scope :public_sources, lambda { where("private = false") }
   scope :private_sources, lambda { where("private = true") }

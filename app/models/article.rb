@@ -107,21 +107,6 @@ class Article < ActiveRecord::Base
     result
   end
 
-  def update_data_from_sources
-    # get a list of sources that we can get data from right now
-    # counter data can only be queried at very specific time frame only so it will be excluded
-    # nature has api limit so it will get updated if it can be updated.
-
-    sources = Source.refreshable_sources
-    sources.each do |source|
-      rs = RetrievalStatus.where(:article_id => id, :source_id => source.id).first
-      if not rs.nil?
-        source.queue_article_job(rs, Source::TOP_PRIORITY)
-      end
-    end
-
-  end
-
   def get_data_by_group(group)
     data = []
     r_statuses = retrieval_statuses.joins(:source => :group).where("groups.id = ?", group.id)

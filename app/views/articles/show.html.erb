@@ -70,8 +70,6 @@
     </ul>
 
     <% if user_signed_in? %>
-      <%= link_to 'Refresh', article_path(@article, :refresh => "1") %>
-        <br/>
       <%= link_to 'Edit', edit_article_path(@article) %> |
       <%= link_to 'Delete', @article, :confirm => 'Are you sure?', :method => :delete %>
       <br/>
