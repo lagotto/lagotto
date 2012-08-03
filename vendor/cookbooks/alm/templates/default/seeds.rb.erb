@@ -59,7 +59,6 @@ pubmed = PubMed.find_or_create_by_name(
     :name => "nature", 
     :display_name => "Nature Blogs", 
     :active => false, 
-    :refreshable => false,
     :workers => 1,
     :group_id => blogs_media.id,
     :url => "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}",
