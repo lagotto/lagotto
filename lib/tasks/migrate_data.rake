@@ -97,19 +97,6 @@ task :migrate_data, [:old_db] => :environment do |t, args|
     source.save
   end
 
-  puts "migrating configuration info for scopus"
-  result = client.query("select username, live_mode, salt, partner_id, type from #{old_db}.sources where type in ('Scopus')", :cast_booleans => true)
-  result.each do |row|
-    source = Source.find_by_name(row["type"].downcase)
-    config = OpenStruct.new
-    config.username = row["username"]
-    config.live_mode = row["live_mode"]
-    config.salt = row["salt"]
-    config.partner_id = row["partner_id"]
-    source.config = config
-    source.save
-  end
-
   puts "adding configuration info for citeulike"
   source = Source.find_by_name('citeulike')
   config = OpenStruct.new
@@ -447,12 +434,6 @@ task :migrate_retrieval_data_with_count, [:source_name, :old_db] => :environment
                              "order by r.other_citations_count desc", :application_timezone => :utc, :database_timezone => :utc)
 
   results.each do |row|
-
-    if source.name == "scopus"
-      query_string = "doi=" + CGI.escape(row["doi"]) + "&rel=R3.0.0&partnerID=#{source.config.partner_id}"
-      digest = Digest::MD5.hexdigest(query_string + source.config.salt)
-      events_url = "http://www.scopus.com/scopus/inward/citedby.url?" + query_string + "&md5=" + digest
-    end
 
     data = {}
     data[:doi] = row["doi"]

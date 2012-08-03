@@ -64,11 +64,6 @@ task :setup_test_urls => :environment do
   source = Source.find_by_name('researchblogging')
   source.config.url = "http://#{test_source_url}/blogposts?count=100&article=doi:%{doi}"
   source.save
-
-  # scopus => set live mode
-  source = Source.find_by_name("scopus")
-  source.config.live_mode = true
-  source.save
 end
 
 task :undo_test_urls => :environment do
@@ -99,10 +94,6 @@ task :undo_test_urls => :environment do
 
   source = Source.find_by_name('researchblogging')
   source.config.url = "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
-  source.save
-
-  source = Source.find_by_name("scopus")
-  source.config.live_mode = false
   source.save
 
 end
