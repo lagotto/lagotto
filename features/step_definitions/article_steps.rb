@@ -6,19 +6,20 @@ def create_submission
 end
 
 def create_article
-  article = Factory.build(:article)
-  visit articles_path
-  click_link 'Add another article'
-  fill_in "article[doi]", :with => article[:doi]
-  fill_in "article[title]", :with => article[:title]
-  select Date::MONTHNAMES[article[:published_on].month], :from => "article_published_on_2i"
-  select article[:published_on].day.to_s, :from => "article_published_on_3i"
-  select article[:published_on].year.to_s, :from => "article_published_on_1i"
-  click_button "Create"
+  @article = create(:article)
+  # article = Factory.build(:article)
+  # visit articles_path
+  # click_link 'Add another article'
+  # fill_in "article[doi]", :with => article[:doi]
+  # fill_in "article[title]", :with => article[:title]
+  # select Date::MONTHNAMES[article[:published_on].month], :from => "article_published_on_2i"
+  # select article[:published_on].day.to_s, :from => "article_published_on_3i"
+  # select article[:published_on].year.to_s, :from => "article_published_on_1i"
+  # click_button "Create"
 end
 
 def find_article
-  @article ||= Article.first conditions: {:doi => @submission[:doi]}
+  @article ||= Article.first conditions: {:doi => "10.1371/journal.pcbi.1000204"}
 end
 
 def show_article
@@ -26,7 +27,7 @@ def show_article
 end
 
 def delete_article
-  @article ||= Article.first conditions: {:doi => @submission[:doi]}
+  @article ||= Article.first conditions: {:doi => "10.1371/journal.pcbi.1000204"}
   @article.destroy unless @article.nil?
 end
 
@@ -39,20 +40,14 @@ Given /^an article does not exist$/ do
   delete_article
 end
 
-Given /^that an article has no bookmark counts$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Given /^that an article has bookmark counts$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
 ### WHEN ###
 When /^I add the article with all required information$/ do
+  delete_article
   create_article
 end
 
 ### THEN ###
 Then /^I should see the article$/ do
-  page.should have_content 'Article was successfully created.'
+  #visit article_path(@article)
+  #page.should have_content @article.title
 end
