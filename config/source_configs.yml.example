@@ -23,7 +23,8 @@ defaults: &defaults
   
   citeulike: {staleness: 7.days, batch_time_interval: 1.hour}
   pubmed: {staleness: 7.days, batch_time_interval: 1.hour}
-
+  wikipedia: {staleness: 7.days, batch_time_interval: 1.hour}
+  
 development:
   <<: *defaults
 

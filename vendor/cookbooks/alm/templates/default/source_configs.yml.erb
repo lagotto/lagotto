@@ -5,6 +5,7 @@ defaults: &defaults
   
   citeulike: {staleness: 7.days, batch_time_interval: 1.hour}
   pubmed: {staleness: 7.days, batch_time_interval: 1.hour}
+  wikipedia: {staleness: 7.days, batch_time_interval: 1.hour}
 <% if node[:app][:seed_additional_sources] %>
   mendeley: {staleness: 7.days, batch_time_interval: 1.hour}
   crossref: {staleness: 7.days, batch_time_interval: 1.hour}

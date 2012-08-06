@@ -90,8 +90,10 @@ bash "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}" do
   cwd "/vagrant"
   code "RAILS_ENV=#{node[:rails][:environment]} ./script/delayed_job start --queue=citeulike --identifier=1"
   code "RAILS_ENV=#{node[:rails][:environment]} ./script/delayed_job start --queue=pubmed --identifier=2"
+  code "RAILS_ENV=#{node[:rails][:environment]} ./script/delayed_job start --queue=wikipedia --identifier=3"
   code "bundle exec rake queue:citeulike RAILS_ENV=#{node[:rails][:environment]} &"
   code "bundle exec rake queue:pubmed RAILS_ENV=#{node[:rails][:environment]} &"
+  code "bundle exec rake queue:wikipedia RAILS_ENV=#{node[:rails][:environment]} &"
 end
 
 # Install Apache and Passenger
