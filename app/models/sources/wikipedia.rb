@@ -26,9 +26,12 @@ class Wikipedia < Source
   end
 
   def get_data(article, options={})
-
+    
     events = []
     total = 0
+    
+    # Check that article has DOI
+    return  {:events => events, :event_count => total} if article.doi.blank?
     
     # Loop through the languages
     LANGUAGES.each do |lang|
@@ -38,9 +41,8 @@ class Wikipedia < Source
       lang_total = 0
       lang_events = []
       
-      # Repeat query up to 20 times because of intermittent problems with some sources
+      # Repeat query up to 20 times because of intermittent Wikipedia problems with page caching
       20.times do
-        lang_events = []
         offset = 0
       
         until offset < 0    
@@ -56,11 +58,12 @@ class Wikipedia < Source
         
           temp_events = (results['query']['search']).map do |result|
             url = "http://#{host}/wiki/#{result['title'].gsub( / +/, "_")}"
-          
+            
+            # We are storing all information returned from Wikipedia, including language and namespace
             {:url => url,    
-             :title => result['title'], 
-             :last_edited_at => result['timestamp'],        
-             :lang => lang,
+             :datetime => result['timestamp'], 
+             :title => result['title'],        
+             :language => lang,
              :namespace => result['ns']}
           end
           lang_events.concat(temp_events)
@@ -70,10 +73,13 @@ class Wikipedia < Source
         # Don't store results and try again if numbers don't match
         missing_count = lang_total - lang_events.uniq.length
         break if missing_count == 0
+        Rails.logger.info "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}. Retrying..." 
+        lang_events = []
       end
       
       # Raise error if there is still a problem after 20 attempts
       raise "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}" if missing_count != 0
+      
       events.concat(lang_events)
       total += lang_total
     end
