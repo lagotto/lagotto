@@ -33,9 +33,9 @@ Vagrant::Config.run do |config|
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
-  config.vm.forward_port 80, 8080
-  config.vm.forward_port 3000, 3000
-  config.vm.forward_port 5984, 5984
+  config.vm.forward_port 80, 8080 # Apache2
+  config.vm.forward_port 3306, 3307 # MySQL
+  config.vm.forward_port 5984, 5985 # CouchDB
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
@@ -46,40 +46,12 @@ Vagrant::Config.run do |config|
   # path, and data_bags path (all relative to this Vagrantfile), and adding 
   # some recipes and/or roles.
   #
-  config.vm.provision :chef_solo do |chef|	
-    # Turn on verbose Chef logging if necessary
-    chef.log_level = :info
-    
-    # Update system
-    chef.add_recipe "apt"
-    chef.add_recipe "build-essential"
-    chef.add_recipe "git"
-
-    # Install rvm and Ruby 1.9.3. Add Chef Solo path
-    chef.add_recipe "rvm::system"
-    chef.add_recipe "rvm::vagrant"
-    
-    # Load recipe specific for this application
-    chef.add_recipe "alm"
-    
-    # Add application-specific attributes:
-    chef.json.merge!({ 
-      :app => { :layout => "greenrobo", :seed_additional_sources => true, :seed_sample_articles => true, 
-                :mendeley => { :api_key => "EXAMPLE"},
-                :facebook => { :api_key => "EXAMPLE"},
-                :crossref=> { :username => "EXAMPLE", :password => "EXAMPLE"},
-                :nature => { :api_key => "EXAMPLE"},
-                :scopus => { :partner_id => "EXAMPLE"}},
-      :rvm => { :global_gems => [{ 'name' => 'bundler', 'version' => '1.1.4' }, 
-                                 { 'name' => 'rake', 'version' => '0.9.2.2'},
-                                 { 'name' => 'chef', 'version' => '0.10.10' },
-                                 { 'name' => 'passenger', 'version' => '3.0.12'}]},
-      :rails => { :environment => "development" },
-      :passenger => { :version => "3.0.12" },
-      :admin => { :email => "admin@example.org" },
-      :mysql => { :bind_address => "0.0.0.0", :tunable => { :innodb_buffer_pool_size => "512M" } },
-      :couchdb => { :src_version => "1.1.0", :bind_address => "0.0.0.0", :db_name => "alm" }
-    })
-    
+  config.vm.provision :chef_solo do |chef|
+    dna = JSON.parse(File.read("dna.json"))
+    dna.delete("run_list").each do |recipe|
+      chef.add_recipe(recipe)
+    end
+    chef.cookbooks_path = "vendor/cookbooks"
+    chef.json.merge!(dna)
   end
 end

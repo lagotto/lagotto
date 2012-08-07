@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120607162536) do
+ActiveRecord::Schema.define(:version => 20120803085816) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -91,7 +91,6 @@ ActiveRecord::Schema.define(:version => 20120607162536) do
     t.integer  "wait_time",                      :default => 300,   :null => false
     t.datetime "created_at",                                        :null => false
     t.datetime "updated_at",                                        :null => false
-    t.boolean  "refreshable",                    :default => true
     t.integer  "max_failed_queries",             :default => 200
     t.integer  "max_failed_query_time_interval", :default => 86400
   end

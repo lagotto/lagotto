@@ -31,17 +31,14 @@ class Source < ActiveRecord::Base
   after_create :create_retrievals
 
   validates_presence_of :display_name
-  validates_numericality_of :timeout, :only_integer => true, :greater_than => 0
+  validates_numericality_of :timeout, :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 3600
   validates_numericality_of :workers, :only_integer => true, :greater_than => 0, :less_than => 10
-  validates_numericality_of :wait_time, :only_integer => true, :greater_than => 0
+  validates_numericality_of :wait_time, :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 3600
   validates_numericality_of :max_failed_queries, :only_integer => true, :greater_than_or_equal_to => 0
   validates_numericality_of :max_failed_query_time_interval, :only_integer => true, :greater_than_or_equal_to => 0
 
   # for job priority
   TOP_PRIORITY = 0
-
-  # CHANGED some sources cannot be refreshed and can only be queried at very specific time frames
-  scope :refreshable_sources, lambda { where("refreshable = true") }
 
   # some sources cannot be redistributed
   scope :public_sources, lambda { where("private = false") }

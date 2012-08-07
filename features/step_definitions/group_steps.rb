@@ -9,7 +9,7 @@ def find_group
 end
 
 def show_group
-  visit group_path(@group)
+  visit group_path(@group.id)
 end
 
 def delete_group
@@ -23,11 +23,14 @@ Given /^a group does not exist$/ do
 end
 
 Given /^I have a group named Citations$/ do
-  page.should have_content 'Citations' 
+  create_group
+  visit group_path(@group)
+  page.should have_content @group.name
 end
 
 ### WHEN ###
 When /^I add the group with all required information$/ do
+  delete_group
   create_group
 end
 
@@ -53,7 +56,8 @@ end
 
 ### THEN ###
 Then /^I should see the group$/ do
-  page.should have_content 'Group was successfully created.'
+  visit group_path(@group)
+  page.should have_content @group.name
 end
 
 Then /^I should not see the group Citations$/ do

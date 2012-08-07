@@ -17,8 +17,14 @@
 # limitations under the License.
 
 defaults: &defaults
-  source_name: {staleness: 7.days, batch_time_interval: 1.hour}
-
+  job_batch_size: 200
+  max_job_batch_size: 1000
+  default_job_batch_size: 200
+  
+  citeulike: {staleness: 7.days, batch_time_interval: 1.hour}
+  pubmed: {staleness: 7.days, batch_time_interval: 1.hour}
+  wikipedia: {staleness: 7.days, batch_time_interval: 1.hour}
+  
 development:
   <<: *defaults
 

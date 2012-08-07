@@ -43,6 +43,7 @@ def sign_in
   fill_in "Username or email", :with => @visitor[:email]
   fill_in "Password", :with => @visitor[:password]
   click_button "Sign in"
+  find_user
 end
 
 ### GIVEN ###
