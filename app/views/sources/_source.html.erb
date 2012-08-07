@@ -50,6 +50,11 @@
       <%= f.label :workers, "Number of workers for the job queue" %><br />
       <%= f.text_field :workers, :size => 3 %>
     </p>
+
+    <p>
+      <%= f.check_box :private %>
+      <%= f.label :private, "Private, results can not be shared via the API" %>
+    </p>
 	
     <p>
       <%= f.label :wait_time, "Time interval to wait before checking to see if more jobs can be added to the job queue (seconds)" %><br />

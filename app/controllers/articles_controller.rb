@@ -35,6 +35,8 @@ class ArticlesController < ApplicationController
 
     @articles = collection.paginate(:page => params[:page], :per_page => params[:per_page])
 
+    # if private sources have been filtered out, the source parameter will be present and modified
+
     # source url parameter is only used for csv format
     @source = Source.find_by_name(params[:source].downcase) if params[:source]
 
@@ -56,7 +58,9 @@ class ArticlesController < ApplicationController
     load_article
 
     format_options = params.slice :events, :history, :source
-    
+
+    # if private sources have been filtered out, the source parameter will be present and modified
+    # private sources are filtered out in the load_article_eager_includes method by looking at source parameter
     load_article_eager_includes
 
     respond_with(@article) do |format|

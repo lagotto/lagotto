@@ -95,6 +95,8 @@ class GroupsController < ApplicationController
 
     @summaries = []
 
+    # if private sources have been filtered out, the source parameter will be present and modified
+
     # get the articles
     if params[:source]
       articles = Article.where("doi in (?) and lower(sources.name) in (?)", ids, params[:source].downcase.split(",")).
