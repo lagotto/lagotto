@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "private_source_filter"
-
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
