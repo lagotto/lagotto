@@ -97,26 +97,6 @@ task :migrate_data, [:old_db] => :environment do |t, args|
     source.save
   end
 
-  puts "migrating configuration info for scopus"
-  result = client.query("select username, live_mode, salt, partner_id, type from #{old_db}.sources where type in ('Scopus')", :cast_booleans => true)
-  result.each do |row|
-    source = Source.find_by_name(row["type"].downcase)
-    config = OpenStruct.new
-    config.username = row["username"]
-    config.live_mode = row["live_mode"]
-    config.salt = row["salt"]
-    config.partner_id = row["partner_id"]
-    source.config = config
-    source.save
-  end
-
-  puts "adding configuration info for biod"
-  source = Source.find_by_name('biod')
-  config = OpenStruct.new
-  config.url = "http://www.plosreports.org/services/rest?method=usage.stats&journal=biod&doi=%{doi}"
-  source.config = config
-  source.save
-
   puts "adding configuration info for citeulike"
   source = Source.find_by_name('citeulike')
   config = OpenStruct.new
@@ -124,46 +104,10 @@ task :migrate_data, [:old_db] => :environment do |t, args|
   source.config = config
   source.save
 
-  puts "adding configuration info for counter"
-  source = Source.find_by_name('counter')
-  config = OpenStruct.new
-  config.url = "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
-  source.config = config
-  source.save
-
-  puts "adding configuration info for postgenomic"
-  source = Source.find_by_name('postgenomic')
-  config = OpenStruct.new
-  config.url = "http://www.postgenomic.com/api.php?type=post&format=json&citing_doi=%{doi}"
-  source.config = config
-  source.save
-
   puts "adding configuration info for pubmed"
   source = Source.find_by_name('pubmed')
   config = OpenStruct.new
   config.url = "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
-  source.config = config
-  source.save
-
-  puts "adding configuration info for pmc"
-  source = Source.find_by_name('pmc')
-  config = OpenStruct.new
-  config.url = "http://rwc-couch01.int.plos.org:5984/pmc_usage_stats/%{doi}"
-  config.filepath = "/opt/alm/pmcdata/"
-  source.config = config
-  source.save
-
-  puts "adding configuration info for wos"
-  source = Source.find_by_name('wos')
-  config = OpenStruct.new
-  config.url = "https://ws.isiknowledge.com/cps/xrpc"
-  source.config = config
-  source.save
-
-  puts "adding configuration info for twitter"
-  source = Source.find_by_name('twitter')
-  config = OpenStruct.new
-  config.url = "http://rwc-couch01.int.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key=%{doi}"
   source.config = config
   source.save
 
@@ -310,13 +254,7 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
         data[:retrieved_at] = retrieved_at
         data[:source] = source.name
         data[:events] = events
-        if source.name == "connotea"
-          data[:events_url] = "http://www.connotea.org/uri/#{local_id}"
-
-        elsif source.name == "postgenomic"
-          data[:events_url] = "http://postgenomic.com/paper.php?doi=#{CGI.escape(doi)}"
-
-        elsif source.name == "pubmed"
+        if source.name == "pubmed"
           data[:events_url] = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{pub_med}"
 
         elsif source.name == "citeulike"
@@ -353,24 +291,6 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
       YAML::load(row["details"])
       event = YAML.load(row["details"])
       events << {:event => event[:post], :event_url => row["uri"]}
-
-    elsif source.name == "bloglines"
-      event = YAML.load(row["details"])
-      event.delete(:uri)
-      events << {:event => event, :event_url => row["uri"]}
-
-    elsif source.name == "postgenomic"
-      begin
-        event = YAML.load(row["details"])
-        event.delete(:uri)
-        events << {:event => event, :event_url => row["uri"]}
-      rescue
-        puts "Postgenomic: citation.id #{row["id"]}, article.doi #{row["doi"]}: failed to load the yaml data."
-      end
-
-    elsif source.name == "connotea"
-      event = YAML.load(row["details"])
-      events << {:event => event[:uri], :event_url => row["uri"]}
 
     elsif source.name == "pubmed"
       event = row["uri"]
@@ -433,13 +353,7 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
     data[:retrieved_at] = retrieved_at
     data[:source] = source.name
     data[:events] = events
-    if source.name == "connotea"
-      data[:events_url] = "http://www.connotea.org/uri/#{local_id}"
-
-    elsif source.name == "postgenomic"
-      data[:events_url] = "http://postgenomic.com/paper.php?doi=#{CGI.escape(doi)}"
-
-    elsif source.name == "pubmed"
+    if source.name == "pubmed"
       data[:events_url] = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{pub_med}"
 
     elsif source.name == "citeulike"
@@ -520,14 +434,6 @@ task :migrate_retrieval_data_with_count, [:source_name, :old_db] => :environment
                              "order by r.other_citations_count desc", :application_timezone => :utc, :database_timezone => :utc)
 
   results.each do |row|
-
-    if source.name == "scopus"
-      query_string = "doi=" + CGI.escape(row["doi"]) + "&rel=R3.0.0&partnerID=#{source.config.partner_id}"
-      digest = Digest::MD5.hexdigest(query_string + source.config.salt)
-      events_url = "http://www.scopus.com/scopus/inward/citedby.url?" + query_string + "&md5=" + digest
-    elsif source.name == "wos"
-      events_url = "http://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&SrcApp=PARTNER_APP&SrcAuth=PLoSCEL&KeyUT=#{row["local_id"]}&DestLinkType=CitingArticles&DestApp=WOS_CPL&UsrCustomerID=c642dd6a62e245b029e19b27ca7f6b1c"
-    end
 
     data = {}
     data[:doi] = row["doi"]
