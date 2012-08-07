@@ -1,7 +1,11 @@
 ### UTILITY METHODS ###
 
 def create_group
-  @group = create(:group)
+  @group = FactoryGirl.create(:group)
+end
+
+def build_group
+  @group = FactoryGirl.build(:group)
 end
 
 def find_group
@@ -23,6 +27,7 @@ Given /^a group does not exist$/ do
 end
 
 Given /^I have a group named Citations$/ do
+  delete_group
   create_group
   visit group_path(@group)
   page.should have_content @group.name
@@ -30,8 +35,11 @@ end
 
 ### WHEN ###
 When /^I add the group with all required information$/ do
-  delete_group
   create_group
+end
+
+When /^I try to add the group with all required information$/ do
+  build_group
 end
 
 When /^I add the group without a name$/ do

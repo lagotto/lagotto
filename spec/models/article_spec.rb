@@ -1,6 +1,7 @@
 require 'spec_helper'
 
-describe "Article" do
+describe Article do
+  
   before do
     @article = Article.new :doi => "10.0/dummy"
   end

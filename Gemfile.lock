@@ -192,7 +192,7 @@ DEPENDENCIES
   delayed_job_active_record (= 0.3.2)
   devise (~> 2.1.2)
   email_spec (~> 1.2.1)
-  factory_girl_rails (~> 4.0.0)
+  factory_girl_rails (~> 4.0)
   jquery-rails (= 2.0.2)
   koala (~> 1.5.0)
   launchy (~> 2.1.2)

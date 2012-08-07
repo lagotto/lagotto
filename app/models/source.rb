@@ -30,12 +30,12 @@ class Source < ActiveRecord::Base
 
   after_create :create_retrievals
 
-  validates_presence_of :display_name
-  validates_numericality_of :timeout, :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 3600
-  validates_numericality_of :workers, :only_integer => true, :greater_than => 0, :less_than => 10
-  validates_numericality_of :wait_time, :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 3600
-  validates_numericality_of :max_failed_queries, :only_integer => true, :greater_than_or_equal_to => 0
-  validates_numericality_of :max_failed_query_time_interval, :only_integer => true, :greater_than_or_equal_to => 0
+  validates :display_name, :presence => true 
+  validates :workers, :numericality => { :only_integer => true }, :inclusion => { :in => 1..10, :message => "is not in the allowed range" }  
+  validates :timeout, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "is not in the allowed range" }
+  validates :wait_time, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "is not in the allowed range" }
+  validates :max_failed_queries, :numericality => { :only_integer => true }, :inclusion => { :in => 0..1000, :message => "is not in the allowed range" }
+  validates :max_failed_query_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 0..864000, :message => "is not in the allowed range" }
 
   # for job priority
   TOP_PRIORITY = 0

@@ -6,7 +6,7 @@ def create_submission
 end
 
 def create_article
-  @article = create(:article)
+  @article = FactoryGirl.create(:article)
   # article = Factory.build(:article)
   # visit articles_path
   # click_link 'Add another article'
@@ -33,7 +33,8 @@ end
 
 ### GIVEN ###
 Given /^there is an article$/ do
-  Factory(:article)
+  delete_article
+  create_article
 end
 
 Given /^an article does not exist$/ do

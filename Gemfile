@@ -20,7 +20,7 @@ group :assets do
 end
 
 group :test do
-  gem "factory_girl_rails", "~> 4.0.0"
+  gem "factory_girl_rails", "~> 4.0"
   gem "cucumber-rails", "~> 1.3.0"
   gem "capybara", ">= 1.1.2"
   gem "database_cleaner", "~> 0.8.0"
@@ -28,7 +28,7 @@ group :test do
   gem "email_spec", "~> 1.2.1"
   gem "rack-test", "~> 0.6.1"
   gem "simplecov", "~> 0.6.4", :require => false
-  gem "shoulda-matchers", "~> 1.2.0"
+  gem "shoulda-matchers", "~> 1.2.0", :require => false
 end
 
 group :test, :development do

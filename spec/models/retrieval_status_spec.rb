@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "RetrievalStatus", ActiveSupport::TestCase do
+describe RetrievalStatus do
   # test "the truth" do
   #   assert true
   # end

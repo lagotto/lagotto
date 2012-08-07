@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "RetrievalHistory", ActiveSupport::TestCase do
+describe RetrievalHistory do
   # test "the truth" do
   #   assert true
   # end

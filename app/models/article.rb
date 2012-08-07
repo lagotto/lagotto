@@ -23,9 +23,8 @@ require "builder"
 class Article < ActiveRecord::Base
 
   has_many :retrieval_statuses, :dependent => :destroy
-
-  validates_format_of :doi, :with => DOI::FORMAT
-  validates_uniqueness_of :doi
+  
+  validates :doi, :uniqueness => true , :format => { :with => DOI::FORMAT }
 
   after_create :create_retrievals
 

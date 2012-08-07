@@ -18,5 +18,5 @@ Feature: Add group
     
     Scenario: Group exists already
       Given I have a group named Citations
-      When I add the group with all required information
+      When I try to add the group with all required information
       Then I should see an error
