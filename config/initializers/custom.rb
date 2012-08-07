@@ -25,4 +25,4 @@ Delayed::Worker.max_attempts = 0
 Delayed::Worker.default_priority = 1
 Delayed::Worker.max_run_time = 30.minutes
 
-APP_CONFIG = YAML.load_file("#{Rails.root}/config/settings.yml")[Rails.env]
+APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
