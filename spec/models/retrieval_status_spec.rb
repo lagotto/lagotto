@@ -1,7 +1,10 @@
 require 'spec_helper'
 
 describe RetrievalStatus do
-  # test "the truth" do
-  #   assert true
-  # end
+
+ it { should belong_to(:article) }
+ it { should belong_to(:source) }
+ it { should have_many(:retrieval_histories).dependent(:destroy) }
+
 end
+

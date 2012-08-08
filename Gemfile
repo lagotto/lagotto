@@ -12,6 +12,7 @@ gem 'mumboe-soap4r', '1.5.8.5'
 gem "koala", "~> 1.5.0"
 gem 'will_paginate', '3.0.3'
 gem "devise", "~> 2.1.2"
+gem 'validates_timeliness', '~> 3.0.2'
 
 group :assets do
   gem 'uglifier', '1.2.7'

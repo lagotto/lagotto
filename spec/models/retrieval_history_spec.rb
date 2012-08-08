@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe RetrievalHistory do
-  # test "the truth" do
-  #   assert true
-  # end
+
+ it { should belong_to(:retrieval_status) }
+
 end

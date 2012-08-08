@@ -23,7 +23,7 @@ FactoryGirl.define do
   end
   
   factory :user do
-    username 'example'
+    username 'example_user'
     email 'example@example.com'
     password 'please'
     password_confirmation 'please'
@@ -32,3 +32,4 @@ FactoryGirl.define do
   end
   
 end
+
