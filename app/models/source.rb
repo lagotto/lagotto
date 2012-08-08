@@ -75,9 +75,9 @@ class Source < ActiveRecord::Base
 
   def queue_articles
 
-    # get the source specific configurations
-    source_config = YAML.load_file("#{Rails.root}/config/source_configs.yml")[Rails.env]
-    source_config = source_config[name]
+    # get the source specific configuration, otherwise use default configuration
+    source_config = YAML.load(ERB.new(File.read("#{Rails.root}/config/source_configs.yml")).result)[Rails.env]
+    source_config = source_config["source"].nil? ? source_config[name] : source_config["source"].merge!(source_config[name])
 
     if !source_config.has_key?('batch_time_interval') || !source_config.has_key?('staleness')
       Rails.logger.error "#{display_name}: batch_time_interval is missing or staleness is missing"
@@ -185,7 +185,10 @@ class Source < ActiveRecord::Base
   end
 
   def get_job_batch_size
-    source_config = YAML.load_file("#{Rails.root}/config/source_configs.yml")[Rails.env]
+    # get the source specific configuration, otherwise use default configuration 
+    source_config = YAML.load(ERB.new(File.read("#{Rails.root}/config/source_configs.yml")).result)[Rails.env]
+    source_config = source_config["source"].nil? ? source_config : source_config["source"].merge!(source_config[name])
+    
     job_batch_size = source_config['job_batch_size']
     max_job_batch_size = source_config['max_job_batch_size']
     default_job_batch_size = source_config['default_job_batch_size']

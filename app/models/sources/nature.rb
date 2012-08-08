@@ -55,9 +55,9 @@ class Nature < Source
 
   def queue_articles
 
-    # get the source specific configurations
-    source_config = YAML.load_file("#{Rails.root}/config/source_configs.yml")[Rails.env]
-    source_config = source_config[name]
+    # get the source specific configuration, otherwise use default configuration
+    source_config = YAML.load(ERB.new(File.read("#{Rails.root}/config/source_configs.yml")).result)[Rails.env]
+    source_config = source_config["source"].nil? ? source_config[name] : source_config["source"].merge!(source_config[name])
 
     # get job specific configuration
     if !source_config.has_key?('requests_per_day')
