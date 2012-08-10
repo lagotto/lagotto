@@ -56,7 +56,7 @@ namespace :report do
     results.each { |result| mendeley_stats[result["key"]] = result["value"] }
 
     articles = Article.all
-    CSV.open('/home/jennifer/Desktop/mendeley.csv', 'wb', :force_quotes => true) do |csv|
+    CSV.open(args.report_file, 'wb', :force_quotes => true) do |csv|
       csv << ["DOI", "Mendeley Readers", "Mendeley Groups", "Mendeley Total"]
       articles.each do |article|
         mendeley_stat = mendeley_stats[article.doi]
