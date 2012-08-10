@@ -164,9 +164,7 @@ class Source < ActiveRecord::Base
   def staleness
     # staleness can be Integer or Array
     source_config.staleness || [ 7.days ]
-    if source_config.staleness.is_a? Integer
-      [ source_config.staleness ]
-    end
+    Array(source_config.staleness)
   end 
   
   def staleness=(value)
