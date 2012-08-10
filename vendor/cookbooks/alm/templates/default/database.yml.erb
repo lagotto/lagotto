@@ -1,6 +1,6 @@
-<%= node[:rails][:environment] %>:
+development:
   adapter:   mysql2
-  database:  <%= node[:app][:name] %>_<%= node[:rails][:environment] %>
+  database:  <%= node[:app][:name] %>_development
   username:  root
   password:  <%= node['mysql']['server_root_password'] %>
   host:      localhost
@@ -8,6 +8,13 @@
 test:
   adapter:   mysql2
   database:  <%= node[:app][:name] %>_test
+  username:  root
+  password:  <%= node['mysql']['server_root_password'] %>
+  host:      localhost
+  
+production:
+  adapter:   mysql2
+  database:  <%= node[:app][:name] %>_production
   username:  root
   password:  <%= node['mysql']['server_root_password'] %>
   host:      localhost

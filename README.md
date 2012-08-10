@@ -17,7 +17,6 @@ In a manual installation the following configuration files have to be created us
 
 * config/database.yml
 * config/settings.yml
-* config/source_configs.yml
 
 Don't forget to set up the CouchDB URL in `settings.yml` and include username and password if necessary. Also don't forget to add this to the Apache virtual host file in order to keep Apache from messing up encoded embedded slashes in DOIs:
 
@@ -55,7 +54,7 @@ Groups and sources are already configured if you installed via Chef/Vagrant, or 
 
 The admin user can be created when using the web interface for the first time. After logging in as admin you can add articles and configure sources.
 
-The following configuration options for sources are stored in `source_configs.yml`:
+The following configuration options for sources are stored in `settings.yml`:
 
 * job_batch_size: number of articles per job (default 200)
 * max_job_batch_size: maximal number of articles per job (default 1000)

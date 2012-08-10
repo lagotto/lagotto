@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120803085816) do
+ActiveRecord::Schema.define(:version => 20120808201804) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20120803085816) do
     t.string   "data_rev"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
+    t.datetime "scheduled_at"
   end
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true

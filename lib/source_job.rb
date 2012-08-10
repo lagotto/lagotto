@@ -139,6 +139,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       end
 
       rs.retrieved_at = retrieved_at
+      rs.scheduled_at = rs.stale_at
       rh.retrieved_at = retrieved_at
 
       rs.save

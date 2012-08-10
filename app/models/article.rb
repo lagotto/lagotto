@@ -23,6 +23,7 @@ require "builder"
 class Article < ActiveRecord::Base
 
   has_many :retrieval_statuses, :dependent => :destroy
+  has_many :sources, :through => :retrieval_statuses
   
   validates :doi, :uniqueness => true , :format => { :with => DOI::FORMAT }
   validates :title, :presence => true
@@ -143,7 +144,7 @@ class Article < ActiveRecord::Base
   def create_retrievals
     # Create an empty retrieval record for every source for the new article
     Source.all.each do |source|
-      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id)
+      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id, :scheduled_at => Time.now)
     end
   end
 end

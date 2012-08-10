@@ -55,16 +55,6 @@ else
   end
 end
 
-# create new source_configs.yml
-unless File.exists? "/vagrant/config/source_configs.yml"
-  template "/vagrant/config/source_configs.yml" do
-    source 'source_configs.yml.erb'
-    owner 'root'
-    group 'root'
-    mode 0644
-  end
-end
-
 # Run bundle command
 bash "run bundle install in app directory" do
   cwd "/vagrant"
