@@ -33,6 +33,8 @@ FactoryGirl.define do
     display_name "CiteULike"
     workers 1
     staleness { [ 30.minutes, 12.hours, 14.days ] }
+    
+    association :group, factory: :group
   end
  
   factory :user do
