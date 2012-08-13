@@ -70,7 +70,7 @@ class Source < ActiveRecord::Base
   end
 
   def queue_articles
-    
+    sleep_interval = batch_time_interval
     # determine if the source is active
     if active
       queue_job = true
@@ -92,14 +92,14 @@ class Source < ActiveRecord::Base
       if queue_job
         # if there are jobs already queued, wait a little bit
         if get_queued_job_count > 0
-          batch_time_interval = wait_time
+          sleep_interval = wait_time
         else
           queue_article_jobs
         end
       end
     end
 
-    return batch_time_interval
+    return sleep_interval
   end
 
   def queue_article_jobs

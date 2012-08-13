@@ -1,4 +1,4 @@
-# staleness and batch_time_interval are durations, you can use ERB such as <%= 2.hours %>
+# staleness and batch_time_interval are durations, you can use ERB such as <%%= 2.hours %>
 #
 # source: staleness can be integer or array with up to 4 integer elements:
 # 1: for all articles
@@ -16,8 +16,8 @@ defaults: &defaults
   couchdb_url: http://localhost:5984/<%= node[:couchdb][:db_name] %>/
   source:
     job_batch_size: 200
-    staleness: <%= 7.days %>
-    batch_time_interval: <% 1.hour %>
+    staleness: <%%= 7.days %>
+    batch_time_interval: <%%= 1.hour %>
 <% if node[:app][:seed_additional_sources] %>
   nature:
     requests_per_day: 5000

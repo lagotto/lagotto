@@ -27,6 +27,7 @@ This is the preferred way to install the ALM application as a developer. The app
     
     git clone git://github.com/articlemetrics/alm.git alm
     cd alm
+    # (Optional) Enter usernames, passwords and API keys for external sources in dna.json
     vagrant up
       
 [virtualbox]: https://www.virtualbox.org/wiki/Downloads
@@ -81,12 +82,10 @@ Articles can be added via the web interface (after logging in as admin), or via 
 
 Metrics are automatically added in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results returned by external APIs are stored in CouchDB.
 
-When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We have to set up a queue and at least one worker for every source. For the two sources enabled by default they would have to be started from the command line like this:
+When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We have to set up a queue and at least one worker for every source. In development mode this is done with `foreman`, using the configuration in `Procfile`:
     
-    # queues
-    bundle exec rake queue:citeulike RAILS_ENV=development &
-    bundle exec rake queue:pubmed RAILS_ENV=development &
+    foreman start
     
-    # workers
-    RAILS_ENV=development ./script/delayed_job start --queue=citeulike --identifier=1
-    RAILS_ENV=development ./script/delayed_job start --queue=pubmed --identifier=2
+In production mode the background processes run via the `upstart`system utility. The Chef/Vagrant setup has the upstart scripts already configured, otherwise this can be done (where USER is the user running the web server) via
+
+    rvmsudo foreman export upstart /etc/init -a alm -l /USER/log -u USER

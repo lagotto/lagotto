@@ -6,6 +6,7 @@ gem 'mysql2', '0.3.11'
 gem "delayed_job", "~> 3.0.3"
 gem 'delayed_job_active_record', '0.3.2'
 gem 'daemons', '1.1.8'
+gem "foreman", "~> 0.53.0"
 
 gem "libxml-ruby", "~> 2.3.3", :require => 'xml'
 gem 'mumboe-soap4r', '1.5.8.5'
