@@ -55,24 +55,13 @@ class Nature < Source
 
   def queue_articles
 
-    # get the source specific configurations
-    source_config = YAML.load_file("#{Rails.root}/config/source_configs.yml")[Rails.env]
-    source_config = source_config[name]
-
-    # get job specific configuration
-    if !source_config.has_key?('requests_per_day')
-      Rails.logger.error "#{display_name}: requests_per_day is missing"
-      raise "#{display_name}: requests_per_day is missing"
-      return
-    end
-
     # assumptions
     # requests per day is smaller than the total number of articles in the application
     # requests per day is smaller than total number of seconds in 1 day
 
-    total_requests = source_config['requests_per_day']
-    source_config['batch_time_interval'] = SECONDS_IN_A_DAY
-    source_config['seconds_between_request'] = SECONDS_IN_A_DAY / total_requests
+    total_requests = requests_per_day
+    batch_time_interval = SECONDS_IN_A_DAY
+    seconds_between_request = SECONDS_IN_A_DAY / total_requests
 
     # determine if the source is active
     if active
@@ -82,7 +71,7 @@ class Nature < Source
       unless self.disable_until.nil?
         queue_job = false
 
-        if self.disable_until < Time.now.utc
+        if self.disable_until < Time.zone.now
           self.disable_until = nil
           save
           queue_job = true
@@ -90,14 +79,14 @@ class Nature < Source
       end
 
       if queue_job
-        queue_article_jobs(source_config)
+        queue_article_jobs
       end
     end
 
-    return source_config['batch_time_interval']
+    return batch_time_interval
   end
 
-  def queue_article_jobs(source_config)
+  def queue_article_jobs
     # figure out when the next job should be scheduled
     job = Delayed::Job.where("queue = 'nature'").select('run_at').order('run_at DESC').limit(1)
     run_at = Time.zone.now
@@ -108,27 +97,20 @@ class Nature < Source
     limit = BATCH_SIZE
     offset = 0
 
-    while offset < source_config['requests_per_day']
+    while offset < requests_per_day
       # find articles that need to be updated
       # not queued currently
       # stale from updated_at
-      retrieval_statuses = RetrievalStatus.joins(:article, :source).
-          where('sources.id = ?
-             and articles.published_on < ?
-             and queued_at is NULL',
-                id, Time.zone.today).
+      rs = retrieval_statuses.published.
           order('retrieved_at DESC').
           limit(limit).
           offset(offset).
-          select("retrieval_statuses.id")
+          pluck("retrieval_statuses.id")  
+      Rails.logger.debug "#{name} total article queued #{rs.length}"
 
-      Rails.logger.debug "#{name} total article queued #{retrieval_statuses.length}"
-
-      retrieval_statuses.each do | retrieval_status |
-
-        run_at += source_config['seconds_between_request']
-
-        Delayed::Job.enqueue SourceJob.new([retrieval_status], id), :queue => name, :run_at => run_at
+      rs.each do | rs_id |
+        run_at += seconds_between_request
+        Delayed::Job.enqueue SourceJob.new(rs_id, id), :queue => name, :run_at => run_at
       end
 
       offset += limit
@@ -159,4 +141,5 @@ class Nature < Source
   def api_key=(value)
     config.api_key = value
   end
+  
 end

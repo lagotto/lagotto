@@ -10,7 +10,7 @@ Devise.setup do |config|
   # config.mailer = "Devise::Mailer"
 
   # Automatically apply schema changes in tableless databases
-  config.apply_schema = false
+  # config.apply_schema = false
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
@@ -89,7 +89,7 @@ Devise.setup do |config|
   
   # The default HTTP method used to sign out a resource. Default is :delete, use :get for Cucumber tests. 
   # This change doesn't affect development or production environments
-  config.sign_out_via = Rails.env.test? ? :get : :delete
+  #config.sign_out_via = Rails.env.test? ? :get : :delete
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -117,7 +117,7 @@ Devise.setup do |config|
 
   # If true, uses the password salt as remember token. This should be turned
   # to false if you are not using database authenticatable.
-  config.use_salt_as_remember_token = true
+  # config.use_salt_as_remember_token = true
 
   # Options to be passed to the created cookie. For instance, you can set
   # :secure => true in order to force SSL only cookies.

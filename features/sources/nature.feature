@@ -1,8 +1,8 @@
-Feature: Add Nature Blogs content
+Feature: Add a source
   In order to collect metrics
   A user
-  Should be able to add Nature Blogs counts for an article
+  Should be able to add or edit a source
 
   Background:
     Given I am logged in
-    And there is an article
+    And I edit a source

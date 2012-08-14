@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "RetrievalHistory", ActiveSupport::TestCase do
-  # test "the truth" do
-  #   assert true
-  # end
+describe RetrievalHistory do
+
+ it { should belong_to(:retrieval_status) }
+
 end

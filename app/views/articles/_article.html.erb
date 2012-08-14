@@ -41,7 +41,7 @@
     </p>
     <p>
       <%= f.label :published_on %><br />
-      <%= date_select 'article', 'published_on', :start_year => Time.now.year - 10, :end_year => Time.now.year, :order => [:month, :day, :year] %>
+      <%= date_select 'article', 'published_on', :start_year => Time.zone.now.year - 10, :end_year => Time.zone.now.year, :order => [:month, :day, :year] %>
     </p>
     <p>
       <%= f.submit(article.new_record? ? "Create" : "Update") %>

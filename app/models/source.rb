@@ -24,18 +24,20 @@ class Source < ActiveRecord::Base
   include SourceHelper
 
   has_many :retrieval_statuses, :dependent => :destroy
+  has_many :articles, :through => :retrieval_statuses
   belongs_to :group
 
   serialize :config, OpenStruct
 
   after_create :create_retrievals
 
-  validates_presence_of :display_name
-  validates_numericality_of :timeout, :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 3600
-  validates_numericality_of :workers, :only_integer => true, :greater_than => 0, :less_than => 10
-  validates_numericality_of :wait_time, :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 3600
-  validates_numericality_of :max_failed_queries, :only_integer => true, :greater_than_or_equal_to => 0
-  validates_numericality_of :max_failed_query_time_interval, :only_integer => true, :greater_than_or_equal_to => 0
+  validates :name, :presence => true, :uniqueness => true
+  validates :display_name, :presence => true 
+  validates :workers, :numericality => { :only_integer => true }, :inclusion => { :in => 1..10, :message => "is not in the allowed range" }  
+  validates :timeout, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "is not in the allowed range" }
+  validates :wait_time, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "is not in the allowed range" }
+  validates :max_failed_queries, :numericality => { :only_integer => true }, :inclusion => { :in => 0..1000, :message => "is not in the allowed range" }
+  validates :max_failed_query_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 0..864000, :message => "is not in the allowed range" }
 
   # for job priority
   TOP_PRIORITY = 0
@@ -50,24 +52,18 @@ class Source < ActiveRecord::Base
 
   def queue_all_articles
     # determine if the source is active
-    if active && (disable_until.nil? || disable_until < Time.now.utc)
+    if active && (disable_until.nil? || disable_until < Time.zone.now)
 
       # reset disable_until value
       unless self.disable_until.nil?
         self.disable_until = nil
         save
       end
-
-      job_batch_size = get_job_batch_size
-
-      # grab all the articles
-      retrieval_statuses = RetrievalStatus.joins(:article, :source).
-          where('sources.id = ?
-               and articles.published_on < ?
-               and queued_at is NULL',
-                id, Time.zone.today).pluck("retrieval_statuses.id")
-
-      retrieval_statuses.each_slice(job_batch_size) do | rs_ids |
+      
+      rs = retrieval_statuses.pluck("retrieval_statuses.id")
+      Rails.logger.debug "#{name} total articles queued #{rs.length}"
+      
+      rs.each_slice(job_batch_size) do | rs_ids |
         Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
       end
 
@@ -78,20 +74,7 @@ class Source < ActiveRecord::Base
   end
 
   def queue_articles
-
-    # get the source specific configurations
-    source_config = YAML.load_file("#{Rails.root}/config/source_configs.yml")[Rails.env]
-    source_config = source_config[name]
-
-    if !source_config.has_key?('batch_time_interval') || !source_config.has_key?('staleness')
-      Rails.logger.error "#{display_name}: batch_time_interval is missing or staleness is missing"
-      raise "#{display_name}: batch_time_interval is missing or staleness is missing"
-      return
-    end
-
-    source_config['batch_time_interval'] = parse_time_config(source_config['batch_time_interval'])
-    source_config['staleness'] = parse_time_config(source_config['staleness'])
-
+    sleep_interval = batch_time_interval
     # determine if the source is active
     if active
       queue_job = true
@@ -103,7 +86,7 @@ class Source < ActiveRecord::Base
       unless self.disable_until.nil?
         queue_job = false
 
-        if self.disable_until < Time.now.utc
+        if self.disable_until < Time.zone.now
           self.disable_until = nil
           save
           queue_job = true
@@ -113,33 +96,24 @@ class Source < ActiveRecord::Base
       if queue_job
         # if there are jobs already queued, wait a little bit
         if get_queued_job_count > 0
-          source_config['batch_time_interval'] = wait_time
+          sleep_interval = wait_time
         else
-          queue_article_jobs(source_config)
+          queue_article_jobs
         end
       end
     end
 
-    return source_config['batch_time_interval']
+    return sleep_interval
   end
 
-  def queue_article_jobs(source_config)
+  def queue_article_jobs
     # find articles that need to be updated
-
-    job_batch_size = get_job_batch_size
-
     # not queued currently
     # stale from updated_at
-    retrieval_statuses = RetrievalStatus.joins(:article, :source).
-        where('sources.id = ?
-               and articles.published_on < ?
-               and queued_at is NULL
-               and retrieved_at < TIMESTAMPADD(SECOND, - ?, UTC_TIMESTAMP())',
-              id, Time.zone.today, source_config['staleness'].seconds.to_i).pluck("retrieval_statuses.id")
+    rs = retrieval_statuses.stale.pluck("retrieval_statuses.id")
+    Rails.logger.debug "#{name} total articles queued #{rs.length}"
 
-    Rails.logger.debug "#{name} total article queued #{retrieval_statuses.length}"
-
-    retrieval_statuses.each_slice(job_batch_size) do | rs_ids |
+    rs.each_slice(job_batch_size) do | rs_ids |
       Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
     end
 
@@ -167,45 +141,52 @@ class Source < ActiveRecord::Base
     failed_queries = RetrievalHistory.where("source_id = :id and status = :status and updated_at > :updated_date",
                                             {:id => id,
                                              :status => RetrievalHistory::ERROR_MSG,
-                                             :updated_date => (Time.now.utc - max_failed_query_time_interval.seconds)}).count(:id)
+                                             :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds)}).count(:id)
 
     if failed_queries > max_failed_queries
       Rails.logger.error "#{display_name} has exceeded maximum failed queries.  Disabling the source."
       # disable the source
-      self.disable_until = Time.now.utc + disable_delay.seconds
+      self.disable_until = Time.zone.now + disable_delay.seconds
       save
     end
   end
-
+  
+  # get the source-specific configuration from config/settings.yml, otherwise use general source settings in config/settings.yml, otherwise use default. 
+  # Don't use merge! as APP_CONFIG is a constant
+  def source_config
+    OpenStruct.new(APP_CONFIG[name].nil? ? APP_CONFIG["source"] : APP_CONFIG["source"].merge(APP_CONFIG[name]))
+  end
+  
+  def job_batch_size
+    source_config.job_batch_size || 200
+  end
+  
+  def batch_time_interval
+    source_config.batch_time_interval || 1.hour
+  end
+  
+  def staleness
+    # staleness can be Integer or Array
+    source_config.staleness || [ 7.days ]
+    Array(source_config.staleness)
+  end 
+  
+  def staleness=(value)
+    source_config.staleness = value
+  end
+  
+  def requests_per_day
+    source_config.requests_per_day
+  end
+  
   private
-
-  def parse_time_config(time_interval_config)
-    unless time_interval_config.nil?
-      index = time_interval_config.index('.')
-      number = time_interval_config[0,index]
-      method = time_interval_config[index + 1, time_interval_config.length]
-      return number.to_i.send(method)
-    end
-  end
-
-  def get_job_batch_size
-    source_config = YAML.load_file("#{Rails.root}/config/source_configs.yml")[Rails.env]
-    job_batch_size = source_config['job_batch_size']
-    max_job_batch_size = source_config['max_job_batch_size']
-    default_job_batch_size = source_config['default_job_batch_size']
-    if job_batch_size.nil?
-      job_batch_size = default_job_batch_size
-    elsif not (job_batch_size > 0 and job_batch_size < max_job_batch_size)
-      job_batch_size = default_job_batch_size
-    end
-    job_batch_size
-  end
 
   private
   def create_retrievals
-    # Create an empty retrieval record for every article for the new source
+    # Create an empty retrieval record for every article for the new source, make scheduled_at a random timestamp within a week
     conn = RetrievalStatus.connection
-    sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from articles"
+    random_time = Time.zone.now + rand(7.days)
+    sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), '#{random_time.to_formatted_s(:db)}' from articles"
     conn.execute sql
   end
 end

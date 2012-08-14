@@ -23,10 +23,14 @@ require "builder"
 class Article < ActiveRecord::Base
 
   has_many :retrieval_statuses, :dependent => :destroy
-
-  validates_format_of :doi, :with => DOI::FORMAT
-  validates_uniqueness_of :doi
-
+  has_many :sources, :through => :retrieval_statuses
+  
+  validates :doi, :uniqueness => true , :format => { :with => DOI::FORMAT }
+  validates :title, :presence => true
+  validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 1.month.since }, :on_or_before_message => "can't be more than a month in the future", 
+                                                               :after => lambda { 40.years.ago }, :after_message => "must not be older than 40 years", 
+                                                               :type => :date }
+  
   after_create :create_retrievals
 
   scope :query, lambda { |query| where("doi like ?", "%#{query}%") }
@@ -47,6 +51,10 @@ class Article < ActiveRecord::Base
       order("doi")
     end
   }
+  
+  def self.per_page
+    50
+  end
 
   def to_param
     # not necessary to escape the characters make to_param work
@@ -73,7 +81,7 @@ class Article < ActiveRecord::Base
              :pub_med => pub_med,
              :pub_med_central => pub_med_central,
              :events_count => events_count,
-             :published => (published_on.nil? ? nil : published_on.to_time)) do
+             :published => (published_on.nil? ? nil : published_on.to_time.utc.iso8601)) do
 
       if options[:events] or options[:history]
         retrieval_options = options.merge!(:dasherize => false,
@@ -94,7 +102,7 @@ class Article < ActiveRecord::Base
             :pub_med => pub_med,
             :pub_med_central => pub_med_central,
             :events_count => events_count,
-            :published => (published_on.nil? ? nil : published_on.to_time)
+            :published => (published_on.nil? ? nil : published_on.to_time.utc.iso8601)
         }
     }
 
@@ -140,7 +148,7 @@ class Article < ActiveRecord::Base
   def create_retrievals
     # Create an empty retrieval record for every source for the new article
     Source.all.each do |source|
-      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id)
+      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id, :scheduled_at => Time.zone.now)
     end
   end
 end

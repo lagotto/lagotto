@@ -26,6 +26,12 @@ class RetrievalStatus < ActiveRecord::Base
   has_many :retrieval_histories, :dependent => :destroy
 
   scope :most_cited_sample, lambda { where("event_count > 0").order("event_count desc").limit(5) }
+  
+  scope :queued, where( "queued_at is NOT NULL")
+  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) >= 0")
+  scope :scheduled, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) < 0")
+  scope :idle, where("queued_at is NULL AND scheduled_at IS NULL")
+  scope :published, joins(:article).where("queued_at is NULL AND articles.published_on < ?", Time.zone.today)
 
   def get_retrieval_data
     source = Source.find(source_id)
@@ -180,4 +186,26 @@ class RetrievalStatus < ActiveRecord::Base
       data["events_url"]
     end
   end
+  
+  # calculate datetime when retrieval_status should be updated, adding random interval
+  def stale_at
+    age_in_days = Time.zone.today - article.published_on
+
+    if age_in_days < 0
+      article.published_on
+    elsif age_in_days === (0...14) and source.staleness.length > 1
+      random_time(source.staleness[0])
+    elsif age_in_days === (15...75) and source.staleness.length > 2
+      random_time(source.staleness[1])
+    elsif age_in_days === (75...365) and source.staleness.length > 3
+      random_time(source.staleness[2])
+    else
+      random_time(source.staleness.last)
+    end
+  end
+  
+  def random_time(duration)
+    Time.zone.now + duration + rand(duration/10)
+  end
+  
 end

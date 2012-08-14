@@ -32,11 +32,10 @@ require_recipe "mysql::server"
 # Install CouchDB and create default CouchDB database
 require_recipe "couchdb"
 execute "create CouchDB database #{node[:couchdb][:db_name]}" do
+  command "curl -X DELETE http://127.0.0.1:5984/#{node[:couchdb][:db_name]}/"
   command "curl -X PUT http://127.0.0.1:5984/#{node[:couchdb][:db_name]}/"
   ignore_failure true
 end
-
-
 
 # Generate new keys unless they have already been stored in settings.yml
 if File.exists? "/vagrant/config/settings.yml"
@@ -49,16 +48,6 @@ else
   node.set_unless['app']['secret'] = SecureRandom.hex(30)
   template "/vagrant/config/settings.yml" do
     source 'settings.yml.erb'
-    owner 'root'
-    group 'root'
-    mode 0644
-  end
-end
-
-# create new source_configs.yml
-unless File.exists? "/vagrant/config/source_configs.yml"
-  template "/vagrant/config/source_configs.yml" do
-    source 'source_configs.yml.erb'
     owner 'root'
     group 'root'
     mode 0644
@@ -85,15 +74,12 @@ bash "rake db:setup RAILS_ENV=#{node[:rails][:environment]}" do
   code "rake db:setup RAILS_ENV=#{node[:rails][:environment]}"
 end
 
-# Start workers
-bash "rake workers:start_all RAILS_ENV=#{node[:rails][:environment]}" do
-  cwd "/vagrant"
-  code "RAILS_ENV=#{node[:rails][:environment]} ./script/delayed_job start --queue=citeulike --identifier=1"
-  code "RAILS_ENV=#{node[:rails][:environment]} ./script/delayed_job start --queue=pubmed --identifier=2"
-  code "RAILS_ENV=#{node[:rails][:environment]} ./script/delayed_job start --queue=wikipedia --identifier=3"
-  code "bundle exec rake queue:citeulike RAILS_ENV=#{node[:rails][:environment]} &"
-  code "bundle exec rake queue:pubmed RAILS_ENV=#{node[:rails][:environment]} &"
-  code "bundle exec rake queue:wikipedia RAILS_ENV=#{node[:rails][:environment]} &"
+# Generate new Procfile
+template "/vagrant/Procfile" do
+  source 'Procfile.erb'
+  owner 'root'
+  group 'root'
+  mode 0644
 end
 
 # Install Apache and Passenger
@@ -108,4 +94,16 @@ web_app "alm" do
   docroot "/vagrant/public"
   template "alm.conf.erb"
   notifies :reload, resources(:service => "apache2"), :delayed
+end
+
+# Export Procfile to upstart
+# Restart background processes
+execute "sudo stop alm" do
+  command "sudo stop alm"
+  ignore_failure true
+end
+execute "rvmsudo foreman export upstart /etc/init -a alm -l /vagrant/log -u vagrant" do
+  cwd "/vagrant"
+  command "rvmsudo foreman export upstart /etc/init -a alm -l /vagrant/log -u vagrant"
+  command "sudo start alm"
 end

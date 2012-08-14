@@ -33,7 +33,7 @@ class ArticlesController < ApplicationController
     collection = collection.query(params[:query])  if params[:query]
     collection = collection.order_articles(params[:order])
 
-    @articles = collection.paginate(:page => params[:page], :per_page => params[:per_page])
+    @articles = collection.paginate(:page => params[:page])
 
     # if private sources have been filtered out, the source parameter will be present and modified
 

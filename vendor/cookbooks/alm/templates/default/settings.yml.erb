@@ -1,3 +1,11 @@
+# staleness and batch_time_interval are durations, you can use ERB such as <%%= 2.hours %>
+#
+# source: staleness can be integer or array with up to 4 integer elements:
+# 1: for all articles
+# 2: for articles up to 14 days old, for all other articles
+# 3: for articles up to 14 days old, up to 75 days old, for all other articles
+# 4: for articles up to 14 days old, up to 75 days old, up to 1 year old, for all other articles
+
 defaults: &defaults
   useragent: <%= node[:app][:useragent] %>
   notification_email: <%= node[:admin][:email] %>
@@ -6,6 +14,14 @@ defaults: &defaults
   session_secret: <%= node[:app][:secret] %>
   layout: <%= node[:app][:layout] %>
   couchdb_url: http://localhost:5984/<%= node[:couchdb][:db_name] %>/
+  source:
+    job_batch_size: 200
+    staleness: <%%= 7.days %>
+    batch_time_interval: <%%= 1.hour %>
+<% if node[:app][:seed_additional_sources] %>
+  nature:
+    requests_per_day: 5000
+<% end %>
 
 development:
   <<: *defaults
@@ -13,11 +29,7 @@ development:
 
 test:
   <<: *defaults
-  hostname: http://test.example.org 
-
-stage:
-  <<: *defaults
-  hostname: http://stage.example.org 
+  hostname: http://test.example.org
   
 production:
   <<: *defaults
