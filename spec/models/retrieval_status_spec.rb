@@ -15,7 +15,7 @@ describe RetrievalStatus do
  end
  
  it "stale_at should be in the future" do
-   (@retrieval_status.stale_at - Time.now.utc).should be > 0
+   (@retrieval_status.stale_at - Time.zone.now).should be > 0
  end
  
  it "stale_at should be publication date for unpublished articles" do

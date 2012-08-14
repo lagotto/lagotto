@@ -17,7 +17,7 @@
 # limitations under the License.
 
 Time::DATE_FORMATS.merge!(
-    :friendly => '%m/%d/%y %I:%M%P',
+    :friendly => '%m/%d/%y %I:%M%P UTC',
     :friendly_date => '%m/%d/%y',
     :ordered => '%Y%m%d%H%M'
 )

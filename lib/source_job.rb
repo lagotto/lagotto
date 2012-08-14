@@ -26,7 +26,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     Rails.logger.debug "enqueue #{rs_ids.inspect}"
 
     # keep track of when the article was queued up
-    RetrievalStatus.update_all(["queued_at = ?", Time.now.utc], ["id in (?)", rs_ids] )
+    RetrievalStatus.update_all(["queued_at = ?", Time.zone.now], ["id in (?)", rs_ids] )
   end
 
   def perform
@@ -45,7 +45,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # just in case a worker gets stuck
     Timeout.timeout(Delayed::Worker.max_run_time) do
       # wait till the source isn't disabled
-      while not (source.disable_until.nil? || source.disable_until < Time.now.utc)
+      while not (source.disable_until.nil? || source.disable_until < Time.zone.now)
         Rails.logger.info "#{source.name} is disabled.  Sleep for #{source.disable_delay} seconds."
         sleep(source.disable_delay)
       end
@@ -92,7 +92,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         attachment = data_from_source[:attachment]
       end
 
-      retrieved_at = Time.now.utc
+      retrieved_at = Time.zone.now
       if event_count > 0
         data = {}
         data[:doi] = article.doi
@@ -147,7 +147,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     rescue => e
       Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{source_id} failed to get data. \n#{e.message} \n#{e.backtrace.join("\n")}"
 
-      rh.retrieved_at = Time.now.utc
+      rh.retrieved_at = Time.zone.now
       rh.status = RetrievalHistory::ERROR_MSG
       rh.save
 

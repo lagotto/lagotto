@@ -71,7 +71,7 @@ class Nature < Source
       unless self.disable_until.nil?
         queue_job = false
 
-        if self.disable_until < Time.now.utc
+        if self.disable_until < Time.zone.now
           self.disable_until = nil
           save
           queue_job = true

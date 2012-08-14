@@ -48,7 +48,7 @@ class Source < ActiveRecord::Base
 
   def queue_all_articles
     # determine if the source is active
-    if active && (disable_until.nil? || disable_until < Time.now.utc)
+    if active && (disable_until.nil? || disable_until < Time.zone.now)
 
       # reset disable_until value
       unless self.disable_until.nil?
@@ -82,7 +82,7 @@ class Source < ActiveRecord::Base
       unless self.disable_until.nil?
         queue_job = false
 
-        if self.disable_until < Time.now.utc
+        if self.disable_until < Time.zone.now
           self.disable_until = nil
           save
           queue_job = true
@@ -137,12 +137,12 @@ class Source < ActiveRecord::Base
     failed_queries = RetrievalHistory.where("source_id = :id and status = :status and updated_at > :updated_date",
                                             {:id => id,
                                              :status => RetrievalHistory::ERROR_MSG,
-                                             :updated_date => (Time.now.utc - max_failed_query_time_interval.seconds)}).count(:id)
+                                             :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds)}).count(:id)
 
     if failed_queries > max_failed_queries
       Rails.logger.error "#{display_name} has exceeded maximum failed queries.  Disabling the source."
       # disable the source
-      self.disable_until = Time.now.utc + disable_delay.seconds
+      self.disable_until = Time.zone.now + disable_delay.seconds
       save
     end
   end
@@ -180,7 +180,7 @@ class Source < ActiveRecord::Base
   def create_retrievals
     # Create an empty retrieval record for every article for the new source, make scheduled_at a random timestamp within a week
     conn = RetrievalStatus.connection
-    random_time = Time.now + rand(7.days)
+    random_time = Time.zone.now + rand(7.days)
     sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), '#{random_time.to_formatted_s(:db)}' from articles"
     conn.execute sql
   end

@@ -205,7 +205,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
   
   def random_time(duration)
-    Time.now.utc + duration + rand(duration/10)
+    Time.zone.now + duration + rand(duration/10)
   end
   
 end
