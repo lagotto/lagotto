@@ -5,6 +5,7 @@ Feature: Edit sources
 
   Background:
     Given I am logged in
+    And the source "CiteULike" exists
     
   Scenario: Group must be selected
     When I edit the source "CiteULike"
