@@ -3,8 +3,10 @@ require 'spec_helper'
 describe Group do
   
   before do
-    @group = FactoryGirl.build(:group)
+    @group = FactoryGirl.create(:group)
   end
+  
+  subject { @group }
 
   it { should have_many(:sources).dependent(:nullify) }
   

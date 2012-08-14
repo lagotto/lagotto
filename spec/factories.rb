@@ -23,9 +23,7 @@ FactoryGirl.define do
     association :article, factory: :article, strategy: :build
     association :source, factory: :source, strategy: :build
     
-    trait(:unpublished) do
-      association :article, factory: :article, strategy: :build, published_on { Time.zone.today + 1.week }
-    end
+    trait(:unpublished) { association :article, :unpublished, factory: :article, strategy: :build }
     trait(:staleness) { association :source, :staleness, factory: :source, strategy: :build }
   end
   
@@ -36,7 +34,7 @@ FactoryGirl.define do
     workers 1
     staleness { [ 30.minutes, 12.hours, 14.days ] }
     
-    association :group, factory: :group
+    association :group, factory: :group, strategy: :build
   end
  
   factory :user do

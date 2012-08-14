@@ -3,8 +3,10 @@ require 'spec_helper'
 describe Source do
   
   before do
-    @source = FactoryGirl.build(:source)
+    @source = FactoryGirl.create(:source)
   end
+  
+  subject { @source }
   
   it { should belong_to(:group) }
   it { should have_many(:retrieval_statuses).dependent(:destroy) }
@@ -36,9 +38,9 @@ describe Source do
   end
   
   it "stale_at should depend on article age" do
-    @source.articles << build(:article, :cited, :published_on => 1.day.ago)
-    @source.articles << build(:article, :cited, :published_on => 2.months.ago)
-    @source.articles << build(:article, :cited, :published_on => 3.years.ago)
+    #@source.articles << build(:article, :published_on => 1.day.ago)
+    #@source.articles << build(:article, :published_on => 2.months.ago)
+    #@source.articles << build(:article, :published_on => 3.years.ago)
   end
   
 end
