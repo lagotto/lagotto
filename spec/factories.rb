@@ -1,7 +1,7 @@
 FactoryGirl.define do
   
   factory :article do
-    doi '10.1371/journal.pcbi.1000204'
+    sequence(:doi) {|n| "10.1371/journal.pone.00000#{n}" }
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
     published_on '2008-10-31'
     
@@ -23,7 +23,9 @@ FactoryGirl.define do
     association :article, factory: :article, strategy: :build
     association :source, factory: :source, strategy: :build
     
-    trait(:unpublished) { association :article, :unpublished, factory: :article, strategy: :build }
+    trait(:unpublished) do
+      association :article, factory: :article, strategy: :build, published_on { Time.zone.today + 1.week }
+    end
     trait(:staleness) { association :source, :staleness, factory: :source, strategy: :build }
   end
   

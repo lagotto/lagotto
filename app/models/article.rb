@@ -51,6 +51,10 @@ class Article < ActiveRecord::Base
       order("doi")
     end
   }
+  
+  def self.per_page
+    50
+  end
 
   def to_param
     # not necessary to escape the characters make to_param work

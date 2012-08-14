@@ -37,11 +37,19 @@ Given /^there is an article$/ do
   create_article
 end
 
+Given /^that we have (\d+) articles$/ do |number|
+  created_articles = FactoryGirl.create_list(:article, number.to_i)
+end
+
 Given /^an article does not exist$/ do
   delete_article
 end
 
 ### WHEN ###
+When /^I go to the Article page$/ do
+  visit articles_path
+end
+
 When /^I add the article with all required information$/ do
   delete_article
   create_article
@@ -51,4 +59,8 @@ end
 Then /^I should see the article$/ do
   #visit article_path(@article)
   #page.should have_content @article.title
+end
+
+Then /^I should see a list of (\d+) articles$/ do |number|
+ page.has_css?('div.article', :count => number.to_i).should be_true
 end
