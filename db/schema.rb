@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20120808201804) do
     t.datetime "updated_at",                                        :null => false
     t.integer  "max_failed_queries",             :default => 200
     t.integer  "max_failed_query_time_interval", :default => 86400
+    t.boolean  "refreshable",                    :default => true
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
