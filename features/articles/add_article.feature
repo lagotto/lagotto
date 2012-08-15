@@ -10,9 +10,3 @@ Feature: Add article
       Given an article does not exist
       When I add the article with all required information
       Then I should see the article
-    
-    Scenario: DOI for article missing
-    
-    Scenario: DOI for article in wrong format
-    
-    Scenario: Article exists already

@@ -10,7 +10,7 @@ Given /^that an article has no blog count$/ do
 end
 
 Given /^the source "(.*?)" exists$/ do |display_name|
-  @source = FactoryGirl.create(:source, :display_name => display_name)
+  @source = FactoryGirl.create(:source)
 end
 
 ### WHEN ###
