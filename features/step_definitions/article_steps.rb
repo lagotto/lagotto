@@ -46,7 +46,7 @@ Given /^an article does not exist$/ do
 end
 
 ### WHEN ###
-When /^I go to the Article page$/ do
+When /^I go to the Articles page$/ do
   visit articles_path
 end
 
@@ -62,5 +62,5 @@ Then /^I should see the article$/ do
 end
 
 Then /^I should see a list of (\d+) articles$/ do |number|
- page.has_css?('div.article', :count => number.to_i).should be_true
+  page.has_css?('div.article', :count => number.to_i).should be_true
 end
