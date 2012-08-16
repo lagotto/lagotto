@@ -89,3 +89,35 @@ When we have to update the metrics for an article (determined by the staleness i
 In production mode the background processes run via the `upstart`system utility. The Chef/Vagrant setup has the upstart scripts already configured, otherwise this can be done (where USER is the user running the web server) via
 
     rvmsudo foreman export upstart /etc/init -a alm -l /USER/log -u USER
+    
+## More Documentation
+In the Wiki at [https://github.com/articlemetrics/alm/wiki][documentation].
+ 
+[documentation]: https://github.com/articlemetrics/alm/wiki
+ 
+## Follow @plosalm on Twitter
+You should follow [@plosalm][follow] on Twitter for announcements and updates.
+ 
+[follow]: https://twitter.com/plosalm
+ 
+## Mailing List
+Please direct questions about the library to the [mailing list].
+ 
+[mailing list]: https://groups.google.com/group/plos-api-developers
+ 
+## List your application in the Wiki
+Does your project or organization use this application? Add it to the [
+FAQ][faq]!
+ 
+[faq]: https://github.com/articlemetrics/alm/wiki/faq
+ 
+## Note on Patches/Pull Requests
+ 
+* Fork the project
+* Write tests for your new feature or a test that reproduces a bug
+* Implement your feature or make a bug fix
+* Do not mess with Rakefile, version or history
+* Commit, push and make a pull request. Bonus points for topical branches.
+ 
+## Copyright
+Copyright (c) 2009-2012 by Public Library of Science. See [LICENSE](https://github.com/articlemetrics/alm/blob/master/LICENSE.md) for details.
