@@ -4,7 +4,7 @@ class ChangeAllowNull < ActiveRecord::Migration
     change_column :sources, :workers, :integer, :default => 1
     change_column :sources, :max_failed_queries, :integer, :null => false
     change_column :sources, :max_failed_query_time_interval, :integer, :null => false
-    #add_index :retrieval_statuses, [:id, :event_count]
+    add_index :retrieval_statuses, [:id, :event_count]
     add_index :retrieval_histories, [:source_id, :event_count]
   end
 
