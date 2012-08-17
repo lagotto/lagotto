@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120808201804) do
+ActiveRecord::Schema.define(:version => 20120817123205) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(:version => 20120808201804) do
   end
 
   add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
+  add_index "retrieval_histories", ["source_id", "event_count"], :name => "index_retrieval_histories_on_source_id_and_event_count"
   add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
 
   create_table "retrieval_statuses", :force => true do |t|
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20120808201804) do
   end
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
+  add_index "retrieval_statuses", ["id", "event_count"], :name => "index_retrieval_statuses_on_id_and_event_count"
 
   create_table "sources", :force => true do |t|
     t.string   "type",                                              :null => false
@@ -85,15 +87,15 @@ ActiveRecord::Schema.define(:version => 20120808201804) do
     t.datetime "disable_until"
     t.integer  "disable_delay",                  :default => 10,    :null => false
     t.integer  "timeout",                        :default => 30,    :null => false
-    t.integer  "workers",                                           :null => false
+    t.integer  "workers",                        :default => 1,     :null => false
     t.text     "config"
-    t.integer  "group_id"
+    t.integer  "group_id",                                          :null => false
     t.boolean  "private",                        :default => false
     t.integer  "wait_time",                      :default => 300,   :null => false
     t.datetime "created_at",                                        :null => false
     t.datetime "updated_at",                                        :null => false
-    t.integer  "max_failed_queries",             :default => 200
-    t.integer  "max_failed_query_time_interval", :default => 86400
+    t.integer  "max_failed_queries",             :default => 200,   :null => false
+    t.integer  "max_failed_query_time_interval", :default => 86400, :null => false
     t.boolean  "refreshable",                    :default => true
   end
 

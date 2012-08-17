@@ -31,9 +31,8 @@ FactoryGirl.define do
     type "Citeulike"
     name "citeulike"
     display_name "CiteULike"
-    workers 1
     staleness { [ 30.minutes, 12.hours, 14.days ] }
-    
+
     association :group, factory: :group, strategy: :build
   end
  
