@@ -21,12 +21,12 @@ describe Article do
   end
   
   it 'validate published_on can\'t be too far in the future' do 
-    article_in_future = build(:article, :cited, :published_on => 2.months.since)
+    article_in_future = build(:article, :cited, :published_on => 4.months.since)
     article_in_future.should_not be_valid
   end
   
   it 'validate published_on can\'t be too far in the past' do 
-    article_in_past = build(:article, :cited, :published_on => 41.years.ago)
+    article_in_past = build(:article, :cited, :published_on => 51.years.ago)
     article_in_past.should_not be_valid
   end
   

@@ -27,8 +27,8 @@ class Article < ActiveRecord::Base
   
   validates :doi, :uniqueness => true , :format => { :with => DOI::FORMAT }
   validates :title, :presence => true
-  validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 1.month.since }, :on_or_before_message => "can't be more than a month in the future", 
-                                                               :after => lambda { 40.years.ago }, :after_message => "must not be older than 40 years", 
+  validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future", 
+                                                               :after => lambda { 50.years.ago }, :after_message => "must not be older than 50 years", 
                                                                :type => :date }
   
   after_create :create_retrievals
