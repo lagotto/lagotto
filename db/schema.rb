@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(:version => 20120817123205) do
     t.datetime "retrieved_at"
     t.string   "status"
     t.string   "msg"
-    t.integer  "event_count",         :default => 0
+    t.integer  "event_count",         :default => 0, :null => false
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
   end
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(:version => 20120817123205) do
     t.datetime "queued_at"
     t.datetime "retrieved_at", :default => '1970-01-01 00:00:00', :null => false
     t.string   "local_id"
-    t.integer  "event_count",  :default => 0
+    t.integer  "event_count",  :default => 0,                     :null => false
     t.string   "data_rev"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false

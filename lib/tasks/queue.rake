@@ -176,6 +176,10 @@ namespace :queue do
     end
 
     rs = RetrievalStatus.find_by_article_id_and_source_id(article.id, source.id)
+    if rs.nil?
+      puts "Retrieval Status for article with doi #{args.doi} and source with name #{args.source} does not exist"
+      exit
+    end
     source.queue_article_job(rs)
 
     puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
