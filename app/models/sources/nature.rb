@@ -59,9 +59,7 @@ class Nature < Source
     # requests per day is smaller than the total number of articles in the application
     # requests per day is smaller than total number of seconds in 1 day
 
-    total_requests = requests_per_day
     batch_time_interval = SECONDS_IN_A_DAY
-    seconds_between_request = SECONDS_IN_A_DAY / total_requests
 
     # determine if the source is active
     if active
@@ -109,7 +107,7 @@ class Nature < Source
       Rails.logger.debug "#{name} total article queued #{rs.length}"
 
       rs.each do | rs_id |
-        run_at += seconds_between_request
+        run_at += SECONDS_IN_A_DAY / requests_per_day
         Delayed::Job.enqueue SourceJob.new(rs_id, id), :queue => name, :run_at => run_at
       end
 
