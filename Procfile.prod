@@ -6,6 +6,9 @@ worker_crossref: bundle exec rake jobs:work start QUEUE=crossref RAILS_ENV=produ
 worker_facebook: bundle exec rake jobs:work start QUEUE=facebook RAILS_ENV=production
 worker_nature: bundle exec rake jobs:work start QUEUE=nature RAILS_ENV=production
 worker_researchblogging: bundle exec rake jobs:work start QUEUE=researchblogging RAILS_ENV=production
+worker_scopus: bundle exec rake jobs:work start QUEUE=scopus RAILS_ENV=production
+worker_twitter: bundle exec rake jobs:work start QUEUE=twitter RAILS_ENV=production
+worker_wos: bundle exec rake jobs:work start QUEUE=wos RAILS_ENV=production
 
 citeulike: bundle exec rake queue:citeulike RAILS_ENV=production
 pubmed: bundle exec rake queue:pubmed RAILS_ENV=production
@@ -15,3 +18,6 @@ crossref: bundle exec rake queue:crossref RAILS_ENV=production
 facebook: bundle exec rake queue:facebook RAILS_ENV=production
 nature: bundle exec rake queue:nature RAILS_ENV=production
 researchblogging: bundle exec rake queue:researchblogging RAILS_ENV=production
+scopus: bundle exec rake queue:scopus RAILS_ENV=production
+twitter: bundle exec rake queue:twitter RAILS_ENV=production
+wos: bundle exec rake queue:wos RAILS_ENV=production
