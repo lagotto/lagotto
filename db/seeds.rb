@@ -3,7 +3,7 @@
 
 # Load default groups
 #usage = Group.find_or_create_by_name(:name => "Article Usage")
-#citations = Group.find_or_create_by_name(:name => "Citations")
+citations = Group.find_or_create_by_name(:name => "Citations")
 #social_networks = Group.find_or_create_by_name(:name => "Social Networks")
 #blogs_media = Group.find_or_create_by_name(:name => "Blogs and Media Coverage")
 
