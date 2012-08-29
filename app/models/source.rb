@@ -33,11 +33,11 @@ class Source < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true 
-  validates :workers, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..10, :message => "is not in the allowed range" }  
-  validates :timeout, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "is not in the allowed range" }
-  validates :wait_time, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "is not in the allowed range" }
-  validates :max_failed_queries, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 0..1000, :message => "is not in the allowed range" }
-  validates :max_failed_query_time_interval, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 0..864000, :message => "is not in the allowed range" }
+  validates :workers, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..10, :message => "should be between 1 and 10" }  
+  validates :timeout, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
+  validates :wait_time, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
+  validates :max_failed_queries, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 0..1000, :message => "should be between 0 and 1000" }
+  validates :max_failed_query_time_interval, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 0..864000, :message => "should be between 0 and 864000" }
 
   # for job priority
   TOP_PRIORITY = 0
