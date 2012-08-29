@@ -25,7 +25,7 @@ describe Source do
   it { should ensure_inclusion_of(:wait_time).in_range(1..3600).with_message("should be between 1 and 3600") }
   it { should validate_presence_of(:max_failed_queries) }
   it { should validate_numericality_of(:max_failed_queries) }
-  it { should ensure_inclusion_of(:max_failed_queries).in_range(0..1000).with_message("should be between 1 and 1000") }
+  it { should ensure_inclusion_of(:max_failed_queries).in_range(0..1000).with_message("should be between 0 and 1000") }
   it { should validate_presence_of(:max_failed_query_time_interval) }
   it { should validate_numericality_of(:max_failed_query_time_interval) }
   it { should ensure_inclusion_of(:max_failed_query_time_interval).in_range(0..864000).with_message("should be between 0 and 864000") }
