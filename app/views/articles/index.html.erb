@@ -18,56 +18,27 @@
   # limitations under the License.
 -%>
 
-<div class="border">
-  <div class="page">
-    <%
-       filtered = params[:cited] || params[:query]
-
-       links = []
-       links << link_to("all", articles_path) if filtered
-       links << link_to("cited", articles_path(:cited => "1", :query => params[:query])) unless params[:cited] == "1"
-       links << link_to('uncited', articles_path(:cited => "0", :query => params[:query])) unless params[:cited] == "0"
-       links = links.join(" or ")
-       links = links.html_safe
-    %>
-    <div>
-      Show <%= links %> articles |
-      <%= form_tag articles_path, :method => "get", :style => "display: inline" do %>
-          <%= label_tag 'query', 'Show only DOIs containing:' %>
-          <%= text_field_tag "query", params[:query], :size => 9 %>
-          <%= submit_tag 'Go' %>
-      <% end %> |
-      <%= link_to 'Add another article', new_article_path %>
-    </div>
-    <h2>
-      <%=
-          case params[:cited]
-            when "1"
-              pluralize @articles.total_entries, 'cited article'
-            when "0"
-              pluralize @articles.total_entries, 'uncited article'
-            else
-              "All " + pluralize(@articles.total_entries, 'article')
-          end
-      %>
-      <% if params[:query] %>
-          with DOIs containing &ldquo;<%= params[:query] %>&rdquo;
+<div class="content">
+  <div class="page-header">
+    <h1>
+      <%= pluralize(@articles.total_entries, 'Article') %>
+      <% unless params[:query].blank? %>
+          with <em><%= params[:query] %></em> in the title or DOI
       <% end %>
-    </h2>
+    </h1>
+  </div>
 
     <% unless @articles.empty? %>
-        <% for article in @articles %>
-            <div class="article">
-              <span class="doi"><%= link_to article.doi, article %></span>
-              <span class="details">
-                <%= pluralize article.cited_retrievals_count, "source" %>
-              </span>
-            </div>
+      <ul class="unstyled">
+        <% @articles.each do |article| %>
+            <li>
+              <h3><%= link_to article.title, article %> <small><%= pluralize article.cited_retrievals_count, "source" %></small></h3>
+            </li>
         <% end %>
     <% else %>
         <div>No <%= "cited" if params[:cited] %> articles found</div>
     <% end %>
 
     <%= will_paginate @articles %>
-  </div>
+    
 </div>

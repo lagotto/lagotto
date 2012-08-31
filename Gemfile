@@ -15,6 +15,9 @@ gem 'will_paginate', '3.0.3'
 gem "devise", "~> 2.1.2"
 gem 'validates_timeliness', '~> 3.0.2'
 
+gem 'sass-rails', '~> 3.1'
+gem 'bootstrap-sass', '~> 2.0.4.1'
+
 group :assets do
   gem 'uglifier', '1.2.7'
   gem 'jquery-rails', '2.0.2'

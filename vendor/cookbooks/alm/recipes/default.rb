@@ -57,7 +57,7 @@ end
 # Run bundle command
 bash "run bundle install in app directory" do
   cwd "/vagrant"
-  code "bundle install"
+  code "rvmsudo bundle install"
 end
 
 # Optionally seed the database with sources, groups and sample articles
@@ -94,16 +94,4 @@ web_app "alm" do
   docroot "/vagrant/public"
   template "alm.conf.erb"
   notifies :reload, resources(:service => "apache2"), :delayed
-end
-
-# Export Procfile to upstart
-# Restart background processes
-execute "sudo stop alm" do
-  command "sudo stop alm"
-  ignore_failure true
-end
-execute "rvmsudo foreman export upstart /etc/init -a alm -l /vagrant/log -u vagrant" do
-  cwd "/vagrant"
-  command "rvmsudo foreman export upstart /etc/init -a alm -l /vagrant/log -u vagrant"
-  command "sudo start alm"
 end

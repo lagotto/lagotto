@@ -18,22 +18,24 @@
   # limitations under the License.
 -%>
 
-<div class="border">
-  <div class="page">
+<div class="content">
+  <div class="page-header">
     <h1>Sources</h1>
-
-    <ul>
-      <% for source in @sources %>
-          <li>
-            <h3><%= link_to h(source.display_name), source_path(source) %></h3>
-            <div>
-              <b><%= source.active ? "Active" : "Inactive" %>;</b>
-              <% if source.group %>
-                  Group: <%= source.group.name %>
-              <% end %>
-            </div>
-          </li>
-      <% end %>
-    </ul>
   </div>
+  
+  <% @groups.in_groups_of(3, false) do |groups| %>
+    <div class="row">
+      <% groups.each do |group| %>
+        <div class="span4">
+          <h2><%= link_to_if(user_signed_in?, h(group.name), admin_group_path(group)) %></h2>
+          <ul class="unstyled">
+            <% group.sources.each do |source| %>
+            <h3><%= link_to_if(user_signed_in?, h(source.display_name), admin_source_path(source)) %><% if user_signed_in? and !source.active %> <small>inactive</small><% end %></h3>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
 </div>
