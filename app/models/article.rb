@@ -52,6 +52,10 @@ class Article < ActiveRecord::Base
     end
   }
   
+  scope :query, lambda { |query| where("articles.title REGEXP ? or articles.doi REGEXP ?", query, query) }
+  
+  scope :with_flags, where("published_on = '1970-01-01' OR CHAR_LENGTH(title) <= 10").order("published_on DESC")
+  
   def self.per_page
     50
   end
@@ -142,6 +146,10 @@ class Article < ActiveRecord::Base
       end
     end
     group_info
+  end
+  
+  def is_publisher?
+    APP_CONFIG["doi_prefix"] == doi[0..6]
   end
 
   private
