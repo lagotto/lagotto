@@ -193,11 +193,11 @@ class RetrievalStatus < ActiveRecord::Base
 
     if age_in_days < 0
       article.published_on
-    elsif age_in_days === (0...14) and source.staleness.length > 1
+    elsif (0...14) === age_in_days and source.staleness.length > 1
       random_time(source.staleness[0])
-    elsif age_in_days === (15...75) and source.staleness.length > 2
+    elsif (15...75) === age_in_days and source.staleness.length > 2
       random_time(source.staleness[1])
-    elsif age_in_days === (75...365) and source.staleness.length > 3
+    elsif (75...365) === age_in_days and source.staleness.length > 3
       random_time(source.staleness[2])
     else
       random_time(source.staleness.last)
