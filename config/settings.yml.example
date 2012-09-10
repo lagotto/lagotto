@@ -24,6 +24,7 @@ defaults: &defaults
   session_secret: #'run `rake secret` again to generate a second key to insert here'
   layout: greenrobo 
   couchdb_url: http://localhost:5984/alm/
+  doi_prefix: 
   source:
     job_batch_size: 200
     staleness: 7.days
