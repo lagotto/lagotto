@@ -1,0 +1,26 @@
+<% @source ||= Source.new %>
+<%= simple_form_for([:admin, @source.becomes(Source)], :html => { :class => 'form-horizontal' }) do |f| %>
+  <% f.object = @source.becomes(@source.class) %>
+  <div class="modal hide fade" id="modal-source">
+    <div class="modal-header">
+      <h2>Edit Source</h2>
+    </div>
+    
+    <div class="modal-body">
+      
+      <%= f.input :display_name, :input_html => { :class => "span3" } %>
+      <%= f.association :group %>
+      <%= f.input :active, :as => :boolean %>
+      <%= f.input :timeout, :input_html => { :class => "input-mini" }, :hint => "Time to wait for a response from the source (seconds)"  %>
+      <%= f.input :workers, :input_html => { :class => "input-mini" }, :hint => "Number of workers for the job queue" %>
+      <%= f.input :wait_time, :input_html => { :class => "input-mini" }, :hint => "Time interval before more jobs can be added to the job queue (seconds)" %>
+      <%= f.input :max_failed_queries, :input_html => { :class => "input-mini" }, :hint => "Maximum number of failed queries allowed before being disabled" %>
+      <%= f.input :max_failed_query_time_interval, :input_html => { :class => "input-mini" }, :hint => "Maximum number of failed queries allowed in a time interval (seconds)" %>
+      
+    </div>
+    <div class="modal-footer">
+      <%= link_to 'Cancel', "#", :class => 'btn', :data => { :dismiss => "modal" } %>
+      <%= f.submit "Save ", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

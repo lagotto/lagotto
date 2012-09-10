@@ -18,96 +18,121 @@
   # limitations under the License.
 -%>
 
-<div class="content">
+<div class="content">  
   <div class="page-header">
-    <h1><%= h(@source.display_name) %></h1>
+    <h1>
+      <%= render :partial => 'admin/sources/form' %> 
+      <%= link_to "Edit Source", edit_admin_source_path(@source), { :remote => true, :data => { :toggle => 'modal', :target => "#modal-source" }, :class => 'btn btn-mini pull-right' } %>
+      <%= link_to "Administration", admin_root_path %> / <%= h(@source.display_name) %>
+    </h1>
   </div>
-  
+
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#configuration" data-toggle="tab"><h3>Configuration</h3></a></li>
-    <li><a href="#most-cited" data-toggle="tab"><h3>Most-cited</h3></a></li>
+    <li class="active"><a href="#status" data-toggle="tab">Status</a></li>
+    <li><a href="#configuration" data-toggle="tab">Configuration</a></li>
+    <% unless @samples.empty? %>
+      <li><a href="#most-cited" data-toggle="tab">Most-Cited</a></li>
+    <% end %>
   </ul>
   
   <div class="tab-content">
-    <div class="tab-pane active" id="configuration">
-      <p>
-        <b>Name:</b>
-        <%=h @source.display_name  %>
-      </p>
-
-      <p>
-        <b>Timeout:</b>
-        <%=h @source.timeout %> seconds
-      </p>
-
-      <p>
-        <b>Disabled Until:</b>
-        <% if @source.disable_until %>
-            <%= h @source.disable_until %>
-        <% else %>
-            (not disabled)
-        <% end %>
-      </p>
-
-      <p>
-        <b>Disabled Delay:</b>
-        <%= h @source.disable_delay %> seconds
-      </p>
-
-      <p>
-        <b>Workers (workers for the job queue):</b>
-        <%= h @source.workers %>
-      </p>
-
-      <p>
-        <b>Wait time </b>: <%= @source.wait_time %> seconds
-        <br>
-        (time interval to wait before checking to see if more jobs can be added to the job queue)
-      </p>
-
-      <p>
-        <b>Maximum number of failed queries allowed before being disabled:</b>
-        <%=h @source.max_failed_queries %>
-      </p>
-
-      <p>
-        <b>Maximum number of failed queries allowed in a time interval:</b>
-        <%=h @source.max_failed_query_time_interval %> seconds
-      </p>
-
-      <% if @source.group %>
-          <p>
-            <b>Group:</b>
-            <%= h @source.group.name %>
-          </p>
+    <div class="tab-pane active" id="status">
+      <% if @source.status == "inactive" %>
+        <div class="alert alert-warning">
+          This source is inactive.
+        </div>
+      <% elsif @source.status == "disabled" %>
+        <div class="alert alert-error">
+          This source is disabled until <%= h(@source.disable_until) %>.
+        </div>
+      <% else %>
+        <div class="alert alert-info">
+          This source is active.
+        </div>
       <% end %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Queued Articles</th>
+            <td><%= @source.retrieval_statuses.queued.count %></td>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <th>Stale Articles</th>
+              <td><%= @source.retrieval_statuses.stale.count %></td>
+            </tr>
+            <tr>
+              <th>Scheduled Articles</th>
+              <td><%= @source.retrieval_statuses.scheduled.count %></td>
+            </tr>
+        </tbody>
+      </table>
 
-      <% if not @source.get_config_fields.empty? %>
-          <p>
-            <b>Source Configurations</b> <br>
-            <% @source.get_config_fields.each do |field| %>
-                <b><%= field[:field_name].gsub(/_/, " ").capitalize %></b>:
-                <% if field[:field_type] == "password_field" %>
-                    '<%= ("●" * @source.config.send(field[:field_name]).to_s.size) %>'
-                <% else %>
-                    <%= @source.config.send(field[:field_name]) %>
+    </div>
+    <div class="tab-pane" id="configuration">
+      <table class="table">
+        <thead>
+          <tr>
+            <th width=40%>Timeout</th>
+            <td><%=h @source.timeout %> seconds</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Disabled Delay</th>
+            <td><%= h @source.disable_delay %> seconds</td>
+          </tr>
+          <tr>
+            <th>Workers (workers for the job queue)</th>
+            <td><%= h @source.workers %></td>
+          </tr>
+          <tr>
+            <th>Time interval before more jobs can be added to the job queue</th>
+            <td><%= @source.wait_time %> seconds</td>
+          </tr>
+          <tr>
+            <th>Maximum number of failed queries allowed before being disabled</th>
+            <td><%=h @source.max_failed_queries %></td>
+          </tr>
+          <tr>
+            <th>Maximum number of failed queries allowed in a time interval</th>
+            <td><%=h @source.max_failed_query_time_interval %> seconds</td>
+          </tr>
+          <tr>
+            <th>Group</th>
+            <td><%= h @source.group.name if @source.group %></td>
+          </tr>
+          <% unless @source.get_config_fields.empty? %>
+            <tr>
+              <th>Source Configurations</th>
+              <td>
+                <% @source.get_config_fields.each do |field| %>
+                    <b><%= field[:field_name].gsub(/_/, " ").capitalize %></b>:
+                    <% if field[:field_type] == "password_field" %>
+                        '<%= ("●" * @source.config.send(field[:field_name]).to_s.size) %>'
+                    <% else %>
+                        <%= @source.config.send(field[:field_name]) %>
+                    <% end %>
+                    <br>
                 <% end %>
-                <br>
-            <% end %>
-          </p>
-      <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
     <div class="tab-pane" id="most-cited">
-      <% if @samples.empty? %>
-          <div>No articles have been cited by this source</div>
-      <% else %>
-        <% @samples.each do |retrieval_status| %>
-          <ul class="unstyled">
+      <% unless @samples.empty? %>
+        <ul class="unstyled">
+          <% @samples.each do |retrieval_status| %>
             <li>
-              <h3><%= link_to retrieval_status.article.title, retrieval_status.article %> <small><%= pluralize retrieval_status.event_count, "event" %></small></h3>
+              <h4><%= link_to retrieval_status.article.title, retrieval_status.article %> <small><%= pluralize retrieval_status.event_count, "event" %></small></h4>
             </li>
-          </ul>
-        <% end %>
+          <% end %>
+        </ul>
+      <% else %>
+        <div class="alert alert-info">No articles have been cited by this source</div>
       <% end %>
     </div>
   </div>

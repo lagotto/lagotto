@@ -27,10 +27,10 @@
     <div class="row">
       <% groups.each do |group| %>
         <div class="span4">
-          <h2><%= link_to_if(user_signed_in?, h(group.name), admin_group_path(group)) %></h2>
+          <h3><%= h(group.name) %></h3>
           <ul class="unstyled">
             <% group.sources.each do |source| %>
-            <h3><%= link_to_if(user_signed_in?, h(source.display_name), admin_source_path(source)) %><% if user_signed_in? and !source.active %> <small>inactive</small><% end %></h3>
+            <h4><%= link_to h(source.display_name), source_path(source) %><% if source.status != "active" %> <small><%= source.status %></small><% end %></h4>
             <% end %>
           </ul>
         </div>

@@ -16,22 +16,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module ApplicationHelper
-  def link_to_setup_or_login
-    if User.count > 0
-      link_to "Sign In", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : ''
-    else
-      link_to 'Sign Up', new_user_registration_path, :class => current_page?(new_user_registration_path) ? 'current' : ''
-    end
-  end
+class Admin::IndexController < Admin::ApplicationController
   
-  def status_label(source)
-    if source.status == "inactive"
-      '<span class="label label-info">inactive</span>'
-    elsif source.status == "disabled"
-      '<span class="label label-warning">disabled</span>'
-    else
-      "active"
-    end
+  def index
+    @articles_count = Article.count
+    @articles_with_flags = Article.with_flags.paginate(:page => params[:page])
+    
+    @sources = Source.order("name")
+    @sources_inactive_count = Source.where("active != 1").count
+    @sources_disabled_count = Source.where("disable_until IS NOT NULL").count
+    @groups = Group.order("name")
+    @delayed_jobs = DelayedJob.order("queue, run_at DESC")
+    @delayed_jobs_errors_count = DelayedJob.where("failed_at IS NOT NULL").count
   end
 end

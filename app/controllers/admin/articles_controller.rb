@@ -1,36 +1,27 @@
-class Admin::ArticlesController < ApplicationController
-  
-  before_filter :authenticate_user!
-  respond_to :html
+class Admin::ArticlesController < Admin::ApplicationController
   
   # GET /articles/new
   def new
     @article = Article.new
-
-    respond_with @article
   end
 
   # POST /articles
   def create
     @article = Article.new(params[:article])
-
-    if @article.save
-      flash[:notice] = 'Article was successfully created.'
-    end
-    respond_with(@article)
+    flash[:notice] = 'Article was successfully created.' if @article.save
+    redirect_to admin_root_path
   end
 
   # GET /articles/:id/edit
   def edit
     load_article
+    redirect_to admin_root_path
   end
 
   # PUT /articles/:id(.:format)
   def update
     load_article
-    if @article.update_attributes(params[:article])
-      flash[:notice] = 'Article was successfully updated.'
-    end
+    flash[:notice] = 'Article was successfully updated.' if @article.update_attributes(params[:article])   
     respond_with(@article)
   end
 
@@ -39,7 +30,7 @@ class Admin::ArticlesController < ApplicationController
     load_article
     @article.destroy
     flash[:notice] = 'Article was successfully deleted.'
-    respond_with(@article)
+    respond_with(@articles)
   end
   
   protected

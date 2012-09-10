@@ -1,0 +1,50 @@
+<ul class="thumbnails">
+  <li class="span4">
+    <div class="thumbnail">
+      <div class="caption">
+        <h2>
+          <i class="icon-file"></i> Articles
+          <% if @articles_with_flags.count > 0 %>
+            <span class="label label-info pull-right">Flags</span>
+          <% else %>
+            <span class="label label-success pull-right">No Flags</span>
+          <% end %>
+        </h2>
+        <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(@articles_with_flags.count, 'article') %> with flags.</p>
+      </div>
+    </div>
+  </li>
+  <li class="span4">
+    <div class="thumbnail">
+      <div class="caption">
+        <h2>
+          <i class="icon-tags"></i> Sources 
+          <% if @sources_disabled_count > 0 %>
+            <span class="label label-warning pull-right">Problems</span>
+          <% elsif @sources_inactive_count > 0 %>
+            <span class="label label-info pull-right">Inactive Sources</span>
+          <% else %>
+            <span class="label label-success pull-right">No Problems</span>
+          <% end %>
+        </h2>
+        <p><%= pluralize(@sources.count, 'source') %>, including <%= @sources_inactive_count %> inactive and <%= @sources_disabled_count %> disabled sources.</p>
+      </div>
+    </div>
+  </li>
+  <li class="span4">
+    <div class="thumbnail">
+      <div class="caption">
+        <h2>
+          <i class="icon-wrench"></i> Jobs
+          <% if @delayed_jobs_errors_count > 0 %>
+            <span class="label label-warning pull-right">Failures</span>
+          <% else %>
+            <span class="label label-success pull-right">No Failures</span>
+          <% end %>
+        </h2>
+        <p><%= pluralize(@delayed_jobs.count, 'active job') %>.</p>
+      </div>
+    </div>
+
+  </li>
+</ul>

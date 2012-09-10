@@ -1,0 +1,31 @@
+<div class="alert alert-info">
+  <%= pluralize(@articles_count, 'article') %>, including <%= pluralize(@articles_with_flags.count, 'article') %> with flags.
+</div>
+
+<% unless @articles_with_flags.empty? %>
+  <h3>Flagged Articles</h3>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Publication Date</th>
+        <th>Flag</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @articles_with_flags.each do |article| %>
+        <tr>
+          <td><%= link_to h(article.title), article %></td>
+          <td><%= article.published_on.to_s(:long) %></td>
+          <td><%= article.published_on.to_s == "1970-01-01" ? "Date" : "Title" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <%= will_paginate @articles_with_flags %>
+  
+  <%= render :partial => 'admin/articles/form', :locals => { :article => article } %> 
+  <%= link_to "New Article", new_admin_article_path, { :remote => true, :data => { :toggle => 'modal', :target => "#modal-article" }, :class => 'btn btn-mini' } %>
+<% end %>

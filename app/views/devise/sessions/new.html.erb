@@ -1,23 +1,20 @@
-<div class="border">
-  <div class="page">
-    <div class="login">
+<div class="content">
 
-<h1>Sign in</h1>
+  <%= simple_form_for resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => 'form-horizontal' } do |f| %>
+    <fieldset>
+      <legend>Sign In</legend>  
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :login %><br />
-  <%= f.text_field :login %></div>
-
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
-
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
-
-  <div><%= f.submit "Sign in" %></div>
-<% end %>
-
-    </div>
-  </div>
+      <%= f.input :login %>
+      <%= f.input :password %>
+  
+      <% if devise_mapping.rememberable? -%>
+        <%= f.input :remember_me, :as => :boolean %>
+      <% end -%>
+    
+      <div class="form-actions">
+        <%= f.submit "Sign In", class: "btn btn-primary" %>
+      </div>
+    </fieldset>
+  <% end %>
+  
 </div>

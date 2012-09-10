@@ -28,6 +28,10 @@
     <% end %>
     Article Level Metrics
   </title>
+  
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+  <![endif]-->
 
   <%= favicon_link_tag %>
   <%= stylesheet_link_tag "greenrobo" %>
@@ -36,7 +40,7 @@
 </head>
 
 <body>
-  <div class="navbar navbar-fixed-top">
+  <header class="navbar navbar-fixed-top">
 	  <div class="navbar-inner">
 			<div class="container">
 			  <a class="brand" href="<%= root_path %>">Article Level Metrics</a>
@@ -46,28 +50,29 @@
 		      <% end %>
         <% end %>
 				<ul class="nav">
-					<li><%= link_to("Articles", articles_path, :class => current_page?(articles_path) ? 'current' : '') %></li>
-          <li><%= link_to("Sources", sources_path, :class => current_page?(sources_path) ? 'current' : '') %></li>
-					<% if user_signed_in? %>
-            <%= render :partial => 'layouts/administration' %> 
-            <li class="nav pull-right"><%= link_to("Logout", destroy_user_session_path, :method => 'delete') %></li>
+					<li><%= link_to "Articles", articles_path %></li>
+          <li><%= link_to "Sources", sources_path %></li>
+        </ul>
+        <ul class="nav pull-right">
+          <% if user_signed_in? %>
+            <li><%= link_to "Administration", admin_root_path %></li>
+            <li><%= link_to("Sign Out", destroy_user_session_path, :method => 'delete') %></li>
           <% else %>
             <li><%= link_to_setup_or_login %></li>
           <% end %>
 	      </ul>
 			</div>
 		</div>
-	</div>
+	</header>
 
   <div class="container">
-    <% [ :error, :notice, :warning, :message, :alert ].each do |name| %>
-      <% if flash[name] %>
-        <div class="<%= name %> flash" id="<%= name %>">
-          <span><%= flash[name] %></span>
-        </div>
-      <% end %>
+    <% flash.each do |name, msg| %>
+      <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+        <a class="close" data-dismiss="alert">&#215;</a>
+        <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+      </div>
     <% end %>
-
+    
     <%= yield %>
   </div>
 

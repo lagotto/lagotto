@@ -1,0 +1,51 @@
+<%#
+  # $HeadURL$
+  # $Id$
+  #
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+  # http://www.plos.org/
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+-%>
+
+<div class="content">
+  <div class="page-header">
+    <h1><%= h(@source.display_name) %></h1>
+  </div>
+  
+  <dl class="dl-horizontal">
+    <dt>Status</dt>
+    <dd><%= @source.status %></dd>
+    <% if @source.group %>
+      <dt>Group</dt>
+      <dd><%= h(@source.group.name) %></dd>
+    <% end %>
+    <% unless @source.private %>
+      <dt>Documentation</dt>
+      <dd><%= link_to "Information at ALM Wiki", "http://github.com/articlemetrics/alm/wiki/" + @source.name %></dd>
+    <% end %>
+  </dl>
+  
+  <% unless @samples.empty? %>
+    <h3 class="section">Most-Cited Articles</h3>
+    <ul class="unstyled">
+      <% @samples.each do |retrieval_status| %>
+        <li>
+          <h4><%= link_to retrieval_status.article.title, retrieval_status.article %> <small><%= pluralize retrieval_status.event_count, "event" %></small></h4>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="alert alert-info">No articles have been cited by this source</div>
+  <% end %>
+</div>

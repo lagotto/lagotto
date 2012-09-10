@@ -1,7 +1,4 @@
-class Admin::SourcesController < ApplicationController
-  
-  before_filter :authenticate_user!
-  respond_to :html
+class Admin::SourcesController < Admin::ApplicationController
   
   def show
     @source = Source.find(params[:id])
@@ -18,7 +15,7 @@ class Admin::SourcesController < ApplicationController
     @source = Source.find(params[:id])
     if @source.update_attributes(params[:source])
       flash[:notice] = 'Source was successfully updated.'
-      redirect_to sources_url
+      redirect_to admin_source_path(@source)
     else
       render :edit
     end

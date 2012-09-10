@@ -9,7 +9,11 @@ Alm::Application.routes.draw do
   resources :groups
   
   namespace :admin do
-    resources :articles, :sources, :groups
+    root :to => "index#index"
+    resources :articles, :constraints => { :id => /.+?/, :format => /html/}
+    resources :sources
+    resources :groups
+    resources :delayed_jobs
   end
 
   match 'group/articles/:id' => 'groups#group_article_summaries', :constraints => { :id => /.+?/, :format => /html|json|xml/}

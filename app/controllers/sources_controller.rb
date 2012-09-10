@@ -19,6 +19,13 @@
 class SourcesController < ApplicationController
 
   respond_to :html
+  
+  def show
+    @source = Source.find(params[:id])
+    @samples = @source.retrieval_statuses.most_cited_sample
+
+    respond_with @source
+  end
 
   def index
     @groups = Group.order("name")

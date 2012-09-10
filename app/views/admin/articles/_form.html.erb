@@ -1,0 +1,18 @@
+<% @article ||= Article.new %>
+<%= simple_form_for [:admin, @article] do |f| %>
+  <div class="modal hide fade" id="modal-article">
+    <div class="modal-header">
+      <h2><%= @article.new_record? ? "New" : "Edit" %> Article</h2>
+    </div>
+    <div class="modal-body">      
+      <%= f.input :doi, :label => 'DOI', :input_html => { :class => "span6" } %>
+      <%= f.input :title, :input_html => { :rows => 2, :class => "span6" } %>
+      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 10, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "span1" } %>
+      
+    </div>
+    <div class="modal-footer">
+      <%= link_to 'Cancel', "#", :class => 'btn', :data => { :dismiss => "modal" } %>
+      <%= f.submit "Save ", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

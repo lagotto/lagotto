@@ -1,0 +1,24 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Group</th>
+      <th>Status</th>
+      <th>Queued Articles</th>
+      <th>Stale Articles</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sources.each do|source| %>
+      <tr>
+        <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
+        <td><%= h(source.group.name) if source.group %></td>
+        <td><%= status_label(source).html_safe %></td>
+        <td><%= source.retrieval_statuses.queued.count %></td>
+        <td><%= source.retrieval_statuses.stale.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render :partial => 'admin/sources/form' %> 

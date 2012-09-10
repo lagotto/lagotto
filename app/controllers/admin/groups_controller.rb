@@ -1,12 +1,9 @@
-class Admin::GroupsController < ApplicationController
-  
-  before_filter :authenticate_user!
-  respond_to :html
+class Admin::GroupsController < Admin::ApplicationController
   
   # GET /groups
   def index
     @groups = Group.order("name")
-    respond_with @groups
+    redirect_to admin_root_path
   end
 
   # GET /groups/:id
@@ -23,12 +20,8 @@ class Admin::GroupsController < ApplicationController
   # PUT /groups/:id
   def update
     @group = Group.find(params[:id])
-    if @group.update_attributes(params[:group])
-      flash[:notice] = 'Group was successfully updated.'
-      redirect_to groups_url
-    else
-      render :edit
-    end
+    flash[:notice] = 'Group was successfully updated.' if @group.update_attributes(params[:group])
+    redirect_to admin_root_path
   end
 
   # DELETE /groups/:id
@@ -37,25 +30,19 @@ class Admin::GroupsController < ApplicationController
     @group.destroy
     @group.delete
     flash[:notice] = 'Group was successfully deleted.'
-    respond_with(@group)
+    redirect_to admin_root_path
   end
 
   # GET /groups/new
   def new
-    @group = Group.new
-    respond_with @group
+    @group = Group.new(:name => "Test")
   end
 
   # POST /groups
   def create
     @group = Group.new(params[:group])
-
-    if @group.save
-      flash[:notice] = 'Group was successfully created.'
-      redirect_to groups_url
-    else
-      render :new
-    end
+    flash[:notice] = 'Group was successfully created.' if @group.save
+    redirect_to admin_root_path
   end
   
 end

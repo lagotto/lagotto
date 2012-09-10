@@ -20,7 +20,19 @@
 
 <div class="content">
   <div class="page-header">
-    <h1><%= h@article.title %></h1>
+    <h1>
+      <% if user_signed_in? %>
+      <div class="btn-toolbar pull-right">
+        <div class="btn-group">
+          <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_admin_article_path(@article), { :remote => true, :data => { :toggle => 'modal', :target => "#modal-article" }, :class => 'btn btn-mini' } %>
+          <a class="btn btn-mini" href="#"><i class="icon-trash"></i></a>
+        </div>
+      </div>
+      <%= render :partial => 'admin/articles/form' %> 
+
+      <% end %>
+      <%= h@article.title %>
+    </h1>
   </div>
   
   <dl class="dl-horizontal">
@@ -34,6 +46,7 @@
     <% end %>
   </dl>
   
+  <% if @article.retrieval_statuses.sum(:event_count) > 0 %>
   <div class="accordion" id="retrieval_status">
     <% @article.retrieval_statuses.each do |rs| %>
       <% if rs.event_count > 0 %>
@@ -69,14 +82,18 @@
                     <ul><li><%= event_data %></li></ul>
                   <% end %>
               <% end %>
+              <h4><%= link_to rs.source.display_name, source_path(rs.source) %>
               <% unless public_url.nil? %>
-                <h4><%= link_to "Further Information", public_url, :target => "_blank" %></h4>
+                | <%= link_to "Further Information", public_url, :target => "_blank" %></h4>
               <% end %>
+              </h4>
             </div>  
           </div>  
        </div>  
        <% end %>
        <% end %>
     </div>  
-
+  <% else %>
+    <div class="alert alert-info">No sources have cited this article</div>
+  <% end %>
 </div>
