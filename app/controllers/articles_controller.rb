@@ -17,7 +17,6 @@
 # limitations under the License.
 
 class ArticlesController < ApplicationController
-  before_filter :authenticate_user!, :except => [ :index, :show ]
 
   respond_to :html, :xml, :json
 
@@ -34,6 +33,8 @@ class ArticlesController < ApplicationController
     collection = collection.order_articles(params[:order])
 
     @articles = collection.paginate(:page => params[:page])
+
+    # if private sources have been filtered out, the source parameter will be present and modified
 
     # source url parameter is only used for csv format
     @source = Source.find_by_name(params[:source].downcase) if params[:source]
@@ -56,7 +57,9 @@ class ArticlesController < ApplicationController
     load_article
 
     format_options = params.slice :events, :history, :source
-    
+
+    # if private sources have been filtered out, the source parameter will be present and modified
+    # private sources are filtered out in the load_article_eager_includes method by looking at source parameter
     load_article_eager_includes
 
     respond_with(@article) do |format|
@@ -69,45 +72,6 @@ class ArticlesController < ApplicationController
                                        :source => format_options[:source])
       end
     end
-  end
-
-  # GET /articles/new
-  def new
-    @article = Article.new
-
-    respond_with @article
-  end
-
-  # POST /articles
-  def create
-    @article = Article.new(params[:article])
-
-    if @article.save
-      flash[:notice] = 'Article was successfully created.'
-    end
-    respond_with(@article)
-  end
-
-  # GET /articles/:id/edit
-  def edit
-    load_article
-  end
-
-  # PUT /articles/:id(.:format)
-  def update
-    load_article
-    if @article.update_attributes(params[:article])
-      flash[:notice] = 'Article was successfully updated.'
-    end
-    respond_with(@article)
-  end
-
-  # DELETE /articles/:id(.:format)
-  def destroy
-    load_article
-    @article.destroy
-    flash[:notice] = 'Article was successfully deleted.'
-    respond_with(@article)
   end
 
   protected
