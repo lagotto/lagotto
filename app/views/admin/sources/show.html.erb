@@ -1,0 +1,114 @@
+<%#
+  # $HeadURL$
+  # $Id$
+  #
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+  # http://www.plos.org/
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+-%>
+
+<div class="content">
+  <div class="page-header">
+    <h1><%= h(@source.display_name) %></h1>
+  </div>
+  
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#configuration" data-toggle="tab"><h3>Configuration</h3></a></li>
+    <li><a href="#most-cited" data-toggle="tab"><h3>Most-cited</h3></a></li>
+  </ul>
+  
+  <div class="tab-content">
+    <div class="tab-pane active" id="configuration">
+      <p>
+        <b>Name:</b>
+        <%=h @source.display_name  %>
+      </p>
+
+      <p>
+        <b>Timeout:</b>
+        <%=h @source.timeout %> seconds
+      </p>
+
+      <p>
+        <b>Disabled Until:</b>
+        <% if @source.disable_until %>
+            <%= h @source.disable_until %>
+        <% else %>
+            (not disabled)
+        <% end %>
+      </p>
+
+      <p>
+        <b>Disabled Delay:</b>
+        <%= h @source.disable_delay %> seconds
+      </p>
+
+      <p>
+        <b>Workers (workers for the job queue):</b>
+        <%= h @source.workers %>
+      </p>
+
+      <p>
+        <b>Wait time </b>: <%= @source.wait_time %> seconds
+        <br>
+        (time interval to wait before checking to see if more jobs can be added to the job queue)
+      </p>
+
+      <p>
+        <b>Maximum number of failed queries allowed before being disabled:</b>
+        <%=h @source.max_failed_queries %>
+      </p>
+
+      <p>
+        <b>Maximum number of failed queries allowed in a time interval:</b>
+        <%=h @source.max_failed_query_time_interval %> seconds
+      </p>
+
+      <% if @source.group %>
+          <p>
+            <b>Group:</b>
+            <%= h @source.group.name %>
+          </p>
+      <% end %>
+
+      <% if not @source.get_config_fields.empty? %>
+          <p>
+            <b>Source Configurations</b> <br>
+            <% @source.get_config_fields.each do |field| %>
+                <b><%= field[:field_name].gsub(/_/, " ").capitalize %></b>:
+                <% if field[:field_type] == "password_field" %>
+                    '<%= ("●" * @source.config.send(field[:field_name]).to_s.size) %>'
+                <% else %>
+                    <%= @source.config.send(field[:field_name]) %>
+                <% end %>
+                <br>
+            <% end %>
+          </p>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="most-cited">
+      <% if @samples.empty? %>
+          <div>No articles have been cited by this source</div>
+      <% else %>
+        <% @samples.each do |retrieval_status| %>
+          <ul class="unstyled">
+            <li>
+              <h3><%= link_to retrieval_status.article.title, retrieval_status.article %> <small><%= pluralize retrieval_status.event_count, "event" %></small></h3>
+            </li>
+          </ul>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -6,9 +6,10 @@
 	"recipe[rvm::vagrant]",
 	"recipe[alm]"
   ],
-  "app": { "layout": "greenrobo", 
+  "app": { "layout": "greenrobo",
+           "doi_prefix": "", 
            "seed_additional_sources": true,
-		   "seed_sample_articles": true, 
+		       "seed_sample_articles": true, 
            "mendeley": { "api_key": "EXAMPLE" },
            "facebook": { "api_key": "EXAMPLE" },
            "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },

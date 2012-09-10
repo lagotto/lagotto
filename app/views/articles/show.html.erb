@@ -18,62 +18,65 @@
   # limitations under the License.
 -%>
 
-<div class="border">
-  <div class="page">
-    <h2><%=h @article.doi %><%=h ": \"#{@article.title}\"" unless @article.title.blank? %></h2>
-
-    <div>
-      <%= "published #{@article.published_on.to_datetime.to_s(:friendly_date)} " if @article.published_on %>
-    </div>
-
-    <% if user_signed_in? %>
-      <%= content_tag(:div, "PubMed ID = '#{@article.pub_med}'") if @article.pub_med %>
-      <%= content_tag(:div, "PubMedCentral ID = '#{@article.pub_med_central}'") if @article.pub_med_central %>
-    <% end %>
-
-    <ul>
-      <% @article.retrieval_statuses.each do |rs| %>
-          <% if rs.event_count > 0 %>
-              <li>
-                <%
-                   rs_data = rs.get_retrieval_data
-                   unless rs_data.nil?
-                     public_url = rs_data["events_url"]
-                     event_data = rs_data["events"]
-                   end
-                   details = [ rs.event_count ]
-                   details << rs.local_id if rs.local_id and user_signed_in?
-                %>
-                <%= link_to_unless public_url.nil?, rs.source.display_name, public_url, :target => "_blank" %>
-                (<%= details.join(', ') %>) updated <%= rs.retrieved_at.to_s(:friendly) %>
-
-                <% unless event_data.nil? %>
-                    <% if event_data.is_a?(Array) %>
-                        :<ul>
-                        <% event_data.each do |ed| %>
-                          <li>
-                            <% if ed.has_key?("event_url") %>
-                                <%= link_to ed["event"], ed["event_url"] %>
-                            <% else %>
-                                <%= ed %>
-                            <% end %>
-                          </li>
-                        <% end %>
-                        </ul>
-                    <% elsif event_data.is_a?(Hash) %>
-                      :<ul><li><%= event_data %></li></ul>
-                    <% end %>
-                <% end %>
-              </li>
-          <% end %>
-      <% end %>
-    </ul>
-
-    <% if user_signed_in? %>
-      <%= link_to 'Edit', edit_article_path(@article) %> |
-      <%= link_to 'Delete', @article, :confirm => 'Are you sure?', :method => :delete %>
-      <br/>
-    <% end %>
-    <%= link_to 'Back to list', articles_path %>
+<div class="content">
+  <div class="page-header">
+    <h1><%= h@article.title %></h1>
   </div>
+  
+  <dl class="dl-horizontal">
+    <dt>Publication Date</dt>
+    <dd><%= @article.published_on.to_s(:long) %></dd>
+    <dt>DOI</dt>
+    <dd><%= h@article.doi %></dd>
+    <% if @article.pub_med %>
+      <dt>PubMed ID</dt>
+      <dd><%= @article.pub_med %></dd>
+    <% end %>
+  </dl>
+  
+  <div class="accordion" id="retrieval_status">
+    <% @article.retrieval_statuses.each do |rs| %>
+      <% if rs.event_count > 0 %>
+        <%
+           rs_data = rs.get_retrieval_data
+           unless rs_data.nil?
+             public_url = rs_data["events_url"]
+             event_data = rs_data["events"]
+           end
+           details = [ rs.event_count ]
+           details << rs.local_id if rs.local_id and user_signed_in?
+        %>
+        <div class="accordion-group">  
+          <div class="accordion-heading">  
+            <%= link_to ("<strong>" + rs.source.display_name + "</strong> (" + details.join(', ') + "), updated " + rs.retrieved_at.to_s(:friendly)).html_safe, "##{rs.source.name}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#retrieval_status" }, :href => "##{rs.source.name}" %>
+          </div>  
+          <div id="<%= rs.source.name %>" class="accordion-body collapse">  
+            <div class="accordion-inner">
+              <% unless event_data.nil? %>
+                  <% if event_data.is_a?(Array) %>
+                    <ul>
+                      <% event_data.each do |ed| %>
+                        <li>
+                          <% if ed.has_key?("event_url") %>
+                              <%= link_to ed["event"], ed["event_url"] %>
+                          <% else %>
+                              <%= ed %>
+                          <% end %>
+                        </li>
+                      <% end %>
+                      </ul>
+                  <% elsif event_data.is_a?(Hash) %>
+                    <ul><li><%= event_data %></li></ul>
+                  <% end %>
+              <% end %>
+              <% unless public_url.nil? %>
+                <h4><%= link_to "Further Information", public_url, :target => "_blank" %></h4>
+              <% end %>
+            </div>  
+          </div>  
+       </div>  
+       <% end %>
+       <% end %>
+    </div>  
+
 </div>

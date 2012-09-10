@@ -33,7 +33,7 @@ class Article < ActiveRecord::Base
   
   after_create :create_retrievals
 
-  scope :query, lambda { |query| where("doi like ?", "%#{query}%") }
+  scope :query, lambda { |query| where("articles.title REGEXP ? or articles.doi REGEXP ?", query, query) }
 
   scope :cited, lambda { |cited|
     case cited
@@ -45,10 +45,10 @@ class Article < ActiveRecord::Base
   }
 
   scope :order_articles, lambda { |order|
-    if order == 'published_on'
-      order("published_on")
-    else
+    if order == 'doi'
       order("doi")
+    else
+      order("published_on DESC")
     end
   }
   

@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE eSummaryResult PUBLIC "-//NLM//DTD eSummaryResult//EN" "http://www.ncbi.nlm.nih.gov/entrez/query/DTD/eSummaryDTD/eSummary_pmc.dtd">
+<eSummaryResult>
+<DocumentSummarySet status="OK">
+<DocumentSummary uid="3292175">
+	<PubDate></PubDate>
+	<EPubDate>2012 Jan 24</EPubDate>
+	<Source>Front Endocrinol (Lausanne)</Source>
+	<Authors>
+		<Author>
+			<Name>Morrison SF</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Madden CJ</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Tupone D</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>Central Control of Brown Adipose Tissue Thermogenesis</Title>
+	<Volume>3</Volume>
+	<Issue></Issue>
+	<Pages>5</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>22389645</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.3389/fendo.2012.00005</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC3292175</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>Frontiers in Endocrinology</FullJournalName>
+	<SortDate>2012/01/24 00:00</SortDate>
+	<PmcLiveDate>2012/03/02 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="1976277">
+	<PubDate>2007 Mar</PubDate>
+	<EPubDate>2006 Dec 21</EPubDate>
+	<Source>Prog Lipid Res</Source>
+	<Authors>
+		<Author>
+			<Name>Steiner AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Romanovsky AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>Leptin: at the crossroads of energy balance and systemic inflammation</Title>
+	<Volume>46</Volume>
+	<Issue>2</Issue>
+	<Pages>89-107</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>17275915</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.1016/j.plipres.2006.11.001</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC1976277</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>MID</IdType>
+			<Value>NIHMS23764</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>Progress in lipid research</FullJournalName>
+	<SortDate>2006/12/21 00:00</SortDate>
+	<PmcLiveDate>2008/03/01 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="2464333">
+	<PubDate>2008 May 15</PubDate>
+	<EPubDate>2008 Apr 3</EPubDate>
+	<Source>J Physiol</Source>
+	<Authors>
+		<Author>
+			<Name>Nakamura K</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Morrison SF</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>Preoptic mechanism for cold-defensive responses to skin cooling</Title>
+	<Volume>586</Volume>
+	<Issue>Pt 10</Issue>
+	<Pages>2611-2620</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>18388139</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.1113/jphysiol.2008.152686</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC2464333</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>The Journal of Physiology</FullJournalName>
+	<SortDate>2008/04/03 00:00</SortDate>
+	<PmcLiveDate>2009/05/15 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="2724239">
+	<PubDate>2009 Aug</PubDate>
+	<EPubDate>2009 Jun 10</EPubDate>
+	<Source>Am J Physiol Regul Integr Comp Physiol</Source>
+	<Authors>
+		<Author>
+			<Name>Steiner AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Hunter JC</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Phipps SM</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Nucci TB</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Oliveira DL</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Roberts JL</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Scheck AC</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Simmons DL</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Romanovsky AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>Cyclooxygenase-1 or -2—which one mediates lipopolysaccharide-induced hypothermia?</Title>
+	<Volume>297</Volume>
+	<Issue>2</Issue>
+	<Pages>R485-R494</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>19515980</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.1152/ajpregu.91026.2008</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC2724239</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>American Journal of Physiology - Regulatory, Integrative and Comparative Physiology</FullJournalName>
+	<SortDate>2009/06/10 00:00</SortDate>
+	<PmcLiveDate>2010/08/01 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="2763780">
+	<PubDate>2009 Sep</PubDate>
+	<EPubDate></EPubDate>
+	<Source>Pharmacol Rev</Source>
+	<Authors>
+		<Author>
+			<Name>Romanovsky AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Almeida MC</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Garami A</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Steiner AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Norman MH</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Morrison SF</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Nakamura K</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Burmeister JJ</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Nucci TB</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>The Transient Receptor Potential Vanilloid-1 Channel in Thermoregulation: A Thermosensor It Is Not</Title>
+	<Volume>61</Volume>
+	<Issue>3</Issue>
+	<Pages>228-261</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>19749171</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.1124/pr.109.001263</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC2763780</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>Pharmacological Reviews</FullJournalName>
+	<SortDate>2009/09/01 00:00</SortDate>
+	<PmcLiveDate>2010/09/01 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="2782675">
+	<PubDate>2009 Sep 23</PubDate>
+	<EPubDate></EPubDate>
+	<Source>J Neurosci</Source>
+	<Authors>
+		<Author>
+			<Name>Yoshida K</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Li X</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Cano G</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Lazarus M</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Saper CB</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>Parallel preoptic pathways for thermoregulation</Title>
+	<Volume>29</Volume>
+	<Issue>38</Issue>
+	<Pages>11954-11964</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>19776281</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.1523/JNEUROSCI.2643-09.2009</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC2782675</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>MID</IdType>
+			<Value>NIHMS155881</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>The Journal of neuroscience : the official journal of the Society for Neuroscience</FullJournalName>
+	<SortDate>2009/09/23 00:00</SortDate>
+	<PmcLiveDate>2010/03/23 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="2824913">
+	<PubDate>2010 Jan 27</PubDate>
+	<EPubDate></EPubDate>
+	<Source>J Neurosci</Source>
+	<Authors>
+		<Author>
+			<Name>Garami A</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Shimansky YP</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Pakai E</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Oliveira DL</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Gavva NR</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Romanovsky AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>Contributions of different modes of TRPV1 activation to TRPV1 antagonist-induced hyperthermia</Title>
+	<Volume>30</Volume>
+	<Issue>4</Issue>
+	<Pages>1435-1440</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>20107070</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.1523/JNEUROSCI.5150-09.2010</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC2824913</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>MID</IdType>
+			<Value>NIHMS173801</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>The Journal of neuroscience : the official journal of the Society for Neuroscience</FullJournalName>
+	<SortDate>2010/01/27 00:00</SortDate>
+	<PmcLiveDate>2010/07/27 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="2886697">
+	<PubDate>2010 Jun</PubDate>
+	<EPubDate>2010 Apr 14</EPubDate>
+	<Source>Am J Physiol Regul Integr Comp Physiol</Source>
+	<Authors>
+		<Author>
+			<Name>Krall CM</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Yao X</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Hass MA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Feleder C</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Steiner AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>Food deprivation alters thermoregulatory responses to lipopolysaccharide by enhancing cryogenic inflammatory signaling via prostaglandin D2</Title>
+	<Volume>298</Volume>
+	<Issue>6</Issue>
+	<Pages>R1512-R1521</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>20393159</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.1152/ajpregu.00158.2010</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC2886697</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>American Journal of Physiology - Regulatory, Integrative and Comparative Physiology</FullJournalName>
+	<SortDate>2010/04/14 00:00</SortDate>
+	<PmcLiveDate>2011/06/01 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="3051412">
+	<PubDate></PubDate>
+	<EPubDate>2011 Jan 1</EPubDate>
+	<Source>Front Biosci</Source>
+	<Authors>
+		<Author>
+			<Name>Morrison SF</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Nakamura K</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>Central neural pathways for thermoregulation</Title>
+	<Volume>16</Volume>
+	<Issue></Issue>
+	<Pages>74-104</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>21196160</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC3051412</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>MID</IdType>
+			<Value>NIHMS212690</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>Frontiers in bioscience : a journal and virtual library</FullJournalName>
+	<SortDate>2011/01/01 00:00</SortDate>
+	<PmcLiveDate>2011/03/09 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="3098654">
+	<PubDate>2011 May</PubDate>
+	<EPubDate>2011 Jan 26</EPubDate>
+	<Source>J Appl Physiol</Source>
+	<Authors>
+		<Author>
+			<Name>Morrison SF</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>2010 Carl Ludwig Distinguished Lectureship of the APS Neural Control and Autonomic Regulation Section: Central neural pathways for thermoregulatory cold defense</Title>
+	<Volume>110</Volume>
+	<Issue>5</Issue>
+	<Pages>1137-1149</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>21270352</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.1152/japplphysiol.01227.2010</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC3098654</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>Journal of Applied Physiology</FullJournalName>
+	<SortDate>2011/01/26 00:00</SortDate>
+	<PmcLiveDate>2012/05/01 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="3098711">
+	<PubDate>2011 May 1</PubDate>
+	<EPubDate>2011 Mar 14</EPubDate>
+	<Source>J Physiol</Source>
+	<Authors>
+		<Author>
+			<Name>Steiner AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Molchanova AY</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Dogan MD</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Patel S</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Pétervári E</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Balaskó M</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Wanner SP</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Eales J</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Oliveira DL</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Gavva NR</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Almeida MC</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Székely M</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Romanovsky AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>The hypothermic response to bacterial lipopolysaccharide critically depends on brain CB1, but not CB2 or TRPV1, receptors</Title>
+	<Volume>589</Volume>
+	<Issue>Pt 9</Issue>
+	<Pages>2415-2431</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>21486787</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.1113/jphysiol.2010.202465</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC3098711</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>The Journal of Physiology</FullJournalName>
+	<SortDate>2011/03/14 00:00</SortDate>
+	<PmcLiveDate>2012/05/01 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="3292175">
+	<PubDate></PubDate>
+	<EPubDate>2012 Jan 24</EPubDate>
+	<Source>Front Endocrinol (Lausanne)</Source>
+	<Authors>
+		<Author>
+			<Name>Morrison SF</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Madden CJ</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Tupone D</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>Central Control of Brown Adipose Tissue Thermogenesis</Title>
+	<Volume>3</Volume>
+	<Issue></Issue>
+	<Pages>5</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>22389645</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.3389/fendo.2012.00005</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC3292175</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>Frontiers in Endocrinology</FullJournalName>
+	<SortDate>2012/01/24 00:00</SortDate>
+	<PmcLiveDate>2012/03/02 00:00</PmcLiveDate>
+</DocumentSummary>
+
+<DocumentSummary uid="2576030">
+	<PubDate>2008 Oct</PubDate>
+	<EPubDate>2008 Jul 10</EPubDate>
+	<Source>J Appl Physiol</Source>
+	<Authors>
+		<Author>
+			<Name>Steiner AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Oliveira DL</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Roberts JL</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Petersen SR</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+		<Author>
+			<Name>Romanovsky AA</Name>
+			<AuthType>
+				Author
+			</AuthType>
+		</Author>
+	</Authors>
+	<Title>Nicotine administration and withdrawal affect survival in systemic inflammation models</Title>
+	<Volume>105</Volume>
+	<Issue>4</Issue>
+	<Pages>1028-1034</Pages>
+	<ArticleIds>
+		<ArticleId>
+			<IdType>pmid</IdType>
+			<Value>18617624</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>doi</IdType>
+			<Value>10.1152/japplphysiol.90619.2008</Value>
+		</ArticleId>
+		<ArticleId>
+			<IdType>pmcid</IdType>
+			<Value>PMC2576030</Value>
+		</ArticleId>
+	</ArticleIds>
+	<FullJournalName>Journal of Applied Physiology</FullJournalName>
+	<SortDate>2008/07/10 00:00</SortDate>
+	<PmcLiveDate>2009/10/01 00:00</PmcLiveDate>
+</DocumentSummary>
+
+</DocumentSummarySet>
+</eSummaryResult>

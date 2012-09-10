@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<crossref_result xmlns="http://www.crossref.org/qrschema/2.0" version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.crossref.org/qrschema/2.0 http://www.crossref.org/schema/queryResultSchema/crossref_query_output2.0.xsd">
+  <query_result>
+    <head>
+      <doi_batch_id>none</doi_batch_id>
+    </head>
+    <body>
+      <query status="resolved" fl_count="0">
+        <doi type="journal_article">10.1371/journal.pone.0043007</doi>
+        <issn type="electronic">1932-6203</issn>
+        <journal_title>PLoS ONE</journal_title>
+        <contributors>
+          <contributor sequence="first" contributor_role="editor">
+            <given_name>Jerson</given_name>
+            <surname>Laks</surname>
+          </contributor>
+          <contributor sequence="first" contributor_role="author">
+            <given_name>Angela S.</given_name>
+            <surname>Attwood</surname>
+          </contributor>
+          <contributor sequence="additional" contributor_role="author">
+            <given_name>Nicholas E.</given_name>
+            <surname>Scott-Samuel</surname>
+          </contributor>
+          <contributor sequence="additional" contributor_role="author">
+            <given_name>George</given_name>
+            <surname>Stothart</surname>
+          </contributor>
+          <contributor sequence="additional" contributor_role="author">
+            <given_name>Marcus R.</given_name>
+            <surname>Munafò</surname>
+          </contributor>
+        </contributors>
+        <volume>7</volume>
+        <issue>8</issue>
+        <first_page>e43007</first_page>
+        <year media_type="online">2012</year>
+        <publication_type>full_text</publication_type>
+        <article_title>Glass Shape Influences Consumption Rate for Alcoholic Beverages</article_title>
+      </query>
+    </body>
+  </query_result>
+</crossref_result>

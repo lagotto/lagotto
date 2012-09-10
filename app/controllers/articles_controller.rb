@@ -17,7 +17,6 @@
 # limitations under the License.
 
 class ArticlesController < ApplicationController
-  before_filter :authenticate_user!, :except => [ :index, :show ]
 
   respond_to :html, :xml, :json
 
@@ -73,45 +72,6 @@ class ArticlesController < ApplicationController
                                        :source => format_options[:source])
       end
     end
-  end
-
-  # GET /articles/new
-  def new
-    @article = Article.new
-
-    respond_with @article
-  end
-
-  # POST /articles
-  def create
-    @article = Article.new(params[:article])
-
-    if @article.save
-      flash[:notice] = 'Article was successfully created.'
-    end
-    respond_with(@article)
-  end
-
-  # GET /articles/:id/edit
-  def edit
-    load_article
-  end
-
-  # PUT /articles/:id(.:format)
-  def update
-    load_article
-    if @article.update_attributes(params[:article])
-      flash[:notice] = 'Article was successfully updated.'
-    end
-    respond_with(@article)
-  end
-
-  # DELETE /articles/:id(.:format)
-  def destroy
-    load_article
-    @article.destroy
-    flash[:notice] = 'Article was successfully deleted.'
-    respond_with(@article)
   end
 
   protected
