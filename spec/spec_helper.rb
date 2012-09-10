@@ -8,6 +8,8 @@ require 'shoulda-matchers'
 require 'factory_girl_rails'
 require 'capybara/rspec'
 require 'database_cleaner'
+require 'webmock/rspec'
+include WebMock::API
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
@@ -30,6 +32,8 @@ RSpec.configure do |config|
   config.after do
     DatabaseCleaner.clean
   end
+  
+  config.fixture_path = "#{::Rails.root}/spec/fixtures/"
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of

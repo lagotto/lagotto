@@ -27,11 +27,11 @@ class Wikipedia < Source
 
   def get_data(article, options={})
     
+    # Check that article has DOI
+    return  {:events => [], :event_count => 0} if article.doi.blank?
+    
     events = []
     total = 0
-    
-    # Check that article has DOI
-    return  {:events => events, :event_count => total} if article.doi.blank?
     
     # Loop through the languages
     LANGUAGES.each do |lang|
@@ -89,25 +89,27 @@ class Wikipedia < Source
   end
   
   def get_query_url(article, options={})
-    # Build URL for calling the MediaWiki API, using the following parameters:
-    #
-    # host - the Mediawiki to search, default en.wikipedia.org (English Wikipedia)
-    # doi - the DOI to search for, uses article.doi
-    # namespace - the namespace number(s) to search, default 0 (Main), 2 (User) and 6 (File). Separate numbers by | character, encoded as %7C
-    # offset - offset for retrieveing results, default 0
-    # limit - the number of results to return, default  50
-    # maxlag - maximal slave server lag in seconds, default 10
-    #
-    # API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
+    unless article.doi.blank?
+      # Build URL for calling the MediaWiki API, using the following parameters:
+      #
+      # host - the Mediawiki to search, default en.wikipedia.org (English Wikipedia)
+      # doi - the DOI to search for, uses article.doi
+      # namespace - the namespace number(s) to search, default 0 (Main), 2 (User) and 6 (File). Separate numbers by | character, encoded as %7C
+      # offset - offset for retrieveing results, default 0
+      # limit - the number of results to return, default  50
+      # maxlag - maximal slave server lag in seconds, default 10
+      #
+      # API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
     
-    host = options[:host] || "en.wikipedia.org"
-    namespace = options[:namespace] || "0%7C2%7C6"
-    offset = options[:offset] || 0
-    limit = options[:limit] || 50
-    maxlag = options[:maxlag] || 10
+      host = options[:host] || "en.wikipedia.org"
+      namespace = options[:namespace] || "0%7C2%7C6"
+      offset = options[:offset] || 0
+      limit = options[:limit] || 50
+      maxlag = options[:maxlag] || 10
     
-    # http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&sroffset=%{offset}&srlimit=%{limit}&maxlag=%{maxlag}"
-    config.url % { :host => host, :doi => CGI.escape(article.doi), :namespace => namespace, :offset => offset, :limit => limit, :maxlag => maxlag }
+      # http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&sroffset=%{offset}&srlimit=%{limit}&maxlag=%{maxlag}"
+      url % { :host => host, :doi => CGI.escape(article.doi), :namespace => namespace, :offset => offset, :limit => limit, :maxlag => maxlag }
+    end
   end
 
   def get_config_fields
