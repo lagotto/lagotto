@@ -1,28 +1,68 @@
 class Admin::ArticlesController < Admin::ApplicationController
   
+  respond_to :html, :js
+  
+  def index
+    collection = Article
+    collection = collection.cited(params[:cited])  if params[:cited]
+    collection = collection.query(params[:query])  if params[:query]
+    collection = collection.order_articles(params[:order])
+
+    @articles = collection.paginate(:page => params[:page])
+
+    # source url parameter is only used for csv format
+    @source = Source.find_by_name(params[:source].downcase) if params[:source]
+
+    if params[:source]
+      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("display_name")
+    else
+      @sources = Source.order("display_name")
+    end
+    
+    respond_with do |format|  
+      format.js { render :index }
+    end
+  end
+  
+  def show
+    load_article
+    respond_with(@article) do |format|  
+      format.js { render :show }
+    end
+  end
+  
   # GET /articles/new
   def new
     @article = Article.new
+    respond_with(@article) do |format|  
+      format.js { render :index }
+    end
   end
 
   # POST /articles
   def create
     @article = Article.new(params[:article])
     flash[:notice] = 'Article was successfully created.' if @article.save
-    redirect_to admin_root_path
+    respond_with(@article) do |format|  
+      format.js { render :index }
+    end
   end
 
   # GET /articles/:id/edit
   def edit
     load_article
-    redirect_to admin_root_path
+    respond_with(@article) do |format|  
+      format.js { render :show }
+    end
   end
 
   # PUT /articles/:id(.:format)
   def update
     load_article
     flash[:notice] = 'Article was successfully updated.' if @article.update_attributes(params[:article])   
-    respond_with(@article)
+    respond_with(@article) do |format|  
+      format.js { render :show }
+    end
   end
 
   # DELETE /articles/:id(.:format)
@@ -30,7 +70,7 @@ class Admin::ArticlesController < Admin::ApplicationController
     load_article
     @article.destroy
     flash[:notice] = 'Article was successfully deleted.'
-    respond_with(@articles)
+    redirect_to articles_path
   end
   
   protected

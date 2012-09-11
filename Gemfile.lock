@@ -197,6 +197,8 @@ GEM
       addressable (>= 2.2.7)
       crack (>= 0.1.7)
     will_paginate (3.0.3)
+    will_paginate-bootstrap (0.2.1)
+      will_paginate (>= 3.0.3)
     xpath (0.1.4)
       nokogiri (~> 1.3)
 
@@ -234,3 +236,4 @@ DEPENDENCIES
   validates_timeliness (~> 3.0.2)
   webmock (~> 1.8.9)
   will_paginate (= 3.0.3)
+  will_paginate-bootstrap

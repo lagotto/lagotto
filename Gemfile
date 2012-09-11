@@ -11,12 +11,13 @@ gem "foreman", "~> 0.53.0"
 gem "libxml-ruby", "~> 2.3.3", :require => 'xml'
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "koala", "~> 1.5.0"
-gem 'will_paginate', '3.0.3'
 gem "devise", "~> 2.1.2"
 gem 'validates_timeliness', '~> 3.0.2'
 
 gem 'sass-rails', '~> 3.1'
 gem 'bootstrap-sass', '~> 2.0.4.1'
+gem 'will_paginate', '3.0.3'
+gem 'will_paginate-bootstrap'
 gem 'simple_form'
 
 group :assets do

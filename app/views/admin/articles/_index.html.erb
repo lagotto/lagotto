@@ -1,0 +1,35 @@
+<% if user_signed_in? and (controller.action_name == "new" or (controller.action_name == "create" and !@article.errors.empty?)) %>
+
+<%= simple_form_for @article, :url => admin_articles_path, :html => { :class => 'form-horizontal', :remote => true } do |f| %>
+    <fieldset>
+      <legend>New Article</legend>  
+
+      <%= f.input :doi, :label => 'DOI', :input_html => { :class => "span6" } %>
+      <%= f.input :title, :input_html => { :rows => 2, :class => "span6" } %>
+      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 10, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "span1" } %>
+    
+      <div class="form-actions">
+        <%= f.submit "Save ", class: "btn btn-primary" %>
+        <%= link_to 'Cancel', admin_articles_path, { :remote => true, :class => 'btn' } %>
+      </div>
+    </fieldset>
+  <% end %>
+
+<% else %>
+  <div class="page-header">
+    <h1>
+      <% if user_signed_in? %>
+        <div class="btn-toolbar pull-right">
+          <div class="btn-group">
+            <%= link_to '<i class="icon-plus"></i>'.html_safe, new_admin_article_path, { :remote => true, :class => 'btn btn-mini' } %>
+          </div>
+        </div>
+      <% end %>
+      
+      <%= pluralize(@articles.total_entries, 'Article') %>
+      <% unless params[:query].blank? %>
+          with <em><%= params[:query] %></em> in the title or DOI
+      <% end %>
+    </h1>
+  </div>
+<% end %>

@@ -19,22 +19,8 @@
 -%>
 
 <div class="content">
-  <div class="page-header">
-    <h1>
-      <% if user_signed_in? %>
-      <div class="btn-toolbar pull-right">
-        <div class="btn-group">
-          <%= link_to '<i class="icon-plus"></i>'.html_safe, new_admin_article_path, { :remote => true, 'data-toggle' => 'modal', 'data-target' => "#modal-article", :class => 'btn btn-mini' } %>
-        </div>
-      </div>
-      <%= render :partial => 'admin/articles/form', :locals => { :article => Article.new } %> 
-        
-      <% end %>
-      <%= pluralize(@articles.total_entries, 'Article') %>
-      <% unless params[:query].blank? %>
-          with <em><%= params[:query] %></em> in the title or DOI
-      <% end %>
-    </h1>
+  <div id="index">
+    <%= render :partial => 'admin/articles/index' %> 
   </div>
   
   <% unless @articles.empty? %>
@@ -49,6 +35,6 @@
     <div class="alert alert-info">No articles found</div>
   <% end %>
 
-  <%= will_paginate @articles %>
+  <%= will_paginate @articles, :renderer => BootstrapPagination::Rails %>
 
 </div>
