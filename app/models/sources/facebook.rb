@@ -33,8 +33,10 @@ class Facebook < Source
 
     fbAPI = Koala::Facebook::API.new(config.api_key)
 
-    doi_resolver_url = DOI.to_url(article.doi)
-    urls = [doi_resolver_url]
+    unless article.doi.blank?
+      # Add DOI resolver url
+      urls << DOI.to_url(article.doi)
+    end
 
     original_url = nil
     if options[:retrieval_status].local_id.nil?
@@ -48,13 +50,6 @@ class Facebook < Source
       end
     else
       urls << options[:retrieval_status].local_id
-    end
-
-    # if the article is one of plos articles, add plos specific doi resolver url
-    rx = Regexp.new('10\.1371\/')
-    unless rx.match(article.doi).nil?
-      #Get the plos doi resolver
-      urls << "http://dx.plos.org/#{article.doi}"
     end
 
     urls.each { |url| execute_search(fbAPI, events, "#{url}") }
