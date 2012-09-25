@@ -26,7 +26,7 @@
     <% unless Rails.env.production? %>
         <%= "(#{Rails.env})"  %>
     <% end %>
-    Article Level Metrics
+    <%= APP_CONFIG['useragent'] %>
   </title>
   
   <!--[if lt IE 9]>
@@ -43,7 +43,7 @@
   <header class="navbar navbar-fixed-top">
 	  <div class="navbar-inner">
 			<div class="container">
-			  <a class="brand" href="<%= root_path %>">Article Level Metrics</a>
+			  <a class="brand" href="<%= root_path %>"><%= APP_CONFIG['useragent'] %></a>
 			  <% if ["articles"].include?(controller.controller_name) and ["index"].include?(controller.action_name) %>
 		      <%= form_tag({:controller => controller.controller_name, :action => "index"}, :method => "get", :class => "navbar-search pull-left") do %>
           <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "search-query" %>

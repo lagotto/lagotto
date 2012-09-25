@@ -24,8 +24,6 @@
     </tbody>
   </table>
   
-  <%= will_paginate @articles_with_flags %>
-  
-  <%= render :partial => 'admin/articles/form', :locals => { :article => article } %> 
-  <%= link_to "New Article", new_admin_article_path, { :remote => true, :data => { :toggle => 'modal', :target => "#modal-article" }, :class => 'btn btn-mini' } %>
+  <%= will_paginate @articles_with_flags, :renderer => BootstrapPagination::Rails %>
+
 <% end %>

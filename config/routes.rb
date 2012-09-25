@@ -10,7 +10,7 @@ Alm::Application.routes.draw do
   
   namespace :admin do
     root :to => "index#index"
-    resources :articles, :constraints => { :id => /.+?/, :format => /html/}
+    resources :articles, :constraints => { :id => /.+?/, :format => /html|js/}
     resources :sources
     resources :groups
     resources :delayed_jobs

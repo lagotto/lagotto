@@ -24,17 +24,20 @@
   </div>
   
   <% unless @articles.empty? %>
-    <ul class="unstyled">
-      <% @articles.each do |article| %>
-          <li>
-            <h4><%= link_to article.title, article %> <small><%= pluralize article.cited_retrievals_count, "source" %></small></h4>
-          </li>
-      <% end %>
-    </ul>
+    <% @articles.each do |article| %>
+      <div class="row">
+        <div class="span12">
+          <h4><%= link_to article.title, article %></h4>
+          <%= article.published_on.to_s(:long) %> - <%= pluralize article.cited_retrievals_count, "source" %>
+        </div>
+      </div>
+    <% end %>
+    <div class="row">
+      <div class="span11 offset1">
+         <%= will_paginate @articles, :renderer => BootstrapPagination::Rails %>
+      </div>
+    </div>
   <% else %>
     <div class="alert alert-info">No articles found</div>
   <% end %>
-
-  <%= will_paginate @articles, :renderer => BootstrapPagination::Rails %>
-
 </div>

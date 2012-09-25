@@ -1,28 +1,3 @@
-<% unless @groups.empty? %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @groups.each do|group| %>
-        <tr>
-          <td><%= h(group.name) %></td>
-          <td>
-              <div class="btn-group">
-                <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_admin_group_path(group), { :remote => true, :data => { :toggle => 'modal', :target => "#modal-group" }, :class => 'btn btn-mini' } %>
-                <%= link_to '<i class="icon-trash"></i>'.html_safe, admin_group_path(group), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini' %>
-              </div>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <div class="alert alert-info">There are currently no jobs.</div>
-<% end %>
-
-<%= render :partial => 'admin/groups/form' %> 
-<%= link_to 'New Group', new_admin_group_path, { :remote => true, :data => { :toggle => 'modal', :target => "#modal-group" }, :class => 'btn btn-mini' } %>
+<div id="index">
+  <%= render :partial => 'admin/groups/index' %> 
+</div>

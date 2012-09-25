@@ -36,16 +36,24 @@
     <% end %>
   </dl>
   
-  <% unless @samples.empty? %>
-    <h3 class="section">Most-Cited Articles</h3>
-    <ul class="unstyled">
-      <% @samples.each do |retrieval_status| %>
-        <li>
-          <h4><%= link_to retrieval_status.article.title, retrieval_status.article %> <small><%= pluralize retrieval_status.event_count, "event" %></small></h4>
-        </li>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#article" data-toggle="tab">Most-Cited Articles</a></li>
+  </ul>
+  
+  <div class="tab-content">
+    <div class="tab-pane active" id="article">  
+      <% unless @samples.empty? %>
+        <% @samples.each do |retrieval_status| %> 
+          <div class="row">
+            <div class="span12">
+              <h4><%= link_to retrieval_status.article.title, retrieval_status.article %></h4>
+              <%= retrieval_status.article.published_on.to_s(:long) %> - <%= pluralize retrieval_status.event_count, "event" %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="alert alert-info">No articles have been cited by this source</div>
       <% end %>
-    </ul>
-  <% else %>
-    <div class="alert alert-info">No articles have been cited by this source</div>
-  <% end %>
+    </div>
+  </div>
 </div>

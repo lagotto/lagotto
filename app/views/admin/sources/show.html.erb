@@ -21,33 +21,29 @@
 <div class="content">  
   <div class="page-header">
     <h1>
-      <%= render :partial => 'admin/sources/form' %> 
-      <%= link_to "Edit Source", edit_admin_source_path(@source), { :remote => true, :data => { :toggle => 'modal', :target => "#modal-source" }, :class => 'btn btn-mini pull-right' } %>
       <%= link_to "Administration", admin_root_path %> / <%= h(@source.display_name) %>
     </h1>
   </div>
 
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#status" data-toggle="tab">Status</a></li>
-    <li><a href="#configuration" data-toggle="tab">Configuration</a></li>
-    <% unless @samples.empty? %>
-      <li><a href="#most-cited" data-toggle="tab">Most-Cited</a></li>
-    <% end %>
+    <li class="active"><a href="#status" data-toggle="tab" title="Status">Status</a></li>
+    <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <li><a href="#most-cited" data-toggle="tab" title="Most-Cited">Most-Cited</a></li>
   </ul>
   
   <div class="tab-content">
     <div class="tab-pane active" id="status">
       <% if @source.status == "inactive" %>
         <div class="alert alert-warning">
-          This source is inactive.
+          This source is inactive
         </div>
       <% elsif @source.status == "disabled" %>
         <div class="alert alert-error">
-          This source is disabled until <%= h(@source.disable_until) %>.
+          This source is disabled until <%= h(@source.disable_until) %>
         </div>
       <% else %>
         <div class="alert alert-info">
-          This source is active.
+          This source is active
         </div>
       <% end %>
       <table class="table">
@@ -71,66 +67,18 @@
 
     </div>
     <div class="tab-pane" id="configuration">
-      <table class="table">
-        <thead>
-          <tr>
-            <th width=40%>Timeout</th>
-            <td><%=h @source.timeout %> seconds</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>Disabled Delay</th>
-            <td><%= h @source.disable_delay %> seconds</td>
-          </tr>
-          <tr>
-            <th>Workers (workers for the job queue)</th>
-            <td><%= h @source.workers %></td>
-          </tr>
-          <tr>
-            <th>Time interval before more jobs can be added to the job queue</th>
-            <td><%= @source.wait_time %> seconds</td>
-          </tr>
-          <tr>
-            <th>Maximum number of failed queries allowed before being disabled</th>
-            <td><%=h @source.max_failed_queries %></td>
-          </tr>
-          <tr>
-            <th>Maximum number of failed queries allowed in a time interval</th>
-            <td><%=h @source.max_failed_query_time_interval %> seconds</td>
-          </tr>
-          <tr>
-            <th>Group</th>
-            <td><%= h @source.group.name if @source.group %></td>
-          </tr>
-          <% unless @source.get_config_fields.empty? %>
-            <tr>
-              <th>Source Configurations</th>
-              <td>
-                <% @source.get_config_fields.each do |field| %>
-                    <b><%= field[:field_name].gsub(/_/, " ").capitalize %></b>:
-                    <% if field[:field_type] == "password_field" %>
-                        '<%= ("●" * @source.config.send(field[:field_name]).to_s.size) %>'
-                    <% else %>
-                        <%= @source.config.send(field[:field_name]) %>
-                    <% end %>
-                    <br>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <%= render :partial => 'show' %> 
     </div>
     <div class="tab-pane" id="most-cited">
       <% unless @samples.empty? %>
-        <ul class="unstyled">
-          <% @samples.each do |retrieval_status| %>
-            <li>
-              <h4><%= link_to retrieval_status.article.title, retrieval_status.article %> <small><%= pluralize retrieval_status.event_count, "event" %></small></h4>
-            </li>
-          <% end %>
-        </ul>
+        <% @samples.each do |retrieval_status| %>
+          <div class="row">
+            <div class="span12">
+              <h4><%= link_to retrieval_status.article.title, retrieval_status.article %></h4>
+              <%= retrieval_status.article.published_on.to_s(:long) %> - <%= pluralize retrieval_status.event_count, "event" %>
+            </div>
+          </div>
+        <% end %>
       <% else %>
         <div class="alert alert-info">No articles have been cited by this source</div>
       <% end %>

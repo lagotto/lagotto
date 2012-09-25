@@ -42,7 +42,7 @@ class Admin::ArticlesController < Admin::ApplicationController
   # POST /articles
   def create
     @article = Article.new(params[:article])
-    flash[:notice] = 'Article was successfully created.' if @article.save
+    @article.save
     respond_with(@article) do |format|  
       format.js { render :index }
     end
@@ -59,7 +59,7 @@ class Admin::ArticlesController < Admin::ApplicationController
   # PUT /articles/:id(.:format)
   def update
     load_article
-    flash[:notice] = 'Article was successfully updated.' if @article.update_attributes(params[:article])   
+    @article.update_attributes(params[:article])   
     respond_with(@article) do |format|  
       format.js { render :show }
     end
@@ -69,7 +69,6 @@ class Admin::ArticlesController < Admin::ApplicationController
   def destroy
     load_article
     @article.destroy
-    flash[:notice] = 'Article was successfully deleted.'
     redirect_to articles_path
   end
   

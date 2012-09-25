@@ -108,7 +108,7 @@ class Nature < Source
 
       rs.each do | rs_id |
         run_at += SECONDS_IN_A_DAY / requests_per_day
-        Delayed::Job.enqueue SourceJob.new(rs_id, id), :queue => name, :run_at => run_at
+        Delayed::Job.enqueue SourceJob.new([rs_id], id), :queue => name, :run_at => run_at
       end
 
       offset += limit

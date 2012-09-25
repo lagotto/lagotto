@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Source do
   
   before do
-    @source = FactoryGirl.create(:source)
+    @source = FactoryGirl.create(:citeulike)
   end
   
   subject { @source }

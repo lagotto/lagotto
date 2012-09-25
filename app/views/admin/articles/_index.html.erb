@@ -21,7 +21,7 @@
       <% if user_signed_in? %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group">
-            <%= link_to '<i class="icon-plus"></i>'.html_safe, new_admin_article_path, { :remote => true, :class => 'btn btn-mini' } %>
+            <%= link_to '<i class="icon-plus"></i> New'.html_safe, new_admin_article_path, { :remote => true, :class => 'btn btn-mini' } %>
           </div>
         </div>
       <% end %>

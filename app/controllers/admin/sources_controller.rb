@@ -9,15 +9,18 @@ class Admin::SourcesController < Admin::ApplicationController
 
   def edit
     @source = Source.find(params[:id])
+    respond_with(@source) do |format|  
+      format.js { render :show }
+    end
   end
+
 
   def update
     @source = Source.find(params[:id])
-    if @source.update_attributes(params[:source])
-      flash[:notice] = 'Source was successfully updated.'
-      redirect_to admin_source_path(@source)
-    else
-      render :edit
+    @samples = @source.retrieval_statuses.most_cited_sample
+    @source.update_attributes(params[:source])   
+    respond_with(@source) do |format|  
+      format.js { render :show }
     end
   end
 end

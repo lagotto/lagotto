@@ -24,19 +24,10 @@ FactoryGirl.define do
   
   factory :retrieval_status do
     association :article, factory: :article, strategy: :build
-    association :source, factory: :source, strategy: :build
+    association :source, factory: :citeulike, strategy: :build
     
     trait(:unpublished) { association :article, :unpublished, factory: :article, strategy: :build }
-    trait(:staleness) { association :source, :staleness, factory: :source, strategy: :build }
-  end
-  
-  factory :source do
-    type "Citeulike"
-    name "citeulike"
-    display_name "CiteULike"
-    staleness { [ 30.minutes, 12.hours, 14.days ] }
-
-    association :group, factory: :group, strategy: :build
+    trait(:staleness) { association :source, :staleness, factory: :citeulike, strategy: :build }
   end
   
   factory :citeulike, class: Citeulike do

@@ -10,7 +10,7 @@
             <span class="label label-success pull-right">No Flags</span>
           <% end %>
         </h2>
-        <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(@articles_with_flags.count, 'article') %> with flags.</p>
+        <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(@articles_with_flags.count, 'article') %> with flags.<br/>&nbsp;</p>
       </div>
     </div>
   </li>
@@ -42,7 +42,7 @@
             <span class="label label-success pull-right">No Failures</span>
           <% end %>
         </h2>
-        <p><%= pluralize(@delayed_jobs.count, 'active job') %>.</p>
+        <p><%= pluralize(@delayed_jobs.count, 'active job') %>.<br/>&nbsp;</p>
       </div>
     </div>
 
