@@ -42,10 +42,15 @@ module DOI
   end
 
   def self.to_url(doi)
-    return nil if doi.nil?
+    urls = []
+    return urls if doi.nil?
     unless doi.starts_with? "http://dx.doi.org/"
-      doi = "http://dx.doi.org/" + from_uri(doi)
+      urls << "http://dx.doi.org/" + from_uri(doi)
     end
-    doi
+    # Add PLOS specific doi resolver url for PLOS articles
+    if doi.match(/^10.1371/)
+      urls << "http://dx.plos.org/#{article.doi}"
+    end
+    urls
   end
 end

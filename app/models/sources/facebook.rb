@@ -30,20 +30,21 @@ class Facebook < Source
 
     events = []
     urls = []
+    
+    # Check that article has DOI
+    return  { :events => events, :event_count => events.length } if article.doi.blank?
 
     fbAPI = Koala::Facebook::API.new(config.api_key)
 
-    unless article.doi.blank?
-      # Add DOI resolver url
-      urls << DOI.to_url(article.doi)
-    end
+    doi_resolver_urls = DOI.to_url(article.doi)
+    urls = doi_resolver_urls
 
     original_url = nil
     if options[:retrieval_status].local_id.nil?
       begin
-        original_url = get_original_url(doi_resolver_url)
+        original_url = get_original_url(doi_resolver_urls[0])
       rescue => e
-        Rails.logger.error "Could not get the full url for #{doi_resolver_url} #{e.message}"
+        Rails.logger.error "Could not get the full url for #{doi_resolver_urls[0]} #{e.message}"
       end
       unless original_url.nil?
         urls << original_url

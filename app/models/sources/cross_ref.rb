@@ -51,10 +51,10 @@ class CrossRef < Source
           event = event["journal_cite"]
 
           if !event["doi"].nil?
-            url = DOI::to_url(event["doi"])
+            urls = DOI::to_url(event["doi"])
           end
 
-          events << {:event => event, :event_url => url}
+          events << {:event => event, :event_url => urls[0]}
         end
         
         if events.empty?
