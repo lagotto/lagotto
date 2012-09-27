@@ -38,8 +38,8 @@ group :test do
   gem "shoulda-matchers", "~> 1.2.0", :require => false
   gem "webmock", "~> 1.8.9"
   gem "rest-client", "~> 1.6.7"
-  gem "headless", "~> 0.3.1"
-  gem "capybara-webkit", "~> 0.12.1"
+  #gem "headless", "~> 0.3.1"
+  #gem "capybara-webkit", "~> 0.12.1"
 end
 
 group :test, :development do

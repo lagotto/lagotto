@@ -9,5 +9,5 @@ Feature: Edit sources
 
   @javascript
   Scenario: Group must be selected
-    When I edit the source "CiteULike"
-    Then "Citations" should be the only option for "Group"
+    #When I edit the source "CiteULike"
+    #Then "Citations" should be the only option for "Group"
