@@ -26,63 +26,55 @@
     <% unless Rails.env.production? %>
         <%= "(#{Rails.env})"  %>
     <% end %>
-    Article Level Metrics
+    <%= APP_CONFIG['useragent'] %>
   </title>
+  
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+  <![endif]-->
 
   <%= favicon_link_tag %>
-  <%= stylesheet_link_tag    "plos" %>
+  <%= stylesheet_link_tag "plos" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 
-<body class="<%= "#{params[:controller]} #{params[:controller]}-#{params[:action]}" %>" >
-<%= javascript_tag do -%>
-    $('.page').corner('10px');
-    $('.border').corner('10px');
-<% end -%>
-
-<header>
-  <div class='inner'>
-    <h1>Article Level Metrics</h1>
-  </div>
-  <nav>
-    <div class='inner'>
-      <ul>
-        <li><%= link_to("Home", root_path, :class => current_page?(root_path) ? 'current' : '') %></li>
-        |
-        <li><%= link_to("Articles", articles_path, :class => current_page?(articles_path) ? 'current' : '') %></li>
-        |
-        <li><%= link_to("Sources", sources_path, :class => current_page?(sources_path) ? 'current' : '') %></li>
-        |
-        <li><%= link_to("Groups", groups_path, :class => current_page?(groups_path) ? 'current' : '') %></li>
-
-        <li class="login">
-          <% if user_signed_in? %>
-            <%= link_to("Logout", destroy_user_session_path, :method => 'delete') %>
-          <% else %>
-            <%= link_to_setup_or_login %>
-          <% end %>
-        </li>
-
-      </ul>
-    </div>
-  </nav>
-</header>
-
-<div id='content'>
-  <div class='inner'>
-    <% [ :error, :notice, :warning, :message, :alert ].each do |name| %>
-        <% if flash[name] %>
-    <div class="<%= name %> flash" id="<%= name %>">
-      <span><%= flash[name] %></span>
-    </div>
+<body>
+  <div class="container">
+    <header>
+      <%= image_tag "plos/plos.png" %>
+    </header>
+    <div class="navbar">
+  	  <div class="navbar-inner">
+				<ul class="nav">
+					<li><%= link_to "Articles", articles_path %></li>
+          <li><%= link_to "Sources", sources_path %></li>
+        </ul>
+			  <% if ["articles"].include?(controller.controller_name) and ["index"].include?(controller.action_name) %>
+		      <%= form_tag({:controller => controller.controller_name, :action => "index"}, :method => "get", :class => "navbar-search pull-left") do %>
+          <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "search-query" %>
+		      <% end %>
         <% end %>
-    <% end %>
+        <ul class="nav pull-right">
+          <% if user_signed_in? %>
+            <li><%= link_to "Administration", admin_root_path %></li>
+            <li><%= link_to("Sign Out", destroy_user_session_path, :method => 'delete') %></li>
+          <% else %>
+            <li><%= link_to_setup_or_login %></li>
+          <% end %>
+	      </ul>
+  		</div>
+  	</div>
 
+    <% flash.each do |name, msg| %>
+      <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+        <a class="close" data-dismiss="alert">&#215;</a>
+        <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+      </div>
+    <% end %>
+    
     <%= yield %>
   </div>
-</div>
 
 </body>
-
 </html>

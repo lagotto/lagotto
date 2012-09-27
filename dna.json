@@ -6,7 +6,7 @@
 	"recipe[rvm::vagrant]",
 	"recipe[alm]"
   ],
-  "app": { "layout": "greenrobo", 
+  "app": { "layout": "plos", 
            "seed_additional_sources": true,
 		   "seed_sample_articles": true, 
            "mendeley": { "api_key": "EXAMPLE" },
