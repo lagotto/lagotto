@@ -1,26 +1,18 @@
-### UTILITY METHODS ###
-def refresh
-  show_article
-  click_link "Refresh"
-end
-
 ### GIVEN ###
 Given /^that an article has no blog count$/ do
   page.should_not have_content "Nature Blogs"
 end
 
 Given /^the source "(.*?)" exists$/ do |display_name|
-  @source = FactoryGirl.create(:source)
+  @source = FactoryGirl.create(:citeulike)
 end
 
 ### WHEN ###
 When /^I edit the source "(\w+)"$/ do |display_name|
   source = Source.find_by_display_name(display_name)
-  visit edit_source_path(source)
-end
-
-When /^I refresh an article$/ do
-  refresh
+  visit admin_source_path(source)
+  click_link "Configuration"
+  click_link "Edit"
 end
 
 ### THEN ###

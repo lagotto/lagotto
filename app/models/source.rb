@@ -179,6 +179,16 @@ class Source < ActiveRecord::Base
     source_config.requests_per_day
   end
   
+  def status
+    if !active
+      "inactive"
+    elsif disable_until
+      "disabled"
+    else
+      "active"
+    end
+  end
+  
   private
 
   private

@@ -16,22 +16,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module ApplicationHelper
-  def link_to_setup_or_login
-    if User.count > 0
-      link_to "Sign In", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : ''
-    else
-      link_to 'Sign Up', new_user_registration_path, :class => current_page?(new_user_registration_path) ? 'current' : ''
-    end
-  end
+class Admin::ApplicationController < ActionController::Base
+  protect_from_forgery
+
+  before_filter :authenticate_user!
+  respond_to :html, :js
   
-  def status_label(source)
-    if source.status == "inactive"
-      '<span class="label label-info">inactive</span>'
-    elsif source.status == "disabled"
-      '<span class="label label-warning">disabled</span>'
-    else
-      "active"
-    end
-  end
+  layout APP_CONFIG['layout']
 end

@@ -11,13 +11,18 @@ gem "foreman", "~> 0.53.0"
 gem "libxml-ruby", "~> 2.3.3", :require => 'xml'
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "koala", "~> 1.5.0"
-gem 'will_paginate', '3.0.3'
 gem "devise", "~> 2.1.2"
 gem 'validates_timeliness', '~> 3.0.2'
 
+gem 'sass-rails', '~> 3.1'
+gem 'bootstrap-sass', '~> 2.0.4.1'
+gem 'will_paginate', '3.0.3'
+gem 'will_paginate-bootstrap'
+gem 'simple_form'
+
 group :assets do
   gem 'uglifier', '1.2.7'
-  gem 'jquery-rails', '2.0.2'
+  gem 'jquery-rails', '2.1.1'
   gem 'therubyracer', '0.10.1', :require => "v8"
 end
 
@@ -31,6 +36,10 @@ group :test do
   gem "rack-test", "~> 0.6.1"
   gem "simplecov", "~> 0.6.4", :require => false
   gem "shoulda-matchers", "~> 1.2.0", :require => false
+  gem "webmock", "~> 1.8.9"
+  gem "rest-client", "~> 1.6.7"
+  #gem "headless", "~> 0.3.1"
+  #gem "capybara-webkit", "~> 0.12.1"
 end
 
 group :test, :development do

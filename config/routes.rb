@@ -7,6 +7,14 @@ Alm::Application.routes.draw do
   resources :articles, :constraints => { :id => /.+?/, :format => /html|json|xml|csv/}
   resources :sources
   resources :groups
+  
+  namespace :admin do
+    root :to => "index#index"
+    resources :articles, :constraints => { :id => /.+?/, :format => /html|js/}
+    resources :sources
+    resources :groups
+    resources :delayed_jobs
+  end
 
   match 'group/articles/:id' => 'groups#group_article_summaries', :constraints => { :id => /.+?/, :format => /html|json|xml/}
 

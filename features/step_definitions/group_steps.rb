@@ -8,14 +8,6 @@ def build_group
   @group = FactoryGirl.build(:group)
 end
 
-def find_group
-  @group ||= Group.first conditions: {:doi => @submission[:doi]}
-end
-
-def show_group
-  visit group_path(@group.id)
-end
-
 def delete_group
   @group ||= Group.first conditions: {:name => 'Citations'}
   @group.destroy unless @group.nil?
@@ -29,7 +21,8 @@ end
 Given /^I have a group named Citations$/ do
   delete_group
   create_group
-  visit group_path(@group)
+  visit admin_root_path
+  click_link "Groups"
   page.should have_content @group.name
 end
 
@@ -64,7 +57,8 @@ end
 
 ### THEN ###
 Then /^I should see the group$/ do
-  visit group_path(@group)
+  visit admin_root_path
+  click_link "Groups"
   page.should have_content @group.name
 end
 

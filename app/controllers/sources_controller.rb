@@ -20,6 +20,13 @@ class SourcesController < ApplicationController
   before_filter :authenticate_user!, :except => [ :index ]
 
   respond_to :html
+  
+  def show
+    @source = Source.find(params[:id])
+    @samples = @source.retrieval_statuses.most_cited_sample
+
+    respond_with @source
+  end
 
   def index
     @sources = Source.order(:display_name)

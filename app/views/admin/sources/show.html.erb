@@ -1,0 +1,87 @@
+<%#
+  # $HeadURL$
+  # $Id$
+  #
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+  # http://www.plos.org/
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+-%>
+
+<div class="content">  
+  <div class="page-header">
+    <h1>
+      <%= link_to "Administration", admin_root_path %> / <%= h(@source.display_name) %>
+    </h1>
+  </div>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#status" data-toggle="tab" title="Status">Status</a></li>
+    <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <li><a href="#most-cited" data-toggle="tab" title="Most-Cited">Most-Cited</a></li>
+  </ul>
+  
+  <div class="tab-content">
+    <div class="tab-pane active" id="status">
+      <% if @source.status == "inactive" %>
+        <div class="alert alert-warning">
+          This source is inactive
+        </div>
+      <% elsif @source.status == "disabled" %>
+        <div class="alert alert-error">
+          This source is disabled until <%= h(@source.disable_until) %>
+        </div>
+      <% else %>
+        <div class="alert alert-info">
+          This source is active
+        </div>
+      <% end %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Queued Articles</th>
+            <td><%= @source.retrieval_statuses.queued.count %></td>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <th>Stale Articles</th>
+              <td><%= @source.retrieval_statuses.stale.count %></td>
+            </tr>
+            <tr>
+              <th>Scheduled Articles</th>
+              <td><%= @source.retrieval_statuses.scheduled.count %></td>
+            </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="tab-pane" id="configuration">
+      <%= render :partial => 'show' %> 
+    </div>
+    <div class="tab-pane" id="most-cited">
+      <% unless @samples.empty? %>
+        <% @samples.each do |retrieval_status| %>
+          <div class="row">
+            <div class="span12">
+              <h4><%= link_to retrieval_status.article.title, retrieval_status.article %></h4>
+              <%= retrieval_status.article.published_on.to_s(:long) %> - <%= pluralize retrieval_status.event_count, "event" %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="alert alert-info">No articles have been cited by this source</div>
+      <% end %>
+    </div>
+  </div>
+</div>

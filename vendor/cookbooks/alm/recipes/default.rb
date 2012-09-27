@@ -54,10 +54,25 @@ else
   end
 end
 
+case node['platform']
+when "ubuntu","debian"
+  %w{libqt4-dev xvfb}.each do |pkg|
+    package pkg do
+      action :install
+    end
+  end
+when "centos","redhat","fedora"
+  %w{qt-webkit-devel Xvfb}.each do |pkg|
+    package pkg do
+      action :install
+    end
+  end
+end
+
 # Run bundle command
 bash "run bundle install in app directory" do
   cwd "/vagrant"
-  code "rvmsudo bundle install"
+  code "bundle install"
 end
 
 # Optionally seed the database with sources, groups and sample articles

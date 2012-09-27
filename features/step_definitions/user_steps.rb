@@ -34,7 +34,7 @@ def sign_up
   fill_in "Email", :with => @visitor[:email]
   fill_in "Password", :with => @visitor[:password]
   fill_in "Password confirmation", :with => @visitor[:password_confirmation]
-  click_button "Sign up"
+  click_button "Sign Up"
   find_user
 end
 
@@ -42,7 +42,7 @@ def sign_in
   visit '/users/sign_in'
   fill_in "Username or email", :with => @visitor[:email]
   fill_in "Password", :with => @visitor[:password]
-  click_button "Sign in"
+  click_button "Sign In"
   find_user
 end
 
@@ -124,19 +124,19 @@ end
 
 ### THEN ###
 Then /^I should be signed in$/ do
-  page.should have_content "Logout"
-  page.should_not have_content "Sign up"
-  page.should_not have_content "Login"
+  page.should have_content "Sign Out"
+  page.should_not have_content "Sign Up"
+  page.should_not have_content "Sign In"
 end
 
 Then /^I should not be signed up$/ do
   page.should have_content "Invalid username"
-  page.should_not have_content "Logout"
+  page.should_not have_content "Sign Out"
 end
 
 Then /^I should be signed out$/ do
-  page.should have_content "Login"
-  page.should_not have_content "Logout"
+  page.should have_content "Sign In"
+  page.should_not have_content "Sign Out"
 end
 
 
@@ -149,19 +149,19 @@ Then /^I should see a successful sign up message$/ do
 end
 
 Then /^I should see an invalid email message$/ do
-  page.should have_content "Email is invalid"
+  page.should have_content "is invalid"
 end
 
 Then /^I should see a missing password message$/ do
-  page.should have_content "Password can't be blank"
+  page.should have_content "can't be blank"
 end
 
 Then /^I should see a missing password confirmation message$/ do
-  page.should have_content "Password doesn't match confirmation"
+  page.should have_content "doesn't match confirmation"
 end
 
 Then /^I should see a mismatched password message$/ do
-  page.should have_content "Password doesn't match confirmation"
+  page.should have_content "doesn't match confirmation"
 end
 
 Then /^I should see a signed out message$/ do

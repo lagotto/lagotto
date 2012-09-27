@@ -89,7 +89,7 @@ Devise.setup do |config|
   
   # The default HTTP method used to sign out a resource. Default is :delete, use :get for Cucumber tests. 
   # This change doesn't affect development or production environments
-  #config.sign_out_via = Rails.env.test? ? :get : :delete
+  config.sign_out_via = Rails.env.test? ? :get : :delete
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without

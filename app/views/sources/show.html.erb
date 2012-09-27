@@ -18,91 +18,42 @@
   # limitations under the License.
 -%>
 
-<div class="border">
-  <div class="page">
-    <h1>Details for <%=h @source.display_name %> (<%= @source.active ? "active" : "inactive" %>)</h1>
-
-    <p>
-      <b>Name:</b>
-      <%=h @source.display_name  %>
-    </p>
-
-    <p>
-      <b>Timeout:</b>
-      <%=h @source.timeout %> seconds
-    </p>
-
-    <p>
-      <b>Disabled Until:</b>
-      <% if @source.disable_until %>
-          <%= h @source.disable_until %>
-      <% else %>
-          (not disabled)
-      <% end %>
-    </p>
-
-    <p>
-      <b>Disabled Delay:</b>
-      <%= h @source.disable_delay %> seconds
-    </p>
-
-    <p>
-      <b>Workers (workers for the job queue):</b>
-      <%= h @source.workers %>
-    </p>
-
-    <p>
-      <b>Wait time </b>: <%= @source.wait_time %> seconds
-      <br>
-      (time interval to wait before checking to see if more jobs can be added to the job queue)
-    </p>
-
-    <p>
-      <b>Maximum number of failed queries allowed before being disabled:</b>
-      <%=h @source.max_failed_queries %>
-    </p>
-
-    <p>
-      <b>Maximum number of failed queries allowed in a time interval:</b>
-      <%=h @source.max_failed_query_time_interval %> seconds
-    </p>
-
+<div class="content">
+  <div class="page-header">
+    <h1><%= h(@source.display_name) %></h1>
+  </div>
+  
+  <dl class="dl-horizontal">
+    <dt>Status</dt>
+    <dd><%= @source.status %></dd>
     <% if @source.group %>
-        <p>
-          <b>Group:</b>
-          <%= h @source.group.name %>
-        </p>
+      <dt>Group</dt>
+      <dd><%= h(@source.group.name) %></dd>
     <% end %>
-
-    <% if not @source.get_config_fields.empty? %>
-        <p>
-          <b>Source Configurations</b> <br>
-          <% @source.get_config_fields.each do |field| %>
-              <b><%= field[:field_name].gsub(/_/, " ").capitalize %></b>:
-              <% if field[:field_type] == "password_field" %>
-                  '<%= ("●" * @source.config.send(field[:field_name]).to_s.size) %>'
-              <% else %>
-                  <%= @source.config.send(field[:field_name]) %>
-              <% end %>
-              <br>
-          <% end %>
-        </p>
+    <% unless @source.private %>
+      <dt>Documentation</dt>
+      <dd><%= link_to "Information at ALM Wiki", "http://github.com/articlemetrics/alm/wiki/" + @source.name %></dd>
     <% end %>
-
-    <h1>Most-cited articles</h1>
-    <% if @samples.empty? %>
-        <div>No articles have been cited by this source</div>
-    <% else %>
-        <ul>
-          <% @samples.each do |retrieval_status| %>
-              <li><%= link_to retrieval_status.article.doi, retrieval_status.article %>:
-                <%= retrieval_status.event_count %></li>
-          <% end %>
-        </ul>
-    <% end %>
-
-    <%= link_to 'Edit', edit_source_path(@source) %>
-    <br/>
-    <%= link_to 'Back to list', sources_path %>
+  </dl>
+  
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#article" data-toggle="tab">Most-Cited Articles</a></li>
+  </ul>
+  
+  <div class="tab-content">
+    <div class="tab-pane active" id="article">  
+      <% unless @samples.empty? %>
+        <% @samples.each do |retrieval_status| %> 
+          <div class="row">
+            <div class="span12">
+              <h4><%= link_to retrieval_status.article.title, retrieval_status.article %></h4>
+              <%= retrieval_status.article.published_on.to_s(:long) %> - <%= pluralize retrieval_status.event_count, "event" %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="alert alert-info">No articles have been cited by this source</div>
+      <% end %>
+    </div>
   </div>
 </div>
