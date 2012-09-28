@@ -7,8 +7,9 @@
 	"recipe[alm]"
   ],
   "app": { "layout": "plos", 
+           "doi_prefix": "10.1371", 
            "seed_additional_sources": true,
-		   "seed_sample_articles": true, 
+		       "seed_sample_articles": true, 
            "mendeley": { "api_key": "EXAMPLE" },
            "facebook": { "api_key": "EXAMPLE" },
            "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },

@@ -147,6 +147,10 @@ class Article < ActiveRecord::Base
     end
     group_info
   end
+  
+  def is_publisher?
+    APP_CONFIG["doi_prefix"] == doi[0..6]
+  end
 
   private
   def create_retrievals

@@ -17,7 +17,12 @@
 # limitations under the License.
 
 class PubMed < Source
-
+  
+  EUTILS_URL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?"
+  ESUMMARY_URL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?"
+  PMCLINKS_URL = "http://www.ncbi.nlm.nih.gov/sites/entrez?"
+  PMC_URL = "http://www.ncbi.nlm.nih.gov/pmc/articles/"
+  
   ToolID = 'ArticleLevelMetrics'
 
   validates_each :url do |record, attr, value|
@@ -25,79 +30,128 @@ class PubMed < Source
   end
 
   def get_data(article, options={})
+    # First, we need to have the PMID for this article. 
+    # Get it if we don't have it, and proceed only if we do.
+    # We need a DOI to fetch the PMID
+    if article.pub_med.blank?
+      return  { :events => [], :event_count => 0 } if article.doi.blank? 
+      article.pub_med = get_pmid_from_doi(article.doi, options)
+      return  { :events => [], :event_count => 0 } if article.pub_med.blank?
+    end
 
-    # First, we need to have the PubMed and PubMedCentral IDs for this
-    # article. Get 'em if we don't have 'em, and proceed only if we do.
-    article.pub_med ||= get_pub_med_from_doi(article.doi, options)
-    return [] unless article.pub_med
-
-    article.pub_med_central ||= get_pub_med_central_from_pub_med(article.pub_med, options)
-    return [] unless article.pub_med_central
-
+    # Also get the PMCID, but wait until one month after publication
+    if Time.zone.now - article.published_on.to_time >= 1.month
+      article.pub_med_central = get_pmcid_from_doi(article.doi, options) if article.pub_med_central.blank?
+    end
+    
     if article.changed?
       article.save
     end
 
-    # OK, we've got the IDs. Get the citations using the PubMed ID.
-    events = []
+    # OK, we've got the PMID, now get the citations.
     query_url = get_query_url(article)
 
-    get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
-      document.find("//PubMedToPMCcitingformSET/REFORM/PMCID").each do |cite|
-        pmc = cite.first.content
-        if pmc
-          event = {
-              :event => pmc,
-              :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + pmc
-          }
-
-          events << event
+    get_xml(query_url, options) do |document|
+      result = Hash.from_xml(document.to_s(:encoding => XML::Encoding::UTF_8))
+      result = result["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"]
+      if result.nil?
+        { :events => [], :event_count => 0 }
+      else
+        # Retrieve more information about these PMCIDs.
+        result = get_summary_from_pubmed(result)
+                
+        events = []
+        result.each do |event|
+          url = PMC_URL + event[:pmcid]
+          events << {:event => event, :event_url => url}
         end
+        
+        params = {
+            'from_uid' => article.pub_med,
+            'db' => 'pubmed',
+            'cmd' => 'link',
+            'LinkName' => 'pubmed_pmc_refs',
+            'tool' => PubMed::ToolID }
+        events_url = PMCLINKS_URL + params.to_query
+        
+        xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
+
+        {:events => events,
+         :events_url => events_url,
+         :event_count => events.length,
+         :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }}
       end
-
-      events_url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
-      xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
-
-      {:events => events,
-       :events_url => events_url,
-       :event_count => events.length,
-       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
-      }
-
     end
   end
 
-  def get_pub_med_from_doi(doi, options={})
+  def get_pmid_from_doi(doi, options={})
     params = {
         'term' => doi,
-        'field' => 'aid', # just search the article ID field
+        'field' => 'DOI',
         'db' => 'pubmed',
-        'tool' => PubMed::ToolID,
-        'usehistory' => 'n',
-        'retmax' => 1
-    }
-    query_url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?" + params.to_query
+        'tool' => PubMed::ToolID }
+        
+    query_url = EUTILS_URL + params.to_query
 
     result = get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
       id_element = document.find_first("//eSearchResult/IdList/Id")
       id_element and id_element.content.strip
     end
-    Rails.logger.debug "PM_from_DOI got #{result.inspect} for #{doi.inspect}" if result
-    result
   end
+  
+  def get_pmcid_from_doi(doi, options={})
+    params = {
+        'term' => doi,
+        'field' => 'DOI',
+        'db' => 'pmc',
+        'tool' => PubMed::ToolID }
+        
+    query_url = EUTILS_URL + params.to_query
 
-  def get_pub_med_central_from_pub_med(pubmed, options={})
-    query_url = "http://www.pubmedcentral.nih.gov/utils/entrezpmc.cgi?view=xml&id=" + pubmed
     result = get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
-      id_element = document.find_first("//PubMedToPMCreformSET/REFORM/PMCID")
+      id_element = document.find_first("//eSearchResult/IdList/Id")
       id_element and id_element.content.strip
     end
-    Rails.logger.debug "PMC_from_PM got #{result.inspect} for #{pubmed.inspect}" if result
-    result
+  end
+  
+  def get_summary_from_pubmed(pubmed_ids, options={})
+    db = options[:db] || "pmc"
+    
+    params = {
+        'id' => [*pubmed_ids].join(","),
+        'db' => db,
+        'version' => '2.0',
+        'tool' => PubMed::ToolID }
+        
+    query_url = ESUMMARY_URL + params.to_query
+    
+    get_xml(query_url, options.merge(:remove_doctype => 1)) do |document| 
+      references = []
+      result = Hash.from_xml(document.to_s(:encoding => XML::Encoding::UTF_8))
+      result = result["eSummaryResult"]["DocumentSummarySet"]["DocumentSummary"]
+      result = [result] unless result.is_a?(Array)
+      result.each do |document_summary|
+        ids = document_summary["ArticleIds"]["ArticleId"].map { |article_id| { article_id["IdType"] => article_id["Value"] }.symbolize_keys }
+        ids = ids.inject { | a, h | a.merge h }
+        published_on = parse_date([document_summary["EPubDate"],document_summary["PubDate"],document_summary["SortDate"],document_summary["SortPubDate"]])
+        references << ids.merge({ :title => document_summary["Title"],
+                                  :published_on => published_on })
+      end
+      references
+    end
+  end
+  
+  def parse_date(dates)
+    dates.each do |date|
+      begin
+        return Date.parse(date).to_s(:db)
+      rescue
+      end
+    end
   end
 
   def get_query_url(article)
-    config.url % { :pub_med => article.pub_med }
+    url % { :pub_med => article.pub_med } unless article.pub_med.blank?
   end
 
   def get_config_fields
