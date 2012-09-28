@@ -23,21 +23,23 @@
     <h1>Sources</h1>
   </div>
   
-  <% @groups.in_groups_of(3, false) do |groups| %>
-    <div class="row">
-      <% groups.each do |group| %>
-        <% unless group.sources.where("active = 1").empty? %>
-          <div class="span4">
-            <h3><%= h(group.name) %></h3>
-            <ul class="unstyled">
-              <% group.sources.where("active = 1").each do |source| %>
-              <h4><%= link_to h(source.display_name), source_path(source) %></h4>
-              <% end %>
-            </ul>
-          </div>
+  <% unless @groups.empty? %>
+    <% @groups.in_groups_of(3, false) do |groups| %>
+      <div class="row">
+        <% groups.each do |group| %>
+          <% unless group.sources.where("active = 1").empty? %>
+            <div class="span4">
+              <h3><%= h(group.name) %></h3>
+              <ul class="unstyled">
+                <% group.sources.where("active = 1").each do |source| %>
+                <h4><%= link_to h(source.display_name), source_path(source) %></h4>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
         <% end %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   <% end %>
 
 </div>
