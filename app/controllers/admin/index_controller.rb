@@ -20,7 +20,7 @@ class Admin::IndexController < Admin::ApplicationController
   
   def index
     @articles_count = Article.count
-    @articles_with_flags = Article.with_flags.paginate(:page => params[:page])
+    @articles_recent_count = Article.where("TIMESTAMPDIFF(DAY, published_on, UTC_TIMESTAMP()) <= 30").count
     
     @sources = Source.order("name")
     @sources_inactive_count = Source.where("active != 1").count

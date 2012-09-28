@@ -4,13 +4,8 @@
       <div class="caption">
         <h2>
           <i class="icon-file"></i> Articles
-          <% if @articles_with_flags.count > 0 %>
-            <span class="label label-info pull-right">Flags</span>
-          <% else %>
-            <span class="label label-success pull-right">No Flags</span>
-          <% end %>
         </h2>
-        <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(@articles_with_flags.count, 'article') %> with flags.<br/>&nbsp;</p>
+        <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(@articles_recent_count, 'article') %> published in the last 30 days.</p>
       </div>
     </div>
   </li>
