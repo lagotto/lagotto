@@ -1,0 +1,35 @@
+{
+   "_id": "citeulike:10.1371/journal.pbio.0000007",
+   "_rev": "1-f433f30f196cb1a00f7392b1b72c5553",
+   "doi": "10.1371/journal.pbio.0000007",
+   "retrieved_at": "2012-07-15T05:31:17Z",
+   "source": "citeulike",
+   "events": [
+       {
+           "event": {
+               "post_time": "2009-03-21 12:15:56",
+               "articleid": "4202623",
+               "username": "jpla",
+               "tags": "no-tag",
+               "link": {
+                   "url": "http://www.citeulike.org/user/jpla/article/4202623"
+               }
+           },
+           "event_url": "http://www.citeulike.org/user/jpla/article/4202623"
+       },
+       {
+           "event": {
+               "post_time": "2009-03-22 09:59:08",
+               "articleid": "4206661",
+               "username": "kamotaku78",
+               "tags": "file-import-09-03-22",
+               "link": {
+                   "url": "http://www.citeulike.org/user/kamotaku78/article/4206661"
+               }
+           },
+           "event_url": "http://www.citeulike.org/user/kamotaku78/article/4206661"
+       }
+   ],
+   "events_url": "http://www.citeulike.org/doi/10.1371/journal.pbio.0000007",
+   "doc_type": "current"
+}
