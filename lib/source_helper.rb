@@ -183,12 +183,40 @@ module SourceHelper
       raise e
     end
   end
+  
+  def remove_alm_data(data_rev, id)
+
+    service_url = APP_CONFIG['couchdb_url']
+    data = { :_id => "#{id}", :_rev => data_rev }
+
+    response = delete_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
+    result = ActiveSupport::JSON.decode(response.body)
+
+    result["rev"]
+  end
 
   def put_alm_data(url, json)
 
     url = URI.parse(url)
 
     req = Net::HTTP::Put.new(url.path)
+    req["content-type"] = "application/json"
+    req.body = json
+
+    res = Net::HTTP.start(url.host, url.port) { | http | http.request(req) }
+
+    unless res.kind_of?(Net::HTTPSuccess)
+      res.error!
+    end
+
+    res
+  end
+  
+  def delete_alm_data(url, json)
+
+    url = URI.parse(url)
+
+    req = Net::HTTP::Delete.new(url.path)
     req["content-type"] = "application/json"
     req.body = json
 

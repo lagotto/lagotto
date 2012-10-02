@@ -79,7 +79,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       event_count = 0
 
       data_from_source = rs.source.get_data(rs.article, {:retrieval_status => rs, :timeout => rs.source.timeout })
-      if data_from_source.class == Hash
+      if data_from_source.is_a?(Hash)
         events = data_from_source[:events]
         events_url = data_from_source[:events_url]
         event_count = data_from_source[:event_count]
@@ -129,10 +129,14 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         rh.event_count = event_count
 
       else
+        # if we don't get any data
         rs.event_count = 0
+        
+        # remove the last revision from couchdb
+        data_rev = remove_alm_data(rs.data_rev, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
         rs.data_rev = nil
 
-        # if we don't get any data, set retrieval history status to success with no data
+        # set retrieval history status to success with no data
         rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
         rh.event_count = 0
       end
