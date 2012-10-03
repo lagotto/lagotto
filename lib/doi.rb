@@ -22,7 +22,7 @@ module DOI
   FORMAT = %r(\d+\.[^/]+/[^/]+)
 
   def self.from_uri(doi)
-    return nil if doi.nil?
+    return nil if doi.blank?
     doi = doi.gsub("%2F", "/")
     if doi.starts_with? "http://dx.doi.org/"
       doi = doi[18..-1]
@@ -34,7 +34,7 @@ module DOI
   end
 
   def self.to_uri(doi, escaped=true)
-    return nil if doi.nil?
+    return nil if doi.blank?
     unless doi.starts_with? "info:doi"
       doi = "info:doi/" + from_uri(doi)
     end
@@ -43,13 +43,13 @@ module DOI
 
   def self.to_url(doi)
     urls = []
-    return urls if doi.nil?
+    return urls if doi.blank?
     unless doi.starts_with? "http://dx.doi.org/"
       urls << "http://dx.doi.org/" + from_uri(doi)
     end
     # Add PLOS specific doi resolver url for PLOS articles
     if doi.match(/^10.1371/)
-      urls << "http://dx.plos.org/#{article.doi}"
+      urls << "http://dx.plos.org/#{doi}"
     end
     urls
   end

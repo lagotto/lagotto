@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'doi'
-
 class Facebook < Source
 
   validates_each :api_key do |record, attr, value|
@@ -27,45 +25,28 @@ class Facebook < Source
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires api key") \
       if config.api_key.blank?
-
-    events = []
-    urls = []
     
-    # Check that article has DOI
-    return  { :events => events, :event_count => events.length } if article.doi.blank?
+    # Check that article has DOI and/or URL
+    return  { :events => [], :event_count => 0 } if (article.doi.blank? and article.url.blank?)
 
     fbAPI = Koala::Facebook::API.new(config.api_key)
+    
+    update_original_url(article)
 
-    doi_resolver_urls = DOI.to_url(article.doi)
-    urls = doi_resolver_urls
+    urls = []
+    urls << article.doi_as_url unless article.doi_as_url.nil?
+    urls << article.doi_as_publisher_url unless article.doi_as_publisher_url.nil?   
+    urls << article.url unless article.url.blank?
 
-    original_url = nil
-    if options[:retrieval_status].local_id.nil?
-      begin
-        original_url = get_original_url(doi_resolver_urls[0])
-      rescue => e
-        Rails.logger.error "Could not get the full url for #{doi_resolver_urls[0]} #{e.message}"
-      end
-      unless original_url.nil?
-        urls << original_url
-      end
-    else
-      urls << options[:retrieval_status].local_id
-    end
-
-    urls.each { |url| execute_search(fbAPI, events, "#{url}") }
-
+    events = []
     total = 0
+    urls.each { |url| execute_search(fbAPI, events, "#{url}") }
+    
     events.each do | event |
       total += event["total_count"]
     end
 
-    data = {:events => events, :event_count => total}
-
-    unless original_url.nil?
-      data[:local_id] = original_url
-    end
-
+    data = { :events => events, :event_count => total }
     return data
   end
 
@@ -79,6 +60,14 @@ class Facebook < Source
 
     if results && results.size > 0
       results.each {|result| events << result}
+    end
+  end
+  
+  def update_original_url(article)
+    if article.url.blank? and !article.doi_as_url.nil?
+      article.update_attributes(:url => get_original_url(article.doi_as_url))
+    else
+      false
     end
   end
 
