@@ -50,11 +50,9 @@
 					<li><%= link_to "Articles", articles_path %></li>
           <li><%= link_to "Sources", sources_path %></li>
         </ul>
-			  <% if ["articles"].include?(controller.controller_name) and ["index"].include?(controller.action_name) %>
 		      <%= form_tag({:controller => controller.controller_name, :action => "index"}, :method => "get", :class => "navbar-search pull-left") do %>
-          <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "search-query" %>
+          <%= search_field_tag :query, params[:query], :placeholder => "Search for Article", :class => "search-query" %>
 		      <% end %>
-        <% end %>
         <ul class="nav pull-right">
           <% if user_signed_in? %>
             <li><%= link_to "Administration", admin_root_path %></li>
