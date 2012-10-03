@@ -54,7 +54,7 @@ class Connotea < Source
   end
 
   def get_query_url(article)
-    config.url % { :doi_url => (DOI::to_url article.doi) }
+    config.url % { :doi_url => article.doi_as_url }
   end
 
   def get_config_fields
