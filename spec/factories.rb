@@ -23,8 +23,10 @@ FactoryGirl.define do
   end
   
   factory :retrieval_status do
+    data_rev "1-f433f30f196cb1a00f7392b1b72c5553"
+    
     association :article, factory: :article, strategy: :build
-    association :source, factory: :citeulike, strategy: :build
+    association :source, factory: :citeulike
     
     trait(:unpublished) { association :article, :unpublished, factory: :article, strategy: :build }
     trait(:staleness) { association :source, :staleness, factory: :citeulike, strategy: :build }
@@ -37,7 +39,7 @@ FactoryGirl.define do
     staleness { [ 7.days ] }
     url "http://www.citeulike.org/api/posts/for/doi/%{doi}"
 
-    association :group, factory: :group, strategy: :build
+    group
   end
   
   factory :cross_ref, class: CrossRef do
@@ -50,7 +52,7 @@ FactoryGirl.define do
     username "EXAMPLE"
     password "EXAMPLE"
 
-    association :group, factory: :group, strategy: :build
+    group
   end
   
   factory :pub_med, class: PubMed do
@@ -60,7 +62,7 @@ FactoryGirl.define do
     staleness { [ 7.days ] }
     url "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
 
-    association :group, factory: :group, strategy: :build
+    group
   end
   
   factory :wikipedia, class: Wikipedia do
@@ -70,7 +72,30 @@ FactoryGirl.define do
     staleness { [ 7.days ] }
     url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&sroffset=%{offset}&srlimit=%{limit}&maxlag=%{maxlag}"
 
-    association :group, factory: :group, strategy: :build
+    group
+  end
+  
+  factory :mendeley, class: Mendeley do
+    type "Mendeley"
+    name "mendeley"
+    display_name "Mendeley"
+    staleness { [ 7.days ] }
+    url "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}"
+    url_with_type "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}"
+    related_articles_url "http://api.mendeley.com/oapi/documents/related/%{id}"
+    api_key "EXAMPLE"
+    
+    group
+  end
+  
+  factory :facebook, class: Facebook do
+    type "Facebook"
+    name "facebook"
+    display_name "Facebook"
+    staleness { [ 7.days ] }
+    api_key "EXAMPLE"
+
+    group
   end
  
   factory :user do
@@ -78,8 +103,6 @@ FactoryGirl.define do
     email 'example@example.com'
     password 'please'
     password_confirmation 'please'
-    # required if the Devise Confirmable module is used
-    # confirmed_at Time.zone.now
   end
   
 end
