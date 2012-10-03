@@ -11,7 +11,8 @@ require 'database_cleaner'
 require 'webmock/rspec'
 
 include WebMock::API
-WebMock.disable_net_connect!(:allow_localhost => true)
+couchdb_url = URI.parse(APP_CONFIG['couchdb_url'])
+WebMock.disable_net_connect!(:allow => couchdb_url.host)
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
@@ -21,10 +22,11 @@ RSpec.configure do |config|
   
   config.include FactoryGirl::Syntax::Methods
   
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures = true
   
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:transaction)
   end
 
   config.before do

@@ -10,6 +10,8 @@ require 'simplecov'
 require 'cucumber/rails'
 require 'factory_girl_rails'
 
+World(FactoryGirl::Syntax::Methods)
+
 # Allow connections to localhost, required for Selenium
 WebMock.disable_net_connect!(:allow_localhost => true)
 

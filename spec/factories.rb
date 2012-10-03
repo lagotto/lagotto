@@ -19,13 +19,13 @@ FactoryGirl.define do
   end
   
   factory :retrieval_history do
-    association :retrieval_status, factory: :retrieval_status, strategy: :build
+    #association :retrieval_status, factory: :retrieval_status, strategy: :build
   end
   
   factory :retrieval_status do
-    data_rev "1-f433f30f196cb1a00f7392b1b72c5553"
+    sequence(:data_rev) {|n| "#{n}-f433f30f196cb1a00f7392b1b72c5553" }
     
-    association :article, factory: :article, strategy: :build
+    association :article
     association :source, factory: :citeulike
     
     trait(:unpublished) { association :article, :unpublished, factory: :article, strategy: :build }

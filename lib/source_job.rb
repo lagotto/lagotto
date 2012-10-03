@@ -133,8 +133,10 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         rs.event_count = 0
         
         # remove the last revision from couchdb
-        data_rev = remove_alm_data(rs.data_rev, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
-        rs.data_rev = nil
+        unless data_rev.nil?
+          data_rev = remove_alm_data(rs.data_rev, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
+          rs.data_rev = nil
+        end
 
         # set retrieval history status to success with no data
         rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
