@@ -55,6 +55,17 @@ FactoryGirl.define do
     group
   end
   
+  factory :nature, class: Nature do
+    type "Nature"
+    name "nature"
+    display_name "Nature"
+    staleness { [ 7.days ] }
+    url "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}"
+    api_key "EXAMPLE"
+
+    group
+  end
+  
   factory :pub_med, class: PubMed do
     type "PubMed"
     name "pub_med"

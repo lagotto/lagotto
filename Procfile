@@ -11,7 +11,7 @@ worker_twitter: bundle exec rake jobs:work start QUEUE=twitter
 worker_wos: bundle exec rake jobs:work start QUEUE=wos
 worker_counter: bundle exec rake jobs:work start QUEUE=counter
 worker_biod: bundle exec rake jobs:work start QUEUE=biod
-worker_pmc:  bundle exec rake jobs:work start QUEUE=pmc
+worker_pmc: bundle exec rake jobs:work start QUEUE=pmc
 
 citeulike: bundle exec rake queue:citeulike
 pubmed: bundle exec rake queue:pubmed
