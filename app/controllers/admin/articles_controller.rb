@@ -3,22 +3,7 @@ class Admin::ArticlesController < Admin::ApplicationController
   respond_to :html, :js
   
   def index
-    collection = Article
-    collection = collection.cited(params[:cited])  if params[:cited]
-    collection = collection.query(params[:query])  if params[:query]
-    collection = collection.order_articles(params[:order])
-
-    @articles = collection.paginate(:page => params[:page])
-
-    # source url parameter is only used for csv format
-    @source = Source.find_by_name(params[:source].downcase) if params[:source]
-
-    if params[:source]
-      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("display_name")
-    else
-      @sources = Source.order("display_name")
-    end
-    
+    load_index
     respond_with do |format|  
       format.js { render :index }
     end
@@ -33,6 +18,7 @@ class Admin::ArticlesController < Admin::ApplicationController
   
   # GET /articles/new
   def new
+    load_index
     @article = Article.new
     respond_with(@article) do |format|  
       format.js { render :index }
@@ -41,6 +27,7 @@ class Admin::ArticlesController < Admin::ApplicationController
 
   # POST /articles
   def create
+    load_index
     @article = Article.new(params[:article])
     @article.save
     respond_with(@article) do |format|  
@@ -77,6 +64,24 @@ class Admin::ArticlesController < Admin::ApplicationController
     # Load one article given query params
     doi = DOI::from_uri(params[:id])
     @article = Article.find_by_doi!(doi)
+  end
+  
+  def load_index
+    collection = Article
+    collection = collection.cited(params[:cited])  if params[:cited]
+    collection = collection.query(params[:query])  if params[:query]
+    collection = collection.order_articles(params[:order])
+
+    @articles = collection.paginate(:page => params[:page])
+
+    # source url parameter is only used for csv format
+    @source = Source.find_by_name(params[:source].downcase) if params[:source]
+
+    if params[:source]
+      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("display_name")
+    else
+      @sources = Source.order("display_name")
+    end
   end
 
   def load_article_eager_includes
