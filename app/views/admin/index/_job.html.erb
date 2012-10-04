@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @delayed_jobs.limit.each do|delayed_job| %>
+      <% @delayed_jobs.each do|delayed_job| %>
         <tr>
           <td><%= delayed_job.id %></td>
           <td><%= delayed_job.queue %></td>
