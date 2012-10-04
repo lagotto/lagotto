@@ -22,7 +22,7 @@
           <% elsif field[:field_type] == "text_area" %>
             <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2), :class => "span10" } %>
           <% elsif field[:field_type] == "password_field" %>
-            <%= f.input field[:field_name], :value => source.config.send(field[:field_name]) %>
+            <%= f.input field[:field_name], :value => @source.config.send(field[:field_name]) %>
           <% end %>
         <% end %>
       <% end %>
