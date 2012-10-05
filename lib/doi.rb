@@ -19,7 +19,7 @@
 module DOI
   # Format used for validation - we want to store DOIs without
   # the leading "info:doi/"
-  FORMAT = %r(\d+\.[^/]+/[^/]+)
+  FORMAT = %r(^\d+\.[^/]+/[^/]+)
 
   def self.from_uri(doi)
     return nil if doi.blank?

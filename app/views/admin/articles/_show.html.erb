@@ -4,7 +4,7 @@
     <fieldset>
       <legend>Edit Article</legend>  
 
-      <%= f.input :doi, :label => 'DOI', :input_html => { :class => "span6" } %>
+      <%= f.input :doi, :label => 'DOI', :disabled => true, :input_html => { :class => "span6" } %>
       <%= f.input :title, :input_html => { :rows => 2, :class => "span6" } %>
       <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 10, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "span1" } %>
     
