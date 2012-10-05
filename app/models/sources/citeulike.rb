@@ -23,6 +23,9 @@ class Citeulike < Source
   end
 
   def get_data(article, options={})
+    
+    # Check that article has DOI
+    return  { :events => [], :event_count => 0 } if article.doi.blank?
 
     query_url = get_query_url(article)
 
