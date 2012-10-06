@@ -25,7 +25,7 @@ class Article < ActiveRecord::Base
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :sources, :through => :retrieval_statuses
   
-  validates :doi, :uniqueness => true , :format => { :with => DOI::FORMAT }
+  validates :doi, :uniqueness => true, :format => { :with => DOI::FORMAT }
   validates :title, :presence => true
   validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future", 
                                                                :after => lambda { 50.years.ago }, :after_message => "must not be older than 50 years", 
@@ -33,7 +33,7 @@ class Article < ActiveRecord::Base
   
   after_create :create_retrievals
 
-  scope :query, lambda { |query| where("articles.title REGEXP ? or articles.doi REGEXP ?", query, query) }
+  scope :query, lambda { |query| where("doi like ?", "%#{query}%") }
 
   scope :cited, lambda { |cited|
     case cited
@@ -45,10 +45,10 @@ class Article < ActiveRecord::Base
   }
 
   scope :order_articles, lambda { |order|
-    if order == 'doi'
-      order("doi")
+    if order == 'published_on'
+      order("published_on")
     else
-      order("published_on DESC")
+      order("doi")
     end
   }
   
@@ -71,6 +71,23 @@ class Article < ActiveRecord::Base
 
   def cited_retrievals_count
     retrieval_statuses.select {|r| r.event_count > 0}.size
+  end
+  
+  def doi_as_url
+    if doi[0..2] == "10."
+      "http://dx.doi.org/" + doi
+    else
+      nil
+    end
+  end
+  
+  def doi_as_publisher_url
+    # for now use the PLOS doi resolver
+    if doi[0..6] == "10.1371"
+      "http://dx.plos.org/" + doi
+    else
+      nil
+    end
   end
 
   def to_xml(options = {})

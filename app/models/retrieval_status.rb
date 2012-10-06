@@ -187,6 +187,11 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
   
+  def delete_document
+    document_id = "#{source.name}:#{CGI.escape(article.doi)}"
+    remove_alm_data(data_rev, document_id)
+  end
+  
   # calculate datetime when retrieval_status should be updated, adding random interval
   def stale_at
     age_in_days = Time.zone.today - article.published_on

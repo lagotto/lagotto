@@ -34,7 +34,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # check to see if source is active or not
     source = Source.find(source_id)
     unless source.active
-      Rails.logger.info "#{source.name} not active.  Exiting the job"
+      Rails.logger.info "#{source.name} not active. Exiting the job"
       return
     end
 
@@ -46,13 +46,13 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     Timeout.timeout(Delayed::Worker.max_run_time) do
       # wait till the source isn't disabled
       while not (source.disable_until.nil? || source.disable_until < Time.zone.now)
-        Rails.logger.info "#{source.name} is disabled.  Sleep for #{source.disable_delay} seconds."
+        Rails.logger.info "#{source.name} is disabled. Sleep for #{source.disable_delay} seconds."
         sleep(source.disable_delay)
       end
 
       rs_ids.each do | rs_id |
         begin
-          perform_get_data(rs_id, source)
+          perform_get_data(rs_id)
         rescue => e
           Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{source_id} failed to get data. \n#{e.message} \n#{e.backtrace.join("\n")}"
           # each time we fail to get an answer from a source, wait longer
@@ -66,25 +66,20 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   end
 
-  def perform_get_data(rs_id, source)
+  def perform_get_data(rs_id)
 
     rs = RetrievalStatus.find(rs_id)
+    rh = RetrievalHistory.create(:retrieval_status_id => rs.id,
+                                 :article_id => rs.article_id,
+                                 :source_id => rs.source_id)
 
-    article = Article.find(rs.article_id)
-
-    rh = RetrievalHistory.new
-    rh.retrieval_status_id = rs.id
-    rh.article_id = rs.article_id
-    rh.source_id = source.id
-    rh.save
-
-    Rails.logger.debug "#{source.name} #{article.doi} perform"
+    Rails.logger.debug "#{rs.source.name} #{rs.article.doi} perform"
 
     begin
       event_count = 0
 
-      data_from_source = source.get_data(article, {:retrieval_status => rs, :timeout => source.timeout })
-      if data_from_source.class == Hash
+      data_from_source = rs.source.get_data(rs.article, {:retrieval_status => rs, :timeout => rs.source.timeout })
+      if data_from_source.is_a?(Hash)
         events = data_from_source[:events]
         events_url = data_from_source[:events_url]
         event_count = data_from_source[:event_count]
@@ -94,13 +89,12 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
       retrieved_at = Time.zone.now
       if event_count > 0
-        data = {}
-        data[:doi] = article.doi
-        data[:retrieved_at] = retrieved_at
-        data[:source] = source.name
-        data[:events] = events
-        data[:events_url] = events_url
-        data[:doc_type] = "current"
+        data = { :doi => rs.article.doi,
+                 :retrieved_at => retrieved_at,
+                 :source => rs.source.name,
+                 :events => events,
+                 :events_url => events_url,
+                 :doc_type => "current" }
 
         if !attachment.nil?
 
@@ -109,20 +103,25 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                                                              "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
           end
         end
-
+        
         # save the data to couchdb
-        data_rev = save_alm_data(rs.data_rev, data.clone, "#{source.name}:#{CGI.escape(article.doi)}")
+        data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
+        
+        # save the history data to couchdb if event_count has changed
+        if rs.event_count != event_count
+          #TODO change this to a copy
+          data.delete(:_attachments)
+          data[:doc_type] = "history"
+          # save the data to couchdb as retrieval history data
+          save_alm_data(nil, data, rh.id)
+        end
+        
         rs.data_rev = data_rev
         rs.event_count = event_count
+        
         unless local_id.nil?
           rs.local_id = local_id
         end
-
-        #TODO change this to a copy
-        data.delete(:_attachments)
-        data[:doc_type] = "history"
-        # save the data to couchdb as retrieval history data
-        save_alm_data(nil, data, rh.id)
 
         # set retrieval history status to success
         rh.status = RetrievalHistory::SUCCESS_MSG
@@ -130,10 +129,16 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         rh.event_count = event_count
 
       else
+        # if we don't get any data
         rs.event_count = 0
-        rs.data_rev = nil
+        
+        # remove the last revision from couchdb
+        unless data_rev.nil?
+          data_rev = remove_alm_data(rs.data_rev, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
+          rs.data_rev = nil
+        end
 
-        # if we don't get any data, set retrieval history status to success with no data
+        # set retrieval history status to success with no data
         rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
         rh.event_count = 0
       end
@@ -145,7 +150,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       rs.save
       rh.save
     rescue => e
-      Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{source_id} failed to get data. \n#{e.message} \n#{e.backtrace.join("\n")}"
+      Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{rs.source_id} failed to get data. \n#{e.message} \n#{e.backtrace.join("\n")}"
 
       rh.retrieved_at = Time.zone.now
       rh.status = RetrievalHistory::ERROR_MSG

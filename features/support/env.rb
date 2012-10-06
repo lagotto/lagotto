@@ -9,7 +9,8 @@ ENV["RAILS_ENV"] = 'test'
 require 'simplecov'
 require 'cucumber/rails'
 require 'factory_girl_rails'
-require 'webmock/cucumber'
+
+World(FactoryGirl::Syntax::Methods)
 
 # Allow connections to localhost, required for Selenium
 WebMock.disable_net_connect!(:allow_localhost => true)
@@ -20,7 +21,7 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
 
-Capybara.javascript_driver = :webkit
+#Capybara.javascript_driver = :webkit
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 

@@ -25,6 +25,10 @@ class Nature < Source
   end
 
   def get_data(article, options={})
+    
+    # Check that article has DOI
+    return  { :events => [], :event_count => 0 } if article.doi.blank?
+    
     raise(ArgumentError, "#{display_name} configuration requires an api key") \
       if config.api_key.blank?
 
@@ -116,7 +120,7 @@ class Nature < Source
   end
 
   def get_query_url(article)
-    config.url % { :api_key => config.api_key, :doi => CGI.escape(article.doi) }
+    url % { :api_key => api_key, :doi => CGI.escape(article.doi) }
   end
 
   def get_config_fields

@@ -20,13 +20,14 @@ class Admin::IndexController < Admin::ApplicationController
   
   def index
     @articles_count = Article.count
-    @articles_with_flags = Article.with_flags.paginate(:page => params[:page])
+    @articles_recent_count = Article.where("TIMESTAMPDIFF(DAY, published_on, UTC_TIMESTAMP()) <= 30").count
     
     @sources = Source.order("name")
     @sources_inactive_count = Source.where("active != 1").count
     @sources_disabled_count = Source.where("disable_until IS NOT NULL").count
     @groups = Group.order("name")
-    @delayed_jobs = DelayedJob.order("queue, run_at DESC")
+    @delayed_jobs_count = DelayedJob.order("queue, run_at DESC").count
+    @delayed_jobs = DelayedJob.order("queue, run_at DESC").limit(50)
     @delayed_jobs_errors_count = DelayedJob.where("failed_at IS NOT NULL").count
   end
 end

@@ -24,5 +24,6 @@ Delayed::Worker.sleep_delay = 5
 Delayed::Worker.max_attempts = 0
 Delayed::Worker.default_priority = 1
 Delayed::Worker.max_run_time = 30.minutes
+Delayed::Worker.delay_jobs = !Rails.env.test?
 
 APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]

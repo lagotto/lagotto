@@ -48,4 +48,24 @@ describe Source do
     #@source.articles << build(:article, :published_on => 3.years.ago)
   end
   
+  describe "use background jobs" do
+    before(:each) do
+      @article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
+    end
+    
+    it "should queue an article" do
+      retrieval_status = FactoryGirl.build(:retrieval_status, :source_id => @source.id, :article_id => @article.id)
+      job = @source.queue_article_job(retrieval_status)
+      worker = Delayed::Worker.new(:max_priority => nil, :min_priority => nil, :quiet => true)
+      worker.work_off
+    end
+  
+    it "should queue all stale articles" do
+      retrieval_status = FactoryGirl.build(:retrieval_status, :source_id => @source.id, :article_id => @article.id, :scheduled_at => Time.zone.now - 1.day)
+      job = @source.queue_article_jobs
+      worker = Delayed::Worker.new(:max_priority => nil, :min_priority => nil, :quiet => true)
+      worker.work_off
+    end
+  end
+  
 end

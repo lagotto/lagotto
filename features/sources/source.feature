@@ -7,7 +7,7 @@ Feature: Edit sources
     Given I am logged in
     And the source "CiteULike" exists
 
-  @javascript
+  #@javascript
   Scenario: Group must be selected
     #When I edit the source "CiteULike"
     #Then "Citations" should be the only option for "Group"

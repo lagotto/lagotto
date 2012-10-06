@@ -25,3 +25,8 @@ Feature: Sign up
     Scenario: User signs up with mismatched password and confirmation
       When I sign up with a mismatched password confirmation
       Then I should see a mismatched password message
+      
+    Scenario: User signs up when a user exists already
+      Given I exist as a user
+      When I sign up
+      Then I should reach the Sign In page

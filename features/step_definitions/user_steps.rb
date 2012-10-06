@@ -79,6 +79,10 @@ When /^I sign out$/ do
   visit '/users/sign_out'
 end
 
+When /^I sign up$/ do
+  visit '/users/sign_up'
+end
+
 When /^I sign up with valid user data$/ do
   create_visitor
   sign_up
@@ -170,4 +174,8 @@ end
 
 Then /^I see an invalid login message$/ do
   page.should have_content "Invalid username / email or password."
+end
+
+Then /^I should reach the Sign In page$/ do
+  page.should have_content "Sign In"
 end
