@@ -15,6 +15,12 @@ Alm::Application.routes.draw do
     resources :groups
     resources :delayed_jobs
   end
+  
+  namespace :api do
+    namespace :v3 do
+      resources :articles, :constraints => { :id => /.+?/, :format => /json|xml/}
+    end
+  end
 
   match 'group/articles/:id' => 'groups#group_article_summaries', :constraints => { :id => /.+?/, :format => /html|json|xml/}
 

@@ -13,6 +13,7 @@ gem 'mumboe-soap4r', '1.5.8.5'
 gem "koala", "~> 1.5.0"
 gem "devise", "~> 2.1.2"
 gem 'validates_timeliness', '~> 3.0.2'
+gem "rabl", "~> 0.7.2"
 
 gem 'sass-rails', '~> 3.1'
 gem 'bootstrap-sass', '~> 2.0.4.1'
