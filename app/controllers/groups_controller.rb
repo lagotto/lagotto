@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'doi'
-
 class GroupsController < ApplicationController
   before_filter :authenticate_user!, :except => [ :index, :show, :group_article_summaries ]
 
@@ -86,7 +84,7 @@ class GroupsController < ApplicationController
 
     # get the list of DOIs
     ids = params[:id].split(",")
-    ids = ids.map { |id| DOI::from_uri(id) }
+    ids = ids.map { |id| Article.from_uri(id) }
 
     # get all the groups
     groups = {}

@@ -14,7 +14,7 @@ describe Article do
   it { should validate_presence_of(:title) }
   
   # TODO make shoulda_matcher work
-  #it { should validate_format_of(:doi).with(DOI::FORMAT) }
+  #it { should validate_format_of(:doi).with(FORMAT) }
   it "validate doi format" do
     invalid_doi = build(:article, :cited, :doi => "asdfasdfasdf")
     invalid_doi.should_not be_valid

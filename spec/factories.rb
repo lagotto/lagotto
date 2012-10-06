@@ -4,6 +4,7 @@ FactoryGirl.define do
     sequence(:doi) {|n| "10.1371/journal.pone.00000#{n}" }
     pub_med 18974831
     pub_med_central 2568856
+    mendeley "d4ad6910-6d06-11df-a2b2-0026b95e3eb7"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
     published_on '2008-10-31'
     

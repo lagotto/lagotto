@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'doi'
-
 class CrossRef < Source
 
   validates_each :default_url, :username do |record, attr, value|
@@ -51,7 +49,7 @@ class CrossRef < Source
           event = event["journal_cite"]
 
           if !event["doi"].nil?
-            urls = DOI::to_url(event["doi"])
+            urls = Article.to_url(event["doi"])
           end
 
           events << {:event => event, :event_url => urls[0]}

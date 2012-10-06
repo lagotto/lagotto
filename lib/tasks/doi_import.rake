@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'doi'
-
 desc "Bulk-import DOIs from standard input"
 task :doi_import => :environment do
   puts "Reading DOIs from standard input..."
@@ -38,10 +36,10 @@ task :doi_import => :environment do
       bad_line_count = bad_line_count + 1
     end
 
-    doi = DOI::from_uri raw_doi.strip
+    doi = Article.from_uri(raw_doi.strip).values.first
     published_on = Date.parse(raw_published_on.strip) if raw_published_on
     title = raw_title.strip if raw_title
-    if (doi =~ DOI::FORMAT) and !published_on.nil? and !title.nil?
+    if (doi =~ Article.FORMAT) and !published_on.nil? and !title.nil?
       valid << [doi, published_on, title]
     else
       puts "Ignoring DOI: #{raw_doi}, #{raw_published_on}, #{raw_title}"

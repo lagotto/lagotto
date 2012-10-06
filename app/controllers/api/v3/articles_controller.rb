@@ -11,16 +11,12 @@ class Api::V3::ArticlesController < Api::V3::BaseController
   end
   
   def show
+    # Load one article given query params
+    id_hash = Article.from_uri(params[:id])
+    @article = Article.where(id_hash).first
     
-    begin 
-      doi = DOI::from_uri(params[:id])
-      @article = Article.find_by_doi!(doi)
-    rescue ActiveRecord::RecordNotFound
-      # Return 404 HTTP status code if article isn't found
-      @article = nil
-      render :status => 404
-    end
-    
+    # Return 404 HTTP status code if article wasn't found
+    render :status => 404 if @article.nil?
   end
   
 end
