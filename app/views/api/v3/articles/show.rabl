@@ -1,4 +1,4 @@
-unless @article.nil?
+unless @article.blank?
   object @article
 
   attributes :doi, :title, :url, :mendeley
