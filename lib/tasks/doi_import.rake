@@ -24,29 +24,24 @@ task :doi_import => :environment do
   duplicate = []
   created = []
   updated = []
-  sources = Source.all
-  bad_line_count = 0
 
   while (line = STDIN.gets)
-    begin
-      raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
-    rescue
-      new_line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
-      raw_doi, raw_published_on, raw_title = new_line.strip.split(" ", 3)
-      bad_line_count = bad_line_count + 1
-    end
+    line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
+    raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
 
     doi = Article.from_uri(raw_doi.strip).values.first
     published_on = Date.parse(raw_published_on.strip) if raw_published_on
     title = raw_title.strip if raw_title
-    if (doi =~ Article.FORMAT) and !published_on.nil? and !title.nil?
+    if (doi =~ Article::FORMAT) and !published_on.nil? and !title.nil?
       valid << [doi, published_on, title]
     else
       puts "Ignoring DOI: #{raw_doi}, #{raw_published_on}, #{raw_title}"
       invalid << [raw_doi, raw_published_on, raw_title]
     end
   end
-  puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries; fixed #{bad_line_count} entries that contained invalid characters"
+
+  puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
+
   if valid.size > 0
     valid.each do |doi, published_on, title|
       existing = Article.find_by_doi(doi)
@@ -66,5 +61,6 @@ task :doi_import => :environment do
       end
     end
   end
+
   puts "Saved #{created.size} new articles, updated #{updated.size} articles, ignored #{duplicate.size} other existing articles"
 end
