@@ -1,11 +1,7 @@
 unless @articles.blank?
   collection @articles
 
-  attributes :doi, :title, :url, :mendeley
-  attribute :pub_med => :pmid
-  attribute :pub_med_central => :pmcid
-
-  node(:publication_date) { |article| article.published_on.nil? ? nil : article.published_on.to_time }
+  extends "api/v3/articles/base" 
 else
   object false
   

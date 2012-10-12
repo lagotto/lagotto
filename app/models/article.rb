@@ -26,6 +26,7 @@ class Article < ActiveRecord::Base
   FORMAT = %r(^\d+\.[^/]+/[^/]+)
 
   has_many :retrieval_statuses, :dependent => :destroy
+  has_many :retrieval_histories, :dependent => :destroy
   has_many :sources, :through => :retrieval_statuses
   
   validates :uid, :title, :presence => true
@@ -182,10 +183,9 @@ class Article < ActiveRecord::Base
     r_statuses = retrieval_statuses.joins(:source => :group).where("groups.id = ?", group.id)
     r_statuses.each do |rs|
       if rs.event_count > 0
-        events_data = rs.get_retrieval_data
-        if not events_data.nil?
+        if not rs.data.nil?
           data << {:source => rs.source.display_name,
-                   :events => events_data["events"]}
+                   :events => rs.data["events"]}
         end
       end
     end

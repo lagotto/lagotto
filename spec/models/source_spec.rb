@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Source do
   
-  before do
+  before(:each) do
     @source = FactoryGirl.create(:citeulike)
   end
   
@@ -54,14 +54,14 @@ describe Source do
     end
     
     it "should queue an article" do
-      retrieval_status = FactoryGirl.build(:retrieval_status, :source_id => @source.id, :article_id => @article.id)
+      retrieval_status = FactoryGirl.create(:retrieval_status)
       job = @source.queue_article_job(retrieval_status)
       worker = Delayed::Worker.new(:max_priority => nil, :min_priority => nil, :quiet => true)
       worker.work_off
     end
   
     it "should queue all stale articles" do
-      retrieval_status = FactoryGirl.build(:retrieval_status, :source_id => @source.id, :article_id => @article.id, :scheduled_at => Time.zone.now - 1.day)
+      retrieval_status = FactoryGirl.create(:retrieval_status, :scheduled_at => Time.zone.now - 1.day)
       job = @source.queue_article_jobs
       worker = Delayed::Worker.new(:max_priority => nil, :min_priority => nil, :quiet => true)
       worker.work_off

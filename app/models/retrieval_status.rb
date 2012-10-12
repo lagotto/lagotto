@@ -23,7 +23,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   belongs_to :article
   belongs_to :source
-  has_many :retrieval_histories, :dependent => :destroy
+  has_many :retrieval_histories, :order => "retrieved_at", :dependent => :destroy
 
   scope :most_cited_sample, lambda { where("event_count > 0").order("event_count desc").limit(25) }
   
@@ -32,31 +32,52 @@ class RetrievalStatus < ActiveRecord::Base
   scope :scheduled, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) < 0")
   scope :idle, where("queued_at is NULL AND scheduled_at IS NULL")
   scope :published, joins(:article).where("queued_at is NULL AND articles.published_on < ?", Time.zone.today)
-
-  def get_retrieval_data
-    source = Source.find(source_id)
-    article = Article.find(article_id)
-    data = nil
+  
+  def data
     begin
       data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
     rescue => e
-      Rails.logger.error "Failed to get data for #{source.name}:#{article.doi}.  #{e.message}"
+      Rails.logger.error "Failed to get data for #{source.name}:#{article.doi}. #{e.message}"
+      data = nil
     end
-    data
+  end
+  
+  def public_url
+    data["events_url"] unless data.nil?
+  end
+  
+  def events
+    unless data.nil?
+      data["events"] 
+    else
+      []
+    end
+  end
+  
+  def metrics(options={})
+    if options[:days].to_i > 0
+      histories = retrieval_histories.after_days(options[:days].to_i)
+    elsif options[:months].to_i > 0
+      histories = retrieval_histories.after_months(options[:months].to_i)
+    else !
+      histories = retrieval_histories
+    end
+    
+    unless histories.empty?
+      histories.last.metrics
+    else
+      { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+    end
   end
 
   def to_csv
-    if event_count > 0
-      retrieval_data = get_retrieval_data
-    end
-
-    unless retrieval_data.nil?
+    unless data.nil?
       CSV.generate(:force_quotes => true) do |csv|
         csv << [ "name", "url" ]
-        csv << [ source.display_name, retrieval_data["events_url"] ]
+        csv << [ source.display_name, data["events_url"] ]
 
         csv << [""]
-        events = retrieval_data["events"]
+        events = data["events"]
         unless events.nil?
 
           if events.is_a?(Array)
@@ -127,7 +148,6 @@ class RetrievalStatus < ActiveRecord::Base
     }
 
     if options[:events] == "1" and event_count > 0
-      data = get_retrieval_data
       result[:events] = data["events"] if not data.nil?
       result[:public_url] = data["events_url"] if not data.nil? and not data["events_url"].nil?
     end
@@ -139,7 +159,6 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def to_xml(options = {})
-    data = get_retrieval_data
 
     options[:indent] ||= 2
     xml = options[:builder] ||= ::Builder::XmlMarkup.new(:indent => options[:indent])
@@ -175,15 +194,6 @@ class RetrievalStatus < ActiveRecord::Base
         xml.tag!("histories") { retrieval_histories.each {|h| h.to_xml(nested_options) } }
       end
 
-    end
-  end
-
-  def public_url
-    data = get_retrieval_data
-    if data.nil?
-      nil
-    else
-      data["events_url"]
     end
   end
   

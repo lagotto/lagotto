@@ -13,10 +13,16 @@ FactoryGirl.define do
     trait(:not_publisher) { doi '10.1007/s00248-010-9734-2' }
     trait(:unpublished) { published_on { Time.zone.today + 1.week } }
     trait(:just_published) { published_on { Time.zone.today - 1.day } }
+    
+    factory :article_with_events do
+      retrieval_statuses { |article| [article.association(:retrieval_status)] }
+    end
   end
   
   factory :group do
     name 'Citations'
+    
+    initialize_with { Group.find_or_create_by_name(name) }
   end
   
   factory :retrieval_history do
@@ -29,8 +35,10 @@ FactoryGirl.define do
     association :article
     association :source, factory: :citeulike
     
-    trait(:unpublished) { association :article, :unpublished, factory: :article, strategy: :build }
-    trait(:staleness) { association :source, :staleness, factory: :citeulike, strategy: :build }
+    trait(:unpublished) { association :article, :unpublished, factory: :article }
+    trait(:staleness) { association :source, factory: :citeulike }
+    
+    initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
   end
   
   factory :citeulike, class: Citeulike do
@@ -41,6 +49,8 @@ FactoryGirl.define do
     url "http://www.citeulike.org/api/posts/for/doi/%{doi}"
 
     group
+    
+    initialize_with { Citeulike.find_or_create_by_name(name) }
   end
   
   factory :cross_ref, class: CrossRef do
@@ -114,7 +124,7 @@ FactoryGirl.define do
     username 'example_user'
     email 'example@example.com'
     password 'please'
-    password_confirmation 'please'
+    password_confirmation { |u| u.password }
   end
   
 end

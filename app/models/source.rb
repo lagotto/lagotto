@@ -24,6 +24,7 @@ class Source < ActiveRecord::Base
   include SourceHelper
 
   has_many :retrieval_statuses, :dependent => :destroy
+  has_many :retrieval_histories, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses
   belongs_to :group
 
