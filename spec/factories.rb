@@ -17,6 +17,7 @@ FactoryGirl.define do
     factory :article_with_events do
       retrieval_statuses { |article| [article.association(:retrieval_status)] }
     end
+      
   end
   
   factory :group do
@@ -26,7 +27,8 @@ FactoryGirl.define do
   end
   
   factory :retrieval_history do
-    #association :retrieval_status, factory: :retrieval_status, strategy: :build
+    sequence(:retrieved_at) {|n| "2008-10-31".to_date + n.days }
+    sequence(:event_count) {|n| 100 + n }
   end
   
   factory :retrieval_status do
@@ -38,6 +40,14 @@ FactoryGirl.define do
     trait(:unpublished) { association :article, :unpublished, factory: :article }
     trait(:staleness) { association :source, factory: :citeulike }
     
+    before(:create) do |retrieval_status|
+      FactoryGirl.create_list(:retrieval_history, 
+                              5, 
+                              retrieval_status: retrieval_status, 
+                              article: retrieval_status.article, 
+                              source: retrieval_status.source)
+    end
+          
     initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
   end
   

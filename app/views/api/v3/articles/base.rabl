@@ -10,11 +10,17 @@ unless params[:info] == "summary"
     if params[:info] == "detail"
       attributes :events 
       if params[:days]
-        node(:histories) { |rs| rs.retrieval_histories.after_days(params[:days]) }
+        node(:histories) do |rs|
+          rs.retrieval_histories.after_days(params[:days]).map { |rh| { :update_date => rh.updated_at.utc.iso8601, :count => rh.event_count } }
+        end
       elsif params[:months]
-        node(:histories) { |rs| rs.retrieval_histories.after_months(params[:months]) }
+        node(:histories) do |rs|
+          rs.retrieval_histories.after_months(params[:months]).map { |rh| { :update_date => rh.updated_at.utc.iso8601, :count => rh.event_count } }
+        end
       else
-        node(:histories) { |rs| rs.retrieval_histories }
+        node(:histories) do |rs| 
+          rs.retrieval_histories.map { |rh| { :update_date => rh.updated_at.utc.iso8601, :count => rh.event_count } }
+        end
       end
     end
     # metrics are formatted in the retrieval_history model via retrieval_status

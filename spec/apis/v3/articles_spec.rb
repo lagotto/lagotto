@@ -89,7 +89,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response_article["sources"][0]["source"]
         response_article["doi"].should eql(@article.doi)
         response_article["publication_date"].should eql(@article.published_on.to_time.utc.iso8601)
-        response_source["metrics"].should_not be_nil
+        response_source["metrics"]["total"].should eq(@article.retrieval_statuses.first.retrieval_histories.last.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
@@ -99,9 +99,13 @@ describe "/api/v3/articles", :type => :api do
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
+        response_source = response_article.at_css("sources source")
         response_article.content.should include(@article.doi)
         response_article.content.should include(@article.published_on.to_time.utc.iso8601)
         response_article.content.should include(@article.sources.first.name)
+        response_source.at_css("metrics total").content.to_i.should eq(@article.retrieval_statuses.first.retrieval_histories.last.event_count)
+        response_source.at_css("events").should be_nil
+        response_source.at_css("histories").should be_nil
       end
     
     end
@@ -222,7 +226,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response_article["sources"][0]["source"]
         response_article["doi"].should eql(@article.doi)
         response_article["publication_date"].should eql(@article.published_on.to_time.utc.iso8601)
-        response_source["metrics"].should_not be_nil
+        response_source["metrics"]["total"].should eq(@article.retrieval_statuses.first.retrieval_histories.last.event_count)
         response_source["events"].should_not be_nil
         response_source["histories"].should_not be_nil
 
@@ -243,58 +247,71 @@ describe "/api/v3/articles", :type => :api do
       end
     
     end
+  
+    context "historical data after 72 days" do
     
-    context "historical data after 30 days" do
       let(:url) { "/api/v3/articles/info:doi/#{@article.doi}"}
 
       it "JSON" do
-        get "#{url}.json?days=30"
+        get "#{url}.json?days=72"
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
+        response_source = response_article["sources"][0]["source"]
         response_article["doi"].should eql(@article.doi)
         response_article["publication_date"].should eql(@article.published_on.to_time.utc.iso8601)
-        response_article["sources"].should_not be_empty
-        response_article["events"].should be_nil
-        response_article["histories"].should be_nil
+        response_source["metrics"]["total"].should eq(@article.retrieval_statuses.first.retrieval_histories.after_days(72).last.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should be_nil
       end
     
       it "XML" do
-        get "#{url}.xml?days=30"
+        get "#{url}.xml?days=77"
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
+        response_source = response_article.at_css("sources source")
         response_article.content.should include(@article.doi)
         response_article.content.should include(@article.published_on.to_time.utc.iso8601)
+        response_article.content.should include(@article.sources.first.name)
+        response_source.at_css("metrics total").content.to_i.should eq(@article.retrieval_statuses.first.retrieval_histories.after_days(77).last.event_count)
+        response_source.at_css("events").should be_nil
+        response_source.at_css("histories").should be_nil
       end
     
     end
-    
-    context "historical data after 24 months" do
+  
+    context "historical data after 3 months" do
+      
       let(:url) { "/api/v3/articles/info:doi/#{@article.doi}"}
 
       it "JSON" do
-        get "#{url}.json?months=24"
+        get "#{url}.json?months=3"
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
+        response_source = response_article["sources"][0]["source"]
         response_article["doi"].should eql(@article.doi)
         response_article["publication_date"].should eql(@article.published_on.to_time.utc.iso8601)
-        response_article["sources"].should_not be_empty
-        response_article["events"].should be_nil
-        response_article["histories"].should be_nil
+        response_source["metrics"]["total"].should eq(@article.retrieval_statuses.first.retrieval_histories.after_months(3).last.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should be_nil
       end
     
       it "XML" do
-        get "#{url}.xml?months=24"
+        get "#{url}.xml?months=3"
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
+        response_source = response_article.at_css("sources source")
         response_article.content.should include(@article.doi)
         response_article.content.should include(@article.published_on.to_time.utc.iso8601)
+        response_article.content.should include(@article.sources.first.name)
+        response_source.at_css("metrics total").content.to_i.should eq(@article.retrieval_statuses.first.retrieval_histories.after_months(3).last.event_count)
+        response_source.at_css("events").should be_nil
+        response_source.at_css("histories").should be_nil
       end
     
     end
-    
   end
 end
