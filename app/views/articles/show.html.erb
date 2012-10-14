@@ -37,11 +37,21 @@
           </div>  
           <div id="<%= rs.source.name %>" class="accordion-body collapse">  
             <div class="accordion-inner">
-              <% unless rs.data["events"].nil? %>
-                  <% if rs.data["events"].is_a?(Array) %>
-
-                  <% elsif rs.data["events"].is_a?(Hash) %>
-                    <ul><li><%= rs.data["events"] %></li></ul>
+              <% unless rs.events.blank? %>
+                  <% if rs.events.is_a?(Array) %>
+                    <ul>
+                      <% rs.events.each do |ed| %>
+                        <li>
+                          <% if ed.has_key?("event_url") %>
+                            <%= link_to ed, ed["event_url"] %>
+                          <% else %>
+                            <%= ed %>
+                          <% end %>
+                        </li>
+                      <% end %>
+                      </ul>
+                  <% elsif rs.events.is_a?(Hash) %>
+                    <ul><li><%= rs.events %></li></ul>
                   <% end %>
               <% end %>
               
