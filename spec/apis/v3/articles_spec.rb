@@ -274,7 +274,6 @@ describe "/api/v3/articles", :type => :api do
         response_article.content.should include(article.doi)
         response_article.content.should include(article.published_on.to_time.utc.iso8601)
         response_article.content.should include(article.sources.first.name)
-        article.retrieval_statuses.first.retrieval_histories.after_days(79).should eq(3)
         response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_days(79).last.event_count)
         response_source.at_css("events").should be_nil
         response_source.at_css("histories").should be_nil
@@ -308,7 +307,6 @@ describe "/api/v3/articles", :type => :api do
         response_article.content.should include(article.doi)
         response_article.content.should include(article.published_on.to_time.utc.iso8601)
         response_article.content.should include(article.sources.first.name)
-        article.retrieval_statuses.first.retrieval_histories.after_months(3).should eq(3)
         response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_months(3).last.event_count)
         response_source.at_css("events").should be_nil
         response_source.at_css("histories").should be_nil
