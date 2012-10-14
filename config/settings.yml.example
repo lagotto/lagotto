@@ -25,6 +25,7 @@ defaults: &defaults
   layout: greenrobo 
   couchdb_url: http://localhost:5984/alm/
   doi_prefix: 
+  uid: doi
   source:
     job_batch_size: 200
     staleness: 7.days

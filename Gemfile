@@ -13,6 +13,7 @@ gem 'mumboe-soap4r', '1.5.8.5'
 gem "koala", "~> 1.5.0"
 gem "devise", "~> 2.1.2"
 gem 'validates_timeliness', '~> 3.0.2'
+gem "rabl", "~> 0.7.2"
 
 gem 'sass-rails', '~> 3.1'
 gem 'bootstrap-sass', '~> 2.0.4.1'
@@ -27,7 +28,7 @@ group :assets do
 end
 
 group :test do
-  gem "factory_girl_rails", "~> 4.0"
+  gem "factory_girl_rails", "~> 4.1.0", :require => false
   gem "cucumber-rails", "~> 1.3.0", :require => false
   gem "capybara", ">= 1.1.2"
   gem "database_cleaner", "~> 0.8.0"

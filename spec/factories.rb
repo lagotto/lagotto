@@ -2,8 +2,9 @@ FactoryGirl.define do
   
   factory :article do
     sequence(:doi) {|n| "10.1371/journal.pone.00000#{n}" }
-    pub_med 18974831
+    sequence(:pub_med) {|n| "1897483#{n}" }
     pub_med_central 2568856
+    mendeley "d4ad6910-6d06-11df-a2b2-0026b95e3eb7"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
     published_on '2008-10-31'
     
@@ -12,14 +13,37 @@ FactoryGirl.define do
     trait(:not_publisher) { doi '10.1007/s00248-010-9734-2' }
     trait(:unpublished) { published_on { Time.zone.today + 1.week } }
     trait(:just_published) { published_on { Time.zone.today - 1.day } }
+    
+    factory :article_with_events do
+      retrieval_statuses { |article| [article.association(:retrieval_status)] }
+    end
+    
+    factory :article_with_crossref_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_crossref)] }
+    end
+      
+    factory :article_with_pubmed_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_pubmed)] }
+    end
+    
+    factory :article_with_nature_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_pubmed)] }
+    end
+    
+    factory :article_with_researchblogging_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_researchblogging)] }
+    end
   end
   
   factory :group do
     name 'Citations'
+    
+    initialize_with { Group.find_or_create_by_name(name) }
   end
   
   factory :retrieval_history do
-    #association :retrieval_status, factory: :retrieval_status, strategy: :build
+    sequence(:retrieved_at) {|n| "2008-10-31".to_date + n.days }
+    sequence(:event_count) {|n| 100 + n }
   end
   
   factory :retrieval_status do
@@ -28,8 +52,22 @@ FactoryGirl.define do
     association :article
     association :source, factory: :citeulike
     
-    trait(:unpublished) { association :article, :unpublished, factory: :article, strategy: :build }
-    trait(:staleness) { association :source, :staleness, factory: :citeulike, strategy: :build }
+    trait(:unpublished) { association :article, :unpublished, factory: :article }
+    trait(:staleness) { association :source, factory: :citeulike }
+    trait(:with_crossref) { association :source, factory: :cross_ref }
+    trait(:with_pubmed) { association :source, factory: :pub_med }
+    trait(:with_nature) { association :source, factory: :nature }
+    trait(:with_researchblogging) { association :source, factory: :researchblogging }
+    
+    before(:create) do |retrieval_status|
+      FactoryGirl.create_list(:retrieval_history, 
+                              5, 
+                              retrieval_status: retrieval_status, 
+                              article: retrieval_status.article, 
+                              source: retrieval_status.source)
+    end
+          
+    initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
   end
   
   factory :citeulike, class: Citeulike do
@@ -40,6 +78,8 @@ FactoryGirl.define do
     url "http://www.citeulike.org/api/posts/for/doi/%{doi}"
 
     group
+    
+    initialize_with { Citeulike.find_or_create_by_name(name) }
   end
   
   factory :cross_ref, class: CrossRef do
@@ -72,6 +112,18 @@ FactoryGirl.define do
     display_name "PubMed"
     staleness { [ 7.days ] }
     url "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
+
+    group
+  end
+  
+  factory :researchblogging, class: Researchblogging do
+    type "Researchblogging"
+    name "researchblogging"
+    display_name "Research Blogging"
+    staleness { [ 7.days ] }
+    url "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
+    username "EXAMPLE"
+    password "EXAMPLE"
 
     group
   end
@@ -113,7 +165,7 @@ FactoryGirl.define do
     username 'example_user'
     email 'example@example.com'
     password 'please'
-    password_confirmation 'please'
+    password_confirmation { |u| u.password }
   end
   
 end

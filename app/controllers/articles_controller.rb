@@ -34,8 +34,6 @@ class ArticlesController < ApplicationController
 
     @articles = collection.paginate(:page => params[:page])
 
-    # if private sources have been filtered out, the source parameter will be present and modified
-
     # source url parameter is only used for csv format
     @source = Source.find_by_name(params[:source].downcase) if params[:source]
 
@@ -57,9 +55,7 @@ class ArticlesController < ApplicationController
     load_article
 
     format_options = params.slice :events, :history, :source
-
-    # if private sources have been filtered out, the source parameter will be present and modified
-    # private sources are filtered out in the load_article_eager_includes method by looking at source parameter
+    
     load_article_eager_includes
 
     respond_with(@article) do |format|
@@ -77,20 +73,20 @@ class ArticlesController < ApplicationController
   protected
   def load_article()
     # Load one article given query params
-    doi = DOI::from_uri(params[:id])
-    @article = Article.find_by_doi!(doi)
+    id_hash = Article.from_uri(params[:id])
+    @article = Article.where(id_hash).first
   end
 
   def load_article_eager_includes
-    doi = DOI::from_uri(params[:id])
+    id_hash = Article.from_uri(params[:id])
     if params[:source]
-      @article = Article.where("doi = ? and lower(sources.name) in (?)", doi, params[:source].downcase.split(",")).
+      @article = Article.where("#{id_hash.keys.first} = ? and lower(sources.name) in (?)", id_hash.values.first, params[:source].downcase.split(",")).
           includes(:retrieval_statuses => :source).first
     else
-      @article = Article.where("doi = ?", doi).includes(:retrieval_statuses => :source).first
+      @article = Article.where(id_hash).includes(:retrieval_statuses => :source).first
     end
-
-    raise ActiveRecord::RecordNotFound, "Couldn't find Article with doi = #{doi}" if @article.nil?
+    
+    flash[:error] = "Couldn't find Article with #{id_hash.keys.first} = #{id_hash.values.first}" if @article.nil?
   end
 
 end

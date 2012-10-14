@@ -15,6 +15,7 @@ defaults: &defaults
   layout: <%= node[:app][:layout] %>
   couchdb_url: http://localhost:5984/<%= node[:couchdb][:db_name] %>/
   doi_prefix: <%= node[:app][:doi_prefix] %>
+  uid: <%= node[:app][:uid] %>
   source:
     job_batch_size: 200
     staleness: <%%= 7.days %>

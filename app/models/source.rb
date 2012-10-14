@@ -24,6 +24,7 @@ class Source < ActiveRecord::Base
   include SourceHelper
 
   has_many :retrieval_statuses, :dependent => :destroy
+  has_many :retrieval_histories, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses
   belongs_to :group
 
@@ -41,10 +42,6 @@ class Source < ActiveRecord::Base
 
   # for job priority
   TOP_PRIORITY = 0
-
-  # some sources cannot be redistributed
-  scope :public_sources, lambda { where("private = false") }
-  scope :private_sources, lambda { where("private = true") }
 
   def get_data(article, options={})
     raise NotImplementedError, 'Children classes should override get_data method'
@@ -191,7 +188,6 @@ class Source < ActiveRecord::Base
   
   private
 
-  private
   def create_retrievals
     # Create an empty retrieval record for every article for the new source, make scheduled_at a random timestamp within a week
     conn = RetrievalStatus.connection
