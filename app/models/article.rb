@@ -16,24 +16,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "doi"
 require "cgi"
 require "builder"
 
 class Article < ActiveRecord::Base
+  
+  # Format used for DOI validation - we want to store DOIs without
+  # the leading "info:doi/"
+  FORMAT = %r(^\d+\.[^/]+/[^/]+)
 
   has_many :retrieval_statuses, :dependent => :destroy
+  has_many :retrieval_histories, :dependent => :destroy
   has_many :sources, :through => :retrieval_statuses
   
-  validates :doi, :uniqueness => true, :format => { :with => DOI::FORMAT }
-  validates :title, :presence => true
+  validates :uid, :title, :presence => true
+  validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_blank => true
   validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future", 
                                                                :after => lambda { 50.years.ago }, :after_message => "must not be older than 50 years", 
                                                                :type => :date }
   
   after_create :create_retrievals
 
-  scope :query, lambda { |query| where("doi like ?", "%#{query}%") }
+  scope :query, lambda { |query| where("articles.title REGEXP ? or articles.doi REGEXP ?", query, query) }
 
   scope :cited, lambda { |cited|
     case cited
@@ -52,17 +56,55 @@ class Article < ActiveRecord::Base
     end
   }
   
-  scope :query, lambda { |query| where("articles.title REGEXP ? or articles.doi REGEXP ?", query, query) }
+  def self.from_uri(id)
+    return nil if id.nil?
+    id = id.gsub("%2F", "/")
+    if id.starts_with? "http://dx.doi.org/"
+      { :doi => id[18..-1] }
+    elsif id.starts_with? "info:doi/"
+      { :doi => id[9..-1] }
+    elsif id.starts_with? "info:pmid/"
+      { :pub_med => id[10..-1] }
+    elsif id.starts_with? "info:pmcid/"
+      { :pub_med_central => id[11..-1] }
+    elsif id.starts_with? "info:mendeley/"
+      { :mendeley => id[14..-1] }
+    else
+      { self.uid.to_sym => id }
+    end
+  end
+
+  def self.to_uri(id, escaped=true)
+    return nil if id.nil?
+    unless id.starts_with? "info:"
+      id = "info:#{self.uid}/" + from_uri(id).values.first
+    end
+    id
+  end
+
+  def self.to_url(id)
+    return nil if id.nil?
+    unless id.starts_with? "http://dx.doi.org/"
+      id = "http://dx.doi.org/" + from_uri(id).values.first
+    end
+    id
+  end
   
-  scope :with_flags, where("published_on = '1970-01-01' OR CHAR_LENGTH(title) <= 10").order("published_on DESC")
-  
-  def self.per_page
-    50
+  def self.uid
+    # use the column name defined in settings.yml, default to doi
+    APP_CONFIG["uid"] || "doi"
+  end
+    
+  def uid
+    self.send(Article.uid)
   end
 
   def to_param
-    # not necessary to escape the characters make to_param work
-    CGI.escape(DOI.to_uri(doi))
+    CGI.escape(Article.to_uri(uid))
+  end
+  
+  def self.per_page
+    50
   end
 
   def events_count
@@ -141,10 +183,9 @@ class Article < ActiveRecord::Base
     r_statuses = retrieval_statuses.joins(:source => :group).where("groups.id = ?", group.id)
     r_statuses.each do |rs|
       if rs.event_count > 0
-        events_data = rs.get_retrieval_data
-        if not events_data.nil?
+        if not rs.data.nil?
           data << {:source => rs.source.display_name,
-                   :events => events_data["events"]}
+                   :events => rs.data["events"]}
         end
       end
     end

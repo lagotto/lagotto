@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'doi'
-
 class Connotea < Source
 
   validates_each :url, :username, :password do |record, attr, value|
