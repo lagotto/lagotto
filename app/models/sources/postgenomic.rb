@@ -16,20 +16,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class SourcesController < ApplicationController
+class Postgenomic < Source
 
-  respond_to :html
-  
-  def show
-    @source = Source.find(params[:id])
-    @samples = @source.retrieval_statuses.most_cited_sample
-
-    respond_with @source
+  validates_each :url do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
   end
 
-  def index
-    @groups = Group.order("name")
-    respond_with @groups
+  def get_data(article, options={})
+    query_url = get_query_url(article)
+
+    events = get_json(query_url, options).map do |result|
+      {:event => result, :event_url => result["url"]}
+    end
+
+    {:events => events,
+     :events_url => "http://postgenomic.com/paper.php?doi=#{CGI.escape(article.doi)}",
+     :event_count => events.length}
+
+  end
+
+  def get_config_fields
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  end
+
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
   end
 
 end
