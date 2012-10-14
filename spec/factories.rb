@@ -17,7 +17,22 @@ FactoryGirl.define do
     factory :article_with_events do
       retrieval_statuses { |article| [article.association(:retrieval_status)] }
     end
+    
+    factory :article_with_crossref_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_crossref)] }
+    end
       
+    factory :article_with_pubmed_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_pubmed)] }
+    end
+    
+    factory :article_with_nature_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_pubmed)] }
+    end
+    
+    factory :article_with_researchblogging_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_researchblogging)] }
+    end
   end
   
   factory :group do
@@ -39,6 +54,10 @@ FactoryGirl.define do
     
     trait(:unpublished) { association :article, :unpublished, factory: :article }
     trait(:staleness) { association :source, factory: :citeulike }
+    trait(:with_crossref) { association :source, factory: :cross_ref }
+    trait(:with_pubmed) { association :source, factory: :pub_med }
+    trait(:with_nature) { association :source, factory: :nature }
+    trait(:with_researchblogging) { association :source, factory: :researchblogging }
     
     before(:create) do |retrieval_status|
       FactoryGirl.create_list(:retrieval_history, 
@@ -93,6 +112,18 @@ FactoryGirl.define do
     display_name "PubMed"
     staleness { [ 7.days ] }
     url "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
+
+    group
+  end
+  
+  factory :researchblogging, class: Researchblogging do
+    type "Researchblogging"
+    name "researchblogging"
+    display_name "Research Blogging"
+    staleness { [ 7.days ] }
+    url "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
+    username "EXAMPLE"
+    password "EXAMPLE"
 
     group
   end
