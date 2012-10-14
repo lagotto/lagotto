@@ -75,10 +75,10 @@ task :cleanup_plos_articles => :environment do
     line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
     raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
 
-    doi = DOI::from_uri raw_doi.strip
+    doi = Article.from_uri raw_doi.strip
     published_on = Date.parse(raw_published_on.strip) if raw_published_on
     title = raw_title.strip if raw_title
-    if (doi =~ DOI::FORMAT) and !published_on.nil? and !title.nil?
+    if (doi =~ Article::FORMAT) and !published_on.nil? and !title.nil?
       valid << doi
     else
       puts "Ignoring DOI: #{raw_doi}, #{raw_published_on}, #{raw_title}"
