@@ -46,7 +46,7 @@ class RetrievalHistory < ActiveRecord::Base
   
   def events
     unless data.nil?
-      data["events"] 
+      data["events"]
     else
       []
     end
@@ -65,11 +65,11 @@ class RetrievalHistory < ActiveRecord::Base
     when "citeulike"
       event_count
     when "mendeley"
-      events && events['stats'] ? events['stats']['readers'] : 0
+      events.blank? || events['stats'].blank? ? 0 : events['stats']['readers']
     when "wikipedia"
-      events.select {|event| event["namespace"] > 0 }.length
+      events.blank? ? 0 : events.select {|event| event["namespace"] > 0 }.length
     when "facebook"
-      events.inject(0) { |sum, hash| sum + hash[:share_count] }
+       events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash[:share_count] }
     else
       nil
     end
@@ -77,7 +77,7 @@ class RetrievalHistory < ActiveRecord::Base
   
   def groups
     if source.name == "mendeley"
-      events && events['groups'] ? events['groups'].length : 0
+      events.blank? || events['groups'].blank? ? 0 : events['groups'].length
     else
       nil
     end
@@ -86,7 +86,7 @@ class RetrievalHistory < ActiveRecord::Base
   def comments
     case source.name
     when "facebook"
-      events.inject(0) { |sum, hash| sum + hash[:comment_count] }
+      events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash[:comment_count] }
     else
       nil
     end
@@ -95,7 +95,7 @@ class RetrievalHistory < ActiveRecord::Base
   def likes
     case source.name
     when "facebook"
-      events.inject(0) { |sum, hash| sum + hash[:like_count] }
+      events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash[:like_count] }
     else
       nil
     end
@@ -105,7 +105,7 @@ class RetrievalHistory < ActiveRecord::Base
     if ["cross_ref","pub_med","researchblogging","nature"].include?(source.name)
       event_count
     elsif source.name == "wikipedia"
-      events.select {|event| event["namespace"] == 0 }.length
+      events.blank? ? 0 : events.select {|event| event["namespace"] == 0 }.length
     else
       nil
     end

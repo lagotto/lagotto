@@ -48,7 +48,7 @@ class RetrievalStatus < ActiveRecord::Base
   
   def events
     unless data.nil?
-      data["events"] 
+      data["events"]
     else
       []
     end
@@ -148,7 +148,7 @@ class RetrievalStatus < ActiveRecord::Base
     }
 
     if options[:events] == "1" and event_count > 0
-      result[:events] = data["events"] if not data.nil?
+      result[:events] = eventsif not data.nil?
       result[:public_url] = data["events_url"] if not data.nil? and not data["events_url"].nil?
     end
 
