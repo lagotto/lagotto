@@ -41,12 +41,12 @@ class RetrievalHistory < ActiveRecord::Base
   end
   
   def public_url
-    data.events_url unless data.nil?
+    data["events_url"] unless data.nil?
   end
   
   def events
     unless data.nil?
-      data.events 
+      data["events"] 
     else
       []
     end
