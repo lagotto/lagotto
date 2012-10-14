@@ -43,9 +43,9 @@
                       <% rs.events.each do |ed| %>
                         <li>
                           <% if ed.has_key?("event_url") %>
-                            <%= link_to ed, ed["event_url"] %>
+                          <%= link_to ed["event"], ed["event_url"] %>
                           <% else %>
-                            <%= ed %>
+                            <%= ed["event"] %>
                           <% end %>
                         </li>
                       <% end %>
