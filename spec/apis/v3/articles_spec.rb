@@ -248,25 +248,25 @@ describe "/api/v3/articles", :type => :api do
     
     end
   
-    context "historical data after 74 days" do
+    context "historical data after 100 days" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get "#{url}.json?days=74"
+        get "#{url}.json?days=100"
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
         response_source = response_article["sources"][0]["source"]
         response_article["doi"].should eql(article.doi)
         response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_days(74).last.event_count)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_days(100).last.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
     
       it "XML" do
-        get "#{url}.xml?days=79"
+        get "#{url}.xml?days=100"
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -274,32 +274,32 @@ describe "/api/v3/articles", :type => :api do
         response_article.content.should include(article.doi)
         response_article.content.should include(article.published_on.to_time.utc.iso8601)
         response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_days(79).last.event_count)
+        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_days(100).last.event_count)
         response_source.at_css("events").should be_nil
         response_source.at_css("histories").should be_nil
       end
     
     end
   
-    context "historical data after 3 months" do
+    context "historical data after 4 months" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get "#{url}.json?months=3"
+        get "#{url}.json?months=4"
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
         response_source = response_article["sources"][0]["source"]
         response_article["doi"].should eql(article.doi)
         response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_months(3).last.event_count)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_months(4).last.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
     
       it "XML" do
-        get "#{url}.xml?months=3"
+        get "#{url}.xml?months=4"
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -307,7 +307,7 @@ describe "/api/v3/articles", :type => :api do
         response_article.content.should include(article.doi)
         response_article.content.should include(article.published_on.to_time.utc.iso8601)
         response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_months(3).last.event_count)
+        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_months(4).last.event_count)
         response_source.at_css("events").should be_nil
         response_source.at_css("histories").should be_nil
       end
