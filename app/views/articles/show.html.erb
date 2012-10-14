@@ -23,5 +23,33 @@
     <%= render :partial => 'admin/articles/show' %> 
   </div>
   
-
+  <% if @article.retrieval_statuses.sum(:event_count) > 0 %>
+  <div class="accordion" id="retrieval_status">
+    <% @article.retrieval_statuses.each do |rs| %>
+      <% if rs.event_count > 0 %>
+      <%
+           details = [ rs.event_count ]
+           details << rs.local_id if rs.local_id and user_signed_in?
+        %>
+        <div class="accordion-group">  
+          <div class="accordion-heading">  
+            <%= link_to ("<strong>" + rs.source.display_name + "</strong> (" + details.join(', ') + "), updated " + rs.retrieved_at.to_s(:friendly)).html_safe, "##{rs.source.name}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#retrieval_status" }, :href => "##{rs.source.name}" %>
+          </div>  
+          <div id="<%= rs.source.name %>" class="accordion-body collapse">  
+            <div class="accordion-inner">
+              
+              <h4><%= link_to rs.source.display_name, source_path(rs.source) %>
+                <% unless rs.public_url.nil? %>
+                | <%= link_to "Further Information", rs.public_url, :target => "_blank" %></h4>
+              <% end %>
+              </h4>
+            </div>  
+          </div>  
+       </div>  
+       <% end %>
+       <% end %>
+    </div>  
+  <% else %>
+    <div class="alert alert-info">No sources have cited this article</div>
+  <% end %>
 </div>
