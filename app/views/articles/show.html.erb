@@ -27,12 +27,7 @@
   <div class="accordion" id="retrieval_status">
     <% @article.retrieval_statuses.each do |rs| %>
       <% if rs.event_count > 0 %>
-        <%
-           rs_data = rs.get_retrieval_data
-           unless rs_data.nil?
-             public_url = rs_data["events_url"]
-             event_data = rs_data["events"]
-           end
+      <%
            details = [ rs.event_count ]
            details << rs.local_id if rs.local_id and user_signed_in?
         %>
@@ -42,10 +37,10 @@
           </div>  
           <div id="<%= rs.source.name %>" class="accordion-body collapse">  
             <div class="accordion-inner">
-              <% unless event_data.nil? %>
-                  <% if event_data.is_a?(Array) %>
+              <% unless rs.data["events"].nil? %>
+                  <% if rs.data["events"].is_a?(Array) %>
                     <ul>
-                      <% event_data.each do |ed| %>
+                      <% rs.data["events"].each do |ed| %>
                         <li>
                           <% if ed.has_key?("event_url") %>
                               <%= link_to ed["event"], ed["event_url"] %>
@@ -55,13 +50,13 @@
                         </li>
                       <% end %>
                       </ul>
-                  <% elsif event_data.is_a?(Hash) %>
-                    <ul><li><%= event_data %></li></ul>
+                  <% elsif rs.data["events"].is_a?(Hash) %>
+                    <ul><li><%= rs.data["events"] %></li></ul>
                   <% end %>
               <% end %>
               <h4><%= link_to rs.source.display_name, source_path(rs.source) %>
-              <% unless public_url.nil? %>
-                | <%= link_to "Further Information", public_url, :target => "_blank" %></h4>
+              <% unless rs.data["events_url"].nil? %>
+                | <%= link_to "Further Information", rs.data["events_url"], :target => "_blank" %></h4>
               <% end %>
               </h4>
             </div>  
