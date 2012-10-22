@@ -70,7 +70,7 @@ class RetrievalHistory < ActiveRecord::Base
       event_count
     when "mendeley"
       if events.blank? or events['stats'].nil? 
-        nil
+        0
       else
         events['stats']['readers']
       end
@@ -86,7 +86,7 @@ class RetrievalHistory < ActiveRecord::Base
   def groups
     if source.name == "mendeley"
       if events.blank? or events['groups'].nil?
-        nil
+        0
       else
         events['groups'].length
       end
