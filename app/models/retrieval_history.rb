@@ -69,7 +69,7 @@ class RetrievalHistory < ActiveRecord::Base
     when "citeulike"
       event_count
     when "mendeley"
-      events && events['stats'] ? (events['stats']['readers']).to_i : 0
+      events.blank? or events['stats'].nil? ? 0 : events['stats']['readers']
     when "wikipedia"
       events.select {|event| event["namespace"] > 0 }.length
     when "facebook"
@@ -81,7 +81,7 @@ class RetrievalHistory < ActiveRecord::Base
   
   def groups
     if source.name == "mendeley"
-      events && events['groups'] ? events['groups'].length : 0
+      events.blank? or events['groups'].nil? ? 0 : events['groups'].length
     else
       nil
     end
