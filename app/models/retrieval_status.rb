@@ -65,7 +65,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
   
   def metrics(options={})
-    histories = histories_with_time_limit(options={})
+    histories = histories_with_time_limit(options=options)
     unless histories.blank?
       histories.last.metrics
     else
@@ -74,7 +74,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
   
   def update_date(options={})
-    histories = histories_with_time_limit(options={})
+    histories = histories_with_time_limit(options=options)
     unless histories.blank?
       histories.last.updated_at.utc.iso8601
     else
