@@ -69,7 +69,7 @@ class RetrievalHistory < ActiveRecord::Base
     when "citeulike"
       event_count
     when "mendeley"
-      events && events['stats'] ? events['stats']['readers'].to_i : 0
+      events && events['stats'] ? (events['stats']['readers']).to_i : 0
     when "wikipedia"
       events.select {|event| event["namespace"] > 0 }.length
     when "facebook"
