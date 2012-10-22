@@ -59,9 +59,9 @@ class RetrievalHistory < ActiveRecord::Base
   def pdf
     case source.name
     when "counter"
-      events.inject(0) { |sum, hash| sum + hash["pdf_views"] }
+      events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }
     when "pmc"
-      events.inject(0) { |sum, hash| sum + hash["pdf"] }
+      events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }
     else
       nil
     end
@@ -70,9 +70,9 @@ class RetrievalHistory < ActiveRecord::Base
   def html
     case source.name
     when "counter"
-      events.inject(0) { |sum, hash| sum + hash["html_views"] }
+      events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }
     when "pmc"
-      events.inject(0) { |sum, hash| sum + hash["full-text"] }
+      events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }
     else
       nil
     end
@@ -81,7 +81,7 @@ class RetrievalHistory < ActiveRecord::Base
   def xml
     case source.name
     when "counter"
-      events.inject(0) { |sum, hash| sum + hash["xml_views"] }
+      events.inject(0) { |sum, hash| sum + hash["xml_views"].to_i }
     else
       nil
     end
