@@ -66,7 +66,7 @@ class RetrievalStatus < ActiveRecord::Base
     unless histories.empty?
       histories.last.metrics
     else
-      { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+      { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => nil }
     end
   end
 
@@ -204,7 +204,11 @@ class RetrievalStatus < ActiveRecord::Base
   
   # calculate datetime when retrieval_status should be updated, adding random interval
   def stale_at
-    age_in_days = Time.zone.today - article.published_on
+    unless article.published_on.nil?
+      age_in_days = Time.zone.today - article.published_on
+    else
+      age_in_days = 366
+    end
 
     if age_in_days < 0
       article.published_on
