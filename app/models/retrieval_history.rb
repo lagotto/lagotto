@@ -16,7 +16,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'source_helper'
+
 class RetrievalHistory < ActiveRecord::Base
+  include SourceHelper
+
   belongs_to :retrieval_status
   belongs_to :article
   belongs_to :source
@@ -65,7 +69,7 @@ class RetrievalHistory < ActiveRecord::Base
     when "citeulike"
       event_count
     when "mendeley"
-      events && events['stats'] ? events['stats']['readers'] : 0
+      events && events['stats'] ? events['stats']['readers'].to_i : 0
     when "wikipedia"
       events.select {|event| event["namespace"] > 0 }.length
     when "facebook"
@@ -113,7 +117,7 @@ class RetrievalHistory < ActiveRecord::Base
   
   def count
     if source.name == "mendeley" and v1_format?
-      readers + groups
+      shares + groups
     elsif source.name == "facebook" and v1_format?
       events.inject(0) { |sum, hash| sum + hash[:total_count] }
     else
