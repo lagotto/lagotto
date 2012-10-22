@@ -6,6 +6,10 @@ node(:publication_date) { |article| article.published_on.nil? ? nil : article.pu
 
 unless params[:info] == "summary"
   child :retrieval_statuses  => :sources do
+    attributes :update_date
+    attribute :public_url  => :events_url 
+    node(:name) { |rs| rs.source.name }
+        
     # show event and history data from CouchDB only if :info == detail
     if params[:info] == "detail"
       attributes :events 
@@ -23,11 +27,8 @@ unless params[:info] == "summary"
         end
       end
     end
+    
     # metrics are formatted in the retrieval_history model via retrieval_status
     node(:metrics) { |rs| rs.metrics({:days => params[:days], :months => params[:months]}) }
-    attribute :public_url  => :events_url 
-  
-    node(:name) { |rs| rs.source.name }
-    node(:update_date) { |rs| rs.updated_at.utc.iso8601 }
   end
 end
