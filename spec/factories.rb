@@ -84,7 +84,7 @@ FactoryGirl.define do
   
   factory :cross_ref, class: CrossRef do
     type "CrossRef"
-    name "cross_ref"
+    name "crossref"
     display_name "CrossRef"
     staleness { [ 7.days ] }
     url "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
@@ -108,7 +108,7 @@ FactoryGirl.define do
   
   factory :pub_med, class: PubMed do
     type "PubMed"
-    name "pub_med"
+    name "pubmed"
     display_name "PubMed"
     staleness { [ 7.days ] }
     url "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
