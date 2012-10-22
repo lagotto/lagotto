@@ -56,25 +56,27 @@ class RetrievalStatus < ActiveRecord::Base
   
   def histories_with_time_limit(options={})
     if options[:days].to_i > 0
-      histories = retrieval_histories.after_days(options[:days].to_i)
+      retrieval_histories.after_days(options[:days].to_i)
     elsif options[:months].to_i > 0
-      histories = retrieval_histories.after_months(options[:months].to_i)
+      retrieval_histories.after_months(options[:months].to_i)
     else
-      histories = retrieval_histories
+      retrieval_histories
     end
   end
   
-  def metrics
-    unless histories_with_time_limit.blank?
-      histories_with_time_limit.last.metrics
+  def metrics(options={})
+    histories = histories_with_time_limit(options={})
+    unless histories.blank?
+      histories.last.metrics
     else
       { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => nil }
     end
   end
   
-  def update_date
-    unless histories_with_time_limit.blank?
-      histories_with_time_limit.last.updated_at.utc.iso8601
+  def update_date(options={})
+    histories = histories_with_time_limit(options={})
+    unless histories.blank?
+      histories.last.updated_at.utc.iso8601
     else
       nil
     end
