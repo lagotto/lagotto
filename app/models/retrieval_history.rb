@@ -73,7 +73,7 @@ class RetrievalHistory < ActiveRecord::Base
     when "wikipedia"
       events.select {|event| event["namespace"] > 0 }.length
     when "facebook"
-      events.inject(0) { |sum, hash| sum + hash[:share_count] }
+      events.inject(0) { |sum, hash| sum + hash["share_count"] }
     else
       nil
     end
@@ -90,7 +90,7 @@ class RetrievalHistory < ActiveRecord::Base
   def comments
     case source.name
     when "facebook"
-      events.inject(0) { |sum, hash| sum + hash[:comment_count] }
+      events.inject(0) { |sum, hash| sum + hash["comment_count"] }
     else
       nil
     end
@@ -99,14 +99,14 @@ class RetrievalHistory < ActiveRecord::Base
   def likes
     case source.name
     when "facebook"
-      events.inject(0) { |sum, hash| sum + hash[:like_count] }
+      events.inject(0) { |sum, hash| sum + hash["like_count"] }
     else
       nil
     end
   end
   
   def citations
-    if ["cross_ref","pub_med","researchblogging","nature"].include?(source.name)
+    if ["crossref","pubmed","researchblogging","nature"].include?(source.name)
       event_count
     elsif source.name == "wikipedia"
       events.select {|event| event["namespace"] == 0 }.length
@@ -119,7 +119,7 @@ class RetrievalHistory < ActiveRecord::Base
     if source.name == "mendeley" and v1_format?
       shares + groups
     elsif source.name == "facebook" and v1_format?
-      events.inject(0) { |sum, hash| sum + hash[:total_count] }
+      events.inject(0) { |sum, hash| sum + hash["total_count"] }
     else
       event_count
     end
