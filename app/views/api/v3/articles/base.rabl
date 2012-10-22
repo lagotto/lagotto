@@ -6,7 +6,6 @@ node(:publication_date) { |article| article.published_on.nil? ? nil : article.pu
 
 unless params[:info] == "summary"
   child :retrieval_statuses  => :sources do
-    attributes :update_date
     attribute :public_url  => :events_url 
     node(:name) { |rs| rs.source.name }
         
@@ -30,5 +29,6 @@ unless params[:info] == "summary"
     
     # metrics are formatted in the retrieval_history model via retrieval_status
     node(:metrics) { |rs| rs.metrics({:days => params[:days], :months => params[:months]}) }
+    node(:update_date) { |rs| rs.update_date({:days => params[:days], :months => params[:months]}) }
   end
 end
