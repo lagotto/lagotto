@@ -57,11 +57,34 @@ class RetrievalHistory < ActiveRecord::Base
   end
   
   def pdf
-    nil
+    case source.name
+    when "counter"
+      events.inject(0) { |sum, hash| sum + hash["pdf_views"] }
+    when "pmc"
+      events.inject(0) { |sum, hash| sum + hash["pdf"] }
+    else
+      nil
+    end
   end
   
   def html
-    nil
+    case source.name
+    when "counter"
+      events.inject(0) { |sum, hash| sum + hash["html_views"] }
+    when "pmc"
+      events.inject(0) { |sum, hash| sum + hash["full-text"] }
+    else
+      nil
+    end
+  end
+  
+  def xml
+    case source.name
+    when "counter"
+      events.inject(0) { |sum, hash| sum + hash["xml_views"] }
+    else
+      nil
+    end
   end
   
   def shares
@@ -99,6 +122,8 @@ class RetrievalHistory < ActiveRecord::Base
     case source.name
     when "facebook"
       events.inject(0) { |sum, hash| sum + hash["comment_count"] }
+    when "twitter"
+      event_count
     else
       nil
     end
@@ -114,7 +139,7 @@ class RetrievalHistory < ActiveRecord::Base
   end
   
   def citations
-    if ["crossref","pubmed","researchblogging","nature"].include?(source.name)
+    if ["crossref","pubmed","researchblogging","nature","wos","scopus"].include?(source.name)
       event_count
     elsif source.name == "wikipedia"
       events.select {|event| event["namespace"] == 0 }.length
@@ -128,6 +153,10 @@ class RetrievalHistory < ActiveRecord::Base
       shares + groups
     elsif source.name == "facebook" and v1_format?
       events.inject(0) { |sum, hash| sum + hash["total_count"] }
+    elsif source.name == "counter" and v1_format?
+      pdf + xml + html
+    elsif source.name == "pmc" and v1_format?
+      pdf + html
     else
       event_count
     end
