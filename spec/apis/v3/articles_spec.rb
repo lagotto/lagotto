@@ -372,8 +372,8 @@ describe "/api/v3/articles", :type => :api do
         response_source = response_article["sources"][0]["source"]
         response_article["doi"].should eql(article.doi)
         response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
-        response_source["metrics"]["citations"].should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
+        response_source["metrics"]["citations"].should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
         response_source["metrics"].should include("comments")
         response_source["metrics"].should include("groups")
         response_source["metrics"].should include("html")
@@ -393,8 +393,8 @@ describe "/api/v3/articles", :type => :api do
         response_article.content.should include(article.doi)
         response_article.content.should include(article.published_on.to_time.utc.iso8601)
         response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
-        response_source.at_css("metrics citations").content.to_i.should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
+        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
+        response_source.at_css("metrics citations").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
         response_source.at_css("metrics comments").should_not be_nil
         response_source.at_css("metrics groups").should_not be_nil
         response_source.at_css("metrics html").should_not be_nil
@@ -418,8 +418,8 @@ describe "/api/v3/articles", :type => :api do
         response_source = response_article["sources"][0]["source"]
         response_article["doi"].should eql(article.doi)
         response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
-        response_source["metrics"]["citations"].should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
+        response_source["metrics"]["citations"].should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
         response_source["metrics"].should include("comments")
         response_source["metrics"].should include("groups")
         response_source["metrics"].should include("html")
@@ -439,8 +439,8 @@ describe "/api/v3/articles", :type => :api do
         response_article.content.should include(article.doi)
         response_article.content.should include(article.published_on.to_time.utc.iso8601)
         response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
-        response_source.at_css("metrics citations").content.to_i.should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
+        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
+        response_source.at_css("metrics citations").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
         response_source.at_css("metrics comments").should_not be_nil
         response_source.at_css("metrics groups").should_not be_nil
         response_source.at_css("metrics html").should_not be_nil
@@ -464,8 +464,8 @@ describe "/api/v3/articles", :type => :api do
         response_source = response_article["sources"][0]["source"]
         response_article["doi"].should eql(article.doi)
         response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
-        response_source["metrics"]["citations"].should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
+        response_source["metrics"]["citations"].should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
         response_source["metrics"].should include("comments")
         response_source["metrics"].should include("groups")
         response_source["metrics"].should include("html")
@@ -485,8 +485,8 @@ describe "/api/v3/articles", :type => :api do
         response_article.content.should include(article.doi)
         response_article.content.should include(article.published_on.to_time.utc.iso8601)
         response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
-        response_source.at_css("metrics citations").content.to_i.should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
+        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
+        response_source.at_css("metrics citations").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
         response_source.at_css("metrics comments").should_not be_nil
         response_source.at_css("metrics groups").should_not be_nil
         response_source.at_css("metrics html").should_not be_nil
@@ -510,8 +510,8 @@ describe "/api/v3/articles", :type => :api do
         response_source = response_article["sources"][0]["source"]
         response_article["doi"].should eql(article.doi)
         response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
-        response_source["metrics"]["citations"].should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
+        response_source["metrics"]["citations"].should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
         response_source["metrics"].should include("comments")
         response_source["metrics"].should include("groups")
         response_source["metrics"].should include("html")
@@ -531,8 +531,8 @@ describe "/api/v3/articles", :type => :api do
         response_article.content.should include(article.doi)
         response_article.content.should include(article.published_on.to_time.utc.iso8601)
         response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
-        response_source.at_css("metrics citations").content.to_i.should eq(article.retrieval_statuses.last.retrieval_histories.last.event_count)
+        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
+        response_source.at_css("metrics citations").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
         response_source.at_css("metrics comments").should_not be_nil
         response_source.at_css("metrics groups").should_not be_nil
         response_source.at_css("metrics html").should_not be_nil
