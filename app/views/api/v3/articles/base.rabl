@@ -14,15 +14,15 @@ unless params[:info] == "summary"
       attributes :events 
       if params[:days]
         node(:histories) do |rs|
-          rs.retrieval_histories.after_days(params[:days]).map { |rh| { :update_date => rh.updated_at.utc.iso8601, :count => rh.count } }
+          rs.retrieval_histories.after_days(params[:days]).map { |rh| { :update_date => rh.updated_at.utc.iso8601, :total => rh.total } }
         end
       elsif params[:months]
         node(:histories) do |rs|
-          rs.retrieval_histories.after_months(params[:months]).map { |rh| { :update_date => rh.updated_at.utc.iso8601, :count => rh.count } }
+          rs.retrieval_histories.after_months(params[:months]).map { |rh| { :update_date => rh.updated_at.utc.iso8601, :total => rh.total } }
         end
       else
         node(:histories) do |rs| 
-          rs.retrieval_histories.map { |rh| { :update_date => rh.updated_at.utc.iso8601, :count => rh.count } }
+          rs.retrieval_histories.map { |rh| { :update_date => rh.updated_at.utc.iso8601, :total => rh.total } }
         end
       end
     end
