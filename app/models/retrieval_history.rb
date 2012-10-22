@@ -70,7 +70,7 @@ class RetrievalHistory < ActiveRecord::Base
       event_count
     when "mendeley"
       if events.blank? or events['stats'].nil? 
-        0
+        nil
       else
         events['stats']['readers']
       end
@@ -86,7 +86,7 @@ class RetrievalHistory < ActiveRecord::Base
   def groups
     if source.name == "mendeley"
       if events.blank? or events['groups'].nil?
-        0
+        nil
       else
         events['groups'].length
       end
@@ -123,7 +123,7 @@ class RetrievalHistory < ActiveRecord::Base
     end
   end
   
-  def count
+  def total
     if source.name == "mendeley" and v1_format?
       shares + groups
     elsif source.name == "facebook" and v1_format?
@@ -134,7 +134,7 @@ class RetrievalHistory < ActiveRecord::Base
   end
   
   def metrics
-    { :pdf => pdf, :html => html, :shares => shares, :groups => groups, :comments => comments, :likes => likes, :citations => citations, :total => count }
+    { :pdf => pdf, :html => html, :shares => shares, :groups => groups, :comments => comments, :likes => likes, :citations => citations, :total => total }
   end
   
   def v1_format?
