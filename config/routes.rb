@@ -18,6 +18,7 @@ Alm::Application.routes.draw do
   
   namespace :api do
     namespace :v3 do
+      root :to => "articles#index"
       resources :articles, :constraints => { :id => /.+?/, :format=> false }
     end
   end
