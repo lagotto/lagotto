@@ -1,5 +1,5 @@
 class Api::V3::BaseController < ActionController::Base 
    
-  respond_to :json, :xml
+  respond_to :json, :xml, :only => [ :index, :show ]
 
 end

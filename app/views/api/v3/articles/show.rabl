@@ -1,9 +1,3 @@
-unless @article.blank?
-  object @article
+object @article
   
-  extends "api/v3/articles/base" 
-else
-  object false
-  
-  node(:error) { "Article not found." }
-end
+extends "api/v3/articles/base" 

@@ -18,7 +18,7 @@ Alm::Application.routes.draw do
   
   namespace :api do
     namespace :v3 do
-      resources :articles, :constraints => { :id => /.+?/, :format => /json|xml/}
+      resources :articles, :constraints => { :id => /.+?/, :format=> false }
     end
   end
 

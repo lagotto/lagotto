@@ -9,8 +9,8 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     ids = params[:ids].nil? ? nil : params[:ids][0...100].split(",").map { |id| URI.unescape(id) }
     @articles = Article.where(type.to_sym => ids)
     
-    # Return 404 HTTP status code if no article was found
-    render :status => 404 if @articles.blank?
+    # Return 404 HTTP status code and error message if article wasn't found
+    render "404", :status => 404 if @articles.blank?
   end
   
   def show
@@ -18,8 +18,8 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     id_hash = Article.from_uri(params[:id])
     @article = Article.where(id_hash).first
     
-    # Return 404 HTTP status code if article wasn't found
-    render :status => 404 if @article.blank?
+    # Return 404 HTTP status code and error message if article wasn't found
+    render "404", :status => 404 if @article.blank?
   end
   
 end

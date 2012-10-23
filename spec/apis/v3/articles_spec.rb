@@ -9,7 +9,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles?ids=#{CGI.escape(articles[0].doi)},#{CGI.escape(articles[1].doi)},#{CGI.escape(articles[2].doi)}&type=doi" }
     
       it "JSON" do
-        get (url.insert 16, ".json")
+        get url
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
@@ -20,7 +20,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get (url.insert 16, ".xml")
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
         
         response_articles = Nokogiri::XML(last_response.body).at_css("article")
@@ -32,7 +32,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles?ids=#{articles[0].pub_med},#{articles[1].pub_med},#{articles[2].pub_med}&type=pmid" }
     
       it "JSON" do
-        get (url.insert 16, ".json")
+        get url
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
@@ -42,7 +42,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get (url.insert 16, ".xml")
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
         
         response_articles = Nokogiri::XML(last_response.body).at_css("article")
@@ -54,14 +54,14 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles"}
 
       it "JSON" do
-        get "#{url}.json"
+        get url
         error = { :error => "No article found." }
         last_response.body.should eql(error.to_json)
         last_response.status.should eql(404)
       end
     
       it "XML" do
-        get "#{url}.xml"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         error = { :error => "No article found." }
         last_response.body.should eql(error.to_xml)
         last_response.status.should eql(404)
@@ -76,7 +76,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get "#{url}.json"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -89,7 +89,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -109,7 +109,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:pmid/#{article.pub_med}"}
 
       it "JSON" do
-        get "#{url}.json"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -117,7 +117,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article pmid")
@@ -131,7 +131,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:pmcid/#{article.pub_med_central}"}
 
       it "JSON" do
-        get "#{url}.json"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -139,7 +139,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article pmcid")
@@ -153,7 +153,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:mendeley/#{article.mendeley}"}
 
       it "JSON" do
-        get "#{url}.json"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -161,7 +161,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article mendeley")
@@ -175,15 +175,15 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}xx"}
 
       it "JSON" do
-        get "#{url}.json"
-        error = { :error => "Article not found." }
+        get url
+        error = { :error => "No article found." }
         last_response.body.should eql(error.to_json)
         last_response.status.should eql(404)
       end
     
       it "XML" do
-        get "#{url}.xml"
-        error = { :error => "Article not found." }
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        error = { :error => "No article found." }
         last_response.body.should eql(error.to_xml)
         last_response.status.should eql(404)
       end  
@@ -191,10 +191,10 @@ describe "/api/v3/articles", :type => :api do
     
     context "show summary information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
+      let(:url) { "/api/v3/articles/info:doi/#{article.doi}?info=summary"}
 
       it "JSON" do
-        get "#{url}.json?info=summary"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -204,7 +204,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml?info=summary"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -216,10 +216,10 @@ describe "/api/v3/articles", :type => :api do
     
     context "show detail information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
+      let(:url) { "/api/v3/articles/info:doi/#{article.doi}?info=detail"}
 
       it "JSON" do
-        get "#{url}.json?info=detail"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -233,7 +233,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml?info=detail"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -250,10 +250,10 @@ describe "/api/v3/articles", :type => :api do
   
     context "historical data after 100 days" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
+      let(:url) { "/api/v3/articles/info:doi/#{article.doi}?days=100"}
 
       it "JSON" do
-        get "#{url}.json?days=100"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -266,7 +266,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml?days=100"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -283,10 +283,10 @@ describe "/api/v3/articles", :type => :api do
   
     context "historical data after 4 months" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
+      let(:url) { "/api/v3/articles/info:doi/#{article.doi}?months=4"}
 
       it "JSON" do
-        get "#{url}.json?months=4"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -299,7 +299,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml?months=4"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -318,7 +318,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get "#{url}.json"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -338,7 +338,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -365,7 +365,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get "#{url}.json"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -385,7 +385,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -411,7 +411,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get "#{url}.json"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -431,7 +431,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -457,7 +457,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get "#{url}.json"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -477,7 +477,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
@@ -503,7 +503,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get "#{url}.json"
+        get url
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -523,7 +523,7 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get "#{url}.xml"
+        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
         response_article = Nokogiri::XML(last_response.body).at_css("article")
