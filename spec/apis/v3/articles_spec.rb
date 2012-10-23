@@ -8,8 +8,19 @@ describe "/api/v3/articles", :type => :api do
     context "articles found via DOI" do
       let(:url) { "/api/v3/articles?ids=#{CGI.escape(articles[0].doi)},#{CGI.escape(articles[1].doi)},#{CGI.escape(articles[2].doi)}&type=doi" }
     
-      it "JSON" do
+      it "no format" do
         get url
+        last_response.status.should eql(200)
+  
+        response_articles = JSON.parse(last_response.body)
+        response_articles.any? do |a|
+          a["article"]["doi"] == articles[0].doi
+          a["article"]["publication_date"] == articles[0].published_on.to_time.utc.iso8601
+        end.should be_true
+      end
+      
+      it "JSON" do
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
@@ -27,12 +38,12 @@ describe "/api/v3/articles", :type => :api do
         response_articles.content.should include(articles[0].doi)
       end
     end
-    
+          
     context "articles found via PMID" do
       let(:url) { "/api/v3/articles?ids=#{articles[0].pub_med},#{articles[1].pub_med},#{articles[2].pub_med}&type=pmid" }
     
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
@@ -54,7 +65,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         error = { :error => "No article found." }
         last_response.body.should eql(error.to_json)
         last_response.status.should eql(404)
@@ -67,6 +78,7 @@ describe "/api/v3/articles", :type => :api do
         last_response.status.should eql(404)
       end  
     end
+    
   end
   
   context "show" do
@@ -75,8 +87,21 @@ describe "/api/v3/articles", :type => :api do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
-      it "JSON" do
+      it "no format" do
         get url
+        last_response.status.should eql(200)
+
+        response_article = JSON.parse(last_response.body)["article"]
+        response_source = response_article["sources"][0]["source"]
+        response_article["doi"].should eql(article.doi)
+        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.last.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should be_nil
+      end
+      
+      it "JSON" do
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -109,7 +134,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:pmid/#{article.pub_med}"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -131,7 +156,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:pmcid/#{article.pub_med_central}"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -153,7 +178,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:mendeley/#{article.mendeley}"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -175,7 +200,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}xx"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         error = { :error => "No article found." }
         last_response.body.should eql(error.to_json)
         last_response.status.should eql(404)
@@ -189,12 +214,31 @@ describe "/api/v3/articles", :type => :api do
       end  
     end
     
+    context "article not found when using format as file extension" do
+      let(:article) { FactoryGirl.create(:article_with_events) }
+      let(:url) { "/api/v3/articles/info:doi/#{article.doi}xx"}
+
+      it "JSON" do
+        get "#{url}.json"
+        error = { :error => "No article found." }
+        last_response.body.should eql(error.to_json)
+        last_response.status.should eql(404)
+      end
+    
+      it "XML" do
+        get "#{url}.xml"
+        error = { :error => "No article found." }
+        last_response.body.should eql(error.to_json)
+        last_response.status.should eql(404)
+      end  
+    end
+    
     context "show summary information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}?info=summary"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -219,7 +263,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}?info=detail"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -253,7 +297,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}?days=100"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -286,7 +330,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}?months=4"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -318,7 +362,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -365,7 +409,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -411,7 +455,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -457,7 +501,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
@@ -503,7 +547,7 @@ describe "/api/v3/articles", :type => :api do
       let(:url) { "/api/v3/articles/info:doi/#{article.doi}"}
 
       it "JSON" do
-        get url
+        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)["article"]
