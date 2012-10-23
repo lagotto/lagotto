@@ -49,7 +49,7 @@
           <li><%= link_to "Sources", sources_path %></li>
         </ul>
 	      <%= form_tag({:controller => "/articles", :action => "index"}, :method => "get", :class => "navbar-search pull-left") do %>
-        <%= search_field_tag :query, params[:query], :placeholder => "Search for Article", :class => "search-query" %>
+          <%= search_field_tag :query, params[:query], :placeholder => "Search for Article", :class => "search-query" %>
 	      <% end %>
         <ul class="nav pull-right">
           <% if user_signed_in? %>
