@@ -50,6 +50,7 @@ pubmed = PubMed.find_or_create_by_name(
     :active => false, 
     :workers => 1,
     :group_id => citations.id,
+    :default_url => "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true",
     :url => "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}",
     :username => "EXAMPLE",
     :password => "EXAMPLE")

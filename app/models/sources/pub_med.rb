@@ -133,9 +133,9 @@ class PubMed < Source
       result.each do |document_summary|
         ids = document_summary["ArticleIds"]["ArticleId"].map { |article_id| { article_id["IdType"] => article_id["Value"] }.symbolize_keys }
         ids = ids.inject { | a, h | a.merge h }
-        published_on = parse_date([document_summary["EPubDate"],document_summary["PubDate"],document_summary["SortDate"],document_summary["SortPubDate"]])
+        publication_date = parse_date([document_summary["EPubDate"],document_summary["PubDate"],document_summary["SortDate"],document_summary["SortPubDate"]]).to_time.utc.iso8601
         references << ids.merge({ :title => document_summary["Title"],
-                                  :published_on => published_on })
+                                  :publication_date => publication_date })
       end
       references
     end
