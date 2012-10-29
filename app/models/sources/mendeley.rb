@@ -31,20 +31,20 @@ class Mendeley < Source
     # try mendeley uuid first if we have it
     unless article.mendeley.blank?
       result = get_json_data(get_query_url(article.mendeley), options)
-      result = [] unless result["error"].nil?
+      result = [] if (result.nil? || result.length == 0 || !result["error"].nil?)
     end
 
     # else try doi
     if result.blank? && !article.doi.blank?
       # doi has to be double encoded.
       result = get_json_data(get_query_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
-      result = [] unless result["error"].nil?
+      result = [] if (result.nil? || result.length == 0 || !result["error"].nil?)
     end
 
     # else try pubmed id
     if result.blank? && !article.pub_med.blank?
       result = get_json_data(get_query_url(article.pub_med, "pmid"), options)
-      result = [] unless result["error"].nil?
+      result = [] if (result.nil? || result.length == 0 || !result["error"].nil?)
     end
 
     if result.blank? 
