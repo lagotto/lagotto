@@ -20,6 +20,8 @@ defaults: &defaults
     job_batch_size: 200
     staleness: <%%= 7.days %>
     batch_time_interval: <%%= 1.hour %>
+  science_seeker:
+    staleness: [ <%= 7.days %>, <%= 6.weeks %> ]
 <% if node[:app][:seed_additional_sources] %>
   nature:
     requests_per_day: 5000

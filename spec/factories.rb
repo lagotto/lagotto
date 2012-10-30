@@ -128,6 +128,16 @@ FactoryGirl.define do
     group
   end
   
+  factory :scienceseeker, class: ScienceSeeker do
+    type "ScienceSeeker"
+    name "scienceseeker"
+    display_name "ScienceSeeker"
+    staleness { [ 7.days, 6.weeks ] }
+    url "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
+
+    group
+  end
+  
   factory :wikipedia, class: Wikipedia do
     type "Wikipedia"
     name "wikipedia"
