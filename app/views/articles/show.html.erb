@@ -27,7 +27,7 @@
   <div class="accordion" id="retrieval_status">
     <% @article.retrieval_statuses.each do |rs| %>
       <% if rs.event_count > 0 %>
-      <%
+        <%
            details = [ rs.event_count ]
            details << rs.local_id if rs.local_id and user_signed_in?
         %>
@@ -43,9 +43,9 @@
                       <% rs.events.each do |ed| %>
                         <li>
                           <% if ed.has_key?("event_url") %>
-                          <%= link_to ed["event"], ed["event_url"] %>
+                            <%= link_to ed["event"], ed["event_url"] %>
                           <% else %>
-                            <%= ed["event"] %>
+                            <%= ed %>
                           <% end %>
                         </li>
                       <% end %>
