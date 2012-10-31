@@ -26,39 +26,46 @@ class Mendeley < Source
     raise(ArgumentError, "#{display_name} configuration requires api key") \
       if config.api_key.blank?
 
+    return  { :events => [], :event_count => 0 } if article.doi.blank?
+    
     result = []
 
     # try mendeley uuid first if we have it
-    unless article.mendeley.blank?
-      result = get_json_data(get_query_url(article.mendeley), options)
-      result = [] if (result.nil? || result.length == 0 || !result["error"].nil?)
+     unless article.mendeley.blank?
+      result = get_json_data(search_url(article.mendeley), options)
     end
 
-    # else try doi
-    if result.blank? && !article.doi.blank?
+    # try using doi
+    if (result.nil? || result.length == 0)
       # doi has to be double encoded.
-      result = get_json_data(get_query_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
-      result = [] if (result.nil? || result.length == 0 || !result["error"].nil?)
+      result = get_json_data(search_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
     end
 
-    # else try pubmed id
-    if result.blank? && !article.pub_med.blank?
-      result = get_json_data(get_query_url(article.pub_med, "pmid"), options)
-      result = [] if (result.nil? || result.length == 0 || !result["error"].nil?)
+    # querying by doi sometimes fails
+    # try pub med id
+    if (result.nil? || result.length == 0) && !article.pub_med.nil?
+      result = get_json_data(search_url(article.pub_med, "pmid"), options)
     end
 
-    if result.blank? 
+    if (result.blank? || !result["error"].nil?)
       { :events => [], 
         :event_count => 0 }
     else
       events_url = result['mendeley_url']
 
       # event count is the reader number and group number combined
-      readers = result['stats'] ? result['stats']['readers'] : 0
-      groups = result['groups'] ? result['groups'].length : 0
-      total = readers + groups
+      total = 0
+      readers = result['stats']['readers']
+      unless readers.nil?
+        total += readers
+      end
 
-      related_articles = get_json_data(get_related_url(result['uuid']), options)
+      groups = result['groups']
+      unless groups.nil?
+        total += groups.length
+      end
+
+      related_articles = get_json_data(related_url(result['uuid']), options)
       if related_articles.length > 0
         result[:related] = related_articles['documents']
       end
@@ -68,23 +75,24 @@ class Mendeley < Source
         article.update_attributes(:mendeley => result['uuid'])
       end
 
-      { :events => result,
-        :events_url => events_url,
-        :event_count => total }
+      {:events => result,
+       :events_url => events_url,
+       :event_count => total,
+       :local_id => result['uuid']}
     end
 
   end
 
-  def get_query_url(id, id_type = nil)
+  def search_url(id, id_type = nil)
     if id_type.nil?
-      url % { :id => id, :api_key => api_key }
+      config.url % { :id => id, :api_key => config.api_key }
     else
-      url_with_type % { :id => id, :doc_type => id_type, :api_key => api_key }
+      config.url_with_type % { :id => id, :doc_type => id_type, :api_key => config.api_key }
     end
   end
 
-  def get_related_url(uuid)
-    related_articles_url % { :id => uuid, :api_key => api_key}
+  def related_url(uuid)
+    config.related_articles_url % { :id => uuid, :api_key => config.api_key}
   end
 
   def get_json_data(url, options={})
