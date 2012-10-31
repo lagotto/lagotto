@@ -48,38 +48,34 @@ class PubMed < Source
       article.save
     end
 
-    # OK, we've got the PMID, now get the citations.
+    # OK, we've got the IDs. Get the citations using the PubMed ID.
+    events = []
     query_url = get_query_url(article)
 
-    get_xml(query_url, options) do |document|
-      result = Hash.from_xml(document.to_s(:encoding => XML::Encoding::UTF_8))
-      result = result["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"]
-      if result.nil?
-        { :events => [], :event_count => 0 }
-      else
-        # Retrieve more information about these PMCIDs.
-        result = get_summary_from_pubmed(result)
-                
-        events = []
-        result.each do |event|
-          url = PMC_URL + event[:pmcid]
-          events << {:event => event, :event_url => url}
-        end
-        
-        params = {
-            'from_uid' => article.pub_med,
-            'db' => 'pubmed',
-            'cmd' => 'link',
-            'LinkName' => 'pubmed_pmc_refs',
-            'tool' => PubMed::ToolID }
-        events_url = PMCLINKS_URL + params.to_query
-        
-        xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
+    get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
+      document.find("//PubMedToPMCcitingformSET/REFORM/PMCID").each do |cite|
+        pmc = cite.first.content
+        if pmc
+          event = {
+            :event => pmc,
+            :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + pmc
+          }
 
-        {:events => events,
-         :events_url => events_url,
-         :event_count => events.length,
-         :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }}
+          events << event
+        end
+      end
+     
+      if events.blank?
+       { :events => [], :event_count => 0 }
+      else
+       events_url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
+       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
+
+       {:events => events,
+        :events_url => events_url,
+        :event_count => events.length,
+        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+       }
       end
     end
   end
