@@ -27,7 +27,7 @@
   <div class="accordion" id="retrieval_status">
     <% @article.retrieval_statuses.each do |rs| %>
       <% if rs.event_count > 0 %>
-      <%
+        <%
            details = [ rs.event_count ]
            details << rs.local_id if rs.local_id and user_signed_in?
         %>
@@ -37,26 +37,27 @@
           </div>  
           <div id="<%= rs.source.name %>" class="accordion-body collapse">  
             <div class="accordion-inner">
-              <% unless rs.data["events"].nil? %>
-                  <% if rs.data["events"].is_a?(Array) %>
+              <% unless rs.events.blank? %>
+                  <% if rs.events.is_a?(Array) %>
                     <ul>
-                      <% rs.data["events"].each do |ed| %>
+                      <% rs.events.each do |ed| %>
                         <li>
                           <% if ed.has_key?("event_url") %>
-                              <%= link_to ed["event"], ed["event_url"] %>
+                            <%= link_to ed["event"], ed["event_url"] %>
                           <% else %>
-                              <%= ed %>
+                            <%= ed %>
                           <% end %>
                         </li>
                       <% end %>
                       </ul>
-                  <% elsif rs.data["events"].is_a?(Hash) %>
-                    <ul><li><%= rs.data["events"] %></li></ul>
+                  <% elsif rs.events.is_a?(Hash) %>
+                    <ul><li><%= rs.events %></li></ul>
                   <% end %>
               <% end %>
+              
               <h4><%= link_to rs.source.display_name, source_path(rs.source) %>
-              <% unless rs.data["events_url"].nil? %>
-                | <%= link_to "Further Information", rs.data["events_url"], :target => "_blank" %></h4>
+                <% unless rs.public_url.nil? %>
+                | <%= link_to "Further Information", rs.public_url, :target => "_blank" %></h4>
               <% end %>
               </h4>
             </div>  
