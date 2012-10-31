@@ -62,6 +62,8 @@ class RetrievalHistory < ActiveRecord::Base
       events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }
     when "pmc"
       events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }
+    when "biod"
+      events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }
     else
       nil
     end
@@ -73,6 +75,8 @@ class RetrievalHistory < ActiveRecord::Base
       events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }
     when "pmc"
       events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }
+    when "biod"
+      events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }
     else
       nil
     end
@@ -82,6 +86,8 @@ class RetrievalHistory < ActiveRecord::Base
     case source.name
     when "counter"
       events.inject(0) { |sum, hash| sum + hash["xml_views"].to_i }
+    when "biod"
+      events.inject(0) { |sum, hash| sum + hash["xml_views"].to_i }
     else
       nil
     end
@@ -90,6 +96,10 @@ class RetrievalHistory < ActiveRecord::Base
   def shares
     case source.name
     when "citeulike"
+      event_count
+    when "connotea"
+      event_count
+    when "postgenomic"
       event_count
     when "mendeley"
       if events.blank? or events['stats'].nil? 
@@ -139,7 +149,7 @@ class RetrievalHistory < ActiveRecord::Base
   end
   
   def citations
-    if ["crossref","pubmed","researchblogging","nature","wos","scopus"].include?(source.name)
+    if ["crossref","pubmed","researchblogging","nature","wos","scopus","bloglines"].include?(source.name)
       event_count
     elsif source.name == "wikipedia"
       events.select {|event| event["namespace"] == 0 }.length
