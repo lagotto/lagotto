@@ -5,15 +5,14 @@ describe Facebook do
     @facebook = FactoryGirl.create(:facebook)
   end
   
-  it "should report that there are no events if the doi and url are missing" do
-    article_without_doi = FactoryGirl.build(:article, :doi => "", :url => "")
+  it "should report that there are no events if the doi is missing" do
+    article_without_doi = FactoryGirl.build(:article, :doi => "")
     @facebook.get_data(article_without_doi).should eq({ :events => [], :event_count => 0 })
   end
   
   it "should get the original url from the doi" do
     article_without_url = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001", :url => "")
     stub_original_url_lookup = stub_request(:get, article_without_url.doi_as_url)
-    @facebook.update_original_url(article_without_url)
   end
   
   context "use the Facebook API" do
