@@ -25,28 +25,51 @@ class Facebook < Source
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires api key") \
       if config.api_key.blank?
+
+    return  { :events => [], :event_count => 0 } if article.doi.blank?
     
-    # Check that article has DOI and/or URL
-    return  { :events => [], :event_count => 0 } if (article.doi.blank? and article.url.blank?)
+    events = []
+    urls = []
 
     fbAPI = Koala::Facebook::API.new(config.api_key)
-    
-    update_original_url(article)
 
-    urls = []
-    urls << article.doi_as_url unless article.doi_as_url.nil?
-    urls << article.doi_as_publisher_url unless article.doi_as_publisher_url.nil?   
-    urls << article.url unless article.url.blank?
+    urls = [article.doi_as_url]
 
-    events = []
-    total = 0
+    original_url = nil
+    if article.url.blank?
+      begin
+        original_url = get_original_url(article.doi_as_url)
+        article.update_attributes(:url => original_url)
+      rescue => e
+        Rails.logger.error "Could not get the full url for #{article.doi_as_url} #{e.message}"
+      end
+      unless original_url.nil?
+        urls << original_url
+      end
+    else
+      urls << article.url
+    end
+
+    # if the article is one of plos articles, add plos specific doi resolver url
+    rx = Regexp.new('10\.1371\/')
+    unless rx.match(article.doi).nil?
+      #Get the plos doi resolver
+      urls << "http://dx.plos.org/#{article.doi}"
+    end
+
     urls.each { |url| execute_search(fbAPI, events, "#{url}") }
-    
+
+    total = 0
     events.each do | event |
       total += event["total_count"]
     end
 
-    data = { :events => events, :event_count => total }
+    data = {:events => events, :event_count => total}
+
+    unless original_url.nil?
+      data[:local_id] = original_url
+    end
+
     return data
   end
 
@@ -60,14 +83,6 @@ class Facebook < Source
 
     if results && results.size > 0
       results.each {|result| events << result}
-    end
-  end
-  
-  def update_original_url(article)
-    if article.url.blank? and !article.doi_as_url.nil?
-      article.update_attributes(:url => get_original_url(article.doi_as_url))
-    else
-      false
     end
   end
 
