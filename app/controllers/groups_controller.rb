@@ -84,7 +84,7 @@ class GroupsController < ApplicationController
 
     # get the list of DOIs
     ids = params[:id].split(",")
-    ids = ids.map { |id| Article.from_uri(id) }
+    ids = ids.map { |id| Article.from_uri(id).values.first }
 
     # get all the groups
     groups = {}
