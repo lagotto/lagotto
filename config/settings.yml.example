@@ -16,6 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# staleness and batch_time_interval are durations, you can use ERB such as <%= 2.hours %>
+#
+# source: staleness can be integer or array with up to 4 integer elements:
+# 1: for all articles
+# 2: for articles up to 7 days old, for all other articles
+# 3: for articles up to 7 days old, up to 31 days old, for all other articles
+# 4: for articles up to 7 days old, up to 31 days old, up to 1 year old, for all other articles
+
 defaults: &defaults
   useragent: Article Level Metrics
   notification_email: alm@alm.example.org
