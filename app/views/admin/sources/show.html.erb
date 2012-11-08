@@ -49,18 +49,18 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Queued Articles</th>
-            <td><%= @source.retrieval_statuses.queued.count %></td>
+            <th>Fresh Articles</th>
+            <td><%= @source.retrieval_statuses.fresh.count %></td>
           </tr>
         </thead>
         <tbody>
             <tr>
-              <th>Stale Articles</th>
-              <td><%= @source.retrieval_statuses.stale.count %></td>
-            </tr>
-            <tr>
               <th>Scheduled Articles</th>
               <td><%= @source.retrieval_statuses.scheduled.count %></td>
+            </tr>
+            <tr>
+              <th>Queued Articles</th>
+              <td><%= @source.retrieval_statuses.queued.count %></td>
             </tr>
         </tbody>
       </table>
