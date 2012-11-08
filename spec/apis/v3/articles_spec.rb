@@ -3,16 +3,17 @@ require "spec_helper"
 describe "/api/v3/articles", :type => :api do
   
   context "index" do
-    let(:articles) { FactoryGirl.create_list(:article, 3) }
+    let(:articles) { FactoryGirl.create_list(:article, 10) }
     
     context "articles found via DOI" do
-      let(:url) { "/api/v3/articles?ids=#{CGI.escape(articles[0].doi)},#{CGI.escape(articles[1].doi)},#{CGI.escape(articles[2].doi)}&type=doi" }
+      let(:url) { "/api/v3/articles?ids=#{CGI.escape(articles[0].doi)},#{CGI.escape(articles[1].doi)},#{CGI.escape(articles[2].doi)},#{CGI.escape(articles[3].doi)},#{CGI.escape(articles[4].doi)},#{CGI.escape(articles[5].doi)},#{CGI.escape(articles[6].doi)},#{CGI.escape(articles[7].doi)},#{CGI.escape(articles[8].doi)},#{CGI.escape(articles[9].doi)}&type=doi" }
     
       it "no format" do
         get url
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
+        response_articles.length.should eql(10)
         response_articles.any? do |a|
           a["article"]["doi"] == articles[0].doi
           a["article"]["publication_date"] == articles[0].published_on.to_time.utc.iso8601
@@ -24,6 +25,7 @@ describe "/api/v3/articles", :type => :api do
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
+        response_articles.length.should eql(10)
         response_articles.any? do |a|
           a["article"]["doi"] == articles[0].doi
           a["article"]["publication_date"] == articles[0].published_on.to_time.utc.iso8601
@@ -34,8 +36,9 @@ describe "/api/v3/articles", :type => :api do
         get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
         
-        response_articles = Nokogiri::XML(last_response.body).at_css("article")
-        response_articles.content.should include(articles[0].doi)
+        response_articles = Nokogiri::XML(last_response.body).css("article")
+        response_articles.length.should eql(10)
+        response_articles.first.content.should include(articles[0].doi)
       end
     end
           
