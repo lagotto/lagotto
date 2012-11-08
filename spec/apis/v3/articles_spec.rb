@@ -3,17 +3,20 @@ require "spec_helper"
 describe "/api/v3/articles", :type => :api do
   
   context "index" do
-    let(:articles) { FactoryGirl.create_list(:article, 10) }
+    let(:articles) { FactoryGirl.create_list(:article, 100) }
     
     context "articles found via DOI" do
-      let(:url) { "/api/v3/articles?ids=#{CGI.escape(articles[0].doi)},#{CGI.escape(articles[1].doi)},#{CGI.escape(articles[2].doi)},#{CGI.escape(articles[3].doi)},#{CGI.escape(articles[4].doi)},#{CGI.escape(articles[5].doi)},#{CGI.escape(articles[6].doi)},#{CGI.escape(articles[7].doi)},#{CGI.escape(articles[8].doi)},#{CGI.escape(articles[9].doi)}&type=doi" }
+      before(:each) do
+        article_list = articles.collect { |article| "#{CGI.escape(article.doi)}" }.join(",") 
+        @url = "/api/v3/articles?ids=#{article_list}&type=doi"
+      end
     
       it "no format" do
-        get url
+        get @url
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
-        response_articles.length.should eql(10)
+        response_articles.length.should eql(100)
         response_articles.any? do |a|
           a["article"]["doi"] == articles[0].doi
           a["article"]["publication_date"] == articles[0].published_on.to_time.utc.iso8601
@@ -21,11 +24,11 @@ describe "/api/v3/articles", :type => :api do
       end
       
       it "JSON" do
-        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get @url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
-        response_articles.length.should eql(10)
+        response_articles.length.should eql(100)
         response_articles.any? do |a|
           a["article"]["doi"] == articles[0].doi
           a["article"]["publication_date"] == articles[0].published_on.to_time.utc.iso8601
@@ -33,34 +36,40 @@ describe "/api/v3/articles", :type => :api do
       end
     
       it "XML" do
-        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get @url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
         
         response_articles = Nokogiri::XML(last_response.body).css("article")
-        response_articles.length.should eql(10)
+        response_articles.length.should eql(100)
         response_articles.first.content.should include(articles[0].doi)
       end
     end
           
     context "articles found via PMID" do
-      let(:url) { "/api/v3/articles?ids=#{articles[0].pub_med},#{articles[1].pub_med},#{articles[2].pub_med}&type=pmid" }
+      before(:each) do
+        article_list = articles.collect { |article| "#{CGI.escape(article.pub_med)}" }.join(",") 
+        @url = "/api/v3/articles?ids=#{article_list}&type=pmid"
+      end
+
     
       it "JSON" do
-        get url, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get @url, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
+        response_articles.length.should eql(100)
          response_articles.any? do |a|
            a["article"]["pmid"] == articles[0].pub_med
          end.should be_true
       end
     
       it "XML" do
-        get url, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get @url, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
         
-        response_articles = Nokogiri::XML(last_response.body).at_css("article")
-        response_articles.content.should include(articles[0].pub_med)
+        response_articles = Nokogiri::XML(last_response.body).css("article")
+        response_articles.length.should eql(100)
+        response_articles.first.content.should include(articles[0].pub_med)
       end
     end
     
@@ -82,6 +91,38 @@ describe "/api/v3/articles", :type => :api do
       end  
     end
     
+  end
+  
+  context "index" do
+    let(:articles) { FactoryGirl.create_list(:article, 110) }
+    
+    context "more than 100 articles in query" do
+      before(:each) do
+        article_list = articles.collect { |article| "#{CGI.escape(article.doi)}" }.join(",") 
+        @url = "/api/v3/articles?ids=#{article_list}&type=doi"
+      end
+      
+      it "JSON" do
+        get @url, nil, { 'HTTP_ACCEPT' => "application/json" }
+        last_response.status.should eql(200)
+  
+        response_articles = JSON.parse(last_response.body)
+        response_articles.length.should eql(100)
+        response_articles.any? do |a|
+          a["article"]["doi"] == articles[0].doi
+          a["article"]["publication_date"] == articles[0].published_on.to_time.utc.iso8601
+        end.should be_true
+      end
+    
+      it "XML" do
+        get @url, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        last_response.status.should eql(200)
+        
+        response_articles = Nokogiri::XML(last_response.body).css("article")
+        response_articles.length.should eql(100)
+        response_articles.first.content.should include(articles[0].doi)
+      end
+    end
   end
   
   context "show" do
