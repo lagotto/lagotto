@@ -24,6 +24,8 @@ describe CrossRef do
       response = @cross_ref.get_data(@article)
       response[:events].length.should eq(31)
       response[:event_count].should eq(31)
+      event = response[:events].first
+      event[:event_url].should eq("http://dx.doi.org/#{event[:event]["doi"]}")
       stub.should have_been_requested
     end
    
