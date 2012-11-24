@@ -50,6 +50,7 @@ development:
 test:
   <<: *defaults
   hostname: http://test.example.org
+  couchdb_url: http://localhost:5984/alm_test/
 
 stage:
   <<: *defaults

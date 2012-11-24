@@ -1,4 +1,4 @@
-# staleness and batch_time_interval are durations, you can use ERB such as <%= 2.hours %>
+# staleness and batch_time_interval are durations, you can use ERB such as <%%= 2.hours %>
 #
 # source: staleness can be integer or array with up to 4 integer elements:
 # 1: for all articles
@@ -13,7 +13,7 @@ defaults: &defaults
   rest_auth_digest_stretches: 10
   session_secret: <%= node[:app][:secret] %>
   layout: <%= node[:app][:layout] %>
-  couchdb_url: http://localhost:5984/<%= node[:couchdb][:db_name] %>/
+  couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:couchdb][:database] %>/
   doi_prefix: <%= node[:app][:doi_prefix] %>
   uid: <%= node[:app][:uid] %>
   source:
@@ -21,7 +21,7 @@ defaults: &defaults
     staleness: <%%= 7.days %>
     batch_time_interval: <%%= 1.hour %>
   science_seeker:
-    staleness: [ <%= 7.days %>, <%= 6.weeks %> ]
+    staleness: [ <%%= 7.days %>, <%%= 6.weeks %> ]
 <% if node[:app][:seed_additional_sources] %>
   nature:
     requests_per_day: 5000
@@ -34,6 +34,7 @@ development:
 test:
   <<: *defaults
   hostname: http://test.example.org
+  couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:couchdb][:database] %>_test/
   
 production:
   <<: *defaults

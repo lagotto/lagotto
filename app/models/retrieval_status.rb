@@ -210,8 +210,12 @@ class RetrievalStatus < ActiveRecord::Base
   end
   
   def delete_document
-    document_id = "#{source.name}:#{CGI.escape(article.doi)}"
-    remove_alm_data(data_rev, document_id)
+    unless data_rev.nil
+      document_id = "#{source.name}:#{CGI.escape(article.uid)}"
+      remove_alm_data(data_rev, document_id)
+    else
+      nil
+    end
   end
   
   # calculate datetime when retrieval_status should be updated, adding random interval
