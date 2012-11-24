@@ -15,7 +15,7 @@ Vagrant::Config.run do |config|
   config.vm.box_url = "http://files.vagrantup.com/lucid32.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
-  #config.vm.boot_mode = :gui
+  # config.vm.boot_mode = :gui
 
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as
@@ -32,7 +32,7 @@ Vagrant::Config.run do |config|
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
   config.vm.forward_port 80, 8080 # Apache2
-  config.vm.forward_port 5984, 5985 # CouchDB
+  config.vm.forward_port 5984, 5987 # CouchDB
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
