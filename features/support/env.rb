@@ -9,6 +9,7 @@ ENV["RAILS_ENV"] = 'test'
 require 'simplecov'
 require 'cucumber/rails'
 require 'factory_girl_rails'
+require 'aruba/cucumber'
 
 World(FactoryGirl::Syntax::Methods)
 
@@ -43,13 +44,18 @@ ActionController::Base.allow_rescue = false
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
-  DatabaseCleaner.strategy = :transaction
+  DatabaseCleaner.strategy = :truncation
 rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 end
 
 Before do
   DatabaseCleaner.start
+  
+  # Set the defaults for Aruba
+  @dirs = [Rails.root]
+  @aruba_timeout_seconds = 60
+  @aruba_io_wait_seconds = 5
 end
 
 After do |scenario|
