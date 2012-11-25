@@ -2,11 +2,9 @@ require 'spec_helper'
 
 describe IndexController do
 
-  describe "GET 'index'" do
-    it "should be successful" do
-      get 'index'
-      response.should be_success
-    end
+  it "GET 'index'" do
+    get ""
+    last_response.status.should eql(200)
   end
 
 end

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "/api/v3/articles", :type => :api do
+describe "/api/v3/articles" do
   
   context "index" do
     let(:articles) { FactoryGirl.create_list(:article, 100) }
