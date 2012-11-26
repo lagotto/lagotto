@@ -29,7 +29,7 @@ class RetrievalStatus < ActiveRecord::Base
   
   scope :queued, where( "queued_at is NOT NULL")
   scope :fresh, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) >= 0")
-  scope :scheduled, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) < 0")
+  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) < 0")
   scope :idle, where("queued_at is NULL AND scheduled_at IS NULL")
   scope :published, joins(:article).where("queued_at is NULL AND articles.published_on < ?", Time.zone.today)
   

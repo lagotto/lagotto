@@ -5,7 +5,7 @@
       <th>Group</th>
       <th>Status</th>
       <th>Fresh Articles</th>
-      <th>Scheduled Articles</th>
+      <th>Stale Articles</th>
       <th>Queued Articles</th>
     </tr>
   </thead>
@@ -16,7 +16,7 @@
         <td><%= h(source.group.name) if source.group %></td>
         <td><%= status_label(source).html_safe %></td>
         <td><%= source.retrieval_statuses.fresh.count %></td>
-        <td><%= source.retrieval_statuses.scheduled.count %></td>
+        <td><%= source.retrieval_statuses.stale.count %></td>
         <td><%= source.retrieval_statuses.queued.count %></td>
       </tr>
     <% end %>
