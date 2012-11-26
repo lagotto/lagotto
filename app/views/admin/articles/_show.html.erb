@@ -47,7 +47,7 @@
     <% end %>
     <% if @article.mendeley %>
       <dt>Mendeley UUID</dt>
-      <dd><%= h(@article.mendeley) %></dd>
+      <dd><%= link_to_unless(@article.mendeley_url.blank?, h(@article.mendeley), @article.mendeley_url) %></dd>
     <% end %>
     <% if @article.url %>
       <dt>URL</dt>

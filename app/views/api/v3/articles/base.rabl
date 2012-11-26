@@ -1,4 +1,4 @@
-attributes :doi, :title, :url, :mendeley
+attributes :doi, :title, :url, :mendeley, :mendeley_url
 attribute :pub_med => :pmid
 attribute :pub_med_central => :pmcid
 

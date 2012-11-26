@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120929101356) do
+ActiveRecord::Schema.define(:version => 20121126163030) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20120929101356) do
     t.datetime "updated_at",      :null => false
     t.string   "url"
     t.string   "mendeley"
+    t.string   "mendeley_url"
   end
 
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
