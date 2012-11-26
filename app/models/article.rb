@@ -66,6 +66,8 @@ class Article < ActiveRecord::Base
     elsif id.starts_with? "info:pmid/"
       { :pub_med => id[10..-1] }
     elsif id.starts_with? "info:pmcid/"
+      # Strip PMC prefix
+      id = id[3..-1] if id[11..13] == "PMC"
       { :pub_med_central => id[11..-1] }
     elsif id.starts_with? "info:mendeley/"
       { :mendeley => id[14..-1] }
@@ -88,6 +90,16 @@ class Article < ActiveRecord::Base
       id = "http://dx.doi.org/" + from_uri(id).values.first
     end
     id
+  end
+  
+  def self.clean_id(id)
+    if id.starts_with? "10."
+      URI.unescape(id)
+    elsif id.starts_with? "PMC"
+      id[3..-1]
+    else
+      id
+    end
   end
   
   def self.uid

@@ -6,7 +6,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     # Limit number of ids to 100
     type = { "doi" => "doi", "pmid" => "pub_med", "pmcid" => "pub_med_central", "mendeley" => "mendeley" }.assoc(params[:type])
     type = type.nil? ? Article.uid : type[1]
-    ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...100].map { |id| URI.unescape(id) }
+    ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...100].map { |id| Article.clean_id(id) }
     @articles = Article.where(type.to_sym => ids)
     
     # Return 404 HTTP status code and error message if article wasn't found

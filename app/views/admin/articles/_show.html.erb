@@ -43,7 +43,7 @@
     <% end %>
     <% if @article.pub_med_central %>
       <dt>PubMed Central ID</dt>
-      <dd><%= link_to @article.pub_med_central, "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pub_med_central}" %></dd>
+      <dd><%= link_to "PMC#{@article.pub_med_central}", "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pub_med_central}" %></dd>
     <% end %>
     <% if @article.mendeley %>
       <dt>Mendeley UUID</dt>

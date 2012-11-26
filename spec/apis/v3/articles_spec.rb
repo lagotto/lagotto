@@ -197,7 +197,7 @@ describe "/api/v3/articles" do
   
     context "PMCID" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:pmcid/#{article.pub_med_central}"}
+      let(:uri) { "/api/v3/articles/info:pmcid/PMC#{article.pub_med_central}"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
