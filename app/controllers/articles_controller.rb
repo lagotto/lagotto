@@ -24,7 +24,7 @@ class ArticlesController < ApplicationController
   def index
     # cited=0|1
     # query=(doi fragment)
-    # order=doi|published_on (whitelist, default to doi)
+    # order=doi|published_on (whitelist, default to published_on desc)
     # source=source_type
 
     collection = Article

@@ -49,10 +49,10 @@ class Article < ActiveRecord::Base
   }
 
   scope :order_articles, lambda { |order|
-    if order == 'published_on'
-      order("published_on")
-    else
+    if order == 'doi'
       order("doi")
+    else
+      order("published_on DESC")
     end
   }
   
