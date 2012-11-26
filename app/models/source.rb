@@ -106,7 +106,7 @@ class Source < ActiveRecord::Base
   def queue_article_jobs
     # find articles that need to be updated
     # not queued currently, scheduled_at in the past
-    rs = retrieval_statuses.scheduled.pluck("retrieval_statuses.id")
+    rs = retrieval_statuses.stale.pluck("retrieval_statuses.id")
     Rails.logger.debug "#{name} total articles queued #{rs.length}"
 
     rs.each_slice(job_batch_size) do | rs_ids |
