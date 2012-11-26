@@ -9,6 +9,7 @@
   "app": { "layout": "greenrobo", 
            "seed_additional_sources": true,
 		   "seed_sample_articles": true, 
+       "uid": "doi",
            "mendeley": { "api_key": "EXAMPLE" },
            "facebook": { "api_key": "EXAMPLE" },
            "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },
