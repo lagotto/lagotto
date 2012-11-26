@@ -2,11 +2,9 @@ require 'spec_helper'
 
 describe Article do
   
-  before do
-    @article = FactoryGirl.create(:article)
-  end
+  let(:article) { FactoryGirl.create(:article) }
   
-  subject { @article }
+  subject { article }
   
   it { should have_many(:retrieval_statuses).dependent(:destroy) }
   it { should validate_uniqueness_of(:doi) }
@@ -28,6 +26,14 @@ describe Article do
   it 'validate published_on can\'t be too far in the past' do 
     article_in_past = build(:article, :cited, :published_on => 51.years.ago)
     article_in_past.should_not be_valid
+  end
+  
+  it 'to_uri' do
+   	Article.to_uri(article.doi).should eq "info:doi/#{article.doi}"
+  end
+ 
+  it 'to_url' do
+   	Article.to_url(article.doi).should eq "http://dx.doi.org/#{article.doi}"
   end
   
   it "events count" do
@@ -70,10 +76,6 @@ describe Article do
     #(Article.cited(1).count + Article.cited(0).count).should equal(Article.count)
     #Article.cited(nil).count.should == Article.count
     #Article.cited('blah').count.should == Article.count
-  end
-
-  it "query" do
-
   end
 
   it "order by doi" do
