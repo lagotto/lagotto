@@ -59,6 +59,8 @@ class RetrievalStatus < ActiveRecord::Base
       retrieval_histories.after_days(options[:days].to_i)
     elsif options[:months].to_i > 0
       retrieval_histories.after_months(options[:months].to_i)
+    elsif options[:year].to_i > 0
+      retrieval_histories.until_year(options[:year].to_i)
     else
       retrieval_histories
     end
