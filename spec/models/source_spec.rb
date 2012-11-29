@@ -2,11 +2,9 @@ require 'spec_helper'
 
 describe Source do
   
-  before(:each) do
-    @source = FactoryGirl.create(:citeulike)
-  end
+  let(:source) { FactoryGirl.create(:source) }
   
-  subject { @source }
+  subject { source }
   
   it { should belong_to(:group) }
   it { should have_many(:retrieval_statuses).dependent(:destroy) }
@@ -31,15 +29,15 @@ describe Source do
   it { should ensure_inclusion_of(:max_failed_query_time_interval).in_range(0..864000).with_message("should be between 0 and 864000") }
   
   it "should have a job_batch_size attribute" do
-    @source.should respond_to(:job_batch_size)
+    source.should respond_to(:job_batch_size)
   end
   
   it "should have a batch_time_interval attribute" do
-    @source.should respond_to(:batch_time_interval)
+    source.should respond_to(:batch_time_interval)
   end
   
   it "should have a staleness attribute" do
-    @source.should respond_to(:staleness)
+    source.should respond_to(:staleness)
   end
   
   it "stale_at should depend on article age" do
@@ -48,24 +46,34 @@ describe Source do
     #@source.articles << build(:article, :published_on => 3.years.ago)
   end
   
-  describe "use background jobs" do
-    before(:each) do
-      @article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
+  context "use background jobs" do
+    let(:retrieval_status) { FactoryGirl.create(:retrieval_status, :scheduled_at => Time.zone.now - 1.day) }
+    let(:source_job) { SourceJob.new([retrieval_status.id], retrieval_status.source.id) }
+    
+    it "queue all articles" do
+      #source.queue_all_articles
+      #source.get_queued_job_count.should eq(1)
     end
     
-    it "should queue an article" do
-      retrieval_status = FactoryGirl.create(:retrieval_status)
-      job = @source.queue_article_job(retrieval_status)
-      worker = Delayed::Worker.new(:max_priority => nil, :min_priority => nil, :quiet => true)
-      worker.work_off
+    it "queue articles" do
+      #source.queue_articles
+      #source.get_queued_job_count.should eq(1)
+    end
+    
+    it "queue article jobs" do
+    end
+    
+    it "queue article job" do
+      #source.queue_article_job(retrieval_status)
+      #worker = Delayed::Worker.new(:max_priority => nil, :min_priority => nil, :quiet => true)
+      #worker.work_off
+      #worker.should eq(2)
     end
   
     it "should queue all stale articles" do
-      retrieval_status = FactoryGirl.create(:retrieval_status, :scheduled_at => Time.zone.now - 1.day)
-      job = @source.queue_article_jobs
-      worker = Delayed::Worker.new(:max_priority => nil, :min_priority => nil, :quiet => true)
-      worker.work_off
+      #job = source.queue_article_jobs
+      #worker = Delayed::Worker.new(:max_priority => nil, :min_priority => nil, :quiet => true)
+      #worker.work_off
     end
   end
-  
 end

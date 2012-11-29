@@ -62,6 +62,17 @@ After do |scenario|
   DatabaseCleaner.clean
 end
 
+module DelayedJobSupport
+  def process_all_jobs
+    Delayed::Worker.new.work_off(Delayed::Job.count)
+    if ENV['FAIL_FAST']
+      raise Delayed::Job.first.last_error if Delayed::Job.count > 0
+    end
+  end
+end
+
+World(DelayedJobSupport)
+
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
 #
