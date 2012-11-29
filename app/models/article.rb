@@ -143,6 +143,14 @@ class Article < ActiveRecord::Base
       nil
     end
   end
+  
+  def all_urls
+    urls = []
+    urls << doi_as_url unless doi.nil?
+    urls << doi_as_publisher_url unless doi_as_publisher_url.nil? 
+    urls << url unless url.nil?
+    urls
+  end
 
   def to_xml(options = {})
     sources = (options.delete(:source) || '').downcase.split(',')

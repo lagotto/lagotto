@@ -95,5 +95,10 @@ describe Article do
       i += 1
     end
   end
+  
+  it "should get the all_urls" do
+    article = FactoryGirl.build(:article, :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
+    article.all_urls.should eq([article.doi_as_url,article.doi_as_publisher_url,article.url])
+  end
 
 end
