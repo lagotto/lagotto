@@ -29,11 +29,11 @@ describe Article do
   end
   
   it 'to_uri' do
-   	Article.to_uri(article.doi).should eq "info:doi/#{article.doi}"
+    Article.to_uri(article.doi).should eq "info:doi/#{article.doi}"
   end
- 
+  
   it 'to_url' do
-   	Article.to_url(article.doi).should eq "http://dx.doi.org/#{article.doi}"
+    Article.to_url(article.doi).should eq "http://dx.doi.org/#{article.doi}"
   end
   
   it "events count" do
@@ -94,6 +94,11 @@ describe Article do
       assert(articles[i].published_on <= articles[i+1].published_on)
       i += 1
     end
+  end
+  
+  it "should get the all_urls" do
+    article = FactoryGirl.build(:article, :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
+    article.all_urls.should eq([article.doi_as_url,article.doi_as_publisher_url,article.url])
   end
 
 end

@@ -17,7 +17,6 @@
 # limitations under the License.
 
 require "csv"
-
 require "#{Rails.root}/lib/source_job.rb"
 
 Delayed::Worker.sleep_delay = 5

@@ -27,15 +27,9 @@ class Facebook < Source
       if config.api_key.blank?
 
     return  { :events => [], :event_count => 0 } if article.doi.blank?
-    
-    events = []
-    urls = []
 
-    fbAPI = Koala::Facebook::API.new(config.api_key)
+    fbAPI = Koala::Facebook::API.new(api_key)
 
-    urls = [article.doi_as_url]
-
-    original_url = nil
     if article.url.blank?
       begin
         original_url = get_original_url(article.doi_as_url)
@@ -43,21 +37,10 @@ class Facebook < Source
       rescue => e
         Rails.logger.error "Could not get the full url for #{article.doi_as_url} #{e.message}"
       end
-      unless original_url.nil?
-        urls << original_url
-      end
-    else
-      urls << article.url
     end
-
-    # if the article is one of plos articles, add plos specific doi resolver url
-    rx = Regexp.new('10\.1371\/')
-    unless rx.match(article.doi).nil?
-      #Get the plos doi resolver
-      urls << "http://dx.plos.org/#{article.doi}"
-    end
-
-    urls.each { |url| execute_search(fbAPI, events, "#{url}") }
+    
+    events = []
+    article.all_urls.each { |url| execute_search(fbAPI, events, "#{url}") }
 
     total = 0
     events.each do | event |

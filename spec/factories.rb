@@ -12,7 +12,6 @@ FactoryGirl.define do
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
     trait(:not_publisher) { doi '10.1007/s00248-010-9734-2' }
     trait(:unpublished) { published_on { Time.zone.today + 1.week } }
-    trait(:just_published) { published_on { Time.zone.today - 1.day } }
     
     factory :article_with_events do
       retrieval_statuses { |article| [article.association(:retrieval_status)] }
@@ -47,8 +46,6 @@ FactoryGirl.define do
   end
   
   factory :retrieval_status do
-    sequence(:data_rev) {|n| "#{n}-f433f30f196cb1a00f7392b1b72c5553" }
-    
     association :article
     association :source, factory: :citeulike
     
@@ -58,6 +55,7 @@ FactoryGirl.define do
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }
     trait(:with_researchblogging) { association :source, factory: :researchblogging }
+    trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     
     before(:create) do |retrieval_status|
       FactoryGirl.create_list(:retrieval_history, 
@@ -70,11 +68,11 @@ FactoryGirl.define do
     initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
   end
   
-  factory :citeulike, class: Citeulike do
+  factory :citeulike, aliases: [:source], class: Citeulike do
     type "Citeulike"
     name "citeulike"
     display_name "CiteULike"
-    staleness { [ 7.days ] }
+    active true
     url "http://www.citeulike.org/api/posts/for/doi/%{doi}"
 
     group
@@ -86,79 +84,108 @@ FactoryGirl.define do
     type "CrossRef"
     name "crossref"
     display_name "CrossRef"
-    staleness { [ 7.days ] }
+    active true
     url "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
     default_url "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
     username "EXAMPLE"
     password "EXAMPLE"
 
     group
+    
+    initialize_with { CrossRef.find_or_create_by_name(name) }
   end
   
   factory :nature, class: Nature do
     type "Nature"
     name "nature"
     display_name "Nature"
-    staleness { [ 7.days ] }
+    active true
     url "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}"
     api_key "EXAMPLE"
 
     group
+    
+    initialize_with { Nature.find_or_create_by_name(name) }
   end
   
   factory :pub_med, class: PubMed do
     type "PubMed"
     name "pubmed"
     display_name "PubMed"
-    staleness { [ 7.days ] }
+    active true
     url "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
 
     group
+    
+    initialize_with { PubMed.find_or_create_by_name(name) }
   end
   
   factory :researchblogging, class: Researchblogging do
     type "Researchblogging"
     name "researchblogging"
     display_name "Research Blogging"
-    staleness { [ 7.days ] }
+    active true
     url "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
     username "EXAMPLE"
     password "EXAMPLE"
 
     group
+    
+    initialize_with { Researchblogging.find_or_create_by_name(name) }
   end
   
+<<<<<<< HEAD
+=======
+  factory :scienceseeker, class: ScienceSeeker do
+    type "ScienceSeeker"
+    name "scienceseeker"
+    display_name "ScienceSeeker"
+    active true
+    url "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
+
+    group
+    
+    initialize_with { ScienceSeeker.find_or_create_by_name(name) }
+  end
+  
+>>>>>>> upstream/master
   factory :wikipedia, class: Wikipedia do
     type "Wikipedia"
     name "wikipedia"
     display_name "Wikipedia"
-    staleness { [ 7.days ] }
+    active true
     url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&sroffset=%{offset}&srlimit=%{limit}&maxlag=%{maxlag}"
 
     group
+    
+    initialize_with { Wikipedia.find_or_create_by_name(name) }
   end
   
   factory :mendeley, class: Mendeley do
     type "Mendeley"
     name "mendeley"
     display_name "Mendeley"
-    staleness { [ 7.days ] }
+    active true
     url "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}"
     url_with_type "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}"
     related_articles_url "http://api.mendeley.com/oapi/documents/related/%{id}"
     api_key "EXAMPLE"
     
     group
+    
+    initialize_with { Mendeley.find_or_create_by_name(name) }
   end
   
   factory :facebook, class: Facebook do
     type "Facebook"
     name "facebook"
     display_name "Facebook"
-    staleness { [ 7.days ] }
+    active true
     api_key "EXAMPLE"
 
     group
+    
+    initialize_with { Facebook.find_or_create_by_name(name) }
   end
  
   factory :user do

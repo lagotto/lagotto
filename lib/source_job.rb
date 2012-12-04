@@ -149,6 +149,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
       rs.save
       rh.save
+      { :retrieval_status => rs, :retrieval_history => rh }
     rescue => e
       Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{rs.source_id} failed to get data. \n#{e.message} \n#{e.backtrace.join("\n")}"
 

@@ -28,8 +28,8 @@ class RetrievalStatus < ActiveRecord::Base
   scope :most_cited_sample, lambda { where("event_count > 0").order("event_count desc").limit(25) }
   
   scope :queued, where( "queued_at is NOT NULL")
-  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) >= 0")
-  scope :scheduled, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) < 0")
+  scope :fresh, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) >= 0")
+  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) < 0")
   scope :idle, where("queued_at is NULL AND scheduled_at IS NULL")
   scope :published, joins(:article).where("queued_at is NULL AND articles.published_on < ?", Time.zone.today)
   
@@ -59,6 +59,8 @@ class RetrievalStatus < ActiveRecord::Base
       retrieval_histories.after_days(options[:days].to_i)
     elsif options[:months].to_i > 0
       retrieval_histories.after_months(options[:months].to_i)
+    elsif options[:year].to_i > 0
+      retrieval_histories.until_year(options[:year].to_i)
     else
       retrieval_histories
     end
@@ -210,8 +212,12 @@ class RetrievalStatus < ActiveRecord::Base
   end
   
   def delete_document
-    document_id = "#{source.name}:#{CGI.escape(article.doi)}"
-    remove_alm_data(data_rev, document_id)
+    unless data_rev.nil
+      document_id = "#{source.name}:#{CGI.escape(article.uid)}"
+      remove_alm_data(data_rev, document_id)
+    else
+      nil
+    end
   end
   
   # calculate datetime when retrieval_status should be updated, adding random interval
@@ -224,11 +230,11 @@ class RetrievalStatus < ActiveRecord::Base
 
     if age_in_days < 0
       article.published_on
-    elsif (0...14) === age_in_days and source.staleness.length > 1
+    elsif (0..7) === age_in_days and source.staleness.length > 1
       random_time(source.staleness[0])
-    elsif (15...75) === age_in_days and source.staleness.length > 2
+    elsif (8..31) === age_in_days and source.staleness.length > 2
       random_time(source.staleness[1])
-    elsif (75...365) === age_in_days and source.staleness.length > 3
+    elsif (32..365) === age_in_days and source.staleness.length > 3
       random_time(source.staleness[2])
     else
       random_time(source.staleness.last)

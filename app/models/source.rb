@@ -109,8 +109,7 @@ class Source < ActiveRecord::Base
 
   def queue_article_jobs
     # find articles that need to be updated
-    # not queued currently
-    # stale from updated_at
+    # not queued currently, scheduled_at in the past
     rs = retrieval_statuses.stale.pluck("retrieval_statuses.id")
     Rails.logger.debug "#{name} total articles queued #{rs.length}"
 
@@ -168,7 +167,7 @@ class Source < ActiveRecord::Base
   
   def staleness
     # staleness can be Integer or Array
-    source_config.staleness || [ 7.days ]
+    source_config.staleness || [ 1.month ]
     Array(source_config.staleness)
   end 
   

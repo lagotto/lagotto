@@ -9,16 +9,25 @@ require 'factory_girl_rails'
 require 'capybara/rspec'
 require 'database_cleaner'
 require 'webmock/rspec'
+require "rack/test"
 
 include WebMock::API
 couchdb_url = URI.parse(APP_CONFIG['couchdb_url'])
 WebMock.disable_net_connect!(:allow => couchdb_url.host)
 
+Delayed::Worker.delay_jobs = false
+
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
+def app
+  Rails.application
+end
 
 RSpec.configure do |config|
   config.include(EmailSpec::Helpers)
   config.include(EmailSpec::Matchers)
+  
+  config.include Rack::Test::Methods
   
   config.include FactoryGirl::Syntax::Methods
   

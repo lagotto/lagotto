@@ -6,7 +6,7 @@
 
       <%= f.input :doi, :label => 'DOI', :disabled => true, :input_html => { :class => "span6" } %>
       <%= f.input :title, :input_html => { :rows => 2, :class => "span6" } %>
-      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 10, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "span1" } %>
+      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 10, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "input-small" } %>
     
       <div class="form-actions">
         <%= f.submit "Save ", class: "btn btn-primary" %>
@@ -43,11 +43,11 @@
     <% end %>
     <% if @article.pub_med_central %>
       <dt>PubMed Central ID</dt>
-      <dd><%= link_to @article.pub_med_central, "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pub_med_central}" %></dd>
+      <dd><%= link_to "PMC#{@article.pub_med_central}", "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pub_med_central}" %></dd>
     <% end %>
     <% if @article.mendeley %>
       <dt>Mendeley UUID</dt>
-      <dd><%= h(@article.mendeley) %></dd>
+      <dd><%= link_to_unless(@article.mendeley_url.blank?, h(@article.mendeley), @article.mendeley_url) %></dd>
     <% end %>
     <% if @article.url %>
       <dt>URL</dt>

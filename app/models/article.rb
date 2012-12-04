@@ -49,10 +49,10 @@ class Article < ActiveRecord::Base
   }
 
   scope :order_articles, lambda { |order|
-    if order == 'published_on'
-      order("published_on")
-    else
+    if order == 'doi'
       order("doi")
+    else
+      order("published_on DESC")
     end
   }
   
@@ -66,6 +66,8 @@ class Article < ActiveRecord::Base
     elsif id.starts_with? "info:pmid/"
       { :pub_med => id[10..-1] }
     elsif id.starts_with? "info:pmcid/"
+      # Strip PMC prefix
+      id = id[3..-1] if id[11..13] == "PMC"
       { :pub_med_central => id[11..-1] }
     elsif id.starts_with? "info:mendeley/"
       { :mendeley => id[14..-1] }
@@ -88,6 +90,16 @@ class Article < ActiveRecord::Base
       id = "http://dx.doi.org/" + from_uri(id).values.first
     end
     id
+  end
+  
+  def self.clean_id(id)
+    if id.starts_with? "10."
+      URI.unescape(id)
+    elsif id.starts_with? "PMC"
+      id[3..-1]
+    else
+      id
+    end
   end
   
   def self.uid
@@ -130,6 +142,14 @@ class Article < ActiveRecord::Base
     else
       nil
     end
+  end
+  
+  def all_urls
+    urls = []
+    urls << doi_as_url unless doi.nil?
+    urls << doi_as_publisher_url unless doi_as_publisher_url.nil? 
+    urls << url unless url.nil?
+    urls
   end
 
   def to_xml(options = {})
@@ -207,7 +227,7 @@ class Article < ActiveRecord::Base
   end
   
   def is_publisher?
-    APP_CONFIG["doi_prefix"] == doi[0..6]
+    APP_CONFIG["doi_prefix"].to_s == doi[0..6]
   end
 
   private

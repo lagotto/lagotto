@@ -35,22 +35,22 @@
     <div class="tab-pane active" id="status">
       <% if @source.status == "inactive" %>
         <div class="alert alert-warning">
-          This source is inactive
+          This source is inactive.
         </div>
       <% elsif @source.status == "disabled" %>
         <div class="alert alert-error">
-          This source is disabled until <%= h(@source.disable_until) %>
+          This source is disabled until <%= h(@source.disable_until) %>.
         </div>
       <% else %>
         <div class="alert alert-info">
-          This source is active
+          This source is active.
         </div>
       <% end %>
       <table class="table">
         <thead>
           <tr>
-            <th>Queued Articles</th>
-            <td><%= @source.retrieval_statuses.queued.count %></td>
+            <th>Fresh Articles</th>
+            <td><%= @source.retrieval_statuses.fresh.count %></td>
           </tr>
         </thead>
         <tbody>
@@ -59,8 +59,8 @@
               <td><%= @source.retrieval_statuses.stale.count %></td>
             </tr>
             <tr>
-              <th>Scheduled Articles</th>
-              <td><%= @source.retrieval_statuses.scheduled.count %></td>
+              <th>Queued Articles</th>
+              <td><%= @source.retrieval_statuses.queued.count %></td>
             </tr>
         </tbody>
       </table>

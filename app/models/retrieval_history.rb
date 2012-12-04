@@ -34,6 +34,7 @@ class RetrievalHistory < ActiveRecord::Base
   
   scope :after_days, lambda { |days| joins(:article).where("DATE(retrieved_at) <= TIMESTAMPADD(DAY,?,articles.published_on)", days).order("retrieved_at") }
   scope :after_months, lambda { |months| joins(:article).where("DATE(retrieved_at) <= TIMESTAMPADD(MONTH,?,articles.published_on)", months).order("retrieved_at") }
+  scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year).order("retrieved_at") }
 
   def data
     begin

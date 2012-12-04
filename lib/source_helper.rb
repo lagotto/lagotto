@@ -22,13 +22,13 @@ module SourceHelper
 
   def get_json(url, options={})
     body = get_http_body(url, options)
-    (body.length > 0) ? ActiveSupport::JSON.decode(body) : []
+    body.blank? ? [] : ActiveSupport::JSON.decode(body)
   end
 
   def get_xml(url, options={}, &block)
     remove_doctype = options.delete(:remove_doctype)
     body = get_http_body(url, options)
-    return [] if body.length == 0
+    return [] if body.blank?
 
     # We got something. Conditionally remove the DOCTYPE to prevent
     # attempts to load the .dtd - we don't need it, and don't want
@@ -107,7 +107,7 @@ module SourceHelper
     end
   end
 
-  protected
+  #protected
   def get_http_body(uri, options={})
     # removing retrieval_status object from the hash
     options = options.except(:retrieval_status)
@@ -202,14 +202,8 @@ module SourceHelper
     req = Net::HTTP::Put.new(url.path)
     req["content-type"] = "application/json"
     req.body = json
-
-    res = Net::HTTP.start(url.host, url.port) { | http | http.request(req) }
-
-    unless res.kind_of?(Net::HTTPSuccess)
-      res.error!
-    end
-
-    res
+    
+    request(req)
   end
   
   def delete_alm_data(url)
@@ -217,13 +211,51 @@ module SourceHelper
     url = URI.parse(url)
 
     req = Net::HTTP::Delete.new("#{url.path}?#{url.query}")
-    res = Net::HTTP.start(url.host, url.port) { | http | http.request(req) }
-
-    unless res.kind_of?(Net::HTTPSuccess)
-      res.error!
+    request(req)
+  end
+  
+  def put_alm_database
+    # create CouchDB test database
+    if Rails.env.test?
+      service_url = APP_CONFIG['couchdb_url']
+      url = URI.parse(service_url)
+    
+      req = Net::HTTP::Put.new(url.path)
+      request(req)
+    else
+      nil
     end
-
+  end
+  
+  def delete_alm_database
+    # delete CouchDB test database
+    if Rails.env.test?
+      service_url = APP_CONFIG['couchdb_url']
+      url = URI.parse(service_url)
+    
+      req = Net::HTTP::Delete.new(url.path)
+      request(req)
+    else
+      nil
+    end
+  end
+  
+  def request(req)
+    service_url = APP_CONFIG['couchdb_url']
+    url = URI.parse(service_url)
+    
+    res = Net::HTTP.start(url.host, url.port) { |http|http.request(req) }
+    unless res.kind_of?(Net::HTTPSuccess)
+      handle_error(req, res)
+    end
     res
+  end
+  
+  private
+
+  def handle_error(req, res)
+    e = RuntimeError.new("#{res.code}:#{res.message}\nMETHOD:#{req.method}\nURI:#{req.path}\n#{res.body}")
+    raise e
   end
 
 end

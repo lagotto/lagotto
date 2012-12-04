@@ -9,6 +9,7 @@ ENV["RAILS_ENV"] = 'test'
 require 'simplecov'
 require 'cucumber/rails'
 require 'factory_girl_rails'
+require 'aruba/cucumber'
 
 World(FactoryGirl::Syntax::Methods)
 
@@ -43,18 +44,34 @@ ActionController::Base.allow_rescue = false
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
-  DatabaseCleaner.strategy = :transaction
+  DatabaseCleaner.strategy = :truncation
 rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 end
 
 Before do
   DatabaseCleaner.start
+  
+  # Set the defaults for Aruba
+  @dirs = [Rails.root]
+  @aruba_timeout_seconds = 60
+  @aruba_io_wait_seconds = 5
 end
 
 After do |scenario|
   DatabaseCleaner.clean
 end
+
+module DelayedJobSupport
+  def process_all_jobs
+    Delayed::Worker.new.work_off(Delayed::Job.count)
+    if ENV['FAIL_FAST']
+      raise Delayed::Job.first.last_error if Delayed::Job.count > 0
+    end
+  end
+end
+
+World(DelayedJobSupport)
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:

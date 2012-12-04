@@ -38,16 +38,28 @@ class Citeulike < Source
         event = event['post']
         events << {:event => event, :event_url => event['link']['url']}
       end
+      
+      events_url = get_events_url(article)
 
-      events_url = "http://www.citeulike.org/doi/#{article.doi}"
+      if events.empty?
+        { :events => [], :events_url => events_url, :event_count => 0 }
+      else
+        xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
-      xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
-
-      {:events => events,
-       :events_url => events_url,
-       :event_count => events.length,
-       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
-      }
+        {:events => events,
+         :events_url => events_url,
+         :event_count => events.length,
+         :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+        }
+      end
+    end
+  end
+  
+  def get_events_url(article)
+    unless article.doi.blank?
+      "http://www.citeulike.org/doi/#{article.doi}"
+    else
+      nil
     end
   end
 
