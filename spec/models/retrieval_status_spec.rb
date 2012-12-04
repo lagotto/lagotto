@@ -58,4 +58,3 @@ describe RetrievalStatus do
     end
   end
 end
-

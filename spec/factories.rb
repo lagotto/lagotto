@@ -134,8 +134,6 @@ FactoryGirl.define do
     initialize_with { Researchblogging.find_or_create_by_name(name) }
   end
   
-<<<<<<< HEAD
-=======
   factory :scienceseeker, class: ScienceSeeker do
     type "ScienceSeeker"
     name "scienceseeker"
@@ -148,7 +146,6 @@ FactoryGirl.define do
     initialize_with { ScienceSeeker.find_or_create_by_name(name) }
   end
   
->>>>>>> upstream/master
   factory :wikipedia, class: Wikipedia do
     type "Wikipedia"
     name "wikipedia"
