@@ -16,6 +16,14 @@ citeulike = Citeulike.find_or_create_by_name(
 	:group_id => social_networks.id,
 	:url => "http://www.citeulike.org/api/posts/for/doi/%{doi}" )
   
+scienceseeker = ScienceSeeker.find_or_create_by_name(  
+	:name => "scienceseeker", 
+	:display_name => "ScienceSeeker", 
+	:active => true, 
+	:workers => 1,
+	:group_id => blogs_media.id,
+	:url => "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}" )
+  
 pubmed = PubMed.find_or_create_by_name(  
   :name => "pubmed", 
   :display_name => "PubMed", 
