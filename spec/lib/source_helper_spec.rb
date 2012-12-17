@@ -60,11 +60,11 @@ describe SourceHelper do
   
   context "CouchDB" do
     before(:each) do
-      #@source_helper_class.put_alm_database
+      @source_helper_class.put_alm_database
     end
   
     after(:each) do
-      #@source_helper_class.delete_alm_database
+      @source_helper_class.delete_alm_database
     end
     
     let(:id) { "test" }
@@ -72,20 +72,20 @@ describe SourceHelper do
     let(:data) { { "name" => "Fred"} }
     
     it "put, get and delete data" do
-      #put_response = @source_helper_class.put_alm_data(url, data.to_json)
-      #put_response.should be_a_kind_of(Net::HTTPCreated)
-      #put_body = ActiveSupport::JSON.decode(put_response.body)
-      #rev = put_body["rev"]
-      #put_body.should include("ok" => true, "id" => id)
+      put_response = @source_helper_class.put_alm_data(url, data.to_json)
+      put_response.should be_a_kind_of(Net::HTTPCreated)
+      put_body = ActiveSupport::JSON.decode(put_response.body)
+      rev = put_body["rev"]
+      put_body.should include("ok" => true, "id" => id)
       
-      #get_response = @source_helper_class.get_alm_data(id)
-      #get_response.should include("_id" => id, "_rev" => rev)
+      get_response = @source_helper_class.get_alm_data(id)
+      get_response.should include("_id" => id, "_rev" => rev)
       
-      #new_rev = @source_helper_class.save_alm_data(rev, data, id)
-      #new_rev.should_not eq(rev)
+      new_rev = @source_helper_class.save_alm_data(rev, data, id)
+      new_rev.should_not eq(rev)
       
-      #delete_response = @source_helper_class.remove_alm_data(new_rev, id)
-      #delete_response.should include("3-")
+      delete_response = @source_helper_class.remove_alm_data(new_rev, id)
+      delete_response.should include("3-")
     end
   end
 end
