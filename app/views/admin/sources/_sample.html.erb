@@ -1,0 +1,12 @@
+<% unless sample.empty? %>
+  <% sample.each do |retrieval_status| %>
+    <div class="row">
+      <div class="span12">
+        <h4><%= link_to retrieval_status.article.title, retrieval_status.article %></h4>
+        <%= retrieval_status.article.published_on.to_s(:long) %> - <%= pluralize retrieval_status.event_count, "event" %>
+      </div>
+    </div>   
+  <% end %>
+<% else %>
+  <div class="alert alert-info">No articles have been cited by this source</div>
+<% end %>

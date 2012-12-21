@@ -22,8 +22,6 @@ class SourcesController < ApplicationController
   
   def show
     @source = Source.find(params[:id])
-    @samples = @source.retrieval_statuses.most_cited_sample
-
     respond_with @source
   end
 

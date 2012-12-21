@@ -28,7 +28,9 @@
   <ul class="nav nav-tabs">
     <li class="active"><a href="#status" data-toggle="tab" title="Status">Status</a></li>
     <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
-    <li><a href="#most-cited" data-toggle="tab" title="Most-Cited">Most-Cited</a></li>
+    <li><a href="#most-cited" data-toggle="tab" title="Most-Cited">Most-cited</a></li>
+    <li><a href="#most-cited7" data-toggle="tab" title="Most-Cited">Most-cited (7 days)</a></li>
+    <li><a href="#most-cited30" data-toggle="tab" title="Most-Cited">Most-cited (30 days)</a></li>
   </ul>
   
   <div class="tab-content">
@@ -49,19 +51,19 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Fresh Articles</th>
-            <td><%= @source.retrieval_statuses.fresh.count %></td>
+            <th>Total Articles</th>
+            <td><%= Article.count %></td>
           </tr>
         </thead>
         <tbody>
-            <tr>
-              <th>Stale Articles</th>
-              <td><%= @source.retrieval_statuses.stale.count %></td>
-            </tr>
-            <tr>
-              <th>Queued Articles</th>
-              <td><%= @source.retrieval_statuses.queued.count %></td>
-            </tr>
+          <tr>
+            <th>Stale Articles</th>
+            <td><%= @source.retrieval_statuses.stale.count %></td>
+          </tr>
+          <tr>
+            <th>Queued Articles</th>
+            <td><%= @source.retrieval_statuses.queued.count %></td>
+          </tr>
         </tbody>
       </table>
 
@@ -69,19 +71,14 @@
     <div class="tab-pane" id="configuration">
       <%= render :partial => 'show' %> 
     </div>
+    <div class="tab-pane" id="most-cited7">
+      <%= render :partial => 'sample', :object => @source.retrieval_statuses.most_cited %>
+    </div>
+    <div class="tab-pane" id="most-cited30">
+      <%= render :partial => 'sample', :object => @source.retrieval_statuses.most_cited_last_x_days(7) %>
+    </div>
     <div class="tab-pane" id="most-cited">
-      <% unless @samples.empty? %>
-        <% @samples.each do |retrieval_status| %>
-          <div class="row">
-            <div class="span12">
-              <h4><%= link_to retrieval_status.article.title, retrieval_status.article %></h4>
-              <%= retrieval_status.article.published_on.to_s(:long) %> - <%= pluralize retrieval_status.event_count, "event" %>
-            </div>
-          </div>
-        <% end %>
-      <% else %>
-        <div class="alert alert-info">No articles have been cited by this source</div>
-      <% end %>
+      <%= render :partial => 'sample', :object => @source.retrieval_statuses.most_cited_last_x_days(30) %>
     </div>
   </div>
 </div>
