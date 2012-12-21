@@ -1,9 +1,9 @@
-<% unless sample.empty? %>
+<% unless @sample.empty? %>
  <div class="pull-right">
-    <%= link_to image_tag("feed-icon-28x28.png"), url %>
+    <%= link_to image_tag("feed-icon-28x28.png"), @url %>
   </div>
   <div class="row">
-  <% sample.each do |retrieval_status| %>
+    <% @sample.each do |retrieval_status| %>
     <div class="span12">
       <h4><%= link_to retrieval_status.article.title, retrieval_status.article %></h4>
       <%= retrieval_status.article.published_on.to_s(:long) %> - <%= pluralize retrieval_status.event_count, "event" %>
