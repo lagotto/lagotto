@@ -25,9 +25,9 @@ class RetrievalStatus < ActiveRecord::Base
   belongs_to :source
   has_many :retrieval_histories, :order => "retrieved_at", :dependent => :destroy
 
-  scope :most_cited, lambda { order("event_count desc").limit(25) }
-  scope :most_cited_last_x_days, lambda { |days| joins(:article).where("articles.published_on >= DATE_SUB(CURDATE(), INTERVAL ? DAY)", days).order("event_count desc").limit(25) }
-  scope :most_cited_last_x_months, lambda { |months| joins(:article).where("articles.published_on >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)", months).order("event_count desc").limit(25) }
+  scope :most_cited, lambda { where("event_count > 0").order("event_count desc").limit(25) }
+  scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on >= DATE_SUB(CURDATE(), INTERVAL ? DAY)", days).order("event_count desc").limit(25) }
+  scope :most_cited_last_x_months, lambda { |months| joins(:article).where("event_count > 0 AND articles.published_on >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)", months).order("event_count desc").limit(25) }
   
   scope :queued, where( "queued_at is NOT NULL")
   scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) < 0")
