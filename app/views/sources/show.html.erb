@@ -40,6 +40,7 @@
     <li class="active"><a href="#most-cited" data-toggle="tab" title="Most-Cited">Most-cited</a></li>
     <li><a href="#most-cited7" data-toggle="tab" title="Most-Cited">Most-cited (7 days)</a></li>
     <li><a href="#most-cited30" data-toggle="tab" title="Most-Cited">Most-cited (30 days)</a></li>
+    <li><a href="#most-cited12" data-toggle="tab" title="Most-Cited">Most-cited (12 months)</a></li>
   </ul>
   
   <div class="tab-content">
@@ -51,6 +52,9 @@
     </div>
     <div class="tab-pane" id="most-cited30">
       <%= render :partial => 'admin/sources/sample', :object => @source.retrieval_statuses.most_cited_last_x_days(30) %>
+    </div>
+    <div class="tab-pane" id="most-cited12">
+      <%= render :partial => 'admin/sources/sample', :object => @source.retrieval_statuses.most_cited_last_x_months(12) %>
     </div>
   </div>
 </div>

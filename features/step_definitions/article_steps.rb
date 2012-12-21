@@ -61,6 +61,10 @@ Then /^I should see the article$/ do
   #page.should have_content @article.title
 end
 
+Then /^I should see a list of articles$/ do
+  page.has_css?('div.span12').should be_true
+end
+
 Then /^I should see a list of (\d+) articles$/ do |number|
-  page.has_css?('div.span12', :count => number.to_i).should be_true
+  page.has_css?('div.span12', :visible => true, :count => number.to_i).should be_true
 end
