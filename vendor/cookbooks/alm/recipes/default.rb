@@ -54,20 +54,8 @@ else
   end
 end
 
-case node['platform']
-when "ubuntu","debian"
-  %w{libqt4-dev xvfb}.each do |pkg|
-    package pkg do
-      action :install
-    end
-  end
-when "centos","redhat","fedora"
-  %w{qt-webkit-devel Xvfb}.each do |pkg|
-    package pkg do
-      action :install
-    end
-  end
-end
+# Install PhantomJS for Javascript acceptance tests
+require_recipe "phantomjs"
 
 # Run bundle command
 bash "run bundle install in app directory" do

@@ -20,6 +20,7 @@ gem "bootstrap-sass", "~> 2.2.1.1"
 gem 'will_paginate', '3.0.3'
 gem "will_paginate-bootstrap", "~> 0.2.1"
 gem "simple_form", "~> 2.0.4"
+gem "dotiw", "~> 1.1.1"
 
 group :assets do
   gem "uglifier", "~> 1.3.0"
@@ -30,7 +31,7 @@ end
 group :test do
   gem "factory_girl_rails", "~> 4.1.0", require: false
   gem "cucumber-rails", "~> 1.3.0", require: false
-  gem "capybara", "~> 2.0.1"
+  gem "capybara", "~> 1.1.4"
   gem "database_cleaner", "~> 0.8.0"
   gem "launchy", "~> 2.1.2"
   gem "email_spec", "~> 1.2.1"
@@ -42,6 +43,7 @@ group :test do
   gem "aruba", "~> 0.5.1"
   #gem "headless", "~> 0.3.1"
   #gem "capybara-webkit", "~> 0.12.1"
+  gem "poltergeist", "~> 1.0.2"
 end
 
 group :test, :development do

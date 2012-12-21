@@ -221,6 +221,9 @@ module SourceHelper
       url = URI.parse(service_url)
     
       req = Net::HTTP::Put.new(url.path)
+      unless (url.user.nil? or url.password.nil?)
+        req.basic_auth url.user, url.password
+      end
       request(req)
     else
       nil
@@ -234,6 +237,9 @@ module SourceHelper
       url = URI.parse(service_url)
     
       req = Net::HTTP::Delete.new(url.path)
+      unless (url.user.nil? or url.password.nil?)
+        req.basic_auth url.user, url.password
+      end
       request(req)
     else
       nil

@@ -6,7 +6,7 @@ FactoryGirl.define do
     pub_med_central 2568856
     mendeley "d4ad6910-6d06-11df-a2b2-0026b95e3eb7"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
-    published_on '2008-10-31'
+    sequence(:published_on) {|n| Time.zone.today - n.days }
     
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
@@ -46,6 +46,8 @@ FactoryGirl.define do
   end
   
   factory :retrieval_status do
+    sequence(:event_count) {|n| 100 + n }
+    
     association :article
     association :source, factory: :citeulike
     

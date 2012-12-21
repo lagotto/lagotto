@@ -71,6 +71,22 @@
         <th>Maximum number of failed queries allowed in a time interval</th>
         <td><%=h @source.max_failed_query_time_interval %> seconds</td>
       </tr>
+      <tr>
+        <th>Job batch size</th>
+        <td><%=h @source.job_batch_size %></td>
+      </tr>
+      <tr>
+        <th>Batch time interval</th>
+        <td><%=h @source.batch_time_interval %> seconds</td>
+      </tr>
+      <tr>
+        <th>Staleness interval</th>
+        <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " (published #{i})" }.join("</br>").html_safe %></td>
+      </tr>
+      <tr>
+        <th>Requests per day</th>
+        <td><%= @source.requests_per_day.nil? ? "not used" : h(@source.requests_per_day) %></td>
+      </tr>
       <% unless @source.get_config_fields.empty? %>
         <% @source.get_config_fields.each do |field| %>
           <tr>

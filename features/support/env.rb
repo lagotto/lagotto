@@ -10,6 +10,7 @@ require 'simplecov'
 require 'cucumber/rails'
 require 'factory_girl_rails'
 require 'aruba/cucumber'
+require 'capybara/poltergeist'
 
 World(FactoryGirl::Syntax::Methods)
 
@@ -22,7 +23,7 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
 
-#Capybara.javascript_driver = :webkit
+Capybara.javascript_driver = :poltergeist
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 

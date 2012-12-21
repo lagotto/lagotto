@@ -163,9 +163,22 @@ class Source < ActiveRecord::Base
   
   def staleness
     # staleness can be Integer or Array
-    source_config.staleness || [ 1.month ]
+    source_config.staleness || [ (1.month * 0.25) ]
     Array(source_config.staleness)
   end 
+  
+  def staleness_with_limits
+    case staleness.length
+    when 1
+      ["any time"].zip(staleness)
+    when 2
+      ["in the last 7 days", "more than 7 days ago"].zip(staleness)
+    when 3
+      ["in the last 7 days", "in the last 31 days", "more than 31 days ago"].zip(staleness)
+    when 4
+      ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
+    end
+  end
   
   def staleness=(value)
     source_config.staleness = value

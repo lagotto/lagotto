@@ -8,6 +8,20 @@ Given /^the source "(.*?)" exists$/ do |display_name|
 end
 
 ### WHEN ###
+When /^I go to the configuration of source "(\w+)"$/ do |display_name|
+  source = Source.find_by_display_name(display_name)
+  visit admin_source_path(source)
+  click_link "Configuration"
+  page.driver.render("tmp/capybara/configuration.png")
+end
+
+When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |label, display_name|
+  source = Source.find_by_display_name(display_name)
+  visit admin_source_path(source)
+  click_link label
+  page.driver.render("tmp/capybara/#{label}.png")
+end
+
 When /^I edit the source "(\w+)"$/ do |display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
@@ -22,4 +36,8 @@ end
 
 Then /^"(.*?)" should be the only option for "(.*?)"$/ do |value, field|
   page.has_select?("source_group_id", :options => [value]).should be_true
+end
+
+Then /^I should see the "(.*?)" settings$/ do |parameter|
+  page.should have_content parameter
 end
