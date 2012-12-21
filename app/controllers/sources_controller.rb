@@ -18,7 +18,7 @@
 
 class SourcesController < ApplicationController
 
-  respond_to :html
+  respond_to :html, :rss
   
   def show
     @source = Source.find(params[:id])
