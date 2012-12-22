@@ -28,10 +28,15 @@
   <ul class="nav nav-tabs">
     <li class="active"><a href="#status" data-toggle="tab" title="Status">Status</a></li>
     <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
-    <li><a href="#most-cited" data-toggle="tab" title="Most-Cited">Most-cited</a></li>
-    <li><a href="#most-cited7" data-toggle="tab" title="Most-Cited">Most-cited (7 days)</a></li>
-    <li><a href="#most-cited30" data-toggle="tab" title="Most-Cited">Most-cited (30 days)</a></li>
-    <li><a href="#most-cited12" data-toggle="tab" title="Most-Cited">Most-cited (12 months)</a></li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Most-Cited<b class="caret"></b></a>
+      <ul class="dropdown-menu">
+      <li><a href="#most-cited7" data-toggle="tab">7 days</a></li>
+      <li><a href="#most-cited30" data-toggle="tab">30 days</a></li>
+      <li><a href="#most-cited12" data-toggle="tab">12 months</a></li>
+      <li><a href="#most-cited" data-toggle="tab">All-time</a></li>
+      </ul>
+    </li>
   </ul>
   
   <div class="tab-content">
@@ -43,6 +48,14 @@
       <% elsif @source.status == "disabled" %>
         <div class="alert alert-error">
           This source is disabled until <%= h(@source.disable_until) %>.
+        </div>
+      <% elsif @source.status == "with errors" %>
+        <div class="alert alert-error">
+          This source has errors.
+        </div>
+      <% elsif @source.status == "without events" %>
+        <div class="alert alert-error">
+          This source is without events.
         </div>
       <% else %>
         <div class="alert alert-info">
@@ -72,17 +85,21 @@
     <div class="tab-pane" id="configuration">
       <%= render :partial => 'show' %> 
     </div>
-    <div class="tab-pane" id="most-cited">
-      <%= render :partial => 'sample', :object => @source.retrieval_statuses.most_cited %>
-    </div>
     <div class="tab-pane" id="most-cited7">
-      <%= render :partial => 'sample', :object => @source.retrieval_statuses.most_cited_last_x_days(7) %>
+      <%= render :partial => 'sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_days(7), 
+                                                    :url => source_path(@source, format: "rss") } %>
     </div>
     <div class="tab-pane" id="most-cited30">
-      <%= render :partial => 'sample', :object => @source.retrieval_statuses.most_cited_last_x_days(30) %>
+      <%= render :partial => 'sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_days(30), 
+                                                    :url => source_path(@source, format: "rss") } %>
     </div>
     <div class="tab-pane" id="most-cited12">
-      <%= render :partial => 'sample', :object => @source.retrieval_statuses.most_cited_last_x_months(12) %>
+      <%= render :partial => 'sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_months(12), 
+                                                    :url => source_path(@source, format: "rss") } %>
+    </div>
+    <div class="tab-pane" id="most-cited">
+      <%= render :partial => 'sample', :locals => { :sample => @source.retrieval_statuses.most_cited, 
+                                                    :url => source_path(@source, format: "rss") } %>
     </div>
   </div>
 </div>

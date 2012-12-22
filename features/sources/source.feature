@@ -23,23 +23,23 @@ Feature: Edit sources
   @javascript
   Scenario: I should see the most-cited articles from the last 7 days
     Given that we have 10 articles
-    When I go to the "Most-cited (7 days)" tab of source "CiteULike"
+    When I go to the "7 days" submenu of menu "Most-Cited" of source "CiteULike"
     Then I should see a list of 4 articles
   
   @javascript
   Scenario: I should see the most-cited articles from the last 30 days
     Given that we have 10 articles
-    When I go to the "Most-cited (30 days)" tab of source "CiteULike"
+    When I go to the "30 days" submenu of menu "Most-Cited" of source "CiteULike"
     Then I should see a list of 5 articles
     
   @javascript
   Scenario: I should see the most-cited articles from the last 12 months
     Given that we have 10 articles
-    When I go to the "Most-cited (12 months)" tab of source "CiteULike"
+    When I go to the "12 months" submenu of menu "Most-Cited" of source "CiteULike"
     Then I should see a list of 10 articles
     
   @javascript
   Scenario: I should see the most-cited articles all-time
     Given that we have 10 articles
-    When I go to the "Most-cited" tab of source "CiteULike"
+    When I go to the "All-time" submenu of menu "Most-Cited" of source "CiteULike"
     Then I should see a list of 10 articles

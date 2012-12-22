@@ -15,9 +15,10 @@ When /^I go to the configuration of source "(\w+)"$/ do |display_name|
   page.driver.render("tmp/capybara/configuration.png")
 end
 
-When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |label, display_name|
+When /^I go to the "(.*?)" submenu of menu "(.*?)" of source "(.*?)"$/ do |label, menu, display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
+  click_link menu
   click_link label
   page.driver.render("tmp/capybara/#{label}.png")
 end
