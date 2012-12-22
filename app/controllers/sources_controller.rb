@@ -22,7 +22,14 @@ class SourcesController < ApplicationController
   
   def show
     @source = Source.find(params[:id])
-    respond_with @source
+    
+    if params[:days]
+      @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_days(params[:days].to_i)
+    elsif params[:months]
+      @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_months(params[:months].to_i)
+    else
+      @retrieval_statuses = @source.retrieval_statuses.most_cited
+    end
   end
 
   def index
