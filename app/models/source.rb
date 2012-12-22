@@ -193,6 +193,8 @@ class Source < ActiveRecord::Base
       "inactive"
     elsif disable_until
       "disabled"
+    elsif retrieval_statuses.most_cited.empty?
+      "no events"
     else
       "active"
     end
