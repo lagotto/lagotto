@@ -19,6 +19,7 @@
 require 'source_helper'
 require 'cgi'
 require 'ostruct'
+require 'nori'
 
 class Source < ActiveRecord::Base
   include SourceHelper

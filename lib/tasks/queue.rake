@@ -105,6 +105,17 @@ namespace :queue do
     end
 
   end
+  
+  task :scienceseeker => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("scienceseeker")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
 
   task :single_job, [:doi, :source] => :environment do |t, args|
     if args.doi.nil?

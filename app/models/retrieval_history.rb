@@ -115,7 +115,7 @@ class RetrievalHistory < ActiveRecord::Base
   end
   
   def citations
-    if ["crossref","pubmed","researchblogging","nature"].include?(source.name)
+    if ["crossref","pubmed","researchblogging","nature","scienceseeker"].include?(source.name)
       event_count
     elsif source.name == "wikipedia"
       events.select {|event| event["namespace"] == 0 }.length

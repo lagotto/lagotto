@@ -8,7 +8,8 @@ gem "delayed_job_active_record", "~> 0.3.3"
 gem "daemons", "~> 1.1.9"
 gem "foreman", "~> 0.60.2"
 
-gem "libxml-ruby", "~> 2.3.3", require: 'xml'
+gem "libxml-ruby", "~> 2.4.0", require: 'xml'
+gem "nori", "~> 2.0.0"
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "koala", "~> 1.5.0"
 gem "devise", "~> 2.1.2"
@@ -41,8 +42,6 @@ group :test do
   gem "webmock", "~> 1.9.0"
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1"
-  #gem "headless", "~> 0.3.1"
-  #gem "capybara-webkit", "~> 0.12.1"
   gem "poltergeist", "~> 1.0.2"
 end
 

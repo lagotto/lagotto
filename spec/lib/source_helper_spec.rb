@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'source_helper'
+require 'nori'
 
 class SourceHelperClass
 end
@@ -25,7 +26,7 @@ describe SourceHelper do
     
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => data.to_xml, :content_type => 'application/xml', :status => 200)
-        @source_helper_class.get_xml(url) { |response| Hash.from_xml(response.to_s)["hash"].should eq(data) }
+        @source_helper_class.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
       end
     end
     

@@ -69,12 +69,11 @@ class PubMed < Source
        { :events => [], :event_count => 0 }
       else
        events_url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
-       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
 
        {:events => events,
         :events_url => events_url,
         :event_count => events.length,
-        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
        }
       end
     end
@@ -123,7 +122,7 @@ class PubMed < Source
     
     get_xml(query_url, options.merge(:remove_doctype => 1)) do |document| 
       references = []
-      result = Hash.from_xml(document.to_s(:encoding => XML::Encoding::UTF_8))
+      result = Nori.new.parse(document.to_s)
       result = result["eSummaryResult"]["DocumentSummarySet"]["DocumentSummary"]
       result = [result] unless result.is_a?(Array)
       result.each do |document_summary|

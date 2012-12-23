@@ -44,8 +44,7 @@ class CrossRef < Source
         events = []
         document.root.namespaces.default_prefix = "x"
         document.find("//x:journal_cite").each do |cite|
-          cite_string = cite.to_s(:encoding => XML::Encoding::UTF_8)
-          event = Hash.from_xml(cite_string)
+          event = Nori.new.parse(cite.to_s)
           event = event["journal_cite"]
           event_url = Article.to_url(event["doi"])
 
@@ -55,11 +54,9 @@ class CrossRef < Source
         if events.empty?
           { :events => [], :event_count => 0 }
         else
-          xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
-
           {:events => events,
            :event_count => events.length,
-           :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }}
+           :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }}
         end
       end
     else
