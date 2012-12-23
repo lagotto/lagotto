@@ -19,22 +19,9 @@
 -%>
 
 <div class="content">
-  <div class="page-header">
-    <h1><%= h(@source.display_name) %></h1>
+  <div class="show">
+    <%= render :partial => 'admin/sources/show' %>
   </div>
-  
-  <dl class="dl-horizontal">
-    <dt>Status</dt>
-    <dd><%= @source.status.capitalize %></dd>
-    <% if @source.group %>
-      <dt>Group</dt>
-      <dd><%= h(@source.group.name) %></dd>
-    <% end %>
-    <% unless @source.private %>
-      <dt>Documentation</dt>
-      <dd><%= link_to "Information at ALM Wiki", "http://github.com/articlemetrics/alm/wiki/" + @source.name %></dd>
-    <% end %>
-  </dl>
   
   <ul class="nav nav-tabs">
     <li class="dropdown active">
@@ -49,21 +36,6 @@
   </ul>
   
   <div class="tab-content">
-    <div class="tab-pane" id="most-cited7">
-      <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_days(7), 
-                                                                  :url => source_path(@source, format: "rss", days: 7) } %>
-    </div>
-    <div class="tab-pane" id="most-cited30">
-      <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_days(30), 
-                                                                  :url => source_path(@source, format: "rss", days: 30) } %>
-    </div>
-    <div class="tab-pane" id="most-cited12">
-      <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_months(12), 
-                                                                  :url => source_path(@source, format: "rss", months: 12) } %>    
-    </div>
-    <div class="tab-pane active" id="most-cited">
-      <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited, 
-                                                                  :url => source_path(@source, format: "rss") } %>
-    </div>
+    <%= render :partial => 'admin/sources/tab-content' %>
   </div>
 </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121126163030) do
+ActiveRecord::Schema.define(:version => 20121223142107) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(:version => 20121126163030) do
     t.integer  "max_failed_queries",             :default => 200,   :null => false
     t.integer  "max_failed_query_time_interval", :default => 86400, :null => false
     t.boolean  "refreshable",                    :default => true
+    t.text     "description"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
