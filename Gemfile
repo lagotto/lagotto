@@ -9,6 +9,7 @@ gem "daemons", "~> 1.1.9"
 gem "foreman", "~> 0.60.2"
 
 gem "libxml-ruby", "~> 2.4.0", require: 'xml'
+gem "nokogiri", "~> 1.5.6"
 gem "nori", "~> 2.0.0"
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "koala", "~> 1.5.0"
