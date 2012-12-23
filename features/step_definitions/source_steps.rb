@@ -71,3 +71,7 @@ Then /^I should see that the source is "(.*?)"$/ do |status|
   page.should have_content status
   page.driver.render("tmp/capybara/#{status}.png")
 end
+
+Then /^I should see the image "(.+)"$/ do |image|
+    page.should have_xpath("//img[@src=\"/assets/#{image}\"]")
+end

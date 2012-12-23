@@ -1,0 +1,4 @@
+<h1>
+  <%= image_tag(@source.name + ".png", :size => "16x16") if path_to_image(@source.name + ".png") %>
+  <%= h(@source.display_name) %><%= status if local_assigns.has_key? :status %>
+</h1>

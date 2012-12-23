@@ -19,9 +19,13 @@
 -%>
 
 <div class="content">
-  <div class="show">
-    <%= render :partial => 'admin/sources/show' %>
+  <div class="page-header">
+    <%= render :partial => 'admin/sources/page-header' %> 
   </div>
+  
+  <dl class="dl-horizontal">
+    <%= render :partial => 'admin/sources/dl-horizontal' %>
+  </dl>
   
   <ul class="nav nav-tabs">
     <li class="dropdown active">
@@ -36,6 +40,6 @@
   </ul>
   
   <div class="tab-content">
-    <%= render :partial => 'admin/sources/tab-content' %>
+    <%= render :partial => 'admin/sources/tab-content', :locals => { :pane => "tab-pane" } %>
   </div>
 </div>

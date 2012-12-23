@@ -10,7 +10,7 @@
   <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_months(12), 
                                                               :url => source_path(@source, format: "rss", months: 12) } %>    
 </div>
-<div class="tab-pane active" id="most-cited">
+<div class="<%= pane %>" id="most-cited">
   <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited, 
                                                               :url => source_path(@source, format: "rss") } %>
 </div>

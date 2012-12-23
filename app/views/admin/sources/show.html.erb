@@ -19,9 +19,13 @@
 -%>
 
 <div class="content">
-  <div class="show">
-    <%= render :partial => 'show' %> 
+  <div class="page-header" id="page-header">
+    <%= render :partial => 'page-header', :locals => { :status => " <small>#{@source.status}</small>".html_safe } %> 
   </div>
+  
+  <dl class="dl-horizontal" id="dl-horizontal">
+    <%= render :partial => 'dl-horizontal' %>
+  </dl>
 
   <ul class="nav nav-tabs">
     <li class="active"><a href="#status" data-toggle="tab" title="Status">Status</a></li>
@@ -62,6 +66,6 @@
     <div class="tab-pane" id="configuration">
       <%= render :partial => 'configuration' %> 
     </div>
-    <%= render :partial => 'tab-content' %>
+    <%= render :partial => 'tab-content', :locals => { :pane => "tab-pane active" } %>
   </div>
 </div>
