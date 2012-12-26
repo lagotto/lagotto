@@ -4,6 +4,11 @@ class Admin::SourcesController < Admin::ApplicationController
     @source = Source.find(params[:id])
     respond_with @source
   end
+  
+  def index
+    @sources = Source.order("name")
+    respond_with @sources
+  end
 
   def edit
     @source = Source.find(params[:id])

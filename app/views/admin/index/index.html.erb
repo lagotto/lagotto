@@ -23,25 +23,53 @@
     <h1>Administration</h1>
   </div>
 
-  <ul class="nav nav-tabs">
-    <li class="active"><%= link_to "Overview", admin_root_path(anchor: "overview"), data: { toggle: "tab" } %></li>
-    <li><%= link_to "Sources", admin_root_path(anchor: "source"), data: { toggle: "tab" }, :title => "Sources" %></li>
-    <li><%= link_to "Groups", admin_root_path(anchor: "group"), data: { toggle: "tab" }, :title => "Groups" %></li>
-    <li><%= link_to "Jobs", admin_root_path(anchor: "job"), data: { toggle: "tab" }, :title => "Jobs" %></li>
+  <ul class="nav nav-tabs" id="admin-nav">
+    <%= render :partial => 'admin/navigation' %> 
   </ul>
   
-  <div class="tab-content">
-    <div class="tab-pane active" id="overview">
-      <%= render :partial => 'admin/index/overview' %> 
-    </div>
-    <div class="tab-pane" id="source">
-      <%= render :partial => 'admin/index/source' %> 
-    </div>
-    <div class="tab-pane" id="group">
-      <%= render :partial => 'admin/index/group' %> 
-    </div>
-    <div class="tab-pane" id="job">
-      <%= render :partial => 'admin/index/job' %> 
-    </div>
-  </div>
+  <ul class="thumbnails">
+    <li class="span4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h2>
+            <i class="icon-file"></i> Articles
+          </h2>
+          <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(@articles_recent_count, 'article') %> published in the last 30 days.</p>
+        </div>
+      </div>
+    </li>
+    <li class="span4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h2>
+            <i class="icon-tags"></i> Sources 
+            <% if @sources_disabled_count > 0 %>
+              <span class="label label-warning pull-right">Problems</span>
+            <% elsif @sources_inactive_count > 0 %>
+              <span class="label label-info pull-right">Inactive Sources</span>
+            <% else %>
+              <span class="label label-success pull-right">No Problems</span>
+            <% end %>
+          </h2>
+          <p><%= pluralize(@sources.count, 'source') %>, including <%= @sources_inactive_count %> inactive and <%= @sources_disabled_count %> disabled sources.</p>
+        </div>
+      </div>
+    </li>
+    <li class="span4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h2>
+            <i class="icon-wrench"></i> Jobs
+            <% if @delayed_jobs_errors_count > 0 %>
+              <span class="label label-warning pull-right">Failures</span>
+            <% else %>
+              <span class="label label-success pull-right">No Failures</span>
+            <% end %>
+          </h2>
+          <p><%= pluralize(@delayed_jobs_count, 'active job') %>.<br/>&nbsp;</p>
+        </div>
+      </div>
+
+    </li>
+  </ul>
 </div>

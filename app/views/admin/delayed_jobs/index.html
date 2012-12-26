@@ -1,0 +1,40 @@
+<div class="content">
+  <div class="page-header">
+    <h1>Administration</h1>
+  </div>
+
+  <ul class="nav nav-tabs" id="admin-nav">
+    <%= render :partial => 'admin/navigation' %> 
+  </ul>
+
+  <% unless @delayed_jobs.empty? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Queue</th>
+          <th>Attempts</th>
+          <th>Run at</th>
+          <th>Failed at</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @delayed_jobs.each do|delayed_job| %>
+          <tr>
+            <td><%= delayed_job.id %></td>
+            <td><%= delayed_job.queue %></td>
+            <td><%= delayed_job.attempts %></td>
+            <td><%= delayed_job.run_at.to_s(:long) if delayed_job.run_at %></td>
+            <td><%= delayed_job.failed_at.to_s(:long) if delayed_job.failed_at %></td>
+            <td>
+              <%= link_to '<i class="icon-trash"></i> Delete'.html_safe, admin_delayed_job_path(delayed_job), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="alert alert-info">There are currently no jobs.</div>
+  <% end %>
+</div>

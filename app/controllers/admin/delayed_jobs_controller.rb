@@ -1,5 +1,9 @@
 class Admin::DelayedJobsController < Admin::ApplicationController
   
+  def index
+    @delayed_jobs = DelayedJob.order("queue, run_at DESC").limit(50)
+  end
+  
   def destroy
     @delayed_job = DelayedJob.find(params[:id])
     @delayed_job.delete

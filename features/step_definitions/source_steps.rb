@@ -54,6 +54,10 @@ When /^I submit the form$/ do
   click_button "Save"
 end
 
+When /^I go to the source overview$/ do
+  visit sources_path
+end
+
 ### THEN ###
 Then /^I should not see a blog count$/ do
   page.should_not have_content "Nature Blogs"

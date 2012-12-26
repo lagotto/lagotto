@@ -1,8 +1,8 @@
-<% if @source.group %>
+<% unless @source.group.blank? %>
   <dt>Group</dt>
   <dd><%= h(@source.group.name) %></dd>
 <% end %>
-<% if @source.description %>
+<% unless @source.description.blank? %>
   <dt>Description</dt>
   <dd><%= h(@source.description) %></dd>
 <% end %>

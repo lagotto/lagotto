@@ -25,9 +25,7 @@ class Admin::IndexController < Admin::ApplicationController
     @sources = Source.order("name")
     @sources_inactive_count = Source.where("active != 1").count
     @sources_disabled_count = Source.where("disable_until IS NOT NULL").count
-    @groups = Group.order("name")
     @delayed_jobs_count = DelayedJob.order("queue, run_at DESC").count
-    @delayed_jobs = DelayedJob.order("queue, run_at DESC").limit(50)
     @delayed_jobs_errors_count = DelayedJob.where("failed_at IS NOT NULL").count
   end
 end

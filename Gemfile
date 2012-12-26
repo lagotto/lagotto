@@ -18,7 +18,8 @@ gem "validates_timeliness", "~> 3.0.14"
 gem "rabl", "~> 0.7.6"
 
 gem "sass-rails", "~> 3.2.5"
-gem "bootstrap-sass", "~> 2.2.1.1"
+gem "bootstrap-sass", "~> 2.2.2.0"
+gem "turbolinks", "~> 0.6.1"
 gem 'will_paginate', '3.0.3'
 gem "will_paginate-bootstrap", "~> 0.2.1"
 gem "simple_form", "~> 2.0.4"
