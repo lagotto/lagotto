@@ -69,7 +69,16 @@
           <p><%= pluralize(@delayed_jobs_count, 'active job') %>.<br/>&nbsp;</p>
         </div>
       </div>
-
+    </li>
+    <li class="span4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h2>
+            <i class="icon-wrench"></i> Queues
+          </h2>
+          <p><%= pluralize(RetrievalStatus.queued.count, 'queued article') %>.<br/>&nbsp;</p>
+        </div>
+      </div>
     </li>
   </ul>
 </div>
