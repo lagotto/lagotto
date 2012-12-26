@@ -20,16 +20,21 @@
 
 <div class="content">
   <div class="page-header" id="page-header">
-    <%= render :partial => 'page-header', :locals => { :status => " <small>#{@source.status}</small>".html_safe } %> 
+    <%= render :partial => 'page-header', :locals => { :status => " <small class=\"hidden-phone\">#{@source.status}</small>".html_safe } %> 
   </div>
   
   <dl class="dl-horizontal" id="dl-horizontal">
     <%= render :partial => 'dl-horizontal' %>
   </dl>
+  
+  <div class="visible-phone" id="configuration">
+    <h2>Configuration</h2>
+    <%= render :partial => 'configuration' %>
+  </div>
 
   <ul class="nav nav-tabs">
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
-    <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <li class="hidden-phone"><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Most-Cited<b class="caret"></b></a>
       <ul class="dropdown-menu">
@@ -43,27 +48,10 @@
   
   <div class="tab-content">
     <div class="tab-pane active" id="summary">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Total Articles</th>
-            <td><%= Article.count %></td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>Stale Articles</th>
-            <td><%= @source.retrieval_statuses.stale.count %></td>
-          </tr>
-          <tr>
-            <th>Queued Articles</th>
-            <td><%= @source.retrieval_statuses.queued.count %></td>
-          </tr>
-        </tbody>
-      </table>
+      <%= render :partial => 'summary' %>
     </div>
     
-    <div class="tab-pane" id="configuration">
+    <div class="tab-pane hidden-phone" id="configuration">
       <%= render :partial => 'configuration' %> 
     </div>
     <%= render :partial => 'tab-content', :locals => { :pane => "tab-pane" } %>

@@ -11,7 +11,7 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>Group</th>
+        <th class="hidden-phone">Group</th>
         <th>Status</th>
         <th>Stale Articles</th>
         <th>Queued Articles</th>
@@ -21,7 +21,7 @@
       <% @sources.each do|source| %>
         <tr>
           <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
-          <td><%= h(source.group.name) if source.group %></td>
+          <td class="hidden-phone"><%= h(source.group.name) if source.group %></td>
           <td><%= status_label(source).html_safe %></td>
           <td><%= source.retrieval_statuses.stale.count %></td>
           <td><%= source.retrieval_statuses.queued.count %></td>

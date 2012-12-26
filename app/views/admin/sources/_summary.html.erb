@@ -1,0 +1,18 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Total Articles</th>
+      <td><%= Article.count %></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Stale Articles</th>
+      <td><%= @source.retrieval_statuses.stale.count %></td>
+    </tr>
+    <tr>
+      <th>Queued Articles</th>
+      <td><%= @source.retrieval_statuses.queued.count %></td>
+    </tr>
+  </tbody>
+</table>

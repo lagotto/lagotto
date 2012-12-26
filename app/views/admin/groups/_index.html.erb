@@ -36,7 +36,7 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Sources</th>
+          <th class="hidden-phone">Sources</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -44,7 +44,7 @@
       <% @groups.each do|group| %>
         <tr>       
           <td><%= h(group.name) %></td>
-          <td><%= group.sources.map { |source| link_to(source.display_name, admin_source_path(source)) }.join("</br>").html_safe %></td>
+          <td class="hidden-phone"><%= group.sources.map { |source| link_to(source.display_name, admin_source_path(source)) }.join("</br>").html_safe %></td>
           <td>
             <div class="btn-group">
               <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_group_path(group), { :remote => true, :class => 'btn btn-mini' } %>

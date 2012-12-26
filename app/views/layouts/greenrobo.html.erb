@@ -49,7 +49,7 @@
 					<li><%= link_to "Articles", articles_path %></li>
           <li><%= link_to "Sources", sources_path %></li>
           <% if user_signed_in? %>
-            <li><%= link_to "Administration", admin_root_path %></li>
+            <li class="hidden-desktop"><%= link_to "Admin", admin_root_path %></li>
           <% end %>
         </ul>
         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -63,6 +63,7 @@
   	      <% end %>
           <ul class="nav pull-right">
             <% if user_signed_in? %>
+            <li class="hidden-phone"><%= link_to "Administration", admin_root_path %></li>
               <li><%= link_to("Sign Out", destroy_user_session_path, :method => 'delete') %></li>
             <% else %>
               <li><%= link_to_setup_or_login %></li>

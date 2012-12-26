@@ -1,3 +1,7 @@
+<div class="visible-phone">
+  <dt>Status</dt>
+  <dd><%= h(@source.status) %></dd>  
+</div>
 <% unless @source.group.blank? %>
   <dt>Group</dt>
   <dd><%= h(@source.group.name) %></dd>
