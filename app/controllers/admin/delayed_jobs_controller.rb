@@ -1,7 +1,8 @@
 class Admin::DelayedJobsController < Admin::ApplicationController
   
   def index
-    @delayed_jobs = DelayedJob.order("queue, run_at DESC").limit(50)
+    @sources = Source.order("name")
+    respond_with @sources
   end
   
   def destroy
