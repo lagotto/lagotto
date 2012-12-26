@@ -18,9 +18,10 @@
  */
  
 @import "bootstrap";
+body { padding-top: 60px; padding-bottom: 40px; }
+
 @import "bootstrap-responsive";
 
-body { padding-top: 60px; }
 th.number, td.number { width: 120px; text-align: right; }
 .section { padding-bottom: 4px; }
 .page-header { padding-bottom: 0; margin: 20px 0 20px; }

@@ -22,7 +22,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>
     <%= "(#{Rails.env})" unless Rails.env.production? %>
     <%= APP_CONFIG['useragent'] %>
@@ -42,22 +42,33 @@
   <header class="navbar navbar-fixed-top">
 	  <div class="navbar-inner">
 			<div class="container">
-			  <a class="brand" href="<%= root_path %>"><%= APP_CONFIG['useragent'] %></a>
+        <div class="nav-collapse collapse">
+			    <a class="brand" href="<%= root_path %>"><%= APP_CONFIG['useragent'] %></a>
+        </div>
 				<ul class="nav">
 					<li><%= link_to "Articles", articles_path %></li>
           <li><%= link_to "Sources", sources_path %></li>
-        </ul>
-	      <%= form_tag({:controller => "/articles", :action => "index"}, :method => "get", :class => "navbar-search pull-left") do %>
-          <%= search_field_tag :query, params[:query], :placeholder => "Search for Article", :class => "search-query" %>
-	      <% end %>
-        <ul class="nav pull-right">
           <% if user_signed_in? %>
             <li><%= link_to "Administration", admin_root_path %></li>
-            <li><%= link_to("Sign Out", destroy_user_session_path, :method => 'delete') %></li>
-          <% else %>
-            <li><%= link_to_setup_or_login %></li>
           <% end %>
-	      </ul>
+        </ul>
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <div class="nav-collapse collapse">
+  	      <%= form_tag({:controller => "/articles", :action => "index"}, :method => "get", :class => "navbar-search pull-left") do %>
+            <%= search_field_tag :query, params[:query], :placeholder => "Search for Article", :class => "search-query" %>
+  	      <% end %>
+          <ul class="nav pull-right">
+            <% if user_signed_in? %>
+              <li><%= link_to("Sign Out", destroy_user_session_path, :method => 'delete') %></li>
+            <% else %>
+              <li><%= link_to_setup_or_login %></li>
+            <% end %>
+    	    </ul>
+        </div>
 			</div>
 		</div>
 	</header>
