@@ -63,7 +63,7 @@
   	      <% end %>
           <ul class="nav pull-right">
             <% if user_signed_in? %>
-            <li class="hidden-phone"><%= link_to "Administration", admin_root_path %></li>
+              <li class="visible-desktop"><%= link_to "Administration", admin_root_path %></li>
               <li><%= link_to("Sign Out", destroy_user_session_path, :method => 'delete') %></li>
             <% else %>
               <li><%= link_to_setup_or_login %></li>

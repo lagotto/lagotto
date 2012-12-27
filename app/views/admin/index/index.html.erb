@@ -61,12 +61,10 @@
           <h2>
             <i class="icon-wrench"></i> Jobs
             <% if @delayed_jobs_errors_count > 0 %>
-              <span class="label label-warning pull-right">Failures</span>
-            <% else %>
-              <span class="label label-success pull-right">No Failures</span>
+              <span class="label label-warning pull-right">Errors</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@delayed_jobs_count, 'active job') %>.<br/>&nbsp;</p>
+          <p><%= pluralize(@delayed_jobs_count, 'active job') %> and <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.<br/>&nbsp;</p>
         </div>
       </div>
     </li>
@@ -74,9 +72,12 @@
       <div class="thumbnail">
         <div class="caption">
           <h2>
-            <i class="icon-wrench"></i> Queues
+            <i class="icon-list"></i> Queues
+            <% if @queued_count == 0 %>
+              <span class="label label-warning pull-right">No Queued Articles</span>
+            <% end %>
           </h2>
-          <p><%= pluralize(RetrievalStatus.queued.count, 'queued article') %>.<br/>&nbsp;</p>
+          <p><%= pluralize(@queued_count, 'queued article') %>.<br/>&nbsp;</p>
         </div>
       </div>
     </li>

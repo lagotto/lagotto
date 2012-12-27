@@ -7,26 +7,26 @@ Feature: Status of sources
     Given I am logged in
     And the source "CiteULike" exists
     
-  @javascript
-  Scenario: I should see when a source is inactive
-    Given that the status of source "CiteULike" is "inactive"
-    When I go to the source "CiteULike"
-    Then I should see that the source is "inactive"
+    @javascript
+    Scenario: I should see when a source is inactive
+      Given that the status of source "CiteULike" is "inactive"
+      When I go to the source "CiteULike"
+      Then I should see that the source is "inactive"
     
-  @javascript
-  Scenario: I should see when a source is disabled
-    Given that the status of source "CiteULike" is "disabled"
-    When I go to the source "CiteULike"
-    Then I should see that the source is "disabled"
+    @javascript
+    Scenario: I should see when a source is disabled
+      Given that the status of source "CiteULike" is "disabled"
+      When I go to the source "CiteULike"
+      Then I should see that the source is "disabled"
     
-  @javascript
-  Scenario: I should see when a source has no events
-    Given that the status of source "CiteULike" is "no events"
-    When I go to the source "CiteULike"
-    Then I should see that the source is "no events"
+    @javascript
+    Scenario: I should see when a source has no events
+      Given that the status of source "CiteULike" is "no events"
+      When I go to the source "CiteULike"
+      Then I should see that the source is "no events"
     
-  @javascript
-  Scenario: I should see when a source is active
-    Given that the status of source "CiteULike" is "active"
-    When I go to the source "CiteULike"
-    Then I should see that the source is "active"
+    @javascript
+    Scenario: I should see when a source is active
+      Given that the status of source "CiteULike" is "active"
+      When I go to the source "CiteULike"
+      Then I should see that the source is "active"

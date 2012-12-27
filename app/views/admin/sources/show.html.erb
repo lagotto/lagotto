@@ -27,14 +27,14 @@
     <%= render :partial => 'dl-horizontal' %>
   </dl>
   
-  <div class="visible-phone" id="configuration">
-    <h2>Configuration</h2>
-    <%= render :partial => 'configuration' %>
+  <div class="visible-phone">
+    <h2>Summary</h2>
+    <%= render :partial => 'summary' %>
   </div>
 
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
-    <li class="hidden-phone"><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <li class="active"><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <li class="hidden-phone"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Most-Cited<b class="caret"></b></a>
       <ul class="dropdown-menu">
@@ -47,12 +47,11 @@
   </ul>
   
   <div class="tab-content">
-    <div class="tab-pane active" id="summary">
-      <%= render :partial => 'summary' %>
-    </div>
-    
-    <div class="tab-pane hidden-phone" id="configuration">
+    <div class="tab-pane active" id="configuration">
       <%= render :partial => 'configuration' %> 
+    </div>
+    <div class="tab-pane active hidden-phone" id="summary">
+      <%= render :partial => 'summary' %>
     </div>
     <%= render :partial => 'tab-content', :locals => { :pane => "tab-pane" } %>
   </div>

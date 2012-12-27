@@ -46,10 +46,6 @@ Given /^an article does not exist$/ do
 end
 
 ### WHEN ###
-When /^I go to the Articles page$/ do
-  visit articles_path
-end
-
 When /^I add the article with all required information$/ do
   delete_article
   create_article
@@ -66,5 +62,6 @@ Then /^I should see a list of articles$/ do
 end
 
 Then /^I should see a list of (\d+) articles$/ do |number|
+  page.driver.render("tmp/capybara/#{number}.png")
   page.has_css?('div.span12', :visible => true, :count => number.to_i).should be_true
 end

@@ -15,14 +15,17 @@ Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
   elsif status == "disabled"
     @source = FactoryGirl.create(:source, disable_until: (Time.now + 1.hour))
   end
-  
+end
+
+Given /^the screen size is "(.*?)" x "(.*?)"$/ do |width, height|
+  page.driver.resize(width.to_i, height.to_i)
 end
 
 ### WHEN ###
-When /^I go to the configuration of source "(\w+)"$/ do |display_name|
+When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
-  click_link "Configuration"
+  click_link tab_title
   page.driver.render("tmp/capybara/configuration.png")
 end
 
@@ -54,8 +57,30 @@ When /^I submit the form$/ do
   click_button "Save"
 end
 
-When /^I go to the source overview$/ do
-  visit sources_path
+When /^I go to the "(.*?)" page$/ do |page_title|
+  if page_title == "Articles"
+    visit articles_path
+  elsif page_title == "Sources"
+    visit sources_path
+  end
+end
+
+When /^I go to the "(.*?)" admin page$/ do |page_title|
+  if page_title == "Groups"
+    visit admin_groups_path
+  elsif page_title == "Sources" 
+    visit admin_sources_path
+  end
+  page.driver.render("tmp/capybara/#{page_title}.png")
+end
+
+When /^I go to the admin page$/ do
+  visit admin_root_path
+end
+
+Then /^I should not see the "(.*?)" tab$/ do |tab_title|
+  page.driver.render("tmp/capybara/#{tab_title}.png")
+  page.has_css?('li', :text => tab_title, :visible => false)
 end
 
 ### THEN ###
@@ -67,6 +92,14 @@ Then /^"(.*?)" should be the only option for "(.*?)"$/ do |value, field|
   page.has_select?("source_group_id", :options => [value]).should be_true
 end
 
+Then /^I should see the "(.*?)" column$/ do |column_title|
+  page.has_css?('th', :text => column_title, :visible => true)
+end
+
+Then /^I should not see the "(.*?)" column$/ do |column_title|
+  page.has_css?('th', :text => column_title, :visible => false)
+end
+
 Then /^I should see the "(.*?)" settings$/ do |parameter|
   page.should have_content parameter
 end
@@ -76,6 +109,16 @@ Then /^I should see that the source is "(.*?)"$/ do |status|
   page.driver.render("tmp/capybara/#{status}.png")
 end
 
+Then /^I should not see the "(.*?)" link in the menu bar$/ do |link_text|
+  if link_text == "Home"
+    page.has_css?('a', :text => APP_CONFIG['useragent'], :visible => false)
+  else
+    page.has_css?('a', :text => link_text, :visible => false)
+    page.driver.render("tmp/capybara/#{link_text}.png")
+  end
+end
+
 Then /^I should see the image "(.+)"$/ do |image|
-    page.should have_xpath("//img[@src=\"/assets/#{image}\"]")
+  page.has_css?("img[src='/assets/#{image}']") 
+  page.driver.render("tmp/capybara/#{image}.png")
 end
