@@ -64,7 +64,7 @@
               <span class="label label-warning pull-right">Errors</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@delayed_jobs_count, 'active job') %> and <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.<br/>&nbsp;</p>
+          <p><%= pluralize(@delayed_jobs_active_count, 'active job') %>. <%= pluralize(@delayed_jobs_active_count, 'job') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.</p>
         </div>
       </div>
     </li>

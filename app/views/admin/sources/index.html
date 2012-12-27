@@ -13,7 +13,7 @@
         <th>Name</th>
         <th class="hidden-phone">Group</th>
         <th>Status</th>
-        <th class="hidden-phone">Stale Articles</th>
+        <th class="hidden-phone">Responses (24&nbsp;hours)</th>
         <th>Errors (24&nbsp;hours)</th>
       </tr>
     </thead>
@@ -23,7 +23,7 @@
           <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
           <td class="hidden-phone"><%= h(source.group.name) if source.group %></td>
           <td><%= status_label(source).html_safe %></td>
-          <td class="hidden-phone"><%= source.retrieval_statuses.stale.count %></td>
+          <td class="hidden-phone"><%= source.retrieval_histories.total(1).count %></td>
           <td><%= source.retrieval_histories.with_errors(1).count %></td>
         </tr>
       <% end %>
