@@ -34,7 +34,7 @@
           <h2>
             <i class="icon-file"></i> Articles
           </h2>
-          <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(@articles_recent_count, 'article') %> published in the last 30 days.</p>
+          <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(Article.cited(1).count, 'cited article') %>, and <br/><%= pluralize(@articles_recent_count, 'article') %> published in the last 30 days.</p>
         </div>
       </div>
     </li>
@@ -50,6 +50,16 @@
             <% end %>
           </h2>
           <p><%= pluralize(@sources.count, 'source') %>, including <%= pluralize(@sources_inactive_count, 'inactive source') %> and <%= pluralize(@sources_disabled_count, 'disabled source') %>.</p>
+        </div>
+      </div>
+    </li>
+    <li class="span4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h2>
+            <i class="icon-flag"></i> Events 
+          </h2>
+          <p><%= pluralize(RetrievalStatus.sum(:event_count), 'event') %>.<br/>&nbsp;</p>
         </div>
       </div>
     </li>

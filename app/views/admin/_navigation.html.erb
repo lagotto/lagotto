@@ -1,4 +1,5 @@
 <li<%= " class=\"active\"".html_safe if controller.controller_name == "index" %>><%= link_to "Overview", admin_root_path %></li>
 <li class="hidden-phone<%= " active" if controller.controller_name == "groups" %>"><%= link_to "Groups", admin_groups_path %></li>
 <li<%= " class=\"active\"".html_safe if controller.controller_name == "sources" %>><%= link_to "Sources", admin_sources_path %></li>
+<li class="hidden-phone<%= " active" if controller.controller_name == "events" %>"><%= link_to "Events", admin_events_path %></li>
 <li<%= " class=\"active\"".html_safe if controller.controller_name == "delayed_jobs" %>><%= link_to "Queues", admin_delayed_jobs_path %></li>
