@@ -63,7 +63,16 @@
   	      <% end %>
           <ul class="nav pull-right">
             <% if user_signed_in? %>
-              <li class="visible-desktop"><%= link_to "Administration", admin_root_path %></li>
+  						<li class="dropdown visible-desktop">
+  					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
+  				      <ul class="dropdown-menu">
+  		            <li><%= link_to 'Overview', admin_root_path %></li>
+                  <li><%= link_to 'Groups', admin_groups_path %></li>
+                  <li><%= link_to 'Sources', admin_sources_path %></li>
+                  <li><%= link_to 'Events', admin_events_path %></li>
+                  <li><%= link_to 'Queues', admin_delayed_jobs_path %></li>
+  		          </ul>
+  		        </li>   
               <li><%= link_to("Sign Out", destroy_user_session_path, :method => 'delete') %></li>
             <% else %>
               <li><%= link_to_setup_or_login %></li>
