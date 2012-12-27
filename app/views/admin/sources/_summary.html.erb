@@ -42,13 +42,13 @@
       <th/>
       <th>Articles with Events</th>
       <th>Total Events</th>
-      <th>Max Events per Article</th>
+      <th>Max. Events per Article</th>
     </tr>
     <tr>
       <th>Events</th>
       <td>
         <%= @source.articles.cited(1).count %>
-        <%= Article.count > 0 ? "(#{number_to_percentage(@source.articles.cited(1).count / Article.count * 100, :precision => 0)})" : "" %>
+        <%= Article.count > 0 ? "(#{number_to_percentage(@source.articles.cited(1).count / Article.count, :precision => 0)})" : "" %>
       </td>
       <td><%= @source.retrieval_statuses.sum(:event_count) %></td>
       <td><%= @source.retrieval_statuses.maximum(:event_count) %></td>

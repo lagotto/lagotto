@@ -23,7 +23,7 @@
           <td><%= status_label(source).html_safe %></td>
           <td>
             <%= source.articles.cited(1).count %>
-            <%= Article.count > 0 ? "(#{number_to_percentage(source.articles.cited(1).count / Article.count * 100, :precision => 0)})" : "" %>
+            <%= Article.count > 0 ? "(#{number_to_percentage(source.articles.cited(1).count / Article.count, :precision => 0)})" : "" %>
           </td>
           <td><%= source.retrieval_statuses.sum(:event_count) %></td>
         </tr>
