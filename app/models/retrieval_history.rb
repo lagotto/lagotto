@@ -35,6 +35,10 @@ class RetrievalHistory < ActiveRecord::Base
   scope :after_days, lambda { |days| joins(:article).where("DATE(retrieved_at) <= TIMESTAMPADD(DAY,?,articles.published_on)", days).order("retrieved_at") }
   scope :after_months, lambda { |months| joins(:article).where("DATE(retrieved_at) <= TIMESTAMPADD(MONTH,?,articles.published_on)", months).order("retrieved_at") }
   scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year).order("retrieved_at") }
+  
+  scope :with_success, where("status = 'SUCCESS' AND TIMESTAMPDIFF(HOUR, retrieved_at, UTC_TIMESTAMP()) <= 24")
+  scope :with_no_data, where("status = 'SUCCESS WITH NO DATA' AND TIMESTAMPDIFF(HOUR, retrieved_at, UTC_TIMESTAMP()) <= 24")
+  scope :with_errors, where("status = 'ERROR' AND TIMESTAMPDIFF(HOUR, retrieved_at, UTC_TIMESTAMP()) <= 24")
 
   def data
     begin

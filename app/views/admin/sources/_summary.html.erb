@@ -1,18 +1,30 @@
-<table class="table">
+<table class="table table-striped">
   <thead>
     <tr>
+      <th/>
       <th>Total Articles</th>
-      <td><%= Article.count %></td>
+      <th>Stale Articles</th>
+      <th>Queued Articles</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>Stale Articles</th>
+      <th>Article Status</th>
+      <td><%= Article.count %></td>
       <td><%= @source.retrieval_statuses.stale.count %></td>
+      <td><%= @source.retrieval_statuses.queued.count %></td>
     </tr>
     <tr>
-      <th>Queued Articles</th>
-      <td><%= @source.retrieval_statuses.queued.count %></td>
+      <th/>
+      <th>Success</th>
+      <th>No events</th>
+      <th>Errors</th>
+    </tr>
+    <tr>
+      <th>Responses in the last 24 hours</th>
+      <td><%= @source.retrieval_histories.with_success.count %></td>
+      <td><%= @source.retrieval_histories.with_no_data.count %></td>
+      <td><%= @source.retrieval_histories.with_errors.count %></td>
     </tr>
   </tbody>
 </table>
