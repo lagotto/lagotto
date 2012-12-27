@@ -44,7 +44,7 @@
           <h2>
             <i class="icon-tags"></i> Sources 
             <% if @sources_disabled_count > 0 %>
-              <span class="label label-warning pull-right">Problems</span>
+              <span class="label label-warning pull-right">Disabled Sources</span>
             <% elsif @sources_inactive_count > 0 %>
               <span class="label label-info pull-right">Inactive Sources</span>
             <% end %>
@@ -57,12 +57,12 @@
       <div class="thumbnail">
         <div class="caption">
           <h2>
-            <i class="icon-wrench"></i> Jobs
-            <% if @delayed_jobs_errors_count > 0 %>
-              <span class="label label-warning pull-right">Errors</span>
+            <i class="icon-download"></i> Responses
+            <% if@delayed_jobs_count > 0 and @delayed_jobs_errors_count / @delayed_jobs_count > 0.05 %>
+              <span class="label label-warning pull-right">More than 5% Errors</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@delayed_jobs_active_count, 'active job') %>. <%= pluralize(@delayed_jobs_count, 'job') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.<br/>&nbsp;</p>
+          <p><%= pluralize(@delayed_jobs_count, 'responses') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.</p>
         </div>
       </div>
     </li>
@@ -75,7 +75,7 @@
               <span class="label label-warning pull-right">No Queued Articles</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@queued_count, 'queued article') %>.<br/>&nbsp;</p>
+          <p><%= pluralize(@delayed_jobs_active_count, 'active job') %> for <%= pluralize(@queued_count, 'queued article') %>.<br/>&nbsp;</p>
         </div>
       </div>
     </li>

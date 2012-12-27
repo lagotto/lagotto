@@ -33,7 +33,7 @@
       <th>Errors</th>
     </tr>
     <tr>
-      <th>Responses in the last 30 days</th>
+      <th>Responses in the last 30 Days</th>
       <td><%= @source.retrieval_histories.with_success(30).count %></td>
       <td><%= @source.retrieval_histories.with_no_data(30).count %></td>
       <td><%= @source.retrieval_histories.with_errors(30).count %></td>
