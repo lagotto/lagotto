@@ -38,4 +38,8 @@ module ApplicationHelper
       "active"
     end
   end
+  
+  def all_sources
+    Source.order("name")
+  end
 end

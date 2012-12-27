@@ -17,4 +17,8 @@
 # limitations under the License.
 
 class IndexController < ApplicationController
+  
+  def index
+    @sources = Source.order("name")
+  end
 end
