@@ -47,11 +47,9 @@
               <span class="label label-warning pull-right">Problems</span>
             <% elsif @sources_inactive_count > 0 %>
               <span class="label label-info pull-right">Inactive Sources</span>
-            <% else %>
-              <span class="label label-success pull-right">No Problems</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@sources.count, 'source') %>, including <%= @sources_inactive_count %> inactive and <%= @sources_disabled_count %> disabled sources.</p>
+          <p><%= pluralize(@sources.count, 'source') %>, including <%= pluralize(@sources_inactive_count, 'inactive source') %> and <%= pluralize(@sources_disabled_count, 'disabled source') %>.</p>
         </div>
       </div>
     </li>
@@ -64,7 +62,7 @@
               <span class="label label-warning pull-right">Errors</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@delayed_jobs_active_count, 'active job') %>. <%= pluralize(@delayed_jobs_active_count, 'job') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.</p>
+          <p><%= pluralize(@delayed_jobs_active_count, 'active job') %>. <%= pluralize(@delayed_jobs_count, 'job') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.<br/>&nbsp;</p>
         </div>
       </div>
     </li>

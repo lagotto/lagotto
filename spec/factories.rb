@@ -17,6 +17,10 @@ FactoryGirl.define do
       retrieval_statuses { |article| [article.association(:retrieval_status)] }
     end
     
+    factory :article_with_errors do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_errors)] }
+    end
+    
     factory :article_with_crossref_citations do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_crossref)] }
     end
@@ -41,8 +45,9 @@ FactoryGirl.define do
   end
   
   factory :retrieval_history do
-    sequence(:retrieved_at) {|n| "2008-10-31".to_date + n.days }
-    sequence(:event_count) {|n| 100 + n }
+    sequence(:retrieved_at) {|n| Time.zone.today - n.hours }
+    event_count { retrieval_status.event_count }
+    status { event_count > 0 ? "SUCCESS" : "ERROR" }
   end
   
   factory :retrieval_status do
@@ -53,6 +58,7 @@ FactoryGirl.define do
     
     trait(:unpublished) { association :article, :unpublished, factory: :article }
     trait(:staleness) { association :source, factory: :citeulike }
+    trait(:with_errors) { event_count 0 }
     trait(:with_crossref) { association :source, factory: :cross_ref }
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }

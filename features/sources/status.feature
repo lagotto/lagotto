@@ -18,6 +18,12 @@ Feature: Status of sources
       Given that the status of source "CiteULike" is "disabled"
       When I go to the source "CiteULike"
       Then I should see that the source is "disabled"
+      
+    @javascript
+    Scenario: I should see when a source has errors
+      Given that the status of source "CiteULike" is "with errors"
+      When I go to the source "CiteULike"
+      Then I should see that the source is "with errors"
     
     @javascript
     Scenario: I should see when a source has no events
