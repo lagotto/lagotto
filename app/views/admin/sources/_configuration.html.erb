@@ -1,4 +1,4 @@
-<% if controller.action_name == "edit" or (controller.action_name == "update" and !@source.errors.empty?) %>
+<% if current_page?(:action => :edit) or (current_page?(:action => :update) and !@source.errors.empty?) %>
 
   <%= simple_form_for([:admin, @source.becomes(Source)], :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
     <% f.object = @source.becomes(@source.class) %>

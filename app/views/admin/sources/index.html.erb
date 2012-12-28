@@ -1,26 +1,26 @@
 <div class="content">
   <div class="page-header">
-    <h1>Administration</h1>
+    <h1>Sources</h1>
   </div>
-
-  <ul class="nav nav-tabs" id="admin-nav">
-    <%= render :partial => 'admin/navigation' %> 
-  </ul>
 
   <table class="table">
     <thead>
       <tr>
         <th>Name</th>
+        <th class="hidden-phone">Group</th>
         <th>Status</th>
-        <th>Queued Articles</th>
+        <th>Stale Articles</th>
+        <th class="hidden-phone">Queued Articles</th>
       </tr>
     </thead>
     <tbody>
       <% @sources.each do|source| %>
         <tr>
           <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
+          <td class="hidden-phone"><%= h(source.group.name) if source.group %></td>
           <td><%= status_label(source).html_safe %></td>
-          <td><%= source.retrieval_statuses.queued.count %></td>
+          <td><%= source.retrieval_statuses.stale.count %></td>
+          <td class="hidden-phone"><%= source.retrieval_statuses.queued.count %></td>
         </tr>
       <% end %>
     </tbody>

@@ -1,4 +1,5 @@
 <% if controller.action_name == "new" or (controller.action_name == "create" and !@group.errors.empty?) %>
+
   <%= simple_form_for @group, :url => admin_groups_path, :html => { :class => 'form-horizontal', :remote => true } do |f| %>
     <fieldset>
       <legend>New Group</legend>  

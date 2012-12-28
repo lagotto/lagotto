@@ -1,0 +1,26 @@
+<div class="content">
+  <div class="page-header">
+    <h1>Responses</h1>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th class="hidden-phone">Responses (24&nbsp;hours)</th>
+        <th>Errors (24&nbsp;hours)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sources.each do|source| %>
+        <tr>
+          <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
+          <td><%= status_label(source).html_safe %></td>
+          <td class="hidden-phone"><%= source.retrieval_histories.total(1).count %></td>
+          <td><%= source.retrieval_histories.with_errors(1).count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

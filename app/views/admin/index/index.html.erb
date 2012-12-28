@@ -20,21 +20,17 @@
 
 <div class="content">
   <div class="page-header">
-    <h1>Administration</h1>
+    <h1>Home</h1>
   </div>
-
-  <ul class="nav nav-tabs" id="admin-nav">
-    <%= render :partial => 'admin/navigation' %> 
-  </ul>
   
   <ul class="thumbnails">
     <li class="span4">
       <div class="thumbnail">
         <div class="caption">
           <h2>
-            <i class="icon-file"></i> Articles
+            <i class="icon-file"></i> <%= link_to "Articles", articles_path %>
           </h2>
-          <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(Article.cited(1).count, 'cited article') %>, and <br/><%= pluralize(@articles_recent_count, 'article') %> published in the last 30 days.</p>
+          <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(Article.cited(1).count, 'cited article') %>, and <%= pluralize(@articles_recent_count, 'article') %> published in the last 30 days.</p>
         </div>
       </div>
     </li>
@@ -42,7 +38,7 @@
       <div class="thumbnail">
         <div class="caption">
           <h2>
-            <i class="icon-tags"></i> Sources 
+            <i class="icon-tags"></i> <%= link_to "Sources", admin_sources_path %> 
             <% if @sources_disabled_count > 0 %>
               <span class="label label-warning pull-right">Disabled Sources</span>
             <% elsif @sources_inactive_count > 0 %>
@@ -57,7 +53,20 @@
       <div class="thumbnail">
         <div class="caption">
           <h2>
-            <i class="icon-flag"></i> Events 
+            <i class="icon-download"></i> <%= link_to "Responses", admin_responses_path %> 
+            <% if@delayed_jobs_count > 0 and @delayed_jobs_errors_count / @delayed_jobs_count > 0.05 %>
+              <span class="label label-warning pull-right">More than 5% Errors</span>
+            <% end %>
+          </h2>
+          <p><%= pluralize(@delayed_jobs_count, 'responses') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.<br/>&nbsp;</p>
+        </div>
+      </div>
+    </li>
+    <li class="span4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h2>
+            <i class="icon-flag"></i> <%= link_to "Events", admin_events_path %> 
           </h2>
           <p><%= pluralize(RetrievalStatus.sum(:event_count), 'event') %>.<br/>&nbsp;</p>
         </div>
@@ -67,20 +76,7 @@
       <div class="thumbnail">
         <div class="caption">
           <h2>
-            <i class="icon-download"></i> Responses
-            <% if@delayed_jobs_count > 0 and @delayed_jobs_errors_count / @delayed_jobs_count > 0.05 %>
-              <span class="label label-warning pull-right">More than 5% Errors</span>
-            <% end %>
-          </h2>
-          <p><%= pluralize(@delayed_jobs_count, 'responses') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.</p>
-        </div>
-      </div>
-    </li>
-    <li class="span4">
-      <div class="thumbnail">
-        <div class="caption">
-          <h2>
-            <i class="icon-list"></i> Queues
+            <i class="icon-list"></i> <%= link_to "Queues", admin_delayed_jobs_path %>
             <% if @queued_count == 0 %>
               <span class="label label-warning pull-right">No Queued Articles</span>
             <% end %>
