@@ -38,7 +38,7 @@ Given /^there is an article$/ do
 end
 
 Given /^that we have (\d+) articles$/ do |number|
-  created_articles = FactoryGirl.create_list(:article_with_events, number.to_i)
+  FactoryGirl.create_list(:article_with_events, number.to_i)
 end
 
 Given /^an article does not exist$/ do

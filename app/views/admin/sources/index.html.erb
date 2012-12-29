@@ -1,28 +1,9 @@
 <div class="content">
   <div class="page-header">
-    <h1>Sources</h1>
+    <h1>Groups</h1>
   </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th class="hidden-phone">Group</th>
-        <th>Status</th>
-        <th>Stale Articles</th>
-        <th class="hidden-phone">Queued Articles</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @sources.each do|source| %>
-        <tr>
-          <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
-          <td class="hidden-phone"><%= h(source.group.name) if source.group %></td>
-          <td><%= status_label(source).html_safe %></td>
-          <td><%= source.retrieval_statuses.stale.count %></td>
-          <td class="hidden-phone"><%= source.retrieval_statuses.queued.count %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <div id="index">
+    <%= render :partial => 'admin/sources/index' %> 
+  </div>
 </div>

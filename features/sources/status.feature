@@ -8,31 +8,15 @@ Feature: Status of sources
     And the source "CiteULike" exists
     
     @javascript
-    Scenario: I should see when a source is inactive
-      Given that the status of source "CiteULike" is "inactive"
+    Scenario Outline: I should see the status of a source
+      Given that the status of source "CiteULike" is "<Status>"
       When I go to the source "CiteULike"
-      Then I should see that the source is "inactive"
-    
-    @javascript
-    Scenario: I should see when a source is disabled
-      Given that the status of source "CiteULike" is "disabled"
-      When I go to the source "CiteULike"
-      Then I should see that the source is "disabled"
+      Then I should see that the source is "<Status>"
       
-    @javascript
-    Scenario: I should see when a source has errors
-      Given that the status of source "CiteULike" is "with errors"
-      When I go to the source "CiteULike"
-      Then I should see that the source is "with errors"
-    
-    @javascript
-    Scenario: I should see when a source has no events
-      Given that the status of source "CiteULike" is "no events"
-      When I go to the source "CiteULike"
-      Then I should see that the source is "no events"
-    
-    @javascript
-    Scenario: I should see when a source is active
-      Given that the status of source "CiteULike" is "active"
-      When I go to the source "CiteULike"
-      Then I should see that the source is "active"
+      Examples:
+      | Status      | 
+      | inactive    |
+      | disabled    |
+      | with errors |
+      | no events   |
+      | active      |

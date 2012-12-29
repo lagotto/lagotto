@@ -9,21 +9,13 @@ Feature: Display most-cited articles
     And that we have 10 articles
   
     @javascript
-    Scenario: I should see the most-cited articles from the last 7 days
-      When I go to the "7 days" submenu of menu "Most-Cited" of source "CiteULike"
-      Then I should see a list of 4 articles
-  
-    @javascript
-    Scenario: I should see the most-cited articles from the last 30 days
-      When I go to the "30 days" submenu of menu "Most-Cited" of source "CiteULike"
-      Then I should see a list of 5 articles
-    
-    @javascript
-    Scenario: I should see the most-cited articles from the last 12 months
-      When I go to the "12 months" submenu of menu "Most-Cited" of source "CiteULike"
-      Then I should see a list of 10 articles
-    
-    @javascript
-    Scenario: I should see the most-cited articles all-time
-      When I go to the "All-time" submenu of menu "Most-Cited" of source "CiteULike"
-      Then I should see a list of 10 articles
+    Scenario Outline: I should see the most-cited articles
+      When I go to the "<Submenu>" submenu of menu "Most-Cited" of source "CiteULike"
+      Then I should see a list of <Articles> articles
+      
+      Examples: 
+        | Submenu   | Articles |
+        | 7 days    | 10       |
+        | 30 days   | 10       |
+        | 12 months | 10       |
+        | All-time  | 10       |

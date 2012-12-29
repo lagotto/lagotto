@@ -37,7 +37,7 @@ class Article < ActiveRecord::Base
   
   after_create :create_retrievals
 
-  scope :query, lambda { |query| where("doi like ?", "%#{query}%") }
+  scope :query, lambda { |query| where("doi like ? OR title like ?", "%#{query}%", "%#{query}%") }
 
   scope :cited, lambda { |cited|
     case cited

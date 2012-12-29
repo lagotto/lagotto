@@ -4,13 +4,12 @@ Feature: View article list
   Should be able to view a list of articles
     
     @javascript
-    Scenario: Article list
-      Given that we have 15 articles
+    Scenario Outline: Article list
+      Given that we have <Number> articles
       When I go to the "Articles" page
-      Then I should see a list of 15 articles
+      Then I should see a list of <VisibleNumber> articles
       
-    @javascript
-    Scenario: Paginated article list
-      Given that we have 60 articles
-      When I go to the "Articles" page
-      Then I should see a list of 50 articles
+      Examples: 
+        | Number   | VisibleNumber |
+        | 15       | 30            |
+        | 60       | 50            |

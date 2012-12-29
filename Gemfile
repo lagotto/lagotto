@@ -17,7 +17,6 @@ gem "devise", "~> 2.1.2"
 gem "validates_timeliness", "~> 3.0.14"
 gem "rabl", "~> 0.7.6"
 
-gem "sass-rails", "~> 3.2.5"
 gem "bootstrap-sass", "~> 2.2.2.0"
 gem "turbolinks", "~> 0.6.1"
 gem 'will_paginate', '3.0.3'
@@ -29,6 +28,8 @@ group :assets do
   gem "uglifier", "~> 1.3.0"
   gem "jquery-rails", "~> 2.1.3"
   gem "therubyracer", "~> 0.10.2", require: "v8"
+  gem 'sass-rails', '~> 3.2.5'
+  gem 'coffee-rails', '~> 3.2.2'
 end
 
 group :test do

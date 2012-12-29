@@ -6,8 +6,8 @@ class Admin::SourcesController < Admin::ApplicationController
   end
   
   def index
-    @sources = Source.order("name")
-    respond_with @sources
+    @groups = Group.order("name")
+    respond_with @groups
   end
 
   def edit

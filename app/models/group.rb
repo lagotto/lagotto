@@ -17,7 +17,7 @@
 # limitations under the License.
 
 class Group < ActiveRecord::Base
-  has_many :sources, :dependent => :nullify
+  has_many :sources, :order => 'display_name', :dependent => :nullify
 
   validates :name, :presence => true, :uniqueness => true
 end

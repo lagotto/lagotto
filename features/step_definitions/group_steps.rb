@@ -1,9 +1,5 @@
 ### UTILITY METHODS ###
 
-def create_group
-  @group = FactoryGirl.create(:group)
-end
-
 def build_group
   @group = FactoryGirl.build(:group)
 end
@@ -14,58 +10,40 @@ def delete_group
 end
 
 ### GIVEN ###
-Given /^a group does not exist$/ do
-  delete_group
-end
-
-Given /^I have a group named Citations$/ do
-  delete_group
-  create_group
-  visit admin_root_path
-  click_link "Groups"
-  page.should have_content @group.name
+Given /^I have a group "(.*?)"$/ do |group_name|
+  @group = FactoryGirl.create(:group, name: group_name)
 end
 
 ### WHEN ###
-When /^I add the group with all required information$/ do
-  create_group
+When /^I change the name of group "(.*?)" to "(.*?)"$/ do |group_name, new_name|
+  visit admin_sources_path
+  click_on "#{group_name}-edit"
+  fill_in 'Name', :with => new_name
+  click_on 'Save'
 end
 
-When /^I try to add the group with all required information$/ do
-  build_group
+When /^I delete the group "(.*?)"$/ do |group_name|
+  visit admin_sources_path
+  click_on "#{group_name}-delete"
 end
 
-When /^I add the group without a name$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I delete the group$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I edit the group with all required information$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I edit the group without giving a name$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I change the group name to Statistics$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I add the group "(.*?)"$/ do |group_name|
+  visit admin_sources_path
+  click_on "New"
+  fill_in 'Name', :with => group_name
+  click_on 'Save'
 end
 
 ### THEN ###
-Then /^I should see the group$/ do
-  visit admin_root_path
-  click_link "Groups"
-  page.should have_content @group.name
+Then /^I should see the group "(.*?)"$/ do |group_name|
+  page.should have_content group_name
 end
 
-Then /^I should not see the group Citations$/ do
-  page.should_not have_content "Citations"
+Then /^I should not see the group "(.*?)"$/ do |group_name|
+  page.should_not have_content group_name
 end
 
-Then /^I should see an error$/ do
-  pending # express the regexp above with the code you wish you had
+Then /^I should see the error "(.*?)"$/ do |error|
+  page.driver.render("tmp/capybara/#{error}.png")
+  page.should have_content error
 end

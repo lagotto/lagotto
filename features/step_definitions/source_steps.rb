@@ -74,6 +74,10 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
     visit admin_groups_path
   elsif page_title == "Sources" 
     visit admin_sources_path
+  elsif page_title == "Responses" 
+    visit admin_responses_path
+  elsif page_title == "Events" 
+    visit admin_events_path
   end
   page.driver.render("tmp/capybara/#{page_title}.png")
 end
@@ -125,4 +129,9 @@ end
 Then /^I should see the image "(.+)"$/ do |image|
   page.has_css?("img[src='/assets/#{image}']") 
   page.driver.render("tmp/capybara/#{image}.png")
+end
+
+Then /^the table "(.*?)" should contain:$/ do |table_name, table|  
+  page.driver.render("tmp/capybara/#{table_name}.png")
+  page.has_table?("#{table_name}", :rows => table.raw).should be_true
 end
