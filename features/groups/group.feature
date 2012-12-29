@@ -1,22 +1,34 @@
-Feature: Edit group
+Feature: Edit groups
   In order to organize sources
   A user
-  Should be able to edit a group
+  Should be able to add, edit or delete a group
   
     Background:
       Given I am logged in
+      And I have a group "Citations"
+      
+    @javascript
+    Scenario: Group is added succesfully
+      When I add the group "Statistics"
+      Then I should see the group "Statistics"
   
+    @javascript
     Scenario: Group is changed succesfully
-      Given I have a group named Citations
-      When I edit the group with all required information
-      Then I should not see the group Citations
+      When I change the name of group "Citations" to "Statistics"
+      Then I should see the group "Statistics"
     
+    @javascript    
     Scenario: Name for group missing
-      Given I have a group named Citations
-      When I edit the group without giving a name
-      Then I should see an error
+      When I change the name of group "Citations" to ""
+      Then I should see the error "can't be blank"
     
+    @javascript
     Scenario: Group exists already
-      Given I have a group named Citations
-      When I change the group name to Statistics
-      Then I should see an error
+      When I add the group "Statistics"
+      And I change the name of group "Citations" to "Statistics"
+      Then I should see the error "has already been taken"
+    
+    @javascript  
+    Scenario: Group is deleted succesfully
+      When I delete the group "Citations"
+      Then I should not see the group "Citations"
