@@ -44,9 +44,11 @@
 			<div class="container">
         <div class="nav-collapse collapse">
 			    <a class="brand" href="<%= root_path %>"><%= APP_CONFIG['useragent'] %></a>
-          <ul class="nav">
-            <%= controller.controller_name == "index" ? '<li class="visible-desktop active">'.html_safe : '<li class="visible-desktop">'.html_safe %><%= link_to 'Home', admin_root_path %></li>
-          </ul>
+          <% if user_signed_in? %>
+            <ul class="nav">
+              <%= controller.controller_name == "index" ? '<li class="visible-desktop active">'.html_safe : '<li class="visible-desktop">'.html_safe %><%= link_to 'Home', admin_root_path %></li>
+            </ul>
+          <% end %>
         </div>
 				<ul class="nav">
           <% if user_signed_in? %>
