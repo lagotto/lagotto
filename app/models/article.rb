@@ -127,6 +127,16 @@ class Article < ActiveRecord::Base
     retrieval_statuses.select {|r| r.event_count > 0}.size
   end
   
+  # Filter retrieval_statuses by source
+  def retrieval_statuses_by_source(options={})
+    if options[:source]
+      source_ids = Source.where("lower(name) in (?)", options[:source].split(",")).order("display_name").pluck(:id)
+      self.retrieval_statuses.by_source(source_ids)
+    else
+      self.retrieval_statuses
+    end
+  end
+  
   def doi_as_url
     if doi[0..2] == "10."
       "http://dx.doi.org/" + doi

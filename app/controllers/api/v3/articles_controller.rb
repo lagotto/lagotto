@@ -8,12 +8,6 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     type = type.nil? ? Article.uid : type[1]
     ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...100].map { |id| Article.clean_id(id) }
     
-    if params[:source]
-      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("display_name")
-    else
-      @sources = Source.order("display_name")
-    end
-    
     @articles = Article.where(type.to_sym => ids)
     
     # Return 404 HTTP status code and error message if article wasn't found

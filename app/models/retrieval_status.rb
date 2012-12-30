@@ -33,6 +33,8 @@ class RetrievalStatus < ActiveRecord::Base
   scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) < 0")
   scope :published, joins(:article).where("queued_at is NULL AND articles.published_on < ?", Time.zone.today)
   
+  scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
+  
   def data
     begin
       data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
@@ -54,6 +56,7 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
   
+  # Filter retrieval_histories by query parameters :days, :months, :year
   def histories_with_time_limit(options={})
     if options[:days].to_i > 0
       retrieval_histories.after_days(options[:days].to_i)
