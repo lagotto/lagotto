@@ -1,8 +1,8 @@
 class Admin::DelayedJobsController < Admin::ApplicationController
   
   def index
-    @sources = Source.order("name")
-    respond_with @sources
+    @jobs = DelayedJob.select("queue, COUNT(*) as total, COUNT(locked_at) as active, COUNT(failed_at) as failed").group(:queue)
+    respond_with @jobs
   end
   
   def destroy
