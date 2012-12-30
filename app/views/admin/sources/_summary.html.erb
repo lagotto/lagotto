@@ -2,14 +2,14 @@
   <thead>
     <tr>
       <th/>
-      <th>Refreshed Articles</th>
-      <th>Stale Articles</th>
-      <th>Queued Articles</th>
+      <th>Refreshed</th>
+      <th>Stale</th>
+      <th>Queued</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>Article Status</th>
+      <th>Articles</th>
       <td><%= Article.count - (@source.retrieval_statuses.stale.count + @source.retrieval_statuses.queued.count) %></td>
       <td><%= @source.retrieval_statuses.stale.count %></td>
       <td><%= @source.retrieval_statuses.queued.count %></td>
