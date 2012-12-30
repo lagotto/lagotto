@@ -17,10 +17,10 @@
       <% @sources.each do|source| %>
         <tr>
           <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
-          <td class="visible-phone"><%= source.total %></td>
-          <td class="hidden-phone"><%= source.total - (source.locked + source.failed) %></td>
-          <td class="hidden-phone"><%= source.locked %></td>
-          <td class="hidden-phone"><%= source.failed %></td>
+          <td class="visible-phone"><%= source.delayed_jobs.count(:run_at) %></td>
+          <td class="hidden-phone"><%= source.delayed_jobs.count(:run_at) - (source.delayed_jobs.count(:locked_at) + source.delayed_jobs.count(:failed_at)) %></td>
+          <td class="hidden-phone"><%= source.delayed_jobs.count(:locked_at) %></td>
+          <td class="hidden-phone"><%= source.delayed_jobs.count(:failed_at) %></td>
         </tr>
       <% end %>
     </tbody>
