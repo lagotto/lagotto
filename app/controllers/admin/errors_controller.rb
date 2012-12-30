@@ -1,8 +1,8 @@
 class Admin::ErrorsController < Admin::ApplicationController
   
   def index
-    @sources = Source.order("name")
-    respond_with @sources
+    @errors = Error.order("updated_at DESC").paginate(:page => params[:page])
+    respond_with @errors
   end
   
 end
