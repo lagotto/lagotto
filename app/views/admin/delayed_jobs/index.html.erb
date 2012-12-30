@@ -3,28 +3,26 @@
     <h1>Jobs</h1>
   </div>
   
-  <% unless @jobs.empty? %>
-    <table class="table">
-      <thead>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Queue</th>
+        <th class="visible-phone">Total</th>
+        <th class="hidden-phone">Waiting</th>
+        <th class="hidden-phone">Active</th>
+        <th class="hidden-phone">Failed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sources.each do|source| %>
         <tr>
-          <th>Queue</th>
-          <th>Waiting</th>
-          <th class="hidden-phone">Active</th>
-          <th class="hidden-phone">Failed</th>
+          <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
+          <td class="visible-phone"><%= source.total %></td>
+          <td class="hidden-phone"><%= source.total - (source.locked + source.failed) %></td>
+          <td class="hidden-phone"><%= source.locked %></td>
+          <td class="hidden-phone"><%= source.failed %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% @jobs.each do|job| %>
-          <tr>
-            <td><%= h(job.queue) %></td>
-            <td><%= job.total - (job.active + job.failed) %></td>
-            <td><%= job.active %></td>
-            <td><%= job.failed %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <div class="alert alert-info">There are currently no jobs.</div>
-  <% end %>
+      <% end %>
+    </tbody>
+  </table>
 </div>

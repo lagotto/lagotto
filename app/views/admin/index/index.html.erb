@@ -81,7 +81,7 @@
               <span class="label label-warning pull-right">No Queued Articles</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@delayed_jobs_active_count, 'active job') %> for <%= pluralize(@queued_count, 'queued article') %>.<br/>&nbsp;</p>
+          <p><%= pluralize(@delayed_jobs_active_count, 'active job') %> for <%= pluralize(@queued_count, 'queued article') %>.</p>
         </div>
       </div>
     </li>
