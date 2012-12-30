@@ -1,6 +1,9 @@
 <div class="content">
   <div class="page-header">
-    <h1>Events</h1>
+    <h1>
+      Events
+      <small><%= pluralize(RetrievalStatus.sum(:event_count), 'event') %></small>
+    </h1>
   </div>
 
   <table class="table table-striped" id="EventsTable">

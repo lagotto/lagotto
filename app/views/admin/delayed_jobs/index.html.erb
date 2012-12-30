@@ -1,6 +1,9 @@
 <div class="content">
   <div class="page-header">
-    <h1>Jobs</h1>
+    <h1>
+      Jobs
+      <small><%= pluralize(DelayedJob.count, 'active job') %></small>
+    </h1>
   </div>
   
   <table class="table table-striped" id="JobsTable">
