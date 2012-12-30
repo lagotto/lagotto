@@ -60,23 +60,8 @@ Before do
   @dirs = [Rails.root]
   @aruba_timeout_seconds = 60
   @aruba_io_wait_seconds = 5
-  
-  # Reset factory_girl sequences
-  # This makes tests depending on publication_date less brittle
-  # FactoryGirl.reload
 end
 
 # After do |scenario|
 #   DatabaseCleaner.clean
 # end
-
-# module DelayedJobSupport
-#   def process_all_jobs
-#     Delayed::Worker.new.work_off(Delayed::Job.count)
-#     if ENV['FAIL_FAST']
-#       raise Delayed::Job.first.last_error if Delayed::Job.count > 0
-#     end
-#   end
-# end
-# 
-# World(DelayedJobSupport)

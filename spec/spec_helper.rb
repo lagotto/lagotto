@@ -15,8 +15,6 @@ include WebMock::API
 couchdb_url = URI.parse(APP_CONFIG['couchdb_url'])
 WebMock.disable_net_connect!(:allow => couchdb_url.host)
 
-Delayed::Worker.delay_jobs = false
-
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 def app

@@ -16,9 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "csv"
-require "#{Rails.root}/lib/source_job.rb"
-
-APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
-
-ActiveSupport::XmlMini.backend = 'Nokogiri'
+Delayed::Worker.destroy_failed_jobs = false
+Delayed::Worker.sleep_delay = 5
+Delayed::Worker.max_attempts = 3
+Delayed::Worker.default_priority = 1
+Delayed::Worker.max_run_time = 30.minutes
+Delayed::Worker.read_ahead = 10
+Delayed::Worker.delay_jobs = !Rails.env.test?

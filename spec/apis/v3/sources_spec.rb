@@ -270,5 +270,5 @@ describe "/api/v3/articles" do
       response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
       response_source = response_article["sources"].should be_empty
     end
-  end    
+  end   
 end
