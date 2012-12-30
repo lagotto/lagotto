@@ -10,7 +10,7 @@ Feature: See events
     
     @javascript
     Scenario: Events in dashboard
-      When I go to the "Events" admin page
+      When I go to the "Jobs" admin page
       Then the table "EventsTable" should contain:
         | CiteULike       | active               | 5          | 250                     |
     

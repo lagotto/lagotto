@@ -16,6 +16,18 @@
     </tr>
     <tr>
       <th/>
+      <th>Pending</th>
+      <th>Working</th>
+      <th>Failed</th>
+    </tr>
+    <tr>
+      <th>Jobs</th>
+      <td><%= @source.delayed_jobs.count(:run_at) - (@source.delayed_jobs.count(:locked_at) + @source.delayed_jobs.count(:failed_at)) %></td>
+      <td><%= @source.delayed_jobs.count(:locked_at) %></td>
+      <td><%= @source.delayed_jobs.count(:failed_at) %></td>
+    </tr>
+    <tr>
+      <th/>
       <th>Success</th>
       <th>No Events</th>
       <th>Errors</th>

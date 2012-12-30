@@ -78,6 +78,8 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
     visit admin_responses_path
   elsif page_title == "Events" 
     visit admin_events_path
+  elsif page_title == "Jobs" 
+    visit admin_delayed_jobs_path
   end
   page.driver.render("tmp/capybara/#{page_title}.png")
 end
