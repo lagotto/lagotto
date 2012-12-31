@@ -88,6 +88,11 @@ When /^I go to the admin page$/ do
   visit admin_root_path
 end
 
+When /^I go to "(.*?)"$/ do |path|
+  visit path
+  page.driver.render("tmp/capybara/#{path}.png")
+end
+
 Then /^I should not see the "(.*?)" tab$/ do |tab_title|
   page.driver.render("tmp/capybara/#{tab_title}.png")
   page.has_css?('li', :text => tab_title, :visible => false)

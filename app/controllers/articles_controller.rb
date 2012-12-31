@@ -86,7 +86,8 @@ class ArticlesController < ApplicationController
       @article = Article.where(id_hash).includes(:retrieval_statuses => :source).first
     end
     
-    flash[:error] = "Couldn't find Article with #{id_hash.keys.first} = #{id_hash.values.first}" if @article.nil?
+    # raise error if article wasn't found
+    raise ActiveRecord::RecordNotFound.new if @article.blank?
   end
 
 end

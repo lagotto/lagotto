@@ -150,17 +150,17 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       rs.save
       rh.save
       { :retrieval_status => rs, :retrieval_history => rh }
-    rescue => e
-      Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{rs.source_id} failed to get data. \n#{e.message} \n#{e.backtrace.join("\n")}"
+    rescue Exception => exception
+      Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{rs.source_id} failed to get data. \n#{exception.message} \n#{exception.backtrace.join("\n")}"
 
       rh.retrieved_at = Time.zone.now
       rh.status = RetrievalHistory::ERROR_MSG
       rh.save
       
-      exception_handler = RailsExceptionHandler::Handler.new({'REQUEST_METHOD' => "GET", "rack.input" => ""}, e)
+      exception_handler = RailsExceptionHandler::Handler.new({'REQUEST_METHOD' => "GET", "rack.input" => ""}, exception)
       exception_handler.handle_exception
 
-      raise e
+      raise
     end
 
   end

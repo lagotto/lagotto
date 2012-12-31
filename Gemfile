@@ -46,6 +46,7 @@ group :test do
   gem "webmock", "~> 1.9.0"
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1"
+  gem "thin", "~> 1.5.0"
   gem "poltergeist", "~> 1.0.2"
 end
 
