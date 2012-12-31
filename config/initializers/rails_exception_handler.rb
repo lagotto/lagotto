@@ -10,10 +10,10 @@ RailsExceptionHandler.configure do |config|
   
   config.filters = [
     # :all_404s,
-    :no_referer_404s,
+    # :no_referer_404s,
     # :anon_404s,
     # {:user_agent_regxp => /\b(ApptusBot|TurnitinBot|DotBot|SiteBot)\b/i},
-    {:target_url_regxp => /\.php/i}
+    # {:target_url_regxp => /\.php/i}
     # {:referer_url_regxp => /problematicreferer/i}
   ]
 

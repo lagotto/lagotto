@@ -156,6 +156,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       rh.retrieved_at = Time.zone.now
       rh.status = RetrievalHistory::ERROR_MSG
       rh.save
+      
+      exception_handler = RailsExceptionHandler::Handler.new({'REQUEST_METHOD' => "GET", "rack.input" => ""}, e)
+      exception_handler.handle_exception
 
       raise e
     end

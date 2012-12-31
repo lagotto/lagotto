@@ -29,5 +29,7 @@ class Admin::IndexController < Admin::ApplicationController
     @delayed_jobs_count = RetrievalHistory.total(1).count
     @delayed_jobs_errors_count = RetrievalHistory.with_errors(1).count
     @queued_count = RetrievalStatus.queued.count
+    @error_messages_count = ErrorMessage.count
+    @error_messages_last_day_count = ErrorMessage.total(1).count
   end
 end

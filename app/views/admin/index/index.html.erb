@@ -53,6 +53,19 @@
       <div class="thumbnail">
         <div class="caption">
           <h2>
+            <i class="icon-list"></i> <%= link_to "Jobs", admin_delayed_jobs_path %>
+            <% if @queued_count == 0 %>
+              <span class="label label-warning pull-right">No Queued Articles</span>
+            <% end %>
+          </h2>
+          <p><%= pluralize(@delayed_jobs_active_count, 'active job') %> for <%= pluralize(@queued_count, 'queued article') %>.<br/>&nbsp;</p>
+        </div>
+      </div>
+    </li>
+    <li class="span4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h2>
             <i class="icon-download"></i> <%= link_to "Responses", admin_responses_path %> 
             <% if@delayed_jobs_count > 0 and @delayed_jobs_errors_count / @delayed_jobs_count > 0.05 %>
               <span class="label label-warning pull-right">More than 5% Errors</span>
@@ -76,12 +89,12 @@
       <div class="thumbnail">
         <div class="caption">
           <h2>
-            <i class="icon-list"></i> <%= link_to "Jobs", admin_delayed_jobs_path %>
-            <% if @queued_count == 0 %>
-              <span class="label label-warning pull-right">No Queued Articles</span>
+            <i class="icon-warning-sign"></i> <%= link_to "Errors", admin_error_messages_path %>
+            <% if @error_messages_count > 0 %>
+              <span class="label label-warning pull-right">With Errors</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@delayed_jobs_active_count, 'active job') %> for <%= pluralize(@queued_count, 'queued article') %>.</p>
+          <p><p><%= pluralize(@error_messages_count, 'error') %> with <%= pluralize(@error_messages_last_day_count, 'error') %> in the last 24 hours.<br/>&nbsp;</p>
         </div>
       </div>
     </li>
