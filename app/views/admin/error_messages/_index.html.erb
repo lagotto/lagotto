@@ -1,6 +1,10 @@
+<div class="page-header">
+  <h1><%= pluralize(ErrorMessage.count, 'Error') %></h1>
+</div>
+
 <% unless @error_messages.empty? %>
   <% @error_messages.each do|error_message| %>
-    <div class="btn-group pull-right">
+    <div class="btn-group pull-right hidden-phone">
       <button type="button" class="btn btn-mini" data-toggle="collapse" data-target="#error_id<%= error_message.id %>"><i class="icon-resize-vertical"></i> More</button>
       <%= link_to '<i class="icon-trash"></i> Delete'.html_safe, admin_error_message_path(error_message), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{error_message.id}-delete" %>
     </div>

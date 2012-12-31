@@ -1,8 +1,7 @@
 <div class="content">
   <div class="page-header">
     <h1>
-      Events
-      <small class="pull-right"><%= pluralize(RetrievalStatus.sum(:event_count), 'event') %></small>
+      <%= pluralize(RetrievalStatus.sum(:event_count), 'Event') %>
     </h1>
   </div>
 
