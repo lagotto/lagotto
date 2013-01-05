@@ -25,8 +25,6 @@ gem "will_paginate-bootstrap", "~> 0.2.1"
 gem "simple_form", "~> 2.0.4"
 gem "dotiw", "~> 1.1.1"
 
-gem 'rails-footnotes', '>= 3.7.9'
-
 group :assets do
   gem "uglifier", "~> 1.3.0"
   gem "jquery-rails", "~> 2.1.3"
@@ -57,5 +55,5 @@ group :test, :development do
 end
 
 group :development do
-  #gem 'rails-footnotes', '>= 3.7.9'
+  gem 'rails-footnotes', '>= 3.7.9'
 end
