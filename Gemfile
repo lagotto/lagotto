@@ -53,3 +53,7 @@ end
 group :test, :development do
   gem "rspec-rails", "~> 2.12.0"
 end
+
+group :development do
+  gem "bullet", "~> 4.3.0"
+end

@@ -32,7 +32,7 @@ class ArticlesController < ApplicationController
     collection = collection.query(params[:query]) if params[:query]
     collection = collection.order_articles(params[:order])
 
-    @articles = collection.paginate(:page => params[:page])
+    @articles = collection.includes(:retrieval_statuses).paginate(:page => params[:page])
 
     # source url parameter is only used for csv format
     @source = Source.find_by_name(params[:source].downcase) if params[:source]
