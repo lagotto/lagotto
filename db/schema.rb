@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121230143211) do
+ActiveRecord::Schema.define(:version => 20130105164728) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20121230143211) do
   end
 
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
+  add_index "articles", ["published_on"], :name => "index_articles_on_published_on"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20121230143211) do
   add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
   add_index "retrieval_histories", ["source_id", "event_count"], :name => "index_retrieval_histories_on_source_id_and_event_count"
   add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
+  add_index "retrieval_histories", ["source_id"], :name => "index_retrieval_histories_on_source_id"
 
   create_table "retrieval_statuses", :force => true do |t|
     t.integer  "article_id",                                      :null => false
@@ -93,7 +95,9 @@ ActiveRecord::Schema.define(:version => 20121230143211) do
   end
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
+  add_index "retrieval_statuses", ["article_id"], :name => "index_retrieval_statuses_on_article_id"
   add_index "retrieval_statuses", ["id", "event_count"], :name => "index_retrieval_statuses_on_id_and_event_count"
+  add_index "retrieval_statuses", ["source_id"], :name => "index_retrieval_statuses_on_source_id"
 
   create_table "sources", :force => true do |t|
     t.string   "type",                                              :null => false

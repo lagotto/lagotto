@@ -32,20 +32,22 @@ class RetrievalHistory < ActiveRecord::Base
   SOURCE_DISABLED = "Source disabled"
   SOURCE_NOT_ACTIVE = "Source not active"
   
-  scope :after_days, lambda { |days| joins(:article).where("DATE(retrieved_at) <= TIMESTAMPADD(DAY,?,articles.published_on)", days).order("retrieved_at") }
-  scope :after_months, lambda { |months| joins(:article).where("DATE(retrieved_at) <= TIMESTAMPADD(MONTH,?,articles.published_on)", months).order("retrieved_at") }
-  scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year).order("retrieved_at") }
+  default_scope order("retrieved_at")
   
-  scope :total, lambda { |days| where("TIMESTAMPDIFF(DAY, retrieved_at, UTC_TIMESTAMP()) <= ?", days).order("retrieved_at") }
-  scope :with_success, lambda { |days| where("status = 'SUCCESS' AND TIMESTAMPDIFF(DAY, retrieved_at, UTC_TIMESTAMP()) <= ?", days).order("retrieved_at") }
-  scope :with_no_data, lambda { |days| where("status = 'SUCCESS WITH NO DATA' AND TIMESTAMPDIFF(DAY, retrieved_at, UTC_TIMESTAMP()) <= ?", days).order("retrieved_at") }
-  scope :with_errors, lambda { |days| where("status = 'ERROR' AND TIMESTAMPDIFF(DAY, retrieved_at, UTC_TIMESTAMP()) <= ?", days).order("retrieved_at") }
+  scope :after_days, lambda { |days| joins(:article).where("retrieved_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
+  scope :after_months, lambda { |months| joins(:article).where("retrieved_at BETWEEN CURDATE() - INTERVAL ? MONTH AND CURDATE()", months) }
+  scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year) }
+  
+  scope :total, lambda { |days| where("retrieved_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
+  scope :with_success, lambda { |days| where("status = 'SUCCESS' AND retrieved_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
+  scope :with_no_data, lambda { |days| where("status = 'SUCCESS WITH NO DATA' AND retrieved_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
+  scope :with_errors, lambda { |days| where("status = 'ERROR' AND retrieved_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
 
   def data
     begin
       data = get_alm_data(id)
     rescue => e
-      Rails.logger.error "Failed to get data for #{id}. #{e.message}"
+      logger.error "Failed to get data for #{id}. #{e.message}"
       data = nil
     end
   end

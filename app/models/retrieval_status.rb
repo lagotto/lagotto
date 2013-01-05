@@ -23,15 +23,15 @@ class RetrievalStatus < ActiveRecord::Base
 
   belongs_to :article
   belongs_to :source
-  has_many :retrieval_histories, :order => "retrieved_at", :dependent => :destroy
+  has_many :retrieval_histories, :dependent => :destroy
 
   scope :most_cited, lambda { where("event_count > 0").order("event_count desc").limit(25) }
-  scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on >= DATE_SUB(CURDATE(), INTERVAL ? DAY)", days).order("event_count desc").limit(25) }
-  scope :most_cited_last_x_months, lambda { |months| joins(:article).where("event_count > 0 AND articles.published_on >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)", months).order("event_count desc").limit(25) }
+  scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days).order("event_count desc").limit(25) }
+  scope :most_cited_last_x_months, lambda { |months| joins(:article).where("event_count > 0 AND articles.published_on BETWEEN CURDATE() - INTERVAL ? MONTH AND CURDATE()", months).order("event_count desc").limit(25) }
     
   scope :queued, where( "queued_at is NOT NULL")
-  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(MINUTE, scheduled_at, UTC_TIMESTAMP()) < 0")
-  scope :published, joins(:article).where("queued_at is NULL AND articles.published_on < ?", Time.zone.today)
+  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND scheduled_at <= ?", Time.zone.now)
+  scope :published, joins(:article).where("queued_at is NULL AND articles.published_on <= ?", Time.zone.today)
   
   scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
   
@@ -39,7 +39,7 @@ class RetrievalStatus < ActiveRecord::Base
     begin
       data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
     rescue => e
-      Rails.logger.error "Failed to get data for #{source.name}:#{article.doi}. #{e.message}"
+      logger.error "Failed to get data for #{source.name}:#{article.doi}. #{e.message}"
       data = nil
     end
   end
