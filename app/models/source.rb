@@ -59,14 +59,14 @@ class Source < ActiveRecord::Base
       end
       
       rs = retrieval_statuses.pluck("retrieval_statuses.id")
-      Rails.logger.debug "#{name} total articles queued #{rs.length}"
+      logger.debug "#{name} total articles queued #{rs.length}"
       
       rs.each_slice(job_batch_size) do | rs_ids |
         Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
       end
 
     else
-      Rails.logger.error "#{name} is either inactive or is disabled."
+      logger.error "#{name} is either inactive or is disabled."
       raise "#{display_name} (#{name}) is either inactive or is disabled"
     end
   end
@@ -108,7 +108,7 @@ class Source < ActiveRecord::Base
     # find articles that need to be updated
     # not queued currently, scheduled_at in the past
     rs = retrieval_statuses.stale.pluck("retrieval_statuses.id")
-    Rails.logger.debug "#{name} total articles queued #{rs.length}"
+    logger.debug "#{name} total articles queued #{rs.length}"
 
     rs.each_slice(job_batch_size) do | rs_ids |
       Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
@@ -141,7 +141,7 @@ class Source < ActiveRecord::Base
                                              :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds)}).count(:id)
 
     if failed_queries > max_failed_queries
-      Rails.logger.error "#{display_name} has exceeded maximum failed queries.  Disabling the source."
+      logger.error "#{display_name} has exceeded maximum failed queries.  Disabling the source."
       # disable the source
       self.disable_until = Time.zone.now + disable_delay.seconds
       save

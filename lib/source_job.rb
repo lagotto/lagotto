@@ -124,7 +124,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         end
 
         # set retrieval history status to success
-        rh.status = "SUCCESS"
+        rh.status = RetrievalHistory::SUCCESS_MSG
         # save the event count in mysql
         rh.event_count = event_count
 
@@ -139,7 +139,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         end
 
         # set retrieval history status to success with no data
-        rh.status = "NO DATA"
+        rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
         rh.event_count = 0
       end
 
@@ -154,7 +154,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{rs.source_id} failed to get data. \n#{exception.message} \n#{exception.backtrace.join("\n")}"
 
       rh.retrieved_at = Time.zone.now
-      rh.status = "ERROR"
+      rh.status = RetrievalHistory::ERROR_MSG
       rh.save
       
       exception_handler = RailsExceptionHandler::Handler.new({'REQUEST_METHOD' => "GET", "rack.input" => ""}, exception)
