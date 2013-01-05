@@ -63,5 +63,5 @@ Alm::Application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   
   # Log long queries in production
-  config.active_record.auto_explain_threshold_in_seconds = 0.5
+  config.active_record.auto_explain_threshold_in_seconds = 0.1
 end
