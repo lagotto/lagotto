@@ -1,30 +1,32 @@
 <div class="page-header">
-  <h1><%= pluralize(ErrorMessage.count, 'Error') %></h1>
+  <h1><%= pluralize(@error_messages.count, 'Error') %></h1>
 </div>
 
-<% unless @error_messages.empty? %>
+<% if @error_messages.size > 0 %>
   <% @error_messages.each do|error_message| %>
-    <div class="btn-group pull-right hidden-phone">
-      <button type="button" class="btn btn-mini" data-toggle="collapse" data-target="#error_id<%= error_message.id %>"><i class="icon-resize-vertical"></i> More</button>
-      <%= link_to '<i class="icon-trash"></i> Delete'.html_safe, admin_error_message_path(error_message), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{error_message.id}-delete" %>
-    </div>
-    <h4><%= h(error_message.message) %></h4>
-    <p><%= error_message.class_name %></p>
+    <div class="error_message">
+      <div class="btn-group pull-right hidden-phone">
+        <button type="button" class="btn btn-mini" data-toggle="collapse" data-target="#error_id<%= error_message.id %>"><i class="icon-resize-vertical"></i> More</button>
+        <%= link_to '<i class="icon-trash"></i> Delete'.html_safe, admin_error_message_path(error_message), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{error_message.id}-delete" %>
+      </div>
+      <h4><%= h(error_message.message) %></h4>
+      <p><%= error_message.class_name %></p>
       
-    <div id="error_id<%= error_message.id %>" class="collapse"> 
-      <h5>Target URL</h5>
-      <%= link_to error_message.target_url, error_message.target_url %>
+      <div id="error_id<%= error_message.id %>" class="collapse"> 
+        <h5>Target URL</h5>
+        <%= link_to error_message.target_url, error_message.target_url %>
         
-      <% unless error_message.referer_url.blank? %>
-        <h5>Referer URL</h5>
-        <%= link_to error_message.referer_url, error_message.referer_url %>
-      <% end %>
+        <% unless error_message.referer_url.blank? %>
+          <h5>Referer URL</h5>
+          <%= link_to error_message.referer_url, error_message.referer_url %>
+        <% end %>
         
-      <h5>Time</h5>
-      <%= error_message.created_at.to_s %>
+        <h5>Time</h5>
+        <%= error_message.created_at.to_s %>
         
-      <h5>Trace</h5>
-      <%= simple_format(error_message.trace) %>
+        <h5>Trace</h5>
+        <%= simple_format(error_message.trace) %>
+      </div>
     </div>
   <% end %>
     

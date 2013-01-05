@@ -45,7 +45,7 @@
               <span class="label label-info pull-right">Inactive Sources</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@sources.count, 'source') %>, including <%= pluralize(@sources_inactive_count, 'inactive source') %> and <%= pluralize(@sources_disabled_count, 'disabled source') %>.</p>
+          <p><%= pluralize(@sources_count, 'source') %>, including <%= pluralize(@sources_inactive_count, 'inactive source') %> and <%= pluralize(@sources_disabled_count, 'disabled source') %>.</p>
         </div>
       </div>
     </li>

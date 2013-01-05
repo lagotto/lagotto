@@ -32,7 +32,7 @@
     <%= link_to '<i class="icon-plus"></i> New'.html_safe, new_admin_group_path, { :remote => true, :class => 'btn btn-mini', :id => 'New' } %>
   </div>
 
-  <% unless @groups.empty? %>
+  <% if @groups.size > 0 %>
     <table class="table">
       <thead>
         <tr>
@@ -46,11 +46,11 @@
         <% @groups.each do |group| %>
           <tr>       
             <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>><%= h(group.name) %></td>
-            <% if group.sources.empty? %>
-              <td/><td/>
-            <% else %>
+            <% if group.sources.size > 0 %>
               <td><%= link_to group.sources.first.display_name, admin_source_path(group.sources.first) %></td>
               <td><%= status_label(group.sources.first).html_safe %></td>
+            <% else %>
+              <td/><td/>
             <% end %>
             <td class="hidden-phone" <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>
               <div class="btn-group">
@@ -59,7 +59,7 @@
               </div>
             </td>
           </tr>
-          <% if group.sources.length > 1 %>
+          <% if group.sources.size > 1 %>
             <% group.sources[1..-1].each do |source| %>
               <tr>
                 <td><%= link_to source.display_name, admin_source_path(source) %></td>

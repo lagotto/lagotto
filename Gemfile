@@ -56,4 +56,5 @@ end
 
 group :development do
   gem "bullet", "~> 4.3.0"
+  gem 'rails-footnotes', '>= 3.7.9'
 end

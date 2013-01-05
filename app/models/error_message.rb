@@ -1,5 +1,5 @@
 class ErrorMessage < ActiveRecord::Base
   
-  scope :total, lambda { |days| where("TIMESTAMPDIFF(DAY, created_at, UTC_TIMESTAMP()) <= ?", days).order("created_at DESC") }
+  scope :total, lambda { |days| where("created_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days).order("created_at DESC") }
   
 end

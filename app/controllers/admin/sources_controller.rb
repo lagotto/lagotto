@@ -6,7 +6,7 @@ class Admin::SourcesController < Admin::ApplicationController
   end
   
   def index
-    @groups = Group.order("name")
+    @groups = Group.includes(:sources).order("name")
     respond_with @groups
   end
 

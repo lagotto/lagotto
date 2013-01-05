@@ -41,7 +41,7 @@
   <% end %>
 </div>
 
-<% unless @articles.empty? %>
+<% if @articles.size > 0 %>
   <% @articles.each do |article| %>
     <div class="row">
       <div class="span12">

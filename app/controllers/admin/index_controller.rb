@@ -20,9 +20,9 @@ class Admin::IndexController < Admin::ApplicationController
   
   def index
     @articles_count = Article.count
-    @articles_recent_count = Article.where("TIMESTAMPDIFF(DAY, published_on, UTC_TIMESTAMP()) <= 30").count
+    @articles_recent_count = Article.last_x_days(30).count
     
-    @sources = Source.order("name")
+    @sources_count = Source.count
     @sources_inactive_count = Source.where("active != 1").count
     @sources_disabled_count = Source.where("disable_until IS NOT NULL").count
     @delayed_jobs_active_count = DelayedJob.order("queue, run_at DESC").count

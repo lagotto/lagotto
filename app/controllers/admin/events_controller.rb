@@ -1,7 +1,7 @@
 class Admin::EventsController < Admin::ApplicationController
   
   def index
-    @sources = Source.order("name")
+    @sources = Source.includes(:retrieval_statuses).order("name")
     respond_with @sources
   end
   

@@ -81,9 +81,9 @@ class Admin::ArticlesController < Admin::ApplicationController
     @source = Source.find_by_name(params[:source].downcase) if params[:source]
 
     if params[:source]
-      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("display_name")
+      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("name")
     else
-      @sources = Source.order("display_name")
+      @sources = Source.order("name")
     end
   end
 

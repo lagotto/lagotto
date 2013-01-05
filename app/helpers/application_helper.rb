@@ -39,7 +39,7 @@ module ApplicationHelper
     end
   end
   
-  def all_sources
+  def sources
     Source.order("name")
   end
 end

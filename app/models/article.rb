@@ -36,8 +36,11 @@ class Article < ActiveRecord::Base
                                                                :type => :date }
   
   after_create :create_retrievals
+  
+  default_scope order("published_on DESC")
 
   scope :query, lambda { |query| where("doi like ? OR title like ?", "%#{query}%", "%#{query}%") }
+  scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
 
   scope :cited, lambda { |cited|
     case cited
@@ -130,7 +133,7 @@ class Article < ActiveRecord::Base
   # Filter retrieval_statuses by source
   def retrieval_statuses_by_source(options={})
     if options[:source]
-      source_ids = Source.where("lower(name) in (?)", options[:source].split(",")).order("display_name").pluck(:id)
+      source_ids = Source.where("lower(name) in (?)", options[:source].split(",")).order("name").pluck(:id)
       self.retrieval_statuses.by_source(source_ids)
     else
       self.retrieval_statuses

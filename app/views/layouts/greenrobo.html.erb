@@ -62,7 +62,7 @@
 				      <ul class="dropdown-menu">
                 <li><%= link_to "Groups", admin_sources_path %></li>
                 <li class="divider"></li>
-                <% all_sources.each do|source| %>
+                <% sources.each do|source| %>
                   <li><%= link_to h(source.display_name), admin_source_path(source) %></li>
                 <% end %>
 		          </ul>
