@@ -194,9 +194,7 @@ class Source < ActiveRecord::Base
       "inactive"
     elsif disable_until
       "disabled"
-    elsif !retrieval_histories.with_errors(1).empty?
-      "with errors"
-    elsif retrieval_statuses.most_cited.empty?
+    elsif !(retrieval_statuses.where("event_count > 0").size > 0)
       "no events"
     else
       "active"

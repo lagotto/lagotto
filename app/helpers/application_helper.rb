@@ -30,8 +30,6 @@ module ApplicationHelper
       '<span class="label label-info">inactive</span>'
     elsif source.status == "disabled"
       '<span class="label label-important">disabled</span>'
-    elsif source.status == "with errors"
-      '<span class="label label-warning">with errors</span>'
     elsif source.status == "no events"
       '<span class="label">no events</span>'
     else
