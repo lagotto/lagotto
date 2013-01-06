@@ -10,7 +10,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     
     @articles = Article.where(type.to_sym => ids)
     
-    raise ActiveRecord::RecordNotFound, "Record not found" if @articles.blank?
+    raise ActiveRecord::RecordNotFound, "No records found" if @articles.blank?
   end
   
   def show

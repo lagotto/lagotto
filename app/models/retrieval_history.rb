@@ -43,10 +43,13 @@ class RetrievalHistory < ActiveRecord::Base
   scope :with_errors, lambda { |days| where("status = 'ERROR' AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
 
   def data
-    begin
-      data = get_alm_data(id)
-    rescue => e
-      raise Net::HTTPNotFound, "Failed to get data for #{source.name}:#{id}. #{e.message}" if event_count > 0
+    if event_count > 0
+      begin
+        data = get_alm_data(id)
+      rescue => e
+        raise Net::HTTPNotFound, "Failed to get data for #{source.name}:#{id}. #{e.message}"
+      end
+    else
       data = nil
     end
   end
