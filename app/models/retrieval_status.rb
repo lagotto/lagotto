@@ -36,10 +36,13 @@ class RetrievalStatus < ActiveRecord::Base
   scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
   
   def data
-    begin
-      data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
-    rescue => e
-      raise Net::HTTPNotFound, "Failed to get data for #{source.name}:#{article.doi}. #{e.message}" if event_count > 0
+    if event_count > 0
+      begin
+        data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
+      rescue
+        raise Net::HTTPServerException, "Failed to get data for #{source.name}:#{article.doi}" 
+      end
+    else
       data = nil
     end
   end
