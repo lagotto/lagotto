@@ -9,10 +9,10 @@
         <button type="button" class="btn btn-mini" data-toggle="collapse" data-target="#error_id<%= error_message.id %>"><i class="icon-resize-vertical"></i> More</button>
         <%= link_to '<i class="icon-trash"></i> Delete'.html_safe, admin_error_message_path(error_message), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{error_message.id}-delete" %>
       </div>
-      <h4><%= h(error_message.message) %></h4>
+      <h4><%= error_message.status_code.blank? ? "" : "[#{error_message.status_code}] " %><%= h(error_message.message) %></h4>
       <p><%= error_message.class_name %></p>
       
-      <div id="error_id<%= error_message.id %>" class="collapse"> 
+      <div id="error_id<%= error_message.id %>" class="collapse">         
         <h5>Target URL</h5>
         <%= link_to error_message.target_url, error_message.target_url %>
         
