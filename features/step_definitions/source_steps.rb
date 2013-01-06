@@ -70,22 +70,15 @@ When /^I go to the "(.*?)" page$/ do |page_title|
 end
 
 When /^I go to the "(.*?)" admin page$/ do |page_title|
-  if page_title == "Groups"
-    visit admin_groups_path
-  elsif page_title == "Sources" 
-    visit admin_sources_path
-  elsif page_title == "Responses" 
-    visit admin_responses_path
-  elsif page_title == "Events" 
-    visit admin_events_path
-  elsif page_title == "Jobs" 
-    visit admin_delayed_jobs_path
+  if page_title == "Jobs" 
+    page_title = "Delayed_Jobs" 
+  elsif page_title == "Errors" 
+    page_title = "error_messages"
+  elsif page_title == "Home" 
+    page_title = ""
   end
+  visit "/admin/#{page_title}"
   page.driver.render("tmp/capybara/#{page_title}.png")
-end
-
-When /^I go to the admin page$/ do
-  visit admin_root_path
 end
 
 When /^I go to "(.*?)"$/ do |path|

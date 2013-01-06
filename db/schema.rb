@@ -53,9 +53,10 @@ ActiveRecord::Schema.define(:version => 20130106151457) do
     t.text     "referer_url"
     t.text     "user_agent"
     t.string   "user_info"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.integer  "status_code"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "status"
+    t.string   "content_type"
   end
 
   create_table "groups", :force => true do |t|

@@ -3,13 +3,11 @@ class ErrorMessage < ActiveRecord::Base
   scope :total, lambda { |days| where("created_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days).order("created_at DESC") }
   
   def public_message
-    case status_code
+    case status
     when 404
-      "Page not found"
-    when 500
-      "Internal server error"
+      message
     else
-      "An error occured"
+      "Internal server error"
     end
   end
   

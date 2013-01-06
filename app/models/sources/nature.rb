@@ -37,11 +37,11 @@ class Nature < Source
     begin
       results = get_json(query_url, options)
     rescue => e
-      Rails.logger.error("#{display_name} #{e.message}")
+      logger.error("#{display_name} #{e.message}")
       if e.respond_to?('response')
         if e.response.kind_of?(Net::HTTPForbidden)
           # http response 403
-          Rails.logger.error "#{display_name} returned 403, they might be throttling us."
+          logger.error "#{display_name} returned 403, they might be throttling us."
         end
       end
       raise e
@@ -108,7 +108,7 @@ class Nature < Source
           limit(limit).
           offset(offset).
           pluck("retrieval_statuses.id")  
-      Rails.logger.debug "#{name} total article queued #{rs.length}"
+      logger.debug "#{name} total article queued #{rs.length}"
 
       rs.each do | rs_id |
         run_at += SECONDS_IN_A_DAY / requests_per_day

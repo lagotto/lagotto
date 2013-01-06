@@ -86,7 +86,7 @@ class ArticlesController < ApplicationController
     end
     
     # raise error if article wasn't found
-    raise ActiveRecord::RecordNotFound.new if @article.blank?
+    raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @article.blank?
   end
 
 end

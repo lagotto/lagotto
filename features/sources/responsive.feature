@@ -13,11 +13,6 @@ Feature: Responsive design of sources
     When I go to the "Articles" page 
     Then I should not see the "Home" link in the menu bar
     Then I should not see the "Sign Out" link in the menu bar
-  
-  @javascript
-  Scenario: I should not see the groups tab
-    When I go to the admin page
-    Then I should not see the "Groups" tab
     
   @javascript
   Scenario: I should not see all information for groups

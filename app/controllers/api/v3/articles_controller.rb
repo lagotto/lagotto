@@ -10,8 +10,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     
     @articles = Article.where(type.to_sym => ids)
     
-    # Return 404 HTTP status code and error message if article wasn't found
-    render "404", :status => 404 if @articles.blank?
+    raise ActiveRecord::RecordNotFound, "Record not found" if @articles.blank?
   end
   
   def show
@@ -19,8 +18,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     id_hash = Article.from_uri(params[:id])
     @article = Article.where(id_hash).first
     
-    # Return 404 HTTP status code and error message if article wasn't found
-    render "404", :status => 404 if @article.blank?
+    raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @article.blank?
   end
   
 end

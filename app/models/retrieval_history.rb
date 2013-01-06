@@ -48,6 +48,7 @@ class RetrievalHistory < ActiveRecord::Base
     rescue => e
       logger.error "Failed to get data for #{id}. #{e.message}"
       data = nil
+      raise e
     end
   end
   

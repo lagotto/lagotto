@@ -66,8 +66,7 @@ class Source < ActiveRecord::Base
       end
 
     else
-      logger.error "#{name} is either inactive or is disabled."
-      raise "#{display_name} (#{name}) is either inactive or is disabled"
+      raise Net::HTTPServiceUnavailable, "#{display_name} (#{name}) is either inactive or is disabled"
     end
   end
 

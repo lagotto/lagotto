@@ -41,6 +41,7 @@ class RetrievalStatus < ActiveRecord::Base
     rescue => e
       logger.error "Failed to get data for #{source.name}:#{article.doi}. #{e.message}"
       data = nil
+      raise e
     end
   end
   

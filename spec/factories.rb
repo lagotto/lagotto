@@ -200,4 +200,9 @@ FactoryGirl.define do
     password_confirmation { |u| u.password }
   end
   
+  factory :error_message do
+    class_name "ActiveRecord::RecordNotFound"
+    message "Couldn't find Source with id=x"
+    target_url "http://127.0.0.1/sources/x"
+  end
 end
