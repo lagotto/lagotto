@@ -39,9 +39,8 @@ class RetrievalStatus < ActiveRecord::Base
     begin
       data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
     rescue => e
-      logger.error "Failed to get data for #{source.name}:#{article.doi}. #{e.message}"
+      raise Net::HTTPNotFound, "Failed to get data for #{source.name}:#{article.doi}. #{e.message}" if event_count > 0
       data = nil
-      raise e
     end
   end
   
