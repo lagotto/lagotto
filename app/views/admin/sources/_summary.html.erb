@@ -10,9 +10,9 @@
   <tbody>
     <tr>
       <th>Articles</th>
-      <td><%= Article.count - (@source.retrieval_statuses.stale.count + @source.retrieval_statuses.queued.count) %></td>
-      <td><%= @source.retrieval_statuses.stale.count %></td>
-      <td><%= @source.retrieval_statuses.queued.count %></td>
+      <td><%= Article.count - (@source.retrieval_statuses.stale.size + @source.retrieval_statuses.queued.size) %></td>
+      <td><%= @source.retrieval_statuses.stale.size %></td>
+      <td><%= @source.retrieval_statuses.queued.size %></td>
     </tr>
     <tr>
       <th/>
@@ -34,9 +34,9 @@
     </tr>
     <tr>
       <th>Responses in the last 24 Hours</th>
-      <td><%= @source.retrieval_histories.with_success(1).count %></td>
-      <td><%= @source.retrieval_histories.with_no_data(1).count %></td>
-      <td><%= @source.retrieval_histories.with_errors(1).count %></td>
+      <td><%= @source.retrieval_histories.with_success(1).size %></td>
+      <td><%= @source.retrieval_histories.total(1).size - (@source.retrieval_histories.with_success(1).size + @source.retrieval_histories.with_errors(1).size) %></td>
+      <td><%= @source.retrieval_histories.with_errors(1).size %></td>
     </tr>
     <tr>
       <th/>
@@ -46,9 +46,9 @@
     </tr>
     <tr>
       <th>Responses in the last 30 Days</th>
-      <td><%= @source.retrieval_histories.with_success(30).count %></td>
-      <td><%= @source.retrieval_histories.with_no_data(30).count %></td>
-      <td><%= @source.retrieval_histories.with_errors(30).count %></td>
+      <td><%= @source.retrieval_histories.with_success(30).size %></td>      
+      <td><%= @source.retrieval_histories.total(30).size - (@source.retrieval_histories.with_success(30).size + @source.retrieval_histories.with_errors(30).size) %></td>
+      <td><%= @source.retrieval_histories.with_errors(30).size %></td>
     </tr>
     <tr>
       <th/>
@@ -58,7 +58,7 @@
     </tr>
     <tr>
       <th>Events</th>
-      <td><%= @source.articles.cited(1).count %></td>
+      <td><%= @source.articles.cited(1).size %></td>
       <td><%= @source.retrieval_statuses.sum(:event_count) %></td>
       <td><%= @source.retrieval_statuses.maximum(:event_count) %></td>
     </tr>

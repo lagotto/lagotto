@@ -26,12 +26,12 @@ class RetrievalStatus < ActiveRecord::Base
   has_many :retrieval_histories, :dependent => :destroy
 
   scope :most_cited, lambda { where("event_count > 0").order("event_count desc").limit(25) }
-  scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days).order("event_count desc").limit(25) }
-  scope :most_cited_last_x_months, lambda { |months| joins(:article).where("event_count > 0 AND articles.published_on BETWEEN CURDATE() - INTERVAL ? MONTH AND CURDATE()", months).order("event_count desc").limit(25) }
+  scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? DAY", days).order("event_count desc").limit(25) }
+  scope :most_cited_last_x_months, lambda { |months| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? MONTH", months).order("event_count desc").limit(25) }
     
   scope :queued, where( "queued_at is NOT NULL")
-  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND scheduled_at <= ?", Time.zone.now)
-  scope :published, joins(:article).where("queued_at is NULL AND articles.published_on <= ?", Time.zone.today)
+  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND scheduled_at <= NOW()")
+  scope :published, joins(:article).where("queued_at is NULL AND articles.published_on <= CURDATE()")
   
   scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
   

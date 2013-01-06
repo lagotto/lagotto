@@ -34,14 +34,13 @@ class RetrievalHistory < ActiveRecord::Base
   
   default_scope order("retrieved_at")
   
-  scope :after_days, lambda { |days| joins(:article).where("retrieved_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
-  scope :after_months, lambda { |months| joins(:article).where("retrieved_at BETWEEN CURDATE() - INTERVAL ? MONTH AND CURDATE()", months) }
+  scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
+  scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months) }
   scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year) }
   
-  scope :total, lambda { |days| where("retrieved_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
-  scope :with_success, lambda { |days| where("status = 'SUCCESS' AND retrieved_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
-  scope :with_no_data, lambda { |days| where("status = 'SUCCESS WITH NO DATA' AND retrieved_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
-  scope :with_errors, lambda { |days| where("status = 'ERROR' AND retrieved_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
+  scope :total, lambda { |days| where("retrieved_at > NOW() - INTERVAL ? DAY", days) }
+  scope :with_success, lambda { |days| where("event_count > 0 AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
+  scope :with_errors, lambda { |days| where("status = 'ERROR' AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
 
   def data
     begin
