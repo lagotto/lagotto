@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130107122814) do
+ActiveRecord::Schema.define(:version => 20130107183315) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -58,7 +58,11 @@ ActiveRecord::Schema.define(:version => 20130107122814) do
     t.integer  "status"
     t.string   "content_type"
     t.text     "response"
+    t.integer  "source_id"
   end
+
+  add_index "error_messages", ["source_id"], :name => "index_error_messages_on_source_id"
+  add_index "error_messages", ["updated_at"], :name => "index_error_messages_on_updated_at"
 
   create_table "groups", :force => true do |t|
     t.string   "name",       :null => false
