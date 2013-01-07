@@ -47,7 +47,7 @@ class RetrievalHistory < ActiveRecord::Base
       begin
         data = get_alm_data(id)
       rescue => e
-        ErrorMessage.create(:exception => e, :message => "Failed to get data for #{source.name}:#{id}, #{e.message}")
+        #ErrorMessage.create(:exception => e, :message => "Failed to get data for #{source.name}:#{id}, #{e.message}")
         data = nil
       end
     else
