@@ -54,7 +54,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         begin
           perform_get_data(rs_id)
         rescue => e
-          Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{source_id} failed to get data. \n#{e.message} \n#{e.backtrace.join("\n")}"
+          ErrorMessage.create(:exception => e, :message => "retrieval_status id: #{rs_id}, source id: #{source_id} failed to get data")
           # each time we fail to get an answer from a source, wait longer
           # and wait random amount of time
           sleep_time += source.disable_delay + rand(source.disable_delay)
@@ -150,9 +150,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       rs.save
       rh.save
       { :retrieval_status => rs, :retrieval_history => rh }
-    rescue exception
-      Rails.logger.error "retrieval_status id: #{rs_id}, source id: #{rs.source_id} failed to get data. \n#{exception.message} \n#{exception.backtrace.join("\n")}"
-
+    rescue => e
+      ErrorMessage.create(:exception => e, :message => "retrieval_status id: #{rs_id}, source id: #{rs.source_id} failed to get data")
       rh.retrieved_at = Time.zone.now
       rh.status = RetrievalHistory::ERROR_MSG
       rh.save
@@ -163,7 +162,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def error(job, exception)
-    Rails.logger.error "job error #{exception.message} \n#{exception.backtrace.join("\n")}"
+    ErrorMessage.create(:exception => exception, :message => "Job error")
   end
 
   def after(job)

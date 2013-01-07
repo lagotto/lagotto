@@ -48,6 +48,6 @@ module Alm
     config.assets.version = '1.0'
     
     # Define custom exception handler
-    config.exceptions_app = ->(env) { ErrorMessagesController.action(:create).call(env) }
+    config.exceptions_app = lambda { |env| ErrorMessagesController.action(:create).call(env) }
   end
 end
