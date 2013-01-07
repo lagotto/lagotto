@@ -86,7 +86,7 @@ class Mendeley < Source
     begin
       result = get_json(url, options)
     rescue => e
-      logger.error("#{display_name} #{e.message}")
+      ErrorMessage.create(:exception => e, :message => "#{display_name} #{e.message}")
       if e.respond_to?('response')
         if e.response.kind_of?(Net::HTTPForbidden)
           # http response 403

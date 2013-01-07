@@ -13,14 +13,16 @@
       <p><%= error_message.class_name %></p>
       
       <div id="error_id<%= error_message.id %>" class="collapse">  
-        <% unless error_message.content_type == "text/html" %>
+        <% unless error_message.content_type.blank? or error_message.content_type == "text/html" %>
           <h5>Content Type</h5>
           <%= error_message.content_type %>
         <% end %>
                
-        <h5>Target URL</h5>
-        <%= link_to error_message.target_url, error_message.target_url %>
-        
+        <% unless error_message.target_url.blank? %>
+          <h5>Target URL</h5>
+          <%= link_to error_message.target_url, error_message.target_url %>
+        <% end %>
+         
         <% unless error_message.referer_url.blank? %>
           <h5>Referer URL</h5>
           <%= link_to error_message.referer_url, error_message.referer_url %>
