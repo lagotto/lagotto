@@ -38,8 +38,15 @@
         <h5>Time</h5>
         <%= error_message.created_at.to_s %>
         
-        <h5>Trace</h5>
-        <%= simple_format(error_message.trace) %>
+        <% unless error_message.trace.blank? %>
+          <h5>Trace</h5>
+          <%= simple_format(error_message.trace) %>
+        <% end %>
+        
+        <% unless error_message.response.blank? %>
+          <h5>Response</h5>
+          <%= simple_format(error_message.response) %>
+        <% end %>
       </div>
     </div>
   <% end %>

@@ -178,7 +178,7 @@ module SourceHelper
       end
 
     rescue Exception => e
-      ErrorMessage.create(:exception => e, :message => "Error #{e.message} while requesting #{uri}#{optsMsg}")
+      ErrorMessage.create(:exception => e, :message => "Error #{e.message} while requesting #{uri}#{optsMsg}", :response => response.inspect)
       raise e
     end
   end

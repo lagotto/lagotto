@@ -37,6 +37,8 @@ class ErrorMessage < ActiveRecord::Base
       self.user_agent   = request.user_agent
       self.content_type = content_type || request.formats.first.to_s
     end 
+    
+    self.response if response
   end
   
 end
