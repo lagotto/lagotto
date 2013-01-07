@@ -2,6 +2,13 @@
   <h1><%= pluralize(@error_messages.count, 'Error') %></h1>
 </div>
 
+<div class="search">
+  <%= form_tag({:controller => "/admin/error_messages", :action => "index"}, :method => "get", :class => "form-search") do %>
+    <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "input-large", :id => "appendedInputButtons" %>
+    <button type="submit" class="btn hidden-phone">Search</button>
+  <% end %>
+</div>
+
 <% if @error_messages.size > 0 %>
   <% @error_messages.each do|error_message| %>
     <div class="error_message">

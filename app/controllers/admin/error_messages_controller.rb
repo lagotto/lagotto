@@ -1,7 +1,10 @@
 class Admin::ErrorMessagesController < Admin::ApplicationController
   
   def index
-    @error_messages = ErrorMessage.order("updated_at DESC").paginate(:page => params[:page])
+    collection = ErrorMessage
+    collection = collection.query(params[:query]) if params[:query]
+    
+    @error_messages = collection.paginate(:page => params[:page])
     respond_with @error_messages
   end
   

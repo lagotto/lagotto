@@ -4,6 +4,9 @@ class ErrorMessage < ActiveRecord::Base
   
   before_create :collect_env_info
   
+  default_scope order("updated_at DESC")
+  
+  scope :query, lambda { |query| where("class_name like ? OR message like ?", "%#{query}%", "%#{query}%") }
   scope :total, lambda { |days| where("created_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days).order("created_at DESC") }
   
   def public_message
