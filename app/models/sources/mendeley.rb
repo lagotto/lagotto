@@ -51,7 +51,7 @@ class Mendeley < Source
 
       # event count is the reader and group numbers combined
       total = 0
-      readers = result['stats']['readers']
+      readers = result['stats']['readers'] unless result['stats'].nil?
       total += readers unless readers.nil?
 
       groups = result['groups']
