@@ -30,7 +30,9 @@ class ErrorMessage < ActiveRecord::Base
     
     self.class_name   = exception.class.to_s
     self.message      = message || exception.message
-    self.trace        = exception.backtrace.join("\n")
+    
+    backtrace         = exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }
+    self.trace        = backtrace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/}.join("\n")
     
     if request
       self.status       = status || request.headers["PATH_INFO"][1..-1]
