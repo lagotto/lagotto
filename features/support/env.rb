@@ -11,7 +11,9 @@ require 'cucumber/rails'
 require 'factory_girl_rails'
 require 'aruba/cucumber'
 require 'capybara/poltergeist'
+require 'source_helper'
 
+World(SourceHelper)
 World(FactoryGirl::Syntax::Methods)
 
 # Allow connections to localhost, required for Selenium
@@ -60,6 +62,14 @@ Before do
   @dirs = [Rails.root]
   @aruba_timeout_seconds = 60
   @aruba_io_wait_seconds = 5
+end
+
+Before('@couchdb') do
+  put_alm_database
+end
+
+After('@couchdb') do
+  delete_alm_database
 end
 
 # After do |scenario|

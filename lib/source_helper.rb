@@ -178,7 +178,7 @@ module SourceHelper
       end
 
     rescue Exception => e
-      ErrorMessage.create(:exception => e, :message => "Error #{e.message} while requesting #{uri}#{optsMsg}", :response => response.inspect)
+      ErrorMessage.create(:exception => e, :message => "Error #{e.message} while requesting #{uri}#{optsMsg}")
       raise e
     end
   end
@@ -211,6 +211,12 @@ module SourceHelper
 
     req = Net::HTTP::Delete.new("#{url.path}?#{url.query}")
     request(req)
+  end
+  
+  def get_alm_database
+    # get information about CouchDB database
+    service_url = APP_CONFIG['couchdb_url']
+    get_json(service_url)
   end
   
   def put_alm_database

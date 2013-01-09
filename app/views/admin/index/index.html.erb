@@ -98,5 +98,15 @@
         </div>
       </div>
     </li>
+    <li class="span4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h2>
+            <i class="icon-tasks"></i> Databases
+          </h2>
+          <p id="couchdb"><%= pluralize(number_with_delimiter(@couchdb_info["doc_count"]), 'CouchDB document') %>, <%= number_to_human_size(@couchdb_info["disk_size"]) %> in size.<br/>&nbsp;</p>
+        </div>
+      </div>
+    </li>
   </ul>
 </div>

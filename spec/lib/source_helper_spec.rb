@@ -82,6 +82,12 @@ describe SourceHelper do
       get_response = @source_helper_class.get_alm_data(id)
       get_response.should include("_id" => id, "_rev" => rev)
       
+      get_info = @source_helper_class.get_alm_database
+      db_name = URI.parse(APP_CONFIG['couchdb_url']).path[1..-2]
+      get_info["db_name"].should eq(db_name)
+      get_info["disk_size"].should be > 0
+      get_info["doc_count"].should eq(1)
+      
       new_rev = @source_helper_class.save_alm_data(rev, data, id)
       new_rev.should_not eq(rev)
       
