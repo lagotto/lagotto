@@ -45,21 +45,17 @@ ActiveRecord::Schema.define(:version => 20130109232939) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "error_messages", :force => true do |t|
+    t.integer  "source_id"
     t.text     "class_name"
     t.text     "message"
     t.text     "trace"
-    t.text     "params"
     t.text     "target_url"
-    t.text     "referer_url"
     t.text     "user_agent"
-    t.string   "user_info"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
     t.integer  "status"
     t.string   "content_type"
-    t.text     "response"
-    t.integer  "source_id"
     t.boolean  "unresolved",   :default => true
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   add_index "error_messages", ["source_id"], :name => "index_error_messages_on_source_id"
