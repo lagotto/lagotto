@@ -2,8 +2,6 @@ class ErrorMessage < ActiveRecord::Base
   
   attr_accessor :exception, :request
   
-  belongs_to :source
-  
   before_create :collect_env_info
   
   default_scope where("unresolved = 1").order("updated_at DESC")
@@ -40,8 +38,6 @@ class ErrorMessage < ActiveRecord::Base
       self.user_agent   = request.user_agent
       self.content_type = content_type || request.formats.first.to_s
     end 
-    
-    self.source_id      = source_id if source_id
   end
   
 end

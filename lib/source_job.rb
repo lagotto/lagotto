@@ -54,7 +54,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         begin
           perform_get_data(rs_id)
         rescue => e
-          ErrorMessage.create(:exception => e, :message => "retrieval_status id: #{rs_id}, source id: #{source_id} failed to get data, #{e.message}", :source_id => source_id)
+          ErrorMessage.create(:exception => e, :message => "retrieval_status id: #{rs_id}, source id: #{source_id} failed to get data, #{e.message}")
           # each time we fail to get an answer from a source, wait longer
           # and wait random amount of time
           sleep_time += source.disable_delay + rand(source.disable_delay)
@@ -151,7 +151,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       rh.save
       { :retrieval_status => rs, :retrieval_history => rh }
     rescue => e
-      ErrorMessage.create(:exception => e, :message => "retrieval_status id: #{rs_id}, source id: #{rs.source_id} failed to get data, #{e.message}", :source_id => rs.source_id)
+      ErrorMessage.create(:exception => e, :message => "retrieval_status id: #{rs_id}, source id: #{rs.source_id} failed to get data, #{e.message}")
       rh.retrieved_at = Time.zone.now
       rh.status = RetrievalHistory::ERROR_MSG
       rh.save
