@@ -28,16 +28,16 @@ class ErrorMessage < ActiveRecord::Base
     
     return false unless exception
     
-    self.class_name   = exception.class.to_s
+    self.class_name   = class_name || exception.class.to_s
     self.message      = message || exception.message
     
-    backtrace         = exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }
-    self.trace        = backtrace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/}.join("\n")
+    self.trace             = trace || exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }
+    #self.trace        = trace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/}.join("\n")
     
     if request
       self.status       = status || request.headers["PATH_INFO"][1..-1]
       self.target_url   = target_url || request.original_url
-      self.user_agent   = request.user_agent
+      self.user_agent   = user_agent || request.user_agent
       self.content_type = content_type || request.formats.first.to_s
     end 
   end

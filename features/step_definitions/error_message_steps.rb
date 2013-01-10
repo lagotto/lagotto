@@ -27,9 +27,13 @@ Then /^I should see the "(.*?)" class name$/ do |class_name|
 end
 
 Then /^I should see the "(.*?)" target url$/ do |target_url|
-  #page.has_css?('div.collapse', :text => target_url, :visible => true)
+  page.has_css?('div.collapse', :text => target_url, :visible => true)
 end
 
 Then /^I should not see the "(.*?)" target url$/ do |target_url|
-  #page.has_css?('div.collapse', :text => target_url, :visible => false)
+  page.has_css?('div.collapse', :text => target_url, :visible => false)
+end
+
+Then /^I should see the "(.*?)" status$/ do |status|
+  page.has_css?('div.collapse', :text => status, :visible => true)
 end

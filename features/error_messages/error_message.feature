@@ -28,10 +28,11 @@ Feature: Show errors
     When I go to the "Errors" admin page
     And I click on the "More" button
     Then I should see the "<TargetUrl" target url
+    And I should see the "<ErrorNumber" status
       
       Examples: 
-        | TargetUrl                  |
-        | http://127.0.0.1/sources/x |
+        | TargetUrl                  | ErrorNumber |
+        | http://127.0.0.1/sources/x | 404         |
     
     @javascript
     Scenario Outline: Routing errors
