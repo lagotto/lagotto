@@ -2,65 +2,65 @@
   <thead>
     <tr>
       <th/>
-      <th>Refreshed</th>
-      <th>Stale</th>
-      <th>Queued</th>
+      <th class="hidden-phone number">Refreshed</th>
+      <th class="number">Stale</th>
+      <th class="number">Queued</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>Articles</th>
-      <td><%= Article.count - (@source.retrieval_statuses.stale.size + @source.retrieval_statuses.queued.size) %></td>
-      <td><%= @source.retrieval_statuses.stale.size %></td>
-      <td><%= @source.retrieval_statuses.queued.size %></td>
+      <td class="hidden-phone number"><%= number_with_delimiter(Article.count - (@source.retrieval_statuses.stale.size + @source.retrieval_statuses.queued.size)) %></td>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.stale.size) %></td>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.queued.size) %></td>
     </tr>
     <tr>
       <th/>
-      <th>Pending</th>
-      <th>Working</th>
-      <th>Failed</th>
+      <th class="number">Pending</th>
+      <th class="number">Working</th>
+      <th class="hidden-phone number">Failed</th>
     </tr>
     <tr>
       <th>Jobs</th>
-      <td><%= @source.delayed_jobs.count(:run_at) - (@source.delayed_jobs.count(:locked_at) + @source.delayed_jobs.count(:failed_at)) %></td>
-      <td><%= @source.delayed_jobs.count(:locked_at) %></td>
-      <td><%= @source.delayed_jobs.count(:failed_at) %></td>
+      <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count(:run_at) - (@source.delayed_jobs.count(:locked_at) + @source.delayed_jobs.count(:failed_at))) %></td>
+      <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count(:locked_at)) %></td>
+      <td class="hidden-phone number"><%= number_with_delimiter(@source.delayed_jobs.count(:failed_at)) %></td>
     </tr>
     <tr>
       <th/>
-      <th>Success</th>
-      <th>No Events</th>
-      <th>Errors</th>
+      <th class="number">Success</th>
+      <th class="hidden-phone number">No Events</th>
+      <th class="number">Errors</th>
     </tr>
     <tr>
       <th>Responses in the last 24 Hours</th>
-      <td><%= @source.retrieval_histories.with_success(1).size %></td>
-      <td><%= @source.retrieval_histories.total(1).size - (@source.retrieval_histories.with_success(1).size + @source.retrieval_histories.with_errors(1).size) %></td>
-      <td><%= @source.retrieval_histories.with_errors(1).size %></td>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.with_success(1).size) %></td>
+      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_histories.total(1).size - (@source.retrieval_histories.with_success(1).size + @source.retrieval_histories.with_errors(1).size)) %></td>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.with_errors(1).size) %></td>
     </tr>
     <tr>
       <th/>
-      <th>Success</th>
-      <th>No Events</th>
-      <th>Errors</th>
+      <th class="number">Success</th>
+      <th class="hidden-phone number">No Events</th>
+      <th class="number">Errors</th>
     </tr>
     <tr>
       <th>Responses in the last 30 Days</th>
-      <td><%= @source.retrieval_histories.with_success(30).size %></td>      
-      <td><%= @source.retrieval_histories.total(30).size - (@source.retrieval_histories.with_success(30).size + @source.retrieval_histories.with_errors(30).size) %></td>
-      <td><%= @source.retrieval_histories.with_errors(30).size %></td>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.with_success(30).size) %></td>      
+      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_histories.total(30).size - (@source.retrieval_histories.with_success(30).size + @source.retrieval_histories.with_errors(30).size)) %></td>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.with_errors(30).size) %></td>
     </tr>
     <tr>
       <th/>
-      <th>Articles with Events</th>
-      <th>All Events</th>
-      <th>Max. Events per Article</th>
+      <th class="number">Articles&nbsp;with&nbsp;Events</th>
+      <th class="number">All Events</th>
+      <th class="hidden-phone number">Max.&nbsp;Events&nbsp;per&nbsp;Article</th>
     </tr>
     <tr>
       <th>Events</th>
-      <td><%= @source.articles.cited(1).size %></td>
-      <td><%= @source.retrieval_statuses.sum(:event_count) %></td>
-      <td><%= @source.retrieval_statuses.maximum(:event_count) %></td>
+      <td class="number"><%= number_with_delimiter(@source.articles.cited(1).size) %></td>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.sum(:event_count)) %></td>
+      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_statuses.maximum(:event_count)) %></td>
     </tr>
   </tbody>
 </table>
