@@ -4,7 +4,7 @@ class ErrorMessagesController < ActionController::Base
   respond_to :html, :xml, :json
 
   def create
-    @error_message = ErrorMessage.create(:exception => env["action_dispatch.exception"], :request => request)
+    @error_message = ErrorMessage.create(:exception => env["action_dispatch.exception"], :request => request, :source_id => source_id)
     
     respond_with(@error_message) do |format|
       format.json { render json: { error: @error_message.public_message }, status: @error_message.status }

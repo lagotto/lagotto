@@ -11,11 +11,11 @@ class Admin::ErrorMessagesController < Admin::ApplicationController
   def destroy
     @error_message = ErrorMessage.find(params[:id])
     if params[:filter] == "class_name"
-      ErrorMessage.destroy_all(:class_name => @error_message.class_name)
+      ErrorMessage.where(:class_name => @error_message.class_name).update_all(:unresolved => false)
     elsif params[:filter] == "source_id"
-      ErrorMessage.destroy_all(:source_id => @error_message.source_id)
+      ErrorMessage.where(:source_id => @error_message.source_id).update_all(:unresolved => false)
     else
-      ErrorMessage.destroy_all(:message => @error_message.message)
+      ErrorMessage.where(:message => @error_message.message).update_all(:unresolved => false)
     end
     
     collection = ErrorMessage

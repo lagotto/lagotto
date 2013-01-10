@@ -6,7 +6,7 @@ class ErrorMessage < ActiveRecord::Base
   
   before_create :collect_env_info
   
-  default_scope order("updated_at DESC")
+  default_scope where("unresolved = 1").order("updated_at DESC")
   
   scope :query, lambda { |query| where("class_name like ? OR message like ?", "%#{query}%", "%#{query}%") }
   scope :total, lambda { |days| where("created_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days).order("created_at DESC") }
@@ -42,8 +42,7 @@ class ErrorMessage < ActiveRecord::Base
       self.content_type = content_type || request.formats.first.to_s
     end 
     
-    self.source_id if source_id
-    self.response if response
+    self.source_id      = source_id
   end
   
 end
