@@ -20,7 +20,7 @@
           <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
           <td><%= status_label(source).html_safe %></td>
           <td class="hidden-phone number"><%= number_with_delimiter(source.articles.cited(1).count) %></td>
-          <td class="number"><%= number_with_delimiter(source.retrieval_statuses.sum(:event_count)) %></td>
+          <td class="number"><%= number_with_delimiter(@events_count[source.id]) %></td>
         </tr>
       <% end %>
     </tbody>
