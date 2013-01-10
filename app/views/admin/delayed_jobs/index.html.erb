@@ -10,10 +10,10 @@
       <tr>
         <th>Source</th>
         <th>Status</th>
-        <th class="hidden-phone">Pending</th>
-        <th class="hidden-phone">Working</th>
-        <th class="hidden-phone">Failed</th>
-        <th>Queued Articles</th>
+        <th class="hidden-phone number">Pending</th>
+        <th class="hidden-phone number">Working</th>
+        <th class="hidden-phone number">Failed</th>
+        <th class="number">Queued&nbsp;Articles</th>
       </tr>
     </thead>
     <tbody>
@@ -21,10 +21,10 @@
         <tr>
           <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
           <td><%= status_label(source).html_safe %></td>
-          <td class="hidden-phone"><%= source.delayed_jobs.count(:run_at) - (source.delayed_jobs.count(:locked_at) + source.delayed_jobs.count(:failed_at)) %></td>
-          <td class="hidden-phone"><%= source.delayed_jobs.count(:locked_at) %></td>
-          <td class="hidden-phone"><%= source.delayed_jobs.count(:failed_at) %></td>
-          <td><%= source.retrieval_statuses.queued.count %></td>
+          <td class="hidden-phone number"><%= number_with_delimiter(source.delayed_jobs.count(:run_at) - (source.delayed_jobs.count(:locked_at) + source.delayed_jobs.count(:failed_at))) %></td>
+          <td class="hidden-phone number"><%= number_with_delimiter(source.delayed_jobs.count(:locked_at)) %></td>
+          <td class="hidden-phone number"><%= number_with_delimiter(source.delayed_jobs.count(:failed_at)) %></td>
+          <td class="number"><%= number_with_delimiter(source.retrieval_statuses.queued.count) %></td>
         </tr>
       <% end %>
     </tbody>

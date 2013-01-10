@@ -40,8 +40,6 @@ class ErrorMessage < ActiveRecord::Base
       self.user_agent   = request.user_agent
       self.content_type = content_type || request.formats.first.to_s
     end 
-    
-    self.source_id      = source_id if source_id
   end
   
 end

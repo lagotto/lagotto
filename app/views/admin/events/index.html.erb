@@ -1,7 +1,7 @@
 <div class="content">
   <div class="page-header">
     <h1>
-      <%= pluralize(RetrievalStatus.sum(:event_count), 'Event') %>
+      <%= pluralize(number_with_delimiter(RetrievalStatus.sum(:event_count)), 'Event') %>
     </h1>
   </div>
 
@@ -10,8 +10,8 @@
       <tr>
         <th>Source</th>
         <th>Status</th>
-        <th>Articles with Events</th>
-        <th>All Events</th>
+        <th class="hidden-phone number">Articles&nbsp;with&nbsp;Events</th>
+        <th class="number">All Events</th>
       </tr>
     </thead>
     <tbody>
@@ -19,8 +19,8 @@
         <tr>
           <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
           <td><%= status_label(source).html_safe %></td>
-          <td><%= source.articles.cited(1).count %></td>
-          <td><%= source.retrieval_statuses.sum(:event_count) %></td>
+          <td class="hidden-phone number"><%= number_with_delimiter(source.articles.cited(1).count) %></td>
+          <td class="number"><%= number_with_delimiter(source.retrieval_statuses.sum(:event_count)) %></td>
         </tr>
       <% end %>
     </tbody>
