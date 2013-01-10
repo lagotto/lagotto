@@ -55,8 +55,6 @@ class ArticlesController < ApplicationController
     load_article
 
     format_options = params.slice :events, :history, :source
-    
-    load_article_eager_includes
 
     respond_with(@article) do |format|
       format.csv  { render :csv => @article }
@@ -75,18 +73,8 @@ class ArticlesController < ApplicationController
     # Load one article given query params
     id_hash = Article.from_uri(params[:id])
     @article = Article.where(id_hash).first
-  end
-
-  def load_article_eager_includes
-    id_hash = Article.from_uri(params[:id])
-    if params[:source]
-      @article = Article.where("#{id_hash.keys.first} = ? and lower(sources.name) in (?)", id_hash.values.first, params[:source].downcase.split(",")).first
-    else
-      @article = Article.where(id_hash).first
-    end
     
     # raise error if article wasn't found
     raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @article.blank?
   end
-
 end
