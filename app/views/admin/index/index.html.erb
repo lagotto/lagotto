@@ -30,7 +30,7 @@
           <h2>
             <i class="icon-file"></i> <%= link_to "Articles", articles_path %>
           </h2>
-          <p><%= pluralize(@articles_count, 'article') %>, including <%= pluralize(Article.cited(1).count, 'cited article') %>, and <%= pluralize(@articles_recent_count, 'article') %> published in the last 30 days.</p>
+          <p><%= pluralize(number_with_delimiter(@articles_count), 'article') %>, including <%= pluralize(number_with_delimiter(Article.cited(1).count), 'cited article') %>, and <%= pluralize(number_with_delimiter(@articles_recent_count), 'article') %> published in the last 30 days.</p>
         </div>
       </div>
     </li>
@@ -58,7 +58,7 @@
               <span class="label label-warning pull-right">No Queued Articles</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@delayed_jobs_active_count, 'active job') %> for <%= pluralize(@queued_count, 'queued article') %>.<br/>&nbsp;</p>
+          <p><%= pluralize(number_with_delimiter(@delayed_jobs_active_count), 'active job') %> for <%= pluralize(number_with_delimiter(@queued_count), 'queued article') %>.<br/>&nbsp;</p>
         </div>
       </div>
     </li>
@@ -71,7 +71,7 @@
               <span class="label label-warning pull-right">More than 5% Errors</span>
             <% end %>
           </h2>
-          <p><%= pluralize(@delayed_jobs_count, 'responses') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.<br/>&nbsp;</p>
+          <p><%= pluralize(number_with_delimiter(@delayed_jobs_count), 'responses') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.<br/>&nbsp;</p>
         </div>
       </div>
     </li>
@@ -94,7 +94,7 @@
               <span class="label label-warning pull-right">With Errors</span>
             <% end %>
           </h2>
-          <p><p><%= pluralize(@error_messages_count, 'error') %> with <%= pluralize(@error_messages_last_day_count, 'error') %> in the last 24 hours.<br/>&nbsp;</p>
+          <p><p><%= pluralize(number_with_delimiter(@error_messages_count), 'error') %> with <%= pluralize(number_with_delimiter(@error_messages_last_day_count), 'error') %> in the last 24 hours.<br/>&nbsp;</p>
         </div>
       </div>
     </li>
