@@ -42,27 +42,62 @@
 <body>
   <div class="container">
     <header>
-      <%= image_tag "plos/plos.png" %>
+      <%= image_tag "plos/plos.png", :class => "hidden-phone" %>
     </header>
     <div class="navbar">
   	  <div class="navbar-inner">
-				<ul class="nav">
-					<li><%= link_to "Articles", articles_path %></li>
-          <li><%= link_to "Sources", sources_path %></li>
-        </ul>
-	      <%= form_tag({:controller => "/articles", :action => "index"}, :method => "get", :class => "navbar-search pull-left") do %>
-          <%= search_field_tag :query, params[:query], :placeholder => "Search for Article", :class => "search-query" %>
-	      <% end %>
-        <ul class="nav pull-right">
+        <div class="nav-collapse collapse">
           <% if user_signed_in? %>
-            <li><%= link_to "Administration", admin_root_path %></li>
-            <li><%= link_to("Sign Out", destroy_user_session_path, :method => 'delete') %></li>
-          <% else %>
-            <li><%= link_to_setup_or_login %></li>
+            <ul class="nav">
+              <%= controller.controller_name == "index" ? '<li class="visible-desktop active">'.html_safe : '<li class="visible-desktop">'.html_safe %><%= link_to 'Home', admin_root_path %></li>
+            </ul>
           <% end %>
-	      </ul>
+        </div>
+  				<ul class="nav">
+            <% if user_signed_in? %>
+              <%= controller.controller_name == "index" ? '<li class="hidden-desktop active">'.html_safe : '<li class="hidden-desktop">'.html_safe %><%= link_to "Home", admin_root_path %></li>
+            <% end %>
+  					<%= controller.controller_name == "articles" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", articles_path %></li>
+            <% if user_signed_in? %>
+              <%= controller.controller_name == "sources" ? '<li class="hidden-desktop active">'.html_safe : '<li class="hidden-desktop">'.html_safe %><%= link_to "Sources", admin_sources_path %></li>
+  						<%= controller.controller_name == "sources" ? '<li class="dropdown visible-desktop active">'.html_safe : '<li class="dropdown visible-desktop">'.html_safe %>
+  					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sources <b class="caret"></b></a>
+  				      <ul class="dropdown-menu">
+                  <li><%= link_to "Groups", admin_sources_path %></li>
+                  <li class="divider"></li>
+                  <% sources.each do|source| %>
+                    <li><%= link_to h(source.display_name), admin_source_path(source) %></li>
+                  <% end %>
+  		          </ul>
+  		        </li>
+            <% else %>
+              <%= controller.controller_name == "sources" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Sources", sources_path %></li>
+            <% end %>
+          </ul>
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="nav-collapse collapse">
+            <% if user_signed_in? %>
+              <ul class="nav">
+                <%= controller.controller_name == "delayed_jobs" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Jobs', admin_delayed_jobs_path %></li>
+                <%= controller.controller_name == "responses" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Responses', admin_responses_path %></li>
+                <%= controller.controller_name == "events" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Events', admin_events_path %></li>
+                <%= controller.controller_name == "error_messages" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Errors', admin_error_messages_path %></li>
+              </ul>
+            <% end %>
+            <ul class="nav pull-right">
+              <% if user_signed_in? %> 
+                <li><%= link_to("Sign Out", destroy_user_session_path, :method => 'delete') %></li>
+              <% else %>
+                <li><%= link_to_setup_or_login %></li>
+              <% end %>
+      	    </ul>
+          </div>
+  			</div>
   		</div>
-  	</div>
 
     <% flash.each do |name, msg| %>
       <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
