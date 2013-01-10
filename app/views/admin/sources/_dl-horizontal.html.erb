@@ -1,0 +1,22 @@
+<% if user_signed_in? %>
+  <div class="visible-phone">
+    <dt>Status</dt>
+    <dd><%= h(@source.status) %></dd>  
+  </div>
+  <% unless @source.disable_until.blank? %>
+    <dt>Disabled until</dt>
+    <dd><%= @source.disable_until.to_s(:friendly) %></dd>
+  <% end %>
+<% end %>
+<% unless @source.group.blank? %>
+  <dt>Group</dt>
+  <dd><%= h(@source.group.name) %></dd>
+<% end %>
+<% unless @source.description.blank? %>
+  <dt>Description</dt>
+  <dd><%= h(@source.description) %></dd>
+<% end %>
+<% unless @source.private %>
+  <dt>Documentation</dt>
+  <dd><%= link_to "Information at ALM Wiki", "http://github.com/articlemetrics/alm/wiki/" + @source.name %></dd>
+<% end %>

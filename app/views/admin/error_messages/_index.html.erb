@@ -1,0 +1,71 @@
+<div class="page-header">
+  <h1>
+    <%= pluralize(@error_messages.count, 'Error') %>
+    <% unless params[:query].blank? %>
+        with <em><%= params[:query] %></em> in the class name or message
+    <% end %>
+  </h1>
+</div>
+
+<div class="search">
+  <%= form_tag({:controller => "/admin/error_messages", :action => "index"}, :method => "get", :class => "form-search") do %>
+    <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "input-large", :id => "appendedInputButtons" %>
+    <button type="submit" class="btn hidden-phone">Search</button>
+  <% end %>
+</div>
+
+<% if @error_messages.size > 0 %>
+  <% @error_messages.each do|error_message| %>
+    <div class="error_message">
+      <div class="btn-group pull-right hidden-phone">
+        <button type="button" class="btn btn-mini" data-toggle="collapse" data-target="#error_id<%= error_message.id %>"><i class="icon-resize-vertical"></i> More</button>
+        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+          <i class="icon-trash"></i> Delete <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "by Message", admin_error_message_path(error_message, :query => params[:query]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :id => "#{error_message.id}-delete" %></li>
+          <li><%= link_to "by Class", admin_error_message_path(error_message, :query => params[:query], :filter => "class_name"), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :id => "#{error_message.id}-delete" %></li>
+          <% unless error_message.source_id.blank? %>
+            <li><%= link_to "by Source", admin_error_message_path(error_message, :query => params[:query], :filter => "source_id"), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :id => "#{error_message.id}-delete" %></li>
+          <% end %>
+        </ul>
+      </div>
+      
+      <h4><%= error_message.status.blank? ? "" : "[#{error_message.status}] " %><%= h(error_message.message) %></h4>
+      <p>
+        <%= link_to error_message.class_name, admin_error_messages_path(:query => h(error_message.class_name)) %>
+        <% unless error_message.source_id.blank? %>
+          <%= link_to error_message.source.name, admin_source_path(error_message.source) %>
+        <% end %>
+      </p>
+      
+      <div id="error_id<%= error_message.id %>" class="collapse">  
+        <% unless error_message.content_type.blank? or error_message.content_type == "text/html" %>
+          <h5>Content Type</h5>
+          <%= error_message.content_type %>
+        <% end %>
+               
+        <% unless error_message.target_url.blank? %>
+          <h5>Target URL</h5>
+          <%= link_to error_message.target_url, error_message.target_url %>
+        <% end %>
+        
+        <h5>Time</h5>
+        <%= error_message.created_at.to_s %>
+        
+        <% unless error_message.trace.blank? %>
+          <h5>Trace</h5>
+          <%= simple_format(error_message.trace) %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+    
+  <%= will_paginate @error_messages, :params => { :controller => admin_error_messages_path }, :renderer => BootstrapPagination::Rails %>
+<% else %>
+  <div class="alert alert-info">There are currently no errors 
+    <% unless params[:query].blank? %>
+        with <em><%= params[:query] %></em> in the class name or message
+    <% end %>
+  </div>
+<% end %>

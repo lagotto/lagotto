@@ -6,14 +6,6 @@ Version 2.0 of the application was released in July 2012 and has been updated to
 
 ## Installation
 
-Article Level Metrics (ALM), is a Ruby on Rails application started by the [Public Library of Science (PLOS)](http://www.plos.org/). It stores and reports user configurable performance data on research articles. Examples of possible metrics are online usage, citations, social bookmarks, notes, comments, ratings and blog coverage.
-
-For more information on how PLOS uses Article-Level Metrics, see [http://article-level-metrics.plos.org/](http://article-level-metrics.plos.org/).
-
-Version 2.0 of the application was released in July 2012 and has been updated to be compatible with Ruby 1.9.3, Rails 3.2.x, and to store the results of external API calls in CouchDB. The backend processes have been completely rewritten and now uses **delayed_job**.
-
-## Installation
-
 ALM is a standard Ruby on Rails application with the following requirements:
 
 * Ruby 1.9.3
@@ -266,49 +258,6 @@ In production mode the background processes run via the `upstart`system utility.
     rvmsudo foreman export upstart /etc/init -a alm -f Procfile.prod -l /USER/log -u USER
 
 Replace ``rvmsudo`` with ``sudo`` if you don't use RVM.
-
-## Usage
-
-### Setup
-
-Groups and sources are already configured if you installed via Chef/Vagrant, or if you issued the `rake db:setup` command. You can also add groups and sources later with `rake db:seed`. 
-
-The admin user can be created when using the web interface for the first time. After logging in as admin you can add articles and configure sources.
-
-The following configuration options for sources are stored in `settings.yml`:
-
-* job_batch_size: number of articles per job (default 200)
-* max_job_batch_size: maximal number of articles per job (default 1000)
-* default_job_batch_size: number of articles per job (default 202)
-* staleness: refresh interval (default 7 days)
-* batch_time_interval (default 1 hour) 
-
-The following configuration options for sources are available via the web interface:
-
-* timeout (default 30 sec)
-* disable delay (default 10 sec)
-* number of workers for the job queue (default 1)
-* whether the results can be shared via the API (default true)
-* maximum number of failed queries allowed before being disabled (default 200)
-* maximum number of failed queries allowed in a time interval (default 86400 sec)
-
-Through these setup options the behavior of sources can be fine-tuned. Please contact us if you have any questions.
-
-### Adding articles
-
-Articles can be added via the web interface (after logging in as admin), or via `rake doi_import <DOI_DUMP` (see below).
-
-### Adding metrics
-
-Metrics are automatically added in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results returned by external APIs are stored in CouchDB.
-
-When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We have to set up a queue and at least one worker for every source. In development mode this is done with `foreman`, using the configuration in `Procfile`:
-    
-    foreman start
-    
-In production mode the background processes run via the `upstart`system utility. The Chef/Vagrant setup has the upstart scripts already configured, otherwise this can be done (where USER is the user running the web server) via
-
-    rvmsudo foreman export upstart /etc/init -a alm -l /USER/log -u USER
     
 ## More Documentation
 In the Wiki at [https://github.com/articlemetrics/alm/wiki][documentation].

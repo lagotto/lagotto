@@ -18,70 +18,36 @@
   # limitations under the License.
 -%>
 
-<div class="content">  
-  <div class="page-header">
-    <h1>
-      <%= link_to "Administration", admin_root_path %> / <%= h(@source.display_name) %>
-    </h1>
+<div class="content">
+  <div class="page-header" id="page-header">
+    <%= render :partial => 'page-header', :locals => { :status => " <small class=\"hidden-phone\">#{@source.status}</small>".html_safe } %>
   </div>
+  
+  <dl class="dl-horizontal" id="dl-horizontal">
+    <%= render :partial => 'dl-horizontal' %>
+  </dl>
 
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#status" data-toggle="tab" title="Status">Status</a></li>
-    <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
-    <li><a href="#most-cited" data-toggle="tab" title="Most-Cited">Most-Cited</a></li>
+    <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
+    <li class="hidden-phone"><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Most-Cited <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+      <li><a href="#most-cited7" data-toggle="tab">7 days</a></li>
+      <li><a href="#most-cited30" data-toggle="tab">30 days</a></li>
+      <li><a href="#most-cited12" data-toggle="tab">12 months</a></li>
+      <li><a href="#most-cited" data-toggle="tab">All-time</a></li>
+      </ul>
+    </li>
   </ul>
   
   <div class="tab-content">
-    <div class="tab-pane active" id="status">
-      <% if @source.status == "inactive" %>
-        <div class="alert alert-warning">
-          This source is inactive.
-        </div>
-      <% elsif @source.status == "disabled" %>
-        <div class="alert alert-error">
-          This source is disabled until <%= h(@source.disable_until) %>.
-        </div>
-      <% else %>
-        <div class="alert alert-info">
-          This source is active.
-        </div>
-      <% end %>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Fresh Articles</th>
-            <td><%= @source.retrieval_statuses.fresh.count %></td>
-          </tr>
-        </thead>
-        <tbody>
-            <tr>
-              <th>Stale Articles</th>
-              <td><%= @source.retrieval_statuses.stale.count %></td>
-            </tr>
-            <tr>
-              <th>Queued Articles</th>
-              <td><%= @source.retrieval_statuses.queued.count %></td>
-            </tr>
-        </tbody>
-      </table>
-
+    <div class="tab-pane active" id="summary">
+      <%= render :partial => 'summary' %>
     </div>
-    <div class="tab-pane" id="configuration">
-      <%= render :partial => 'show' %> 
+    <div class="tab-pane hidden-phone" id="configuration">
+      <%= render :partial => 'configuration' %> 
     </div>
-    <div class="tab-pane" id="most-cited">
-      <% unless @samples.empty? %>
-        <% @samples.each do |retrieval_status| %>
-          <div class="row">
-            <div class="span12">
-              <h4><%= link_to retrieval_status.article.title, retrieval_status.article %></h4>
-              <%= retrieval_status.article.published_on.to_s(:long) %> - <%= pluralize retrieval_status.event_count, "event" %>
-            </div>
-          </div>
-        <% end %>
-      <% else %>
-        <div class="alert alert-info">No articles have been cited by this source</div>
-      <% end %>
-    </div>
+    <%= render :partial => 'tab-content', :locals => { :pane => "tab-pane" } %>
   </div>
 </div>

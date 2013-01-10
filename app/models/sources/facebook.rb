@@ -35,7 +35,8 @@ class Facebook < Source
         original_url = get_original_url(article.doi_as_url)
         article.update_attributes(:url => original_url)
       rescue => e
-        Rails.logger.error "Could not get the full url for #{article.doi_as_url} #{e.message}"
+        logger.error "Could not get the full url for #{article.doi_as_url} #{e.message}"
+        raise e
       end
     end
     
@@ -60,7 +61,7 @@ class Facebook < Source
     query = "select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, "\
       "comments_fbid, commentsbox_count from link_stat where url = '#{search_term}'"
 
-    Rails.logger.debug "facebook query #{query}"
+    logger.debug "facebook query #{query}"
 
     results = fbAPI.fql_query(query)
 

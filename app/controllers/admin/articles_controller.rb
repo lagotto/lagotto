@@ -64,6 +64,9 @@ class Admin::ArticlesController < Admin::ApplicationController
     # Load one article given query params
     id_hash = Article.from_uri(params[:id])
     @article = Article.where(id_hash).first
+    
+    # raise error if article wasn't found
+    raise ActiveRecord::RecordNotFound.new if @article.blank?
   end
   
   def load_index
@@ -78,9 +81,9 @@ class Admin::ArticlesController < Admin::ApplicationController
     @source = Source.find_by_name(params[:source].downcase) if params[:source]
 
     if params[:source]
-      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("display_name")
+      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("name")
     else
-      @sources = Source.order("display_name")
+      @sources = Source.order("name")
     end
   end
 
@@ -93,7 +96,8 @@ class Admin::ArticlesController < Admin::ApplicationController
       @article = Article.where(id_hash).includes(:retrieval_statuses => :source).first
     end
     
-    flash[:error] = "Couldn't find Article with #{id_hash.keys.first} = #{id_hash.values.first}" if @article.nil?
+    # raise error if article wasn't found
+    raise ActiveRecord::RecordNotFound.new if @article.blank?
   end
 
 end

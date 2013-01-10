@@ -14,6 +14,10 @@ Alm::Application.routes.draw do
     resources :sources
     resources :groups
     resources :delayed_jobs
+    resources :errors
+    resources :events
+    resources :responses
+    resources :error_messages
   end
   
   namespace :api do

@@ -54,8 +54,7 @@ module SourceHelper
     begin
       response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
     rescue => e
-      Rails.logger.error "Failed to put #{service_url}#{id}.  Going to try to get the document to get the current _rev"
-      Rails.logger.error "#{e.class.name}: #{e.message} #{e.backtrace.join("\n")}"
+      ErrorMessage.create(:exception => e, :message => "Failed to put #{service_url}#{id}. Going to try to get the document to get the current _rev, #{e.message}")   
       if e.respond_to?('response')
         if e.response.kind_of?(Net::HTTPConflict)
           # something went wrong
@@ -179,7 +178,7 @@ module SourceHelper
       end
 
     rescue Exception => e
-      Rails.logger.error "Error (#{e.class.name}: #{e.message}) while requesting #{uri}#{optsMsg}"
+      ErrorMessage.create(:exception => e, :message => "Error #{e.message} while requesting #{uri}#{optsMsg}")
       raise e
     end
   end
@@ -212,6 +211,12 @@ module SourceHelper
 
     req = Net::HTTP::Delete.new("#{url.path}?#{url.query}")
     request(req)
+  end
+  
+  def get_alm_database
+    # get information about CouchDB database
+    service_url = APP_CONFIG['couchdb_url']
+    get_json(service_url)
   end
   
   def put_alm_database

@@ -6,7 +6,7 @@ FactoryGirl.define do
     pub_med_central 2568856
     mendeley "d4ad6910-6d06-11df-a2b2-0026b95e3eb7"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
-    published_on '2008-10-31'
+    published_on { Time.zone.today - 1.day }
     
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
@@ -15,6 +15,10 @@ FactoryGirl.define do
     
     factory :article_with_events do
       retrieval_statuses { |article| [article.association(:retrieval_status)] }
+    end
+    
+    factory :article_with_errors do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_errors)] }
     end
     
     factory :article_with_crossref_citations do
@@ -41,16 +45,20 @@ FactoryGirl.define do
   end
   
   factory :retrieval_history do
-    sequence(:retrieved_at) {|n| "2008-10-31".to_date + n.days }
-    sequence(:event_count) {|n| 100 + n }
+    sequence(:retrieved_at) { Time.zone.today - 20.hours }
+    event_count { retrieval_status.event_count }
+    status { event_count > 0 ? "SUCCESS" : "ERROR" }
   end
   
   factory :retrieval_status do
+    event_count 50
+    
     association :article
     association :source, factory: :citeulike
     
     trait(:unpublished) { association :article, :unpublished, factory: :article }
     trait(:staleness) { association :source, factory: :citeulike }
+    trait(:with_errors) { event_count 0 }
     trait(:with_crossref) { association :source, factory: :cross_ref }
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }
@@ -192,4 +200,9 @@ FactoryGirl.define do
     password_confirmation { |u| u.password }
   end
   
+  factory :error_message do
+    class_name "ActiveRecord::RecordNotFound"
+    message "Couldn't find Source with id=x"
+    target_url "http://127.0.0.1/sources/x"
+  end
 end

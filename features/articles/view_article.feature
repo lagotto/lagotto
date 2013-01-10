@@ -2,13 +2,14 @@ Feature: View article list
   In order to collect metrics
   A user
   Should be able to view a list of articles
-  
-    Scenario: Article list
-      Given that we have 15 articles
-      When I go to the Articles page
-      Then I should see a list of 15 articles
+    
+    @javascript
+    Scenario Outline: Article list
+      Given that we have <Number> articles
+      When I go to the "Articles" page
+      Then I should see a list of <VisibleNumber> articles
       
-    Scenario: Paginated article list
-      Given that we have 60 articles
-      When I go to the Articles page
-      Then I should see a list of 50 articles
+      Examples: 
+        | Number   | VisibleNumber |
+        | 15       | 30            |
+        | 60       | 50            |

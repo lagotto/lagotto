@@ -32,7 +32,7 @@ class ArticlesController < ApplicationController
     collection = collection.query(params[:query]) if params[:query]
     collection = collection.order_articles(params[:order])
 
-    @articles = collection.paginate(:page => params[:page])
+    @articles = collection.includes(:retrieval_statuses).paginate(:page => params[:page])
 
     # if private sources have been filtered out, the source parameter will be present and modified
 
@@ -40,9 +40,9 @@ class ArticlesController < ApplicationController
     @source = Source.find_by_name(params[:source].downcase) if params[:source]
 
     if params[:source]
-      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("display_name")
+      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("name")
     else
-      @sources = Source.order("display_name")
+      @sources = Source.order("name")
     end
 
     respond_with(@articles) do |format|
@@ -84,13 +84,13 @@ class ArticlesController < ApplicationController
   def load_article_eager_includes
     id_hash = Article.from_uri(params[:id])
     if params[:source]
-      @article = Article.where("#{id_hash.keys.first} = ? and lower(sources.name) in (?)", id_hash.values.first, params[:source].downcase.split(",")).
-          includes(:retrieval_statuses => :source).first
+      @article = Article.where("#{id_hash.keys.first} = ? and lower(sources.name) in (?)", id_hash.values.first, params[:source].downcase.split(",")).first
     else
-      @article = Article.where(id_hash).includes(:retrieval_statuses => :source).first
+      @article = Article.where(id_hash).first
     end
     
-    flash[:error] = "Couldn't find Article with #{id_hash.keys.first} = #{id_hash.values.first}" if @article.nil?
+    # raise error if article wasn't found
+    raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @article.blank?
   end
 
 end

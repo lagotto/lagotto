@@ -26,6 +26,8 @@ class Source < ActiveRecord::Base
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses
+  has_many :delayed_jobs, :primary_key => "name", :foreign_key => "queue"
+  has_many :error_messages
   belongs_to :group
 
   serialize :config, OpenStruct
@@ -62,15 +64,14 @@ class Source < ActiveRecord::Base
       end
       
       rs = retrieval_statuses.pluck("retrieval_statuses.id")
-      Rails.logger.debug "#{name} total articles queued #{rs.length}"
+      logger.debug "#{name} total articles queued #{rs.length}"
       
       rs.each_slice(job_batch_size) do | rs_ids |
         Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
       end
 
     else
-      Rails.logger.error "#{name} is either inactive or is disabled."
-      raise "#{display_name} (#{name}) is either inactive or is disabled"
+      raise Net::HTTPServiceUnavailable, "#{display_name} (#{name}) is either inactive or is disabled"
     end
   end
 
@@ -111,7 +112,7 @@ class Source < ActiveRecord::Base
     # find articles that need to be updated
     # not queued currently, scheduled_at in the past
     rs = retrieval_statuses.stale.pluck("retrieval_statuses.id")
-    Rails.logger.debug "#{name} total articles queued #{rs.length}"
+    logger.debug "#{name} total articles queued #{rs.length}"
 
     rs.each_slice(job_batch_size) do | rs_ids |
       Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
@@ -144,7 +145,7 @@ class Source < ActiveRecord::Base
                                              :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds)}).count(:id)
 
     if failed_queries > max_failed_queries
-      Rails.logger.error "#{display_name} has exceeded maximum failed queries.  Disabling the source."
+      logger.error "#{display_name} has exceeded maximum failed queries.  Disabling the source."
       # disable the source
       self.disable_until = Time.zone.now + disable_delay.seconds
       save
@@ -167,9 +168,22 @@ class Source < ActiveRecord::Base
   
   def staleness
     # staleness can be Integer or Array
-    source_config.staleness || [ 1.month ]
+    source_config.staleness || [ (1.month * 0.25) ]
     Array(source_config.staleness)
   end 
+  
+  def staleness_with_limits
+    case staleness.length
+    when 1
+      ["any time"].zip(staleness)
+    when 2
+      ["in the last 7 days", "more than 7 days ago"].zip(staleness)
+    when 3
+      ["in the last 7 days", "in the last 31 days", "more than 31 days ago"].zip(staleness)
+    when 4
+      ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
+    end
+  end
   
   def staleness=(value)
     source_config.staleness = value
@@ -184,6 +198,8 @@ class Source < ActiveRecord::Base
       "inactive"
     elsif disable_until
       "disabled"
+    elsif !(retrieval_statuses.where("event_count > 0").size > 0)
+      "no events"
     else
       "active"
     end

@@ -46,5 +46,8 @@ module Alm
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    # Define custom exception handler
+    config.exceptions_app = lambda { |env| ErrorMessagesController.action(:create).call(env) }
   end
 end

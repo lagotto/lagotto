@@ -20,14 +20,17 @@ class Admin::IndexController < Admin::ApplicationController
   
   def index
     @articles_count = Article.count
-    @articles_recent_count = Article.where("TIMESTAMPDIFF(DAY, published_on, UTC_TIMESTAMP()) <= 30").count
+    @articles_recent_count = Article.last_x_days(30).count
     
-    @sources = Source.order("name")
+    @sources_count = Source.count
     @sources_inactive_count = Source.where("active != 1").count
     @sources_disabled_count = Source.where("disable_until IS NOT NULL").count
-    @groups = Group.order("name")
-    @delayed_jobs_count = DelayedJob.order("queue, run_at DESC").count
-    @delayed_jobs = DelayedJob.order("queue, run_at DESC").limit(50)
-    @delayed_jobs_errors_count = DelayedJob.where("failed_at IS NOT NULL").count
+    @delayed_jobs_active_count = DelayedJob.count
+    @delayed_jobs_count = RetrievalHistory.total(1).count
+    @delayed_jobs_errors_count = RetrievalHistory.with_errors(1).count
+    @queued_count = RetrievalStatus.queued.count
+    @error_messages_count = ErrorMessage.count
+    @error_messages_last_day_count = ErrorMessage.total(1).count
+    @couchdb_info = Source.new.get_alm_database
   end
 end

@@ -51,8 +51,8 @@ class Wikipedia < Source
           results = get_json(query_url, options) 
         
           # Raise error if server returns an error (usually either exceeeding maxlag or text search disabled errors)
-          raise "#{display_name} #{results['error']['info']}" unless results['error'].blank?
-
+          raise unless results['error'].blank?
+          
           lang_total = results['query']['searchinfo']['totalhits']
           offset = results['query-continue'] ? results['query-continue']['search']['sroffset'] : -1
         
@@ -73,12 +73,12 @@ class Wikipedia < Source
         # Don't store results and try again if numbers don't match
         missing_count = lang_total - lang_events.uniq.length
         break if missing_count == 0
-        Rails.logger.info "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}. Retrying..." 
+        logger.info "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}. Retrying..." 
         lang_events = []
       end
       
       # Raise error if there is still a problem after 20 attempts
-      raise "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}" if missing_count != 0
+      raise if missing_count != 0
       
       events.concat(lang_events)
       total += lang_total

@@ -10,7 +10,10 @@ require 'simplecov'
 require 'cucumber/rails'
 require 'factory_girl_rails'
 require 'aruba/cucumber'
+require 'capybara/poltergeist'
+require 'source_helper'
 
+World(SourceHelper)
 World(FactoryGirl::Syntax::Methods)
 
 # Allow connections to localhost, required for Selenium
@@ -22,7 +25,7 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
 
-#Capybara.javascript_driver = :webkit
+Capybara.javascript_driver = :poltergeist
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 
@@ -41,16 +44,19 @@ Capybara.default_selector = :css
 #
 ActionController::Base.allow_rescue = false
 
+Cucumber::Rails::World.use_transactional_fixtures = true
+Cucumber::Rails::Database.javascript_strategy = :truncation
+
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
-begin
-  DatabaseCleaner.strategy = :truncation
-rescue NameError
-  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
-end
-
+# begin
+#   DatabaseCleaner.strategy = :transaction
+# rescue NameError
+#   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+# end
+# 
 Before do
-  DatabaseCleaner.start
+  #DatabaseCleaner.start
   
   # Set the defaults for Aruba
   @dirs = [Rails.root]
@@ -58,37 +64,14 @@ Before do
   @aruba_io_wait_seconds = 5
 end
 
-After do |scenario|
-  DatabaseCleaner.clean
+Before('@couchdb') do
+  put_alm_database
 end
 
-module DelayedJobSupport
-  def process_all_jobs
-    Delayed::Worker.new.work_off(Delayed::Job.count)
-    if ENV['FAIL_FAST']
-      raise Delayed::Job.first.last_error if Delayed::Job.count > 0
-    end
-  end
+After('@couchdb') do
+  delete_alm_database
 end
 
-World(DelayedJobSupport)
-
-# You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
-# See the DatabaseCleaner documentation for details. Example:
-#
-#   Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
-#     # { :except => [:widgets] } may not do what you expect here
-#     # as tCucumber::Rails::Database.javascript_strategy overrides
-#     # this setting.
-#     DatabaseCleaner.strategy = :truncation
-#   end
-#
-#   Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
-#     DatabaseCleaner.strategy = :transaction
-#   end
-#
-
-# Possible values are :truncation and :transaction
-# The :transaction strategy is faster, but might give you threading problems.
-# See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
-Cucumber::Rails::Database.javascript_strategy = :transaction
+# After do |scenario|
+#   DatabaseCleaner.clean
+# end

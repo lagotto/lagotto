@@ -24,7 +24,7 @@ class RetrievalHistory < ActiveRecord::Base
   belongs_to :retrieval_status
   belongs_to :article
   belongs_to :source
-
+  
   SUCCESS_MSG = "SUCCESS"
   SUCCESS_NODATA_MSG = "SUCCESS WITH NO DATA"
   ERROR_MSG = "ERROR"
@@ -32,15 +32,25 @@ class RetrievalHistory < ActiveRecord::Base
   SOURCE_DISABLED = "Source disabled"
   SOURCE_NOT_ACTIVE = "Source not active"
   
-  scope :after_days, lambda { |days| joins(:article).where("DATE(retrieved_at) <= TIMESTAMPADD(DAY,?,articles.published_on)", days).order("retrieved_at") }
-  scope :after_months, lambda { |months| joins(:article).where("DATE(retrieved_at) <= TIMESTAMPADD(MONTH,?,articles.published_on)", months).order("retrieved_at") }
-  scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year).order("retrieved_at") }
+  default_scope order("retrieved_at")
+  
+  scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
+  scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months) }
+  scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year) }
+  
+  scope :total, lambda { |days| where("retrieved_at > NOW() - INTERVAL ? DAY", days) }
+  scope :with_success, lambda { |days| where("event_count > 0 AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
+  scope :with_errors, lambda { |days| where("status = 'ERROR' AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
 
   def data
-    begin
-      data = get_alm_data(id)
-    rescue => e
-      Rails.logger.error "Failed to get data for #{id}. #{e.message}"
+    if event_count > 0
+      begin
+        data = get_alm_data(id)
+      rescue => e
+        #ErrorMessage.create(:exception => e, :message => "Failed to get data for #{source.name}:#{id}, #{e.message}")
+        data = nil
+      end
+    else
       data = nil
     end
   end
@@ -150,7 +160,7 @@ class RetrievalHistory < ActiveRecord::Base
   end
   
   def citations
-    if ["crossref","pubmed","researchblogging","nature","wos","scopus","bloglines"].include?(source.name)
+    if ["crossref","pubmed","researchblogging","nature","wos","scopus","bloglines","scienceseeker"].include?(source.name)
       event_count
     elsif source.name == "wikipedia"
       events.select {|event| event["namespace"] == 0 }.length

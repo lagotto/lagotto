@@ -34,7 +34,14 @@
   </div>
 <% end %>
 
-<% unless @articles.empty? %>
+<div class="search">
+  <%= form_tag({:controller => "/articles", :action => "index"}, :method => "get", :class => "form-search") do %>
+    <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "input-large", :id => "appendedInputButtons" %>
+    <button type="submit" class="btn hidden-phone">Search</button>
+  <% end %>
+</div>
+
+<% if @articles.size > 0 %>
   <% @articles.each do |article| %>
     <div class="row">
       <div class="span12">

@@ -51,7 +51,7 @@ class Mendeley < Source
 
       # event count is the reader and group numbers combined
       total = 0
-      readers = result['stats']['readers']
+      readers = result['stats']['readers'] unless result['stats'].nil?
       total += readers unless readers.nil?
 
       groups = result['groups']
@@ -86,11 +86,11 @@ class Mendeley < Source
     begin
       result = get_json(url, options)
     rescue => e
-      Rails.logger.error("#{display_name} #{e.message}")
       if e.respond_to?('response')
         if e.response.kind_of?(Net::HTTPForbidden)
           # http response 403
-          Rails.logger.error "#{display_name} returned 403, they might be throttling us."
+          logger.error "#{display_name} returned 403, they might be throttling us."
+          raise e
         end
         # if the article could not be found by the Mendeley api, continue on (we will get a 404 error)
         # if we get any other error, throw it so it can be handled by the caller (ex. 503)

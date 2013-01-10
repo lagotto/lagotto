@@ -24,6 +24,7 @@ describe ScienceSeeker do
       stub = stub_request(:get, @scienceseeker.get_query_url(@article)).to_return(:body => File.read(fixture_path + 'science_seeker.xml'), :status => 200)
       response = @scienceseeker.get_data(@article)
       response[:event_count].should eq(3)
+      response[:events_url].should eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{@article.doi}")
       stub.should have_been_requested
     end
     

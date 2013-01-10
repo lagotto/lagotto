@@ -23,21 +23,27 @@ class RetrievalStatus < ActiveRecord::Base
 
   belongs_to :article
   belongs_to :source
-  has_many :retrieval_histories, :order => "retrieved_at", :dependent => :destroy
+  has_many :retrieval_histories, :dependent => :destroy
 
-  scope :most_cited_sample, lambda { where("event_count > 0").order("event_count desc").limit(25) }
-  
+  scope :most_cited, lambda { where("event_count > 0").order("event_count desc").limit(25) }
+  scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? DAY", days).order("event_count desc").limit(25) }
+  scope :most_cited_last_x_months, lambda { |months| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? MONTH", months).order("event_count desc").limit(25) }
+    
   scope :queued, where( "queued_at is NOT NULL")
-  scope :fresh, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) >= 0")
-  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND TIMESTAMPDIFF(SECOND, scheduled_at, UTC_TIMESTAMP()) < 0")
-  scope :idle, where("queued_at is NULL AND scheduled_at IS NULL")
-  scope :published, joins(:article).where("queued_at is NULL AND articles.published_on < ?", Time.zone.today)
+  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND scheduled_at <= NOW()")
+  scope :published, joins(:article).where("queued_at is NULL AND articles.published_on <= CURDATE()")
+  
+  scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
   
   def data
-    begin
-      data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
-    rescue => e
-      Rails.logger.error "Failed to get data for #{source.name}:#{article.doi}. #{e.message}"
+    if event_count > 0
+      begin
+        data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
+      rescue => e
+        ErrorMessage.create(:exception => e, :message => "Failed to get data for #{source.name}:#{article.doi}, #{e.message}", :source_id => source_id)
+        data = nil
+      end
+    else
       data = nil
     end
   end
@@ -54,6 +60,7 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
   
+  # Filter retrieval_histories by query parameters :days, :months, :year
   def histories_with_time_limit(options={})
     if options[:days].to_i > 0
       retrieval_histories.after_days(options[:days].to_i)

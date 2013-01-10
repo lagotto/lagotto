@@ -38,7 +38,7 @@ Given /^there is an article$/ do
 end
 
 Given /^that we have (\d+) articles$/ do |number|
-  created_articles = FactoryGirl.create_list(:article, number.to_i)
+  FactoryGirl.create_list(:article_with_events, number.to_i)
 end
 
 Given /^an article does not exist$/ do
@@ -46,10 +46,6 @@ Given /^an article does not exist$/ do
 end
 
 ### WHEN ###
-When /^I go to the Articles page$/ do
-  visit articles_path
-end
-
 When /^I add the article with all required information$/ do
   delete_article
   create_article
@@ -61,6 +57,11 @@ Then /^I should see the article$/ do
   #page.should have_content @article.title
 end
 
+Then /^I should see a list of articles$/ do
+  page.has_css?('div.span12').should be_true
+end
+
 Then /^I should see a list of (\d+) articles$/ do |number|
-  page.has_css?('div.span12', :count => number.to_i).should be_true
+  page.driver.render("tmp/capybara/#{number}.png")
+  page.has_css?('div.span12', :visible => true, :count => number.to_i).should be_true
 end

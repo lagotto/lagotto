@@ -24,22 +24,25 @@
   </div>
   
   <% unless @groups.empty? %>
-  <% @groups.in_groups_of(2, false) do |groups| %>
-      <div class="row">
-        <% groups.each do |group| %>
-          <% unless group.sources.where("active = 1").empty? %>
-            <div class="span6">
-              <h3><%= h(group.name) %></h3>
-              <ul class="unstyled">
-                <% group.sources.where("active = 1").each do |source| %>
-                <h4><%= link_to h(source.display_name), source_path(source) %></h4>
-                <% end %>
-              </ul>
-            </div>
+    <% @groups.each do |group| %>
+      <% unless group.sources.where("active = 1").empty? %>
+        <h2><%= h(group.name) %></h2>
+        <ul class="thumbnails">
+          <% group.sources.where("active = 1").each do |source| %>
+            <li class="span3">
+              <div class="thumbnail">
+                <div class="caption">
+                  <h4>
+                    <%= image_tag source.name + ".png" if path_to_image(source.name + ".png") %>
+                    <%= link_to h(source.display_name), source_path(source) %>
+                  </h4>
+                  <p><%= h(source.description) if source.description %></p>
+                </div>
+              </div>
+            </li>
           <% end %>
-        <% end %>
-      </div>
+        </ul>
+      <% end %>
     <% end %>
   <% end %>
-
 </div>

@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'source_helper'
+require 'nori'
 
 class SourceHelperClass
 end
@@ -25,7 +26,7 @@ describe SourceHelper do
     
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => data.to_xml, :content_type => 'application/xml', :status => 200)
-        @source_helper_class.get_xml(url) { |response| Hash.from_xml(response.to_s)["hash"].should eq(data) }
+        @source_helper_class.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
       end
     end
     
@@ -80,6 +81,12 @@ describe SourceHelper do
       
       get_response = @source_helper_class.get_alm_data(id)
       get_response.should include("_id" => id, "_rev" => rev)
+      
+      get_info = @source_helper_class.get_alm_database
+      db_name = URI.parse(APP_CONFIG['couchdb_url']).path[1..-2]
+      get_info["db_name"].should eq(db_name)
+      get_info["disk_size"].should be > 0
+      get_info["doc_count"].should eq(1)
       
       new_rev = @source_helper_class.save_alm_data(rev, data, id)
       new_rev.should_not eq(rev)

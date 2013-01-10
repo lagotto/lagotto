@@ -2,9 +2,12 @@ class Admin::SourcesController < Admin::ApplicationController
   
   def show
     @source = Source.find(params[:id])
-    @samples = @source.retrieval_statuses.most_cited_sample
-
     respond_with @source
+  end
+  
+  def index
+    @groups = Group.includes(:sources).order("name")
+    respond_with @groups
   end
 
   def edit
@@ -17,7 +20,6 @@ class Admin::SourcesController < Admin::ApplicationController
 
   def update
     @source = Source.find(params[:id])
-    @samples = @source.retrieval_statuses.most_cited_sample
     @source.update_attributes(params[:source])   
     respond_with(@source) do |format|  
       format.js { render :show }

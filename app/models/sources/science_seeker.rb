@@ -31,10 +31,9 @@ class ScienceSeeker < Source
 
     get_xml(query_url, options) do |document|
       events = []
-      document.root.namespaces.default_prefix = "x"
-      document.find("//x:entry").each do |entry|
-        entry_string = entry.to_s(:encoding => XML::Encoding::UTF_8)
-        event = Hash.from_xml(entry_string)
+      document.root.namespaces.default_prefix = "atom"
+      document.find("//atom:entry").each do |entry|
+        event = Nori.new.parse(entry.to_s)
         event = event['entry']
         events << {:event => event, :event_url => event['link']['href']}
       end
@@ -42,12 +41,10 @@ class ScienceSeeker < Source
       if events.empty?
         { :events => [], :event_count => 0 }
       else
-        xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
-
         {:events => events,
-         :events_url => "http://scienceseeker.org/displayfeed/?type=post&filter0=citation&modifier0=doi&value0=#{CGI.escape(article.doi)}",
+         :events_url => "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}",
          :event_count => events.length,
-         :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+         :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
         }
       end
 

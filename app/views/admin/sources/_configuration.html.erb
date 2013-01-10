@@ -1,0 +1,103 @@
+<% if current_page?(:action => :edit) or (current_page?(:action => :update) and !@source.errors.empty?) %>
+
+  <%= simple_form_for([:admin, @source.becomes(Source)], :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
+    <% f.object = @source.becomes(@source.class) %>
+    <fieldset>
+      <legend>Edit Source</legend>  
+      
+      <%= f.input :display_name, :input_html => { :class => "span3" } %>
+      <%= f.association :group, :include_blank => false %>
+      <%= f.input :active, :as => :boolean %>
+      <%= f.input :description, :input_html => { :rows => 3, :class => "span9" } %>
+      <%= f.input :timeout, :input_html => { :class => "input-mini" }, :hint => "Time to wait for a response from the source (seconds)"  %>
+      <%= f.input :workers, :input_html => { :class => "input-mini" }, :hint => "Number of workers for the job queue" %>
+      <%= f.input :wait_time, :input_html => { :class => "input-mini" }, :hint => "Time interval before more jobs can be added to the job queue (seconds)" %>
+      <%= f.input :max_failed_queries, :input_html => { :class => "input-mini" }, :hint => "Maximum number of failed queries allowed before being disabled" %>
+      <%= f.input :max_failed_query_time_interval, :input_html => { :class => "input-mini" }, :hint => "Maximum number of failed queries allowed in a time interval (seconds)" %>
+      <% if not @source.get_config_fields.empty? %>
+        <% @source.get_config_fields.each do |field| %>
+          <% if field[:field_type] == "check_box" %>
+            <%= f.input field[:field_name], :label => field[:field_name].gsub(/_/, " ").capitalize %>
+          <% elsif field[:field_type] == "text_field" %>
+            <%= f.input field[:field_name], :input_html => { :class => "span9" } %>
+          <% elsif field[:field_type] == "text_area" %>
+            <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2), :class => "span9" } %>
+          <% elsif field[:field_type] == "password_field" %>
+            <%= f.input field[:field_name], :value => @source.config.send(field[:field_name]) %>
+          <% end %>
+        <% end %>
+      <% end %>
+      
+      <div class="form-actions">
+        <%= f.submit "Save ", class: "btn btn-primary" %>
+        <%= link_to 'Cancel', admin_source_path(@source), { :remote => true, :class => 'btn' } %>
+      </div>
+    </fieldset>
+  <% end %>
+
+<% else %>
+  <div class="btn-toolbar pull-right">
+      <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_source_path(@source), { :remote => true, :class => 'btn btn-mini', :title => "Edit" } %>
+  </div>
+  <table class="table">
+    <thead>    
+    </thead>
+    <tbody>
+      <tr>
+        <th>Timeout</th>
+        <td><%=h @source.timeout %> seconds</td>
+      </tr>
+
+      <tr>
+        <th>Disabled Delay</th>
+        <td><%= h @source.disable_delay %> seconds</td>
+      </tr>
+      <tr>
+        <th>Workers (workers for the job queue)</th>
+        <td><%= h @source.workers %></td>
+      </tr>
+      <tr>
+        <th>Time interval before more jobs can be added to the job queue</th>
+        <td><%= @source.wait_time %> seconds</td>
+      </tr>
+      <tr>
+        <th>Maximum number of failed queries allowed before being disabled</th>
+        <td><%=h @source.max_failed_queries %></td>
+      </tr>
+      <tr>
+        <th>Maximum number of failed queries allowed in a time interval</th>
+        <td><%=h @source.max_failed_query_time_interval %> seconds</td>
+      </tr>
+      <tr>
+        <th>Job batch size</th>
+        <td><%=h @source.job_batch_size %></td>
+      </tr>
+      <tr>
+        <th>Batch time interval</th>
+        <td><%=h @source.batch_time_interval %> seconds</td>
+      </tr>
+      <tr>
+        <th>Staleness interval</th>
+        <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " (published #{i})" }.join("</br>").html_safe %></td>
+      </tr>
+      <tr>
+        <th>Requests per day</th>
+        <td><%= @source.requests_per_day.nil? ? "not used" : h(@source.requests_per_day) %></td>
+      </tr>
+      <% unless @source.get_config_fields.empty? %>
+        <% @source.get_config_fields.each do |field| %>
+          <tr>
+            <th><%= field[:field_name].gsub(/_/, " ").capitalize %></th>
+            <td>
+              <% if field[:field_type] == "password_field" %>
+                '<%= ("●" * @source.config.send(field[:field_name]).to_s.size) %>'
+              <% else %>
+                <%= @source.config.send(field[:field_name]) %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121126163030) do
+ActiveRecord::Schema.define(:version => 20130109232939) do
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -43,6 +43,24 @@ ActiveRecord::Schema.define(:version => 20121126163030) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "error_messages", :force => true do |t|
+    t.integer  "source_id"
+    t.text     "class_name"
+    t.text     "message"
+    t.text     "trace"
+    t.text     "target_url"
+    t.text     "user_agent"
+    t.integer  "status"
+    t.string   "content_type"
+    t.boolean  "unresolved",   :default => true
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+  end
+
+  add_index "error_messages", ["source_id"], :name => "index_error_messages_on_source_id"
+  add_index "error_messages", ["unresolved"], :name => "index_error_messages_on_unresolved"
+  add_index "error_messages", ["updated_at"], :name => "index_error_messages_on_updated_at"
 
   create_table "groups", :force => true do |t|
     t.string   "name",       :null => false
@@ -100,6 +118,7 @@ ActiveRecord::Schema.define(:version => 20121126163030) do
     t.integer  "max_failed_queries",             :default => 200,   :null => false
     t.integer  "max_failed_query_time_interval", :default => 86400, :null => false
     t.boolean  "refreshable",                    :default => true
+    t.text     "description"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true

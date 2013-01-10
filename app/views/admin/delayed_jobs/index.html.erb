@@ -1,0 +1,32 @@
+<div class="content">
+  <div class="page-header">
+    <h1>
+      <%= pluralize(DelayedJob.count, 'Job') %>
+    </h1>
+  </div>
+  
+  <table class="table table-striped" id="JobsTable">
+    <thead>
+      <tr>
+        <th>Source</th>
+        <th>Status</th>
+        <th class="hidden-phone">Pending</th>
+        <th class="hidden-phone">Working</th>
+        <th class="hidden-phone">Failed</th>
+        <th>Queued Articles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sources.each do|source| %>
+        <tr>
+          <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
+          <td><%= status_label(source).html_safe %></td>
+          <td class="hidden-phone"><%= source.delayed_jobs.count(:run_at) - (source.delayed_jobs.count(:locked_at) + source.delayed_jobs.count(:failed_at)) %></td>
+          <td class="hidden-phone"><%= source.delayed_jobs.count(:locked_at) %></td>
+          <td class="hidden-phone"><%= source.delayed_jobs.count(:failed_at) %></td>
+          <td><%= source.retrieval_statuses.queued.count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

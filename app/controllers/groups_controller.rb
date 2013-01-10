@@ -78,9 +78,7 @@ class GroupsController < ApplicationController
 
   def group_article_summaries
 
-    if !params[:id]
-      raise "ID parameter not specified"
-    end
+    raise ActiveRecord::UnknownPrimaryKey, "ID parameter not specified" if !params[:id]
 
     # get the list of DOIs
     ids = params[:id].split(",")
