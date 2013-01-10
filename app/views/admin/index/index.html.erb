@@ -81,7 +81,7 @@
           <h2>
             <i class="icon-flag"></i> <%= link_to "Events", admin_events_path %> 
           </h2>
-          <p><%= pluralize(RetrievalStatus.sum(:event_count), 'event') %>.<br/>&nbsp;</p>
+          <p><%= pluralize(number_with_delimiter(RetrievalStatus.sum(:event_count)), 'event') %>.<br/>&nbsp;</p>
         </div>
       </div>
     </li>
