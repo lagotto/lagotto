@@ -40,7 +40,8 @@ class RetrievalStatus < ActiveRecord::Base
       begin
         data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
       rescue => e
-        raise "Failed to get data for #{source.name}:#{article.doi}, #{e.message}" 
+        ErrorMessage.create(:exception => e, :message => "Failed to get data for #{source.name}:#{article.doi}, #{e.message}", :source_id => source_id)
+        data = nil
       end
     else
       data = nil

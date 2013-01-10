@@ -39,9 +39,13 @@ describe "/api/v3/articles" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
         
-        response_articles = Nokogiri::XML(last_response.body).css("article")
-        response_articles.length.should eql(100)
-        response_articles.first.content.should include(articles[0].doi)
+        response = Nori.new.parse(last_response.body)
+        response = response["articles"]
+        response.length.should eql(100)
+        response.any? do |article|
+          article["doi"] == articles[0].doi
+          article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
+        end.should be_true
       end
     end
           
@@ -67,27 +71,27 @@ describe "/api/v3/articles" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
         
-        response_articles = Nokogiri::XML(last_response.body).css("article")
-        response_articles.length.should eql(100)
-        response_articles.first.content.should include(articles[0].pub_med)
+        response = Nori.new.parse(last_response.body)
+        response = response["articles"]
+        response.length.should eql(100)
+        response.any? do |article|
+          article["pub_med"] == articles[0].pub_med
+          article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
+        end.should be_true
       end
     end
     
-    context "no article found" do
+    context "no records found" do
       let(:uri) { "/api/v3/articles"}
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        error = { :error => "No article found." }
-        last_response.body.should eql(error.to_json)
-        last_response.status.should eql(404)
+        message = "No records found"
+        lambda { get uri, nil, { 'HTTP_ACCEPT' => "application/json" } }.should raise_error(ActiveRecord::RecordNotFound) { |error| error.message.should == message }
       end
     
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
-        error = { :error => "No article found." }
-        last_response.body.should eql(error.to_xml)
-        last_response.status.should eql(404)
+        message = "No records found"
+        lambda { get uri, nil, { 'HTTP_ACCEPT' => "application/xml" } }.should raise_error(ActiveRecord::RecordNotFound) { |error| error.message.should == message }
       end  
     end
     
@@ -212,17 +216,13 @@ describe "/api/v3/articles" do
       let(:uri) { "/api/v3/articles/info:doi/#{article.doi}xx"}
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        error = { :error => "No article found." }
-        last_response.body.should eql(error.to_json)
-        last_response.status.should eql(404)
+        message = "No record for \"info:doi/#{article.doi}xx\" found"
+        lambda { get uri, nil, { 'HTTP_ACCEPT' => "application/json" } }.should raise_error(ActiveRecord::RecordNotFound) { |error| error.message.should == message }
       end
     
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
-        error = { :error => "No article found." }
-        last_response.body.should eql(error.to_xml)
-        last_response.status.should eql(404)
+        message = "No record for \"info:doi/#{article.doi}xx\" found"
+        lambda { get uri, nil, { 'HTTP_ACCEPT' => "application/xml" } }.should raise_error(ActiveRecord::RecordNotFound) { |error| error.message.should == message }
       end  
     end
     
@@ -231,17 +231,13 @@ describe "/api/v3/articles" do
       let(:uri) { "/api/v3/articles/info:doi/#{article.doi}xx"}
 
       it "JSON" do
-        get "#{uri}.json"
-        error = { :error => "No article found." }
-        last_response.body.should eql(error.to_json)
-        last_response.status.should eql(404)
+        message = "No record for \"info:doi/#{article.doi}xx.json\" found"
+        lambda { get "#{uri}.json" }.should raise_error(ActiveRecord::RecordNotFound) { |error| error.message.should == message }
       end
     
       it "XML" do
-        get "#{uri}.xml"
-        error = { :error => "No article found." }
-        last_response.body.should eql(error.to_json)
-        last_response.status.should eql(404)
+        message = "No record for \"info:doi/#{article.doi}xx.xml\" found"
+        lambda { get "#{uri}.xml" }.should raise_error(ActiveRecord::RecordNotFound) { |error| error.message.should == message }
       end  
     end
      

@@ -128,7 +128,7 @@ describe "/api/v3/articles" do
     
     context "historical data until 2012" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?year=2012"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?year=2013"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -138,7 +138,7 @@ describe "/api/v3/articles" do
         response_source = response_article["sources"][0]
         response_article["doi"].should eql(article.doi)
         response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2012).last.event_count)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2013).last.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
@@ -152,7 +152,7 @@ describe "/api/v3/articles" do
         response_article.content.should include(article.doi)
         response_article.content.should include(article.published_on.to_time.utc.iso8601)
         response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2012).last.event_count)
+        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2013).last.event_count)
         response_source.at_css("events").should be_nil
         response_source.at_css("histories").should be_nil
       end
