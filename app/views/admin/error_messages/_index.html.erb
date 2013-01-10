@@ -25,18 +25,12 @@
         <ul class="dropdown-menu">
           <li><%= link_to "by Message", admin_error_message_path(error_message, :query => params[:query]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :id => "#{error_message.id}-delete" %></li>
           <li><%= link_to "by Class", admin_error_message_path(error_message, :query => params[:query], :filter => "class_name"), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :id => "#{error_message.id}-delete" %></li>
-          <% unless error_message.source_id.blank? %>
-            <li><%= link_to "by Source", admin_error_message_path(error_message, :query => params[:query], :filter => "source_id"), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :id => "#{error_message.id}-delete" %></li>
-          <% end %>
         </ul>
       </div>
       
       <h4><%= error_message.status.blank? ? "" : "[#{error_message.status}] " %><%= h(error_message.message) %></h4>
       <p>
         <%= link_to error_message.class_name, admin_error_messages_path(:query => h(error_message.class_name)) %>
-        <% unless error_message.source_id.blank? %>
-          <%= link_to error_message.source.name, admin_source_path(error_message.source) %>
-        <% end %>
       </p>
       
       <div id="error_id<%= error_message.id %>" class="collapse">  
