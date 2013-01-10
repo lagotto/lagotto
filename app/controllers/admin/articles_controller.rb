@@ -67,6 +67,9 @@ class Admin::ArticlesController < Admin::ApplicationController
     
     # raise error if article wasn't found
     raise ActiveRecord::RecordNotFound.new if @article.blank?
+    
+    # raise error if article wasn't found
+    raise ActiveRecord::RecordNotFound.new if @article.blank?
   end
   
   def load_index
@@ -86,18 +89,4 @@ class Admin::ArticlesController < Admin::ApplicationController
       @sources = Source.order("name")
     end
   end
-
-  def load_article_eager_includes
-    id_hash = Article.from_uri(params[:id])
-    if params[:source]
-      @article = Article.where("#{id_hash.keys.first} = ? and lower(sources.name) in (?)", id_hash.values.first, params[:source].downcase.split(",")).
-          includes(:retrieval_statuses => :source).first
-    else
-      @article = Article.where(id_hash).includes(:retrieval_statuses => :source).first
-    end
-    
-    # raise error if article wasn't found
-    raise ActiveRecord::RecordNotFound.new if @article.blank?
-  end
-
 end

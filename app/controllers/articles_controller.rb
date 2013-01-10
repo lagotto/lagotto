@@ -84,9 +84,10 @@ class ArticlesController < ApplicationController
   def load_article_eager_includes
     id_hash = Article.from_uri(params[:id])
     if params[:source]
-      @article = Article.where("#{id_hash.keys.first} = ? and lower(sources.name) in (?)", id_hash.values.first, params[:source].downcase.split(",")).first
+      @article = Article.where("#{id_hash.keys.first} = ? and lower(sources.name) in (?)", id_hash.values.first, params[:source].downcase.split(",")).
+        includes(:retrieval_statuses => :source).first
     else
-      @article = Article.where(id_hash).first
+      @article = Article.where(id_hash).includes(:retrieval_statuses => :source).first
     end
     
     # raise error if article wasn't found
