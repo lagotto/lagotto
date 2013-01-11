@@ -2,6 +2,10 @@ class Admin::ErrorMessagesController < Admin::ApplicationController
   
   def index
     collection = ErrorMessage
+    if params[:source_id]
+      collection = collection.where(:source_id => params[:source_id]) 
+      @source = Source.find(params[:source_id])
+    end
     collection = collection.query(params[:query]) if params[:query]
     
     @error_messages = collection.paginate(:page => params[:page])
@@ -19,6 +23,10 @@ class Admin::ErrorMessagesController < Admin::ApplicationController
     end
     
     collection = ErrorMessage
+    if params[:source_id]
+      collection = collection.where(:source_id => params[:source_id]) 
+      @source = Source.find(params[:source_id])
+    end
     collection = collection.query(params[:query]) if params[:query]
     
     @error_messages = collection.paginate(:page => params[:page])
