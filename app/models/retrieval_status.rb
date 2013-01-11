@@ -60,32 +60,32 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
   
-  # Filter retrieval_histories by query parameters :days, :months, :year
-  def histories_with_time_limit(options={})
+  # Get most current retrieval_history by query parameters :days, :months, :year
+  def retrieval_history(options={})
     if options[:days].to_i > 0
-      retrieval_histories.after_days(options[:days].to_i)
+      retrieval_histories.after_days(options[:days].to_i).last
     elsif options[:months].to_i > 0
-      retrieval_histories.after_months(options[:months].to_i)
+      retrieval_histories.after_months(options[:months].to_i).last
     elsif options[:year].to_i > 0
-      retrieval_histories.until_year(options[:year].to_i)
-    else
-      retrieval_histories
+      retrieval_histories.until_year(options[:year].to_i).last
+    else 
+      retrieval_histories.last
     end
   end
   
   def metrics(options={})
-    histories = histories_with_time_limit(options=options)
-    unless histories.blank?
-      histories.last.metrics
+    history = retrieval_history(options=options)
+    unless history.blank?
+      history.metrics
     else
       { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => nil }
     end
   end
   
   def update_date(options={})
-    histories = histories_with_time_limit(options=options)
-    unless histories.blank?
-      histories.last.updated_at.utc.iso8601
+    history = retrieval_history(options=options)
+    unless history.blank?
+      history.updated_at.utc.iso8601
     else
       nil
     end
