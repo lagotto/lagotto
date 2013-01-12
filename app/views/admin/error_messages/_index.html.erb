@@ -20,7 +20,7 @@
 <div class="search">
   <%= form_tag(admin_error_messages_path, :method => "get", :class => "form-search") do %>
     <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "input-large", :id => "appendedInputButtons" %>
-    <button type="submit" class="btn hidden-phone">Search</button>
+    <button type="submit" class="btn hidden-phone"><i class="icon-search"></i></button>
     <% unless params[:query].blank? %>
       <%= link_to "clear", admin_error_messages_path(:source_id => params[:source_id]), :class => "btn btn-link hidden-phone" %>
     <% end %>
@@ -60,7 +60,7 @@
             <% end %>
         
             <h5>Time</h5>
-            <%= error_message.created_at.to_s %>
+            <%= error_message.created_at.to_s(:friendly) %>
         
             <% unless error_message.trace.blank? %>
               <h5>Trace</h5>
