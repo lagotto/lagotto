@@ -6,10 +6,10 @@ class ErrorMessage < ActiveRecord::Base
   
   before_create :collect_env_info
   
-  default_scope where("unresolved = 1").order("updated_at DESC")
+  default_scope where("unresolved = 1").order("created_at DESC")
   
   scope :query, lambda { |query| where("class_name like ? OR message like ?", "%#{query}%", "%#{query}%") }
-  scope :total, lambda { |days| where("created_at BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days).order("created_at DESC") }
+  scope :total, lambda { |days| where("created_at > NOW() - INTERVAL ? DAY", days) }
   
   def public_message
     case status
@@ -28,11 +28,11 @@ class ErrorMessage < ActiveRecord::Base
     
     return false unless exception
     
-    self.class_name   = class_name || exception.class.to_s
-    self.message      = message || exception.message
+    self.class_name     = class_name || exception.class.to_s
+    self.message        = message || exception.message
     
-    trace             = exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }
-    self.trace        = trace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/}.join("\n")
+    trace               = exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }
+    self.trace          = trace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/}.join("\n")
     
     if request
       self.status       = status || request.headers["PATH_INFO"][1..-1]
@@ -41,7 +41,7 @@ class ErrorMessage < ActiveRecord::Base
       self.content_type = content_type || request.formats.first.to_s
     end 
     
-    self.source_id    = source_id if source_id
+    self.source_id      = source_id if source_id
   end
   
 end
