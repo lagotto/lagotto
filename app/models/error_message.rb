@@ -8,7 +8,7 @@ class ErrorMessage < ActiveRecord::Base
   
   default_scope where("unresolved = 1").order("created_at DESC")
   
-  scope :query, lambda { |query| where("class_name like ? OR message like ?", "%#{query}%", "%#{query}%") }
+  scope :query, lambda { |query| where("class_name like ? OR message like ? or status = ?", "%#{query}%", "%#{query}%", query) }
   scope :total, lambda { |days| where("created_at > NOW() - INTERVAL ? DAY", days) }
   
   def self.per_page
