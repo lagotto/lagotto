@@ -29,8 +29,8 @@ class ErrorMessage < ActiveRecord::Base
     self.class_name   = class_name || exception.class.to_s
     self.message      = message || exception.message
     
-    self.trace             = trace || exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }
-    #self.trace        = trace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/}.join("\n")
+    trace             = exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }
+    self.trace        = trace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/}.join("\n")
     
     if request
       self.status       = status || request.headers["PATH_INFO"][1..-1]
@@ -38,6 +38,8 @@ class ErrorMessage < ActiveRecord::Base
       self.user_agent   = user_agent || request.user_agent
       self.content_type = content_type || request.formats.first.to_s
     end 
+    
+    self.source_id    = source_id if source_id
   end
   
 end
