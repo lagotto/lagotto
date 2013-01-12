@@ -40,9 +40,9 @@
           <h2>
             <i class="icon-tags"></i> <%= link_to "Sources", admin_sources_path %> 
             <% if @sources_disabled_count > 0 %>
-              <span class="label label-warning pull-right">Disabled Sources</span>
+              <span class="label label-warning pull-right hidden-tablet">Disabled Sources</span>
             <% elsif @sources_inactive_count > 0 %>
-              <span class="label label-info pull-right">Inactive Sources</span>
+              <span class="label label-info pull-right hidden-tablet">Inactive Sources</span>
             <% end %>
           </h2>
           <p><%= pluralize(@sources_count, 'source') %>, including <%= pluralize(@sources_inactive_count, 'inactive source') %> and <%= pluralize(@sources_disabled_count, 'disabled source') %>.</p>
@@ -55,7 +55,7 @@
           <h2>
             <i class="icon-list"></i> <%= link_to "Jobs", admin_delayed_jobs_path %>
             <% if @queued_count == 0 %>
-              <span class="label label-warning pull-right">No Queued Articles</span>
+              <span class="label label-warning pull-right hidden-tablet">No Queued Articles</span>
             <% end %>
           </h2>
           <p><%= pluralize(number_with_delimiter(@delayed_jobs_active_count), 'active job') %> for <%= pluralize(number_with_delimiter(@queued_count), 'queued article') %>.<br/>&nbsp;</p>
@@ -68,7 +68,7 @@
           <h2>
             <i class="icon-download"></i> <%= link_to "Responses", admin_responses_path %> 
             <% if@delayed_jobs_count > 0 and @delayed_jobs_errors_count / @delayed_jobs_count > 0.05 %>
-              <span class="label label-warning pull-right">More than 5% Errors</span>
+              <span class="label label-warning pull-right hidden-tablet">More than 5% Errors</span>
             <% end %>
           </h2>
           <p><%= pluralize(number_with_delimiter(@delayed_jobs_count), 'responses') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.</p>
@@ -91,7 +91,7 @@
           <h2>
             <i class="icon-warning-sign"></i> <%= link_to "Errors", admin_error_messages_path %>
             <% if @error_messages_count > 0 %>
-              <span class="label label-warning pull-right">With Unresolved Errors</span>
+              <span class="label label-warning pull-right hidden-tablet">With Unresolved Errors</span>
             <% end %>
           </h2>
           <p><p><%= pluralize(number_with_delimiter(@error_messages_count), 'error') %> with <%= pluralize(number_with_delimiter(@error_messages_last_day_count), 'unresolved error') %> in the last 24 hours.</p>
@@ -104,7 +104,7 @@
           <h2>
             <i class="icon-tasks"></i> Databases
           </h2>
-          <p id="couchdb"><%= pluralize(number_with_delimiter(@couchdb_info["doc_count"]), 'CouchDB document') %>, <%= number_to_human_size(@couchdb_info["disk_size"]) %> in size.<br/>&nbsp;</p>
+          <p id="couchdb"><%= pluralize(number_with_delimiter(@mysql_info["rows"]), 'retrieval_history row') %> (<%= number_to_human_size(@mysql_info["data_length"]) %>, index <%= number_to_human_size(@mysql_info["index_length"]) %>) and <%= pluralize(number_with_delimiter(@couchdb_info["doc_count"]), 'CouchDB document') %> (<%= number_to_human_size(@couchdb_info["disk_size"]) %>).</p>
         </div>
       </div>
     </li>

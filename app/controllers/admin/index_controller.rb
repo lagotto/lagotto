@@ -31,6 +31,7 @@ class Admin::IndexController < Admin::ApplicationController
     @queued_count = RetrievalStatus.queued.count
     @error_messages_count = ErrorMessage.unscoped.count
     @error_messages_last_day_count = ErrorMessage.total(1).count
-    @couchdb_info = Source.new.get_alm_database
+    @couchdb_info = RetrievalHistory.new.get_alm_database
+    @mysql_info = RetrievalHistory.table_status
   end
 end

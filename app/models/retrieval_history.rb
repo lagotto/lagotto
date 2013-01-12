@@ -42,6 +42,11 @@ class RetrievalHistory < ActiveRecord::Base
   scope :with_success, lambda { |days| where("event_count > 0 AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
   scope :with_errors, lambda { |days| where("status = 'ERROR' AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
 
+  def self.table_status
+    table_status = ActiveRecord::Base.connection.select_all("SHOW TABLE STATUS LIKE 'retrieval_histories'").first
+    Hash[table_status.map {|k, v| [k.to_s.underscore, v] }]
+  end
+  
   def data
     if event_count > 0
       begin
