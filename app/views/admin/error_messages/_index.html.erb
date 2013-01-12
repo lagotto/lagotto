@@ -32,7 +32,7 @@
     <% @error_messages.each do |error_message| %>
       <div class="accordion-group">  
         <div class="accordion-heading">  
-          <%= link_to ("<h4>" + (error_message.status.blank? ? "" : "[#{error_message.status}] ") + h(error_message.message) + "</h4>").html_safe, "#error_#{error_message.id}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#error_message" }, :href => "#error_#{error_message.id}" %>
+          <%= link_to ((error_message.status.blank? ? "" : "[#{error_message.status}] ") + "<strong>" + h(error_message.message) + "</strong>").html_safe, "#error_#{error_message.id}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#error_message" }, :href => "#error_#{error_message.id}" %>
         </div>  
         <div id="error_<%= error_message.id %>" class="accordion-body collapse">  
           <div class="accordion-inner">
