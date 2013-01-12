@@ -11,6 +11,10 @@ class ErrorMessage < ActiveRecord::Base
   scope :query, lambda { |query| where("class_name like ? OR message like ?", "%#{query}%", "%#{query}%") }
   scope :total, lambda { |days| where("created_at > NOW() - INTERVAL ? DAY", days) }
   
+  def self.per_page
+    20
+  end
+  
   def public_message
     case status
     when 404

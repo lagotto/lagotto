@@ -37,7 +37,7 @@
 <div class="search">
   <%= form_tag({:controller => "/articles", :action => "index"}, :method => "get", :class => "form-search") do %>
     <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "input-large", :id => "appendedInputButtons" %>
-    <button type="submit" class="btn hidden-phone">Search</button>
+    <button type="submit" class="btn hidden-phone"><i class="icon-search"></i></button>
   <% end %>
 </div>
 
