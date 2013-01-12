@@ -35,7 +35,7 @@ class Facebook < Source
         original_url = get_original_url(article.doi_as_url)
         article.update_attributes(:url => original_url)
       rescue => e
-        logger.error "Could not get the full url for #{article.doi_as_url} #{e.message}"
+        ErrorMessage.create(:exception => e, :message => "Could not get the full url for #{article.doi_as_url} #{e.message}", :source_id => id)
         raise e
       end
     end

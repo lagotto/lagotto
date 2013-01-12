@@ -89,7 +89,7 @@ class Mendeley < Source
       if e.respond_to?('response')
         if e.response.kind_of?(Net::HTTPForbidden)
           # http response 403
-          logger.error "#{display_name} returned 403, they might be throttling us."
+          ErrorMessage.create(:exception => e, :message => "#{display_name} returned 403, they might be throttling us, #{e.message}", :status => 403, :source_id => id)          
           raise e
         end
         # if the article could not be found by the Mendeley api, continue on (we will get a 404 error)

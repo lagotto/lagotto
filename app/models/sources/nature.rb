@@ -37,11 +37,11 @@ class Nature < Source
     begin
       results = get_json(query_url, options)
     rescue => e
-      logger.error("#{display_name} #{e.message}")
+      ErrorMessage.create(:exception => e, :source_id => id)          
       if e.respond_to?('response')
         if e.response.kind_of?(Net::HTTPForbidden)
           # http response 403
-          logger.error "#{display_name} returned 403, they might be throttling us."
+          ErrorMessage.create(:exception => e, :message => "#{display_name} returned 403, they might be throttling us, #{e.message}", :status => 403, :source_id => id)          
         end
       end
       raise e
