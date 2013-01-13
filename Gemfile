@@ -7,7 +7,6 @@ gem "delayed_job", "~> 3.0.4"
 gem "delayed_job_active_record", "~> 0.3.3"
 gem "daemons", "~> 1.1.9"
 gem "foreman", "~> 0.60.2"
-#gem "rails_exception_handler", "~> 2.1.0"
 
 gem "libxml-ruby", "~> 2.4.0", require: 'xml'
 gem "nokogiri", "~> 1.5.6"
@@ -18,6 +17,8 @@ gem "devise", "~> 2.1.2"
 gem "validates_timeliness", "~> 3.0.14"
 gem "rabl", "~> 0.7.6"
 
+gem "d3_rails", "~> 3.0.2"
+gem "gon", "~> 4.0.2"
 gem "bootstrap-sass", "~> 2.2.2.0"
 gem "turbolinks", "~> 0.6.1"
 gem 'will_paginate', '3.0.3'
