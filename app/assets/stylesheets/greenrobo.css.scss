@@ -37,13 +37,13 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .table .number { text-align: right; }
 
 .chart div {
-  background-color: #1447f2;
+  background-color: white;
   text-align: right;
   padding: 3px;
   margin: 1px;
   color: white;
 }
 
-.chart rect {
-  stroke: white;
+.chart rect:hover {
+  fill: #64707D;
 }
