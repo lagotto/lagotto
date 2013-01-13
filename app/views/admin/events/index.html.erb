@@ -12,14 +12,14 @@
   
   <div class="tab-content">
     <div class="tab-pane active" id="article">
-      <script type="text/javascript">
-        <%= render :partial => 'article.js' %> 
-      </script>
+      <%= javascript_tag do -%>
+        <%= render :partial => 'article', formats: :js %> 
+      <% end %>
     </div>
     <div class="tab-pane" id="event">
-      <script type="text/javascript">
-        <%= render :partial => 'event.js' %> 
-      </script>
+      <%= javascript_tag do -%>
+        <%= render :partial => 'event', formats: :js %> 
+      <% end %>
     </div>
   </div>
 </div>

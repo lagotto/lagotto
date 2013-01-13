@@ -33,7 +33,7 @@ class SourcesController < ApplicationController
   end
 
   def index
-    @groups = Group.order("name")
+    @groups = Group.order("id")
     respond_with @groups
   end
 
