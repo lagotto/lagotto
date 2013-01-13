@@ -38,6 +38,6 @@ module ApplicationHelper
   end
   
   def sources
-    Source.order("name")
+    Source.order("group_id, display_name")
   end
 end
