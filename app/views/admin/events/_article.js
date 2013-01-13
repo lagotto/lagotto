@@ -9,7 +9,7 @@ var s = 1;   // spacing between bars
   
 var chart = d3.select("div#article").append("svg")
   .attr("width", w + l + r)
-  .attr("height", data.length * (h + 2 * s) + 10)
+  .attr("height", data.length * (h + 2 * s) + 20)
   .attr("class", "chart")
   .append("g")
   .attr("transform", "translate(230,20)");
