@@ -1,20 +1,24 @@
 <script type="text/javascript">
-  var data = gon.articles
-  var labels = gon.labels
-  var w = 800
-  var h = data.length * 30 + 10
+  var data = gon.articles;
+  var labels = gon.labels;
+  
+  var m = 200; // left margin for labels
+  var p = 10;  // padding on all sides
+  var w = 540; // width of drawing area
+  var r = 30;  // row height
+  
   var chart = d3.select("div#article").append("svg")
-    .attr("width", w)
-    .attr("height", h)
+    .attr("width", w + m + p)
+    .attr("height", data.length * r + p)
     .attr("class", "chart")
     .append("g")
-    .attr("transform", "translate(190,10)");
+    .attr("transform", "translate(210,10)");
   var x = d3.scale.linear()
     .domain([0, d3.max(data)])
-    .range([0, 550]);
+    .range([1, w]);
   var y = d3.scale.ordinal()
     .domain(labels)
-    .rangeBands([0, labels.length * 30]);
+    .rangeBands([0, data.length * r]);
   chart.selectAll("rect")
     .data(data)
     .enter().append("rect")
@@ -27,7 +31,7 @@
     .enter().append("text")
     .attr("x", 0)
     .attr("y", function(d) { return y(d) + y.rangeBand() / 2; })
-    .attr("dx", -180) // padding-right
+    .attr("dx", -200) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(String)
   chart.selectAll("text.values")
