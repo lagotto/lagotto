@@ -3,35 +3,36 @@
   var labels = gon.labels;
   
   var l = 200; // left margin
-  var r = 30;  // right margin
+  var r = 120;  // right margin
   var w = 600; // width of drawing area
-  var h = 30;  // row height
+  var h = 30;  // bar height
+  var s = 1;   // spacing between bars
   
   var chart = d3.select("div#article").append("svg")
     .attr("width", w + l + r)
-    .attr("height", data.length * h + r)
+    .attr("height", data.length * (h + 2 * s) + 10)
     .attr("class", "chart")
     .append("g")
-    .attr("transform", "translate(230,30)");
+    .attr("transform", "translate(230,20)");
   var x = d3.scale.linear()
     .domain([0, d3.max(data)])
     .range([1, w]);
   var y = d3.scale.ordinal()
     .domain(labels)
-    .rangeBands([0, data.length * h]);
+    .rangeBands([0, (h + 2 * s) * labels.length]);
   chart.selectAll("rect")
     .data(data)
     .enter().append("rect")
     .attr("fill", "#1447f2")
     .attr("y", y)
     .attr("width", x)
-    .attr("height", y.rangeBand());
+    .attr("height", h);
   chart.selectAll("text.labels")
     .data(labels)
     .enter().append("text")
     .attr("x", 0)
     .attr("y", function(d) { return y(d) + y.rangeBand() / 2; })
-    .attr("dx", -200) // padding-right
+    .attr("dx", -230) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(String)
   chart.selectAll("text.values")
@@ -39,7 +40,7 @@
     .enter().append("text")
     .attr("x", x)
     .attr("y", function(d) { return y(d) + y.rangeBand() / 2; })
-    .attr("dx", 3) // padding-right
+    .attr("dx", 5) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(String)
 </script>
