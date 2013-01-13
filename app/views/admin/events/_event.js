@@ -9,7 +9,7 @@ var s = 1;   // spacing between bars
   
 var chart = d3.select("div#event").append("svg")
   .attr("width", w + l + r)
-  .attr("height", data.length * (h + 2 * s) + 20)
+  .attr("height", data.length * (h + 2 * s) + 30)
   .attr("class", "chart")
   .append("g")
   .attr("transform", "translate(230,20)");
@@ -41,4 +41,4 @@ chart.selectAll("text.values")
   .attr("y", function(d) { return y(d) + y.rangeBand() / 2; })
   .attr("dx", 3) // padding-right
   .attr("dy", ".35em") // vertical-align: middle
-  .text(String)
+  .text(function(d) { return d.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); })
