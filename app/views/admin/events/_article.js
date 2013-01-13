@@ -22,7 +22,7 @@ var y = d3.scale.ordinal()
 chart.selectAll("rect")
   .data(data)
   .enter().append("rect")
-  .attr("fill", "#789aa1")
+  .attr("fill", "#1447f2")
   .attr("y", y)
   .attr("width", x)
   .attr("height", h);
