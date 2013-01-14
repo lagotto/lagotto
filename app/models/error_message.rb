@@ -33,8 +33,12 @@ class ErrorMessage < ActiveRecord::Base
     self.class_name     = class_name || exception.class.to_s
     self.message        = message || exception.message
     
-    trace               = exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }
-    self.trace          = trace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/}.join("\n")
+    if exception.kind_of?(String)
+      self.trace        = nil
+    else
+      trace             = exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }
+      self.trace        = trace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/}.join("\n")
+    end
     
     if request
       self.status       = status || request.headers["PATH_INFO"][1..-1]

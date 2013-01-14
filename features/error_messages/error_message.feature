@@ -26,7 +26,7 @@ Feature: Show errors
     @javascript
     Scenario Outline: Seeing error details
     When I go to the "Errors" admin page
-    And I click on the "More" button
+    And I click on the "[404] Couldn't find Source with id=x" link
     Then I should see the "<TargetUrl" target url
     And I should see the "<ErrorNumber" status
       
@@ -38,8 +38,7 @@ Feature: Show errors
     Scenario Outline: Routing errors
       When I go to "<Path>"
       Then I should see the "<ErrorMessage>" error message
-      And I should see the "<ErrorNumber>" error number
       
       Examples: 
-        | Path        | ErrorNumber | ErrorMessage |
-        | /sources/x  | 404         | Page not found |
+        | Path        | ErrorMessage          |
+        | /sources/x  | Internal server error |
