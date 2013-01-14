@@ -9,9 +9,14 @@ When /^I click on the "(.*?)" button$/ do |button_name|
   page.driver.render("tmp/capybara/#{button_name}.png")
 end
 
+When /^I click on the "(.*?)" link$/ do |link_name|
+  click_link link_name
+  page.driver.render("tmp/capybara/#{link_name}.png")
+end
+
 ### THEN ###
 Then /^I should see (\d+) error messages$/ do |number|
-  page.has_css?('div.error_message', :visible => true, :count => number.to_i).should be_true
+  page.has_css?('div.accordion-group', :visible => true, :count => number.to_i).should be_true
 end
 
 Then /^I should see the "(.*?)" error number$/ do |error_number|

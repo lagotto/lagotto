@@ -71,14 +71,16 @@ end
 
 When /^I go to the "(.*?)" admin page$/ do |page_title|
   if page_title == "Jobs" 
-    page_title = "Delayed_Jobs" 
+    title = "delayed_jobs" 
   elsif page_title == "Errors" 
-    page_title = "error_messages"
+    title = "error_messages"
   elsif page_title == "Home" 
-    page_title = ""
-  end
-  visit "/admin/#{page_title}"
-  page.driver.render("tmp/capybara/#{page_title}.png")
+    title = ""
+  else
+    title = page_title.downcase
+  end  
+  visit "/admin/#{title}"
+  page.driver.render("tmp/capybara/#{title}.png")
 end
 
 When /^I go to "(.*?)"$/ do |path|
@@ -86,12 +88,22 @@ When /^I go to "(.*?)"$/ do |path|
   page.driver.render("tmp/capybara/#{path}.png")
 end
 
+When /^click on the "(.*?)" tab$/ do |tab_name|
+  click_link tab_name
+  page.driver.render("tmp/capybara/#{tab_name}.png")
+end
+
+### THEN ###
 Then /^I should not see the "(.*?)" tab$/ do |tab_title|
   page.driver.render("tmp/capybara/#{tab_title}.png")
   page.has_css?('li', :text => tab_title, :visible => false)
 end
 
-### THEN ###
+Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, source_name|
+  page.has_css?('text', :text => source_name, :visible => true)
+  page.has_css?('text', :text => number, :visible => true)
+end
+
 Then /^I should not see a blog count$/ do
   page.should_not have_content "Nature Blogs"
 end

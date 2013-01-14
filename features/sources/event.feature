@@ -9,14 +9,18 @@ Feature: See events
     And that we have 5 articles
     
     @javascript
+    Scenario: Events for articles in dashboard
+      When I go to the "Events" admin page
+      Then the chart should show 5 events for "CiteULike"
+      
+    @javascript
     Scenario: Events in dashboard
       When I go to the "Events" admin page
-      Then the table "EventsTable" should contain:
-        | CiteULike       | active               | 5          | 250                     |
+      And click on the "All Events" tab
+      Then the chart should show 250 events for "CiteULike"
     
     @javascript
     Scenario: Events in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should contain:
-        |                 | Articles with Events | All Events | Max. Events per Article |
-        | Events          | 5                    | 250        | 50                      |
+        | Events          | 5                              | 250        | 50                                     |
