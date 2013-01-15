@@ -71,7 +71,7 @@
               <span class="label label-warning pull-right hidden-tablet">More than 5% Errors</span>
             <% end %>
           </h2>
-          <p><%= pluralize(number_with_delimiter(@delayed_jobs_count), 'responses') %> with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.</p>
+          <p><%= pluralize(number_with_delimiter(@delayed_jobs_count), 'responses') %> in total, with <%= pluralize(@delayed_jobs_errors_count, 'error') %> in the last 24 hours.</p>
         </div>
       </div>
     </li>
@@ -94,7 +94,7 @@
               <span class="label label-warning pull-right hidden-tablet">With Unresolved Errors</span>
             <% end %>
           </h2>
-          <p><p><%= pluralize(number_with_delimiter(@error_messages_count), 'error') %> with <%= pluralize(number_with_delimiter(@error_messages_last_day_count), 'unresolved error') %> in the last 24 hours.</p>
+          <p><p><%= pluralize(number_with_delimiter(@error_messages_count), 'error') %> in total, with <%= pluralize(number_with_delimiter(@error_messages_last_day_count), 'unresolved error') %> in the last 24 hours.</p>
         </div>
       </div>
     </li>

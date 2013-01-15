@@ -25,11 +25,12 @@ gem 'will_paginate', '3.0.3'
 gem "will_paginate-bootstrap", "~> 0.2.1"
 gem "simple_form", "~> 2.0.4"
 gem "dotiw", "~> 1.1.1"
+gem "rack-mini-profiler", "~> 0.1.23"
 
 group :assets do
   gem "uglifier", "~> 1.3.0"
   gem "jquery-rails", "~> 2.1.3"
-  gem "therubyracer", "~> 0.10.2", require: "v8"
+  gem "therubyracer", "~> 0.11.2", require: "v8"
   gem 'sass-rails', '~> 3.2.5'
   gem 'coffee-rails', '~> 3.2.2'
 end
