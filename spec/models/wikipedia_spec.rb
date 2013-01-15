@@ -32,7 +32,7 @@ describe Wikipedia do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pcbi.1002445")
       body = File.read(fixture_path + 'wikipedia_error.json')
       stub = stub_request(:get, /.*wiki/).to_return(:body => body, :status => 200)
-      message = "Wikipedia text search is disabled"
+      message = "Wikipedia: error \"text search is disabled\" for host en.wikipedia.org"
       lambda { wikipedia.get_data(article) }.should raise_error(RuntimeError) { |error| error.message.should == message }
       stub.should have_been_requested
     end

@@ -51,7 +51,7 @@ class Wikipedia < Source
           results = get_json(query_url, options) 
         
           # Raise error if server returns an error (usually either exceeeding maxlag or text search disabled errors)
-          raise "#{display_name} #{results['error']['info']}" if results['error']
+          raise "#{display_name}: error \"#{results['error']['info']}\" for host #{host}" if results['error']
           
           lang_total = results['query']['searchinfo']['totalhits']
           offset = results['query-continue'] ? results['query-continue']['search']['sroffset'] : -1
