@@ -20,16 +20,8 @@ class Admin::ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :authenticate_user!
-  before_filter :miniprofiler
     
   respond_to :html, :js
   
   layout APP_CONFIG['layout']
-  
-  private
-  
-  def miniprofiler
-    # required only in production
-    Rack::MiniProfiler.authorize_request
-  end
 end
