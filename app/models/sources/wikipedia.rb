@@ -104,7 +104,7 @@ class Wikipedia < Source
     namespace = options[:namespace] || "0%7C2%7C6"
     offset = options[:offset] || 0
     limit = options[:limit] || 50
-    maxlag = options[:maxlag] || 10
+    maxlag = options[:maxlag] || 15
     
     # http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&sroffset=%{offset}&srlimit=%{limit}&maxlag=%{maxlag}"
     config.url % { :host => host, :doi => CGI.escape(article.doi), :namespace => namespace, :offset => offset, :limit => limit, :maxlag => maxlag }
