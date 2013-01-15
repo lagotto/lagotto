@@ -25,6 +25,7 @@ gem 'will_paginate', '3.0.3'
 gem "will_paginate-bootstrap", "~> 0.2.1"
 gem "simple_form", "~> 2.0.4"
 gem "dotiw", "~> 1.1.1"
+gem "rack-mini-profiler", "~> 0.1.23"
 
 group :assets do
   gem "uglifier", "~> 1.3.0"
