@@ -51,7 +51,7 @@ class Wikipedia < Source
           results = get_json(query_url, options) 
         
           # Raise error if server returns an error (usually either exceeeding maxlag or text search disabled errors)
-          raise unless results['error'].blank?
+          raise "#{display_name} #{results['error']['info']}" if results['error']
           
           lang_total = results['query']['searchinfo']['totalhits']
           offset = results['query-continue'] ? results['query-continue']['search']['sroffset'] : -1
@@ -78,8 +78,8 @@ class Wikipedia < Source
       end
       
       # Raise error if there is still a problem after 20 attempts
-      raise if missing_count != 0
-      
+      raise "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}" if missing_count != 0
+     
       events.concat(lang_events)
       total += lang_total
     end
