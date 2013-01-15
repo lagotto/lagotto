@@ -18,7 +18,6 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  
-  layout APP_CONFIG['layout']
 
+  layout APP_CONFIG['layout']
 end
