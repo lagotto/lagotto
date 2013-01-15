@@ -20,7 +20,7 @@ gem "rabl", "~> 0.7.6"
 gem "d3_rails", "~> 3.0.2"
 gem "gon", "~> 4.0.2"
 gem "bootstrap-sass", "~> 2.2.2.0"
-gem "turbolinks", "~> 0.6.1"
+gem "turbolinks", "~> 1.0.0"
 gem 'will_paginate', '3.0.3'
 gem "will_paginate-bootstrap", "~> 0.2.1"
 gem "simple_form", "~> 2.0.4"
