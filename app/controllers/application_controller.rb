@@ -18,16 +18,7 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :miniprofiler
   
   layout APP_CONFIG['layout']
-  
-  private
-  
-  def miniprofiler
-    # required only in production
-    if user_signed_in? 
-      Rack::MiniProfiler.authorize_request
-    end
-  end
+
 end
