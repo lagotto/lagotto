@@ -138,18 +138,8 @@ class RetrievalHistory < ActiveRecord::Base
     end
   end
   
-  def total
-    if source.name == "mendeley" and v1_format?
-      shares + groups
-    elsif source.name == "facebook" and v1_format?
-      events.inject(0) { |sum, hash| sum + hash["total_count"] }
-    else
-      event_count
-    end
-  end
-  
   def metrics
-    { :pdf => pdf, :html => html, :shares => shares, :groups => groups, :comments => comments, :likes => likes, :citations => citations, :total => total }
+    { :pdf => pdf, :html => html, :shares => shares, :groups => groups, :comments => comments, :likes => likes, :citations => citations, :total => event_count }
   end
   
   def v1_format?

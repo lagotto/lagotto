@@ -59,6 +59,73 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
   
+  def pdf
+    nil
+  end
+  
+  def html
+    nil
+  end
+  
+  def shares
+    case source.name
+    when "citeulike"
+      event_count
+    when "mendeley"
+      if events.blank? or events['stats'].nil? 
+        0
+      else
+        events['stats']['readers']
+      end
+    when "wikipedia"
+      events.select {|event| event["namespace"] > 0 }.length
+    when "facebook"
+      events.inject(0) { |sum, hash| sum + hash["share_count"] }
+    else
+      nil
+    end
+  end
+  
+  def groups
+    if source.name == "mendeley"
+      if events.blank? or events['groups'].nil?
+        0
+      else
+        events['groups'].length
+      end
+    else
+      nil
+    end
+  end
+ 
+  def comments
+    case source.name
+    when "facebook"
+      events.inject(0) { |sum, hash| sum + hash["comment_count"] }
+    else
+      nil
+    end
+  end
+  
+  def likes
+    case source.name
+    when "facebook"
+      events.inject(0) { |sum, hash| sum + hash["like_count"] }
+    else
+      nil
+    end
+  end
+  
+  def citations
+    if ["crossref","pubmed","researchblogging","nature","scienceseeker"].include?(source.name)
+      event_count
+    elsif source.name == "wikipedia"
+      events.select {|event| event["namespace"] == 0 }.length
+    else
+      nil
+    end
+  end
+  
   # Get most current retrieval_history by query parameters :days, :months, :year
   def retrieval_history(options={})
     if options[:days].to_i > 0
@@ -73,20 +140,28 @@ class RetrievalStatus < ActiveRecord::Base
   end
   
   def metrics(options={})
-    history = retrieval_history(options=options)
-    unless history.blank?
-      history.metrics
+    unless options
+      { :pdf => pdf, :html => html, :shares => shares, :groups => groups, :comments => comments, :likes => likes, :citations => citations, :total => event_count }
     else
-      { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => nil }
+      history = retrieval_history(options=options)
+      unless history.blank?
+        history.metrics
+      else
+        { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => nil }
+      end
     end
   end
   
   def update_date(options={})
-    history = retrieval_history(options=options)
-    unless history.blank?
-      history.updated_at.utc.iso8601
+    unless options
+      updated_at.utc.iso8601
     else
-      nil
+      history = retrieval_history(options=options)
+      unless history.blank?
+        history.updated_at.utc.iso8601
+      else
+        nil
+      end
     end
   end
 
