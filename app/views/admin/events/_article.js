@@ -1,8 +1,8 @@
-var data = gon.articles;
-var labels = gon.labels;
+var data = <%= @articles %>;
+var labels = <%= raw @labels %>;
   
 var l = 200; // left margin
-var r = 120;  // right margin
+var r = 120; // right margin
 var w = 600; // width of drawing area
 var h = 30;  // bar height
 var s = 1;   // spacing between bars
@@ -19,13 +19,6 @@ var x = d3.scale.linear()
 var y = d3.scale.ordinal()
   .domain(labels)
   .rangeBands([0, (h + 2 * s) * labels.length]);
-chart.selectAll("rect")
-  .data(data)
-  .enter().append("rect")
-  .attr("fill", "#789aa1")
-  .attr("y", y)
-  .attr("width", x)
-  .attr("height", h);
 chart.selectAll("text.labels")
   .data(labels)
   .enter().append("text")
@@ -34,6 +27,13 @@ chart.selectAll("text.labels")
   .attr("dx", -230) // padding-right
   .attr("dy", ".35em") // vertical-align: middle
   .text(String)
+chart.selectAll("rect")
+  .data(data)
+  .enter().append("rect")
+  .attr("fill", "#789aa1")
+  .attr("y", y)
+  .attr("width", x)
+  .attr("height", h);
 chart.selectAll("text.values")
   .data(data)
   .enter().append("text")

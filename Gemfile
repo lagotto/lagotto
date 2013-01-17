@@ -18,7 +18,6 @@ gem "validates_timeliness", "~> 3.0.14"
 gem "rabl", "~> 0.7.6"
 
 gem "d3_rails", "~> 3.0.2"
-gem "gon", "~> 4.0.2"
 gem "bootstrap-sass", "~> 2.2.2.0"
 gem "turbolinks", "~> 1.0.0"
 gem 'will_paginate', '3.0.3'
