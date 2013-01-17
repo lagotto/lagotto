@@ -48,6 +48,7 @@ group :test do
   gem "aruba", "~> 0.5.1"
   gem "thin", "~> 1.5.0"
   gem "poltergeist", "~> 1.0.2"
+  gem "minitest", "~> 4.4.0"
 end
 
 group :test, :development do
