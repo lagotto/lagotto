@@ -16,6 +16,7 @@ defaults: &defaults
   couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:couchdb][:database] %>/
   doi_prefix: <%= node[:app][:doi_prefix] %>
   uid: <%= node[:app][:uid] %>
+  sampling: <%= node[:app][:sampling] %>
   source:
     job_batch_size: 200
     staleness: [ <%%= 1.day %>, <%%= 1.day %>, <%%= 1.month %>, <%%= 1.month %> ]
@@ -28,11 +29,13 @@ defaults: &defaults
 development:
   <<: *defaults
   hostname: http://dev.example.org 
+  sampling: 100
 
 test:
   <<: *defaults
   hostname: http://test.example.org
   couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:couchdb][:database] %>_test/
+  sampling: 100
   
 production:
   <<: *defaults

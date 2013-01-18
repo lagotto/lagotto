@@ -18,14 +18,14 @@
       <tr>
         <th>Requests in the last 24 Hours</th>
         <td class="number"><%= number_with_delimiter(@requests_24_count) %></td>
-        <td class="number"><%= number_with_precision(@requests_24_db_average, :precision => 1) %></td>
-        <td class="number"><%= number_with_precision(@requests_24_view_average, :precision => 1) %></td>
+        <td class="number"><%= @requests_24_db_average.blank? ? "n/a" : number_with_precision(@requests_24_db_average, :precision => 1) %></td>
+        <td class="number"><%= @requests_24_view_average.blank? ? "n/a" : number_with_precision(@requests_24_view_average, :precision => 1) %></td>
       </tr>
       <tr>
         <th>Requests in the last 30 Days</th>
         <td class="number"><%= number_with_delimiter(@requests_30_count) %></td>
-        <td class="number"><%= number_with_precision(@requests_30_db_average, :precision => 1) %></td>
-        <td class="number"><%= number_with_precision(@requests_30_view_average, :precision => 1) %></td>
+        <td class="number"><%= @requests_30_db_average.blank? ? "n/a" : number_with_precision(@requests_30_db_average, :precision => 1) %></td>
+        <td class="number"><%= @requests_30_view_average.blank? ? "n/a" : number_with_precision(@requests_30_view_average, :precision => 1) %></td>
       </tr>
     </tbody>
   </table>
