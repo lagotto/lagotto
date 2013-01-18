@@ -1,0 +1,32 @@
+<div class="content">
+  <div class="page-header">
+    <h1>API Requests</h1>
+  </div>
+  
+  <p>Number and average duration in ms for requests to the v3 API.</p>
+  
+  <table class="table table-striped" id="ApiRequestsTable">
+    <thead>
+      <tr>
+        <th/>
+        <th class="number">Number</th>
+        <th class="number">DB</th>
+        <th class="number">View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Requests in the last 24 Hours</th>
+        <td class="number"><%= number_with_delimiter(@requests_24_count) %></td>
+        <td class="number"><%= number_with_precision(@requests_24_db_average, :precision => 1) %></td>
+        <td class="number"><%= number_with_precision(@requests_24_view_average, :precision => 1) %></td>
+      </tr>
+      <tr>
+        <th>Requests in the last 30 Days</th>
+        <td class="number"><%= number_with_delimiter(@requests_30_count) %></td>
+        <td class="number"><%= number_with_precision(@requests_30_db_average, :precision => 1) %></td>
+        <td class="number"><%= number_with_precision(@requests_30_view_average, :precision => 1) %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

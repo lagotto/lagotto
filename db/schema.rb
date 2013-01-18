@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130109232939) do
+ActiveRecord::Schema.define(:version => 20130118125506) do
+
+  create_table "api_requests", :force => true do |t|
+    t.text     "path"
+    t.string   "format"
+    t.float    "page_duration"
+    t.float    "db_duration"
+    t.float    "view_duration"
+    t.datetime "created_at"
+  end
+
+  add_index "api_requests", ["created_at"], :name => "index_api_requests_on_created_at"
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
