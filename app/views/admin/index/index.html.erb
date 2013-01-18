@@ -104,7 +104,7 @@
           <h2>
             <i class="icon-time"></i> <%= link_to "API Requests", admin_api_requests_path %>
           </h2>
-          <p><%= pluralize(number_with_delimiter(@requests_count), 'API request') %> in the last 24 hours with an average duration of <%= number_with_precision(@requests_page_average, :precision => 1) %> ms.</p>
+          <p><%= pluralize(number_with_delimiter(@requests_count), 'API request') %> in the last 24 hours<%= @requests_page_average.blank? ? "" : " with an average duration of #{number_with_precision(@requests_page_average, :precision => 1)} ms" %>.</p>
         </div>
       </div>
     </li>
