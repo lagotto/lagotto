@@ -25,17 +25,15 @@ ActiveSupport::XmlMini.backend = 'Nokogiri'
 
 # Log a sample of API requests, default is to log all API requests
 sampling = APP_CONFIG["sampling"] || 100
-
-if sampling.to_i > rand(100)
-  ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
-    if payload[:controller] == "Api::V3::ArticlesController"
-      ApiRequest.create! do |page_request|
-        page_request.path = payload[:path]
-        page_request.format = payload[:format] || "html"
-        page_request.page_duration = (finish - start) * 1000
-        page_request.view_duration = payload[:view_runtime]
-        page_request.db_duration = payload[:db_runtime]
-      end
+ 
+ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
+  if payload[:controller] == "Api::V3::ArticlesController" and sampling.to_i > rand(100)
+    ApiRequest.create! do |page_request|
+      page_request.path = payload[:path]
+      page_request.format = payload[:format] || "html"
+      page_request.page_duration = (finish - start) * 1000
+      page_request.view_duration = payload[:view_runtime]
+      page_request.db_duration = payload[:db_runtime]
     end
   end
 end
