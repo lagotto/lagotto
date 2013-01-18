@@ -18,67 +18,51 @@
 
 class Facebook < Source
 
-  validates_each :api_key do |record, attr, value|
+  validates_each :url, :access_token do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
   end
 
   def get_data(article, options={})
-    raise(ArgumentError, "#{display_name} configuration requires api key") \
-      if config.api_key.blank?
+    raise(ArgumentError, "#{display_name} configuration requires access_token") \
+      if config.access_token.blank?
 
     return  { :events => [], :event_count => 0 } if article.doi.blank?
-
-    fbAPI = Koala::Facebook::API.new(api_key)
-
-    if article.url.blank?
-      begin
-        original_url = get_original_url(article.doi_as_url)
-        article.update_attributes(:url => original_url)
-      rescue => e
-        ErrorMessage.create(:exception => e, :message => "Could not get the full url for #{article.doi_as_url} #{e.message}", :source_id => id)
-        raise e
-      end
-    end
     
-    events = []
-    article.all_urls.each { |url| execute_search(fbAPI, events, "#{url}") }
-
-    total = 0
-    events.each do | event |
-      total += event["total_count"]
+    query_url = get_query_url(article)
+    result = get_json(query_url, options)
+    
+    if result["error"]
+      ErrorMessage.create(:class_name => result["error"]["type"], :message => result["error"]["message"], :source_id => id)          
+      { :events => [], :event_count => 0 }
+    else
+      events = result["data"][0]
+      { :events => events, :event_count => events["total_count"] }
     end
-
-    data = {:events => events, :event_count => total}
-
-    unless original_url.nil?
-      data[:local_id] = original_url
-    end
-
-    return data
   end
-
-  def execute_search(fbAPI, events, search_term)
-    query = "select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, "\
-      "comments_fbid, commentsbox_count from link_stat where url = '#{search_term}'"
-
-    logger.debug "facebook query #{query}"
-
-    results = fbAPI.fql_query(query)
-
-    if results && results.size > 0
-      results.each {|result| events << result}
-    end
+  
+  def get_query_url(article, options={})    
+    # https://graph.facebook.com/fql?access_token=%{access_token}&q=select%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,%20click_count,%20comments_fbid,%20commentsbox_count%20from%20link_stat%20where%20url%20=%20'%{doi}'
+    URI.escape(config.url % { :access_token => config.access_token, :doi => article.doi_as_url }) unless article.doi.blank?
   end
 
   def get_config_fields
-    [{:field_name => "api_key", :field_type => "text_field"}]
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
+     {:field_name => "access_token", :field_type => "text_field"}]
+  end
+  
+  def url
+    config.url
   end
 
-  def api_key
-    config.api_key
+  def url=(value)
+    config.url = value
   end
 
-  def api_key=(value)
-    config.api_key = value
+  def access_token
+    config.access_token
+  end
+
+  def access_token=(value)
+    config.access_token = value
   end
 end
