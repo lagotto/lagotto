@@ -76,6 +76,8 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
     title = "error_messages"
   elsif page_title == "Home" 
     title = ""
+  elsif page_title == "API" 
+    title = "api_requests"
   else
     title = page_title.downcase
   end  

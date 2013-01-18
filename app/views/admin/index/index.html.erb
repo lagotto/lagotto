@@ -102,6 +102,16 @@
       <div class="thumbnail">
         <div class="caption">
           <h2>
+            <i class="icon-download"></i> <%= link_to "API Requests", admin_api_requests_path %>
+          </h2>
+          <p><%= pluralize(number_with_delimiter(@requests_count), 'API request') %> in the last 24 hours with an average duration of <%= number_with_precision(@requests_page_average, :precision => 1) %> ms.</p>
+        </div>
+      </div>
+    </li>
+    <li class="span4">
+      <div class="thumbnail">
+        <div class="caption">
+          <h2>
             <i class="icon-tasks"></i> Databases
           </h2>
           <p id="couchdb"><%= pluralize(number_with_delimiter(@mysql_info["rows"]), 'retrieval_history row') %> (<%= number_to_human_size(@mysql_info["data_length"]) %>, index <%= number_to_human_size(@mysql_info["index_length"]) %>) and <%= pluralize(number_with_delimiter(@couchdb_info["doc_count"]), 'CouchDB document') %> (<%= number_to_human_size(@couchdb_info["disk_size"]) %>).</p>
