@@ -14,7 +14,6 @@ gem "multi_json", "~> 1.5.0"
 gem "oj", "~> 2.0.1"
 gem "nori", "~> 2.0.0"
 gem 'mumboe-soap4r', '1.5.8.5'
-gem "faraday", "~> 0.8.4"
 gem "devise", "~> 2.1.2"
 gem "validates_timeliness", "~> 3.0.14"
 gem "rabl", "~> 0.7.6"

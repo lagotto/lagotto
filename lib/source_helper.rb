@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'net/http'
+
 module SourceHelper
   # default timeout is 60 sec
   DEFAULT_TIMEOUT = 60
