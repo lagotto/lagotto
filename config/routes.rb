@@ -18,6 +18,7 @@ Alm::Application.routes.draw do
     resources :events
     resources :responses
     resources :error_messages
+    resources :api_requests
   end
   
   namespace :api do

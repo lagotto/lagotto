@@ -213,4 +213,10 @@ FactoryGirl.define do
     status 404
     content_type "text/html"
   end
+  
+  factory :api_request do
+    page_duration 800
+    db_duration 100
+    view_duration 700
+  end
 end

@@ -82,6 +82,7 @@
               <%= controller.controller_name == "delayed_jobs" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Jobs', admin_delayed_jobs_path %></li>
               <%= controller.controller_name == "responses" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Responses', admin_responses_path %></li>
               <%= controller.controller_name == "events" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Events', admin_events_path %></li>
+              <%= controller.controller_name == "api_requests" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'API', admin_api_requests_path %></li>
               <%= controller.controller_name == "error_messages" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Errors', admin_error_messages_path %></li>
             </ul>
           <% end %>
