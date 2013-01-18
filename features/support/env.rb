@@ -25,6 +25,10 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
 
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, { :timeout => 60 })
+end
+
 Capybara.javascript_driver = :poltergeist
 
 # By default, any exception happening in your Rails application will bubble up
