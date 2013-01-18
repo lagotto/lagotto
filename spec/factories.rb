@@ -187,7 +187,7 @@ FactoryGirl.define do
     name "facebook"
     display_name "Facebook"
     active true
-    url "http://graph.facebook.com:443/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{doi}'"
+    url "http://graph.facebook.com:443/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'"
     access_token "EXAMPLE"
 
     group
