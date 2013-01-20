@@ -77,7 +77,8 @@ facebook = Facebook.find_or_create_by_name(
   :active => false, 
   :workers => 1,
   :group_id => social_networks.id,
-  :api_key => "EXAMPLE")
+  :url => "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{doi}'",
+  :access_token => "EXAMPLE")
   
 nature = Nature.find_or_create_by_name(  
   :name => "nature", 
