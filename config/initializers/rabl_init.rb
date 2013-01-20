@@ -1,7 +1,7 @@
 Rabl.configure do |config|
   # Commented as these are defaults
-  config.cache_all_output = true
-  config.cache_sources = Rails.env != 'development' # Defaults to false
+  # config.cache_all_output = true
+  # config.cache_sources = Rails.env != 'development' # Defaults to false
   # config.cache_engine = Rabl::CacheEngine.new # Defaults to Rails cache
   # config.escape_all_output = false
   # config.json_engine = nil # Any multi_json engines or a Class with #encode method
