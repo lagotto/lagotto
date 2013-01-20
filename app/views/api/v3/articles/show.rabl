@@ -1,5 +1,4 @@
 object @article
-cache @article, expires_in: 1.hour
   
 attributes :doi, :title, :url, :mendeley, :mendeley_url
 attribute :pub_med => :pmid
