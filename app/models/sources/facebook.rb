@@ -38,7 +38,7 @@ class Facebook < Source
     options[:source_id] = id
     result = get_json(query_url, options)
     
-    if result.empty?       
+    if result.blank?       
       { :events => [], :event_count => nil }
     else
       events = result["data"][0]

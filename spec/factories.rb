@@ -155,6 +155,32 @@ FactoryGirl.define do
     initialize_with { ScienceSeeker.find_or_create_by_name(name) }
   end
   
+  factory :scopus, class: Scopus do
+    type "Scopus"
+    name "scopus"
+    display_name "Scopus"
+    active true
+    username "EXAMPLE"
+    salt "EXAMPLE"
+    partner_id "EXAMPLE"
+
+    group
+    
+    initialize_with { Scopus.find_or_create_by_name(name) }
+  end
+  
+  factory :twitter, class: Twitter do
+    type "Twitter"
+    name "twitter"
+    display_name "Twitter"
+    active true
+    url "http://rwc-couch01.int.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key=%{doi}"
+
+    group
+    
+    initialize_with { Twitter.find_or_create_by_name(name) }
+  end
+  
   factory :wikipedia, class: Wikipedia do
     type "Wikipedia"
     name "wikipedia"
@@ -165,6 +191,18 @@ FactoryGirl.define do
     group
     
     initialize_with { Wikipedia.find_or_create_by_name(name) }
+  end
+  
+  factory :wos, class: Wos do
+    type "Wos"
+    name "wos"
+    display_name "Web of Science"
+    active true
+    url "https://ws.isiknowledge.com/cps/xrpc"
+
+    group
+    
+    initialize_with { Wos.find_or_create_by_name(name) }
   end
   
   factory :mendeley, class: Mendeley do

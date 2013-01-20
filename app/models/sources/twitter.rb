@@ -28,23 +28,30 @@ class Twitter < Source
   def get_data(article, options={})
     raise(ArgumentError, "Twitter configuration requires url") \
       if url.blank?
+        
+    return  { :events => [], :event_count => nil } if article.doi.blank?
 
     events = []
     execute_search(events, article, options)
 
-    {:events => events,
-     :event_count => events.length
-    }
-
+    if events.blank?
+      { :events => [], :event_count => nil }
+    else
+      { :events => events,
+        :event_count => events.length }
+    end
   end
 
   def execute_search(events, article, options={})
 
     query_url = get_query_url(article)
+    options[:source_id] = id 
 
     json_data = get_json(query_url, options)
 
-    if json_data
+    if json_data.blank?
+      events = nil
+    else
       results = json_data["rows"]
 
       results.each do | result |

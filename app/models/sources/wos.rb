@@ -23,6 +23,9 @@ class Wos < Source
   end
 
   def get_data(article, options={})
+    
+    # Check that article has DOI
+    return { :events => [], :event_count => nil } if article.doi.blank?
 
     doc = XML::Document.new()
     doc.root = XML::Node.new('request')
@@ -57,8 +60,13 @@ class Wos < Source
     val << article.doi
 
     query_url = get_query_url(article)
+    options[:source_id] = id 
 
     get_xml(query_url, options.merge(:postdata => doc.to_s, :extraheaders => {'Content-Type' => 'text/xml'})) do |document|
+      
+      # Check that WOS has returned something, otherwise an error must have occured
+      return { :events => [], :event_count => nil } if document.nil?
+      
       # there should be only one node found
       status = ""
       nodes = document.find('//xrpc:fn', 'xrpc:http://www.isinet.com/xrpc41')
