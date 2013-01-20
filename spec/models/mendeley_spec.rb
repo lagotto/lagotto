@@ -5,18 +5,16 @@ describe Mendeley do
   
   it "should report that there are no events if the doi, pmid and mendeley uuid are missing" do
     article_without_ids = FactoryGirl.build(:article, :doi => "", :pub_med => "", :mendeley => "")
-    mendeley.get_data(article_without_ids).should eq({ :events => [], :event_count => 0 })
+    mendeley.get_data(article_without_ids).should eq({ :events => [], :event_count => nil })
   end
   
   context "use the Mendeley API" do
     it "should report if there are no events and event_count returned by the Mendeley API" do
       article_without_events = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294", :mendeley => "")
-      stub = stub_request(:get, mendeley.get_query_url(CGI.escape(CGI.escape(article_without_events.doi)), "doi")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_pubmed = stub_request(:get, mendeley.get_query_url(article_without_events.pub_med, "pmid")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_related = stub_request(:get, mendeley.related_url("46cb51a0-6d08-11df-afb8-0026b95d30b2")).to_return(:body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
+      stub = stub_request(:get, mendeley.get_query_url(CGI.escape(CGI.escape(article_without_events.doi)), "doi")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 404)
       mendeley.get_data(article_without_events).should eq({ :events => [], :event_count => 0 })
       stub.should have_been_requested
-      stub_pubmed.should have_been_requested
+      ErrorMessage.count.should == 0
     end
     
     it "should report if there are events and event_count returned by the Mendeley API" do
@@ -33,9 +31,15 @@ describe Mendeley do
     
     it "should catch errors with the Mendeley API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001", :mendeley => "")
-      stub = stub_request(:get, mendeley.get_query_url(CGI.escape(CGI.escape(article.doi)), "doi")).to_return(:status => 408)
-      lambda { mendeley.get_data(article) }.should raise_error(Net::HTTPServerException, /408/)
+      stub = stub_request(:get, mendeley.get_query_url(CGI.escape(CGI.escape(article.doi)), "doi")).to_return(:status => [408, "Request Timeout"])
+      mendeley.get_data(article).should eq({ :events => [], :event_count => nil })
       stub.should have_been_requested
+      ErrorMessage.count.should == 1
+      error_message = ErrorMessage.first
+      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
+      error_message.message.should include("Request Timeout")
+      error_message.status.should == 408
+      error_message.source_id.should == mendeley.id
     end
   end
 end

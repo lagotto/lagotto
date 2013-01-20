@@ -26,9 +26,17 @@ class Researchblogging < Source
     raise(ArgumentError, "#{display_name} configuration requires username & password") \
       if config.username.blank? or config.password.blank?
 
+    # Check that article has DOI
+    return  { :events => [], :event_count => nil } if article.doi.blank?
+        
     query_url = get_query_url(article)
-
-    get_xml(query_url, options.merge(:username => config.username, :password => config.password)) do |document|
+    options[:source_id] = id 
+    
+    get_xml(query_url, options.merge(:username => username, :password => password)) do |document|
+      
+      # Check that ResearchBlogging has returned something, otherwise an error must have occured
+      return { :events => [], :event_count => nil } if document.nil?
+      
       events = []
 
       total_count = document.root.attributes.get_attribute("total_records_found")
@@ -39,15 +47,29 @@ class Researchblogging < Source
 
         events << {:event => event, :event_url => event['post_URL']}
       end
-
-      {:events => events,
-       :events_url => "http://researchblogging.org/post-search/list?article=#{CGI.escape(article.doi)}",
-       :event_count => total_count.value.to_i,
-       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
-      }
-
+      
+      events_url = get_events_url(article)
+      
+      if events.empty?
+        { :events => [], 
+          :events_url => events_url,
+          :event_count => 0 }
+      else
+        { :events => events,
+          :events_url => events_url,
+          :event_count => total_count.value.to_i,
+          :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s } }
+      end
     end
 
+  end
+  
+  def get_events_url(article)
+    unless article.doi.blank?
+      "http://researchblogging.org/post-search/list?article=#{CGI.escape(article.doi)}"
+    else
+      nil
+    end
   end
 
   def get_config_fields

@@ -75,90 +75,84 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
     Rails.logger.debug "#{rs.source.name} #{rs.article.doi} perform"
 
-    begin
-      event_count = 0
-
-      data_from_source = rs.source.get_data(rs.article, {:retrieval_status => rs, :timeout => rs.source.timeout })
-      if data_from_source.is_a?(Hash)
-        events = data_from_source[:events]
-        events_url = data_from_source[:events_url]
-        event_count = data_from_source[:event_count]
-        local_id = data_from_source[:local_id]
-        attachment = data_from_source[:attachment]
-      end
-
-      retrieved_at = Time.zone.now
-      if event_count > 0
-        data = { :doi => rs.article.doi,
-                 :retrieved_at => retrieved_at,
-                 :source => rs.source.name,
-                 :events => events,
-                 :events_url => events_url,
-                 :doc_type => "current" }
-
-        if !attachment.nil?
-
-          if !attachment[:filename].nil? && !attachment[:content_type].nil? && !attachment[:data].nil?
-            data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
-                                                             "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
-          end
-        end
-        
-        # save the data to couchdb
-        data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
-        
-        # save the history data to couchdb if event_count has changed
-        if rs.event_count != event_count
-          #TODO change this to a copy
-          data.delete(:_attachments)
-          data[:doc_type] = "history"
-          # save the data to couchdb as retrieval history data
-          save_alm_data(nil, data, rh.id)
-        end
-        
-        rs.data_rev = data_rev
-        rs.event_count = event_count
-        
-        unless local_id.nil?
-          rs.local_id = local_id
-        end
-
-        # set retrieval history status to success
-        rh.status = RetrievalHistory::SUCCESS_MSG
-        # save the event count in mysql
-        rh.event_count = event_count
-
-      else
-        # if we don't get any data
-        rs.event_count = 0
-        
-        # remove the last revision from couchdb
-        unless data_rev.nil?
-          data_rev = remove_alm_data(rs.data_rev, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
-          rs.data_rev = nil
-        end
-
-        # set retrieval history status to success with no data
-        rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
-        rh.event_count = 0
-      end
-
-      rs.retrieved_at = retrieved_at
-      rs.scheduled_at = rs.stale_at
-      rh.retrieved_at = retrieved_at
-
-      rs.save
-      rh.save
-      { :retrieval_status => rs, :retrieval_history => rh }
-    rescue => e
-      ErrorMessage.create(:exception => e, :message => "retrieval_status id: #{rs_id}, source id: #{rs.source_id} failed to get data, #{e.message}", :source_id => rs.source_id)
-      rh.retrieved_at = Time.zone.now
-      rh.status = RetrievalHistory::ERROR_MSG
-      rh.save
-
-      raise
+    data_from_source = rs.source.get_data(rs.article, {:retrieval_status => rs, :timeout => rs.source.timeout })
+    if data_from_source.is_a?(Hash)
+      events = data_from_source[:events]
+      events_url = data_from_source[:events_url]
+      event_count = data_from_source[:event_count]
+      local_id = data_from_source[:local_id]
+      attachment = data_from_source[:attachment]
     end
 
+    retrieved_at = Time.zone.now
+      
+    if event_count.nil?
+      rs.event_count = 0
+            
+      rh.status = RetrievalHistory::ERROR_MSG
+      rh.event_count = 0
+    elsif event_count > 0
+      data = { :doi => rs.article.doi,
+               :retrieved_at => retrieved_at,
+               :source => rs.source.name,
+               :events => events,
+               :events_url => events_url,
+               :doc_type => "current" }
+
+      if !attachment.nil?
+
+        if !attachment[:filename].nil? && !attachment[:content_type].nil? && !attachment[:data].nil?
+          data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
+                                                           "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
+        end
+      end
+        
+      # save the data to couchdb
+      data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
+        
+      # save the history data to couchdb if event_count has changed
+      if rs.event_count != event_count
+        #TODO change this to a copy
+        data.delete(:_attachments)
+        data[:doc_type] = "history"
+        # save the data to couchdb as retrieval history data
+        save_alm_data(nil, data, rh.id)
+      end
+        
+      rs.data_rev = data_rev
+      rs.event_count = event_count
+        
+      unless local_id.nil?
+        rs.local_id = local_id
+      end
+
+      # set retrieval history status to success
+      rh.status = RetrievalHistory::SUCCESS_MSG
+      # save the event count in mysql
+      rh.event_count = event_count
+
+    else
+      # if we don't get any data
+      rs.event_count = 0
+        
+      # remove the last revision from couchdb
+      unless data_rev.nil?
+        data_rev = remove_alm_data(rs.data_rev, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
+        rs.data_rev = nil
+      end
+
+      # set retrieval history status to success with no data
+      rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
+      rh.event_count = 0
+    end
+
+    rs.retrieved_at = retrieved_at
+    rs.scheduled_at = rs.stale_at
+    rh.retrieved_at = retrieved_at
+
+    rs.save
+    rh.save
+    { :retrieval_status => rs, :retrieval_history => rh }
   end
 
   def error(job, e)

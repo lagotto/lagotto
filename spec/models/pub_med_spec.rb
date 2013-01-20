@@ -5,7 +5,7 @@ describe PubMed do
   
   it "should report that there are no events if the doi and pmid are missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "", :pub_med => "")
-    pub_med.get_data(article_without_doi).should eq({ :events => [], :event_count => 0 })
+    pub_med.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
   
   context "use the PubMed API" do
@@ -47,9 +47,15 @@ describe PubMed do
       end
    
       it "should catch errors with the PubMed API" do
-        stub = stub_request(:get, pub_med.get_query_url(article)).to_return(:status => 408)
-        lambda { pub_med.get_data(article) }.should raise_error(Net::HTTPServerException)
+        stub = stub_request(:get, pub_med.get_query_url(article)).to_return(:status => [408, "Request Timeout"])
+        pub_med.get_data(article).should eq({ :events => [], :event_count => nil })
         stub.should have_been_requested
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
+        error_message.message.should include("Request Timeout")
+        error_message.status.should == 408
+        error_message.source_id.should == pub_med.id
       end
     end
   end

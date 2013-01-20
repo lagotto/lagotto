@@ -141,7 +141,9 @@ class Source < ActiveRecord::Base
                                              :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds)}).count(:id)
 
     if failed_queries > max_failed_queries
-      logger.error "#{display_name} has exceeded maximum failed queries.  Disabling the source."
+      ErrorMessage.create(:exception => "", :class_name => "StandardError",
+                          :message => "#{display_name} has exceeded maximum failed queries.  Disabling the source.", 
+                          :source_id => id)
       # disable the source
       self.disable_until = Time.zone.now + disable_delay.seconds
       save

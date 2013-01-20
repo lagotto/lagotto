@@ -27,11 +27,11 @@ class Wikipedia < Source
 
   def get_data(article, options={})
     
+    # Check that article has DOI
+    return  { :events => [], :event_count => nil } if article.doi.blank?
+    
     events = []
     total = 0
-    
-    # Check that article has DOI
-    return  {:events => events, :event_count => total} if article.doi.blank?
     
     # Loop through the languages
     LANGUAGES.each do |lang|
@@ -48,10 +48,11 @@ class Wikipedia < Source
         until offset < 0    
 
           query_url = get_query_url(article, :host => host, :offset => offset)
+          options[:source_id] = id
           results = get_json(query_url, options) 
         
-          # Raise error if server returns an error (usually either exceeeding maxlag or text search disabled errors)
-          raise "#{display_name}: error \"#{results['error']['info']}\" for host #{host}" if results['error']
+          # Try again if server returns an error (usually either exceeeding maxlag or text search disabled errors)
+          break if results.blank?
           
           lang_total = results['query']['searchinfo']['totalhits']
           offset = results['query-continue'] ? results['query-continue']['search']['sroffset'] : -1
@@ -73,15 +74,22 @@ class Wikipedia < Source
         # Don't store results and try again if numbers don't match
         missing_count = lang_total - lang_events.uniq.length
         break if missing_count == 0
-        logger.info "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}. Retrying..." 
+        logger.debug "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}. Retrying..." 
         lang_events = []
       end
       
-      # Raise error if there is still a problem after 20 attempts
-      raise "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}" if missing_count != 0
+      total += lang_total
+      
+      # Log an error if there is still a problem after 20 attempts
+      if missing_count != 0
+        ErrorMessage.create(:exception => "", :class_name => "Net::HTTPConflict",
+                          :message => "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}", 
+                          :status => 409,
+                          :source_id => id)
+        return  { :events => [], :event_count => nil }
+      end
      
       events.concat(lang_events)
-      total += lang_total
     end
     
     {:events => events, 

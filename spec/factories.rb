@@ -143,7 +143,7 @@ FactoryGirl.define do
     initialize_with { Researchblogging.find_or_create_by_name(name) }
   end
   
-  factory :scienceseeker, class: ScienceSeeker do
+  factory :science_seeker, class: ScienceSeeker do
     type "ScienceSeeker"
     name "scienceseeker"
     display_name "ScienceSeeker"

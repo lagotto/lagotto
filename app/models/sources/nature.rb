@@ -33,7 +33,8 @@ class Nature < Source
       if config.api_key.blank?
 
     query_url = get_query_url(article)
-
+    options[:source_id] = id
+    
     begin
       results = get_json(query_url, options)
     rescue => e
