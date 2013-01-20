@@ -37,92 +37,22 @@ class RetrievalStatus < ActiveRecord::Base
   
   def data
     if event_count > 0
-      begin
-        data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
-      rescue => e
-        data = nil
-      end
+      data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
+      nil if data.blank? or data["error"]
     else
-      data = nil
+      nil
     end
   end
   
   def public_url
-    data["events_url"] unless data.nil?
+    data["events_url"] unless data.blank?
   end
   
   def events
-    unless data.nil?
+    unless data.blank? 
       data["events"] 
     else
       []
-    end
-  end
-  
-  def pdf
-    nil
-  end
-  
-  def html
-    nil
-  end
-  
-  def shares
-    case source.name
-    when "citeulike"
-      event_count
-    when "mendeley"
-      if events.blank? or events['stats'].nil? 
-        0
-      else
-        events['stats']['readers']
-      end
-    when "wikipedia"
-      events.select {|event| event["namespace"] > 0 }.length
-    when "facebook"
-      events.inject(0) { |sum, hash| sum + hash["share_count"] }
-    else
-      nil
-    end
-  end
-  
-  def groups
-    if source.name == "mendeley"
-      if events.blank? or events['groups'].nil?
-        0
-      else
-        events['groups'].length
-      end
-    else
-      nil
-    end
-  end
- 
-  def comments
-    case source.name
-    when "facebook"
-      events.inject(0) { |sum, hash| sum + hash["comment_count"] }
-    else
-      nil
-    end
-  end
-  
-  def likes
-    case source.name
-    when "facebook"
-      events.inject(0) { |sum, hash| sum + hash["like_count"] }
-    else
-      nil
-    end
-  end
-  
-  def citations
-    if ["crossref","pubmed","researchblogging","nature","scienceseeker"].include?(source.name)
-      event_count
-    elsif source.name == "wikipedia"
-      events.select {|event| event["namespace"] == 0 }.length
-    else
-      nil
     end
   end
   
@@ -140,8 +70,20 @@ class RetrievalStatus < ActiveRecord::Base
   end
   
   def metrics(options={})
-    unless options
-      { :pdf => pdf, :html => html, :shares => shares, :groups => groups, :comments => comments, :likes => likes, :citations => citations, :total => event_count }
+    unless options[:days] || options[:month] || options[:year]
+      case source.name
+      when "citeulike"
+        { :pdf => nil, :html => nil, :shares => event_count, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+      when "facebook"
+        { :pdf => nil, :html => nil, :shares => events.inject(0) { |sum, hash| sum + hash["share_count"] }, :groups => nil, :comments => events.inject(0) { |sum, hash| sum + hash["comment_count"] }, :likes => events.inject(0) { |sum, hash| sum + hash["like_count"] }, :citations => nil, :total => event_count }
+      when "mendeley"
+        { :pdf => nil, :html => nil, :shares => (events.blank? ? 0 : events['stats']['readers']), :groups => (events.blank? ? 0 : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+      when "wikipedia"
+        { :pdf => nil, :html => nil, :shares => events.select {|event| event["namespace"] > 0 }.length, :groups => nil, :comments => nil, :likes => nil, :citations => events.select {|event| event["namespace"] == 0 }.length, :total => event_count }
+      else
+      # crossref, pubmed, researchblogging, nature, scienceseeker 
+        { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
+      end
     else
       history = retrieval_history(options=options)
       unless history.blank?
