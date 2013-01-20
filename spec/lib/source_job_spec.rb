@@ -41,8 +41,18 @@ describe SourceJob do
   end
   
   it "should perform and get error" do
-    stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:status => 408)
-    lambda { source_job.perform_get_data(retrieval_status.id) }.should raise_error(Net::HTTPServerException, /408/) 
+    stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:status => [408, "Request Timeout"])
+    result = source_job.perform_get_data(retrieval_status.id)
+    rh = result[:retrieval_history]
+    rh[:status].should eq("ERROR")
+    rh[:event_count].should eq(0)
+    rh[:retrieval_status_id].should eq(retrieval_status.id)
+    ErrorMessage.count.should == 1
+    error_message = ErrorMessage.first
+    error_message.class_name.should eq("Net::HTTPRequestTimeOut")
+    error_message.message.should include("Request Timeout")
+    error_message.status.should == 408
+    error_message.source_id.should == citeulike.id
   end
   
 end

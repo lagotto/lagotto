@@ -28,22 +28,18 @@ class Facebook < Source
     
     # Fetch the fulltext URL, as it might work better for Facebook than the DOI
     if article.url.blank? and !article.doi.blank?
-      begin
-        original_url = get_original_url(article.doi_as_url)
-        article.update_attributes(:url => original_url)
-      rescue => e
-        ErrorMessage.create(:exception => e, :message => "Could not get the full url for #{article.doi_as_url} #{e.message}", :source_id => id)
-      end
+      original_url = get_original_url(article.doi_as_url)
+      article.update_attributes(:url => original_url) unless original_url.blank?
     end
     
-    return  { :events => [], :event_count => 0 } if article.url.blank?
+    return  { :events => [], :event_count => nil } if article.url.blank?
     
     query_url = get_query_url(article.url)
+    options[:source_id] = id
     result = get_json(query_url, options)
     
-    if result["error"]
-      ErrorMessage.create(:class_name => result["error"]["type"], :message => result["error"]["message"], :source_id => id)          
-      { :events => [], :event_count => 0 }
+    if result.empty?       
+      { :events => [], :event_count => nil }
     else
       events = result["data"][0]
       { :events => events, :event_count => events["total_count"] }

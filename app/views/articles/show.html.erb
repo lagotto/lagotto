@@ -26,7 +26,7 @@
   <% if @article.retrieval_statuses.sum(:event_count) > 0 %>
   <div class="accordion" id="retrieval_status">
     <% @article.retrieval_statuses.each do |rs| %>
-      <% if rs.event_count > 0 %>
+    <% if rs.event_count > 0 and !rs.source.nil? %>
         <%
            details = [ rs.event_count ]
            details << rs.local_id if rs.local_id and user_signed_in?

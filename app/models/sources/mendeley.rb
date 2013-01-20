@@ -25,27 +25,27 @@ class Mendeley < Source
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires api key") \
       if config.api_key.blank?
-    
+        
+    # Check that article has Mendeley uuid, DOI or PubMed ID
+    return  { :events => [], :event_count => nil } if article.doi.blank? && article.mendeley.blank? && article.pub_med.blank?
+            
     result = []
-
-    # try mendeley uuid first if we have it
-    unless article.mendeley.blank?
-      result = get_json_data(get_query_url(article.mendeley), options)
+    options[:source_id] = id
+    
+    if !article.mendeley.blank?
+      result = get_json(get_query_url(article.mendeley), options)
+    elsif !article.doi.blank?
+      result = get_json(get_query_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
+    elsif !article.pub_med.blank?
+      result = get_json(get_query_url(article.pub_med, "pmid"), options)
+    else
+      return  { :events => [], :event_count => nil }
     end
     
-    # else try using doi
-    if (result.blank? || !result["error"].nil?) && !article.doi.blank?
-      # doi has to be double encoded
-      result = get_json_data(get_query_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
-    end
-    
-    # querying by doi sometimes fails, try pub med id
-    if (result.blank? || !result["error"].nil?) && !article.pub_med.blank?
-      result = get_json_data(get_query_url(article.pub_med, "pmid"), options)
-    end
-
-    if (result.blank? || !result["error"].nil?)
-      { :events => [], :event_count => 0 }
+    if result.blank?
+      return  { :events => [], :event_count => nil }
+    elsif result["error"]
+      return  { :events => [], :event_count => 0 }
     else
       events_url = result['mendeley_url']
 
@@ -57,17 +57,16 @@ class Mendeley < Source
       groups = result['groups']
       total += groups.length unless groups.nil?
 
-      related_articles = get_json_data(related_url(result['uuid']), options)
+      related_articles = get_json(related_url(result['uuid']), options)
       result[:related] = related_articles['documents'] if related_articles.length > 0
       
       # store mendeley uuid and mendeley_url
       article.update_attributes(:mendeley => result['uuid'], :mendeley_url => result['mendeley_url']) 
 
-      {:events => result,
-       :events_url => events_url,
-       :event_count => total}
+      { :events => result,
+        :events_url => events_url,
+        :event_count => total }
     end
-
   end
 
   def get_query_url(id, id_type = nil)
@@ -80,27 +79,6 @@ class Mendeley < Source
 
   def related_url(uuid)
     config.related_articles_url % { :id => uuid, :api_key => config.api_key}
-  end
-
-  def get_json_data(url, options={})
-    begin
-      result = get_json(url, options)
-    rescue => e
-      if e.respond_to?('response')
-        if e.response.kind_of?(Net::HTTPForbidden)
-          # http response 403
-          ErrorMessage.create(:exception => e, :message => "#{display_name} returned 403, they might be throttling us, #{e.message}", :status => 403, :source_id => id)          
-          raise e
-        end
-        # if the article could not be found by the Mendeley api, continue on (we will get a 404 error)
-        # if we get any other error, throw it so it can be handled by the caller (ex. 503)
-        unless e.response.kind_of?(Net::HTTPNotFound)
-          raise e
-        end
-      else
-        raise e
-      end
-    end
   end
 
   def get_config_fields

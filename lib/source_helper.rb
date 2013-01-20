@@ -30,13 +30,16 @@ module SourceHelper
   def get_xml(url, options={}, &block)
     remove_doctype = options.delete(:remove_doctype)
     body = get_http_body(url, options)
-    return [] if body.blank?
-
-    # We got something. Conditionally remove the DOCTYPE to prevent
-    # attempts to load the .dtd - we don't need it, and don't want
-    # errors if it's missing.
-    body.sub!(%r{\<\!DOCTYPE\s.*\>$}, '') if remove_doctype
-    yield(parse_xml(body))
+    
+    unless body.blank?
+      # We got something. Conditionally remove the DOCTYPE to prevent
+      # attempts to load the .dtd - we don't need it, and don't want
+      # errors if it's missing.
+      body.sub!(%r{\<\!DOCTYPE\s.*\>$}, '') if remove_doctype
+      yield(parse_xml(body))
+    else
+      yield 
+    end
   end
 
   def parse_xml(text)
@@ -90,21 +93,24 @@ module SourceHelper
     response = Net::HTTP.get_response(URI(uri_str))
 
     case response
-      when Net::HTTPSuccess then
-        uri_str
-      when Net::HTTPRedirection then
-        location = response['location']
+    when Net::HTTPSuccess
+      uri_str
+    when Net::HTTPRedirection
+      location = response['location']
 
-        # sometimes we can get a location that doesn't have the host information
-        uri = URI(location)
-        if uri.host.nil?
-          orig_uri = URI(uri_str)
-          location = "http://" + orig_uri.host + location
-        end
+      # sometimes we can get a location that doesn't have the host information
+      uri = URI(location)
+      if uri.host.nil?
+        orig_uri = URI(uri_str)
+        location = "http://" + orig_uri.host + location
+      end
 
-        get_original_url(location, limit - 1)
-      else
-        Rails.logger.info "Couldn't not follow the url all the way #{response.value}"
+      get_original_url(location, limit - 1)
+    else
+      ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
+                          :message => "Could not get the full url for #{uri_str}. #{response.message}, #{response.body}", 
+                          :status => response.code)
+      return ""
     end
   end
 
@@ -115,73 +121,71 @@ module SourceHelper
 
     optsMsg = " with #{options.inspect}" unless options.empty?
 
-    begin
-      url = URI.parse(uri)
+    url = URI.parse(uri)
 
-      response = nil
+    response = nil
 
-      if options.empty?
-        Timeout.timeout(DEFAULT_TIMEOUT) do
-          response = Net::HTTP.get_response(url)
-        end
-      else
-        sUrl = url.path
+    if options.empty?
+      Timeout.timeout(DEFAULT_TIMEOUT) do
+        response = Net::HTTP.get_response(url)
+      end
+    else
+      sUrl = url.path
 
-        if url.query
-          sUrl= sUrl + "?" + url.query
-        end
+      if url.query
+        sUrl= sUrl + "?" + url.query
+      end
 
-        Rails.logger.debug "http request: #{sUrl} (timeout: #{options[:timeout]})"
+      Rails.logger.debug "http request: #{sUrl} (timeout: #{options[:timeout]})"
 
-        headers = { "User-Agent" => APP_CONFIG['useragent'] + " - " + APP_CONFIG['hostname'] }
+      headers = { "User-Agent" => APP_CONFIG['useragent'] + " - " + APP_CONFIG['hostname'] }
 
-        if options[:extraheaders]
-          extraHeaders = options[:extraheaders]
-          extraHeaders.each do | key, value |
-            headers[key] = value
-          end
-        end
-
-        request = Net::HTTP::Get.new(sUrl, headers)
-
-        if options[:username]
-          request.basic_auth(options[:username], options[:password])
-        end
-
-        Rails.logger.debug "Request headers:"
-        request.each_header do |key, value|
-          Rails.logger.debug "[#{key}] = '#{value}'"
-        end
-
-        timeout = options[:timeout].nil? ? DEFAULT_TIMEOUT : options[:timeout]
-        Timeout.timeout(timeout) do
-          http = Net::HTTP.new(url.host, url.port)
-          http.use_ssl = true if (url.scheme == 'https')
-          if options[:postdata]
-            response = http.post(url.path, options[:postdata], headers)
-          else
-            response = http.request(request)
-          end
+      if options[:extraheaders]
+        extraHeaders = options[:extraheaders]
+        extraHeaders.each do | key, value |
+          headers[key] = value
         end
       end
 
-      Rails.logger.info "Requested #{uri}#{optsMsg}, got: #{response.code}, #{response.message}"
+      request = Net::HTTP::Get.new(sUrl, headers)
 
-      Rails.logger.debug "Response headers:"
-      response.each_header do |key, value|
-        Rails.logger.debug "[#{key}] = '#{value}']"
+      if options[:username]
+        request.basic_auth(options[:username], options[:password])
       end
 
-      case response
-        when Net::HTTPSuccess, Net::HTTPRedirection
-          response.body # OK
+      Rails.logger.debug "Request headers:"
+      request.each_header do |key, value|
+        Rails.logger.debug "[#{key}] = '#{value}'"
+      end
+
+      timeout = options[:timeout].nil? ? DEFAULT_TIMEOUT : options[:timeout]
+      Timeout.timeout(timeout) do
+        http = Net::HTTP.new(url.host, url.port)
+        http.use_ssl = true if (url.scheme == 'https')
+        if options[:postdata]
+          response = http.post(url.path, options[:postdata], headers)
         else
-          response.error!
+          response = http.request(request)
+        end
       end
+    end
 
-    rescue Exception => e
-      ErrorMessage.create(:exception => e, :message => "Error #{e.message} while requesting #{uri}#{optsMsg}")
-      raise e
+    Rails.logger.info "Requested #{uri}#{optsMsg}, got: #{response.code}, #{response.message}"
+
+    Rails.logger.debug "Response headers:"
+    response.each_header do |key, value|
+      Rails.logger.debug "[#{key}] = '#{value}']"
+    end
+
+    # Store error_message and return empty body unless response is 2xx, 3xx or 404, don't raise an error
+    if [Net::HTTPSuccess, Net::HTTPOK, Net::HTTPRedirection, Net::HTTPNotFound].include?(response.class)
+      return response.body
+    else
+      ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
+                          :message => "#{response.message}, #{response.body} while requesting #{uri}#{optsMsg}", 
+                          :status => response.code,
+                          :source_id => options[:source_id])
+      return ""
     end
   end
   

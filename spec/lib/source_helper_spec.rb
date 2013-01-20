@@ -39,22 +39,72 @@ describe SourceHelper do
       
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => nil, :content_type => 'application/xml', :status => 200)
-        response = @source_helper_class.get_xml(url)
-        response.should be_empty      
+        @source_helper_class.get_xml(url) { |response| response.should be_nil }  
       end
     end
     
     context "not found" do
-      let(:error) { { "error" => "no found"} }
+      let(:error) { { "error" => "Not Found"} }
       
       it "get_json" do
-        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => 404)
-        lambda { @source_helper_class.get_json(url) }.should raise_error(Net::HTTPServerException, /404/)
+        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [404, "Not Found"])
+        @source_helper_class.get_json(url).should eq(error)
+        ErrorMessage.count.should == 0
       end
       
       it "get_xml" do
-        stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => 404)
-        lambda { @source_helper_class.get_xml(url) }.should raise_error(Net::HTTPServerException, /404/)   
+        stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [404, "Not Found"])
+        @source_helper_class.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
+        ErrorMessage.count.should == 0
+      end
+    end
+    
+    context "too many requests" do
+      let(:error) { { "error" => "Too Many Requests"} }
+      
+      it "get_json" do
+        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [429, "Too Many Requests"])
+        @source_helper_class.get_json(url).should be_empty
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPClientError")
+        error_message.message.should include("Too Many Requests")
+        error_message.status.should == 429
+      end
+      
+      it "get_xml" do
+        stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [429, "Too Many Requests"])
+        @source_helper_class.get_xml(url) { |response| response.should be_nil }
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPClientError")
+        error_message.message.should include("Too Many Requests")
+        error_message.status.should == 429
+      end
+    end
+    
+    context "store source_id with error" do
+      let(:error) { { "error" => "Too Many Requests"} }
+      
+      it "get_json" do
+        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [429, "Too Many Requests"])
+        @source_helper_class.get_json(url, :source_id => 1).should be_empty
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPClientError")
+        error_message.message.should include("Too Many Requests")
+        error_message.status.should == 429
+        error_message.source_id.should == 1
+      end
+      
+      it "get_xml" do
+        stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [429, "Too Many Requests"])
+        @source_helper_class.get_xml(url, :source_id => 1) { |response| response.should be_nil }
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPClientError")
+        error_message.message.should include("Too Many Requests")
+        error_message.source_id.should == 1
       end
     end
   end
@@ -71,6 +121,7 @@ describe SourceHelper do
     let(:id) { "test" }
     let(:url) { "#{APP_CONFIG['couchdb_url']}#{id}" }
     let(:data) { { "name" => "Fred"} }
+    let(:error) { {"error"=>"not_found", "reason"=>"missing"} }
     
     it "put, get and delete data" do
       put_response = @source_helper_class.put_alm_data(url, data.to_json)
@@ -93,6 +144,12 @@ describe SourceHelper do
       
       delete_response = @source_helper_class.remove_alm_data(new_rev, id)
       delete_response.should include("3-")
+    end
+    
+    it "handle missing data" do
+      get_response = @source_helper_class.get_alm_data(id)
+      get_response.should eq(error)
+      ErrorMessage.count.should == 0
     end
   end
 end
