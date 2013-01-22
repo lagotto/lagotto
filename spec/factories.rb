@@ -4,7 +4,7 @@ FactoryGirl.define do
     sequence(:doi) {|n| "10.1371/journal.pone.00000#{n}" }
     sequence(:pub_med) {|n| "1897483#{n}" }
     pub_med_central 2568856
-    mendeley "d4ad6910-6d06-11df-a2b2-0026b95e3eb7"
+    mendeley "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
     published_on { Time.zone.today - 1.day }
     
@@ -160,7 +160,7 @@ FactoryGirl.define do
     name "wikipedia"
     display_name "Wikipedia"
     active true
-    url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&sroffset=%{offset}&srlimit=%{limit}&maxlag=%{maxlag}"
+    url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
 
     group
     
@@ -174,7 +174,7 @@ FactoryGirl.define do
     active true
     url "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}"
     url_with_type "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}"
-    related_articles_url "http://api.mendeley.com/oapi/documents/related/%{id}"
+    related_articles_url "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}"
     api_key "EXAMPLE"
     
     group
