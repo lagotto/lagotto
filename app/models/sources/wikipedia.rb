@@ -28,72 +28,44 @@ class Wikipedia < Source
   def get_data(article, options={})
     
     # Check that article has DOI
-    return  { :events => [], :event_count => nil } if article.doi.blank?
+    return  { :events => [], :event_count => 0 } if article.doi.blank?
     
-    events = []
-    total = 0
+    events = {}
     
     # Loop through the languages
     LANGUAGES.each do |lang|
       
-      host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
-      missing_count = 0
-      lang_total = 0
-      lang_events = []
-      
-      # Repeat query up to 20 times because of intermittent Wikipedia problems with page caching
-      20.times do
-        offset = 0
-      
-        until offset < 0    
-
-          query_url = get_query_url(article, :host => host, :offset => offset)
-          options[:source_id] = id
-          results = get_json(query_url, options) 
+      host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"  
+      query_url = get_query_url(article, :host => host)
+      options[:source_id] = id
+      results = get_json(query_url, options) 
         
-          # Try again if server returns an error (usually either exceeeding maxlag or text search disabled errors)
-          break if results.blank?
-          
-          lang_total = results['query']['searchinfo']['totalhits']
-          offset = results['query-continue'] ? results['query-continue']['search']['sroffset'] : -1
-        
-          temp_events = (results['query']['search']).map do |result|
-            url = "http://#{host}/wiki/#{result['title'].gsub( / +/, "_")}"
-            
-            # We are storing all information returned from Wikipedia, including language and namespace
-            {:url => url,    
-             :datetime => result['timestamp'], 
-             :title => result['title'],        
-             :language => lang,
-             :namespace => result['ns']}
-          end
-          lang_events.concat(temp_events)
-        end
-      
-        # Check that we have correctly collected all events. Check for duplicates and compare to "totalhits" provided by Mediawiki
-        # Don't store results and try again if numbers don't match
-        missing_count = lang_total - lang_events.uniq.length
-        break if missing_count == 0
-        logger.debug "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}. Retrying..." 
-        lang_events = []
+      # if server doesn't return a result
+      if results.blank?
+        # Error
+        lang_count = nil
+      elsif !results['query']
+        # Not Found
+        lang_count = 0
+      else
+        lang_count = results['query']['searchinfo']['totalhits']
       end
       
-      total += lang_total
-      
-      # Log an error if there is still a problem after 20 attempts
-      if missing_count != 0
-        ErrorMessage.create(:exception => "", :class_name => "Net::HTTPConflict",
-                          :message => "#{display_name} missed #{missing_count} out of #{lang_total} event(s) for host #{host}", 
-                          :status => 409,
-                          :source_id => id)
-        return  { :events => [], :event_count => nil }
-      end
-     
-      events.concat(lang_events)
+      events[lang] = lang_count
+    end
+   
+    if events.values.all? { |x| x.nil? }
+      event_count = nil
+    else
+      event_count = events.values.inject(0) { |sum,x| sum + (x ? x : 0) }
     end
     
-    {:events => events, 
-     :event_count => total}
+    events["total"] = event_count
+    events_url = event_count.blank? ? nil : get_events_url(article)
+    
+    { :events => events, 
+      :event_count => event_count,
+      :events_url => events_url }
   end
   
   def get_query_url(article, options={})
@@ -101,21 +73,21 @@ class Wikipedia < Source
     #
     # host - the Mediawiki to search, default en.wikipedia.org (English Wikipedia)
     # doi - the DOI to search for, uses article.doi
-    # namespace - the namespace number(s) to search, default 0 (Main), 2 (User) and 6 (File). Separate numbers by | character, encoded as %7C
-    # offset - offset for retrieveing results, default 0
-    # limit - the number of results to return, default  50
-    # maxlag - maximal slave server lag in seconds, default 10
     #
     # API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
     
     host = options[:host] || "en.wikipedia.org"
-    namespace = options[:namespace] || "0%7C2%7C6"
-    offset = options[:offset] || 0
-    limit = options[:limit] || 50
-    maxlag = options[:maxlag] || 15
     
-    # http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&sroffset=%{offset}&srlimit=%{limit}&maxlag=%{maxlag}"
-    config.url % { :host => host, :doi => CGI.escape(article.doi), :namespace => namespace, :offset => offset, :limit => limit, :maxlag => maxlag }
+    # http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
+    config.url % { :host => host, :doi => CGI.escape(article.doi) }
+  end
+  
+  def get_events_url(article)
+    unless article.doi.blank?
+      "http://en.wikipedia.org/w/index.php?search=#{CGI.escape(article.doi)}"
+    else
+      nil
+    end
   end
 
   def get_config_fields

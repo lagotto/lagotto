@@ -24,6 +24,7 @@ capybara-*.html
 /config/database.yml
 /config/settings.yml
 /config/deploy.rb
+/config/data_bags/*
 **.orig
 rerun.txt
 pickle-email-*.html

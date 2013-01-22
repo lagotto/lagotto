@@ -49,6 +49,7 @@ Vagrant::Config.run do |config|
       chef.add_recipe(recipe)
     end
     chef.cookbooks_path = "vendor/cookbooks"
+    chef.data_bags_path = "config/data_bags"
     chef.json.merge!(dna)
   end
 end

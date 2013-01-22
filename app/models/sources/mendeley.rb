@@ -25,26 +25,29 @@ class Mendeley < Source
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires api key") \
       if config.api_key.blank?
-        
-    # Check that article has Mendeley uuid, DOI or PubMed ID
-    return  { :events => [], :event_count => nil } if article.doi.blank? && article.mendeley.blank? && article.pub_med.blank?
-            
-    result = []
+
     options[:source_id] = id
     
-    if !article.mendeley.blank?
-      result = get_json(get_query_url(article.mendeley), options)
-    elsif !article.doi.blank?
-      result = get_json(get_query_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
-    elsif !article.pub_med.blank?
-      result = get_json(get_query_url(article.pub_med, "pmid"), options)
-    else
-      return  { :events => [], :event_count => nil }
+    # First, we need to have the Mendeley uuid for this article. 
+    # Get it if we don't have it, and proceed only if we do.
+    if article.mendeley.blank?
+      return  { :events => [], :event_count => 0 } if article.doi.blank? 
+      mendeley = get_mendeley_uuid(article, options)
+      article.update_attributes(:mendeley => mendeley) unless mendeley.blank?
+      return  { :events => [], :event_count => 0 } if article.mendeley.blank?
     end
     
-    if result.blank?
+    result = get_json(get_query_url(article.mendeley), options)
+    
+    # When Mendeley doesn't know about an article it can return
+    # - a 404 status and error hash
+    # - an empty array
+    # - an incomplete hash with just the Mendeley uuid
+    # We should handle all 3 cases without errors
+    
+    if result.nil?
       return  { :events => [], :event_count => nil }
-    elsif result["error"]
+    elsif result.empty? or !result["stats"]
       return  { :events => [], :event_count => 0 }
     else
       events_url = result['mendeley_url']
@@ -57,16 +60,44 @@ class Mendeley < Source
       groups = result['groups']
       total += groups.length unless groups.nil?
 
-      related_articles = get_json(related_url(result['uuid']), options)
+      related_articles = get_json(get_related_url(result['uuid']), options)
       result[:related] = related_articles['documents'] if related_articles.length > 0
       
-      # store mendeley uuid and mendeley_url
-      article.update_attributes(:mendeley => result['uuid'], :mendeley_url => result['mendeley_url']) 
+      # store mendeley_url
+      article.update_attributes(:mendeley_url => result['mendeley_url']) 
 
       { :events => result,
         :events_url => events_url,
         :event_count => total }
     end
+  end
+  
+  def get_mendeley_uuid(article, options={})
+    # get Mendeley uuid, try doi first, then pub_med
+    # Only use uuid if we also get mendeley_url, otherwise the uuid is broken
+    
+    unless article.doi.blank?
+      result = get_json(get_query_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
+      unless result.blank?
+        return result['uuid'] if result['mendeley_url']
+        # broken uuid with mendeley_url
+        problem_reported = ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.doi}.", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
+          if result['uuid']
+      end
+    end
+    
+    unless article.pub_med.blank?
+      result = get_json(get_query_url(article.pub_med, "pmid"), options)
+      unless result.blank?
+        return result['uuid'] if result['mendeley_url']
+        # broken uuid with mendeley_url
+        ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.pub_med}.", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
+          if result['uuid'] and !problem_reported
+      end
+    end
+    
+    # return nil otherwise. We can enter the uuid manually if we have it
+    nil
   end
 
   def get_query_url(id, id_type = nil)
@@ -77,7 +108,7 @@ class Mendeley < Source
     end
   end
 
-  def related_url(uuid)
+  def get_related_url(uuid)
     config.related_articles_url % { :id => uuid, :api_key => config.api_key}
   end
 

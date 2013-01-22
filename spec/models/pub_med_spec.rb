@@ -5,7 +5,7 @@ describe PubMed do
   
   it "should report that there are no events if the doi and pmid are missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "", :pub_med => "")
-    pub_med.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
+    pub_med.get_data(article_without_doi).should eq({ :events => [], :event_count => 0 })
   end
   
   context "use the PubMed API" do

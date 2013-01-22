@@ -31,7 +31,7 @@ class CrossRef < Source
   def get_data(article, options={})
     
     # Check that article has DOI
-    return { :events => [], :event_count => nil } if article.doi.blank?
+    return { :events => [], :event_count => 0 } if article.doi.blank?
     
     # Check whether we have published the DOI, otherwise use different API
     if article.is_publisher?

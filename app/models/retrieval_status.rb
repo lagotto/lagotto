@@ -38,7 +38,6 @@ class RetrievalStatus < ActiveRecord::Base
   def data
     if event_count > 0
       data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
-      nil if data.blank? or data["error"]
     else
       nil
     end
@@ -75,13 +74,11 @@ class RetrievalStatus < ActiveRecord::Base
       when "citeulike"
         { :pdf => nil, :html => nil, :shares => event_count, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "facebook"
-        { :pdf => nil, :html => nil, :shares => events.inject(0) { |sum, hash| sum + hash["share_count"] }, :groups => nil, :comments => events.inject(0) { |sum, hash| sum + hash["comment_count"] }, :likes => events.inject(0) { |sum, hash| sum + hash["like_count"] }, :citations => nil, :total => event_count }
+        { :pdf => nil, :html => nil, :shares => (events.blank? ? 0 : events["share_count"]), :groups => nil, :comments => (events.blank? ? 0 : events["comment_count"]), :likes => (events.blank? ? 0 : events["like_count"]), :citations => nil, :total => event_count }
       when "mendeley"
         { :pdf => nil, :html => nil, :shares => (events.blank? ? 0 : events['stats']['readers']), :groups => (events.blank? ? 0 : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-      when "wikipedia"
-        { :pdf => nil, :html => nil, :shares => events.select {|event| event["namespace"] > 0 }.length, :groups => nil, :comments => nil, :likes => nil, :citations => events.select {|event| event["namespace"] == 0 }.length, :total => event_count }
       else
-      # crossref, pubmed, researchblogging, nature, scienceseeker 
+      # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia
         { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
       end
     else

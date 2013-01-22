@@ -173,6 +173,18 @@ namespace :queue do
     end
 
   end
+  
+  task :all => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      Source.where("active = 1").each do |source|
+        sleep_time = source.queue_articles
+      end
+      sleep(3600)
+    end
+
+  end
 
   task :single_job, [:doi, :source] => :environment do |t, args|
     if args.doi.nil?

@@ -35,27 +35,20 @@ class Nature < Source
     query_url = get_query_url(article)
     options[:source_id] = id
     
-    begin
-      results = get_json(query_url, options)
-    rescue => e
-      ErrorMessage.create(:exception => e, :source_id => id)          
-      if e.respond_to?('response')
-        if e.response.kind_of?(Net::HTTPForbidden)
-          # http response 403
-          ErrorMessage.create(:exception => e, :message => "#{display_name} returned 403, they might be throttling us, #{e.message}", :status => 403, :source_id => id)          
-        end
+    results = get_json(query_url, options)
+    
+    if results.nil?
+      return  { :events => [], :event_count => nil }
+    else
+      events = results.map do |result|
+        url = result['post']['url']
+        url = "http://#{url}" unless url.start_with?("http://")
+
+        { :event => result['post'], :event_url => url }
       end
-      raise e
+
+      { :events => events, :event_count => events.length }
     end
-
-    events = results.map do |result|
-      url = result['post']['url']
-      url = "http://#{url}" unless url.start_with?("http://")
-
-      {:event => result['post'], :event_url => url}
-    end
-
-    {:events => events, :event_count => events.length}
   end
 
   def queue_articles

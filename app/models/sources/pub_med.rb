@@ -30,13 +30,14 @@ class PubMed < Source
   end
 
   def get_data(article, options={})
+    
     # First, we need to have the PMID for this article. 
     # Get it if we don't have it, and proceed only if we do.
     # We need a DOI to fetch the PMID
     if article.pub_med.blank?
-      return  { :events => [], :event_count => nil } if article.doi.blank? 
+      return  { :events => [], :event_count => 0 } if article.doi.blank? 
       article.pub_med = get_pmid_from_doi(article.doi, options)
-      return  { :events => [], :event_count => nil } if article.pub_med.blank?
+      return  { :events => [], :event_count => 0 } if article.pub_med.blank?
     end
 
     # Also get the PMCID, but wait until one month after publication
@@ -44,9 +45,7 @@ class PubMed < Source
       article.pub_med_central = get_pmcid_from_doi(article.doi, options) if article.pub_med_central.blank?
     end
     
-    if article.changed?
-      article.save
-    end
+    article.save if article.changed?
 
     # OK, we've got the IDs. Get the citations using the PubMed ID.
     events = []
