@@ -27,7 +27,7 @@ describe Nature do
     it "should catch errors with the Nature Blogs API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, nature.get_query_url(article)).to_return(:status => [408, "Request Timeout"])      
-      nature.get_data(article).should eq({ :events => [], :event_count => 0 })
+      nature.get_data(article).should eq({ :events => [], :event_count => nil })
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first

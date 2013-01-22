@@ -51,16 +51,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       end
 
       rs_ids.each do | rs_id |
-        begin
-          perform_get_data(rs_id)
-        rescue => e
-          ErrorMessage.create(:exception => e, :message => "retrieval_status id: #{rs_id}, source id: #{source_id} failed to get data, #{e.message}", :source_id => source_id)
-          # each time we fail to get an answer from a source, wait longer
-          # and wait random amount of time
-          sleep_time += source.disable_delay + rand(source.disable_delay)
-          Rails.logger.info "Sleep for #{sleep_time} seconds"
-          sleep(sleep_time)
-        end
+        perform_get_data(rs_id)
       end
     end
 
@@ -156,7 +147,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def error(job, e)
-    ErrorMessage.create(:exception => e, :message => "Job error, #{e.message}")
+    source_id = Source.where(:name => job.queue).pluck(:id).first
+    ErrorMessage.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source_id)
   end
 
   def after(job)

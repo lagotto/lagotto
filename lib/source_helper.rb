@@ -24,7 +24,7 @@ module SourceHelper
 
   def get_json(url, options={})
     body = get_http_body(url, options)
-    body.blank? ? [] : ActiveSupport::JSON.decode(body)
+    body.blank? ? nil : ActiveSupport::JSON.decode(body)
   end
 
   def get_xml(url, options={}, &block)
@@ -56,25 +56,17 @@ module SourceHelper
       data[:_rev] = data_rev
     end
 
-    begin
-      response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
-    rescue => e
+    response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
+    if response.kind_of?(Net::HTTPConflict)
+      # something went wrong
       ErrorMessage.create(:exception => e, :message => "Failed to put #{service_url}#{id}. Going to try to get the document to get the current _rev, #{e.message}")   
-      if e.respond_to?('response')
-        if e.response.kind_of?(Net::HTTPConflict)
-          # something went wrong
-          # get the most current revision value and use that to put the data one more time
-          cur_data = get_json("#{service_url}#{id}")
-          data[:_id] = cur_data["_id"]
-          data[:_rev] = cur_data["_rev"]
+      
+      # get the most current revision value and use that to put the data one more time
+      cur_data = get_json("#{service_url}#{id}")
+      data[:_id] = cur_data["_id"]
+      data[:_rev] = cur_data["_rev"]
 
-          response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
-        else
-          raise e
-        end
-      else
-        raise e
-      end
+      response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
     end
 
     result = ActiveSupport::JSON.decode(response.body)
@@ -262,7 +254,7 @@ module SourceHelper
     url = URI.parse(service_url)
     
     res = Net::HTTP.start(url.host, url.port) { |http|http.request(req) }
-    unless res.kind_of?(Net::HTTPSuccess)
+    unless res.kind_of?(Net::HTTPSuccess) or res.kind_of?(Net::HTTPNotFound)
       handle_error(req, res)
     end
     res
@@ -271,8 +263,7 @@ module SourceHelper
   private
 
   def handle_error(req, res)
-    e = RuntimeError.new("#{res.code}:#{res.message}\nMETHOD:#{req.method}\nURI:#{req.path}\n#{res.body}")
-    raise e
+    raise RuntimeError.new(:class_name => res.class.to_s, :message => "#{res.message}, METHOD:#{req.method}, URI:#{req.path}. #{res.body}", :status => res.code)
   end
 
 end

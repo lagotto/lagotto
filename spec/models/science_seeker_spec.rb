@@ -5,7 +5,7 @@ describe ScienceSeeker do
   
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
-    science_seeker.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
+    science_seeker.get_data(article_without_doi).should eq({ :events => [], :event_count => 0 })
   end
   
   context "use the ScienceSeeker API" do

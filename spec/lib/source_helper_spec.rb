@@ -34,7 +34,7 @@ describe SourceHelper do
       it "get_json" do
         stub = stub_request(:get, url).to_return(:body => nil, :content_type => 'application/json', :status => 200)
         response = @source_helper_class.get_json(url)
-        response.should be_empty 
+        response.should be_nil
       end
       
       it "get_xml" do
@@ -64,7 +64,7 @@ describe SourceHelper do
       
       it "get_json" do
         stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [429, "Too Many Requests"])
-        @source_helper_class.get_json(url).should be_empty
+        @source_helper_class.get_json(url).should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
         error_message.class_name.should eq("Net::HTTPClientError")
@@ -88,7 +88,7 @@ describe SourceHelper do
       
       it "get_json" do
         stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [429, "Too Many Requests"])
-        @source_helper_class.get_json(url, :source_id => 1).should be_empty
+        @source_helper_class.get_json(url, :source_id => 1).should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
         error_message.class_name.should eq("Net::HTTPClientError")

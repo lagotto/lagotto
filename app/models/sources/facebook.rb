@@ -32,13 +32,13 @@ class Facebook < Source
       article.update_attributes(:url => original_url) unless original_url.blank?
     end
     
-    return  { :events => [], :event_count => nil } if article.url.blank?
+    return  { :events => [], :event_count => 0 } if article.url.blank?
     
     query_url = get_query_url(article.url)
     options[:source_id] = id
     result = get_json(query_url, options)
     
-    if result.empty?       
+    if result.nil?       
       { :events => [], :event_count => nil }
     else
       events = result["data"][0]
