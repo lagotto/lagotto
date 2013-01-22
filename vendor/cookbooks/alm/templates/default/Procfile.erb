@@ -1,3 +1,7 @@
+<% if node[:rails][:environment] == "development" %>
+worker: bundle exec rake jobs:work start
+queue_jobs: bundle exec rake queue:all
+<% else %>
 worker_citeulike: bundle exec rake jobs:work start QUEUE=citeulike
 worker_pubmed: bundle exec rake jobs:work start QUEUE=pubmed 
 worker_wikipedia: bundle exec rake jobs:work start QUEUE=wikipedia
@@ -7,6 +11,7 @@ worker_crossref: bundle exec rake jobs:work start QUEUE=crossref
 worker_facebook: bundle exec rake jobs:work start QUEUE=facebook
 worker_nature: bundle exec rake jobs:work start QUEUE=nature
 worker_researchblogging: bundle exec rake jobs:work start QUEUE=researchblogging
+worker_scienceseeker: bundle exec rake jobs:work start QUEUE=scienceseeker
 <% end %>
 
 citeulike: bundle exec rake queue:citeulike
@@ -18,4 +23,6 @@ crossref: bundle exec rake queue:crossref
 facebook: bundle exec rake queue:facebook
 nature: bundle exec rake queue:nature
 researchblogging: bundle exec rake queue:researchblogging
+scienceseeker: bundle exec rake queue:scienceseeker
+<% end %>
 <% end %>
