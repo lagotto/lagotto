@@ -3,10 +3,10 @@ class Api::V3::ArticlesController < Api::V3::BaseController
   def index
     # Load articles from ids listed in query string, use type parameter if present
     # Translate type query parameter into column name
-    # Limit number of ids to 100
+    # Limit number of ids to 50
     type = { "doi" => "doi", "pmid" => "pub_med", "pmcid" => "pub_med_central", "mendeley" => "mendeley" }.assoc(params[:type])
     type = type.nil? ? Article.uid : type[1]
-    ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...100].map { |id| Article.clean_id(id) }
+    ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| Article.clean_id(id) }
     
     if params[:source]
       source_ids = Source.where("lower(name) in (?)", params[:source].split(",")).order("name").pluck(:id)

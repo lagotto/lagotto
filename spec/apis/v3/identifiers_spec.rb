@@ -4,7 +4,7 @@ describe "/api/v3/articles" do
   let(:error) { { "error" => "No article found."} }
   
   context "index" do
-    let(:articles) { FactoryGirl.create_list(:article, 100) }
+    let(:articles) { FactoryGirl.create_list(:article, 50) }
     
     context "articles found via DOI" do
       before(:each) do
@@ -17,7 +17,7 @@ describe "/api/v3/articles" do
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
-        response_articles.length.should eql(100)
+        response_articles.length.should eql(50)
         response_articles.any? do |a|
           a["article"]["doi"] == articles[0].doi
           a["article"]["publication_date"] == articles[0].published_on.to_time.utc.iso8601
@@ -29,7 +29,7 @@ describe "/api/v3/articles" do
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
-        response_articles.length.should eql(100)
+        response_articles.length.should eql(50)
         response_articles.any? do |a|
           a["article"]["doi"] == articles[0].doi
           a["article"]["publication_date"] == articles[0].published_on.to_time.utc.iso8601
@@ -42,7 +42,7 @@ describe "/api/v3/articles" do
         
         response = Nori.new.parse(last_response.body)
         response = response["articles"]
-        response.length.should eql(100)
+        response.length.should eql(50)
         response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
@@ -62,7 +62,7 @@ describe "/api/v3/articles" do
         last_response.status.should eql(200)
   
         response_articles = JSON.parse(last_response.body)
-        response_articles.length.should eql(100)
+        response_articles.length.should eql(50)
          response_articles.any? do |a|
            a["article"]["pmid"] == articles[0].pub_med
          end.should be_true
@@ -74,7 +74,7 @@ describe "/api/v3/articles" do
         
         response = Nori.new.parse(last_response.body)
         response = response["articles"]
-        response.length.should eql(100)
+        response.length.should eql(50)
         response.any? do |article|
           article["pub_med"] == articles[0].pub_med
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
