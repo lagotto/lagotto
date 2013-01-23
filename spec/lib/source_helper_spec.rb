@@ -59,6 +59,54 @@ describe SourceHelper do
       end
     end
     
+    context "request timeout" do
+      let(:error) { { "error" => "Request Timeout"} }
+      
+      it "get_json" do
+        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [408, "Request Timeout"])
+        @source_helper_class.get_json(url).should be_nil
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
+        error_message.message.should include("Request Timeout")
+        error_message.status.should == 408
+      end
+      
+      it "get_xml" do
+        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [408, "Request Timeout"])
+        @source_helper_class.get_xml(url) { |response| response.should be_nil }
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
+        error_message.message.should include("Request Timeout")
+        error_message.status.should == 408
+      end
+    end
+    
+    context "request timeout internal" do
+      let(:error) { { "error" => "Request Timeout"} }
+      
+      it "get_json" do
+        stub = stub_request(:get, url).to_timeout
+        @source_helper_class.get_json(url).should be_nil
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
+        error_message.message.should include("Request Timeout")
+        error_message.status.should == 408
+      end
+      
+      it "get_xml" do
+        stub = stub_request(:get, url).to_timeout
+        @source_helper_class.get_xml(url) { |response| response.should be_nil }
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
+        error_message.message.should include("Request Timeout")
+        error_message.status.should == 408
+      end
+    end
+    
     context "too many requests" do
       let(:error) { { "error" => "Too Many Requests"} }
       

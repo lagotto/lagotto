@@ -16,15 +16,15 @@
     </tr>
     <tr>
       <th/>
+      <th class="hidden-phone number">All</th>
       <th class="number">Pending</th>
       <th class="number">Working</th>
-      <th class="hidden-phone number">Failed</th>
     </tr>
     <tr>
       <th>Jobs</th>
-      <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count(:run_at) - (@source.delayed_jobs.count(:locked_at) + @source.delayed_jobs.count(:failed_at))) %></td>
+      <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count) %></td>
+      <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count - @source.delayed_jobs.count(:locked_at)) %></td>
       <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count(:locked_at)) %></td>
-      <td class="hidden-phone number"><%= number_with_delimiter(@source.delayed_jobs.count(:failed_at)) %></td>
     </tr>
     <tr>
       <th/>
