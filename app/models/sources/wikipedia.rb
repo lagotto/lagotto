@@ -44,7 +44,7 @@ class Wikipedia < Source
       if results.blank?
         # Error
         lang_count = nil
-      elsif !results['query']
+      elsif !results['query'] or !results['query']['searchinfo']
         # Not Found
         lang_count = 0
       else

@@ -61,7 +61,7 @@ class Mendeley < Source
       total += groups.length unless groups.nil?
 
       related_articles = get_json(get_related_url(result['uuid']), options)
-      result[:related] = related_articles['documents'] if related_articles.length > 0
+      result[:related] = related_articles['documents'] if related_articles
       
       # store mendeley_url
       article.update_attributes(:mendeley_url => result['mendeley_url']) 

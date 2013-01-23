@@ -111,15 +111,19 @@ module SourceHelper
     # removing retrieval_status object from the hash
     options = options.except(:retrieval_status)
 
-    optsMsg = " with #{options.inspect}" unless options.empty?
+    optsMsg = options.empty? ? "" : " with #{options.inspect}"
 
     url = URI.parse(uri)
 
     response = nil
 
     if options.empty?
-      Timeout.timeout(DEFAULT_TIMEOUT) do
-        response = Net::HTTP.get_response(url)
+      begin
+        Timeout.timeout(DEFAULT_TIMEOUT) do
+          response = Net::HTTP.get_response(url)
+        end
+      rescue Timeout::Error
+        response = Net::HTTPRequestTimeOut.new(1.1, 408, "Request Timeout")
       end
     else
       sUrl = url.path
@@ -151,14 +155,18 @@ module SourceHelper
       end
 
       timeout = options[:timeout].nil? ? DEFAULT_TIMEOUT : options[:timeout]
-      Timeout.timeout(timeout) do
-        http = Net::HTTP.new(url.host, url.port)
-        http.use_ssl = true if (url.scheme == 'https')
-        if options[:postdata]
-          response = http.post(url.path, options[:postdata], headers)
-        else
-          response = http.request(request)
+      begin
+        Timeout.timeout(timeout) do
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true if (url.scheme == 'https')
+          if options[:postdata]
+            response = http.post(url.path, options[:postdata], headers)
+          else
+            response = http.request(request)
+          end
         end
+      rescue Timeout::Error
+        response = Net::HTTPRequestTimeOut.new(1.1, 408, "Request Timeout")
       end
     end
 
@@ -174,7 +182,7 @@ module SourceHelper
       return response.body
     else
       ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "#{response.message}, #{response.body} while requesting #{uri}#{optsMsg}", 
+                          :message => "#{response.message} while requesting #{uri}", 
                           :status => response.code,
                           :source_id => options[:source_id])
       return ""
