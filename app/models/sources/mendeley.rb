@@ -81,7 +81,7 @@ class Mendeley < Source
       unless result.blank?
         return result['uuid'] if result['mendeley_url']
         # broken uuid with mendeley_url
-        problem_reported = ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.doi}.", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
+        problem_reported = ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.doi}", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
           if result['uuid']
       end
     end
