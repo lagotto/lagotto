@@ -18,7 +18,7 @@
 
 class Mendeley < Source
 
-  validates_each :url, :url_with_type, :related_articles_url, :api_key do |record, attr, value|
+  validates_each :url, :url_with_type, :url_with_title, :related_articles_url, :api_key do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
   end
 
@@ -73,48 +73,51 @@ class Mendeley < Source
   end
   
   def get_mendeley_uuid(article, options={})
-    # get Mendeley uuid, try doi first, then pub_med
-    # Only use uuid if we also get mendeley_url, otherwise the uuid is broken
-    
-    unless article.doi.blank?
-      result = get_json(get_query_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
-      unless result.blank?
-        return result['uuid'] if result['mendeley_url']
-        # broken uuid with mendeley_url
-        problem_reported = ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.doi}", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
-          if result['uuid']
-      end
-    end
+    # get Mendeley uuid, try pmid first, then doi
+    # Otherwise search by title
+    # Only use uuid if we also get mendeley_url, otherwise the uuid is broken and we return nil
     
     unless article.pub_med.blank?
       result = get_json(get_query_url(article.pub_med, "pmid"), options)
-      unless result.blank?
-        return result['uuid'] if result['mendeley_url']
-        # broken uuid with mendeley_url
-        ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.pub_med}.", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
-          if result['uuid'] and !problem_reported
+      return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
+    end
+    
+    unless article.doi.blank?
+      result = get_json(get_query_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
+      return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
+      
+      # search by title if we can't get the uuid using the pmid or doi
+      results = get_json(get_query_url(CGI.escape(CGI.escape(article.title)), "title"), options)
+      if results.is_a?(Hash) and results['documents']
+        documents = results["documents"].select { |document| document["doi"] == article.doi }
+        return documents[0]['uuid'] if documents and documents.length == 1 and documents[0]['mendeley_url']
       end
     end
     
-    # return nil otherwise. We can enter the uuid manually if we have it
+    # return nil if we can't get the correct uuid. We can enter the uuid manually if we have it
+    ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.doi}", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
+      if result.is_a?(Hash) and result['uuid']
     nil
   end
 
   def get_query_url(id, id_type = nil)
     if id_type.nil?
-      url % { :id => id, :api_key => config.api_key }
+      url % { :id => id, :api_key => api_key }
+    elsif id_type == "title"
+      url_with_title % { :title => id, :api_key => api_key }
     else
-      url_with_type % { :id => id, :doc_type => id_type, :api_key => config.api_key }
+      url_with_type % { :id => id, :doc_type => id_type, :api_key => api_key }
     end
   end
 
   def get_related_url(uuid)
-    config.related_articles_url % { :id => uuid, :api_key => config.api_key}
+    related_articles_url % { :id => uuid, :api_key => api_key}
   end
 
   def get_config_fields
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
      {:field_name => "url_with_type", :field_type => "text_area", :size => "90x2"},
+     {:field_name => "url_with_title", :field_type => "text_area", :size => "90x2"},
      {:field_name => "related_articles_url", :field_type => "text_area", :size => "90x2"},
      {:field_name => "api_key", :field_type => "text_field"}]
   end
@@ -133,6 +136,14 @@ class Mendeley < Source
 
   def url_with_type=(value)
     config.url_with_type = value
+  end
+  
+  def url_with_title
+    config.url_with_title
+  end
+
+  def url_with_title=(value)
+    config.url_with_title = value
   end
 
   def related_articles_url
