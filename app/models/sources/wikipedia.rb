@@ -41,14 +41,14 @@ class Wikipedia < Source
       results = get_json(query_url, options) 
         
       # if server doesn't return a result
-      if results.blank?
+      if results.nil?
         # Error
         lang_count = nil
-      elsif !results['query'] or !results['query']['searchinfo']
+      elsif !results.empty? and results['query'] and results['query']['searchinfo'] and results['query']['searchinfo']['totalhits']
+        lang_count = results['query']['searchinfo']['totalhits']
+      else
         # Not Found
         lang_count = 0
-      else
-        lang_count = results['query']['searchinfo']['totalhits']
       end
       
       events[lang] = lang_count
