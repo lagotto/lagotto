@@ -41,10 +41,10 @@ class Wikipedia < Source
       results = get_json(query_url, options) 
         
       # if server doesn't return a result
-      if results.blank?
+      if results.nil?
         # Error
         lang_count = nil
-      elsif !results['query'] or !results['query']['searchinfo']
+      elsif results.empty? or !results['query']
         # Not Found
         lang_count = 0
       else
@@ -54,7 +54,7 @@ class Wikipedia < Source
       events[lang] = lang_count
     end
    
-    if events.values.all? { |x| x.nil? }
+    if !events.respond_to?(:values) or events.values.all? { |x| x.nil? }
       event_count = nil
     else
       event_count = events.values.inject(0) { |sum,x| sum + (x ? x : 0) }
