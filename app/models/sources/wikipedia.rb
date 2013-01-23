@@ -44,17 +44,17 @@ class Wikipedia < Source
       if results.nil?
         # Error
         lang_count = nil
-      elsif results.empty? or !results['query']
+      elsif !results.empty? and results['query'] and results['query']['searchinfo'] and results['query']['searchinfo']['totalhits']
+        lang_count = results['query']['searchinfo']['totalhits']
+      else
         # Not Found
         lang_count = 0
-      else
-        lang_count = results['query']['searchinfo']['totalhits']
       end
       
       events[lang] = lang_count
     end
    
-    if !events.respond_to?(:values) or events.values.all? { |x| x.nil? }
+    if events.values.all? { |x| x.nil? }
       event_count = nil
     else
       event_count = events.values.inject(0) { |sum,x| sum + (x ? x : 0) }
