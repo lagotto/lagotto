@@ -118,9 +118,10 @@ module SourceHelper
     response = nil
 
     if options.empty?
+      http = Net::HTTP.new(url.host, url.port)
       begin
         Timeout.timeout(DEFAULT_TIMEOUT) do
-          response = Net::HTTP.get_response(url)
+          response = http.request(Net::HTTP::Get.new(url.request_uri))
         end
       rescue Timeout::Error
         response = Net::HTTPRequestTimeOut.new(1.1, 408, "Request Timeout")
@@ -155,9 +156,10 @@ module SourceHelper
       end
 
       timeout = options[:timeout].nil? ? DEFAULT_TIMEOUT : options[:timeout]
+
+      http = Net::HTTP.new(url.host, url.port)
       begin
         Timeout.timeout(timeout) do
-          http = Net::HTTP.new(url.host, url.port)
           http.use_ssl = true if (url.scheme == 'https')
           if options[:postdata]
             response = http.post(url.path, options[:postdata], headers)
@@ -181,8 +183,9 @@ module SourceHelper
     if [Net::HTTPSuccess, Net::HTTPOK, Net::HTTPRedirection, Net::HTTPNotFound].include?(response.class)
       return response.body
     else
+      #body = response.read_body.blank? ? "" : ' "#{response.read_body}"'
       ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "#{response.message} while requesting #{uri}", 
+                          :message => "#{response.message} (#{response.inspect}) while requesting #{uri}", 
                           :status => response.code,
                           :source_id => options[:source_id])
       return ""

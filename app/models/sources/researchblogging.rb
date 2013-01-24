@@ -42,7 +42,8 @@ class Researchblogging < Source
       total_count = document.root.attributes.get_attribute("total_records_found")
 
       document.find("//blogposts/post").each do |post|
-        event = Nori.new.parse(post.to_s)
+        post_string = post.to_s(:encoding => XML::Encoding::UTF_8)
+        event = Hash.from_xml(post_string)
         event = event['post']
 
         events << {:event => event, :event_url => event['post_URL']}

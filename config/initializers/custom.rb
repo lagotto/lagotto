@@ -21,7 +21,7 @@ require "#{Rails.root}/lib/source_job.rb"
 
 APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
 
-ActiveSupport::XmlMini.backend = 'Nokogiri'
+ActiveSupport::XmlMini.backend = 'LibXML'
 
 # Log a sample of API requests, default is to log all API requests
 sampling = APP_CONFIG["sampling"] || 100
