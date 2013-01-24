@@ -185,7 +185,7 @@ module SourceHelper
     else
       #body = response.read_body.blank? ? "" : ' "#{response.read_body}"'
       ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "#{response.message} (#{response.inspect}) while requesting #{uri}", 
+                          :message => "#{response.message} while requesting #{uri}", 
                           :status => response.code,
                           :source_id => options[:source_id])
       return ""
