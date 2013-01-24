@@ -87,7 +87,7 @@ class Mendeley < Source
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
       
       # search by title if we can't get the uuid using the pmid or doi
-      results = get_json(get_query_url(CGI.escape(article.title), "title"), options)
+      results = get_json(get_query_url(CGI.escape(CGI.escape(article.title)), "title"), options)
       if results.is_a?(Hash) and results['documents']
         documents = results["documents"].select { |document| document["doi"] == article.doi }
         return documents[0]['uuid'] if documents and documents.length == 1 and documents[0]['mendeley_url']
@@ -95,7 +95,7 @@ class Mendeley < Source
     end
     
     # return nil if we can't get the correct uuid. We can enter the uuid manually if we have it
-    ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.doi}.", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
+    ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.doi}", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
       if result.is_a?(Hash) and result['uuid']
     nil
   end
