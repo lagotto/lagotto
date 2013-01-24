@@ -24,7 +24,7 @@ module SourceHelper
 
   def get_json(url, options={})
     body = get_http_body(url, options)
-    body.nil? or body.length < 2 ? nil : ActiveSupport::JSON.decode(body)
+    (body.nil? or body.length < 2) ? nil : ActiveSupport::JSON.decode(body)
   end
 
   def get_xml(url, options={}, &block)
