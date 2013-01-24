@@ -49,7 +49,8 @@ class CrossRef < Source
         events = []
         document.root.namespaces.default_prefix = "x"
         document.find("//x:journal_cite").each do |cite|
-          event = Nori.new.parse(cite.to_s)
+          cite_string = cite.to_s(:encoding => XML::Encoding::UTF_8)
+          event = Hash.from_xml(cite_string)
           event = event["journal_cite"]
           event_url = Article.to_url(event["doi"])
 

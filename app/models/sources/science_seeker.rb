@@ -38,7 +38,8 @@ class ScienceSeeker < Source
       events = []
       document.root.namespaces.default_prefix = "atom"
       document.find("//atom:entry").each do |entry|
-        event = Nori.new.parse(entry.to_s)
+        entry_string = entry.to_s(:encoding => XML::Encoding::UTF_8)
+        event = Hash.from_xml(entry_string)
         event = event['entry']
         events << {:event => event, :event_url => event['link']['href']}
       end
