@@ -34,7 +34,6 @@ defaults: &defaults
   couchdb_url: http://localhost:5984/alm/
   doi_prefix: 
   uid: doi
-  sampling: 100
   source:
     job_batch_size: 200
     staleness: staleness: [ <%= 1.day %>, <%= 1.day %>, <%= 1.month %>, <%= 1.month %> ]
