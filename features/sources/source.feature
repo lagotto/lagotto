@@ -5,7 +5,7 @@ Feature: Edit sources
 
   Background:
     Given I am logged in
-    And the source "CiteULike" exists
+    And the source "Citeulike" exists
 
     @javascript
     Scenario: Group must be selected

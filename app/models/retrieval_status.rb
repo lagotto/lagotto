@@ -29,7 +29,7 @@ class RetrievalStatus < ActiveRecord::Base
   scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? DAY", days).order("event_count desc").limit(25) }
   scope :most_cited_last_x_months, lambda { |months| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? MONTH", months).order("event_count desc").limit(25) }
     
-  scope :queued, where( "queued_at is NOT NULL")
+  scope :queued, where("queued_at is NOT NULL")
   scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND scheduled_at <= NOW()")
   scope :published, joins(:article).where("queued_at is NULL AND articles.published_on <= CURDATE()")
   

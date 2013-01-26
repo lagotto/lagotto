@@ -43,6 +43,9 @@ class Source < ActiveRecord::Base
 
   # for job priority
   TOP_PRIORITY = 0
+  
+  scope :active, where(:active => true).order("group_id, display_name")
+  scope :inactive, where(:active => false).order("group_id, display_name")
 
   # some sources cannot be redistributed
   scope :public_sources, lambda { where("private = false") }

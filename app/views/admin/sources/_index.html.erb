@@ -29,33 +29,33 @@
 
 <% else %>
   <div class="btn-toolbar pull-right hidden-phone">
-    <%= link_to '<i class="icon-plus"></i> New'.html_safe, new_admin_group_path, { :remote => true, :class => 'btn btn-mini', :id => 'New' } %>
+    <%= link_to '<i class="icon-plus"></i> New Group'.html_safe, new_admin_group_path, { :remote => true, :class => 'btn btn-mini', :id => 'New' } %>
   </div>
 
   <% if @groups.size > 0 %>
     <table class="table">
       <thead>
         <tr>
-          <th>Groups</th>
-          <th>Sources</th>
+          <th>Name</th>
           <th>Status</th>
+          <th>Group</th>
           <th class="hidden-phone">Actions</th>
         </tr>
       </thead>
       <tbody>
         <% @groups.each do |group| %>
           <tr>       
-            <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>><%= h(group.name) %></td>
             <% if group.sources.size > 0 %>
               <td><%= link_to group.sources.first.display_name, admin_source_path(group.sources.first) %></td>
               <td><%= status_label(group.sources.first).html_safe %></td>
             <% else %>
               <td/><td/>
             <% end %>
+            <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>><%= h(group.name) %></td>
             <td class="hidden-phone" <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>
               <div class="btn-group">
-                <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_group_path(group), { :remote => true, :class => 'btn btn-mini', :id => "#{group.name}-edit" } %>
-                <%= link_to '<i class="icon-trash"></i> Delete'.html_safe, admin_group_path(group), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{group.name}-delete" %>
+                <%= link_to '<i class="icon-pencil"></i> Edit Group'.html_safe, edit_admin_group_path(group), { :remote => true, :class => 'btn btn-mini', :id => "#{group.name}-edit" } %>
+                <%= link_to '<i class="icon-trash"></i> Delete Group'.html_safe, admin_group_path(group), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{group.name}-delete" %>
               </div>
             </td>
           </tr>

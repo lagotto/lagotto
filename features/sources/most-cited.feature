@@ -5,7 +5,7 @@ Feature: Display most-cited articles
 
   Background:
     Given I am logged in
-    And the source "CiteULike" exists
+    And the source "Citeulike" exists
     And that we have 10 articles
   
     @javascript

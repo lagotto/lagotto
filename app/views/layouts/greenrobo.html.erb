@@ -60,10 +60,16 @@
 						<%= controller.controller_name == "sources" ? '<li class="dropdown visible-desktop active">'.html_safe : '<li class="dropdown visible-desktop">'.html_safe %>
 					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sources <b class="caret"></b></a>
 				      <ul class="dropdown-menu">
-                <li><%= link_to "Groups", admin_sources_path %></li>
+                <li><%= link_to "Sources by Group", admin_sources_path %></li>
                 <li class="divider"></li>
-                <% sources.each do|source| %>
+                <% sources.active.each do |source| %>
                   <li><%= link_to h(source.display_name), admin_source_path(source) %></li>
+                <% end %>
+                <% unless Source.inactive.empty? %>
+                  <li class="divider"></li>
+                  <% sources.inactive.each do |source| %>
+                    <li><%= link_to h(source.display_name), admin_source_path(source) %></li>
+                  <% end %>
                 <% end %>
 		          </ul>
 		        </li>

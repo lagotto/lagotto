@@ -178,7 +178,7 @@ namespace :queue do
 
     # this rake task is setup to run forever
     loop do
-      Source.where("active = 1").each do |source|
+      Source.active.each do |source|
         sleep_time = source.queue_articles
       end
       sleep(3600)

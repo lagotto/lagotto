@@ -54,5 +54,4 @@ end
 
 group :test, :development do
   gem "rspec-rails", "~> 2.12.0"
-  gem "rack-mini-profiler", "~> 0.1.23"
 end
