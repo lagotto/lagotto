@@ -44,6 +44,6 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
   color: white;
 }
 
-.chart rect:hover {
-  fill: #64707D;
+.chart a {
+  fill: $linkColor;
 }

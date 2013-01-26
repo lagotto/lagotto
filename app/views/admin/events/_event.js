@@ -1,6 +1,6 @@
-var data = <%= @events %>;
-var labels = <%= raw @labels %>;
-
+var data = <%= raw @data %>;
+var colors = ["#304345","#789aa1","#ad9a27","#a17f78","#a0d5d6"]
+  
 var l = 200; // left margin
 var r = 120; // right margin
 var w = 600; // width of drawing area
@@ -14,31 +14,34 @@ var chart = d3.select("div#event").append("svg")
   .append("g")
   .attr("transform", "translate(230,20)");
 var x = d3.scale.log()
-  .domain([1, d3.max(data)])
+  .domain([0.1, d3.max(data, function(d) { return d.event_count; })])
   .range([1, w]);
 var y = d3.scale.ordinal()
-  .domain(labels)
-  .rangeBands([0, (h + 2 * s) * labels.length]);
+  .domain(data.map(function(d) { return d.name; }))
+  .rangeBands([0, (h + 2 * s) * data.length]);
+var z = d3.scale.ordinal()
+  .domain(data.map(function(d) { return d.group; }))
+  .range(colors);
 chart.selectAll("text.labels")
-  .data(labels)
-  .enter().append("text")
+  .data(data)
+  .enter().append("a").attr("xlink:href", function(d) { return d.url; }).append("text")
   .attr("x", 0)
-  .attr("y", function(d) { return y(d) + y.rangeBand() / 2; })
+  .attr("y", function(d) { return y(d.name) + y.rangeBand() / 2; })
   .attr("dx", -230) // padding-right
   .attr("dy", ".35em") // vertical-align: middle
-  .text(String)
+  .text(function(d) { return d.name; })
 chart.selectAll("rect")
   .data(data)
   .enter().append("rect")
-  .attr("fill", "#789aa1")
-  .attr("y", y)
-  .attr("width", x)
+  .attr("fill", function(d) { return z(d.group); })
+  .attr("y", function(d) { return y(d.name); })
+  .attr("width", function(d) { return x(d.event_count); })
   .attr("height", h);
 chart.selectAll("text.values")
   .data(data)
   .enter().append("text")
-  .attr("x", x)
-  .attr("y", function(d) { return y(d) + y.rangeBand() / 2; })
-  .attr("dx", 3) // padding-right
+  .attr("x", function(d) { return x(d.event_count); })
+  .attr("y", function(d) { return y(d.name) + y.rangeBand() / 2; })
+  .attr("dx", 5) // padding-right
   .attr("dy", ".35em") // vertical-align: middle
-  .text(function(d) { return d.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); })
+  .text(function(d) { return d.event_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); })
