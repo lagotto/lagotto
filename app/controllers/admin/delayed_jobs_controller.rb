@@ -1,7 +1,7 @@
 class Admin::DelayedJobsController < Admin::ApplicationController
   
   def index
-    @sources = Source.order("group_id, display_name")
+    @sources = Source.active
     respond_with @sources
   end
   

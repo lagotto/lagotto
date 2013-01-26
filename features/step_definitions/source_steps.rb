@@ -4,7 +4,7 @@ Given /^that an article has no blog count$/ do
 end
 
 Given /^the source "(.*?)" exists$/ do |display_name|
-  @source = FactoryGirl.create(:citeulike)
+  FactoryGirl.create(display_name.underscore.to_sym)
 end
 
 Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|

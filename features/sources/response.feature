@@ -5,7 +5,7 @@ Feature: See responses from sources
 
   Background:
     Given I am logged in
-    And the source "CiteULike" exists
+    And the source "Citeulike" exists
     And that we have 5 articles
                 
     @javascript

@@ -4,7 +4,7 @@
     <ul class="dropdown-menu">      
       <li><%= link_to "All Sources", admin_error_messages_path(:query => params[:query]) %></li>
       <li class="divider"></li>
-      <% sources.each do|source| %>
+      <% sources.active.each do|source| %>
       <li><%= link_to h(source.display_name), admin_error_messages_path(:source_id => source, :query => params[:query]) %></li>
       <% end %>
     </ul>
