@@ -5,7 +5,7 @@ Feature: Responsive design of sources
   Background:
     Given I am logged in
     And the screen size is "480" x "640"
-    And the source "CiteULike" exists
+    And the source "Citeulike" exists
     And that we have 10 articles
     
   @javascript

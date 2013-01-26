@@ -44,6 +44,9 @@ class Source < ActiveRecord::Base
 
   # for job priority
   TOP_PRIORITY = 0
+  
+  scope :active, where(:active => true).order("group_id, display_name")
+  scope :inactive, where(:active => false).order("group_id, display_name")
 
   def get_data(article, options={})
     raise NotImplementedError, 'Children classes should override get_data method'
