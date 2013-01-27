@@ -2,6 +2,8 @@ class ErrorMessage < ActiveRecord::Base
   
   attr_accessor :exception, :request
   
+  belongs_to :source
+  
   before_create :collect_env_info
   
   default_scope where("unresolved = 1").order("created_at DESC")
