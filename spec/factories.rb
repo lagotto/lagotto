@@ -53,6 +53,7 @@ FactoryGirl.define do
   
   factory :retrieval_status do
     event_count 50
+    retrieved_at { Time.zone.now }
     
     association :article
     association :source, factory: :citeulike

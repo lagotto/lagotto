@@ -10,6 +10,7 @@ class ErrorMessage < ActiveRecord::Base
   
   scope :query, lambda { |query| where("class_name like ? OR message like ? or status = ?", "%#{query}%", "%#{query}%", query) }
   scope :total, lambda { |days| where("created_at > NOW() - INTERVAL ? DAY", days) }
+  scope :from_sources, lambda { |days| where("source_id IS NOT NULL AND created_at > NOW() - INTERVAL ? DAY", days) }
   
   def self.per_page
     20

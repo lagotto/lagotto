@@ -37,10 +37,6 @@ class RetrievalHistory < ActiveRecord::Base
   scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
   scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months) }
   scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year) }
-  
-  scope :total, lambda { |days| where("retrieved_at > NOW() - INTERVAL ? DAY", days) }
-  scope :with_success, lambda { |days| where("event_count > 0 AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
-  scope :with_errors, lambda { |days| where("status = 'ERROR' AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
 
   def self.table_status
     table_status = ActiveRecord::Base.connection.select_all("SHOW TABLE STATUS LIKE 'retrieval_histories'").first

@@ -26,8 +26,8 @@ class Admin::IndexController < Admin::ApplicationController
     @sources_inactive_count = Source.where("active != 1").count
     @sources_disabled_count = Source.where("disable_until IS NOT NULL").count
     @delayed_jobs_active_count = DelayedJob.count
-    @delayed_jobs_count = RetrievalHistory.total(1).count
-    @delayed_jobs_errors_count = RetrievalHistory.with_errors(1).count
+    @delayed_jobs_count = RetrievalStatus.total(1).count
+    @delayed_jobs_errors_count = ErrorMessage.unscoped.from_sources(1).count
     @queued_count = RetrievalStatus.queued.count
     @error_messages_count = ErrorMessage.unscoped.count
     @error_messages_last_day_count = ErrorMessage.total(1).count
