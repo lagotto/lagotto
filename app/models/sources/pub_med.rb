@@ -35,9 +35,9 @@ class PubMed < Source
     # Get it if we don't have it, and proceed only if we do.
     # We need a DOI to fetch the PMID
     if article.pub_med.blank?
-      return  { :events => [], :event_count => 0 } if article.doi.blank? 
+      return  { :events => [], :event_count => nil } if article.doi.blank? 
       article.pub_med = get_pmid_from_doi(article.doi, options)
-      return  { :events => [], :event_count => 0 } if article.pub_med.blank?
+      return  { :events => [], :event_count => nil } if article.pub_med.blank?
     end
 
     # Also get the PMCID, but wait until one month after publication
@@ -55,7 +55,7 @@ class PubMed < Source
     get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
       
       # Check that PubMed has returned something, otherwise an error must have occured
-      return { :events => [], :event_count => nil } if document.nil?
+      return nil if document.nil?
       
       document.find("//PubMedToPMCcitingformSET/REFORM/PMCID").each do |cite|
         pmc = cite.first.content

@@ -34,7 +34,9 @@ class Twitter < Source
     events = []
     execute_search(events, article, options)
 
-    if events.blank?
+    if events.nil?
+      nil
+    elsif events.empty?
       { :events => [], :event_count => nil }
     else
       { :events => events,

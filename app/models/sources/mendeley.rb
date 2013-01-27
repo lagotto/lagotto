@@ -31,10 +31,10 @@ class Mendeley < Source
     # First, we need to have the Mendeley uuid for this article. 
     # Get it if we don't have it, and proceed only if we do.
     if article.mendeley.blank?
-      return  { :events => [], :event_count => 0 } if article.doi.blank? 
+      return  { :events => [], :event_count => nil } if article.doi.blank? 
       mendeley = get_mendeley_uuid(article, options)
       article.update_attributes(:mendeley => mendeley) unless mendeley.blank?
-      return  { :events => [], :event_count => 0 } if article.mendeley.blank?
+      return  { :events => [], :event_count => nil } if article.mendeley.blank?
     end
     
     result = get_json(get_query_url(article.mendeley), options)
@@ -46,9 +46,9 @@ class Mendeley < Source
     # We should handle all 3 cases without errors
     
     if result.nil?
-      return  { :events => [], :event_count => nil }
+      nil
     elsif result.empty? or !result["stats"]
-      return  { :events => [], :event_count => 0 }
+      { :events => [], :event_count => 0 }
     else
       events_url = result['mendeley_url']
 

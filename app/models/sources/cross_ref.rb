@@ -31,7 +31,7 @@ class CrossRef < Source
   def get_data(article, options={})
     
     # Check that article has DOI
-    return { :events => [], :event_count => 0 } if article.doi.blank?
+    return { :events => [], :event_count => nil } if article.doi.blank?
     
     # Check whether we have published the DOI, otherwise use different API
     if article.is_publisher?
@@ -44,7 +44,7 @@ class CrossRef < Source
       get_xml(query_url, options) do |document|
         
         # Check that CrossRef has returned something, otherwise an error must have occured
-        return { :events => [], :event_count => nil } if document.nil?
+        return nil if document.nil?
         
         events = []
         document.root.namespaces.default_prefix = "x"
@@ -81,7 +81,7 @@ class CrossRef < Source
     get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
       
       # Check that CrossRef has returned something, otherwise an error must have occured
-      return { :events => [], :event_count => nil } if document.blank?
+      return nil if document.blank?
       
       total = document.find_first("//@fl_count").value.to_i ||= 0
       

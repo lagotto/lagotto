@@ -5,7 +5,7 @@ describe Researchblogging do
   
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
-    researchblogging.get_data(article_without_doi).should eq({ :events => [], :event_count => 0 })
+    researchblogging.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
   
   context "use the ResearchBlogging API" do
@@ -33,7 +33,7 @@ describe Researchblogging do
     it "should catch errors with the ResearchBlogging API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, "http://#{researchblogging.username}:#{researchblogging.password}@researchbloggingconnect.com/blogposts?article=doi:#{CGI.escape(article.doi)}&count=100").to_return(:status => [408, "Request Timeout"])
-      researchblogging.get_data(article).should eq({ :events => [], :event_count => nil })
+      researchblogging.get_data(article).should be_nil
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first

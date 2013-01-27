@@ -75,6 +75,10 @@ class RetrievalHistory < ActiveRecord::Base
       { :pdf => nil, :html => nil, :shares => (events.blank? ? 0 : events["share_count"]), :groups => nil, :comments => (events.blank? ? 0 : events["comment_count"]), :likes => (events.blank? ? 0 : events["like_count"]), :citations => nil, :total => event_count }
     when "mendeley"
       { :pdf => nil, :html => nil, :shares => (events.blank? ? 0 : events['stats']['readers']), :groups => (events.blank? ? 0 : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+    when "counter"
+      { :pdf => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }), :html => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+    when "copernicus"
+      { :pdf => (events.blank? ? 0 : events['counter']['PdfDownloads'].to_i), :html => (events.blank? ? 0 : events['counter']['AbstractViews'].to_i), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
     else
     # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia
       { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }

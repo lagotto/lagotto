@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class Researchblogging < Source
+class Copernicus < Source
 
   validates_each :url, :username, :password do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
@@ -25,52 +25,29 @@ class Researchblogging < Source
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires username & password") \
       if config.username.blank? or config.password.blank?
-
-    # Check that article has DOI
-    return  { :events => [], :event_count => nil } if article.doi.blank?
-        
-    query_url = get_query_url(article)
-    options[:source_id] = id 
     
-    get_xml(query_url, options.merge(:username => username, :password => password)) do |document|
-      
-      # Check that ResearchBlogging has returned something, otherwise an error must have occured
-      return nil if document.nil?
-      
-      events = []
-
-      total_count = document.root.attributes.get_attribute("total_records_found")
-
-      document.find("//blogposts/post").each do |post|
-        post_string = post.to_s(:encoding => XML::Encoding::UTF_8)
-        event = Hash.from_xml(post_string)
-        event = event['post']
-
-        events << {:event => event, :event_url => event['post_URL']}
-      end
-      
-      events_url = get_events_url(article)
-      
-      if events.empty?
-        { :events => [], 
-          :events_url => events_url,
-          :event_count => 0 }
+    return  { :events => [], :event_count => nil } unless article.doi =~ /^10.5194/
+    
+    query_url = get_query_url(article)
+    options[:source_id] = id
+    result = get_json(query_url, options.merge(:username => username, :password => password))
+    
+    if result.nil?       
+      nil
+    elsif result.empty? or !result["counter"]
+      { :events => [], :event_count => 0 }
+    else
+      if result["counter"].values.all? { |x| x.nil? }
+        event_count = nil
       else
-        { :events => events,
-          :events_url => events_url,
-          :event_count => total_count.value.to_i,
-          :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s } }
+        event_count = result["counter"].values.inject(0) { |sum,x| sum + (x ? x.to_i : 0) }
       end
+      { :events => result, :event_count => event_count }
     end
-
   end
   
-  def get_events_url(article)
-    unless article.doi.blank?
-      "http://researchblogging.org/post-search/list?article=#{CGI.escape(article.doi)}"
-    else
-      nil
-    end
+  def get_query_url(article)
+    config.url % { :doi => article.doi }
   end
 
   def get_config_fields
@@ -78,7 +55,7 @@ class Researchblogging < Source
      {:field_name => "username", :field_type => "text_field"},
      {:field_name => "password", :field_type => "password_field"}]
   end
-
+  
   def url
     config.url
   end
@@ -90,13 +67,15 @@ class Researchblogging < Source
   def username
     config.username
   end
+
   def username=(value)
     config.username = value
   end
-
+  
   def password
     config.password
   end
+
   def password=(value)
     config.password = value
   end

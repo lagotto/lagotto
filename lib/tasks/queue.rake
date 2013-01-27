@@ -174,6 +174,17 @@ namespace :queue do
 
   end
   
+  task :copernicus => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("copernicus")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+  
   task :all => :environment do
 
     # this rake task is setup to run forever

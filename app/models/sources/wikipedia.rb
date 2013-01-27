@@ -28,7 +28,7 @@ class Wikipedia < Source
   def get_data(article, options={})
     
     # Check that article has DOI
-    return  { :events => [], :event_count => 0 } if article.doi.blank?
+    return  { :events => [], :event_count => nil } if article.doi.blank?
     
     events = {}
     
@@ -42,8 +42,7 @@ class Wikipedia < Source
         
       # if server doesn't return a result
       if results.nil?
-        # Error
-        lang_count = nil
+        return nil
       elsif !results.empty? and results['query'] and results['query']['searchinfo'] and results['query']['searchinfo']['totalhits']
         lang_count = results['query']['searchinfo']['totalhits']
       else
@@ -54,14 +53,9 @@ class Wikipedia < Source
       events[lang] = lang_count
     end
    
-    if events.values.all? { |x| x.nil? }
-      event_count = nil
-    else
-      event_count = events.values.inject(0) { |sum,x| sum + (x ? x : 0) }
-    end
-    
+    event_count = events.values.inject(0) { |sum,x| sum + x }    
     events["total"] = event_count
-    events_url = event_count.blank? ? nil : get_events_url(article)
+    events_url = event_count > 0 ? get_events_url(article) : nil
     
     { :events => events, 
       :event_count => event_count,
