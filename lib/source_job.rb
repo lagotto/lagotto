@@ -51,7 +51,13 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       end
 
       rs_ids.each do | rs_id |
-        perform_get_data(rs_id)
+        unless perform_get_data(rs_id)
+          # each time we fail to get an answer from a source, wait longer
+          # and wait random amount of time
+          sleep_time += source.disable_delay + rand(source.disable_delay)
+          Rails.logger.info "Sleep for #{sleep_time} seconds"
+          sleep(sleep_time)
+        end
       end
     end
 
@@ -95,7 +101,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       attachment = data_from_source[:attachment]
     else
       # ERROR
-      return { :retrieval_status => rs } 
+      return nil 
     end
     
     retrieved_at = Time.zone.now

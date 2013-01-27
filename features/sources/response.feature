@@ -12,5 +12,7 @@ Feature: See responses from sources
     Scenario: Responses from last 30 days in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should contain:
-        |                                | Success | No Events            | Errors            |
-        | Responses in the last 30 Days  | 25      | 0                    | 0                 |
+        |                                | Events  | No Events            | Errors            |
+        | Responses in the last 24 Hours | 5       | 0                    | 0                 |
+        |                                | Events  | No Events            | Errors            |
+        | Responses in the last 30 Days  | 5       | 0                    | 0                 |

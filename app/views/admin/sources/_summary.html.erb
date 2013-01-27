@@ -28,27 +28,27 @@
     </tr>
     <tr>
       <th/>
-      <th class="number">Success</th>
+      <th class="number">Events</th>
       <th class="hidden-phone number">No Events</th>
       <th class="number">Errors</th>
     </tr>
     <tr>
       <th>Responses in the last 24 Hours</th>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.with_success(1).size) %></td>
-      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_histories.total(1).size - (@source.retrieval_histories.with_success(1).size + @source.retrieval_histories.with_errors(1).size)) %></td>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.with_errors(1).size) %></td>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.with_events(1).size) %></td>
+      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_statuses.without_events(1).size) %></td>
+      <td class="number"><%= link_to_if @source.error_messages.total(1).size > 0, number_with_delimiter(@source.error_messages.total(1).size), admin_error_messages_path(:source_id => @source.id) %></td>
     </tr>
     <tr>
       <th/>
-      <th class="number">Success</th>
+      <th class="number">Events</th>
       <th class="hidden-phone number">No Events</th>
       <th class="number">Errors</th>
     </tr>
     <tr>
       <th>Responses in the last 30 Days</th>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.with_success(30).size) %></td>      
-      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_histories.total(30).size - (@source.retrieval_histories.with_success(30).size + @source.retrieval_histories.with_errors(30).size)) %></td>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.with_errors(30).size) %></td>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.with_events(30).size) %></td>      
+      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_statuses.without_events(30).size) %></td>
+      <td class="number"><%= link_to_if @source.error_messages.total(30).size > 0, number_with_delimiter(@source.error_messages.total(30).size), admin_error_messages_path(:source_id => @source.id) %></td>
     </tr>
     <tr>
       <th/>

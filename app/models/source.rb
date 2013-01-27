@@ -142,14 +142,13 @@ class Source < ActiveRecord::Base
   def check_for_failures
     # condition for not adding more jobs and disabling the source
 
-    failed_queries = RetrievalHistory.where("source_id = :id and status = :status and updated_at > :updated_date",
+    failed_queries = ErrorMessage.where("source_id = :id and updated_at > :updated_date",
                                             {:id => id,
-                                             :status => RetrievalHistory::ERROR_MSG,
                                              :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds)}).count(:id)
 
     if failed_queries > max_failed_queries
       ErrorMessage.create(:exception => "", :class_name => "StandardError",
-                          :message => "#{display_name} has exceeded maximum failed queries.  Disabling the source.", 
+                          :message => "#{display_name} has exceeded maximum failed queries. Disabling the source.", 
                           :source_id => id)
       # disable the source
       self.disable_until = Time.zone.now + disable_delay.seconds
