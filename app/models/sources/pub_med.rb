@@ -31,6 +31,8 @@ class PubMed < Source
 
   def get_data(article, options={})
     
+    options[:source_id] = id
+     
     # First, we need to have the PMID for this article. 
     # Get it if we don't have it, and proceed only if we do.
     # We need a DOI to fetch the PMID
@@ -50,7 +52,6 @@ class PubMed < Source
     # OK, we've got the IDs. Get the citations using the PubMed ID.
     events = []
     query_url = get_query_url(article)
-    options[:source_id] = id
     
     get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
       
@@ -93,6 +94,10 @@ class PubMed < Source
     query_url = EUTILS_URL + params.to_query
 
     result = get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
+      
+      # Check that PubMed has returned something, otherwise an error must have occured
+      return nil if document.blank?
+      
       id_element = document.find_first("//eSearchResult/IdList/Id")
       id_element and id_element.content.strip
     end

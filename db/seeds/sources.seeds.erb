@@ -42,7 +42,7 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :active => true, 
   :workers => 1,
   :group_id => citations.id,
-  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
+  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
 
 # The following sources require passwords/API keys
 mendeley = Mendeley.find_or_create_by_name(  
