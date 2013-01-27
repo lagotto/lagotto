@@ -36,21 +36,21 @@ class ScienceSeeker < Source
       return nil if document.nil?
       
       events = []
-      document.root.namespaces.default_prefix = "atom"
-      document.find("//atom:entry").each do |entry|
+      document.root.namespaces.default_prefix = "xlmns"
+      document.find("//xlmns:entry").each do |entry|
         entry_string = entry.to_s(:encoding => XML::Encoding::UTF_8)
         event = Hash.from_xml(entry_string)
         event = event['entry']
-        events << {:event => event, :event_url => event['link']['href']}
+        events << { :event => event, :event_url => event['link']['href'] }
       end
       
       if events.empty?
         { :events => [], :event_count => 0 }
       else
-        {:events => events,
-         :events_url => "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}",
-         :event_count => events.length,
-         :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
+        { :events => events,
+          :events_url => "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}",
+          :event_count => events.length,
+          :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
         }
       end
     end

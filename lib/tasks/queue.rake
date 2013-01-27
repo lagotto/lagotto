@@ -128,16 +128,34 @@ namespace :queue do
 
   end
   
-  task :all => :environment do
+  task :one, [:source, :verbose] => :environment do |t, args|
+    if args.source.nil?
+      puts "Source name is required"
+      exit
+    end
 
     # this rake task is setup to run forever
     loop do
+      source = Source.find_by_name(args.source)
+      sleep_time = source.queue_articles
+      puts "Stale articles for source #{source.display_name} queued" unless args.verbose.nil?
+      puts "Now sleeping for #{sleep_time} sec" unless args.verbose.nil?
+      sleep(sleep_time)
+    end
+  end
+  
+  task :all, [:verbose] => :environment do |t, args|
+
+    # this rake task is setup to run forever
+    loop do
+      sleep_time = 0
       Source.active.each do |source|
         sleep_time = source.queue_articles
+        puts "Stale articles for source #{source.display_name} queued" unless args.verbose.nil?
       end
+      puts "Now sleeping for #{sleep_time} sec" unless args.verbose.nil?
       sleep(3600)
     end
-
   end
 
   task :single_job, [:doi, :source] => :environment do |t, args|
