@@ -5,7 +5,7 @@ describe Citeulike do
   
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
-    citeulike.get_data(article_without_doi).should eq({ :events => [], :event_count => 0 })
+    citeulike.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
   
   context "use the CiteULike API" do  
@@ -34,7 +34,7 @@ describe Citeulike do
     it "should catch errors with the CiteULike API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, citeulike.get_query_url(article)).to_return(:status => [408, "Request Timeout"])
-      citeulike.get_data(article).should eq({ :events => [], :event_count => nil })
+      citeulike.get_data(article).should be_nil
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first

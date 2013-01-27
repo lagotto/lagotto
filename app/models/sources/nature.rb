@@ -27,7 +27,7 @@ class Nature < Source
   def get_data(article, options={})
     
     # Check that article has DOI
-    return  { :events => [], :event_count => 0 } if article.doi.blank?
+    return  { :events => [], :event_count => nil } if article.doi.blank?
     
     raise(ArgumentError, "#{display_name} configuration requires an api key") \
       if config.api_key.blank?
@@ -38,7 +38,7 @@ class Nature < Source
     results = get_json(query_url, options)
     
     if results.nil?
-      return  { :events => [], :event_count => nil }
+      nil
     else
       events = results.map do |result|
         url = result['post']['url']

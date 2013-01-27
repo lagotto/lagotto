@@ -11,6 +11,7 @@ FactoryGirl.define do
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
     trait(:not_publisher) { doi '10.1007/s00248-010-9734-2' }
+    trait(:missing_mendeley) { mendeley nil }
     trait(:unpublished) { published_on { Time.zone.today + 1.week } }
     
     factory :article_with_events do
@@ -57,9 +58,14 @@ FactoryGirl.define do
     association :source, factory: :citeulike
     
     trait(:unpublished) { association :article, :unpublished, factory: :article }
+    trait(:missing_mendeley) do
+      association :article, :missing_mendeley, factory: :article 
+      association :source, factory: :mendeley
+    end
     trait(:staleness) { association :source, factory: :citeulike }
     trait(:with_errors) { event_count 0 }
     trait(:with_crossref) { association :source, factory: :cross_ref }
+    trait(:with_mendeley) { association :source, factory: :mendeley }
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }
     trait(:with_researchblogging) { association :source, factory: :researchblogging }

@@ -183,7 +183,6 @@ module SourceHelper
     if [Net::HTTPSuccess, Net::HTTPOK, Net::HTTPRedirection, Net::HTTPNotFound].include?(response.class)
       return response.body
     else
-      #body = response.read_body.blank? ? "" : ' "#{response.read_body}"'
       ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
                           :message => "#{response.message} while requesting #{uri}", 
                           :status => response.code,

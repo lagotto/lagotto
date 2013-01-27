@@ -27,7 +27,7 @@ class Researchblogging < Source
       if config.username.blank? or config.password.blank?
 
     # Check that article has DOI
-    return  { :events => [], :event_count => 0 } if article.doi.blank?
+    return  { :events => [], :event_count => nil } if article.doi.blank?
         
     query_url = get_query_url(article)
     options[:source_id] = id 
@@ -35,7 +35,7 @@ class Researchblogging < Source
     get_xml(query_url, options.merge(:username => username, :password => password)) do |document|
       
       # Check that ResearchBlogging has returned something, otherwise an error must have occured
-      return { :events => [], :event_count => nil } if document.nil?
+      return nil if document.nil?
       
       events = []
 

@@ -60,12 +60,32 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def perform_get_data(rs_id)
 
     rs = RetrievalStatus.find(rs_id)
-    rh = RetrievalHistory.create(:retrieval_status_id => rs.id,
-                                 :article_id => rs.article_id,
-                                 :source_id => rs.source_id)
 
     Rails.logger.debug "#{rs.source.name} #{rs.article.doi} perform"
 
+    # we can get data_from_source in 4 different formats
+    # - hash with event_count nil: SKIPPED
+    # - hash with event_count = 0: SUCCESS NO DATA
+    # - hash with event_count > 0: SUCCESS
+    # - nil                      : ERROR
+    #
+    # SKIPPED 
+    # The source doesn't know about the article identifier, and we never call the API.
+    # Examples: mendeley, pub_med, counter, copernicus
+    # We don't want to create a retrieval_history record, but should update retrieval_status
+    # 
+    # SUCCESS NO DATA
+    # The source knows about the article identifier, but returns an event_count of 0
+    #
+    # SUCCESS
+    # The source knows about the article identifier, and returns an event_count > 0
+    #
+    # ERROR
+    # An error occured, typically 408 (Request Timeout), 403 (Too Many Requests) or 401 (Unauthorized)
+    # It could also be an error in our code. 404 (Not Found) errors are handled as SUCCESS NO DATA
+    # We don't update retrieval status and don't create a retrieval_histories document, 
+    # so that the request is repeated later. We could get stuck, but we see this in error_messages
+    
     data_from_source = rs.source.get_data(rs.article, {:retrieval_status => rs, :timeout => rs.source.timeout })
     if data_from_source.is_a?(Hash)
       events = data_from_source[:events]
@@ -73,77 +93,86 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       event_count = data_from_source[:event_count]
       local_id = data_from_source[:local_id]
       attachment = data_from_source[:attachment]
-    end
-
-    retrieved_at = Time.zone.now
-      
-    if event_count.nil?
-      rs.event_count = 0
-            
-      rh.status = RetrievalHistory::ERROR_MSG
-      rh.event_count = 0
-    elsif event_count > 0
-      data = { :doi => rs.article.doi,
-               :retrieved_at => retrieved_at,
-               :source => rs.source.name,
-               :events => events,
-               :events_url => events_url,
-               :doc_type => "current" }
-
-      if !attachment.nil?
-
-        if !attachment[:filename].nil? && !attachment[:content_type].nil? && !attachment[:data].nil?
-          data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
-                                                           "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
-        end
-      end
-        
-      # save the data to couchdb
-      data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
-        
-      # save the history data to couchdb if event_count has changed
-      if rs.event_count != event_count
-        #TODO change this to a copy
-        data.delete(:_attachments)
-        data[:doc_type] = "history"
-        # save the data to couchdb as retrieval history data
-        save_alm_data(nil, data, rh.id)
-      end
-        
-      rs.data_rev = data_rev
-      rs.event_count = event_count
-        
-      unless local_id.nil?
-        rs.local_id = local_id
-      end
-
-      # set retrieval history status to success
-      rh.status = RetrievalHistory::SUCCESS_MSG
-      # save the event count in mysql
-      rh.event_count = event_count
-
     else
-      # if we don't get any data
-      rs.event_count = 0
+      # ERROR
+      return { :retrieval_status => rs } 
+    end
+    
+    retrieved_at = Time.zone.now
+    
+    # SKIPPED
+    if event_count.nil?
+      rs.update_attributes(:retrieved_at => retrieved_at, :scheduled_at => rs.stale_at, :event_count => 0)
+      { :retrieval_status => rs } 
+    else
+      rh = RetrievalHistory.create(:retrieval_status_id => rs.id,
+                                   :article_id => rs.article_id,
+                                   :source_id => rs.source_id)
+      # SUCCESS
+      if event_count > 0
+        data = { :doi => rs.article.doi,
+                 :retrieved_at => retrieved_at,
+                 :source => rs.source.name,
+                 :events => events,
+                 :events_url => events_url,
+                 :doc_type => "current" }
+
+        if !attachment.nil?
+
+          if !attachment[:filename].nil? && !attachment[:content_type].nil? && !attachment[:data].nil?
+            data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
+                                                             "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
+          end
+        end
         
-      # remove the last revision from couchdb
-      unless data_rev.nil?
-        data_rev = remove_alm_data(rs.data_rev, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
-        rs.data_rev = nil
+        # save the data to couchdb
+        data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
+        
+        # save the history data to couchdb if event_count has changed
+        if rs.event_count != event_count
+          #TODO change this to a copy
+          data.delete(:_attachments)
+          data[:doc_type] = "history"
+          # save the data to couchdb as retrieval history data
+          save_alm_data(nil, data, rh.id)
+        end
+        
+        rs.data_rev = data_rev
+        rs.event_count = event_count
+        
+        unless local_id.nil?
+          rs.local_id = local_id
+        end
+
+        # set retrieval history status to success
+        rh.status = RetrievalHistory::SUCCESS_MSG
+        # save the event count in mysql
+        rh.event_count = event_count
+      
+      # SUCCESS NO DATA
+      else
+        # if we don't get any data
+        rs.event_count = 0
+        
+        # remove the last revision from couchdb
+        unless data_rev.nil?
+          data_rev = remove_alm_data(rs.data_rev, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
+          rs.data_rev = nil
+        end
+
+        # set retrieval history status to success with no data
+        rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
+        rh.event_count = 0
       end
 
-      # set retrieval history status to success with no data
-      rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
-      rh.event_count = 0
+      rs.retrieved_at = retrieved_at
+      rs.scheduled_at = rs.stale_at
+      rh.retrieved_at = retrieved_at
+
+      rs.save
+      rh.save
+      { :retrieval_status => rs, :retrieval_history => rh }
     end
-
-    rs.retrieved_at = retrieved_at
-    rs.scheduled_at = rs.stale_at
-    rh.retrieved_at = retrieved_at
-
-    rs.save
-    rh.save
-    { :retrieval_status => rs, :retrieval_history => rh }
   end
 
   def error(job, e)

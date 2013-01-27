@@ -5,7 +5,7 @@ describe Facebook do
   
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
-    facebook.get_data(article_without_doi).should eq({ :events => [], :event_count => 0 })
+    facebook.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
   
   it "should get the original url from the doi" do
@@ -37,7 +37,7 @@ describe Facebook do
     it "should catch errors with the Facebook API" do
       article = FactoryGirl.build(:article, :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
       stub = stub_request(:get, facebook.get_query_url(article.url)).to_return(:body => File.read(fixture_path + 'facebook_error.json'), :status => [401, "Unauthorized"])
-      facebook.get_data(article).should eq({ :events => [], :event_count => nil })
+      facebook.get_data(article).should be_nil
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first

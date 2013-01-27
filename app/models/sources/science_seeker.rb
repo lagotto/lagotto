@@ -25,7 +25,7 @@ class ScienceSeeker < Source
   def get_data(article, options={})
     
     # Check that article has DOI
-    return  { :events => [], :event_count => 0 } if article.doi.blank?
+    return  { :events => [], :event_count => nil } if article.doi.blank?
 
     query_url = get_query_url(article)
     options[:source_id] = id 
@@ -33,7 +33,7 @@ class ScienceSeeker < Source
     get_xml(query_url, options) do |document|
       
       # Check that ScienceSeeker has returned something, otherwise an error must have occured
-      return { :events => [], :event_count => nil } if document.nil?
+      return nil if document.nil?
       
       events = []
       document.root.namespaces.default_prefix = "atom"

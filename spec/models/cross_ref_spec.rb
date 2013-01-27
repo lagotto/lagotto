@@ -5,7 +5,7 @@ describe CrossRef do
   
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
-    cross_ref.get_data(article_without_doi).should eq({ :events => [], :event_count => 0 })
+    cross_ref.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
     
   context "use the CrossRef API" do
@@ -31,7 +31,7 @@ describe CrossRef do
    
     it "should catch errors with the CrossRef API" do
       stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:status => [408, "Request Timeout"])
-      cross_ref.get_data(article).should eq({ :events => [], :event_count => nil })
+      cross_ref.get_data(article).should be_nil
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
@@ -60,7 +60,7 @@ describe CrossRef do
    
     it "should catch errors with the CrossRef OpenURL API" do
       stub = stub_request(:get, cross_ref.get_default_query_url(article)).to_return(:status => [408, "Request Timeout"])
-      cross_ref.get_data(article).should eq({ :events => [], :event_count => nil })
+      cross_ref.get_data(article).should be_nil
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
