@@ -110,6 +110,18 @@ FactoryGirl.define do
     initialize_with { Copernicus.find_or_create_by_name(name) }
   end
   
+  factory :counter, class: Counter do
+    type "Counter"
+    name "counter"
+    display_name "Counter"
+    active true
+    url "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
+
+    group
+    
+    initialize_with { Counter.find_or_create_by_name(name) }
+  end
+  
   factory :cross_ref, class: CrossRef do
     type "CrossRef"
     name "crossref"

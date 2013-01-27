@@ -53,6 +53,9 @@ class Scopus < Source
     raise(ArgumentError, "#{display_name} configuration requires username, live_mode setting, salt and partner_id") \
       if config.username.blank? or config.live_mode.nil? or config.salt.blank? or config.partner_id.blank?
 
+    # Check that article has DOI
+    return { :events => [], :event_count => nil } if article.doi.blank?
+        
     # Guarantee Kosher for Great Justice
     fix_scopus_wsdl
 
@@ -61,16 +64,16 @@ class Scopus < Source
     driver = get_soap_driver(config.username, url)
 
     result = driver.getCitedByCount(build_payload(article.doi))
-    return unless result.status.statusCode == "OK"
+    return nil unless result.status.statusCode == "OK"
 
     countList = result.getCitedByCountRspPayload.citedByCountList
 
     if not (countList.nil?)
       event_url = get_event_url(article.doi)
 
-      {:events => countList[0].linkData[0].citedByCount,
-       :events_url => event_url,
-       :event_count => countList[0].linkData[0].citedByCount.to_i
+      { :events => countList[0].linkData[0].citedByCount,
+        :events_url => event_url,
+        :event_count => countList[0].linkData[0].citedByCount.to_i
       }
     end
 

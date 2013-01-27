@@ -23,10 +23,18 @@ class Counter < Source
   end
 
   def get_data(article, options={})
+    
+    # Check that article has DOI
+    return { :events => [], :event_count => nil } if article.doi.blank?
 
     query_url = get_query_url(article)
+    options[:source_id] = id
 
     get_xml(query_url, options) do |document|
+      
+      # Check that Counter has returned something, otherwise an error must have occured
+      return nil if document.nil?
+      
       views = []
       event_count = 0
       document.find("//rest/response/results/item").each do | view |

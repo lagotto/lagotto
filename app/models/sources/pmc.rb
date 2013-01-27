@@ -32,20 +32,13 @@ class Pmc < Source
     event_count = 0
     results = []
 
-    begin
-      results = get_json(query_url, options)
-    rescue => e
-      if e.respond_to?('response')
-        # 404 is a valid response from the pmc usage stat source if the data doesn't exist for the given article
-        unless e.response.kind_of?(Net::HTTPNotFound)
-          raise e
-        end
-      else
-        raise e
-      end
-    end
+    results = get_json(query_url, options)
 
-    if results.length > 0
+    if results.nil?       
+      nil
+    elsif results.empty? or !results["views"]
+      { :events => [], :event_count => 0 }
+    else
       events = results["views"]
 
       # the event count will be the sum of all the full-text values and pdf values
@@ -57,7 +50,7 @@ class Pmc < Source
       end
     end
 
-    {:events => events, :event_count => event_count}
+    { :events => events, :event_count => event_count }
   end
 
   def get_config_fields
