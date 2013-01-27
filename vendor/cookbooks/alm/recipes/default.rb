@@ -64,8 +64,8 @@ bash "run bundle install in app directory" do
 end
 
 # Optionally seed the database with sources, groups and sample articles
-template "/vagrant/db/seeds.rb" do
-  source 'seeds.rb.erb'
+template "/vagrant/db/seeds/sources.seeds.rb" do
+  source 'sources.seeds.rb.erb'
   owner 'root'
   group 'root'
   mode 0644

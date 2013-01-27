@@ -46,9 +46,9 @@ class Mendeley < Source
     # We should handle all 3 cases without errors
     
     if result.nil?
-      return  { :events => [], :event_count => nil }
+      { :events => [], :event_count => nil }
     elsif result.empty? or !result["stats"]
-      return  { :events => [], :event_count => 0 }
+      { :events => [], :event_count => 0 }
     else
       events_url = result['mendeley_url']
 

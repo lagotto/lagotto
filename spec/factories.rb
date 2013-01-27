@@ -89,6 +89,20 @@ FactoryGirl.define do
     initialize_with { Citeulike.find_or_create_by_name(name) }
   end
   
+  factory :copernicus, class: Copernicus do
+    type "Copernicus"
+    name "copernicus"
+    display_name "Copernicus"
+    active true
+    url "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:%{doi}"
+    username "EXAMPLE"
+    password "EXAMPLE"
+
+    group
+    
+    initialize_with { Copernicus.find_or_create_by_name(name) }
+  end
+  
   factory :cross_ref, class: CrossRef do
     type "CrossRef"
     name "crossref"
