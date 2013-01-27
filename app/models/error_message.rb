@@ -19,9 +19,9 @@ class ErrorMessage < ActiveRecord::Base
   def public_message
     case status
     when 404
-      "The requested page was not found"
+      "The page you were looking for doesn't exist."
     else
-      "Internal server error"
+      "Internal server error."
     end
   end
   
