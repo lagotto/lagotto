@@ -9,10 +9,10 @@ Feature: See responses from sources
     And that we have 5 articles
                 
     @javascript
-    Scenario: Responses from last 30 days in source view
+    Scenario: Responses from last 31 days in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should contain:
         |                                | Events  | No Events            | Errors            |
         | Responses in the last 24 Hours | 5       | 0                    | 0                 |
         |                                | Events  | No Events            | Errors            |
-        | Responses in the last 30 Days  | 5       | 0                    | 0                 |
+        | Responses in the last 31 Days  | 5       | 0                    | 0                 |

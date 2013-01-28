@@ -8,10 +8,10 @@
   "msNumber": "ms-2011-14",
   "msId": "10760",
   "counter": {
-    "PdfDownloads": "10",
-    "AbstractViews": "72",
-    "BibtexDownloads": "0",
-    "RisDownloads": "0",
-    "XmlDownloads": "1"
+    "PdfDownloads": 10,
+    "AbstractViews": 72,
+    "BibtexDownloads": 0,
+    "RisDownloads": 0,
+    "XmlDownloads": 1
   }
 }
