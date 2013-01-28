@@ -45,10 +45,10 @@
       <th class="number">Errors</th>
     </tr>
     <tr>
-      <th>Responses in the last 30 Days</th>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.with_events(30).size) %></td>      
-      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_statuses.without_events(30).size) %></td>
-      <td class="number"><%= link_to_if @source.error_messages.total(30).size > 0, number_with_delimiter(@source.error_messages.total(30).size), admin_error_messages_path(:source_id => @source.id) %></td>
+      <th>Responses in the last 31 Days</th>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.with_events(31).size) %></td>      
+      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_statuses.without_events(31).size) %></td>
+      <td class="number"><%= link_to_if @source.error_messages.total(31).size > 0, number_with_delimiter(@source.error_messages.total(31).size), admin_error_messages_path(:source_id => @source.id) %></td>
     </tr>
     <tr>
       <th/>
