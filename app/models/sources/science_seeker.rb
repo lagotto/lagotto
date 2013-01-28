@@ -36,10 +36,10 @@ class ScienceSeeker < Source
       return nil if document.nil?
       
       events = []
-      document.root.namespaces.default_prefix = "xlmns"
-      document.find("//xlmns:entry").each do |entry|
-        entry_string = entry.to_s(:encoding => XML::Encoding::UTF_8)
-        event = Hash.from_xml(entry_string)
+      atom = 'atom:http://www.w3.org/2005/Atom'
+      ss = 'ss:http://scienceseeker.org/ns/1'
+      document.find("//atom:entry",[atom,ss]).each do |entry|
+        event = Nori.new.parse(entry.to_s)
         event = event['entry']
         events << { :event => event, :event_url => event['link']['href'] }
       end
