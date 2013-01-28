@@ -40,7 +40,7 @@ class Copernicus < Source
       if result["counter"].values.all? { |x| x.nil? }
         event_count = nil
       else
-        event_count = result["counter"].values.inject(0) { |sum,x| sum + (x ? x.to_i : 0) }
+        event_count = result["counter"].values.inject(0) { |sum,x| sum + (x ? x : 0) }
       end
       { :events => result, :event_count => event_count }
     end

@@ -35,8 +35,9 @@ chart.selectAll("rect")
   .enter().append("rect")
   .attr("fill", function(d) { return z(d.group); })
   .attr("y", function(d) { return y(d.name); })
-  .attr("width", function(d) { return x(d.event_count); })
-  .attr("height", h);
+  .attr("height", h)
+  .transition().duration(500).delay(200)
+  .attr("width", function(d) { return x(d.event_count); });
 chart.selectAll("text.values")
   .data(data)
   .enter().append("text")
