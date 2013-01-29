@@ -1,0 +1,22 @@
+mendeley = Mendeley.find_or_create_by_name(  
+  :name => "mendeley", 
+  :display_name => "Mendeley", 
+  :description => "Mendeley is a reference manager and social bookmarking tool.",
+  :active => false, 
+  :workers => 1,
+  :group_id => social_networks.id,
+  :url => "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}",
+  :url_with_type => "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}",
+  :url_with_title => "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10&consumer_key=%{api_key}",
+  :related_articles_url => "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}",
+  :api_key => "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5")
+  
+facebook = Facebook.find_or_create_by_name(  
+  :name => "facebook", 
+  :display_name => "Facebook", 
+  :description => "Facebook is the largest social network.",
+  :active => false, 
+  :workers => 1,
+  :group_id => social_networks.id,
+  :url => "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'",
+  :access_token => "318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q")
