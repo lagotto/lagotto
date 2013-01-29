@@ -27,6 +27,7 @@ describe Citeulike do
       response[:event_count].should eq(25)
       response[:attachment][:data].should eq("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + body)
       event = response[:events].first
+      event[:event_url].should_not be_nil
       event[:event_url].should eq(event[:event]['link']['url'])
       stub.should have_been_requested
     end
