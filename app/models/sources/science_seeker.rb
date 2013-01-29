@@ -41,7 +41,7 @@ class ScienceSeeker < Source
       document.find("//atom:entry",[atom,ss]).each do |entry|
         event = Nori.new.parse(entry.to_s)
         event = event['entry']
-        events << { :event => event, :event_url => event['link']['href'] }
+        events << { :event => event, :event_url => event['link']['@href'] }
       end
       
       if events.empty?

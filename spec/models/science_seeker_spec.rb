@@ -22,6 +22,9 @@ describe ScienceSeeker do
       response = science_seeker.get_data(article)
       response[:event_count].should eq(3)
       response[:events_url].should eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}")
+      event = response[:events].first
+      event[:event_url].should_not be_nil
+      event[:event_url].should eq(event[:event]['link']['@href'])
       stub.should have_been_requested
     end
     

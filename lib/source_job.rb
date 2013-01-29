@@ -107,7 +107,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     
     # SKIPPED
     if event_count.nil?
-      rs.update_attributes(:retrieved_at => retrieved_at, :scheduled_at => rs.stale_at, :event_count => 0)
+      rs.update_attributes(:retrieved_at => retrieved_at, 
+                           :scheduled_at => rs.stale_at, 
+                           :event_count => 0)
       { :retrieval_status => rs } 
     else
       rh = RetrievalHistory.create(:retrieval_status_id => rs.id,
