@@ -97,7 +97,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]
       event_count = data_from_source[:event_count]
-      local_id = data_from_source[:local_id]
       attachment = data_from_source[:attachment]
     else
       # ERROR
@@ -145,10 +144,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         
         rs.data_rev = data_rev
         rs.event_count = event_count
-        
-        unless local_id.nil?
-          rs.local_id = local_id
-        end
 
         # set retrieval history status to success
         rh.status = RetrievalHistory::SUCCESS_MSG
@@ -160,11 +155,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         # if we don't get any data
         rs.event_count = 0
         
-        # remove the last revision from couchdb
-        unless data_rev.nil?
-          data_rev = remove_alm_data(rs.data_rev, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
-          rs.data_rev = nil
-        end
+        # don't save any data to CouchDB
 
         # set retrieval history status to success with no data
         rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
@@ -173,9 +164,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
       rs.retrieved_at = retrieved_at
       rs.scheduled_at = rs.stale_at
-      rh.retrieved_at = retrieved_at
-
       rs.save
+       
+      rh.retrieved_at = retrieved_at
       rh.save
       { :retrieval_status => rs, :retrieval_history => rh }
     end

@@ -265,15 +265,8 @@ module SourceHelper
     
     res = Net::HTTP.start(url.host, url.port) { |http|http.request(req) }
     unless res.kind_of?(Net::HTTPSuccess) or res.kind_of?(Net::HTTPNotFound)
-      handle_error(req, res)
+      res.error!
     end
     res
   end
-  
-  private
-
-  def handle_error(req, res)
-    raise RuntimeError.new(:class_name => res.class.to_s, :message => "#{res.message}, METHOD:#{req.method}, URI:#{req.path}. #{res.body}", :status => res.code)
-  end
-
 end
