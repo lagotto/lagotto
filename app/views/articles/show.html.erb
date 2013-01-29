@@ -29,7 +29,7 @@
       <% if rs.event_count > 0 and !rs.source.nil? %>
         <div class="accordion-group">  
           <div class="accordion-heading">  
-            <%= link_to ("<strong>" + rs.source.display_name + "</strong> (" + rs.event_count + "), updated " + rs.retrieved_at.to_s(:friendly)).html_safe, "##{rs.source.name}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#retrieval_status" }, :href => "##{rs.source.name}" %>
+            <%= link_to ("<strong>" + rs.source.display_name + "</strong> (#{rs.event_count}), updated " + rs.retrieved_at.to_s(:friendly)).html_safe, "##{rs.source.name}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#retrieval_status" }, :href => "##{rs.source.name}" %>
           </div>  
           <div id="<%= rs.source.name %>" class="accordion-body collapse">  
             <div class="accordion-inner">
