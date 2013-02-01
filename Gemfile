@@ -8,7 +8,7 @@ gem "delayed_job_active_record", "~> 0.3.3"
 gem "daemons", "~> 1.1.9"
 gem "foreman", "~> 0.60.2"
 
-gem "libxml-ruby", "~> 2.4.0", require: 'xml'
+gem "libxml-ruby", "~> 2.4.0", :require => 'xml'
 gem "nokogiri", "~> 1.5.6"
 gem "multi_json", "~> 1.5.0"
 gem "oj", "~> 2.0.1"
@@ -30,21 +30,21 @@ gem "seedbank", "~> 0.2.0"
 group :assets do
   gem "uglifier", "~> 1.3.0"
   gem "jquery-rails", "~> 2.1.3"
-  gem "therubyracer", "~> 0.11.2", require: "v8"
+  gem "therubyracer", "~> 0.11.1", :require => "v8"
   gem 'sass-rails', '~> 3.2.5'
   gem 'coffee-rails', '~> 3.2.2'
 end
 
 group :test do
-  gem "factory_girl_rails", "~> 4.1.0", require: false
-  gem "cucumber-rails", "~> 1.3.0", require: false
+  gem "factory_girl_rails", "~> 4.1.0", :require => false
+  gem "cucumber-rails", "~> 1.3.0", :require => false
   gem "capybara", "~> 1.1.4"
   gem "database_cleaner", "~> 0.8.0"
   gem "launchy", "~> 2.1.2"
   gem "email_spec", "~> 1.2.1"
-  gem "rack-test", "~> 0.6.2", require: "rack/test"
-  gem "simplecov", "~> 0.7.1", require: false
-  gem "shoulda-matchers", "~> 1.4.1", require: false
+  gem "rack-test", "~> 0.6.2", :require => "rack/test"
+  gem "simplecov", "~> 0.7.1", :require => false
+  gem "shoulda-matchers", "~> 1.4.1", :require => false
   gem "webmock", "~> 1.9.0"
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1"

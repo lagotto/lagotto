@@ -1,0 +1,37 @@
+{
+  "run_list": [
+    "recipe[apt]",
+    "recipe[build-essential]",
+    "recipe[git]",
+    "recipe[ruby_build]",
+    "recipe[rbenv::system]",
+    "recipe[rbenv::vagrant]",
+    "recipe[passenger_apache2::mod_rails]",
+    "recipe[mysql::server]",
+    "recipe[couchdb]",
+    "recipe[phantomjs]",
+    "recipe[alm]"
+  ],
+  "app": { "layout": "greenrobo", 
+           "uid": "doi",
+           "mendeley": { "api_key": "EXAMPLE" },
+           "facebook": { "api_key": "EXAMPLE" },
+           "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },
+           "researchblogging": { "username": "EXAMPLE", "password": "EXAMPLE" },
+           "copernicus": { "username": "EXAMPLE", "password": "EXAMPLE" },
+           "nature": { "api_key": "EXAMPLE"}},
+  "rbenv": { "global": "1.9.3-p194", 
+             "rubies": ["1.9.3-p194"],
+             "gems": { "1.9.3-p194": [
+               { "name": "bundler" },
+               { "name": "passenger"}]}},
+  "rails": { "environment": "development" },
+  "passenger": { "version": "3.0.19" },
+  "admin": { "email": "ADMIN@EXAMPLE.ORG" },
+  "mysql": { "bind_address": "0.0.0.0", 
+             "tunable": { "innodb_buffer_pool_size": "512M" },
+             "server_root_password": "9wpfo4w",
+             "server_repl_password": "9wpfo4w",
+             "server_debian_password": "9wpfo4w"},
+  "couchdb": { "bind_address": "0.0.0.0", "host": "localhost", "port": 5984, "database": "alm" }
+}
