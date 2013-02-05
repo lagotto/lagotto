@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<response xmlns="http://www.isinet.com/xrpc42" src="app.id=Article Level Metrics,env.id=test,partner.email=admin@plos.org">
+<fn name="LinksAMR.retrieve" rc="Server.authentication">
+<error code="Server.authentication">No matches returned for IP Address</error>
+</fn>
+</response>
