@@ -1,6 +1,5 @@
 {
   "run_list": [
-    "recipe[apt]",
     "recipe[build-essential]",
     "recipe[git]",
     "recipe[ruby_build]",
