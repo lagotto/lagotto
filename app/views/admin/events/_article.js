@@ -1,5 +1,5 @@
 var data = <%= raw @data %>;
-var colors = ["#304345","#789aa1","#ad9a27","#a17f78","#a0d5d6"]
+var colors = ["#304345","#789aa1","#a0d5d6","#ad9a27","#a17f78"]
   
 var l = 200; // left margin
 var r = 120; // right margin
