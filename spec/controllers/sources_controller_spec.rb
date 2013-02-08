@@ -12,7 +12,7 @@ describe SourcesController do
     let(:source) { FactoryGirl.create(:source) }
 
     it "returns an RSS feed for most-cited (7 days)" do
-      get source_path(source, format: "rss", days: 7)
+      get source_path(source.name, format: "rss", days: 7)
       last_response.status.should eql(200)
       last_response.should render_template("sources/show")
       last_response.content_type.should eq("application/rss+xml; charset=utf-8")
@@ -26,7 +26,7 @@ describe SourcesController do
     end
   
     it "returns an RSS feed for most-cited (30 days)" do
-      get source_path(source, format: "rss", days: 30)
+      get source_path(source.name, format: "rss", days: 30)
       last_response.status.should eql(200)
       last_response.should render_template("sources/show")
       last_response.content_type.should eq("application/rss+xml; charset=utf-8")
@@ -40,7 +40,7 @@ describe SourcesController do
     end
   
     it "returns an RSS feed for most-cited (12 months)" do
-      get source_path(source, format: "rss", months: 12)
+      get source_path(source.name, format: "rss", months: 12)
       last_response.status.should eql(200)
       last_response.should render_template("sources/show")
       last_response.content_type.should eq("application/rss+xml; charset=utf-8")
@@ -54,7 +54,7 @@ describe SourcesController do
     end
   
     it "returns an RSS feed for most-cited" do
-      get source_path(source, format: "rss")
+      get source_path(source.name, format: "rss")
       last_response.status.should eql(200)
       last_response.should render_template("sources/show")
       last_response.content_type.should eq("application/rss+xml; charset=utf-8")

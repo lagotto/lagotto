@@ -63,12 +63,12 @@
                 <li><%= link_to "All Sources", admin_sources_path %></li>
                 <li class="divider"></li>
                 <% sources.active.each do |source| %>
-                  <li><%= link_to h(source.display_name), admin_source_path(source) %></li>
+                  <li><%= link_to h(source.display_name), admin_source_path(source.name) %></li>
                 <% end %>
                 <% unless Source.inactive.empty? %>
                   <li class="divider"></li>
                   <% sources.inactive.each do |source| %>
-                    <li><%= link_to h(source.display_name), admin_source_path(source) %></li>
+                    <li><%= link_to h(source.display_name), admin_source_path(source.name) %></li>
                   <% end %>
                 <% end %>
 		          </ul>

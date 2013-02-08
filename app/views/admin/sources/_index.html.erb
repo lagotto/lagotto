@@ -46,7 +46,7 @@
         <% @groups.each do |group| %>
           <tr>       
             <% if group.sources.size > 0 %>
-              <td><%= link_to group.sources.first.display_name, admin_source_path(group.sources.first) %></td>
+              <td><%= link_to group.sources.first.display_name, admin_source_path(group.sources.first.name) %></td>
               <td><%= status_label(group.sources.first).html_safe %></td>
             <% else %>
               <td/><td/>
@@ -62,7 +62,7 @@
           <% if group.sources.size > 1 %>
             <% group.sources[1..-1].each do |source| %>
               <tr>
-                <td><%= link_to source.display_name, admin_source_path(source) %></td>
+                <td><%= link_to source.display_name, admin_source_path(source.name) %></td>
                 <td><%= status_label(source).html_safe %></td>
               </tr>
             <% end %>
