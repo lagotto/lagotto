@@ -20,6 +20,7 @@ require "cgi"
 require "builder"
 
 class Article < ActiveRecord::Base
+  strip_attributes
   
   # Format used for DOI validation - we want to store DOIs without
   # the leading "info:doi/"
@@ -30,11 +31,10 @@ class Article < ActiveRecord::Base
   has_many :sources, :through => :retrieval_statuses
   
   validates :uid, :title, :presence => true
-  validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_blank => true
+  validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true
   validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future", 
                                                                :after => lambda { 50.years.ago }, :after_message => "must not be older than 50 years", 
                                                                :type => :date }
-  
   after_create :create_retrievals
   
   default_scope order("published_on DESC")
@@ -242,8 +242,9 @@ class Article < ActiveRecord::Base
   def is_publisher?
     APP_CONFIG["doi_prefix"].to_s == doi[0..6]
   end
-
+  
   private
+  
   def create_retrievals
     # Create an empty retrieval record for every source for the new article
     Source.all.each do |source|
