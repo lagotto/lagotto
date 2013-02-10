@@ -17,7 +17,7 @@
     <tbody>
       <% @sources.each do|source| %>
         <tr>
-          <td><%= link_to h(source.display_name), admin_source_path(source.name) %></td>
+          <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
           <td><%= status_label(source).html_safe %></td>
           <td class="hidden-phone number"><%= number_with_delimiter(@responses_count[source.id].nil? ? 0 : @responses_count[source.id]) %></td>
           <td class="number"><%= link_to_unless @errors_count[source.id].nil?, number_with_delimiter(@errors_count[source.id].nil? ? 0 : @errors_count[source.id]), admin_error_messages_path(:source_id => source.id) %></td>
