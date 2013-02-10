@@ -47,6 +47,10 @@ class Source < ActiveRecord::Base
   
   scope :active, where(:active => true).order("group_id, display_name")
   scope :inactive, where(:active => false).order("group_id, display_name")
+  
+  def to_param  # overridden, use name instead of id
+    name
+  end
 
   def get_data(article, options={})
     raise NotImplementedError, 'Children classes should override get_data method'

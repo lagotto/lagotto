@@ -3,8 +3,8 @@ require 'spec_helper'
 describe ArticlesController do
   render_views
   
-  let(:article) { FactoryGirl.create(:article) }
-
+  let(:article) { FactoryGirl.create(:article) }  
+  
   it "GET DOI" do
     get "/articles/info:doi/#{article.doi}"
     last_response.status.should eql(200)

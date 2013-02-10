@@ -15,11 +15,11 @@ describe "/api/v3/articles" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
   
-        response_articles = JSON.parse(last_response.body)
-        response_articles.length.should eql(50)
-        response_articles.any? do |article|
-          article["article"]["doi"] == articles[0].doi
-          article["article"]["publication_date"] == articles[0].published_on.to_time.utc.iso8601
+        response = JSON.parse(last_response.body)
+        response.length.should eql(50)
+        response.any? do |article|
+          article["doi"] == articles[0].doi
+          article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
         end.should be_true
       end
     
@@ -28,7 +28,7 @@ describe "/api/v3/articles" do
         last_response.status.should eql(200)
         
         response = Nori.new.parse(last_response.body)
-        response = response["articles"]
+        response = response["articles"]["article"]
         response.length.should eql(50)
         response.any? do |article|
           article["doi"] == articles[0].doi
@@ -48,10 +48,10 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
-        response_article = JSON.parse(last_response.body)["article"]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_article["sources"].should be_nil
+        response = JSON.parse(last_response.body)[0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response["sources"].should be_nil
       end
     
       it "XML" do
@@ -73,11 +73,11 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
-        response_article = JSON.parse(last_response.body)["article"]
-        response_source = response_article["sources"][0]["source"]
+        response_article = JSON.parse(last_response.body)[0]
+        response_source = response_article["sources"][0]
         response_article["doi"].should eql(article.doi)
         response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_days(110).last.event_count)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_days(110).first.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
@@ -85,15 +85,15 @@ describe "/api/v3/articles" do
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
-
-        response_article = Nokogiri::XML(last_response.body).at_css("article")
-        response_source = response_article.at_css("sources source")
-        response_article.content.should include(article.doi)
-        response_article.content.should include(article.published_on.to_time.utc.iso8601)
-        response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_days(110).last.event_count)
-        response_source.at_css("events").should be_nil
-        response_source.at_css("histories").should be_nil
+        
+        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = response["articles"]["article"]
+        response_source = response["sources"]["source"]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_days(110).first.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should be_nil
       end
     
     end
@@ -106,11 +106,11 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
-        response_article = JSON.parse(last_response.body)["article"]
-        response_source = response_article["sources"][0]["source"]
+        response_article = JSON.parse(last_response.body)[0]
+        response_source = response_article["sources"][0]
         response_article["doi"].should eql(article.doi)
         response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_months(4).last.event_count)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_months(4).first.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
@@ -118,15 +118,15 @@ describe "/api/v3/articles" do
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
-
-        response_article = Nokogiri::XML(last_response.body).at_css("article")
-        response_source = response_article.at_css("sources source")
-        response_article.content.should include(article.doi)
-        response_article.content.should include(article.published_on.to_time.utc.iso8601)
-        response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_months(4).last.event_count)
-        response_source.at_css("events").should be_nil
-        response_source.at_css("histories").should be_nil
+        
+        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = response["articles"]["article"]
+        response_source = response["sources"]["source"]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_months(4).first.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should be_nil
       end
     end 
     
@@ -138,11 +138,11 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
-        response_article = JSON.parse(last_response.body)["article"]
-        response_source = response_article["sources"][0]["source"]
+        response_article = JSON.parse(last_response.body)[0]
+        response_source = response_article["sources"][0]
         response_article["doi"].should eql(article.doi)
         response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2013).last.event_count)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2013).first.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
@@ -150,15 +150,15 @@ describe "/api/v3/articles" do
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
-
-        response_article = Nokogiri::XML(last_response.body).at_css("article")
-        response_source = response_article.at_css("sources source")
-        response_article.content.should include(article.doi)
-        response_article.content.should include(article.published_on.to_time.utc.iso8601)
-        response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics total").content.to_i.should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2013).last.event_count)
-        response_source.at_css("events").should be_nil
-        response_source.at_css("histories").should be_nil
+        
+        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = response["articles"]["article"]
+        response_source = response["sources"]["source"]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2013).first.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should be_nil
       end
     end 
     
@@ -170,12 +170,12 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
-        response_article = JSON.parse(last_response.body)["article"]
-        response_source = response_article["sources"][0]["source"]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response = JSON.parse(last_response.body)[0]
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.metrics[:shares])
+        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
         #response_source["events"].should_not be_nil
         response_source["histories"].should_not be_nil
 
@@ -184,15 +184,15 @@ describe "/api/v3/articles" do
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
-
-        response_article = Nokogiri::XML(last_response.body).at_css("article")
-        response_source = response_article.at_css("sources source")
-        response_article.content.should include(article.doi)
-        response_article.content.should include(article.published_on.to_time.utc.iso8601)
-        response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics").should_not be_nil
-        response_source.at_css("events").should_not be_nil
-        response_source.at_css("histories").should_not be_nil
+        
+        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = response["articles"]["article"]
+        response_source = response["sources"]["source"]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
+        #response_source["events"].should_not be_nil
+        response_source["histories"].should_not be_nil
       end
     
     end
@@ -205,28 +205,27 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
-        response_article = JSON.parse(last_response.body)["article"]
-        response_source = response_article["sources"][0]["source"]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response = JSON.parse(last_response.body)[0]
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should_not be_nil
-
       end
     
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response_article = Nokogiri::XML(last_response.body).at_css("article")
-        response_source = response_article.at_css("sources source")
-        response_article.content.should include(article.doi)
-        response_article.content.should include(article.published_on.to_time.utc.iso8601)
-        response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics").should_not be_nil
-        response_source.at_css("events").should be_nil
-        response_source.at_css("histories").should_not be_nil
+        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = response["articles"]["article"]
+        response_source = response["sources"]["source"]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should_not be_nil
       end
     
     end
@@ -239,12 +238,12 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
-        response_article = JSON.parse(last_response.body)["article"]
-        response_source = response_article["sources"][0]["source"]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response = JSON.parse(last_response.body)[0]
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.metrics[:shares])
+        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
         #response_source["events"].should_not be_nil
         response_source["histories"].should be_nil
 
@@ -254,16 +253,15 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response_article = Nokogiri::XML(last_response.body).at_css("article")
-        response_source = response_article.at_css("sources source")
-        response_article.content.should include(article.doi)
-        response_article.content.should include(article.published_on.to_time.utc.iso8601)
-        response_article.content.should include(article.sources.first.name)
-        response_source.at_css("metrics").should_not be_nil
-        response_source.at_css("events").should_not be_nil
-        response_source.at_css("histories").should be_nil
+        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = response["articles"]["article"]
+        response_source = response["sources"]["source"]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
+        #response_source["events"].should_not be_nil
+        response_source["histories"].should be_nil
       end
-    
     end    
   end
 end

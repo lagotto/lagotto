@@ -10,6 +10,7 @@ require 'capybara/rspec'
 require 'database_cleaner'
 require 'webmock/rspec'
 require "rack/test"
+require 'draper/test/rspec_integration'
 
 include WebMock::API
 couchdb_url = URI.parse(APP_CONFIG['couchdb_url'])

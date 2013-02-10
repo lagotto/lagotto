@@ -41,7 +41,7 @@ class Article < ActiveRecord::Base
 
   scope :query, lambda { |query| where("doi like ? OR title like ?", "%#{query}%", "%#{query}%") }
   scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
-
+   
   scope :cited, lambda { |cited|
     case cited
       when '1', 1
@@ -233,7 +233,7 @@ class Article < ActiveRecord::Base
         group_info[group_id] = [] if group_info[group_id].nil?
         group_info[group_id] << {:source => rs.source.display_name,
                                  :count => rs.event_count,
-                                 :public_url => rs.public_url}
+                                 :public_url => rs.events_url}
       end
     end
     group_info
