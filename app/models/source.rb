@@ -47,6 +47,10 @@ class Source < ActiveRecord::Base
   
   scope :active, where(:active => true).order("group_id, display_name")
   scope :inactive, where(:active => false).order("group_id, display_name")
+  
+  def to_param  # overridden, use name instead of id
+    name
+  end
 
   # some sources cannot be redistributed
   scope :public_sources, lambda { where("private = false") }

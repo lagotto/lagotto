@@ -21,7 +21,7 @@ class SourcesController < ApplicationController
   respond_to :html, :rss
   
   def show
-    @source = Source.find(params[:id])
+    @source = Source.find_by_name(params[:id])
     
     if params[:days]
       @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_days(params[:days].to_i)

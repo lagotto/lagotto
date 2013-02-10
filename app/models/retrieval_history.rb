@@ -32,7 +32,7 @@ class RetrievalHistory < ActiveRecord::Base
   SOURCE_DISABLED = "Source disabled"
   SOURCE_NOT_ACTIVE = "Source not active"
   
-  default_scope order("retrieved_at")
+  default_scope order("retrieved_at DESC")
   
   scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
   scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months) }
@@ -51,7 +51,7 @@ class RetrievalHistory < ActiveRecord::Base
     end
   end
   
-  def public_url
+  def events_url
     data["events_url"] unless data.nil?
   end
   
@@ -60,30 +60,6 @@ class RetrievalHistory < ActiveRecord::Base
       data["events"]
     else
       []
-    end
-  end
-  
-  def metrics    
-    case retrieval_status.source.name
-    when "citeulike"
-      { :pdf => nil, :html => nil, :shares => event_count, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    when "facebook"
-      { :pdf => nil, :html => nil, :shares => (events.blank? ? 0 : events["share_count"]), :groups => nil, :comments => (events.blank? ? 0 : events["comment_count"]), :likes => (events.blank? ? 0 : events["like_count"]), :citations => nil, :total => event_count }
-    when "mendeley"
-      { :pdf => nil, :html => nil, :shares => (events.blank? ? 0 : events['stats']['readers']), :groups => (events.blank? ? 0 : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    when "twitter"
-      { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => event_count, :likes => nil, :citations => nil, :total => event_count }
-    when "counter"
-      { :pdf => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }), :html => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    when "biod"
-      { :pdf => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }), :html => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    when "pmc"
-      { :pdf => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }), :html => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    when "copernicus"
-      { :pdf => (events.blank? ? 0 : events['counter']['PdfDownloads'].to_i), :html => (events.blank? ? 0 : events['counter']['AbstractViews'].to_i), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    else
-    # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia
-      { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
     end
   end
   

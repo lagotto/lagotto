@@ -52,8 +52,8 @@
               <% end %>
               
               <h4><%= link_to rs.source.display_name, source_path(rs.source) %>
-                <% unless rs.public_url.nil? %>
-                | <%= link_to "Further Information", rs.public_url, :target => "_blank" %></h4>
+                <% unless rs.events_url.nil? %>
+                | <%= link_to "Further Information", rs.events_url, :target => "_blank" %></h4>
               <% end %>
               </h4>
             </div>  

@@ -135,14 +135,11 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         # save the data to couchdb
         data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
         
-        # save the history data to couchdb if event_count has changed
-        if rs.event_count != event_count
-          #TODO change this to a copy
-          data.delete(:_attachments)
-          data[:doc_type] = "history"
-          # save the data to couchdb as retrieval history data
-          save_alm_data(nil, data, rh.id)
-        end
+        # save the history data to couchdb
+        #TODO change this to a copy
+        data.delete(:_attachments)
+        data[:doc_type] = "history"
+        save_alm_data(nil, data, rh.id)
         
         rs.data_rev = data_rev
         rs.event_count = event_count
