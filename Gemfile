@@ -16,7 +16,7 @@ gem "nori", "~> 2.0.0"
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 2.1.2"
 gem "validates_timeliness", "~> 3.0.14"
-gem "strip_attributes", "~> 1.2"
+gem "strip_attributes", "~> 1.3.0"
 gem "draper", "~> 1.1.0"
 gem "rabl", "~> 0.7.6"
 

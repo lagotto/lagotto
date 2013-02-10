@@ -8,11 +8,11 @@ Feature: See jobs
     And the source "Citeulike" exists
     And that we have 5 articles
     
-    @javascript
-    Scenario: Jobs in dashboard
-      When I go to the "Jobs" admin page
-      Then the table "JobsTable" should contain:
-        | CiteULike       | active  | 0       | 0      | 5      | 0     |
+    # @javascript
+    # Scenario: Jobs in dashboard
+    #   When I go to the "Jobs" admin page
+    #   Then the table "JobsTable" should contain:
+    #     | CiteULike       | active  | 0       | 0      | 5      | 0     |
     
     @javascript
     Scenario: Jobs in source view
