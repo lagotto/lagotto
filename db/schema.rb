@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130118125506) do
+ActiveRecord::Schema.define(:version => 20130211120421) do
 
   create_table "api_requests", :force => true do |t|
     t.text     "path"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(:version => 20130118125506) do
     t.datetime "updated_at",      :null => false
     t.string   "url"
     t.string   "mendeley"
-    t.string   "mendeley_url"
   end
 
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
@@ -97,16 +96,17 @@ ActiveRecord::Schema.define(:version => 20130118125506) do
   add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
 
   create_table "retrieval_statuses", :force => true do |t|
-    t.integer  "article_id",                                      :null => false
-    t.integer  "source_id",                                       :null => false
+    t.integer  "article_id",                                       :null => false
+    t.integer  "source_id",                                        :null => false
     t.datetime "queued_at"
-    t.datetime "retrieved_at", :default => '1970-01-01 00:00:00', :null => false
-    t.string   "local_id"
-    t.integer  "event_count",  :default => 0,                     :null => false
+    t.datetime "retrieved_at",  :default => '1970-01-01 00:00:00', :null => false
+    t.integer  "event_count",   :default => 0,                     :null => false
     t.string   "data_rev"
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
     t.datetime "scheduled_at"
+    t.string   "events_url"
+    t.string   "event_metrics"
   end
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true

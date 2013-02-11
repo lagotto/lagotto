@@ -1,6 +1,6 @@
 object ArticleDecorator.decorate(@article)
   
-attributes :doi, :title, :url, :mendeley, :mendeley_url, :pmid, :pmcid, :publication_date
+attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date
 
 unless params[:info] == "summary"
   child :retrieval_statuses => :sources do

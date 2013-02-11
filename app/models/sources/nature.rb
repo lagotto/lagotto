@@ -46,8 +46,19 @@ class Nature < Source
 
         { :event => result['post'], :event_url => url }
       end
+      
+      event_metrics = { :pdf => nil, 
+                        :html => nil, 
+                        :shares => nil, 
+                        :groups => nil,
+                        :comments => nil, 
+                        :likes => nil, 
+                        :citations => events.length, 
+                        :total => events.length }
 
-      { :events => events, :event_count => events.length }
+      { :events => events, 
+        :event_count => events.length,
+        :event_metrics => event_metrics }
     end
   end
 

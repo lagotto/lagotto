@@ -10,9 +10,9 @@ describe ScienceSeeker do
   
   context "use the ScienceSeeker API" do
     it "should report if there are no events and event_count returned by the ScienceSeeker API" do
-      article_without_events = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
-      stub = stub_request(:get, science_seeker.get_query_url(article_without_events)).to_return(:body => File.read(fixture_path + 'science_seeker_nil.xml'), :status => 200)
-      science_seeker.get_data(article_without_events).should eq({ :events => [], :event_count => 0 })
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
+      stub = stub_request(:get, science_seeker.get_query_url(article)).to_return(:body => File.read(fixture_path + 'science_seeker_nil.xml'), :status => 200)
+      science_seeker.get_data(article).should eq({ :events => [], :event_count => 0, :event_metrics => { :pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, :attachment => nil, :events_url => "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}" })
       stub.should have_been_requested
     end
     

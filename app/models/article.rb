@@ -164,6 +164,11 @@ class Article < ActiveRecord::Base
     urls << url unless url.nil?
     urls
   end
+  
+  def mendeley_url
+    rs = retrieval_statuses.includes(:source).where("sources.name" => "mendeley").first
+    rs.nil? ? nil : rs.events_url
+  end
 
   def to_xml(options = {})
     sources = (options.delete(:source) || '').downcase.split(',')
