@@ -13,7 +13,7 @@ describe Citeulike do
       article_without_events = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'citeulike_nil.xml')
       stub = stub_request(:get, citeulike.get_query_url(article_without_events)).to_return(:body => body, :status => 404)
-      citeulike.get_data(article_without_events).should eq({ :events => [], :events_url => citeulike.get_events_url(article_without_events), :event_count => 0 })
+      citeulike.get_data(article_without_events).should eq({ :events => [], :events_url => citeulike.get_events_url(article_without_events), :event_count => 0, :event_metrics => { :pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 }, :attachment => nil })
       stub.should have_been_requested
     end
     

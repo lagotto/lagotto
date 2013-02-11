@@ -52,12 +52,12 @@ When /^I add the article with all required information$/ do
 end
 
 When /^I go to the article with the DOI "(.*?)" and no other identifiers$/ do |doi|
-  article = FactoryGirl.create(:article, :doi => doi, :pub_med => "", :pub_med_central => "", :mendeley => "", :mendeley_url => "", :url => "", :published_on => "2012-10-23")
+  article = FactoryGirl.create(:article, :doi => doi, :pub_med => "", :pub_med_central => "", :mendeley => "", :url => "", :published_on => "2012-10-23")
   visit article_path(article.doi)
 end
 
 When /^I go to the article with "(.*?)" for "(.*?)"$/ do |value, identifier|
-  article = FactoryGirl.create(:article, identifier.to_sym => value, :mendeley_url => "http://mendeley.com", :published_on => "2012-10-23")
+  article = FactoryGirl.create(:article, identifier.to_sym => value, :published_on => "2012-10-23")
   visit article_path(article.doi)
 end
 
@@ -88,7 +88,7 @@ Then /^I should see "(.*?)" with the "(.*?)" for the article$/ do |value, label|
   when "Publication Date"
     page.has_css?('dd', :text => value).should be_true
   when "Mendeley UUID"
-    page.has_link?(value).should be_true
+    page.has_css?('dd', :text => value).should be_true
   when "PubMed ID"
     page.has_link?(value, :href => "http://www.ncbi.nlm.nih.gov/pubmed/#{value}").should be_true
   when "PubMed Central ID"

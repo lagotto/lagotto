@@ -17,7 +17,7 @@ describe Copernicus do
     it "should report if there are no events and event_count returned by the Copernicus API" do
       article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
       stub = stub_request(:get, "http://#{copernicus.username}:#{copernicus.password}@harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").to_return(:body => File.read(fixture_path + 'copernicus_nil.json'), :status => 200)
-      copernicus.get_data(article).should eq({ :events => [], :event_count => 0 })
+      copernicus.get_data(article).should eq({ :events => [], :event_count => nil })
       stub.should have_been_requested
     end
     

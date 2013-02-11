@@ -12,7 +12,7 @@ describe Researchblogging do
     it "should report if there are no events and event_count returned by the ResearchBlogging API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
       stub = stub_request(:get, "http://#{researchblogging.username}:#{researchblogging.password}@researchbloggingconnect.com/blogposts?article=doi:#{CGI.escape(article.doi)}&count=100").to_return(:body => File.read(fixture_path + 'researchblogging_nil.xml'), :status => 200)
-      researchblogging.get_data(article).should eq({ :events => [], :event_count => 0, :events_url => researchblogging.get_events_url(article) })
+      researchblogging.get_data(article).should eq({ :events => [], :event_count => 0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, :attachment=>nil, :events_url => researchblogging.get_events_url(article) })
       stub.should have_been_requested
     end
     

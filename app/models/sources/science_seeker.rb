@@ -44,15 +44,22 @@ class ScienceSeeker < Source
         events << { :event => event, :event_url => event['link']['@href'] }
       end
       
-      if events.empty?
-        { :events => [], :event_count => 0 }
-      else
-        { :events => events,
-          :events_url => "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}",
-          :event_count => events.length,
-          :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
-        }
-      end
+      events_url = "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}"
+      event_metrics = { :pdf => nil, 
+                        :html => nil, 
+                        :shares => nil, 
+                        :groups => nil,
+                        :comments => nil, 
+                        :likes => nil, 
+                        :citations => events.length, 
+                        :total => events.length }
+                  
+      { :events => events,
+        :events_url => events_url,
+        :event_count => events.length,
+        :event_metrics => event_metrics,
+        :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
+      }
     end
   end
 

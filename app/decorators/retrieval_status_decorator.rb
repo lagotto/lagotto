@@ -42,35 +42,41 @@ class RetrievalStatusDecorator < Draper::Decorator
     end
   end
   
+  def event_metrics
+    unless context[:days] || context[:month] || context[:year]
+      model.event_metrics
+    else
+      retrieval_history.blank? ? nil : retrieval_history.metrics
+    end
+  end
+  
   def histories
     retrieval_histories.blank? ? [] : retrieval_histories.map { |rh| { :update_date => rh.updated_at.utc.iso8601, :total => rh.event_count } }
   end
   
   def metrics
-    case name
-    when "citeulike"
-      { :pdf => nil, :html => nil, :shares => event_count, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    when "facebook"
-      if events.kind_of? Hash
-        { :pdf => nil, :html => nil, :shares => events["share_count"], :groups => nil, :comments => events["comment_count"], :likes => events["like_count"], :citations => nil, :total => event_count }
-      elsif events.kind_of? Array
-        { :pdf => nil, :html => nil, :shares => events.inject(0) { |sum, hash| sum + hash["share_count"] }, :groups => nil, :comments => events.inject(0) { |sum, hash| sum + hash["comment_count"] }, :likes => events.inject(0) { |sum, hash| sum + hash["like_count"] }, :citations => nil, :total => event_count }
-      else
-        { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count } 
-      end
-    when "mendeley"
-      { :pdf => nil, :html => nil, :shares => (events.blank? ? nil : events['stats']['readers']), :groups => (events.blank? or events['groups'].nil? ? nil : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    when "counter"
-      { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    when "biod"
-      { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    when "pmc"
-      { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-    when "copernicus"
-      { :pdf => (events.blank? ? nil : events['counter']['PdfDownloads'].to_i), :html => (events.blank? ? nil : events['counter']['AbstractViews'].to_i), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+    unless event_metrics.nil? 
+      event_metrics
     else
-    # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia
-      { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
+      case name
+      when "citeulike"
+        { :pdf => nil, :html => nil, :shares => event_count, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+      when "facebook"
+        if events.kind_of? Hash
+          { :pdf => nil, :html => nil, :shares => events["share_count"], :groups => nil, :comments => events["comment_count"], :likes => events["like_count"], :citations => nil, :total => event_count }
+        elsif events.kind_of? Array
+          { :pdf => nil, :html => nil, :shares => events.inject(0) { |sum, hash| sum + hash["share_count"] }, :groups => nil, :comments => events.inject(0) { |sum, hash| sum + hash["comment_count"] }, :likes => events.inject(0) { |sum, hash| sum + hash["like_count"] }, :citations => nil, :total => event_count }
+        else
+          { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count } 
+        end
+      when "mendeley"
+        { :pdf => nil, :html => nil, :shares => (events.blank? ? nil : events['stats']['readers']), :groups => (events.blank? or events['groups'].nil? ? nil : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+      when "copernicus"
+        { :pdf => (events.blank? ? nil : events['counter']['PdfDownloads'].to_i), :html => (events.blank? ? nil : events['counter']['AbstractViews'].to_i), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+      else
+      # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia
+        { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
+      end
     end
   end
 end

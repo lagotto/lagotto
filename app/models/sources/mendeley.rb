@@ -59,16 +59,22 @@ class Mendeley < Source
 
       groups = result['groups']
       total += groups.length unless groups.nil?
+      event_metrics = { :pdf => nil, 
+                        :html => nil, 
+                        :shares => readers.nil? ? 0 : readers, 
+                        :groups => groups.nil? ? 0 : groups.length,
+                        :comments => nil, 
+                        :likes => nil, 
+                        :citations => nil, 
+                        :total => total }
 
       related_articles = get_json(get_related_url(result['uuid']), options)
       result[:related] = related_articles['documents'] if related_articles
-      
-      # store mendeley_url
-      article.update_attributes(:mendeley_url => result['mendeley_url']) 
-
+    
       { :events => result,
         :events_url => events_url,
-        :event_count => total }
+        :event_count => total,
+        :event_metrics => event_metrics }
     end
   end
   
