@@ -13,7 +13,7 @@ describe Wos do
     
     it "should report if there are no events and event_count returned by the Wos API" do
       stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "text/xml" }).to_return(:body => File.read(fixture_path + 'wos_nil.xml'), :status => 200)
-      wos.get_data(article).should eq({ :events => 0, :event_count => 0, :events_url => nil })
+      wos.get_data(article).should eq({ :events => 0, :event_count => 0, :events_url => nil, :attachment=>{:filename=>"events.xml", :content_type=>"text/xml", :data=>"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<response xmlns=\"http://www.isinet.com/xrpc42\" xmlns:xrpc=\"http://www.isinet.com/xrpc42\" src=\"app.id=Article Level Metrics,env.id=test,partner.email=alm@alm.plos.org\">\n<fn name=\"LinksAMR.retrieve\" rc=\"OK\">\n<map>\n<map name=\"cite_id\">\n<map name=\"WOS\">\n<val name=\"message\">No Result Found</val>\n</map>\n</map>\n</map>\n</fn>\n</response>\n"} })
       stub.should have_been_requested
     end
   

@@ -69,18 +69,24 @@ class PubMed < Source
           events << event
         end
       end
+      
+      event_metrics = { :pdf => nil, 
+                        :html => nil, 
+                        :shares => nil, 
+                        :groups => nil,
+                        :comments => nil, 
+                        :likes => nil, 
+                        :citations => events.length, 
+                        :total => events.length }
      
-      if events.blank?
-       { :events => [], :event_count => 0 }
-      else
-       events_url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
+      events_url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
 
-       {:events => events,
+      { :events => events,
         :events_url => events_url,
         :event_count => events.length,
-        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
-       }
-      end
+        :event_metrics => event_metrics,
+        :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
+      }
     end
   end
 

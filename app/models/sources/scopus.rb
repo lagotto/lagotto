@@ -70,11 +70,21 @@ class Scopus < Source
 
     if not (countList.nil?)
       event_url = get_event_url(article.doi)
+      event_count = countList[0].linkData[0].citedByCount.to_i
+      
+      event_metrics = { :pdf => nil, 
+                        :html => nil, 
+                        :shares => nil, 
+                        :groups => nil,
+                        :comments => nil, 
+                        :likes => nil, 
+                        :citations => event_count, 
+                        :total => event_count }
 
-      { :events => countList[0].linkData[0].citedByCount,
+      { :events => event_count,
         :events_url => event_url,
-        :event_count => countList[0].linkData[0].citedByCount.to_i
-      }
+        :event_count => event_count,
+        :event_metrics => event_metrics }
     end
 
   end

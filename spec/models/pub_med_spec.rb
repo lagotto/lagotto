@@ -15,7 +15,7 @@ describe PubMed do
         stub_pmid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article_recently_published.doi}&field=DOI&db=pubmed&tool=#{PubMed::ToolID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmid_nil.xml'), :status => 200)
         stub_pmcid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article_recently_published.doi}&field=DOI&db=pmc&tool=#{PubMed::ToolID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmcid_nil.xml'), :status => 200)
         stub = stub_request(:get, pub_med.get_query_url(article_recently_published)).to_return(:body => File.read(fixture_path + 'pub_med_nil.xml'), :status => 200)
-        pub_med.get_data(article_recently_published).should eq({ :events => [], :event_count => 0 })
+        pub_med.get_data(article_recently_published).should eq({ :events => [], :event_count => 0, :events_url=>"http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631", :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, :attachment=>nil })
         stub.should have_been_requested
         stub_pmcid_lookup.should_not have_been_requested
       end
@@ -25,7 +25,7 @@ describe PubMed do
         stub_pmid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article_without_events.doi}&field=DOI&db=pubmed&tool=#{PubMed::ToolID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmid_nil.xml'), :status => 200)
         stub_pmcid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article_without_events.doi}&field=DOI&db=pmc&tool=#{PubMed::ToolID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmcid_nil.xml'), :status => 200)
         stub = stub_request(:get, pub_med.get_query_url(article_without_events)).to_return(:body => File.read(fixture_path + 'pub_med_nil.xml'), :status => 200)
-        pub_med.get_data(article_without_events).should eq({ :events => [], :event_count => 0 })
+        pub_med.get_data(article_without_events).should eq({ :events => [], :event_count => 0, :events_url=>"http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=1897483597", :event_metrics => {:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, :attachment=>nil })
         stub.should have_been_requested
       end
     end

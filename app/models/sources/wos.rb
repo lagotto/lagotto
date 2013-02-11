@@ -88,11 +88,19 @@ class Wos < Source
       end
 
       cite_count = document.find_first('//xrpc:map[@name=\'WOS\']/xrpc:val[@name=\'timesCited\']')
+      cite_count = cite_count.nil? ? 0 : cite_count.content.to_i
+      event_metrics = { :pdf => nil, 
+                        :html => nil, 
+                        :shares => nil, 
+                        :groups => nil,
+                        :comments => nil, 
+                        :likes => nil, 
+                        :citations => cite_count, 
+                        :total => cite_count }
 
       if cite_count.nil?
-        { :events => 0, :event_count => 0, :events_url => nil }
+        { :events => 0, :event_count => 0, :event_metrics => event_metrics, :events_url => nil }
       else
-        cite_count = cite_count.content.to_i
         events_url = document.find_first('//xrpc:map[@name=\'WOS\']/xrpc:val[@name=\'citingArticlesURL\']')
         events_url = events_url.content unless events_url.nil?
         xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
