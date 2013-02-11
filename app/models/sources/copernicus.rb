@@ -35,14 +35,25 @@ class Copernicus < Source
     if result.nil?       
       nil
     elsif result.empty? or !result["counter"]
-      { :events => [], :event_count => 0 }
+      { :events => [], :event_count => nil }
     else
       if result["counter"].values.all? { |x| x.nil? }
         event_count = nil
       else
         event_count = result["counter"].values.inject(0) { |sum,x| sum + (x ? x : 0) }
       end
-      { :events => result, :event_count => event_count }
+      event_metrics = { :pdf => result["counter"]["PdfDownloads"], 
+                        :html => result["counter"]["AbstractViews"], 
+                        :shares => nil, 
+                        :groups => nil,
+                        :comments => nil, 
+                        :likes => nil, 
+                        :citations => nil, 
+                        :total => event_count }
+                        
+      { :events => result, 
+        :event_count => event_count,
+        :event_metrics => event_metrics }
     end
   end
   

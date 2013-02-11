@@ -42,7 +42,18 @@ class Facebook < Source
       nil
     else
       events = result["data"][0]
-      { :events => events, :event_count => events["total_count"] }
+      event_metrics = { :pdf => nil, 
+                        :html => nil, 
+                        :shares => events["share_count"], 
+                        :groups => nil,
+                        :comments => events["comment_count"], 
+                        :likes => events["like_count"], 
+                        :citations => nil, 
+                        :total => events["total_count"] }
+                        
+      { :events => events, 
+        :event_count => events["total_count"],
+        :event_metrics => event_metrics }
     end
   end
   

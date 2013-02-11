@@ -24,6 +24,8 @@ class RetrievalStatus < ActiveRecord::Base
   belongs_to :article
   belongs_to :source
   has_many :retrieval_histories, :dependent => :destroy
+  
+  serialize :event_metrics
     
   delegate :name, :to => :source
 
@@ -49,13 +51,17 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
   
-  def events_url
-    data["events_url"] unless data.blank?
-  end
-  
   def events
     unless data.blank? 
       data["events"] 
+    else
+      []
+    end
+  end
+  
+  def metrics
+    unless data.blank? 
+      data["event_metrics"] 
     else
       []
     end

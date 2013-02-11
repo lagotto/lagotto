@@ -63,6 +63,14 @@ class RetrievalHistory < ActiveRecord::Base
     end
   end
   
+  def metrics
+    unless data.blank? 
+      data["event_metrics"] 
+    else
+      nil
+    end
+  end
+  
   def v1_format?
     updated_at < Date.parse("2012-07-31")
   end
