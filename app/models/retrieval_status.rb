@@ -21,7 +21,7 @@ require 'source_helper'
 class RetrievalStatus < ActiveRecord::Base
   include SourceHelper
 
-  belongs_to :article
+  belongs_to :article, :touch => true
   belongs_to :source
   has_many :retrieval_histories, :dependent => :destroy
   
