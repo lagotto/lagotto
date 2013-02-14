@@ -51,4 +51,13 @@ RSpec.configure do |config|
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = false
+  
+  # Configure caching, use ":caching => true" when you need to test this
+  config.around(:each) do |example|
+    caching = ActionController::Base.perform_caching
+    ActionController::Base.perform_caching = example.metadata[:caching]
+    example.run
+    Rails.cache.clear
+    ActionController::Base.perform_caching = caching
+  end
 end

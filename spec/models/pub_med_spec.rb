@@ -21,7 +21,7 @@ describe PubMed do
       end
       
       it "should report if there are no events and event_count returned by the PubMed API" do
-        article_without_events = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
+        article_without_events = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", :pub_med => "1897483599")
         stub_pmid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article_without_events.doi}&field=DOI&db=pubmed&tool=#{PubMed::ToolID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmid_nil.xml'), :status => 200)
         stub_pmcid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article_without_events.doi}&field=DOI&db=pmc&tool=#{PubMed::ToolID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmcid_nil.xml'), :status => 200)
         stub = stub_request(:get, pub_med.get_query_url(article_without_events)).to_return(:body => File.read(fixture_path + 'pub_med_nil.xml'), :status => 200)
