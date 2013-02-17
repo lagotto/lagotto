@@ -17,15 +17,6 @@ citeulike = Citeulike.find_or_create_by_name(
 	:group_id => social_networks.id,
 	:url => "http://www.citeulike.org/api/posts/for/doi/%{doi}" )
   
-scienceseeker = ScienceSeeker.find_or_create_by_name(  
-	:name => "scienceseeker", 
-	:display_name => "ScienceSeeker", 
-  :description => "Research Blogging is a science blog aggregator.",
-	:active => true, 
-	:workers => 1,
-	:group_id => blogs_media.id,
-	:url => "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}" )
-  
 pubmed = PubMed.find_or_create_by_name(  
   :name => "pubmed", 
   :display_name => "PubMed", 
@@ -34,6 +25,15 @@ pubmed = PubMed.find_or_create_by_name(
   :workers => 1,
   :group_id => citations.id,
   :url => "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}")
+  
+scienceseeker = ScienceSeeker.find_or_create_by_name(  
+	:name => "scienceseeker", 
+	:display_name => "ScienceSeeker", 
+  :description => "Research Blogging is a science blog aggregator.",
+	:active => true, 
+	:workers => 1,
+	:group_id => blogs_media.id,
+	:url => "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}" )
   
 wikipedia = Wikipedia.find_or_create_by_name(  
   :name => "wikipedia", 

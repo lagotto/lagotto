@@ -45,7 +45,6 @@ Vagrant::Config.run do |config|
   # some recipes and/or roles.
   #
   config.vm.provision :chef_solo do |chef|
-    chef.add_recipe "apt"
     dna = JSON.parse(File.read("node.json"))
     dna.delete("run_list").each do |recipe|
       chef.add_recipe(recipe)
