@@ -43,6 +43,12 @@ EPEL attributes used in the `yum::epel` recipe, see
 * `yum['epel']['key_url']`
     - URL to the GPG key for the repo.
 
+* `yum['epel']['includepkgs']`
+    - list of packages you want to use for the repo.
+
+* `yum['epel']['exclude']`
+    - list of packages you do NOT want to use for the repo.
+
 The `node['yum']['epel_release']` attribute is removed, see the __epel__
 recipe information below.
 
@@ -57,6 +63,12 @@ remi attributes used in the `yum::remi` recipe, see
 
 * `yum['remi']['key_url']`
     - URL to the GPG key for the repo.
+
+* `yum['remi']['includepkgs']`
+    - list of packages you want to use for the repo.
+
+* `yum['remi']['exclude']`
+    - list of packages you do NOT want to use for the repo.
 
 Proxy settings used in yum.conf on RHEL family 5 and 6:
 

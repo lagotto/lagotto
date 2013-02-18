@@ -33,3 +33,5 @@ else
 end
 
 default['yum']['epel']['key_url'] = "http://download.fedoraproject.org/pub/epel/#{node['yum']['epel']['key']}"
+default['yum']['epel']['includepkgs'] = nil
+default['yum']['epel']['exclude'] = nil

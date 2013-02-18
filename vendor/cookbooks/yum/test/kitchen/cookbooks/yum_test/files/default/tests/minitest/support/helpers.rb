@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: apt
-# Resource:: preference
+# Cookbook Name:: yum_test
+# Recipe:: default
 #
-# Copyright 2010-2011, Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,13 +17,11 @@
 # limitations under the License.
 #
 
-actions :add, :remove
+module Helpers
+  module YumTest
+    include MiniTest::Chef::Assertions
+    include MiniTest::Chef::Context
+    include MiniTest::Chef::Resources
 
-def initialize(*args)
-  super
-  @action = :add
+  end
 end
-
-attribute :package_name, :kind_of => String, :name_attribute => true
-attribute :pin, :kind_of => String
-attribute :pin_priority, :kind_of => String

@@ -19,7 +19,11 @@
 
 include_recipe "yum::epel"
 
-major = node['platform_version'].to_i
+if platform?("amazon")
+  major = '6'
+else
+  major = node['platform_version'].to_i
+end
 
 if node['kernel']['machine'] == "i686" && major == 5
   arch = "i386"

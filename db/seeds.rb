@@ -2,7 +2,7 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
 # Load default admin user
-User.create(:username => "articlemetrics", :email => "admin@example.com", :password => "articlemetrics", :password_confirmation => "articlemetrics") if User.count == 0
+User.create(:username => "voldemort", :email => "admin@plos.org", :password => "voldemort", :password_confirmation => "voldemort") if User.count == 0
 
 # Load default groups
 usage = Group.find_or_create_by_name(:name => "Article Usage")
@@ -50,57 +50,57 @@ crossref = CrossRef.find_or_create_by_name(
   :name => "crossref", 
   :display_name => "CrossRef", 
   :description => "CrossRef is a non-profit organization that enables cross-publisher citation linking.",
-  :active => false, 
+  :active => true, 
   :workers => 1,
   :group_id => citations.id,
   :default_url => "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true",
   :url => "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}",
-  :username => "",
-  :password => "")
+  :username => "plos",
+  :password => "plos1")
   
 facebook = Facebook.find_or_create_by_name(  
   :name => "facebook", 
   :display_name => "Facebook", 
   :description => "Facebook is the largest social network.",
-  :active => false, 
+  :active => true, 
   :workers => 1,
   :group_id => social_networks.id,
   :url => "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'",
-  :access_token => "")
+  :access_token => "318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q")
   
 mendeley = Mendeley.find_or_create_by_name(  
   :name => "mendeley", 
   :display_name => "Mendeley", 
   :description => "Mendeley is a reference manager and social bookmarking tool.",
-  :active => false, 
+  :active => true, 
   :workers => 1,
   :group_id => social_networks.id,
   :url => "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}",
   :url_with_type => "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}",
   :url_with_title => "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10&consumer_key=%{api_key}",
   :related_articles_url => "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}",
-  :api_key => "")
-    
+  :api_key => "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5")
+  
 nature = Nature.find_or_create_by_name(  
   :name => "nature", 
   :display_name => "Nature Blogs", 
   :description => "Nature Blogs is a science blog aggregator.",
-  :active => false, 
+  :active => true, 
   :workers => 1,
   :group_id => blogs_media.id,
   :url => "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}",
-  :api_key => "")
-  
+  :api_key => "7jug74j8rh49n8rbn8atwyec")
+    
 researchblogging = Researchblogging.find_or_create_by_name(  
   :name => "researchblogging", 
   :display_name => "Research Blogging", 
   :description => "Research Blogging is a science blog aggregator.",
-  :active => false, 
+  :active => true, 
   :workers => 1,
   :group_id => blogs_media.id,
   :url => "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}",
-  :username => "",
-  :password => "")
+  :username => "plosuser",
+  :password => "siWSaA546pM")
   
 # Load sample articles
 Article.find_or_create_by_doi(

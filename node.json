@@ -1,16 +1,18 @@
 {
   "run_list": [
     "recipe[yum]",
-    "recipe[build-essential]",
     "recipe[git]",
     "recipe[mysql::server]",
     "recipe[couchdb]",
     "recipe[phantomjs]",
     "recipe[alm]"
   ],
-  "app": { "layout": "plos", 
-           "doi_prefix": "10.1371",
+  "alm": { "layout": "plos", 
            "email": "admin@plos.org",
+           "uid": "doi",
+           "doi_prefix": "10.1371",
+           "environment": "development",
+           "admin": { "username": "voldemort", "email": "admin@plos.org", "password": "voldemort" },
            "crossref": { "username": "plos", "password": "plos1" },
            "facebook": { "access_token": "318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q" },
            "mendeley": { "api_key": "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5" },

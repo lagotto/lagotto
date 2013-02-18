@@ -1,9 +1,8 @@
 #
-# Cookbook Name:: yum
-# Recipe:: yum 
+# Cookbook Name:: yum_test
+# Recipe:: cook-2121
 #
-# Copyright 2011, Eric G. Wolfe
-# Copyright 2011, Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +17,15 @@
 # limitations under the License.
 #
 
-# template "/etc/yum.conf" do
-#   source "yum-rhel#{node['platform_version'].to_i}.conf.erb"
-# end
+%w{add create}.each do |act|
+  file "/etc/yum.repos.d/zenoss-#{act}.repo" do
+    action :create
+  end
+
+  yum_repository "zenoss-#{act}" do
+    description "Zenoss Stable repo"
+    url "http://dev.zenoss.com/yum/stable/"
+    key "RPM-GPG-KEY-zenoss"
+    action act.to_sym
+  end
+end

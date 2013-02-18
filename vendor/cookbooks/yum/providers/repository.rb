@@ -85,9 +85,9 @@ def repo_config
     yum_key new_resource.key
   end
   #get the metadata
-  execute "yum -q makecache" do
-    action :nothing
-  end
+  # execute "yum -q makecache" do
+  #   action :nothing
+  # end
   #reload internal Chef yum cache
   ruby_block "reload-internal-yum-cache" do
     block do
@@ -110,7 +110,8 @@ def repo_config
                 :type => new_resource.type,
                 :failovermethod => new_resource.failovermethod,
                 :bootstrapurl => new_resource.bootstrapurl,
-                :includepkgs => new_resource.includepkgs
+                :includepkgs => new_resource.includepkgs,
+                :exclude => new_resource.exclude
               })
     if new_resource.make_cache
       notifies :run, resources(:execute => "yum -q makecache"), :immediately

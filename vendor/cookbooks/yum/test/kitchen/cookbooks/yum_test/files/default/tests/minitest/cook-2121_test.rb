@@ -1,8 +1,7 @@
 #
-# Cookbook Name:: apt
-# Recipe:: cacher-ng
+# Cookbook Name:: yum_test
 #
-# Copyright 2008-2012, Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,14 +16,16 @@
 # limitations under the License.
 #
 
-package "apt-cacher-ng" do
-  action :install
-end
+require File.expand_path('../support/helpers', __FILE__)
 
-service "apt-cacher-ng" do
-  supports :restart => true, :status => false
-  action [ :enable, :start ]
-end
+describe "yum_test::default" do
+  include Helpers::YumTest
 
-#this will help seed the proxy
-include_recipe "apt::cacher-client"
+  it 'doesnt update the zenos-add.repo file if it exists' do
+    assert File.zero?('/etc/yum.repos.d/zenoss-add.repo')
+  end
+
+  it 'updates the zenoss-create file' do
+    file('/etc/yum.repos.d/zenoss-create.repo').must_match %r[baseurl=http://dev.zenoss.com/yum/stable/]
+  end
+end
