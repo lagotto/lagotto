@@ -11,7 +11,7 @@ gem "foreman", "~> 0.60.2"
 gem "libxml-ruby", "~> 2.4.0", :require => 'xml'
 gem "nokogiri", "~> 1.5.6"
 gem "multi_json", "~> 1.5.0"
-gem "oj", "~> 2.0.1"
+gem "oj", "~> 2.0.5"
 gem "nori", "~> 2.0.0"
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 2.1.2"
@@ -27,7 +27,6 @@ gem 'will_paginate', '3.0.3'
 gem "will_paginate-bootstrap", "~> 0.2.1"
 gem "simple_form", "~> 2.0.4"
 gem "dotiw", "~> 1.1.1"
-gem "seedbank", "~> 0.2.0"
 
 group :assets do
   gem "uglifier", "~> 1.3.0"
@@ -47,12 +46,13 @@ group :test do
   gem "rack-test", "~> 0.6.2", :require => "rack/test"
   gem "simplecov", "~> 0.7.1", :require => false
   gem "shoulda-matchers", "~> 1.4.1", :require => false
-  gem "webmock", "~> 1.9.0"
+  gem "webmock", "~> 1.9.2"
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1"
   gem "thin", "~> 1.5.0"
   gem "poltergeist", "~> 1.0.2"
   gem "minitest", "~> 4.4.0"
+  gem "faye-websocket", "~> 0.4.7"
 end
 
 group :test, :development do
