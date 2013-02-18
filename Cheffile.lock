@@ -1,0 +1,61 @@
+SITE
+  remote: http://community.opscode.com/api/v1
+  specs:
+    apache2 (1.5.0)
+    apt (1.7.0)
+    build-essential (1.3.2)
+    chef_handler (1.1.4)
+    couchdb (2.1.0)
+      erlang (>= 0.0.0)
+      yum (>= 0.0.0)
+    dmg (1.1.0)
+    erlang (1.1.2)
+      yum (>= 0.5.0)
+    git (2.1.4)
+      build-essential (>= 0.0.0)
+      dmg (>= 0.0.0)
+      runit (<= 0.16.2)
+      windows (>= 0.0.0)
+      yum (>= 0.0.0)
+    mysql (2.1.0)
+      build-essential (>= 0.0.0)
+      openssl (>= 0.0.0)
+    openssl (1.0.0)
+    phantomjs (0.0.10)
+    runit (0.16.2)
+    windows (1.8.4)
+      chef_handler (>= 0.0.0)
+    yum (2.1.0)
+
+GIT
+  remote: https://github.com/articlemetrics/alm-cookbook.git
+  ref: master
+  sha: 17b5d70ee805b60b2f21a75fb39b5bdcd5bcb7bc
+  specs:
+    alm (1.0.1)
+      build-essential (>= 0.0.0)
+      couchdb (>= 0.0.0)
+      git (>= 0.0.0)
+      mysql (>= 0.0.0)
+      passenger_apache2 (>= 0.0.0)
+      phantomjs (>= 0.0.0)
+
+GIT
+  remote: https://github.com/articlemetrics/passenger_apache2.git
+  ref: articlemetrics
+  sha: 28f0d174e1e55e6df2366a7c4169ffc56604091f
+  specs:
+    passenger_apache2 (1.1.0)
+      apache2 (>= 1.0.4)
+      build-essential (>= 0.0.0)
+
+DEPENDENCIES
+  alm (>= 0)
+  apt (= 1.7.0)
+  build-essential (= 1.3.2)
+  couchdb (= 2.1.0)
+  git (= 2.1.4)
+  mysql (= 2.1.0)
+  passenger_apache2 (>= 0)
+  phantomjs (= 0.0.10)
+

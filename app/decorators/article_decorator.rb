@@ -7,6 +7,10 @@ class ArticleDecorator < Draper::Decorator
     published_on.nil? ? nil : published_on.to_time.utc.iso8601
   end
   
+  def update_date
+    updated_at.utc.iso8601
+  end
+  
   def pmid
     pub_med
   end
