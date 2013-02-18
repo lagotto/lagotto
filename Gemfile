@@ -8,7 +8,7 @@ gem "delayed_job_active_record", "~> 0.3.3"
 gem "daemons", "~> 1.1.9"
 gem "foreman", "~> 0.60.2"
 
-gem "libxml-ruby", "~> 2.4.0", :require => 'libxml'
+gem "libxml-ruby", "~> 2.4.0", :require => 'xml'
 gem "nokogiri", "~> 1.5.6"
 gem "multi_json", "~> 1.5.0"
 gem "oj", "~> 2.0.5"
@@ -52,6 +52,7 @@ group :test do
   gem "thin", "~> 1.5.0"
   gem "poltergeist", "~> 1.0.2"
   gem "minitest", "~> 4.4.0"
+  gem "faye-websocket", "~> 0.4.7"
 end
 
 group :test, :development do

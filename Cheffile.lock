@@ -25,13 +25,14 @@ SITE
       build-essential (>= 0.0.0)
     phantomjs (0.0.10)
     runit (0.16.2)
+    simple_iptables (0.2.4)
     windows (1.8.4)
       chef_handler (>= 0.0.0)
 
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: ab0de76c67b47e14b87dc797544b0c47896918c0
+  sha: fdbd8f0769d62e937f904fa5adb1ae3b32e90b85
   specs:
     alm (1.0.1)
       build-essential (>= 0.0.0)
@@ -55,5 +56,6 @@ DEPENDENCIES
   git (= 2.1.4)
   mysql (= 2.1.2)
   phantomjs (= 0.0.10)
+  simple_iptables (= 0.2.4)
   yum (>= 0)
 

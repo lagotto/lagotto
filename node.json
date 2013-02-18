@@ -5,6 +5,7 @@
     "recipe[mysql::server]",
     "recipe[couchdb]",
     "recipe[phantomjs]",
+    "recipe[simple_iptables]",
     "recipe[alm]"
   ],
   "alm": { "layout": "plos", 

@@ -7,5 +7,6 @@ cookbook "git", "2.1.4"
 cookbook "mysql", "2.1.2"
 cookbook "couchdb", "2.1.0"
 cookbook "phantomjs", "0.0.10"
+cookbook "simple_iptables", "0.2.4"
 
 cookbook "alm", :git => "https://github.com/articlemetrics/alm-cookbook.git"
