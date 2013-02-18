@@ -1,8 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require 'berkshelf/vagrant'
-
 Vagrant::Config.run do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
@@ -45,12 +43,11 @@ Vagrant::Config.run do |config|
   # some recipes and/or roles.
   #
   config.vm.provision :chef_solo do |chef|
-    chef.add_recipe "apt"
+    chef.cookbooks_path = "vendor/cookbooks"
     dna = JSON.parse(File.read("node.json"))
     dna.delete("run_list").each do |recipe|
       chef.add_recipe(recipe)
     end
-    chef.data_bags_path = "config/data_bags"
     chef.json.merge!(dna)
   end
 end
