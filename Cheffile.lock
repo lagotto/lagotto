@@ -2,7 +2,7 @@ SITE
   remote: http://community.opscode.com/api/v1
   specs:
     apache2 (1.5.0)
-    build-essential (1.3.2)
+    build-essential (1.3.4)
     chef_handler (1.1.4)
     couchdb (2.1.0)
       erlang (>= 0.0.0)
@@ -32,7 +32,7 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: fdbd8f0769d62e937f904fa5adb1ae3b32e90b85
+  sha: b9d7cebe8189f9ef1febe8ddd0433acc756ed810
   specs:
     alm (1.0.1)
       build-essential (>= 0.0.0)
@@ -51,7 +51,6 @@ GIT
 
 DEPENDENCIES
   alm (>= 0)
-  build-essential (= 1.3.2)
   couchdb (= 2.1.0)
   git (= 2.1.4)
   mysql (= 2.1.2)

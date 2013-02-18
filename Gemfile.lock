@@ -134,7 +134,7 @@ GEM
     mysql2 (0.3.11)
     nokogiri (1.5.6)
     nori (2.0.3)
-    oj (2.0.5)
+    oj (2.0.6)
     orm_adapter (0.4.0)
     poltergeist (1.0.2)
       capybara (~> 1.1)

@@ -52,9 +52,9 @@ group :test do
   gem "thin", "~> 1.5.0"
   gem "poltergeist", "~> 1.0.2"
   gem "minitest", "~> 4.4.0"
-  gem "faye-websocket", "~> 0.4.7"
 end
 
 group :test, :development do
   gem "rspec-rails", "~> 2.12.0"
+  gem "faye-websocket", "~> 0.4.7", :require => false
 end
