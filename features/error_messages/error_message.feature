@@ -35,10 +35,11 @@ Feature: Show errors
         | http://127.0.0.1/sources/x | 404         |
     
     @javascript
-    Scenario Outline: Routing errors
+    Scenario Outline: Errors
       When I go to "<Path>"
       Then I should see the "<ErrorMessage>" error message
       
       Examples: 
         | Path        | ErrorMessage          |
-        | /sources/x  | Internal server error |
+        | /articles/x | Internal server error |
+        | /x          | Internal server error |
