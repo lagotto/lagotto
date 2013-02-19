@@ -67,9 +67,6 @@ class Admin::ArticlesController < Admin::ApplicationController
     
     # raise error if article wasn't found
     raise ActiveRecord::RecordNotFound.new if @article.blank?
-    
-    # raise error if article wasn't found
-    raise ActiveRecord::RecordNotFound.new if @article.blank?
   end
   
   def load_index

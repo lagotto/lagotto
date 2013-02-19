@@ -20,9 +20,6 @@ SITE
       build-essential (>= 0.0.0)
       openssl (>= 0.0.0)
     openssl (1.0.0)
-    passenger_apache2 (2.0.0)
-      apache2 (>= 1.0.4)
-      build-essential (>= 0.0.0)
     phantomjs (0.0.10)
     runit (0.16.2)
     simple_iptables (0.2.4)
@@ -32,7 +29,7 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: b9d7cebe8189f9ef1febe8ddd0433acc756ed810
+  sha: a51fa05684ba351ad4d5f93105641d54426b638e
   specs:
     alm (1.0.1)
       build-essential (>= 0.0.0)
