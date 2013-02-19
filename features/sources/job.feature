@@ -18,5 +18,4 @@ Feature: See jobs
     Scenario: Jobs in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should contain:
-        |                 | All     | Pending | Working |
-        | Jobs            | 0       | 0       | 0       |
+        | Jobs            | 0       | 0       |

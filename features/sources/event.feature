@@ -24,4 +24,4 @@ Feature: See events
     Scenario: Events in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should contain:
-        | Events          | 5                              | 250        | 50                                     |
+        | Events          | 5                              | 250        |

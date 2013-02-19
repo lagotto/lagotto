@@ -64,7 +64,7 @@ Before do
   
   # Set the defaults for Aruba
   @dirs = [Rails.root]
-  @aruba_timeout_seconds = 60
+  @aruba_timeout_seconds = 90
   @aruba_io_wait_seconds = 5
 end
 

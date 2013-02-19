@@ -149,3 +149,7 @@ Then /^the table "(.*?)" should contain:$/ do |table_name, table|
   page.driver.render("tmp/capybara/#{table_name}.png")
   page.has_table?("#{table_name}", :rows => table.raw).should be_true
 end
+
+Then /^I should see a row of "(.*?)"$/ do |chart|
+  page.has_css?("div#chart_#{chart} .chart .slice").should be_true
+end
