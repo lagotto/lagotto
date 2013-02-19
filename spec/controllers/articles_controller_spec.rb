@@ -4,7 +4,7 @@ describe ArticlesController do
   render_views
   
   context "show" do
-    let(:article) { FactoryGirl.create(:article) }  
+    let(:article) { FactoryGirl.create(:article_with_events) }  
   
     it "GET DOI" do
       get "/articles/info:doi/#{article.doi}"
