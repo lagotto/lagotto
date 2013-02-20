@@ -20,7 +20,8 @@ var arc = d3.svg.arc()
     .outerRadius(radius - 10)
     .innerRadius(radius - 40);
  
-var pie = d3.layout.pie()  
+var pie = d3.layout.pie() 
+    .sort(null) 
     .value(function(d) { return d.value; });
  
 var arcs = chart.selectAll("g.slice") 
