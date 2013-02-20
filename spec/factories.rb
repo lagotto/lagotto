@@ -276,13 +276,13 @@ FactoryGirl.define do
   
   factory :error_message do
     exception "An exception"
-    class_name "ActiveRecord::RecordNotFound"
-    message "Couldn't find Source with id=x"
+    class_name "Net::HTTPRequestTimeOut"
+    message "The request timed out."
     trace "backtrace"
     request "A request"
     user_agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/536.26.17 (KHTML, like Gecko) Version/6.0.2 Safari/536.26.17"
     target_url "http://127.0.0.1/sources/x"
-    status 404
+    status 408
     content_type "text/html"
   end
   

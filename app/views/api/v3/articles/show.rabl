@@ -1,6 +1,5 @@
 object ArticleDecorator.decorate(@article)
-key = ["v1", ArticleDecorator.decorate(@article)]
-Rails.cache.read(ActiveSupport::Cache.expand_cache_key(key, :rabl))
+cache ArticleDecorator.decorate(@article)
 
 attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date
 
