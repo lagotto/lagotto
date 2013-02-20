@@ -96,14 +96,20 @@ When /^click on the "(.*?)" tab$/ do |tab_name|
 end
 
 ### THEN ###
+Then /^I should see the "(.*?)" tab$/ do |tab_title|
+  page.driver.render("tmp/capybara/#{tab_title}.png")
+  page.has_css?('li', :text => tab_title, :visible => true).should be_true
+end
+
 Then /^I should not see the "(.*?)" tab$/ do |tab_title|
   page.driver.render("tmp/capybara/#{tab_title}.png")
-  page.has_css?('li', :text => tab_title, :visible => false)
+  page.has_css?('li', :text => tab_title, :visible => true).should_not be_true
 end
 
 Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, source_name|
-  page.has_css?('text', :text => source_name, :visible => true)
-  page.has_css?('text', :text => number, :visible => true)
+  page.driver.render("tmp/capybara/#{number}.png")
+  page.has_content?(number).should be_true
+  page.has_content?(source_name).should be_true
 end
 
 Then /^I should not see a blog count$/ do
@@ -115,11 +121,11 @@ Then /^"(.*?)" should be the only option for "(.*?)"$/ do |value, field|
 end
 
 Then /^I should see the "(.*?)" column$/ do |column_title|
-  page.has_css?('th', :text => column_title, :visible => true)
+  page.has_css?('th', :text => column_title, :visible => true).should be_true
 end
 
 Then /^I should not see the "(.*?)" column$/ do |column_title|
-  page.has_css?('th', :text => column_title, :visible => false)
+  page.has_css?('th', :text => column_title, :visible => true).should_not be_true
 end
 
 Then /^I should see the "(.*?)" settings$/ do |parameter|
@@ -133,15 +139,15 @@ end
 
 Then /^I should not see the "(.*?)" link in the menu bar$/ do |link_text|
   if link_text == "Home"
-    page.has_css?('a', :text => APP_CONFIG['useragent'], :visible => false)
+    page.has_css?('a', :text => APP_CONFIG['useragent'], :visible => true).should_not be_true
   else
-    page.has_css?('a', :text => link_text, :visible => false)
-    page.driver.render("tmp/capybara/#{link_text}.png")
+    page.has_css?('div.collapse ul li a', :visible => true).should_not be_true
+    page.driver.render("tmp/capybara/#{link_text}_link.png")
   end
 end
 
 Then /^I should see the image "(.+)"$/ do |image|
-  page.has_css?("img[src='/assets/#{image}']") 
+  page.has_css?("img[src='/assets/#{image}']").should be_true
   page.driver.render("tmp/capybara/#{image}.png")
 end
 

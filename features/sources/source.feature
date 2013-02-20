@@ -22,7 +22,7 @@ Feature: Edit sources
     
     @javascript
     Scenario: Source overview should display source image
-      When I go to the "Sources" admin page
+      When I go to the "Sources" page
       Then I should see the image "citeulike.png"
     
     @javascript

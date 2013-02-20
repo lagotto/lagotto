@@ -9,17 +9,12 @@ Feature: Responsive design of sources
     And that we have 10 articles
     
   @javascript
-  Scenario: The navigation bar should be adapted to the resolution
-    When I go to the "Articles" page 
-    Then I should not see the "Home" link in the menu bar
-    Then I should not see the "Sign Out" link in the menu bar
-    
-  @javascript
-  Scenario: I should not see all information for groups
+  Scenario: I should  see all information for groups
     When I go to the "Sources" admin page
-    Then I should not see the "Group" column
+    Then I should see the "Group" column
     
   @javascript
-  Scenario: I should not see the source summary tab
+  Scenario: I should see the source summary tab
     When I go to the source "CiteULike"
-    Then I should not see the "Summary" tab
+    Then I should see the "Summary" tab
+    And I should not see the "Configuration" tab

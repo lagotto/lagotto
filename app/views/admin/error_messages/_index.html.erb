@@ -48,7 +48,7 @@
                 <% end %>
               </ul>
             </div>
-            <p><%= link_to error_message.class_name, admin_error_messages_path(:query => h(error_message.class_name)) %></p>
+            <p class="class_name"><%= link_to error_message.class_name, admin_error_messages_path(:query => h(error_message.class_name)) %></p>
             <% unless error_message.content_type.blank? or error_message.content_type == "text/html" %>
               <h5>Content Type</h5>
               <%= error_message.content_type %>
