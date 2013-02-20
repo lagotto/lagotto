@@ -1,19 +1,19 @@
-<ul class="thumbnails">
-  <li class="span4">
+<ul class="thumbnails graphs">
+  <li class="span3">
     <div class="thumbnail" id="chart_status">
       <%= javascript_tag do -%>
         <%= render :partial => 'status', formats: :js %> 
       <% end %>
     </div>
   </li>
-  <li class="span4">
+  <li class="span3">
     <div class="thumbnail" id="chart_day">
       <%= javascript_tag do -%>
         <%= render :partial => 'day', formats: :js %> 
       <% end %>
     </div>
   </li>
-  <li class="span4">
+  <li class="span3">
     <div class="thumbnail" id="chart_month">
       <%= javascript_tag do -%>
         <%= render :partial => 'month', formats: :js %> 
@@ -38,13 +38,13 @@
     </tr>
     <tr>
       <th/>
-      <th class="number">Events</th>
-      <th class="number">No Events</th>
+      <th class="number">Responses</th>
+      <th class="number">Errors</th>
     </tr>
     <tr>
-      <th>Updated Articles in the last 24 Hours</th>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.with_events(1).size) %></td>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.without_events(1).size) %></td>
+      <th>Responses in the last 24 Hours</th>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.total(1).size) %></td>
+      <td class="number"><%= link_to_if @source.error_messages.total(1).size > 0, number_with_delimiter(@source.error_messages.total(1).size), admin_error_messages_path(:source_id => @source.id) %></td>
     </tr>
     <tr>
       <th/>

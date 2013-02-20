@@ -20,6 +20,7 @@ var arc = d3.svg.arc()
     .innerRadius(radius - 40);
  
 var pie = d3.layout.pie()  
+    .sort(null)
     .value(function(d) { return d.month; });
  
 var arcs = chart.selectAll("g.slice") 
