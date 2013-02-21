@@ -31,33 +31,33 @@ var request = crossfilter(data),
 var charts = [
 
   barChart()
-      .dimension(hour)
-      .group(hours)
-      .x(d3.scale.linear()
-      .domain([0, 24])
-      .rangeRound([0, 10 * 24])),
-
-  barChart()
-      .dimension(db_duration)
-      .group(db_durations)
-      .x(d3.scale.linear()
-      .domain([0, 400])
-      .rangeRound([0, 10 * 24])),
-
-  barChart()
-      .dimension(view_duration)
-      .group(view_durations)
-      .x(d3.scale.linear()
-      .domain([0, 1600])
-      .rangeRound([0, 10 * 24])),
-
-  barChart()
       .dimension(date)
       .group(dates)
       .round(d3.time.day.round)
       .x(d3.time.scale.utc()
       .domain([new Date(new Date().getTime() - 42 * 24 * 60 * 60 * 1000), new Date()])
-      .rangeRound([0, 10 * 90]))
+      .rangeRound([0, 10 * 32])),
+      
+  barChart()
+      .dimension(db_duration)
+      .group(db_durations)
+      .x(d3.scale.linear()
+      .domain([0, 500])
+      .rangeRound([0, 10 * 32])),
+
+  barChart()
+      .dimension(hour)
+      .group(hours)
+      .x(d3.scale.linear()
+      .domain([0, 24])
+      .rangeRound([0, 10 * 32])),
+
+  barChart()
+      .dimension(view_duration)
+      .group(view_durations)
+      .x(d3.scale.linear()
+      .domain([0, 2000])
+      .rangeRound([0, 10 * 32]))
 
 ];
 
