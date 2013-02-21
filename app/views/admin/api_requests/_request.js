@@ -136,11 +136,11 @@ function requestList(div) {
         
     requestEnter.append("div")
         .attr("class", "db_duration")
-        .classed("cached", function(d) { return d.db_duration < 10; })
         .text(function(d) { return d.db_duration + " ms"; });
 
     requestEnter.append("div")
         .attr("class", "view_duration")
+        .classed("fast", function(d) { return d.view_duration < 100; })
         .classed("slow", function(d) { return d.view_duration >= 1000; })
         .text(function(d) { return d.view_duration + " ms"; });
         
