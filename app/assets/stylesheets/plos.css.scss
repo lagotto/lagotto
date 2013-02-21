@@ -59,11 +59,6 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .chart .title { font-size: 24px; }
 .chart .subtitle { fill: grey; }
 
-
-#charts {
-  padding: 10px 0;
-}
-
 .req-chart {
   display: inline-block;
   height: 151px;
@@ -73,15 +68,15 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .reset {
   padding-left: 1em;
   font-size: 13px;
-  color: #ccc;
+  color: #978d7f;
 }
 
 .background.bar {
-  fill: #ccc;
+  fill: #dfdbd4;
 }
 
 .foreground.bar {
-  fill: steelblue;
+  fill: #789aa1;
 }
 
 .axis path, .axis line {
@@ -95,7 +90,7 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 }
 
 .brush rect.extent {
-  fill: steelblue;
+  fill: #978d7f;
   fill-opacity: .125;
 }
 
@@ -111,13 +106,10 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 
 #request-list { min-height: 1024px; }
 #request-list .date,
-#request-list .day {
-  margin-bottom: .4em;
-}
+#request-list .day { margin-bottom: .4em; }
 #request-list .request {
   line-height: 1.5em;
-  background: #eee;
-  width: 920px;
+  background: #f2f2f2;
   margin-bottom: 1px;
 }
 #request-list .time { color: #999; }
@@ -127,20 +119,19 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
   width: 100px;
 }
 
-#request-list div.db,
-#request-list div.view {
-  width: 160px;
-  padding-right: 10px;
+#request-list div.db_duration,
+#request-list div.view_duration {
+  width: 80px;
+  padding-right: 20px;
   text-align: right;
 }
 
 #request-list .cached {
-  color: green;
+  color: #789aa1;
 }
 
-aside {
-  position: absolute;
-  left: 740px;
-  font-size: smaller;
-  width: 220px;
+#request-list .slow {
+  color: #a17f78;
 }
+
+#totals {font-size: smaller; }

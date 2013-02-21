@@ -41,14 +41,14 @@ var charts = [
       .dimension(db_duration)
       .group(db_durations)
       .x(d3.scale.linear()
-      .domain([0, 500])
+      .domain([0, 400])
       .rangeRound([0, 10 * 24])),
 
   barChart()
       .dimension(view_duration)
       .group(view_durations)
       .x(d3.scale.linear()
-      .domain([0, 1000])
+      .domain([0, 1600])
       .rangeRound([0, 10 * 24])),
 
   barChart()
@@ -56,9 +56,8 @@ var charts = [
       .group(dates)
       .round(d3.time.day.round)
       .x(d3.time.scale.utc()
-      .domain([new Date(today.getTime() - 42 * 24 * 60 * 60 * 1000), today])
+      .domain([new Date(new Date().getTime() - 42 * 24 * 60 * 60 * 1000), new Date()])
       .rangeRound([0, 10 * 90]))
-      .filter([new Date(today.getTime() - 42 * 24 * 60 * 60 * 1000), today])
 
 ];
 
@@ -137,15 +136,16 @@ function requestList(div) {
         
     requestEnter.append("div")
         .attr("class", "db_duration")
-        .classed("cached", function(d) { return d.db_duration < 1; })
+        .classed("cached", function(d) { return d.db_duration < 10; })
         .text(function(d) { return d.db_duration + " ms"; });
 
     requestEnter.append("div")
         .attr("class", "view_duration")
+        .classed("slow", function(d) { return d.view_duration >= 1000; })
         .text(function(d) { return d.view_duration + " ms"; });
         
     requestEnter.append("div")
-        .attr("class", "url")
+        .attr("class", "url hidden-phone")
         .text(function(d) { return d.url; });
 
     request.exit().remove();

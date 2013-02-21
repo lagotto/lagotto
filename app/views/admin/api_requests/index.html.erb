@@ -3,25 +3,31 @@
     <h1>API Requests</h1>
   </div>
   
-  <div id="charts">
-    <div id="hour-chart" class="req-chart">
-      <div class="title">Time of Day</div>
+  <div class="row">
+    <div class="span12">
+      Number and duration of API requests in the last 6 weeks. Filter by <a href="javascript:filter([null, [0, 10], null, null])">cached</a> responses (< 10 ms database duration), <a href="javascript:filter([null, null, [1000, 50000], null])">slow</a> responses (>&nbsp;1,000 ms view duration), or responses <a href="javascript:filter([null, null, null, [new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000), new Date()]])">in the last 24 hours</a>.</p>
     </div>
-    <div id="db-chart" class="req-chart">
-      <div class="title">DB Duration (ms)</div>
-    </div>
-    <div id="duration-chart" class="req-chart">
-      <div class="title">View Duration (ms)</div>
-    </div>
-    <div id="date-chart" class="req-chart">
-      <div class="title">Date</div>
-    </div>
-  </div>
 
-  <aside id="totals"><span id="active">-</span> of <span id="total">-</span> requests selected.</aside>
+    <div id="charts">
+      <div id="hour-chart" class="span4 req-chart">
+        <div class="title">Time of Day (UTC)</div>
+      </div>
+      <div id="db-chart" class="span4 req-chart">
+        <div class="title">Database Duration (ms)</div>
+      </div>
+      <div id="duration-chart" class="span4 req-chart">
+        <div class="title">View Duration (ms)</div>
+      </div>
+      <div id="date-chart" class="span12 req-chart visible-desktop">
+        <div class="title">Date</div>
+      </div>
+    </div>
 
-  <div id="lists">
-    <div id="request-list" class="list"></div>
+    <div id="lists">
+      <div id="request-list" class="span12 list">
+      <div id="totals" class="pull-right"><span id="active">-</span> of <span id="total">-</span> requests selected.</div>
+      </div>
+    </div>
   </div>
   
   <%= javascript_tag do -%>
