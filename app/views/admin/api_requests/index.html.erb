@@ -3,30 +3,28 @@
     <h1>API Requests</h1>
   </div>
   
-  <p>Number and average duration in ms for requests to the v3 API.</p>
+  <div id="charts">
+    <div id="hour-chart" class="req-chart">
+      <div class="title">Time of Day</div>
+    </div>
+    <div id="db-chart" class="req-chart">
+      <div class="title">DB Duration (ms)</div>
+    </div>
+    <div id="duration-chart" class="req-chart">
+      <div class="title">View Duration (ms)</div>
+    </div>
+    <div id="date-chart" class="req-chart">
+      <div class="title">Date</div>
+    </div>
+  </div>
+
+  <aside id="totals"><span id="active">-</span> of <span id="total">-</span> requests selected.</aside>
+
+  <div id="lists">
+    <div id="request-list" class="list"></div>
+  </div>
   
-  <table class="table table-striped" id="ApiRequestsTable">
-    <thead>
-      <tr>
-        <th/>
-        <th class="number">Number</th>
-        <th class="number">DB</th>
-        <th class="number">View</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>Requests in the last 24 Hours</th>
-        <td class="number"><%= number_with_delimiter(@requests_24_count) %></td>
-        <td class="number"><%= @requests_24_db_average.blank? ? "n/a" : number_with_precision(@requests_24_db_average, :precision => 1) %></td>
-        <td class="number"><%= @requests_24_view_average.blank? ? "n/a" : number_with_precision(@requests_24_view_average, :precision => 1) %></td>
-      </tr>
-      <tr>
-        <th>Requests in the last 30 Days</th>
-        <td class="number"><%= number_with_delimiter(@requests_30_count) %></td>
-        <td class="number"><%= @requests_30_db_average.blank? ? "n/a" : number_with_precision(@requests_30_db_average, :precision => 1) %></td>
-        <td class="number"><%= @requests_30_view_average.blank? ? "n/a" : number_with_precision(@requests_30_view_average, :precision => 1) %></td>
-      </tr>
-    </tbody>
-  </table>
+  <%= javascript_tag do -%>
+    <%= render :partial => 'request', formats: :js %> 
+  <% end %>
 </div>
