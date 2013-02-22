@@ -1,11 +1,3 @@
-## v2.0.0:
-
-[COOK-2115] - Improve `passenger_apache2` cookbook source
-[COOK-2128] - Allow apache passenger to be installed via packages
-[COOK-2203] - Remove :source key from `module_path`
-[COOK-2379] - `passenger_apache2` should install passenger 3.0.19
-[COOK-2380] - `pasenger_apache2` should use `platform_family` for additional platform support
-
 ## v1.1.0:
 
 * [COOK-2003] - only able to use apache2-prefork-dev to compile

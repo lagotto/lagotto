@@ -22,21 +22,40 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'apache2'
+include_recipe "apache2"
+include_recipe "build-essential"
 
-case node['passenger']['install_method']
-when 'source'
-  include_recipe 'passenger_apache2::source'
-when 'package'
-  include_recipe 'passenger_apache2::package'
+case node[:platform]
+when "arch"
+  package "apache"
+when "centos","redhat"
+  package "httpd-devel"
+  if node['platform_version'].to_f < 6.0
+    package 'curl-devel'
+  else
+    package 'libcurl-devel'
+    package 'openssl-devel'
+    package 'zlib-devel'
+  end
 else
-  raise "Unsupported passenger installation method requested: #{node['passenger']['install_method']}. Supported: source or package."
+  apache_development_package =  if %w( worker threaded ).include? node['passenger']['apache_mpm']
+                                  'apache2-threaded-dev'
+                                else
+                                  'apache2-prefork-dev'
+                                end
+  %W( #{apache_development_package} libapr1-dev libcurl4-gnutls-dev ).each do |pkg|
+    package pkg do
+      action :upgrade
+    end
+  end
 end
 
-if(node['passenger']['manage_module_conf'])
-  include_recipe 'passenger_apache2::mod_rails'
+gem_package "passenger" do
+  gem_binary "/usr/bin/gem"
+  version node[:passenger][:version]
 end
 
-apache_module 'passenger' do
-  module_path node['passenger']['module_path']
+execute "passenger_module" do
+  command 'passenger-install-apache2-module --auto'
+  creates node[:passenger][:module_path]
 end
