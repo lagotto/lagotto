@@ -1,0 +1,41 @@
+{
+  "name": "passenger_apache2",
+  "description": "Installs passenger for Apache2",
+  "long_description": "Description\n===========\n\nInstalls passenger for Apache 2.\n\nRequirements\n============\n\nRequires Chef 0.10.10+ and Ohai 0.6.10+ for `platform_family` attribute use.\n\n## Platform\n\nTested on the following platforms:\n\n* Ubuntu 10.04, 12.04\n* CentOS 5.8, 6.3\n\nThe source install method was used on CentOS. It may work on other\nplatforms with or without modification.\n\n## Cookbooks\n\nOpscode cookbooks:\n\n* apache2\n* build-essential\n\nAttributes\n==========\n\n* `node['passenger']['version']` - Specify the version of passenger to\n  install.\n* `node['passenger']['max_pool_size']` - Sets PassengerMaxPoolSize in the\n  Apache module config.\n* `node['passenger']['root_path']` - The location of the passenger gem.\n* `node['passenger']['module_path']` - The location of the compiled passenger\n  apache module.\n* `node['passenger']['install_method']` - Includes the \"source\" (gem\n  install) or \"package\" recipe. Default \"source.\"\n* `node['passenger']['apache_mpm']` - Override with an\n  \"override_attribute\" (in a role, environment or with node.override)\n  to \"worker\" or \"threaded\" to use apache2-threaded-dev package.\n  Otherwise this assumes prefork.\n* `node['passenger']['package']['name']` - Name of the package for\n  passenger, default is nil, so this must be set before using the\n  \"package\" install method/recipe.\n* `node['passenger']['package']['version']` - Specify the version of\n  the passenger package to install. Uses `version` attribute above by\n  default. To install the version available by default (latest,\n  usually), delete the attribute in a recipe with this line:\n\n    node.set['passenger']['package'].delete('version')\n\nRecipes\n=======\n\n## default\n\nInstalls passenger from gem (source) or package depending on the value\nof the `install_method` attribute.\n\n## mod_rails\n\nInstalls the passenger gem and enables the module in Apache2.\n\n## source\n\nInstalls passenger as a RubyGem.\n\n## package\n\nInstalls passenger as a Package.\n\nSet the `install_method` attribute to package, then set the\n`package['name']` attribute to the correct package for your platform.\nThe recipe does not yet handle adding yum repositories for RHEL\nplatforms, so that should be done in another recipe until COOK-2414 is\nresolved.\n\nThe version of the package to install will be the same as the gem (the\n`version` attribute, above). Set the\n`node['passenger']['package']['version']` attribute to the correct\nvalue for your system's available package repository, or delete the\nattribute and use the latest available with:\n\n    node.set['passenger']['package'].delete('version')\n\nUsage\n=====\n\nFor example, to run a Rails application on passenger:\n\n    include_recipe \"rails\"\n    include_recipe \"passenger_apache2\"\n\n    web_app \"myproj\" do\n      docroot \"/srv/myproj/public\"\n      server_name \"myproj.#{node[:domain]}\"\n      server_aliases [ \"myproj\", node[:hostname] ]\n      rails_env \"production\"\n    end\n\nA sample config template is provided, `web_app.conf.erb`. If this is\nsuitable for your application, add 'cookbook \"passenger\"' to the\ndefine above to use that template. Otherwise, copy the template to the\ncookbook where you're using `web_app`, and modify as needed. The\ncookbook parameter is optional, if omitted it will search the cookbook\nwhere the define is used.\n\nLicense and Author\n==================\n\n- Author: Joshua Timberman (<joshua@opscode.com>)\n- Author: Joshua Sierles (<joshua@37signals.com>)\n- Author: Michael Hale (<mikehale@gmail.com>)\n- Author: Chris Roberts (<chrisroberts.code@gmail.com>)\n\n- Copyright: 2009-2013, Opscode, Inc\n- Copyright: 2009, 37signals\n- Copright: 2009, Michael Hale\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "redhat": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "scientific": ">= 0.0.0",
+    "amazon": ">= 0.0.0",
+    "oracle": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "debian": ">= 0.0.0",
+    "arch": ">= 0.0.0"
+  },
+  "dependencies": {
+    "apache2": ">= 1.0.4",
+    "build-essential": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "passenger_apache2": "Installs Passenger as an Apache module",
+    "passenger_apache2::mod_rails": "Enables Apache module configuration for passenger module"
+  },
+  "version": "2.0.0"
+}

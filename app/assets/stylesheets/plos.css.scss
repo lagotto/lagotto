@@ -59,7 +59,6 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .chart .title { font-size: 24px; }
 .chart .subtitle { fill: grey; }
 
-
 .req-chart {
   display: inline-block;
   height: 151px;
@@ -115,8 +114,7 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
   width: 100px;
 }
 
-#request-list div.db_duration,
-#request-list div.view_duration {
+#request-list div.duration {
   width: 80px;
   padding-right: 20px;
   text-align: right;

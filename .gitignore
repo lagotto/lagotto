@@ -13,6 +13,7 @@
 .sass-cache
 capybara-*.html
 .rspec
+.librarian
 /.bundle
 /vendor/bundle/*
 /log/*
@@ -25,6 +26,7 @@ capybara-*.html
 /config/settings.yml
 /config/deploy.rb
 /config/data_bags/*
+/vendor/cookbooks/*/.git
 **.orig
 rerun.txt
 pickle-email-*.html
