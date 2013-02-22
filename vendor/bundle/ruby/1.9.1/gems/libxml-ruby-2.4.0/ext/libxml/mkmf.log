@@ -1,0 +1,389 @@
+have_library: checking for socket() in -lsocket... -------------------- no
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic     -lruby  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main() {return 0;}
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic     -lruby -lsocket  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »socket« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))socket; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic     -lruby -lsocket  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+/usr/bin/ld: cannot find -lsocket
+collect2: ld gab 1 als Ende-Status zurück
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { socket(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for gethostbyname() in -lnsl... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic     -lruby -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »gethostbyname« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))gethostbyname; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic     -lruby -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { gethostbyname(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for atan() in -lm... -------------------- no
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lnsl  -lruby -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »atan« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))atan; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lnsl  -lruby -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Unverträgliche implizite Deklaration der eingebauten Funktion »atan«
+conftest.c:5: Fehler: Zu wenige Argumente für Funktion »atan«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { atan(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for atan() in -lm... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC -fno-builtin conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lnsl  -lruby -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »atan« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))atan; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC -fno-builtin conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lnsl  -lruby -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { atan(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for inflate() in -lz... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lm -lnsl  -lruby -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »inflate« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))inflate; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lm -lnsl  -lruby -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { inflate(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for iconv_open() in -liconv... -------------------- no
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lz -lm -lnsl  -lruby -liconv -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »iconv_open« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))iconv_open; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lz -lm -lnsl  -lruby -liconv -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+/usr/bin/ld: cannot find -liconv
+collect2: ld gab 1 als Ende-Status zurück
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { iconv_open(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for libiconv_open() in -liconv... -------------------- no
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lz -lm -lnsl  -lruby -liconv -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »libiconv_open« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))libiconv_open; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lz -lm -lnsl  -lruby -liconv -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+/usr/bin/ld: cannot find -liconv
+collect2: ld gab 1 als Ende-Status zurück
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { libiconv_open(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for libiconv_open() in -llibiconv... -------------------- no
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lz -lm -lnsl  -lruby -llibiconv -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »libiconv_open« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))libiconv_open; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lz -lm -lnsl  -lruby -llibiconv -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+/usr/bin/ld: cannot find -llibiconv
+collect2: ld gab 1 als Ende-Status zurück
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { libiconv_open(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for iconv_open() in -llibiconv... -------------------- no
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lz -lm -lnsl  -lruby -llibiconv -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »iconv_open« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))iconv_open; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lz -lm -lnsl  -lruby -llibiconv -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+/usr/bin/ld: cannot find -llibiconv
+collect2: ld gab 1 als Ende-Status zurück
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { iconv_open(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for iconv_open() in -lc... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lz -lm -lnsl  -lruby -lc -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »iconv_open« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))iconv_open; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lz -lm -lnsl  -lruby -lc -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { iconv_open(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for xmlParseDoc() in -lxml2... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lc -lz -lm -lnsl  -lruby -lxml2 -lc -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »xmlParseDoc« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))xmlParseDoc; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC conftest.c  -L. -L/usr/lib64 -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic    -lc -lz -lm -lnsl  -lruby -lxml2 -lc -lz -lm -lnsl  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { xmlParseDoc(); return 0; }
+/* end */
+
+--------------------
+
+have_header: checking for libxml/xmlversion.h... -------------------- no
+
+"gcc -E -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC  conftest.c -o conftest.i"
+conftest.c:3:31: Fehler: libxml/xmlversion.h: Datei oder Verzeichnis nicht gefunden
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/xmlversion.h>
+/* end */
+
+--------------------
+
+find_header: checking for libxml/xmlversion.h in /opt/include/libxml2,/usr/local/include/libxml2,/usr/include/libxml2... -------------------- yes
+
+"gcc -E -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC  conftest.c -o conftest.i"
+conftest.c:3:31: Fehler: libxml/xmlversion.h: Datei oder Verzeichnis nicht gefunden
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/xmlversion.h>
+/* end */
+
+"gcc -E -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC -I/opt/include/libxml2 conftest.c -o conftest.i"
+conftest.c:3:31: Fehler: libxml/xmlversion.h: Datei oder Verzeichnis nicht gefunden
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/xmlversion.h>
+/* end */
+
+"gcc -E -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC -I/usr/local/include/libxml2 conftest.c -o conftest.i"
+conftest.c:3:31: Fehler: libxml/xmlversion.h: Datei oder Verzeichnis nicht gefunden
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/xmlversion.h>
+/* end */
+
+"gcc -E -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC -I/usr/include/libxml2 conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/xmlversion.h>
+/* end */
+
+--------------------
+
+extconf.h is:
+/* begin */
+1: #ifndef EXTCONF_H
+2: #define EXTCONF_H
+3: #define HAVE_ZLIB_H 1
+4: #endif
+/* end */
+

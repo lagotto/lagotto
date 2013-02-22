@@ -1,0 +1,371 @@
+package configuration for libxslt
+cflags: -I/usr/include/libxml2  
+ldflags: 
+libs: -lxslt -lz -lm -lxml2  
+
+package configuration for libxml-2.0
+cflags: -I/usr/include/libxml2  
+ldflags: 
+libs: -lxml2  
+
+package configuration for libiconv is not found
+find_header: checking for libxml/parser.h... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic       -lxslt -lz -lm -lxml2   -lxml2   -lruby  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main() {return 0;}
+/* end */
+
+"gcc -E -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2    conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/parser.h>
+/* end */
+
+--------------------
+
+find_header: checking for libxslt/xslt.h... -------------------- yes
+
+"gcc -E -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2    conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxslt/xslt.h>
+/* end */
+
+--------------------
+
+find_header: checking for libexslt/exslt.h... -------------------- yes
+
+"gcc -E -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2    conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libexslt/exslt.h>
+/* end */
+
+--------------------
+
+have_func: checking for iconv_open() in iconv.h... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic       -lxslt -lz -lm -lxml2   -lxml2   -lruby  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <iconv.h>
+4: 
+5: /*top*/
+6: int main() {return 0;}
+7: int t() { void ((*volatile p)()); p = (void ((*)()))iconv_open; return 0; }
+/* end */
+
+--------------------
+
+find_library: checking for xmlParseDoc() in -lxml2... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic       -lxslt -lz -lm -lxml2   -lxml2   -lruby -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »xmlParseDoc« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))xmlParseDoc; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic       -lxslt -lz -lm -lxml2   -lxml2   -lruby -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Implizite Deklaration der Funktion »xmlParseDoc«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { xmlParseDoc(); return 0; }
+/* end */
+
+--------------------
+
+find_library: checking for xsltParseStylesheetDoc() in -lxslt... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »xsltParseStylesheetDoc« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))xsltParseStylesheetDoc; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Implizite Deklaration der Funktion »xsltParseStylesheetDoc«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { xsltParseStylesheetDoc(); return 0; }
+/* end */
+
+--------------------
+
+find_library: checking for exsltFuncRegister() in -lexslt... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »exsltFuncRegister« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))exsltFuncRegister; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Implizite Deklaration der Funktion »exsltFuncRegister«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { exsltFuncRegister(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlHasFeature()... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »xmlHasFeature« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))xmlHasFeature; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Implizite Deklaration der Funktion »xmlHasFeature«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { xmlHasFeature(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlFirstElementChild()... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »xmlFirstElementChild« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))xmlFirstElementChild; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Implizite Deklaration der Funktion »xmlFirstElementChild«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { xmlFirstElementChild(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlRelaxNGSetParserStructuredErrors()... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »xmlRelaxNGSetParserStructuredErrors« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))xmlRelaxNGSetParserStructuredErrors; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Implizite Deklaration der Funktion »xmlRelaxNGSetParserStructuredErrors«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { xmlRelaxNGSetParserStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlRelaxNGSetParserStructuredErrors()... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »xmlRelaxNGSetParserStructuredErrors« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))xmlRelaxNGSetParserStructuredErrors; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Implizite Deklaration der Funktion »xmlRelaxNGSetParserStructuredErrors«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { xmlRelaxNGSetParserStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlRelaxNGSetValidStructuredErrors()... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »xmlRelaxNGSetValidStructuredErrors« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))xmlRelaxNGSetValidStructuredErrors; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Implizite Deklaration der Funktion »xmlRelaxNGSetValidStructuredErrors«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { xmlRelaxNGSetValidStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlSchemaSetValidStructuredErrors()... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »xmlSchemaSetValidStructuredErrors« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))xmlSchemaSetValidStructuredErrors; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Implizite Deklaration der Funktion »xmlSchemaSetValidStructuredErrors«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { xmlSchemaSetValidStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlSchemaSetParserStructuredErrors()... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Fehler: »xmlSchemaSetParserStructuredErrors« nicht deklariert (erste Benutzung in dieser Funktion)
+conftest.c:5: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+conftest.c:5: Fehler: für jede Funktion in der er auftritt.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))xmlSchemaSetParserStructuredErrors; return 0; }
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I. -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/local/include -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/libxml2    -O2 -g -fPIC  -g -DXP_UNIX -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/usr/include/libxml2   -I/usr/include/libxml2   conftest.c  -L. -L/usr/lib64 -L/opt/local/lib -L/usr/local/lib -L/usr/lib64 -L/usr/lib -L.  -rdynamic -Wl,-export-dynamic      -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lruby -lexslt -lxslt -lxml2  -lxslt -lz -lm -lxml2   -lxml2   -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In Funktion »t«:
+conftest.c:5: Warnung: Implizite Deklaration der Funktion »xmlSchemaSetParserStructuredErrors«
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { xmlSchemaSetParserStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+

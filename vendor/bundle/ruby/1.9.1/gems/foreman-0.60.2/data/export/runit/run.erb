@@ -1,0 +1,3 @@
+#!/bin/sh
+cd <%= engine.root %>
+exec chpst -u <%= user %> -e <%= File.join(location, "#{process_directory}/env")  %> <%= process.command %>

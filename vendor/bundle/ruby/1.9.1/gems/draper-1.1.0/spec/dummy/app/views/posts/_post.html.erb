@@ -1,0 +1,34 @@
+<dl>
+  <dt>Environment:</dt>
+  <dd id="environment"><%= Rails.env %></dd>
+
+  <dt>Draper view context controller:</dt>
+  <dd id="controller"><%= Draper::ViewContext.current.controller.class %></dd>
+
+  <dt>Posted:</dt>
+  <dd id="posted_date"><%= post.posted_date %></dd>
+
+  <dt>Built-in helpers:</dt>
+  <dd id="truncated"><%= post.truncated %></dd>
+
+  <dt>Built-in private helpers:</dt>
+  <dd id="html_escaped"><%= post.html_escaped %></dd>
+
+  <dt>Helpers from app/helpers:</dt>
+  <dd id="hello_world"><%= post.hello_world %></dd>
+
+  <dt>Helpers from the controller:</dt>
+  <dd id="goodnight_moon"><%= post.goodnight_moon %></dd>
+
+  <dt>Path with model:</dt>
+  <dd id="path_with_model"><%= post.path_with_model %></dd>
+
+  <dt>Path with id:</dt>
+  <dd id="path_with_id"><%= post.path_with_id %></dd>
+
+  <dt>URL with model:</dt>
+  <dd id="url_with_model"><%= post.url_with_model %></dd>
+
+  <dt>URL with id:</dt>
+  <dd id="url_with_id"><%= post.url_with_id %></dd>
+</dl>

@@ -1,0 +1,22 @@
+have_library: checking for main() in -lc... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC -O0 -Wall conftest.c  -L. -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic     -lruby  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main() {return 0;}
+/* end */
+
+"gcc -o conftest -I/usr/include/x86_64-linux -I/usr/include/ruby/backward -I/usr/include -I.    -O2 -g -fPIC -O0 -Wall conftest.c  -L. -L/usr/lib64 -L.  -rdynamic -Wl,-export-dynamic     -lruby -lc  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))main; return 0; }
+/* end */
+
+--------------------
+

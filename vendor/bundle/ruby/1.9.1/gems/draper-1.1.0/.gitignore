@@ -1,0 +1,16 @@
+*.gem
+*.rvmrc
+.bundle
+Gemfile.lock
+pkg/*
+coverage.data
+coverage/*
+.yardoc
+doc/*
+tmp
+vendor/bundle
+*.swp
+*.swo
+*.DS_Store
+spec/dummy/log/*
+spec/dummy/db/*.sqlite3

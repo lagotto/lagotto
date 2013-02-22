@@ -1,0 +1,5 @@
+gem 'minitest'
+require 'launchy'
+require 'stringio'
+require 'minitest/autorun'
+require 'minitest/pride'

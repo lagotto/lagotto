@@ -1,0 +1,35 @@
+This library provides object references for Ruby as well as some common utilities for working with references. Object references are used to point to other objects and come in three distinct flavors that interact differently with the garbage collector.
+
+* Ref::StrongReference - This is a plain old pointer to another object.
+* Ref::WeakReference - This is a pointer to another object, but it is not seen by the garbage collector and the memory used by the object can be reclaimed at any time.
+* Ref::SoftReference - This is similar to a weak reference, but the garbage collector is not as eager to reclaim the referenced object.
+
+All of these classes extend from a common Ref::Reference class and have a common interface.
+
+Weak and soft references are useful when you have instantiated objects that you may want to use again but can recreate if necessary. Since the garbage collector determines when to reclaim the memory used by the objects, you don't need to worry about bloating the Ruby heap.
+
+= Example Usage
+
+  ref = Ref::WeakReference.new("hello")
+  ref.object # should be "hello"
+  ObjectSpace.garbage_collect
+  ref.object # should be nil (assuming the garbage collector reclaimed the reference)
+
+= Goodies
+
+This library also includes tools for some common uses of weak and soft references.
+
+* Ref::WeakKeyMap - A map of keys to values where the keys are weak references
+* Ref::WeakValueMap - A map of keys to values where the values are weak references
+* Ref::SoftKeyMap - A map of keys to values where the keys are soft references
+* Ref::SoftValueMap - A map of keys to values where the values are soft references
+* Ref::ReferenceQueue - A thread safe implementation of a queue that will add references to itself as their objects are garbage collected.
+
+= Problems with WeakRef
+
+Ruby does come with the WeakRef class in the standard library. However, there are issues with this class across several different Ruby runtimes. This gem provides a common interface to weak references that works across MRI, Ruby Enterprise Edition, YARV, Jruby, Rubinius, and IronRuby.
+
+1. MRI and REE 1.8 - WeakRef extends from Delegator which is a very heavy weight class under Ruby 1.8. Creating a WeakRef object will allocate thousands of other objects and use up hundreds of kilobytes of memory. This makes WeakRef all but unusable even if you only need several hundred of them.
+2. YARV 1.9 - WeakRef is unsafe to use because the garbage collector can run in a different system thread than a thread allocating memory. This exposes a bug where a WeakRef may end up pointing to a completely different object than it originally referenced.
+3. Jruby and IronRuby - Jruby and IronRuby using the Ruby 1.8 libraries suffers from the same performance issue with the Delegator class. Furthermore, these VM's don't implement the method used to load an object from the heap using an object id and so cannot use a pure Ruby method to implement weak references.
+4. Rubinius - Rubinius implements WeakRef with a lighter weight version of delegation and works very well.

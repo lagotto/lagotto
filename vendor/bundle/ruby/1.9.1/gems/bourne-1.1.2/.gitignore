@@ -1,0 +1,7 @@
+pkg
+*.swp
+.swo
+*~
+tags
+rdoc
+*.gem

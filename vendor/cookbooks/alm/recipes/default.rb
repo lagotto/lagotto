@@ -11,19 +11,10 @@ if node['platform'] == "ubuntu"
 end
 
 # Install required gems via bundler
-case node['platform']
-when "ubuntu"
-  script "bundle" do
-    interpreter "bash"
-    cwd "/vagrant"
-    code "bundle install"
-  end
-when "centos"
-  script "bundle" do
-    interpreter "bash"
-    cwd "/vagrant"
-    code "bundle install --path vendor/bundle"
-  end
+script "bundle" do
+  interpreter "bash"
+  cwd "/vagrant"
+  code "bundle install"
 end
 
 # Create new settings.yml
