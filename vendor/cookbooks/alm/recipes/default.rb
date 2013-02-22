@@ -94,12 +94,20 @@ when "centos"
     mode 0644
   end
   
+  # Allow all traffic on the loopback device
+  simple_iptables_rule "system" do
+    rule "--in-interface lo"
+    jump "ACCEPT"
+  end
+  
+  # Allow HTTP
+  simple_iptables_rule "http" do
+    rule "--proto tcp --dport 80"
+    jump "ACCEPT"
+  end
+  
   script "start httpd" do
     interpreter "bash"
-    code "sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT"
-    code "sudo service iptables save"
-    code "sudo /etc/init.d/iptables restart"
-    code "sudo chkconfig --levels 235 httpd on"
     code "sudo /sbin/service httpd start"
   end
 end
