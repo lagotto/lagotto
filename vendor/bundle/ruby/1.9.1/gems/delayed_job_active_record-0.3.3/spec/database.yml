@@ -1,8 +1,0 @@
-sqlite:
-  adapter: sqlite3
-  database: ":memory:"
-
-mysql:
-  adapter: mysql
-  database: delayed_job
-  uesrname: root

@@ -1,7 +1,0 @@
-*.swp
-test.db
-factory_girl_rails-*.gem
-tmp
-rdoc
-coverage
-pkg

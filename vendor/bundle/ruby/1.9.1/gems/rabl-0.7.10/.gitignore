@@ -1,7 +1,0 @@
-*.gem
-.bundle
-.rvmrc
-Gemfile.lock
-pkg/*
-fixtures/rails2/log/*.log
-tags
