@@ -1,0 +1,37 @@
+# staleness and batch_time_interval are durations, you can use ERB such as <%%= 2.hours %>
+#
+# source: staleness can be integer or array with up to 4 integer elements:
+# 1: for all articles
+# 2: for articles up to 7 days old, for all other articles
+# 3: for articles up to 7 days old, up to 31 days old, for all other articles
+# 4: for articles up to 7 days old, up to 31 days old, up to 1 year old, for all other articles
+
+defaults: &defaults
+  useragent: <%= node[:alm][:useragent] %>
+  notification_email: <%= node[:alm][:email] %>
+  rest_auth_site_key: <%= node[:alm][:key] %>
+  rest_auth_digest_stretches: 10
+  session_secret: <%= node[:alm][:secret] %>
+  layout: <%= node[:alm][:layout] %>
+  couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:alm][:name] %>/
+  doi_prefix: <%= node[:alm][:doi_prefix] %>
+  uid: <%= node[:alm][:uid] %>
+  source:
+    job_batch_size: 200
+    staleness: [ <%%= 1.day %>, <%%= 1.day %>, <%%= 1.month %>, <%%= 1.month %> ]
+    batch_time_interval: <%%= 1.hour %>
+  nature:
+    requests_per_day: 5000
+
+development:
+  <<: *defaults
+  hostname: http://dev.example.org 
+
+test:
+  <<: *defaults
+  hostname: http://test.example.org
+  couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:alm][:name] %>_test/
+  
+production:
+  <<: *defaults
+  hostname: http://alm.example.org 
