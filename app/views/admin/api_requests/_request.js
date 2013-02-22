@@ -3,6 +3,7 @@ var today = new Date();
 
 // Various formatters.
 var formatNumber = d3.format(",d"),
+    formatFixed = d3.format(",.1f"),
     formatDate = d3.time.format("%B %d, %Y"),
     formatTime = d3.time.format("%I:%M %p");
 
@@ -135,14 +136,14 @@ function requestList(div) {
         .text(function(d) { return formatTime(d.date); });
         
     requestEnter.append("div")
-        .attr("class", "db_duration")
-        .text(function(d) { return d.db_duration + " ms"; });
+        .attr("class", "duration")
+        .text(function(d) { return formatFixed(d.db_duration) + " ms"; });
 
     requestEnter.append("div")
-        .attr("class", "view_duration")
+        .attr("class", "duration")
         .classed("fast", function(d) { return d.view_duration < 100; })
         .classed("slow", function(d) { return d.view_duration >= 1000; })
-        .text(function(d) { return d.view_duration + " ms"; });
+        .text(function(d) { return formatFixed(d.view_duration) + " ms"; });
         
     requestEnter.append("div")
         .attr("class", "url hidden-phone")
