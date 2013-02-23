@@ -266,7 +266,7 @@ Deploy the application with the current code from Github without or with databas
     cap deploy
     cap deploy:migrations
     cap deploy:rollback
-
+    
 ## Usage
 
 ### Setup
