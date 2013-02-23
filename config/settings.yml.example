@@ -36,8 +36,8 @@ defaults: &defaults
   uid: doi
   source:
     job_batch_size: 200
-    staleness: staleness: [ <%= 1.day %>, <%= 1.day %>, <%= 1.month %>, <%= 1.month %> ]
-    batch_time_interval: 1.hour
+    staleness: [ <%= 1.day %>, <%= 1.day %>, <%= 1.month %>, <%= 1.month %> ]
+    batch_time_interval: <%= 1.hour %>
   nature:
     requests_per_day: 5000
 

@@ -1,169 +1,220 @@
-Article Level Metrics (ALM), is a Ruby on Rails application started by the [Public Library of Science (PLOS)](http://www.plos.org/). It stores and reports user configurable performance data on research articles. Examples of possible metrics are online usage, citations, social bookmarks, notes, comments, ratings and blog coverage.
+Article Level Metrics (ALM), is a Ruby on Rails application started by the [Public Library of Science (PLOS)](http://www.plos.org/) in 2009. It stores and reports user configurable performance data on research articles. Examples of possible metrics are online usage, citations, social bookmarks, notes, comments, ratings and blog coverage.
 
 For more information on how PLOS uses Article-Level Metrics, see [http://article-level-metrics.plos.org/](http://article-level-metrics.plos.org/).
 
-Version 2.0 of the application was released in July 2012 and has been updated to be compatible with Ruby 1.9.3, Rails 3.2.x, and to store the results of external API calls in CouchDB. The backend processes have been completely rewritten and now uses **delayed_job**.
+Version 2.0 of the application was released in July 2012 and has been updated to be compatible with Ruby 1.9.3, Rails 3.2.x, and to store the results of external API calls in CouchDB. The backend processes have been completely rewritten and now use **delayed_job**.
 
 ## Installation
 
-ALM is a standard Ruby on Rails application with the following requirements:
+ALM is a typical Ruby on Rails web application with the following requirements:
 
 * Ruby 1.9.3
 * CouchDB 1.1
 
-CouchDB is used to store the responses from external API calls, MySQL is used for everything else. The application has been tested with Apache/Passenger, but should also run in other deployment environments, e.g. Nginx/Unicorn or WEBrick. ALM uses Ruby on Rails 3.2.x.
+CouchDB is used to store the responses from external API calls, MySQL is used for everything else. The application has been tested with Apache/Passenger, but should also run in other deployment environments, e.g. Nginx/Unicorn or WEBrick. ALM uses Ruby on Rails 3.2.x. The application has extensive test coverage using Rspec and Cucumber.
 
-In a manual installation the following configuration files have to be created using the examples provided:
+#### Ruby 1.9
+ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM][rvm] and [Rbenv][rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies.
 
-* config/database.yml
-* config/settings.yml
+#### Installation Options
+There are many installation options, but the following two should cover most scenarios:
 
-Don't forget to set up the CouchDB URL in `settings.yml` and include username and password if necessary. Also don't forget to add this to the Apache virtual host file in order to keep Apache from messing up encoded embedded slashes in DOIs:
+* on a development machine: installation in a virtual machine via Vagrant is strongly recommended
+* on a server: manual installation is recommended, with code updates via Capistrano
 
-    AllowEncodedSlashes On
+Instructions for automated installation via VMware or Amazon EC2 will be added soon. Hosting the ALM application at a Platform as a Service (PaaS) provider such as Heroku is possible, but has not been tested.
 
-### Using Vagrant/Chef
-This is the preferred way to install the ALM application as a developer. The application will automatically be installed in a self-contained virtual machine. Download and install [**Virtualbox**][virtualbox] and [**Vagrant**][vagrant]. Then install the application with:
+## Automatic Installation using Vagrant
+This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine. Download and install [Virtualbox][virtualbox] and [Vagrant][vagrant]. Then install the application with:
     
-    git clone git://github.com/articlemetrics/alm.git alm
+    git clone git://github.com/articlemetrics/alm.git
     cd alm
-    # (Optional) Enter usernames, passwords and API keys for external sources in dna.json
     vagrant up
       
 [virtualbox]: https://www.virtualbox.org/wiki/Downloads
 [vagrant]: http://downloads.vagrantup.com/
+[rvm]: https://rvm.io
+[rbenv]: https://github.com/sstephenson/rbenv
 
-If there is an error during installation, you can re-run the installation script with `vagrant provision`. After installation is finished (this can take up to 10 min on the first run) you can access the ALM application with your web browser at
+This installs the ALM server on a Ubuntu 12.04 virtual machine. After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at
 
     http://localhost:8080
-	
-The Rails application runs in Development mode. The database servers are made available at ports 3307 (MySQL) and 5985 (CouchDB). For SSH use command `vagrant ssh`, the application root is at `/vagrant`. The MySQL password is randomly generated and is stored at `config/database.yml`. Seven sources are preconfigured, 5 of them are not activated because you have to first supply passwords or API keys for them. CiteULike and PubMed Central Citations can be used without further configuration. Ten sample articles from PLOS are provided.
 
-### Manual installation
-These instructions assume a default installation of Ubuntu 12.04.
+or
+
+    http://33.33.33.44
+
+The username and password for the web interface are `articlemetrics`. The code for the ALM application is in a shared folder and can be reached both from the host and virtual machine. To get to the application root directory in the virtual machine, do
+
+    vagrant ssh
+    cd /vagrant
+	
+The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding. 
+
+## Manual installation for development
+These instructions assume a fresh installation of Ubuntu 12.04. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9. The instructions assume a user with sudo privileges, and this can also be a new user created just for running the ALM application.
 
 #### Update package lists
 
     sudo apt-get update
 
-#### Install RVM, Ruby 1.9.3 and RubyGems
-RVM (Ruby Version Manager) is the standard tool to install Ruby and Rubygems: http://rvm.io
+#### Install required packages
+`libxml2-dev` and `libxslt1-dev` are required for XML processing by the `nokogiri` and `libxml-ruby` gems, `nodejs` provides Javascript for the `therubyracer` gem.
 
-    # Install required packages
-    sudo apt-get install curl git-core patch \
-    build-essential bison zlib1g-dev libssl-dev libxml2-dev \
-    libxml2-dev sqlite3 libsqlite3-dev autotools-dev \
-    libxslt1-dev libyaml-0-2 autoconf automake libreadline6-dev \
-    libyaml-dev libtool
+    sudo apt-get install curl build-essential git-core libxml2-dev libxslt1-dev nodejs
 
-    # multi-user install
-    curl -L https://get.rvm.io | sudo bash -s stable
-    sudo adduser deploy rvm
-    sudo rvm install ruby-1.9.3
-    rvm --default use 1.9.3
-    
+#### Install Ruby 1.9.3
+We only need one Ruby version and manage gems with bundler, so there is no need to install `rvm` or `rbenv`.
+
+    sudo apt-get install ruby1.9.3
+
 #### Install databases
 
-    sudo apt-get install couchdb
-    sudo apt-get install mysql-server
+    sudo apt-get install couchdb mysql-server
 
 #### Install Apache and dependencies required for Passenger
 
-    sudo apt-get install apache2 libcurl4-openssl-dev apache2-prefork-dev libapr1-dev libaprutil1-dev
+    sudo apt-get install apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev
 
 #### Install and configure Passenger
-Passenger is a Rails application server: http://www.modrails.com
+Passenger is a Rails application server: http://www.modrails.com. Update `passenger.load` and `passenger.conf` when you install a new version of the passenger gem.
 
-    rvmsudo gem install passenger
-    rvmsudo passenger-install-apache2-module
-
-    # Paste in from passenger install script
+    sudo gem install passenger -v 3.0.19
+    sudo passenger-install-apache2-module --auto
 
     # /etc/apache2/mods-available/passenger.load
-    LoadModule passenger_module /usr/local/rvm/gems/ruby-1.9.3-p286/gems/passenger-3.0.18/ext/apache2/mod_passenger.so
+    LoadModule passenger_module /var/lib/gems/1.9.1/gems/passenger-3.0.19/ext/apache2/mod_passenger.so
 
     # /etc/apache2/mods-available/passenger.conf
-    <IfModule passenger_module>
-     PassengerRoot /usr/local/rvm/gems/ruby-1.9.3-p286/gems/passenger-3.0.18
-     PassengerRuby /usr/local/rvm/wrappers/ruby-1.9.3-p286/ruby
-    </IfModule>
+    PassengerRoot /var/lib/gems/1.9.1/gems/passenger-3.0.19
+    PassengerRuby /usr/bin/ruby1.9.1
 
     sudo a2enmod passenger
 
 #### Set up virtual host
+Please set `ServerName` if you have set up more than one virtual host. Also don't forget to add`AllowEncodedSlashes On` to the Apache virtual host file in order to keep Apache from messing up encoded embedded slashes in DOIs. Use `RailsEnv production` to use the Rails production environment (and use `rake db:setup RAILS_ENV=production` when you set up the MySQL databases).
 
     # /etc/apache2/sites-available/alm
-    <VirtualHost *>
-      ServerName EXAMPLE.ORG
-      ServerAdmin EXAMPLE@EXAMPLE.ORG
-      ErrorLog /var/log/apache2/error_alm.log
+      <VirtualHost *:80>
+      ServerName localhost
+      RailsEnv development
+      DocumentRoot /var/www/alm/public
 
-      DocumentRoot /var/www/alm/current/public
-
-      <Directory />
+      <Directory /var/www/alm/public>
         Options FollowSymLinks
-        AllowOverride All
-      </Directory>
-
-      <Directory /var/www/alm/current/public>
-        Options -Indexes FollowSymLinks MultiViews
-        AllowOverride All
+        AllowOverride None
         Order allow,deny
         Allow from all
       </Directory>
 
       # Important for ALM: keeps Apache from messing up encoded embedded slashes in DOIs
       AllowEncodedSlashes On
-  
-      # Deflate
-      AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/xhtml+xml text/javascript
-      BrowserMatch ^Mozilla/4 gzip-only-text/html
-      BrowserMatch ^Mozilla/4.0[678] no-gzip
-      BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
     </VirtualHost>
 
+#### Install ALM code
+
+    git clone git://github.com/articlemetrics/alm.git /var/www/alm
+
+#### Install Bundler and Ruby gems required by the application
+Bundler is a tool to manage dependencies of Ruby applications: http://gembundler.com. We have to install `therubyracer` gem as sudo because of a permission problem (make sure the version matches the version in `Gemfile` in the ALM root directory).
+
+    sudo gem install bundler
+    sudo gem install therubyracer -v '0.11.3'
+
+    cd /var/www/alm
+    bundle install
+
+#### Set ALM configuration settings
+You want to set the MySQL username/password in `database.yml`, using either the root password that you generated when you installed MySQL, or a different MySQL user. You also want to set the site and session keys in `settings.yml`, they can be generated with `rake secret`.
+
+    cd /var/www/alm
+    cp config/database.yml.example config/database.yml
+    cp config/settings.yml.example config/settings.yml
+
+#### Install ALM databases
+We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including sample articles and a default user account (username/password _articlemetrics_). Use `RAILS_ENV=production` if you set up Passenger to run in the production environment. 
+
+It is possible to connect the ALM app to MySQL and/or CouchDB running on a different server, please change `host` in database.yml and `couched_url` in settings.yml accordingly.
+
+    cd /var/www/alm
+    rake db:setup RAILS_ENV=development
+    curl -X PUT http://localhost:5984/alm/
+
+#### Start Apache
+We are making `alm` the default site.
+
+    sudo a2dissite default
     sudo a2ensite alm
     sudo service apache2 reload
 
-#### Install Javascript
+You can now access the ALM application with your web browser at the name or IP address (if it is the only virtual host) of your Ubuntu installation.
 
-    sudo apt-get install nodejs nodejs-dev
+## Remote Installation via Capistrano
+This is the recommended strategy for production servers and uses Capistrano, a deployment automation tool: http://capistranorb.com. Capistrano takes care of code updates via git, database migrations and server restarts, but you still have to do the initial server setup of Ruby, MySQL, CouchDB, Apache and Passenger. And Capistrano requires a second local ALM installation, done either via Vagrant or manually (see above).
+
+#### Install Ruby, MySQL, CouchDB, Apache and Passenger
+Unless you already have installed Ruby, MySQL, CouchDB, Apache and Passenger, please follow the steps for manual installation until _Install and configure Passenger_. We again assume Ubuntu 12.04.
+
+#### Set up virtual host
+You probably have to provide a `ServerName`, we need to change `RailsEnv` to `production` and `DocumentRoot` to `/var/www/alm/current/public`.
+
+    # /etc/apache2/sites-available/alm
+    <VirtualHost *:80>
+      ServerName EXAMPLE.ORG
+      RailsEnv development
+      DocumentRoot /var/www/alm/current/public
+
+      <Directory /var/www/alm/current/public>
+        Options FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+      </Directory>
+
+      # Important for ALM: keeps Apache from messing up encoded embedded slashes in DOIs
+      AllowEncodedSlashes On
+
+    </VirtualHost>
 
 #### Install Bundler
-Bundler is a tool to manage dependencies of Ruby applications: http://gembundler.com
+Bundler is a tool to manage dependencies of Ruby applications: http://gembundler.com. We have to install `therubyracer` gem as sudo because of a permission problem (make sure the version matches the version in `Gemfile` in the ALM root directory).
 
-    rvmsudo gem install bundler
+    sudo gem install bundler
+    sudo gem install therubyracer -v '0.11.3'
 
-_This concludes the server installation. The following steps are done on your development machine._
+#### Create CouchDB database
 
-#### Setup Capistrano
-Capistrano is a deployment automation tool: http://capistranorb.com
-On your development machine, install Capistrano
+    curl -X PUT http://localhost:5984/alm/
 
-    rvmsudo gem install capistrano
-    rvmsudo gem install rvm-capistrano
+#### Set ALM configuration settings
+Add these two files from your development machine, change settings as needed.
+
+    /var/www/alm/shared/database.yml
+    /var/www/alm/shared/settings.yml
     
-**Go to project root, then enable Capistrano**
+#### Install Capistrano
+The next steps are all done on the local development machine.
 
-    cd alm
+    sudo gem install capistrano
+    cd /var/www/alm
     capify .
 
-**Edit deployment configuration**
+#### Edit deployment configuration
+Edit the deployment configuration file that was just created by Capistrano. Add the name or IP address of your production server as `server`, and pick a `:user` and `:group` from the production server. We can either set `:password` or use SSH keys.
 
-    # config/deploy.rb
+    # /var/www/alm/config/deploy.rb
     require "bundler/capistrano"
-    require "rvm/capistrano"
     load 'deploy/assets'
 
     server "EXAMPLE.ORG", :app, :web, :db, :primary => true
 
     set :application, "alm"
-    set :user, "www-data"
-    set :group, "www-data"
+    set :user, "deploy"
+    set :group, "deploy"
     set :password, "EXAMPLE"
     set :deploy_to, "/var/www/#{application}"
     set :deploy_via, :remote_cache
-    set :use_sudo, false
 
     set :scm, "git"
     set :repository, "git://github.com/articlemetrics/alm.git"
@@ -175,7 +226,6 @@ On your development machine, install Capistrano
     set :web_server_type,   :apache     # :apache, :nginx
     set :app_server_type,   :passenger  # :passenger, :mongrel
     set :db_server_type,    :mysql      # :mysql, :postgresql, :sqlite
-    set :rvm_ruby_string, :local
 
     set :keep_releases, 5
 
@@ -188,32 +238,34 @@ On your development machine, install Capistrano
     end
 
     before "deploy:assets:precompile" do
-      run ["ln -nfs #{shared_path}/config/settings.yml #{release_path}/config/settings.yml",
-       "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml",
+      run ["ln -nfs #{shared_path}/settings.yml #{release_path}/config/settings.yml",
+       "ln -nfs #{shared_path}/database.yml #{release_path}/config/database.yml",
        ].join(" && ")
     end
 
-**Setup server**
+#### Setup remote server
+This will create the required directories (`/var/www/alm/current`, `/var/www/alm/releases` and `/var/www/alm/shared`) on the production server (it is safe to run this command if one of the directories already exists). `deploy:update` will fetch the application via git. `rake db:setup` will not create user accounts or sample articles in the production environment.
 
+    cd /var/www/alm
     cap deploy:setup
+    cap deploy:update
 
-**Configure Server**
+    cap shell
+      cd /var/www/alm/current
+      rake db:setup RAILS_ENV=production
+      sudo a2dissite default
+      sudo a2ensite alm
 
-    sudo mkdir /var/www/alm/shared/config
-    sudo chown deploy:deploy /var/www/alm/shared/config
+### Start the remote ALM server
 
-    # Add these two files from your development machine, add configuration
-    /var/www/alm/shared/config/database.yml
-    /var/www/alm/shared/config/settings.yml
-    
-    sudo chown deploy:deploy /var/www/alm/shared/config/database.yml
-    sudo chown deploy:deploy /var/www/alm/shared/config/settings.yml
+    cap deploy:start
 
-**Deploy your application**
+#### Update your application
+Deploy the application with the current code from Github without or with database migrations. You can rollback to the last deployed version if there is a problem.
 
-    # only need on first deploy, database migrations and setup of sources
+    cap deploy
     cap deploy:migrations
-    cap deploy:seed
+    cap deploy:rollback
 
 ## Usage
 
