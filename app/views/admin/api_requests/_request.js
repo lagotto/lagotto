@@ -37,28 +37,28 @@ var charts = [
       .round(d3.time.day.round)
       .x(d3.time.scale.utc()
       .domain([new Date(new Date().getTime() - 42 * 24 * 60 * 60 * 1000), new Date()])
-      .rangeRound([0, 10 * 32])),
+      .rangeRound([0, 10 * 30])),
       
   barChart()
       .dimension(db_duration)
       .group(db_durations)
       .x(d3.scale.linear()
       .domain([0, 500])
-      .rangeRound([0, 10 * 32])),
+      .rangeRound([0, 10 * 30])),
 
   barChart()
       .dimension(hour)
       .group(hours)
       .x(d3.scale.linear()
       .domain([0, 24])
-      .rangeRound([0, 10 * 32])),
+      .rangeRound([0, 10 * 30])),
 
   barChart()
       .dimension(view_duration)
       .group(view_durations)
       .x(d3.scale.linear()
       .domain([0, 2000])
-      .rangeRound([0, 10 * 32]))
+      .rangeRound([0, 10 * 30]))
 
 ];
 
@@ -181,7 +181,7 @@ function barChart() {
 
       // Create the skeletal chart.
       if (g.empty()) {
-        div.select(".title").append("a")
+        div.select(".req-chart h5").append("a")
             .attr("href", "javascript:reset(" + id + ")")
             .attr("class", "reset")
             .text("reset")
@@ -223,7 +223,7 @@ function barChart() {
       if (brushDirty) {
         brushDirty = false;
         g.selectAll(".brush").call(brush);
-        div.select(".title a").style("display", brush.empty() ? "none" : null);
+        div.select(".req-chart h5 a").style("display", brush.empty() ? "none" : null);
         if (brush.empty()) {
           g.selectAll("#clip-" + id + " rect")
               .attr("x", 0)
@@ -269,7 +269,7 @@ function barChart() {
 
   brush.on("brushstart.req-chart", function() {
     var div = d3.select(this.parentNode.parentNode.parentNode);
-    div.select(".title a").style("display", null);
+    div.select(".req-chart h5 a").style("display", null);
   });
 
   brush.on("brush.req-chart", function() {
@@ -288,7 +288,7 @@ function barChart() {
   brush.on("brushend.req-chart", function() {
     if (brush.empty()) {
       var div = d3.select(this.parentNode.parentNode.parentNode);
-      div.select(".title a").style("display", "none");
+      div.select(".req-chart h5 a").style("display", "none");
       div.select("#clip-" + id + " rect").attr("x", null).attr("width", "100%");
       dimension.filterAll();
     }

@@ -1,26 +1,20 @@
-<ul class="thumbnails graphs">
-  <li class="span3">
-    <div class="thumbnail" id="chart_status">
-      <%= javascript_tag do -%>
-        <%= render :partial => 'status', formats: :js %> 
-      <% end %>
-    </div>
-  </li>
-  <li class="span3">
-    <div class="thumbnail" id="chart_day">
-      <%= javascript_tag do -%>
-        <%= render :partial => 'day', formats: :js %> 
-      <% end %>
-    </div>
-  </li>
-  <li class="span3">
-    <div class="thumbnail" id="chart_month">
-      <%= javascript_tag do -%>
-        <%= render :partial => 'month', formats: :js %> 
-      <% end %>
-    </div>
-  </li>
-</ul>
+<div class="row">
+  <div class="span4" id="chart_status">
+    <%= javascript_tag do -%>
+      <%= render :partial => 'status', formats: :js %> 
+    <% end %>
+  </div>
+  <div class="span4" id="chart_day">
+    <%= javascript_tag do -%>
+      <%= render :partial => 'day', formats: :js %> 
+    <% end %>
+  </div>
+  <div class="span4" id="chart_month">
+    <%= javascript_tag do -%>
+      <%= render :partial => 'month', formats: :js %> 
+    <% end %>
+  </div>
+</div>
 
 <table class="table table-striped" id="SummaryTable">
   <thead>
