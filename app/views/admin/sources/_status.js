@@ -1,10 +1,9 @@
 var data = <%= raw @data %>;
-var article_count = <%= Article.count %>;
 
 var color = d3.scale.ordinal()
     .range(["#a17f78","#ad9a27","#c7c0b5"]);
 
-var w = 200,
+var w = 300,
     h = 200,                          
     radius = Math.min(w, h) / 2;
     
@@ -14,7 +13,7 @@ var chart = d3.select("div#chart_status").append("svg")
     .attr("height", h)
     .attr("class", "chart")
     .append("svg:g") 
-    .attr("transform", "translate(100,100)")
+    .attr("transform", "translate(150,100)")
  
 var arc = d3.svg.arc() 
     .outerRadius(radius - 10)

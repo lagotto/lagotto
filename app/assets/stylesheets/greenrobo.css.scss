@@ -25,12 +25,6 @@ body { padding-top: 50px; padding-bottom: 40px; }
 th.number, td.number { width: 120px; text-align: right; }
 .section { padding-bottom: 4px; }
 .graphs { text-align:center; }
-.graphs > li {
-    display: inline-block;
-    *display:inline; /* ie7 fix */
-    float: none;
-}
-#chart_status, #chart_day, #chart_month { border: 0; border-radius: 0; -webkit-box-shadow: 0 0 0 0; box-shadow: 0; }
 .page-header { padding-bottom: 0; border-bottom: 0; margin: 0 0 10px; }
 .help-block { font-size: 13px; font-weight: normal; color: #999999; }
 .btn-toolbar { padding-left: 6px; }
@@ -67,6 +61,7 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .reset {
   padding-left: 1em;
   font-size: 13px;
+  font-weigth: normal;
   color: #978d7f;
 }
 
