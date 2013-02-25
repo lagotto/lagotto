@@ -3,7 +3,7 @@
 
 # Load default admin user
 if Rails.env != "production"
-  User.create(:username => "articlemetrics", :email => "admin@example.com", :password => "articlemetrics", :password_confirmation => "articlemetrics") if User.count == 0
+  User.create(:username => "voldemort", :email => "admin@plos.org", :password => "voldemort", :password_confirmation => "voldemort") if User.count == 0
 end
 
 # Load default groups
