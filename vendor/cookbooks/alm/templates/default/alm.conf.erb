@@ -2,18 +2,17 @@
     LogLevel warn
     ErrorLog /vagrant/log/apache_error.log
     CustomLog /vagrant/log/apache_access.log combined
-    DocumentRoot <%= @params[:docroot] %>
-	<IfModule mod_passenger.c>
-      RailsEnv <%= node[:rails][:environment] %>
-	</IfModule>
-	ServerAdmin <%= node[:admin][:email] %>
+    DocumentRoot /vagrant/public
+	  RailsEnv <%= node[:alm][:environment] %>
+    ServerName <%= node[:alm][:host] %>
+    ServerAdmin <%= node[:alm][:admin][:email] %>
 
     <Directory />
       Options FollowSymLinks
       AllowOverride None
     </Directory>
 	
-    <Directory <%= @params[:docroot] %> >
+    <Directory /vagrant/public >
       Options Indexes FollowSymLinks MultiViews
       AllowOverride All
       Order allow,deny

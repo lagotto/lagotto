@@ -25,6 +25,13 @@ $linkColor: #1447f2;
 header img { margin: 1em; }
 th.number, td.number { width: 120px; text-align: right; }
 .section { padding-bottom: 4px; }
+.graphs { text-align:center; }
+.graphs > li {
+    display: inline-block;
+    *display:inline; /* ie7 fix */
+    float: none;
+}
+#chart_status, #chart_day, #chart_month { border: 0; border-radius: 0; -webkit-box-shadow: 0 0 0 0; box-shadow: 0; }
 .page-header { padding-bottom: 0; border-bottom: 0; margin: 0 0 10px; }
 .help-block { font-size: 13px; font-weight: normal; color: #999999; }
 .btn-toolbar { padding-left: 6px; }
@@ -48,3 +55,77 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .chart a {
   fill: $linkColor;
 }
+
+.chart .title { font-size: 24px; }
+.chart .subtitle { fill: grey; }
+
+.req-chart {
+  display: inline-block;
+  height: 151px;
+  margin-bottom: 20px;
+}
+
+.reset {
+  padding-left: 1em;
+  font-size: 13px;
+  color: #978d7f;
+}
+
+.background.bar {
+  fill: #dfdbd4;
+}
+
+.foreground.bar {
+  fill: #789aa1;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.brush rect.extent {
+  fill: #978d7f;
+  fill-opacity: .125;
+}
+
+.brush .resize path {
+  fill: #eee;
+  stroke: #666;
+}
+
+#request-list { min-height: 1024px; }
+#request-list .date,
+#request-list .day { margin-bottom: .4em; }
+#request-list .request {
+  line-height: 1.5em;
+  background: #f2f2f2;
+  margin-bottom: 1px;
+}
+#request-list .time { color: #999; }
+
+#request-list .request div {
+  display: inline-block;
+  width: 100px;
+}
+
+#request-list div.duration {
+  width: 80px;
+  padding-right: 20px;
+  text-align: right;
+}
+
+#request-list .fast {
+  color: #789aa1;
+}
+
+#request-list .slow {
+  color: #a17f78;
+}
+
+#totals {font-size: smaller; }

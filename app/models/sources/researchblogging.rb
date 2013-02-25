@@ -50,17 +50,20 @@ class Researchblogging < Source
       end
       
       events_url = get_events_url(article)
-      
-      if events.empty?
-        { :events => [], 
-          :events_url => events_url,
-          :event_count => 0 }
-      else
-        { :events => events,
-          :events_url => events_url,
-          :event_count => total_count.value.to_i,
-          :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s } }
-      end
+      event_metrics = { :pdf => nil, 
+                        :html => nil, 
+                        :shares => nil, 
+                        :groups => nil,
+                        :comments => nil, 
+                        :likes => nil, 
+                        :citations => total_count.value.to_i, 
+                        :total => total_count.value.to_i }
+                        
+      { :events => events,
+        :events_url => events_url,
+        :event_count => total_count.value.to_i,
+        :event_metrics => event_metrics,
+        :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s } }
     end
 
   end

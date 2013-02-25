@@ -7,15 +7,14 @@ Vagrant::Config.run do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "lucid32"
-  # config.vm.box = "centos-57-x86_64box"
+  config.vm.box = "centos-63-plos"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "http://files.vagrantup.com/lucid32.box"
+  config.vm.box_url = "http://dl.dropbox.com/u/9406373/centos-63-plos.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
-  config.vm.boot_mode = :gui
+  # config.vm.boot_mode = :gui
 
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as
@@ -31,8 +30,8 @@ Vagrant::Config.run do |config|
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
-  config.vm.forward_port 80, 8080 # Apache2
-  config.vm.forward_port 5984, 5987 # CouchDB
+  config.vm.forward_port 80, 8090 # Apache2
+  config.vm.forward_port 5984, 5988 # CouchDB
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
@@ -44,12 +43,11 @@ Vagrant::Config.run do |config|
   # some recipes and/or roles.
   #
   config.vm.provision :chef_solo do |chef|
-    dna = JSON.parse(File.read("dna.json"))
+    chef.cookbooks_path = "vendor/cookbooks"
+    dna = JSON.parse(File.read("node.json"))
     dna.delete("run_list").each do |recipe|
       chef.add_recipe(recipe)
     end
-    chef.cookbooks_path = "vendor/cookbooks"
-    chef.data_bags_path = "config/data_bags"
     chef.json.merge!(dna)
   end
 end

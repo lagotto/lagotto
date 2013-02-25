@@ -33,7 +33,7 @@ class Admin::IndexController < Admin::ApplicationController
     @error_messages_last_day_count = ErrorMessage.total(1).count
     @requests_count = ApiRequest.where("created_at > NOW() - INTERVAL 24 HOUR").count
     @requests_page_average = ApiRequest.where("created_at > NOW() - INTERVAL 24 HOUR").average(:page_duration)
-    @couchdb_info = RetrievalHistory.new.get_alm_database
+    @couchdb_info = RetrievalHistory.new.get_alm_database || { "doc_count" => 0, "disk_size" => 0 }
     @mysql_info = RetrievalHistory.table_status
   end
 end

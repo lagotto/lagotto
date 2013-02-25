@@ -114,7 +114,7 @@
           <h2>
             <i class="icon-tasks"></i> Databases
           </h2>
-          <p id="couchdb"><%= pluralize(number_with_delimiter(@mysql_info["rows"]), 'retrieval_history row') %> (<%= number_to_human_size(@mysql_info["data_length"]) %>, index <%= number_to_human_size(@mysql_info["index_length"]) %>) and <%= pluralize(number_with_delimiter(@couchdb_info["doc_count"]), 'CouchDB document') %> (<%= number_to_human_size(@couchdb_info["disk_size"]) %>).</p>
+          <p id="couchdb"><%= pluralize(number_with_delimiter(@mysql_info["rows"]), 'retrieval_history row') %> (<%= number_to_human_size(@mysql_info["data_length"]) %>, index <%= number_to_human_size(@mysql_info["index_length"]) %>) and <%= pluralize(number_with_delimiter(@couchdb_info["doc_count"]), 'CouchDB document') %><%= @couchdb_info["disk_size"] ? " (#{number_to_human_size(@couchdb_info["disk_size"])})." : "." %></p>
         </div>
       </div>
     </li>

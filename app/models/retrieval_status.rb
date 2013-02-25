@@ -21,9 +21,13 @@ require 'source_helper'
 class RetrievalStatus < ActiveRecord::Base
   include SourceHelper
 
-  belongs_to :article
+  belongs_to :article, :touch => true
   belongs_to :source
   has_many :retrieval_histories, :dependent => :destroy
+  
+  serialize :event_metrics
+    
+  delegate :name, :to => :source
 
   scope :most_cited, lambda { where("event_count > 0").order("event_count desc").limit(25) }
   scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? DAY", days).order("event_count desc").limit(25) }
@@ -47,10 +51,6 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
   
-  def public_url
-    data["events_url"] unless data.blank?
-  end
-  
   def events
     unless data.blank? 
       data["events"] 
@@ -59,62 +59,11 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
   
-  # Get most current retrieval_history by query parameters :days, :months, :year
-  def retrieval_history(options={})
-    if options[:days].to_i > 0
-      retrieval_histories.after_days(options[:days].to_i).last
-    elsif options[:months].to_i > 0
-      retrieval_histories.after_months(options[:months].to_i).last
-    elsif options[:year].to_i > 0
-      retrieval_histories.until_year(options[:year].to_i).last
-    else 
-      retrieval_histories.last
-    end
-  end
-  
-  def metrics(options={})
-    unless options[:days] || options[:month] || options[:year]
-      case source.name
-      when "citeulike"
-        { :pdf => nil, :html => nil, :shares => event_count, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-      when "facebook"
-        { :pdf => nil, :html => nil, :shares => (events.blank? ? 0 : events["share_count"]), :groups => nil, :comments => (events.blank? ? 0 : events["comment_count"]), :likes => (events.blank? ? 0 : events["like_count"]), :citations => nil, :total => event_count }
-      when "mendeley"
-        { :pdf => nil, :html => nil, :shares => (events.blank? ? 0 : events['stats']['readers']), :groups => (events.blank? ? 0 : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-      when "twitter"
-        { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => event_count, :likes => nil, :citations => nil, :total => event_count }
-      when "counter"
-        { :pdf => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }), :html => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-      when "biod"
-        { :pdf => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }), :html => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-      when "pmc"
-        { :pdf => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }), :html => (events.blank? ? 0 : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-      when "copernicus"
-        { :pdf => (events.blank? ? 0 : events['counter']['PdfDownloads'].to_i), :html => (events.blank? ? 0 : events['counter']['AbstractViews'].to_i), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-      else
-      # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia, wos, scopus
-        { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
-      end
+  def metrics
+    unless data.blank? 
+      data["event_metrics"] 
     else
-      history = retrieval_history(options=options)
-      unless history.blank?
-        history.metrics
-      else
-        { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => nil }
-      end
-    end
-  end
-  
-  def update_date(options={})
-    unless options
-      updated_at.utc.iso8601
-    else
-      history = retrieval_history(options=options)
-      unless history.blank?
-        history.updated_at.utc.iso8601
-      else
-        nil
-      end
+      []
     end
   end
 

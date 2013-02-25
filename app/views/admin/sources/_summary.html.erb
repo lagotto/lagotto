@@ -1,66 +1,54 @@
+<div class="row">
+  <div class="span4" id="chart_status">
+    <%= javascript_tag do -%>
+      <%= render :partial => 'status', formats: :js %> 
+    <% end %>
+  </div>
+  <div class="span4" id="chart_day">
+    <%= javascript_tag do -%>
+      <%= render :partial => 'day', formats: :js %> 
+    <% end %>
+  </div>
+  <div class="span4" id="chart_month">
+    <%= javascript_tag do -%>
+      <%= render :partial => 'month', formats: :js %> 
+    <% end %>
+  </div>
+</div>
+
 <table class="table table-striped" id="SummaryTable">
   <thead>
     <tr>
       <th/>
-      <th class="hidden-phone number">Refreshed</th>
-      <th class="number">Stale</th>
-      <th class="number">Queued</th>
+      <th class="number">Pending</th>
+      <th class="number">Working</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>Articles</th>
-      <td class="hidden-phone number"><%= number_with_delimiter(Article.count - (@source.retrieval_statuses.stale.size + @source.retrieval_statuses.queued.size)) %></td>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.stale.size) %></td>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.queued.size) %></td>
-    </tr>
-    <tr>
-      <th/>
-      <th class="hidden-phone number">All</th>
-      <th class="number">Pending</th>
-      <th class="number">Working</th>
-    </tr>
-    <tr>
       <th>Jobs</th>
-      <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count) %></td>
       <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count - @source.delayed_jobs.count(:locked_at)) %></td>
       <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count(:locked_at)) %></td>
     </tr>
     <tr>
       <th/>
-      <th class="number">Events</th>
-      <th class="hidden-phone number">No Events</th>
+      <th class="number">Responses</th>
       <th class="number">Errors</th>
     </tr>
     <tr>
       <th>Responses in the last 24 Hours</th>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.with_events(1).size) %></td>
-      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_statuses.without_events(1).size) %></td>
+      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.total(1).size) %></td>
       <td class="number"><%= link_to_if @source.error_messages.total(1).size > 0, number_with_delimiter(@source.error_messages.total(1).size), admin_error_messages_path(:source_id => @source.id) %></td>
-    </tr>
-    <tr>
-      <th/>
-      <th class="number">Events</th>
-      <th class="hidden-phone number">No Events</th>
-      <th class="number">Errors</th>
-    </tr>
-    <tr>
-      <th>Responses in the last 31 Days</th>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.with_events(31).size) %></td>      
-      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_statuses.without_events(31).size) %></td>
-      <td class="number"><%= link_to_if @source.error_messages.total(31).size > 0, number_with_delimiter(@source.error_messages.total(31).size), admin_error_messages_path(:source_id => @source.id) %></td>
     </tr>
     <tr>
       <th/>
       <th class="number">Articles&nbsp;with&nbsp;Events</th>
       <th class="number">All Events</th>
-      <th class="hidden-phone number">Max.&nbsp;Events&nbsp;per&nbsp;Article</th>
     </tr>
     <tr>
       <th>Events</th>
       <td class="number"><%= number_with_delimiter(@source.articles.cited(1).size) %></td>
       <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.sum(:event_count)) %></td>
-      <td class="hidden-phone number"><%= number_with_delimiter(@source.retrieval_statuses.maximum(:event_count)) %></td>
     </tr>
   </tbody>
 </table>

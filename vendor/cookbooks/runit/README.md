@@ -51,7 +51,8 @@ Definitions
 ===========
 
 The definition in this cookbook will be deprecated by an LWRP in a
-future version. See __Roadmap__.
+future version. See
+[CHEF-154](http://tickets.opscode.com/browse/CHEF-154).
 
 runit\_service
 --------------
@@ -119,7 +120,13 @@ in the `directory` parameter (see below).
 * `options` - a Hash of variables to pass into the run and log/run
   templates with the template resource `variables` parameter.
   Available inside the template(s) as `@options`. Default is an empty Hash.
-* `env` -
+* `env` - a Hash of environment variables to write out in the
+  service's `env` directory.
+* `control_user` - a non-privileged user that can control the service
+* `default_logger` - sets up a default `log/run` script with svlogd
+  logging to `./main`.
+* `nolog` - if true, the log directory and logger script isn't set up,
+  defaults to false.
 
 ### Examples:
 
@@ -134,7 +141,7 @@ See __Usage__ for expanded examples.
 Resources/Providers
 ===================
 
-None yet. See __Roadmap__.
+None yet. See [CHEF-154](http://tickets.opscode.com/browse/CHEF-154).
 
 Usage
 =====
@@ -163,7 +170,7 @@ than in that cookbook. First, create the required run template,
     exec /usr/bin/env chef-client -i 1800 -s 30
 
 Then create the required log/run template,
-`chef-client/templates/default/sv-chef-client-run.erb`.
+`chef-client/templates/default/sv-chef-client-log-run.erb`.
 
     #!/bin/sh
     exec svlogd -tt ./main

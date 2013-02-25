@@ -8,11 +8,20 @@ Feature: See responses from sources
     And the source "Citeulike" exists
     And that we have 5 articles
                 
+    # @javascript
+    # Scenario: Responses from last 24 hours in source view
+    #   When I go to the "Summary" tab of source "CiteULike"
+    #   Then the table "SummaryTable" should contain:
+    #     |                                | Responses | Errors               |
+    #     | Responses in the last 24 Hours | 0         | 0                    |
+        
     @javascript
-    Scenario: Responses from last 31 days in source view
+    Scenario Outline: I should see the charts in the summary view
       When I go to the "Summary" tab of source "CiteULike"
-      Then the table "SummaryTable" should contain:
-        |                                | Events  | No Events            | Errors            |
-        | Responses in the last 24 Hours | 5       | 0                    | 0                 |
-        |                                | Events  | No Events            | Errors            |
-        | Responses in the last 31 Days  | 5       | 0                    | 0                 |
+      Then I should see a row of "<Charts>"
+      
+      Examples: 
+        | Charts |
+        | status |
+        | day    |
+        | month  |

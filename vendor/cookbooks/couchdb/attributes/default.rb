@@ -17,7 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set['couch_db']['src_checksum'] = "6ef82a7ba0f132d55af7cc78b30658d5b3a4f7be3f449308c8d7fa2ad473677c"
-set['couch_db']['src_version'] = "1.0.2"
-set['couch_db']['src_mirror']  = "http://archive.apache.org/dist/couchdb/#{node['couch_db']['src_version']}/apache-couchdb-#{node['couch_db']['src_version']}.tar.gz"
-set['couch_db']['bind_address'] = "127.0.0.1"
+default['couch_db']['src_checksum']      = "6ef82a7ba0f132d55af7cc78b30658d5b3a4f7be3f449308c8d7fa2ad473677c"
+default['couch_db']['src_version']       = "1.0.2"
+default['couch_db']['src_mirror']        = "http://archive.apache.org/dist/couchdb/#{node['couch_db']['src_version']}/apache-couchdb-#{node['couch_db']['src_version']}.tar.gz"
+default['couch_db']['bind_address']  = nil
+default['couch_db']['install_erlang'] = true

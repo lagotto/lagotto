@@ -7,23 +7,21 @@
 # 4: for articles up to 7 days old, up to 31 days old, up to 1 year old, for all other articles
 
 defaults: &defaults
-  useragent: <%= node[:app][:useragent] %>
-  notification_email: <%= node[:admin][:email] %>
-  rest_auth_site_key: <%= node[:app][:key] %>
+  useragent: <%= node[:alm][:useragent] %>
+  notification_email: <%= node[:alm][:email] %>
+  rest_auth_site_key: <%= node[:alm][:key] %>
   rest_auth_digest_stretches: 10
-  session_secret: <%= node[:app][:secret] %>
-  layout: <%= node[:app][:layout] %>
-  couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:couchdb][:database] %>/
-  doi_prefix: <%= node[:app][:doi_prefix] %>
-  uid: <%= node[:app][:uid] %>
+  session_secret: <%= node[:alm][:secret] %>
+  layout: <%= node[:alm][:layout] %>
+  couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:alm][:name] %>/
+  doi_prefix: <%= node[:alm][:doi_prefix] %>
+  uid: <%= node[:alm][:uid] %>
   source:
     job_batch_size: 200
     staleness: [ <%%= 1.day %>, <%%= 1.day %>, <%%= 1.month %>, <%%= 1.month %> ]
     batch_time_interval: <%%= 1.hour %>
-<% if node[:app][:seed_additional_sources] %>
   nature:
     requests_per_day: 5000
-<% end %>
 
 development:
   <<: *defaults
@@ -32,7 +30,7 @@ development:
 test:
   <<: *defaults
   hostname: http://test.example.org
-  couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:couchdb][:database] %>_test/
+  couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:alm][:name] %>_test/
   
 production:
   <<: *defaults

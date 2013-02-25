@@ -97,6 +97,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]
       event_count = data_from_source[:event_count]
+      event_metrics = data_from_source[:event_metrics]
       attachment = data_from_source[:attachment]
     else
       # ERROR
@@ -122,6 +123,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                  :source => rs.source.name,
                  :events => events,
                  :events_url => events_url,
+                 :event_metrics => event_metrics,
                  :doc_type => "current" }
 
         if !attachment.nil?
@@ -135,17 +137,16 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         # save the data to couchdb
         data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
         
-        # save the history data to couchdb if event_count has changed
-        if rs.event_count != event_count
-          #TODO change this to a copy
-          data.delete(:_attachments)
-          data[:doc_type] = "history"
-          # save the data to couchdb as retrieval history data
-          save_alm_data(nil, data, rh.id)
-        end
+        # save the history data to couchdb
+        #TODO change this to a copy
+        data.delete(:_attachments)
+        data[:doc_type] = "history"
+        save_alm_data(nil, data, rh.id)
         
         rs.data_rev = data_rev
         rs.event_count = event_count
+        rs.event_metrics = event_metrics
+        rs.events_url = events_url
 
         # set retrieval history status to success
         rh.status = RetrievalHistory::SUCCESS_MSG

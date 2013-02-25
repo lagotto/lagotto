@@ -21,33 +21,39 @@
 # to debian_before_squeeze? and ubuntu_before_lucid?
 ::Chef::Recipe.send(:include, Opscode::Mysql::Helpers)
 
-mysql_packages = case node['platform']
-when "centos", "redhat", "suse", "fedora", "scientific", "amazon"
-  %w{mysql mysql-devel}
-when "ubuntu","debian"
-  if debian_before_squeeze? || ubuntu_before_lucid?
-    %w{mysql-client libmysqlclient15-dev}
-  else
-    %w{mysql-client libmysqlclient-dev}
+case node['platform']
+when "windows"
+  package_file = node['mysql']['client']['package_file']
+  remote_file "#{Chef::Config[:file_cache_path]}/#{package_file}" do
+    source node['mysql']['client']['url']
+    not_if { File.exists? "#{Chef::Config[:file_cache_path]}/#{package_file}" }
   end
-when "freebsd"
-  %w{mysql55-client}
-else
-  %w{mysql-client libmysqlclient-dev}
+
+  windows_package node['mysql']['client']['packages'].first do
+    source "#{Chef::Config[:file_cache_path]}/#{package_file}"
+  end
+  windows_path node['mysql']['client']['bin_dir'] do
+    action :add
+  end
+  def package(*args, &blk)
+    windows_package(*args, &blk)
+  end
+when "mac_os_x"
+  include_recipe 'homebrew'
 end
 
-mysql_packages.each do |mysql_pack|
+node['mysql']['client']['packages'].each do |mysql_pack|
   package mysql_pack do
     action :install
   end
 end
 
-if platform?(%w{ redhat centos fedora suse scientific amazon })
-  package 'ruby-mysql'
-elsif platform?(%w{ debian ubuntu })
-  package "libmysql-ruby"
-else
-  gem_package "mysql" do
-    action :install
+if platform? 'windows'
+  ruby_block "copy libmysql.dll into ruby path" do
+    block do
+      require 'fileutils'
+      FileUtils.cp "#{node['mysql']['client']['lib_dir']}\\libmysql.dll", node['mysql']['client']['ruby_dir']
+    end
+    not_if { File.exist?("#{node['mysql']['client']['ruby_dir']}\\libmysql.dll") }
   end
 end

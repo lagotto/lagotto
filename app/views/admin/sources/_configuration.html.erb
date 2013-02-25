@@ -1,6 +1,6 @@
 <% if current_page?(:action => :edit) or (current_page?(:action => :update) and !@source.errors.empty?) %>
 
-  <%= simple_form_for([:admin, @source.becomes(Source)], :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
+  <%= simple_form_for([:admin, @source.becomes(Source)], :url => admin_source_path(@source.name), :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
     <% f.object = @source.becomes(@source.class) %>
     <fieldset>
       <legend>Edit Source</legend>  
@@ -30,16 +30,16 @@
       
       <div class="form-actions">
         <%= f.submit "Save ", class: "btn btn-primary" %>
-        <%= link_to 'Cancel', admin_source_path(@source), { :remote => true, :class => 'btn' } %>
+        <%= link_to 'Cancel', admin_source_path(@source.name), { :remote => true, :class => 'btn' } %>
       </div>
     </fieldset>
   <% end %>
 
 <% else %>
   <div class="btn-toolbar pull-right">
-      <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_source_path(@source), { :remote => true, :class => 'btn btn-mini', :title => "Edit" } %>
+      <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_source_path(@source.name), { :remote => true, :class => 'btn btn-mini', :title => "Edit" } %>
   </div>
-  <table class="table">
+  <table class="table table-striped">
     <thead>    
     </thead>
     <tbody>

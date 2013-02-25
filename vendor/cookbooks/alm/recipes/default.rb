@@ -1,80 +1,69 @@
-require_recipe "apt"
-require_recipe "build-essential"
-require_recipe "git"
-
-# Install rvm and Ruby 1.9.3. Add Chef Solo path
-require_recipe "rvm::system"
-require_recipe "rvm::vagrant"
-
-require 'securerandom'
-require 'yaml'
-
-::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-
-# Generate new password for MySQL root unless it has already been stored in database.yml 
-# This has to go before the require_recipe for mysql::server
-if File.exists? "/vagrant/config/database.yml"
-  stored_password = YAML.load_file("/vagrant/config/database.yml")["test"]["password"]
-  node.set['mysql']['server_root_password'] = stored_password
-else
-  # create new database.yml
-  node.set['mysql']['server_root_password'] = secure_password 
-  template "/vagrant/config/database.yml" do
-    source 'database.yml.erb'
-    owner 'root'
-    group 'root'
-    mode 0644
+if node['platform'] == "ubuntu"
+  # Install required packages
+  %w{ruby1.9.3 libxslt-dev libxml2-dev curl}.each do |pkg|
+    package pkg do
+      action :install
+    end
+  end
+  gem_package "bundler" do
+    gem_binary "/usr/bin/gem"
   end
 end
 
-require_recipe "mysql::server"
-
-# Install CouchDB and create default CouchDB database
-require_recipe "couchdb"
-execute "create CouchDB database #{node[:couchdb][:database]}" do
-  command "curl -X DELETE http://#{node[:couchdb][:host]}:#{node[:couchdb][:port]}/#{node[:couchdb][:database]}/"
-  command "curl -X PUT http://#{node[:couchdb][:host]}:#{node[:couchdb][:port]}/#{node[:couchdb][:database]}/"
-  ignore_failure true
-end
-
-# Generate new keys unless they have already been stored in settings.yml
-if File.exists? "/vagrant/config/settings.yml"
-  settings = YAML.load_file("/vagrant/config/settings.yml")["defaults"]
-  node.set_unless['app']['key'] = settings["rest_auth_site_key"]
-  node.set_unless['app']['secret'] = settings["session_secret"]
-else
-  # create new settings.yml
-  node.set_unless['app']['key'] = SecureRandom.hex(30)
-  node.set_unless['app']['secret'] = SecureRandom.hex(30)
-  template "/vagrant/config/settings.yml" do
-    source 'settings.yml.erb'
-    owner 'root'
-    group 'root'
-    mode 0644
-  end
-end
-
-# Install PhantomJS for Javascript acceptance tests
-require_recipe "phantomjs"
-
-# Run bundle command
-bash "run bundle install in app directory" do
+# Install required gems via bundler
+script "bundle" do
+  interpreter "bash"
   cwd "/vagrant"
   code "bundle install"
 end
 
-# Optionally seed the database with sources, groups and sample articles
-template "/vagrant/db/seeds/sources.seeds.erb" do
-  source 'sources.seeds.erb'
+# Create new settings.yml
+require 'securerandom'
+node.set_unless['alm']['key'] = SecureRandom.hex(30)
+node.set_unless['alm']['secret'] = SecureRandom.hex(30)
+template "/vagrant/config/settings.yml" do
+  source 'settings.yml.erb'
+  owner 'root'
+  group 'root'
+  mode 0644
+end
+
+# Create new database.yml
+template "/vagrant/config/database.yml" do
+  source 'database.yml.erb'
+  owner 'root'
+  group 'root'
+  mode 0644
+end
+
+# Seed the database with sources, groups and sample articles
+template "/vagrant/db/seeds.rb" do
+  source 'seeds.rb.erb'
   owner 'root'
   group 'root'
   mode 0644
 end
 
 # Create default databases and run migrations
-bash "rake db:setup RAILS_ENV=#{node[:rails][:environment]}" do
+script "rake db:setup RAILS_ENV=#{node[:alm][:environment]}" do
+  interpreter "bash"
   cwd "/vagrant"
-  code "rake db:setup RAILS_ENV=#{node[:rails][:environment]}"
+  code "rake db:setup RAILS_ENV=#{node[:alm][:environment]}"
+end
+
+# Create test databases
+script "rake db:test:prepare" do
+  interpreter "bash"
+  cwd "/vagrant"
+  code "rake db:test:prepare"
+end
+
+# Create default CouchDB database
+script "create CouchDB database #{node[:alm][:name]}" do
+  interpreter "bash"
+  code "curl -X DELETE http://#{node[:couchdb][:host]}:#{node[:couchdb][:port]}/#{node[:alm][:name]}/"
+  code "curl -X PUT http://#{node[:couchdb][:host]}:#{node[:couchdb][:port]}/#{node[:alm][:name]}/"
+  ignore_failure true
 end
 
 # Generate new Procfile
@@ -85,16 +74,40 @@ template "/vagrant/Procfile" do
   mode 0644
 end
 
-# Install Apache and Passenger
-require_recipe "passenger_apache2::mod_rails"
+case node['platform']
+when "ubuntu"
+  include_recipe "passenger_apache2::mod_rails"
+  
+  execute "disable-default-site" do
+    command "sudo a2dissite default"
+  end
 
-execute "disable-default-site" do
-  command "sudo a2dissite default"
-  notifies :reload, resources(:service => "apache2"), :delayed
-end
-
-web_app "alm" do
-  docroot "/vagrant/public"
-  template "alm.conf.erb"
-  notifies :reload, resources(:service => "apache2"), :delayed
+  web_app "alm" do
+    template "alm.conf.erb"
+    notifies :reload, resources(:service => "apache2"), :delayed
+  end
+when "centos"
+  template "/etc/httpd/conf.d/alm.conf" do
+    source 'alm.conf.erb'
+    owner 'root'
+    group 'root'
+    mode 0644
+  end
+  
+  # Allow all traffic on the loopback device
+  simple_iptables_rule "system" do
+    rule "--in-interface lo"
+    jump "ACCEPT"
+  end
+  
+  # Allow HTTP
+  simple_iptables_rule "http" do
+    rule "--proto tcp --dport 80"
+    jump "ACCEPT"
+  end
+  
+  script "start httpd" do
+    interpreter "bash"
+    code "sudo /sbin/service httpd start"
+  end
 end

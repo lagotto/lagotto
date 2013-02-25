@@ -51,6 +51,16 @@ When /^I add the article with all required information$/ do
   create_article
 end
 
+When /^I go to the article with the DOI "(.*?)" and no other identifiers$/ do |doi|
+  article = FactoryGirl.create(:article, :doi => doi, :pub_med => "", :pub_med_central => "", :mendeley => "", :url => "", :published_on => "2012-10-23")
+  visit article_path(article.doi)
+end
+
+When /^I go to the article with "(.*?)" for "(.*?)"$/ do |value, identifier|
+  article = FactoryGirl.create(:article, identifier.to_sym => value, :published_on => "2012-10-23")
+  visit article_path(article.doi)
+end
+
 ### THEN ###
 Then /^I should see the article$/ do
   #visit article_path(@article)
@@ -64,4 +74,30 @@ end
 Then /^I should see a list of (\d+) articles$/ do |number|
   page.driver.render("tmp/capybara/#{number}.png")
   page.has_css?('div.span12', :visible => true, :count => number.to_i).should be_true
+end
+
+Then /^I should see the DOI "(.*?)" as a link$/ do |doi|
+  page.driver.render("tmp/capybara/#{doi}.png")
+  page.has_link?(doi, :href => "http://dx.doi.org/#{doi}").should be_true
+end
+
+Then /^I should see "(.*?)" with the "(.*?)" for the article$/ do |value, label|
+  page.driver.render("tmp/capybara/#{label}.png")
+  page.has_css?('dt', :text => label).should be_true
+  case label
+  when "Publication Date"
+    page.has_css?('dd', :text => value).should be_true
+  when "Mendeley UUID"
+    page.has_css?('dd', :text => value).should be_true
+  when "PubMed ID"
+    page.has_link?(value, :href => "http://www.ncbi.nlm.nih.gov/pubmed/#{value}").should be_true
+  when "PubMed Central ID"
+    page.has_link?("PMC#{value}", :href => "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{value}").should be_true
+  else
+    page.has_link?(value, :href => value).should be_true
+  end
+end
+
+Then /^I should not see the "(.*?)" for the article$/ do |label|
+  page.has_no_css?('dt', :text => label).should be_true
 end

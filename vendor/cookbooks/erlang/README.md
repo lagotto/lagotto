@@ -11,15 +11,21 @@ http://www.rabbitmq.com/server.html
 Requirements
 ============
 
+Chef
+----
+
+Chef version 0.10.10+ and Ohai 0.6.12+ are required
+
 Platform
 --------
 
 Tested on:
 
 * Ubuntu 10.04, 11.10
-* CentOS 5.7, 6.2
+* Red Hat Enterprise Linux (CentOS/Amazon/Scientific/Oracle) 5.7, 6.2
 
-May work on other Debian/RHEL derivatives w/o modification.
+**Notes**: This cookbook has been tested on the listed platforms. It
+  may work on other platforms with or without modification.
 
 Cookbooks
 ---------

@@ -17,7 +17,8 @@
 # limitations under the License.
 #
 
-define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :active_directory => nil, :owner => "root", :group => "root", :template_name => nil, :log_template_name => nil, :control_template_names => {}, :finish_script_template_name => nil, :start_command => "start", :stop_command => "stop", :restart_command => "restart", :status_command => "status", :options => Hash.new, :env => Hash.new do
+define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :active_directory => nil, :owner => "root", :group => "root", :template_name => nil, :log_template_name => nil, :control_template_names => {}, :finish_script_template_name => nil, :start_command => "start", :stop_command => "stop", :restart_command => "restart", :status_command => "status", :options => Hash.new, :env => Hash.new, :default_logger => false, :nolog => false do
+
   include_recipe "runit"
 
   params[:directory] ||= node[:runit][:sv_dir]
@@ -40,18 +41,43 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
     action :create
   end
 
-  directory "#{sv_dir_name}/log" do
-    owner params[:owner]
-    group params[:group]
-    mode 0755
-    action :create
-  end
+  unless params[:nolog]
+    directory "#{sv_dir_name}/log" do
+      owner params[:owner]
+      group params[:group]
+      mode 0755
+      action :create
+    end
 
-  directory "#{sv_dir_name}/log/main" do
-    owner params[:owner]
-    group params[:group]
-    mode 0755
-    action :create
+    directory "#{sv_dir_name}/log/main" do
+      owner params[:owner]
+      group params[:group]
+      mode 0755
+      action :create
+    end
+
+    if params[:default_logger]
+      file "#{sv_dir_name}/log/run" do
+        owner params[:owner]
+        group params[:group]
+        mode 0755
+        content <<-EOF
+#!/bin/sh
+exec svlogd -tt ./main
+EOF
+      end
+    else
+      template "#{sv_dir_name}/log/run" do
+        owner params[:owner]
+        group params[:group]
+        mode 0755
+        source "sv-#{params[:log_template_name]}-log-run.erb"
+        cookbook params[:cookbook] if params[:cookbook]
+        if params[:options].respond_to?(:has_key?)
+          variables :options => params[:options]
+        end
+      end
+    end
   end
 
   template "#{sv_dir_name}/run" do
@@ -59,17 +85,6 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
     group params[:group]
     mode 0755
     source "sv-#{params[:template_name]}-run.erb"
-    cookbook params[:cookbook] if params[:cookbook]
-    if params[:options].respond_to?(:has_key?)
-      variables :options => params[:options]
-    end
-  end
-
-  template "#{sv_dir_name}/log/run" do
-    owner params[:owner]
-    group params[:group]
-    mode 0755
-    source "sv-#{params[:log_template_name]}-log-run.erb"
     cookbook params[:cookbook] if params[:cookbook]
     if params[:options].respond_to?(:has_key?)
       variables :options => params[:options]
@@ -127,6 +142,16 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
   if params[:active_directory] == node[:runit][:service_dir]
     link "/etc/init.d/#{params[:name]}" do
       to node[:runit][:sv_bin]
+      not_if { node["platform"] == "debian" }
+    end
+    template "/etc/init.d/#{params[:name]}" do
+      owner "root"
+      group "root"
+      mode 0755
+      source "init.d.erb"
+      cookbook "runit"
+      variables :params => params
+      only_if { node["platform"] == "debian" }
     end
   end
 

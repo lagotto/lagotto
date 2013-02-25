@@ -49,8 +49,19 @@ class Pmc < Source
         end
       end
     end
+    
+    event_metrics = { :pdf => views.inject(0) { |sum, hash| sum + hash["pdf"].to_i }, 
+                      :html => views.inject(0) { |sum, hash| sum + hash["full-text"].to_i }, 
+                      :shares => nil, 
+                      :groups => nil,
+                      :comments => nil, 
+                      :likes => nil, 
+                      :citations => nil, 
+                      :total => event_count }
 
-    { :events => events, :event_count => event_count }
+    { :events => events, 
+      :event_count => event_count,
+      :event_metrics => event_metrics }
   end
 
   def get_config_fields

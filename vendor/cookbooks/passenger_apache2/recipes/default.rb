@@ -38,16 +38,22 @@ when "centos","redhat"
     package 'zlib-devel'
   end
 else
-  %w{ apache2-prefork-dev libapr1-dev libcurl4-gnutls-dev }.each do |pkg|
+  apache_development_package =  if %w( worker threaded ).include? node['passenger']['apache_mpm']
+                                  'apache2-threaded-dev'
+                                else
+                                  'apache2-prefork-dev'
+                                end
+  %W( #{apache_development_package} libapr1-dev libcurl4-gnutls-dev ).each do |pkg|
     package pkg do
       action :upgrade
     end
   end
 end
 
-# gem_package "passenger" do
-#   version node[:passenger][:version]
-# end
+gem_package "passenger" do
+  gem_binary "/usr/bin/gem"
+  version node[:passenger][:version]
+end
 
 execute "passenger_module" do
   command 'passenger-install-apache2-module --auto'

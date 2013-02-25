@@ -22,14 +22,16 @@ if node['platform'] == "ubuntu" && node['platform_version'].to_f == 8.04
   return
 end
 
-include_recipe "erlang"
+if node['couch_db']['install_erlang']
+  include_recipe "erlang"
+end
 
 couchdb_tar_gz = File.join(Chef::Config[:file_cache_path], "/", "apache-couchdb-#{node['couch_db']['src_version']}.tar.gz")
 compile_flags = String.new
 dev_pkgs = Array.new
 
-case node['platform']
-when "debian", "ubuntu"
+case node['platform_family']
+when "debian"
 
   dev_pkgs << "libicu-dev"
   dev_pkgs << "libcurl4-openssl-dev"

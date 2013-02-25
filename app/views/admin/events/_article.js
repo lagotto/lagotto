@@ -1,5 +1,5 @@
 var data = <%= raw @data %>;
-var colors = ["#304345","#789aa1","#ad9a27","#a17f78","#a0d5d6"]
+var colors = ["#304345","#789aa1","#a0d5d6","#ad9a27","#a17f78"];
   
 var l = 200; // left margin
 var r = 120; // right margin
@@ -29,7 +29,7 @@ chart.selectAll("text.labels")
   .attr("y", function(d) { return y(d.name) + y.rangeBand() / 2; })
   .attr("dx", -230) // padding-right
   .attr("dy", ".35em") // vertical-align: middle
-  .text(function(d) { return d.name; })
+  .text(function(d) { return d.name; });
 chart.selectAll("rect")
   .data(data)
   .enter().append("rect")
@@ -46,4 +46,4 @@ chart.selectAll("text.values")
   .attr("dx", 5) // padding-right
   .attr("dy", ".35em") // vertical-align: middle
   .transition().delay(700)
-  .text(function(d) { return d.article_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); })
+  .text(function(d) { return d.article_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); });

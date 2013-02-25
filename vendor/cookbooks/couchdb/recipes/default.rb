@@ -17,10 +17,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "erlang"
+if node['couch_db']['install_erlang']
+  include_recipe "erlang"
+end
 
-case node['platform']
-when "redhat","centos","fedora","amazon"
+case node['platform_family']
+when "rhel"
   group "couchdb" do
     system true
   end
@@ -32,7 +34,10 @@ when "redhat","centos","fedora","amazon"
     home "/var/lib/couchdb"
     system true
   end
+
+  include_recipe "yum::epel"
 end
+
 
 package "couchdb" do
   package_name value_for_platform(
@@ -42,13 +47,14 @@ package "couchdb" do
   )
 end
 
-# Added this block and local.ini.erb template to enable configuration of :bind_address
-template "couchdb/local.ini" do
+template "/etc/couchdb/local.ini" do
+  source "local.ini.erb"
   owner "couchdb"
   group "couchdb"
   mode 0664
-  path "/etc/couchdb/local.ini"
-  source "local.ini.erb"
+  variables(
+    :bind_address => node['couch_db']['bind_address']
+  )
 end
 
 directory "/var/lib/couchdb" do
@@ -64,7 +70,7 @@ directory "/var/lib/couchdb" do
 end
 
 service "couchdb" do
-  if platform?("centos","redhat","fedora")
+  if platform_family?("rhel","fedora")
     start_command "/sbin/service couchdb start &> /dev/null"
     stop_command "/sbin/service couchdb stop &> /dev/null"
   end

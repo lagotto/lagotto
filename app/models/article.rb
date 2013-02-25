@@ -20,6 +20,7 @@ require "cgi"
 require "builder"
 
 class Article < ActiveRecord::Base
+  strip_attributes
   
   # Format used for DOI validation - we want to store DOIs without
   # the leading "info:doi/"
@@ -30,18 +31,17 @@ class Article < ActiveRecord::Base
   has_many :sources, :through => :retrieval_statuses
   
   validates :uid, :title, :presence => true
-  validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_blank => true
+  validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true
   validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future", 
                                                                :after => lambda { 50.years.ago }, :after_message => "must not be older than 50 years", 
                                                                :type => :date }
-  
   after_create :create_retrievals
   
   default_scope order("published_on DESC")
 
   scope :query, lambda { |query| where("doi like ? OR title like ?", "%#{query}%", "%#{query}%") }
   scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
-
+   
   scope :cited, lambda { |cited|
     case cited
       when '1', 1
@@ -164,6 +164,11 @@ class Article < ActiveRecord::Base
     urls << url unless url.nil?
     urls
   end
+  
+  def mendeley_url
+    rs = retrieval_statuses.includes(:source).where("sources.name" => "mendeley").first
+    rs.nil? ? nil : rs.events_url
+  end
 
   def to_xml(options = {})
     sources = (options.delete(:source) || '').downcase.split(',')
@@ -233,7 +238,7 @@ class Article < ActiveRecord::Base
         group_info[group_id] = [] if group_info[group_id].nil?
         group_info[group_id] << {:source => rs.source.display_name,
                                  :count => rs.event_count,
-                                 :public_url => rs.public_url}
+                                 :public_url => rs.events_url}
       end
     end
     group_info
@@ -242,8 +247,9 @@ class Article < ActiveRecord::Base
   def is_publisher?
     APP_CONFIG["doi_prefix"].to_s == doi[0..6]
   end
-
+  
   private
+  
   def create_retrievals
     # Create an empty retrieval record for every source for the new article
     Source.all.each do |source|

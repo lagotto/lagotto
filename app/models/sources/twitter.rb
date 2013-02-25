@@ -81,6 +81,18 @@ class Twitter < Source
         }
 
         events << event
+        event_metrics = { :pdf => nil, 
+                          :html => nil, 
+                          :shares => nil, 
+                          :groups => nil,
+                          :comments => events.length, 
+                          :likes => nil, 
+                          :citations => nil, 
+                          :total => events.length }
+                          
+        { :events => events, 
+          :event_count => events.length,
+          :event_metrics => event_metrics }
       end
     end
   end

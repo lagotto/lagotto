@@ -57,13 +57,19 @@ class CrossRef < Source
           events << { :event => event, :event_url => event_url }
         end
         
-        if events.empty?
-          { :events => [], :event_count => 0 }
-        else
-          {:events => events,
-           :event_count => events.length,
-           :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }}
-        end
+        event_metrics = { :pdf => nil, 
+                          :html => nil, 
+                          :shares => nil, 
+                          :groups => nil,
+                          :comments => nil, 
+                          :likes => nil, 
+                          :citations => events.length, 
+                          :total => events.length }
+        
+        { :events => events,
+          :event_count => events.length,
+          :event_metrics => event_metrics,
+          :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }}
       end
     else
       get_default_data(article, options={})

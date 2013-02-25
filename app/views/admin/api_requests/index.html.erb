@@ -3,30 +3,34 @@
     <h1>API Requests</h1>
   </div>
   
-  <p>Number and average duration in ms for requests to the v3 API.</p>
+  <div class="row">
+    <div class="span12">
+      Number and duration of API requests in the last 6 weeks. Filter by <a href="javascript:filter([null, null, null, [0, 100]])">fast</a> or <a href="javascript:filter([null, null, null, [1000, 50000]])">slow</a> responses, or by responses from <a href="javascript:filter([[new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000), new Date()], null, null, null])">today</a>.
+    </div>
+
+    <div id="charts">
+      <div id="date-chart" class="span6 req-chart">
+        <h5>Date</h5>
+      </div>
+      <div id="db-chart" class="span6 req-chart">
+        <h5>Database Duration (ms)</h5>
+      </div>
+      <div id="hour-chart" class="span6 req-chart">
+        <h5>Time of Day (UTC)</h5>
+      </div>
+      <div id="duration-chart" class="span6 req-chart">
+        <h5>View Duration (ms)</h5>
+      </div>
+    </div>
+
+    <div id="lists">
+      <div id="request-list" class="span12 list">
+      <div id="totals" class="pull-right"><span id="active">-</span> of <span id="total">-</span> requests selected.</div>
+      </div>
+    </div>
+  </div>
   
-  <table class="table table-striped" id="ApiRequestsTable">
-    <thead>
-      <tr>
-        <th/>
-        <th class="number">Number</th>
-        <th class="number">DB</th>
-        <th class="number">View</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>Requests in the last 24 Hours</th>
-        <td class="number"><%= number_with_delimiter(@requests_24_count) %></td>
-        <td class="number"><%= @requests_24_db_average.blank? ? "n/a" : number_with_precision(@requests_24_db_average, :precision => 1) %></td>
-        <td class="number"><%= @requests_24_view_average.blank? ? "n/a" : number_with_precision(@requests_24_view_average, :precision => 1) %></td>
-      </tr>
-      <tr>
-        <th>Requests in the last 30 Days</th>
-        <td class="number"><%= number_with_delimiter(@requests_30_count) %></td>
-        <td class="number"><%= @requests_30_db_average.blank? ? "n/a" : number_with_precision(@requests_30_db_average, :precision => 1) %></td>
-        <td class="number"><%= @requests_30_view_average.blank? ? "n/a" : number_with_precision(@requests_30_view_average, :precision => 1) %></td>
-      </tr>
-    </tbody>
-  </table>
+  <%= javascript_tag do -%>
+    <%= render :partial => 'request', formats: :js %> 
+  <% end %>
 </div>

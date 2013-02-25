@@ -13,7 +13,7 @@ describe CrossRef do
     
     it "should report if there are no events and event_count returned by the CrossRef API" do
       stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'), :status => 200)
-      cross_ref.get_data(article).should eq({ :events => [], :event_count => 0 })
+      cross_ref.get_data(article).should eq({ :events => [], :event_count => 0, :event_metrics => { :pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, :attachment => nil })
       stub.should have_been_requested
     end
   

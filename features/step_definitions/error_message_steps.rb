@@ -28,17 +28,13 @@ Then /^I should see the "(.*?)" error message$/ do |error_message|
 end
 
 Then /^I should see the "(.*?)" class name$/ do |class_name|
-  page.should have_content class_name
+  page.has_css?('p.class_name', :text => class_name, :visible => true).should be_true
 end
 
-Then /^I should see the "(.*?)" target url$/ do |target_url|
-  page.has_css?('div.collapse', :text => target_url, :visible => true)
-end
-
-Then /^I should not see the "(.*?)" target url$/ do |target_url|
-  page.has_css?('div.collapse', :text => target_url, :visible => false)
+Then /^I should not see the "(.*?)" class name$/ do |class_name|
+  page.has_css?('p.class_name', :text => class_name, :visible => true).should_not be_true
 end
 
 Then /^I should see the "(.*?)" status$/ do |status|
-  page.has_css?('div.collapse', :text => status, :visible => true)
+  page.has_css?('div.collapse', :text => status, :visible => true).should be_true
 end
