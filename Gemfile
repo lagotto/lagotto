@@ -7,6 +7,7 @@ gem "delayed_job", "~> 3.0.4"
 gem "delayed_job_active_record", "~> 0.3.3"
 gem "daemons", "~> 1.1.9"
 gem "foreman", "~> 0.60.2"
+gem "rake", "~> 0.9.2"
 
 gem "libxml-ruby", "~> 2.4.0", :require => 'xml'
 gem "nokogiri", "~> 1.5.6"
