@@ -1,5 +1,4 @@
-collection ArticleDecorator.decorate(@articles)
-cache ArticleDecorator.decorate(@articles)
+collection @articles
   
 attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date
 
