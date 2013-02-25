@@ -125,10 +125,13 @@ namespace :pmc do
       begin
         # try to get the existing information about the given article
         stat_data = get_json(url)
-        views = stat_data['views']
 
-        # remove the entry we are trying to update
-        views.delete_if { | view | view['month'].eql?(month) && view['year'].eql?(year) }
+        if (!stat_data['views'].nil?)
+          views = stat_data['views']
+
+          # remove the entry we are trying to update
+          views.delete_if { | view | view['month'].eql?(month) && view['year'].eql?(year) }
+        end
 
       rescue
 
