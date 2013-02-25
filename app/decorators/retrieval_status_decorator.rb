@@ -79,4 +79,14 @@ class RetrievalStatusDecorator < Draper::Decorator
       end
     end
   end
+  
+  def cache_key
+    { :id => id, 
+      :timestamp => updated_at, 
+      :source => context[:source],
+      :info => context[:info],
+      :days => context[:days],
+      :months => context[:months],
+      :year => context[:year] }
+  end
 end

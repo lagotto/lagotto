@@ -14,7 +14,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
       id_hash = { :articles => id_hash, :retrieval_statuses => { :source_id => source_ids } }
     end
     
-    @articles = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info] })
+    @articles = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).order("articles.updated_at DESC").decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
     
     # Return 404 HTTP status code and error message if article wasn't found
     render "404", :status => 404 if @articles.blank?
@@ -29,7 +29,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
       id_hash = { :articles => id_hash, :retrieval_statuses => { :source_id => source_ids } }
     end
     
-    @article = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info] })
+    @article = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
     
     # Return 404 HTTP status code and error message if article wasn't found
     render "404", :status => 404 if @article.blank?
