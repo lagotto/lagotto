@@ -51,14 +51,14 @@ describe "/api/v3/articles" do
         response_source[:histories].should be_nil
       end
       
-      it "can make API requests 6x faster" do
+      it "can make API requests 4x faster" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
         
         get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
         ApiRequest.count.should eql(2)
-        ApiRequest.last.page_duration.should be < 0.17 * ApiRequest.first.page_duration
+        ApiRequest.last.page_duration.should be < 0.25 * ApiRequest.first.page_duration
       end
     end
     
@@ -107,7 +107,7 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//xml").should be_true
       end
       
-      it "can make API requests 3x faster" do
+      it "can make API requests 2x faster" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
@@ -116,7 +116,7 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
         ApiRequest.count.should eql(2)
-        ApiRequest.last.page_duration.should be < 0.33 * ApiRequest.first.page_duration
+        ApiRequest.last.page_duration.should be < 0.5 * ApiRequest.first.page_duration
       end
           
       it "does not use a stale cache when an article is updated" do
