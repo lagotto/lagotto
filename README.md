@@ -113,6 +113,7 @@ Please set `ServerName` if you have set up more than one virtual host. Also don'
     </VirtualHost>
 
 #### Install ALM code
+You may have to set the permissions first, depending on your server setup. Passenger by default is run by the user who owns `config.ru`.
 
     git clone git://github.com/articlemetrics/alm.git /var/www/alm
 
