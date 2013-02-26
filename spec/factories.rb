@@ -150,6 +150,19 @@ FactoryGirl.define do
     initialize_with { Nature.find_or_create_by_name(name) }
   end
   
+  factory :pmc, class: Pmc do
+    type "Pmc"
+    name "pmc"
+    display_name "PubMed Central Usage Stats"
+    active true
+    url "http://rwc-couch01.int.plos.org:5984/pmc_usage_stats/%{doi}"
+    filepath "/home/alm/pmcdata/"
+
+    group
+    
+    initialize_with { Pmc.find_or_create_by_name(name) }
+  end
+  
   factory :pub_med, class: PubMed do
     type "PubMed"
     name "pubmed"

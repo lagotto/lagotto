@@ -1,3 +1,7 @@
+## v1.2.0:
+
+* [COOK-2287] - Add support for installing Erlang from source
+
 ## v1.1.2:
 
 * [COOK-1215] - Support Amazon Linux in erlang cookbook

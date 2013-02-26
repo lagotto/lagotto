@@ -46,8 +46,29 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :workers => 1,
   :group_id => citations.id,
   :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
+<% if node[:alm][:doi_prefix] == "10.1371" -%> 
+wos = Wos.find_or_create_by_name(  
+	:name => "wos", 
+	:display_name => "Web of Science", 
+  :description => "Web of Science is an online academic citation index.",
+	:active => <%= node[:alm][:wos][:url] == "EXAMPLE" ? false : true %>, 
+	:workers => 1,
+	:group_id => citations.id,
+	:url => "<%= node[:alm][:wos][:url] %>" )
+<% end -%>
 
 # The following sources require passwords/API keys
+<% if node[:alm][:doi_prefix] == "10.1371" -%> 
+counter = Counter.find_or_create_by_name(  
+  :name => "counter", 
+  :display_name => "Counter", 
+  :description => "Usage stats from the PLOS website",
+  :active => <%= node[:alm][:counter][:url] == "EXAMPLE" ? false : true %>, 
+  :workers => 1,
+  :group_id => usage.id,
+  :url => "<%= node[:alm][:counter][:url] %>")
+<% end -%>
+
 <% if node[:alm][:doi_prefix] == "10.5194" -%> 
 copernicus = Copernicus.find_or_create_by_name(  
   :name => "copernicus", 
@@ -56,10 +77,11 @@ copernicus = Copernicus.find_or_create_by_name(
   :active => <%= node[:alm][:copernicus][:password] == "EXAMPLE" ? false : true %>, 
   :workers => 1,
   :group_id => usage.id,
-  :url => "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:%{doi}.json",
+  :url => ,
   :username => "<%= node[:alm][:copernicus][:username] %>",
   :password => "<%= node[:alm][:copernicus][:password] %>")
 <% end -%>
+
 crossref = CrossRef.find_or_create_by_name(  
   :name => "crossref", 
   :display_name => "CrossRef", 
@@ -104,6 +126,18 @@ nature = Nature.find_or_create_by_name(
   :group_id => blogs_media.id,
   :url => "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}",
   :api_key => "<%= node[:alm][:nature][:api_key] %>")
+  
+<% if node[:alm][:doi_prefix] == "10.1371" -%> 
+pmc = Pmc.find_or_create_by_name(  
+  :name => "pmc", 
+  :display_name => "PubMed Central Usage Stats", 
+  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
+  :active => <%= node[:alm][:pmc][:url] == "EXAMPLE" ? false : true %>, 
+  :workers => 1,
+  :group_id => usage.id,
+  :url => "<%= node[:alm][:pmc][:url] %>",
+  :filepath => "<%= node[:alm][:pmc][:filepath] %>")
+<% end -%>
     
 researchblogging = Researchblogging.find_or_create_by_name(  
   :name => "researchblogging", 

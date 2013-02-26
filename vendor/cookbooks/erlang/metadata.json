@@ -15,7 +15,8 @@
     "oracle": ">= 0.0.0"
   },
   "dependencies": {
-    "yum": ">= 0.5.0"
+    "yum": ">= 0.5.0",
+    "build-essential": ">= 0.0.0"
   },
   "recommendations": {
   },
@@ -32,7 +33,9 @@
   "groupings": {
   },
   "recipes": {
-    "erlang": "Installs erlang"
+    "erlang": "Installs Erlang via package or source",
+    "erlang::package": "Installs Erlang via package",
+    "erlang::source": "Installs Erlang via source"
   },
-  "version": "1.1.2"
+  "version": "1.2.0"
 }
