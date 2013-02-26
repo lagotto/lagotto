@@ -20,7 +20,7 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def cache_key
-    { :id => id, 
+    { :article_id => id, 
       :timestamp => updated_at, 
       :source => context[:source],
       :info => context[:info],
