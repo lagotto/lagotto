@@ -130,7 +130,7 @@ describe "/api/v3/articles" do
       end
     end 
     
-    context "historical data until 2012" do
+    context "historical data until 2013" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?year=2013"}
 
