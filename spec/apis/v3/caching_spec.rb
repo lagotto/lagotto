@@ -4,7 +4,7 @@ describe "/api/v3/articles" do
   context "caching", :caching => true do
     
     context "index" do
-      let(:articles) { FactoryGirl.create_list(:article_with_events, 10) }
+      let(:articles) { FactoryGirl.create_list(:article_with_events, 5) }
       
       before(:each) do
         article_list = articles.collect { |article| "#{CGI.escape(article.doi)}" }.join(",") 
