@@ -1,11 +1,9 @@
 <div class="content">
   <div class="page-header">
-    <h1>
-      <%= pluralize(DelayedJob.count, 'Job') %>
-    </h1>
+    <h1>Jobs</h1>
   </div>
   
-  <p>Number of background jobs and queued articles.</p>
+  <p>Number of background jobs, stale and queued articles.</p>
   
   <table class="table table-striped" id="JobsTable">
     <thead>

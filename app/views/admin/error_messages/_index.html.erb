@@ -5,7 +5,7 @@
       <li><%= link_to "All Sources", admin_error_messages_path(:query => params[:query]) %></li>
       <li class="divider"></li>
       <% sources.active.each do|source| %>
-      <li><%= link_to h(source.display_name), admin_error_messages_path(:source_id => source, :query => params[:query]) %></li>
+      <li><%= link_to h(source.display_name), admin_error_messages_path(:source_id => source.id, :query => params[:query]) %></li>
       <% end %>
     </ul>
   </div>

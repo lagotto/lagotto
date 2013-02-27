@@ -9,7 +9,6 @@ ENV["RAILS_ENV"] = 'test'
 require 'simplecov'
 require 'cucumber/rails'
 require 'factory_girl_rails'
-require 'aruba/cucumber'
 require 'capybara/poltergeist'
 require 'source_helper'
 
@@ -58,14 +57,6 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 #   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 # end
 # 
-Before do
-  #DatabaseCleaner.start
-  
-  # Set the defaults for Aruba
-  @dirs = [Rails.root]
-  @aruba_timeout_seconds = 90
-  @aruba_io_wait_seconds = 5
-end
 
 Before('@couchdb') do
   put_alm_database
@@ -74,7 +65,3 @@ end
 After('@couchdb') do
   delete_alm_database
 end
-
-# After do |scenario|
-#   DatabaseCleaner.clean
-# end
