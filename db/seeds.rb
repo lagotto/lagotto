@@ -116,7 +116,7 @@ pmc = Pmc.find_or_create_by_name(
   :active => true, 
   :workers => 1,
   :group_id => usage.id,
-  :url => "http://rwc-couch01.int.plos.org:5984/pmc_usage_stats/%{doi}",
+  :url => "http://localhost:5984/pmc_usage_stats/%{doi}",
   :filepath => "/home/alm/pmcdata/")
     
 researchblogging = Researchblogging.find_or_create_by_name(  

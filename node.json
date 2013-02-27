@@ -19,7 +19,7 @@
            "facebook": { "access_token": "318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q" },
            "mendeley": { "api_key": "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5" },
            "nature": { "api_key": "7jug74j8rh49n8rbn8atwyec"},
-           "pmc": { "url": "http://rwc-couch01.int.plos.org:5984/pmc_usage_stats/%{doi}", "filepath": "/home/alm/pmcdata/" },
+           "pmc": { "url": "http://localhost:5984/pmc_usage_stats/%{doi}", "filepath": "/home/vagrant/pmcdata/" },
            "researchblogging": { "username": "plosuser", "password": "siWSaA546pM" },
            "wos": { "url": "https://ws.isiknowledge.com/cps/xrpc" }},
   "passenger": { "version": "3.0.19" },
