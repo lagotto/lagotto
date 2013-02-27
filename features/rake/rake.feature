@@ -2,11 +2,11 @@ Feature: Run rake tasks
   I should be able to run rake tasks
 
   Scenario: rake is installed
-    When I run `rake --version`
+    When I run `bundle exec rake --version`
     Then the output should contain "rake, version"
     
   Scenario Outline: rake tasks exist
-    When I run `rake -T`
+    When I run `bundle exec rake -T`
     Then the output should contain "<Task>"
     And the output should contain "<Description>"
     
@@ -15,5 +15,4 @@ Feature: Run rake tasks
       | doi_import                   | Bulk-import DOIs from standard input               |
       | jobs:work                    | Start a delayed_job worker.                        |
       | workers:start_all            | Start all the workers                              |
-      | pmc:update[month,year]       | Bulk-import PMC usage stats by month and journal   |
       | queue:single_job[doi,source] | Queue article with given DOI for a specific source |

@@ -66,7 +66,3 @@ end
 After('@couchdb') do
   delete_alm_database
 end
-
-# After do |scenario|
-#   DatabaseCleaner.clean
-# end

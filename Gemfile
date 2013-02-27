@@ -50,7 +50,7 @@ group :test do
   gem "shoulda-matchers", "~> 1.4.1", :require => false
   gem "webmock", "~> 1.9.2"
   gem "rest-client", "~> 1.6.7"
-  gem "aruba", "~> 0.5.1"
+  gem "aruba", "~> 0.5.1", :require => false
   gem "thin", "~> 1.5.0"
   gem "poltergeist", "~> 1.0.2"
   gem "minitest", "~> 4.4.0"
