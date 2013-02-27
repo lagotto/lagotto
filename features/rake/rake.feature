@@ -2,11 +2,11 @@ Feature: Run rake tasks
   I should be able to run rake tasks
 
   Scenario: rake is installed
-    When I run `rake --version`
+    When I run `bundle exec rake --version`
     Then the output should contain "rake, version"
     
   Scenario Outline: rake tasks exist
-    When I run `rake -T`
+    When I run `bundle exec rake -T`
     Then the output should contain "<Task>"
     And the output should contain "<Description>"
     
