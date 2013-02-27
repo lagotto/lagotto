@@ -58,10 +58,7 @@ module SourceHelper
 
     response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
     if response.kind_of?(Net::HTTPConflict)
-      # something went wrong
-      ErrorMessage.create(:exception => e, :message => "Failed to put #{service_url}#{id}. Going to try to get the document to get the current _rev, #{e.message}")   
-      
-      # get the most current revision value and use that to put the data one more time
+      # Revision conflict in CouchDB, get the most current revision value and use that to put the data one more time
       cur_data = get_json("#{service_url}#{id}")
       data[:_id] = cur_data["_id"]
       data[:_rev] = cur_data["_rev"]
