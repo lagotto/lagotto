@@ -22,7 +22,8 @@ require 'date'
 include SourceHelper
 
 namespace :pmc do
-
+  
+  desc "Bulk-import PMC usage stats by month and journal"
   task :update, [:month,:year] => :environment do |t, args|
 
     # looking at last month's information
@@ -46,14 +47,29 @@ namespace :pmc do
     Rails.logger.info "Getting PMC information for #{month} #{year}"
     puts "Getting PMC information for #{month} #{year}"
     
-    # Assume that the PMC source does exist
     source = Source.find_by_name("pmc")
+    if source.nil?
+      message = "Source \"pmc\" is missing"
+      ErrorMessage.create(:exception => "", :class_name => "NoMethodError",
+                          :message => message)
+      puts "Error: #{message}"
+      exit
+    end
 
     filepath = source.filepath
     service_url = source.url
-
-    if filepath.nil? || service_url.nil?
-      Rails.logger.error("filepath or url is missing")
+    if filepath.nil? || !File.directory?(filepath) || service_url.nil?
+      if filepath.nil?
+        message = "Filepath is missing"
+      elsif !File.directory?(filepath)
+        message = "Directory #{filepath} does not exist"
+      else
+        message = "Url is missing"
+      end
+      ErrorMessage.create(:exception => "", :class_name => "NoMethodError",
+                          :message => message, 
+                          :source_id => source.id)
+      puts "Error: #{message}"
       exit
     end
 
@@ -64,7 +80,7 @@ namespace :pmc do
     puts "Filepath: " + filepath
     puts "Service URL: " + service_url
 
-    journals = ["plosbiol", "plosmed", "ploscomp", "plosgen", "plospath", "plosone", "plosntd", "plosct", "ploscurrents"];
+    journals = ["plosbiol", "plosmed", "ploscomp", "plosgen", "plospath", "plosone", "plosntd", "plosct", "ploscurrents"]
 
     journals.each do |journal|
       Rails.logger.info "Getting PMC information for journal #{journal}"
@@ -84,8 +100,12 @@ namespace :pmc do
 
             process_doc(document, service_url)
           else
-            Rails.logger.error "Bad status from PMC #{attributes['status']}"
-            puts "Bad status from PMC #{attributes['status']}"
+            message = "Bad status from PMC #{attributes['status']}"
+            ErrorMessage.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
+                                :message => message, 
+                                :status => 500,
+                                :source_id => source.id)
+            puts "Error: #{message}"
           end
         end
       end
@@ -163,8 +183,9 @@ namespace :pmc do
       begin
         response = put(url, new_data)
       rescue => e
-        Rails.logger.error "Error #{url} #{new_data} (#{e.class.name}: #{e.message})"
-        puts "Error #{url} #{new_data} (#{e.class.name}: #{e.message})"
+        ErrorMessage.create(:exception => e, 
+                            :source_id => source.id)
+        puts "Error: #{url} #{new_data} (#{e.class.name}: #{e.message})"
       end
 
     end

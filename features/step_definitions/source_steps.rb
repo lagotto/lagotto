@@ -3,8 +3,8 @@ Given /^that an article has no blog count$/ do
   page.should_not have_content "Nature Blogs"
 end
 
-Given /^the source "(.*?)" exists$/ do |display_name|
-  FactoryGirl.create(display_name.underscore.to_sym)
+Given /^the source "(.*?)" exists$/ do |name|
+  FactoryGirl.create(name.underscore.to_sym)
 end
 
 Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
