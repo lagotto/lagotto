@@ -1,59 +1,67 @@
 Description
 ===========
 
-Manages installation of erlang packages. For Debian/Ubuntu this means
-the distro version of 'erlang'. For RHEL/CentOS this means following
-the recommendation of RabbitMQ.com and adds an updated version of
-erlang and access to the EPEL Yum repository.
-
-http://www.rabbitmq.com/server.html
+Manages installation of Erlang via packages or source.
 
 Requirements
 ============
 
-Chef
-----
+## Chef
 
 Chef version 0.10.10+ and Ohai 0.6.12+ are required
 
-Platform
---------
+## Platform
 
 Tested on:
 
-* Ubuntu 10.04, 11.10
+* Ubuntu 10.04, 11.10, 12.04
 * Red Hat Enterprise Linux (CentOS/Amazon/Scientific/Oracle) 5.7, 6.2
 
 **Notes**: This cookbook has been tested on the listed platforms. It
   may work on other platforms with or without modification.
 
-Cookbooks
----------
+## Cookbooks
 
 * yum (for epel recipe)
+* build-essential (for source compilation)
 
 Attributes
 ==========
 
 * `node['erlang']['gui_tools']` - whether to install the GUI tools for
   Erlang.
+* `node['erlang']['install_method']` - Erlang installation method ("package" or
+  "source").
+* `node['erlang']['source']['version']` - Version of Erlang/OTP to install from source.
+  "source")
+* `node['erlang']['source']['url']` - URL of Erlang/OTP source tarball.
+* `node['erlang']['source']['checksum']` - Checksum of the Erlang/OTP source tarball.
 
 Recipes
 =======
 
-default
--------
+## default
 
-Manages installation of erlang packages.
+Manages installation of Erlang. Includes the package or source recipe
+depending on the value of `node['erlang']['install_method']`.
+
+## package
+
+Installs Erlang from distribution packages.
+
+## source
+
+Installs Erlang from source.
 
 License and Author
 ==================
 
-Author: Joe Williams (<joe@joetify.com>)
-Author: Joshua Timberman (<joshua@opscode.com>)
-Author: Matt Ray (<matt@opscode.com>)
+* Author: Joe Williams (<joe@joetify.com>)
+* Author: Joshua Timberman (<joshua@opscode.com>)
+* Author: Matt Ray (<matt@opscode.com>)
+* Author: Hector Castro (<hector@basho.com>)
 
-Copyright 2011-2012, Opscode, Inc.
+Copyright 2011-2013, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
