@@ -4,7 +4,7 @@ describe "/api/v3/articles" do
   context "caching", :caching => true do
     
     context "index" do
-      let(:articles) { FactoryGirl.create_list(:article_with_events, 5) }
+      let(:articles) { FactoryGirl.create_list(:article_with_events, 2) }
       
       before(:each) do
         article_list = articles.collect { |article| "#{CGI.escape(article.doi)}" }.join(",") 
@@ -17,6 +17,9 @@ describe "/api/v3/articles" do
         end.should_not be_true
         get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         articles.all? do |article|
           Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//json")
         end.should be_true
@@ -37,6 +40,9 @@ describe "/api/v3/articles" do
         end.should_not be_true
         get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         articles.all? do |article|
           Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//xml")
         end.should be_true
@@ -73,6 +79,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
+        
+        sleep 1
+        
         Rails.cache.exist?("#{key}//json").should be_true
         
         response = Rails.cache.read("#{key}//json")
@@ -88,6 +97,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//xml").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         Rails.cache.exist?("#{key}//xml").should be_true
         
         response = Rails.cache.read("#{key}//xml")
@@ -103,6 +115,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         Rails.cache.exist?("#{key}//json").should_not be_true
         Rails.cache.exist?("#{key}//xml").should be_true
       end
@@ -111,6 +126,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         Rails.cache.exist?("#{key}//json").should be_true
         
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -123,6 +141,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         Rails.cache.exist?("#{key}//json").should be_true
         response = Rails.cache.read("#{key}//json")
         response[:title].should eql(article.title)
@@ -146,6 +167,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         Rails.cache.exist?("#{key}//json").should be_true
         response = Rails.cache.read("#{key}//json")
         response_source = response[:sources][0]
@@ -173,6 +197,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         Rails.cache.exist?("#{key}//json").should be_true
         response = Rails.cache.read("#{key}//json")
         response[:sources].size.should eql(1)
@@ -187,6 +214,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         Rails.cache.exist?("#{key}//json").should be_true
         
         history_uri = "#{uri}?info=history"
@@ -216,6 +246,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         Rails.cache.exist?("#{key}//json").should be_true
         
         days_uri = "#{uri}?days=110"
@@ -235,6 +268,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         Rails.cache.exist?("#{key}//json").should be_true
         
         months_uri = "#{uri}?months=4"
@@ -254,6 +290,9 @@ describe "/api/v3/articles" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
+        
+        sleep 1
+                
         Rails.cache.exist?("#{key}//json").should be_true
         
         year_uri = "#{uri}?year=2013"
