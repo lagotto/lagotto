@@ -26,7 +26,11 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 Capybara.default_selector = :css
 Capybara.ignore_hidden_elements = true
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, { :timeout => 120 })
+  Capybara::Poltergeist::Driver.new(app, { 
+    :timeout => 120,
+    :js_errors => true,
+    :inspector => true
+  })
 end
 Capybara.javascript_driver = :poltergeist
 
