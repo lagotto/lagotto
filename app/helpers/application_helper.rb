@@ -25,12 +25,12 @@ module ApplicationHelper
     end
   end
   
-  def status_label(source)
-    if source.status == "inactive"
+  def status_label(status)
+    if status == "inactive"
       '<span class="label label-info">inactive</span>'
-    elsif source.status == "disabled"
+    elsif status == "disabled"
       '<span class="label label-important">disabled</span>'
-    elsif source.status == "no events"
+    elsif status == "no events"
       '<span class="label">no events</span>'
     else
       "active"

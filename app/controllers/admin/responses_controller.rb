@@ -1,10 +1,20 @@
 class Admin::ResponsesController < Admin::ApplicationController
   
   def index
-    @sources = Source.active
-    @responses_count = RetrievalStatus.joins(:source).where("retrieved_at > NOW() - INTERVAL 24 HOUR").group(:source_id).count
-    @errors_count = ErrorMessage.unscoped.joins(:source).where("error_messages.created_at > NOW() - INTERVAL 24 HOUR AND sources.active = 1").order("group_id, display_name").group(:source_id).count
-    respond_with @sources
+    if request.xhr?
+      responses = RetrievalStatus.joins(:source).where("sources.active = 1 AND retrieved_at > NOW() - INTERVAL 24 HOUR").order("group_id, display_name").group(:source_id).count
+      errors = ErrorMessage.unscoped.joins(:source).where("sources.active = 1 AND error_messages.created_at > NOW() - INTERVAL 24 HOUR AND sources.active = 1").order("group_id, display_name").group(:source_id).count
+      @sources = Source.active.zip(responses, errors).map { |source| { "id" => source.first.id,
+                                                                       "name" => source.first.display_name, 
+                                                                       "status" => source.first.status,
+                                                                       "url" => admin_source_path(source.first),
+                                                                       "group" => source.first.group_id, 
+                                                                       "response_count" => source[1],
+                                                                       "error_count" => source[2] } }
+      render :partial => "index"
+    else
+      render :index
+    end
   end
 
 end

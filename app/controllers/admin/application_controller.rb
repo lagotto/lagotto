@@ -21,7 +21,7 @@ class Admin::ApplicationController < ActionController::Base
 
   before_filter :authenticate_user!
     
-  respond_to :html, :js
+  respond_to :html, :js, :json
   
   layout APP_CONFIG['layout']
 end
