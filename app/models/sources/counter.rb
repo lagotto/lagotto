@@ -76,8 +76,8 @@ class Counter < Source
 
       xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
       
-      event_metrics = { :pdf => views.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }, 
-                        :html => views.inject(0) { |sum, hash| sum + hash["html_views"].to_i }, 
+      event_metrics = { :pdf => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }, 
+                        :html => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash["html_views"].to_i }, 
                         :shares => nil, 
                         :groups => nil,
                         :comments => nil, 
