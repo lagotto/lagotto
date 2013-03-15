@@ -19,7 +19,7 @@ gem "devise", "~> 2.1.2"
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.1.0"
-gem "rabl", "~> 0.7.6"
+gem "rabl", "~> 0.8.0"
 
 gem "d3_rails", "~> 3.0.2"
 gem "crossfilter-rails", "~> 1.1.0"

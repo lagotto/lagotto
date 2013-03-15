@@ -3,8 +3,9 @@ Rabl.configure do |config|
   config.cache_all_output = true
   config.cache_sources = true # Rails.env != 'development' # Defaults to false
   # config.cache_engine = Rabl::CacheEngine.new # Defaults to Rails cache
+  # config.perform_caching = false
   # config.escape_all_output = false
-  # config.json_engine = nil # Any multi_json engines or a Class with #encode method
+  # config.json_engine = nil # Class with #dump class method (defaults JSON)
   # config.msgpack_engine = nil # Defaults to ::MessagePack
   # config.bson_engine = nil # Defaults to ::BSON
   # config.plist_engine = nil # Defaults to ::Plist::Emit
@@ -17,4 +18,5 @@ Rabl.configure do |config|
   config.enable_json_callbacks = true
   config.xml_options = { :dasherize  => false, :skip_types => true }
   config.view_paths = [Rails.root.join("app/views")]
+  # config.raise_on_missing_attribute = true # Defaults to false
 end

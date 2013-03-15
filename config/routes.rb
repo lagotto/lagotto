@@ -8,6 +8,8 @@ Alm::Application.routes.draw do
   resources :sources
   resources :groups
   
+  match "oembed" => "oembed#show"
+  
   namespace :admin do
     root :to => "index#index"
     resources :articles, :constraints => { :id => /.+?/, :format => /html|js/}
