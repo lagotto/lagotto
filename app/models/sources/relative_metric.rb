@@ -16,11 +16,28 @@
 
 class RelativeMetric < Source
 
-  def get_data(article, options={})
-    # TODO check for required fields.
-    # required fields, solr_url, relative_metric_url
+  if APP_CONFIG["doi_prefix"]
+    validates_each :url, :solr_url do |record, attr, value|
+      record.errors.add(attr, "can't be blank") if value.blank?
+    end
+  end
 
-    average_usages = get_relative_metric_data(article)
+  def get_data(article, options={})
+    # Check that article has DOI
+    return { :events => [], :event_count => nil } if article.doi.blank?
+    
+    # Check whether we have published the DOI, otherwise use different API
+    if article.is_publisher?
+
+      raise(ArgumentError, "#{display_name} configuration require url and solr url") \
+        if config.url.blank? or config.solr_url.blank?
+
+      events = get_relative_metric_data(article)
+
+      total = 0
+      events[:subject_areas].each do | subject_area |
+        total += subject_area.values[0].reduce(:+)
+      end
 
       event_metrics = { :pdf => nil, 
                         :html => nil, 
@@ -31,15 +48,14 @@ class RelativeMetric < Source
                         :citations => nil, 
                         :total => total }
 
-      { :events => average_usages,
+      { :events => events,
         :event_count => total,
         :event_metrics => event_metrics }
-
+    end
   end
 
   def get_subject_areas(article)
-    # TODO fix url
-    url = "http://localhost:8983/solr/select"
+    url = config.solr_url
 
     params = {}
     params[:q] = "id:\"#{article.doi}\""
@@ -94,26 +110,55 @@ class RelativeMetric < Source
   end
 
   def get_relative_metric_data(article) 
-    average_usages = []
+    events = {}
 
     subject_areas = get_subject_areas(article)
     year = get_start_date(article)
 
+    events[:start_date] = "#{year}-01-01T00:00:00Z"
+    events[:end_date] = Date.civil(year + 2, -1, -1).strftime("%Y-%m-%dT00:00:00Z")
+
+    average_usages = []
+
     subject_areas.each do | subject_area |
       key = [subject_area, year]
-      key_in_json = key.to_json
 
-      # TODO fix url
-      url = "http://localhost:5984/relative-metrics2/_design/relative_metric/_view/average_usage?key=#{CGI.escape(key_in_json)}"
+      url = config.url % { :key => CGI.escape(key.to_json) }
       data = get_json(url)
 
       # there should be only one set of data
       if (data["rows"].size == 1) 
-        average_usages << { subject_area => data["rows"][0]["value"] }
+        if (data["rows"][0]["value"].size > 0) 
+          average_usages << { subject_area => data["rows"][0]["value"] }
+        end
       end
     end
+    
+    events[:subject_areas] = average_usages
 
-    return average_usages
+    return events
   end
 
+  def get_config_fields
+    [
+      { :field_name => "url", :field_type => "text_area", :size => "90x2"}, 
+      { :field_name => "solr_url", :field_type => "text_area", :size => "90x2"}
+    ]
+  end
+
+  def url
+    config.url
+  end
+  
+  def url=(value)
+    config.url = value
+  end
+
+  def solr_url
+    config.solr_url
+  end
+
+  def solr_url=(value)
+    config.solr_url = value
+  end
 end
