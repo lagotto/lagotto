@@ -101,7 +101,7 @@ class RelativeMetric < Source
     return subject_areas
   end
 
-  def get_start_date(article)
+  def get_start_year(article)
     # TODO configure?
     start_year = 2003
     year_interval = 3
@@ -113,7 +113,7 @@ class RelativeMetric < Source
     events = {}
 
     subject_areas = get_subject_areas(article)
-    year = get_start_date(article)
+    year = get_start_year(article)
 
     events[:start_date] = "#{year}-01-01T00:00:00Z"
     events[:end_date] = Date.civil(year + 2, -1, -1).strftime("%Y-%m-%dT00:00:00Z")

@@ -280,6 +280,19 @@ FactoryGirl.define do
     initialize_with { Facebook.find_or_create_by_name(name) }
   end
  
+  factory :relative_metric, class: RelativeMetric do
+    type "RelativeMetric"
+    name "relativemetric"
+    display_name "Relative Metric"
+    active true
+    url "http://rwc-couch01.int.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key=%{key}"
+    solr_url "http://api.plos.org/search"
+
+    group
+
+    initialize_with { RelativeMetric.find_or_create_by_name(name) }
+  end
+
   factory :user do
     username 'example_user'
     email 'example@example.com'
