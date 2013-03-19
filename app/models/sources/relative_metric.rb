@@ -36,7 +36,7 @@ class RelativeMetric < Source
 
         total = 0
         events[:subject_areas].each do | subject_area |
-          total += subject_area.values[0].reduce(:+)
+          total += subject_area[:average_usage].reduce(:+)
         end
 
         event_metrics = { :pdf => nil,
@@ -129,7 +129,7 @@ class RelativeMetric < Source
       # there should be only one set of data
       if (data["rows"].size == 1) 
         if (data["rows"][0]["value"].size > 0) 
-          average_usages << { subject_area => data["rows"][0]["value"] }
+          average_usages << { :subject_area => subject_area, :average_usage => data["rows"][0]["value"] }
         end
       end
     end
