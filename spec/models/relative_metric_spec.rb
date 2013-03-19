@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe RelativeMetric do 
+describe RelativeMetric do
   let(:relative_metric) {FactoryGirl.create(:relative_metric)}
 
   it "should return the Subject Areas via Solr API" do
-    article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723") 
+    article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723")
 
     stub_request(:get, "#{relative_metric.solr_url}?fl=id,subject_hierarchy&fq=doc_type:full&q=id:%2210.1371/journal.pone.0005723%22&wt=json").
       with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
@@ -16,7 +16,7 @@ describe RelativeMetric do
   end
 
   it "should return start year" do
-    article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19)) 
+    article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
     year = relative_metric.get_start_year(article)
     year.should eq(2009)
   end
@@ -27,7 +27,7 @@ describe RelativeMetric do
   end
 
   it "should get relative metric average usage data" do
-    article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19)) 
+    article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
 
     stub_request(:get, "#{relative_metric.solr_url}?fl=id,subject_hierarchy&fq=doc_type:full&q=id:%2210.1371/journal.pone.0005723%22&wt=json").
       with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
@@ -46,14 +46,14 @@ describe RelativeMetric do
     }
 
     total = 237060
-    event_metrics = { :pdf => nil, 
-                        :html => nil, 
-                        :shares => nil, 
-                        :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => nil, 
-                        :total => total }
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => nil,
+                      :total => total }
 
     events_data = {
       :events => events,
@@ -62,19 +62,6 @@ describe RelativeMetric do
     }
 
     data.should eq(events_data)
-  end
-
-  context "Get Relative Metric Average Usage data" do
-
-    # key = 
-    #     url "http://rwc-couch01.int.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key=%{key}"
-
-    # stub_request(:get, "#{relative_metric.url}?id:\"#{article.doi}\"&fl=id,subject_hierarchy&wt=json&fq=doc_type:full").to_return(:body => File.read("#{fixture_path}relative_metric_data/blah"))
-
-    # data = relative_metric.get_data(article)
-
-    # check data
-
   end
 
 end
