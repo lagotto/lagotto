@@ -15,6 +15,19 @@ describe RelativeMetric do
     subject_areas.should eq(["/Biology and life sciences", "/Biology and life sciences/Anatomy and physiology", "/Biology and life sciences/Zoology", "/Research and analysis methods", "/Research and analysis methods/Imaging techniques"].to_set)
   end
 
+  it "should not return any subject area data" do
+    doi = "10.1371/journal.pone.0005723555"
+    article = FactoryGirl.build(:article, :doi => doi)
+
+    stub_request(:get, "#{relative_metric.solr_url}?fl=id,subject_hierarchy&fq=doc_type:full&q=id:%22#{doi}%22&wt=json").
+      with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+      to_return(:status => 200, :body => File.read("#{fixture_path}relative_metric_no_subject_areas.json"), :headers => {})
+
+    subject_areas = relative_metric.get_subject_areas(article)
+
+    subject_areas.should eq(Set.new)
+  end
+
   it "should return start year" do
     article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
     year = relative_metric.get_start_year(article)
@@ -28,7 +41,7 @@ describe RelativeMetric do
 
   it "should report that there are no events if the doi is not is_publisher" do
     article_not_processed = FactoryGirl.build(:article, :doi => "10.4084/MJHID.2013.016")
-    relative_metric.get_data(article_not_processed).should eq(nil)
+    relative_metric.get_data(article_not_processed).should eq({ :events => [], :event_count => nil })
   end
 
   it "should get relative metric average usage data" do
