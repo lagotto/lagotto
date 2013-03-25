@@ -75,7 +75,10 @@ class RelativeMetric < Source
       # search was a success
       # we found one article
       if (data["response"]["numFound"] == 1)
-        raw_subject_areas = data["response"]["docs"][0]["subject_hierarchy"]
+        # some articles (non research articles) might not have any subject areas associated with them
+        if (!data["response"]["docs"][0]["subject_hierarchy"].nil?)
+          raw_subject_areas = data["response"]["docs"][0]["subject_hierarchy"]
+        end
       end
     end
 
