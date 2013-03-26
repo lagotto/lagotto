@@ -86,6 +86,52 @@ class RetrievalStatusDecorator < Draper::Decorator
     end
   end
   
+  def by_month
+    case name
+    when "citeulike"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["post_time"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
+      end
+    when "researchblogging"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["published_date"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    else
+    # crossref, facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
+      nil
+    end
+  end
+  
+  def by_year
+    case name
+    when "citeulike"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["post_time"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
+      end
+    when "crossref"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    when "researchblogging"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["published_date"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    else
+    # facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
+      nil
+    end
+  end
+  
   def cache_key
     { :id => id, 
       :timestamp => updated_at.to_s(:number), 

@@ -57,6 +57,8 @@ class ArticlesController < ApplicationController
     load_article
 
     format_options = params.slice :events, :history, :source
+    
+    @groups = Group.order("id")
 
     # if private sources have been filtered out, the source parameter will be present and modified
     # private sources are filtered out in the load_article_eager_includes method by looking at source parameter

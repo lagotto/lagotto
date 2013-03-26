@@ -16,12 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class Admin::ApplicationController < ActionController::Base
-  protect_from_forgery
+class OembedController < ApplicationController
 
-  before_filter :authenticate_user!
-    
-  respond_to :html, :js, :json
+  respond_to :json, :xml
   
-  layout APP_CONFIG['layout']
+  def show
+    id_hash = Article.from_uri(params[:url])
+    @article = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).first.decorate(context: { maxwidth: params[:maxwidth], maxheight: params[:maxheight] })
+    
+    # Return 404 HTTP status code and error message if article wasn't found
+    render "404", :status => 404 if @article.blank?
+  end
+  
 end

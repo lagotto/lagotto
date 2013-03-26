@@ -1,8 +1,12 @@
 class Admin::DelayedJobsController < Admin::ApplicationController
   
   def index
-    @sources = Source.active
-    respond_with @sources
+    if request.xhr?
+      @sources = Source.active
+      render :partial => "index"
+    else
+      render :index
+    end
   end
   
 end

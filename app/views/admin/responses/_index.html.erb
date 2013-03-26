@@ -1,0 +1,20 @@
+<table class="table table-striped" id="ResponsesTable">
+  <thead>
+    <tr>
+      <th>Source</th>
+      <th>Status</th>
+      <th class="hidden-phone number">Responses&nbsp;(24&nbsp;hours)</th>
+      <th class="number">Errors (24&nbsp;hours)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sources.each do|source| %>
+      <tr>
+        <td><%= link_to h(source["name"]), source["url"] %></td>
+        <td><%= status_label(source["status"]).html_safe %></td>
+        <td class="hidden-phone number"><%= number_with_delimiter(source["response_count"].nil? ? 0 : source["response_count"][1]) %></td>
+        <td class="number"><%= link_to_unless source["error_count"].nil?, number_with_delimiter(source["error_count"].nil? ? 0 : source["error_count"][1]), admin_error_messages_path(:source_id => source["id"]) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -39,19 +39,19 @@
     <dd><%= @article.published_on.to_s(:long) %></dd>
     <% if @article.doi %>
       <dt>DOI</dt>
-      <dd><%= link_to h(@article.doi), "http://dx.doi.org/#{@article.doi}" %></dd>
+      <dd id="doi" data-doi="<%= @article.doi %>"><%= link_to h(@article.doi), "http://dx.doi.org/#{@article.doi}" %></dd>
     <% end %>
     <% if @article.pub_med %>
       <dt>PubMed ID</dt>
-      <dd><%= link_to @article.pub_med, "http://www.ncbi.nlm.nih.gov/pubmed/#{@article.pub_med}" %></dd>
+      <dd id="pmid" data-pmid="<%= @article.pub_med %>"><%= link_to @article.pub_med, "http://www.ncbi.nlm.nih.gov/pubmed/#{@article.pub_med}" %></dd>
     <% end %>
     <% if @article.pub_med_central %>
       <dt>PubMed Central ID</dt>
-      <dd><%= link_to "PMC#{@article.pub_med_central}", "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pub_med_central}" %></dd>
+      <dd id="pmcid" data-pmcid="<%= @article.pub_med_central %>"><%= link_to "PMC#{@article.pub_med_central}", "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pub_med_central}" %></dd>
     <% end %>
     <% if @article.mendeley %>
       <dt>Mendeley UUID</dt>
-      <dd><%= link_to_unless(@article.mendeley_url.blank?, h(@article.mendeley), @article.mendeley_url) %></dd>
+      <dd id="mendeley" data-mendeley="<%= @article.mendeley %>"><%= link_to_unless(@article.mendeley_url.blank?, h(@article.mendeley), @article.mendeley_url) %></dd>
     <% end %>
     <% if @article.url %>
       <dt>URL</dt>
