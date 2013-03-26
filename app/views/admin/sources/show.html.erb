@@ -61,7 +61,7 @@
         </div>
       </div>
       <div id="show">
-        <div class="alert alert-info" id="loading">Loading page…</div>
+        <div class="muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
           <%= render :partial => 'show', formats: :js, :locals => { :name => @source.name } %> 
         <% end %>

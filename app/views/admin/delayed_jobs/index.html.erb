@@ -6,7 +6,7 @@
   <p>Number of background jobs, stale and queued articles.</p>
   
   <div id="delayed_jobs">
-    <div class="alert alert-info">Loading page…</div>
+    <div class="muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
     <%= javascript_tag do -%>
       <%= render :partial => 'index', formats: :js %> 
     <% end %>
