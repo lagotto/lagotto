@@ -28,6 +28,7 @@ class RetrievalStatus < ActiveRecord::Base
   serialize :event_metrics
     
   delegate :name, :to => :source
+  delegate :display_name, :to => :source
 
   scope :most_cited, lambda { where("event_count > 0").order("event_count desc").limit(25) }
   scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? DAY", days).order("event_count desc").limit(25) }
@@ -36,6 +37,7 @@ class RetrievalStatus < ActiveRecord::Base
   scope :queued, where("queued_at is NOT NULL")
   scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND scheduled_at <= NOW()")
   scope :published, joins(:article).where("queued_at is NULL AND articles.published_on <= CURDATE()")
+  scope :with_sources, joins(:source).order("group_id, display_name")
   
   scope :total, lambda { |days| where("retrieved_at > NOW() - INTERVAL ? DAY", days) }
   scope :with_events, lambda { |days| where("event_count > 0 AND retrieved_at > NOW() - INTERVAL ? DAY", days) }

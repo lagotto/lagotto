@@ -21,9 +21,9 @@ gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.1.0"
 gem "rabl", "~> 0.8.0"
 
-gem "d3_rails", "~> 3.0.2"
+gem "d3_rails", "~> 3.0.8"
 gem "crossfilter-rails", "~> 1.1.0"
-gem "bootstrap-sass", "~> 2.2.2.0"
+gem "bootstrap-sass", "~> 2.3.1.0"
 gem "turbolinks", "~> 1.0.0"
 gem 'will_paginate', '3.0.3'
 gem "will_paginate-bootstrap", "~> 0.2.1"

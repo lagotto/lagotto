@@ -55,6 +55,8 @@ class ArticlesController < ApplicationController
     load_article
 
     format_options = params.slice :events, :history, :source
+    
+    @groups = Group.order("id")
 
     respond_with(@article) do |format|
       format.csv  { render :csv => @article }
