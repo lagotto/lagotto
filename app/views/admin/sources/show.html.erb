@@ -60,10 +60,10 @@
           <% end %>
         </div>
       </div>
-      <div id="show">
+      <div id="source-show">
         <div class="muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
-          <%= render :partial => 'show', formats: :js, :locals => { :name => @source.name } %> 
+          <%= render :partial => 'admin/sources/show', formats: :js, :locals => { :name => @source.name } %> 
         <% end %>
       </div>
     </div>

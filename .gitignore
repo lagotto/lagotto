@@ -30,6 +30,6 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
-.vagrant
+.vagrant*
 Capfile
 /vendor/cookbooks/alm/.gitignore

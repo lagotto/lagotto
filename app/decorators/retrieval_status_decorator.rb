@@ -88,11 +88,29 @@ class RetrievalStatusDecorator < Draper::Decorator
   
   def by_month
     case name
+    when "counter"
+      if events.blank?
+        nil
+      else
+        events.map { |event| { :year => event["year"].to_i, :month => event["month"].to_i, :pdf => event["pdf_views"].to_i, :html => event["html_views"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf_views"].to_i + event["html_views"].to_i } }
+      end
+    when "pmc"
+      if events.blank?
+        nil
+      else
+        events.map { |event| { :year => event["year"].to_i, :month => event["month"].to_i, :pdf => event["pdf"].to_i, :html => event["full-text"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf"].to_i + event["full-text"].to_i } }
+      end
     when "citeulike"
       if events.blank?
         nil
       else
         events.group_by {|event| event["event"]["post_time"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
+      end
+    when "twitter"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["created_at"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
       end
     when "researchblogging"
       if events.blank?
@@ -100,14 +118,32 @@ class RetrievalStatusDecorator < Draper::Decorator
       else
         events.group_by {|event| event["event"]["published_date"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
       end
+    when "scienceseeker"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["updated"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
     else
-    # crossref, facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
+    # crossref, facebook, mendeley, pubmed, nature, copernicus, wikipedia
       nil
     end
   end
   
   def by_year
     case name
+    when "counter"
+      if events.blank?
+        nil
+      else
+        events.map { |event| { :year => event["year"].to_i, :pdf => event["pdf_views"].to_i, :html => event["html_views"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf_views"].to_i + event["html_views"].to_i } }
+      end
+    when "pmc"
+      if events.blank?
+        nil
+      else
+        events.map { |event| { :year => event["year"].to_i, :pdf => event["pdf"].to_i, :html => event["full-text"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf"].to_i + event["full-text"].to_i } }
+      end
     when "citeulike"
       if events.blank?
         nil
@@ -120,14 +156,26 @@ class RetrievalStatusDecorator < Draper::Decorator
       else
         events.group_by {|event| event["event"]["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
       end
+    when "twitter"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["created_at"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
+      end
     when "researchblogging"
       if events.blank?
         nil
       else
         events.group_by {|event| event["event"]["published_date"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
       end
+    when "scienceseeker"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["updated"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
     else
-    # facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
+    # facebook, mendeley, pubmed, nature, copernicus, wikipedia
       nil
     end
   end
