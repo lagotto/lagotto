@@ -3,7 +3,7 @@ function update() {
     url: "/admin/sources/<%= name %>",
     cache: false
   }).done(function(html){
-    $("#show").html(html);
+    $("#source-show").html(html);
     window.setTimeout(update, 5000);
   });
 }
