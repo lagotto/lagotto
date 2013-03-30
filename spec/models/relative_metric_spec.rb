@@ -40,12 +40,6 @@ describe RelativeMetric do
     subject_areas.should eq(Set.new)
   end  
 
-  it "should return start year" do
-    article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
-    year = relative_metric.get_start_year(article)
-    year.should eq(2009)
-  end
-
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
     relative_metric.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
@@ -71,7 +65,7 @@ describe RelativeMetric do
 
     events = {
       :start_date => "2009-01-01T00:00:00Z",
-      :end_date => "2011-12-31T00:00:00Z",
+      :end_date => "2009-12-31T00:00:00Z",
       :subject_areas => [{ :subject_area => "/Biology and life sciences", :average_usage => [1129,2005,2240,2408,2566,2715,2855,2993,3128,3257,3386,3511,3628,3733,3835,3932,4027,4120,4210,4299,4389,4472,4552,4632,4710,4791,4862,4934,5010,5086,5165,5246,5330,5416,5496,5590,5678,5763,5841,5922,6004,6075,6159,6235,6314,6401,6487,6552,6626,6668,6677]}]
     }
 

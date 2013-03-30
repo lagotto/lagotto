@@ -108,22 +108,14 @@ class RelativeMetric < Source
     return subject_areas
   end
 
-  def get_start_year(article)
-    # TODO configure?
-    start_year = 2003
-    year_interval = 3
-    interval = (article.published_on.year - start_year)/year_interval
-    return start_year + (year_interval * interval)
-  end
-
   def get_relative_metric_data(article) 
     events = {}
 
     subject_areas = get_subject_areas(article)
-    year = get_start_year(article)
+    year = article.published_on.year
 
     events[:start_date] = "#{year}-01-01T00:00:00Z"
-    events[:end_date] = Date.civil(year + 2, -1, -1).strftime("%Y-%m-%dT00:00:00Z")
+    events[:end_date] = Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z")
 
     average_usages = []
 
