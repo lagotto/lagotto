@@ -33,3 +33,4 @@ pickle-email-*.html
 .vagrant
 Capfile
 /vendor/cookbooks/alm/.gitignore
+.vagrant*
