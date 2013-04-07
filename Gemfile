@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 gem 'mysql2', '0.3.11'
 
 gem "delayed_job", "~> 3.0.4"
@@ -19,11 +19,11 @@ gem "devise", "~> 2.1.2"
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.3.0"
 gem "draper", "~> 1.1.0"
-gem "rabl", "~> 0.8.0"
+gem "rabl", "~> 0.7.6"
 
-gem "d3_rails", "~> 3.0.8"
+gem "d3_rails", "~> 3.0.2"
 gem "crossfilter-rails", "~> 1.1.0"
-gem "bootstrap-sass", "~> 2.3.1.0"
+gem "bootstrap-sass", "~> 2.2.2.0"
 gem "turbolinks", "~> 1.0.0"
 gem 'will_paginate', '3.0.3'
 gem "will_paginate-bootstrap", "~> 0.2.1"
@@ -54,6 +54,7 @@ group :test do
   gem "thin", "~> 1.5.0"
   gem "poltergeist", "~> 1.0.2"
   gem "minitest", "~> 4.4.0"
+  gem "mocha", "~> 0.13.3"
 end
 
 group :test, :development do
