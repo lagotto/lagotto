@@ -35,8 +35,9 @@ d3.json("/admin/sources/<%= name %>.json", function(error, data) {
       .attr("fill", function(d, i) { return color(i); } )
       .attr("d", arc);
     
-  arcs.append("svg:title")
-      .text(function(d) { return d.data.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + d.data.name + " articles" });
+  arcs.each(
+      function(d,i){ $(this).tooltip({title: d.data.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " articles " + d.data.name, container: "body"});
+  });
     
   chart.append("text")
       .attr("dy", 0)
@@ -67,8 +68,9 @@ d3.json("/admin/sources/<%= name %>.json", function(error, data) {
       arcs.append("svg:path")
           .attr("fill", function(d, i) { return color(i); } )
           .attr("d", arc);
-      arcs.append("svg:title")
-          .text(function(d) { return d.data.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + d.data.name + " articles" });
+      arcs.each(
+          function(d,i){ $(this).tooltip({title: d.data.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " articles " + d.data.name, container: "body"});
+      });
     });
   };
 });
