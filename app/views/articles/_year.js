@@ -1,19 +1,19 @@
-var l = 20; // left margin
-var r = 50; // right margin
-var t = 50;  // top margin
-var w = 26; // width of each bar
-var h = 100; // height
-
 var doi = d3.select("dd#doi").attr('data-doi');
 
-d3.json("/api/v3/articles/info:doi/" + doi + "?info=by_year", function(error, data) {
+d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(error, data) {
   
-  d3.select("#loading-year").remove();
-  
+  var l = 20; // left margin
+  var r = 50; // right margin
+  var t = 50;  // top margin
+  var w = 15; // width of each bar
+  var h = 100; // height
   var pub_date = d3.time.format.iso.parse(data[0]["publication_date"]);
   var pub_year = pub_date.getFullYear();
   var this_year = (new Date).getFullYear();
-
+  
+  d3.select("#loading-year").remove();
+  d3.select("div#year").append("p").text("Metrics by year. Information not available for all sources.");
+  
   data[0]["sources"].forEach(function(source, i) {
     if (source.by_year) {
       d3.select("div#year").append("div")
@@ -51,7 +51,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=by_year", function(error, da
         .attr("transform", "translate(20,20)");
       var x = d3.time.scale()
         .domain([pub_year, this_year])
-        .range([0, w * (this_year - pub_year)]);
+        .range([0, (w + 1) * (this_year - pub_year)]);
       var y = d3.scale.linear()
         .domain([0, d3.max(source.by_year, function(d) { return d.total; })])
         .range([0, h]);
@@ -61,14 +61,23 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=by_year", function(error, da
         .attr("fill", "#789aa1")
         .attr("x", function(d) { return x(d.year); })
         .attr("y", function(d) { return h - y(d.total); })
-        .attr("width", 25)
+        .attr("width", w)
         .attr("height", function(d) { return y(d.total); });
       chart.append("line")
         .attr("x1", 0)
-        .attr("x2", w * (this_year - pub_year) + 25)
+        .attr("x2", (w + 1) * (this_year - pub_year) + w - 1)
         .attr("y1", h)        
         .attr("y2", h)
         .attr("class", "line");
+      chart.selectAll("rect").each(
+        function(d,i){ $(this).tooltip({title: d.total + " in " + d.year, container: "body"});
+      });
     }
   });
+  
+  if (d3.selectAll("div#year").selectAll("div.row")[0].length == 0) {
+    d3.select("div#year").append("p")
+      .attr("class", "muted")
+      .text("No metrics by year found.");
+  }
 });
