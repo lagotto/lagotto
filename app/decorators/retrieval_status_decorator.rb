@@ -1,5 +1,6 @@
 class RetrievalStatusDecorator < Draper::Decorator
   delegate_all
+  decorates_association :article
   
   def events
     unless context[:days] || context[:month] || context[:year]
@@ -79,6 +80,30 @@ class RetrievalStatusDecorator < Draper::Decorator
       end
     end
   end
+  
+  def by_day
+    case name
+    when "citeulike"
+      return nil if events.blank?
+      events_30 = events.select { |event| event["event"]["post_time"].to_date - article.published_on < 30 }
+      return nil if events_30.blank?
+      events_30.group_by {|event| event["event"]["post_time"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
+    when "researchblogging"
+      return nil if events.blank?
+      events_30 = events.select { |event| event["event"]["published_date"].to_date - article.published_on < 30 }
+      return nil if events_30.blank?
+      events_30.group_by {|event| event["event"]["published_date"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+    when "scienceseeker"
+      return nil if events.blank?
+      events_30 = events.select { |event| event["event"]["updated"].to_date - article.published_on < 30 }
+      return nil if events_30.blank?
+      events_30.group_by {|event| event["event"]["updated"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+    else
+    # crossref, facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
+      nil
+    end
+  end
+  
   
   def by_month
     case name

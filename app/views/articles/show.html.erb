@@ -26,6 +26,7 @@
   <% if @article.retrieval_statuses.sum(:event_count) > 0 %>
     <ul class="nav nav-tabs">
       <li class="active"><a href="#all" data-toggle="tab" title="All Metrics">All Metrics</a></li>
+      <li class="hidden-phone"><a href="#day" data-toggle="tab" title="by Day">Metrics by Day</a></li>
       <li class="hidden-phone"><a href="#month" data-toggle="tab" title="by Month">Metrics by Month</a></li>
       <li class="hidden-phone"><a href="#year" data-toggle="tab" title="by Year">Metrics by Year</a></li>
       <% if user_signed_in? %>
@@ -36,6 +37,12 @@
     <div class="tab-content">
       <div class="tab-pane active" id="all">
         <%= render :partial => 'all' %> 
+      </div>
+      <div class="tab-pane hidden-phone" id="day">
+        <div class="muted" id="loading-day">Loading page … <%= image_tag "spinner.gif" %></div>
+        <%= javascript_tag do -%>
+          <%= render :partial => 'day', formats: :js %>
+        <% end %>
       </div>
       <div class="tab-pane hidden-phone" id="month">
         <div class="muted" id="loading-month">Loading page … <%= image_tag "spinner.gif" %></div>
