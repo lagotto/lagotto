@@ -110,7 +110,6 @@ class RetrievalStatusDecorator < Draper::Decorator
     end
   end
   
-  
   def by_month
     case name
     when "counter"
@@ -161,13 +160,13 @@ class RetrievalStatusDecorator < Draper::Decorator
       if events.blank?
         nil
       else
-        events.map { |event| { :year => event["year"].to_i, :pdf => event["pdf_views"].to_i, :html => event["html_views"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf_views"].to_i + event["html_views"].to_i } }
+        events.group_by {|event| event["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => v.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }, :html => v.inject(0) { |sum, hash| sum + hash["html_views"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.inject(0) { |sum, hash| sum + hash["html_views"].to_i + hash["pdf_views"].to_i + hash["xml_views"].to_i } }}
       end
     when "pmc"
       if events.blank?
         nil
       else
-        events.map { |event| { :year => event["year"].to_i, :pdf => event["pdf"].to_i, :html => event["full-text"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf"].to_i + event["full-text"].to_i } }
+        events.group_by {|event| event["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => v.inject(0) { |sum, hash| sum + hash["pdf"].to_i }, :html => v.inject(0) { |sum, hash| sum + hash["full-text"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.inject(0) { |sum, hash| sum + hash["full-text"].to_i + hash["pdf"].to_i } }}
       end
     when "citeulike"
       if events.blank?
