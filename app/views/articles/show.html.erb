@@ -36,7 +36,10 @@
   
     <div class="tab-content">
       <div class="tab-pane active" id="all">
-        <%= render :partial => 'all' %> 
+        <div class="muted" id="loading-all">Loading page … <%= image_tag "spinner.gif" %></div>
+        <%= javascript_tag do -%>
+          <%= render :partial => 'all', formats: :js %>
+        <% end %>
       </div>
       <div class="tab-pane hidden-phone" id="day">
         <div class="muted" id="loading-day">Loading page … <%= image_tag "spinner.gif" %></div>
