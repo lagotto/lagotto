@@ -15,9 +15,10 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(error, da
   d3.select("#loading-year").remove();
   
   var category = [{ name: "html", display_name: "HTML Views" },
-                  { name: "pdf", display_name: "PDF Downloads" },                 
-                  { name: "comments", display_name: "Social Shares" },
-                  { name: "shares", display_name: "Academic Bookmarks" },
+                  { name: "pdf", display_name: "PDF Downloads" }, 
+                  { name: "likes", display_name: "Likes" },
+                  { name: "shares", display_name: "Shares" },                
+                  { name: "comments", display_name: "Comments" },
                   { name: "citations", display_name: "Citations" }];
                   
   category.forEach(function(c) {
@@ -92,10 +93,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(error, da
     }
   });
   
-  if (d3.selectAll("div#year").selectAll("div.row")[0].length > 0) {
-    d3.select("div#year").insert("p", ":first-child")
-      .text("Metrics by year. Information not available for all sources.");
-  } else {
+  if (d3.selectAll("div#year").selectAll("div.row")[0].length == 0) {
     d3.select("div#year").append("p")
       .attr("class", "muted")
       .text("No metrics by year found.");

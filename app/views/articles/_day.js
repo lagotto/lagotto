@@ -19,9 +19,10 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(data) {
   d3.select("#loading-day").remove();
   
   var category = [{ name: "html", display_name: "HTML Views" },
-                  { name: "pdf", display_name: "PDF Downloads" },                 
-                  { name: "comments", display_name: "Social Shares" },
-                  { name: "shares", display_name: "Academic Bookmarks" },
+                  { name: "pdf", display_name: "PDF Downloads" }, 
+                  { name: "likes", display_name: "Likes" },
+                  { name: "shares", display_name: "Shares" },                
+                  { name: "comments", display_name: "Comments" },
                   { name: "citations", display_name: "Citations" }];
                   
   category.forEach(function(c) {
@@ -99,10 +100,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(data) {
     }
   });
   
-  if (d3.selectAll("div#day").selectAll("div.row")[0].length > 0) {
-    d3.select("div#day").insert("p", ":first-child")
-      .text("Metrics by day for the first 30 days after publication. Information not available for all sources.");
-  } else {
+  if (d3.selectAll("div#day").selectAll("div.row")[0].length == 0) {
     d3.select("div#day").append("p")
       .attr("class", "muted")
       .text("No metrics by day found.");
