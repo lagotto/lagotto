@@ -28,5 +28,7 @@ yum_repository "epel" do
   description "Extra Packages for Enterprise Linux"
   key node['yum']['epel']['key']
   mirrorlist node['yum']['epel']['url']
-  action platform?('amazon') ? [:add, :update] : :add
+  includepkgs node['yum']['epel']['includepkgs']
+  exclude node['yum']['epel']['exclude']
+  action platform?('amazon') ? [:add, :update] : :create
 end

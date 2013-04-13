@@ -21,23 +21,24 @@ SITE
     mysql (2.1.0)
       build-essential (>= 0.0.0)
       openssl (>= 0.0.0)
-    openssl (1.0.0)
+    openssl (1.0.2)
     phantomjs (0.0.10)
     runit (0.16.2)
-    windows (1.8.4)
+    windows (1.8.8)
       chef_handler (>= 0.0.0)
-    yum (2.1.0)
+    yum (2.2.0)
 
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: fe149935991bdf1f41dae4fa1e66636c1fa2d3e5
+  sha: 68eaafa31e776b719fe38a96065148c331a2d65d
   specs:
-    alm (1.0.2)
+    alm (1.0.3)
       build-essential (>= 0.0.0)
       couchdb (>= 0.0.0)
       git (>= 0.0.0)
       mysql (>= 0.0.0)
+      passenger_apache2 (>= 0.0.0)
       phantomjs (>= 0.0.0)
 
 GIT

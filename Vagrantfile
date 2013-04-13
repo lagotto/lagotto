@@ -14,6 +14,18 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   
   config.vm.hostname = "alm"
+  
+  config.vm.provider :aws do |aws|   
+    aws.access_key_id = "EXAMPLE"
+    aws.secret_access_key = "EXAMPLE"
+    aws.ssh_private_key_path = "EXAMPLE"
+    aws.keypair_name = "EXAMPLE"
+    aws.security_groups = ["EXAMPLE"]
+    aws.instance_type = 'm1.small'     
+    aws.ssh_username = "ubuntu"
+    aws.ami = "ami-e4b8218d"
+    aws.tags = { Name: 'Vagrant alm' }
+  end
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui

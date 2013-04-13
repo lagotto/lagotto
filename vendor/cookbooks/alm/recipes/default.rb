@@ -45,10 +45,11 @@ template "/vagrant/db/seeds.rb" do
 end
 
 # Create default databases and run migrations
-script "rake db:setup RAILS_ENV=#{node[:alm][:environment]}" do
+script "rake db:setup" do
   interpreter "bash"
   cwd "/vagrant"
-  code "rake db:setup RAILS_ENV=#{node[:alm][:environment]}"
+  code "rake db:setup RAILS_ENV=production"  
+  code "rake db:setup RAILS_ENV=development"
 end
 
 # Create test databases

@@ -1,3 +1,13 @@
+## v2.2.0:
+
+* [COOK-2189] - yum::ius failed on install (caused from rpm dependency)
+* [COOK-2196] - Make includepkgs and exclude configurable for each repos
+* [COOK-2244] - Allow configuring caching using attributes
+* [COOK-2399] - yum cookbook LWRPs fail FoodCritic
+* [COOK-2519] - Add priority option to Yum repo files
+* [COOK-2593] - allow integer or string for yum priority
+* [COOK-2643] - don't use conditional attribute for `yum_key` `remote_file`
+
 ## v2.1.0:
 
 * [COOK-2045] - add remi repository recipe

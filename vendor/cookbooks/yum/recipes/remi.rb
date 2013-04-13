@@ -29,5 +29,7 @@ yum_repository "remi" do
   key node['yum']['remi']['key']
   mirrorlist node['yum']['remi']['url']
   failovermethod "priority"
-  action :add
+  includepkgs node['yum']['remi']['includepkgs']
+  exclude node['yum']['remi']['exclude']
+  action :create
 end

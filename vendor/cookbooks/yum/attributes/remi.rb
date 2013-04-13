@@ -26,3 +26,5 @@ end
 
 default['yum']['remi']['key'] = "RPM-GPG-KEY-remi"
 default['yum']['remi']['key_url'] = "http://rpms.famillecollet.com/#{node['yum']['remi']['key']}"
+default['yum']['remi']['includepkgs'] = nil
+default['yum']['remi']['exclude'] = nil

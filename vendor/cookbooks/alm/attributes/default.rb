@@ -5,6 +5,8 @@ default[:alm][:admin] = { :username => "articlemetrics", :email => "admin@exampl
 default[:alm][:layout] = "greenrobo"
 default[:alm][:uid] = "doi"
 default[:alm][:doi_prefix] = ""
+default[:alm][:key] = nil
+default[:alm][:secret] = nil
 default[:alm][:copernicus] = { :url => "EXAMPLE", :username => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:counter] = { :url => "EXAMPLE" }
 default[:alm][:crossref] = { :username => "EXAMPLE", :password => "EXAMPLE" }

@@ -146,7 +146,7 @@ def install_command_template
   when :msi
     "msiexec%2$s \"%1$s\"%3$s"
   else
-    "start \"\" /wait %1$s%2$s%3$s"
+    "start \"\" /wait \"%1$s\"%2$s%3$s"
   end
 end
 
@@ -163,7 +163,8 @@ end
 def unattended_installation_flags
   case installer_type
   when :msi
-    "/qb /i"
+    # this is no-ui
+    "/qn /i"
   when :installshield
     "/s /sms"
   when :nsis
@@ -225,7 +226,7 @@ def installer_type
       @new_resource.installer_type
     else
       basename = ::File.basename(cached_file(@new_resource.source, @new_resource.checksum))
-      if basename.split(".").last == "msi" # Microsoft MSI
+      if basename.split(".").last.downcase == "msi" # Microsoft MSI
         :msi
       else
         # search the binary file for installer type
