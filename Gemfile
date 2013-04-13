@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 gem 'mysql2', '0.3.11'
 
 gem "delayed_job", "~> 3.0.4"
@@ -55,6 +55,7 @@ group :test do
   gem "poltergeist", "~> 1.0.2"
   gem "minitest", "~> 4.4.0"
   gem "faye-websocket", "~> 0.4.7"
+  gem "mocha", "~> 0.13.3"
 end
 
 group :test, :development do
