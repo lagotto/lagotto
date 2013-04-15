@@ -51,6 +51,47 @@ The username and password for the web interface are `articlemetrics`. The code f
 	
 The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding. 
 
+## Automatic Installation on AWS using Vagrant 
+This is the preferred way to install the ALM application on Amazon Web Services (AWS). machine. Download and install  [Vagrant][vagrant]. Install the vagrant-aws plugin:
+
+    vagrant plugin install vagrant-aws 
+
+Install a dummy AWS box and name it precise64:
+
+    vagrant box add precise64 https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+
+Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_name, security_groups) to Vagrantfile. We recommend to use at least a small EC2 instance, the ami `ami-e4b8218d` contains Ubuntu 12.04 with Chef solo.
+
+    config.vm.provider :aws do |aws|   
+      aws.access_key_id = "EXAMPLE"
+      aws.secret_access_key = "EXAMPLE"
+      aws.ssh_private_key_path = "/EXAMPLE.pem"
+      aws.keypair_name = "EXAMPLE"
+      aws.security_groups = ["EXAMPLE"]
+      aws.instance_type = 'm1.small'     
+      aws.ssh_username = "ubuntu"
+      aws.ami = "ami-e4b8218d"
+      aws.tags = { Name: 'Vagrant alm' }
+    end
+
+Then install the application with:
+    
+    git clone git://github.com/articlemetrics/alm.git
+    cd alm
+    vagrant up --provider was
+      
+[vagrant]: http://downloads.vagrantup.com/
+[vagrant-aws]: https://github.com/mitchellh/vagrant-aws
+
+After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at the web address of your EC2 instance (the use of Elastic IPs and a DNS server is recommended).
+
+After installation you first have to create a default user using the `Sign Up` button. The code for the ALM application is in the `/vagrant` folder and is rsynced from the host. To get to the application root directory in the virtual machine, do (using the `private_key_path` and `host_name`):
+
+    ssh -i /EXAMPLE.pem ubuntu@EXAMPLE.ORG
+    cd /vagrant
+	
+The Rails application runs in Production mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
+
 ## Manual installation for development
 These instructions assume a fresh installation of Ubuntu 12.04. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9. The instructions assume a user with sudo privileges, and this can also be a new user created just for running the ALM application.
 
