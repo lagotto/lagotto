@@ -47,12 +47,7 @@ describe Mendeley do
       stub.should have_been_requested
       stub_doi.should have_been_requested
       stub_title.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPConflict")
-      error_message.message.should include("Wrong Mendeley uuid 130834f1-ed91-11df-99a6-0024e8453de6")
-      error_message.status.should == 409
-      error_message.source_id.should == mendeley.id
+      ErrorMessage.count.should == 0
     end
   end
     
