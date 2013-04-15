@@ -101,8 +101,6 @@ class Mendeley < Source
     end
     
     # return nil if we can't get the correct uuid. We can enter the uuid manually if we have it
-    ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.doi}", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
-      if result.is_a?(Hash) and result['uuid']
     nil
   end
 

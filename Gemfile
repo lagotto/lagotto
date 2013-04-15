@@ -17,7 +17,7 @@ gem "nori", "~> 2.0.0"
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 2.1.2"
 gem "validates_timeliness", "~> 3.0.14"
-gem "strip_attributes", "~> 1.3.0"
+gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.1.0"
 gem "rabl", "~> 0.8.0"
 
@@ -54,10 +54,10 @@ group :test do
   gem "thin", "~> 1.5.0"
   gem "poltergeist", "~> 1.0.2"
   gem "minitest", "~> 4.4.0"
+  gem "faye-websocket", "~> 0.4.7"
   gem "mocha", "~> 0.13.3"
 end
 
 group :test, :development do
   gem "rspec-rails", "~> 2.12.0"
-  gem "faye-websocket", "~> 0.4.7", :require => false
 end
