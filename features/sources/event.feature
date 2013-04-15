@@ -10,6 +10,11 @@ Feature: See events
     And that we have 5 articles
     
     @javascript
+    Scenario: Loading page …
+      When I go to the "Events" admin page
+      Then I should see the message "Loading page …" disappear
+    
+    @javascript
     Scenario: Events for articles in dashboard
       When I go to the "Events" admin page
       Then the chart should show 5 events for "CiteULike"

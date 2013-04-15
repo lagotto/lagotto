@@ -9,6 +9,11 @@ Feature: See jobs
     And that we have 5 articles
     
     @javascript
+    Scenario: Loading page …
+      When I go to the "Jobs" admin page
+      Then I should see the message "Loading page …" disappear
+    
+    @javascript
     Scenario: Jobs in dashboard
       When I go to the "Jobs" admin page
       Then the table "JobsTable" should contain:

@@ -7,6 +7,11 @@ Feature: See responses from sources
     Given I am logged in
     And the source "Citeulike" exists
     And that we have 5 articles
+    
+    @javascript
+    Scenario: Loading page …
+      When I go to the "Responses" admin page
+      Then I should see the message "Loading page …" disappear
                 
     @javascript
     Scenario: Responses from last 24 hours in source view

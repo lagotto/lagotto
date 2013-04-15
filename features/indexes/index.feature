@@ -9,6 +9,11 @@ Feature: View CouchDB size
     And that we have added 3 documents to CouchDB
     
     @javascript
+    Scenario: Loading page …
+      When I go to the "Home" admin page
+      Then I should see the message "Loading page …" disappear
+    
+    @javascript
     Scenario: CouchDB info
       When I go to the "Home" admin page
       Then I should see that CouchDB has 3 documents
