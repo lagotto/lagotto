@@ -73,11 +73,9 @@ class Counter < Source
 
         views << curMonth
       end
-
-      xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
       
-      event_metrics = { :pdf => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }, 
-                        :html => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash["html_views"].to_i }, 
+      event_metrics = { :pdf => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i }, 
+                        :html => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:html_views].to_i }, 
                         :shares => nil, 
                         :groups => nil,
                         :comments => nil, 
@@ -89,7 +87,7 @@ class Counter < Source
        :events_url => query_url,
        :event_count => event_count,
        :event_metrics => event_metrics,
-       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+       :attachment => views.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
       }
     end
 
