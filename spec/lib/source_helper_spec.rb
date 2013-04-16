@@ -194,6 +194,26 @@ describe SourceHelper do
       delete_response.should include("3-")
     end
     
+    it "handle revisions" do
+      rev = @source_helper_class.save_alm_data(nil, data, id)
+      new_rev = @source_helper_class.save_alm_data(rev, data, id)
+      new_rev.should_not eq(rev)
+      delete_rev = @source_helper_class.remove_alm_data(new_rev, id)
+      delete_rev.should_not eq(new_rev)
+    end
+    
+    it "revision conflict" do
+      rev = @source_helper_class.save_alm_data(nil, data, id)
+      new_rev = @source_helper_class.save_alm_data(rev, data, id)
+      new_rev.should_not eq(rev)
+      @source_helper_class.save_alm_data(rev, data, id)
+
+      ErrorMessage.count.should == 1
+      error_message = ErrorMessage.first
+      error_message.class_name.should eq("Net::HTTPConflict")
+      error_message.message.should eq("Conflict while requesting \"#{url}\"")
+    end
+    
     it "handle missing data" do
       get_response = @source_helper_class.get_alm_data(id)
       get_response.should eq(error)

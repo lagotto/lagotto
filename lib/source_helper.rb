@@ -57,17 +57,10 @@ module SourceHelper
     end
 
     response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
-    if response.kind_of?(Net::HTTPConflict)
-      # Revision conflict in CouchDB, get the most current revision value and use that to put the data one more time
-      cur_data = get_json("#{service_url}#{id}")
-      data[:_id] = cur_data["_id"]
-      data[:_rev] = cur_data["_rev"]
-
-      response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
-    end
+    
+    return nil if response.nil?
 
     result = ActiveSupport::JSON.decode(response.body)
-
     result["rev"]
   end
 
@@ -260,10 +253,14 @@ module SourceHelper
     service_url = APP_CONFIG['couchdb_url']
     url = URI.parse(service_url)
     
-    res = Net::HTTP.start(url.host, url.port) { |http|http.request(req) }
-    unless res.kind_of?(Net::HTTPSuccess) or res.kind_of?(Net::HTTPNotFound)
-      res.error!
+    response = Net::HTTP.start(url.host, url.port) { |http|http.request(req) }
+    if response.kind_of?(Net::HTTPSuccess) or response.kind_of?(Net::HTTPNotFound)
+      response
+    else
+      ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
+                          :message => "#{response.message} while requesting \"#{url.scheme}://#{url.host}:#{url.port}#{req.path}\"", 
+                          :status => response.code)
+      nil
     end
-    res
   end
 end
