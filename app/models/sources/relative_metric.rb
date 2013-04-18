@@ -30,93 +30,92 @@ class RelativeMetric < Source
     if article.is_publisher?
 
       raise(ArgumentError, "#{display_name} configuration require url and solr url") \
-      if config.url.blank? or config.solr_url.blank?
+        if config.url.blank? or config.solr_url.blank?
 
-        events = get_relative_metric_data(article)
+      events = get_relative_metric_data(article)
 
-        total = 0
-        events[:subject_areas].each do | subject_area |
-          total += subject_area[:average_usage].reduce(:+)
-        end
-
-        event_metrics = { :pdf => nil,
-                          :html => nil,
-                          :shares => nil,
-                          :groups => nil,
-                          :comments => nil,
-                          :likes => nil,
-                          :citations => nil,
-                          :total => total }
-
-        { :events => events,
-          :event_count => total,
-          :event_metrics => event_metrics }
+      total = 0
+      events[:subject_areas].each do | subject_area |
+        total += subject_area[:average_usage].reduce(:+)
       end
+
+      event_metrics = { :pdf => nil,
+                        :html => nil,
+                        :shares => nil,
+                        :groups => nil,
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => nil,
+                        :total => total }
+
+      { :events => events,
+        :event_count => total,
+        :event_metrics => event_metrics }
+    
+    else
+      { :events => [], :event_count => nil }
     end
+  end
 
-    def get_subject_areas(article)
-      url = config.solr_url
+  def get_subject_areas(article)
+    url = config.solr_url
 
-      params = {}
-      params[:q] = "id:\"#{article.doi}\""
-      params[:fl] = 'id,subject_hierarchy'
-      params[:wt] = 'json'
-      params[:fq] = 'doc_type:full'
+    params = {}
+    params[:q] = "id:\"#{article.doi}\""
+    params[:fl] = 'id,subject_hierarchy'
+    params[:wt] = 'json'
+    params[:fq] = 'doc_type:full'
 
-      url = "#{url}?#{params.to_query}"
+    url = "#{url}?#{params.to_query}"
 
-      data = get_json(url)
+    data = get_json(url)
 
+    raw_subject_areas = []
+    if (data["responseHeader"]["status"] == 0)
       # search was a success
-      if (data["responseHeader"]["status"] == 0)
-        # we found one article
-        if (data["response"]["numFound"] == 1)
+      # we found one article
+      if (data["response"]["numFound"] == 1)
+        # some articles (non research articles) might not have any subject areas associated with them
+        if (!data["response"]["docs"][0]["subject_hierarchy"].nil?)
           raw_subject_areas = data["response"]["docs"][0]["subject_hierarchy"]
         end
       end
-
-      subject_areas = Set.new
-
-      raw_subject_areas.each do | subject_area |
-
-        # example subject area /Biology and life sciences/Anatomy and physiology/Musculoskeletal system/Skeleton/Phalanges
-
-        subject_area_levels = subject_area.split("/")
-        # get and remove the first item.  it's an empty string
-        subject_area_levels.shift
-
-        if (subject_area_levels.size == 1)
-          first_level = "/#{subject_area_levels[0]}"
-          subject_areas << first_level
-
-        elsif (subject_area_levels.size >= 2)
-          first_level = "/#{subject_area_levels[0]}"
-          second_level = "/#{subject_area_levels[0]}/#{subject_area_levels[1]}"
-
-          subject_areas << first_level
-          subject_areas << second_level
-        end
-      end
-
-      return subject_areas
     end
 
-    def get_start_year(article)
-      # TODO configure?
-      start_year = 2003
-      year_interval = 3
-      interval = (article.published_on.year - start_year)/year_interval
-    return start_year + (year_interval * interval)
+    subject_areas = Set.new
+
+    raw_subject_areas.each do | subject_area |
+
+      # example subject area /Biology and life sciences/Anatomy and physiology/Musculoskeletal system/Skeleton/Phalanges
+
+      subject_area_levels = subject_area.split("/")
+      # get and remove the first item.  it's an empty string
+      subject_area_levels.shift
+
+      if (subject_area_levels.size == 1)
+        first_level = "/#{subject_area_levels[0]}"
+        subject_areas << first_level
+
+      elsif (subject_area_levels.size >= 2)
+        first_level = "/#{subject_area_levels[0]}"
+        second_level = "/#{subject_area_levels[0]}/#{subject_area_levels[1]}"
+
+        subject_areas << first_level
+        subject_areas << second_level
+      end
+    end
+
+    return subject_areas
   end
 
   def get_relative_metric_data(article) 
     events = {}
 
     subject_areas = get_subject_areas(article)
-    year = get_start_year(article)
+    year = article.published_on.year
 
     events[:start_date] = "#{year}-01-01T00:00:00Z"
-    events[:end_date] = Date.civil(year + 2, -1, -1).strftime("%Y-%m-%dT00:00:00Z")
+    events[:end_date] = Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z")
 
     average_usages = []
 
