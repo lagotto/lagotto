@@ -184,7 +184,18 @@ namespace :queue do
     end
 
   end
-  
+
+  task :relativemetric => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("relativemetric")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
   task :one, [:source, :verbose] => :environment do |t, args|
     if args.source.nil?
       puts "Source name is required"
