@@ -11,7 +11,6 @@ usage = Group.find_or_create_by_name(:name => "Article Usage")
 citations = Group.find_or_create_by_name(:name => "Citations")
 social_networks = Group.find_or_create_by_name(:name => "Social Networks")
 blogs_media = Group.find_or_create_by_name(:name => "Blogs and Media Coverage")
-testing = Group.find_or_create_by_name(:name => "Testing")
 
 # Load default sources
 citeulike = Citeulike.find_or_create_by_name(  
@@ -30,15 +29,6 @@ pubmed = PubMed.find_or_create_by_name(
   :workers => 1,
   :group_id => citations.id,
   :url => "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}")
-relativemetric = RelativeMetric.find_or_create_by_name(
-  :name => "relativemetric",
-  :display_name => "Relative Metric",
-  :description => "Relative metric gives context to the raw numbers that are collected.",
-  :active => true,
-  :workers => 1,
-  :group_id => testing.id,
-  :url => "http://rwc-couch01.int.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key=%{key}",
-  :solr_url => "http://api.plos.org/search")
 scienceseeker = ScienceSeeker.find_or_create_by_name(  
 	:name => "scienceseeker", 
 	:display_name => "ScienceSeeker", 

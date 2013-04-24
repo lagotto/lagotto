@@ -128,6 +128,11 @@ Then /^I should not see the "(.*?)" column$/ do |column_title|
   page.has_css?('th', :text => column_title, :visible => true).should_not be_true
 end
 
+Then(/^I should see the donut "(.*?)"$/) do |title|
+  page.driver.render("tmp/capybara/#{title}_donut.png")
+  page.has_css?("div.chart_#{title} svg").should be_true
+end
+
 Then /^I should see the "(.*?)" settings$/ do |parameter|
   page.should have_content parameter
 end
