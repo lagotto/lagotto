@@ -13,14 +13,20 @@ Feature: See jobs
       When I go to the "Jobs" admin page
       Then I should see the message "Loading page …" disappear
     
-    # @javascript
-    # Scenario: Jobs in dashboard
-    #   When I go to the "Jobs" admin page
-    #   Then the table "JobsTable" should contain:
-    #     | CiteULike       | active  | 0       | 0      | 5      | 0     |
+    @javascript
+    Scenario: Jobs in dashboard
+      When I go to the "Jobs" admin page
+      Then the table "JobsTable" should be:
+        | Source    | Status | Pending | Working | Stale Articles | Queued Articles |
+        | CiteULike | active | 0       | 0       | 5              | 0               |
     
     @javascript
     Scenario: Jobs in source view
       When I go to the "Summary" tab of source "CiteULike"
-      Then the table "SummaryTable" should contain:
-        | Jobs            | 0       | 0       |
+      Then the table "SummaryTable" should be:
+        |                                | Pending              | Working    |
+        | Jobs                           | 0                    | 0          |
+        |                                | Responses            | Errors     |
+        | Responses in the last 24 Hours | 0                    | 0          |
+        |                                | Articles with Events | All Events |
+        | Events                         | 5                    | 250        |

@@ -9,7 +9,7 @@ Feature: See donut visualizations for source
     And that we have 5 articles
     
     @javascript
-    Scenario Outline: Status of articles
+    Scenario Outline: See donut
     When I go to the "Summary" tab of source "CiteULike"
     Then I should see the donut "<Name>" 
     
@@ -18,3 +18,15 @@ Feature: See donut visualizations for source
     | status |
     | day    |
     | month  |
+    
+    # @javascript
+    # Scenario Outline: See tooltip
+    # When I go to the "Summary" tab of source "CiteULike"
+    # And I hover over the donut "<Name>" 
+    # Then I should see the tooltip
+    # 
+    # Examples:
+    # | Name   |
+    # | status |
+    # | day    |
+    # | month  |

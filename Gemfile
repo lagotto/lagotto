@@ -6,7 +6,7 @@ gem 'mysql2', '0.3.11'
 gem "delayed_job", "~> 3.0.4"
 gem "delayed_job_active_record", "~> 0.3.3"
 gem "daemons", "~> 1.1.9"
-gem "foreman", "~> 0.60.2"
+gem "foreman", "~> 0.63.0"
 gem "rake", "~> 0.9.2"
 
 gem "libxml-ruby", "~> 2.4.0", :require => 'xml'
@@ -40,8 +40,8 @@ end
 
 group :test do
   gem "factory_girl_rails", "~> 4.1.0", :require => false
-  gem "cucumber-rails", "~> 1.3.0", :require => false
-  gem "capybara", "~> 1.1.4"
+  gem "cucumber-rails", "~> 1.3.1", :require => false
+  gem "capybara", "~> 2.1.0"
   gem "database_cleaner", "~> 0.8.0"
   gem "launchy", "~> 2.1.2"
   gem "email_spec", "~> 1.2.1"
@@ -51,11 +51,11 @@ group :test do
   gem "webmock", "~> 1.9.2"
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1", :require => false
-  gem "thin", "~> 1.5.0"
-  gem "poltergeist", "~> 1.0.2"
+  gem "thin", "~> 1.5.1"
+  gem "poltergeist", "~> 1.2.0"
   gem "minitest", "~> 4.4.0"
   gem "faye-websocket", "~> 0.4.7"
-  gem "mocha", "~> 0.13.3"
+  gem "mocha", "~> 0.13.3", :require => false
 end
 
 group :test, :development do

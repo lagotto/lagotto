@@ -22,6 +22,7 @@
            "pmc": { "url": "http://localhost:5984/pmc_usage_stats/%{doi}", "filepath": "/home/vagrant/pmcdata/" },
            "researchblogging": { "username": "plosuser", "password": "siWSaA546pM" },
            "wos": { "url": "https://ws.isiknowledge.com/cps/xrpc" }},
+  "phantomjs": { "version": "1.8.1" },
   "passenger": { "version": "3.0.19" },
   "mysql": { "bind_address": "0.0.0.0", 
              "tunable": { "innodb_buffer_pool_size": "512M" },

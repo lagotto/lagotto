@@ -5,12 +5,12 @@ Feature: Show errors
 
   Background:
     Given I am logged in
-    And that we have 2 error messages
+    And that we have 1 error message
     
     @javascript
     Scenario: Seeing a list of errors
       When I go to the "Errors" admin page
-      Then I should see 2 error messages
+      Then I should see 1 error message
     
     @javascript
     Scenario Outline: Seeing error information
@@ -33,12 +33,12 @@ Feature: Show errors
         | Message                 | ClassName               | 
         | The request timed out.  | Net::HTTPRequestTimeOut | 
     
-    @javascript
+    @javascript @allow-rescue
     Scenario Outline: Errors
       When I go to "<Path>"
       Then I should see the "<ErrorMessage>" error message
       
       Examples: 
-        | Path        | ErrorMessage          | ClassName                      |
-        | /articles/x | Internal server error | ActiveRecord::RecordNotFound   |
-        | /x          | Internal server error | ActionController::RoutingError |
+        | Path        | ErrorMessage                                 |
+        | /articles/x | ActiveRecord::RecordNotFound in ArticlesController#show No record for "x" found |
+        | /x          | Routing Error No route matches [GET] "/x" |

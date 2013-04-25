@@ -1,5 +1,5 @@
 ### GIVEN ###
-Given /^that we have (\d+) error messages$/ do |number|
+Given /^that we have (\d+) error message$/ do |number|
   FactoryGirl.create_list(:error_message, number.to_i)
 end
 
@@ -15,7 +15,7 @@ When /^I click on the "(.*?)" link$/ do |link_name|
 end
 
 ### THEN ###
-Then /^I should see (\d+) error messages$/ do |number|
+Then /^I should see (\d+) error message$/ do |number|
   page.has_css?('div.accordion-group', :visible => true, :count => number.to_i).should be_true
 end
 
