@@ -95,6 +95,11 @@ When /^click on the "(.*?)" tab$/ do |tab_name|
   page.driver.render("tmp/capybara/#{tab_name}.png")
 end
 
+When(/^I hover over the donut "(.*?)"$/) do |title|
+  page.find(:xpath, "//div[@id='chart_#{title}']/*[name()='svg']").click
+  page.driver.render("tmp/capybara/chart_#{title}.png")
+end
+
 ### THEN ###
 Then /^I should see the "(.*?)" tab$/ do |tab_title|
   page.driver.render("tmp/capybara/#{tab_title}.png")
@@ -128,6 +133,14 @@ Then /^I should not see the "(.*?)" column$/ do |column_title|
   page.has_css?('th', :text => column_title, :visible => true).should_not be_true
 end
 
+Then(/^I should see the donut "(.*?)"$/) do |title|
+  page.find(:xpath, "//div[@id='chart_#{title}']/*[name()='svg']").should be_true
+end
+
+Then(/^I should see the tooltip$/) do
+  page.has_css?('div.tooltip').should be_true
+end
+
 Then /^I should see the "(.*?)" settings$/ do |parameter|
   page.should have_content parameter
 end
@@ -151,9 +164,11 @@ Then /^I should see the image "(.+)"$/ do |image|
   page.driver.render("tmp/capybara/#{image}.png")
 end
 
-Then /^the table "(.*?)" should contain:$/ do |table_name, table|  
+Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|  
   page.driver.render("tmp/capybara/#{table_name}.png")
-  page.has_table?("#{table_name}", :rows => table.raw).should be_true
+  rows = find("table##{table_name}").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
+  expected_table.diff!(table)
 end
 
 Then /^I should see a row of "(.*?)"$/ do |chart|
