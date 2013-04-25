@@ -34,6 +34,11 @@ Capybara.register_driver :poltergeist do |app|
 end
 Capybara.javascript_driver = :poltergeist
 
+Capybara.configure do |config|
+  config.match = :prefer_exact
+  config.ignore_hidden_elements = false
+end
+
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 
 # your application behaves in the production environment, where an error page will 
