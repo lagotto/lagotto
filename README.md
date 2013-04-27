@@ -335,23 +335,60 @@ The following configuration options for sources are available via the web interf
 
 Through these setup options the behavior of sources can be fine-tuned. Please contact us if you have any questions.
 
+All rake tasks are issued from the application root folder. `RAILS_ENV=production` should be appended to the rake command when running in production.
+
+### Seeding articles
+
+A set of 25 sample articles is loaded during installation when using Vagrant and `seed_sample_articles` in `node.json`is set to `true`. They can also be seeded later via rake task:
+
+    rake db:articles:seed
+    
 ### Adding articles
 
-Articles can be added via the web interface (after logging in as admin), or via `rake doi_import <DOI_DUMP` (see below).
+Articles can be added via the web interface (after logging in as admin), or via the command line:
 
-### Adding metrics
+    rake db:articles:load <DOI_DUMP
 
-Metrics are automatically added in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results returned by external APIs are stored in CouchDB.
+The command `rake doi_import <DOI_DUMP` is an alias. This bulk-loads a file consisting of DOIs, one per line. It'll ignore (but count) invalid ones and those that already exist in the database.
 
-When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We have to set up a queue and at least one worker for every source. In development mode this is done with `foreman`, using the configuration in `Procfile`:
+Format for import file: 
+
+    DOI Date(YYYY-MM-DD) Title
+
+The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
+
+### Deleting articles
+
+Articles can be deleted via the web interface (after logging in as admin), or via the command line:
+
+    rake db:articles:delete
+
+This rake task deletes all articles. For security reasons this rake task doesn't work in the production environment.
+    
+### Adding metrics in development
+
+Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We have to set up a queue and at least one worker for every source. 
+
+In development mode this is done with `foreman`, using the configuration in `Procfile`:
     
     foreman start
     
-In production mode the background processes run via the `upstart`system utility. The Chef/Vagrant setup has the upstart scripts already configured, otherwise this can be done (where USER is the user running the web server) via
+To stop all background processing, kill foreman with `ctrl-c`.
+    
+### Adding metrics in production
+    
+In production mode the background processes run via the `upstart`system utility. The upstart scripts can be created using foreman (where USER is the user running the web server) via
 
-    rvmsudo foreman export upstart /etc/init -a alm -f Procfile.prod -l /USER/log -u USER
+    sudo foreman export upstart /etc/init -a alm -f Procfile.prod -l /USER/log -u USER
+    
+This command creates two upstart scripts for each source (one worker and one queuing script). For servers with less than 1 GB of memory we can run the background processes with only two scripts via
 
-Replace ``rvmsudo`` with ``sudo`` if you don't use RVM.
+    sudo foreman export upstart /etc/init -a alm -f Procfile.staging -l /USER/log -u USER
+    
+The background processes can then be started or stopped using Upstart:
+
+    sudo start alm
+    sudo stop alm
     
 ## More Documentation
 In the Wiki at [https://github.com/articlemetrics/alm/wiki][documentation].

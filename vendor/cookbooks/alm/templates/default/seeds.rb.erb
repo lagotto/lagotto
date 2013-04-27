@@ -152,9 +152,8 @@ researchblogging = Researchblogging.find_or_create_by_name(
   :username => "<%= node[:alm][:researchblogging][:username] %>",
   :password => "<%= node[:alm][:researchblogging][:password] %>")
   
-<% if node[:alm][:seed_sample_articles] -%>
 # Load sample articles
-if Rails.env != "production"
+if ENV['ARTICLES']
   Article.find_or_create_by_doi(
     :doi => "10.1371/journal.pone.0008776",
     :title => "The \"Island Rule\" and Deep-Sea Gastropods: Re-Examining the Evidence",
@@ -279,5 +278,4 @@ if Rails.env != "production"
     :doi => "10.5194/se-1-1-2010",
     :title => "The Eons of Chaos and Hades",
     :published_on => "2010-02-02")
-  end
-<% end -%>
+end

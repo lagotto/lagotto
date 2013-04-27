@@ -48,7 +48,11 @@ end
 script "RAILS_ENV=#{node[:alm][:environment]} rake db:setup" do
   interpreter "bash"
   cwd "/vagrant"
-  code "RAILS_ENV=#{node[:alm][:environment]} rake db:setup"
+  if node[:alm][:seed_sample_articles]
+    code "RAILS_ENV=#{node[:alm][:environment]} rake db:setup ARTICLES='1'"
+  else
+    code "RAILS_ENV=#{node[:alm][:environment]} rake db:setup"
+  end
 end
 
 # Create default CouchDB database

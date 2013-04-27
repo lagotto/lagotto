@@ -11,6 +11,7 @@
   ],
   "alm": { "email": "admin@example.org",
            "environment": "development",
+           "seed_sample_articles": false,
            "admin": { "username": "articlemetrics", "email": "admin@example.org", "password": "articlemetrics" },
            "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },
            "facebook": { "access_token": "EXAMPLE" },
