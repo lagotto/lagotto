@@ -48,7 +48,7 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :workers => 1,
   :group_id => citations.id,
   :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
-<% if node[:alm][:doi_prefix] == "10.1371" -%> 
+<% if node[:alm][:layout] == "plos" -%> 
 wos = Wos.find_or_create_by_name(  
 	:name => "wos", 
 	:display_name => "Web of Science", 
@@ -60,7 +60,7 @@ wos = Wos.find_or_create_by_name(
 <% end -%>
 
 # The following sources require passwords/API keys
-<% if node[:alm][:doi_prefix] == "10.1371" -%> 
+<% if node[:alm][:layout] == "plos" -%> 
 counter = Counter.find_or_create_by_name(  
   :name => "counter", 
   :display_name => "Counter", 
