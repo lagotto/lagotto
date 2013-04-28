@@ -126,7 +126,7 @@ nature = Nature.find_or_create_by_name(
   :active => <%= node[:alm][:nature][:api_key] == "EXAMPLE" ? false : true %>, 
   :workers => 1,
   :group_id => blogs_media.id,
-  :url => "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}",
+  :url => "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}",
   :api_key => "<%= node[:alm][:nature][:api_key] %>")
   
 <% if node[:alm][:doi_prefix] == "10.1371" -%> 
