@@ -5,7 +5,7 @@ Feature: Show errors
 
   Background:
     Given I am logged in
-    And that we have 1 error message
+    And we have 1 error message
     
     @javascript
     Scenario: Seeing a list of errors

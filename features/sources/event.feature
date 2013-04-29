@@ -25,7 +25,7 @@ Feature: See events
       And click on the "All Events" tab
       Then the chart should show 250 events for "CiteULike"
     
-    @javascript
+    @javascript @not-teamcity
     Scenario: Events in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should be:
