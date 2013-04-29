@@ -28,7 +28,7 @@ class Facebook < Source
     
     # Fetch the fulltext URL, as it might work better for Facebook than the DOI
     if article.url.blank? and !article.doi.blank?
-      original_url = get_original_url(article.doi_as_url)
+      original_url = get_original_url(article.doi)
       article.update_attributes(:url => original_url) unless original_url.blank?
     end
     

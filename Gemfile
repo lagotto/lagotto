@@ -9,6 +9,9 @@ gem "daemons", "~> 1.1.9"
 gem "foreman", "~> 0.63.0"
 gem "rake", "~> 0.9.2"
 
+gem "faraday", "~> 0.8.7"
+gem "faraday_middleware", "~> 0.9.0"
+gem 'faraday-cookie_jar'
 gem "libxml-ruby", "~> 2.4.0", :require => 'xml'
 gem "nokogiri", "~> 1.5.6"
 gem "multi_json", "~> 1.5.0"
