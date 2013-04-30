@@ -174,3 +174,8 @@ end
 Then /^I should see a row of "(.*?)"$/ do |chart|
   page.has_css?("div#chart_#{chart} .chart .slice").should be_true
 end
+
+Then(/^I should see (\d+) bookmarks$/) do |number|
+  page.driver.render("tmp/capybara/#{number}_bookmarks.png")
+  page.has_css?('h1#all-signpost-citeulike-shares', :text => number).should be_true
+end
