@@ -30,18 +30,19 @@ RSpec.configure do |config|
   
   config.include FactoryGirl::Syntax::Methods
   
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
   
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:transaction)
+    DatabaseCleaner.clean_with :truncation
   end
 
-  config.before do
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
   end
 
-  config.after do
+  config.after(:each) do
     DatabaseCleaner.clean
   end
   

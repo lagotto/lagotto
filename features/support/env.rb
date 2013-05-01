@@ -10,6 +10,7 @@ require 'simplecov'
 require 'cucumber/rails'
 require 'factory_girl_rails'
 require 'capybara/poltergeist'
+require 'webmock/cucumber'
 require 'source_helper'
 
 World(SourceHelper)
@@ -25,9 +26,18 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 Capybara.default_selector = :css
 Capybara.ignore_hidden_elements = true
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, { :timeout => 120 })
+  Capybara::Poltergeist::Driver.new(app, { 
+    :timeout => 120,
+    :js_errors => true,
+    :inspector => true
+  })
 end
 Capybara.javascript_driver = :poltergeist
+
+Capybara.configure do |config|
+  config.match = :prefer_exact
+  config.ignore_hidden_elements = false
+end
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 

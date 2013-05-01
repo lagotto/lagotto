@@ -86,4 +86,30 @@ namespace :db do
     end
     
   end
+  
+  namespace :error_messages do
+    
+    desc "Delete messages for all resolved errors"
+    task :delete => :environment do
+      before = ErrorMessage.count
+      ErrorMessage.destroy_all(:unresolved => false)
+      after = ErrorMessage.count
+      puts "Deleted #{before - after} resolved error messages, #{after} unresolved errors remaining"
+    end
+  end
+  
+  namespace :api_requests do
+    
+    desc "Delete API requests, keeping last 50,000 requests"
+    task :delete => :environment do
+      request = ApiRequest.order("created_at DESC").offset(50000).last
+      
+      before = ApiRequest.count
+      unless request.nil?
+        ApiRequest.destroy_all(['created_at < ?', request.created_at])
+      end
+      after = ApiRequest.count
+      puts "Deleted #{before - after} API requests, #{after} API requests remaining"
+    end
+  end
 end
