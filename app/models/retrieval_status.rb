@@ -37,7 +37,7 @@ class RetrievalStatus < ActiveRecord::Base
   scope :queued, where("queued_at is NOT NULL")
   scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND scheduled_at <= NOW()")
   scope :published, joins(:article).where("queued_at is NULL AND articles.published_on <= CURDATE()")
-  scope :with_sources, joins(:source).order("group_id, display_name")
+  scope :with_sources, joins(:source).where("sources.active = 1").order("group_id, display_name")
   
   scope :total, lambda { |days| where("retrieved_at > NOW() - INTERVAL ? DAY", days) }
   scope :with_events, lambda { |days| where("event_count > 0 AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
