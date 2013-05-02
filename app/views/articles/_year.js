@@ -80,7 +80,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(error, da
             .attr("y2", h)
             .attr("class", "line");
           chart.selectAll("rect").each(
-            function(d,i){ $(this).tooltip({title: format_number(d.total) + " in " + d.year, container: "body"});
+            function(d,i){ $(this).tooltip({title: format_number(d[c.name]) + " in " + d.year, container: "body"});
           });
         }
       }
