@@ -16,34 +16,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'github/markdown'
-
-module ApplicationHelper
-  def markdown(text)
-    GitHub::Markdown.render_gfm(text).html_safe
+class DocsController < ApplicationController
+  
+  respond_to :html
+  
+  def show
+    # filter query parameters by files in "docs" folder, use "Home" if no match is found
+    files = Dir.entries(Rails.root.join("docs"))
+    file = files.detect { |s| s == "#{params[:id]}.md" }
+    file = "Home.md" if file.nil?
+    @doc = { :title => file[0..-4], :text => IO.read(Rails.root.join("docs/#{file}")) }
   end
   
-  def status_label(status)
-    if status == "inactive"
-      '<span class="label label-info">inactive</span>'
-    elsif status == "disabled"
-      '<span class="label label-important">disabled</span>'
-    elsif status == "no events"
-      '<span class="label">no events</span>'
-    else
-      "active"
-    end
-  end
-  
-  def sources
-    Source.order("group_id, display_name")
-  end
-  
-  def documents
-    %w(Home Installation Setup Sources API Rake FAQ Version-History Roadmap Past-Contributors)
-  end
-  
-  def roles
-    %w(user staff admin)
+  def index
+    redirect_to root_path
   end
 end
