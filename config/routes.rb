@@ -1,18 +1,27 @@
 Alm::Application.routes.draw do
-  devise_for :users, :controllers => { :registrations => "users/registrations" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }, :token_authentication_key => 'api_key'
 
-  root :to => "index#index"
+  devise_scope :user do
+    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
+    get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
+    match 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session, :via => Devise.mappings[:user].sign_out_via
+  end
+  
+  root :to => "docs#show"
 
   # constraints is added to allow dot in the url (doi is used to show article)
   resources :articles, :constraints => { :id => /.+?/, :format => /html|json|xml|csv/}
+  
   resources :sources
   resources :groups
+  resources :users
+  resources :docs, :only => :show, :constraints => { :id => /[0-z\-\.\(\)]+/ }
   
   match "oembed" => "oembed#show"
   
   namespace :admin do
     root :to => "index#index"
-    resources :articles, :constraints => { :id => /.+?/, :format => /html|js/}
+    resources :articles, :constraints => { :id => /.+?/, :format => /html|js/ }
     resources :sources
     resources :groups
     resources :delayed_jobs
@@ -21,13 +30,13 @@ Alm::Application.routes.draw do
     resources :responses
     resources :error_messages
     resources :api_requests
+    resources :users
   end
   
   namespace :api do
     namespace :v3 do
       root :to => "articles#index"
       resources :articles, :constraints => { :id => /.+?/, :format=> false }
-      resources :groups
     end
   end
 

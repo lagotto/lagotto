@@ -11,6 +11,8 @@
   ],
   "alm": { "email": "admin@example.org",
            "environment": "development",
+           "github_client_id": "EXAMPLE",
+           "github_secret": "EXAMPLE",
            "seed_sample_articles": false,
            "admin": { "username": "articlemetrics", "email": "admin@example.org", "password": "articlemetrics" },
            "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },

@@ -219,9 +219,8 @@ FactoryGirl.define do
  
   factory :user do
     username 'example_user'
-    email 'example@example.com'
-    password 'please'
-    password_confirmation { |u| u.password }
+    
+    initialize_with { User.find_or_create_by_username(username) }
   end
   
   factory :error_message do
