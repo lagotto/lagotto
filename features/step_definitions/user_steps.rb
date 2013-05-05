@@ -28,13 +28,16 @@ Given /^I am not logged in$/ do
 end
 
 Given /^I am logged in$/ do
-  visit '/users/auth/github'
-  @user = FactoryGirl.create(:user)
+  step "I am logged in as \"user\""
 end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
+  # First user is always admin
+  FactoryGirl.create(:user) if role != "admin"
+  
   visit '/users/auth/github'
-  @user = FactoryGirl.create(:user, :role => role)
+  @user = User.order("created_at DESC").first
+  @user.update_attributes(:role => role)
 end
 
 Given /^I exist as a user$/ do
@@ -58,6 +61,10 @@ When /^I return to the site$/ do
   visit '/'
 end
 
+When /^I go to my account page$/ do
+  visit '/users/me'
+end
+
 ### THEN ###
 Then /^I should be signed in$/ do
   page.should have_link("Sign Out", :href => "/sign_out")
@@ -71,4 +78,12 @@ end
 
 Then /^I should reach the Sign In page$/ do
   page.should have_link("Sign in with Github", :href => "/users/auth/github")
+end
+
+Then /^I should not see the "(.*?)" button$/ do |title|
+  page.should_not have_link(title)
+end
+
+Then(/^I should see the API key$/) do
+  page.should have_css('dt', :text => "API Key")
 end

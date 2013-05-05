@@ -1,5 +1,7 @@
 class Admin::EventsController < Admin::ApplicationController
   
+  skip_authorize_resource
+  
   def index
     respond_with do |format|
       format.html

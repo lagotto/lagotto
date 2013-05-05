@@ -36,7 +36,8 @@
         </div>  
         <div id="error_<%= error_message.id %>" class="accordion-body collapse">  
           <div class="accordion-inner">
-            <div class="btn-group pull-right">
+            <% if can? :destroy, ErrorMessage %>
+              <div class="btn-group pull-right">
               <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="icon-trash"></i> Delete <b class="caret"></b>
               </a>
@@ -48,6 +49,7 @@
                 <% end %>
               </ul>
             </div>
+            <% end %>
             <p class="class_name"><%= link_to error_message.class_name, admin_error_messages_path(:query => h(error_message.class_name)) %></p>
             <% unless error_message.content_type.blank? or error_message.content_type == "text/html" %>
               <h5>Content Type</h5>

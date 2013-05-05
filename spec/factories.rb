@@ -218,9 +218,7 @@ FactoryGirl.define do
   end
  
   factory :user do
-    username 'example_user'
-    
-    initialize_with { User.find_or_create_by_username(username) }
+    sequence(:username) {|n| "joesmith#{n}" }
   end
   
   factory :error_message do
