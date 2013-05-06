@@ -82,7 +82,7 @@ Then /^I should see a list of articles$/ do
   page.has_css?('div.span12').should be_true
 end
 
-Then /^I should see a list of (\d+) articles$/ do |number|
+Then /^I should see a list of (\d+) article[s]?$/ do |number|
   page.driver.render("tmp/capybara/#{number}.png")
   page.has_css?('div.span12', :visible => true, :count => number.to_i).should be_true
 end

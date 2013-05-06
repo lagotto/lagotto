@@ -1,6 +1,6 @@
 @javascript
 Feature: Sign in as user
-  In order to user ALM
+  In order to use ALM
   Regular users should be able to sign in
   
   Background:

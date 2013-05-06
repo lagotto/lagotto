@@ -32,25 +32,25 @@
     <% @users.each do |user| %>
       <div class="accordion-group">  
         <div class="accordion-heading">  
-          <%= link_to ("<strong>" + h(user.name) + "</strong>" + (user.last_sign_in_at.blank? ? "" : " (last sign in " + user.last_sign_in_at.to_s(:friendly) + ")")).html_safe, "#user_#{user.uid}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#user" }, :href => "#user_#{user.uid}" %>
+          <%= link_to ("<strong>" + h(user.name) + "</strong>" + (user.last_sign_in_at.blank? ? "" : " (last sign in " + user.last_sign_in_at.to_s(:friendly) + ")")).html_safe, "#user_#{user.username}", :class => "accordion-toggle", :id => "link_#{user.username}", :data => { :toggle => "collapse", :parent => "#user" }, :href => "#user_#{user.username}" %>
         </div>  
-        <div id="user_<%= user.uid %>" class="accordion-body collapse">  
+        <div id="user_<%= user.username %>" class="accordion-body collapse">  
           <div class="accordion-inner">
             <% if can?(:manage, ErrorMessage) and user.username != current_user.username %>
               <div class="btn-group pull-right">
-                <%= link_to "<i class=\"icon-trash\"></i> Delete".html_safe, admin_user_path(user.username, :query => params[:query], :role => params[:role]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{user.uid}-delete" %>
-                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                <%= link_to "<i class=\"icon-trash\"></i> Delete".html_safe, admin_user_path(user.username, :query => params[:query], :role => params[:role]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{user.username}-delete" %>
+                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" id='<%= "#{user.username}-update" %>'>
                   <i class="icon-pencil"></i> Edit <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
                   <% if user.role != "user" %>
-                    <li><%= link_to "Role User", admin_user_path(user.username, :query => params[:query], :role => params[:role], :new_role => "user"), :method => :put, :remote => true, :id => "#{user.uid}-update" %></li>
+                    <li><%= link_to "Role User", admin_user_path(user.username, :query => params[:query], :role => params[:role], :new_role => "user"), :method => :put, :remote => true, :id => "#{user.username}-update-user" %></li>
                   <% end %>
                   <% if user.role != "staff" %>
-                    <li><%= link_to "Role Staff", admin_user_path(user.username, :query => params[:query], :role => params[:role], :new_role => "staff"), :method => :put, :remote => true, :id => "#{user.uid}-update" %></li>
+                    <li><%= link_to "Role Staff", admin_user_path(user.username, :query => params[:query], :role => params[:role], :new_role => "staff"), :method => :put, :remote => true, :id => "#{user.username}-update-staff" %></li>
                   <% end %>
                   <% if user.role != "admin" %>
-                    <li><%= link_to "Role Admin", admin_user_path(user.username, :query => params[:query], :role => params[:role], :new_role => "admin"), :method => :put, :remote => true, :id => "#{user.uid}-update" %></li>
+                    <li><%= link_to "Role Admin", admin_user_path(user.username, :query => params[:query], :role => params[:role], :new_role => "admin"), :method => :put, :remote => true, :id => "#{user.username}-update-admin" %></li>
                   <% end %>
                 </ul>
               </div>

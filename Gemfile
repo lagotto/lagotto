@@ -57,7 +57,6 @@ group :test do
   gem "webmock", "~> 1.9.2"
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1", :require => false
-  gem "thin", "~> 1.5.1"
   gem "poltergeist", "~> 1.2.0"
   gem "minitest", "~> 4.4.0"
   gem "faye-websocket", "~> 0.4.7"

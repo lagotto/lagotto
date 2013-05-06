@@ -29,14 +29,11 @@ Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, { 
     :timeout => 120,
     :js_errors => true,
-    :inspector => true
+    :inspector => true,
+    :window_size => [1280, 960]
   })
 end
 Capybara.javascript_driver = :poltergeist
-Capybara.server do |app, port|
-  require 'rack/handler/thin'
-  Rack::Handler::Thin.run(app, :Port => port)
-end
 
 Capybara.configure do |config|
   config.match = :prefer_exact
