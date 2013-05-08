@@ -1,11 +1,10 @@
 Alm::Application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }, :token_authentication_key => 'api_key'
-
-  devise_scope :user do
-    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
-    get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
-    match 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session, :via => Devise.mappings[:user].sign_out_via
-  end
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
+  
+  # devise_scope :user do
+  #   get 'sign_in', :to => 'devise/sessions#new', :as => :new_user_session
+  #   match 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session, :via => Devise.mappings[:user].sign_out_via
+  # end
   
   root :to => "docs#show"
 

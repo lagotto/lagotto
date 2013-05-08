@@ -44,19 +44,20 @@
                 </a>
                 <ul class="dropdown-menu">
                   <% if user.role != "user" %>
-                    <li><%= link_to "Role User", admin_user_path(user.username, :query => params[:query], :role => params[:role], :new_role => "user"), :method => :put, :remote => true, :id => "#{user.username}-update-user" %></li>
+                    <li><%= link_to "Role User", admin_user_path(user.username, :query => params[:query], :role => params[:role], :user => { :role => "user" }), :method => :put, :remote => true, :id => "#{user.username}-update-user" %></li>
                   <% end %>
                   <% if user.role != "staff" %>
-                    <li><%= link_to "Role Staff", admin_user_path(user.username, :query => params[:query], :role => params[:role], :new_role => "staff"), :method => :put, :remote => true, :id => "#{user.username}-update-staff" %></li>
+                    <li><%= link_to "Role Staff", admin_user_path(user.username, :query => params[:query], :role => params[:role], :user => { :role => "staff" }), :method => :put, :remote => true, :id => "#{user.username}-update-staff" %></li>
                   <% end %>
                   <% if user.role != "admin" %>
-                    <li><%= link_to "Role Admin", admin_user_path(user.username, :query => params[:query], :role => params[:role], :new_role => "admin"), :method => :put, :remote => true, :id => "#{user.username}-update-admin" %></li>
+                    <li><%= link_to "Role Admin", admin_user_path(user.username, :query => params[:query], :role => params[:role], :user => { :role => "admin" }), :method => :put, :remote => true, :id => "#{user.username}-update-admin" %></li>
                   <% end %>
                 </ul>
               </div>
             <% end %>
 
-            <h5>Github user</h5>
+            
+            <h5><%= user.provider == "github" ? "Github user" : "Username" %></h5>
             <%= link_to h(user.username), "http://github.com/#{user.username}" %>
             
             <% if user.email.present? %>

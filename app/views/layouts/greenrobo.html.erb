@@ -99,7 +99,7 @@
               <%= controller.controller_name == "error_messages" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Errors', admin_error_messages_path %></li>
             </ul>
           <% end %>
-          <% unless controller.controller_name == "sessions" %>
+          <% unless ["sessions","registrations"].include?(controller.controller_name) %>
             <ul class="nav pull-right">
               <% if user_signed_in? %> 
     						<li class="dropdown">
@@ -111,7 +111,7 @@
     		          </ul>
     		        </li>    
               <% else %>
-                <li><%= link_to "#{image_tag('github.png', :class => 'menu-icon')} Sign in with Github".html_safe, user_omniauth_authorize_path(:github) %></li>
+                <li><%= link_to_setup_or_login %></li>
               <% end %>
       	    </ul>
           <% end %>

@@ -8,8 +8,10 @@ class Ability
     if user.role == "admin"
       can :manage, :all
     elsif user.role == "staff"
+      can :manage, User, :id => user.id
       can :read, [Article, Source, ErrorMessage]
     elsif user.role == "user"
+      can :manage, User, :id => user.id
       can :read, [Article, Source]
     else
       can :read, [Article, Source]

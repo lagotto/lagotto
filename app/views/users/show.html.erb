@@ -19,28 +19,9 @@
 -%>
 
 <div class="content">
-  <div class="page-header">
-    <h1>
-      <%= h@user.name %>
-    </h1>
+  <div id="show">
+    <%= render :partial => 'admin/users/show' %> 
   </div>
-  
-  <dl class="dl-horizontal">
-    <% if @user.email.present? %>
-      <dt>Email</dt>
-      <dd><%= h(@user.email) %></dd>
-    <% end %>
-    <dt>Role</dt>
-    <% if @user.role == "admin" %>
-      <dd>Admin - full access to the ALM application</dd>
-    <% elsif @user.role == "staff" %>
-      <dd>Staff - read access to the admin dashboard</dd>
-    <% elsif @user.role == "user" %>
-      <dd>User - access to the API</dd> 
-    <% end %>
-    <dt>API Key</dt>
-    <dd><%= @user.authentication_token %></dd>
-  </dl>
   
   <hr>
   

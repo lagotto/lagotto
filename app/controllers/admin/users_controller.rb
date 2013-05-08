@@ -1,6 +1,8 @@
 class Admin::UsersController < Admin::ApplicationController
+  
+  load_and_authorize_resource User
 
-  respond_to :html
+  respond_to :html, :js
   
   def show
     load_user
@@ -8,6 +10,9 @@ class Admin::UsersController < Admin::ApplicationController
     params[:id] = "Home" if params[:doc].nil?
     id = %w(Home Installation Setup Sources API Rake FAQ Version-History Roadmap Past-Contributors).detect { |s| s.casecmp(params[:id])==0 }
     @doc = { :title => id, :text => IO.read(Rails.root.join("docs/#{id}.md")) }
+    respond_with(@user) do |format|  
+      format.js { render :show }
+    end
   end
   
   def index
@@ -15,12 +20,36 @@ class Admin::UsersController < Admin::ApplicationController
     respond_with @users
   end
   
+  def edit
+    load_user
+    respond_with(@user) do |format|  
+      format.js { render :show }
+    end
+  end
+  
   def update
     load_user
-    @user.update_attributes(:role => params[:new_role])
-    load_index
-    respond_with(@users) do |format|  
-      format.js { render :index }
+    # User updates his account
+    if params[:user][:email]
+      sign_in @user, :bypass => true if @user.update_attributes(params[:user])
+      respond_with(@user) do |format|  
+        format.js { render :show }
+      end
+    else
+      @user.update_attributes(params[:user])
+      load_index
+      respond_with(@users) do |format|  
+        format.js { render :index }
+      end
+    end
+  end
+  
+  protected
+  def load_user
+    if user_signed_in?
+      @user = current_user
+    else
+      raise CanCan::AccessDenied.new("Please sign in first.", :read, User)
     end
   end
   

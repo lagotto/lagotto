@@ -42,6 +42,8 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .signpost { font-size: 32px; font-weight:bold; margin: 0; }
 .border-bottom { border-bottom: 1px solid #eee; }
 .menu-icon { vertical-align: -2px; }
+.field-icon { vertical-align: -1px; }
+.github { padding-top: 0.5em; padding-bottom: 1em; }
 .sidebar-nav-fixed {
     padding: 9px 0;
     position:fixed;
@@ -50,9 +52,9 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 }
 .sidebar-nav-fixed-lower {
     padding: 9px 0;
-    position:fixed;
-    right:50px;
-    top:240px;
+    position:relative;
+    right:-50px;
+    top:50px;
 }
 
 .chart div {
