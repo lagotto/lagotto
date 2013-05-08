@@ -17,9 +17,13 @@
 # limitations under the License.
 
 class Admin::ApplicationController < ActionController::Base
-  protect_from_forgery
-
-  load_and_authorize_resource ErrorMessage  
+  protect_from_forgery 
+  
+  check_authorization
+  
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
     
   respond_to :html, :js, :json
   

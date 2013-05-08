@@ -1,6 +1,6 @@
 class Admin::EventsController < Admin::ApplicationController
   
-  skip_authorize_resource
+  skip_authorization_check
   
   def index
     respond_with do |format|
