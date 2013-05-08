@@ -1,5 +1,7 @@
 class Admin::ResponsesController < Admin::ApplicationController
   
+  load_and_authorize_resource ErrorMessage 
+  
   def index
     if request.xhr?
       responses = RetrievalStatus.joins(:source).where("sources.active = 1 AND retrieved_at > NOW() - INTERVAL 24 HOUR").order("group_id, display_name").group(:source_id).count

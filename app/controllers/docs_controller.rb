@@ -16,9 +16,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class IndexController < ApplicationController
+class DocsController < ApplicationController
+  
+  respond_to :html
+  
+  def show
+    # filter query parameters by files in "docs" folder, use "Home" if no match is found
+    files = Dir.entries(Rails.root.join("docs"))
+    file = files.detect { |s| s == "#{params[:id]}.md" }
+    file = "Home.md" if file.nil?
+    @doc = { :title => file[0..-4], :text => IO.read(Rails.root.join("docs/#{file}")) }
+  end
   
   def index
-    @sources = Source.order("name")
+    redirect_to root_path
   end
 end

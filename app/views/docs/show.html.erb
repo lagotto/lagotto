@@ -1,0 +1,22 @@
+<div class="content">
+  <div class="row">
+    <div class="span9">
+      <div class="page-header">
+        <h1><%= @doc[:title] == "Home" ? "Getting Started" : @doc[:title].tr('-', ' ') %></h1>
+      </div>
+      <div class="markdown">
+        <%= markdown @doc[:text] %>
+      </div>
+    </div>
+    <div class="span3">
+      <div class="sidebar-nav-fixed">
+        <ul class="nav nav-list">
+          <li class="nav-header">Documentation</li>
+          <% documents.each do|document| %>
+            <li><%= link_to h(document.tr('-', ' ')), doc_path(document) %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

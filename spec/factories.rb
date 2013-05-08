@@ -218,10 +218,8 @@ FactoryGirl.define do
   end
  
   factory :user do
-    username 'example_user'
-    email 'example@example.com'
-    password 'please'
-    password_confirmation { |u| u.password }
+    sequence(:username) {|n| "joesmith#{n}" }
+    sequence(:name) {|n| "Joe Smith#{n}" }
   end
   
   factory :error_message do

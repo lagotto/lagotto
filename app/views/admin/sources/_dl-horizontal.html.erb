@@ -1,4 +1,4 @@
-<% if user_signed_in? %>
+<% if can? :read, ErrorMessage %>
   <div class="visible-phone">
     <dt>Status</dt>
     <dd><%= h(@source.status) %></dd>  

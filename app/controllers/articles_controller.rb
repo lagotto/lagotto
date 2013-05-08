@@ -57,6 +57,9 @@ class ArticlesController < ApplicationController
     format_options = params.slice :events, :history, :source
     
     @groups = Group.order("id")
+    
+    admin = User.order("created_at ASC").first
+    @api_key = admin.nil? ? "" : admin.authentication_token
 
     respond_with(@article) do |format|
       format.csv  { render :csv => @article }

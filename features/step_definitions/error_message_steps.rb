@@ -31,6 +31,10 @@ Then /^I should see the "(.*?)" error message$/ do |error_message|
   page.should have_content error_message
 end
 
+Then /^I should see the "(.*?)" error$/ do |error|
+  page.should have_content error
+end
+
 Then /^I should see the "(.*?)" class name$/ do |class_name|
   page.has_css?('p.class_name', :text => class_name, :visible => true).should be_true
 end

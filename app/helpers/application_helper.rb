@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'github/markdown'
+
 module ApplicationHelper
   def link_to_setup_or_login
     if User.count > 0
@@ -23,6 +25,10 @@ module ApplicationHelper
     else
       link_to 'Sign Up', new_user_registration_path, :class => current_page?(new_user_registration_path) ? 'current' : ''
     end
+  end
+  
+  def markdown(text)
+    GitHub::Markdown.render_gfm(text).html_safe
   end
   
   def status_label(status)
@@ -39,5 +45,13 @@ module ApplicationHelper
   
   def sources
     Source.order("group_id, display_name")
+  end
+  
+  def documents
+    %w(Home Installation Setup Sources API Rake FAQ Version-History Roadmap Past-Contributors)
+  end
+  
+  def roles
+    %w(user staff admin)
   end
 end

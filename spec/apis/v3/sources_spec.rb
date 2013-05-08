@@ -3,7 +3,7 @@ require "spec_helper"
 describe "/api/v3/articles" do   
   context "metrics for CiteULike" do
     let(:article) { FactoryGirl.create(:article_with_events) }
-    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}"}
+    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=12345"}
 
     it "JSON" do
       get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -49,7 +49,7 @@ describe "/api/v3/articles" do
     
   context "metrics for CrossRef" do
     let(:article) { FactoryGirl.create(:article_with_crossref_citations) }
-    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}"}
+    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=12345"}
 
     it "JSON" do
       get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -94,7 +94,7 @@ describe "/api/v3/articles" do
     
   context "metrics for PubMed" do
     let(:article) { FactoryGirl.create(:article_with_pubmed_citations) }
-    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}"}
+    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=12345"}
 
     it "JSON" do
       get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -139,7 +139,7 @@ describe "/api/v3/articles" do
     
   context "metrics for Nature" do
     let(:article) { FactoryGirl.create(:article_with_nature_citations) }
-    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}"}
+    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=12345"}
 
     it "JSON" do
       get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -184,7 +184,7 @@ describe "/api/v3/articles" do
     
   context "metrics for Research Blogging" do
     let(:article) { FactoryGirl.create(:article_with_researchblogging_citations) }
-    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}"}
+    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=12345"}
 
     it "JSON" do
       get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -229,7 +229,7 @@ describe "/api/v3/articles" do
   
   context "metrics for a specific source" do
     let(:article) { FactoryGirl.create(:article_with_events) }
-    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?source=citeulike"}
+    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?source=citeulike&api_key=12345"}
 
     it "Citeulike" do
       get uri, nil, { 'HTTP_ACCEPT' => "application/json" }

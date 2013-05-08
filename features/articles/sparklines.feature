@@ -3,7 +3,8 @@ Feature: See sparklines for article
   We should be able to see the events for an article
 
   Background:
-    Given the source "Citeulike" exists
+    Given I am logged in as "admin"
+    And the source "Citeulike" exists
     And there is an article
     
     @javascript

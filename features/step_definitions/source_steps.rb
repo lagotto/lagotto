@@ -82,7 +82,7 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
     title = page_title.downcase
   end  
   visit "/admin/#{title}"
-  page.driver.render("tmp/capybara/#{title}.png")
+  #page.driver.render("tmp/capybara/#{title}.png")
 end
 
 When /^I go to "(.*?)"$/ do |path|

@@ -3,7 +3,7 @@
 
 # Load default admin user
 if Rails.env != "production"
-  User.create(:username => "<%= node[:alm][:admin][:username] %>", :email => "<%= node[:alm][:admin][:email] %>", :password => "<%= node[:alm][:admin][:password] %>", :password_confirmation => "<%= node[:alm][:admin][:password] %>") if User.count == 0
+  User.create(:username => "articlemetrics", :name => "Admin", :password => "articlemetrics", :password_confirmation => "articlemetrics") if User.count == 0
 end
 
 # Load default groups
@@ -69,6 +69,17 @@ counter = Counter.find_or_create_by_name(
   :workers => 1,
   :group_id => usage.id,
   :url => "<%= node[:alm][:counter][:url] %>")
+  
+scopus = Scopus.find_or_create_by_name(  
+	:name => "scopus", 
+	:display_name => "Scopus", 
+  :description => "The world's largest abstract and citation database of peer-reviewed literature.",
+	:active => <%= node[:alm][:scopus][:api_key] == "EXAMPLE" ? false : true %>, 
+	:workers => 1,
+	:group_id => citations.id,
+	:url => "<%= node[:alm][:scopus][:url] %>",
+  :api_key => "<%= node[:alm][:scopus][:api_key] %>",
+  :partner_id => "<%= node[:alm][:scopus][:partner_id] %>")
 <% end -%>
 
 <% if node[:alm][:doi_prefix] == "10.5194" -%> 

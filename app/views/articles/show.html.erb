@@ -36,24 +36,28 @@
       <div class="tab-pane active" id="all">
         <div class="muted" id="loading-all">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
+          var api_key = "<%= @api_key %>";
           <%= render :partial => 'all', formats: :js %>
         <% end %>
       </div>
       <div class="tab-pane hidden-phone" id="day">
         <div class="muted" id="loading-day">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
+          var api_key = "<%= @api_key %>";
           <%= render :partial => 'day', formats: :js %>
         <% end %>
       </div>
       <div class="tab-pane hidden-phone" id="month">
         <div class="muted" id="loading-month">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
+          var api_key = "<%= @api_key %>";
           <%= render :partial => 'month', formats: :js %>
         <% end %>
       </div>
       <div class="tab-pane hidden-phone" id="year">
         <div class="muted" id="loading-year">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
+          var api_key = "<%= @api_key %>";
           <%= render :partial => 'year', formats: :js %> 
         <% end %>
       </div>

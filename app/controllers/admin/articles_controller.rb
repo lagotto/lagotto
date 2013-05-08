@@ -1,5 +1,7 @@
 class Admin::ArticlesController < Admin::ApplicationController
   
+  load_and_authorize_resource Article
+  
   respond_to :html, :js
   
   def index
