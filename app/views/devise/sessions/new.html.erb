@@ -1,0 +1,22 @@
+<div class="content">
+  
+  <%= simple_form_for resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => 'form-horizontal' } do |f| %>
+    <fieldset>
+      <legend>Sign In</legend>  
+          
+      <% if APP_CONFIG['github_client_id'] %>
+        <div class="github controls">
+          <h3><%= link_to "#{image_tag('github.png', :class => 'field-icon')} Sign in with Github".html_safe, user_omniauth_authorize_path(:github) %></h3>
+        </div>
+        <hr>
+      <% end %>
+
+      <%= f.input :username %>
+      <%= f.input :password %>
+
+      <div class="form-actions">
+        <%= f.submit "Sign In", class: "btn btn-primary" %>
+      </div>
+    </fieldset>
+  <% end %>
+</div>

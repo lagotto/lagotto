@@ -1,6 +1,8 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
-# Copyright:: Copyright (c) 2012, Opscode, Inc. <legal@opscode.com>
+# Cookbook:: erlang_test
+# Minitest Chef Handler
+#
+# Copyright:: Copyright (c) 2013, Opscode, Inc. <legal@opscode.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +16,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require File.expand_path('../support/helpers', __FILE__)
 
-default['erlang']['gui_tools'] = false
-default['erlang']['install_method'] = "package"
+describe_recipe 'erlang::erlang_solutions' do
+  include Helpers::Erlang
 
-default['erlang']['source']['version'] = "R15B01"
-default['erlang']['source']['url'] = "http://erlang.org/download/otp_src_#{node['erlang']['source']['version']}.tar.gz"
-default['erlang']['source']['checksum'] = "f94f7de7328af3c0cdc42089c1a4ecd03bf98ec680f47eb5e6cddc50261cabde"
+  it 'installs the esl-erlang package' do
+    package("esl-erlang").must_be_installed
+  end
 
-default['erlang']['esl']['version'] = nil
+  it "can successfully run 'erl'" do
+    erl = shell_out("erl -myflag 1 <<-EOH
+init:get_argument(myflag).
+EOH
+")
+    assert_includes(erl.stdout,'{ok,[["1"]]}')
+  end
+end

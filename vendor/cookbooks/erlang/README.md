@@ -30,12 +30,14 @@ Attributes
 
 * `node['erlang']['gui_tools']` - whether to install the GUI tools for
   Erlang.
-* `node['erlang']['install_method']` - Erlang installation method ("package" or
-  "source").
+* `node['erlang']['install_method']` - Erlang installation method
+  ("package", "source", or "esl" (for Erlang Solutions packages)).
 * `node['erlang']['source']['version']` - Version of Erlang/OTP to install from source.
   "source")
 * `node['erlang']['source']['url']` - URL of Erlang/OTP source tarball.
 * `node['erlang']['source']['checksum']` - Checksum of the Erlang/OTP source tarball.
+* `node['erlang']['esl']['version']` - version specifier for Erlang
+  Solutions packages.
 
 Recipes
 =======
@@ -53,6 +55,13 @@ Installs Erlang from distribution packages.
 
 Installs Erlang from source.
 
+## erlang_solutions
+
+Adds Erlang Solutions' [package repositories][] on Debian, CentOS (>
+5), and Fedora systems, and installs the `esl-erlang` package.
+
+[package repositories]:https://www.erlang-solutions.com/downloads/download-erlang-otp
+
 License and Author
 ==================
 
@@ -60,6 +69,7 @@ License and Author
 * Author: Joshua Timberman (<joshua@opscode.com>)
 * Author: Matt Ray (<matt@opscode.com>)
 * Author: Hector Castro (<hector@basho.com>)
+* Author: Christopher Maier (<cm@opscode.com>)
 
 Copyright 2011-2013, Opscode, Inc.
 

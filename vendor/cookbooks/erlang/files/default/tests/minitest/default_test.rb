@@ -34,6 +34,6 @@ describe 'erlang::default' do
 init:get_argument(myflag).
 EOH
 ")
-    erl.stdout.include?('{ok,[["1"]]}')
+    assert_includes(erl.stdout,'{ok,[["1"]]}')
   end
 end
