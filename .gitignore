@@ -32,3 +32,4 @@ rerun.txt
 pickle-email-*.html
 .vagrant*
 Capfile
+.idea/*
