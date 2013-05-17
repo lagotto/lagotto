@@ -20,7 +20,7 @@ Feature: See jobs
     #     | Source    | Status | Pending | Working | Stale Articles | Queued Articles |
     #     | CiteULike | active | 0       | 0       | 5              | 0               |
     
-    @javascript
+    @javascript @not-teamcity
     Scenario: Jobs in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should be:
