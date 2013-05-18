@@ -43,7 +43,9 @@ class CrossrefImport
 
     file_counter = 1 #start at one!
     line_counter = 0 #start at zero!
-    output_file = get_output_file(file_counter, file_counter_precision, output_dir, json_file)
+
+    output_file = self.get_incremental_file(output_dir, File.basename(json_file), file_counter, file_counter_precision)
+    #output_file = get_output_file(file_counter, file_counter_precision, output_dir, json_file)
     error_file = nil
     invalid_record_counter = 0
     valid_record_counter = 0
@@ -78,7 +80,7 @@ class CrossrefImport
             error_msg = "published_on missing" if published_on.nil?
           end
 
-          error_file ||=  get_error_file(output_dir, json_file, ".crossref.errors")
+          error_file ||= self.open_file(output_dir, File.basename(json_file), ".crossref.errors")
           error_file.write("#{error_msg}\t" + line)
         else
           output_file.write "#{data["doi"]}\t#{published_on}\t#{title}\n"
@@ -92,7 +94,7 @@ class CrossrefImport
         output_file.close()
         file_counter += 1
         line_counter = 0
-        output_file = get_output_file(file_counter, file_counter_precision, output_dir, json_file)
+        output_file = self.get_incremental_file(output_dir, File.basename(json_file), file_counter, file_counter_precision)
       end
 
 
@@ -121,23 +123,32 @@ class CrossrefImport
 
 
   def self.import_tabs(source_dir)
+    start_time = Time.new
     puts "in IMPORT TABS"
 
     invalid_record_counter = 0
     valid_record_counter = 0
+    line_count = 0
+    file_count = 0
+    duplicate_count = 0
+    created_count = 0
+    updated_count = 0
 
-    Dir.glob(File.absolute_path("*.crossref.[0-9]*.tab", source_dir)).each do |tab_file|
 
-      duplicate = []
-      created = []
-      updated = []
-
+    # Process in reverse sorted order to do latest articles first
+    tab_files_list = Dir.glob(File.absolute_path("*.crossref.[0-9]*.tab", source_dir)).sort.reverse
+    tab_files_list.each do |tab_file|
+      file_count += 1
       error_file = nil
+      output_file = self.open_file(source_dir, File.basename(tab_file), ".processed")
 
 
       puts "Processing #{tab_file}"
       file = File.open( tab_file )
+
       file.each_line do |line|
+        line_count += 1
+
 
 
         begin
@@ -167,7 +178,7 @@ class CrossrefImport
               error_msg = "published_on missing" if published_on.nil?
             end
 
-            error_file ||= get_error_file(output_dir, tab_file, ".errors")
+            error_file ||= self.open_file(source_dir, File.basename(tab_file), ".errors")
             error_file.write("#{error_msg}\t" + line)
           else
 
@@ -176,15 +187,18 @@ class CrossrefImport
             existing = Article.find_by_doi(doi)
             unless existing
               article = Article.create(:doi => doi, :published_on => published_on, :title => title)
-              created << doi
+              created_count += 1
+              output_file.write("created\t" + line)
             else
               if existing.published_on != published_on or existing.title != title
                 existing.published_on = published_on
                 existing.title = title
                 existing.save!
-                updated << doi
+                updated_count += 1
+                output_file.write("updated\t" + line)
               else
-                duplicate << doi
+                duplicate_count += 1
+                output_file.write("duplicate\t" + line)
               end
             end
 
@@ -193,13 +207,36 @@ class CrossrefImport
         end #begin
       end #each_line
 
-      error_file.close() unless error_file.nil?
 
+
+      error_file.close() unless error_file.nil?
+      output_file.close()
       file.close()
 
-      break
+      File.delete(tab_file) #delete the old input file (in its place will be a .processed file)
+
+      break #Temporary
 
     end #each tab_file
+
+    stop_time = Time.new
+
+    puts ""
+    puts "PROCESSING STATISTICS"
+    puts "File count:\t" << file_count.to_s
+    puts "Valid lines processed:\t" << valid_record_counter.to_s
+    puts "Invalid lines skipped:\t" << invalid_record_counter.to_s
+
+    puts "Created records:\t" << created_count.to_s
+    puts "Updated records:\t" << updated_count.to_s
+    puts "Duplicate records:\t" << duplicate_count.to_s
+
+    puts "Total time elapsed (seconds):\t" << (stop_time - start_time).to_s
+    puts "Processing rate (lines/second):\t%.1f" % (line_count.to_f / (stop_time - start_time).to_f)
+    puts "Error rate:\t%.3f%" % (100.0 * invalid_record_counter.to_f / line_count.to_f) if line_count > 0
+
+    puts ""
+    puts "All done"
 
   end
 
@@ -207,17 +244,12 @@ class CrossrefImport
 
   # Private methods -----------------
   private
-  def self.get_output_file(file_counter, file_counter_precision, output_dir, json_file)
-    filename =  File.basename(json_file) + ".crossref.#{"%.#{file_counter_precision}i" % file_counter}.tab"
-    self.open_file(filename, output_dir)
+  def self.get_incremental_file(output_dir, base_filename, file_counter, file_counter_precision)
+    self.open_file(output_dir, base_filename, ".crossref.#{"%.#{file_counter_precision}i" % file_counter}.tab")
   end
 
-  def self.get_error_file(output_dir, base_filename, error_extension)
-    filename = File.basename(base_filename) + error_extension
-    self.open_file(filename, output_dir)
-  end
-
-  def self.open_file(filename, output_dir)
+  def self.open_file(output_dir, base_filename, extension)
+    filename = base_filename + extension
     if File.exists?(File.join(output_dir, filename))
       puts "Opening #{filename}"
     else
