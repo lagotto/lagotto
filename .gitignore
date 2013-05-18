@@ -33,3 +33,5 @@ pickle-email-*.html
 .vagrant*
 Capfile
 .idea/*
+
+db/seeds-test.rb
