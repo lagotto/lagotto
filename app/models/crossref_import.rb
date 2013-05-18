@@ -220,7 +220,7 @@ class CrossrefImport
         sleep(delay)
       end
 
-      break #Temporary
+      #break #Temporary
 
     end #each tab_file
 
