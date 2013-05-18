@@ -86,13 +86,12 @@ ActiveRecord::Schema.define(:version => 20130211120421) do
     t.datetime "retrieved_at"
     t.string   "status"
     t.string   "msg"
-    t.integer  "event_count",         :default => 0, :null => false
+    t.integer  "event_count",         :default => 0
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
   end
 
   add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
-  add_index "retrieval_histories", ["source_id", "event_count"], :name => "index_retrieval_histories_on_source_id_and_event_count"
   add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
 
   create_table "retrieval_statuses", :force => true do |t|
@@ -100,7 +99,7 @@ ActiveRecord::Schema.define(:version => 20130211120421) do
     t.integer  "source_id",                                        :null => false
     t.datetime "queued_at"
     t.datetime "retrieved_at",  :default => '1970-01-01 00:00:00', :null => false
-    t.integer  "event_count",   :default => 0,                     :null => false
+    t.integer  "event_count",   :default => 0
     t.string   "data_rev"
     t.datetime "created_at",                                       :null => false
     t.datetime "updated_at",                                       :null => false
@@ -110,7 +109,6 @@ ActiveRecord::Schema.define(:version => 20130211120421) do
   end
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
-  add_index "retrieval_statuses", ["id", "event_count"], :name => "index_retrieval_statuses_on_id_and_event_count"
 
   create_table "sources", :force => true do |t|
     t.string   "type",                                              :null => false
@@ -127,9 +125,9 @@ ActiveRecord::Schema.define(:version => 20130211120421) do
     t.integer  "wait_time",                      :default => 300,   :null => false
     t.datetime "created_at",                                        :null => false
     t.datetime "updated_at",                                        :null => false
+    t.boolean  "refreshable",                    :default => true
     t.integer  "max_failed_queries",             :default => 200,   :null => false
     t.integer  "max_failed_query_time_interval", :default => 86400, :null => false
-    t.boolean  "refreshable",                    :default => true
     t.text     "description"
   end
 

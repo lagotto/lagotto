@@ -122,7 +122,7 @@ class CrossrefImport
   end
 
 
-  def self.import_tabs(source_dir)
+  def self.import_tabs(tab_dir, delay)
     start_time = Time.new
     puts "in IMPORT TABS"
 
@@ -136,11 +136,11 @@ class CrossrefImport
 
 
     # Process in reverse sorted order to do latest articles first
-    tab_files_list = Dir.glob(File.absolute_path("*.crossref.[0-9]*.tab", source_dir)).sort.reverse
+    tab_files_list = Dir.glob(File.absolute_path("*.crossref.[0-9]*.tab", tab_dir)).sort.reverse
     tab_files_list.each do |tab_file|
       file_count += 1
       error_file = nil
-      output_file = self.open_file(source_dir, File.basename(tab_file), ".processed")
+      output_file = self.open_file(tab_dir, File.basename(tab_file), ".processed")
 
 
       puts "Processing #{tab_file}"
@@ -178,7 +178,7 @@ class CrossrefImport
               error_msg = "published_on missing" if published_on.nil?
             end
 
-            error_file ||= self.open_file(source_dir, File.basename(tab_file), ".errors")
+            error_file ||= self.open_file(tab_dir, File.basename(tab_file), ".errors")
             error_file.write("#{error_msg}\t" + line)
           else
 
@@ -214,6 +214,11 @@ class CrossrefImport
       file.close()
 
       File.delete(tab_file) #delete the old input file (in its place will be a .processed file)
+
+      if (!delay.nil?)
+        puts "Now sleeping for #{delay} seconds"
+        sleep(delay)
+      end
 
       break #Temporary
 
