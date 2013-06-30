@@ -9,6 +9,9 @@ gem "daemons", "~> 1.1.9"
 gem "foreman", "~> 0.63.0"
 gem "rake", "~> 10.0.3"
 
+gem "faraday", "~> 0.8.7"
+gem "faraday_middleware", "~> 0.9.0"
+gem 'faraday-cookie_jar'
 gem "libxml-ruby", "~> 2.4.0", :require => 'xml'
 gem "nokogiri", "~> 1.5.6"
 gem "multi_json", "~> 1.5.0"
@@ -16,6 +19,8 @@ gem "oj", "~> 2.0.5"
 gem "nori", "~> 2.0.0"
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 2.1.2"
+gem "omniauth-github", "~> 1.1.0"
+gem "cancan", "~> 1.6.9"
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.1.0"
@@ -30,6 +35,7 @@ gem 'will_paginate', '3.0.3'
 gem "will_paginate-bootstrap", "~> 0.2.1"
 gem "simple_form", "~> 2.0.4"
 gem "dotiw", "~> 1.1.1"
+gem "github-markdown", "~> 0.5.3"
 
 group :assets do
   gem "uglifier", "~> 1.3.0"
@@ -52,7 +58,6 @@ group :test do
   gem "webmock", "~> 1.9.2"
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1", :require => false
-  gem "thin", "~> 1.5.1"
   gem "poltergeist", "~> 1.2.0"
   gem "minitest", "~> 4.4.0"
   gem "faye-websocket", "~> 0.4.7"

@@ -1,4 +1,4 @@
-<% if controller.action_name == "new" or (controller.action_name == "create" and !@group.errors.empty?) %>
+<% if can?(:manage, ErrorMessage) and (controller.action_name == "new" or (controller.action_name == "create" and !@group.errors.empty?)) %>
 
   <%= simple_form_for @group, :url => admin_groups_path, :html => { :class => 'form-horizontal', :remote => true } do |f| %>
     <fieldset>
@@ -13,7 +13,7 @@
     </fieldset>
   <% end %>
 
-<% elsif (controller.action_name == "edit" or (controller.action_name == "update" and !@group.errors.empty?)) %> 
+<% elsif can?(:manage, ErrorMessage) and (controller.action_name == "edit" or (controller.action_name == "update" and !@group.errors.empty?)) %> 
     <%= simple_form_for @group, :url => admin_group_path(@group), :html => { :class => 'form-horizontal', :remote => true } do |f| %>
       <fieldset>
         <legend>Edit Group</legend>  
@@ -28,9 +28,11 @@
     <% end %>
 
 <% else %>
-  <div class="btn-toolbar pull-right hidden-phone">
-    <%= link_to '<i class="icon-plus"></i> New Group'.html_safe, new_admin_group_path, { :remote => true, :class => 'btn btn-mini', :id => 'New' } %>
-  </div>
+  <% if can? :manage, ErrorMessage %>
+    <div class="btn-toolbar pull-right hidden-phone">
+      <%= link_to '<i class="icon-plus"></i> New Group'.html_safe, new_admin_group_path, { :remote => true, :class => 'btn btn-mini', :id => 'New' } %>
+    </div>
+  <% end %>
 
   <% if @groups.size > 0 %>
     <table class="table">
@@ -39,7 +41,9 @@
           <th>Name</th>
           <th>Status</th>
           <th>Group</th>
-          <th class="hidden-phone">Actions</th>
+          <% if can? :manage, ErrorMessage %>
+            <th class="hidden-phone">Actions</th>
+          <% end %>
         </tr>
       </thead>
       <tbody>
@@ -52,12 +56,14 @@
               <td/><td/>
             <% end %>
             <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>><%= h(group.name) %></td>
-            <td class="hidden-phone" <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>
-              <div class="btn-group">
-                <%= link_to '<i class="icon-pencil"></i> Edit Group'.html_safe, edit_admin_group_path(group), { :remote => true, :class => 'btn btn-mini', :id => "#{group.name}-edit" } %>
-                <%= link_to '<i class="icon-trash"></i> Delete Group'.html_safe, admin_group_path(group), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{group.name}-delete" %>
-              </div>
-            </td>
+            <% if can? :manage, ErrorMessage %>
+              <td class="hidden-phone" <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>
+                <div class="btn-group">
+                  <%= link_to '<i class="icon-pencil"></i> Edit Group'.html_safe, edit_admin_group_path(group), { :remote => true, :class => 'btn btn-mini', :id => "#{group.name}-edit" } %>
+                  <%= link_to '<i class="icon-trash"></i> Delete Group'.html_safe, admin_group_path(group), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{group.name}-delete" %>
+                </div>
+              </td>
+            <% end %>
           </tr>
           <% if group.sources.size > 1 %>
             <% group.sources[1..-1].each do |source| %>

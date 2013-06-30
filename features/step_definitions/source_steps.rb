@@ -82,7 +82,7 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
     title = page_title.downcase
   end  
   visit "/admin/#{title}"
-  page.driver.render("tmp/capybara/#{title}.png")
+  #page.driver.render("tmp/capybara/#{title}.png")
 end
 
 When /^I go to "(.*?)"$/ do |path|
@@ -173,4 +173,9 @@ end
 
 Then /^I should see a row of "(.*?)"$/ do |chart|
   page.has_css?("div#chart_#{chart} .chart .slice").should be_true
+end
+
+Then(/^I should see (\d+) bookmarks$/) do |number|
+  page.driver.render("tmp/capybara/#{number}_bookmarks.png")
+  page.has_css?('h1#all-signpost-citeulike-shares', :text => number).should be_true
 end

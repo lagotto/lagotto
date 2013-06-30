@@ -7,4 +7,5 @@ default['passenger']['module_path'] = "#{passenger['root_path']}/ext/apache2/mod
 default['passenger']['max_pool_size'] = 6
 default['passenger']['manage_module_conf'] = true
 default['passenger']['package']['name'] = nil
-default['passenger']['package']['version'] = node['passenger']['version']
+# set package version to nil, the distro package may not be the same version
+default['passenger']['package']['version'] = nil

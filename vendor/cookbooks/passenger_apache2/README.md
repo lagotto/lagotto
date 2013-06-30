@@ -77,13 +77,10 @@ The recipe does not yet handle adding yum repositories for RHEL
 platforms, so that should be done in another recipe until COOK-2414 is
 resolved.
 
-The version of the package to install will be the same as the gem (the
-`version` attribute, above). Set the
-`node['passenger']['package']['version']` attribute to the correct
-value for your system's available package repository, or delete the
-attribute and use the latest available with:
-
-    node.set['passenger']['package'].delete('version')
+Set the `node['passenger']['package']['version']` attribute to the
+correct value for your system's available package repository if
+necessary. By default the value is nil which will install the latest
+package version from the distribution package manager.
 
 Usage
 =====

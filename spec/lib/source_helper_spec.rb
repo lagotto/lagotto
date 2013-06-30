@@ -155,6 +155,29 @@ describe SourceHelper do
         error_message.source_id.should == 1
       end
     end
+    
+    context "original URL" do
+      
+      before(:each) do
+        WebMock.allow_net_connect!
+      end
+      
+      it "get_original_url" do
+        article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000029")
+        url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000029"
+        response = @source_helper_class.get_original_url(article.doi)
+        response.should eq(url)
+        ErrorMessage.count.should == 0
+      end
+      
+      it "get_original_url with cookies" do
+        article = FactoryGirl.create(:article_with_events, :doi => "10.1080/10629360600569196")
+        url = "http://www.tandfonline.com/doi/abs/10.1080/10629360600569196"
+        response = @source_helper_class.get_original_url(article.doi)
+        response.should eq(url)
+        ErrorMessage.count.should == 0
+      end
+    end
   end
   
   context "CouchDB" do

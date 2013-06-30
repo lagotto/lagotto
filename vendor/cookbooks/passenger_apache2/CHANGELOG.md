@@ -1,3 +1,12 @@
+## v2.0.2:
+
+### Bug
+
+- [COOK-2750]: using `mod_rails` in `run_list` by itself fails in
+  version 2.0.0
+- [COOK-2972]: `passenger_apache2` has foodcritic errors
+- [COOK-3180]: don't use `mod_rails` recipe w/ package install
+
 ## v2.0.0:
 
 [COOK-2115] - Improve `passenger_apache2` cookbook source

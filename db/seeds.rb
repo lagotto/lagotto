@@ -3,7 +3,7 @@
 
 # Load default admin user
 if Rails.env != "production"
-  User.create(:username => "voldemort", :email => "admin@plos.org", :password => "voldemort", :password_confirmation => "voldemort") if User.count == 0
+  User.create(:username => "voldemort", :name => "Admin", :email => "admin@plos.org", :password => "voldemort", :password_confirmation => "voldemort") if User.count == 0
 end
 
 # Load default groups
@@ -64,6 +64,17 @@ counter = Counter.find_or_create_by_name(
   :workers => 1,
   :group_id => usage.id,
   :url => "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}")
+  
+scopus = Scopus.find_or_create_by_name(  
+  :name => "scopus", 
+  :display_name => "Scopus", 
+  :description => "The world's largest abstract and citation database of peer-reviewed literature.",
+  :active => false, 
+  :workers => 1,
+  :group_id => citations.id,
+  :username => "EXAMPLE",
+  :salt => "EXAMPLE",
+  :partner_id => "EXAMPLE")
 
 
 crossref = CrossRef.find_or_create_by_name(  
@@ -108,7 +119,7 @@ nature = Nature.find_or_create_by_name(
   :active => true, 
   :workers => 1,
   :group_id => blogs_media.id,
-  :url => "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}",
+  :url => "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}",
   :api_key => "7jug74j8rh49n8rbn8atwyec")
   
 pmc = Pmc.find_or_create_by_name(  
@@ -133,7 +144,7 @@ researchblogging = Researchblogging.find_or_create_by_name(
   :password => "siWSaA546pM")
   
 # Load sample articles
-if Rails.env != "production"
+if ENV['ARTICLES']
   Article.find_or_create_by_doi(
     :doi => "10.1371/journal.pone.0008776",
     :title => "The \"Island Rule\" and Deep-Sea Gastropods: Re-Examining the Evidence",
@@ -258,4 +269,4 @@ if Rails.env != "production"
     :doi => "10.5194/se-1-1-2010",
     :title => "The Eons of Chaos and Hades",
     :published_on => "2010-02-02")
-  end
+end

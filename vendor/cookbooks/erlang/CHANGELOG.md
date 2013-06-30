@@ -1,3 +1,18 @@
+## v1.3.0:
+
+This cookbook now has support for Test Kitchen 1.0 (alpha). See
+TESTING.md in the git repo.
+
+### Bug
+
+- [COOK-2595]: erlang cookbook now incorrectly depends on apt <= 1.7.0
+- [COOK-2894]: erlang::esl uses nil attribute
+
+### Improvement
+
+- [COOK-2509]: Add support for installing Erlang/OTP from Erlang
+  Solutions' repositories
+
 ## v1.2.0:
 
 * [COOK-2287] - Add support for installing Erlang from source

@@ -142,7 +142,7 @@ FactoryGirl.define do
     name "nature"
     display_name "Nature"
     active true
-    url "http://api.nature.com/service/blogs/posts.json?api_key=%{api_key}&doi=%{doi}"
+    url "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}"
     api_key "EXAMPLE"
 
     group
@@ -294,10 +294,8 @@ FactoryGirl.define do
   end
 
   factory :user do
-    username 'example_user'
-    email 'example@example.com'
-    password 'please'
-    password_confirmation { |u| u.password }
+    sequence(:username) {|n| "joesmith#{n}" }
+    sequence(:name) {|n| "Joe Smith#{n}" }
   end
   
   factory :error_message do

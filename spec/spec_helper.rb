@@ -28,20 +28,34 @@ RSpec.configure do |config|
   
   config.include Rack::Test::Methods
   
+  config.include Devise::TestHelpers, :type => :controller
+  
   config.include FactoryGirl::Syntax::Methods
   
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
   
   config.before(:suite) do
+    OmniAuth.config.test_mode = true
+    omni_hash = { :provider => "github",
+                  :uid => "12345",
+                  :info => { "email" => "joe@example.com", "nickname" => "joesmith" },
+                  :extra => { "raw_info" => { "name" => "Joe Smith" }}}
+    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(omni_hash)
+    
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:transaction)
+    DatabaseCleaner.clean_with :truncation
+  end
+  
+  config.after(:suite) do
+    OmniAuth.config.test_mode = false
   end
 
-  config.before do
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
   end
 
-  config.after do
+  config.after(:each) do
     DatabaseCleaner.clean
   end
   

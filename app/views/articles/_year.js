@@ -1,6 +1,6 @@
 var doi = d3.select("dd#doi").attr('data-doi');
 
-d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(error, data) {
+d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key, function(error, data) {
   
   var l = 20; // left margin
   var r = 50; // right margin
@@ -80,7 +80,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(error, da
             .attr("y2", h)
             .attr("class", "line");
           chart.selectAll("rect").each(
-            function(d,i){ $(this).tooltip({title: format_number(d.total) + " in " + d.year, container: "body"});
+            function(d,i){ $(this).tooltip({title: format_number(d[c.name]) + " in " + d.year, container: "body"});
           });
         }
       }

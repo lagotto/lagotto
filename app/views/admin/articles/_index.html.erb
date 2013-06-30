@@ -1,4 +1,4 @@
-<% if user_signed_in? and (controller.action_name == "new" or (controller.action_name == "create" and !@article.errors.empty?)) %>
+<% if can?(:manage, Article) and (controller.action_name == "new" or (controller.action_name == "create" and !@article.errors.empty?)) %>
 
 <%= simple_form_for @article, :url => admin_articles_path, :html => { :class => 'form-horizontal', :remote => true } do |f| %>
     <fieldset>
@@ -22,7 +22,7 @@
 <% else %>
   <div class="page-header">
     <h1>
-      <% if user_signed_in? %>
+      <% if can?(:manage, Article) %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group">
             <%= link_to '<i class="icon-plus"></i> New'.html_safe, new_admin_article_path, { :remote => true, :class => 'btn btn-mini' } %>

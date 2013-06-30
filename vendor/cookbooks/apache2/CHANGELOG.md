@@ -1,3 +1,23 @@
+## v1.6.6:
+
+1.6.4 had a missed step in the automated release, long live 1.6.6.
+
+### Bug
+
+- [COOK-3018]: apache2_module does duplicate delayed restart of
+  apache2 service when conf = true
+- [COOK-3027]: Default site enable true, then false, does not disable
+  default site
+- [COOK-3109]: fix apache lib_dir arch attribute regexp
+
+## v1.6.2
+
+* [COOK-2535] - `mod_auth_openid` requires libtool to run autogen.sh
+* [COOK-2667] - Typo in usage documentation
+* [COOK-2461] - `apache2::mod_auth_openid` fails on some ubuntu systems
+* [COOK-2720] - Apache2 minitest helper function `ran_recipe` is not
+  portable
+
 ## v1.6.0:
 
 * [COOK-2372] - apache2 mpm_worker: add ServerLimit attribute (default

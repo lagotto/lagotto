@@ -17,6 +17,9 @@
 # limitations under the License.
 
 require 'net/http'
+require 'faraday'
+require 'faraday_middleware'
+require 'faraday-cookie_jar'
 
 module SourceHelper
   # default timeout is 60 sec
@@ -68,30 +71,22 @@ module SourceHelper
     service_url = APP_CONFIG['couchdb_url']
     data = get_json("#{service_url}#{id}")
   end
-
-  def get_original_url(uri_str, limit = 10)
-    raise ArgumentError, 'too many HTTP redirects' if limit == 0
-
-    response = Net::HTTP.get_response(URI(uri_str))
-
-    case response
-    when Net::HTTPSuccess
-      uri_str
-    when Net::HTTPRedirection
-      location = response['location']
-
-      # sometimes we can get a location that doesn't have the host information
-      uri = URI(location)
-      if uri.host.nil?
-        orig_uri = URI(uri_str)
-        location = "http://" + orig_uri.host + location
-      end
-
-      get_original_url(location, limit - 1)
+  
+  def get_original_url(doi, limit = 10)
+    conn = Faraday.new(:url => "http://dx.doi.org") do |faraday|
+      faraday.use FaradayMiddleware::FollowRedirects, :limit => limit
+      faraday.use :cookie_jar
+      faraday.adapter Faraday.default_adapter
+    end
+    
+    response = conn.head doi
+    # Some publishers respond with a 403 error for the original URL
+    if response.status == 200 or (401..403) === response.status
+      response.env[:url].to_s
     else
       ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "Could not get the full url for #{uri_str}. #{response.message}, #{response.body}", 
-                          :status => response.code)
+                          :message => "Could not get the full URL for #{doi}, received #{response.env[:url].to_s} as last URL.", 
+                          :status => response.status)
       return ""
     end
   end
@@ -169,8 +164,8 @@ module SourceHelper
       Rails.logger.debug "[#{key}] = '#{value}']"
     end
 
-    # Store error_message and return empty body unless response is 2xx, 3xx or 404, don't raise an error
-    if [Net::HTTPSuccess, Net::HTTPOK, Net::HTTPRedirection, Net::HTTPNotFound].include?(response.class)
+    # Store error_message and return empty body unless response is 2xx or 404, don't raise an error
+    if response.kind_of?(Net::HTTPSuccess) or response.kind_of?(Net::HTTPNotFound)
       return response.body
     else
       ErrorMessage.create(:exception => "", :class_name => response.class.to_s,

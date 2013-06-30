@@ -8,13 +8,6 @@ describe Facebook do
     facebook.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
   
-  it "should get the original url from the doi" do
-     article_without_url = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001", :url => "")
-     stub_original_url_lookup = stub_request(:get, article_without_url.doi_as_url).to_return(:status => 200, :body => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
-     facebook.get_original_url(article_without_url.doi_as_url).should be_true
-     stub_original_url_lookup.should have_been_requested
-   end
-  
   context "use the Facebook API" do    
     it "should report if there are no events and event_count returned by the Facebook API" do
       article = FactoryGirl.build(:article, :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")

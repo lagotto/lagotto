@@ -1,4 +1,6 @@
 class Admin::SourcesController < Admin::ApplicationController
+
+  load_and_authorize_resource Source 
   
   def show
     @source = Source.find_by_name(params[:id])

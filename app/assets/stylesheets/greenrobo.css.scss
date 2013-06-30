@@ -30,6 +30,7 @@ th.number, td.number { width: 120px; text-align: right; }
 .btn-toolbar { padding-left: 6px; }
 h1 { font-size: 32px; line-heigth: 36px;}
 h2 { font-size: 24px; line-heigth: 28px;}
+h3 { font-size: 18px; line-heigth: 21px;}
 h3 .icon-file, .icon-tags, .icon-wrench, .icon-list, .icon-download, .icon-flag, .icon-warning-sign, .icon-tasks, .icon-time { vertical-align: 2px; }
 h3, h4, h5 { margin-bottom: 1px; }
 h1 img { vertical-align: 2px; }
@@ -40,6 +41,21 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .dashboard-label { padding-top: 3em; }
 .signpost { font-size: 32px; font-weight:bold; margin: 0; }
 .border-bottom { border-bottom: 1px solid #eee; }
+.menu-icon { vertical-align: -2px; }
+.field-icon { vertical-align: -1px; }
+.github { padding-top: 0.5em; padding-bottom: 1em; }
+.sidebar-nav-fixed {
+    padding: 9px 0;
+    position:fixed;
+    right:50px;
+    top:50px;
+}
+.sidebar-nav-fixed-lower {
+    padding: 9px 0;
+    position:relative;
+    right:-50px;
+    top:50px;
+}
 
 .chart div {
   background-color: white;
@@ -134,3 +150,25 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 }
 
 #totals {font-size: smaller; }
+
+.markdown table {
+    border:1px solid rgba(0,0,0,0.25);
+    border-collapse:collapse;
+    display:table;
+    empty-cells:hide;
+    margin:-1px 0 23px;
+    padding:0;
+    table-layout:fixed
+}
+.markdown td,th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 13px;
+    padding-right: 13px;
+}
+.markdown table tr:nth-child(odd) {
+    background:rgba(248,248,248,0.06)
+}
+.markdown table tr:nth-child(even) {
+    background:rgba(0,0,0,0.06)
+}

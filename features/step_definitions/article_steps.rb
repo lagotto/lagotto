@@ -33,8 +33,11 @@ end
 
 ### GIVEN ###
 Given /^there is an article$/ do
-  delete_article
-  create_article
+  @article = FactoryGirl.create(:article_with_events)
+end
+
+Given(/^there is an article with the DOI "(.*?)"$/) do |doi|
+  FactoryGirl.create(:article_with_events, :doi => doi)
 end
 
 Given /^that we have (\d+) articles$/ do |number|
@@ -49,6 +52,14 @@ end
 When /^I add the article with all required information$/ do
   delete_article
   create_article
+end
+
+When(/^I go to the article$/) do
+  visit article_path(@article)
+end
+
+When(/^I go to the article with the DOI "(.*?)"$/) do |doi|
+  visit article_path(article.doi)
 end
 
 When /^I go to the article with the DOI "(.*?)" and no other identifiers$/ do |doi|
@@ -71,7 +82,7 @@ Then /^I should see a list of articles$/ do
   page.has_css?('div.span12').should be_true
 end
 
-Then /^I should see a list of (\d+) articles$/ do |number|
+Then /^I should see a list of (\d+) article[s]?$/ do |number|
   page.driver.render("tmp/capybara/#{number}.png")
   page.has_css?('div.span12', :visible => true, :count => number.to_i).should be_true
 end
@@ -100,4 +111,8 @@ end
 
 Then /^I should not see the "(.*?)" for the article$/ do |label|
   page.has_no_css?('dt', :text => label).should be_true
+end
+
+Then(/^I should see the "(.*?)" chart$/) do |title|
+   page.find(:xpath, "//div[@id='#{title}']/*[name()='svg']").should be_true
 end

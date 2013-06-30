@@ -1,5 +1,7 @@
 class Admin::ApiRequestsController < Admin::ApplicationController
   
+  load_and_authorize_resource ErrorMessage 
+  
   def index
     api_requests = ApiRequest.where("created_at > NOW() - INTERVAL 42 DAY")
     @data = api_requests.map { |api_request| { "url" => api_request.path[17..100],

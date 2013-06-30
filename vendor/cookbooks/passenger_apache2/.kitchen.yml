@@ -1,0 +1,53 @@
+---
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
+  customize:
+    memory: 768
+
+platforms:
+- name: ubuntu-12.04
+  driver_config:
+    box: opscode-ubuntu-12.04
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
+  run_list:
+  - recipe[apt]
+
+- name: ubuntu-10.04
+  driver_config:
+    box: opscode-ubuntu-10.04
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box
+  run_list:
+  - recipe[apt]
+
+- name: centos-6.4
+  driver_config:
+    box: opscode-centos-6.4
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box
+
+- name: centos-5.9
+  driver_config:
+    box: opscode-centos-5.9
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box
+
+suites:
+- name: default
+  run_list:
+  - recipe[passenger_apache2]
+  attributes: {}
+
+- name: package
+  run_list:
+  - recipe[passenger_apache2_test::package]
+  - recipe[passenger_apache2]
+  excludes: ["centos-5.9", "centos-6.4"]
+  attributes: {}
+
+- name: version-override
+  run_list:
+  - recipe[passenger_apache2]
+  excludes: ["centos-5.9", "centos-6.4", "ubuntu-10.04"]
+  attributes:
+    passenger:
+      version: "4.0.5"
+      module_path: "/opt/chef/embedded/lib/ruby/gems/1.9.1/gems/passenger-4.0.5/libout/apache2/mod_passenger.so"

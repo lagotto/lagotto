@@ -1,6 +1,10 @@
 ### GIVEN ###
-Given /^that we have (\d+) error message$/ do |number|
+Given /^we have (\d+) error message$/ do |number|
   FactoryGirl.create_list(:error_message, number.to_i)
+end
+
+Given /^we have (\d+) resolved error messages$/ do |number|
+  FactoryGirl.create_list(:error_message, number.to_i, unresolved: false)
 end
 
 ### WHEN ###
@@ -25,6 +29,10 @@ end
 
 Then /^I should see the "(.*?)" error message$/ do |error_message|
   page.should have_content error_message
+end
+
+Then /^I should see the "(.*?)" error$/ do |error|
+  page.should have_content error
 end
 
 Then /^I should see the "(.*?)" class name$/ do |class_name|

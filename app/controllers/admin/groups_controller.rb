@@ -1,5 +1,7 @@
 class Admin::GroupsController < Admin::ApplicationController
   
+  load_and_authorize_resource ErrorMessage 
+  
   # GET /groups
   def index
     @groups = Group.order("name")

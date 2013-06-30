@@ -44,3 +44,7 @@ template "#{node['apache']['dir']}/mods-available/passenger.conf" do
   group 'root'
   mode 0644
 end
+
+apache_module 'passenger' do
+  module_path node['passenger']['module_path']
+end

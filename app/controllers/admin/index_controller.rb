@@ -18,6 +18,8 @@
 
 class Admin::IndexController < Admin::ApplicationController
   
+  load_and_authorize_resource ErrorMessage 
+  
   def index
     if request.xhr?
       @articles_count = Article.count

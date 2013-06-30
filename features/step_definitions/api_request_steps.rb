@@ -1,7 +1,7 @@
 require 'source_helper'
 
 ### GIVEN ###
-Given /^that we have (\d+) API requests$/ do |number|
+Given /^we have (\d+) API requests$/ do |number|
   FactoryGirl.create_list(:api_request, number.to_i)
 end
 

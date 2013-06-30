@@ -2,7 +2,7 @@ var doi = d3.select("dd#doi").attr('data-doi');
 
 function getformat_date(d) { return new Date(d.year, d.month); }
 
-d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(data) {
+d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key, function(data) {
 
   var l = 20; // left margin
   var r = 50; // right margin
