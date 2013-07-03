@@ -1,6 +1,6 @@
 class Admin::UsersController < Admin::ApplicationController
   
-  load_and_authorize_resource User
+  load_and_authorize_resource
 
   respond_to :html, :js
   

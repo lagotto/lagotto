@@ -18,7 +18,7 @@
 
 class Admin::IndexController < Admin::ApplicationController
   
-  load_and_authorize_resource ErrorMessage 
+  authorize_resource :class => false
   
   def index
     if request.xhr?

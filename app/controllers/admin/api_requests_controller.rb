@@ -1,6 +1,6 @@
 class Admin::ApiRequestsController < Admin::ApplicationController
   
-  load_and_authorize_resource ErrorMessage 
+  load_and_authorize_resource 
   
   def index
     api_requests = ApiRequest.where("created_at > NOW() - INTERVAL 42 DAY")
