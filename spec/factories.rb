@@ -296,6 +296,14 @@ FactoryGirl.define do
   factory :user do
     sequence(:username) {|n| "joesmith#{n}" }
     sequence(:name) {|n| "Joe Smith#{n}" }
+    email "joe@example.com"
+    password "joesmith"
+    authentication_token "q9pWP8QxzkR24Mvs9BEy"
+    role "admin"
+
+    factory :api_user do
+      role "user"
+    end
   end
   
   factory :error_message do
