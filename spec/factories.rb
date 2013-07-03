@@ -37,6 +37,10 @@ FactoryGirl.define do
     factory :article_with_researchblogging_citations do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_researchblogging)] }
     end
+
+        factory :article_with_scopus_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_scopus)] }
+    end
   end
   
   factory :group do
@@ -70,6 +74,7 @@ FactoryGirl.define do
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }
     trait(:with_researchblogging) { association :source, factory: :researchblogging }
+    trait(:with_scopus) { association :source, factory: :scopus }
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
     
@@ -300,10 +305,6 @@ FactoryGirl.define do
     password "joesmith"
     authentication_token "q9pWP8QxzkR24Mvs9BEy"
     role "admin"
-
-    factory :api_user do
-      role "user"
-    end
   end
   
   factory :error_message do

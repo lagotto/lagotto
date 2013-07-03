@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
          :token_authenticatable, :omniauthable, :omniauth_providers => [:github]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :login, :role, :api_key
   
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
@@ -51,8 +51,6 @@ class User < ActiveRecord::Base
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
-  attr_accessible :login
-
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     login = conditions.delete(:login)
@@ -64,12 +62,15 @@ class User < ActiveRecord::Base
     (role == "admin")
   end
 
+  def api_key
+    authentication_token
+  end
+
   protected
   
   def set_role
-    # The first user we create has an admin role
-    role = User.count > 1 ? "user" : "admin"
-    self.update_attributes(:role => role)
+    # The first user we create has an admin role unless it is in the test environment
+    self.update_attributes(:role => "admin") if (User.count == 1 and !Rails.env.test?)
   end
 
   # Attempt to find a user by it's email. If a record is found, send new

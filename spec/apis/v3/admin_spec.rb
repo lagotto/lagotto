@@ -8,7 +8,7 @@ describe "/api/v3/articles" do
       let(:params) {{ "article" => { "doi" => "10.1371/journal.pone.0036790",
                                      "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                                      "published_on" => "2012-05-15" }}}
-      let(:uri) { "/api/v3/articles?api_key=#{user.authentication_token}"}
+      let(:uri) { "/api/v3/articles?api_key=#{user.api_key}"}
 
       it "JSON" do
         post uri, params, { 'HTTP_ACCEPT' => "application/json" }
@@ -30,11 +30,11 @@ describe "/api/v3/articles" do
     end
 
     context "as regular user" do
-      let(:user) { FactoryGirl.create(:api_user) }
+      let(:user) { FactoryGirl.create(:user, :role => "user") }
       let(:params) {{ "article" => { "doi" => "10.1371/journal.pone.0036790",
                                      "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                                      "published_on" => "2012-05-15" }}}
-      let(:uri) { "/api/v3/articles?api_key=#{user.authentication_token}"}
+      let(:uri) { "/api/v3/articles?api_key=#{user.api_key}"}
       let(:error) {{"error"=>"You are not authorized to access this page."}}
 
       it "JSON" do
@@ -84,7 +84,7 @@ describe "/api/v3/articles" do
       let(:params) {{ "article" => { "doi" => "10.1371/journal.pone.0036790",
                                      "title" => nil,
                                      "published_on" => "2012-05-15" }}}
-      let(:uri) { "/api/v3/articles?api_key=#{user.authentication_token}"}
+      let(:uri) { "/api/v3/articles?api_key=#{user.api_key}"}
 
       it "JSON" do
         post uri, params, { 'HTTP_ACCEPT' => "application/json" }
@@ -113,7 +113,7 @@ describe "/api/v3/articles" do
       let(:params) {{ "article" => { "doi" => article.doi,
                                      "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                                      "published_on" => "2012-05-15" }}}
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.authentication_token}"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}"}
 
       it "JSON" do
         put uri, params, { 'HTTP_ACCEPT' => "application/json" }
@@ -135,12 +135,12 @@ describe "/api/v3/articles" do
     end
 
     context "as regular user" do
-      let(:user) { FactoryGirl.create(:api_user) }
+      let(:user) { FactoryGirl.create(:user, :role => "user") }
       let(:article) { FactoryGirl.create(:article) }
       let(:params) {{ "article" => { "doi" => article.doi,
                                      "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                                      "published_on" => "2012-05-15" }}}
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.authentication_token}"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}"}
       let(:error) {{"error"=>"You are not authorized to access this page."}}
 
       it "JSON" do
@@ -166,7 +166,7 @@ describe "/api/v3/articles" do
       let(:params) {{ "article" => { "doi" => article.doi,
                                      "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                                      "published_on" => "2012-05-15" }}}
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.authentication_token}"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=12345"}
       let(:error) {{"error"=>"You are not authorized to access this page."}}
 
       it "JSON" do
@@ -191,7 +191,7 @@ describe "/api/v3/articles" do
     context "as admin user" do
       let(:user) { FactoryGirl.create(:user) }
       let(:article) { FactoryGirl.create(:article) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.authentication_token}"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}"}
 
       it "JSON" do
         delete uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -213,9 +213,9 @@ describe "/api/v3/articles" do
     end
 
     context "as regular user" do
-      let(:user) { FactoryGirl.create(:api_user) }
+      let(:user) { FactoryGirl.create(:user, :role => "user") }
       let(:article) { FactoryGirl.create(:article) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.authentication_token}"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}"}
       let(:error) {{"error"=>"You are not authorized to access this page."}}
 
       it "JSON" do
@@ -238,7 +238,7 @@ describe "/api/v3/articles" do
     context "with wrong API key" do
       let(:user) { FactoryGirl.create(:user) }
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.authentication_token}"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=12345"}
       let(:error) {{"error"=>"You are not authorized to access this page."}}
 
       it "JSON" do
