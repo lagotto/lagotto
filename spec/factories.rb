@@ -211,6 +211,7 @@ FactoryGirl.define do
     name "scopus"
     display_name "Scopus"
     active true
+    private true
     username "EXAMPLE"
     salt "EXAMPLE"
     partner_id "EXAMPLE"
@@ -249,6 +250,7 @@ FactoryGirl.define do
     name "wos"
     display_name "Web of Science"
     active true
+    private true
     url "https://ws.isiknowledge.com/cps/xrpc"
 
     group
