@@ -59,12 +59,20 @@ class User < ActiveRecord::Base
     where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.strip.downcase }]).first
   end
 
+  # Helper method to check for admin user
+  def admin?
+    (role == "admin")
+  end
+
+  def api_key
+    authentication_token
+  end
+
   protected
   
   def set_role
-    # The first user we create has an admin role
-    role = User.count > 1 ? "user" : "admin"
-    self.update_attributes(:role => role)
+    # The first user we create has an admin role unless it is in the test environment
+    self.update_attributes(:role => "admin") if (User.count == 1 and !Rails.env.test?)
   end
 
   # Attempt to find a user by it's email. If a record is found, send new
