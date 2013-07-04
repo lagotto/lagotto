@@ -1,1 +1,1 @@
-### [[Home]] | [[Installation]] | [[Setup]] | [[Sources]] | [[API]] | [[Rake]] | [[FAQ]] | [[Version History]] | [[Roadmap]] | [[Past Contributors]]
+### [[Home]] | [[Installation]] | [[Setup]] | [[Sources]] | [[API]] | [[Rake]] | [[Errors]] | [[FAQ]] | [[Roadmap]] | [[Past Contributors]]
