@@ -35,8 +35,8 @@ var charts = [
       .dimension(date)
       .group(dates)
       .round(d3.time.day.round)
-      .x(d3.time.scale.utc()
-      .domain([new Date(new Date().getTime() - 42 * 24 * 60 * 60 * 1000), new Date()])
+      .x(d3.time.scale()
+      .domain(d3.extent(data, function(d) { return d.date; }))
       .rangeRound([0, 10 * 30])),
       
   barChart()
