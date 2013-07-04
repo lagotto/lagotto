@@ -3,7 +3,7 @@ class Admin::ApiRequestsController < Admin::ApplicationController
   load_and_authorize_resource 
   
   def index
-    api_requests = ApiRequest.where("created_at > NOW() - INTERVAL 42 DAY")
+    api_requests = ApiRequest.order("created_at DESC").limit(50000)
     @data = api_requests.map { |api_request| { "url" => api_request.path[17..100],
                                                "db_duration" => api_request.db_duration,
                                                "view_duration" => api_request.view_duration, 

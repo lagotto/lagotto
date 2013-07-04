@@ -1,3 +1,39 @@
+## v2.3.0:
+
+### New Feature
+
+- [COOK-2924]: Yum should allow type setting in repo file
+
+## v2.2.4:
+
+### Bug
+
+- [COOK-2360]: last commit to `yum_repository` changes previous behaviour
+- [COOK-3015]: Yum cookbook test minitest to fail
+
+## v2.2.2:
+
+### Improvement
+
+- [COOK-2741]: yum::elrepo
+- [COOK-2946]: update tests, test kitchen support in yum cookbook
+
+### Bug
+
+- [COOK-2639]: Yum cookbook - epel - always assumes url is a mirror list
+- [COOK-2663]: Yum should allow metadata_expire setting in repo file
+- [COOK-2751]: Update yum.ius_release version to 1.0-11
+
+## v2.2.0:
+
+* [COOK-2189] - yum::ius failed on install (caused from rpm dependency)
+* [COOK-2196] - Make includepkgs and exclude configurable for each repos
+* [COOK-2244] - Allow configuring caching using attributes
+* [COOK-2399] - yum cookbook LWRPs fail FoodCritic
+* [COOK-2519] - Add priority option to Yum repo files
+* [COOK-2593] - allow integer or string for yum priority
+* [COOK-2643] - don't use conditional attribute for `yum_key` `remote_file`
+
 ## v2.1.0:
 
 * [COOK-2045] - add remi repository recipe

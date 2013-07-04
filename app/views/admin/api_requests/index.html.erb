@@ -5,12 +5,12 @@
   
   <div class="row">
     <div class="span12">
-      Number and duration of API requests in the last 6 weeks. Filter by <a href="javascript:filter([null, null, null, [0, 100]])">fast</a> or <a href="javascript:filter([null, null, null, [1000, 50000]])">slow</a> responses, or by responses from <a href="javascript:filter([[new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000), new Date()], null, null, null])">today</a>.
+      Duration of the last 50,000 API requests. Filter by <a href="javascript:filter([null, null, null, [0, 100]])">fast</a> or <a href="javascript:filter([null, null, null, [1000, 50000]])">slow</a> responses, or by responses from <a href="javascript:filter([[new Date(new Date().getTime() - 1 * 60 * 60 * 1000), new Date()], null, null, null])">the last hour</a>.
     </div>
 
     <div id="charts">
       <div id="date-chart" class="span6 req-chart">
-        <h5>Date</h5>
+        <h5>Date and Time</h5>
       </div>
       <div id="db-chart" class="span6 req-chart">
         <h5>Database Duration (ms)</h5>
