@@ -1,7 +1,7 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    apache2 (1.6.2)
+    apache2 (1.6.6)
     apt (1.7.0)
     build-essential (1.3.2)
     chef_handler (1.1.4)
@@ -25,14 +25,14 @@ SITE
     openssl (1.0.2)
     phantomjs (0.0.10)
     runit (0.16.2)
-    windows (1.8.10)
+    windows (1.10.0)
       chef_handler (>= 0.0.0)
-    yum (2.2.0)
+    yum (2.3.0)
 
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: c93cb5ce79068009e2e95f29068caca6e08fbdbe
+  sha: 0a478aac2f89250b381127dfd7eb99939f376e79
   specs:
     alm (1.0.3)
       build-essential (>= 0.0.0)

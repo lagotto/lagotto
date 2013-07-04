@@ -3,7 +3,7 @@
 
 # Load default admin user
 if Rails.env != "production"
-  User.create(:username => "articlemetrics", :name => "Admin", :password => "articlemetrics", :password_confirmation => "articlemetrics") if User.count == 0
+  User.create(:username => "<%= node[:alm][:admin][:username] %>", :name => "<%= node[:alm][:admin][:name] %>", :email => "<%= node[:alm][:admin][:email] %>", :password => "<%= node[:alm][:admin][:password] %>", :password_confirmation => "<%= node[:alm][:admin][:password] %>") if User.count == 0
 end
 
 # Load default groups
@@ -54,6 +54,7 @@ wos = Wos.find_or_create_by_name(
 	:display_name => "Web of Science", 
   :description => "Web of Science is an online academic citation index.",
 	:active => <%= node[:alm][:wos][:url] == "EXAMPLE" ? false : true %>, 
+  :private => 1,
 	:workers => 1,
 	:group_id => citations.id,
 	:url => "<%= node[:alm][:wos][:url] %>" )
@@ -71,14 +72,14 @@ counter = Counter.find_or_create_by_name(
   :url => "<%= node[:alm][:counter][:url] %>")
   
 scopus = Scopus.find_or_create_by_name(  
-	:name => "scopus", 
-	:display_name => "Scopus", 
+  :name => "scopus", 
+  :display_name => "Scopus", 
   :description => "The world's largest abstract and citation database of peer-reviewed literature.",
-	:active => <%= node[:alm][:scopus][:api_key] == "EXAMPLE" ? false : true %>, 
-	:workers => 1,
-	:group_id => citations.id,
-	:url => "<%= node[:alm][:scopus][:url] %>",
-  :api_key => "<%= node[:alm][:scopus][:api_key] %>",
+  :active => <%= node[:alm][:scopus][:salt] == "EXAMPLE" ? false : true %>, 
+  :workers => 1,
+  :group_id => citations.id,
+  :username => "<%= node[:alm][:scopus][:username] %>",
+  :salt => "<%= node[:alm][:scopus][:salt] %>",
   :partner_id => "<%= node[:alm][:scopus][:partner_id] %>")
 <% end -%>
 
