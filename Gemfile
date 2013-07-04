@@ -25,6 +25,7 @@ gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.1.0"
 gem "rabl", "~> 0.8.0"
+gem "dalli", "~> 2.6.4"
 
 gem "d3_rails", "~> 3.0.8"
 gem "crossfilter-rails", "~> 1.1.0"
