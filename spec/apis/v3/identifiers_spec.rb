@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe "/api/v3/articles" do
-  let(:error) { { "error" => "No article found."} }
+  let(:error) { { "error" => "Article not found."} }
   
   context "missing api_key" do
     let(:article) { FactoryGirl.create(:article_with_events) }
@@ -68,7 +68,7 @@ describe "/api/v3/articles" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
         
-        response = Nori.new.parse(last_response.body)
+        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
         response = response["articles"]["article"]
         response.length.should eql(50)
         response.any? do |article|
@@ -100,7 +100,7 @@ describe "/api/v3/articles" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
         
-        response = Nori.new.parse(last_response.body)
+        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
         response = response["articles"]["article"]
         response.length.should eql(50)
         response.any? do |article|
@@ -218,7 +218,7 @@ describe "/api/v3/articles" do
         last_response.status.should eql(200)
         
         response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
-        response = response["articles"]["article"][0]
+        response = response["articles"]["article"]
         response["doi"].should_not be_nil
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response["pmcid"].should eql(article.pub_med_central.to_s)
@@ -243,7 +243,7 @@ describe "/api/v3/articles" do
         last_response.status.should eql(200)
 
         response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
-        response = response["articles"]["article"][0]
+        response = response["articles"]["article"]
         response["doi"].should_not be_nil
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response["mendeley"].should eql(article.mendeley)
