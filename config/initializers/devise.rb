@@ -125,7 +125,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length. Default is 6..128.
-  # config.password_length = 6..128
+  config.password_length = 6..128
 
   # Email regex used to validate email formats. It simply asserts that
   # an one (and only one) @ exists in the given string. This is mainly
@@ -211,7 +211,7 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :github, APP_CONFIG['github_client_id'], APP_CONFIG['github_client_secret'], :scope => 'email'
+  config.omniauth :github, APP_CONFIG['github_client_id'], APP_CONFIG['github_client_secret'], :scope => 'user'
   OmniAuth.config.logger = Rails.logger
 
   # ==> Warden configuration

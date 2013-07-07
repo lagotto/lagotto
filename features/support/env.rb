@@ -72,8 +72,7 @@ Before do
   OmniAuth.config.test_mode = true
   omni_hash = { :provider => "github",
                 :uid => "12345",
-                :info => { "email" => "joe@example.com", "nickname" => "joesmith" },
-                :extra => { "raw_info" => { "name" => "Joe Smith" }}}
+                :info => { "email" => "joe@example.com", "nickname" => "joesmith", "name" => "Joe Smith" }}
   OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(omni_hash)
 end
  

@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
          :token_authenticatable, :omniauthable, :omniauth_providers => [:github]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token
   
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
@@ -38,12 +38,13 @@ class User < ActiveRecord::Base
   def self.find_for_github_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     unless user
-      user = User.create(:username => auth.info.nickname,
-                         :provider => auth.provider,
-                         :uid => auth.uid,
-                         :name => auth.extra.raw_info.name,
-                         :email => auth.info.email)
+      user = User.create!(:username => auth.info.nickname,
+                          :name => auth.info.name,
+                          :authentication_token => auth.token,
+                          :provider => auth.provider,
+                          :uid => auth.uid)
     end
+
     user
   end
   
@@ -73,6 +74,15 @@ class User < ActiveRecord::Base
   def set_role
     # The first user we create has an admin role unless it is in the test environment
     self.update_attributes(:role => "admin") if (User.count == 1 and !Rails.env.test?)
+  end
+
+  # Don't require email or password, as we also use OAuth
+  def email_required?
+    false
+  end
+
+  def password_required?
+    false
   end
 
   # Attempt to find a user by it's email. If a record is found, send new

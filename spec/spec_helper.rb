@@ -41,6 +41,8 @@ RSpec.configure do |config|
                   :info => { "email" => "joe@example.com", "nickname" => "joesmith" },
                   :extra => { "raw_info" => { "name" => "Joe Smith" }}}
     OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(omni_hash)
+    request.env["devise.mapping"] = Devise.mappings[:user] 
+    request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:github] 
     
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with :truncation
