@@ -1,6 +1,6 @@
 class Admin::ResponsesController < Admin::ApplicationController
   
-  load_and_authorize_resource ErrorMessage 
+  load_and_authorize_resource :error_message, :parent => false
   
   def index
     if request.xhr?

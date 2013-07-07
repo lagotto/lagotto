@@ -40,12 +40,8 @@ Given /^I am logged in$/ do
 end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
-  # First user is always admin
-  FactoryGirl.create(:user) if role != "admin"
-  
+  FactoryGirl.create(:user, :role => role)
   visit '/users/auth/github'
-  @user = User.order("created_at DESC").first
-  @user.update_attributes(:role => role)
 end
 
 Given /^I exist as a user$/ do

@@ -36,7 +36,7 @@
         </div>  
         <div id="user_<%= user.username %>" class="accordion-body collapse">  
           <div class="accordion-inner">
-            <% if can?(:manage, ErrorMessage) and user.username != current_user.username %>
+            <% if can?(:manage, User) and user.username != current_user.username %>
               <div class="btn-group pull-right">
                 <%= link_to "<i class=\"icon-trash\"></i> Delete".html_safe, admin_user_path(user.username, :query => params[:query], :role => params[:role]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{user.username}-delete" %>
                 <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" id='<%= "#{user.username}-update" %>'>

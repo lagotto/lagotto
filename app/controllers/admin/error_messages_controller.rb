@@ -1,6 +1,6 @@
 class Admin::ErrorMessagesController < Admin::ApplicationController
   
-  load_and_authorize_resource ErrorMessage 
+  load_and_authorize_resource 
   
   def index
     collection = ErrorMessage

@@ -1,9 +1,8 @@
 class Admin::SourcesController < Admin::ApplicationController
-
-  load_and_authorize_resource Source 
+  before_filter :load_source, :only => [ :show, :edit, :update ]
+  load_and_authorize_resource 
   
   def show
-    @source = Source.find_by_name(params[:id])
     respond_with do |format|
       format.html do
         if request.xhr?  
@@ -36,7 +35,6 @@ class Admin::SourcesController < Admin::ApplicationController
   end
 
   def edit
-    @source = Source.find_by_name(params[:id])
     respond_with(@source) do |format|  
       format.js { render :show }
     end
@@ -44,10 +42,14 @@ class Admin::SourcesController < Admin::ApplicationController
 
 
   def update
-    @source = Source.find_by_name(params[:id])
     @source.update_attributes(params[:source])   
     respond_with(@source) do |format|  
       format.js { render :show }
     end
+  end
+
+  protected
+  def load_source
+    @source = Source.find_by_name(params[:id])
   end
 end

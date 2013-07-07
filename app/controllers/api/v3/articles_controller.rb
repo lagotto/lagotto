@@ -16,10 +16,13 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     @articles = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).order("articles.updated_at DESC").decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
     
     # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
-    if source_ids.blank?
-      @error = "Source not found."
-    else
-      @error = "Article not found."
+    if @articles.blank?
+      if params[:source].blank?
+        @error = "Article not found."
+      else
+        @error = "Source not found."
+      end
+      render "error", :status => :not_found 
     end
   end
   
@@ -32,10 +35,10 @@ class Api::V3::ArticlesController < Api::V3::BaseController
 
     # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
     if @article.blank?
-      if source_ids.blank?
-        @error = "Source not found."
-      else
+      if params[:source].blank?
         @error = "Article not found."
+      else
+        @error = "Source not found."
       end
       render "error", :status => :not_found 
     end
