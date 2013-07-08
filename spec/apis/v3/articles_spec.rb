@@ -3,7 +3,7 @@ require "spec_helper"
 describe "/api/v3/articles" do
   
   context "index" do
-    let(:articles) { FactoryGirl.create_list(:article, 55) }
+    let(:articles) { FactoryGirl.create_list(:article_with_events, 55) }
     
     context "more than 50 articles in query" do
       before(:each) do

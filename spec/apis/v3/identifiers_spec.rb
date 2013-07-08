@@ -32,7 +32,7 @@ describe "/api/v3/articles" do
   end
   
   context "index" do
-    let(:articles) { FactoryGirl.create_list(:article, 50) }
+    let(:articles) { FactoryGirl.create_list(:article_with_events, 50) }
     
     context "articles found via DOI" do
       before(:each) do
