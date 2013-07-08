@@ -1,6 +1,6 @@
 class Api::V3::ArticlesController < Api::V3::BaseController
   before_filter :load_article, :only => [ :update, :destroy ]
-  load_and_authorize_resource :except => :show
+  #load_and_authorize_resource :except => [ :show, :index ]
 
   def index
     # Filter by source parameter, filter out private sources unless admin
@@ -46,6 +46,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
 
   def create
     @article = Article.new(params[:article])
+    authorize! :create, @article
 
     if @article.save
       @success = "Article created."
@@ -59,6 +60,8 @@ class Api::V3::ArticlesController < Api::V3::BaseController
   end
 
   def update
+    authorize! :update, @article
+
     if @article.blank?
       @error = "No article found."
       @article = @id_hash
@@ -75,6 +78,8 @@ class Api::V3::ArticlesController < Api::V3::BaseController
   end
 
   def destroy
+    authorize! :destroy, @article
+
     if @article.blank?
       @error = "No article found."
       @article = @id_hash
