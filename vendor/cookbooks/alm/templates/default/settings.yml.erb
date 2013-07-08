@@ -13,7 +13,7 @@ defaults: &defaults
   rest_auth_digest_stretches: 10
   session_secret: <%= node[:alm][:secret] %>
   github_client_id: <%= node[:alm][:github_client_id] %>
-  github_secret: <%= node[:alm][:github_secret] %>
+  github_client_secret: <%= node[:alm][:github_client_secret] %>
   layout: <%= node[:alm][:layout] %>
   couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:alm][:name] %>/
   doi_prefix: <%= node[:alm][:doi_prefix] %>
