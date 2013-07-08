@@ -1,3 +1,4 @@
+@javascript
 Feature: See sparklines for article
   In order to make sure that we collect metrics correctly
   We should be able to see the events for an article
@@ -7,12 +8,10 @@ Feature: See sparklines for article
     And the source "Citeulike" exists
     And there is an article
     
-    @javascript
     Scenario: See numbers
       When I go to the article
       Then I should see 50 bookmarks
     
-    # @javascript
     #   Scenario Outline: See monthly chart
     #   When I go to the article
     #   And click on the "<Range>" tab

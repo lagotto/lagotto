@@ -32,7 +32,7 @@ Given /^we have user "(.*?)" with name "(.*?)"$/ do |username, name|
 end
 
 Given /^I am not logged in$/ do
-  visit '/sign_out'
+  visit '/users/sign_out'
 end
 
 Given /^I am logged in$/ do
@@ -58,7 +58,7 @@ When /^I sign in$/ do
 end
 
 When /^I sign out$/ do
-  visit '/sign_out'
+  visit '/users/sign_out'
 end
 
 When /^I return to the site$/ do
@@ -70,8 +70,8 @@ When /^I go to my account page$/ do
 end
 
 When /^I click on user "(.*?)"$/ do |username|
-  click_link "link_#{username}"
   page.driver.render("tmp/capybara/#{username}.png")
+  click_link "link_#{username}"
 end
 
 When /^I click on the Delete button for user "(.*?)" and confirm$/ do |username|
@@ -102,13 +102,13 @@ Then /^I should not see user "(.*?)"$/ do |username|
 end
 
 Then /^I should be signed in$/ do
-  page.should have_link("Sign Out", :href => "/sign_out")
+  page.should have_link("Sign Out", :href => "/users/sign_out")
   page.should_not have_link("Sign in with Github", :href => "/users/auth/github")
 end
 
 Then /^I should be signed out$/ do
-  page.should have_link("Sign in with Github", :href => "/users/auth/github")
-  page.should_not have_link("Sign Out", :href => "/sign_out")
+  page.should have_link("Sign In", :href => "/users/sign_in")
+  page.should_not have_link("Sign Out", :href => "/users/sign_out")
 end
 
 Then /^I should reach the Sign In page$/ do

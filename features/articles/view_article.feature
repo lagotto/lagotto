@@ -1,9 +1,9 @@
+@javascript
 Feature: View article
   In order to collect metrics
   A user
   Should be able to see identifiers for an article
-    
-    @javascript
+        
     Scenario: No other article identifiers
       When I go to the article with the DOI "10.1371/journal.pone.000001" and no other identifiers
       Then I should see the DOI "10.1371/journal.pone.000001" as a link
@@ -12,8 +12,7 @@ Feature: View article
       And I should not see the "PubMed Central ID" for the article
       And I should not see the "Mendeley UUID" for the article
       And I should not see the "URL" for the article
-      
-    @javascript
+
     Scenario Outline: Article identifiers
       When I go to the article with "<Value>" for "<Identifier>" 
       Then I should see "<Value>" with the "<Label>" for the article

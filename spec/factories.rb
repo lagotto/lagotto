@@ -220,10 +220,12 @@ FactoryGirl.define do
   factory :user do
     sequence(:username) {|n| "joesmith#{n}" }
     sequence(:name) {|n| "Joe Smith#{n}" }
-    email "joe@example.com"
+    sequence(:email) {|n| "joe#{n}@example.com" }
     password "joesmith"
-    authentication_token "q9pWP8QxzkR24Mvs9BEy"
+    sequence(:authentication_token) {|n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
     role "admin"
+    provider "github"
+    uid "12345"
   end
   
   factory :error_message do
