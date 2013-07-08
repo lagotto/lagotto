@@ -30,12 +30,13 @@ Feature: Show errors
       Examples: 
         | Message                 | ClassName               | 
         | The request timed out.  | Net::HTTPRequestTimeOut | 
-    
+        
+    @allow-rescue
     Scenario Outline: Errors
       When I go to "<Path>"
       Then I should see the "<ErrorMessage>" error message
       
       Examples: 
-        | Path        | ErrorMessage                                 |
-        | /articles/x | ActiveRecord::RecordNotFound in ArticlesController#show No record for "x" found |
-        | /x          | Routing Error No route matches [GET] "/x" |
+        | Path        | ErrorMessage                |
+        | /articles/x | No record for "x" found     |
+        | /x          | No route matches [GET] "/x" |
