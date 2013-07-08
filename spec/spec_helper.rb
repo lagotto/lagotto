@@ -28,28 +28,13 @@ RSpec.configure do |config|
   
   config.include Rack::Test::Methods
   
-  config.include Devise::TestHelpers, :type => :controller
-  
   config.include FactoryGirl::Syntax::Methods
   
   config.use_transactional_fixtures = false
   
-  config.before(:suite) do
-    OmniAuth.config.test_mode = true
-    omni_hash = { :provider => "github",
-                  :uid => "12345",
-                  :info => { "email" => "joe@example.com", "nickname" => "joesmith" },
-                  :extra => { "raw_info" => { "name" => "Joe Smith" }}}
-    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(omni_hash)
-    request.env["devise.mapping"] = Devise.mappings[:user] 
-    request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:github] 
-    
+  config.before(:suite) do    
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with :truncation
-  end
-  
-  config.after(:suite) do
-    OmniAuth.config.test_mode = false
   end
 
   config.before(:each) do
