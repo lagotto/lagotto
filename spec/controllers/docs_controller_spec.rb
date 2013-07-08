@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IndexController do
+describe DocsController do
 
   it "GET 'index'" do
     get ""

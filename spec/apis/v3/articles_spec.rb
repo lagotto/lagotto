@@ -27,7 +27,7 @@ describe "/api/v3/articles" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
         
-        response = Nori.new.parse(last_response.body)
+        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
         response = response["articles"]["article"]
         response.length.should eql(50)
         response.any? do |article|
@@ -58,10 +58,11 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response_article = Nokogiri::XML(last_response.body).at_css("article")
-        response_article.content.should include(article.doi)
-        response_article.content.should include(article.published_on.to_time.utc.iso8601)
-        response_article.content.should_not include(article.sources.first.name)
+        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = response["articles"]["article"]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response["sources"].should be_nil
       end
     end
   
@@ -73,10 +74,10 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
-        response_article = JSON.parse(last_response.body)[0]
-        response_source = response_article["sources"][0]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response = JSON.parse(last_response.body)[0]
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_days(110).first.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
@@ -106,10 +107,10 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
-        response_article = JSON.parse(last_response.body)[0]
-        response_source = response_article["sources"][0]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response = JSON.parse(last_response.body)[0]
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_months(4).first.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
@@ -138,10 +139,10 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
-        response_article = JSON.parse(last_response.body)[0]
-        response_source = response_article["sources"][0]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response = JSON.parse(last_response.body)[0]
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2013).first.event_count)
         response_source["events"].should be_nil
         response_source["histories"].should be_nil

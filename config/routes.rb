@@ -1,11 +1,6 @@
 Alm::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
   
-  # devise_scope :user do
-  #   get 'sign_in', :to => 'devise/sessions#new', :as => :new_user_session
-  #   match 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session, :via => Devise.mappings[:user].sign_out_via
-  # end
-  
   root :to => "docs#show"
 
   # constraints is added to allow dot in the url (doi is used to show article)

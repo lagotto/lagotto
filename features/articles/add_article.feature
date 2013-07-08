@@ -1,3 +1,4 @@
+@javascript
 Feature: Add article
   In order to collect metrics
   A user

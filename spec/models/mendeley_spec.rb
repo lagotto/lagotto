@@ -87,6 +87,19 @@ describe Mendeley do
       stub.should have_been_requested
       ErrorMessage.count.should == 0
     end
+
+    it "should filter out the mendeley_authors attribute" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pbio.0020002", :mendeley => "83e9b290-6d01-11df-936c-0026b95e484c")
+      body = File.read(fixture_path + 'mendeley_authors_tag.json')
+      stub = stub_request(:get, mendeley.get_query_url(article.mendeley)).to_return(:body => body, :status => 200)
+      stub_related = stub_request(:get, mendeley.get_related_url(article.mendeley)).to_return(:body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
+      response = mendeley.get_data(article)
+      response[:events].should be_true
+      response[:events]["mendeley_authors"].should be_nil
+      response[:events_url].should be_true
+      response[:event_count].should eq(29)
+      stub.should have_been_requested
+    end
     
     it "should catch errors with the Mendeley API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")

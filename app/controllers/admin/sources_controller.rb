@@ -1,5 +1,5 @@
 class Admin::SourcesController < Admin::ApplicationController
-  before_filter :load_source, :except => [ :index ]
+  before_filter :load_source, :only => [ :show, :edit, :update ]
   load_and_authorize_resource 
   
   def show
@@ -52,5 +52,4 @@ class Admin::SourcesController < Admin::ApplicationController
   def load_source
     @source = Source.find_by_name(params[:id])
   end
-
 end

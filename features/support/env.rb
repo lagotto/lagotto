@@ -68,16 +68,15 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 #   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 # end
 
-Before do
+Before('@javascript') do
   OmniAuth.config.test_mode = true
   omni_hash = { :provider => "github",
                 :uid => "12345",
-                :info => { "email" => "joe@example.com", "nickname" => "joesmith" },
-                :extra => { "raw_info" => { "name" => "Joe Smith" }}}
+                :info => { "email" => "joe@example.com", "nickname" => "joesmith", "name" => "Joe Smith" }}
   OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(omni_hash)
 end
  
-After do
+After('@javascript') do
   OmniAuth.config.test_mode = false
 end
 

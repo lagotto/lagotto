@@ -1,7 +1,6 @@
 class Admin::ArticlesController < Admin::ApplicationController
   before_filter :load_article, :only => [ :show, :edit, :update, :destroy ]
-  
-  load_and_authorize_resource Article
+  load_and_authorize_resource
   
   respond_to :html, :js
   

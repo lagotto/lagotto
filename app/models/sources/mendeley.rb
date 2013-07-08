@@ -50,6 +50,9 @@ class Mendeley < Source
     elsif result.empty? or !result["stats"]
       { :events => [], :event_count => 0 }
     else
+      # remove "mendeley_authors" key, as it is not needed and creates problems in XML: "mendeley_authors" => {"4712245473"=>5860673}
+      result.except!("mendeley_authors")
+
       events_url = result['mendeley_url']
 
       # event count is the reader and group numbers combined

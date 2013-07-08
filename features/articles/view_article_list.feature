@@ -1,9 +1,9 @@
+@javascript
 Feature: View article list
   In order to collect metrics
   A user
-  Should be able to view a list of articles
+  Should be able to view a list of articles 
     
-    @javascript
     Scenario Outline: Article list
       Given that we have <Number> articles
       When I go to the "Articles" page

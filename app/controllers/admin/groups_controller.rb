@@ -1,6 +1,6 @@
 class Admin::GroupsController < Admin::ApplicationController
   
-  load_and_authorize_resource ErrorMessage 
+  load_and_authorize_resource 
   
   # GET /groups
   def index
