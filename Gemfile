@@ -60,7 +60,7 @@ group :test do
   gem "aruba", "~> 0.5.1", :require => false
   gem "poltergeist", "~> 1.2.0"
   gem "minitest", "~> 4.4.0"
-  gem "faye-websocket", "~> 0.4.7"
+  gem "faye-websocket", "~> 0.6.2"
   gem "mocha", "~> 0.13.3", :require => false
 end
 
