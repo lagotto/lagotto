@@ -42,23 +42,23 @@
 <body>
   <div class="container">
     <header>
-      <%= image_tag "plos/plos.png", :class => "hidden-phone" %>
+      <%= link_to (image_tag "plos/plos.png", :class => "hidden-phone"), root_path %>
     </header>
     <div class="navbar">
   	  <div class="navbar-inner">
         <div class="nav-collapse collapse">
-          <% if user_signed_in? %>
+          <% if can? :read, ErrorMessage %>
             <ul class="nav">
               <%= controller.controller_name == "index" ? '<li class="visible-desktop active">'.html_safe : '<li class="visible-desktop">'.html_safe %><%= link_to 'Home', admin_root_path %></li>
             </ul>
           <% end %>
         </div>
   				<ul class="nav">
-            <% if user_signed_in? %>
+            <% if can? :read, ErrorMessage %>
               <%= controller.controller_name == "index" ? '<li class="hidden-desktop active">'.html_safe : '<li class="hidden-desktop">'.html_safe %><%= link_to "Home", admin_root_path %></li>
             <% end %>
   					<%= controller.controller_name == "articles" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", articles_path %></li>
-            <% if user_signed_in? %>
+            <% if can? :read, ErrorMessage %>
               <%= controller.controller_name == "sources" ? '<li class="hidden-desktop active">'.html_safe : '<li class="hidden-desktop">'.html_safe %><%= link_to "Sources", admin_sources_path %></li>
   						<%= controller.controller_name == "sources" ? '<li class="dropdown visible-desktop active">'.html_safe : '<li class="dropdown visible-desktop">'.html_safe %>
   					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sources <b class="caret"></b></a>
@@ -86,7 +86,7 @@
             <span class="icon-bar"></span>
           </a>
           <div class="nav-collapse collapse">
-            <% if user_signed_in? %>
+            <% if can? :read, ErrorMessage %>
               <ul class="nav">
                 <%= controller.controller_name == "delayed_jobs" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Jobs', admin_delayed_jobs_path %></li>
                 <%= controller.controller_name == "responses" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Responses', admin_responses_path %></li>
