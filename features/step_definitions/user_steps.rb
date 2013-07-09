@@ -102,17 +102,17 @@ Then /^I should not see user "(.*?)"$/ do |username|
 end
 
 Then /^I should be signed in$/ do
-  page.should have_link("Sign Out", :href => "/users/sign_out")
-  page.should_not have_link("Sign in with Github", :href => "/users/auth/github")
+  page.should have_css('#sign_out')
+  page.should_not have_css('#sign_in')
 end
 
 Then /^I should be signed out$/ do
-  page.should have_link("Sign In", :href => "/users/sign_in")
-  page.should_not have_link("Sign Out", :href => "/users/sign_out")
+  page.should have_css('#sign_in')
+  page.should_not have_css('#sign_out')
 end
 
 Then /^I should reach the Sign In page$/ do
-  page.should have_link("Sign in with Github", :href => "/users/auth/github")
+  page.should have_css('#sign_in')
 end
 
 Then /^I should not see the "(.*?)" button$/ do |title|

@@ -13,6 +13,7 @@ Feature: See jobs
       When I go to the "Jobs" admin page
       Then I should see the message "Loading page …" disappear
     
+    @not-teamcity
     Scenario: Jobs in dashboard
       When I go to the "Jobs" admin page
       Then the table "JobsTable" should be:

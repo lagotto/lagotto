@@ -21,11 +21,11 @@ require 'github/markdown'
 module ApplicationHelper
   def link_to_setup_or_login
     if APP_CONFIG['github_client_id']
-      link_to "Sign In with Github", user_omniauth_authorize_path(:github) 
+      link_to "Sign In with Github", user_omniauth_authorize_path(:github), :id => "sign_in" 
     elsif User.count > 0
-      link_to "Sign In", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : ''
+      link_to "Sign In", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : '', :id => "sign_in" 
     else
-      link_to 'Sign Up', new_user_registration_path, :class => current_page?(new_user_registration_path) ? 'current' : ''
+      link_to 'Sign Up', new_user_registration_path, :class => current_page?(new_user_registration_path) ? 'current' : '', :id => "sign_in" 
     end
   end
   
