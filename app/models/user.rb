@@ -30,6 +30,7 @@ class User < ActiveRecord::Base
   
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
+  validates :email, :uniqueness => true, :allow_blank => true
   
   default_scope order("sign_in_count DESC, updated_at DESC")
 
