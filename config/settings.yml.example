@@ -29,7 +29,7 @@ defaults: &defaults
   notification_email: alm@alm.example.org
   rest_auth_site_key: #'run `rake secret` to generate a key to insert here'
   rest_auth_digest_stretches: 10
-  session_secret: #'run `rake secret` again to generate a second key to insert here'
+  secret_token: #'run `rake secret` again to generate a second key to insert here'
   github_client_id:
   github_client_secret:
   layout: greenrobo 
