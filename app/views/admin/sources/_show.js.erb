@@ -8,6 +8,9 @@ function updateSource() {
   });
 }
 
-$("#source-show").load(function() {
+$(document).ready(function() {
+  updateSource();
+});
+$(document).load(function() {
   updateSource();
 });

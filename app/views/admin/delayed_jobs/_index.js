@@ -8,6 +8,9 @@ function updateDelayedJobs() {
   });
 }
 
-$("#delayed_jobs").load(function() {
+$(document).ready(function() {
+  updateDelayedJobs();
+});
+$(document).load(function() {
   updateDelayedJobs();
 });

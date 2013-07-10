@@ -8,6 +8,9 @@ function updateResponses() {
   });
 }
 
-$("#responses").load(function() {
+$(document).ready(function() {
+  updateResponses();
+});
+$(document).load(function() {
   updateResponses();
 });
