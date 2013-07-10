@@ -1,16 +1,16 @@
-function update() {
+function updateDelayedJobs() {
   $.ajax({
     url: "/admin/delayed_jobs",
     cache: false
   }).done(function(html){
     $("#delayed_jobs").html(html);
-    window.setTimeout(update, 5000);
+    window.setTimeout(updateDelayedJobs, 5000);
   });
 }
 
 $(document).ready(function() {
-  update();
+  updateDelayedJobs();
 });
 $(document).load(function() {
-  update();
+  updateDelayedJobs();
 });
