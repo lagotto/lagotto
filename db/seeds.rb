@@ -83,6 +83,7 @@ f1000 = F1000.find_or_create_by_name(
   :description => "Post-publication peer review of the biomedical literature.",
   :active => true, 
   :workers => 1,
+  :timeout => 5,
   :group_id => citations.id,
   :url => "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml",
   :filename => "PLOS-intermediate.xml")
