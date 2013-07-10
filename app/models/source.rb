@@ -47,6 +47,7 @@ class Source < ActiveRecord::Base
   
   scope :active, where(:active => true).order("group_id, display_name")
   scope :inactive, where(:active => false).order("group_id, display_name")
+  scope :for_events, where("active = 1 AND name != 'relativemetric'").order("group_id, display_name")
   
   def to_param  # overridden, use name instead of id
     name
