@@ -37,9 +37,6 @@ EPEL attributes used in the `yum::epel` recipe, see
 * `yum['epel']['key']`
     - Name of the GPG key used for the repo.
 
-* `yum['epel']['baseurl']`
-    - Base URL to an EPEL mirror.
-
 * `yum['epel']['url']`
     - URL to the EPEL mirrorlist.
 
@@ -150,7 +147,7 @@ just work without modification in most use cases.
 
 # Resources/Providers
 
-## yum_key
+## key
 
 This LWRP handles importing GPG keys for YUM repositories. Keys can be
 imported by the `url` parameter or placed in `/etc/pki/rpm-gpg/` by a
@@ -181,10 +178,10 @@ yum_key "RPM-GPG-KEY-zenoss" do
 end
 ```
 
-### yum_repository
+### repository
 
 This LWRP provides an easy way to manage additional YUM repositories.
-GPG keys can be managed with the `yum_key` LWRP.  The LWRP automatically
+GPG keys can be managed with the `key` LWRP.  The LWRP automatically
 updates the package management cache upon the first run, when a new
 repo is added.
 
@@ -211,8 +208,6 @@ repo is added.
 - bootstrapurl: Optional, bootstrapurl
 - make_cache: Optional, Default is `true`, if `false` then `yum -q
   makecache` will not be ran
-- metadata_expire: Optional, Default is nil (or not applied)
-- type: Optional, Default is nil (or not applied)
 
 *Note*: When using both url (to set baseurl) and mirrorlist, it is probably a
 good idea to also install the fastestmirror plugin, and use
