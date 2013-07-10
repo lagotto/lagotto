@@ -8,9 +8,6 @@ function updateHome() {
   });
 }
 
-$(document).ready(function() {
-  updateHome();
-});
-$(document).load(function() {
+$("#home").load(function() {
   updateHome();
 });
