@@ -18,6 +18,7 @@ capybara-*.html
 /vendor/bundle/*
 /log/*
 /tmp/*
+/data/*
 /db/*.sqlite3
 /public/system/*
 /coverage/
