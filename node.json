@@ -20,6 +20,7 @@
            "mendeley": { "api_key": "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5" },
            "nature": { "api_key": "7jug74j8rh49n8rbn8atwyec"},
            "pmc": { "url": "http://localhost:5984/pmc_usage_stats/%{doi}", "filepath": "/home/vagrant/pmcdata/" },
+           "f1000": { "url": "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml", "filename": "PLOS-intermediate.xml" },
            "researchblogging": { "username": "plosuser", "password": "siWSaA546pM" },
            "wos": { "url": "https://ws.isiknowledge.com/cps/xrpc" }},
   "phantomjs": { "version": "1.8.1" },

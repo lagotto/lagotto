@@ -71,12 +71,21 @@ scopus = Scopus.find_or_create_by_name(
   :display_name => "Scopus", 
   :description => "The world's largest abstract and citation database of peer-reviewed literature.",
   :active => false, 
-  :private => 1,
   :workers => 1,
   :group_id => citations.id,
   :username => "EXAMPLE",
   :salt => "EXAMPLE",
   :partner_id => "EXAMPLE")
+
+f1000 = F1000.find_or_create_by_name(  
+  :name => "f1000", 
+  :display_name => "F1000Prime", 
+  :description => "Post-publication peer review of the biomedical literature.",
+  :active => true, 
+  :workers => 1,
+  :group_id => citations.id,
+  :url => "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml",
+  :filename => "PLOS-intermediate.xml")
 
 
 crossref = CrossRef.find_or_create_by_name(  

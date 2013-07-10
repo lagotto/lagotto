@@ -90,7 +90,7 @@ f1000 = F1000.find_or_create_by_name(
   :workers => 1,
   :group_id => citations.id,
   :url => "<%= node[:alm][:f1000][:url] %>",
-  :filepath => "<%= node[:alm][:f1000][:filepath] %>")
+  :filename => "<%= node[:alm][:f1000][:filename] %>")
 <% end -%>
 
 <% if node[:alm][:doi_prefix] == "10.5194" -%> 
