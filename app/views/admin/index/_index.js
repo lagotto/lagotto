@@ -1,16 +1,16 @@
-function update() {
+function updateHome() {
   $.ajax({
     url: "/admin",
     cache: false
   }).done(function(html){
     $("#home").html(html);
-    window.setTimeout(update, 5000);
+    window.setTimeout(updateHome, 5000);
   });
 }
 
 $(document).ready(function() {
-  update();
+  updateHome();
 });
 $(document).load(function() {
-  update();
+  updateHome();
 });

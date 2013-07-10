@@ -1,16 +1,16 @@
-function update() {
+function updateSource() {
   $.ajax({
     url: "/admin/sources/<%= name %>",
     cache: false
   }).done(function(html){
     $("#source-show").html(html);
-    window.setTimeout(update, 5000);
+    window.setTimeout(updateSource, 5000);
   });
 }
 
 $(document).ready(function() {
-  update();
+  updateSource();
 });
 $(document).load(function() {
-  update();
+  updateSource();
 });
