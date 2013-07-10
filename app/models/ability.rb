@@ -9,7 +9,7 @@ class Ability
       can :manage, :all
     elsif user.role == "staff"
       can :manage, User, :id => user.id
-      can :read, [Article, Source, ErrorMessage]
+      can :read, [Article, Source, ErrorMessage, ApiRequest, DelayedJob]
     elsif user.role == "user"
       can :manage, User, :id => user.id
       can :read, [Article, Source]
