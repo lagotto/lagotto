@@ -81,6 +81,16 @@ scopus = Scopus.find_or_create_by_name(
   :username => "<%= node[:alm][:scopus][:username] %>",
   :salt => "<%= node[:alm][:scopus][:salt] %>",
   :partner_id => "<%= node[:alm][:scopus][:partner_id] %>")
+
+f1000 = F1000.find_or_create_by_name(  
+  :name => "f1000", 
+  :display_name => "F1000Prime", 
+  :description => "Post-publication peer review of the biomedical literature.",
+  :active => <%= node[:alm][:f1000][:url] == "EXAMPLE" ? false : true %>, 
+  :workers => 1,
+  :group_id => citations.id,
+  :url => "<%= node[:alm][:f1000][:url] %>",
+  :filepath => "<%= node[:alm][:f1000][:filepath] %>")
 <% end -%>
 
 <% if node[:alm][:doi_prefix] == "10.5194" -%> 

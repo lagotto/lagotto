@@ -16,6 +16,7 @@ default[:alm][:facebook] = { :access_token => "EXAMPLE" }
 default[:alm][:mendeley] = { :api_key => "EXAMPLE" }
 default[:alm][:nature] = { :api_key => "EXAMPLE" }
 default[:alm][:pmc] = { :url => "EXAMPLE", :filepath => "EXAMPLE" }
+default[:alm][:f1000] = { :url => "EXAMPLE", :filepath => "EXAMPLE" }
 default[:alm][:researchblogging] = { :username => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:scopus] = { :username => "EXAMPLE", :salt => "EXAMPLE", :partner_id => "EXAMPLE" }
 default[:alm][:wos] = { :url => "EXAMPLE" }
