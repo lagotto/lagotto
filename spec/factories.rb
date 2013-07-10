@@ -154,6 +154,19 @@ FactoryGirl.define do
     initialize_with { Nature.find_or_create_by_name(name) }
   end
 
+  factory :f1000, class: F1000 do
+    type "F1000"
+    name "f1000"
+    display_name "F1000Prime"
+    active true
+    url "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml"
+    filename "PLOS-intermediate.xml"
+ 
+    group
+    
+    initialize_with { F1000.find_or_create_by_name(name) }
+  end
+
   factory :pmc, class: Pmc do
     type "Pmc"
     name "pmc"
