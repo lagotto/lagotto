@@ -24,7 +24,8 @@ class F1000 < Source
 
   # Retrieve PLOS-specific XML feed and store in <filename>. Returns nil if an error occured.
   def get_feed(options={})
-    save_to_file(url, filename)
+    options[:source_id] = id
+    save_to_file(url, filename, options)
   end
  
   def get_data(article, options={})
@@ -67,7 +68,7 @@ class F1000 < Source
   # Returns nil if an error occured
   def check_file
     file = "#{Rails.root}/data/#{filename}"
-    if File.exists?(file) and File.mtime(file) > 1.day.ago
+    if File.exists?(file) and File.file?(file) and File.mtime(file) > 1.day.ago
       return filename
     else
       return get_feed

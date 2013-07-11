@@ -190,7 +190,7 @@ describe SourceHelper do
         ErrorMessage.count.should == 0
       end
 
-      it "should catch errors" do
+      it "should catch errors fetching a file" do
         url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
         filename = "test"
         stub = stub_request(:get, url).to_return(:status => [408, "Request Timeout"])
@@ -202,6 +202,20 @@ describe SourceHelper do
         error_message.class_name.should eq("Net::HTTPRequestTimeOut")
         error_message.message.should include("Request Timeout")
         error_message.status.should == 408
+      end
+
+      it "should catch errors saving a file" do
+        url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
+        filename = ""
+        stub = stub_request(:get, url).to_return(:status => 200, :body => "Test")
+        response = @source_helper_class.save_to_file(url, filename)
+        response.should be_nil
+        stub.should have_been_requested
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Errno::EISDIR")
+        error_message.message.should include("Is a directory")
+        error_message.status.should == 500
       end
     end
   end

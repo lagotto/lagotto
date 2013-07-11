@@ -77,8 +77,16 @@ module SourceHelper
     if body.blank?
       return nil
     else
-      File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(body) }
-      return filename
+      begin
+        File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(body) }
+        return filename
+      rescue => exception
+        ErrorMessage.create(:exception => exception, :class_name => exception.class.to_s,
+                          :message => exception.message, 
+                          :status => 500,
+                          :source_id => options[:source_id])
+        return nil
+      end
     end
   end
   
