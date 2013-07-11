@@ -22,7 +22,7 @@ class F1000 < Source
     record.errors.add(attr, "can't be blank") if value.blank?
   end
 
-  # Retrieve PLOS-specific XML feed and store in <filename>.
+  # Retrieve PLOS-specific XML feed and store in <filename>. Returns nil if an error occured.
   def get_feed(options={})
     save_to_file(url, filename)
   end
@@ -32,15 +32,8 @@ class F1000 < Source
     # Check that article has DOI
     return  { :events => [], :event_count => nil } if article.doi.blank?
 
-    # Check that F1000 has returned something, otherwise an error must have occured
-    file = "#{Rails.root}/data/#{filename}"
-    unless File.exists?(file)
-      ErrorMessage.create(:exception => "", :class_name => "Errno::ENOENT",
-                          :message => "File #{filename} not found", 
-                          :status => 404,
-                          :source_id => id)
-      return nil 
-    end
+    # Check that XML from f1000 feed exists and isn't older than a day
+    file = check_file
 
     document = Nokogiri::XML(File.open(file))
     result = document.at_xpath("//Article[Doi='#{article.doi}']")
@@ -67,6 +60,22 @@ class F1000 < Source
         :event_metrics => event_metrics,
         :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }
       }
+    end
+  end
+
+  # Check that f1000 XML feed exists and isn't older than a day, otherwise download feed
+  def check_file
+    file = "#{Rails.root}/data/#{filename}"
+    if File.exists?(file) and File.mtime(file) > 1.day.ago
+      return file
+    elsif get_feed
+      return file
+    else
+      ErrorMessage.create(:exception => "", :class_name => "Errno::ENOENT",
+                    :message => "File #{filename} not found", 
+                    :status => 404,
+                    :source_id => id)
+      return nil
     end
   end
 

@@ -22,9 +22,4 @@ every :monday, at: "4:00 AM" do
   rake "db:api_requests:delete"  
 end
 
-# Retrieve f1000 xml file 
-every :day, :at => '9:00 PM' do
-  rake "f1000:update"
-end
-
 # Learn more: http://github.com/javan/whenever
