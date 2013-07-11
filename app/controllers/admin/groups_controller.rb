@@ -4,7 +4,7 @@ class Admin::GroupsController < Admin::ApplicationController
   
   # GET /groups
   def index
-    @groups = Group.order("name")
+    @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     respond_with do |format|  
       format.js { render :index }
     end
@@ -12,7 +12,7 @@ class Admin::GroupsController < Admin::ApplicationController
 
   # GET /groups/:id/edit
   def edit
-    @groups = Group.order("name")
+    @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     @group = Group.find(params[:id])
     respond_with(@group) do |format|  
       format.js { render :index }
@@ -21,7 +21,7 @@ class Admin::GroupsController < Admin::ApplicationController
 
   # PUT /groups/:id
   def update
-    @groups = Group.order("name")
+    @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     @group = Group.find(params[:id])
     @group.update_attributes(params[:group])
     respond_with(@group) do |format|  
@@ -31,7 +31,7 @@ class Admin::GroupsController < Admin::ApplicationController
 
   # DELETE /groups/:id
   def destroy
-    @groups = Group.order("name")
+    @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     @group = Group.find(params[:id])
     @group.destroy
     respond_with(@group) do |format|  
@@ -49,7 +49,7 @@ class Admin::GroupsController < Admin::ApplicationController
 
   # POST /groups
   def create
-    @groups = Group.order("name")
+    @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     @group = Group.new(params[:group])
     @group.save
     respond_with(@group) do |format|  
