@@ -15,6 +15,11 @@ Vagrant.configure("2") do |config|
   
   config.vm.hostname = "alm-plos"
 
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "alm-plos"      
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui
 
