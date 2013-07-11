@@ -28,18 +28,34 @@ describe F1000 do
       response[:attachment][:data].should be_true
     end
    
-    it "should catch an error when the F1000 feed is missing" do
+    it "should fetch the F1000 feed if the file is missing" do
+      filename = "#{Rails.root}/data/#{f1000.filename}"
+      body = File.open(filename, 'r') { |f| f.read }
+      File.delete filename
+      stub = stub_request(:get, "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml").to_return(:status => 200, :body => body)
+
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pgen.0020051")
+      response = f1000.get_data(article)
+      response[:event_count].should eq(2)
+      response[:events_url].should eq("http://f1000.com/prime/13421")
+      response[:events]["Classifications"].should eq("NEW_FINDING")
+      response[:attachment][:data].should be_true
+      stub.should have_been_requested
+    end
+
+    it "should catch an error when the F1000 feed can't be fetched" do
       filename = "#{Rails.root}/data/#{f1000.filename}"
       File.delete filename
+      stub = stub_request(:get, "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml").to_return(:status => [408, "Request Timeout"])
 
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
       f1000.get_data(article).should be_nil
+      stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
-      error_message.class_name.should eq("Errno::ENOENT")
-      error_message.message.should include("File #{f1000.filename} not found")
-      error_message.status.should == 404
-      error_message.source_id.should == f1000.id
+      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
+      error_message.message.should include("Request Timeout")
+      error_message.status.should == 408
     end
   end
 end

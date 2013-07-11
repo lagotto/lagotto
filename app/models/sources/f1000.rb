@@ -32,10 +32,10 @@ class F1000 < Source
     # Check that article has DOI
     return  { :events => [], :event_count => nil } if article.doi.blank?
 
-    # Check that XML from f1000 feed exists and isn't older than a day
-    file = check_file
+    # Check that XML from f1000 feed exists and isn't older than a day, otherwise an error must have occured
+    return nil unless check_file
 
-    document = Nokogiri::XML(File.open(file))
+    document = Nokogiri::XML(File.open("#{Rails.root}/data/#{filename}"))
     result = document.at_xpath("//Article[Doi='#{article.doi}']")
 
     if result.nil?
@@ -63,19 +63,14 @@ class F1000 < Source
     end
   end
 
-  # Check that f1000 XML feed exists and isn't older than a day, otherwise download feed
+  # Check that f1000 XML feed exists and isn't older than a day, otherwise download feed and save as file
+  # Returns nil if an error occured
   def check_file
     file = "#{Rails.root}/data/#{filename}"
     if File.exists?(file) and File.mtime(file) > 1.day.ago
-      return file
-    elsif get_feed
-      return file
+      return filename
     else
-      ErrorMessage.create(:exception => "", :class_name => "Errno::ENOENT",
-                    :message => "File #{filename} not found", 
-                    :status => 404,
-                    :source_id => id)
-      return nil
+      return get_feed
     end
   end
 
