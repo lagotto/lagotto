@@ -83,10 +83,18 @@ f1000 = F1000.find_or_create_by_name(
   :description => "Post-publication peer review of the biomedical literature.",
   :active => true, 
   :workers => 1,
-  :timeout => 5,
   :group_id => citations.id,
   :url => "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml",
   :filename => "PLOS-intermediate.xml")
+
+figshare = Figshare.find_or_create_by_name(  
+  :name => "figshare", 
+  :display_name => "Figshare", 
+  :description => "Figures, tables and supplementary files hosted by figshare",
+  :active => false, 
+  :workers => 1,
+  :group_id => usage.id,
+  :url => "EXAMPLE")
 
 
 crossref = CrossRef.find_or_create_by_name(  
