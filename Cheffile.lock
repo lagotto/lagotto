@@ -35,7 +35,7 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: a96cc110c390eb5043e206f4ef4e15e2bec15830
+  sha: cd414d9f9ab3125ffe3eae144f06041a404a2e04
   specs:
     alm (1.0.4)
       build-essential (>= 0.0.0)

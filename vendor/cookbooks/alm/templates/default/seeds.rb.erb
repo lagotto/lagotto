@@ -88,10 +88,18 @@ f1000 = F1000.find_or_create_by_name(
   :description => "Post-publication peer review of the biomedical literature.",
   :active => <%= node[:alm][:f1000][:url] == "EXAMPLE" ? false : true %>, 
   :workers => 1,
-  :timeout => 5,
   :group_id => citations.id,
   :url => "<%= node[:alm][:f1000][:url] %>",
   :filename => "<%= node[:alm][:f1000][:filename] %>")
+
+figshare = Figshare.find_or_create_by_name(  
+  :name => "figshare", 
+  :display_name => "Figshare", 
+  :description => "Figures, tables and supplementary files hosted by figshare",
+  :active => <%= node[:alm][:figshare][:url] == "EXAMPLE" ? false : true %>, 
+  :workers => 1,
+  :group_id => usage.id,
+  :url => "<%= node[:alm][:figshare][:url] %>")
 <% end -%>
 
 <% if node[:alm][:doi_prefix] == "10.5194" -%> 
