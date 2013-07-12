@@ -61,9 +61,9 @@ class User < ActiveRecord::Base
     where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.strip.downcase }]).first
   end
 
-  # Helper method to check for admin user
-  def admin?
-    (role == "admin")
+  # Helper method to check for admin or staff user
+  def admin_or_staff?
+    ["admin","staff"].include?(role)
   end
 
   def api_key
