@@ -15,6 +15,7 @@
            "environment": "development",
            "admin": { "username": "voldemort", "email": "admin@plos.org", "password": "voldemort" },
            "counter": { "url": "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}" },
+           "figshare": { "url": "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}" },
            "crossref": { "username": "plos", "password": "plos1" },
            "facebook": { "access_token": "318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q" },
            "mendeley": { "api_key": "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5" },

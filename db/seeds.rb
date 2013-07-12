@@ -91,10 +91,10 @@ figshare = Figshare.find_or_create_by_name(
   :name => "figshare", 
   :display_name => "Figshare", 
   :description => "Figures, tables and supplementary files hosted by figshare",
-  :active => false, 
+  :active => true, 
   :workers => 1,
   :group_id => usage.id,
-  :url => "EXAMPLE")
+  :url => "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}")
 
 
 crossref = CrossRef.find_or_create_by_name(  
