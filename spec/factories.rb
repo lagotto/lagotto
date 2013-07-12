@@ -167,6 +167,18 @@ FactoryGirl.define do
     initialize_with { F1000.find_or_create_by_name(name) }
   end
 
+    factory :figshare, class: Figshare do
+    type "Figshare"
+    name "figshare"
+    display_name "Figshare"
+    active true
+    url "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}"
+
+    group
+    
+    initialize_with { Figshare.find_or_create_by_name(name) }
+  end
+
   factory :pmc, class: Pmc do
     type "Pmc"
     name "pmc"
