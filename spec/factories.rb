@@ -38,8 +38,8 @@ FactoryGirl.define do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_researchblogging)] }
     end
 
-    factory :article_with_scopus_citations do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_scopus)] }
+    factory :article_with_wos_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_wos)] }
     end
   end
   
@@ -73,6 +73,7 @@ FactoryGirl.define do
     trait(:with_mendeley) { association :source, factory: :mendeley }
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }
+    trait(:with_wos) { association :source, factory: :wos }
     trait(:with_researchblogging) { association :source, factory: :researchblogging }
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
@@ -235,7 +236,6 @@ FactoryGirl.define do
     name "scopus"
     display_name "Scopus"
     active true
-    private true
     username "EXAMPLE"
     salt "EXAMPLE"
     partner_id "EXAMPLE"
@@ -348,6 +348,7 @@ FactoryGirl.define do
   end
   
   factory :api_request do
+    path "/api/v3/articles"
     page_duration 800
     db_duration 100
     view_duration 700

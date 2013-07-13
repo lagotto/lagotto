@@ -21,6 +21,12 @@ Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
   end
 end
 
+When /^I go to the submenu "(.*?)" of menu "(.*?)"$/ do |label, menu|
+  click_link menu
+  click_link label
+  page.driver.render("tmp/capybara/#{label}.png")
+end
+
 Given /^the screen size is "(.*?)" x "(.*?)"$/ do |width, height|
   page.driver.resize(width.to_i, height.to_i)
 end

@@ -12,3 +12,8 @@ When /^I make (\d+) API requests$/ do |number|
     visit api_v3_article_path(article)
   end
 end
+
+### THEN ###
+Then(/^I should see (\d+) API requests were made$/) do |number|
+  page.has_css?('span#total', :text => number).should be_true
+end
