@@ -37,6 +37,10 @@ FactoryGirl.define do
     factory :article_with_researchblogging_citations do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_researchblogging)] }
     end
+
+    factory :article_with_wos_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_wos)] }
+    end
   end
   
   factory :group do
@@ -69,6 +73,7 @@ FactoryGirl.define do
     trait(:with_mendeley) { association :source, factory: :mendeley }
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }
+    trait(:with_wos) { association :source, factory: :wos }
     trait(:with_researchblogging) { association :source, factory: :researchblogging }
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
@@ -109,6 +114,18 @@ FactoryGirl.define do
     
     initialize_with { Copernicus.find_or_create_by_name(name) }
   end
+
+  factory :counter, class: Counter do
+    type "Counter"
+    name "counter"
+    display_name "Counter"
+    active true
+    url "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
+ 
+    group
+    
+    initialize_with { Counter.find_or_create_by_name(name) }
+  end
   
   factory :cross_ref, class: CrossRef do
     type "CrossRef"
@@ -136,6 +153,44 @@ FactoryGirl.define do
     group
     
     initialize_with { Nature.find_or_create_by_name(name) }
+  end
+
+  factory :f1000, class: F1000 do
+    type "F1000"
+    name "f1000"
+    display_name "F1000Prime"
+    active true
+    url "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml"
+    filename "PLOS-intermediate.xml"
+ 
+    group
+    
+    initialize_with { F1000.find_or_create_by_name(name) }
+  end
+
+    factory :figshare, class: Figshare do
+    type "Figshare"
+    name "figshare"
+    display_name "Figshare"
+    active true
+    url "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}"
+
+    group
+    
+    initialize_with { Figshare.find_or_create_by_name(name) }
+  end
+
+  factory :pmc, class: Pmc do
+    type "Pmc"
+    name "pmc"
+    display_name "PubMed Central Usage Stats"
+    active true
+    url "http://rwc-couch01.int.plos.org:5984/pmc_usage_stats/%{doi}"
+    filepath "/home/alm/pmcdata/"
+ 
+    group
+    
+    initialize_with { Pmc.find_or_create_by_name(name) }
   end
   
   factory :pub_med, class: PubMed do
@@ -176,6 +231,32 @@ FactoryGirl.define do
     initialize_with { ScienceSeeker.find_or_create_by_name(name) }
   end
   
+  factory :scopus, class: Scopus do
+    type "Scopus"
+    name "scopus"
+    display_name "Scopus"
+    active true
+    username "EXAMPLE"
+    salt "EXAMPLE"
+    partner_id "EXAMPLE"
+ 
+    group
+    
+    initialize_with { Scopus.find_or_create_by_name(name) }
+  end
+  
+  factory :twitter, class: Twitter do
+    type "Twitter"
+    name "twitter"
+    display_name "Twitter"
+    active true
+    url "http://rwc-couch01.int.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key=%{doi}"
+ 
+    group
+    
+    initialize_with { Twitter.find_or_create_by_name(name) }
+  end
+
   factory :wikipedia, class: Wikipedia do
     type "Wikipedia"
     name "wikipedia"
@@ -186,6 +267,19 @@ FactoryGirl.define do
     group
     
     initialize_with { Wikipedia.find_or_create_by_name(name) }
+  end
+
+  factory :wos, class: Wos do
+    type "Wos"
+    name "wos"
+    display_name "Web of Science"
+    active true
+    private true
+    url "https://ws.isiknowledge.com/cps/xrpc"
+ 
+    group
+    
+    initialize_with { Wos.find_or_create_by_name(name) }
   end
   
   factory :mendeley, class: Mendeley do
@@ -217,6 +311,19 @@ FactoryGirl.define do
     initialize_with { Facebook.find_or_create_by_name(name) }
   end
 
+  factory :relative_metric, class: RelativeMetric do
+    type "RelativeMetric"
+    name "relativemetric"
+    display_name "Relative Metric"
+    active true
+    url "http://rwc-couch01.int.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key=%{key}"
+    solr_url "http://api.plos.org/search"
+ 
+    group
+ 
+    initialize_with { RelativeMetric.find_or_create_by_name(name) }
+  end
+
   factory :user do
     sequence(:username) {|n| "joesmith#{n}" }
     sequence(:name) {|n| "Joe Smith#{n}" }
@@ -241,6 +348,7 @@ FactoryGirl.define do
   end
   
   factory :api_request do
+    path "/api/v3/articles"
     page_duration 800
     db_duration 100
     view_duration 700
