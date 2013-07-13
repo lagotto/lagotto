@@ -24,13 +24,15 @@ Feature: Manage ALM Database
     Scenario: Articles are deleted succesfully
       When I run `bundle exec rake db:articles:delete` interactively
       Then the output should contain "Deleted 26 articles, 0 articles remaining"
-      
-    # Scenario: Error messages are deleted succesfully
-    #   Given we have 3 resolved error messages
-    #   When I run `bundle exec rake db:error_messages:delete` interactively
-    #   Then the output should contain "Deleted 3 resolved error messages, 0 unresolved errors remaining"
-    #   
-    # Scenario: API requests are deleted succesfully
-    #   Given we have 3 API requests
-    #   When I run `bundle exec rake db:api_requests:delete` interactively
-    #   Then the output should contain "Deleted 3 API requests, 0 API requests remaining"
+    
+    @not-teamcity
+    Scenario: Error messages are deleted succesfully
+      Given we have 3 resolved error messages
+      When I run `bundle exec rake db:error_messages:delete` interactively
+      Then the output should contain "Deleted 3 resolved error messages, 0 unresolved errors remaining"
+    
+    @not-teamcity
+    Scenario: API requests are deleted succesfully
+      Given we have 10005 API requests
+      When I run `bundle exec rake db:api_requests:delete` interactively
+      Then the output should contain "Deleted 5 API requests, 10000 API requests remaining"

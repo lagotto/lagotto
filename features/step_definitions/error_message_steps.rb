@@ -4,7 +4,7 @@ Given /^we have (\d+) error message$/ do |number|
 end
 
 Given /^we have (\d+) resolved error messages$/ do |number|
-  FactoryGirl.create_list(:error_message, number.to_i, unresolved: false)
+  FactoryGirl.create_list(:error_message, number.to_i, :unresolved => false)
 end
 
 ### WHEN ###
