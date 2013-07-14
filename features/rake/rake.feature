@@ -4,9 +4,9 @@ Feature: Run rake tasks
   Scenario: rake is installed
     When I run `bundle exec rake --version`
     Then the output should contain "rake, version"
-    
+  
   Scenario Outline: rake tasks exist
-    When I run `bundle exec rake -T`
+    When I run `bundle exec rake -T` interactively
     Then the output should contain "<Task>"
     And the output should contain "<Description>"
     
