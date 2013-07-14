@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "/api/v3/articles" do
+describe "/api/v3/articles", :not_teamcity => true do
   context "caching", :caching => true do
     
     context "index" do

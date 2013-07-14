@@ -13,7 +13,7 @@ Feature: See responses from sources
       When I go to the "Responses" admin page
       Then I should see the message "Loading page …" disappear
                 
-    @not-teamcity
+    @not_teamcity
     Scenario: Responses from last 24 hours in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should be:
