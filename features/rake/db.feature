@@ -14,25 +14,3 @@ Feature: Manage ALM Database
       When I run `bundle exec rake db:articles:load` interactively
       And I pipe in the file "../../spec/fixtures/articles_nil_dates.txt"
       Then the stderr should contain "invalid date"
-    
-    @not-teamcity
-    Scenario: Articles are seeded succesfully
-      When I run `bundle exec rake db:articles:seed` interactively
-      Then the output should contain "Seeded 25 articles"
-    
-    @not-teamcity
-    Scenario: Articles are deleted succesfully
-      When I run `bundle exec rake db:articles:delete` interactively
-      Then the output should contain "Deleted 26 articles, 0 articles remaining"
-    
-    @not-teamcity
-    Scenario: Error messages are deleted succesfully
-      Given we have 3 resolved error messages
-      When I run `bundle exec rake db:error_messages:delete` interactively
-      Then the output should contain "Deleted 3 resolved error messages, 0 unresolved errors remaining"
-    
-    @not-teamcity
-    Scenario: API requests are deleted succesfully
-      Given we have 10005 API requests
-      When I run `bundle exec rake db:api_requests:delete` interactively
-      Then the output should contain "Deleted 5 API requests, 10000 API requests remaining"
