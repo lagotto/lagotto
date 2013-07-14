@@ -1,3 +1,4 @@
+# From http://robots.thoughtbot.com/post/11957424161/test-rake-tasks-like-a-boss
 require "rake"
 
 shared_context "rake" do

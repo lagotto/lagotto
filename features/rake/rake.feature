@@ -2,11 +2,12 @@ Feature: Run rake tasks
   I should be able to run rake tasks
 
   Scenario: rake is installed
-    When I run `bundle exec rake --version`
+    When I run `bundle exec rake --version` interactively
     Then the output should contain "rake, version"
-    
+  
+  @not-teamcity
   Scenario Outline: rake tasks exist
-    When I run `bundle exec rake -T`
+    When I run `bundle exec rake -T` interactively
     Then the output should contain "<Task>"
     And the output should contain "<Description>"
     
