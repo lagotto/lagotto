@@ -17,6 +17,11 @@ FactoryGirl.define do
     factory :article_with_events do
       retrieval_statuses { |article| [article.association(:retrieval_status)] }
     end
+
+    factory :article_for_feed do
+      published_on { Time.zone.today - 1.day }
+      retrieval_statuses { |article| [article.association(:retrieval_status, retrieved_at: Time.zone.today - 1.day)] }
+    end
     
     factory :article_with_errors do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_errors)] }
