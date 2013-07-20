@@ -6,7 +6,7 @@ FactoryGirl.define do
     pub_med_central 2568856
     mendeley "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
-    published_on { Time.zone.today - 1.day }
+    published_on { Time.zone.today - 1.year }
     
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
@@ -50,14 +50,14 @@ FactoryGirl.define do
   end
   
   factory :retrieval_history do
-    sequence(:retrieved_at) { Time.zone.today - 20.hours }
+    retrieved_at { Time.zone.now - 1.month }
     event_count { retrieval_status.event_count }
     status { event_count > 0 ? "SUCCESS" : "ERROR" }
   end
   
   factory :retrieval_status do
     event_count 50
-    retrieved_at { Time.zone.now }
+    retrieved_at { Time.zone.now - 1.month }
     
     association :article
     association :source, factory: :citeulike
@@ -79,8 +79,13 @@ FactoryGirl.define do
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
     
     before(:create) do |retrieval_status|
-      FactoryGirl.create_list(:retrieval_history, 
-                              5, 
+      FactoryGirl.create(:retrieval_history, 
+                              retrieved_at: Time.zone.today - 1.year + 1.day,
+                              event_count: 10,
+                              retrieval_status: retrieval_status, 
+                              article: retrieval_status.article, 
+                              source: retrieval_status.source)
+      FactoryGirl.create(:retrieval_history, 
                               retrieval_status: retrieval_status, 
                               article: retrieval_status.article, 
                               source: retrieval_status.source)
