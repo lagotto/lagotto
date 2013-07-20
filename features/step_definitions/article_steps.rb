@@ -36,12 +36,16 @@ Given /^there is an article$/ do
   @article = FactoryGirl.create(:article_with_events)
 end
 
-Given(/^there is an article with the DOI "(.*?)"$/) do |doi|
+Given /^there is an article with the DOI "(.*?)"$/ do |doi|
   FactoryGirl.create(:article_with_events, :doi => doi)
 end
 
 Given /^that we have (\d+) articles$/ do |number|
   FactoryGirl.create_list(:article_with_events, number.to_i)
+end
+
+Given /^that we have (\d+) recent articles$/ do |number|
+  FactoryGirl.create_list(:article_for_feed, number.to_i)
 end
 
 Given /^an article does not exist$/ do

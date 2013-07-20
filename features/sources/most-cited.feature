@@ -7,7 +7,7 @@ Feature: Display most-cited articles
   Background:
     Given I am logged in as "admin"
     And the source "Citeulike" exists
-    And that we have 10 articles
+    And that we have 10 recent articles
       
     Scenario Outline: I should see the most-cited articles
       When I go to the "<Submenu>" submenu of menu "Most-Cited" of source "CiteULike"
