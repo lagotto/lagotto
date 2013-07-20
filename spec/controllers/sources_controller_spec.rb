@@ -6,7 +6,7 @@ describe SourcesController do
   context "RSS" do
     
     before(:each) do
-      FactoryGirl.create_list(:article_with_events, 10)
+      FactoryGirl.create_list(:article_for_feed, 2)
     end
     
     let(:source) { FactoryGirl.create(:source) }
