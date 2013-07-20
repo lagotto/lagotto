@@ -3,7 +3,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   decorates_association :article
   
   def events
-    unless context[:days] || context[:month] || context[:year]
+    unless context[:days] || context[:months] || context[:year]
       model.events.blank? ? [] : model.events
     else
       retrieval_history.blank? ? [] : retrieval_history.events
@@ -28,7 +28,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   end
   
   def update_date
-    unless context[:days] || context[:month] || context[:year]
+    unless context[:days] || context[:months] || context[:year]
       updated_at.utc.iso8601
     else
       retrieval_history.blank? ? nil : retrieval_history.updated_at.utc.iso8601
@@ -36,7 +36,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   end
   
   def event_count
-    unless context[:days] || context[:month] || context[:year]
+    unless context[:days] || context[:months] || context[:year]
       model.event_count
     else
       retrieval_history.nil? ? nil : retrieval_history.event_count
@@ -44,7 +44,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   end
   
   def event_metrics
-    unless context[:days] || context[:month] || context[:year]
+    unless context[:days] || context[:months] || context[:year]
       model.event_metrics
     else
       retrieval_history.blank? ? nil : retrieval_history.metrics
