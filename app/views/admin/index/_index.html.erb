@@ -28,7 +28,7 @@
 </div>
 <div class="row">
   <div class="span4 dashboard">
-    <h2><i class="icon-user"></i> <%= link_to "Users", admin_users_path %></h2>
+    <h2><i class="icon-th"></i> <%= link_to "Users", admin_users_path %></h2>
     <%= pluralize(number_with_delimiter(@users_count), 'user') %>, including <%= pluralize(number_with_delimiter(@api_users_count), 'API user') %>. 
   </div>
   <div class="span4 dashboard">
