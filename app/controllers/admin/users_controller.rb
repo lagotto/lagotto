@@ -51,7 +51,7 @@ class Admin::UsersController < Admin::ApplicationController
   
   protected
   def load_user
-    @user = User.find_by_username(params[:id])
+    @user = User.find(params[:id])
   end
   
   def load_index
