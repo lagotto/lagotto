@@ -9,6 +9,7 @@ default[:alm][:key] = nil
 default[:alm][:secret] = nil
 default[:alm][:github_client_id] = nil
 default[:alm][:github_client_secret] = nil
+default[:alm][:persona] = false
 default[:alm][:copernicus] = { :url => "EXAMPLE", :username => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:counter] = { :url => "EXAMPLE" }
 default[:alm][:crossref] = { :username => "EXAMPLE", :password => "EXAMPLE" }

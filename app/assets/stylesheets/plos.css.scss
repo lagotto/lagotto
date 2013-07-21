@@ -31,7 +31,7 @@ th.number, td.number { width: 120px; text-align: right; }
 .btn-toolbar { padding-left: 6px; }
 h1 { font-size: 32px; line-heigth: 36px;}
 h2 { font-size: 24px; line-heigth: 28px;}
-h3 .icon-file, .icon-tags, .icon-wrench, .icon-list, .icon-download, .icon-flag, .icon-warning-sign, .icon-tasks, .icon-time, .icon-user { vertical-align: 2px; }
+h3 .icon-file, .icon-tags, .icon-wrench, .icon-list, .icon-download, .icon-flag, .icon-warning-sign, .icon-tasks, .icon-time, .icon-th { vertical-align: 2px; }
 h3, h4, h5 { margin-bottom: 1px; }
 h1 img { vertical-align: 2px; }
 h4 img { vertical-align: 0px; }
@@ -41,7 +41,19 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .dashboard-label { padding-top: 3em; }
 .signpost { font-size: 32px; font-weight:bold; margin: 0; }
 .border-bottom { border-bottom: 1px solid #eee; }
-
+.navbar-form {
+  float:left;
+  margin-bottom:0;
+  margin-top:0;
+  position:relative;
+}
+.navbar-form > button { color: #777777; text-shadow:white 0 1px 0; }
+.navbar-form > button:hover,
+.navbar-form > button:focus {
+  background-color:transparent;
+  color:#333333;
+  text-decoration:none;
+}
 .chart div {
   background-color: white;
   text-align: right;

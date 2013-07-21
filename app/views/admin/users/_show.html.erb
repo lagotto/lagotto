@@ -1,6 +1,6 @@
 <% if can?(:update, User) and (controller.action_name == "edit" or (controller.action_name == "update" and !@user.errors.empty?)) %>
 
-  <%= simple_form_for @user, :url => admin_user_path(@user.username), :html => { :class => 'form-horizontal', :remote => true } do |f| %>
+  <%= simple_form_for @user, :url => admin_user_path(@user), :html => { :class => 'form-horizontal', :remote => true } do |f| %>
     <fieldset>
       <legend>Edit Your Account</legend>  
       
@@ -14,7 +14,7 @@
     
       <div class="form-actions">
         <%= f.submit "Save ", class: "btn btn-primary" %>
-        <%= link_to 'Cancel', admin_user_path(@user.username), { :remote => true, :class => 'btn' } %>
+        <%= link_to 'Cancel', admin_user_path(@user), { :remote => true, :class => 'btn' } %>
       </div>
     </fieldset>
   <% end %>
@@ -24,7 +24,7 @@
     <% if can?(:read, ErrorMessage) %>
     <div class="btn-toolbar pull-right">
       <div class="btn-group">
-        <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_user_path(@user.username), { :remote => true, :class => 'btn btn-mini' } %>
+        <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_user_path(@user), { :remote => true, :class => 'btn btn-mini' } %>
       </div>
     </div>
     <% end %>
