@@ -71,20 +71,23 @@ end
 
 When /^I click on user "(.*?)"$/ do |username|
   page.driver.render("tmp/capybara/#{username}.png")
-  click_link "link_#{username}"
+  user = User.find_by_username(username)
+  click_link "link_#{user.id}"
 end
 
 When /^I click on the Delete button for user "(.*?)" and confirm$/ do |username|
-  within("#user_#{username}") do
-    click_link "#{username}-delete"
+  user = User.find_by_username(username)
+  within("#user_#{user.id}") do
+    click_link "#{user.id}-delete"
   end
 end
 
 When /^I click on the "(.*?)" submenu of button Edit for user "(.*?)"$/ do |menu_item, username|
   role = menu_item.split.last.downcase
-  within("#user_#{username}") do
-    click_link "#{username}-update"
-    click_link "#{username}-update-#{role}"
+  user = User.find_by_username(username)
+  within("#user_#{user.id}") do
+    click_link "#{user.id}-update"
+    click_link "#{user.id}-update-#{role}"
   end
 end
 
@@ -94,11 +97,13 @@ Then /^I should see (\d+) user[s]?$/ do |number|
 end
 
 Then /^I should see user "(.*?)"$/ do |username|
-  page.should have_css("a#link_#{username}")
+  user = User.find_by_username(username)
+  page.should have_css("a#link_#{user.id}")
 end
 
 Then /^I should not see user "(.*?)"$/ do |username|
-  page.should_not have_css("a#link_#{username}")
+  user = User.find_by_username(username)
+  page.should_not have_css("a#link_#{user.id}")
 end
 
 Then /^I should be signed in$/ do
@@ -124,7 +129,8 @@ Then(/^I should see the API key$/) do
 end
 
 Then /^I should see the "(.*?)" role for user "(.*?)"$/ do |role, username|
-  within("#user_#{username}") do
+  user = User.find_by_username(username)
+  within("#user_#{user.id}") do
     page.should have_content role
   end
 end
