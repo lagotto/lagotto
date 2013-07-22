@@ -1,4 +1,4 @@
-The ALM application provides a number of public sources. Most sources require a user account with the service (see table below). The private ALM sources not made available here either use an internal application that is not available via public API (PLOS Usage Stats, PubMed Central Usage Stats, Twitter) or require a contract with the provider (Scopus, Web of Science). 
+The ALM application provides a number of public sources. Most sources require a user account with the service (see table below). The private ALM sources not made available here either use an internal application that is not available via public API (PLOS Usage Stats, PubMed Central Usage Stats, Twitter, figshare) or require a contract with the provider (Scopus, Web of Science, F1000). 
 
 ### Citations
 * [CrossRef](Crossref)
@@ -26,11 +26,16 @@ The ALM application provides a number of public sources. Most sources require a 
 * Twitter
 * Scopus
 * Web of Science
+* F1000Prime
+* figshare
 
 ### Planned Sources
-* Microsoft Academic Search
 * PubMed Central Europe Citations
 * PubMed Central Europe Database Links
+* Wordpress
+* Twitter
+* Microsoft Academic Search
+* Reddit
 
 Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for questions or feedback regarding sources.
 
@@ -78,7 +83,7 @@ Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for
 </tr>
 <tr>
 <td>Nature Blogs</td>
-<td>API key</td>
+<td>no</td>
 <td>no</td>
 <td>JSON</td>
 <td>REST</td>
@@ -120,7 +125,7 @@ Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for
 </table>
 
 ## Event Information
-Most sources return information about each individual event (citation, bookmark, etc.), and this information is summarized below. The exception are sources that don't return information about individual events because of privacy (all usage data, Facebook, Mendeley readers) or for licensing reasons (Scopus, Web of Science).
+Most sources return information about each individual event (citation, bookmark, etc.), and this information is summarized below. The exception are sources that don't return information about individual events because of privacy (all usage data, Facebook, Mendeley readers) or for licensing reasons (Scopus, Web of Science, F1000).
 
 <table>
 <tbody>

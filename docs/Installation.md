@@ -6,15 +6,15 @@ ALM is a typical Ruby on Rails web application with the following requirements:
 CouchDB is used to store the responses from external API calls, MySQL is used for everything else. The application has been tested with Apache/Passenger, but should also run in other deployment environments, e.g. Nginx/Unicorn or WEBrick. ALM uses Ruby on Rails 3.2.x. The application has extensive test coverage using Rspec and Cucumber.
 
 #### Ruby 1.9
-ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM][rvm] and [Rbenv][rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies.
+ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM][rvm] and [Rbenv][rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies. The ALM application has not been tested with Ruby 2.0.
 
 #### Installation Options
 There are many installation options, but the following two should cover most scenarios:
 
 * on a development machine: installation in a virtual machine via Vagrant is strongly recommended
-* on a server: manual installation is recommended, with code updates via Capistrano
+* on a server: installation in a virtual machine via Vagrant or manual installation is recommended, with code updates via Capistrano
 
-Instructions for automated installation via VMware or Amazon EC2 will be added soon. Hosting the ALM application at a Platform as a Service (PaaS) provider such as Heroku is possible, but has not been tested.
+Hosting the ALM application at a Platform as a Service (PaaS) provider such as Heroku or OpenShift is possible, but has not been tested.
 
 ## Automatic Installation using Vagrant
 This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine. Download and install [Virtualbox][virtualbox] and [Vagrant][vagrant]. Then install the application with:
@@ -39,7 +39,7 @@ The username and password for the web interface are `articlemetrics`. The code f
     vagrant ssh
     cd /vagrant
 	
-The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
+The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, and is auto-generated during the installation. CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
 
 ## Automatic Installation on AWS using Vagrant 
 This is the preferred way to install the ALM application on Amazon Web Services (AWS). machine. Download and install  [Vagrant][vagrant]. Install the vagrant-aws plugin:
@@ -81,6 +81,8 @@ After installation you first have to create a default user using the `Sign Up` b
     cd /vagrant
 	
 The Rails application runs in Production mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
+
+The ALM application can be installed in [Rackspace](http://www.rackspace.com) or [DigitalOcean](https://www.digitalocean.com) using Vagrant and the respective plugins ([vagrant-rackspace](https://github.com/mitchellh/vagrant-rackspace) and [vagrant-digitalocean](https://github.com/smdahlen/vagrant-digitalocean)) in a process similar to the AWS installation.
 
 ## Manual installation for development
 These instructions assume a fresh installation of Ubuntu 12.04. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9. The instructions assume a user with sudo privileges, and this can also be a new user created just for running the ALM application.
@@ -183,7 +185,7 @@ We are making `alm` the default site.
 You can now access the ALM application with your web browser at the name or IP address (if it is the only virtual host) of your Ubuntu installation.
 
 ## Remote Installation via Capistrano
-This is the recommended strategy for production servers and uses Capistrano, a deployment automation tool: http://capistranorb.com. Capistrano takes care of code updates via git, database migrations and server restarts, but you still have to do the initial server setup of Ruby, MySQL, CouchDB, Apache and Passenger. And Capistrano requires a second local ALM installation, done either via Vagrant or manually (see above).
+This is the recommended strategy for production servers and uses [Capistrano](http://capistranorb.com), a deployment automation tool. Capistrano takes care of code updates via git, database migrations and server restarts, but you still have to do the initial server setup of Ruby, MySQL, CouchDB, Apache and Passenger. And Capistrano requires a second local ALM installation, done either via Vagrant or manually (see above).
 
 #### Install Ruby, MySQL, CouchDB, Apache and Passenger
 Unless you already have installed Ruby, MySQL, CouchDB, Apache and Passenger, please follow the steps for manual installation until _Install and configure Passenger_. We again assume Ubuntu 12.04.

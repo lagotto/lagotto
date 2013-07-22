@@ -1,4 +1,4 @@
-Research Blogging is a science blog aggregator.
+[ScienceSeeker](http://scienceseeker.org) is a science blog aggregator.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
