@@ -1,4 +1,4 @@
-Version 3 of the API was released October 30, 2012 (ALM 2.3). The old [API v2](API-v2) is still available, and will be supported at least until May 2013.
+Version 3 of the API was released October 30, 2012 (ALM 2.3). The old [API v2](API-v2) is still available, and will be supported at least until August 2013.
 
 ## Base URL
 All API calls to the version 3 API start with ``/api/v3/articles``. 

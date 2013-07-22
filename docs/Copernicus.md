@@ -1,4 +1,4 @@
-This source is providing usage stats from the Open Access publisher Copernicus Publications.
+This source is providing usage stats from the Open Access publisher [Copernicus Publications](http://www.copernicus.org).
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
