@@ -17,7 +17,6 @@
 # limitations under the License.
 
 require "csv"
-require "#{Rails.root}/lib/source_job.rb"
 
 APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
 

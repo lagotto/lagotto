@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
     
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :token_authenticatable, :omniauthable, :omniauth_providers => [:github, :persona]
+         :token_authenticatable, :omniauthable, :omniauth_providers => [:github, :persona, :cas]
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token
@@ -36,6 +36,25 @@ class User < ActiveRecord::Base
 
   scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
   
+  def self.find_for_cas_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    unless user
+      # We obtain the email address from a second call to the CAS server
+      url = "#{APP_CONFIG["cas_url"]}/cas/email?guid=#{auth.uid}"
+      response = Faraday.get(url).body
+      email = response.present? ? response : auth.uid
+      
+      user = User.create!(:username => email,
+                          :name => email,
+                          :authentication_token => auth.token,
+                          :provider => auth.provider,
+                          :uid => auth.uid,
+                          :email => response)
+    end
+
+    user
+  end
+
   def self.find_for_github_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     unless user

@@ -14,14 +14,15 @@ gem "faraday", "~> 0.8.7"
 gem "faraday_middleware", "~> 0.9.0"
 gem 'faraday-cookie_jar'
 gem "libxml-ruby", "~> 2.4.0", :require => 'xml'
-gem "nokogiri", "~> 1.5.6"
+gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.5.0"
 gem "oj", "~> 2.0.5"
-gem "nori", "~> 2.0.0"
+gem "nori", "~> 2.2.0"
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 2.2.4"
 gem "omniauth-github", "~> 1.1.0"
 gem "omniauth-persona"
+gem "omniauth-cas", "~> 1.0.4"
 gem "cancan", "~> 1.6.10"
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"

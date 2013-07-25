@@ -20,7 +20,9 @@ require 'github/markdown'
 
 module ApplicationHelper
   def link_to_setup_or_login
-    if APP_CONFIG['github_client_id']
+    if APP_CONFIG['cas_url']
+      link_to "Sign In", user_omniauth_authorize_path(:cas), :id => "sign_in" 
+    elsif APP_CONFIG['github_client_id']
       link_to "Sign In with Github", user_omniauth_authorize_path(:github), :id => "sign_in" 
     elsif APP_CONFIG['persona']
       s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
