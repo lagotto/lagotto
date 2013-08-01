@@ -17,71 +17,77 @@
 # limitations under the License.
 
 class User < ActiveRecord::Base
-  
+
   before_save :ensure_authentication_token
   after_create :set_role
-    
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :token_authenticatable, :omniauthable, :omniauth_providers => [:github, :persona, :cas]
+         :token_authenticatable, :omniauthable, :omniauth_providers => [:cas] # ignoring :github, :persona
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token
-  
+
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
   validates :email, :uniqueness => true, :allow_blank => true
-  
+
   default_scope order("sign_in_count DESC, updated_at DESC")
 
   scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
-  
+
   def self.find_for_cas_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     unless user
-      # We obtain the email address from a second call to the CAS server
-      url = "#{APP_CONFIG["cas_url"]}/cas/email?guid=#{auth.uid}"
-      response = Faraday.get(url).body
-      email = response.present? ? response : auth.uid
-      
-      user = User.create!(:username => email,
-                          :name => email,
+      unless Rails.env.test?
+        # We obtain the email address from a second call to the CAS server
+        url = "#{APP_CONFIG["cas_url"]}/cas/email?guid=#{auth.uid}"
+        response = Faraday.get(url).body
+        email = response.present? ? response : ""
+      else
+        email = auth.info.email
+      end
+      name = email.present? ? email : auth.uid
+      username = email.present? ? email : auth.uid
+
+      user = User.create!(:username => username,
+                          :name => name,
                           :authentication_token => auth.token,
                           :provider => auth.provider,
                           :uid => auth.uid,
-                          :email => response)
+                          :email => email)
     end
 
     user
   end
 
-  def self.find_for_github_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    unless user
-      user = User.create!(:username => auth.info.nickname,
-                          :name => auth.info.name,
-                          :authentication_token => auth.token,
-                          :provider => auth.provider,
-                          :uid => auth.uid)
-    end
+  # def self.find_for_github_oauth(auth, signed_in_resource=nil)
+  #   user = User.where(:provider => auth.provider, :uid => auth.uid).first
+  #   unless user
+  #     user = User.create!(:username => auth.info.nickname,
+  #                         :name => auth.info.name,
+  #                         :authentication_token => auth.token,
+  #                         :provider => auth.provider,
+  #                         :uid => auth.uid)
+  #   end
 
-    user
-  end
+  #   user
+  # end
 
-  def self.find_for_persona_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    unless user
-      user = User.create!(:username => auth.info.email,
-                          :name => auth.info.name,
-                          :authentication_token => auth.token,
-                          :provider => auth.provider,
-                          :uid => auth.uid,
-                          :email => auth.info.email)
-    end
+  # def self.find_for_persona_oauth(auth, signed_in_resource=nil)
+  #   user = User.where(:provider => auth.provider, :uid => auth.uid).first
+  #   unless user
+  #     user = User.create!(:username => auth.info.email,
+  #                         :name => auth.info.name,
+  #                         :authentication_token => auth.token,
+  #                         :provider => auth.provider,
+  #                         :uid => auth.uid,
+  #                         :email => auth.info.email)
+  #   end
 
-    user
-  end
-  
+  #   user
+  # end
+
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
@@ -104,7 +110,7 @@ class User < ActiveRecord::Base
   end
 
   protected
-  
+
   def set_role
     # The first user we create has an admin role unless it is in the test environment
     self.update_attributes(:role => "admin") if (User.count == 1 and !Rails.env.test?)

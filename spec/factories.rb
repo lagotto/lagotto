@@ -341,7 +341,7 @@ FactoryGirl.define do
     password "joesmith"
     sequence(:authentication_token) {|n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
     role "admin"
-    provider "github"
+    provider "cas"
     uid "12345"
   end
   

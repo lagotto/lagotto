@@ -1,4 +1,5 @@
-if node['platform'] == "ubuntu"
+case node['platform']
+when "ubuntu"
   # Install required packages
   %w{ruby1.9.3 libxslt-dev libxml2-dev curl}.each do |pkg|
     package pkg do
@@ -8,6 +9,10 @@ if node['platform'] == "ubuntu"
   gem_package "bundler" do
     gem_binary "/usr/bin/gem"
   end
+when "centos"
+  # required by Cucumber tests
+  gem_package "faye-websocket"
+  yum_package "urw-fonts"
 end
 
 # Install required gems via bundler
@@ -74,7 +79,7 @@ end
 case node['platform']
 when "ubuntu"
   include_recipe "passenger_apache2::mod_rails"
-  
+
   execute "disable-default-site" do
     command "sudo a2dissite default"
   end
@@ -90,19 +95,19 @@ when "centos"
     group 'root'
     mode 0644
   end
-  
+
   # Allow all traffic on the loopback device
   simple_iptables_rule "system" do
     rule "--in-interface lo"
     jump "ACCEPT"
   end
-  
+
   # Allow HTTP
   simple_iptables_rule "http" do
     rule "--proto tcp --dport 80"
     jump "ACCEPT"
   end
-  
+
   script "start httpd" do
     interpreter "bash"
     code "sudo /sbin/service httpd start"

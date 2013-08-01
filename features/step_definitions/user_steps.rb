@@ -13,12 +13,12 @@ end
 
 def sign_up
   delete_user
-  visit '/users/auth/github'
+  visit '/users/auth/cas'
   find_user
 end
 
 def sign_in
-  visit '/users/auth/github'
+  visit '/users/auth/cas'
   find_user
 end
 
@@ -41,7 +41,7 @@ end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
   FactoryGirl.create(:user, :role => role)
-  visit '/users/auth/github'
+  visit '/users/auth/cas'
 end
 
 Given /^I exist as a user$/ do
@@ -107,13 +107,18 @@ Then /^I should not see user "(.*?)"$/ do |username|
 end
 
 Then /^I should be signed in$/ do
-  page.should have_css('#sign_out')
-  page.should_not have_css('#sign_in')
+  page.driver.render("tmp/capybara/sign_in.png")
+  within("#user_menu") do
+    page.should have_css('#sign_out')
+    page.should_not have_css('#sign_in')
+  end
 end
 
 Then /^I should be signed out$/ do
-  page.should have_css('#sign_in')
-  page.should_not have_css('#sign_out')
+  within("#user_menu") do
+    page.should have_css('#sign_in')
+    page.should_not have_css('#sign_out')
+  end
 end
 
 Then /^I should reach the Sign In page$/ do

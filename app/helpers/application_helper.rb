@@ -22,15 +22,15 @@ module ApplicationHelper
   def link_to_setup_or_login
     if APP_CONFIG['cas_url']
       link_to "Sign In", user_omniauth_authorize_path(:cas), :id => "sign_in" 
-    elsif APP_CONFIG['github_client_id']
-      link_to "Sign In with Github", user_omniauth_authorize_path(:github), :id => "sign_in" 
-    elsif APP_CONFIG['persona']
-      s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
-        p = hidden_field_tag('assertion')
-        p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link btn-form')
-        p
-      end
-      s.html_safe
+    # elsif APP_CONFIG['github_client_id']
+    #   link_to "Sign In with Github", user_omniauth_authorize_path(:github), :id => "sign_in" 
+    # elsif APP_CONFIG['persona']
+    #   s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
+    #     p = hidden_field_tag('assertion')
+    #     p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link btn-form')
+    #     p
+    #   end
+    #   s.html_safe
     elsif User.count > 0
       link_to "Sign In", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : '', :id => "sign_in" 
     else

@@ -2,16 +2,14 @@
 
   <%= simple_form_for @user, :url => admin_user_path(@user), :html => { :class => 'form-horizontal', :remote => true } do |f| %>
     <fieldset>
-      <legend>Edit Your Account</legend>  
-      
-      <% if @user.provider != "github" %>
-        <%= f.input :name, :input_html => { :class => "span6" } %>
-        <%= f.input :username, :input_html => { :class => "span6" } %>
-      <% end %>
+      <legend>Edit Your Account</legend>
+
+      <%= f.input :name, :input_html => { :class => "span6" } %>
+      <%= f.input :username, :input_html => { :class => "span6" } %>
       <%= f.input :email, :input_html => { :class => "span6" } %>
       <%= f.input :password, :input_html => { :class => "span6" } %>
       <%= f.input :password_confirmation, :input_html => { :class => "span6" } %>
-    
+
       <div class="form-actions">
         <%= f.submit "Save ", class: "btn btn-primary" %>
         <%= link_to 'Cancel', admin_user_path(@user), { :remote => true, :class => 'btn' } %>
@@ -46,7 +44,7 @@
     <% elsif @user.role == "staff" %>
       <dd>Staff - read access to the admin dashboard</dd>
     <% elsif @user.role == "user" %>
-      <dd>User - access to the API</dd> 
+      <dd>User - access to the API</dd>
     <% end %>
     <dt>API Key</dt>
     <dd><%= @user.authentication_token %></dd>
