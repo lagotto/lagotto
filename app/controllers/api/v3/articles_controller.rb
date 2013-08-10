@@ -107,7 +107,11 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     if source_names and current_user.try(:admin_or_staff?)
       source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
     elsif source_names
+<<<<<<< HEAD
       source_ids = Source.where("private = 0 AND lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
+=======
+      source_ids = Source.where("private = 0 AND lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)      
+>>>>>>> origin/master
     elsif current_user.try(:admin_or_staff?)
       source_ids = Source.order("name").pluck(:id)
     else

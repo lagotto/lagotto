@@ -11,9 +11,13 @@ when "ubuntu"
   end
 when "centos"
   # required by Cucumber tests
+<<<<<<< HEAD
   gem_package "faye-websocket" do
     version "0.4.7"
   end
+=======
+  gem_package "faye-websocket"
+>>>>>>> origin/master
   yum_package "urw-fonts"
 end
 

@@ -50,8 +50,8 @@ class Pmc < Source
       end
     end
     
-    event_metrics = { :pdf => views.inject(0) { |sum, hash| sum + hash["pdf"].to_i }, 
-                      :html => views.inject(0) { |sum, hash| sum + hash["full-text"].to_i }, 
+    event_metrics = { :pdf => events.nil? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }, 
+                      :html => events.nil? ? nil : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }, 
                       :shares => nil, 
                       :groups => nil,
                       :comments => nil, 

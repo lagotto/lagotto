@@ -71,6 +71,24 @@ module SourceHelper
     service_url = APP_CONFIG['couchdb_url']
     data = get_json("#{service_url}#{id}")
   end
+
+  def save_to_file(url, filename = "tmpdata", options={})
+    body = get_http_body(url, options)
+    if body.blank?
+      return nil
+    else
+      begin
+        File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(body) }
+        return filename
+      rescue => exception
+        ErrorMessage.create(:exception => exception, :class_name => exception.class.to_s,
+                          :message => exception.message, 
+                          :status => 500,
+                          :source_id => options[:source_id])
+        return nil
+      end
+    end
+  end
   
   def get_original_url(doi, limit = 10)
     conn = Faraday.new(:url => "http://dx.doi.org") do |faraday|

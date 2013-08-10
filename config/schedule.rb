@@ -16,10 +16,10 @@ set :output, "#{path}/log/cron.log"
 # end
 
 # Delete resolved error messages
-# Delete API request information, keeping the last 50,000 requests
+# Delete API request information, keeping the last 10,000 requests
 every :monday, at: "4:00 AM" do
   rake "db:error_messages:delete"
-  rake "db:api_requests:delete"  
+  rake "db:api_requests:delete"
 end
 
 # Learn more: http://github.com/javan/whenever

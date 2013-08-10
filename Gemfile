@@ -13,6 +13,7 @@ gem "whenever", "~> 0.8.2", :require => false
 gem "faraday", "~> 0.8.7"
 gem "faraday_middleware", "~> 0.9.0"
 gem 'faraday-cookie_jar'
+<<<<<<< HEAD
 gem "libxml-ruby", "~> 2.7.0", :require => 'xml'
 gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.7.8"
@@ -22,12 +23,25 @@ gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 3.0.1"
 gem "omniauth-github", "~> 1.1.0"
 gem "omniauth-persona"
+=======
+gem "libxml-ruby", "~> 2.4.0", :require => 'xml'
+gem "nokogiri", "~> 1.6.0"
+gem "multi_json", "~> 1.5.0"
+gem "oj", "~> 2.0.5"
+gem "nori", "~> 2.2.0"
+gem 'mumboe-soap4r', '1.5.8.5'
+gem "devise", "~> 2.2.4"
+#gem "omniauth-github", "~> 1.1.0"
+#gem "omniauth-persona"
+gem "omniauth-cas", "~> 1.0.4"
+>>>>>>> origin/master
 gem "cancan", "~> 1.6.10"
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.2.1"
 gem "rabl", "~> 0.8.6"
 gem "dalli", "~> 2.6.4"
+<<<<<<< HEAD
 gem "cache_digests", "~> 0.3.1"
 
 gem "d3_rails", "~> 3.2.4"
@@ -35,6 +49,14 @@ gem "crossfilter-rails", "~> 1.2.0"
 gem "bootstrap-sass", "~> 2.3.2.1"
 gem "turbolinks", "~> 1.3.0"
 gem 'will_paginate', '3.0.4'
+=======
+
+gem "d3_rails", "~> 3.2.4"
+gem "crossfilter-rails", "~> 1.1.0"
+gem "bootstrap-sass", "~> 2.3.2.1"
+gem "turbolinks", "~> 1.2.0"
+gem 'will_paginate', '3.0.3'
+>>>>>>> origin/master
 gem "will_paginate-bootstrap", "~> 0.2.1"
 gem "simple_form", "~> 2.1.0"
 gem "dotiw", "~> 1.1.1"
@@ -68,5 +90,9 @@ group :test do
 end
 
 group :test, :development do
+<<<<<<< HEAD
   gem "rspec-rails", "~> 2.14.0"
+=======
+  gem "rspec-rails", "~> 2.12.0"
+>>>>>>> origin/master
 end

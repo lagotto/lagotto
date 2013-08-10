@@ -55,7 +55,7 @@ FactoryGirl.define do
   end
 
   factory :retrieval_history do
-    retrieved_at { Time.zone.today - 1.month }
+    retrieved_at { Time.zone.now - 1.month }
     event_count { retrieval_status.event_count }
     status { event_count > 0 ? "SUCCESS" : "ERROR" }
   end
@@ -123,18 +123,6 @@ FactoryGirl.define do
     group
 
     initialize_with { Copernicus.find_or_create_by_name(name) }
-  end
-  
-  factory :counter, class: Counter do
-    type "Counter"
-    name "counter"
-    display_name "Counter"
-    active true
-    url "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
-
-    group
-    
-    initialize_with { Counter.find_or_create_by_name(name) }
   end
   
   factory :cross_ref, class: CrossRef do
@@ -211,7 +199,11 @@ FactoryGirl.define do
     username "EXAMPLE"
     salt "EXAMPLE"
     partner_id "EXAMPLE"
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> origin/master
     group
     
     initialize_with { Scopus.find_or_create_by_name(name) }
@@ -223,12 +215,20 @@ FactoryGirl.define do
     display_name "Twitter"
     active true
     url "http://rwc-couch01.int.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key=%{doi}"
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> origin/master
     group
     
     initialize_with { Twitter.find_or_create_by_name(name) }
   end
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> origin/master
   factory :wikipedia, class: Wikipedia do
     type "Wikipedia"
     name "wikipedia"
@@ -239,18 +239,6 @@ FactoryGirl.define do
     group
 
     initialize_with { Wikipedia.find_or_create_by_name(name) }
-  end
-  
-  factory :wos, class: Wos do
-    type "Wos"
-    name "wos"
-    display_name "Web of Science"
-    active true
-    url "https://ws.isiknowledge.com/cps/xrpc"
-
-    group
-    
-    initialize_with { Wos.find_or_create_by_name(name) }
   end
   
   factory :mendeley, class: Mendeley do
@@ -289,7 +277,7 @@ FactoryGirl.define do
     password "joesmith"
     sequence(:authentication_token) {|n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
     role "admin"
-    provider "github"
+    provider "cas"
     uid "12345"
   end
 

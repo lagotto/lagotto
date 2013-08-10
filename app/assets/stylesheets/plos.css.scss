@@ -22,23 +22,40 @@ $linkColor: #1447f2;
 @import "bootstrap";
 @import "bootstrap-responsive";
 
-header img { margin: 1em; }
+header { padding-top: 80px; background: url('plos/plos.png'); background-repeat:no-repeat; background-position:left top; }
 th.number, td.number { width: 120px; text-align: right; }
 .section { padding-bottom: 4px; }
+.graphs { text-align:center; }
 .page-header { padding-bottom: 0; border-bottom: 0; margin: 0 0 10px; }
 .help-block { font-size: 13px; font-weight: normal; color: #999999; }
 .btn-toolbar { padding-left: 6px; }
 h1 { font-size: 32px; line-heigth: 36px;}
 h2 { font-size: 24px; line-heigth: 28px;}
-h2 .icon-file, .icon-tags, .icon-wrench, .icon-list, .icon-download, .icon-flag, .icon-warning-sign, .icon-tasks, .icon-time { vertical-align: 2px; }
-h4, h5 { margin-bottom: 1px; }
+h3 .icon-file, .icon-tags, .icon-wrench, .icon-list, .icon-download, .icon-flag, .icon-warning-sign, .icon-tasks, .icon-time, .icon-th { vertical-align: 2px; }
+h3, h4, h5 { margin-bottom: 1px; }
 h1 img { vertical-align: 2px; }
 h4 img { vertical-align: 0px; }
 div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left: auto; margin-right: auto; }
 .table .number { text-align: right; }
-
+.dashboard { padding-bottom: 2em; }
+.dashboard-label { padding-top: 3em; }
+.signpost { font-size: 32px; font-weight:bold; margin: 0; }
+.border-bottom { border-bottom: 1px solid #eee; }
+.navbar-form {
+  float:left;
+  margin-bottom:0;
+  margin-top:0;
+  position:relative;
+}
+.navbar-form > button { color: #777777; text-shadow:white 0 1px 0; }
+.navbar-form > button:hover,
+.navbar-form > button:focus {
+  background-color:transparent;
+  color:#333333;
+  text-decoration:none;
+}
 .chart div {
-  background-color: #1447f2;
+  background-color: white;
   text-align: right;
   padding: 3px;
   margin: 1px;
@@ -48,3 +65,85 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .chart a {
   fill: $linkColor;
 }
+
+.chart .title { font-size: 24px; }
+.chart .subtitle { fill: grey; }
+
+.chart .line {
+  fill: none;
+  stroke: #999;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+.req-chart {
+  display: inline-block;
+  height: 151px;
+  margin-bottom: 20px;
+}
+
+.reset {
+  padding-left: 1em;
+  font-size: 13px;
+  font-weigth: normal;
+  color: #978d7f;
+}
+
+.background.bar {
+  fill: #dfdbd4;
+}
+
+.foreground.bar {
+  fill: #789aa1;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.brush rect.extent {
+  fill: #978d7f;
+  fill-opacity: .125;
+}
+
+.brush .resize path {
+  fill: #eee;
+  stroke: #666;
+}
+
+#request-list { min-height: 1024px; }
+#request-list .date,
+#request-list .day { margin-bottom: .4em; }
+#request-list .request {
+  line-height: 1.5em;
+  background: #f2f2f2;
+  margin-bottom: 1px;
+}
+#request-list .time { color: #999; }
+
+#request-list .request div {
+  display: inline-block;
+  width: 100px;
+}
+
+#request-list div.duration {
+  width: 80px;
+  padding-right: 20px;
+  text-align: right;
+}
+
+#request-list .fast {
+  color: #789aa1;
+}
+
+#request-list .slow {
+  color: #a17f78;
+}
+
+#totals {font-size: smaller; }

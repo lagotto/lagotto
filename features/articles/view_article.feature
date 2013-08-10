@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 @javascript
+=======
+@javascript @not_teamcity
+>>>>>>> origin/master
 Feature: View article
   In order to collect metrics
   A user

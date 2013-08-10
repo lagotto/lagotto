@@ -73,13 +73,15 @@ class RetrievalStatusDecorator < Draper::Decorator
       when "mendeley"
         { :pdf => nil, :html => nil, :shares => (events.blank? ? nil : events['stats']['readers']), :groups => (events.blank? or events['groups'].nil? ? nil : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "counter"
-        { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+        { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash[:html_views].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "biod"
-        { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["html_views"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+        { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash[:html_views].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "pmc"
         { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "copernicus"
         { :pdf => (events.blank? ? nil : events['counter']['PdfDownloads'].to_i), :html => (events.blank? ? nil : events['counter']['AbstractViews'].to_i), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+      when "twitter"
+        { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => event_count, :likes => nil, :citations => nil, :total => event_count }
       else
       # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia
         { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
@@ -104,20 +106,42 @@ class RetrievalStatusDecorator < Draper::Decorator
       events_30 = events.select { |event| event["event"]["updated"].to_date - article.published_on < 30 }
       return nil if events_30.blank?
       events_30.group_by {|event| event["event"]["updated"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+    when "twitter"
+      return nil if events.blank?
+      events_30 = events.select { |event| event["event"]["created_at"].to_date - article.published_on < 30 }
+      return nil if events_30.blank?
+      events_30.group_by {|event| event["event"]["created_at"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
     else
     # crossref, facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
       nil
     end
   end
   
-  
   def by_month
     case name
+    when "counter"
+      if events.blank?
+        nil
+      else
+        events.map { |event| { :year => event["year"].to_i, :month => event["month"].to_i, :pdf => event["pdf_views"].to_i, :html => event["html_views"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf_views"].to_i + event["html_views"].to_i } }
+      end
+    when "pmc"
+      if events.blank?
+        nil
+      else
+        events.map { |event| { :year => event["year"].to_i, :month => event["month"].to_i, :pdf => event["pdf"].to_i, :html => event["full-text"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf"].to_i + event["full-text"].to_i } }
+      end
     when "citeulike"
       if events.blank?
         nil
       else
         events.group_by {|event| event["event"]["post_time"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
+      end
+    when "twitter"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["created_at"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
       end
     when "researchblogging"
       if events.blank?
@@ -132,13 +156,25 @@ class RetrievalStatusDecorator < Draper::Decorator
         events.group_by {|event| event["event"]["updated"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
       end
     else
-    # crossref, facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
+    # crossref, facebook, mendeley, pubmed, nature, copernicus, wikipedia
       nil
     end
   end
   
   def by_year
     case name
+    when "counter"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => v.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }, :html => v.inject(0) { |sum, hash| sum + hash["html_views"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.inject(0) { |sum, hash| sum + hash["html_views"].to_i + hash["pdf_views"].to_i + hash["xml_views"].to_i } }}
+      end
+    when "pmc"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => v.inject(0) { |sum, hash| sum + hash["pdf"].to_i }, :html => v.inject(0) { |sum, hash| sum + hash["full-text"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.inject(0) { |sum, hash| sum + hash["full-text"].to_i + hash["pdf"].to_i } }}
+      end
     when "citeulike"
       if events.blank?
         nil
@@ -150,6 +186,12 @@ class RetrievalStatusDecorator < Draper::Decorator
         nil
       else
         events.group_by {|event| event["event"]["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    when "twitter"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["created_at"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
       end
     when "researchblogging"
       if events.blank?
@@ -164,14 +206,14 @@ class RetrievalStatusDecorator < Draper::Decorator
         events.group_by {|event| event["event"]["updated"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
       end
     else
-    # facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
+    # facebook, mendeley, pubmed, nature, copernicus, wikipedia
       nil
     end
   end
   
   def cache_key
     { :id => id, 
-      :timestamp => updated_at, 
+      :timestamp => updated_at.to_s(:number), 
       :info => context[:info],
       :days => context[:days],
       :months => context[:months],

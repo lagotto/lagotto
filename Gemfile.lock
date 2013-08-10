@@ -34,7 +34,10 @@ GEM
       childprocess (>= 0.3.6)
       cucumber (>= 1.1.1)
       rspec-expectations (>= 2.7.0)
+<<<<<<< HEAD
     atomic (1.1.12)
+=======
+>>>>>>> origin/master
     bcrypt-ruby (3.1.1)
     bootstrap-sass (2.3.2.1)
       sass (~> 3.2)
@@ -74,7 +77,11 @@ GEM
       cucumber (>= 1.2.0)
       nokogiri (>= 1.5.0)
       rails (~> 3.0)
+<<<<<<< HEAD
     d3_rails (3.2.8)
+=======
+    d3_rails (3.2.7)
+>>>>>>> origin/master
       railties (>= 3.1.0)
     daemons (1.1.9)
     dalli (2.6.4)
@@ -132,16 +139,19 @@ GEM
     http-cookie (1.0.1)
       domain_name (~> 0.5)
     http_parser.rb (0.5.3)
+<<<<<<< HEAD
     httpauth (0.2.0)
     httpclient (2.3.4.1)
     i18n (0.6.4)
+=======
+    httpclient (2.3.4.1)
+    i18n (0.6.1)
+>>>>>>> origin/master
     journey (1.0.4)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.0)
-    jwt (0.1.8)
-      multi_json (>= 1.5)
     launchy (2.1.2)
       addressable (~> 2.3)
     libv8 (3.11.8.17)
@@ -160,6 +170,7 @@ GEM
     multipart-post (1.2.0)
     mumboe-soap4r (1.5.8.5)
       httpclient (>= 2.1.1)
+<<<<<<< HEAD
     mysql2 (0.3.13)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
@@ -184,6 +195,20 @@ GEM
       faraday
       multi_json
       omniauth (~> 1.0)
+=======
+    mysql2 (0.3.11)
+    nokogiri (1.6.0)
+      mini_portile (~> 0.5.0)
+    nori (2.2.0)
+    oj (2.0.14)
+    omniauth (1.1.4)
+      hashie (>= 1.2, < 3)
+      rack
+    omniauth-cas (1.0.4)
+      addressable (~> 2.3)
+      nokogiri (~> 1.6)
+      omniauth (~> 1.1.0)
+>>>>>>> origin/master
     orm_adapter (0.4.0)
     poltergeist (1.3.0)
       capybara (~> 2.1.0)
@@ -229,10 +254,17 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
+<<<<<<< HEAD
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
     safe_yaml (0.9.5)
+=======
+      rspec-core (~> 2.12.0)
+      rspec-expectations (~> 2.12.0)
+      rspec-mocks (~> 2.12.0)
+    safe_yaml (0.9.4)
+>>>>>>> origin/master
     sass (3.2.10)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -296,7 +328,10 @@ PLATFORMS
 DEPENDENCIES
   aruba (~> 0.5.1)
   bootstrap-sass (~> 2.3.2.1)
+<<<<<<< HEAD
   cache_digests (~> 0.3.1)
+=======
+>>>>>>> origin/master
   cancan (~> 1.6.10)
   capybara (~> 2.1.0)
   coffee-rails (~> 3.2.2)
@@ -326,12 +361,20 @@ DEPENDENCIES
   mocha (~> 0.13.3)
   multi_json (~> 1.7.8)
   mumboe-soap4r (= 1.5.8.5)
+<<<<<<< HEAD
   mysql2 (= 0.3.13)
   nokogiri (~> 1.6.0)
   nori (~> 2.3.0)
   oj (~> 2.1.4)
   omniauth-github (~> 1.1.0)
   omniauth-persona
+=======
+  mysql2 (= 0.3.11)
+  nokogiri (~> 1.6.0)
+  nori (~> 2.2.0)
+  oj (~> 2.0.5)
+  omniauth-cas (~> 1.0.4)
+>>>>>>> origin/master
   poltergeist (~> 1.3.0)
   rabl (~> 0.8.6)
   rack-test (~> 0.6.2)
@@ -343,7 +386,7 @@ DEPENDENCIES
   shoulda-matchers (~> 2.2.0)
   simple_form (~> 2.1.0)
   simplecov (~> 0.7.1)
-  strip_attributes (~> 1.3.0)
+  strip_attributes (~> 1.2)
   therubyracer (~> 0.11.1)
   turbolinks (~> 1.3.0)
   uglifier (~> 2.1.2)

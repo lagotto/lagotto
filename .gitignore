@@ -19,6 +19,7 @@ capybara-*.html
 /log/*
 /data/*
 /tmp/*
+/data/*
 /db/*.sqlite3
 /public/system/*
 /coverage/
@@ -31,6 +32,13 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
+<<<<<<< HEAD
 .vagrant
 .librarian
 Capfile
+=======
+.vagrant*
+Capfile
+/vendor/cookbooks/alm/.gitignore
+.vagrant*
+>>>>>>> origin/master
