@@ -1,3 +1,48 @@
+## v2.0.0:
+
+### Bug
+
+- [COOK-2258]: apt: LWRP results in error under why-run mode in apt 1.9.0 cookbook
+
+## v1.10.0:
+
+### Improvement
+
+- [COOK-2885]: Improvements for apt cache server search
+
+### Bug
+
+- [COOK-2441]: Apt recipe broken in new chef version
+- [COOK-2660]: Create Debian 6.0 "squeeze" specific template for
+  apt-cacher-ng
+
+## v1.9.2:
+
+* [COOK-2631] - Create Ubuntu 10.04 specific template for apt-cacher-ng
+
+## v1.9.0:
+
+* [COOK-2185] - Proxy for apt-key
+* [COOK-2338] - Support pinning by glob() or regexp
+
+## v1.8.4:
+
+* [COOK-2171] - Update README to clarify required Chef version: 10.18.0
+  or higher.
+
+## v1.8.2:
+
+* [COOK-2112] - need [] around "arch" in sources.list entries
+* [COOK-2171] - fixes a regression in the notification
+
+## v1.8.0:
+
+* [COOK-2143] - Allow for a custom cacher-ng port
+* [COOK-2171] - On `apt_repository.run_action(:add)` the source file
+  is not created.
+* [COOK-2184] - apt::cacher-ng, use `cacher_port` attribute in
+  acng.conf
+
 ## v1.7.0:
 
 * [COOK-2082] - add "arch" parameter to apt_repository LWRP

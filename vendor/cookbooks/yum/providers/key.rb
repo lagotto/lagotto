@@ -32,8 +32,7 @@ action :add do
       package "gnupg2"
     end
 
-    execute "import-rpm-gpg-key-#{new_resource.key}" do
-      command "rpm --import /etc/pki/rpm-gpg/#{new_resource.key}"
+    execute "rpm --import /etc/pki/rpm-gpg/#{new_resource.key}" do
       action :nothing
       not_if <<-EOH
     function packagenames_for_keyfile() {
@@ -57,11 +56,11 @@ action :add do
     end
 
     #download the file if necessary
-    unless new_resource.url.nil?
+    if new_resource.url
       remote_file "/etc/pki/rpm-gpg/#{new_resource.key}" do
         source new_resource.url
         mode "0644"
-        notifies :run, "execute[import-rpm-gpg-key-#{new_resource.key}]", :immediately
+        notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{new_resource.key}"), :immediately
       end
     end
 

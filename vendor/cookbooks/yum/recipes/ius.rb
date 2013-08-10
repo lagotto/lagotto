@@ -19,8 +19,6 @@
 
 include_recipe "yum::epel"
 
-package "epel-release"
-
 major = node['platform_version'].to_i
 ius   = node['yum']['ius_release']
 
