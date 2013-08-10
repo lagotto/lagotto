@@ -9,8 +9,8 @@ ENV["RAILS_ENV"] = 'test'
 require 'simplecov'
 require 'cucumber/rails'
 require 'factory_girl_rails'
-require 'aruba/cucumber'
 require 'capybara/poltergeist'
+require 'webmock/cucumber'
 require 'source_helper'
 
 World(SourceHelper)
@@ -24,12 +24,21 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 # prefer to use XPath just remove this line and adjust any selectors in your
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
-
+Capybara.ignore_hidden_elements = true
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, { :timeout => 90 })
+  Capybara::Poltergeist::Driver.new(app, { 
+    :timeout => 120,
+    :js_errors => true,
+    :inspector => true,
+    :window_size => [1280, 960]
+  })
 end
-
 Capybara.javascript_driver = :poltergeist
+
+Capybara.configure do |config|
+  config.match = :prefer_exact
+  config.ignore_hidden_elements = false
+end
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 
@@ -58,14 +67,17 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 # rescue NameError
 #   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 # end
-# 
-Before do
-  #DatabaseCleaner.start
-  
-  # Set the defaults for Aruba
-  @dirs = [Rails.root]
-  @aruba_timeout_seconds = 60
-  @aruba_io_wait_seconds = 5
+
+Before('@javascript') do
+  OmniAuth.config.test_mode = true
+  omni_hash = { :provider => "github",
+                :uid => "12345",
+                :info => { "email" => "joe@example.com", "nickname" => "joesmith", "name" => "Joe Smith" }}
+  OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(omni_hash)
+end
+ 
+After('@javascript') do
+  OmniAuth.config.test_mode = false
 end
 
 Before('@couchdb') do
@@ -75,7 +87,3 @@ end
 After('@couchdb') do
   delete_alm_database
 end
-
-# After do |scenario|
-#   DatabaseCleaner.clean
-# end

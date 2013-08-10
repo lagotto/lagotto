@@ -1,4 +1,6 @@
 class Admin::ArticlesController < Admin::ApplicationController
+  before_filter :load_article, :only => [ :show, :edit, :update, :destroy ]
+  load_and_authorize_resource
   
   respond_to :html, :js
   
@@ -10,7 +12,6 @@ class Admin::ArticlesController < Admin::ApplicationController
   end
   
   def show
-    load_article
     respond_with(@article) do |format|  
       format.js { render :show }
     end
@@ -37,7 +38,6 @@ class Admin::ArticlesController < Admin::ApplicationController
 
   # GET /articles/:id/edit
   def edit
-    load_article
     respond_with(@article) do |format|  
       format.js { render :show }
     end
@@ -45,7 +45,6 @@ class Admin::ArticlesController < Admin::ApplicationController
 
   # PUT /articles/:id(.:format)
   def update
-    load_article
     @article.update_attributes(params[:article])   
     respond_with(@article) do |format|  
       format.js { render :show }
@@ -54,7 +53,6 @@ class Admin::ArticlesController < Admin::ApplicationController
 
   # DELETE /articles/:id(.:format)
   def destroy
-    load_article
     @article.destroy
     redirect_to articles_path
   end
@@ -64,9 +62,6 @@ class Admin::ArticlesController < Admin::ApplicationController
     # Load one article given query params
     id_hash = Article.from_uri(params[:id])
     @article = Article.where(id_hash).first
-    
-    # raise error if article wasn't found
-    raise ActiveRecord::RecordNotFound.new if @article.blank?
     
     # raise error if article wasn't found
     raise ActiveRecord::RecordNotFound.new if @article.blank?

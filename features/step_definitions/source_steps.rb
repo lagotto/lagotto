@@ -3,8 +3,8 @@ Given /^that an article has no blog count$/ do
   page.should_not have_content "Nature Blogs"
 end
 
-Given /^the source "(.*?)" exists$/ do |display_name|
-  FactoryGirl.create(display_name.underscore.to_sym)
+Given /^the source "(.*?)" exists$/ do |name|
+  FactoryGirl.create(name.underscore.to_sym)
 end
 
 Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
@@ -19,6 +19,12 @@ Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
   elsif status == "with errors"
     @articles = FactoryGirl.create_list(:article_with_errors, 10)
   end
+end
+
+When /^I go to the submenu "(.*?)" of menu "(.*?)"$/ do |label, menu|
+  click_link menu
+  click_link label
+  page.driver.render("tmp/capybara/#{label}.png")
 end
 
 Given /^the screen size is "(.*?)" x "(.*?)"$/ do |width, height|
@@ -82,7 +88,7 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
     title = page_title.downcase
   end  
   visit "/admin/#{title}"
-  page.driver.render("tmp/capybara/#{title}.png")
+  #page.driver.render("tmp/capybara/#{title}.png")
 end
 
 When /^I go to "(.*?)"$/ do |path|
@@ -95,15 +101,26 @@ When /^click on the "(.*?)" tab$/ do |tab_name|
   page.driver.render("tmp/capybara/#{tab_name}.png")
 end
 
+When(/^I hover over the donut "(.*?)"$/) do |title|
+  page.find(:xpath, "//div[@id='chart_#{title}']/*[name()='svg']").click
+  page.driver.render("tmp/capybara/chart_#{title}.png")
+end
+
 ### THEN ###
+Then /^I should see the "(.*?)" tab$/ do |tab_title|
+  page.driver.render("tmp/capybara/#{tab_title}.png")
+  page.has_css?('li', :text => tab_title, :visible => true).should be_true
+end
+
 Then /^I should not see the "(.*?)" tab$/ do |tab_title|
   page.driver.render("tmp/capybara/#{tab_title}.png")
-  page.has_css?('li', :text => tab_title, :visible => false)
+  page.has_css?('li', :text => tab_title, :visible => true).should_not be_true
 end
 
 Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, source_name|
-  page.has_css?('text', :text => source_name, :visible => true)
-  page.has_css?('text', :text => number, :visible => true)
+  page.driver.render("tmp/capybara/#{number}.png")
+  page.has_content?(number).should be_true
+  page.has_content?(source_name).should be_true
 end
 
 Then /^I should not see a blog count$/ do
@@ -115,11 +132,19 @@ Then /^"(.*?)" should be the only option for "(.*?)"$/ do |value, field|
 end
 
 Then /^I should see the "(.*?)" column$/ do |column_title|
-  page.has_css?('th', :text => column_title, :visible => true)
+  page.has_css?('th', :text => column_title, :visible => true).should be_true
 end
 
 Then /^I should not see the "(.*?)" column$/ do |column_title|
-  page.has_css?('th', :text => column_title, :visible => false)
+  page.has_css?('th', :text => column_title, :visible => true).should_not be_true
+end
+
+Then(/^I should see the donut "(.*?)"$/) do |title|
+  page.find(:xpath, "//div[@id='chart_#{title}']/*[name()='svg']").should be_true
+end
+
+Then(/^I should see the tooltip$/) do
+  page.has_css?('div.tooltip').should be_true
 end
 
 Then /^I should see the "(.*?)" settings$/ do |parameter|
@@ -133,19 +158,30 @@ end
 
 Then /^I should not see the "(.*?)" link in the menu bar$/ do |link_text|
   if link_text == "Home"
-    page.has_css?('a', :text => APP_CONFIG['useragent'], :visible => false)
+    page.has_css?('a', :text => APP_CONFIG['useragent'], :visible => true).should_not be_true
   else
-    page.has_css?('a', :text => link_text, :visible => false)
-    page.driver.render("tmp/capybara/#{link_text}.png")
+    page.has_css?('div.collapse ul li a', :visible => true).should_not be_true
+    page.driver.render("tmp/capybara/#{link_text}_link.png")
   end
 end
 
 Then /^I should see the image "(.+)"$/ do |image|
-  page.has_css?("img[src='/assets/#{image}']") 
+  page.has_css?("img[src='/assets/#{image}']").should be_true
   page.driver.render("tmp/capybara/#{image}.png")
 end
 
-Then /^the table "(.*?)" should contain:$/ do |table_name, table|  
+Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|  
   page.driver.render("tmp/capybara/#{table_name}.png")
-  page.has_table?("#{table_name}", :rows => table.raw).should be_true
+  rows = find("table##{table_name}").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
+  expected_table.diff!(table)
+end
+
+Then /^I should see a row of "(.*?)"$/ do |chart|
+  page.has_css?("div#chart_#{chart} .chart .slice").should be_true
+end
+
+Then(/^I should see (\d+) bookmarks$/) do |number|
+  page.driver.render("tmp/capybara/#{number}_bookmarks.png")
+  page.has_css?('h1#all-signpost-citeulike-shares', :text => number).should be_true
 end

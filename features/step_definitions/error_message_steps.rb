@@ -1,6 +1,10 @@
 ### GIVEN ###
-Given /^that we have (\d+) error messages$/ do |number|
+Given /^we have (\d+) error message$/ do |number|
   FactoryGirl.create_list(:error_message, number.to_i)
+end
+
+Given /^we have (\d+) resolved error messages$/ do |number|
+  FactoryGirl.create_list(:error_message, number.to_i, :unresolved => false)
 end
 
 ### WHEN ###
@@ -15,7 +19,7 @@ When /^I click on the "(.*?)" link$/ do |link_name|
 end
 
 ### THEN ###
-Then /^I should see (\d+) error messages$/ do |number|
+Then /^I should see (\d+) error message$/ do |number|
   page.has_css?('div.accordion-group', :visible => true, :count => number.to_i).should be_true
 end
 
@@ -27,18 +31,18 @@ Then /^I should see the "(.*?)" error message$/ do |error_message|
   page.should have_content error_message
 end
 
+Then /^I should see the "(.*?)" error$/ do |error|
+  page.should have_content error
+end
+
 Then /^I should see the "(.*?)" class name$/ do |class_name|
-  page.should have_content class_name
+  page.has_css?('p.class_name', :text => class_name, :visible => true).should be_true
 end
 
-Then /^I should see the "(.*?)" target url$/ do |target_url|
-  page.has_css?('div.collapse', :text => target_url, :visible => true)
-end
-
-Then /^I should not see the "(.*?)" target url$/ do |target_url|
-  page.has_css?('div.collapse', :text => target_url, :visible => false)
+Then /^I should not see the "(.*?)" class name$/ do |class_name|
+  page.has_css?('p.class_name', :text => class_name, :visible => true).should_not be_true
 end
 
 Then /^I should see the "(.*?)" status$/ do |status|
-  page.has_css?('div.collapse', :text => status, :visible => true)
+  page.has_css?('div.collapse', :text => status, :visible => true).should be_true
 end

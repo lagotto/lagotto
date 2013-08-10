@@ -1,44 +1,42 @@
+@javascript
 Feature: Show errors
   In order to make sure that we collect metrics correctly
   An admin user
   Should see errors
 
   Background:
-    Given I am logged in
-    And that we have 2 error messages
+    Given I am logged in as "admin"
+    And we have 1 error message
     
-    @javascript
     Scenario: Seeing a list of errors
       When I go to the "Errors" admin page
-      Then I should see 2 error messages
+      Then I should see 1 error message
     
-    @javascript
     Scenario Outline: Seeing error information
       When I go to the "Errors" admin page
       Then I should see the "<Message>" error message
-      And I should see the "<ClassName>" class name
-      And I should not see the "<TargetUrl" target url
+      And I should not see the "<ClassName>" class name
       
       Examples: 
-        | Message                         | ClassName                    | TargetUrl                  |
-        | Couldn't find Source with id=x  | ActiveRecord::RecordNotFound | http://127.0.0.1/sources/x |
+        | Message                | ClassName               | 
+        | The request timed out. | Net::HTTPRequestTimeOut | 
     
-    @javascript
     Scenario Outline: Seeing error details
-    When I go to the "Errors" admin page
-    And I click on the "[404] Couldn't find Source with id=x" link
-    Then I should see the "<TargetUrl" target url
-    And I should see the "<ErrorNumber" status
+      When I go to the "Errors" admin page
+      And I click on the "[408] The request timed out." link
+      Then I should see the "<Message>" error message
+      And I should see the "<ClassName>" class name
       
       Examples: 
-        | TargetUrl                  | ErrorNumber |
-        | http://127.0.0.1/sources/x | 404         |
-    
-    @javascript
-    Scenario Outline: Routing errors
+        | Message                 | ClassName               | 
+        | The request timed out.  | Net::HTTPRequestTimeOut | 
+        
+    @allow-rescue
+    Scenario Outline: Errors
       When I go to "<Path>"
       Then I should see the "<ErrorMessage>" error message
       
       Examples: 
-        | Path        | ErrorMessage          |
-        | /sources/x  | Internal server error |
+        | Path        | ErrorMessage                |
+        | /articles/x | No record for "x" found     |
+        | /x          | No route matches [GET] "/x" |

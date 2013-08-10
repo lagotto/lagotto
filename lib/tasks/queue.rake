@@ -214,7 +214,8 @@ namespace :queue do
       sleep(3600)
     end
   end
-
+  
+  desc "Queue article with given DOI for a specific source"
   task :single_job, [:doi, :source] => :environment do |t, args|
     if args.doi.nil?
       puts "DOI is required"
@@ -248,6 +249,7 @@ namespace :queue do
     puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
   end
 
+  desc "Queue all articles for a given source"
   task :all_jobs, [:source] => :environment do |t, args|
     if args.source.nil?
       puts "Source is required"

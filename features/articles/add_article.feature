@@ -1,10 +1,11 @@
+@javascript
 Feature: Add article
   In order to collect metrics
   A user
   Should be able to add an article
   
     Background:
-      Given I am logged in
+      Given I am logged in as "admin"
   
     Scenario: Article is added succesfully
       Given an article does not exist

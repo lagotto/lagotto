@@ -24,25 +24,27 @@ class RetrievalHistory < ActiveRecord::Base
   belongs_to :retrieval_status
   belongs_to :article
   belongs_to :source
-  
+
   SUCCESS_MSG = "SUCCESS"
   SUCCESS_NODATA_MSG = "SUCCESS WITH NO DATA"
   ERROR_MSG = "ERROR"
   SKIPPED_MSG = "SKIPPED"
   SOURCE_DISABLED = "Source disabled"
   SOURCE_NOT_ACTIVE = "Source not active"
-  
+
   default_scope order("retrieved_at DESC")
-  
+
   scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
   scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months) }
   scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year) }
+
+  scope :total, lambda { |days| where("retrieved_at > NOW() - INTERVAL ? DAY", days) }
 
   def self.table_status
     table_status = ActiveRecord::Base.connection.select_all("SHOW TABLE STATUS LIKE 'retrieval_histories'").first
     Hash[table_status.map {|k, v| [k.to_s.underscore, v] }]
   end
-  
+
   def data
     if event_count > 0
       data = get_alm_data(id)
@@ -50,11 +52,11 @@ class RetrievalHistory < ActiveRecord::Base
       nil
     end
   end
-  
+
   def events_url
     data["events_url"] unless data.nil?
   end
-  
+
   def events
     unless data.nil?
       data["events"]
@@ -62,19 +64,19 @@ class RetrievalHistory < ActiveRecord::Base
       []
     end
   end
-  
+
   def metrics
-    unless data.blank? 
-      data["event_metrics"] 
+    unless data.blank?
+      data["event_metrics"]
     else
       nil
     end
   end
-  
+
   def v1_format?
     updated_at < Date.parse("2012-07-31")
   end
-  
+
   def as_json
     {
         :updated_at => (retrieved_at.nil? ? nil: retrieved_at.to_time),

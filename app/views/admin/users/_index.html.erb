@@ -1,0 +1,101 @@
+<div class="page-header">
+  <div class="btn-group pull-right">
+    <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-filter"></i> <%= @role.nil? ? "All Roles" : @role.capitalize %> <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><%= link_to "All Roles", admin_users_path(:query => params[:query]) %></li>
+      <li class="divider"></li>
+      <% roles.each do|role| %>
+      <li><%= link_to h(role.capitalize), admin_users_path(:role => role, :query => params[:query]) %></li>
+      <% end %>
+    </ul>
+  </div>
+  <h1>
+    <%= pluralize(number_with_delimiter(@users.count), 'User') %>
+    <% unless params[:query].blank? %>
+        with <em><%= params[:query] %></em> in the name, username or API key
+    <% end %>
+  </h1>
+</div>
+
+<div class="search">
+  <%= form_tag(admin_users_path, :method => "get", :class => "form-search") do %>
+    <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "input-large", :id => "appendedInputButtons" %>
+    <button type="submit" class="btn hidden-phone"><i class="icon-search"></i></button>
+    <% unless params[:query].blank? %>
+      <%= link_to "clear", admin_users_path(:role => params[:role]), :class => "btn btn-link hidden-phone" %>
+    <% end %>
+  <% end %>
+</div>
+
+<% if @users.size > 0 %>
+  <div class="accordion" id="user">
+    <% @users.each do |user| %>
+      <% cache user do %>
+        <div class="accordion-group">
+        <div class="accordion-heading">
+          <%= link_to ("<strong>" + h(user.name) + "</strong>" + (user.last_sign_in_at.blank? ? "" : " (last sign in " + user.last_sign_in_at.to_s(:friendly) + ")")).html_safe, "#user_#{user.id}", :class => "accordion-toggle", :id => "link_#{user.id}", :data => { :toggle => "collapse", :parent => "#user" }, :href => "#user_#{user.id}" %>
+        </div>
+        <div id="user_<%= user.id %>" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <% if can?(:manage, user) and user.id != current_user.id %>
+              <div class="btn-group pull-right">
+                <%= link_to "<i class=\"icon-trash\"></i> Delete".html_safe, admin_user_path(user, :query => params[:query], :role => params[:role]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-mini', :id => "#{user.id}-delete" %>
+                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" id='<%= "#{user.id}-update" %>'>
+                  <i class="icon-pencil"></i> Edit <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <% if user.role != "user" %>
+                    <li><%= link_to "Role User", admin_user_path(user, :query => params[:query], :role => params[:role], :user => { :role => "user" }), :method => :put, :remote => true, :id => "#{user.id}-update-user" %></li>
+                  <% end %>
+                  <% if user.role != "staff" %>
+                    <li><%= link_to "Role Staff", admin_user_path(user, :query => params[:query], :role => params[:role], :user => { :role => "staff" }), :method => :put, :remote => true, :id => "#{user.id}-update-staff" %></li>
+                  <% end %>
+                  <% if user.role != "admin" %>
+                    <li><%= link_to "Role Admin", admin_user_path(user, :query => params[:query], :role => params[:role], :user => { :role => "admin" }), :method => :put, :remote => true, :id => "#{user.id}-update-admin" %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <% if user.provider == "github" %>
+              <h5>Github user</h5>
+              <%= link_to h(user.username), "http://github.com/#{user.username}" %>
+            <% else %>
+              <h5>Username</h5>
+              <%= h(user.username) %>
+            <% end %>
+
+            <% if user.email.present? %>
+              <h5>Email</h5>
+              <%= link_to h(user.email), "mailto:#{user.email}" %>
+            <% end %>
+
+            <h5>API key</h5>
+            <%= h(user.authentication_token) %>
+
+            <h5>Role</h5>
+            <%= user.role.capitalize %>
+
+            <h5>Account created</h5>
+            <%= user.created_at.to_s(:friendly) %>
+
+            <h5>Sign in count</h5>
+            <%= user.sign_in_count %>
+
+          </div>
+        </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <%= will_paginate @users, :params => { :controller => admin_users_path }, :renderer => BootstrapPagination::Rails %>
+<% else %>
+  <div class="alert alert-info">There are currently no users
+    <% unless @role.nil? %>
+        with role "<%= @role.capitalize %>"
+    <% end %>
+    <% unless params[:query].blank? %>
+        with <em><%= params[:query] %></em> in the name, username or API key
+    <% end %>
+  </div>
+<% end %>

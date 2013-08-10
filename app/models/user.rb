@@ -17,16 +17,54 @@
 # limitations under the License.
 
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
+
+  before_save :ensure_authentication_token
+  after_create :set_role
+
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :token_authenticatable, :omniauthable, :omniauth_providers => [:github, :persona]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token
 
-# Virtual attribute for authenticating by either username or email
-# This is in addition to a real persisted field like 'username'
+  validates :username, :presence => true, :uniqueness => true
+  validates :name, :presence => true
+  validates :email, :uniqueness => true, :allow_blank => true
+
+  default_scope order("sign_in_count DESC, updated_at DESC")
+
+  scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
+
+  def self.find_for_github_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    unless user
+      user = User.create!(:username => auth.info.nickname,
+                          :name => auth.info.name,
+                          :authentication_token => auth.token,
+                          :provider => auth.provider,
+                          :uid => auth.uid)
+    end
+
+    user
+  end
+
+  def self.find_for_persona_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    unless user
+      user = User.create!(:username => auth.info.email,
+                          :name => auth.info.name,
+                          :authentication_token => auth.token,
+                          :provider => auth.provider,
+                          :uid => auth.uid,
+                          :email => auth.info.email)
+    end
+
+    user
+  end
+
+  # Virtual attribute for authenticating by either username or email
+  # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
   attr_accessible :login
@@ -37,7 +75,30 @@ class User < ActiveRecord::Base
     where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.strip.downcase }]).first
   end
 
+  # Helper method to check for admin or staff user
+  def admin_or_staff?
+    ["admin","staff"].include?(role)
+  end
+
+  def api_key
+    authentication_token
+  end
+
   protected
+
+  def set_role
+    # The first user we create has an admin role unless it is in the test environment
+    self.update_attributes(:role => "admin") if (User.count == 1 and !Rails.env.test?)
+  end
+
+  # Don't require email or password, as we also use OAuth
+  def email_required?
+    false
+  end
+
+  def password_required?
+    false
+  end
 
   # Attempt to find a user by it's email. If a record is found, send new
   # password instructions to it. If not user is found, returns a new user
@@ -55,12 +116,7 @@ class User < ActiveRecord::Base
     attributes.delete_if { |key, value| value.blank? }
 
     if attributes.size == required_attributes.size
-      if attributes.has_key?(:login)
-        login = attributes[:login]
-        record = find_record(login)
-      else
-        record = where(attributes).first
-      end
+      record = where(attributes).first
     end
 
     unless record
@@ -73,9 +129,5 @@ class User < ActiveRecord::Base
       end
     end
     record
-  end
-
-  def self.find_record(login)
-    where(["username = :value OR email = :value", { :value => login }]).first
   end
 end

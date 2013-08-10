@@ -30,7 +30,7 @@ end
 When /^I add the group "(.*?)"$/ do |group_name|
   visit admin_sources_path
   click_on "New"
-  fill_in 'Name', :with => group_name
+  fill_in 'group_name', :with => group_name
   click_on 'Save'
 end
 

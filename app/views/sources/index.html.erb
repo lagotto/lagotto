@@ -22,26 +22,26 @@
   <div class="page-header">
     <h1>Sources</h1>
   </div>
-  
+
   <% unless @groups.empty? %>
     <% @groups.each do |group| %>
-      <% unless group.sources.where("active = 1").empty? %>
-        <h2><%= h(group.name) %></h2>
-        <ul class="thumbnails">
-          <% group.sources.where("active = 1").each do |source| %>
-            <li class="span3">
-              <div class="thumbnail">
-                <div class="caption">
-                  <h4>
-                    <%= image_tag(source.name + ".png", :size => "16x16") if FileTest.exist?("#{Rails.root.to_s}/app/assets/images/#{source.name}.png") %>
-                    <%= link_to h(source.display_name), source_path(source) %>
-                  </h4>
-                  <p><%= h(source.description) if source.description %></p>
-                </div>
+      <% cache group do %>
+        <% unless group.sources.where("active = 1").empty? %>
+        <h2 class="border-bottom"><%= h(group.name) %></h2>
+        <% group.sources.where("active = 1").in_groups_of(4, false) do |sources| %>
+          <div class="row">
+            <% sources.each do |source| %>
+              <div class="span3">
+                    <h4>
+                      <%= image_tag(source.name + ".png", :size => "16x16") if FileTest.exist?("#{Rails.root.to_s}/app/assets/images/#{source.name}.png") %>
+                      <%= link_to h(source.display_name), source_path(source) %>
+                    </h4>
+                    <p><%= h(source.description) if source.description %></p>
               </div>
-            </li>
-          <% end %>
-        </ul>
+            <% end %>
+          </div>
+        <% end %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

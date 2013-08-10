@@ -24,44 +24,47 @@
   </div>
   
   <% if @article.retrieval_statuses.sum(:event_count) > 0 %>
-  <div class="accordion" id="retrieval_status">
-    <% @article.retrieval_statuses.each do |rs| %>
-      <% if rs.event_count > 0 and !rs.source.nil? %>
-        <div class="accordion-group">  
-          <div class="accordion-heading">  
-            <%= link_to ("<strong>" + rs.source.display_name + "</strong> (#{rs.event_count}), updated " + rs.retrieved_at.to_s(:friendly)).html_safe, "##{rs.source.name}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#retrieval_status" }, :href => "##{rs.source.name}" %>
-          </div>  
-          <div id="<%= rs.source.name %>" class="accordion-body collapse">  
-            <div class="accordion-inner">
-              <% unless rs.events.blank? %>
-                  <% if rs.events.is_a?(Array) %>
-                    <ul>
-                      <% rs.events.each do |ed| %>
-                        <li>
-                          <% if ed.has_key?("event_url") %>
-                            <%= link_to ed["event"], ed["event_url"] %>
-                          <% else %>
-                            <%= ed %>
-                          <% end %>
-                        </li>
-                      <% end %>
-                      </ul>
-                  <% elsif rs.events.is_a?(Hash) %>
-                    <ul><li><%= rs.events %></li></ul>
-                  <% end %>
-              <% end %>
-              
-              <h4><%= link_to rs.source.display_name, source_path(rs.source) %>
-                <% unless rs.events_url.nil? %>
-                | <%= link_to "Further Information", rs.events_url, :target => "_blank" %></h4>
-              <% end %>
-              </h4>
-            </div>  
-          </div>  
-       </div>  
-       <% end %>
-       <% end %>
-    </div>  
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#all" data-toggle="tab" title="All Metrics">All Metrics</a></li>
+      <li class="hidden-phone"><a href="#day" data-toggle="tab" title="by Day">Metrics by Day</a></li>
+      <li class="hidden-phone"><a href="#month" data-toggle="tab" title="by Month">Metrics by Month</a></li>
+      <li class="hidden-phone"><a href="#year" data-toggle="tab" title="by Year">Metrics by Year</a></li>
+      <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
+    </ul>
+  
+    <div class="tab-content">
+      <div class="tab-pane active" id="all">
+        <div class="muted" id="loading-all">Loading page … <%= image_tag "spinner.gif" %></div>
+        <%= javascript_tag do -%>
+          var api_key = "<%= @api_key %>";
+          <%= render :partial => 'all', formats: :js %>
+        <% end %>
+      </div>
+      <div class="tab-pane hidden-phone" id="day">
+        <div class="muted" id="loading-day">Loading page … <%= image_tag "spinner.gif" %></div>
+        <%= javascript_tag do -%>
+          var api_key = "<%= @api_key %>";
+          <%= render :partial => 'day', formats: :js %>
+        <% end %>
+      </div>
+      <div class="tab-pane hidden-phone" id="month">
+        <div class="muted" id="loading-month">Loading page … <%= image_tag "spinner.gif" %></div>
+        <%= javascript_tag do -%>
+          var api_key = "<%= @api_key %>";
+          <%= render :partial => 'month', formats: :js %>
+        <% end %>
+      </div>
+      <div class="tab-pane hidden-phone" id="year">
+        <div class="muted" id="loading-year">Loading page … <%= image_tag "spinner.gif" %></div>
+        <%= javascript_tag do -%>
+          var api_key = "<%= @api_key %>";
+          <%= render :partial => 'year', formats: :js %> 
+        <% end %>
+      </div>
+      <div class="tab-pane hidden-phone" id="more">
+         <%= render :partial => 'more' %> 
+      </div> 
+    </div> 
   <% else %>
     <div class="alert alert-info">No sources have cited this article</div>
   <% end %>

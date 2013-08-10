@@ -17,11 +17,13 @@
 # limitations under the License.
 
 class Admin::IndexController < Admin::ApplicationController
-  
+
+  load_and_authorize_resource :error_message, :parent => false
+
   def index
     @articles_count = Article.count
     @articles_recent_count = Article.last_x_days(30).count
-    
+
     @sources_count = Source.count
     @sources_inactive_count = Source.where("active != 1").count
     @sources_disabled_count = Source.where("disable_until IS NOT NULL").count
@@ -33,7 +35,11 @@ class Admin::IndexController < Admin::ApplicationController
     @error_messages_last_day_count = ErrorMessage.total(1).count
     @requests_count = ApiRequest.where("created_at > NOW() - INTERVAL 24 HOUR").count
     @requests_page_average = ApiRequest.where("created_at > NOW() - INTERVAL 24 HOUR").average(:page_duration)
-    @couchdb_info = RetrievalHistory.new.get_alm_database
+    @users_count = User.count
+    @api_users_count = User.where(:role => "user").count
+    @couchdb_info = RetrievalHistory.new.get_alm_database || { "doc_count" => 0, "disk_size" => 0 }
     @mysql_info = RetrievalHistory.table_status
+
+    render :index
   end
 end

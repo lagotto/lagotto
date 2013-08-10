@@ -4,21 +4,10 @@ Feature: Show API requests
   Should see the number and average duration of API requests
 
   Background:
-    Given I am logged in
-    And that we have 3 API requests
+    Given I am logged in as "admin"
+    And we have 3 API requests
     
     @javascript
     Scenario: Seeing request information
-      When I go to the "API" admin page
-      Then the table "ApiRequestsTable" should contain:
-        | Requests in the last 24 Hours         | 3  | 100.0                   | 700.0                 |
-        | Requests in the last 30 Days          | 3  | 100.0                   | 700.0                 |
-        
-    @javascript
-    Scenario: Making an API request
-      When I make 2 API requests
-      And I go to the "API" admin page
-      Then the table "ApiRequestsTable" should contain:
-        | Requests in the last 24 Hours         | 5  |
-        | Requests in the last 30 Days          | 5  | 
-      
+      When I go to the submenu "API Requests" of menu "Users"
+      Then I should see 3 API requests were made

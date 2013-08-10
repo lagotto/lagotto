@@ -30,18 +30,19 @@ RSpec.configure do |config|
   
   config.include FactoryGirl::Syntax::Methods
   
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
   
-  config.before(:suite) do
+  config.before(:suite) do    
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:transaction)
+    DatabaseCleaner.clean_with :truncation
   end
 
-  config.before do
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
   end
 
-  config.after do
+  config.after(:each) do
     DatabaseCleaner.clean
   end
   
@@ -51,4 +52,24 @@ RSpec.configure do |config|
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = false
+  
+  # Configure caching, use ":caching => true" when you need to test this
+  config.around(:each) do |example|
+    caching = ActionController::Base.perform_caching
+    ActionController::Base.perform_caching = example.metadata[:caching]
+    example.run
+    Rails.cache.clear
+    ActionController::Base.perform_caching = caching
+  end
+
+  def capture_stdout(&block)
+    original_stdout = $stdout
+    $stdout = fake = StringIO.new
+    begin
+      yield
+    ensure
+      $stdout = original_stdout
+    end
+    fake.string
+  end
 end

@@ -1,8 +1,9 @@
 class RetrievalStatusDecorator < Draper::Decorator
   delegate_all
+  decorates_association :article
   
   def events
-    unless context[:days] || context[:month] || context[:year]
+    unless context[:days] || context[:months] || context[:year]
       model.events.blank? ? [] : model.events
     else
       retrieval_history.blank? ? [] : retrieval_history.events
@@ -27,7 +28,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   end
   
   def update_date
-    unless context[:days] || context[:month] || context[:year]
+    unless context[:days] || context[:months] || context[:year]
       updated_at.utc.iso8601
     else
       retrieval_history.blank? ? nil : retrieval_history.updated_at.utc.iso8601
@@ -35,7 +36,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   end
   
   def event_count
-    unless context[:days] || context[:month] || context[:year]
+    unless context[:days] || context[:months] || context[:year]
       model.event_count
     else
       retrieval_history.nil? ? nil : retrieval_history.event_count
@@ -43,7 +44,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   end
   
   def event_metrics
-    unless context[:days] || context[:month] || context[:year]
+    unless context[:days] || context[:months] || context[:year]
       model.event_metrics
     else
       retrieval_history.blank? ? nil : retrieval_history.metrics
@@ -84,5 +85,96 @@ class RetrievalStatusDecorator < Draper::Decorator
         { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
       end
     end
+  end
+  
+  def by_day
+    case name
+    when "citeulike"
+      return nil if events.blank?
+      events_30 = events.select { |event| event["event"]["post_time"].to_date - article.published_on < 30 }
+      return nil if events_30.blank?
+      events_30.group_by {|event| event["event"]["post_time"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
+    when "researchblogging"
+      return nil if events.blank?
+      events_30 = events.select { |event| event["event"]["published_date"].to_date - article.published_on < 30 }
+      return nil if events_30.blank?
+      events_30.group_by {|event| event["event"]["published_date"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+    when "scienceseeker"
+      return nil if events.blank?
+      events_30 = events.select { |event| event["event"]["updated"].to_date - article.published_on < 30 }
+      return nil if events_30.blank?
+      events_30.group_by {|event| event["event"]["updated"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+    else
+    # crossref, facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
+      nil
+    end
+  end
+  
+  
+  def by_month
+    case name
+    when "citeulike"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["post_time"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
+      end
+    when "researchblogging"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["published_date"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    when "scienceseeker"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["updated"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    else
+    # crossref, facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
+      nil
+    end
+  end
+  
+  def by_year
+    case name
+    when "citeulike"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["post_time"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
+      end
+    when "crossref"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    when "researchblogging"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["published_date"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    when "scienceseeker"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["updated"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    else
+    # facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
+      nil
+    end
+  end
+  
+  def cache_key
+    { :id => id, 
+      :timestamp => updated_at, 
+      :info => context[:info],
+      :days => context[:days],
+      :months => context[:months],
+      :year => context[:year] }
   end
 end

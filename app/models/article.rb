@@ -248,6 +248,29 @@ class Article < ActiveRecord::Base
     APP_CONFIG["doi_prefix"].to_s == doi[0..6]
   end
   
+  def views
+    counter = retrieval_statuses.joins(:source).where("sources.name = 'counter'").last
+    pmc = retrieval_statuses.joins(:source).where("sources.name = 'pmc'").last
+    (counter.nil? ? 0 : counter.event_count) + (pmc.nil? ? 0 : pmc.event_count)
+  end
+  
+  def shares
+    twitter = retrieval_statuses.joins(:source).where("sources.name = 'twitter'").last
+    facebook = retrieval_statuses.joins(:source).where("sources.name = 'facebook'").last
+    (twitter.nil? ? 0 : twitter.event_count) + (facebook.nil? ? 0 : facebook.event_count)
+  end
+  
+  def bookmarks
+    citeulike = retrieval_statuses.joins(:source).where("sources.name = 'citeulike'").last
+    mendeley = retrieval_statuses.joins(:source).where("sources.name = 'mendeley'").last
+    (citeulike.nil? ? 0 : citeulike.event_count) + (mendeley.nil? ? 0 : mendeley.event_count)
+  end
+ 
+  def citations
+    crossref = retrieval_statuses.joins(:source).where("sources.name = 'crossref'").last
+    (crossref.nil? ? 0 : crossref.event_count)
+  end
+  
   private
   
   def create_retrievals

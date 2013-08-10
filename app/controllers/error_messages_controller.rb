@@ -4,7 +4,15 @@ class ErrorMessagesController < ActionController::Base
   respond_to :html, :xml, :json
 
   def create
-    @error_message = ErrorMessage.create(:exception => env["action_dispatch.exception"], :request => request)
+    exception = env["action_dispatch.exception"]
+    @error_message = ErrorMessage.new(:exception => exception, :request => request)
+    
+    # Filter for errors that should not be saved
+    unless["ActiveRecord::RecordNotFound","ActionController::RoutingError"].include?(exception.class.to_s)
+      @error_message.save 
+    else
+      @error_message.status = request.headers["PATH_INFO"][1..-1]
+    end
     
     respond_with(@error_message) do |format|
       format.json { render json: { error: @error_message.public_message }, status: @error_message.status }

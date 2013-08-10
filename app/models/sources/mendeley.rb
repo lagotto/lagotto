@@ -50,6 +50,9 @@ class Mendeley < Source
     elsif result.empty? or !result["stats"]
       { :events => [], :event_count => 0 }
     else
+      # remove "mendeley_authors" key, as it is not needed and creates problems in XML: "mendeley_authors" => {"4712245473"=>5860673}
+      result.except!("mendeley_authors")
+
       events_url = result['mendeley_url']
 
       # event count is the reader and group numbers combined
@@ -101,8 +104,6 @@ class Mendeley < Source
     end
     
     # return nil if we can't get the correct uuid. We can enter the uuid manually if we have it
-    ErrorMessage.create(:exception => "", :message => "Wrong Mendeley uuid #{result['uuid']} for article #{article.doi}", :class_name => "Net::HTTPConflict", :status => 409, :source_id => id) \
-      if result.is_a?(Hash) and result['uuid']
     nil
   end
 

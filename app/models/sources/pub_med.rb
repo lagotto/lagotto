@@ -119,6 +119,10 @@ class PubMed < Source
     query_url = EUTILS_URL + params.to_query
 
     result = get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
+      
+      # Check that PubMed has returned something, otherwise an error must have occured
+      return nil if document.blank?
+      
       id_element = document.find_first("//eSearchResult/IdList/Id")
       id_element and id_element.content.strip
     end

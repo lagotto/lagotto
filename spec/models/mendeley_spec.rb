@@ -47,12 +47,7 @@ describe Mendeley do
       stub.should have_been_requested
       stub_doi.should have_been_requested
       stub_title.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPConflict")
-      error_message.message.should include("Wrong Mendeley uuid 130834f1-ed91-11df-99a6-0024e8453de6")
-      error_message.status.should == 409
-      error_message.source_id.should == mendeley.id
+      ErrorMessage.count.should == 0
     end
   end
     
@@ -91,6 +86,19 @@ describe Mendeley do
       mendeley.get_data(article).should eq({ :events => [], :event_count => 0 })
       stub.should have_been_requested
       ErrorMessage.count.should == 0
+    end
+
+    it "should filter out the mendeley_authors attribute" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pbio.0020002", :mendeley => "83e9b290-6d01-11df-936c-0026b95e484c")
+      body = File.read(fixture_path + 'mendeley_authors_tag.json')
+      stub = stub_request(:get, mendeley.get_query_url(article.mendeley)).to_return(:body => body, :status => 200)
+      stub_related = stub_request(:get, mendeley.get_related_url(article.mendeley)).to_return(:body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
+      response = mendeley.get_data(article)
+      response[:events].should be_true
+      response[:events]["mendeley_authors"].should be_nil
+      response[:events_url].should be_true
+      response[:event_count].should eq(29)
+      stub.should have_been_requested
     end
     
     it "should catch errors with the Mendeley API" do
