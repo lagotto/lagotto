@@ -22,7 +22,7 @@
   <div class="page-header" id="page-header">
     <%= render :partial => 'page-header', :locals => { :status => " <small class=\"hidden-phone\">#{@source.status}</small>".html_safe } %>
   </div>
-  
+
   <dl class="dl-horizontal" id="dl-horizontal">
     <%= render :partial => 'dl-horizontal' %>
   </dl>
@@ -40,35 +40,32 @@
       </ul>
     </li>
   </ul>
-  
+
   <div class="tab-content">
     <div class="tab-pane active" id="summary">
       <div class="row">
         <div class="span4" id="chart_status">
           <%= javascript_tag do -%>
-            <%= render :partial => 'status', formats: :js, :locals => { :name => @source.name } %> 
+            <%= render :partial => 'status', formats: :js, :locals => { :name => @source.name } %>
           <% end %>
         </div>
         <div class="span4" id="chart_day">
           <%= javascript_tag do -%>
-            <%= render :partial => 'day', formats: :js, :locals => { :name => @source.name } %> 
+            <%= render :partial => 'day', formats: :js, :locals => { :name => @source.name } %>
           <% end %>
         </div>
         <div class="span4" id="chart_month">
           <%= javascript_tag do -%>
-            <%= render :partial => 'month', formats: :js, :locals => { :name => @source.name } %> 
+            <%= render :partial => 'month', formats: :js, :locals => { :name => @source.name } %>
           <% end %>
         </div>
       </div>
       <div id="source-show">
-        <div class="muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
-        <%= javascript_tag do -%>
-          <%= render :partial => 'admin/sources/show', formats: :js, :locals => { :name => @source.name } %> 
-        <% end %>
+        <%= render :partial => 'admin/sources/show', :locals => { :name => @source.name } %>
       </div>
     </div>
     <div class="tab-pane hidden-phone" id="configuration">
-      <%= render :partial => 'configuration' %> 
+      <%= render :partial => 'configuration' %>
     </div>
     <%= render :partial => 'tab-content', :locals => { :pane => "tab-pane" } %>
   </div>

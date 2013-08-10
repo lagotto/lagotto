@@ -28,6 +28,7 @@ gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.2.1"
 gem "rabl", "~> 0.8.6"
 gem "dalli", "~> 2.6.4"
+gem "cache_digests", "~> 0.3.1"
 
 gem "d3_rails", "~> 3.2.4"
 gem "crossfilter-rails", "~> 1.2.0"

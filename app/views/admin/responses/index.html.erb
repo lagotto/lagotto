@@ -4,11 +4,8 @@
   </div>
 
    <p>Number of articles that have been updated with new information from sources.</p>
- 
+
    <div id="responses">
-     <div class="muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
-     <%= javascript_tag do -%>
-       <%= render :partial => 'index', formats: :js %> 
-     <% end %>
+     <%= render :partial => 'index' %>
   </div>
 </div>
