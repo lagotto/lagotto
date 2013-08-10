@@ -17,25 +17,25 @@
 # limitations under the License.
 
 class User < ActiveRecord::Base
-  
+
   before_save :ensure_authentication_token
   after_create :set_role
-    
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable, :omniauthable, :omniauth_providers => [:github, :persona]
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token
-  
+
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
   validates :email, :uniqueness => true, :allow_blank => true
-  
+
   default_scope order("sign_in_count DESC, updated_at DESC")
 
   scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
-  
+
   def self.find_for_github_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     unless user
@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
 
     user
   end
-  
+
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
@@ -75,9 +75,9 @@ class User < ActiveRecord::Base
     where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.strip.downcase }]).first
   end
 
-  # Helper method to check for admin user
-  def admin?
-    (role == "admin")
+  # Helper method to check for admin or staff user
+  def admin_or_staff?
+    ["admin","staff"].include?(role)
   end
 
   def api_key
@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
   end
 
   protected
-  
+
   def set_role
     # The first user we create has an admin role unless it is in the test environment
     self.update_attributes(:role => "admin") if (User.count == 1 and !Rails.env.test?)

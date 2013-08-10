@@ -14,7 +14,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| Article.clean_id(id) }
     id_hash = { :articles => { type.to_sym => ids }, :retrieval_statuses => { :source_id => source_ids }}
     @articles = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).order("articles.updated_at DESC").decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
-    
+
     # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
     if @articles.blank?
       if params[:source].blank?
@@ -22,14 +22,14 @@ class Api::V3::ArticlesController < Api::V3::BaseController
       else
         @error = "Source not found."
       end
-      render "error", :status => :not_found 
+      render "error", :status => :not_found
     end
   end
-  
+
   def show
     # Load one article given query params
     source_ids = get_source_ids(params[:source])
-    
+
     id_hash = { :articles => Article.from_uri(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
     @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash).decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
 
@@ -40,7 +40,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
       else
         @error = "Source not found."
       end
-      render "error", :status => :not_found 
+      render "error", :status => :not_found
     end
   end
 
@@ -65,7 +65,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     if @article.blank?
       @error = "No article found."
       @article = @id_hash
-      render "error", :status => :not_found 
+      render "error", :status => :not_found
     elsif @article.update_attributes(params[:article])
       @success = "Article updated."
       @article = @id_hash
@@ -83,7 +83,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     if @article.blank?
       @error = "No article found."
       @article = @id_hash
-      render "error", :status => :not_found 
+      render "error", :status => :not_found
     elsif @article.destroy
       @success = "Article deleted."
       @article = @id_hash
@@ -104,11 +104,11 @@ class Api::V3::ArticlesController < Api::V3::BaseController
 
   # Filter by source parameter, filter out private sources unless admin
   def get_source_ids(source_names)
-    if source_names and current_user.try(:admin?)
+    if source_names and current_user.try(:admin_or_staff?)
       source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
     elsif source_names
-      source_ids = Source.where("private = 0 AND lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)      
-    elsif current_user.try(:admin?)
+      source_ids = Source.where("private = 0 AND lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
+    elsif current_user.try(:admin_or_staff?)
       source_ids = Source.order("name").pluck(:id)
     else
       source_ids = Source.where("private = 0").order("name").pluck(:id)
