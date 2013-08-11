@@ -1,26 +1,30 @@
 <div class="content">
   <div class="page-header">
-    <h1>Events</h1>
+    <h1><%= link_to "Events", admin_events_path %></h1>
   </div>
-  
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#article" data-toggle="tab">Articles with Events</a></li>
-    <li><a href="#event" data-toggle="tab">All Events</a></li>
-  </ul>
-  
-  <div class="tab-content">
-    <div class="tab-pane active" id="article">
-      <p>Total number articles with at least one event, linear scale.</p>
-      <div class="muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
-      <%= javascript_tag do -%>
-        <%= render :partial => 'article', formats: :js %> 
-      <% end %>
+
+  <% if Article.count > 0 %>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#article" data-toggle="tab">Articles with Events</a></li>
+      <li><a href="#event" data-toggle="tab">All Events</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="article">
+        <p>Total number articles with at least one event, linear scale.</p>
+        <div class="muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
+          <%= javascript_tag do -%>
+            <%= render :partial => 'article', formats: :js %>
+          <% end %>
+      </div>
+      <div class="tab-pane" id="event">
+        <p>Total number of events per source, logarithmic scale.</p>
+        <%= javascript_tag do -%>
+          <%= render :partial => 'event', formats: :js %>
+        <% end %>
+      </div>
     </div>
-    <div class="tab-pane" id="event">
-      <p>Total number of events per source, logarithmic scale.</p>
-      <%= javascript_tag do -%>
-        <%= render :partial => 'event', formats: :js %> 
-      <% end %>
-    </div>
-  </div>
+  <% else %>
+    <div class="alert alert-info">No events found</div>
+  <% end %>
 </div>

@@ -20,9 +20,9 @@
 
 <div class="content">
   <div id="show">
-    <%= render :partial => 'admin/articles/show' %> 
+    <%= render :partial => 'admin/articles/show' %>
   </div>
-  
+
   <% if @article.retrieval_statuses.sum(:event_count) > 0 %>
     <ul class="nav nav-tabs">
       <li class="active"><a href="#all" data-toggle="tab" title="All Metrics">All Metrics</a></li>
@@ -31,26 +31,23 @@
       <li class="hidden-phone"><a href="#year" data-toggle="tab" title="by Year">Metrics by Year</a></li>
       <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
     </ul>
-  
+
     <div class="tab-content">
       <div class="tab-pane active" id="all">
         <div class="muted" id="loading-all">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
-          var api_key = "<%= @api_key %>";
           <%= render :partial => 'all', formats: :js %>
         <% end %>
       </div>
       <div class="tab-pane hidden-phone" id="day">
         <div class="muted" id="loading-day">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
-          var api_key = "<%= @api_key %>";
           <%= render :partial => 'day', formats: :js %>
         <% end %>
       </div>
       <div class="tab-pane hidden-phone" id="month">
         <div class="muted" id="loading-month">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
-          var api_key = "<%= @api_key %>";
           <%= render :partial => 'month', formats: :js %>
         <% end %>
       </div>
@@ -58,13 +55,13 @@
         <div class="muted" id="loading-year">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
           var api_key = "<%= @api_key %>";
-          <%= render :partial => 'year', formats: :js %> 
+          <%= render :partial => 'year', formats: :js %>
         <% end %>
       </div>
       <div class="tab-pane hidden-phone" id="more">
-         <%= render :partial => 'more' %> 
-      </div> 
-    </div> 
+         <%= render :partial => 'more' %>
+      </div>
+    </div>
   <% else %>
     <div class="alert alert-info">No sources have cited this article</div>
   <% end %>

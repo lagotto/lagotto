@@ -1,6 +1,6 @@
 var doi = d3.select("dd#doi").attr('data-doi');
 
-d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key, function(data) {
+d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(data) {
 
   var l = 20; // left margin
   var r = 50; // right margin
@@ -13,16 +13,16 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key,
   var end_date = new Date(pub_date.getTime() + days * 24 * 60 * 60 * 1000);
   var format_date = d3.time.format("%m/%d/%y");
   var format_number = d3.format(",d")
-  
+
   d3.select("#loading-all").remove();
-  
+
   var category = [{ name: "html", display_name: "HTML Views" },
-                  { name: "pdf", display_name: "PDF Downloads" }, 
+                  { name: "pdf", display_name: "PDF Downloads" },
                   { name: "likes", display_name: "Likes" },
-                  { name: "shares", display_name: "Shares" },                
+                  { name: "shares", display_name: "Shares" },
                   { name: "comments", display_name: "Comments" },
                   { name: "citations", display_name: "Citations" }];
-                  
+
   category.forEach(function(c) {
     d3.select("div#all").append("div")
         .attr("class", "row all-row-" + c.name)
@@ -61,7 +61,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key,
       d3.selectAll("div#all").selectAll("div.all-row-" + c.name).remove();
     }
   });
-  
+
   if (d3.selectAll("div#all").selectAll("div.row")[0].length == 0) {
     d3.select("div#all").append("p")
       .attr("class", "muted")

@@ -44,6 +44,6 @@ Then /^I should not see the group "(.*?)"$/ do |group_name|
 end
 
 Then /^I should see the error "(.*?)"$/ do |error|
-  page.driver.render("tmp/capybara/#{error}.png")
   page.should have_content error
+  page.driver.render("tmp/capybara/#{error}.png")
 end

@@ -43,26 +43,28 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="summary">
-      <div class="row">
-        <div class="span4" id="chart_status">
-          <%= javascript_tag do -%>
-            <%= render :partial => 'status', formats: :js, :locals => { :name => @source.name } %>
-          <% end %>
-        </div>
-        <div class="span4" id="chart_day">
-          <%= javascript_tag do -%>
-            <%= render :partial => 'day', formats: :js, :locals => { :name => @source.name } %>
-          <% end %>
-        </div>
-        <div class="span4" id="chart_month">
-          <%= javascript_tag do -%>
-            <%= render :partial => 'month', formats: :js, :locals => { :name => @source.name } %>
-          <% end %>
-        </div>
-      </div>
       <div id="source-show">
         <%= render :partial => 'admin/sources/show', :locals => { :name => @source.name } %>
       </div>
+      <% if Article.count > 0 %>
+        <div class="row">
+          <div class="span4" id="chart_status">
+            <%= javascript_tag do -%>
+              <%= render :partial => 'status', formats: :js, :locals => { :name => @source.name } %>
+            <% end %>
+          </div>
+          <div class="span4" id="chart_day">
+            <%= javascript_tag do -%>
+              <%= render :partial => 'day', formats: :js, :locals => { :name => @source.name } %>
+            <% end %>
+          </div>
+          <div class="span4" id="chart_month">
+            <%= javascript_tag do -%>
+              <%= render :partial => 'month', formats: :js, :locals => { :name => @source.name } %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
     <div class="tab-pane hidden-phone" id="configuration">
       <%= render :partial => 'configuration' %>

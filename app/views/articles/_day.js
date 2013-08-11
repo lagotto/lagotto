@@ -2,7 +2,7 @@ var doi = d3.select("dd#doi").attr('data-doi');
 
 function getDate(d) { return new Date(d.year, d.day - 1, d.day); }
 
-d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key, function(data) {
+d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(data) {
 
   var l = 20; // left margin
   var r = 50; // right margin
@@ -15,16 +15,16 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key,
   var end_date = new Date(pub_date.getTime() + days * 24 * 60 * 60 * 1000);
   var format_date = d3.time.format("%m/%d/%y");
   var format_number = d3.format(",d")
-  
+
   d3.select("#loading-day").remove();
-  
+
   var category = [{ name: "html", display_name: "HTML Views" },
-                  { name: "pdf", display_name: "PDF Downloads" }, 
+                  { name: "pdf", display_name: "PDF Downloads" },
                   { name: "likes", display_name: "Likes" },
-                  { name: "shares", display_name: "Shares" },                
+                  { name: "shares", display_name: "Shares" },
                   { name: "comments", display_name: "Comments" },
                   { name: "citations", display_name: "Citations" }];
-                  
+
   category.forEach(function(c) {
     data[0]["sources"].forEach(function(source) {
       if (source.by_day) {
@@ -56,7 +56,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key,
           d3.select("div#day-" + source.name + "-" + c.name).append("div")
               .attr("class", "span9")
               .attr("id", "day-chart-" + source.name + "-" + c.name);
-          
+
           var chart = d3.select("div#day-chart-" + source.name + "-" + c.name).append("svg")
             .attr("width", (w + 1) * days + l + r)
             .attr("height", h + t )
@@ -83,7 +83,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key,
           chart.append("line")
             .attr("x1", 0)
             .attr("x2", (w + 1) * days + 8)
-            .attr("y1", h)        
+            .attr("y1", h)
             .attr("y2", h)
             .attr("class", "line");
           chart.selectAll("rect").each(
@@ -99,7 +99,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key,
         .text(c.display_name);
     }
   });
-  
+
   if (d3.selectAll("div#day").selectAll("div.row")[0].length == 0) {
     d3.select("div#day").append("p")
       .attr("class", "muted")

@@ -28,7 +28,7 @@
     <% end %>
 
 <% else %>
-  <% if can? :manage, ErrorMessage %>
+  <% if can?(:manage, ErrorMessage) %>
     <div class="btn-toolbar pull-right hidden-phone">
       <%= link_to '<i class="icon-plus"></i> New Group'.html_safe, new_admin_group_path, { :remote => true, :class => 'btn btn-mini', :id => 'New' } %>
     </div>
@@ -41,7 +41,7 @@
           <th>Name</th>
           <th>Status</th>
           <th>Group</th>
-          <% if can? :manage, ErrorMessage %>
+          <% if can?(:manage, ErrorMessage) %>
             <th class="hidden-phone">Actions</th>
           <% end %>
         </tr>
