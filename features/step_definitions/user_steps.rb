@@ -70,7 +70,6 @@ When /^I go to my account page$/ do
 end
 
 When /^I click on user "(.*?)"$/ do |username|
-  page.driver.render("tmp/capybara/#{username}.png")
   user = User.find_by_username(username)
   click_link "link_#{user.id}"
 end
@@ -122,6 +121,7 @@ end
 
 Then /^I should not see the "(.*?)" button$/ do |title|
   page.should_not have_link(title)
+  page.driver.render("tmp/capybara/#{title}.png")
 end
 
 Then(/^I should see the API key$/) do
@@ -133,4 +133,5 @@ Then /^I should see the "(.*?)" role for user "(.*?)"$/ do |role, username|
   within("#user_#{user.id}") do
     page.should have_content role
   end
+  page.driver.render("tmp/capybara/#{role}_#{username}.png")
 end

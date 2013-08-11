@@ -58,11 +58,12 @@ When /^I add the article with all required information$/ do
   create_article
 end
 
-When(/^I go to the article$/) do
+When /^I go to the article$/ do
   visit article_path(@article)
+  page.driver.render("tmp/capybara/#{@article.doi}.png")
 end
 
-When(/^I go to the article with the DOI "(.*?)"$/) do |doi|
+When /^I go to the article with the DOI "(.*?)"$/ do |doi|
   visit article_path(article.doi)
 end
 
@@ -78,8 +79,8 @@ end
 
 ### THEN ###
 Then /^I should see the article$/ do
-  #visit article_path(@article)
-  #page.should have_content @article.title
+  visit article_path(@article)
+  page.has_css?('div.page-header h1', :text => @article.title).should be_true
 end
 
 Then /^I should see a list of articles$/ do

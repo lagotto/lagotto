@@ -1,6 +1,6 @@
 class Ability
   include CanCan::Ability
-  
+
   # To simplify, all admin permissions are linked to the ErrorMessage resource
 
   def initialize(user)
@@ -8,13 +8,11 @@ class Ability
     if user.role == "admin"
       can :manage, :all
     elsif user.role == "staff"
-      can :manage, User, :id => user.id
-      can :read, [Article, Source, ErrorMessage, ApiRequest, DelayedJob]
+      can :read, :all
+      can :update, User, :id => user.id
     elsif user.role == "user"
-      can :manage, User, :id => user.id
-      can :read, [Article, Source]
+      can [:update, :show], User, :id => user.id
     else
-      can :read, [Article, Source]
     end
   end
 end

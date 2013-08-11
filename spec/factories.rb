@@ -49,7 +49,7 @@ FactoryGirl.define do
   end
 
   factory :group do
-    name 'Citations'
+    name 'Saved'
 
     initialize_with { Group.find_or_create_by_name(name) }
   end

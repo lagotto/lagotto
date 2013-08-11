@@ -39,9 +39,14 @@ When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, display_name|
   page.driver.render("tmp/capybara/configuration.png")
 end
 
-When /^I go to the source "(.*?)"$/ do |display_name|
+When /^I go to the admin page of source "(.*?)"$/ do |display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
+end
+
+When /^I go to the source "(.*?)"$/ do |display_name|
+  source = Source.find_by_display_name(display_name)
+  visit source_path(source)
 end
 
 When /^I go to the "(.*?)" submenu of menu "(.*?)" of source "(.*?)"$/ do |label, menu, display_name|
@@ -76,17 +81,17 @@ When /^I go to the "(.*?)" page$/ do |page_title|
 end
 
 When /^I go to the "(.*?)" admin page$/ do |page_title|
-  if page_title == "Jobs" 
-    title = "delayed_jobs" 
-  elsif page_title == "Errors" 
+  if page_title == "Jobs"
+    title = "delayed_jobs"
+  elsif page_title == "Errors"
     title = "error_messages"
-  elsif page_title == "Home" 
+  elsif page_title == "Home"
     title = ""
-  elsif page_title == "API" 
+  elsif page_title == "API Requests"
     title = "api_requests"
   else
     title = page_title.downcase
-  end  
+  end
   visit "/admin/#{title}"
   #page.driver.render("tmp/capybara/#{title}.png")
 end
@@ -167,10 +172,10 @@ end
 
 Then /^I should see the image "(.+)"$/ do |image|
   page.has_css?("img[src='/assets/#{image}']").should be_true
-  page.driver.render("tmp/capybara/#{image}.png")
+  page.driver.render("tmp/capybara/#{image}")
 end
 
-Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|  
+Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|
   page.driver.render("tmp/capybara/#{table_name}.png")
   rows = find("table##{table_name}").all('tr')
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
