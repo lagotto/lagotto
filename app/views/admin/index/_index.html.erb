@@ -1,42 +1,54 @@
 <div class="row">
-  <div class="span4 dashboard">
-    <h2><i class="icon-file"></i> <%= link_to "Articles", articles_path %></h2>
-    <%= pluralize(number_with_delimiter(@articles_count), 'article') %>, including <%= pluralize(number_with_delimiter(Article.cited(1).count), 'cited article') %>, and <%= pluralize(number_with_delimiter(@articles_recent_count), 'article') %> published in the last 30 days.
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost" id="article"><%= number_with_delimiter(@articles_count) %></h1>
+    <div><%= link_to "Articles", articles_path %></div>
   </div>
-  <div class="span4 dashboard">
-    <h2><i class="icon-tags"></i> <%= link_to "Sources", admin_sources_path %></h2>
-    <%= pluralize(@sources_count, 'source') %>, including <%= pluralize(@sources_inactive_count, 'inactive source') %> and <% if @sources_disabled_count > 0 %><span class="label label-warning"><%= pluralize(@sources_disabled_count, 'disabled source') %>.<% else %>0 disabled sources.<% end %></p>
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost"><%= number_with_delimiter(@articles_recent_count) %></h1>
+    <div><%= link_to "Articles published last 30 days", articles_path %></div>
   </div>
-  <div class="span4 dashboard">
-    <h2><i class="icon-list"></i> <%= link_to "Jobs", admin_delayed_jobs_path %></h2>
-    <%= pluralize(number_with_delimiter(@delayed_jobs_active_count), 'active job') %> for <% if @queued_count == 0 %><span class="label label-warning">0 queued articles.</span><% else %><%= pluralize(number_with_delimiter(@queued_count), 'queued article') %>.<% end %>
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost"><%= number_with_delimiter(@sources_disabled_count) %></h1>
+    <div><%= link_to "Disabled sources", admin_sources_path %></div>
   </div>
-</div>
-<div class="row">
-  <div class="span4 dashboard">
-    <h2><i class="icon-download"></i> <%= link_to "Responses", admin_responses_path %></h2>
-    <%= pluralize(number_with_delimiter(@delayed_jobs_count), 'responses') %> in total, with <% if@delayed_jobs_count > 0 and @delayed_jobs_errors_count / @delayed_jobs_count > 0.05 %><span class="label label-warning"><%= pluralize(@delayed_jobs_errors_count, 'error') %></span><% else %><%= pluralize(@delayed_jobs_errors_count, 'error') %><% end %> in the last 24 hours.
-  </div>
-  <div class="span4 dashboard">
-    <h2><i class="icon-flag"></i> <%= link_to "Events", admin_events_path %></h2>
-    <%= pluralize(number_with_delimiter(RetrievalStatus.sum(:event_count)), 'event') %>.
-  </div>
-  <div class="span4 dashboard">
-    <h2><i class="icon-warning-sign"></i> <%= link_to "Errors", admin_error_messages_path %></h2>
-    <%= pluralize(number_with_delimiter(@error_messages_count), 'error') %> in total, with <% if @error_messages_last_day_count > 0 %><span class="label label-warning"><%= pluralize(number_with_delimiter(@error_messages_last_day_count), 'unresolved error') %></span><% else %>no unresolved errors<% end %> in the last 24 hours.
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost"><%= number_with_delimiter(@error_messages_last_day_count) %></h1>
+    <div><%= link_to "Errors in the last 24 hours", admin_events_path %></div>
   </div>
 </div>
 <div class="row">
-  <div class="span4 dashboard">
-    <h2><i class="icon-th"></i> <%= link_to "Users", admin_users_path %></h2>
-    <%= pluralize(number_with_delimiter(@users_count), 'user') %>, including <%= pluralize(number_with_delimiter(@api_users_count), 'API user') %>. 
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost"><%= number_with_delimiter(@queued_count) %></h1>
+    <div><%= link_to "Queued articles", admin_delayed_jobs_path %></div>
   </div>
-  <div class="span4 dashboard">
-    <h2><i class="icon-time"></i> <%= link_to "API Requests", admin_api_requests_path %></h2>
-    <%= pluralize(number_with_delimiter(@requests_count), 'API request') %> in the last 24 hours<%= @requests_page_average.blank? ? "" : " with an average duration of #{number_with_precision(@requests_page_average, :precision => 1)} ms" %>.
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost"><%= number_with_delimiter(@delayed_jobs_active_count) %></h1>
+    <div><%= link_to "Jobs", admin_delayed_jobs_path %></div>
   </div>
-  <div class="span4 dashboard">
-    <h2><i class="icon-tasks"></i> Databases</h2>
-    <p id="couchdb"><%= pluralize(number_with_delimiter(@mysql_info["rows"]), 'retrieval_history row') %> (<%= number_to_human_size(@mysql_info["data_length"]) %>, index <%= number_to_human_size(@mysql_info["index_length"]) %>) and <%= pluralize(number_with_delimiter(@couchdb_info["doc_count"]), 'CouchDB document') %><%= @couchdb_info["disk_size"] ? " (#{number_to_human_size(@couchdb_info["disk_size"])})." : "." %></p>
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost"><%= number_with_delimiter(@delayed_jobs_count) %></h1>
+    <div><%= link_to "Responses in the last 24 hours", admin_responses_path %></div>
+  </div>
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost" id="event"><%= number_with_delimiter(RetrievalStatus.sum(:event_count)) %></h1>
+    <div><%= link_to "Events", admin_events_path %></div>
+  </div>
+</div>
+<div class="row">
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost" id="user"><%= number_with_delimiter(@users_count) %></h1>
+    <div><%= link_to "Users", admin_users_path %></div>
+  </div>
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost"><%= number_with_delimiter(@requests_count) %></h1>
+    <div><%= link_to "API requests in the last 24 hours", admin_api_requests_path %></div>
+  </div>
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost"><%= number_to_human_size(@mysql_info["data_length"]) %></h1>
+    <div>MySQL retrieval_history size</div>
+  </div>
+    <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost" id="couchdb"><%= number_to_human_size(@couchdb_info["disk_size"]) %></h1>
+    <div>CouchDB database size</div>
   </div>
 </div>
