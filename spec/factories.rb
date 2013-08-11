@@ -124,7 +124,7 @@ FactoryGirl.define do
 
     initialize_with { Copernicus.find_or_create_by_name(name) }
   end
-  
+
   factory :cross_ref, class: CrossRef do
     type "CrossRef"
     name "crossref"
@@ -190,7 +190,7 @@ FactoryGirl.define do
 
     initialize_with { ScienceSeeker.find_or_create_by_name(name) }
   end
-  
+
   factory :scopus, class: Scopus do
     type "Scopus"
     name "scopus"
@@ -199,36 +199,24 @@ FactoryGirl.define do
     username "EXAMPLE"
     salt "EXAMPLE"
     partner_id "EXAMPLE"
-<<<<<<< HEAD
 
-=======
- 
->>>>>>> origin/master
     group
-    
+
     initialize_with { Scopus.find_or_create_by_name(name) }
   end
-  
+
   factory :twitter, class: Twitter do
     type "Twitter"
     name "twitter"
     display_name "Twitter"
     active true
     url "http://rwc-couch01.int.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key=%{doi}"
-<<<<<<< HEAD
 
-=======
- 
->>>>>>> origin/master
     group
-    
+
     initialize_with { Twitter.find_or_create_by_name(name) }
   end
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> origin/master
   factory :wikipedia, class: Wikipedia do
     type "Wikipedia"
     name "wikipedia"
@@ -240,7 +228,7 @@ FactoryGirl.define do
 
     initialize_with { Wikipedia.find_or_create_by_name(name) }
   end
-  
+
   factory :mendeley, class: Mendeley do
     type "Mendeley"
     name "mendeley"

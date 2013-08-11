@@ -12,6 +12,7 @@ cited = Group.find_or_create_by_name(:name => "Cited")
 saved = Group.find_or_create_by_name(:name => "Saved")
 discussed = Group.find_or_create_by_name(:name => "Discussed")
 recommended = Group.find_or_create_by_name(:name => "Recommended")
+other = Group.find_or_create_by_name(:name => "Other")
 
 # Load default reports
 # new_user = NewUserReport.find_or_create_by_name(:name => "new_user", :display_name => "New User")

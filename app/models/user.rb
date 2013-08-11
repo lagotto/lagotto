@@ -35,19 +35,6 @@ class User < ActiveRecord::Base
   default_scope order("sign_in_count DESC, updated_at DESC")
 
   scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
-<<<<<<< HEAD
-
-  def self.find_for_github_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    unless user
-      user = User.create!(:username => auth.info.nickname,
-                          :name => auth.info.name,
-                          :authentication_token => auth.token,
-                          :provider => auth.provider,
-                          :uid => auth.uid)
-    end
-=======
->>>>>>> origin/master
 
   def self.find_for_cas_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -74,8 +61,6 @@ class User < ActiveRecord::Base
     user
   end
 
-<<<<<<< HEAD
-=======
   # def self.find_for_github_oauth(auth, signed_in_resource=nil)
   #   user = User.where(:provider => auth.provider, :uid => auth.uid).first
   #   unless user
@@ -103,7 +88,6 @@ class User < ActiveRecord::Base
   #   user
   # end
 
->>>>>>> origin/master
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login

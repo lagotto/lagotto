@@ -4,15 +4,8 @@
     <fieldset>
       <legend>Edit Your Account</legend>
 
-<<<<<<< HEAD
-      <% if @user.provider != "github" %>
-        <%= f.input :name, :input_html => { :class => "span6" } %>
-        <%= f.input :username, :input_html => { :class => "span6" } %>
-      <% end %>
-=======
       <%= f.input :name, :input_html => { :class => "span6" } %>
       <%= f.input :username, :input_html => { :class => "span6" } %>
->>>>>>> origin/master
       <%= f.input :email, :input_html => { :class => "span6" } %>
       <%= f.input :password, :input_html => { :class => "span6" } %>
       <%= f.input :password_confirmation, :input_html => { :class => "span6" } %>
@@ -38,7 +31,6 @@
         <%= h@user.name %>
       </h1>
     </div>
-<<<<<<< HEAD
 
     <dl class="dl-horizontal">
       <dt>Username</dt>
@@ -59,30 +51,4 @@
       <dd><%= @user.authentication_token %></dd>
     </dl>
   <% end %>
-=======
-    <% end %>
-    <h1>
-      <%= h(@user.name) %>
-    </h1>
-  </div>
-
-  <dl class="dl-horizontal">
-    <dt>Username</dt>
-    <dd><%= @user.username %></dd>
-    <% if @user.email.present? %>
-      <dt>Email</dt>
-      <dd><%= h(@user.email) %></dd>
-    <% end %>
-    <dt>Role</dt>
-    <% if @user.role == "admin" %>
-      <dd>Admin - full access to the ALM application</dd>
-    <% elsif @user.role == "staff" %>
-      <dd>Staff - read access to the admin dashboard</dd>
-    <% elsif @user.role == "user" %>
-      <dd>User - access to the API</dd>
-    <% end %>
-    <dt>API Key</dt>
-    <dd><%= @user.authentication_token %></dd>
-  </dl>
->>>>>>> origin/master
 <% end %>

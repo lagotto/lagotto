@@ -32,13 +32,6 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
-<<<<<<< HEAD
 .vagrant
 .librarian
 Capfile
-=======
-.vagrant*
-Capfile
-/vendor/cookbooks/alm/.gitignore
-.vagrant*
->>>>>>> origin/master
