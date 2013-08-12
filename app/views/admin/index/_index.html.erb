@@ -13,7 +13,7 @@
   </div>
   <div class="span3 text-center dashboard dashboard-label">
     <h1 class="signpost"><%= number_with_delimiter(@error_messages_last_day_count) %></h1>
-    <div><%= link_to "Errors in the last 24 hours", admin_events_path %></div>
+    <div><%= link_to "Errors in the last 24 hours", admin_error_messages_path %></div>
   </div>
 </div>
 <div class="row">
@@ -30,7 +30,7 @@
     <div><%= link_to "Responses in the last 24 hours", admin_responses_path %></div>
   </div>
   <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="event"><%= number_with_delimiter(RetrievalStatus.sum(:event_count)) %></h1>
+    <h1 class="signpost" id="event"><%= number_with_delimiter(@events_count) %></h1>
     <div><%= link_to "Events", admin_events_path %></div>
   </div>
 </div>
