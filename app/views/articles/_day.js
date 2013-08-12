@@ -1,5 +1,5 @@
 var doi = d3.select("dd#doi").attr('data-doi');
-var api_key = d3.select("#all").attr('data-api_key');
+var api_key = d3.select("dd#doi").attr('data-api_key');
 
 function getDate(d) { return new Date(d.year, d.day - 1, d.day); }
 
