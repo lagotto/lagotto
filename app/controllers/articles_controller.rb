@@ -58,6 +58,9 @@ class ArticlesController < ApplicationController
 
     @groups = Group.order("id")
 
+    admin = User.order("created_at ASC").first
+    @api_key = admin.nil? ? "" : admin.authentication_token
+
     respond_with(@article) do |format|
       format.csv  { render :csv => @article }
       format.json { render :json => @article.as_json(format_options), :callback => params[:callback] }

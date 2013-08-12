@@ -9,7 +9,8 @@ Feature: Use without signing in
       Then I should see a list of 10 articles
 
     Scenario: Anonymous user can go to article
-      Given there is an article
+      Given we have a user with role "admin"
+      And there is an article
       When I go to the article
       Then I should see the article
 
