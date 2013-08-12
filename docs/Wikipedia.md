@@ -1,4 +1,12 @@
-Wikipedia is a free encyclopedia that everyone can edit. 
+Wikipedia is a free encyclopedia that everyone can edit.
+
+We are collecting the number of Wikipedia articles (`namespace=0`) in the 20 most popular wikipedias and Wikimedia Commons:
+
+    en de fr it pl es ru ja nl pt sv zh ca uk no fi vi cs hu ko commons
+
+We would for example use `en.wikipedia.org` as `HOST` in the `API URL` below.
+
+Because of the extensive load-balancing on Wikipedia's servers, pagination (for more than 50 results) is not reliable and we therefore don't collect links to individual Wikipedia pages. We are not counting the number of hits in the user or file namespaces.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
@@ -8,7 +16,7 @@ Wikipedia is a free encyclopedia that everyone can edit.
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: 7.days<br/>batch_time_interval: 1.hour</td>
+<td valign="top" width=80%>staleness: [ 1.day, 1.day, 1.month * 0.25, 1.month]<br/>batch_time_interval: 1.hour</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
@@ -39,59 +47,34 @@ Wikipedia is a free encyclopedia that everyone can edit.
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>http://HOST/w/api.php?action=query&list=search&format=json&srsearch=DOI&srwhat=text&srinfo=totalhits&srprop=timestamp&sroffset=OFFSET</td>
+<td valign="top" width=80%>http://HOST/w/api.php?action=query&list=search&format=json&srsearch=%22DOI%22&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1</td>
 </tr>
 </tbody>
 </table>
 
 ## Example Response
     {
-      query: {
-        searchinfo: {
-        totalhits: 7
-      },
-      search: [
-        {
-        ns: 0,
-        title: "Yurgovuchia",
-        timestamp: "2012-07-12T10:37:53Z"
-        },
-        {
-        ns: 0,
-        title: "Dromaeosauridae",
-        timestamp: "2012-08-06T04:22:15Z"
-        },
-        {
-        ns: 0,
-        title: "Compsognathidae",
-        timestamp: "2012-06-23T07:06:54Z"
-        },
-        {
-        ns: 0,
-        title: "Xiaotingia",
-        timestamp: "2012-07-15T05:58:38Z"
-        },
-        {
-        ns: 0,
-        title: "Eudromaeosauria",
-        timestamp: "2012-07-15T12:36:04Z"
-        },
-        {
-        ns: 0,
-        title: "2012 in paleontology",
-        timestamp: "2012-08-07T00:47:31Z"
-        },
-        {
-        ns: 0,
-        title: "Microraptoria",
-        timestamp: "2012-07-15T02:13:21Z"
+      "query-continue": {
+        "search": {
+          "sroffset": 1
         }
-      ]
+      },
+      "query": {
+        "searchinfo": {
+          "totalhits": 685
+        },
+        "search": [
+          {
+            "ns": 0,
+            "title": "Calliotropis tiara",
+            "timestamp": "2013-04-14T14:52:39Z"
+          }
+        ]
       }
     }
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/wikipedia.rb). 
+The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/wikipedia.rb).
 
 ## Further Documentation
 * [Mediawiki API Documentation](http://www.mediawiki.org/wiki/API:Main_page)
