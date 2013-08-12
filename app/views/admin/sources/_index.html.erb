@@ -48,7 +48,7 @@
       </thead>
       <tbody>
         <% @groups.each do |group| %>
-          <% cache group do %>
+          <% cache [group, group.sources] do %>
             <tr>
               <% if group.sources.size > 0 %>
                 <td><%= link_to group.sources.first.display_name, admin_source_path(group.sources.first.name) %></td>
@@ -70,8 +70,8 @@
               <% group.sources[1..-1].each do |source| %>
                 <% cache source do %>
                   <tr>
-                  <td><%= link_to source.display_name, admin_source_path(source) %></td>
-                  <td><%= status_label(source.status).html_safe %></td>
+                    <td><%= link_to source.display_name, admin_source_path(source) %></td>
+                    <td><%= status_label(source.status).html_safe %></td>
                   </tr>
                 <% end %>
               <% end %>
