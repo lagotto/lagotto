@@ -1,5 +1,5 @@
 var colors = ["#304345","#789aa1","#a0d5d6","#ad9a27","#a17f78"];
-  
+
 var l = 200; // left margin
 var r = 120; // right margin
 var w = 600; // width of drawing area
@@ -7,9 +7,9 @@ var h = 30;  // bar height
 var s = 1;   // spacing between bars
 
 d3.json("/admin/events.json", function(error, data) {
-  
+
   d3.select("#loading").remove();
-  
+
   var chart = d3.select("div#event").append("svg")
     .attr("width", w + l + r)
     .attr("height", data.length * (h + 2 * s) + 30)
@@ -49,27 +49,4 @@ d3.json("/admin/events.json", function(error, data) {
     .attr("dx", 5) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(function(d) { return d.event_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); });
-    
-    setInterval(function() {
-      redraw();
-    }, 5000);
-
-    function redraw() {
-      d3.json("/admin/events.json", function(error, data) {
-    
-        chart.selectAll("rect")
-          .data(data)
-          .attr("fill", function(d) { return z(d.group); })
-          .attr("y", function(d) { return y(d.name); })
-          .attr("height", h)
-          .attr("width", function(d) { return x(d.event_count); });
-        chart.selectAll("text.values")
-          .data(data)
-          .attr("x", function(d) { return x(d.event_count); })
-          .attr("y", function(d) { return y(d.name) + y.rangeBand() / 2; })
-          .attr("dx", 5) // padding-right
-          .attr("dy", ".35em") // vertical-align: middle
-          .text(function(d) { return d.event_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); });
-      });
-    };
 });

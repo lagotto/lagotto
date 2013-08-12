@@ -55,9 +55,9 @@ class ArticlesController < ApplicationController
     load_article
 
     format_options = params.slice :events, :history, :source
-    
+
     @groups = Group.order("id")
-    
+
     admin = User.order("created_at ASC").first
     @api_key = admin.nil? ? "" : admin.authentication_token
 
@@ -78,7 +78,7 @@ class ArticlesController < ApplicationController
     # Load one article given query params
     id_hash = Article.from_uri(params[:id])
     @article = Article.where(id_hash).first
-    
+
     # raise error if article wasn't found
     raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @article.blank?
   end

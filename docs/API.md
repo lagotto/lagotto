@@ -1,58 +1,67 @@
-Version 3 of the API was released October 30, 2012 (ALM 2.3). The old [API v2](API-v2) is still available, and will be supported at least until August 2013.
+Version 3 of the API was released October 30, 2012 (ALM 2.3).
 
 ## Base URL
-All API calls to the version 3 API start with ``/api/v3/articles``. 
+All API calls to the version 3 API start with ``/api/v3/articles``.
 
 ## Supported Media Types
 * JSON (default)
 * XML
 
-The media type is set in the header, e.g. "Accept: application/json". Media type negotiation via file extension (e.g. ".json") is not supported. The API defaults to json if no media type is given, e.g. to test the API with a browser.
+The media type is set in the header, e.g. "Accept: application/json". Media type negotiation via file extension (e.g. ".json") is not supported. The API defaults to JSON if no media type is given, e.g. to test the API with a browser.
+
+## API Key
+All API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use **Github OAuth** or other services. For the PLOS ALM application you need to sign in with your [PLOS Journals account](http://register.plos.org/ambra-registration/register.action).
 
 ## Query for one or several Articles
-The default query format is the ``ids`` parameter, followed by a list of DOIs. These DOIs have to be URL-escaped, e.g. ``%2F`` for ``/``:
-``/api/v3/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413``
+Specify one or more articles by a comma-separated list of DOIs in the `ids` parameter. These DOIs have to be URL-escaped, e.g. `%2F` for `/`:
+
+    /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240
+    /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413
 
 Queries for up to 50 articles at a time are supported.
-
-The query format of the previous API is still supported for single articles:
-``/api/v3/articles/info:doi/10.1371%2Fjournal.pone.0036240``
 
 ## Additional Parameters
 
 ### type=doi|pmid|pmcid|mendeley
-The version 3 API supports queries for DOI, PubMed ID, PubMed Central ID and Mendeley UUID. The default ``doi`` is used if no type is given in the query. 
-``/api/v3/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&type=doi``
+The version 3 API supports queries for DOI, PubMed ID, PubMed Central ID and Mendeley UUID. The default `doi` is used if no type is given in the query. The following queries are all for the same article:
 
-You can also use the old query format:
-``/api/v3/articles/info:pmid/22590526``
+    /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pmed.1001361
+    /api/v3/articles?api_key=API_KEY&ids=23300388&type=pmid
+    /api/v3/articles?api_key=API_KEY&ids=PMC3531501&type=pmcid
+    /api/v3/articles?api_key=API_KEY&ids=437b07d9-bc40-4c57-b60e-1f60fefe2300&type=mendeley
 
 ### info=summary|detail|event|history
 With the **summary** parameter no source information or metrics are provided, only article metadata such as DOI, PubMed ID, title or publication date. The only exception are summary statistics, aggregating metrics from several sources (views, shares, bookmarks and citations).
 
-With the **detail** parameter all historical data and all raw data sent by the source are provided. This also includes metrics by day, month and year.
-``/api/v3/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail``
-
 With the **event** parameter all raw data sent by the source are provided.
-``/api/v3/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=event``
+
+    /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=event
 
 With the **history** parameter all historical data are provided. This also includes metrics by day, month and year.
-``/api/v3/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=history``
 
-### days=x or months=x
-With either of these parameters, the metrics are provided for a timepoint a given number of days or months after publiation. The response format is the same as the default response.
-``/api/v3/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&days=30``
+    /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=history
 
-### year=x
-The metrics are provided for a timepoint at the end of the given year. The response format is the same as the default response.
-``/api/v3/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&year=2011``
+With the **detail** parameter all historical data and all raw data sent by the source are provided. This also includes metrics by day, month and year.
+
+    /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail
 
 ### source=x
 Only provide metrics for a given source, or a list of sources. The response format is the same as the default response.
-``/api/v3/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley,crossref``
+
+    /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley,crossref
+
+### days=x or months=x
+With either of these parameters, the metrics are provided for a timepoint a given number of days or months after publiation. The response format is the same as the default response.
+
+    /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&days=30
+
+### year=x
+The metrics are provided for a timepoint at the end of the given year. The response format is the same as the default response.
+
+    /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&year=2011
 
 ## Metrics
-The metrics for every source are returned as total number, and separated in categories, e.g. ``html`` and ``pdf`` views for usage data, ``shares`` and ``groups`` for Mendeley, or ``shares``, ``likes`` and ``comments`` for Facebook. The same seven categories are always returned for every source to simplify parsing of API responses:
+The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `shares` and `groups` for Mendeley, or `shares`, `likes` and `comments` for Facebook. The same seven categories are always returned for every source to simplify parsing of API responses:
 
 * **CiteULike**: shares
 
@@ -62,9 +71,7 @@ The metrics for every source are returned as total number, and separated in cate
 
 * **Facebook**: shares, likes, comments
 
-* **CrossRef, PubMed, Nature Blogs, ResearchBlogging, ScienceSeeker**: citations
-
-* **Wikipedia**: shares, citations
+* **CrossRef, PubMed, Nature Blogs, ResearchBlogging, ScienceSeeker, Wikipedia**: citations
 
 * **Counter, PubMed Central**: html, pdf
 
@@ -77,13 +84,13 @@ Several metrics are aggregated and available in all API queries:
 * views: counter + pmc (PLOS only)
 * shares: facebook (+ twitter at PLOS)
 * bookmarks: mendeley + citeulike
-* citations: crossref
+* citations: crossref (scopus at PLOS)
 
 ## Date and Time Format
 All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``
 
 ## Null
-The version 3 API returns ``null`` if no query was made, and ``0`` if the external API returns 0 events.
+The API returns `null` if no query was made, and `0` if the external API returns 0 events.
 
 ## Example Response
 ### JSON

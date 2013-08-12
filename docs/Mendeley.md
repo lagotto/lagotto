@@ -1,5 +1,9 @@
 [Mendeley](http://www.mendeley.com) is a reference manager and social bookmarking tool.
 
+The Mendeley API returns incomplete API responses for articles where they don't have enough information, and we ignore those:
+
+    { uuid: "182cf980-6d0c-11df-a2b2-0026b95e3eb7" }
+
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
@@ -113,7 +117,7 @@
       uuid: "182cf980-6d0c-11df-a2b2-0026b95e3eb7",
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/mendeley.rb). 
+The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/mendeley.rb).
 
 ## Further Documentation
 * [Mendeley API Documentation](http://apidocs.mendeley.com)

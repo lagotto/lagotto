@@ -1,67 +1,79 @@
-There are several ALM-specific rake tasks that help with administration of the ALM application.
+There are several ALM-specific rake tasks that help with administration of the ALM application. They can be listed with the following command:
+
+    rake -T
+
+Depending on your server setup you may have to use `bundle exec rake` instead of `rake`.
 
 ### db.rake
 
+Bulk-load a file consisting of DOIs, one per line. it'll ignore (but count) invalid ones and those that already exist in the database:
+
     rake db:articles:load <DOI_DUMP
 
-Bulk-load a file consisting of DOIs, one per line. it'll ignore (but count) invalid ones and those that already exist in the database.
-
-Format for import file: 
+Format for import file:
 
     DOI Date(YYYY-MM-DD) Title
 
 The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
 
+Loads 25 sample articles:
+
     rake db:articles:seed
 
-Loads 25 sample articles.
+Deletes all articles and associated rows in retrieval_statuses and retrieval_histories. For safety reasons doesn't work in the production environment.
 
     rake db:articles:delete
 
-Deletes all articles and associated rows in retrieval_statuses and retrieval_histories. For safety reasons doesn't work in the production environment.
-    
-### doi_import.rake
+Deletes all resolved errors:
 
-    rake doi_import <DOI_DUMP
+    rake db:error_messages:delete
+
+Delete old API requests (only keep the last 10,000):
+
+    rake db:api_requests:delete
+
+### doi_import.rake
 
 Alias to `rake db:articles:load`, see above.
 
-### queue.rake
+    rake doi_import <DOI_DUMP
 
-    rake queue:SOURCE
+### queue.rake
 
 Queue all articles for the given source.
 
-    rake queue:single_job[DOI,SOURCE]
+    rake queue:SOURCE
 
 Queue job for given DOI and SOURCE.
 
-    rake queue:all_jobs[SOURCE]
+    rake queue:single_job[DOI,SOURCE]
 
 Queue all jobs for given SOURCE.
 
-### workers.rake
+    rake queue:all_jobs[SOURCE]
 
-    rake workers:start_all
+### workers.rake
 
 Start all the workers.
 
-    rake workers:stop_all
+    rake workers:start_all
 
 Stop all the workers.
 
-    rake workers:add_to_source [SOURCE=name]
+    rake workers:stop_all
 
 Add one worker to a given source queue.
 
-    rake workers:start_source [SOURCE=name]
+    rake workers:add_to_source [SOURCE=name]
 
 Start all the workers for a given source queue.
 
-    rake workers:stop_source [SOURCE=name]
+    rake workers:start_source [SOURCE=name]
 
 Stop workers for a given source queue.
 
-    rake workers:monitor
+    rake workers:stop_source [SOURCE=name]
 
 Monitor workers: check every two hours that workers are still running.
+
+    rake workers:monitor

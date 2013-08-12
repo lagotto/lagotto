@@ -20,26 +20,26 @@ class Wikipedia < Source
   # List of Wikipedias to search, we are using 20 most popular wikis
   # Taken from http://toolserver.org/~dartar/cite-o-meter/?doip=10.1371
   LANGUAGES = %w(en de fr it pl es ru ja nl pt sv zh ca uk no fi vi cs hu ko commons)
-  
+
   validates_each :url do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
   end
 
   def get_data(article, options={})
-    
+
     # Check that article has DOI
     return  { :events => [], :event_count => nil } if article.doi.blank?
-    
+
     events = {}
-    
+
     # Loop through the languages
     LANGUAGES.each do |lang|
-      
-      host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"  
+
+      host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
       query_url = get_query_url(article, :host => host)
       options[:source_id] = id
-      results = get_json(query_url, options) 
-        
+      results = get_json(query_url, options)
+
       # if server doesn't return a result
       if results.nil?
         return nil
@@ -49,29 +49,29 @@ class Wikipedia < Source
         # Not Found
         lang_count = 0
       end
-      
+
       events[lang] = lang_count
     end
-   
-    event_count = events.values.inject(0) { |sum,x| sum + x }    
+
+    event_count = events.values.inject(0) { |sum,x| sum + x }
     events["total"] = event_count
-    events_url = event_count > 0 ? get_events_url(article) : nil
-    
-    event_metrics = { :pdf => nil, 
-                      :html => nil, 
-                      :shares => nil, 
+    events_url = get_events_url(article)
+
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
                       :groups => nil,
-                      :comments => nil, 
-                      :likes => nil, 
-                      :citations => event_count, 
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => event_count,
                       :total => event_count }
-                      
-    { :events => events, 
+
+    { :events => events,
       :event_count => event_count,
       :event_metrics => event_metrics,
       :events_url => events_url }
   end
-  
+
   def get_query_url(article, options={})
     # Build URL for calling the MediaWiki API, using the following parameters:
     #
@@ -79,16 +79,17 @@ class Wikipedia < Source
     # doi - the DOI to search for, uses article.doi
     #
     # API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
-    
+
     host = options[:host] || "en.wikipedia.org"
-    
-    # http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
-    config.url % { :host => host, :doi => CGI.escape(article.doi) }
+
+    # http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1
+    # We search for the DOI in parentheses to only get exact matches
+    config.url % { :host => host, :doi => CGI.escape("\"#{article.doi}\"") }
   end
-  
+
   def get_events_url(article)
     unless article.doi.blank?
-      "http://en.wikipedia.org/w/index.php?search=#{CGI.escape(article.doi)}"
+      "http://en.wikipedia.org/w/index.php?search=#{CGI.escape("\"#{article.doi}\"")}"
     else
       nil
     end

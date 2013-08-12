@@ -1,8 +1,9 @@
 var doi = d3.select("dd#doi").attr('data-doi');
+var api_key = d3.select("dd#doi").attr('data-api_key');
 
 function getformat_date(d) { return new Date(d.year, d.month); }
 
-d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key, function(data) {
+d3.json("/api/v3/articles?api_key=" + api_key + "&ids=" + doi + "&info=history", function(data) {
 
   var l = 20; // left margin
   var r = 50; // right margin
@@ -17,14 +18,14 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key,
   var format_number = d3.format(",d")
 
   d3.select("#loading-month").remove();
-  
+
   var category = [{ name: "html", display_name: "HTML Views" },
-                  { name: "pdf", display_name: "PDF Downloads" }, 
+                  { name: "pdf", display_name: "PDF Downloads" },
                   { name: "likes", display_name: "Likes" },
-                  { name: "shares", display_name: "Shares" },                
+                  { name: "shares", display_name: "Shares" },
                   { name: "comments", display_name: "Comments" },
                   { name: "citations", display_name: "Citations" }];
-                  
+
   category.forEach(function(c) {
     data[0]["sources"].forEach(function(source) {
       if (source.by_month) {
@@ -56,7 +57,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key,
           d3.select("div#month-" + source.name + "-" + c.name).append("div")
               .attr("class", "span9")
               .attr("id", "month-chart-" + source.name + "-" + c.name);
-          
+
           var chart = d3.select("div#month-chart-" + source.name + "-" + c.name).append("svg")
             .attr("w", (w + 1) * months + l + r)
             .attr("height", h + t )
@@ -83,7 +84,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key,
           chart.append("line")
             .attr("x1", 0)
             .attr("x2", (w + 1) * months + 10)
-            .attr("y1", h)        
+            .attr("y1", h)
             .attr("y2", h)
             .attr("class", "line");
             chart.selectAll("rect").each(
@@ -99,7 +100,7 @@ d3.json("/api/v3/articles/info:doi/" + doi + "?info=history&api_key=" + api_key,
         .text(c.display_name);
     }
   });
-  
+
   if (d3.selectAll("div#month").selectAll("div.row")[0].length == 0) {
     d3.select("div#month").append("p")
       .attr("class", "muted")

@@ -8,7 +8,7 @@
     "ubuntu": ">= 0.0.0",
     "centos": ">= 0.0.0"
   },
-  "dependencies": {    
+  "dependencies": {
     "build-essential": ">= 0.0.0",
     "git": ">= 0.0.0",
     "mysql": ">= 0.0.0",
@@ -16,5 +16,5 @@
     "phantomjs": ">= 0.0.0",
     "passenger_apache2": ">= 0.0.0"
   },
-  "version": "1.0.4"
+  "version": "1.0.6"
 }

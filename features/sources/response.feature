@@ -1,4 +1,4 @@
-@javascript 
+@javascript
 Feature: See responses from sources
   In order to make sure that we collect metrics correctly
   An admin user
@@ -8,11 +8,7 @@ Feature: See responses from sources
     Given I am logged in as "admin"
     And the source "Citeulike" exists
     And that we have 5 articles
-    
-    Scenario: Loading page …
-      When I go to the "Responses" admin page
-      Then I should see the message "Loading page …" disappear
-                
+
     @not-teamcity
     Scenario: Responses from last 24 hours in source view
       When I go to the "Summary" tab of source "CiteULike"
@@ -23,12 +19,12 @@ Feature: See responses from sources
       | Responses in the last 24 Hours | 0                    | 0          |
       |                                | Articles with Events | All Events |
       | Events                         | 5                    | 250        |
-        
+
     Scenario Outline: I should see the charts in the summary view
       When I go to the "Summary" tab of source "CiteULike"
       Then I should see a row of "<Charts>"
-      
-      Examples: 
+
+      Examples:
         | Charts |
         | status |
         | day    |

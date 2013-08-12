@@ -20,14 +20,14 @@
 
 <div class="content">
   <div id="show">
-    <%= render :partial => 'admin/users/show' %> 
+    <%= render :partial => 'admin/users/show' %>
   </div>
-  
+
   <hr>
-  
+
   <div class="row">
     <div class="span9">
-      <h1>Getting Started</h1>
+      <h1><%= h(@doc[:title]) %></h1>
       <div class="markdown">
         <%= markdown @doc[:text] %>
       </div>
