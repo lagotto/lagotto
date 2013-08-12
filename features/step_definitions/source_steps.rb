@@ -106,7 +106,7 @@ When /^click on the "(.*?)" tab$/ do |tab_name|
   page.driver.render("tmp/capybara/#{tab_name}.png")
 end
 
-When(/^I hover over the donut "(.*?)"$/) do |title|
+When /^I hover over the donut "(.*?)"$/ do |title|
   page.find(:xpath, "//div[@id='chart_#{title}']/*[name()='svg']").click
   page.driver.render("tmp/capybara/chart_#{title}.png")
 end

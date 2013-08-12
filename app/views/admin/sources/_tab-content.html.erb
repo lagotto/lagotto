@@ -1,16 +1,20 @@
+<div class="<%= pane %>" id="documentation">
+  <%= render :partial => 'admin/sources/documentation' %>
+</div>
+
 <div class="tab-pane" id="most-cited7">
-  <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_days(7), 
+  <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_days(7),
                                                               :url => source_path(@source, format: "rss", days: 7) } %>
 </div>
 <div class="tab-pane" id="most-cited30">
-  <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_days(30), 
+  <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_days(30),
                                                               :url => source_path(@source, format: "rss", days: 30) } %>
 </div>
 <div class="tab-pane" id="most-cited12">
-  <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_months(12), 
-                                                              :url => source_path(@source, format: "rss", months: 12) } %>    
+  <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited_last_x_months(12),
+                                                              :url => source_path(@source, format: "rss", months: 12) } %>
 </div>
-<div class="<%= pane %>" id="most-cited">
-  <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited, 
+<div class="tab-pane" id="most-cited">
+  <%= render :partial => 'admin/sources/sample', :locals => { :sample => @source.retrieval_statuses.most_cited,
                                                               :url => source_path(@source, format: "rss") } %>
 </div>

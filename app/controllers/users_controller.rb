@@ -1,16 +1,16 @@
 class UsersController < ApplicationController
 
   respond_to :html
-  
+
   def show
     load_user
-    @doc = { :title => "Getting Started", :text => IO.read(Rails.root.join("docs/Home.md")) }
+    @doc = { :title => "API Documentation", :text => IO.read(Rails.root.join("docs/API.md")) }
   end
-  
+
   def index
     redirect_to root_path
   end
-  
+
   def edit
     load_user
   end
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       render "edit"
     end
   end
-  
+
   protected
   def load_user
     if user_signed_in?

@@ -17,14 +17,15 @@ There are many installation options, but the following two should cover most sce
 Hosting the ALM application at a Platform as a Service (PaaS) provider such as Heroku or OpenShift is possible, but has not been tested.
 
 ## Automatic Installation using Vagrant
-This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine. Download and install [Virtualbox][virtualbox] and [Vagrant][vagrant]. Then install the application with:
-    
+This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox] and [Vagrant]. Then install the application with:
+
     git clone git://github.com/articlemetrics/alm.git
     cd alm
     vagrant up
-      
-[virtualbox]: https://www.virtualbox.org/wiki/Downloads
-[vagrant]: http://downloads.vagrantup.com/
+
+[Virtualbox]: https://www.virtualbox.org/wiki/Downloads
+[Vagrant]: http://downloads.vagrantup.com/
+[Chef Solo]: http://docs.opscode.com/chef_solo.html
 
 This installs the ALM server on a Ubuntu 12.04 virtual machine. After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at
 
@@ -38,40 +39,46 @@ The username and password for the web interface are `articlemetrics`. The code f
 
     vagrant ssh
     cd /vagrant
-	
+
 The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, and is auto-generated during the installation. CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
 
-## Automatic Installation on AWS using Vagrant 
+## Automatic Installation on AWS using Vagrant
 This is the preferred way to install the ALM application on Amazon Web Services (AWS). machine. Download and install  [Vagrant][vagrant]. Install the vagrant-aws plugin:
 
-    vagrant plugin install vagrant-aws 
+    vagrant plugin install vagrant-aws
+
+So that we can use any Amazon Machine Image ([AMI](https://aws.amazon.com/amis)) - the ALM application has been tested with Ubuntu 12.04 and CentOS 6.3 - we want to install the [vagrant-omnibus] plugin that adds Chef solo to any VM:
+
+    vagrant plugin install vagrant-omnibus
 
 Install a dummy AWS box and name it precise64:
 
     vagrant box add precise64 https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 
-Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_name, security_groups) to Vagrantfile. We recommend to use at least a small EC2 instance, the ami `ami-e4b8218d` contains Ubuntu 12.04 with Chef solo.
+Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_name, security_groups) to Vagrantfile. We recommend to use at least a small EC2 instance, the ami `ami-e7582d8e` contains Ubuntu 12.04. We also install the latest Chef version using omnibus.
 
-    config.vm.provider :aws do |aws|   
+    config.omnibus.chef_version = :latest
+
+    config.vm.hostname = "alm"
+
+    config.vm.provider :aws do |aws, override|
       aws.access_key_id = "EXAMPLE"
       aws.secret_access_key = "EXAMPLE"
-      aws.ssh_private_key_path = "/EXAMPLE.pem"
       aws.keypair_name = "EXAMPLE"
       aws.security_groups = ["EXAMPLE"]
-      aws.instance_type = 'm1.small'     
-      aws.ssh_username = "ubuntu"
-      aws.ami = "ami-e4b8218d"
+      aws.instance_type = 'm1.small'
+      aws.ami = "ami-e7582d8e"
       aws.tags = { Name: 'Vagrant alm' }
+
+      override.ssh.username = "ubuntu"
+      override.ssh.private_key_path = "/EXAMPLE.pem"
     end
 
 Then install the application with:
-    
+
     git clone git://github.com/articlemetrics/alm.git
     cd alm
     vagrant up --provider was
-      
-[vagrant]: http://downloads.vagrantup.com/
-[vagrant-aws]: https://github.com/mitchellh/vagrant-aws
 
 After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at the web address of your EC2 instance (the use of Elastic IPs and a DNS server is recommended).
 
@@ -79,10 +86,18 @@ After installation you first have to create a default user using the `Sign Up` b
 
     ssh -i /EXAMPLE.pem ubuntu@EXAMPLE.ORG
     cd /vagrant
-	
+
 The Rails application runs in Production mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
 
-The ALM application can be installed in [Rackspace](http://www.rackspace.com) or [DigitalOcean](https://www.digitalocean.com) using Vagrant and the respective plugins ([vagrant-rackspace](https://github.com/mitchellh/vagrant-rackspace) and [vagrant-digitalocean](https://github.com/smdahlen/vagrant-digitalocean)) in a process similar to the AWS installation.
+The ALM application can be installed in [Rackspace] or [DigitalOcean] using Vagrant and the respective plugins ([vagrant-rackspace] and [vagrant-digitalocean]) in a process similar to the AWS installation, but this has not been tested with the ALM application.
+
+[vagrant]: http://downloads.vagrantup.com/
+[vagrant-aws]: https://github.com/mitchellh/vagrant-aws
+[vagrant-omnibus]: https://github.com/schisamo/vagrant-omnibus
+[Rackspace]: http://www.rackspace.com
+[DigitalOcean]: https://www.digitalocean.com
+[vagrant-rackspace]: https://github.com/mitchellh/vagrant-rackspace
+[vagrant-digitalocean]: https://github.com/smdahlen/vagrant-digitalocean
 
 ## Manual installation for development
 These instructions assume a fresh installation of Ubuntu 12.04. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9. The instructions assume a user with sudo privileges, and this can also be a new user created just for running the ALM application.
@@ -146,7 +161,7 @@ Please set `ServerName` if you have set up more than one virtual host. Also don'
     </VirtualHost>
 
 #### Install ALM code
-You may have to set the permissions first, depending on your server setup. Passenger by default is run by the user who owns `config.ru`. 
+You may have to set the permissions first, depending on your server setup. Passenger by default is run by the user who owns `config.ru`.
 
     git clone git://github.com/articlemetrics/alm.git /var/www/alm
 
@@ -167,7 +182,7 @@ You want to set the MySQL username/password in `database.yml`, using either the 
     cp config/settings.yml.example config/settings.yml
 
 #### Install ALM databases
-We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including sample articles and a default user account (username/password _articlemetrics_). Use `RAILS_ENV=production` if you set up Passenger to run in the production environment. 
+We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including sample articles and a default user account (username/password _articlemetrics_). Use `RAILS_ENV=production` if you set up Passenger to run in the production environment.
 
 It is possible to connect the ALM app to MySQL and/or CouchDB running on a different server, please change `host` in database.yml and `couched_url` in settings.yml accordingly.
 
@@ -220,7 +235,7 @@ Bundler is a tool to manage dependencies of Ruby applications: http://gembundler
 #### Create CouchDB database
 
     curl -X PUT http://localhost:5984/alm/
-    
+
 #### Install Capistrano
 The next steps are done on the local development machine.
 
@@ -249,7 +264,7 @@ Edit the deployment configuration file that was just created by Capistrano. Add 
     set :branch, "master"
 
     set :bundle_without, [:development, :test]
-   
+
     set :ruby_vm_type,      :mri        # :ree, :mri
     set :web_server_type,   :apache     # :apache, :nginx
     set :app_server_type,   :passenger  # :passenger, :mongrel
