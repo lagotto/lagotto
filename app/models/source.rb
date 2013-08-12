@@ -28,15 +28,15 @@ class Source < ActiveRecord::Base
   has_many :articles, :through => :retrieval_statuses
   has_many :delayed_jobs, :primary_key => "name", :foreign_key => "queue"
   has_many :error_messages
-  belongs_to :group
+  belongs_to :group, :touch => true
 
   serialize :config, OpenStruct
 
   after_create :create_retrievals
 
   validates :name, :presence => true, :uniqueness => true
-  validates :display_name, :presence => true 
-  validates :workers, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..10, :message => "should be between 1 and 10" }  
+  validates :display_name, :presence => true
+  validates :workers, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..10, :message => "should be between 1 and 10" }
   validates :timeout, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
   validates :wait_time, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
   validates :max_failed_queries, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 0..1000, :message => "should be between 0 and 1000" }
@@ -44,11 +44,11 @@ class Source < ActiveRecord::Base
 
   # for job priority
   TOP_PRIORITY = 0
-  
+
   scope :active, where(:active => true).order("group_id, display_name")
   scope :inactive, where(:active => false).order("group_id, display_name")
   scope :for_events, where("active = 1 AND name != 'relativemetric'").order("group_id, display_name")
-  
+
   def to_param  # overridden, use name instead of id
     name
   end
@@ -70,10 +70,10 @@ class Source < ActiveRecord::Base
         self.disable_until = nil
         save
       end
-      
+
       rs = retrieval_statuses.pluck("retrieval_statuses.id")
       logger.debug "#{name} total articles queued #{rs.length}"
-      
+
       rs.each_slice(job_batch_size) do | rs_ids |
         Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
       end
@@ -153,34 +153,34 @@ class Source < ActiveRecord::Base
 
     if failed_queries > max_failed_queries
       ErrorMessage.create(:exception => "", :class_name => "StandardError",
-                          :message => "#{display_name} has exceeded maximum failed queries. Disabling the source.", 
+                          :message => "#{display_name} has exceeded maximum failed queries. Disabling the source.",
                           :source_id => id)
       # disable the source
       self.disable_until = Time.zone.now + disable_delay.seconds
       save
     end
   end
-  
-  # get the source-specific configuration from config/settings.yml, otherwise use general source settings in config/settings.yml, otherwise use default. 
+
+  # get the source-specific configuration from config/settings.yml, otherwise use general source settings in config/settings.yml, otherwise use default.
   # Don't use merge! as APP_CONFIG is a constant
   def source_config
     OpenStruct.new(APP_CONFIG[name].nil? ? APP_CONFIG["source"] : APP_CONFIG["source"].merge(APP_CONFIG[name]))
   end
-  
+
   def job_batch_size
     source_config.job_batch_size || 200
   end
-  
+
   def batch_time_interval
     source_config.batch_time_interval || 1.hour
   end
-  
+
   def staleness
     # staleness can be Integer or Array
     source_config.staleness || [ (1.month * 0.25) ]
     Array(source_config.staleness)
-  end 
-  
+  end
+
   def staleness_with_limits
     case staleness.length
     when 1
@@ -193,15 +193,15 @@ class Source < ActiveRecord::Base
       ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
     end
   end
-  
+
   def staleness=(value)
     source_config.staleness = value
   end
-  
+
   def requests_per_day
     source_config.requests_per_day
   end
-  
+
   def status
     if !active
       "inactive"
@@ -213,7 +213,7 @@ class Source < ActiveRecord::Base
       "active"
     end
   end
-  
+
   private
 
   private

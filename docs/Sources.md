@@ -1,40 +1,38 @@
-The ALM application provides a number of public sources. Most sources require a user account with the service (see table below). The private ALM sources not made available here either use an internal application that is not available via public API (PLOS Usage Stats, PubMed Central Usage Stats, Twitter, figshare) or require a contract with the provider (Scopus, Web of Science, F1000). 
+The ALM application provides a number of public sources. Most sources require a user account with the service (see table below). The private ALM sources not made available here either use an internal application that is not available via public API (PLOS Usage Stats, PubMed Central Usage Stats, PLOS Biodiversity Hub, Twitter, figshare) or require a contract with the provider (Scopus, Web of Science, F1000).
 
-### Citations
-* [CrossRef](Crossref)
-* [PubMed Central Citations](Pubmed)
-* [Wikipedia](Wikipedia)
-
-### Usage Stats
+### Viewed
 * [Copernicus](Copernicus)
 
-### Blog Coverage
+### Discussed
+* [Facebook](Facebook)
 * [Nature Blogs](Nature)
 * [Research Blogging](Researchblogging)
 * [ScienceSeeker](Scienceseeker)
+* [Wikipedia](Wikipedia)
 
-### Social Bookmarking
+### Saved
 * [CiteULike](Citeulike)
 * [Mendeley](Mendeley)
 
-### Social Networks
-* [Facebook](Facebook)
+### Cited
+* [CrossRef](Crossref)
+* [PubMed Central Citations](Pubmed)
 
 ### Private Sources
-* PLOS Usage Stats
-* PubMed Central Usage Stats
-* Twitter
-* Scopus
-* Web of Science
-* F1000Prime
-* figshare
+* [PLOS Usage Stats](Counter)
+* [PubMed Central Usage Stats](Pmc)
+* [PLOS Biodiversity Hub](Biod)
+* [PLOS Figshare Usage Stats](Figshare)
+* [Twitter](Twitter)
+* [Web of Science](Wos)
+* [Scopus](Scopus)
+* [F1000Prime](F1000)
 
 ### Planned Sources
 * PubMed Central Europe Citations
 * PubMed Central Europe Database Links
 * Wordpress
 * Twitter
-* Microsoft Academic Search
 * Reddit
 
 Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for questions or feedback regarding sources.

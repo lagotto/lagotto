@@ -17,6 +17,7 @@ capybara-*.html
 /.bundle
 /vendor/bundle/*
 /log/*
+/data/*
 /tmp/*
 /data/*
 /db/*.sqlite3
@@ -31,7 +32,6 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
-.vagrant*
+.vagrant
+.librarian
 Capfile
-/vendor/cookbooks/alm/.gitignore
-.vagrant*

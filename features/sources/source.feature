@@ -10,21 +10,21 @@ Feature: Edit sources
 
     Scenario: Group must be selected
       When I edit the source "CiteULike"
-      Then "Citations" should be the only option for "Group"
-    
+      Then "Saved" should be the only option for "Group"
+
     Scenario: Content from settings.yml should be displayed
       When I go to the "Configuration" tab of source "CiteULike"
       Then I should see the "Job batch size" settings
       And I should see the "Batch time interval" settings
       And I should see the "Staleness interval" settings
       And I should see the "Requests per day" settings
-    
+
     Scenario: Source overview should display source image
       When I go to the "Sources" page
       Then I should see the image "citeulike.png"
-    
+
     Scenario: Source should display source image
-      When I go to the source "CiteULike"
+      When I go to the admin page of source "CiteULike"
       Then I should see the image "citeulike.png"
-    
-    
+
+

@@ -19,10 +19,12 @@
 class SourcesController < ApplicationController
 
   respond_to :html, :rss
-  
+
   def show
     @source = Source.find_by_name(params[:id])
-    
+    text = File.file?(Rails.root.join("docs/#{@source.name.capitalize}.md")) ? IO.read(Rails.root.join("docs/#{@source.name.capitalize}.md")) : nil
+    @doc = { :text => text }
+
     if params[:days]
       @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_days(params[:days].to_i)
     elsif params[:months]

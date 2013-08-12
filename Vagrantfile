@@ -12,11 +12,11 @@ Vagrant.configure("2") do |config|
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
   config.vm.box_url = "http://dl.dropbox.com/u/9406373/centos-63-plos.box"
-  
+
   config.vm.hostname = "alm-plos"
 
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "alm-plos"      
+    vb.name = "alm-plos"
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
   # config.vm.share_folder "v-data", "/vagrant_data", "../data"
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
-  # path, and data_bags path (all relative to this Vagrantfile), and adding 
+  # path, and data_bags path (all relative to this Vagrantfile), and adding
   # some recipes and/or roles.
   #
   config.vm.provision :chef_solo do |chef|

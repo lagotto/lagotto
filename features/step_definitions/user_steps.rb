@@ -23,6 +23,10 @@ def sign_in
 end
 
 ### GIVEN ###
+Given /^we have a user with role "(.*?)"$/ do |role|
+  FactoryGirl.create(:user, :role => role)
+end
+
 Given /^we have (\d+) users$/  do |number|
   FactoryGirl.create_list(:user, number.to_i - 1)
 end

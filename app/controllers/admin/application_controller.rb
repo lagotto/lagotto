@@ -17,15 +17,15 @@
 # limitations under the License.
 
 class Admin::ApplicationController < ActionController::Base
-  protect_from_forgery 
-  
+  protect_from_forgery
+
   check_authorization
-  
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
   end
-    
+
   respond_to :html, :js, :json
-  
+
   layout APP_CONFIG['layout']
 end

@@ -3,8 +3,8 @@
   <%= simple_form_for([:admin, @source.becomes(Source)], :url => admin_source_path(@source.name), :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
     <% f.object = @source.becomes(@source.class) %>
     <fieldset>
-      <legend>Edit Source</legend>  
-      
+      <legend>Edit Source</legend>
+
       <%= f.input :display_name, :input_html => { :class => "span3" } %>
       <%= f.association :group, :include_blank => false %>
       <%= f.input :active, :as => :boolean %>
@@ -27,7 +27,7 @@
           <% end %>
         <% end %>
       <% end %>
-      
+
       <div class="form-actions">
         <%= f.submit "Save ", class: "btn btn-primary" %>
         <%= link_to 'Cancel', admin_source_path(@source.name), { :remote => true, :class => 'btn' } %>
@@ -37,12 +37,12 @@
 
 <% else %>
   <div class="btn-toolbar pull-right">
-    <% if can? :manage, ErrorMessage %>
+    <% if can?(:manage, ErrorMessage) %>
       <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_source_path(@source.name), { :remote => true, :class => 'btn btn-mini', :title => "Edit" } %>
       <% end %>
   </div>
   <table class="table table-striped">
-    <thead>    
+    <thead>
     </thead>
     <tbody>
       <tr>

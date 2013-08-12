@@ -1,6 +1,6 @@
 default[:alm][:name] = "alm"
 default[:alm][:host] = "alm.local"
-default[:alm][:useragent] = "Article Level Metrics"
+default[:alm][:useragent] = "Article-Level Metrics"
 default[:alm][:admin] = { :username => "articlemetrics", :name => "Admin", :email => "admin@example.com", :password => "articlemetrics" }
 default[:alm][:mail] = { :address => "EXAMPLE", :domain => "EXAMPLE", :user_name => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:layout] = "greenrobo"

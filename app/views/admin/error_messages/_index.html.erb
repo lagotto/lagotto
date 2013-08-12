@@ -1,7 +1,7 @@
 <div class="page-header">
   <div class="btn-group pull-right">
     <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-filter"></i> <%= @source.nil? ? "All Sources" : @source.display_name %> <span class="caret"></span></a>
-    <ul class="dropdown-menu">      
+    <ul class="dropdown-menu">
       <li><%= link_to "All Sources", admin_error_messages_path(:query => params[:query]) %></li>
       <li class="divider"></li>
       <% sources.active.each do|source| %>
@@ -30,11 +30,12 @@
 <% if @error_messages.size > 0 %>
   <div class="accordion" id="error_message">
     <% @error_messages.each do |error_message| %>
-      <div class="accordion-group">  
-        <div class="accordion-heading">  
+      <% cache error_message do %>
+        <div class="accordion-group">
+        <div class="accordion-heading">
           <%= link_to ((error_message.status.blank? ? "" : "[#{error_message.status}] ") + "<strong>" + h(error_message.message) + "</strong>").html_safe, "#error_#{error_message.id}", :class => "accordion-toggle", :id => "link_#{error_message.id}", :data => { :toggle => "collapse", :parent => "#error_message" }, :href => "#error_#{error_message.id}" %>
-        </div>  
-        <div id="error_<%= error_message.id %>" class="accordion-body collapse">  
+        </div>
+        <div id="error_<%= error_message.id %>" class="accordion-body collapse">
           <div class="accordion-inner">
             <% if can? :destroy, ErrorMessage %>
               <div class="btn-group pull-right">
@@ -55,27 +56,28 @@
               <h5>Content Type</h5>
               <%= error_message.content_type %>
             <% end %>
-               
+
             <% unless error_message.target_url.blank? %>
               <h5>Target URL</h5>
               <%= link_to error_message.target_url, error_message.target_url %>
             <% end %>
-        
+
             <h5>Time</h5>
             <%= error_message.created_at.to_s(:friendly) %>
-        
+
             <% unless error_message.trace.blank? %>
               <h5>Trace</h5>
               <%= simple_format(error_message.trace) %>
             <% end %>
           </div>
         </div>
-      </div>
+        </div>
+      <% end %>
     <% end %>
   </div>
   <%= will_paginate @error_messages, :params => { :controller => admin_error_messages_path }, :renderer => BootstrapPagination::Rails %>
 <% else %>
-  <div class="alert alert-info">There are currently no errors 
+  <div class="alert alert-info">There are currently no errors
     <% unless @source.nil? %>
         for <%= @source.display_name %>
     <% end %>

@@ -20,13 +20,13 @@
 
 <div class="content">
   <div class="page-header">
-    <%= render :partial => 'admin/sources/page-header' %> 
+    <%= render :partial => 'admin/sources/page-header' %>
   </div>
-  
+
   <dl class="dl-horizontal">
     <%= render :partial => 'admin/sources/dl-horizontal' %>
   </dl>
-  
+
   <ul class="nav nav-tabs">
     <li class="dropdown active">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Most-Cited <b class="caret"></b></a>
@@ -37,8 +37,11 @@
       <li class="active"><a href="#most-cited" data-toggle="tab">All-time</a></li>
       </ul>
     </li>
+    <% if @doc[:text] %>
+      <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
+    <% end %>
   </ul>
-  
+
   <div class="tab-content">
     <%= render :partial => 'admin/sources/tab-content', :locals => { :pane => "tab-pane active" } %>
   </div>

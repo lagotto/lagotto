@@ -1,7 +1,7 @@
 <% if can? :read, ErrorMessage %>
   <div class="visible-phone">
     <dt>Status</dt>
-    <dd><%= h(@source.status) %></dd>  
+    <dd><%= h(@source.status) %></dd>
   </div>
   <% unless @source.disable_until.blank? %>
     <dt>Disabled until</dt>
@@ -15,8 +15,4 @@
 <% unless @source.description.blank? %>
   <dt>Description</dt>
   <dd><%= h(@source.description) %></dd>
-<% end %>
-<% unless @source.private %>
-  <dt>Documentation</dt>
-  <dd><%= link_to "Information at ALM Wiki", "http://github.com/articlemetrics/alm/wiki/" + @source.name %></dd>
 <% end %>

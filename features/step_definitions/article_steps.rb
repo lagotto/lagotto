@@ -1,36 +1,3 @@
-### UTILITY METHODS ###
-
-def create_submission
-  @submission ||= { :doi => "10.1371/journal.pmed.0010028", :title => "Diversity and Recognition Efficiency of T Cell Responses to Cancer",
-    :published_on => Date.new(2004, 11, 30) }
-end
-
-def create_article
-  @article = FactoryGirl.create(:article)
-  # article = Factory.build(:article)
-  # visit articles_path
-  # click_link 'Add another article'
-  # fill_in "article[doi]", :with => article[:doi]
-  # fill_in "article[title]", :with => article[:title]
-  # select Date::MONTHNAMES[article[:published_on].month], :from => "article_published_on_2i"
-  # select article[:published_on].day.to_s, :from => "article_published_on_3i"
-  # select article[:published_on].year.to_s, :from => "article_published_on_1i"
-  # click_button "Create"
-end
-
-def find_article
-  @article ||= Article.first conditions: {:doi => "10.1371/journal.pcbi.1000204"}
-end
-
-def show_article
-  visit article_path(@article)
-end
-
-def delete_article
-  @article ||= Article.first conditions: {:doi => "10.1371/journal.pcbi.1000204"}
-  @article.destroy unless @article.nil?
-end
-
 ### GIVEN ###
 Given /^there is an article$/ do
   @article = FactoryGirl.create(:article_with_events)
@@ -48,21 +15,28 @@ Given /^that we have (\d+) recent articles$/ do |number|
   FactoryGirl.create_list(:article_for_feed, number.to_i)
 end
 
-Given /^an article does not exist$/ do
-  delete_article
-end
-
 ### WHEN ###
-When /^I add the article with all required information$/ do
-  delete_article
-  create_article
+When /^I add an article with DOI "(.*?)", date "(.*?)" and title "(.*?)"$/ do |doi, date, title|
+  article = FactoryGirl.build(:article, :doi => doi, :published_on => Date.parse(date), :title => title)
+
+  visit articles_path
+  click_on "new_article"
+
+  fill_in 'article_title', :with => article.title
+  fill_in 'article_doi', :with => article.doi
+  select article.published_on.strftime("%Y"), :from => "article_published_on_1i"
+  select article.published_on.strftime("%B"), :from => "article_published_on_2i"
+  select article.published_on.strftime("%d"), :from => "article_published_on_3i"
+  click_on 'Save'
+  page.driver.render("tmp/capybara/articles.png")
 end
 
-When(/^I go to the article$/) do
+When /^I go to the article$/ do
   visit article_path(@article)
+  page.driver.render("tmp/capybara/#{@article.doi}.png")
 end
 
-When(/^I go to the article with the DOI "(.*?)"$/) do |doi|
+When /^I go to the article with the DOI "(.*?)"$/ do |doi|
   visit article_path(article.doi)
 end
 
@@ -78,8 +52,11 @@ end
 
 ### THEN ###
 Then /^I should see the article$/ do
-  #visit article_path(@article)
-  #page.should have_content @article.title
+  page.should have_content @article.title
+end
+
+Then /^I should see an article with title "(.*?)"$/ do |title|
+  page.has_css?('h4 a', :text => title).should be_true
 end
 
 Then /^I should see a list of articles$/ do
@@ -94,6 +71,11 @@ end
 Then /^I should see the DOI "(.*?)" as a link$/ do |doi|
   page.driver.render("tmp/capybara/#{doi}.png")
   page.has_link?(doi, :href => "http://dx.doi.org/#{doi}").should be_true
+end
+
+Then /^I should see the error message "(.*?)"$/ do |error|
+  page.driver.render("tmp/capybara/error.png")
+  page.has_css?('span.help-inline', :text => error).should be_true
 end
 
 Then /^I should see "(.*?)" with the "(.*?)" for the article$/ do |value, label|

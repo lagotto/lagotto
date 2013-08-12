@@ -21,7 +21,7 @@ require "builder"
 
 class Article < ActiveRecord::Base
   strip_attributes
-  
+
   # Format used for DOI validation - we want to store DOIs without
   # the leading "info:doi/"
   FORMAT = %r(^\d+\.[^/]+/[^/]+)
@@ -29,19 +29,19 @@ class Article < ActiveRecord::Base
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
   has_many :sources, :through => :retrieval_statuses
-  
+
   validates :uid, :title, :presence => true
   validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true
-  validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future", 
-                                                               :after => lambda { 50.years.ago }, :after_message => "must not be older than 50 years", 
+  validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future",
+                                                               :after => lambda { 50.years.ago }, :after_message => "must not be older than 50 years",
                                                                :type => :date }
   after_create :create_retrievals
-  
+
   default_scope order("published_on DESC")
 
   scope :query, lambda { |query| where("doi like ? OR title like ?", "%#{query}%", "%#{query}%") }
   scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
-   
+
   scope :cited, lambda { |cited|
     case cited
       when '1', 1
@@ -58,7 +58,7 @@ class Article < ActiveRecord::Base
       order("published_on DESC")
     end
   }
-  
+
   def self.from_uri(id)
     return nil if id.nil?
     id = id.gsub("%2F", "/")
@@ -94,7 +94,7 @@ class Article < ActiveRecord::Base
     end
     id
   end
-  
+
   def self.clean_id(id)
     if id.starts_with? "10."
       URI.unescape(id)
@@ -104,12 +104,12 @@ class Article < ActiveRecord::Base
       id
     end
   end
-  
+
   def self.uid
     # use the column name defined in settings.yml, default to doi
     APP_CONFIG["uid"] || "doi"
   end
-    
+
   def uid
     self.send(Article.uid)
   end
@@ -117,7 +117,7 @@ class Article < ActiveRecord::Base
   def to_param
     CGI.escape(Article.to_uri(uid))
   end
-  
+
   def self.per_page
     50
   end
@@ -129,7 +129,7 @@ class Article < ActiveRecord::Base
   def cited_retrievals_count
     retrieval_statuses.select {|r| r.event_count > 0}.size
   end
-  
+
   # Filter retrieval_statuses by source
   def retrieval_statuses_by_source(options={})
     if options[:source]
@@ -139,7 +139,7 @@ class Article < ActiveRecord::Base
       self.retrieval_statuses
     end
   end
-  
+
   def doi_as_url
     if doi[0..2] == "10."
       "http://dx.doi.org/" + doi
@@ -147,7 +147,7 @@ class Article < ActiveRecord::Base
       nil
     end
   end
-  
+
   def doi_as_publisher_url
     # for now use the PLOS doi resolver
     if doi[0..6] == "10.1371"
@@ -156,15 +156,15 @@ class Article < ActiveRecord::Base
       nil
     end
   end
-  
+
   def all_urls
     urls = []
     urls << doi_as_url unless doi.nil?
-    urls << doi_as_publisher_url unless doi_as_publisher_url.nil? 
+    urls << doi_as_publisher_url unless doi_as_publisher_url.nil?
     urls << url unless url.nil?
     urls
   end
-  
+
   def mendeley_url
     rs = retrieval_statuses.includes(:source).where("sources.name" => "mendeley").first
     rs.nil? ? nil : rs.events_url
@@ -243,36 +243,36 @@ class Article < ActiveRecord::Base
     end
     group_info
   end
-  
+
   def is_publisher?
     APP_CONFIG["doi_prefix"].to_s == doi[0..6]
   end
-  
+
   def views
     counter = retrieval_statuses.joins(:source).where("sources.name = 'counter'").last
     pmc = retrieval_statuses.joins(:source).where("sources.name = 'pmc'").last
     (counter.nil? ? 0 : counter.event_count) + (pmc.nil? ? 0 : pmc.event_count)
   end
-  
+
   def shares
     twitter = retrieval_statuses.joins(:source).where("sources.name = 'twitter'").last
     facebook = retrieval_statuses.joins(:source).where("sources.name = 'facebook'").last
     (twitter.nil? ? 0 : twitter.event_count) + (facebook.nil? ? 0 : facebook.event_count)
   end
-  
+
   def bookmarks
     citeulike = retrieval_statuses.joins(:source).where("sources.name = 'citeulike'").last
     mendeley = retrieval_statuses.joins(:source).where("sources.name = 'mendeley'").last
     (citeulike.nil? ? 0 : citeulike.event_count) + (mendeley.nil? ? 0 : mendeley.event_count)
   end
- 
+
   def citations
     crossref = retrieval_statuses.joins(:source).where("sources.name = 'crossref'").last
     (crossref.nil? ? 0 : crossref.event_count)
   end
-  
+
   private
-  
+
   def create_retrievals
     # Create an empty retrieval record for every source for the new article
     Source.all.each do |source|
