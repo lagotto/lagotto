@@ -25,39 +25,39 @@ class Facebook < Source
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires access_token") \
       if config.access_token.blank?
-    
-    # Fetch the fulltext URL, as it might work better for Facebook than the DOI
+
+    # Fetch the fulltext URL
     if article.url.blank? and !article.doi.blank?
       original_url = get_original_url(article.doi)
       article.update_attributes(:url => original_url) unless original_url.blank?
     end
-    
-    return  { :events => [], :event_count => nil } if article.url.blank?
-    
-    query_url = get_query_url(article.url)
+
+    return  { :events => [], :event_count => nil } if article.doi.blank?
+
+    query_url = get_query_url(article.doi_as_url)
     options[:source_id] = id
     result = get_json(query_url, options)
-    
-    if result.nil?       
+
+    if result.nil?
       nil
     else
       events = result["data"][0]
-      event_metrics = { :pdf => nil, 
-                        :html => nil, 
-                        :shares => events["share_count"], 
+      event_metrics = { :pdf => nil,
+                        :html => nil,
+                        :shares => events["share_count"],
                         :groups => nil,
-                        :comments => events["comment_count"], 
-                        :likes => events["like_count"], 
-                        :citations => nil, 
+                        :comments => events["comment_count"],
+                        :likes => events["like_count"],
+                        :citations => nil,
                         :total => events["total_count"] }
-                        
-      { :events => events, 
+
+      { :events => events,
         :event_count => events["total_count"],
         :event_metrics => event_metrics }
     end
   end
-  
-  def get_query_url(query_url, options={})    
+
+  def get_query_url(query_url, options={})
     # https://graph.facebook.com/fql?access_token=%{access_token}&q=select%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,%20click_count,%20comments_fbid,%20commentsbox_count%20from%20link_stat%20where%20url%20=%20'%{query_url}'
     URI.escape(config.url % { :access_token => config.access_token, :query_url => query_url }) unless query_url.blank?
   end
@@ -66,7 +66,7 @@ class Facebook < Source
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
      {:field_name => "access_token", :field_type => "text_field"}]
   end
-  
+
   def url
     config.url
   end

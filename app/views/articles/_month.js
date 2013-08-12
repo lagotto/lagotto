@@ -1,8 +1,9 @@
 var doi = d3.select("dd#doi").attr('data-doi');
+var api_key = d3.select("#all").attr('data-api_key');
 
 function getformat_date(d) { return new Date(d.year, d.month); }
 
-d3.json("/api/v3/articles/info:doi/" + doi + "?info=history", function(data) {
+d3.json("/api/v3/articles?api_key=" + api_key + "&ids=" + doi + "&info=history", function(data) {
 
   var l = 20; // left margin
   var r = 50; // right margin

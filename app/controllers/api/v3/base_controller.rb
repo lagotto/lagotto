@@ -18,8 +18,6 @@ class Api::V3::BaseController < ActionController::Base
     if params[:api_key].present?
       @user = User.find_by_authentication_token(params[:api_key])
       sign_in @user if @user
-    elsif request.remote_ip.to_s == '127.0.0.1'
-      # don't require API key for requests from localhost
     else
       @error = "Missing API key."
       ErrorMessage.create(:exception => "", :class_name => "Net::HTTPUnauthorized",

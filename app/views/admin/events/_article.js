@@ -39,7 +39,6 @@ d3.json("/admin/events.json", function(error, json) {
     .attr("fill", function(d) { return z(d.group); })
     .attr("y", function(d,i) { return y(d.name); })
     .attr("height", h)
-    .transition().duration(500).delay(200)
     .attr("width", function(d) { return x(d.article_count); });
   chart.selectAll("text.values")
     .data(data)
@@ -48,6 +47,5 @@ d3.json("/admin/events.json", function(error, json) {
     .attr("y", function(d) { return y(d.name) + y.rangeBand() / 2; })
     .attr("dx", 5) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
-    .transition().delay(700)
     .text(function(d) { return d.article_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); });
 });

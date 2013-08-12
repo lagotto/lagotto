@@ -5,6 +5,7 @@ class Admin::SourcesController < Admin::ApplicationController
   def show
     respond_with do |format|
       format.html do
+        @doc = { :text => IO.read(Rails.root.join("docs/#{@source.name.capitalize}.md")) }
         render :show
       end
       format.json do

@@ -10,7 +10,7 @@ describe "/api/v3/articles" do
 
 
     it "JSON" do
-      get uri, nil, { 'HTTP_ACCEPT' => "application/json", 'REMOTE_ADDR' => '1.2.3.4' }
+      get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
       last_response.status.should eql(401)
       last_response.body.should eq(missing_key.to_json)
       ErrorMessage.count.should == 1
@@ -22,7 +22,7 @@ describe "/api/v3/articles" do
     end
 
     it "XML" do
-      get uri, nil, { 'HTTP_ACCEPT' => "application/xml", 'REMOTE_ADDR' => '1.2.3.4' }
+      get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
       last_response.status.should eql(401)
       last_response.body.should eq(missing_key.to_xml)
       ErrorMessage.count.should == 1
@@ -31,38 +31,6 @@ describe "/api/v3/articles" do
       error_message.message.should include("Missing API key.")
       error_message.content_type.should eq("application/xml")
       error_message.status.should == 401
-    end
-  end
-
-  context "missing api_key from localhost" do
-    let(:article) { FactoryGirl.create(:article_with_events) }
-    let(:uri) { "/api/v3/articles/info:doi/#{article.doi}"}
-
-    it "JSON" do
-      get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-      last_response.status.should eql(200)
-
-      response = JSON.parse(last_response.body)[0]
-      response_source = response["sources"][0]
-      response["doi"].should eql(article.doi)
-      response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-      response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.first.event_count)
-      response_source["events"].should be_nil
-      response_source["histories"].should be_nil
-    end
-
-    it "XML" do
-      get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
-      last_response.status.should eql(200)
-
-      response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
-      response = response["articles"]["article"]
-      response_source = response["sources"]["source"]
-      response["doi"].should_not be_nil
-      response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-      response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.retrieval_histories.first.event_count)
-      response_source["events"].should be_nil
-      response_source["histories"].should be_nil
     end
   end
 
