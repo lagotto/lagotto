@@ -79,7 +79,7 @@ module SourceHelper
       faraday.adapter Faraday.default_adapter
     end
 
-    response = conn.head doi
+    response = conn.head Addressable::URI.encode(doi)
     # Some publishers respond with a 403 error for the original URL
     if response.status == 200 or (401..403) === response.status
       response.env[:url].to_s

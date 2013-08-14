@@ -90,7 +90,7 @@ class Article < ActiveRecord::Base
   def self.to_url(id)
     return nil if id.nil?
     unless id.starts_with? "http://dx.doi.org/"
-      id = "http://dx.doi.org/" + from_uri(id).values.first
+      id = Addressable::URI.unencode("http://dx.doi.org/" + from_uri(id).values.first)
     end
     id
   end
@@ -142,7 +142,7 @@ class Article < ActiveRecord::Base
 
   def doi_as_url
     if doi[0..2] == "10."
-      "http://dx.doi.org/" + doi
+      Addressable::URI.encode("http://dx.doi.org/" + doi)
     else
       nil
     end
@@ -151,7 +151,7 @@ class Article < ActiveRecord::Base
   def doi_as_publisher_url
     # for now use the PLOS doi resolver
     if doi[0..6] == "10.1371"
-      "http://dx.plos.org/" + doi
+      Addressable::URI.encode("http://dx.plos.org/" + doi)
     else
       nil
     end
