@@ -50,7 +50,7 @@ class CrossRef < Source
         return nil if document.nil?
 
         events = []
-        document.xpath("//xmlns:journal_cite").each do |event|
+        document.xpath("//xmlns:journal_cite").each do |cite|
           event = Hash.from_xml(cite.to_s)
           event = event["journal_cite"]
           event_url = Article.to_url(event["doi"])
