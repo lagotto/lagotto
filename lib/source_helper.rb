@@ -33,7 +33,7 @@ module SourceHelper
   def get_xml(url, options={}, &block)
     remove_doctype = options.delete(:remove_doctype)
     body = get_http_body(url, options)
-    
+
     unless body.blank?
       # We got something. Conditionally remove the DOCTYPE to prevent
       # attempts to load the .dtd - we don't need it, and don't want
@@ -41,7 +41,7 @@ module SourceHelper
       body.sub!(%r{\<\!DOCTYPE\s.*\>$}, '') if remove_doctype
       yield(parse_xml(body))
     else
-      yield 
+      yield
     end
   end
 
@@ -60,7 +60,7 @@ module SourceHelper
     end
 
     response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
-    
+
     return nil if response.nil?
 
     result = ActiveSupport::JSON.decode(response.body)
@@ -71,21 +71,23 @@ module SourceHelper
     service_url = APP_CONFIG['couchdb_url']
     data = get_json("#{service_url}#{id}")
   end
-  
+
   def get_original_url(doi, limit = 10)
     conn = Faraday.new(:url => "http://dx.doi.org") do |faraday|
       faraday.use FaradayMiddleware::FollowRedirects, :limit => limit
       faraday.use :cookie_jar
       faraday.adapter Faraday.default_adapter
     end
-    
-    response = conn.head doi
+
+    response = conn.head Addressable::URI.encode(doi)
     # Some publishers respond with a 403 error for the original URL
     if response.status == 200 or (401..403) === response.status
       response.env[:url].to_s
+    elsif response.status == 404 # not found
+      return ""
     else
       ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "Could not get the full URL for #{doi}, received #{response.env[:url].to_s} as last URL.", 
+                          :message => "Could not get the full URL for #{doi}, received #{response.env[:url].to_s} as last URL.",
                           :status => response.status)
       return ""
     end
@@ -98,7 +100,7 @@ module SourceHelper
 
     optsMsg = options.empty? ? "" : " with #{options.inspect}"
 
-    url = URI.parse(uri)
+    url = Addressable::URI.parse(uri)
 
     response = nil
 
@@ -169,15 +171,15 @@ module SourceHelper
       return response.body
     else
       ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "#{response.message} while requesting #{uri}", 
+                          :message => "#{response.message} while requesting #{uri}",
                           :status => response.code,
                           :source_id => options[:source_id])
       return ""
     end
   end
-  
+
   def remove_alm_data(data_rev, id)
-    
+
     service_url = APP_CONFIG['couchdb_url']
     params = {'rev' => data_rev }
 
@@ -189,35 +191,35 @@ module SourceHelper
 
   def put_alm_data(url, json)
 
-    url = URI.parse(url)
+    url = Addressable::URI.parse(url)
 
     req = Net::HTTP::Put.new(url.path)
     req["content-type"] = "application/json"
     req.body = json
-    
+
     request(req)
   end
-  
+
   def delete_alm_data(url)
 
-    url = URI.parse(url)
+    url = Addressable::URI.parse(url)
 
     req = Net::HTTP::Delete.new("#{url.path}?#{url.query}")
     request(req)
   end
-  
+
   def get_alm_database
     # get information about CouchDB database
     service_url = APP_CONFIG['couchdb_url']
     get_json(service_url)
   end
-  
+
   def put_alm_database
     # create CouchDB test database
     if Rails.env.test?
       service_url = APP_CONFIG['couchdb_url']
-      url = URI.parse(service_url)
-    
+      url = Addressable::URI.parse(service_url)
+
       req = Net::HTTP::Put.new(url.path)
       unless (url.user.nil? or url.password.nil?)
         req.basic_auth url.user, url.password
@@ -227,13 +229,13 @@ module SourceHelper
       nil
     end
   end
-  
+
   def delete_alm_database
     # delete CouchDB test database
     if Rails.env.test?
       service_url = APP_CONFIG['couchdb_url']
-      url = URI.parse(service_url)
-    
+      url = Addressable::URI.parse(service_url)
+
       req = Net::HTTP::Delete.new(url.path)
       unless (url.user.nil? or url.password.nil?)
         req.basic_auth url.user, url.password
@@ -243,17 +245,17 @@ module SourceHelper
       nil
     end
   end
-  
+
   def request(req)
     service_url = APP_CONFIG['couchdb_url']
-    url = URI.parse(service_url)
-    
+    url = Addressable::URI.parse(service_url)
+
     response = Net::HTTP.start(url.host, url.port) { |http|http.request(req) }
     if response.kind_of?(Net::HTTPSuccess) or response.kind_of?(Net::HTTPNotFound)
       response
     else
       ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "#{response.message} while requesting \"#{url.scheme}://#{url.host}:#{url.port}#{req.path}\"", 
+                          :message => "#{response.message} while requesting \"#{url.scheme}://#{url.host}:#{url.port}#{req.path}\"",
                           :status => response.code)
       nil
     end

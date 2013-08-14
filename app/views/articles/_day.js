@@ -3,7 +3,7 @@ var api_key = d3.select("dd#doi").attr('data-api_key');
 
 function getDate(d) { return new Date(d.year, d.day - 1, d.day); }
 
-d3.json("/api/v3/articles?api_key=" + api_key + "&ids=" + doi + "&info=history", function(data) {
+d3.json(encodeURI("/api/v3/articles?api_key=" + api_key + "&ids=" + doi + "&info=history"), function(data) {
 
   var l = 20; // left margin
   var r = 50; // right margin

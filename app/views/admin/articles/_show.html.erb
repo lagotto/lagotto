@@ -39,7 +39,7 @@
     <dd><%= @article.published_on.to_s(:long) %></dd>
     <% if @article.doi %>
       <dt>DOI</dt>
-      <dd id="doi" data-doi="<%= @article.doi %>" data-api_key="<%= @api_key %>"><%= link_to h(@article.doi), "http://dx.doi.org/#{@article.doi}" %></dd>
+      <dd id="doi" data-doi="<%= @article.doi %>" data-api_key="<%= @api_key %>"><%= link_to h(@article.doi), @article.doi_as_url %></dd>
     <% end %>
     <% if @article.pub_med %>
       <dt>PubMed ID</dt>

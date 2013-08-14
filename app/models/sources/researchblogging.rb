@@ -28,15 +28,15 @@ class Researchblogging < Source
 
     # Check that article has DOI
     return  { :events => [], :event_count => nil } if article.doi.blank?
-        
+
     query_url = get_query_url(article)
-    options[:source_id] = id 
-    
+    options[:source_id] = id
+
     get_xml(query_url, options.merge(:username => username, :password => password)) do |document|
-      
+
       # Check that ResearchBlogging has returned something, otherwise an error must have occured
       return nil if document.nil?
-      
+
       events = []
 
       total_count = document.root.attributes.get_attribute("total_records_found")
@@ -48,17 +48,17 @@ class Researchblogging < Source
 
         events << {:event => event, :event_url => event['post_URL']}
       end
-      
+
       events_url = get_events_url(article)
-      event_metrics = { :pdf => nil, 
-                        :html => nil, 
-                        :shares => nil, 
+      event_metrics = { :pdf => nil,
+                        :html => nil,
+                        :shares => nil,
                         :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => total_count.value.to_i, 
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => total_count.value.to_i,
                         :total => total_count.value.to_i }
-                        
+
       { :events => events,
         :events_url => events_url,
         :event_count => total_count.value.to_i,
@@ -67,10 +67,10 @@ class Researchblogging < Source
     end
 
   end
-  
+
   def get_events_url(article)
     unless article.doi.blank?
-      "http://researchblogging.org/post-search/list?article=#{CGI.escape(article.doi)}"
+      "http://researchblogging.org/post-search/list?article=#{Addressable::URI.encode(article.doi)}"
     else
       nil
     end

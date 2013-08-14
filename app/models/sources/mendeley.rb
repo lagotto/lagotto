@@ -27,24 +27,24 @@ class Mendeley < Source
       if config.api_key.blank?
 
     options[:source_id] = id
-    
-    # First, we need to have the Mendeley uuid for this article. 
+
+    # First, we need to have the Mendeley uuid for this article.
     # Get it if we don't have it, and proceed only if we do.
     if article.mendeley.blank?
-      return  { :events => [], :event_count => nil } if article.doi.blank? 
+      return  { :events => [], :event_count => nil } if article.doi.blank?
       mendeley = get_mendeley_uuid(article, options)
       article.update_attributes(:mendeley => mendeley) unless mendeley.blank?
       return  { :events => [], :event_count => nil } if article.mendeley.blank?
     end
-    
+
     result = get_json(get_query_url(article.mendeley), options)
-    
+
     # When Mendeley doesn't know about an article it can return
     # - a 404 status and error hash
     # - an empty array
     # - an incomplete hash with just the Mendeley uuid
     # We should handle all 3 cases without errors
-    
+
     if result.nil?
       nil
     elsif result.empty? or !result["stats"]
@@ -62,47 +62,47 @@ class Mendeley < Source
 
       groups = result['groups']
       total += groups.length unless groups.nil?
-      event_metrics = { :pdf => nil, 
-                        :html => nil, 
-                        :shares => readers.nil? ? 0 : readers, 
+      event_metrics = { :pdf => nil,
+                        :html => nil,
+                        :shares => readers.nil? ? 0 : readers,
                         :groups => groups.nil? ? 0 : groups.length,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => nil, 
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => nil,
                         :total => total }
 
       related_articles = get_json(get_related_url(result['uuid']), options)
       result[:related] = related_articles['documents'] if related_articles
-    
+
       { :events => result,
         :events_url => events_url,
         :event_count => total,
         :event_metrics => event_metrics }
     end
   end
-  
+
   def get_mendeley_uuid(article, options={})
     # get Mendeley uuid, try pmid first, then doi
     # Otherwise search by title
     # Only use uuid if we also get mendeley_url, otherwise the uuid is broken and we return nil
-    
+
     unless article.pub_med.blank?
       result = get_json(get_query_url(article.pub_med, "pmid"), options)
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
     end
-    
+
     unless article.doi.blank?
-      result = get_json(get_query_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
+      result = get_json(get_query_url(Addressable::URI.encode(Addressable::URI.encode(article.doi)), "doi"), options)
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
-      
+
       # search by title if we can't get the uuid using the pmid or doi
-      results = get_json(get_query_url(CGI.escape(CGI.escape(article.title)), "title"), options)
+      results = get_json(get_query_url(Addressable::URI.encode(Addressable::URI.encode(article.title)), "title"), options)
       if results.is_a?(Hash) and results['documents']
         documents = results["documents"].select { |document| document["doi"] == article.doi }
         return documents[0]['uuid'] if documents and documents.length == 1 and documents[0]['mendeley_url']
       end
     end
-    
+
     # return nil if we can't get the correct uuid. We can enter the uuid manually if we have it
     nil
   end
@@ -144,7 +144,7 @@ class Mendeley < Source
   def url_with_type=(value)
     config.url_with_type = value
   end
-  
+
   def url_with_title
     config.url_with_title
   end
