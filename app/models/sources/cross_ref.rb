@@ -50,10 +50,8 @@ class CrossRef < Source
         return nil if document.nil?
 
         events = []
-        document.root.namespaces.default_prefix = "x"
-        document.find("//x:journal_cite").each do |cite|
-          cite_string = cite.to_s(:encoding => XML::Encoding::UTF_8)
-          event = Hash.from_xml(cite_string)
+        document.xpath("//xmlns:journal_cite").each do |event|
+          event = Hash.from_xml(cite.to_s)
           event = event["journal_cite"]
           event_url = Article.to_url(event["doi"])
 
@@ -92,7 +90,7 @@ class CrossRef < Source
       # Check that CrossRef has returned something, otherwise an error must have occured
       return nil if document.blank?
 
-      total = document.find_first("//@fl_count").value.to_i ||= 0
+      total = document.at_xpath("//@fl_count").value.to_i ||= 0
 
       {:events => [],
        :event_count => total }

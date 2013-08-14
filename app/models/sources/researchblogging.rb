@@ -39,11 +39,10 @@ class Researchblogging < Source
 
       events = []
 
-      total_count = document.root.attributes.get_attribute("total_records_found")
+      total_count = document.at_xpath("//blogposts/@total_records_found")
 
-      document.find("//blogposts/post").each do |post|
-        post_string = post.to_s(:encoding => XML::Encoding::UTF_8)
-        event = Hash.from_xml(post_string)
+      document.xpath("//blogposts/post").each do |post|
+        event = Hash.from_xml(post.to_s)
         event = event['post']
 
         events << {:event => event, :event_url => event['post_URL']}

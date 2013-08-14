@@ -46,7 +46,7 @@ module SourceHelper
   end
 
   def parse_xml(text)
-    XML::Parser.string(text).parse
+    Nokogiri::XML(text)
   end
 
   def save_alm_data(data_rev, data, id)

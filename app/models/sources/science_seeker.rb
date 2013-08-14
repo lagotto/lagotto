@@ -23,37 +23,35 @@ class ScienceSeeker < Source
   end
 
   def get_data(article, options={})
-    
+
     # Check that article has DOI
     return  { :events => [], :event_count => nil } if article.doi.blank?
 
     query_url = get_query_url(article)
-    options[:source_id] = id 
-    
+    options[:source_id] = id
+
     get_xml(query_url, options) do |document|
-      
+
       # Check that ScienceSeeker has returned something, otherwise an error must have occured
       return nil if document.nil?
-      
+
       events = []
-      atom = 'atom:http://www.w3.org/2005/Atom'
-      ss = 'ss:http://scienceseeker.org/ns/1'
-      document.find("//atom:entry",[atom,ss]).each do |entry|
+      document.xpath("//xmlns:entry").each do |entry|
         event = Nori.new.parse(entry.to_s)
         event = event['entry']
         events << { :event => event, :event_url => event['link']['@href'] }
       end
-      
+
       events_url = "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}"
-      event_metrics = { :pdf => nil, 
-                        :html => nil, 
-                        :shares => nil, 
+      event_metrics = { :pdf => nil,
+                        :html => nil,
+                        :shares => nil,
                         :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => events.length, 
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => events.length,
                         :total => events.length }
-                  
+
       { :events => events,
         :events_url => events_url,
         :event_count => events.length,
@@ -74,5 +72,5 @@ class ScienceSeeker < Source
   def url=(value)
     config.url = value
   end
-  
+
 end
