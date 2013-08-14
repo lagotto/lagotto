@@ -100,13 +100,13 @@ class CrossRef < Source
   end
 
   def get_query_url(article)
-    url % { :username => username, :password => password, :doi => CGI.escape(article.doi) } unless article.doi.blank?
+    url % { :username => username, :password => password, :doi => Addressable::URI.encode(article.doi) } unless article.doi.blank?
   end
 
   def get_default_query_url(article)
     unless article.doi.blank?
       pid = password.blank? ? username : username + ":" + password
-      default_url % { :pid => pid, :doi => CGI.escape(article.doi) }
+      default_url % { :pid => pid, :doi => Addressable::URI.encode(article.doi) }
     end
   end
 

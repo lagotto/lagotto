@@ -229,7 +229,7 @@ describe SourceHelper do
       get_response.should include("_id" => id, "_rev" => rev)
 
       get_info = @source_helper_class.get_alm_database
-      db_name = URI.parse(APP_CONFIG['couchdb_url']).path[1..-2]
+      db_name = Addressable::URI.parse(APP_CONFIG['couchdb_url']).path[1..-2]
       get_info["db_name"].should eq(db_name)
       get_info["disk_size"].should be > 0
       get_info["doc_count"].should eq(1)

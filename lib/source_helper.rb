@@ -100,7 +100,7 @@ module SourceHelper
 
     optsMsg = options.empty? ? "" : " with #{options.inspect}"
 
-    url = URI.parse(uri)
+    url = Addressable::URI.parse(uri)
 
     response = nil
 
@@ -191,7 +191,7 @@ module SourceHelper
 
   def put_alm_data(url, json)
 
-    url = URI.parse(url)
+    url = Addressable::URI.parse(url)
 
     req = Net::HTTP::Put.new(url.path)
     req["content-type"] = "application/json"
@@ -202,7 +202,7 @@ module SourceHelper
 
   def delete_alm_data(url)
 
-    url = URI.parse(url)
+    url = Addressable::URI.parse(url)
 
     req = Net::HTTP::Delete.new("#{url.path}?#{url.query}")
     request(req)
@@ -218,7 +218,7 @@ module SourceHelper
     # create CouchDB test database
     if Rails.env.test?
       service_url = APP_CONFIG['couchdb_url']
-      url = URI.parse(service_url)
+      url = Addressable::URI.parse(service_url)
 
       req = Net::HTTP::Put.new(url.path)
       unless (url.user.nil? or url.password.nil?)
@@ -234,7 +234,7 @@ module SourceHelper
     # delete CouchDB test database
     if Rails.env.test?
       service_url = APP_CONFIG['couchdb_url']
-      url = URI.parse(service_url)
+      url = Addressable::URI.parse(service_url)
 
       req = Net::HTTP::Delete.new(url.path)
       unless (url.user.nil? or url.password.nil?)
@@ -248,7 +248,7 @@ module SourceHelper
 
   def request(req)
     service_url = APP_CONFIG['couchdb_url']
-    url = URI.parse(service_url)
+    url = Addressable::URI.parse(service_url)
 
     response = Net::HTTP.start(url.host, url.port) { |http|http.request(req) }
     if response.kind_of?(Net::HTTPSuccess) or response.kind_of?(Net::HTTPNotFound)
