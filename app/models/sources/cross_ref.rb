@@ -21,31 +21,34 @@ class CrossRef < Source
   validates_each :default_url, :username do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
   end
-  
+
   if APP_CONFIG["doi_prefix"]
     validates_each :url, :password do |record, attr, value|
       record.errors.add(attr, "can't be blank") if value.blank?
     end
   end
-  
+
   def get_data(article, options={})
-    
+
     # Check that article has DOI
     return { :events => [], :event_count => nil } if article.doi.blank?
-    
+
+    # Fetch the fulltext URL
+    article.update_attributes(:url => get_original_url(article.doi)) if article.url.blank?
+
     # Check whether we have published the DOI, otherwise use different API
     if article.is_publisher?
       raise(ArgumentError, "#{display_name} configuration requires username & password") \
         if config.username.blank? or config.password.blank?
 
       query_url = get_query_url(article)
-      options[:source_id] = id 
-      
+      options[:source_id] = id
+
       get_xml(query_url, options) do |document|
-        
+
         # Check that CrossRef has returned something, otherwise an error must have occured
         return nil if document.nil?
-        
+
         events = []
         document.root.namespaces.default_prefix = "x"
         document.find("//x:journal_cite").each do |cite|
@@ -56,16 +59,16 @@ class CrossRef < Source
 
           events << { :event => event, :event_url => event_url }
         end
-        
-        event_metrics = { :pdf => nil, 
-                          :html => nil, 
-                          :shares => nil, 
+
+        event_metrics = { :pdf => nil,
+                          :html => nil,
+                          :shares => nil,
                           :groups => nil,
-                          :comments => nil, 
-                          :likes => nil, 
-                          :citations => events.length, 
+                          :comments => nil,
+                          :likes => nil,
+                          :citations => events.length,
                           :total => events.length }
-        
+
         { :events => events,
           :event_count => events.length,
           :event_metrics => event_metrics,
@@ -75,35 +78,35 @@ class CrossRef < Source
       get_default_data(article, options={})
     end
   end
-  
+
   def get_default_data(article, options={})
-    
+
     raise(ArgumentError, "#{display_name} configuration requires username") \
       if config.username.blank?
-        
+
     query_url = get_default_query_url(article)
     options[:source_id] = id
-    
+
     get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
-      
+
       # Check that CrossRef has returned something, otherwise an error must have occured
       return nil if document.blank?
-      
+
       total = document.find_first("//@fl_count").value.to_i ||= 0
-      
+
       {:events => [],
        :event_count => total }
     end
   end
-  
+
   def get_query_url(article)
     url % { :username => username, :password => password, :doi => CGI.escape(article.doi) } unless article.doi.blank?
   end
-  
+
   def get_default_query_url(article)
     unless article.doi.blank?
-      pid = password.blank? ? username : username + ":" + password 
-      default_url % { :pid => pid, :doi => CGI.escape(article.doi) } 
+      pid = password.blank? ? username : username + ":" + password
+      default_url % { :pid => pid, :doi => CGI.escape(article.doi) }
     end
   end
 
@@ -121,7 +124,7 @@ class CrossRef < Source
   def url=(value)
     config.url = value
   end
-  
+
   def default_url
     config.default_url
   end
@@ -133,7 +136,7 @@ class CrossRef < Source
   def username
     config.username
   end
-  
+
   def username=(value)
     config.username = value
   end
@@ -141,9 +144,9 @@ class CrossRef < Source
   def password
     config.password
   end
-  
+
   def password=(value)
     config.password = value
   end
-  
+
 end
