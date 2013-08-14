@@ -179,6 +179,28 @@ describe SourceHelper do
         ErrorMessage.count.should == 0
         stub.should have_been_requested
       end
+
+      it "get_original_url with not found error" do
+        article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
+        stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 404)
+        response = @source_helper_class.get_original_url(article.doi)
+        response.should eq("")
+        ErrorMessage.count.should == 0
+        stub.should have_been_requested
+      end
+
+      it "get_original_url with timeout error" do
+        article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
+        stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => [408, "Request Timeout"])
+        response = @source_helper_class.get_original_url(article.doi)
+        response.should eq("")
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Faraday::Response")
+        error_message.message.should include("Could not get the full URL")
+        error_message.status.should == 408
+        stub.should have_been_requested
+      end
     end
   end
 
