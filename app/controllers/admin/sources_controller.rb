@@ -49,5 +49,8 @@ class Admin::SourcesController < Admin::ApplicationController
   protected
   def load_source
     @source = Source.find_by_name(params[:id])
+
+    # raise error if source wasn't found
+    raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
   end
 end

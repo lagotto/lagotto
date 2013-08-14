@@ -3,6 +3,16 @@ require 'spec_helper'
 describe SourcesController do
   render_views
 
+  context "show" do
+    it "returns a proper error for an unknown source" do
+      expect { get source_path("x") }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it "returns a proper error for an unknown source in the admin dashboard" do
+      expect { get admin_source_path("x") }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
   context "RSS" do
 
     before(:each) do
@@ -65,6 +75,10 @@ describe SourcesController do
       response["channel"]["title"].should eq(APP_CONFIG['useragent'] + ": most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
+    end
+
+    it "returns a proper RSS error for an unknown source" do
+      expect { get source_path("x"), format: "rss" }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
