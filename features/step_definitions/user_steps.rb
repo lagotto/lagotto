@@ -13,12 +13,12 @@ end
 
 def sign_up
   delete_user
-  visit '/users/auth/github'
+  visit '/users/auth/cas'
   find_user
 end
 
 def sign_in
-  visit '/users/auth/github'
+  visit '/users/auth/cas'
   find_user
 end
 
@@ -45,7 +45,7 @@ end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
   FactoryGirl.create(:user, :role => role)
-  visit '/users/auth/github'
+  visit '/users/auth/cas'
 end
 
 Given /^I exist as a user$/ do
@@ -74,6 +74,7 @@ When /^I go to my account page$/ do
 end
 
 When /^I click on user "(.*?)"$/ do |username|
+  page.driver.render("tmp/capybara/#{username}.png")
   user = User.find_by_username(username)
   click_link "link_#{user.id}"
 end
@@ -110,13 +111,18 @@ Then /^I should not see user "(.*?)"$/ do |username|
 end
 
 Then /^I should be signed in$/ do
-  page.should have_css('#sign_out')
-  page.should_not have_css('#sign_in')
+  page.driver.render("tmp/capybara/sign_in.png")
+  within("#user_menu") do
+    page.should have_css('#sign_out')
+    page.should_not have_css('#sign_in')
+  end
 end
 
 Then /^I should be signed out$/ do
-  page.should have_css('#sign_in')
-  page.should_not have_css('#sign_out')
+  within("#user_menu") do
+    page.should have_css('#sign_in')
+    page.should_not have_css('#sign_out')
+  end
 end
 
 Then /^I should reach the Sign In page$/ do
@@ -125,7 +131,6 @@ end
 
 Then /^I should not see the "(.*?)" button$/ do |title|
   page.should_not have_link(title)
-  page.driver.render("tmp/capybara/#{title}.png")
 end
 
 Then(/^I should see the API key$/) do
@@ -137,5 +142,4 @@ Then /^I should see the "(.*?)" role for user "(.*?)"$/ do |role, username|
   within("#user_#{user.id}") do
     page.should have_content role
   end
-  page.driver.render("tmp/capybara/#{role}_#{username}.png")
 end

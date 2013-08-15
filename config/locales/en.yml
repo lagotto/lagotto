@@ -6,6 +6,12 @@ en:
      previous_label: "&#171; Previous"
      next_label: "Next &#187;"
   activerecord:
+    errors:
+      models:
+        article:
+          attributes:
+            published_on:
+              invalid_date: "must not be older than 50 years and can't be more than thee months in the future"
     attributes:
       user:
         login: "Username or email"

@@ -15,7 +15,6 @@ end
 
 When /^I click on the "(.*?)" link$/ do |link_name|
   click_link link_name
-  page.driver.render("tmp/capybara/#{link_name}.png")
 end
 
 ### THEN ###

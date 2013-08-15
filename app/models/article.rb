@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'addressable/uri'
+require "cgi"
 require "builder"
 
 class Article < ActiveRecord::Base
@@ -90,14 +90,14 @@ class Article < ActiveRecord::Base
   def self.to_url(id)
     return nil if id.nil?
     unless id.starts_with? "http://dx.doi.org/"
-      id = Addressable::URI.unencode("http://dx.doi.org/" + from_uri(id).values.first)
+      id = "http://dx.doi.org/" + from_uri(id).values.first
     end
     id
   end
 
   def self.clean_id(id)
     if id.starts_with? "10."
-      Addressable::URI.unencode(id)
+      URI.unescape(id)
     elsif id.starts_with? "PMC"
       id[3..-1]
     else
@@ -115,7 +115,7 @@ class Article < ActiveRecord::Base
   end
 
   def to_param
-    Addressable::URI.encode(Article.to_uri(uid))
+    CGI.escape(Article.to_uri(uid))
   end
 
   def self.per_page
@@ -142,7 +142,7 @@ class Article < ActiveRecord::Base
 
   def doi_as_url
     if doi[0..2] == "10."
-      Addressable::URI.encode("http://dx.doi.org/" + doi)
+      "http://dx.doi.org/" + doi
     else
       nil
     end
@@ -151,7 +151,7 @@ class Article < ActiveRecord::Base
   def doi_as_publisher_url
     # for now use the PLOS doi resolver
     if doi[0..6] == "10.1371"
-      Addressable::URI.encode("http://dx.plos.org/" + doi)
+      "http://dx.plos.org/" + doi
     else
       nil
     end

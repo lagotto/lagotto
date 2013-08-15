@@ -17,7 +17,9 @@ capybara-*.html
 /.bundle
 /vendor/bundle/*
 /log/*
+/data/*
 /tmp/*
+/data/*
 /db/*.sqlite3
 /public/system/*
 /coverage/
@@ -30,5 +32,6 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
-.vagrant*
+.vagrant
+.librarian
 Capfile

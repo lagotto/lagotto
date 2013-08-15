@@ -18,6 +18,30 @@
 
 namespace :queue do
 
+  task :pmc => :environment do
+
+    # this rake task should be scheduled to run after pmc data import rake task runs
+    source = Source.find_by_name("pmc")
+    source.queue_all_articles
+
+  end
+
+  task :counter => :environment do
+
+    # this rake task should be scheduled after counter data has been processed for the day
+    source = Source.find_by_name("counter")
+    source.queue_all_articles
+
+  end
+
+  task :biod => :environment do
+
+    # this rake task should be scheduled after counter data has been processed for the day
+    source = Source.find_by_name("biod")
+    source.queue_all_articles
+
+  end
+
   task :citeulike => :environment do
 
     # this rake task is setup to run forever
@@ -73,6 +97,17 @@ namespace :queue do
 
   end
 
+  task :wos => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("wos")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
   task :pubmed => :environment do
 
     # this rake task is setup to run forever
@@ -84,11 +119,33 @@ namespace :queue do
 
   end
 
+  task :scopus => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("scopus")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
   task :facebook => :environment do
 
     # this rake task is setup to run forever
     loop do
       source = Source.find_by_name("facebook")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
+  task :twitter => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("twitter")
       sleep_time = source.queue_articles
       sleep(sleep_time)
     end
@@ -127,7 +184,18 @@ namespace :queue do
     end
 
   end
-  
+
+  task :relativemetric => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("relativemetric")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
   task :one, [:source, :verbose] => :environment do |t, args|
     if args.source.nil?
       puts "Source name is required"
@@ -157,7 +225,7 @@ namespace :queue do
       sleep(3600)
     end
   end
-  
+
   desc "Queue article with given DOI for a specific source"
   task :single_job, [:doi, :source] => :environment do |t, args|
     if args.doi.nil?

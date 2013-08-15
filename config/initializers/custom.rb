@@ -17,12 +17,11 @@
 # limitations under the License.
 
 require "csv"
-require "#{Rails.root}/lib/source_job.rb"
 
 APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
 
-ActiveSupport::XmlMini.backend = 'Nokogiri'
-
+ActiveSupport::XmlMini.backend = 'LibXML'
+ 
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
   if payload[:controller] == "Api::V3::ArticlesController"
     ApiRequest.create! do |page_request|

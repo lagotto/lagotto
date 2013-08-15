@@ -34,6 +34,8 @@ class ArticlesController < ApplicationController
 
     @articles = collection.includes(:retrieval_statuses).paginate(:page => params[:page])
 
+    # if private sources have been filtered out, the source parameter will be present and modified
+
     # source url parameter is only used for csv format
     @source = Source.find_by_name(params[:source].downcase) if params[:source]
 
@@ -61,6 +63,10 @@ class ArticlesController < ApplicationController
     admin = User.order("created_at ASC").first
     @api_key = admin.nil? ? "" : admin.authentication_token
 
+    # if private sources have been filtered out, the source parameter will be present and modified
+    # private sources are filtered out in the load_article_eager_includes method by looking at source parameter
+    load_article_eager_includes
+
     respond_with(@article) do |format|
       format.csv  { render :csv => @article }
       format.json { render :json => @article.as_json(format_options), :callback => params[:callback] }
@@ -78,8 +84,19 @@ class ArticlesController < ApplicationController
     # Load one article given query params
     id_hash = Article.from_uri(params[:id])
     @article = Article.where(id_hash).first
+  end
+
+  def load_article_eager_includes
+    id_hash = Article.from_uri(params[:id])
+    if params[:source]
+      @article = Article.where("#{id_hash.keys.first} = ? and lower(sources.name) in (?)", id_hash.values.first, params[:source].downcase.split(",")).
+        includes(:retrieval_statuses => :source).first
+    else
+      @article = Article.where(id_hash).includes(:retrieval_statuses => :source).first
+    end
 
     # raise error if article wasn't found
     raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @article.blank?
   end
+
 end
