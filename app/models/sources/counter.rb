@@ -23,7 +23,7 @@ class Counter < Source
   end
 
   def get_data(article, options={})
-    
+
     # Check that article has DOI
     return { :events => [], :event_count => nil } if article.doi.blank?
 
@@ -31,20 +31,20 @@ class Counter < Source
     options[:source_id] = id
 
     get_xml(query_url, options) do |document|
-      
+
       # Check that Counter has returned something, otherwise an error must have occured
       return nil if document.nil?
-      
+
       views = []
       event_count = 0
-      document.find("//rest/response/results/item").each do | view |
+      document.xpath("//rest/response/results/item").each do | view |
 
-        month = view.find_first("month")
-        year = view.find_first("year")
-        month = view.find_first("month")
-        html = view.find_first("get-document")
-        xml = view.find_first("get-xml")
-        pdf = view.find_first("get-pdf")
+        month = view.at_xpath("month")
+        year = view.at_xpath("year")
+        month = view.at_xpath("month")
+        html = view.at_xpath("get-document")
+        xml = view.at_xpath("get-xml")
+        pdf = view.at_xpath("get-pdf")
 
         curMonth = {}
         curMonth[:month] = month.content
@@ -73,14 +73,14 @@ class Counter < Source
 
         views << curMonth
       end
-      
-      event_metrics = { :pdf => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i }, 
-                        :html => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:html_views].to_i }, 
-                        :shares => nil, 
+
+      event_metrics = { :pdf => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i },
+                        :html => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:html_views].to_i },
+                        :shares => nil,
                         :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => nil, 
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => nil,
                         :total => event_count }
 
       {:events => views,

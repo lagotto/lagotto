@@ -32,20 +32,17 @@ class Connotea < Source
 
     get_xml(query_url, options.merge(:username => config.username, :password => config.password)) do |document|
       events = []
-      document.root.namespaces.default_prefix = 'default'
-      document.find("//default:Post").each do |cite|
-        uri = cite.find_first("@rdf:about").value
+      document.xpath("//default:Post").each do |cite|
+        uri = cite.at_xpath("@rdf:about").value
         events << {:event => uri, :event_url => uri}
         events_url = "http://www.connotea.org/uri/" + uri[uri.rindex('/')+1..-1]
       end
       events
 
-      xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
-
       {:events => events,
        :events_url => events_url,
        :event_count => events.length,
-       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
       }
 
     end

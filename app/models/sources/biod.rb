@@ -29,14 +29,14 @@ class Biod < Source
     get_xml(query_url, options) do |document|
       views = []
       event_count = 0
-      document.find("//rest/response/results/item").each do | view |
+      document.xpath("//rest/response/results/item").each do | view |
 
-        month = view.find_first("month")
-        year = view.find_first("year")
-        month = view.find_first("month")
-        html = view.find_first("get-document")
-        xml = view.find_first("get-xml")
-        pdf = view.find_first("get-pdf")
+        month = view.at_xpath("month")
+        year = view.at_xpath("year")
+        month = view.at_xpath("month")
+        html = view.at_xpath("get-document")
+        xml = view.at_xpath("get-xml")
+        pdf = view.at_xpath("get-pdf")
 
         curMonth = {}
         curMonth[:month] = month.content
@@ -66,22 +66,20 @@ class Biod < Source
         views << curMonth
       end
 
-      xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
-      
-      event_metrics = { :pdf => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }, 
-                        :html => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash["html_views"].to_i }, 
-                        :shares => nil, 
+      event_metrics = { :pdf => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i },
+                        :html => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash["html_views"].to_i },
+                        :shares => nil,
                         :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => nil, 
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => nil,
                         :total => event_count }
 
       {:events => views,
        :events_url => query_url,
        :event_count => event_count,
        :event_metrics => event_metrics,
-       :attachment => views.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+       :attachment => views.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
       }
     end
 

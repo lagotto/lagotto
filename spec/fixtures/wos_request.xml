@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<request xmlns="http://www.isinet.com/xrpc42" src="app.id=Article-Level Metrics,env.id=test,partner.email=admin@plos.org">
+  <fn name="LinksAMR.retrieve">
+    <list>
+      <map>
+        <map name="WOS">
+          <val>timesCited</val>
+          <val>ut</val>
+          <val>citingArticlesURL</val>
+        </map>
+      </map>
+      <map>
+        <map name="cite_id">
+          <val name="doi">10.1371/journal.pone.0043007</val>
+        </map>
+      </map>
+    </list>
+  </fn>
+</request>

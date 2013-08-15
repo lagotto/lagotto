@@ -30,7 +30,7 @@ class Bloglines < Source
 
     get_xml(query_url, options) do |document|
       events = []
-      document.find("//resultset/result").each do |cite|
+      document.xpath("//resultset/result").each do |cite|
         event = {}
         %w[site/name site/url site/feedurl title author abstract url].each do |a|
           first = cite.find_first("#{a}")
@@ -43,11 +43,9 @@ class Bloglines < Source
           unless Article::from_uri(event[:url]) == article.doi
       end
 
-      xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
-
       {:events => events,
        :event_count => events.length,
-       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
+       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
       }
 
     end

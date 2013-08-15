@@ -278,7 +278,7 @@ FactoryGirl.define do
     display_name "Web of Science"
     active true
     private true
-    url "https://ws.isiknowledge.com/cps/xrpc"
+    url "https://ws.isiknowledge.com:80/cps/xrpc"
 
     group
 
