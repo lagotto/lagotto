@@ -266,7 +266,8 @@ module SourceHelper
 
   def request(req)
     service_url = APP_CONFIG['couchdb_url']
-    url = Addressable::URI.parse(service_url)
+    #url = Addressable::URI.parse(service_url)
+    url = URI.parse(service_url)
 
     response = Net::HTTP.start(url.host, url.port) { |http|http.request(req) }
     if response.kind_of?(Net::HTTPSuccess) or response.kind_of?(Net::HTTPNotFound)

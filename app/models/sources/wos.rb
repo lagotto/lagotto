@@ -1,8 +1,10 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
+# Copyright (c) 2009-2013 by Public Library of Science,
+# a non-profit corporation http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,20 +18,103 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "builder"
-
 class Wos < Source
 
   validates_each :url do |record, attr, value|
     record.errors.add(attr, "can't be blank") if value.blank?
   end
 
-  def get_data(article, options={})
+  def get_data(article, options = {})
 
     # Check that article has DOI
-    return { :events => [], :event_count => nil } if article.doi.blank?
+    return { events: [], event_count: nil } if article.doi.blank?
 
     doc = get_xml_request(article)
+
+    query_url = get_query_url(article)
+    options = options.merge(source_id: id, postdata: doc.to_s, extraheaders: { 'Content-Type' => 'text/xml' })
+
+    get_xml(query_url, options) do |document|
+
+      # Check that WOS has returned something, otherwise an error has occured
+      return { events: [], event_count: nil } if document.nil?
+
+      # Check that WOS has returned the correct status message,
+      # otherwise report an error
+      status = document.at_xpath('//xmlns:fn[@name="LinksAMR.retrieve"]')
+      status = status.nil? ? '' : status['rc']
+
+      if status.casecmp('OK') != 0
+        if status == 'Server.authentication'
+          class_name = 'Net::HTTPUnauthorized'
+          status_code = 401
+        else
+          class_name = 'Net::HTTPNotFound'
+          status_code = 404
+        end
+        error = document.at_xpath('//xmlns:error')
+        error = error.nil? ? 'an error occured' : error.content
+        error_message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
+        ErrorMessage.create(exception: '',
+                            message: error_message,
+                            class_name: class_name,
+                            status: status_code,
+                            source_id: id)
+        return { events: [], event_count: nil }
+      end
+
+      cite_count = document.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="timesCited"]')
+      cite_count = cite_count.nil? ? 0 : cite_count.content.to_i
+      event_metrics = { pdf: nil,
+                        html: nil,
+                        shares: nil,
+                        groups: nil,
+                        comments: nil,
+                        likes: nil,
+                        citations: cite_count,
+                        total: cite_count }
+
+      if cite_count > 0
+        events_url = document.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="citingArticlesURL"]')
+        events_url = events_url.content unless events_url.nil?
+
+        { events: cite_count,
+          events_url: events_url,
+          event_count: cite_count,
+          attachment: { filename: 'events.xml', content_type: 'text/xml', data: document.to_s }
+        }
+      else
+        { events: 0, event_count: 0, event_metrics: event_metrics, events_url: nil, attachment: nil }
+      end
+    end
+  end
+
+  def get_query_url(article)
+    config.url
+  end
+
+  def get_xml_request(article)
+    xml = ::Builder::XmlMarkup.new(indent: 2)
+    xml.instruct!
+    xml.request(xmlns: 'http://www.isinet.com/xrpc42',
+                src: "app.id=#{APP_CONFIG['useragent']},env.id=#{Rails.env},partner.email=#{APP_CONFIG['notification_email']}") do
+      xml.fn(name: "LinksAMR.retrieve") do
+        xml.list do
+          xml.map do
+            xml.map(name: 'WOS') do
+              xml.val 'timesCited'
+              xml.val 'ut'
+              xml.val 'citingArticlesURL'
+            end
+          end
+          xml.map do
+            xml.map(name: 'cite_id') do
+              xml.val article.doi, name: 'doi'
+            end
+          end
+        end
+      end
+    end
 
     # doc = XML::Document.new()
     # doc.root = XML::Node.new('request')
@@ -62,94 +147,10 @@ class Wos < Source
     # map << val = XML::Node.new('val')
     # val['name'] = "doi"
     # val << article.doi
-
-    query_url = get_query_url(article)
-    options[:source_id] = id
-
-    get_xml(query_url, options.merge(:postdata => doc.to_s, :extraheaders => {'Content-Type' => 'text/xml'})) do |document|
-
-      # Check that WOS has returned something, otherwise an error must have occured
-      return { :events => [], :event_count => nil } if document.nil?
-
-      # Check that WOS has returned the correct status message
-      status = document.at_xpath('//xmlns:fn[@name=\'LinksAMR.retrieve\']')
-      status = status.nil? ? "" : status['rc']
-
-      if status.casecmp('OK') != 0
-        if status == "Server.authentication"
-          class_name = "Net::HTTPUnauthorized"
-          status_code = 401
-        else
-          class_name = "Net::HTTPNotFound"
-          status_code = 404
-        end
-        error = document.at_xpath('//xmlns:error')
-        error = error.nil? ? "an error occured" : error.content
-        error_message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
-        ErrorMessage.create(:exception => "",
-                            :message => error_message,
-                            :class_name => class_name,
-                            :status => status_code,
-                            :source_id => id)
-        return { :events => [], :event_count => nil }
-      end
-
-      cite_count = document.at_xpath('//xmlns:map[@name=\'WOS\']/xmlns:val[@name=\'timesCited\']')
-      cite_count = cite_count.nil? ? 0 : cite_count.content.to_i
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => cite_count,
-                        :total => cite_count }
-
-      if cite_count.nil?
-        { :events => 0, :event_count => 0, :event_metrics => event_metrics, :events_url => nil }
-      else
-        events_url = document.at_xpath('//xmlns:map[@name=\'WOS\']/xmlns:val[@name=\'citingArticlesURL\']')
-        events_url = events_url.content unless events_url.nil?
-
-        { :events => cite_count,
-          :events_url => events_url,
-          :event_count => cite_count,
-          :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
-        }
-      end
-    end
-  end
-
-  def get_query_url(article)
-    config.url
-  end
-
-  def get_xml_request(article)
-    Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-      xml.request(:xmlns => "http://www.isinet.com/xrpc42",
-                  :src => "app.id=#{APP_CONFIG['useragent']},env.id=#{Rails.env},partner.email=#{APP_CONFIG['notification_email']}") {
-        xml.fn(:name => "LinksAMR.retrieve") {
-          xml.list {
-            xml.map {
-              xml.map(:name => "WOS") {
-                xml.val "timesCited"
-                xml.val "ut"
-                xml.val "citingArticlesURL"
-              }
-            }
-            xml.map {
-              xml.map(:name => "cite_id") {
-                xml.val article.doi, :name => "doi"
-              }
-            }
-          }
-        }
-      }
-    end.to_xml
   end
 
   def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+    [{ field_name: 'url', field_type: 'text_area', size: '90x2' }]
   end
 
   def url
