@@ -75,11 +75,11 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # - hash with event_count > 0: SUCCESS
     # - nil                      : ERROR
     #
-    # SKIPPED 
+    # SKIPPED
     # The source doesn't know about the article identifier, and we never call the API.
     # Examples: mendeley, pub_med, counter, copernicus
     # We don't want to create a retrieval_history record, but should update retrieval_status
-    # 
+    #
     # SUCCESS NO DATA
     # The source knows about the article identifier, but returns an event_count of 0
     #
@@ -89,9 +89,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # ERROR
     # An error occured, typically 408 (Request Timeout), 403 (Too Many Requests) or 401 (Unauthorized)
     # It could also be an error in our code. 404 (Not Found) errors are handled as SUCCESS NO DATA
-    # We don't update retrieval status and don't create a retrieval_histories document, 
+    # We don't update retrieval status and don't create a retrieval_histories document,
     # so that the request is repeated later. We could get stuck, but we see this in error_messages
-    
+
     data_from_source = rs.source.get_data(rs.article, {:retrieval_status => rs, :timeout => rs.source.timeout })
     if data_from_source.is_a?(Hash)
       events = data_from_source[:events]
@@ -101,17 +101,17 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       attachment = data_from_source[:attachment]
     else
       # ERROR
-      return nil 
+      return nil
     end
-    
+
     retrieved_at = Time.zone.now
-    
+
     # SKIPPED
     if event_count.nil?
-      rs.update_attributes(:retrieved_at => retrieved_at, 
-                           :scheduled_at => rs.stale_at, 
+      rs.update_attributes(:retrieved_at => retrieved_at,
+                           :scheduled_at => rs.stale_at,
                            :event_count => 0)
-      { :retrieval_status => rs } 
+      { :retrieval_status => rs }
     else
       rh = RetrievalHistory.create(:retrieval_status_id => rs.id,
                                    :article_id => rs.article_id,
@@ -133,14 +133,14 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                                                              "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
           end
         end
-        
+
         # save the data to couchdb
-        data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
+        data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{Addressable::URI.encode(rs.article.doi)}")
         rs.data_rev = data_rev unless data_rev.nil?
         rs.event_count = event_count
         rs.event_metrics = event_metrics
         rs.events_url = events_url
-        
+
         # save the history data to couchdb
         #TODO change this to a copy
         data.delete(:_attachments)
@@ -151,12 +151,12 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         rh.status = RetrievalHistory::SUCCESS_MSG
         # save the event count in mysql
         rh.event_count = event_count
-      
+
       # SUCCESS NO DATA
       else
         # if we don't get any data
         rs.event_count = 0
-        
+
         # don't save any data to CouchDB
 
         # set retrieval history status to success with no data
@@ -167,7 +167,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       rs.retrieved_at = retrieved_at
       rs.scheduled_at = rs.stale_at
       rs.save
-       
+
       rh.retrieved_at = retrieved_at
       rh.save
       { :retrieval_status => rs, :retrieval_history => rh }

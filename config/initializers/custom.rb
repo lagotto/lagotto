@@ -20,8 +20,8 @@ require "csv"
 
 APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
 
-ActiveSupport::XmlMini.backend = 'LibXML'
- 
+ActiveSupport::XmlMini.backend = 'Nokogiri'
+
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
   if payload[:controller] == "Api::V3::ArticlesController"
     ApiRequest.create! do |page_request|
