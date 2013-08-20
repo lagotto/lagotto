@@ -9,7 +9,7 @@
     "recipe[alm]"
   ],
   "alm": { "layout": "plos",
-           "email": "admin@plos.org",
+           "email": "alm@alm.plos.org",
            "uid": "doi",
            "doi_prefix": "10.1371",
            "environment": "development",
