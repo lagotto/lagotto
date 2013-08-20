@@ -32,45 +32,65 @@
     <% @error_messages.each do |error_message| %>
       <% cache error_message do %>
         <div class="accordion-group">
-        <div class="accordion-heading">
-          <%= link_to ((error_message.status.blank? ? "" : "[#{error_message.status}] ") + "<strong>" + h(error_message.message) + "</strong>").html_safe, "#error_#{error_message.id}", :class => "accordion-toggle", :id => "link_#{error_message.id}", :data => { :toggle => "collapse", :parent => "#error_message" }, :href => "#error_#{error_message.id}" %>
-        </div>
-        <div id="error_<%= error_message.id %>" class="accordion-body collapse">
-          <div class="accordion-inner">
-            <% if can? :destroy, ErrorMessage %>
-              <div class="btn-group pull-right">
-              <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="icon-trash"></i> Delete <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><%= link_to "by Message", admin_error_message_path(error_message, :query => params[:query], :source_id => params[:source_id]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :id => "#{error_message.id}-delete" %></li>
-                <li><%= link_to "by Class", admin_error_message_path(error_message, :query => params[:query], :source_id => params[:source_id], :filter => "class_name"), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :id => "#{error_message.id}-delete" %></li>
-                <% unless @source.nil? %>
-                  <li><%= link_to "by Source", admin_error_message_path(error_message, :query => params[:query], :source_id => params[:source_id], :filter => "source_id"), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :id => "#{error_message.id}-delete" %></li>
-                <% end %>
-              </ul>
-            </div>
-            <% end %>
-            <p class="class_name"><%= link_to error_message.class_name, admin_error_messages_path(:query => h(error_message.class_name)) %></p>
-            <% unless error_message.content_type.blank? or error_message.content_type == "text/html" %>
-              <h5>Content Type</h5>
-              <%= error_message.content_type %>
-            <% end %>
-
-            <% unless error_message.target_url.blank? %>
-              <h5>Target URL</h5>
-              <%= link_to error_message.target_url, error_message.target_url %>
-            <% end %>
-
-            <h5>Time</h5>
-            <%= error_message.created_at.to_s(:friendly) %>
-
-            <% unless error_message.trace.blank? %>
-              <h5>Trace</h5>
-              <%= simple_format(error_message.trace) %>
-            <% end %>
+          <div class="accordion-heading">
+            <%= link_to ((error_message.status.blank? ? "" : "[#{error_message.status}] ") + "<strong>" + h(error_message.message) + "</strong>").html_safe, "#error_#{error_message.id}", :class => "accordion-toggle", :id => "link_#{error_message.id}", :data => { :toggle => "collapse", :parent => "#error_message" }, :href => "#error_message_#{error_message.id}" %>
           </div>
-        </div>
+          <div class="accordion-body collapse" id="error_message_<%= error_message.id %>">
+            <div class="accordion-inner error-inner">
+              <% if can?(:destroy, ErrorMessage) %>
+                <div class="btn-group pull-right">
+                  <a class="btn btn-mini dropdown-toggle" id="<%= error_message.id %>-delete" data-toggle="dropdown" href="#">
+                    <i class="icon-trash"></i> Delete <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to "by Message", admin_error_message_path(error_message, :query => params[:query],
+                                                                                          :source_id => params[:source_id],
+                                                                                          :page => params[:page]),
+                                                                                          :method => :delete,
+                                                                                          :data => { :confirm => 'Are you sure?' },
+                                                                                          :remote => true,
+                                                                                          :id => "#{error_message.id}-delete-message" %></li>
+                    <li><%= link_to "by Class", admin_error_message_path(error_message, :query => params[:query],
+                                                                                        :source_id => params[:source_id],
+                                                                                        :filter => "class_name",
+                                                                                        :page => params[:page]),
+                                                                                        :method => :delete,
+                                                                                        :data => { :confirm => 'Are you sure?' },
+                                                                                        :remote => true,
+                                                                                        :id => "#{error_message.id}-delete-class" %></li>
+                    <% unless @source.nil? %>
+                      <li><%= link_to "by Source", admin_error_message_path(error_message, :query => params[:query],
+                                                                                           :source_id => params[:source_id],
+                                                                                           :filter => "source_id",
+                                                                                           :page => params[:page]),
+                                                                                           :method => :delete,
+                                                                                           :data => { :confirm => 'Are you sure?' },
+                                                                                           :remote => true,
+                                                                                           :id => "#{error_message.id}-delete-source" %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
+              <p class="class_name"><%= link_to error_message.class_name, admin_error_messages_path(:query => h(error_message.class_name)) %></p>
+              <% unless error_message.content_type.blank? or error_message.content_type == "text/html" %>
+                <h5>Content Type</h5>
+                <%= error_message.content_type %>
+              <% end %>
+
+              <% unless error_message.target_url.blank? %>
+                <h5>Target URL</h5>
+                <%= link_to error_message.target_url, error_message.target_url %>
+              <% end %>
+
+              <h5>Time</h5>
+              <%= error_message.created_at.to_s(:friendly) %>
+
+              <% unless error_message.trace.blank? %>
+                <h5>Trace</h5>
+                <%= simple_format(error_message.trace) %>
+              <% end %>
+            </div>
+          </div>
         </div>
       <% end %>
     <% end %>
