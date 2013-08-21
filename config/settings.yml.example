@@ -16,14 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# staleness and batch_time_interval are durations, you can use ERB such as <%= 2.hours %>
-#
-# source: staleness can be integer or array with up to 4 integer elements:
-# 1: for all articles
-# 2: for articles up to 7 days old, for all other articles
-# 3: for articles up to 7 days old, up to 31 days old, for all other articles
-# 4: for articles up to 7 days old, up to 31 days old, up to 1 year old, for all other articles
-
 defaults: &defaults
   useragent: Article Level Metrics
   notification_email: alm@alm.example.org
@@ -33,16 +25,10 @@ defaults: &defaults
   github_client_id:
   github_client_secret:
   persona: true
-  layout: greenrobo 
+  layout: greenrobo
   couchdb_url: http://localhost:5984/alm/
-  doi_prefix: 
+  doi_prefix:
   uid: doi
-  source:
-    job_batch_size: 200
-    staleness: [ <%= 1.day %>, <%= 1.day %>, <%= 1.month %>, <%= 1.month %> ]
-    batch_time_interval: <%= 1.hour %>
-  nature:
-    requests_per_day: 5000
 
 development:
   <<: *defaults

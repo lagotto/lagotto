@@ -1,4 +1,4 @@
-[CrossRef](http://www.crossref.org) is a non-profit organization that enables cross-publisher citation linking of the scholarly literature via Digital Object Identifiers (DOIs). CrossRef member organizations can use the **Cited-by** Linking service that provides basic information about the scholarly literature citing a particular DOI. All other users can use the CrossRef **OpenURL** service which provides citation counts (the `fl_count' attribute), but no information about the citing literature. The ALM application handles both scenarios. 
+[CrossRef](http://www.crossref.org) is a non-profit organization that enables cross-publisher citation linking of the scholarly literature via Digital Object Identifiers (DOIs). CrossRef member organizations can use the **Cited-by** Linking service that provides basic information about the scholarly literature citing a particular DOI. All other users can use the CrossRef **OpenURL** service which provides citation counts (the `fl_count' attribute), but no information about the citing literature. The ALM application handles both scenarios.
 
 ### Cited-by
 
@@ -16,7 +16,7 @@ For articles that don't mactch the DOI prefix in `config/settings.yml`, or when 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: 7.days<br/>batch_time_interval: 1.hour</td>
+<td valign="top" width=80%>default</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
@@ -167,7 +167,7 @@ For articles that don't mactch the DOI prefix in `config/settings.yml`, or when 
     </crossref_result>
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/cross_ref.rb). 
+The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/cross_ref.rb).
 
 ## Further Documentation
 * [CrossRef Cited-by Linking](http://www.crossref.org/citedby.html)

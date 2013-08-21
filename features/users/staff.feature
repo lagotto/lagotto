@@ -22,10 +22,9 @@ Feature: Sign in as staff
     Scenario: Content from settings.yml should be displayed
       Given the source "Citeulike" exists
       When I go to the "Configuration" tab of source "CiteULike"
-      Then I should see the "Job batch size" settings
-      And I should see the "Batch time interval" settings
-      And I should see the "Staleness interval" settings
-      And I should see the "Requests per day" settings
+      Then I should see the "Job queue" settings
+      And I should see the "Update interval" settings
+      And I should see the "Failed queries" settings
 
     Scenario: Staff cannot edited sources
       Given the source "Citeulike" exists
