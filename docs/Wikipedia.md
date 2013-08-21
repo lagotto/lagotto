@@ -16,7 +16,7 @@ Because of the extensive load-balancing on Wikipedia's servers, pagination (for 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: [ 1.day, 1.day, 1.month * 0.25, 1.month]<br/>batch_time_interval: 1.hour</td>
+<td valign="top" width=80%>job_batch_size: 100</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>

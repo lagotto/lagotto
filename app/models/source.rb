@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -36,14 +38,32 @@ class Source < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
-  validates :workers, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..10, :message => "should be between 1 and 10" }
-  validates :timeout, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
-  validates :wait_time, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
-  validates :max_failed_queries, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 0..1000, :message => "should be between 0 and 1000" }
-  validates :max_failed_query_time_interval, :presence => true, :numericality => { :only_integer => true }, :inclusion => { :in => 0..864000, :message => "should be between 0 and 864000" }
+  validates :workers, :numericality => { :only_integer => true }, :inclusion => { :in => 1..10, :message => "should be between 1 and 10" }
+  validates :timeout, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
+  validates :wait_time, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
+  validates :max_failed_queries, :numericality => { :only_integer => true }, :inclusion => { :in => 0..1000, :message => "should be between 0 and 1000" }
+  validates :max_failed_query_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 0..864000, :message => "should be between 0 and 864000" }
+  validates :job_batch_size, :numericality => { :only_integer => true }, :inclusion => { :in => 1..1000, :message => "should be between 1 and 1000" }
+  validates :batch_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 1..86400, :message => "should be between 1 and 86400" }
+  validates :requests_per_day, :numericality => { :only_integer => true }, :inclusion => { :in => 0..86400, :message => "should be between 0 and 86400" }
+  validates :staleness_week, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
+  validates :staleness_month, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
+  validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
+  validates :staleness_all, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
 
   # for job priority
   TOP_PRIORITY = 0
+
+  INTERVAL_OPTIONS = [['½ hour', 30.minutes],
+                      ['1 hour', 1.hour],
+                      ['2 hours', 2.hours],
+                      ['3 hours', 3.hours],
+                      ['6 hours', 6.hours],
+                      ['12 hours', 12.hours],
+                      ['24 hours', 24.hours],
+                      ['¼ month', 1.month * 0.25],
+                      ['½ month', 1.month * 0.5],
+                      ['1 month', 1.month]]
 
   scope :active, where(:active => true).order("group_id, display_name")
   scope :inactive, where(:active => false).order("group_id, display_name")
@@ -161,45 +181,74 @@ class Source < ActiveRecord::Base
     end
   end
 
-  # get the source-specific configuration from config/settings.yml, otherwise use general source settings in config/settings.yml, otherwise use default.
-  # Don't use merge! as APP_CONFIG is a constant
-  def source_config
-    OpenStruct.new(APP_CONFIG[name].nil? ? APP_CONFIG["source"] : APP_CONFIG["source"].merge(APP_CONFIG[name]))
+  def job_batch_size
+    config.job_batch_size || 200
   end
 
-  def job_batch_size
-    source_config.job_batch_size || 200
+  def job_batch_size=(value)
+    config.job_batch_size = value.to_i
   end
 
   def batch_time_interval
-    source_config.batch_time_interval || 1.hour
+    config.batch_time_interval || 1.hour
+  end
+
+  def batch_time_interval=(value)
+    config.batch_time_interval = value.to_i
+  end
+
+  # The update interval for articles depends on article age. We use 4 different intervals that have default settings, but can also be configured individually per source:
+  # * first week: update daily
+  # * first month: update daily
+  # * first year: update every ¼ month
+  # * after one year: update monthly
+
+  def staleness_week
+    config.staleness_week || 1.day
+  end
+
+  def staleness_week=(value)
+    config.staleness_week = value.to_i
+  end
+
+  def staleness_month
+    config.staleness_month || 1.day
+  end
+
+  def staleness_month=(value)
+    config.staleness_month = value.to_i
+  end
+
+  def staleness_year
+    config.staleness_year || (1.month * 0.25).to_i
+  end
+
+  def staleness_year=(value)
+    config.staleness_year = value.to_i
+  end
+
+  def staleness_all
+    config.staleness_all || 1.month
+  end
+
+  def staleness_all=(value)
+    config.staleness_all = value.to_i
   end
 
   def staleness
-    # staleness can be Integer or Array
-    source_config.staleness || [ (1.month * 0.25) ]
-    Array(source_config.staleness)
+    [staleness_week, staleness_month, staleness_year, staleness_all]
   end
 
   def staleness_with_limits
-    case staleness.length
-    when 1
-      ["any time"].zip(staleness)
-    when 2
-      ["in the last 7 days", "more than 7 days ago"].zip(staleness)
-    when 3
-      ["in the last 7 days", "in the last 31 days", "more than 31 days ago"].zip(staleness)
-    when 4
-      ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
-    end
-  end
-
-  def staleness=(value)
-    source_config.staleness = value
+    ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
   end
 
   def requests_per_day
-    source_config.requests_per_day
+    config.requests_per_day || 0
+  end
+
+  def requests_per_day=(value)
+    config.requests_per_day = value.to_i
   end
 
   def status

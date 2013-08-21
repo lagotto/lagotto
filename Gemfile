@@ -57,7 +57,7 @@ group :test do
   gem "email_spec", "~> 1.5.0"
   gem "rack-test", "~> 0.6.2", :require => "rack/test"
   gem "simplecov", "~> 0.7.1", :require => false
-  gem "shoulda-matchers", "~> 2.2.0", :require => false
+  gem "shoulda-matchers", "~> 2.3.0", :require => false
   gem "webmock", "~> 1.13.0"
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1", :require => false

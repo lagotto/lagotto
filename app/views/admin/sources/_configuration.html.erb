@@ -1,4 +1,4 @@
-<% if can?(:manage, ErrorMessage) and (current_page?(:action => :edit) or (current_page?(:action => :update) and !@source.errors.empty?)) %>
+<% if can?(:manage, ErrorMessage) && (controller.action_name == "edit" or (controller.action_name == "update" && !@source.errors.empty?)) %>
 
   <%= simple_form_for([:admin, @source.becomes(Source)], :url => admin_source_path(@source.name), :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
     <% f.object = @source.becomes(@source.class) %>
@@ -9,11 +9,7 @@
       <%= f.association :group, :include_blank => false %>
       <%= f.input :active, :as => :boolean %>
       <%= f.input :description, :input_html => { :rows => 3, :class => "span9" } %>
-      <%= f.input :timeout, :input_html => { :class => "input-mini" }, :hint => "Time to wait for a response from the source (seconds)"  %>
-      <%= f.input :workers, :input_html => { :class => "input-mini" }, :hint => "Number of workers for the job queue" %>
-      <%= f.input :wait_time, :input_html => { :class => "input-mini" }, :hint => "Time interval before more jobs can be added to the job queue (seconds)" %>
-      <%= f.input :max_failed_queries, :input_html => { :class => "input-mini" }, :hint => "Maximum number of failed queries allowed before being disabled" %>
-      <%= f.input :max_failed_query_time_interval, :input_html => { :class => "input-mini" }, :hint => "Maximum number of failed queries allowed in a time interval (seconds)" %>
+
       <% if not @source.get_config_fields.empty? %>
         <% @source.get_config_fields.each do |field| %>
           <% if field[:field_type] == "check_box" %>
@@ -27,6 +23,61 @@
           <% end %>
         <% end %>
       <% end %>
+
+      <%= f.input :workers, label: "Job queue",
+                            input_html: { class: "input-mini" },
+                            hint: "Number of workers for the job queue" %>
+      <%= f.input :job_batch_size, :as => :numeric, label: false,
+                                                    input_html: { class: "input-mini" },
+                                                    hint: "Number of articles queued per job" %>
+      <%= f.input :wait_time, label: false,
+                              input_html: { class: "input-mini" },
+                              hint: "Time interval before more jobs can be added to the job queue (seconds)" %>
+      <%= f.input :batch_time_interval, collection: Source::INTERVAL_OPTIONS,
+                                    label: false,
+                                    include_blank: false,
+                                    input_html: { class: "span2" },
+                                    hint: "Interval between jobs" %>
+
+      <%= f.input :staleness_week,  collection: Source::INTERVAL_OPTIONS,
+                                    label: "Update interval",
+                                    include_blank: false,
+                                    input_html: { class: "span2" },
+                                    hint: "First 7 days after publication" %>
+      <%= f.input :staleness_month, collection: Source::INTERVAL_OPTIONS,
+                                    label: false,
+                                    include_blank: false,
+                                    input_html: { class: "span2" },
+                                    hint: "First 31 days after publication" %>
+      <%= f.input :staleness_year,  collection: Source::INTERVAL_OPTIONS,
+                                    label: false,
+                                    include_blank: false,
+                                    input_html: { class: "span2" },
+                                    hint: "First year after publication" %>
+      <%= f.input :staleness_all,   collection: Source::INTERVAL_OPTIONS,
+                                    label: false,
+                                    include_blank: false,
+                                    input_html: { class: "span2" },
+                                    hint: "More than one year after publication" %>
+
+
+      <%= f.input :requests_per_day, :as => :numeric, label: 'Rate-limiting',
+                                                      input_html: { class: "input-mini" },
+                                                      hint: "Requests per day (0 for no limit)" %>
+      <%= f.input :timeout, input_html: { class: "input-mini" },
+                            hint: "Time to wait for response from the source (seconds)"  %>
+
+      <%= f.input :max_failed_queries, label: "Failed queries",
+                                       input_html: { class: "input-mini" },
+                                       hint: "Maximum number of failed queries allowed before being disabled" %>
+      <%= f.input :max_failed_query_time_interval, collection: Source::INTERVAL_OPTIONS,
+                                                   label: false,
+                                                   include_blank: false,
+                                                   input_html: { class: "span2" },
+                                                   hint: "Time interval for maximum number of failed queries" %>
+      <%= f.input :disable_delay, label: false,
+                                  input_html: { class: "input-mini" },
+                                  hint: "Time interval before source is disabled after maximum number of failed queries is reached (seconds)" %>
 
       <div class="form-actions">
         <%= f.submit "Save ", class: "btn btn-primary" %>
@@ -45,47 +96,6 @@
     <thead>
     </thead>
     <tbody>
-      <tr>
-        <th>Timeout</th>
-        <td><%=h @source.timeout %> seconds</td>
-      </tr>
-
-      <tr>
-        <th>Disabled Delay</th>
-        <td><%= h @source.disable_delay %> seconds</td>
-      </tr>
-      <tr>
-        <th>Workers (workers for the job queue)</th>
-        <td><%= h @source.workers %></td>
-      </tr>
-      <tr>
-        <th>Time interval before more jobs can be added to the job queue</th>
-        <td><%= @source.wait_time %> seconds</td>
-      </tr>
-      <tr>
-        <th>Maximum number of failed queries allowed before being disabled</th>
-        <td><%=h @source.max_failed_queries %></td>
-      </tr>
-      <tr>
-        <th>Maximum number of failed queries allowed in a time interval</th>
-        <td><%=h @source.max_failed_query_time_interval %> seconds</td>
-      </tr>
-      <tr>
-        <th>Job batch size</th>
-        <td><%=h @source.job_batch_size %></td>
-      </tr>
-      <tr>
-        <th>Batch time interval</th>
-        <td><%=h @source.batch_time_interval %> seconds</td>
-      </tr>
-      <tr>
-        <th>Staleness interval</th>
-        <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " (published #{i})" }.join("</br>").html_safe %></td>
-      </tr>
-      <tr>
-        <th>Requests per day</th>
-        <td><%= @source.requests_per_day.nil? ? "not used" : h(@source.requests_per_day) %></td>
-      </tr>
       <% unless @source.get_config_fields.empty? %>
         <% @source.get_config_fields.each do |field| %>
           <tr>
@@ -100,6 +110,35 @@
           </tr>
         <% end %>
       <% end %>
+      <tr>
+        <th>Job queue</th>
+        <td>
+          <%= pluralize(@source.workers, 'worker') %></br>
+          <%= @source.job_batch_size %> articles per job</br>
+          <%= @source.wait_time %> seconds before more jobs can be added</br>
+          <%= distance_of_time(@source.batch_time_interval) %> between jobs
+        </td>
+      </tr>
+      <tr>
+        <th>Update interval</th>
+        <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " for articles published #{i}" }.join("</br>").html_safe %></td>
+      </tr>
+      <tr>
+        <th>Rate-limiting</th>
+        <td><%= @source.requests_per_day > 0 ? "#{@source.requests_per_day} requests per day" : "not used" %></td>
+      </tr>
+      <tr>
+        <th>Timeout</th>
+        <td><%=h @source.timeout %> seconds wait time for response from the source</td>
+      </tr>
+      <tr>
+        <th>Failed queries</th>
+        <td>
+          <%= @source.max_failed_queries %> failed queries allowed before source is disabled</br>
+          <%= distance_of_time(@source.max_failed_query_time_interval) %> interval for checking maximum number of failed queries</br>
+          <%= @source.disable_delay %> seconds before source is disabled after maximum number of failed queries is reached
+        </td>
+      </tr>
     </tbody>
   </table>
 <% end %>

@@ -8,7 +8,7 @@ Nature Blogs is a science blog aggregator. You can register for a nature.com dev
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: [ 1.day, 1.day, 1.month * 0.25, 1.month]<br/>batch_time_interval: 1.hour<br/>requests_per_day: 5000</td>
+<td valign="top" width=80%>staleness: [ 1.day, 1.month * 0.25, 1.month, 1.month]<br/>requests_per_day: 5000</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>

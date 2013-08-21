@@ -39,7 +39,7 @@ class Admin::SourcesController < Admin::ApplicationController
 
 
   def update
-    @source.update_attributes(params[:source])
+    @source.assign_attributes(params[:source])
     respond_with(@source) do |format|
       format.js { render :show }
     end
