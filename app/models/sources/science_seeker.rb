@@ -36,7 +36,8 @@ class ScienceSeeker < Source
       return nil if document.nil?
 
       events = []
-      document.xpath("//xmlns:entry").each do |entry|
+      document.remove_namespaces!
+      document.xpath("//entry").each do |entry|
         event = Nori.new.parse(entry.to_s)
         event = event['entry']
         events << { :event => event, :event_url => event['link']['@href'] }

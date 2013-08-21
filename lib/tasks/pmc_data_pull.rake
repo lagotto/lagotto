@@ -22,7 +22,7 @@ require 'date'
 include SourceHelper
 
 namespace :pmc do
-  
+
   desc "Bulk-import PMC usage stats by month and journal"
   task :update, [:month,:year] => :environment do |t, args|
 
@@ -46,7 +46,7 @@ namespace :pmc do
 
     Rails.logger.info "Getting PMC information for #{month} #{year}"
     puts "Getting PMC information for #{month} #{year}"
-    
+
     source = Source.find_by_name("pmc")
     if source.nil?
       message = "Source \"pmc\" is missing"
@@ -67,7 +67,7 @@ namespace :pmc do
         message = "Url is missing"
       end
       ErrorMessage.create(:exception => "", :class_name => "NoMethodError",
-                          :message => message, 
+                          :message => message,
                           :source_id => source.id)
       puts "Error: #{message}"
       exit
@@ -102,7 +102,7 @@ namespace :pmc do
           else
             message = "Bad status from PMC #{attributes['status']}"
             ErrorMessage.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
-                                :message => message, 
+                                :message => message,
                                 :status => 500,
                                 :source_id => source.id)
             puts "Error: #{message}"
@@ -123,7 +123,7 @@ namespace :pmc do
 
   def process_doc(document, service_url)
 
-    request_elem = document.find_first("request")
+    request_elem = document.at_xpath("request")
     attributes = request_elem.attributes
     year = attributes['year']
     month = attributes['month']
@@ -132,7 +132,7 @@ namespace :pmc do
     document.find("//article").each do | article |
 
       # get the doi
-      metadata = article.find_first("meta-data");
+      metadata = article.at_xpath("meta-data");
       attributes = metadata.attributes
       doi = attributes['doi']
 
@@ -159,7 +159,7 @@ namespace :pmc do
 
       view = {}
 
-      usage = article.find_first("usage")
+      usage = article.at_xpath("usage")
       attributes = usage.attributes
       attributes.each { | attribute | view[attribute.name] = attribute.value }
 
@@ -183,7 +183,7 @@ namespace :pmc do
       begin
         response = put(url, new_data)
       rescue => e
-        ErrorMessage.create(:exception => e, 
+        ErrorMessage.create(:exception => e,
                             :source_id => source.id)
         puts "Error: #{url} #{new_data} (#{e.class.name}: #{e.message})"
       end
@@ -192,20 +192,20 @@ namespace :pmc do
   end
 
   def put(url, json)
-    
+
     url = URI.parse(url)
-    
+
     req = Net::HTTP::Put.new(url.path)
     req["content-type"] = "application/json"
     req.body = json
 
     res = Net::HTTP.start(url.host, url.port) { | http | http.request(req) }
-    
+
     unless res.kind_of?(Net::HTTPSuccess)
       e = RuntimeError.new("#{res.code}:#{res.message}\nMETHOD:#{req.method}\nURI:#{req.path}\n#{res.body}")
       raise e
     end
-    
+
     res
   end
 

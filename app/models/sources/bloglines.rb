@@ -33,7 +33,7 @@ class Bloglines < Source
       document.xpath("//resultset/result").each do |cite|
         event = {}
         %w[site/name site/url site/feedurl title author abstract url].each do |a|
-          first = cite.find_first("#{a}")
+          first = cite.at_xpath("#{a}")
           if first
             event[a.gsub('/','_').intern] = first.content
           end
