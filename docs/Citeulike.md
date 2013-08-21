@@ -1,4 +1,4 @@
-[CiteULike](http://www.citeulike.org) is a social bookmarking service for scholarly content. 
+[CiteULike](http://www.citeulike.org) is a social bookmarking service for scholarly content.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
@@ -8,7 +8,7 @@
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: 7.days<br/>batch_time_interval: 1.hour</td>
+<td valign="top" width=80%>default</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
@@ -68,4 +68,4 @@
     </posts>
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/citeulike.rb). 
+The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/citeulike.rb).

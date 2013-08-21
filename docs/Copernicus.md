@@ -8,7 +8,7 @@ This source is providing usage stats from the Open Access publisher [Copernicus 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: 7.days<br/>batch_time_interval: 1.hour</td>
+<td valign="top" width=80%>default</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
@@ -64,7 +64,7 @@ This source is providing usage stats from the Open Access publisher [Copernicus 
     }
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/copernicus.rb). 
+The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/copernicus.rb).
 
 ## Further information
 * [Copernicus Publications website](http://publications.copernicus.org)
