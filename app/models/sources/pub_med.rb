@@ -104,7 +104,7 @@ class PubMed < Source
       # Check that PubMed has returned something, otherwise an error must have occured
       return nil if document.blank?
 
-      id_element = document.find_first("//eSearchResult/IdList/Id")
+      id_element = document.at_xpath("//eSearchResult/IdList/Id")
       id_element and id_element.content.strip
     end
   end
@@ -123,7 +123,7 @@ class PubMed < Source
       # Check that PubMed has returned something, otherwise an error must have occured
       return nil if document.blank?
 
-      id_element = document.find_first("//eSearchResult/IdList/Id")
+      id_element = document.at_xpath("//eSearchResult/IdList/Id")
       id_element and id_element.content.strip
     end
   end
