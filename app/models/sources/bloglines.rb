@@ -53,7 +53,7 @@ class Bloglines < Source
 
   def get_query_url(article)
     title = article.title.gsub(/<\/?[^>]*>/, "")
-    config.url % { :username => config.username, :password => config.password, :title => CGI.escape(title) }
+    config.url % { :username => config.username, :password => config.password, :title => Addressable::URI.encode(title) }
   end
 
   def get_config_fields

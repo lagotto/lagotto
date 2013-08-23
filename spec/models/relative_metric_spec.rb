@@ -38,7 +38,7 @@ describe RelativeMetric do
     subject_areas = relative_metric.get_subject_areas(article)
 
     subject_areas.should eq(Set.new)
-  end  
+  end
 
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
@@ -58,7 +58,7 @@ describe RelativeMetric do
       to_return(:status => 200, :body => File.read("#{fixture_path}relative_metric_subject_areas_small.json"), :headers => {})
 
     key = ["/Biology and life sciences", 2009]
-    url = relative_metric.url % { :key => CGI.escape(key.to_json) }
+    url = relative_metric.url % { :key => Addressable::URI.encode(key.to_json) }
     stub_request(:get, "#{url}").to_return(:body => File.read("#{fixture_path}relative_metric_biology.json"))
 
     data = relative_metric.get_data(article)

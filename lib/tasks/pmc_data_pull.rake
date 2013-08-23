@@ -137,7 +137,7 @@ namespace :pmc do
       doi = attributes['doi']
 
       # create the url to get existing information about the given article
-      url = service_url % { :doi => CGI.escape(doi) }
+      url = service_url % { :doi => Addressable::URI.encode(doi) }
 
       stat_data = nil
       views = []
@@ -193,13 +193,13 @@ namespace :pmc do
 
   def put(url, json)
 
-    url = URI.parse(url)
+    url = Addressable::URI.parse(url)
 
     req = Net::HTTP::Put.new(url.path)
     req["content-type"] = "application/json"
     req.body = json
 
-    res = Net::HTTP.start(url.host, url.port) { | http | http.request(req) }
+    res = Net::HTTP.start(url.host, url.inferred_port) { | http | http.request(req) }
 
     unless res.kind_of?(Net::HTTPSuccess)
       e = RuntimeError.new("#{res.code}:#{res.message}\nMETHOD:#{req.method}\nURI:#{req.path}\n#{res.body}")

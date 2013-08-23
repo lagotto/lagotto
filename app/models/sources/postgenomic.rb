@@ -30,7 +30,7 @@ class Postgenomic < Source
     end
 
     {:events => events,
-     :events_url => "http://postgenomic.com/paper.php?doi=#{CGI.escape(article.doi)}",
+     :events_url => "http://postgenomic.com/paper.php?doi=#{Addressable::URI.encode(article.doi)}",
      :event_count => events.length}
 
   end

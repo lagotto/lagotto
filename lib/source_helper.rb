@@ -123,7 +123,7 @@ module SourceHelper
     response = nil
 
     if options.empty?
-      http = Net::HTTP.new(url.host, url.port)
+      http = Net::HTTP.new(url.host, url.inferred_port)
       begin
         Timeout.timeout(DEFAULT_TIMEOUT) do
           response = http.request(Net::HTTP::Get.new(url.request_uri))
@@ -162,7 +162,7 @@ module SourceHelper
 
       timeout = options[:timeout].nil? ? DEFAULT_TIMEOUT : options[:timeout]
 
-      http = Net::HTTP.new(url.host, url.port)
+      http = Net::HTTP.new(url.host, url.inferred_port)
       begin
         Timeout.timeout(timeout) do
           http.use_ssl = true if (url.scheme == 'https')
@@ -266,15 +266,14 @@ module SourceHelper
 
   def request(req)
     service_url = APP_CONFIG['couchdb_url']
-    #url = Addressable::URI.parse(service_url)
-    url = URI.parse(service_url)
+    url = Addressable::URI.parse(service_url)
 
-    response = Net::HTTP.start(url.host, url.port) { |http|http.request(req) }
+    response = Net::HTTP.start(url.host, url.inferred_port) { |http|http.request(req) }
     if response.kind_of?(Net::HTTPSuccess) or response.kind_of?(Net::HTTPNotFound)
       response
     else
       ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "#{response.message} while requesting \"#{url.scheme}://#{url.host}:#{url.port}#{req.path}\"",
+                          :message => "#{response.message} while requesting \"#{url.scheme}://#{url.host}:#{url.inferred_port}#{req.path}\"",
                           :status => response.code)
       nil
     end

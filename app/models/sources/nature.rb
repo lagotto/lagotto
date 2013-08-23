@@ -25,18 +25,18 @@ class Nature < Source
   end
 
   def get_data(article, options={})
-    
+
     # Check that article has DOI
     return  { :events => [], :event_count => nil } if article.doi.blank?
-    
+
     raise(ArgumentError, "#{display_name} configuration requires an api key") \
       if config.api_key.blank?
 
     query_url = get_query_url(article)
     options[:source_id] = id
-    
+
     results = get_json(query_url, options)
-    
+
     if results.nil?
       nil
     else
@@ -46,17 +46,17 @@ class Nature < Source
 
         { :event => result['post'], :event_url => url }
       end
-      
-      event_metrics = { :pdf => nil, 
-                        :html => nil, 
-                        :shares => nil, 
+
+      event_metrics = { :pdf => nil,
+                        :html => nil,
+                        :shares => nil,
                         :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => events.length, 
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => events.length,
                         :total => events.length }
 
-      { :events => events, 
+      { :events => events,
         :event_count => events.length,
         :event_metrics => event_metrics }
     end
@@ -112,7 +112,7 @@ class Nature < Source
           order('retrieved_at DESC').
           limit(limit).
           offset(offset).
-          pluck("retrieval_statuses.id")  
+          pluck("retrieval_statuses.id")
       logger.debug "#{name} total article queued #{rs.length}"
 
       rs.each do | rs_id |
@@ -125,7 +125,7 @@ class Nature < Source
   end
 
   def get_query_url(article)
-    url % { :api_key => api_key, :doi => CGI.escape(article.doi) }
+    url % { :api_key => api_key, :doi => Addressable::URI.encode(article.doi) }
   end
 
   def get_config_fields
@@ -148,5 +148,5 @@ class Nature < Source
   def api_key=(value)
     config.api_key = value
   end
-  
+
 end

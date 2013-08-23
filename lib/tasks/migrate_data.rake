@@ -261,14 +261,14 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
           data[:events_url] = "http://www.citeulike.org/doi/#{doi}"
 
         elsif source.name == "researchblogging"
-          data[:events_url] = "http://researchblogging.org/post-search/list?article=#{CGI.escape(doi)}"
+          data[:events_url] = "http://researchblogging.org/post-search/list?article=#{Addressable::URI.encode(doi)}"
 
         else
           data[:events_url] = nil
         end
         data[:doc_type] = "current"
 
-        data_rev = save_alm_data(nil, data, "#{source.name}:#{CGI.escape(doi)}")
+        data_rev = save_alm_data(nil, data, "#{source.name}:#{Addressable::URI.encode(doi)}")
         retrieval_status = RetrievalStatus.find(current_retrieval_id)
         retrieval_status.data_rev = data_rev
 
@@ -360,14 +360,14 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
       data[:events_url] = "http://www.citeulike.org/doi/#{doi}"
 
     elsif source.name == "researchblogging"
-      data[:events_url] = "http://researchblogging.org/post-search/list?article=#{CGI.escape(doi)}"
+      data[:events_url] = "http://researchblogging.org/post-search/list?article=#{Addressable::URI.encode(doi)}"
 
     else
       data[:events_url] = nil
     end
     data[:doc_type] = "current"
 
-    data_rev = save_alm_data(nil, data, "#{source.name}:#{CGI.escape(doi)}")
+    data_rev = save_alm_data(nil, data, "#{source.name}:#{Addressable::URI.encode(doi)}")
     retrieval_status = RetrievalStatus.find(current_retrieval_id)
     retrieval_status.data_rev = data_rev
 
@@ -443,7 +443,7 @@ task :migrate_retrieval_data_with_count, [:source_name, :old_db] => :environment
     data[:events_url] = events_url
     data[:doc_type] = "current"
 
-    data_rev = save_alm_data(nil, data, "#{source.name}:#{CGI.escape(row["doi"])}")
+    data_rev = save_alm_data(nil, data, "#{source.name}:#{Addressable::URI.encode(row["doi"])}")
     retrieval_status = RetrievalStatus.find(row["id"])
     retrieval_status.data_rev = data_rev
     retrieval_status.save
