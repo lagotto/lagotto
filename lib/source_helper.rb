@@ -21,7 +21,6 @@
 require 'faraday'
 require 'faraday_middleware'
 require 'faraday-cookie_jar'
-require 'typhoeus/adapters/faraday'
 
 module SourceHelper
   DEFAULT_TIMEOUT = 60
