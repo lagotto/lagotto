@@ -55,12 +55,11 @@ describe SourceJob do
 
   it "should perform and get error" do
     scheduled_at = retrieval_status.scheduled_at
-    stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:status => [408, "Request Timeout"])
+    stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:status => [408])
     source_job.perform_get_data(retrieval_status.id).should be_nil
     ErrorMessage.count.should == 1
     error_message = ErrorMessage.first
-    error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-    error_message.message.should include("Request Timeout")
+    error_message.class_name.should eq("Faraday::Error::ClientError")
     error_message.status.should == 408
     error_message.source_id.should == citeulike.id
   end

@@ -29,13 +29,12 @@ describe Facebook do
 
     it "should catch errors with the Facebook API" do
       article = FactoryGirl.build(:article, :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
-      stub = stub_request(:get, facebook.get_query_url(article.doi_as_url)).to_return(:body => File.read(fixture_path + 'facebook_error.json'), :status => [401, "Unauthorized"])
-      facebook.get_data(article).should be_nil
+      stub = stub_request(:get, facebook.get_query_url(article.doi_as_url)).to_return(:body => File.read(fixture_path + 'facebook_error.json'), :status => [401])
+      facebook.get_data(article, options = { :source_id => facebook.id }).should be_nil
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPUnauthorized")
-      error_message.message.should include("Unauthorized")
+      error_message.class_name.should eq("Faraday::Error::ClientError")
       error_message.status.should == 401
       error_message.source_id.should == facebook.id
     end

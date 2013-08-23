@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -34,7 +36,7 @@ class CrossRef < Source
     return { :events => [], :event_count => nil } if article.doi.blank?
 
     # Fetch the fulltext URL
-    article.update_attributes(:url => get_original_url(article.doi)) if article.url.blank?
+    article.update_attributes(:url => get_original_url(article.doi_as_url)) if article.url.blank?
 
     # Check whether we have published the DOI, otherwise use different API
     if article.is_publisher?
@@ -42,36 +44,32 @@ class CrossRef < Source
         if config.username.blank? or config.password.blank?
 
       query_url = get_query_url(article)
-      options[:source_id] = id
+      result = get_xml(query_url, options)
 
-      get_xml(query_url, options) do |document|
+      return nil if result.nil?
 
-        # Check that CrossRef has returned something, otherwise an error must have occured
-        return nil if document.nil?
+      events = []
+      result.xpath("//xmlns:journal_cite").each do |cite|
+        event = Hash.from_xml(cite.to_s)
+        event = event["journal_cite"]
+        event_url = Article.to_url(event["doi"])
 
-        events = []
-        document.xpath("//xmlns:journal_cite").each do |cite|
-          event = Hash.from_xml(cite.to_s)
-          event = event["journal_cite"]
-          event_url = Article.to_url(event["doi"])
-
-          events << { :event => event, :event_url => event_url }
-        end
-
-        event_metrics = { :pdf => nil,
-                          :html => nil,
-                          :shares => nil,
-                          :groups => nil,
-                          :comments => nil,
-                          :likes => nil,
-                          :citations => events.length,
-                          :total => events.length }
-
-        { :events => events,
-          :event_count => events.length,
-          :event_metrics => event_metrics,
-          :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }}
+        events << { :event => event, :event_url => event_url }
       end
+
+      event_metrics = { :pdf => nil,
+                        :html => nil,
+                        :shares => nil,
+                        :groups => nil,
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => events.length,
+                        :total => events.length }
+
+      { :events => events,
+        :event_count => events.length,
+        :event_metrics => event_metrics,
+        :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
     else
       get_default_data(article, options={})
     end
@@ -83,18 +81,14 @@ class CrossRef < Source
       if config.username.blank?
 
     query_url = get_default_query_url(article)
-    options[:source_id] = id
+    result = get_xml(query_url, options.merge(:source_id => id))
 
-    get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
+    return nil if result.blank?
 
-      # Check that CrossRef has returned something, otherwise an error must have occured
-      return nil if document.blank?
+    total = result.at_xpath("//@fl_count").value.to_i ||= 0
 
-      total = document.at_xpath("//@fl_count").value.to_i ||= 0
-
-      {:events => [],
-       :event_count => total }
-    end
+    {:events => [],
+     :event_count => total }
   end
 
   def get_query_url(article)

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -25,14 +27,13 @@ class Copernicus < Source
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires username & password") \
       if config.username.blank? or config.password.blank?
-    
+
     return  { :events => [], :event_count => nil } unless article.doi =~ /^10.5194/
-    
+
     query_url = get_query_url(article)
-    options[:source_id] = id
     result = get_json(query_url, options.merge(:username => username, :password => password))
-    
-    if result.nil?       
+
+    if result.nil?
       nil
     elsif result.empty? or !result["counter"]
       { :events => [], :event_count => nil }
@@ -42,21 +43,21 @@ class Copernicus < Source
       else
         event_count = result["counter"].values.inject(0) { |sum,x| sum + (x ? x : 0) }
       end
-      event_metrics = { :pdf => result["counter"]["PdfDownloads"], 
-                        :html => result["counter"]["AbstractViews"], 
-                        :shares => nil, 
+      event_metrics = { :pdf => result["counter"]["PdfDownloads"],
+                        :html => result["counter"]["AbstractViews"],
+                        :shares => nil,
                         :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => nil, 
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => nil,
                         :total => event_count }
-                        
-      { :events => result, 
+
+      { :events => result,
         :event_count => event_count,
         :event_metrics => event_metrics }
     end
   end
-  
+
   def get_query_url(article)
     config.url % { :doi => article.doi }
   end
@@ -66,7 +67,7 @@ class Copernicus < Source
      {:field_name => "username", :field_type => "text_field"},
      {:field_name => "password", :field_type => "password_field"}]
   end
-  
+
   def url
     config.url
   end
@@ -82,7 +83,7 @@ class Copernicus < Source
   def username=(value)
     config.username = value
   end
-  
+
   def password
     config.password
   end

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -142,7 +144,7 @@ class Article < ActiveRecord::Base
 
   def doi_as_url
     if doi[0..2] == "10."
-      Addressable::URI.encode("http://dx.doi.org/" + doi)
+      Addressable::URI.encode("http://dx.doi.org/#{doi}")
     else
       nil
     end
@@ -151,7 +153,7 @@ class Article < ActiveRecord::Base
   def doi_as_publisher_url
     # for now use the PLOS doi resolver
     if doi[0..6] == "10.1371"
-      Addressable::URI.encode("http://dx.plos.org/" + doi)
+      Addressable::URI.encode("http://dx.plos.org/#{doi}")
     else
       nil
     end

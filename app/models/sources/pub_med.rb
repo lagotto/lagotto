@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -31,8 +33,6 @@ class PubMed < Source
 
   def get_data(article, options={})
 
-    options[:source_id] = id
-
     # First, we need to have the PMID for this article.
     # Get it if we don't have it, and proceed only if we do.
     # We need a DOI to fetch the PMID
@@ -52,42 +52,39 @@ class PubMed < Source
     # OK, we've got the IDs. Get the citations using the PubMed ID.
     events = []
     query_url = get_query_url(article)
+    result = get_xml(query_url, options)
 
-    get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
+    # Check that PubMed has returned something, otherwise an error must have occured
+    return nil if result.nil?
 
-      # Check that PubMed has returned something, otherwise an error must have occured
-      return nil if document.nil?
+    result.xpath("//PMCID").each do |cite|
+      pmc = cite.content
+      if pmc
+        event = {
+          :event => pmc,
+          :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + pmc
+        }
 
-      document.xpath("//PMCID").each do |cite|
-        pmc = cite.content
-        if pmc
-          event = {
-            :event => pmc,
-            :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + pmc
-          }
-
-          events << event
-        end
+        events << event
       end
-
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => events.length,
-                        :total => events.length }
-
-      events_url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
-
-      { :events => events,
-        :events_url => events_url,
-        :event_count => events.length,
-        :event_metrics => event_metrics,
-        :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
-      }
     end
+
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => events.length,
+                      :total => events.length }
+
+    events_url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
+
+    { :events => events,
+      :events_url => events_url,
+      :event_count => events.length,
+      :event_metrics => event_metrics,
+      :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 
   def get_pmid_from_doi(doi, options={})
@@ -98,15 +95,12 @@ class PubMed < Source
         'tool' => PubMed::ToolID }
 
     query_url = EUTILS_URL + params.to_query
+    result = get_xml(query_url, options)
 
-    result = get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
+    return nil if result.blank?
 
-      # Check that PubMed has returned something, otherwise an error must have occured
-      return nil if document.blank?
-
-      id_element = document.at_xpath("//eSearchResult/IdList/Id")
-      id_element and id_element.content.strip
-    end
+    id_element = result.at_xpath("//eSearchResult/IdList/Id")
+    id_element and id_element.content.strip
   end
 
   def get_pmcid_from_doi(doi, options={})
@@ -118,14 +112,12 @@ class PubMed < Source
 
     query_url = EUTILS_URL + params.to_query
 
-    result = get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
+    result = get_xml(query_url, options)
 
-      # Check that PubMed has returned something, otherwise an error must have occured
-      return nil if document.blank?
+    return nil if result.blank?
 
-      id_element = document.at_xpath("//eSearchResult/IdList/Id")
-      id_element and id_element.content.strip
-    end
+    id_element = result.at_xpath("//eSearchResult/IdList/Id")
+    id_element and id_element.content.strip
   end
 
   def get_summary_from_pubmed(pubmed_ids, options={})
@@ -138,10 +130,9 @@ class PubMed < Source
         'tool' => PubMed::ToolID }
 
     query_url = ESUMMARY_URL + params.to_query
-
-    get_xml(query_url, options.merge(:remove_doctype => 1)) do |document|
+    result = get_xml(query_url, options)
       references = []
-      result = Nori.new.parse(document.to_s)
+      result = Nori.new.parse(result.to_s)
       result = result["eSummaryResult"]["DocumentSummarySet"]["DocumentSummary"]
       result = [result] unless result.is_a?(Array)
       result.each do |document_summary|
@@ -152,7 +143,6 @@ class PubMed < Source
                                   :publication_date => publication_date })
       end
       references
-    end
   end
 
   def parse_date(dates)

@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe PubMed do
   let(:pub_med) { FactoryGirl.create(:pub_med) }
-  
+
   it "should report that there are no events if the doi and pmid are missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "", :pub_med => "")
     pub_med.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
-  
+
   context "use the PubMed API" do
     context "use article without events" do
       it "should not retrieve the PMCID for articles less than one month old" do
@@ -19,7 +19,7 @@ describe PubMed do
         stub.should have_been_requested
         stub_pmcid_lookup.should_not have_been_requested
       end
-      
+
       it "should report if there are no events and event_count returned by the PubMed API" do
         article_without_events = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", :pub_med => "1897483599")
         stub_pmid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article_without_events.doi}&field=DOI&db=pubmed&tool=#{PubMed::ToolID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmid_nil.xml'), :status => 200)
@@ -29,12 +29,12 @@ describe PubMed do
         stub.should have_been_requested
       end
     end
-    
+
     context "use article with events" do
       let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001", :pub_med => "17183631", :pub_med_central => "1762328") }
       let(:stub_pmid_lookup) { stub_request(:get, PubMed::EUTILS_URL + "db=pubmed&field=DOI&term=#{article.doi}&tool=#{PubMed::ToolID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmid.xml'), :status => 200) }
       let(:stub_pmcid_lookup) { stub_request(:get, PubMed::EUTILS_URL + "db=pmc&field=DOI&term=#{article.doi}&tool=#{PubMed::ToolID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmcid.xml'), :status => 200) }
-    
+
       it "should report if there are events and event_count returned by the PubMed API" do
         stub = stub_request(:get, pub_med.get_query_url(article)).to_return(:body => File.read(fixture_path + 'pub_med.xml'), :status => 200)
         response = pub_med.get_data(article)
@@ -45,15 +45,14 @@ describe PubMed do
         event[:event_url].should eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + event[:event])
         stub.should have_been_requested
       end
-   
+
       it "should catch errors with the PubMed API" do
-        stub = stub_request(:get, pub_med.get_query_url(article)).to_return(:status => [408, "Request Timeout"])
-        pub_med.get_data(article).should be_nil
+        stub = stub_request(:get, pub_med.get_query_url(article)).to_return(:status => [408])
+        pub_med.get_data(article, options = { :source_id => pub_med.id }).should be_nil
         stub.should have_been_requested
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.message.should include("Request Timeout")
+        error_message.class_name.should eq("Faraday::Error::ClientError")
         error_message.status.should == 408
         error_message.source_id.should == pub_med.id
       end

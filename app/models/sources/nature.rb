@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -33,8 +35,6 @@ class Nature < Source
       if config.api_key.blank?
 
     query_url = get_query_url(article)
-    options[:source_id] = id
-
     results = get_json(query_url, options)
 
     if results.nil?

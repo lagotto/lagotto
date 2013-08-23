@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -92,7 +94,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # We don't update retrieval status and don't create a retrieval_histories document,
     # so that the request is repeated later. We could get stuck, but we see this in error_messages
 
-    data_from_source = rs.source.get_data(rs.article, {:retrieval_status => rs, :timeout => rs.source.timeout })
+    data_from_source = rs.source.get_data(rs.article, { :retrieval_status => rs, :timeout => rs.source.timeout, :source_id => rs.source_id })
     if data_from_source.is_a?(Hash)
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]

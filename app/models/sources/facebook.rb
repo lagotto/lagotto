@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -29,7 +31,6 @@ class Facebook < Source
     return  { :events => [], :event_count => nil } if article.doi.blank?
 
     query_url = get_query_url(article.doi_as_url)
-    options[:source_id] = id
     result = get_json(query_url, options)
 
     if result.nil?

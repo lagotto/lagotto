@@ -13,10 +13,13 @@ gem "whenever", "~> 0.8.2", :require => false
 gem "faraday", "~> 0.8.7"
 gem "faraday_middleware", "~> 0.9.0"
 gem 'faraday-cookie_jar'
+gem "net-http-persistent", "~> 2.9"
+gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.7.8"
 gem "oj", "~> 2.1.4"
 gem "nori", "~> 2.3.0"
+
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 3.0.1"
 gem "omniauth-github", "~> 1.1.0"
