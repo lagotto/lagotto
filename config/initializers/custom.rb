@@ -20,7 +20,7 @@ require "csv"
 
 APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
 
-Faraday.default_adapter = :net_http_persistent
+Faraday.default_adapter = :typhoeus
 ActiveSupport::XmlMini.backend = 'Nokogiri'
 
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|

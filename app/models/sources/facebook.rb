@@ -28,12 +28,6 @@ class Facebook < Source
     raise(ArgumentError, "#{display_name} configuration requires access_token") \
       if config.access_token.blank?
 
-    # Fetch the fulltext URL
-    if article.url.blank? and !article.doi.blank?
-      original_url = get_original_url(article.doi)
-      article.update_attributes(:url => original_url) unless original_url.blank?
-    end
-
     return  { :events => [], :event_count => nil } if article.doi.blank?
 
     query_url = get_query_url(article.doi_as_url)
