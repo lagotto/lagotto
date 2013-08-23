@@ -29,10 +29,10 @@ class Wos < Source
     # Check that article has DOI
     return { events: [], event_count: nil } if article.doi.blank?
 
-    doc = get_xml_request(article)
+    options[:data] = get_xml_request(article)
 
     query_url = get_query_url(article)
-    result = post_xml(query_url, doc, options)
+    result = post_xml(query_url, options)
 
     return { events: [], event_count: nil } if result.nil?
 
@@ -96,12 +96,10 @@ class Wos < Source
                 src: "app.id=#{APP_CONFIG['useragent']},env.id=#{Rails.env},partner.email=#{APP_CONFIG['notification_email']}") do
       xml.fn(name: "LinksAMR.retrieve") do
         xml.list do
-          xml.map do
-            xml.map(name: 'WOS') do
-              xml.val 'timesCited'
-              xml.val 'ut'
-              xml.val 'citingArticlesURL'
-            end
+          xml.map(name: 'WOS') do
+            xml.val 'timesCited'
+            xml.val 'ut'
+            xml.val 'citingArticlesURL'
           end
           xml.map do
             xml.map(name: 'cite_id') do

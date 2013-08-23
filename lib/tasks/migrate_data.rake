@@ -268,7 +268,7 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
         end
         data[:doc_type] = "current"
 
-        data_rev = save_alm_data(nil, data, "#{source.name}:#{Addressable::URI.encode(doi)}")
+        data_rev = save_alm_data("#{source.name}:#{Addressable::URI.encode(doi)}", data)
         retrieval_status = RetrievalStatus.find(current_retrieval_id)
         retrieval_status.data_rev = data_rev
 
@@ -367,7 +367,7 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
     end
     data[:doc_type] = "current"
 
-    data_rev = save_alm_data(nil, data, "#{source.name}:#{Addressable::URI.encode(doi)}")
+    data_rev = save_alm_data("#{source.name}:#{Addressable::URI.encode(doi)}", data)
     retrieval_status = RetrievalStatus.find(current_retrieval_id)
     retrieval_status.data_rev = data_rev
 
@@ -443,7 +443,7 @@ task :migrate_retrieval_data_with_count, [:source_name, :old_db] => :environment
     data[:events_url] = events_url
     data[:doc_type] = "current"
 
-    data_rev = save_alm_data(nil, data, "#{source.name}:#{Addressable::URI.encode(row["doi"])}")
+    data_rev = save_alm_data("#{source.name}:#{Addressable::URI.encode(row["doi"])}", data)
     retrieval_status = RetrievalStatus.find(row["id"])
     retrieval_status.data_rev = data_rev
     retrieval_status.save

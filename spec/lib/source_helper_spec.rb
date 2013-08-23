@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'source_helper'
-require 'nori'
 
 class SourceHelperClass
 end
@@ -128,7 +127,7 @@ describe SourceHelper do
 
       it "get_json" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        @source_helper_class.get_json(url, :source_id => 1).should be_nil
+        @source_helper_class.get_json(url, options = { :source_id => 1}).should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
         error_message.class_name.should eq("Faraday::Error::ClientError")
@@ -138,7 +137,7 @@ describe SourceHelper do
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:content_type => 'application/xml', :status => [429])
-        @source_helper_class.get_xml(url, :source_id => 1) { |response| response.should be_nil }
+        @source_helper_class.get_xml(url, options = { :source_id => 1}) { |response| response.should be_nil }
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
         error_message.class_name.should eq("Faraday::Error::ClientError")
@@ -207,42 +206,51 @@ describe SourceHelper do
     let(:data) { { "name" => "Fred"} }
     let(:error) { {"error"=>"not_found", "reason"=>"missing"} }
 
-    it "put, get and delete data" do
-      put_response = @source_helper_class.put_alm_data(url, data.to_json)
-      put_response.status.should eq(201)
-      put_body = put_response.body
-      rev = put_body["rev"]
-      put_body.should include("ok" => true, "id" => id)
-
-      get_response = @source_helper_class.get_alm_data(id)
-      get_response.should include("_id" => id, "_rev" => rev)
+    it "get database info" do
+      rev = @source_helper_class.put_alm_data(url, data)
 
       get_info = @source_helper_class.get_alm_database
       db_name = Addressable::URI.parse(APP_CONFIG['couchdb_url']).path[1..-2]
       get_info["db_name"].should eq(db_name)
       get_info["disk_size"].should be > 0
       get_info["doc_count"].should eq(1)
+    end
 
-      new_rev = @source_helper_class.save_alm_data(rev, data, id)
+    it "put, get and delete data" do
+      rev = @source_helper_class.put_alm_data(url, data)
+
+      get_response = @source_helper_class.get_alm_data(id)
+      get_response.should include("_id" => id, "_rev" => rev)
+
+      new_rev = @source_helper_class.save_alm_data(id, data)
       new_rev.should_not eq(rev)
 
-      delete_response = @source_helper_class.remove_alm_data(new_rev, id)
+      delete_response = @source_helper_class.remove_alm_data(id, new_rev)
       delete_response.should include("3-")
     end
 
+    it "get correct revision" do
+      rev = @source_helper_class.save_alm_data(id, data)
+      new_rev = @source_helper_class.get_alm_rev(id)
+      new_rev.should eq(rev)
+    end
+
+    it "get nil for missing id" do
+      rev = @source_helper_class.get_alm_rev("xxx")
+      rev.should be_nil
+    end
+
     it "handle revisions" do
-      rev = @source_helper_class.save_alm_data(nil, data, id)
-      new_rev = @source_helper_class.save_alm_data(rev, data, id)
+      rev = @source_helper_class.save_alm_data(id, data)
+      new_rev = @source_helper_class.save_alm_data(id, data)
       new_rev.should_not eq(rev)
-      delete_rev = @source_helper_class.remove_alm_data(new_rev, id)
+      delete_rev = @source_helper_class.remove_alm_data(id, new_rev)
       delete_rev.should_not eq(new_rev)
     end
 
     it "revision conflict" do
-      rev = @source_helper_class.save_alm_data(nil, data, id)
-      new_rev = @source_helper_class.save_alm_data(rev, data, id)
-      new_rev.should_not eq(rev)
-      @source_helper_class.save_alm_data(rev, data, id)
+      rev = @source_helper_class.put_alm_data(url, data)
+      new_rev = @source_helper_class.put_alm_data(url, data)
 
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first

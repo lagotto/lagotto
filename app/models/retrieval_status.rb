@@ -199,7 +199,7 @@ class RetrievalStatus < ActiveRecord::Base
   def delete_document
     unless data_rev.nil
       document_id = "#{source.name}:#{Addressable::URI.encode(article.uid)}"
-      remove_alm_data(data_rev, document_id)
+      remove_alm_data(document_id, data_rev)
     else
       nil
     end

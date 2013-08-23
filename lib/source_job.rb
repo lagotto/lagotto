@@ -137,8 +137,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         end
 
         # save the data to couchdb
-        data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{Addressable::URI.encode(rs.article.doi)}")
-        rs.data_rev = data_rev unless data_rev.nil?
+        save_alm_data("#{rs.source.name}:#{Addressable::URI.encode(rs.article.doi)}", data.clone)
         rs.event_count = event_count
         rs.event_metrics = event_metrics
         rs.events_url = events_url
@@ -147,7 +146,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         #TODO change this to a copy
         data.delete(:_attachments)
         data[:doc_type] = "history"
-        save_alm_data(nil, data, rh.id)
+        save_alm_data(rh.id, data)
 
         # set retrieval history status to success
         rh.status = RetrievalHistory::SUCCESS_MSG

@@ -27,138 +27,117 @@ module SourceHelper
   SourceHelperExceptions = [Faraday::Error::ClientError].freeze
 
   def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
-    begin
-      conn = conn_json
-      conn.basic_auth(options[:username], options[:password]) if options[:username]
-      conn.options[:timeout] = options[:timeout]
-      response = conn.get url
-      response.body
-    rescue *SourceHelperExceptions => e
-      rescue_faraday_error(url, e, options.merge(:json => true))
-    end
+    conn = conn_json
+    conn.basic_auth(options[:username], options[:password]) if options[:username]
+    conn.options[:timeout] = options[:timeout]
+    response = conn.get url
+    response.body
+  rescue *SourceHelperExceptions => e
+    rescue_faraday_error(url, e, options.merge(:json => true))
   end
 
   def get_xml(url, options = { timeout: DEFAULT_TIMEOUT })
-    begin
-      conn = conn_xml
-      conn.basic_auth(options[:username], options[:password]) if options[:username]
-      conn.options[:timeout] = options[:timeout]
-      response = conn.get url
-      # We have issues with the Faraday XML parsing
-      Nokogiri::XML(response.body)
-    rescue *SourceHelperExceptions => e
-      rescue_faraday_error(url, e, options.merge(:xml => true))
-    end
+    conn = conn_xml
+    conn.basic_auth(options[:username], options[:password]) if options[:username]
+    conn.options[:timeout] = options[:timeout]
+    response = conn.get url
+    # We have issues with the Faraday XML parsing
+    Nokogiri::XML(response.body)
+  rescue *SourceHelperExceptions => e
+    rescue_faraday_error(url, e, options.merge(:xml => true))
   end
 
-  def post_xml(url, data, options = { timeout: DEFAULT_TIMEOUT })
-    begin
-      conn = conn_xml
-      conn.basic_auth(options[:username], options[:password]) if options[:username]
-      conn.options[:timeout] = options[:timeout]
-      response = conn.post url do |request|
-        request.body = data
-      end
-      # We have issues with the Faraday XML parsing
-      Nokogiri::XML(response.body)
-    rescue *SourceHelperExceptions => e
-      rescue_faraday_error(url, e, options.merge(:xml => true))
+  def post_xml(url, options = { timeout: DEFAULT_TIMEOUT })
+    conn = conn_xml
+    conn.basic_auth(options[:username], options[:password]) if options[:username]
+    conn.options[:timeout] = options[:timeout]
+    response = conn.post url do |request|
+      request.body = options[:data]
     end
+    # We have issues with the Faraday XML parsing
+    Nokogiri::XML(response.body)
+  rescue *SourceHelperExceptions => e
+    rescue_faraday_error(url, e, options.merge(:xml => true))
   end
 
-  def get_alm_data(id)
+  def get_alm_data(id = "")
     get_json("#{couchdb_url}#{id}")
   end
 
-  def save_alm_data(data_rev, data, id)
-    # set the revision information
+  def get_alm_rev(id)
+    get_json("#{couchdb_url}#{id}")["_rev"] rescue nil
+  end
+
+  def save_alm_data(id, data = {})
+    data_rev = get_alm_rev(id)
     unless data_rev.nil?
       data[:_id] = id
       data[:_rev] = data_rev
     end
 
-    response = put_alm_data("#{couchdb_url}#{id}", data)
-    return nil unless response
-    response.body["rev"]
+    put_alm_data("#{couchdb_url}#{id}", data)
   end
 
-  def put_alm_data(url, data)
-    begin
-      conn_json.put url do |request|
-        request.body = data
-      end
-    rescue *SourceHelperExceptions => e
-      rescue_faraday_error(couchdb_url, e)
+  def put_alm_data(url, data = nil)
+    response = conn_json.put url do |request|
+      request.body = data
     end
+    response.body["rev"]
+  rescue *SourceHelperExceptions => e
+    rescue_faraday_error(couchdb_url, e)
   end
 
-  def remove_alm_data(data_rev, id)
+  def remove_alm_data(id, data_rev)
     params = {'rev' => data_rev }
-
-    response = delete_alm_data("#{couchdb_url}#{id}?#{params.to_query}")
-    return nil unless response
-    response.body["rev"]
+    delete_alm_data("#{couchdb_url}#{id}?#{params.to_query}")
   end
 
   def delete_alm_data(url)
-    begin
-      conn_json.delete url
-    rescue *SourceHelperExceptions => e
-      rescue_faraday_error(couchdb_url, e)
-    end
+    response = conn_json.delete url
+    response.body["rev"]
+  rescue *SourceHelperExceptions => e
+    rescue_faraday_error(couchdb_url, e)
   end
 
   def get_alm_database
-    get_json(couchdb_url)
+    get_alm_data
   end
 
   def put_alm_database
     return nil unless Rails.env.test?
-    begin
-      conn_json.put couchdb_url
-    rescue *SourceHelperExceptions => e
-      rescue_faraday_error(couchdb_url, e)
-    end
+    put_alm_data(couchdb_url)
   end
 
   def delete_alm_database
     return nil unless Rails.env.test?
-    begin
-      conn_json.delete couchdb_url
-    rescue *SourceHelperExceptions => e
-      rescue_faraday_error(couchdb_url, e)
-    end
+    delete_alm_data(couchdb_url)
   end
 
   def get_original_url(url)
-    begin
-      conn = conn_doi
-      conn.options[:timeout] = DEFAULT_TIMEOUT
-      response = conn.head url
-      response.env[:url].to_s
-    rescue *SourceHelperExceptions => e
-      rescue_faraday_error(url, e)
-    end
+    conn = conn_doi
+    conn.options[:timeout] = DEFAULT_TIMEOUT
+    response = conn.head url
+    response.env[:url].to_s
+  rescue *SourceHelperExceptions => e
+    rescue_faraday_error(url, e)
   end
 
   def save_to_file(url, filename = "tmpdata", options = { timeout: DEFAULT_TIMEOUT })
-    begin
-      conn = conn_xml
-      conn.basic_auth(options[:username], options[:password]) if options[:username]
-      conn.options[:timeout] = options[:timeout]
-      response = conn.get url
+    conn = conn_xml
+    conn.basic_auth(options[:username], options[:password]) if options[:username]
+    conn.options[:timeout] = options[:timeout]
+    response = conn.get url
 
-      File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(response.body) }
-      filename
-    rescue *SourceHelperExceptions => e
-      rescue_faraday_error(url, e, options.merge(:xml => true))
-    rescue => exception
-      ErrorMessage.create(:exception => exception, :class_name => exception.class.to_s,
-                          :message => exception.message,
-                          :status => 500,
-                          :source_id => options[:source_id])
-      nil
-    end
+    File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(response.body) }
+    filename
+  rescue *SourceHelperExceptions => e
+    rescue_faraday_error(url, e, options.merge(:xml => true))
+  rescue => exception
+    ErrorMessage.create(:exception => exception, :class_name => exception.class.to_s,
+                        :message => exception.message,
+                        :status => 500,
+                        :source_id => options[:source_id])
+    nil
   end
 
   def conn_json
