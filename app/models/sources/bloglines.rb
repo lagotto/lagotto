@@ -27,28 +27,25 @@ class Bloglines < Source
       if config.username.blank? or config.password.blank?
 
     query_url = get_query_url(article)
+    result = get_xml(query_url, options)
 
-    get_xml(query_url, options) do |document|
-      events = []
-      document.xpath("//resultset/result").each do |cite|
-        event = {}
-        %w[site/name site/url site/feedurl title author abstract url].each do |a|
-          first = cite.at_xpath("#{a}")
-          if first
-            event[a.gsub('/','_').intern] = first.content
-          end
+    events = []
+    result.xpath("//resultset/result").each do |cite|
+      event = {}
+      %w[site/name site/url site/feedurl title author abstract url].each do |a|
+        first = cite.at_xpath("#{a}")
+        if first
+          event[a.gsub('/','_').intern] = first.content
         end
-        # Ignore citations of the dx.doi.org URI itself
-        events << event \
-          unless Article::from_uri(event[:url]) == article.doi
       end
-
-      {:events => events,
-       :event_count => events.length,
-       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
-      }
-
+      # Ignore citations of the dx.doi.org URI itself
+      events << event \
+        unless Article::from_uri(event[:url]) == article.doi
     end
+
+    {:events => events,
+     :event_count => events.length,
+     :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 
   def get_query_url(article)

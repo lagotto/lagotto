@@ -141,6 +141,26 @@ module SourceHelper
     end
   end
 
+  def save_to_file(url, filename = "tmpdata", options = { timeout: DEFAULT_TIMEOUT })
+    begin
+      conn = conn_xml
+      conn.basic_auth(options[:username], options[:password]) if options[:username]
+      conn.options[:timeout] = options[:timeout]
+      response = conn.get url
+
+      File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(response.body) }
+      filename
+    rescue *SourceHelperExceptions => e
+      rescue_faraday_error(url, e, options.merge(:xml => true))
+    rescue => exception
+      ErrorMessage.create(:exception => exception, :class_name => exception.class.to_s,
+                          :message => exception.message,
+                          :status => 500,
+                          :source_id => options[:source_id])
+      nil
+    end
+  end
+
   def conn_json
     Faraday.new do |c|
       c.headers['content-type'] = 'application/json'

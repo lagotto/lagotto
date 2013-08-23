@@ -32,60 +32,56 @@ class Wos < Source
     doc = get_xml_request(article)
 
     query_url = get_query_url(article)
-    options = options.merge(source_id: id, postdata: doc.to_s, extraheaders: { 'Content-Type' => 'text/xml' })
+    result = post_xml(query_url, doc, options)
 
-    get_xml(query_url, options) do |document|
+    return { events: [], event_count: nil } if result.nil?
 
-      # Check that WOS has returned something, otherwise an error has occured
-      return { events: [], event_count: nil } if document.nil?
+    # Check that WOS has returned the correct status message,
+    # otherwise report an error
+    status = result.at_xpath('//xmlns:fn[@name="LinksAMR.retrieve"]')
+    status = status.nil? ? '' : status['rc']
 
-      # Check that WOS has returned the correct status message,
-      # otherwise report an error
-      status = document.at_xpath('//xmlns:fn[@name="LinksAMR.retrieve"]')
-      status = status.nil? ? '' : status['rc']
-
-      if status.casecmp('OK') != 0
-        if status == 'Server.authentication'
-          class_name = 'Net::HTTPUnauthorized'
-          status_code = 401
-        else
-          class_name = 'Net::HTTPNotFound'
-          status_code = 404
-        end
-        error = document.at_xpath('//xmlns:error')
-        error = error.nil? ? 'an error occured' : error.content
-        error_message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
-        ErrorMessage.create(exception: '',
-                            message: error_message,
-                            class_name: class_name,
-                            status: status_code,
-                            source_id: id)
-        return { events: [], event_count: nil }
-      end
-
-      cite_count = document.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="timesCited"]')
-      cite_count = cite_count.nil? ? 0 : cite_count.content.to_i
-      event_metrics = { pdf: nil,
-                        html: nil,
-                        shares: nil,
-                        groups: nil,
-                        comments: nil,
-                        likes: nil,
-                        citations: cite_count,
-                        total: cite_count }
-
-      if cite_count > 0
-        events_url = document.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="citingArticlesURL"]')
-        events_url = events_url.content unless events_url.nil?
-
-        { events: cite_count,
-          events_url: events_url,
-          event_count: cite_count,
-          attachment: { filename: 'events.xml', content_type: 'text/xml', data: document.to_s }
-        }
+    if status.casecmp('OK') != 0
+      if status == 'Server.authentication'
+        class_name = 'Net::HTTPUnauthorized'
+        status_code = 401
       else
-        { events: 0, event_count: 0, event_metrics: event_metrics, events_url: nil, attachment: nil }
+        class_name = 'Net::HTTPNotFound'
+        status_code = 404
       end
+      error = result.at_xpath('//xmlns:error')
+      error = error.nil? ? 'an error occured' : error.content
+      error_message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
+      ErrorMessage.create(exception: '',
+                          message: error_message,
+                          class_name: class_name,
+                          status: status_code,
+                          source_id: id)
+      return { events: [], event_count: nil }
+    end
+
+    cite_count = result.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="timesCited"]')
+    cite_count = cite_count.nil? ? 0 : cite_count.content.to_i
+    event_metrics = { pdf: nil,
+                      html: nil,
+                      shares: nil,
+                      groups: nil,
+                      comments: nil,
+                      likes: nil,
+                      citations: cite_count,
+                      total: cite_count }
+
+    if cite_count > 0
+      events_url = result.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="citingArticlesURL"]')
+      events_url = events_url.content unless events_url.nil?
+
+      { events: cite_count,
+        events_url: events_url,
+        event_count: cite_count,
+        attachment: { filename: 'events.xml', content_type: 'text/xml', data: result.to_s }
+      }
+    else
+      { events: 0, event_count: 0, event_metrics: event_metrics, events_url: nil, attachment: nil }
     end
   end
 

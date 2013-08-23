@@ -18,13 +18,13 @@ describe Wos do
     let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007") }
 
     it "should report if there are no events and event_count returned by the Wos API" do
-      stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "text/xml" }).to_return(:body => File.read(fixture_path + 'wos_nil.xml'), :status => 200)
+      stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "application/xml" }).to_return(:body => File.read(fixture_path + 'wos_nil.xml'), :status => 200)
       wos.get_data(article).should eq({ :events => 0, :event_count => 0, :events_url => nil, :event_metrics => { :pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, :attachment => nil })
       stub.should have_been_requested
     end
 
     it "should report if there are events and event_count returned by the Wos API" do
-      stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "text/xml" }).to_return(:body => File.read(fixture_path + 'wos.xml'), :status => 200)
+      stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "application/xml" }).to_return(:body => File.read(fixture_path + 'wos.xml'), :status => 200)
       response = wos.get_data(article)
       response[:event_count].should eq(1005)
       response[:events_url].should include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
@@ -33,7 +33,7 @@ describe Wos do
     end
 
     it "should catch IP address errors with the Wos API" do
-      stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "text/xml" }).to_return(:body => File.read(fixture_path + 'wos_unauthorized.xml'), :status => 200)
+      stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "application/xml" }).to_return(:body => File.read(fixture_path + 'wos_unauthorized.xml'), :status => 200)
       wos.get_data(article).should eq({ :events => [], :event_count => nil })
       stub.should have_been_requested
       ErrorMessage.count.should == 1
@@ -45,13 +45,12 @@ describe Wos do
     end
 
     it "should catch errors with the Wos API" do
-      stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "text/xml" }).to_return(:status => [408, "Request Timeout"])
-      wos.get_data(article).should eq({ :events => [], :event_count => nil })
+      stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "application/xml" }).to_return(:status => [408])
+      wos.get_data(article, options = { :source_id => wos.id }).should eq({ :events => [], :event_count => nil })
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-      error_message.message.should include("Request Timeout")
+      error_message.class_name.should eq("Faraday::Error::ClientError")
       error_message.status.should == 408
       error_message.source_id.should == wos.id
     end
