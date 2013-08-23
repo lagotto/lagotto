@@ -47,52 +47,48 @@ describe SourceHelper do
       let(:error) { { "error" => "Not Found"} }
 
       it "get_json" do
-        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [404, "Not Found"])
+        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [404])
         @source_helper_class.get_json(url).should eq(error)
         ErrorMessage.count.should == 0
       end
 
       it "get_xml" do
-        stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [404, "Not Found"])
+        stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [404])
         @source_helper_class.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
         ErrorMessage.count.should == 0
       end
     end
 
     context "request timeout" do
-      let(:error) { { "error" => "Request Timeout"} }
 
       it "get_json" do
-        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [408, "Request Timeout"])
+        stub = stub_request(:get, url).to_return(:status => [408])
         @source_helper_class.get_json(url).should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.message.should include("Request Timeout")
+        error_message.class_name.should eq("Faraday::Error::ClientError")
         error_message.status.should == 408
       end
 
       it "get_xml" do
-        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [408, "Request Timeout"])
+        stub = stub_request(:get, url).to_return(:status => [408])
         @source_helper_class.get_xml(url) { |response| response.should be_nil }
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.message.should include("Request Timeout")
+        error_message.class_name.should eq("Faraday::Error::ClientError")
         error_message.status.should == 408
       end
     end
 
     context "request timeout internal" do
-      let(:error) { { "error" => "Request Timeout"} }
 
       it "get_json" do
         stub = stub_request(:get, url).to_timeout
         @source_helper_class.get_json(url).should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.message.should include("Request Timeout")
+        error_message.class_name.should eq("Faraday::Error::TimeoutError")
+        error_message.message.should include("execution expired")
         error_message.status.should == 408
       end
 
@@ -101,57 +97,51 @@ describe SourceHelper do
         @source_helper_class.get_xml(url) { |response| response.should be_nil }
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.message.should include("Request Timeout")
+        error_message.class_name.should eq("Faraday::Error::TimeoutError")
+        error_message.message.should include("execution expired")
         error_message.status.should == 408
       end
     end
 
     context "too many requests" do
-      let(:error) { { "error" => "Too Many Requests"} }
 
       it "get_json" do
-        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [429, "Too Many Requests"])
+        stub = stub_request(:get, url).to_return(:status => [429])
         @source_helper_class.get_json(url).should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPClientError")
-        error_message.message.should include("Too Many Requests")
+        error_message.class_name.should eq("Faraday::Error::ClientError")
         error_message.status.should == 429
       end
 
       it "get_xml" do
-        stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [429, "Too Many Requests"])
+        stub = stub_request(:get, url).to_return(:status => [429])
         @source_helper_class.get_xml(url) { |response| response.should be_nil }
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPClientError")
-        error_message.message.should include("Too Many Requests")
+        error_message.class_name.should eq("Faraday::Error::ClientError")
         error_message.status.should == 429
       end
     end
 
     context "store source_id with error" do
-      let(:error) { { "error" => "Too Many Requests"} }
 
       it "get_json" do
-        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [429, "Too Many Requests"])
+        stub = stub_request(:get, url).to_return(:status => [429])
         @source_helper_class.get_json(url, :source_id => 1).should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPClientError")
-        error_message.message.should include("Too Many Requests")
+        error_message.class_name.should eq("Faraday::Error::ClientError")
         error_message.status.should == 429
         error_message.source_id.should == 1
       end
 
       it "get_xml" do
-        stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [429, "Too Many Requests"])
+        stub = stub_request(:get, url).to_return(:content_type => 'application/xml', :status => [429])
         @source_helper_class.get_xml(url, :source_id => 1) { |response| response.should be_nil }
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPClientError")
-        error_message.message.should include("Too Many Requests")
+        error_message.class_name.should eq("Faraday::Error::ClientError")
         error_message.source_id.should == 1
       end
     end
@@ -163,7 +153,7 @@ describe SourceHelper do
         url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:head, url).to_return(:status => 200, :headers => { 'Location' => url })
-        response = @source_helper_class.get_original_url(article.doi)
+        response = @source_helper_class.get_original_url(article.doi_as_url)
         response.should eq(url)
         ErrorMessage.count.should == 0
         stub.should have_been_requested
@@ -174,7 +164,7 @@ describe SourceHelper do
         url = "http://www.tandfonline.com/doi/abs/10.1080/10629360600569196"
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:head, url).to_return(:status => 200, :headers => { 'Location' => url })
-        response = @source_helper_class.get_original_url(article.doi)
+        response = @source_helper_class.get_original_url(article.doi_as_url)
         response.should eq(url)
         ErrorMessage.count.should == 0
         stub.should have_been_requested
@@ -183,21 +173,20 @@ describe SourceHelper do
       it "get_original_url with not found error" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 404)
-        response = @source_helper_class.get_original_url(article.doi)
-        response.should eq("")
+        response = @source_helper_class.get_original_url(article.doi_as_url)
+        response.should be_nil
         ErrorMessage.count.should == 0
         stub.should have_been_requested
       end
 
       it "get_original_url with timeout error" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
-        stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => [408, "Request Timeout"])
-        response = @source_helper_class.get_original_url(article.doi)
-        response.should eq("")
+        stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => [408])
+        response = @source_helper_class.get_original_url(article.doi_as_url)
+        response.should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Faraday::Response")
-        error_message.message.should include("Could not get the full URL")
+        error_message.class_name.should eq("Faraday::Error::ClientError")
         error_message.status.should == 408
         stub.should have_been_requested
       end
@@ -220,8 +209,8 @@ describe SourceHelper do
 
     it "put, get and delete data" do
       put_response = @source_helper_class.put_alm_data(url, data.to_json)
-      put_response.should be_a_kind_of(Net::HTTPCreated)
-      put_body = ActiveSupport::JSON.decode(put_response.body)
+      put_response.status.should eq(201)
+      put_body = put_response.body
       rev = put_body["rev"]
       put_body.should include("ok" => true, "id" => id)
 
@@ -257,8 +246,8 @@ describe SourceHelper do
 
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPConflict")
-      error_message.message.should eq("Conflict while requesting \"#{url}\"")
+      error_message.class_name.should eq("Faraday::Error::ClientError")
+      error_message.status.should == 409
     end
 
     it "handle missing data" do

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -16,265 +18,186 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'net/http'
 require 'faraday'
 require 'faraday_middleware'
 require 'faraday-cookie_jar'
 
 module SourceHelper
-  # default timeout is 60 sec
   DEFAULT_TIMEOUT = 60
+  SourceHelperExceptions = [Faraday::Error::ClientError].freeze
 
-  def get_json(url, options={})
-    body = get_http_body(url, options)
-    (body.nil? or body.length < 2) ? nil : ActiveSupport::JSON.decode(body)
-  end
-
-  def get_xml(url, options={}, &block)
-    remove_doctype = options.delete(:remove_doctype)
-    body = get_http_body(url, options)
-
-    unless body.blank?
-      # We got something. Conditionally remove the DOCTYPE to prevent
-      # attempts to load the .dtd - we don't need it, and don't want
-      # errors if it's missing.
-      body.sub!(%r{\<\!DOCTYPE\s.*\>$}, '') if remove_doctype
-      yield(parse_xml(body))
-    else
-      yield
+  def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
+    begin
+      conn = conn_json
+      conn.basic_auth(options[:username], options[:password]) if options[:username]
+      conn.options[:timeout] = options[:timeout]
+      response = conn.get url
+      response.body
+    rescue *SourceHelperExceptions => e
+      rescue_faraday_error(url, e, options.merge(:json => true))
     end
   end
 
-  def parse_xml(text)
-    Nokogiri::XML(text)
+  def get_xml(url, options = { timeout: DEFAULT_TIMEOUT })
+    begin
+      conn = conn_xml
+      conn.basic_auth(options[:username], options[:password]) if options[:username]
+      conn.options[:timeout] = options[:timeout]
+      response = conn.get url
+      # We have issues with the Faraday XML parsing
+      Nokogiri::XML(response.body)
+    rescue *SourceHelperExceptions => e
+      rescue_faraday_error(url, e, options.merge(:xml => true))
+    end
   end
 
-  def save_alm_data(data_rev, data, id)
-
-    service_url = APP_CONFIG['couchdb_url']
-
-    # set the revision information
-    unless data_rev.nil?
-      data[:_id] = "#{id}"
-      data[:_rev] = data_rev
+  def post_xml(url, data, options = { timeout: DEFAULT_TIMEOUT })
+    begin
+      conn = conn_xml
+      conn.basic_auth(options[:username], options[:password]) if options[:username]
+      conn.options[:timeout] = options[:timeout]
+      response = conn.post url do |request|
+        request.body = data
+      end
+      # We have issues with the Faraday XML parsing
+      Nokogiri::XML(response.body)
+    rescue *SourceHelperExceptions => e
+      rescue_faraday_error(url, e, options.merge(:xml => true))
     end
-
-    response = put_alm_data("#{service_url}#{id}", ActiveSupport::JSON.encode(data))
-
-    return nil if response.nil?
-
-    result = ActiveSupport::JSON.decode(response.body)
-    result["rev"]
   end
 
   def get_alm_data(id)
-    service_url = APP_CONFIG['couchdb_url']
-    data = get_json("#{service_url}#{id}")
+    get_json("#{couchdb_url}#{id}")
   end
 
-  def save_to_file(url, filename = "tmpdata", options={})
-    body = get_http_body(url, options)
-    if body.blank?
-      return nil
-    else
-      begin
-        File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(body) }
-        return filename
-      rescue => exception
-        ErrorMessage.create(:exception => exception, :class_name => exception.class.to_s,
-                            :message => exception.message,
-                            :status => 500,
-                            :source_id => options[:source_id])
-        return nil
-      end
+  def save_alm_data(data_rev, data, id)
+    # set the revision information
+    unless data_rev.nil?
+      data[:_id] = id
+      data[:_rev] = data_rev
     end
+
+    response = put_alm_data("#{couchdb_url}#{id}", data)
+    return nil unless response
+    response.body["rev"]
   end
 
-  def get_original_url(doi, limit = 10)
-    conn = Faraday.new(:url => "http://dx.doi.org") do |faraday|
-      faraday.use FaradayMiddleware::FollowRedirects, :limit => limit
-      faraday.use :cookie_jar
-      faraday.adapter Faraday.default_adapter
-    end
-
-    response = conn.head Addressable::URI.encode(doi)
-    # Some publishers respond with a 403 error for the original URL
-    if response.status == 200 or (401..403) === response.status
-      response.env[:url].to_s
-    elsif response.status == 404 # not found
-      return ""
-    else
-      ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "Could not get the full URL for #{doi}, received #{response.env[:url].to_s} as last URL.",
-                          :status => response.status)
-      return ""
-    end
-  end
-
-  #protected
-  def get_http_body(uri, options={})
-    # removing retrieval_status object from the hash
-    options = options.except(:retrieval_status)
-
-    optsMsg = options.empty? ? "" : " with #{options.inspect}"
-
-    url = Addressable::URI.parse(uri)
-
-    response = nil
-
-    if options.empty?
-      http = Net::HTTP.new(url.host, url.inferred_port)
-      begin
-        Timeout.timeout(DEFAULT_TIMEOUT) do
-          response = http.request(Net::HTTP::Get.new(url.request_uri))
-        end
-      rescue Timeout::Error
-        response = Net::HTTPRequestTimeOut.new(1.1, 408, "Request Timeout")
+  def put_alm_data(url, data)
+    begin
+      conn_json.put url do |request|
+        request.body = data
       end
-    else
-      sUrl = url.path
-
-      if url.query
-        sUrl= sUrl + "?" + url.query
-      end
-
-      Rails.logger.debug "http request: #{sUrl} (timeout: #{options[:timeout]})"
-
-      headers = { "User-Agent" => APP_CONFIG['useragent'] + " - " + APP_CONFIG['hostname'] }
-
-      if options[:extraheaders]
-        extraHeaders = options[:extraheaders]
-        extraHeaders.each do | key, value |
-          headers[key] = value
-        end
-      end
-
-      request = Net::HTTP::Get.new(sUrl, headers)
-
-      if options[:username]
-        request.basic_auth(options[:username], options[:password])
-      end
-
-      Rails.logger.debug "Request headers:"
-      request.each_header do |key, value|
-        Rails.logger.debug "[#{key}] = '#{value}'"
-      end
-
-      timeout = options[:timeout].nil? ? DEFAULT_TIMEOUT : options[:timeout]
-
-      http = Net::HTTP.new(url.host, url.inferred_port)
-      begin
-        Timeout.timeout(timeout) do
-          http.use_ssl = true if (url.scheme == 'https')
-          if options[:postdata]
-            response = http.post(url.path, options[:postdata], headers)
-          else
-            response = http.request(request)
-          end
-        end
-      rescue Timeout::Error
-        response = Net::HTTPRequestTimeOut.new(1.1, 408, "Request Timeout")
-      end
-    end
-
-    Rails.logger.info "Requested #{uri}#{optsMsg}, got: #{response.code}, #{response.message}"
-
-    Rails.logger.debug "Response headers:"
-    response.each_header do |key, value|
-      Rails.logger.debug "[#{key}] = '#{value}']"
-    end
-
-    # Store error_message and return empty body unless response is 2xx or 404, don't raise an error
-    if response.kind_of?(Net::HTTPSuccess) or response.kind_of?(Net::HTTPNotFound)
-      return response.body
-    else
-      ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "#{response.message} while requesting #{uri}",
-                          :status => response.code,
-                          :source_id => options[:source_id])
-      return ""
+    rescue *SourceHelperExceptions => e
+      rescue_faraday_error(couchdb_url, e)
     end
   end
 
   def remove_alm_data(data_rev, id)
-
-    service_url = APP_CONFIG['couchdb_url']
     params = {'rev' => data_rev }
 
-    response = delete_alm_data("#{service_url}#{id}?#{params.to_query}")
-    result = ActiveSupport::JSON.decode(response.body)
-
-    result["rev"]
-  end
-
-  def put_alm_data(url, json)
-
-    url = Addressable::URI.parse(url)
-
-    req = Net::HTTP::Put.new(url.path)
-    req["content-type"] = "application/json"
-    req.body = json
-
-    request(req)
+    response = delete_alm_data("#{couchdb_url}#{id}?#{params.to_query}")
+    return nil unless response
+    response.body["rev"]
   end
 
   def delete_alm_data(url)
-
-    url = Addressable::URI.parse(url)
-
-    req = Net::HTTP::Delete.new("#{url.path}?#{url.query}")
-    request(req)
+    begin
+      conn_json.delete url
+    rescue *SourceHelperExceptions => e
+      rescue_faraday_error(couchdb_url, e)
+    end
   end
 
   def get_alm_database
-    # get information about CouchDB database
-    service_url = APP_CONFIG['couchdb_url']
-    get_json(service_url)
+    get_json(couchdb_url)
   end
 
   def put_alm_database
-    # create CouchDB test database
-    if Rails.env.test?
-      service_url = APP_CONFIG['couchdb_url']
-      url = Addressable::URI.parse(service_url)
-
-      req = Net::HTTP::Put.new(url.path)
-      unless (url.user.nil? or url.password.nil?)
-        req.basic_auth url.user, url.password
-      end
-      request(req)
-    else
-      nil
+    return nil unless Rails.env.test?
+    begin
+      conn_json.put couchdb_url
+    rescue *SourceHelperExceptions => e
+      rescue_faraday_error(couchdb_url, e)
     end
   end
 
   def delete_alm_database
-    # delete CouchDB test database
-    if Rails.env.test?
-      service_url = APP_CONFIG['couchdb_url']
-      url = Addressable::URI.parse(service_url)
-
-      req = Net::HTTP::Delete.new(url.path)
-      unless (url.user.nil? or url.password.nil?)
-        req.basic_auth url.user, url.password
-      end
-      request(req)
-    else
-      nil
+    return nil unless Rails.env.test?
+    begin
+      conn_json.delete couchdb_url
+    rescue *SourceHelperExceptions => e
+      rescue_faraday_error(couchdb_url, e)
     end
   end
 
-  def request(req)
-    service_url = APP_CONFIG['couchdb_url']
-    url = Addressable::URI.parse(service_url)
+  def get_original_url(url)
+    begin
+      conn = conn_doi
+      conn.options[:timeout] = DEFAULT_TIMEOUT
+      response = conn.head url
+      response.env[:url].to_s
+    rescue *SourceHelperExceptions => e
+      rescue_faraday_error(url, e)
+    end
+  end
 
-    response = Net::HTTP.start(url.host, url.inferred_port) { |http|http.request(req) }
-    if response.kind_of?(Net::HTTPSuccess) or response.kind_of?(Net::HTTPNotFound)
-      response
+  def conn_json
+    Faraday.new do |c|
+      c.headers['content-type'] = 'application/json'
+      c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
+      c.request  :json
+      c.response :json
+      c.use      Faraday::Response::RaiseError
+      c.adapter  Faraday.default_adapter
+    end
+  end
+
+  def conn_xml
+    Faraday.new do |c|
+      c.headers['content-type'] = 'application/xml'
+      c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
+      c.use      Faraday::Response::RaiseError
+      c.adapter  Faraday.default_adapter
+    end
+  end
+
+  def conn_doi
+    Faraday.new do |c|
+      c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
+      c.use     FaradayMiddleware::FollowRedirects, :limit => 10
+      c.use     :cookie_jar
+      c.use     Faraday::Response::RaiseError
+      c.adapter Faraday.default_adapter
+    end
+  end
+
+  def couchdb_url
+    APP_CONFIG['couchdb_url']
+  end
+
+  def rescue_faraday_error(url, error, options={})
+    if error.kind_of?(Faraday::Error::ResourceNotFound)
+      if !error.response
+        nil
+      elsif options[:json]
+        ActiveSupport::JSON.decode(error.response[:body])
+      elsif options[:xml]
+        Nokogiri::XML(error.response[:body])
+      else
+        error.response[:body]
+      end
     else
-      ErrorMessage.create(:exception => "", :class_name => response.class.to_s,
-                          :message => "#{response.message} while requesting \"#{url.scheme}://#{url.host}:#{url.inferred_port}#{req.path}\"",
-                          :status => response.code)
+      if error.kind_of?(Faraday::Error::TimeoutError)
+        status = 408
+      elsif error.response
+        status = error.response[:status]
+      else
+        status = 400
+      end
+      ErrorMessage.create(:exception => "", :class_name => error.class.to_s,
+                          :message => "#{error.message} for #{url}",
+                          :status => status,
+                          :source_id => options[:source_id])
       nil
     end
   end

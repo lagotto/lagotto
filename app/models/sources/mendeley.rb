@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -25,8 +27,6 @@ class Mendeley < Source
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires api key") \
       if config.api_key.blank?
-
-    options[:source_id] = id
 
     # First, we need to have the Mendeley uuid for this article.
     # Get it if we don't have it, and proceed only if we do.

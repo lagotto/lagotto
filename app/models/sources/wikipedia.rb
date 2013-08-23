@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -37,7 +39,6 @@ class Wikipedia < Source
 
       host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
       query_url = get_query_url(article, :host => host)
-      options[:source_id] = id
       results = get_json(query_url, options)
 
       # if server doesn't return a result

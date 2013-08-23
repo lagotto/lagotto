@@ -47,13 +47,12 @@ describe PubMed do
       end
 
       it "should catch errors with the PubMed API" do
-        stub = stub_request(:get, pub_med.get_query_url(article)).to_return(:status => [408, "Request Timeout"])
-        pub_med.get_data(article).should be_nil
+        stub = stub_request(:get, pub_med.get_query_url(article)).to_return(:status => [408])
+        pub_med.get_data(article, options = { :source_id => pub_med.id }).should be_nil
         stub.should have_been_requested
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.message.should include("Request Timeout")
+        error_message.class_name.should eq("Faraday::Error::ClientError")
         error_message.status.should == 408
         error_message.source_id.should == pub_med.id
       end

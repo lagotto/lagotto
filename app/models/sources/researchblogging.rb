@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -30,41 +32,36 @@ class Researchblogging < Source
     return  { :events => [], :event_count => nil } if article.doi.blank?
 
     query_url = get_query_url(article)
-    options[:source_id] = id
+    result = get_xml(query_url, options.merge(:username => username, :password => password))
 
-    get_xml(query_url, options.merge(:username => username, :password => password)) do |document|
+    return nil if result.nil?
 
-      # Check that ResearchBlogging has returned something, otherwise an error must have occured
-      return nil if document.nil?
+    events = []
 
-      events = []
+    total_count = result.at_xpath("//blogposts/@total_records_found")
 
-      total_count = document.at_xpath("//blogposts/@total_records_found")
+    result.xpath("//blogposts/post").each do |post|
+      event = Hash.from_xml(post.to_s)
+      event = event['post']
 
-      document.xpath("//blogposts/post").each do |post|
-        event = Hash.from_xml(post.to_s)
-        event = event['post']
-
-        events << {:event => event, :event_url => event['post_URL']}
-      end
-
-      events_url = get_events_url(article)
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => total_count.value.to_i,
-                        :total => total_count.value.to_i }
-
-      { :events => events,
-        :events_url => events_url,
-        :event_count => total_count.value.to_i,
-        :event_metrics => event_metrics,
-        :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s } }
+      events << {:event => event, :event_url => event['post_URL']}
     end
 
+    events_url = get_events_url(article)
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => total_count.value.to_i,
+                      :total => total_count.value.to_i }
+
+    { :events => events,
+      :events_url => events_url,
+      :event_count => total_count.value.to_i,
+      :event_metrics => event_metrics,
+      :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 
   def get_events_url(article)

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -28,38 +30,34 @@ class ScienceSeeker < Source
     return  { :events => [], :event_count => nil } if article.doi.blank?
 
     query_url = get_query_url(article)
-    options[:source_id] = id
+    result = get_xml(query_url, options)
 
-    get_xml(query_url, options) do |document|
+    # Check that ScienceSeeker has returned something, otherwise an error must have occured
+    return nil if result.nil?
 
-      # Check that ScienceSeeker has returned something, otherwise an error must have occured
-      return nil if document.nil?
-
-      events = []
-      document.remove_namespaces!
-      document.xpath("//entry").each do |entry|
-        event = Nori.new.parse(entry.to_s)
-        event = event['entry']
-        events << { :event => event, :event_url => event['link']['@href'] }
-      end
-
-      events_url = "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}"
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => events.length,
-                        :total => events.length }
-
-      { :events => events,
-        :events_url => events_url,
-        :event_count => events.length,
-        :event_metrics => event_metrics,
-        :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
-      }
+    events = []
+    result.remove_namespaces!
+    result.xpath("//entry").each do |entry|
+      event = Hash.from_xml(entry.to_s)
+      event = event['entry']
+      events << { :event => event, :event_url => event['link']['href'] }
     end
+
+    events_url = "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}"
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => events.length,
+                      :total => events.length }
+
+    { :events => events,
+      :events_url => events_url,
+      :event_count => events.length,
+      :event_metrics => event_metrics,
+      :attachment => events.empty? ? nil : { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 
   def get_config_fields
