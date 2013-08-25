@@ -1,0 +1,18 @@
+{
+  "alm": { "email": "admin@example.org",
+           "environment": "development",
+           "github_client_id": "",
+           "github_secret": "",
+           "seed_sample_articles": false,
+           "admin": { "username": "EXAMPLE", "email": "admin@example.org", "password": "EXAMPLE" },
+           "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },
+           "facebook": { "access_token": "EXAMPLE" },
+           "mendeley": { "api_key": "EXAMPLE" },
+           "nature": { "api_key": "EXAMPLE"},
+           "researchblogging": { "username": "EXAMPLE", "password": "EXAMPLE" }},
+  "mysql": { "bind_address": "0.0.0.0",
+             "server_root_password": "EXAMPLE",
+             "server_repl_password": "EXAMPLE",
+             "server_debian_password": "EXAMPLE"},
+  "couchdb": { "bind_address": "0.0.0.0", "port": 5984 }
+}

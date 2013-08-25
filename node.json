@@ -9,8 +9,6 @@
     "recipe[apache2]",
     "recipe[alm]"
   ],
-  "passenger": { "version": "4.0.14",
-                 "root_path": "/var/lib/gems/1.9.1/gems/passenger-4.0.14",
-                 "module_path": "/var/lib/gems/1.9.1/gems/passenger-4.0.14/ext/apache2/mod_passenger.so" },
+  "passenger": { "version": "3.0.19" },
   "phantomjs": { "version": "1.8.1" }
 }
