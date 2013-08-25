@@ -7,7 +7,7 @@ describe "/api/v3/articles" do
 
     context "more than 50 articles in query" do
       before(:each) do
-        article_list = articles.collect { |article| "#{Addressable::URI.encode(article.doi)}" }.join(",")
+        article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
         @uri = "/api/v3/articles?ids=#{article_list}&type=doi&api_key=12345"
       end
 

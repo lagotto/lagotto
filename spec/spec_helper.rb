@@ -13,7 +13,7 @@ require "rack/test"
 require 'draper/test/rspec_integration'
 
 include WebMock::API
-couchdb_url = Addressable::URI.parse(APP_CONFIG['couchdb_url'])
+couchdb_url = CGI.parse(APP_CONFIG['couchdb_url'])
 WebMock.disable_net_connect!(:allow => couchdb_url.host)
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}

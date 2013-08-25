@@ -92,11 +92,11 @@ class Mendeley < Source
     end
 
     unless article.doi.blank?
-      result = get_json(get_query_url(Addressable::URI.encode(Addressable::URI.encode(article.doi)), "doi"), options)
+      result = get_json(get_query_url(CGI.escape(article.doi_escaped), "doi"), options)
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
 
       # search by title if we can't get the uuid using the pmid or doi
-      results = get_json(get_query_url(Addressable::URI.encode(Addressable::URI.encode(article.title)), "title"), options)
+      results = get_json(get_query_url(CGI.escape(article.doi_escaped), "title"), options)
       if results.is_a?(Hash) and results['documents']
         documents = results["documents"].select { |document| document["doi"] == article.doi }
         return documents[0]['uuid'] if documents and documents.length == 1 and documents[0]['mendeley_url']

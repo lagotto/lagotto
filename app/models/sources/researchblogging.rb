@@ -66,7 +66,7 @@ class Researchblogging < Source
 
   def get_events_url(article)
     unless article.doi.blank?
-      "http://researchblogging.org/post-search/list?article=#{Addressable::URI.encode(article.doi)}"
+      "http://researchblogging.org/post-search/list?article=#{article.doi_escaped}"
     else
       nil
     end

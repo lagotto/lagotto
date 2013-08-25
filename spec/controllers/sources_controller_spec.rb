@@ -31,7 +31,7 @@ describe SourcesController do
       response = response["rss"]
       response["@version"].should eq("2.0")
       response["channel"]["title"].should eq(APP_CONFIG['useragent'] + ": most-cited articles in #{source.display_name}")
-      Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
+      CGI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end
 
@@ -45,7 +45,7 @@ describe SourcesController do
       response = response["rss"]
       response["@version"].should eq("2.0")
       response["channel"]["title"].should eq(APP_CONFIG['useragent'] + ": most-cited articles in #{source.display_name}")
-      Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
+      CGI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end
 
@@ -59,7 +59,7 @@ describe SourcesController do
       response = response["rss"]
       response["@version"].should eq("2.0")
       response["channel"]["title"].should eq(APP_CONFIG['useragent'] + ": most-cited articles in #{source.display_name}")
-      Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
+      CGI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end
 
@@ -73,7 +73,7 @@ describe SourcesController do
       response = response["rss"]
       response["@version"].should eq("2.0")
       response["channel"]["title"].should eq(APP_CONFIG['useragent'] + ": most-cited articles in #{source.display_name}")
-      Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
+      CGI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end
 

@@ -85,12 +85,12 @@ class Wikipedia < Source
 
     # http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1
     # We search for the DOI in parentheses to only get exact matches
-    config.url % { :host => host, :doi => Addressable::URI.encode("\"#{article.doi}\"") }
+    config.url % { :host => host, :doi => "\"#{article.doi}\"" }
   end
 
   def get_events_url(article)
     unless article.doi.blank?
-      "http://en.wikipedia.org/w/index.php?search=#{Addressable::URI.encode("\"#{article.doi}\"")}"
+      "http://en.wikipedia.org/w/index.php?search=\"#{article.doi_escaped}\""
     else
       nil
     end

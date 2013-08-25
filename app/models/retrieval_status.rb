@@ -47,7 +47,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   def data
     if event_count > 0
-      data = get_alm_data("#{source.name}:#{Addressable::URI.encode(article.doi)}")
+      data = get_alm_data("#{source.name}:#{doi_escaped}")
     else
       nil
     end
@@ -198,8 +198,8 @@ class RetrievalStatus < ActiveRecord::Base
 
   def delete_document
     unless data_rev.nil
-      document_id = "#{source.name}:#{Addressable::URI.encode(article.uid)}"
-      remove_alm_data(data_rev, document_id)
+      document_id = "#{source.name}:#{article.uid_escaped}"
+      remove_alm_data(document_id, data_rev)
     else
       nil
     end

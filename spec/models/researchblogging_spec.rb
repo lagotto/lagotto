@@ -11,7 +11,7 @@ describe Researchblogging do
   context "use the ResearchBlogging API" do
     it "should report if there are no events and event_count returned by the ResearchBlogging API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
-      stub = stub_request(:get, "http://#{researchblogging.username}:#{researchblogging.password}@researchbloggingconnect.com/blogposts?article=doi:#{Addressable::URI.encode(article.doi)}&count=100").to_return(:body => File.read(fixture_path + 'researchblogging_nil.xml'), :status => 200)
+      stub = stub_request(:get, "http://#{researchblogging.username}:#{researchblogging.password}@researchbloggingconnect.com/blogposts?article=doi:#{article.doi_escaped}&count=100").to_return(:body => File.read(fixture_path + 'researchblogging_nil.xml'), :status => 200)
       researchblogging.get_data(article).should eq({ :events => [], :event_count => 0, :event_metrics => { :pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, :attachment => nil, :events_url => researchblogging.get_events_url(article) })
       stub.should have_been_requested
     end
@@ -19,7 +19,7 @@ describe Researchblogging do
     it "should report if there are events and event_count returned by the ResearchBlogging API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0035869")
       body = File.read(fixture_path + 'researchblogging.xml')
-      stub = stub_request(:get, "http://#{researchblogging.username}:#{researchblogging.password}@researchbloggingconnect.com/blogposts?article=doi:#{Addressable::URI.encode(article.doi)}&count=100").to_return(:body => body, :status => 200)
+      stub = stub_request(:get, "http://#{researchblogging.username}:#{researchblogging.password}@researchbloggingconnect.com/blogposts?article=doi:#{article.doi_escaped}&count=100").to_return(:body => body, :status => 200)
       response = researchblogging.get_data(article)
       response[:event_count].should eq(8)
       response[:events].length.should eq(8)
@@ -32,7 +32,7 @@ describe Researchblogging do
 
     it "should catch errors with the ResearchBlogging API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, "http://#{researchblogging.username}:#{researchblogging.password}@researchbloggingconnect.com/blogposts?article=doi:#{Addressable::URI.encode(article.doi)}&count=100").to_return(:status => [408])
+      stub = stub_request(:get, "http://#{researchblogging.username}:#{researchblogging.password}@researchbloggingconnect.com/blogposts?article=doi:#{article.doi_escaped}&count=100").to_return(:status => [408])
       researchblogging.get_data(article, options = { :source_id => researchblogging.id }).should be_nil
       stub.should have_been_requested
       ErrorMessage.count.should == 1

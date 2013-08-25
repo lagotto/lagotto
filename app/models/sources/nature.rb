@@ -125,7 +125,7 @@ class Nature < Source
   end
 
   def get_query_url(article)
-    url % { :api_key => api_key, :doi => Addressable::URI.encode(article.doi) }
+    url % { :api_key => api_key, :doi => article.doi_escaped }
   end
 
   def get_config_fields
