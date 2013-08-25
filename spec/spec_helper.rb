@@ -13,7 +13,7 @@ require "rack/test"
 require 'draper/test/rspec_integration'
 
 include WebMock::API
-couchdb_url = CGI.parse(APP_CONFIG['couchdb_url'])
+couchdb_url = Addressable::URI.parse(APP_CONFIG['couchdb_url'])
 WebMock.disable_net_connect!(:allow => couchdb_url.host)
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
@@ -23,11 +23,9 @@ def app
 end
 
 RSpec.configure do |config|
-  config.include(EmailSpec::Helpers)
-  config.include(EmailSpec::Matchers)
-
+  config.include EmailSpec::Helpers
+  config.include EmailSpec::Matchers
   config.include Rack::Test::Methods
-
   config.include FactoryGirl::Syntax::Methods
 
   config.use_transactional_fixtures = false

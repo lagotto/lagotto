@@ -89,12 +89,10 @@ class Article < ActiveRecord::Base
     id
   end
 
-  def self.to_url(id)
-    return nil if id.nil?
-    unless id.starts_with? "http://dx.doi.org/"
-      id = "http://dx.doi.org/" + from_uri(id).values.first
-    end
-    id
+  def self.to_url(doi)
+    return nil if doi.nil?
+    return doi if doi.starts_with? "http://dx.doi.org/"
+    "http://dx.doi.org/#{from_uri(doi).values.first}"
   end
 
   def self.clean_id(id)
@@ -181,7 +179,7 @@ class Article < ActiveRecord::Base
   end
 
   def title_escaped
-
+    CGI.escape(title).gsub("+", "%20")
   end
 
   def to_xml(options = {})
