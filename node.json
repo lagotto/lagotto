@@ -9,24 +9,8 @@
     "recipe[apache2]",
     "recipe[alm]"
   ],
-  "alm": { "email": "admin@example.org",
-           "environment": "development",
-           "github_client_id": "",
-           "github_secret": "",
-           "seed_sample_articles": false,
-           "admin": { "username": "articlemetrics", "email": "admin@example.org", "password": "articlemetrics" },
-           "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },
-           "facebook": { "access_token": "EXAMPLE" },
-           "mendeley": { "api_key": "EXAMPLE" },
-           "nature": { "api_key": "EXAMPLE"},
-           "researchblogging": { "username": "EXAMPLE", "password": "EXAMPLE" }},
-  "passenger": { "version": "3.0.19",
-                 "root_path": "/var/lib/gems/1.9.1/gems/passenger-3.0.19",
-                 "module_path": "/var/lib/gems/1.9.1/gems/passenger-3.0.19/ext/apache2/mod_passenger.so" },
-  "phantomjs": { "version": "1.8.1" },
-  "mysql": { "bind_address": "0.0.0.0", 
-             "server_root_password": "9wpfo4w",
-             "server_repl_password": "9wpfo4w",
-             "server_debian_password": "9wpfo4w"},
-  "couchdb": { "bind_address": "0.0.0.0", "host": "localhost", "port": 5984 }
+  "passenger": { "version": "4.0.14",
+                 "root_path": "/var/lib/gems/1.9.1/gems/passenger-4.0.14",
+                 "module_path": "/var/lib/gems/1.9.1/gems/passenger-4.0.14/ext/apache2/mod_passenger.so" },
+  "phantomjs": { "version": "1.8.1" }
 }

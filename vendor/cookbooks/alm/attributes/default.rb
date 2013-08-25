@@ -1,6 +1,8 @@
 default[:alm][:name] = "alm"
-default[:alm][:host] = "alm.local"
+default[:alm][:host] = "localhost"
+default[:alm][:environment] = "development"
 default[:alm][:useragent] = "Article-Level Metrics"
+default[:alm][:api_key] = nil
 default[:alm][:admin] = { :username => "articlemetrics", :name => "Admin", :email => "admin@example.com", :password => "articlemetrics" }
 default[:alm][:mail] = { :address => "EXAMPLE", :domain => "EXAMPLE", :user_name => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:layout] = "greenrobo"
@@ -25,4 +27,4 @@ default[:alm][:researchblogging] = { :username => "EXAMPLE", :password => "EXAMP
 default[:alm][:scopus] = { :username => "EXAMPLE", :salt => "EXAMPLE", :partner_id => "EXAMPLE" }
 default[:alm][:wos] = { :url => "EXAMPLE" }
 default[:alm][:seed_sample_articles] = false
-default[:alm][:environment] = "development"
+default[:couch_db][:config][:httpd][:port] = 5984

@@ -2,29 +2,34 @@ SITE
   remote: http://community.opscode.com/api/v1
   specs:
     apache2 (1.7.0)
-    apt (1.7.0)
-    build-essential (1.3.2)
+    apt (2.1.1)
+    build-essential (1.4.2)
     chef_handler (1.1.4)
-    couchdb (2.1.0)
-      erlang (>= 0.0.0)
-      yum (>= 0.0.0)
+    chocolatey (0.0.5)
+      powershell (>= 0.0.0)
     dmg (1.1.0)
     erlang (1.3.0)
       apt (>= 1.7.0)
       build-essential (>= 0.0.0)
       yum (>= 0.5.0)
-    git (2.1.4)
+    git (2.5.2)
       build-essential (>= 0.0.0)
       dmg (>= 0.0.0)
-      runit (<= 0.16.2)
+      runit (>= 1.0)
       windows (>= 0.0.0)
       yum (>= 0.0.0)
-    mysql (2.1.0)
-      build-essential (>= 0.0.0)
+    mysql (3.0.2)
+      build-essential (> 1.1.0)
       openssl (>= 0.0.0)
     openssl (1.0.2)
-    phantomjs (0.0.10)
-    runit (0.16.2)
+    phantomjs (1.0.2)
+      build-essential (>= 0.0.0)
+      chocolatey (>= 0.0.0)
+    powershell (1.1.0)
+      windows (>= 1.2.8)
+    runit (1.1.6)
+      build-essential (>= 0.0.0)
+      yum (>= 0.0.0)
     windows (1.10.0)
       chef_handler (>= 0.0.0)
     yum (2.3.0)
@@ -32,9 +37,9 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 2ef76148837dce39271541802beae59083af6089
+  sha: b45587eea6a24f8fe2beb44252a063bf4ec64dfd
   specs:
-    alm (1.0.8)
+    alm (1.1.0)
       build-essential (>= 0.0.0)
       couchdb (>= 0.0.0)
       git (>= 0.0.0)
@@ -51,13 +56,22 @@ GIT
       apache2 (>= 1.0.4)
       build-essential (>= 0.0.0)
 
+GIT
+  remote: https://github.com/opscode-cookbooks/couchdb.git
+  ref: master
+  sha: 0ab909ba52378a8d15c320a5b6101542ce3710cd
+  specs:
+    couchdb (2.4.1)
+      erlang (>= 0.0.0)
+      yum (>= 0.0.0)
+
 DEPENDENCIES
   alm (>= 0)
-  apt (= 1.7.0)
-  build-essential (= 1.3.2)
-  couchdb (= 2.1.0)
-  git (= 2.1.4)
-  mysql (= 2.1.0)
+  apt (= 2.1.1)
+  build-essential (= 1.4.2)
+  couchdb (>= 0)
+  git (= 2.5.2)
+  mysql (= 3.0.2)
   passenger_apache2 (>= 0)
-  phantomjs (= 0.0.10)
+  phantomjs (= 1.0.2)
 

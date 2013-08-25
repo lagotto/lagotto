@@ -28,6 +28,7 @@ end
 require 'securerandom'
 node.set_unless['alm']['key'] = SecureRandom.hex(30)
 node.set_unless['alm']['secret'] = SecureRandom.hex(30)
+node.set_unless['alm']['api_key'] = SecureRandom.hex(10)
 template "/vagrant/config/settings.yml" do
   source 'settings.yml.erb'
   owner 'root'
@@ -36,6 +37,10 @@ template "/vagrant/config/settings.yml" do
 end
 
 # Create new database.yml
+# Set these passwords in config.json to keep them persistent
+node.set_unless['mysql']['server_root_password'] = SecureRandom.hex(8)
+node.set_unless['mysql']['server_repl_password'] = SecureRandom.hex(8)
+node.set_unless['mysql']['server_debian_password'] = SecureRandom.hex(8)
 template "/vagrant/config/database.yml" do
   source 'database.yml.erb'
   owner 'root'
@@ -65,8 +70,8 @@ end
 # Create default CouchDB database
 script "create CouchDB database #{node[:alm][:name]}" do
   interpreter "bash"
-  code "curl -X DELETE http://#{node[:couchdb][:host]}:#{node[:couchdb][:port]}/#{node[:alm][:name]}/"
-  code "curl -X PUT http://#{node[:couchdb][:host]}:#{node[:couchdb][:port]}/#{node[:alm][:name]}/"
+  code "curl -X DELETE http://#{node[:alm][:host]}:#{node[:couch_db][:config][:httpd][:port]}/#{node[:alm][:name]}/"
+  code "curl -X PUT http://#{node[:alm][:host]}:#{node[:couch_db][:config][:httpd][:port]}/#{node[:alm][:name]}/"
   ignore_failure true
 end
 
@@ -107,6 +112,12 @@ when "centos"
   # Allow HTTP
   simple_iptables_rule "http" do
     rule "--proto tcp --dport 80"
+    jump "ACCEPT"
+  end
+
+  # Allow CouchDB
+  simple_iptables_rule "couchdb" do
+    rule "--proto tcp --dport 5984"
     jump "ACCEPT"
   end
 
