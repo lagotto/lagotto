@@ -25,12 +25,6 @@ SITE
       build-essential (> 1.1.0)
       openssl (>= 0.0.0)
     openssl (1.0.2)
-<<<<<<< HEAD
-    passenger_apache2 (2.0.2)
-      apache2 (>= 1.0.4)
-      build-essential (>= 0.0.0)
-=======
->>>>>>> upstream/develop
     phantomjs (1.0.2)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
@@ -39,10 +33,7 @@ SITE
     runit (1.1.6)
       build-essential (>= 0.0.0)
       yum (>= 0.0.0)
-<<<<<<< HEAD
     simple_iptables (0.3.0)
-=======
->>>>>>> upstream/develop
     windows (1.10.0)
       chef_handler (>= 0.0.0)
 
@@ -60,6 +51,15 @@ GIT
       phantomjs (>= 0.0.0)
 
 GIT
+  remote: https://github.com/articlemetrics/passenger_apache2.git
+  ref: articlemetrics
+  sha: 28f0d174e1e55e6df2366a7c4169ffc56604091f
+  specs:
+    passenger_apache2 (1.1.0)
+      apache2 (>= 1.0.4)
+      build-essential (>= 0.0.0)
+
+GIT
   remote: https://github.com/articlemetrics/yum.git
   ref: master
   sha: b21abde18e2f0db69214279df8cf3ae4eb280e05
@@ -68,20 +68,14 @@ GIT
 
 DEPENDENCIES
   alm (>= 0)
-<<<<<<< HEAD
+  couchdb (= 2.4.0)
   couchdb (= 2.4.0)
   git (= 2.5.2)
   mysql (= 3.0.2)
-  phantomjs (= 1.0.2)
-  simple_iptables (= 0.3.0)
-  yum (>= 0)
-=======
-  apt (= 2.1.1)
-  build-essential (= 1.4.2)
-  couchdb (= 2.4.0)
-  git (= 2.5.2)
   mysql (= 3.0.2)
   passenger_apache2 (>= 0)
   phantomjs (= 1.0.2)
->>>>>>> upstream/develop
+  phantomjs (= 1.0.2)
+  simple_iptables (= 0.3.0)
+  yum (>= 0)
 

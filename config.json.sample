@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "alm": { "layout": "plos",
            "uid": "doi",
            "doi_prefix": "10.1371",
@@ -11,33 +10,17 @@
            "cas_url": "EXAMPLE",
            "counter": { "url": "EXAMPLE" },
            "figshare": { "url": "EXAMPLE" },
-=======
-  "alm": { "email": "admin@example.org",
-           "environment": "development",
-           "github_client_id": "",
-           "github_secret": "",
-           "seed_sample_articles": false,
-           "admin": { "username": "EXAMPLE", "email": "admin@example.org", "password": "EXAMPLE" },
->>>>>>> upstream/develop
            "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },
            "facebook": { "access_token": "EXAMPLE" },
            "mendeley": { "api_key": "EXAMPLE" },
            "nature": { "api_key": "EXAMPLE"},
-<<<<<<< HEAD
            "pmc": { "url": "EXAMPLE", "filepath": "EXAMPLE" },
            "f1000": { "url": "EXAMPLE", "filename": "EXAMPLE" },
            "researchblogging": { "username": "EXAMPLE", "password": "EXAMPLE" },
            "wos": { "url": "EXAMPLE" }},
-=======
-           "researchblogging": { "username": "EXAMPLE", "password": "EXAMPLE" }},
->>>>>>> upstream/develop
   "mysql": { "bind_address": "0.0.0.0",
              "server_root_password": "EXAMPLE",
              "server_repl_password": "EXAMPLE",
              "server_debian_password": "EXAMPLE"},
-<<<<<<< HEAD
   "couch_db": { "config": { "httpd": { "bind_address": "0.0.0.0", "port": 5984 }}}
-=======
-  "couchdb": { "bind_address": "0.0.0.0", "port": 5984 }
->>>>>>> upstream/develop
 }

@@ -40,28 +40,12 @@ module SourceHelper
     conn = conn_xml
     conn.basic_auth(options[:username], options[:password]) if options[:username]
     conn.options[:timeout] = options[:timeout]
-<<<<<<< HEAD
-    response = conn.get url
-    # We have issues with the Faraday XML parsing
-    Nokogiri::XML(response.body)
-  rescue *SourceHelperExceptions => e
-    rescue_faraday_error(url, e, options.merge(:xml => true))
-  end
-
-  def post_xml(url, options = { timeout: DEFAULT_TIMEOUT })
-    conn = conn_xml
-    conn.basic_auth(options[:username], options[:password]) if options[:username]
-    conn.options[:timeout] = options[:timeout]
-    response = conn.post url do |request|
-      request.body = options[:data]
-=======
     if options[:data]
       response = conn.post url do |request|
         request.body = options[:data]
       end
     else
       response = conn.get url
->>>>>>> upstream/develop
     end
     # We have issues with the Faraday XML parsing
     Nokogiri::XML(response.body)
@@ -69,17 +53,6 @@ module SourceHelper
     rescue_faraday_error(url, e, options.merge(:xml => true))
   end
 
-<<<<<<< HEAD
-  def get_alm_data(id = "")
-    get_json("#{couchdb_url}#{id}")
-  end
-
-  def get_alm_rev(id)
-    get_json("#{couchdb_url}#{id}")["_rev"] rescue nil
-  end
-
-  def save_alm_data(id, data = {})
-=======
   def post_xml(url, options = { data: nil, timeout: DEFAULT_TIMEOUT })
     get_xml(url, options)
   end
@@ -104,25 +77,12 @@ module SourceHelper
   end
 
   def save_alm_data(id, options = { :data => nil })
->>>>>>> upstream/develop
     data_rev = get_alm_rev(id)
     unless data_rev.nil?
       options[:data][:_id] = id
       options[:data][:_rev] = data_rev
     end
 
-<<<<<<< HEAD
-    put_alm_data("#{couchdb_url}#{id}", data)
-  end
-
-  def put_alm_data(url, data = nil)
-    response = conn_json.put url do |request|
-      request.body = data
-    end
-    response.body["rev"]
-  rescue *SourceHelperExceptions => e
-    rescue_faraday_error(couchdb_url, e)
-=======
     put_alm_data("#{couchdb_url}#{id}", options)
   end
 
@@ -136,7 +96,6 @@ module SourceHelper
     (response.body["ok"] ? response.body["rev"] : nil)
   rescue *SourceHelperExceptions => e
     rescue_faraday_error(url, e, options)
->>>>>>> upstream/develop
   end
 
   def remove_alm_data(id, data_rev)
@@ -144,20 +103,12 @@ module SourceHelper
     delete_alm_data("#{couchdb_url}#{id}?#{params.to_query}")
   end
 
-<<<<<<< HEAD
-  def delete_alm_data(url)
-    response = conn_json.delete url
-    response.body["rev"]
-  rescue *SourceHelperExceptions => e
-    rescue_faraday_error(couchdb_url, e)
-=======
   def delete_alm_data(url, options={})
     return nil unless url != couchdb_url || Rails.env.test?
     response = conn_json.delete url
     (response.body["ok"] ? response.body["rev"] : nil)
   rescue *SourceHelperExceptions => e
     rescue_faraday_error(url, e, options)
->>>>>>> upstream/develop
   end
 
   def get_alm_database
@@ -165,27 +116,10 @@ module SourceHelper
   end
 
   def put_alm_database
-<<<<<<< HEAD
-    return nil unless Rails.env.test?
-=======
->>>>>>> upstream/develop
     put_alm_data(couchdb_url)
   end
 
   def delete_alm_database
-<<<<<<< HEAD
-    return nil unless Rails.env.test?
-    delete_alm_data(couchdb_url)
-  end
-
-  def get_original_url(url)
-    conn = conn_doi
-    conn.options[:timeout] = DEFAULT_TIMEOUT
-    response = conn.head url
-    response.env[:url].to_s
-  rescue *SourceHelperExceptions => e
-    rescue_faraday_error(url, e)
-=======
     delete_alm_data(couchdb_url)
   end
 
@@ -196,7 +130,6 @@ module SourceHelper
     response.env[:url].to_s
   rescue *SourceHelperExceptions => e
     rescue_faraday_error(url, e, options)
->>>>>>> upstream/develop
   end
 
   def save_to_file(url, filename = "tmpdata", options = { timeout: DEFAULT_TIMEOUT })

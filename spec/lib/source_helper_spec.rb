@@ -172,11 +172,7 @@ describe SourceHelper do
 
       it "get_json" do
         stub = stub_request(:get, url).to_return(:status => [429])
-<<<<<<< HEAD
-        @source_helper_class.get_json(url, options = { :source_id => 1}).should be_nil
-=======
         @source_helper_class.get_json(url, source_id: 1).should be_nil
->>>>>>> upstream/develop
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
         error_message.class_name.should eq("Net::HTTPClientError")
@@ -186,9 +182,6 @@ describe SourceHelper do
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:content_type => 'application/xml', :status => [429])
-<<<<<<< HEAD
-        @source_helper_class.get_xml(url, options = { :source_id => 1}) { |response| response.should be_nil }
-=======
         @source_helper_class.get_xml(url, source_id: 1) { |response| response.should be_nil }
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
@@ -199,7 +192,6 @@ describe SourceHelper do
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:content_type => 'application/xml', :status => [429])
         @source_helper_class.post_xml(url, data: post_data.to_xml, source_id: 1) { |response| response.should be_nil }
->>>>>>> upstream/develop
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
         error_message.class_name.should eq("Net::HTTPClientError")
@@ -281,11 +273,7 @@ describe SourceHelper do
     let(:error) { {"error"=>"not_found", "reason"=>"missing"} }
 
     it "get database info" do
-<<<<<<< HEAD
-      rev = @source_helper_class.put_alm_data(url, data)
-=======
       rev = @source_helper_class.put_alm_data(url, data: data)
->>>>>>> upstream/develop
 
       get_info = @source_helper_class.get_alm_database
       db_name = Addressable::URI.parse(APP_CONFIG['couchdb_url']).path[1..-2]
@@ -293,20 +281,6 @@ describe SourceHelper do
       get_info["disk_size"].should be > 0
       get_info["doc_count"].should eq(1)
     end
-<<<<<<< HEAD
-
-    it "put, get and delete data" do
-      rev = @source_helper_class.put_alm_data(url, data)
-
-      get_response = @source_helper_class.get_alm_data(id)
-      get_response.should include("_id" => id, "_rev" => rev)
-
-      new_rev = @source_helper_class.save_alm_data(id, data)
-      new_rev.should_not eq(rev)
-
-      delete_response = @source_helper_class.remove_alm_data(id, new_rev)
-      delete_response.should include("3-")
-=======
 
     it "put, get and delete data" do
       rev = @source_helper_class.put_alm_data(url, data: data)
@@ -340,7 +314,6 @@ describe SourceHelper do
     it "get nil for missing id" do
       rev = @source_helper_class.get_alm_rev("xxx")
       rev.should be_nil
->>>>>>> upstream/develop
     end
 
     it "get correct revision" do
@@ -355,27 +328,17 @@ describe SourceHelper do
     end
 
     it "handle revisions" do
-<<<<<<< HEAD
-      rev = @source_helper_class.save_alm_data(id, data)
-      new_rev = @source_helper_class.save_alm_data(id, data)
-=======
       rev = @source_helper_class.save_alm_data(id, data: data)
       new_rev = @source_helper_class.save_alm_data(id, data: data)
       new_rev.should_not be_nil
->>>>>>> upstream/develop
       new_rev.should_not eq(rev)
       delete_rev = @source_helper_class.remove_alm_data(id, new_rev)
       delete_rev.should_not eq(new_rev)
     end
 
     it "revision conflict" do
-<<<<<<< HEAD
-      rev = @source_helper_class.put_alm_data(url, data)
-      new_rev = @source_helper_class.put_alm_data(url, data)
-=======
       rev = @source_helper_class.put_alm_data(url, data: data)
       new_rev = @source_helper_class.put_alm_data(url, data: data)
->>>>>>> upstream/develop
 
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first

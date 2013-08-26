@@ -22,29 +22,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'passenger_apache2'
+include_recipe "passenger_apache2"
 
-if platform_family?('debian')
-  template "#{node['apache']['dir']}/mods-available/passenger.load" do
-    cookbook 'passenger_apache2'
-    source 'passenger.load.erb'
-    owner 'root'
-    group 'root'
+if platform?("ubuntu","debian")
+  template "#{node[:apache][:dir]}/mods-available/passenger.load" do
+    cookbook "passenger_apache2"
+    source "passenger.load.erb"
+    owner "root"
+    group "root"
     mode 0755
   end
 end
 
-# Allows proper default path if root path was overridden
-node.default['passenger']['module_path'] = "#{node['passenger']['root_path']}/ext/apache2/mod_passenger.so"
-
-template "#{node['apache']['dir']}/mods-available/passenger.conf" do
-  cookbook 'passenger_apache2'
-  source 'passenger.conf.erb'
-  owner 'root'
-  group 'root'
-  mode 0644
+template "#{node[:apache][:dir]}/mods-available/passenger.conf" do
+  cookbook "passenger_apache2"
+  source "passenger.conf.erb"
+  owner "root"
+  group "root"
+  mode "644"
 end
 
-apache_module 'passenger' do
-  module_path node['passenger']['module_path']
+apache_module "passenger" do
+  module_path node[:passenger][:module_path]
 end

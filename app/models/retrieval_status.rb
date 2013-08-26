@@ -198,11 +198,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   def delete_document
     unless data_rev.nil
-<<<<<<< HEAD
-      document_id = "#{source.name}:#{Addressable::URI.encode(article.uid)}"
-=======
       document_id = "#{source.name}:#{article.uid_escaped}"
->>>>>>> upstream/develop
       remove_alm_data(document_id, data_rev)
     else
       nil
