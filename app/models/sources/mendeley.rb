@@ -111,7 +111,7 @@ class Mendeley < Source
     if id_type.nil?
       url % { :id => id, :api_key => api_key }
     elsif id_type == "title"
-      url_with_title % { :title => id, :api_key => api_key }
+      url_with_title % { :title => "title%3A#{id}", :api_key => api_key }
     else
       url_with_type % { :id => id, :doc_type => id_type, :api_key => api_key }
     end
