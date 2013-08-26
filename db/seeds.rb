@@ -3,7 +3,7 @@
 
 # Load default admin user
 unless Rails.env.production?
-  User.create(:username => "voldemort", :name => "Admin", :email => "admin@plos.org", :password => "voldemort", :password_confirmation => "voldemort") if User.count == 0
+  User.create(:username => "voldemort", :name => "Admin", :email => "alm@plos.org", :password => "voldemort", :password_confirmation => "voldemort") if User.count == 0
 end
 
 # Load default groups
@@ -61,6 +61,16 @@ wos = Wos.find_or_create_by_name(
 	:workers => 1,
 	:group_id => cited.id,
 	:url => "https://ws.isiknowledge.com/cps/xrpc" )
+
+pmc = Pmc.find_or_create_by_name(
+  :name => "pmc",
+  :display_name => "PubMed Central Usage Stats",
+  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
+  :active => true,
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "http://localhost:5984/pmc_usage_stats/%{doi}",
+  :filepath => "/home/vagrant/pmcdata/")
 
 # The following sources require passwords/API keys
 counter = Counter.find_or_create_by_name(
@@ -146,17 +156,8 @@ nature = Nature.find_or_create_by_name(
   :workers => 1,
   :group_id => discussed.id,
   :url => "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}",
-  :api_key => "7jug74j8rh49n8rbn8atwyec")
-
-pmc = Pmc.find_or_create_by_name(
-  :name => "pmc",
-  :display_name => "PubMed Central Usage Stats",
-  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
-  :active => true,
-  :workers => 1,
-  :group_id => viewed.id,
-  :url => "http://localhost:5984/pmc_usage_stats/%{doi}",
-  :filepath => "/home/vagrant/pmcdata/")
+  :api_key => "7jug74j8rh49n8rbn8atwyec",
+  :requests_per_day => 5000)
 
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",

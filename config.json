@@ -4,7 +4,7 @@
            "doi_prefix": "10.1371",
            "environment": "development",
            "seed_sample_articles": true,
-           "admin": { "username": "voldemort", "email": "admin@plos.org", "password": "voldemort" },
+           "admin": { "username": "voldemort", "email": "alm@plos.org", "password": "voldemort" },
            "cas_url": "https://register.plos.org",
            "counter": { "url": "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}" },
            "figshare": { "url": "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}" },
