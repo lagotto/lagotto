@@ -144,7 +144,7 @@ mendeley = Mendeley.find_or_create_by_name(
   :group_id => saved.id,
   :url => "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}",
   :url_with_type => "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}",
-  :url_with_title => "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10&consumer_key=%{api_key}",
+  :url_with_title => "http://api.mendeley.com/oapi/documents/search/%{title}/?items=10&consumer_key=%{api_key}",
   :related_articles_url => "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}",
   :api_key => "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5")
 
