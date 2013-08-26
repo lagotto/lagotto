@@ -32,6 +32,7 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
-.vagrant
 .librarian
+.vagrant*
+config.json
 Capfile

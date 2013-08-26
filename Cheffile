@@ -1,5 +1,6 @@
 site 'http://community.opscode.com/api/v1'
 
+<<<<<<< HEAD
 cookbook "yum", :git => "https://github.com/articlemetrics/yum.git"
 cookbook "git", "2.5.2"
 
@@ -7,5 +8,15 @@ cookbook "mysql", "3.0.2"
 cookbook "couchdb", "2.4.0"
 cookbook "phantomjs", "1.0.2"
 cookbook "simple_iptables", "0.3.0"
+=======
+cookbook "apt", "2.1.1"
+cookbook "build-essential", "1.4.2"
+cookbook "git", "2.5.2"
+
+cookbook "passenger_apache2", :git => "https://github.com/articlemetrics/passenger_apache2.git", :ref => "articlemetrics"
+cookbook "mysql", "3.0.2"
+cookbook "couchdb", "2.4.0"
+cookbook "phantomjs", "1.0.2"
+>>>>>>> upstream/develop
 
 cookbook "alm", :git => "https://github.com/articlemetrics/alm-cookbook.git"

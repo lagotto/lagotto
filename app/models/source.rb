@@ -19,7 +19,7 @@
 # limitations under the License.
 
 require 'source_helper'
-require 'addressable/uri'
+require 'cgi'
 require 'ostruct'
 
 class Source < ActiveRecord::Base
@@ -161,7 +161,7 @@ class Source < ActiveRecord::Base
   end
 
   def get_query_url(article)
-    config.url % { :doi => Addressable::URI.encode(article.doi) }
+    config.url % { :doi => article.doi_escaped }
   end
 
   def check_for_failures

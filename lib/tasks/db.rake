@@ -18,7 +18,7 @@
 
 namespace :db do
   namespace :articles do
-    
+
     desc "Bulk-load articles from standard input"
     task :load => :environment do
       puts "Reading DOIs from standard input..."
@@ -67,7 +67,7 @@ namespace :db do
 
       puts "Saved #{created.size} new articles, updated #{updated.size} articles, ignored #{duplicate.size} other existing articles"
     end
-    
+
     desc "Seed sample articles"
     task :seed => :environment do
       before = Article.count
@@ -76,19 +76,19 @@ namespace :db do
       after = Article.count
       puts "Seeded #{after - before} articles"
     end
-    
+
     desc "Delete all articles"
     task :delete => :environment do
       before = Article.count
-      Article.destroy_all if Rails.env != 'production' 
+      Article.destroy_all unless Rails.env.production?
       after = Article.count
       puts "Deleted #{before - after} articles, #{after} articles remaining"
     end
-    
+
   end
-  
+
   namespace :error_messages do
-    
+
     desc "Delete messages for all resolved errors"
     task :delete => :environment do
       ErrorMessage.unscoped {
@@ -99,9 +99,9 @@ namespace :db do
       }
     end
   end
-  
+
   namespace :api_requests do
-    
+
     desc "Delete API requests, keeping last 10,000 requests"
     task :delete => :environment do
       before = ApiRequest.count

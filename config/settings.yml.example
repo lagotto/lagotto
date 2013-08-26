@@ -18,6 +18,7 @@
 
 defaults: &defaults
   useragent: Article Level Metrics
+  api_key: #'run `rake secret` to generate a key to insert here'
   notification_email: alm@alm.example.org
   rest_auth_site_key: #'run `rake secret` to generate a key to insert here'
   rest_auth_digest_stretches: 10
@@ -39,10 +40,6 @@ test:
   hostname: http://test.example.org
   couchdb_url: http://localhost:5984/alm_test/
   doi_prefix: 10.1371
-
-stage:
-  <<: *defaults
-  hostname: http://stage.example.org
 
 production:
   <<: *defaults

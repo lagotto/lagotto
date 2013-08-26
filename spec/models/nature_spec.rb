@@ -31,7 +31,7 @@ describe Nature do
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
-      error_message.class_name.should eq("Faraday::Error::ClientError")
+      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
       error_message.status.should == 408
       error_message.source_id.should == nature.id
     end

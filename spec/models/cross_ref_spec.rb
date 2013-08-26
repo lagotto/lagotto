@@ -12,7 +12,7 @@ describe CrossRef do
 
     it "should look up original URL if there is no article url" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :url => nil)
-      lookup_stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 200, :headers => { 'Location' => article.url })
+      lookup_stub = stub_request(:head, article.doi_as_url).to_return(:status => 200, :headers => { 'Location' => article.url })
       stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'), :status => 200)
       response = cross_ref.get_data(article)
       lookup_stub.should have_been_requested
@@ -21,7 +21,7 @@ describe CrossRef do
 
     it "should not look up original URL if there is no article url" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
-      lookup_stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 200, :headers => { 'Location' => article.url })
+      lookup_stub = stub_request(:head, article.doi_as_url).to_return(:status => 200, :headers => { 'Location' => article.url })
       stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'), :status => 200)
       response = cross_ref.get_data(article)
       lookup_stub.should_not have_been_requested
@@ -55,7 +55,7 @@ describe CrossRef do
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
-      error_message.class_name.should eq("Faraday::Error::ClientError")
+      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
       error_message.status.should == 408
       error_message.source_id.should == cross_ref.id
     end
@@ -83,7 +83,7 @@ describe CrossRef do
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
-      error_message.class_name.should eq("Faraday::Error::ClientError")
+      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
       error_message.status.should == 408
       error_message.source_id.should == cross_ref.id
     end

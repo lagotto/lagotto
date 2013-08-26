@@ -7,10 +7,8 @@
         <val>ut</val>
         <val>citingArticlesURL</val>
       </map>
-      <map>
-        <map name="cite_id">
-          <val name="doi">10.1371/journal.pone.0043007</val>
-        </map>
+      <map name="cite_id">
+        <val name="doi">10.1371/journal.pone.0043007</val>
       </map>
     </list>
   </fn>

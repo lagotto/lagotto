@@ -15,6 +15,7 @@ describe SourceHelper do
     let(:article) { FactoryGirl.create(:article_with_events) }
     let(:url) { "http://127.0.0.1/api/v3/articles/info:doi/#{article.doi}"}
     let(:data) { { "name" => "Fred"} }
+    let(:post_data) { { "name" => "Jack"} }
 
     context "response" do
       it "get_json" do
@@ -26,6 +27,11 @@ describe SourceHelper do
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => data.to_xml, :content_type => 'application/xml', :status => 200)
         @source_helper_class.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
+      end
+
+      it "post_xml" do
+        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => data.to_xml, :content_type => 'application/xml', :status => 200)
+        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
       end
     end
 
@@ -39,6 +45,11 @@ describe SourceHelper do
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => nil, :content_type => 'application/xml', :status => 200)
         @source_helper_class.get_xml(url) { |response| response.should be_nil }
+      end
+
+      it "post_xml" do
+        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => nil, :content_type => 'application/xml', :status => 200)
+        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
       end
     end
 
@@ -56,6 +67,12 @@ describe SourceHelper do
         @source_helper_class.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
         ErrorMessage.count.should == 0
       end
+
+      it "post_xml" do
+        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [404])
+        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
+        ErrorMessage.count.should == 0
+      end
     end
 
     context "request timeout" do
@@ -65,7 +82,7 @@ describe SourceHelper do
         @source_helper_class.get_json(url).should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Faraday::Error::ClientError")
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
         error_message.status.should == 408
       end
 
@@ -74,7 +91,16 @@ describe SourceHelper do
         @source_helper_class.get_xml(url) { |response| response.should be_nil }
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Faraday::Error::ClientError")
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
+        error_message.status.should == 408
+      end
+
+      it "post_xml" do
+        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [408])
+        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
         error_message.status.should == 408
       end
     end
@@ -86,7 +112,7 @@ describe SourceHelper do
         @source_helper_class.get_json(url).should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Faraday::Error::TimeoutError")
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
         error_message.message.should include("execution expired")
         error_message.status.should == 408
       end
@@ -96,7 +122,17 @@ describe SourceHelper do
         @source_helper_class.get_xml(url) { |response| response.should be_nil }
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Faraday::Error::TimeoutError")
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
+        error_message.message.should include("execution expired")
+        error_message.status.should == 408
+      end
+
+      it "post_xml" do
+        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_timeout
+        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
         error_message.message.should include("execution expired")
         error_message.status.should == 408
       end
@@ -109,7 +145,7 @@ describe SourceHelper do
         @source_helper_class.get_json(url).should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Faraday::Error::ClientError")
+        error_message.class_name.should eq("Net::HTTPClientError")
         error_message.status.should == 429
       end
 
@@ -118,7 +154,16 @@ describe SourceHelper do
         @source_helper_class.get_xml(url) { |response| response.should be_nil }
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Faraday::Error::ClientError")
+        error_message.class_name.should eq("Net::HTTPClientError")
+        error_message.status.should == 429
+      end
+
+      it "post_xml" do
+        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [429])
+        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPClientError")
         error_message.status.should == 429
       end
     end
@@ -127,20 +172,37 @@ describe SourceHelper do
 
       it "get_json" do
         stub = stub_request(:get, url).to_return(:status => [429])
+<<<<<<< HEAD
         @source_helper_class.get_json(url, options = { :source_id => 1}).should be_nil
+=======
+        @source_helper_class.get_json(url, source_id: 1).should be_nil
+>>>>>>> upstream/develop
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Faraday::Error::ClientError")
+        error_message.class_name.should eq("Net::HTTPClientError")
         error_message.status.should == 429
         error_message.source_id.should == 1
       end
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:content_type => 'application/xml', :status => [429])
+<<<<<<< HEAD
         @source_helper_class.get_xml(url, options = { :source_id => 1}) { |response| response.should be_nil }
+=======
+        @source_helper_class.get_xml(url, source_id: 1) { |response| response.should be_nil }
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Faraday::Error::ClientError")
+        error_message.class_name.should eq("Net::HTTPClientError")
+        error_message.source_id.should == 1
+      end
+
+      it "post_xml" do
+        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:content_type => 'application/xml', :status => [429])
+        @source_helper_class.post_xml(url, data: post_data.to_xml, source_id: 1) { |response| response.should be_nil }
+>>>>>>> upstream/develop
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPClientError")
         error_message.source_id.should == 1
       end
     end
@@ -178,6 +240,18 @@ describe SourceHelper do
         stub.should have_been_requested
       end
 
+      it "get_original_url unauthorized error" do
+        article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
+        stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 401)
+        response = @source_helper_class.get_original_url(article.doi_as_url)
+        response.should be_nil
+        ErrorMessage.count.should == 1
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("Net::HTTPUnauthorized")
+        error_message.status.should == 401
+        stub.should have_been_requested
+      end
+
       it "get_original_url with timeout error" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => [408])
@@ -185,7 +259,7 @@ describe SourceHelper do
         response.should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("Faraday::Error::ClientError")
+        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
         error_message.status.should == 408
         stub.should have_been_requested
       end
@@ -207,7 +281,11 @@ describe SourceHelper do
     let(:error) { {"error"=>"not_found", "reason"=>"missing"} }
 
     it "get database info" do
+<<<<<<< HEAD
       rev = @source_helper_class.put_alm_data(url, data)
+=======
+      rev = @source_helper_class.put_alm_data(url, data: data)
+>>>>>>> upstream/develop
 
       get_info = @source_helper_class.get_alm_database
       db_name = Addressable::URI.parse(APP_CONFIG['couchdb_url']).path[1..-2]
@@ -215,6 +293,7 @@ describe SourceHelper do
       get_info["disk_size"].should be > 0
       get_info["doc_count"].should eq(1)
     end
+<<<<<<< HEAD
 
     it "put, get and delete data" do
       rev = @source_helper_class.put_alm_data(url, data)
@@ -227,6 +306,41 @@ describe SourceHelper do
 
       delete_response = @source_helper_class.remove_alm_data(id, new_rev)
       delete_response.should include("3-")
+=======
+
+    it "put, get and delete data" do
+      rev = @source_helper_class.put_alm_data(url, data: data)
+      rev.should_not be_nil
+
+      get_response = @source_helper_class.get_alm_data(id)
+      get_response.should include("_id" => id, "_rev" => rev)
+
+      new_rev = @source_helper_class.save_alm_data(id, data: data)
+      new_rev.should_not be_nil
+      new_rev.should_not eq(rev)
+
+      get_response = @source_helper_class.get_alm_data(id)
+      get_response.should include("_id" => id, "_rev" => new_rev)
+
+      delete_rev = @source_helper_class.remove_alm_data(id, new_rev)
+      delete_rev.should_not be_nil
+      delete_rev.should_not eq(rev)
+      delete_rev.should include("3-")
+    end
+
+    it "get correct revision" do
+      rev = @source_helper_class.put_alm_data(url, data: data)
+      rev.should_not be_nil
+
+      new_rev = @source_helper_class.get_alm_rev(id)
+      new_rev.should_not be_nil
+      new_rev.should eq(rev)
+    end
+
+    it "get nil for missing id" do
+      rev = @source_helper_class.get_alm_rev("xxx")
+      rev.should be_nil
+>>>>>>> upstream/develop
     end
 
     it "get correct revision" do
@@ -241,20 +355,31 @@ describe SourceHelper do
     end
 
     it "handle revisions" do
+<<<<<<< HEAD
       rev = @source_helper_class.save_alm_data(id, data)
       new_rev = @source_helper_class.save_alm_data(id, data)
+=======
+      rev = @source_helper_class.save_alm_data(id, data: data)
+      new_rev = @source_helper_class.save_alm_data(id, data: data)
+      new_rev.should_not be_nil
+>>>>>>> upstream/develop
       new_rev.should_not eq(rev)
       delete_rev = @source_helper_class.remove_alm_data(id, new_rev)
       delete_rev.should_not eq(new_rev)
     end
 
     it "revision conflict" do
+<<<<<<< HEAD
       rev = @source_helper_class.put_alm_data(url, data)
       new_rev = @source_helper_class.put_alm_data(url, data)
+=======
+      rev = @source_helper_class.put_alm_data(url, data: data)
+      new_rev = @source_helper_class.put_alm_data(url, data: data)
+>>>>>>> upstream/develop
 
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
-      error_message.class_name.should eq("Faraday::Error::ClientError")
+      error_message.class_name.should eq("Net::HTTPConflict")
       error_message.status.should == 409
     end
 

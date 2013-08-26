@@ -34,7 +34,7 @@ describe Facebook do
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
-      error_message.class_name.should eq("Faraday::Error::ClientError")
+      error_message.class_name.should eq("Net::HTTPUnauthorized")
       error_message.status.should == 401
       error_message.source_id.should == facebook.id
     end

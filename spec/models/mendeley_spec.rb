@@ -20,8 +20,8 @@ describe Mendeley do
     it "should return the Mendeley uuid by searching the Mendeley API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001", :mendeley => "")
       stub = stub_request(:get, mendeley.get_query_url(article.pub_med, "pmid")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_doi = stub_request(:get, mendeley.get_query_url(Addressable::URI.encode(Addressable::URI.encode(article.doi)), "doi")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_title = stub_request(:get, mendeley.get_query_url(Addressable::URI.encode(Addressable::URI.encode(article.title)), "title")).to_return(:body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
+      stub_doi = stub_request(:get, mendeley.get_query_url(CGI.escape(article.doi_escaped), "doi")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
+      stub_title = stub_request(:get, mendeley.get_query_url(CGI.escape(article.title_escaped), "title")).to_return(:body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
       mendeley.get_mendeley_uuid(article).should eq("1779af10-6d0c-11df-a2b2-0026b95e3eb7")
       stub.should have_been_requested
       stub_doi.should have_been_requested
@@ -30,8 +30,8 @@ describe Mendeley do
 
     it "should return nil for the Mendeley uuid if the Mendeley API returns malformed response" do
       stub = stub_request(:get, mendeley.get_query_url(article.pub_med, "pmid")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_doi = stub_request(:get, mendeley.get_query_url(Addressable::URI.encode(Addressable::URI.encode(article.doi)), "doi")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_title = stub_request(:get, mendeley.get_query_url(Addressable::URI.encode(Addressable::URI.encode(article.title)), "title")).to_return(:body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
+      stub_doi = stub_request(:get, mendeley.get_query_url(CGI.escape(article.doi_escaped), "doi")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
+      stub_title = stub_request(:get, mendeley.get_query_url(CGI.escape(article.title_escaped), "title")).to_return(:body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
       mendeley.get_mendeley_uuid(article).should be_nil
       stub.should have_been_requested
       stub_doi.should have_been_requested
@@ -41,8 +41,8 @@ describe Mendeley do
 
     it "should return nil for the Mendeley uuid if the Mendeley API returns incomplete response" do
       stub = stub_request(:get, mendeley.get_query_url(article.pub_med, "pmid")).to_return(:body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
-      stub_doi = stub_request(:get, mendeley.get_query_url(Addressable::URI.encode(Addressable::URI.encode(article.doi)), "doi")).to_return(:body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
-      stub_title = stub_request(:get, mendeley.get_query_url(Addressable::URI.encode(Addressable::URI.encode(article.title)), "title")).to_return(:body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
+      stub_doi = stub_request(:get, mendeley.get_query_url(CGI.escape(article.doi_escaped), "doi")).to_return(:body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
+      stub_title = stub_request(:get, mendeley.get_query_url(CGI.escape(article.title_escaped), "title")).to_return(:body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
       mendeley.get_mendeley_uuid(article).should be_nil
       stub.should have_been_requested
       stub_doi.should have_been_requested
@@ -108,7 +108,7 @@ describe Mendeley do
       stub.should have_been_requested
       ErrorMessage.count.should == 1
       error_message = ErrorMessage.first
-      error_message.class_name.should eq("Faraday::Error::ClientError")
+      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
       error_message.status.should == 408
       error_message.source_id.should == mendeley.id
     end

@@ -29,10 +29,10 @@ class Wos < Source
     # Check that article has DOI
     return { events: [], event_count: nil } if article.doi.blank?
 
-    options[:data] = get_xml_request(article)
+    data = get_xml_request(article)
 
     query_url = get_query_url(article)
-    result = post_xml(query_url, options)
+    result = post_xml(query_url, options.merge(data: data))
 
     return { events: [], event_count: nil } if result.nil?
 
@@ -101,10 +101,8 @@ class Wos < Source
             xml.val 'ut'
             xml.val 'citingArticlesURL'
           end
-          xml.map do
-            xml.map(name: 'cite_id') do
-              xml.val article.doi, name: 'doi'
-            end
+          xml.map(name: 'cite_id') do
+            xml.val article.doi, name: 'doi'
           end
         end
       end

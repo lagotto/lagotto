@@ -10,9 +10,10 @@ worker_scopus: bundle exec rake jobs:work start QUEUE=scopus RAILS_ENV=productio
 worker_twitter: bundle exec rake jobs:work start QUEUE=twitter RAILS_ENV=production
 worker_wos: bundle exec rake jobs:work start QUEUE=wos RAILS_ENV=production
 worker_counter: bundle exec rake jobs:work start QUEUE=counter RAILS_ENV=production
-worker_biod: bundle exec rake jobs:work start QUEUE=biod RAILS_ENV=production
 worker_pmc:  bundle exec rake jobs:work start QUEUE=pmc RAILS_ENV=production
 worker_scienceseeker: bundle exec rake jobs:work start QUEUE=scienceseeker RAILS_ENV=production
+worker_f1000: bundle exec rake jobs:work start QUEUE=f1000 RAILS_ENV=production
+worker_figshare: bundle exec rake jobs:work start QUEUE=figshare RAILS_ENV=production
 
 citeulike: bundle exec rake queue:citeulike RAILS_ENV=production
 pubmed: bundle exec rake queue:pubmed RAILS_ENV=production
@@ -26,3 +27,5 @@ scopus: bundle exec rake queue:scopus RAILS_ENV=production
 twitter: bundle exec rake queue:twitter RAILS_ENV=production
 wos: bundle exec rake queue:wos RAILS_ENV=production
 scienceseeker: bundle exec rake queue:scienceseeker RAILS_ENV=production
+f1000: bundle exec rake queue:f1000 RAILS_ENV=production
+figshare: bundle exec rake queue:figshare RAILS_ENV=production
