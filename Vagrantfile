@@ -6,6 +6,9 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
+  # Install latest version of Chef
+  config.omnibus.chef_version = :latest
+
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "centos-63-plos"
 
@@ -15,9 +18,10 @@ Vagrant.configure("2") do |config|
 
   config.vm.hostname = "alm-plos"
 
-  config.vm.provider "virtualbox" do |vb|
+  # Override settings for specific providers
+  config.vm.provider :virtualbox do |vb, override|
     vb.name = "alm-plos"
-    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
   end
 
   # Boot with a GUI so you can see the screen. (Default is headless)
@@ -37,6 +41,7 @@ Vagrant.configure("2") do |config|
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
   config.vm.network :forwarded_port, guest: 80, host: 8090 # Apache2
+  config.vm.network :forwarded_port, guest: 5984, host: 9010 # CouchDB
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
@@ -54,5 +59,11 @@ Vagrant.configure("2") do |config|
       chef.add_recipe(recipe)
     end
     chef.json.merge!(dna)
+
+    # Read in user-specific configuration settings, not under version control
+    if File.file?("config.json")
+      config = JSON.parse(File.read("config.json"))
+      chef.json.merge!(config)
+    end
   end
 end

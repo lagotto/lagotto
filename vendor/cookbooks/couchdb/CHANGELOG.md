@@ -1,3 +1,13 @@
+## v2.4.0:
+
+* [COOK-1629] - source recipe not working on centos 5.8
+* [COOK-2608] - Update source install version to 1.2.1
+
+## v2.2.0:
+
+* [COOK-1905] - It should be possible to customize the local.ini file
+  in couchdb cookbook
+
 ## v2.1.0:
 
 * [COOK-2139] - fedora has couchdb package, no EPEL required

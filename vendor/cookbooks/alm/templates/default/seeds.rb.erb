@@ -2,7 +2,7 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
 # Load default admin user
-if Rails.env != "production"
+unless Rails.env.production?
   User.create(:username => "<%= node[:alm][:admin][:username] %>", :name => "<%= node[:alm][:admin][:name] %>", :email => "<%= node[:alm][:admin][:email] %>", :password => "<%= node[:alm][:admin][:password] %>", :password_confirmation => "<%= node[:alm][:admin][:password] %>") if User.count == 0
 end
 
@@ -53,7 +53,7 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :active => true,
   :workers => 1,
   :group_id => discussed.id,
-  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
+  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
 <% if node[:alm][:layout] == "plos" -%>
 wos = Wos.find_or_create_by_name(
 	:name => "wos",
@@ -64,6 +64,16 @@ wos = Wos.find_or_create_by_name(
 	:workers => 1,
 	:group_id => cited.id,
 	:url => "<%= node[:alm][:wos][:url] %>" )
+
+pmc = Pmc.find_or_create_by_name(
+  :name => "pmc",
+  :display_name => "PubMed Central Usage Stats",
+  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
+  :active => <%= node[:alm][:pmc][:url] == "EXAMPLE" ? false : true %>,
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "<%= node[:alm][:pmc][:url] %>",
+  :filepath => "<%= node[:alm][:pmc][:filepath] %>")
 <% end -%>
 
 # The following sources require passwords/API keys
@@ -164,19 +174,8 @@ nature = Nature.find_or_create_by_name(
   :workers => 1,
   :group_id => discussed.id,
   :url => "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}",
-  :api_key => "<%= node[:alm][:nature][:api_key] %>")
-
-<% if node[:alm][:doi_prefix] == "10.1371" -%>
-pmc = Pmc.find_or_create_by_name(
-  :name => "pmc",
-  :display_name => "PubMed Central Usage Stats",
-  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
-  :active => <%= node[:alm][:pmc][:url] == "EXAMPLE" ? false : true %>,
-  :workers => 1,
-  :group_id => viewed.id,
-  :url => "<%= node[:alm][:pmc][:url] %>",
-  :filepath => "<%= node[:alm][:pmc][:filepath] %>")
-<% end -%>
+  :api_key => "<%= node[:alm][:nature][:api_key] %>",
+  :requests_per_day => 5000)
 
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",

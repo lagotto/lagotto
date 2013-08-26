@@ -53,7 +53,7 @@ template "/etc/couchdb/local.ini" do
   group "couchdb"
   mode 0664
   variables(
-    :bind_address => node['couch_db']['bind_address']
+    :config => node['couch_db']['config']
   )
 end
 

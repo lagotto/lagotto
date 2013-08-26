@@ -1,6 +1,7 @@
 defaults: &defaults
   useragent: <%= node[:alm][:useragent] %>
-  notification_email: <%= node[:alm][:email] %>
+  api_key: <%= node[:alm][:api_key] %>
+  notification_email: <%= node[:alm][:admin][:email] %>
   rest_auth_site_key: <%= node[:alm][:key] %>
   rest_auth_digest_stretches: 10
   secret_token: <%= node[:alm][:secret] %>
@@ -12,7 +13,7 @@ defaults: &defaults
   github_client_secret: <%= node[:alm][:github_client_secret] %>
   persona: <%= node[:alm][:persona] %>
   layout: <%= node[:alm][:layout] %>
-  couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:alm][:name] %>/
+  couchdb_url: http://<%= node[:alm][:host] %>:<%= node[:couch_db][:config][:httpd][:port] %>/<%= node[:alm][:name] %>/
   doi_prefix: <%= node[:alm][:doi_prefix] %>
   uid: <%= node[:alm][:uid] %>
   mail:
@@ -37,7 +38,7 @@ test:
   github_client_id: <%= node[:alm][:github_client_id] %>
   github_client_secret: <%= node[:alm][:github_client_secret] %>
   persona: <%= node[:alm][:persona] %>
-  couchdb_url: http://<%= node[:couchdb][:host] %>:<%= node[:couchdb][:port] %>/<%= node[:alm][:name] %>_test/
+  couchdb_url: http://<%= node[:alm][:host] %>:<%= node[:couch_db][:config][:httpd][:port] %>/<%= node[:alm][:name] %>_test/
   doi_prefix: 10.1371
 
 production:

@@ -2,7 +2,7 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
 # Load default admin user
-if Rails.env != "production"
+unless Rails.env.production?
   User.create(:username => "voldemort", :name => "Admin", :email => "admin@plos.org", :password => "voldemort", :password_confirmation => "voldemort") if User.count == 0
 end
 
@@ -51,7 +51,7 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :active => true,
   :workers => 1,
   :group_id => discussed.id,
-  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
+  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
 wos = Wos.find_or_create_by_name(
 	:name => "wos",
 	:display_name => "Web of Science",
