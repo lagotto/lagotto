@@ -45,9 +45,8 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .github { padding-top: 0.5em; padding-bottom: 1em; }
 .sidebar-nav-fixed {
     padding: 9px 0;
-    position:fixed;
-    right:50px;
-    top:90px;
+    position:relative;
+    top:50px;
 }
 .sidebar-nav-fixed-lower {
     padding: 9px 0;

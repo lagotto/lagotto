@@ -17,6 +17,11 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
   # Override settings for specific providers
+  config.vm.provider :virtualbox do |vb, override|
+    vb.name = "alm"
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
+  end
+
   config.vm.provider :vmware_fusion do |fusion, override|
     fusion.vmx["memsize"] = "1024"
 

@@ -149,4 +149,7 @@ class Nature < Source
     config.api_key = value
   end
 
+  def requests_per_day
+    config.requests_per_day || 5000
+  end
 end
