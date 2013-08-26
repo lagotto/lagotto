@@ -47,7 +47,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   def data
     if event_count > 0
-      data = get_alm_data("#{source.name}:#{doi_escaped}")
+      data = get_alm_data("#{source.name}:#{article.doi_escaped}")
     else
       nil
     end

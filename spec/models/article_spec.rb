@@ -33,7 +33,7 @@ describe Article do
   end
 
   it 'doi as url' do
-    "http://dx.doi.org/#{CGI.escape(article.doi)}".should eq(article.doi_as_url)
+    Addressable::URI.encode("http://dx.doi.org/#{article.doi}").should eq(article.doi_as_url)
   end
 
   it 'to_uri' do

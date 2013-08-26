@@ -8,7 +8,7 @@ describe "/api/v3/articles" do
     context "more than 50 articles in query" do
       before(:each) do
         article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
-        @uri = "/api/v3/articles?ids=#{article_list}&type=doi&api_key=12345"
+        @uri = "/api/v3/articles?api_key=12345&ids=#{article_list}&type=doi"
       end
 
       it "JSON" do
@@ -42,7 +42,7 @@ describe "/api/v3/articles" do
 
     context "show summary information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?info=summary&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&type=doi&info=summary"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -68,7 +68,7 @@ describe "/api/v3/articles" do
 
     context "historical data after 30 days" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?days=30&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&days=30"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -101,7 +101,7 @@ describe "/api/v3/articles" do
 
     context "historical data after 6 months" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?months=6&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&months=6"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -133,7 +133,7 @@ describe "/api/v3/articles" do
 
     context "historical data until 2012" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?year=2012&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&year=2012"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -165,7 +165,7 @@ describe "/api/v3/articles" do
 
     context "show detail information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?info=detail&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&info=detail"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -200,7 +200,7 @@ describe "/api/v3/articles" do
 
     context "show history information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?info=history&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&info=history"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -233,7 +233,7 @@ describe "/api/v3/articles" do
 
     context "show event information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?info=event&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&info=event"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }

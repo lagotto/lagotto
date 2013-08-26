@@ -19,6 +19,7 @@
 # limitations under the License.
 
 require 'cgi'
+require 'addressable/uri'
 require "builder"
 
 class Article < ActiveRecord::Base
@@ -97,7 +98,7 @@ class Article < ActiveRecord::Base
 
   def self.clean_id(id)
     if id.starts_with? "10."
-      CGI.escape(id)
+      Addressable::URI.unencode(id)
     elsif id.starts_with? "PMC"
       id[3..-1]
     else
@@ -150,7 +151,7 @@ class Article < ActiveRecord::Base
 
   def doi_as_url
     if doi[0..2] == "10."
-      "http://dx.doi.org/#{doi_escaped}"
+      Addressable::URI.encode("http://dx.doi.org/#{doi}")
     else
       nil
     end
