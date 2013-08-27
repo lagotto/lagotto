@@ -46,6 +46,15 @@ scienceseeker = ScienceSeeker.find_or_create_by_name(
 	:group_id => discussed.id,
 	:url => "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}" )
 
+nature = Nature.find_or_create_by_name(
+  :name => "nature",
+  :display_name => "Nature Blogs",
+  :description => "Nature Blogs is a science blog aggregator.",
+  :active => true,
+  :workers => 1,
+  :group_id => discussed.id,
+  :url => "http://blogs.nature.com/posts.json?doi=%{doi}")
+
 wikipedia = Wikipedia.find_or_create_by_name(
   :name => "wikipedia",
   :display_name => "Wikipedia",
@@ -165,17 +174,6 @@ mendeley = Mendeley.find_or_create_by_name(
   :url_with_title => "http://api.mendeley.com/oapi/documents/search/%{title}/?items=10&consumer_key=%{api_key}",
   :related_articles_url => "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}",
   :api_key => "<%= node[:alm][:mendeley][:api_key] %>")
-
-nature = Nature.find_or_create_by_name(
-  :name => "nature",
-  :display_name => "Nature Blogs",
-  :description => "Nature Blogs is a science blog aggregator.",
-  :active => <%= node[:alm][:nature][:api_key] == "EXAMPLE" ? false : true %>,
-  :workers => 1,
-  :group_id => discussed.id,
-  :url => "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}",
-  :api_key => "<%= node[:alm][:nature][:api_key] %>",
-  :requests_per_day => 5000)
 
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",
