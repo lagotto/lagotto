@@ -106,17 +106,12 @@ class Source < ActiveRecord::Base
   end
 
   def queue_articles
+
     return batch_time_interval unless active
 
     # check to see if there have been too many failures on trying to get data from the source
-    return batch_time_interval if check_for_failures
-
-    # determine if the source is disabled or not
-    unless self.disable_until.nil?
-      disable_interval = (self.disable_until - Time.zone.now).round
-      self.update_attributes(disable_until: nil) if disable_interval < 0
-      return disable_interval unless self.disable_until.nil?
-    end
+    # disable source if that is the case and return disable delay interval
+    return disable_delay.seconds if check_for_failures
 
     # if there are jobs already queued, wait a little bit
     return wait_time if get_queued_job_count > 0
@@ -165,6 +160,7 @@ class Source < ActiveRecord::Base
                           :source_id => id)
       self.update_attributes(disable_until: Time.zone.now + disable_delay.seconds)
     else
+      self.update_attributes(disable_until: nil)
       false
     end
   end
