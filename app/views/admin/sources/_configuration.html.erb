@@ -24,20 +24,21 @@
         <% end %>
       <% end %>
 
-      <%= f.input :workers, label: "Job queue",
-                            input_html: { class: "input-mini" },
-                            hint: "Number of workers for the job queue" %>
-      <%= f.input :job_batch_size, :as => :numeric, label: false,
+      <%= f.input :job_batch_size, :as => :numeric, label: "Job queue",
                                                     input_html: { class: "input-mini" },
                                                     hint: "Number of articles queued per job" %>
+      <%= f.input :batch_time_interval, collection: Source::INTERVAL_OPTIONS,
+                                                    label: false,
+                                                    include_blank: false,
+                                                    input_html: { class: "span2" },
+                                                    hint: "Batch job interval" %>
+      <%= f.input :max_job_batch_size, :as => :numeric, label: false,
+                                                    input_html: { class: "input-mini" },
+                                                    hint: "Max. requests per batch job" %>
+
       <%= f.input :wait_time, label: false,
                               input_html: { class: "input-mini" },
                               hint: "Time interval before more jobs can be added to the job queue (seconds)" %>
-      <%= f.input :batch_time_interval, collection: Source::INTERVAL_OPTIONS,
-                                    label: false,
-                                    include_blank: false,
-                                    input_html: { class: "span2" },
-                                    hint: "Interval between jobs" %>
 
       <%= f.input :staleness_week,  collection: Source::INTERVAL_OPTIONS,
                                     label: "Update interval",
@@ -60,10 +61,6 @@
                                     input_html: { class: "span2" },
                                     hint: "More than one year after publication" %>
 
-
-      <%= f.input :requests_per_day, :as => :numeric, label: 'Rate-limiting',
-                                                      input_html: { class: "input-mini" },
-                                                      hint: "Requests per day (0 for no limit)" %>
       <%= f.input :timeout, input_html: { class: "input-mini" },
                             hint: "Time to wait for response from the source (seconds)"  %>
 
@@ -113,19 +110,16 @@
       <tr>
         <th>Job queue</th>
         <td>
-          <%= pluralize(@source.workers, 'worker') %></br>
+          <%= @source.rate_limiting %> per hour rate-limiting:</br>
+          <%= distance_of_time(@source.batch_time_interval) %> between batch jobs</br>
+          Max. <%= @source.max_job_batch_size %> articles per batch job interval</br></br>
           <%= @source.job_batch_size %> articles per job</br>
           <%= @source.wait_time %> seconds before more jobs can be added</br>
-          <%= distance_of_time(@source.batch_time_interval) %> between jobs
         </td>
       </tr>
       <tr>
         <th>Update interval</th>
         <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " for articles published #{i}" }.join("</br>").html_safe %></td>
-      </tr>
-      <tr>
-        <th>Rate-limiting</th>
-        <td><%= @source.requests_per_day > 0 ? "#{@source.requests_per_day} requests per day" : "not used" %></td>
       </tr>
       <tr>
         <th>Timeout</th>

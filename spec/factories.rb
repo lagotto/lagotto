@@ -63,6 +63,7 @@ FactoryGirl.define do
   factory :retrieval_status do
     event_count 50
     retrieved_at { Time.zone.now - 1.month }
+    sequence(:scheduled_at) {|n| Time.zone.now - 1.day + n.minutes }
 
     association :article
     association :source, factory: :citeulike

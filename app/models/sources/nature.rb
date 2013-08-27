@@ -104,7 +104,7 @@ class Nature < Source
     limit = BATCH_SIZE
     offset = 0
 
-    while offset < requests_per_day
+    while offset < max_job_batch_size
       # find articles that need to be updated
       # not queued currently
       # stale from updated_at
@@ -116,7 +116,7 @@ class Nature < Source
       logger.debug "#{name} total article queued #{rs.length}"
 
       rs.each do | rs_id |
-        run_at += SECONDS_IN_A_DAY / requests_per_day
+        run_at += SECONDS_IN_A_DAY / max_job_batch_size
         Delayed::Job.enqueue SourceJob.new([rs_id], id), :queue => name, :run_at => run_at
       end
 
@@ -149,7 +149,7 @@ class Nature < Source
     config.api_key = value
   end
 
-  def requests_per_day
-    config.requests_per_day || 5000
+  def max_job_batch_size
+    config.max_job_batch_size || 5000
   end
 end

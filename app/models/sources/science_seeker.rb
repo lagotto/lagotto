@@ -72,4 +72,8 @@ class ScienceSeeker < Source
     config.url = value
   end
 
+  def max_job_batch_size
+    config.max_job_batch_size || 1000
+  end
+
 end

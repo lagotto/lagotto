@@ -96,7 +96,12 @@ class Researchblogging < Source
   def password
     config.password
   end
+
   def password=(value)
     config.password = value
+  end
+
+  def max_job_batch_size
+    config.max_job_batch_size || 1000
   end
 end

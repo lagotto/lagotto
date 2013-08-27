@@ -94,7 +94,7 @@ namespace :queue do
     end
 
   end
-  
+
   task :wikipedia => :environment do
 
     # this rake task is setup to run forever
@@ -105,7 +105,7 @@ namespace :queue do
     end
 
   end
-  
+
   task :scienceseeker => :environment do
 
     # this rake task is setup to run forever
@@ -116,7 +116,7 @@ namespace :queue do
     end
 
   end
-  
+
   task :copernicus => :environment do
 
     # this rake task is setup to run forever
@@ -127,7 +127,7 @@ namespace :queue do
     end
 
   end
-  
+
   task :one, [:source, :verbose] => :environment do |t, args|
     if args.source.nil?
       puts "Source name is required"
@@ -143,7 +143,7 @@ namespace :queue do
       sleep(sleep_time)
     end
   end
-  
+
   task :all, [:verbose] => :environment do |t, args|
 
     # this rake task is setup to run forever
@@ -157,7 +157,7 @@ namespace :queue do
       sleep(3600)
     end
   end
-  
+
   desc "Queue article with given DOI for a specific source"
   task :single_job, [:doi, :source] => :environment do |t, args|
     if args.doi.nil?
@@ -205,7 +205,11 @@ namespace :queue do
       exit
     end
 
-    source.queue_all_articles
+    ids = source.queue_all_articles
+    if ids.nil?
+      puts "Source with name #{args.source} is either inactive or is disabled"
+      exit
+    end
 
     puts "Jobs for all the articles for source #{source.display_name} have been queued."
   end
