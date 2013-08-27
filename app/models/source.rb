@@ -82,31 +82,22 @@ class Source < ActiveRecord::Base
   end
 
   def queue_all_articles
-    # determine if the source is active
-    if active && (disable_until.nil? || disable_until < Time.zone.now)
-
-      # reset disable_until value
-      unless self.disable_until.nil?
-        self.disable_until = nil
-        save
-      end
-
+    if inactive?
+      ErrorMessage.create(:exception => "", :class_name => "StandardError",
+                          :message => "#{display_name} (#{name}) is either not active or disabled",
+                          :source_id => id)
+      nil
+    else
       rs = retrieval_statuses.pluck("retrieval_statuses.id")
       logger.debug "#{name} total articles queued #{rs.length}"
 
       rs.each_slice(job_batch_size) do | rs_ids |
         Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
       end
-    else
-      ErrorMessage.create(:exception => "", :class_name => "StandardError",
-                          :message => "#{display_name} (#{name}) is either inactive or is disabled",
-                          :source_id => id)
-      nil
     end
   end
 
   def queue_articles
-
     return batch_time_interval unless active
 
     # check to see if there have been too many failures on trying to get data from the source
@@ -243,13 +234,19 @@ class Source < ActiveRecord::Base
     ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
   end
 
+  def disabled?
+    disable_until && disable_until > Time.zone.now
+  end
+
+  def inactive?
+    !active || disabled?
+  end
+
   def status
-    if !active
+    if inactive?
       "inactive"
-    elsif disable_until
+    elsif disabled?
       "disabled"
-    elsif !(retrieval_statuses.where("event_count > 0").size > 0)
-      "no events"
     else
       "active"
     end

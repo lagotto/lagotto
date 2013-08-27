@@ -8,6 +8,7 @@
       <%= f.input :display_name, :input_html => { :class => "span3" } %>
       <%= f.association :group, :include_blank => false %>
       <%= f.input :active, :as => :boolean %>
+      <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
       <%= f.input :description, :input_html => { :rows => 3, :class => "span9" } %>
 
       <% if not @source.get_config_fields.empty? %>
@@ -15,11 +16,11 @@
           <% if field[:field_type] == "check_box" %>
             <%= f.input field[:field_name], :label => field[:field_name].gsub(/_/, " ").capitalize %>
           <% elsif field[:field_type] == "text_field" %>
-            <%= f.input field[:field_name], :input_html => { :class => "span9" } %>
+            <%= f.input field[:field_name], :input_html => { :class => "span3" } %>
           <% elsif field[:field_type] == "text_area" %>
             <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2), :class => "span9" } %>
           <% elsif field[:field_type] == "password_field" %>
-            <%= f.input field[:field_name], :value => @source.config.send(field[:field_name]) %>
+            <%= f.input field[:field_name], :as => :string, :input_html => { :class => "span3" } %>
           <% end %>
         <% end %>
       <% end %>
@@ -97,15 +98,15 @@
         <% @source.get_config_fields.each do |field| %>
           <tr>
             <th><%= field[:field_name].gsub(/_/, " ").capitalize %></th>
-            <td>
-              <% if field[:field_type] == "password_field" %>
-                '<%= ("●" * @source.config.send(field[:field_name]).to_s.size) %>'
-              <% else %>
-                <%= @source.config.send(field[:field_name]) %>
-              <% end %>
-            </td>
+            <td><%= @source.config.send(field[:field_name]) %></td>
           </tr>
         <% end %>
+      <% end %>
+      <% if @source.private %>
+        <tr>
+          <th>Private source</th>
+          <td>Source not made available via API</td>
+        </tr>
       <% end %>
       <tr>
         <th>Job queue</th>

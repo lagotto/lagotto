@@ -14,8 +14,6 @@ Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
     @articles = FactoryGirl.create_list(:article_with_events, 10)
   elsif status == "disabled"
     @source = FactoryGirl.create(:source, disable_until: (Time.now + 1.hour))
-  elsif status == "no events"
-    @source = FactoryGirl.create(:source)
   elsif status == "with errors"
     @articles = FactoryGirl.create_list(:article_with_errors, 10)
   end

@@ -25,39 +25,27 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   include SourceHelper
 
   def enqueue(job)
-
     # keep track of when the article was queued up
     RetrievalStatus.update_all(["queued_at = ?", Time.zone.now], ["id in (?)", rs_ids] )
   end
 
   def perform
 
-    # check to see if source is active or not
     source = Source.find(source_id)
-    unless source.active
-      Rails.logger.info "#{source.name} not active. Exiting the job"
-      return
-    end
+    return unless source.active
 
-    srand
-    #time to sleep between failures
-    sleep_time = 0
-
-    # just in case a worker gets stuck
     Timeout.timeout(Delayed::Worker.max_run_time) do
-      # wait till the source isn't disabled
-      while not (source.disable_until.nil? || source.disable_until < Time.zone.now)
-        Rails.logger.info "#{source.name} is disabled. Sleep for #{source.disable_delay} seconds."
-        sleep(source.disable_delay)
-      end
+      # wait till the source is no longer disabled
+      sleep(source.disable_delay) while source.disabled?
 
+      sleep_time = 0
       rs_ids.each do | rs_id |
-        unless perform_get_data(rs_id)
+        if perform_get_data(rs_id)
+          # observe rate-limiting settings
+          sleep(source.batch_time_interval / source.max_job_batch_size)
+        else
           # each time we fail to get an answer from a source, wait longer
-          # and wait random amount of time
-          sleep_time += source.disable_delay + rand(source.disable_delay)
-          Rails.logger.info "Sleep for #{sleep_time} seconds"
-          sleep(sleep_time)
+          sleep(sleep_time += source.disable_delay)
         end
       end
     end
