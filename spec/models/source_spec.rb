@@ -117,15 +117,14 @@ describe Source do
       end
 
       it "with disabled source" do
-        disable_interval = 30.minutes
-        source.disable_until = Time.zone.now + disable_interval
-        source.queue_articles.should eq(disable_interval)
+        source.disable_until = Time.zone.now + source.disable_delay
+        source.queue_articles.should eq(source.disable_delay)
       end
 
       it "with too many failed queries" do
         FactoryGirl.create_list(:error_message, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
         source.max_failed_queries = 5
-        source.queue_articles.should eq(source.batch_time_interval)
+        source.queue_articles.should eq(source.disable_delay)
         source.disable_until.should_not be_nil
       end
 

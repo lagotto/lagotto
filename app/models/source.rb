@@ -73,6 +73,10 @@ class Source < ActiveRecord::Base
     name
   end
 
+  # some sources cannot be redistributed
+  scope :public_sources, lambda { where("private = false") }
+  scope :private_sources, lambda { where("private = true") }
+
   def get_data(article, options={})
     raise NotImplementedError, 'Children classes should override get_data method'
   end
@@ -155,9 +159,13 @@ class Source < ActiveRecord::Base
                           :message => "#{display_name} has exceeded maximum failed queries. Disabling the source.",
                           :source_id => id)
       self.update_attributes(disable_until: Time.zone.now + disable_delay.seconds)
-    else
+    elsif disable_until.nil?
+      false
+    elsif disable_until < Time.zone.now
       self.update_attributes(disable_until: nil)
       false
+    else
+      true
     end
   end
 
