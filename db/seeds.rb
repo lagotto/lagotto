@@ -155,8 +155,7 @@ nature = Nature.find_or_create_by_name(
   :active => true,
   :workers => 1,
   :group_id => discussed.id,
-  :url => "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}",
-  :api_key => "7jug74j8rh49n8rbn8atwyec")
+  :url => "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}")
 
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",
