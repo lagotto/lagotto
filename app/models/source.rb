@@ -94,6 +94,7 @@ class Source < ActiveRecord::Base
       rs.each_slice(job_batch_size) do | rs_ids |
         Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
       end
+      rs
     end
   end
 
