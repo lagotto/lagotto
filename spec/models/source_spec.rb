@@ -67,7 +67,7 @@ describe Source do
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
         error_message.class_name.should eq("StandardError")
-        error_message.message.should eq("#{source.display_name} (#{source.name}) is either inactive or is disabled")
+        error_message.message.should eq("#{source.display_name} (#{source.name}) is either not active or disabled")
         error_message.source_id.should == source.id
       end
 
@@ -77,7 +77,7 @@ describe Source do
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
         error_message.class_name.should eq("StandardError")
-        error_message.message.should eq("#{source.display_name} (#{source.name}) is either inactive or is disabled")
+        error_message.message.should eq("#{source.display_name} (#{source.name}) is either not active or disabled")
         error_message.source_id.should == source.id
       end
     end

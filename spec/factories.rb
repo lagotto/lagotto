@@ -146,8 +146,7 @@ FactoryGirl.define do
     name "nature"
     display_name "Nature"
     active true
-    url "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}"
-    api_key "EXAMPLE"
+    url "http://blogs.nature.com/posts.json?doi=%{doi}"
 
     group
 

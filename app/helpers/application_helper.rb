@@ -21,7 +21,7 @@ require 'github/markdown'
 module ApplicationHelper
   def link_to_setup_or_login
     if APP_CONFIG['github_client_id']
-      link_to "Sign In with Github", user_omniauth_authorize_path(:github), :id => "sign_in" 
+      link_to "Sign In with Github", user_omniauth_authorize_path(:github), :id => "sign_in"
     elsif APP_CONFIG['persona']
       s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
         p = hidden_field_tag('assertion')
@@ -30,36 +30,34 @@ module ApplicationHelper
       end
       s.html_safe
     elsif User.count > 0
-      link_to "Sign In", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : '', :id => "sign_in" 
+      link_to "Sign In", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : '', :id => "sign_in"
     else
-      link_to 'Sign Up', new_user_registration_path, :class => current_page?(new_user_registration_path) ? 'current' : '', :id => "sign_in" 
+      link_to 'Sign Up', new_user_registration_path, :class => current_page?(new_user_registration_path) ? 'current' : '', :id => "sign_in"
     end
   end
-  
+
   def markdown(text)
     GitHub::Markdown.render_gfm(text).html_safe
   end
-  
+
   def status_label(status)
     if status == "inactive"
       '<span class="label label-info">inactive</span>'
     elsif status == "disabled"
       '<span class="label label-important">disabled</span>'
-    elsif status == "no events"
-      '<span class="label">no events</span>'
     else
       "active"
     end
   end
-  
+
   def sources
     Source.order("group_id, display_name")
   end
-  
+
   def documents
     %w(Home Installation Setup Sources API Rake Errors FAQ Roadmap Past-Contributors)
   end
-  
+
   def roles
     %w(user staff admin)
   end
