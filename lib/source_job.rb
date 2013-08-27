@@ -25,7 +25,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   include SourceHelper
 
   def enqueue(job)
-    Rails.logger.debug "enqueue #{rs_ids.inspect}"
 
     # keep track of when the article was queued up
     RetrievalStatus.update_all(["queued_at = ?", Time.zone.now], ["id in (?)", rs_ids] )
@@ -175,12 +174,10 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def error(job, e)
-    source_id = Source.where(:name => job.queue).pluck(:id).first
     ErrorMessage.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source_id)
   end
 
   def after(job)
-    Rails.logger.debug "job completed"
 
     #reset the queued at value
     RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )

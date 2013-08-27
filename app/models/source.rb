@@ -44,8 +44,8 @@ class Source < ActiveRecord::Base
   validates :max_failed_queries, :numericality => { :only_integer => true }, :inclusion => { :in => 0..1000, :message => "should be between 0 and 1000" }
   validates :max_failed_query_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 0..864000, :message => "should be between 0 and 864000" }
   validates :job_batch_size, :numericality => { :only_integer => true }, :inclusion => { :in => 1..1000, :message => "should be between 1 and 1000" }
+  validates :max_job_batch_size, :numericality => { :only_integer => true }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :batch_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 1..86400, :message => "should be between 1 and 86400" }
-  validates :requests_per_day, :numericality => { :only_integer => true }, :inclusion => { :in => 0..86400, :message => "should be between 0 and 86400" }
   validates :staleness_week, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_month, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
@@ -97,49 +97,37 @@ class Source < ActiveRecord::Base
       rs.each_slice(job_batch_size) do | rs_ids |
         Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
       end
-
     else
-      raise Net::HTTPServiceUnavailable, "#{display_name} (#{name}) is either inactive or is disabled"
+      ErrorMessage.create(:exception => "", :class_name => "StandardError",
+                          :message => "#{display_name} (#{name}) is either inactive or is disabled",
+                          :source_id => id)
+      nil
     end
   end
 
   def queue_articles
-    sleep_interval = batch_time_interval
-    # determine if the source is active
-    if active
-      queue_job = true
+    return batch_time_interval unless active
 
-      # check to see if there has been many failures on trying to get data from the source
-      check_for_failures
+    # check to see if there have been too many failures on trying to get data from the source
+    return batch_time_interval if check_for_failures
 
-      # determine if the source is disabled or not
-      unless self.disable_until.nil?
-        queue_job = false
-
-        if self.disable_until < Time.zone.now
-          self.disable_until = nil
-          save
-          queue_job = true
-        end
-      end
-
-      if queue_job
-        # if there are jobs already queued, wait a little bit
-        if get_queued_job_count > 0
-          sleep_interval = wait_time
-        else
-          queue_article_jobs
-        end
-      end
+    # determine if the source is disabled or not
+    unless self.disable_until.nil?
+      disable_interval = (self.disable_until - Time.zone.now).round
+      self.update_attributes(disable_until: nil) if disable_interval < 0
+      return disable_interval unless self.disable_until.nil?
     end
 
-    return sleep_interval
+    # if there are jobs already queued, wait a little bit
+    return wait_time if get_queued_job_count > 0
+
+    queue_article_jobs
+    batch_time_interval
   end
 
   def queue_article_jobs
-    # find articles that need to be updated
-    # not queued currently, scheduled_at in the past
-    rs = retrieval_statuses.stale.pluck("retrieval_statuses.id")
+    # find articles that need to be updated. Not queued currently, scheduled_at in the past
+    rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
     logger.debug "#{name} total articles queued #{rs.length}"
 
     rs.each_slice(job_batch_size) do | rs_ids |
@@ -168,16 +156,16 @@ class Source < ActiveRecord::Base
     # condition for not adding more jobs and disabling the source
 
     failed_queries = ErrorMessage.where("source_id = :id and updated_at > :updated_date",
-                                            {:id => id,
-                                             :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds)}).count(:id)
+                                         { :id => id,
+                                           :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds) }).count(:id)
 
     if failed_queries > max_failed_queries
       ErrorMessage.create(:exception => "", :class_name => "StandardError",
                           :message => "#{display_name} has exceeded maximum failed queries. Disabling the source.",
                           :source_id => id)
-      # disable the source
-      self.disable_until = Time.zone.now + disable_delay.seconds
-      save
+      self.update_attributes(disable_until: Time.zone.now + disable_delay.seconds)
+    else
+      false
     end
   end
 
@@ -189,12 +177,24 @@ class Source < ActiveRecord::Base
     config.job_batch_size = value.to_i
   end
 
+  def max_job_batch_size
+    config.max_job_batch_size || 10000
+  end
+
+  def max_job_batch_size=(value)
+    config.max_job_batch_size = value.to_i
+  end
+
   def batch_time_interval
     config.batch_time_interval || 1.hour
   end
 
   def batch_time_interval=(value)
     config.batch_time_interval = value.to_i
+  end
+
+  def rate_limiting
+    (max_job_batch_size.to_i * 3600 / batch_time_interval.to_i).round
   end
 
   # The update interval for articles depends on article age. We use 4 different intervals that have default settings, but can also be configured individually per source:
@@ -241,14 +241,6 @@ class Source < ActiveRecord::Base
 
   def staleness_with_limits
     ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
-  end
-
-  def requests_per_day
-    config.requests_per_day || 0
-  end
-
-  def requests_per_day=(value)
-    config.requests_per_day = value.to_i
   end
 
   def status

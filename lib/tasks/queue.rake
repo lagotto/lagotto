@@ -151,7 +151,7 @@ namespace :queue do
     end
 
   end
-  
+
   task :wikipedia => :environment do
 
     # this rake task is setup to run forever
@@ -162,7 +162,7 @@ namespace :queue do
     end
 
   end
-  
+
   task :scienceseeker => :environment do
 
     # this rake task is setup to run forever
@@ -173,12 +173,34 @@ namespace :queue do
     end
 
   end
-  
+
   task :copernicus => :environment do
 
     # this rake task is setup to run forever
     loop do
       source = Source.find_by_name("copernicus")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
+  task :f1000 => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("f1000")
+      sleep_time = source.queue_articles
+      sleep(sleep_time)
+    end
+
+  end
+
+  task :figshare => :environment do
+
+    # this rake task is setup to run forever
+    loop do
+      source = Source.find_by_name("figshare")
       sleep_time = source.queue_articles
       sleep(sleep_time)
     end
@@ -211,7 +233,7 @@ namespace :queue do
       sleep(sleep_time)
     end
   end
-  
+
   task :all, [:verbose] => :environment do |t, args|
 
     # this rake task is setup to run forever
@@ -273,7 +295,11 @@ namespace :queue do
       exit
     end
 
-    source.queue_all_articles
+    ids = source.queue_all_articles
+    if ids.nil?
+      puts "Source with name #{args.source} is either inactive or is disabled"
+      exit
+    end
 
     puts "Jobs for all the articles for source #{source.display_name} have been queued."
   end
