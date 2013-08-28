@@ -30,6 +30,7 @@ class Source < ActiveRecord::Base
   has_many :articles, :through => :retrieval_statuses
   has_many :delayed_jobs, :primary_key => "name", :foreign_key => "queue"
   has_many :error_messages
+  has_many :api_responses
   belongs_to :group, :touch => true
 
   serialize :config, OpenStruct

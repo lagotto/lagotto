@@ -11,18 +11,35 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130503125145) do
+ActiveRecord::Schema.define(:version => 20130828062957) do
 
   create_table "api_requests", :force => true do |t|
-    t.text     "path"
     t.string   "format"
-    t.float    "page_duration"
     t.float    "db_duration"
     t.float    "view_duration"
     t.datetime "created_at"
+    t.string   "api_key"
+    t.string   "info"
+    t.string   "source"
+    t.text     "ids"
   end
 
+  add_index "api_requests", ["api_key"], :name => "index_api_requests_on_api_key"
   add_index "api_requests", ["created_at"], :name => "index_api_requests_on_created_at"
+
+  create_table "api_responses", :force => true do |t|
+    t.integer  "article_id"
+    t.integer  "source_id"
+    t.integer  "retrieval_status_id"
+    t.integer  "retrieval_history_id"
+    t.integer  "event_count"
+    t.integer  "previous_count"
+    t.float    "duration"
+    t.datetime "created_at"
+  end
+
+  add_index "api_responses", ["created_at"], :name => "index_api_responses_on_created_at"
+  add_index "api_responses", ["event_count"], :name => "index_api_responses_on_event_count"
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -67,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20130503125145) do
     t.boolean  "unresolved",   :default => true
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
+    t.string   "remote_ip"
   end
 
   add_index "error_messages", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"

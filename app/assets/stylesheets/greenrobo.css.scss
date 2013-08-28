@@ -35,7 +35,7 @@ h3, h4, h5 { margin-bottom: 1px; }
 h1 img { vertical-align: 2px; }
 h4 img { vertical-align: 0px; }
 div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left: auto; margin-right: auto; }
-.table .number { text-align: right; }
+.table .number { text-align: right; width: 150px;}
 .dashboard { padding-bottom: 2em; }
 .dashboard-label { padding-top: 3em; }
 .signpost { font-size: 32px; font-weight:bold; margin: 0; }
@@ -144,6 +144,16 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
   width: 80px;
   padding-right: 20px;
   text-align: right;
+}
+
+#request-list div.info {
+  width: 40px;
+  padding-right: 20px;
+}
+
+#request-list div.source {
+  width: 160px;
+  padding-right: 20px;
 }
 
 #request-list .fast {

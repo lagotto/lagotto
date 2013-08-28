@@ -21,15 +21,3 @@ require "csv"
 APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
 
 ActiveSupport::XmlMini.backend = 'Nokogiri'
-
-ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
-  if payload[:controller] == "Api::V3::ArticlesController"
-    ApiRequest.create! do |page_request|
-      page_request.path = payload[:path]
-      page_request.format = payload[:format] || "html"
-      page_request.page_duration = (finish - start) * 1000
-      page_request.view_duration = payload[:view_runtime]
-      page_request.db_duration = payload[:db_runtime]
-    end
-  end
-end

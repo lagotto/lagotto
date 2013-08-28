@@ -64,7 +64,7 @@ describe "/api/v3/articles", :not_teamcity => true do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
         ApiRequest.count.should eql(2)
-        ApiRequest.last.page_duration.should be < 0.5 * ApiRequest.first.page_duration
+        ApiRequest.last.view_duration.should be < 0.5 * ApiRequest.first.view_duration
       end
     end
 
@@ -134,7 +134,7 @@ describe "/api/v3/articles", :not_teamcity => true do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
         ApiRequest.count.should eql(2)
-        ApiRequest.last.page_duration.should be < 0.5 * ApiRequest.first.page_duration
+        ApiRequest.last.view_duration.should be < 0.5 * ApiRequest.first.view_duration
       end
 
       it "does not use a stale cache when an article is updated" do

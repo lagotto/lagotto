@@ -40,7 +40,16 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
       sleep_time = 0
       rs_ids.each do | rs_id |
-        if perform_get_data(rs_id)
+        rs = RetrievalStatus.find(rs_id)
+
+        # Track API response result and duration in api_responses table
+        response = { article_id: rs.article_id, source_id: rs.source_id, retrieval_status_id: rs_id }
+        ActiveSupport::Notifications.instrument("api_response.get") do |payload|
+          response.merge!(perform_get_data(rs))
+          payload.merge!(response)
+        end
+
+        if response[:event_count]
           # observe rate-limiting settings
           sleep(source.batch_time_interval / source.max_job_batch_size)
         else
@@ -52,11 +61,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   end
 
-  def perform_get_data(rs_id)
-
-    rs = RetrievalStatus.find(rs_id)
-
-    Rails.logger.debug "#{rs.source.name} #{rs.article.doi} perform"
+  def perform_get_data(rs)
 
     # we can get data_from_source in 4 different formats
     # - hash with event_count nil: SKIPPED
@@ -80,17 +85,21 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # It could also be an error in our code. 404 (Not Found) errors are handled as SUCCESS NO DATA
     # We don't update retrieval status and don't create a retrieval_histories document,
     # so that the request is repeated later. We could get stuck, but we see this in error_messages
+    #
+    # This mnethod returns a hash in the format { event_count: 12, previous_count: 8, retrieval_history_id: 3736 }
+    # This hash can be used to track API responses, e.g. when event counts go down
 
     data_from_source = rs.source.get_data(rs.article, { :retrieval_status => rs, :timeout => rs.source.timeout, :source_id => rs.source_id })
     if data_from_source.is_a?(Hash)
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]
       event_count = data_from_source[:event_count]
+      previous_count = rs.event_count
       event_metrics = data_from_source[:event_metrics]
       attachment = data_from_source[:attachment]
     else
       # ERROR
-      return nil
+      return { event_count: nil, previous_count: rs.event_count, retrieval_history_id: nil }
     end
 
     retrieved_at = Time.zone.now
@@ -100,7 +109,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       rs.update_attributes(:retrieved_at => retrieved_at,
                            :scheduled_at => rs.stale_at,
                            :event_count => 0)
-      { :retrieval_status => rs }
+      { event_count: 0, previous_count: previous_count, retrieval_history_id: nil }
     else
       rh = RetrievalHistory.create(:retrieval_status_id => rs.id,
                                    :article_id => rs.article_id,
@@ -115,39 +124,30 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                  :event_metrics => event_metrics,
                  :doc_type => "current" }
 
-        if !attachment.nil?
-
-          if !attachment[:filename].nil? && !attachment[:content_type].nil? && !attachment[:data].nil?
-            data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
-                                                             "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
-          end
+        if attachment.present? && attachment[:filename].present? && attachment[:content_type].present? && attachment[:data].present?
+          data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
+                                                           "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
         end
 
-        # save the data to couchdb
-        rs_rev = save_alm_data("#{rs.source.name}:#{rs.article.doi_escaped}", data: data.clone, source_id: rs.source_id)
+        # save the data to mysql
         rs.event_count = event_count
         rs.event_metrics = event_metrics
         rs.events_url = events_url
 
-        # save the history data to couchdb
+        rh.event_count = event_count
+
+        # save the data to couchdb
+        rs_rev = save_alm_data("#{rs.source.name}:#{rs.article.doi_escaped}", data: data.clone, source_id: rs.source_id)
+
         data.delete(:_attachments)
         data[:doc_type] = "history"
         rh_rev = save_alm_data(rh.id, data: data, source_id: rs.source_id)
 
-        # set retrieval history status to success
-        rh.status = RetrievalHistory::SUCCESS_MSG
-        # save the event count in mysql
-        rh.event_count = event_count
-
       # SUCCESS NO DATA
       else
-        # if we don't get any data
+        # save the data to mysql
+        # don't save any data to couchdb
         rs.event_count = 0
-
-        # don't save any data to CouchDB
-
-        # set retrieval history status to success with no data
-        rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
         rh.event_count = 0
       end
 
@@ -157,7 +157,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
       rh.retrieved_at = retrieved_at
       rh.save
-      { :retrieval_status => rs, :retrieval_history => rh }
+
+      { event_count: event_count, previous_count: previous_count, retrieval_history_id: rh.id }
     end
   end
 
