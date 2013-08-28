@@ -1,4 +1,4 @@
-Nature Blogs is a science blog aggregator. You can register for a nature.com developers account and API key [here](http://developers.nature.com/member/register).
+Nature Blogs is a science blog aggregator. Since May 1st 2013 API keys are [no longer necessary](http://www.nature.com/developers/documentation/api-references/blogs-api/).
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
@@ -8,11 +8,11 @@ Nature Blogs is a science blog aggregator. You can register for a nature.com dev
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: [ 1.day, 1.month * 0.25, 1.month, 1.month]<br/>requests_per_day: 5000</td>
+<td valign="top" width=80%>staleness: [ 1.day, 1.month, 1.month, 1.month]<br/>requests_per_hour: 200</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
-<td valign="top" width=80%>id<br/>url<<br/>date (as published_at)</td>
+<td valign="top" width=80%>id<br/>url<br/>date (as published_at)</td>
 </tr>
 <td valign="top" width=20%><strong>ALM Other Attributes</strong></td>
 <td valign="top" width=80%>title<br/>blog title<br/>blog url</td>
@@ -40,6 +40,10 @@ Nature Blogs is a science blog aggregator. You can register for a nature.com dev
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
 <td valign="top" width=80%>http://blogs.nature.com/posts.json?doi=DOI&api_key=API_KEY</td>
+</tr>
+<tr>
+<td valign="top" width=20%><strong>License</strong></td>
+<td valign="top" width=80%>CC-BY-NC</td>
 </tr>
 </tbody>
 </table>
@@ -93,4 +97,4 @@ Nature Blogs is a science blog aggregator. You can register for a nature.com dev
       },
 
 ## Further Documentation
-* [Nature Blogs API Documentation](http://developers.nature.com/docs/read/apis/Blogs_API)
+* [Nature Blogs API Documentation](http://www.nature.com/developers/documentation/api-references/blogs-api/)

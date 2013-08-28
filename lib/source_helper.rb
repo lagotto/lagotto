@@ -198,12 +198,8 @@ module SourceHelper
     else
       if error.kind_of?(Faraday::Error::TimeoutError)
         status = 408
-      elsif error.respond_to?('status')
-        status = error[:status]
-      elsif error.respond_to?('response')
-        status = error.response[:status].presence || 400
       else
-        status = 400
+        status = error.[:status].presence || error.response ? error.response[:status].presence : nil || 400
       end
 
       if error.respond_to?('exception')
