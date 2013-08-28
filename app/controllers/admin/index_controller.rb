@@ -28,7 +28,7 @@ class Admin::IndexController < Admin::ApplicationController
     @events_count = RetrievalStatus.joins(:source).where("active = 1 AND name != 'relativemetric'").sum(:event_count)
     @queued_count = RetrievalStatus.queued.count
     @delayed_jobs_active_count = DelayedJob.count
-    @delayed_jobs_count = RetrievalStatus.total(1).count
+    @delayed_jobs_count = ApiResponse.total(1).count
     @requests_count = ApiRequest.where("created_at > NOW() - INTERVAL 24 HOUR").count
     @users_count = User.count
     @couchdb_info = RetrievalHistory.new.get_alm_database || { "doc_count" => 0, "disk_size" => 0 }

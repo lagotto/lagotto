@@ -3,7 +3,8 @@ class Admin::ResponsesController < Admin::ApplicationController
   load_and_authorize_resource :error_message, :parent => false
 
   def index
-    responses = RetrievalStatus.includes(:source).where("sources.active = 1 AND retrieved_at > NOW() - INTERVAL 24 HOUR").order("group_id, display_name").group(:source_id).count
+    responses = ApiResponse.includes(:source).where("sources.active = 1 AND api_responses.created_at > NOW() - INTERVAL 24 HOUR").order("group_id, display_name").group(:source_id).count
+    durations = ApiResponse.includes(:source).where("sources.active = 1 AND api_responses.created_at > NOW() - INTERVAL 24 HOUR").order("group_id, display_name").group(:source_id).average("duration")
     errors = ErrorMessage.includes(:source).where("sources.active = 1 AND error_messages.created_at > NOW() - INTERVAL 24 HOUR").order("group_id, display_name").group(:source_id).count
     @sources = Source.active.map { |source| { "id" => source.id,
                                               "name" => source.display_name,
@@ -11,6 +12,7 @@ class Admin::ResponsesController < Admin::ApplicationController
                                               "url" => admin_source_path(source),
                                               "group" => source.group_id,
                                               "response_count" => responses[source.id],
+                                              "response_duration" => durations[source.id],
                                               "error_count" => errors[source.id] }}
     render :index
   end

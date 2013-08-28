@@ -251,14 +251,17 @@ FactoryGirl.define do
     request "A request"
     user_agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/536.26.17 (KHTML, like Gecko) Version/6.0.2 Safari/536.26.17"
     target_url "http://127.0.0.1/sources/x"
+    remote_ip "127.0.0.1"
     status 408
     content_type "text/html"
   end
 
   factory :api_request do
-    path "/api/v3/articles"
-    page_duration 800
     db_duration 100
     view_duration 700
+    api_key "12345"
+    info "history"
+    source nil
+    ids "10.1371%2Fjournal.pone.000001"
   end
 end

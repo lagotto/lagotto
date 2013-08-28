@@ -19,8 +19,18 @@
     </tr>
     <tr>
       <th>Responses in the last 24 Hours</th>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_histories.total(1).size) %></td>
+      <td class="number"><%= number_with_delimiter(@source.api_responses.total(1).size) %></td>
       <td class="number"><%= link_to_if @source.error_messages.total(1).size > 0, number_with_delimiter(@source.error_messages.total(1).size), admin_error_messages_path(:source_id => @source.id) %></td>
+    </tr>
+    <tr>
+      <th/>
+      <th class="number">Average</th>
+      <th class="number">Maximum</th>
+    </tr>
+    <tr>
+      <th>Response duration in the last 24 Hours (ms)</th>
+      <td class="number"><%= number_with_precision(@source.api_responses.total(1).average("duration"), precision: 0) %></td>
+      <td class="number"><%= number_with_precision(@source.api_responses.total(1).maximum("duration"), precision: 0) %></td>
     </tr>
     <tr>
       <th/>
