@@ -58,7 +58,7 @@
                                                                                         :data => { :confirm => 'Are you sure?' },
                                                                                         :remote => true,
                                                                                         :id => "#{error_message.id}-delete-class" %></li>
-                    <% unless @source.nil? %>
+                    <% unless error_message.source_id.nil? %>
                       <li><%= link_to "by Source", admin_error_message_path(error_message, :query => params[:query],
                                                                                            :source_id => params[:source_id],
                                                                                            :filter => "source_id",
