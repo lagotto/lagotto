@@ -29,8 +29,8 @@
     </tr>
     <tr>
       <th>Response duration in the last 24 Hours (ms)</th>
-      <td class="number"><%= number_with_precision(@source.api_responses.total(1).average("duration"), precision: 0) %></td>
-      <td class="number"><%= number_with_precision(@source.api_responses.total(1).maximum("duration"), precision: 0) %></td>
+      <td class="number"><%= number_with_precision(@source.api_responses.total(1).average("duration").nil? ? 0 : @source.api_responses.total(1).average("duration"), precision: 0) %></td>
+      <td class="number"><%= number_with_precision(@source.api_responses.total(1).maximum("duration").nil? ? 0 : @source.api_responses.total(1).maximum("duration"), precision: 0) %></td>
     </tr>
     <tr>
       <th/>
