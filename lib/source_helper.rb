@@ -24,7 +24,8 @@ require 'faraday-cookie_jar'
 
 module SourceHelper
   DEFAULT_TIMEOUT = 60
-  SourceHelperExceptions = [Faraday::Error::ClientError, Delayed::WorkerTimeout, Errno::EPIPE, Errno::ECONNRESET].freeze
+  SourceHelperExceptions = [Faraday::Error::ClientError].freeze
+  # Delayed::WorkerTimeout, Errno::EPIPE, Errno::ECONNRESET
 
   def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
     conn = conn_json
