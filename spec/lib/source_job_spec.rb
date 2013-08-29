@@ -1,11 +1,9 @@
 require 'spec_helper'
-require 'source_helper'
 
 class SourceHelperClass
 end
 
 describe SourceJob do
-  include SourceHelper
 
   before(:each) do
     @source_helper_class = SourceHelperClass.new

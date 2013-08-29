@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130828062957) do
+ActiveRecord::Schema.define(:version => 20130829072441) do
 
   create_table "api_requests", :force => true do |t|
     t.string   "format"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20130828062957) do
     t.integer  "previous_count"
     t.float    "duration"
     t.datetime "created_at"
+    t.boolean  "unresolved",           :default => true
   end
 
   add_index "api_responses", ["created_at"], :name => "index_api_responses_on_created_at"
@@ -85,6 +86,7 @@ ActiveRecord::Schema.define(:version => 20130828062957) do
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
     t.string   "remote_ip"
+    t.integer  "article_id"
   end
 
   add_index "error_messages", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"

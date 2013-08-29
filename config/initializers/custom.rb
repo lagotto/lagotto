@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -17,7 +19,11 @@
 # limitations under the License.
 
 require "csv"
-require "#{Rails.root}/lib/source_job.rb"
+
+Dir[File.join(Rails.root, 'lib', '*.rb')].each { |f| require f }
+
+include SourceHelper
+include Exceptions
 
 APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
 

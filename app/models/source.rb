@@ -18,12 +18,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'source_helper'
 require 'cgi'
 require 'ostruct'
 
 class Source < ActiveRecord::Base
-  include SourceHelper
 
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
@@ -84,7 +82,7 @@ class Source < ActiveRecord::Base
 
   def queue_all_articles
     if inactive?
-      ErrorMessage.create(:exception => "", :class_name => "StandardError",
+      ErrorMessage.create(:exception => "", :class_name => "SourceInactiveError",
                           :message => "#{display_name} (#{name}) is either not active or disabled",
                           :source_id => id)
       nil
@@ -148,7 +146,7 @@ class Source < ActiveRecord::Base
                                            :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds) }).count(:id)
 
     if failed_queries > max_failed_queries
-      ErrorMessage.create(:exception => "", :class_name => "StandardError",
+      ErrorMessage.create(:exception => "", :class_name => "TooManyErrorsBySourceError",
                           :message => "#{display_name} has exceeded maximum failed queries. Disabling the source.",
                           :source_id => id)
       self.update_attributes(disable_until: Time.zone.now + disable_delay.seconds)

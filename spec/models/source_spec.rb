@@ -66,7 +66,7 @@ describe Source do
         source.queue_all_articles.should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("StandardError")
+        error_message.class_name.should eq("SourceInactiveError")
         error_message.message.should eq("#{source.display_name} (#{source.name}) is either not active or disabled")
         error_message.source_id.should == source.id
       end
@@ -76,7 +76,7 @@ describe Source do
         source.queue_all_articles.should be_nil
         ErrorMessage.count.should == 1
         error_message = ErrorMessage.first
-        error_message.class_name.should eq("StandardError")
+        error_message.class_name.should eq("SourceInactiveError")
         error_message.message.should eq("#{source.display_name} (#{source.name}) is either not active or disabled")
         error_message.source_id.should == source.id
       end
@@ -149,18 +149,28 @@ describe Source do
 
     context "check for failures" do
       before(:each) do
-        FactoryGirl.create_list(:error_message, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
+        @class_name = "Net::HTTPRequestTimeOut"
+        FactoryGirl.create_list(:error_message, 10, { source_id: source.id,
+                                                      updated_at: Time.zone.now - 10.minutes,
+                                                      class_name: @class_name })
       end
 
       it "few failed queries" do
         source.check_for_failures.should be_false
         source.disable_until.should be_nil
+        ErrorMessage.count.should == 10
       end
 
       it "too many failed queries" do
         source.max_failed_queries = 5
         source.check_for_failures.should be_true
         source.disable_until.should_not be_nil
+        ErrorMessage.count.should == 11
+
+        error_message = ErrorMessage.where("class_name != '#{@class_name}'").first
+        error_message.class_name.should eq("TooManyErrorsBySourceError")
+        error_message.message.should eq("#{source.display_name} has exceeded maximum failed queries. Disabling the source.")
+        error_message.source_id.should == source.id
       end
 
       it "too many failed queries but they are too old" do
@@ -168,6 +178,7 @@ describe Source do
         source.max_failed_query_time_interval = 500
         source.check_for_failures.should be_false
         source.disable_until.should be_nil
+        ErrorMessage.count.should == 10
       end
     end
   end

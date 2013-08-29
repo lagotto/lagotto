@@ -23,6 +23,7 @@ class Api::V3::BaseController < ActionController::Base
       ErrorMessage.create(:exception => "", :class_name => "Net::HTTPUnauthorized",
                           :message => @error,
                           :target_url => request.original_url,
+                          :remote_ip => request.remote_ip,
                           :user_agent => request.user_agent,
                           :content_type => request.formats.first.to_s,
                           :status => 401)

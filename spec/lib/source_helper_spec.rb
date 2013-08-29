@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'source_helper'
 
 class SourceHelperClass
 end
