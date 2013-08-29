@@ -201,8 +201,8 @@ module SourceHelper
         status = 408
       elsif error.respond_to?('status')
         status = error[:status]
-      elsif error.respond_to?('response')# && error.response.respond_to?('status')
-        status = error.response[:status] || error.response.status
+      elsif error.response
+        status = error.response[:status]
       else
         status = 400
       end
