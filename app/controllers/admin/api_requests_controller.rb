@@ -3,6 +3,7 @@ class Admin::ApiRequestsController < Admin::ApplicationController
   load_and_authorize_resource
 
   def index
+    @api_keys = User.where("role != 'user'").pluck(:authentication_token)
     api_requests = ApiRequest.order("created_at DESC").limit(10000)
     @data = api_requests.map { |api_request| { "api_key" => api_request.api_key,
                                                "info" => api_request.info,

@@ -95,6 +95,11 @@
                 <%= link_to error_message.remote_ip, error_message.remote_ip %>
               <% end %>
 
+              <% unless error_message.user_agent.blank? %>
+                <h5>User Agent</h5>
+                <%= error_message.user_agent %>
+              <% end %>
+
               <% unless error_message.trace.blank? %>
                 <h5>Trace</h5>
                 <%= simple_format(error_message.trace) %>
