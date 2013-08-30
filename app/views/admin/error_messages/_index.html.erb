@@ -90,14 +90,16 @@
                 <%= link_to error_message.target_url, error_message.target_url %>
               <% end %>
 
-              <% unless error_message.remote_ip.blank? %>
-                <h5>Remote IP</h5>
-                <%= link_to error_message.remote_ip, error_message.remote_ip %>
-              <% end %>
+              <% if ["Net::HTTPUnauthorized","ActionDispatch::RemoteIp::IpSpoofAttackError"].include? error_message.class_name %>
+                <% unless error_message.remote_ip.blank? %>
+                  <h5>Remote IP</h5>
+                  <%= link_to error_message.remote_ip, error_message.remote_ip %>
+                <% end %>
 
-              <% unless error_message.user_agent.blank? %>
-                <h5>User Agent</h5>
-                <%= error_message.user_agent %>
+                <% unless error_message.user_agent.blank? %>
+                  <h5>User Agent</h5>
+                  <%= error_message.user_agent %>
+                <% end %>
               <% end %>
 
               <% unless error_message.trace.blank? %>
