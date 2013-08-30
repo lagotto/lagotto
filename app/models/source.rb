@@ -262,3 +262,11 @@ class Source < ActiveRecord::Base
     conn.execute sql
   end
 end
+
+module Exceptions
+  # source is either not active or disabled
+  class SourceInactiveError < StandardError; end
+
+  # we have received too many errors (and will disable the source)
+  class TooManyErrorsBySourceError < StandardError; end
+end
