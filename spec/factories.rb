@@ -264,4 +264,11 @@ FactoryGirl.define do
     source nil
     ids "10.1371%2Fjournal.pone.000001"
   end
+
+  factory :api_response do
+    duration 200
+    event_count 10
+    previous_count 0
+    unresolved 1
+  end
 end
