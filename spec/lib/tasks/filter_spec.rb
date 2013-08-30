@@ -11,7 +11,7 @@ describe "filter:all" do
       FactoryGirl.create_list(:api_response, 3)
     end
 
-    let(:output) { "Found no decreasing event count errors\nFound no increasing event count errors\nFound no slow API response errors\n" }
+    let(:output) { "Found 0 decreasing event count error(s)\nFound 0 increasing event count error(s)\nFound 0 API too slow error(s)\nFound 0 article not updated error(s)\n" }
 
     it "should run the rake task" do
       capture_stdout { subject.invoke }.should include(output)
@@ -24,7 +24,7 @@ describe "filter:all" do
       FactoryGirl.create_list(:api_response, 3)
     end
 
-    let(:output) { "3 API response(s) flagged as resolved\n" }
+    let(:output) { "Resolved 3 API response(s)\n" }
 
     it "should run the rake task" do
       capture_stdout { subject.invoke }.should include(output)
@@ -37,7 +37,7 @@ describe "filter:all" do
       FactoryGirl.create_list(:api_response, 3, previous_count: 12)
     end
 
-    let(:output) { "Raised 3 decreasing event count error(s)\n" }
+    let(:output) { "Found 3 decreasing event count error(s)\n" }
 
     it "should run the rake task" do
       capture_stdout { subject.invoke }.should include(output)
@@ -50,7 +50,7 @@ describe "filter:all" do
       FactoryGirl.create_list(:api_response, 3, event_count: 1050)
     end
 
-    let(:output) { "Raised 3 increasing event count error(s)\n" }
+    let(:output) { "Found 3 increasing event count error(s)\n" }
 
     it "should run the rake task" do
       capture_stdout { subject.invoke }.should include(output)
@@ -63,7 +63,20 @@ describe "filter:all" do
       FactoryGirl.create_list(:api_response, 3, duration: 16000)
     end
 
-    let(:output) { "Raised 3 slow API response error(s)\n" }
+    let(:output) { "Found 3 API too slow error(s)\n" }
+
+    it "should run the rake task" do
+      capture_stdout { subject.invoke }.should include(output)
+    end
+  end
+
+  context "report not updated errors" do
+
+    before do
+      FactoryGirl.create_list(:api_response, 3, update_interval: 42)
+    end
+
+    let(:output) { "Found 3 article not updated error(s)\n" }
 
     it "should run the rake task" do
       capture_stdout { subject.invoke }.should include(output)

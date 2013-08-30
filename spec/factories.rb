@@ -268,7 +268,10 @@ FactoryGirl.define do
   factory :api_response do
     duration 200
     event_count 10
-    previous_count 0
+    previous_count 5
+    update_interval 7
     unresolved 1
+    source_id 1
+    retrieval_history_id 1
   end
 end

@@ -18,31 +18,15 @@
 
 namespace :filter do
 
-  desc "Raise all errors found in api responses and flag them as resolved"
+  desc "Raise all errors found in API responses and flag them as resolved"
   task :all => :environment do
-    result = Filter.all
-    if result[:decreasing] > 0
-      puts "Raised #{result[:decreasing]} decreasing event count error(s)"
+    responses = Filter.all
+    if responses.empty?
+      puts "Found 0 unresolved API responses"
     else
-      puts "Found no decreasing event count errors"
-    end
-
-    if result[:increasing] > 0
-      puts "Raised #{result[:increasing]} increasing event count error(s)"
-    else
-      puts "Found no increasing event count errors"
-    end
-
-    if result[:slow] > 0
-      puts "Raised #{result[:slow]} slow API response error(s)"
-    else
-      puts "Found no slow API response errors"
-    end
-
-    if result[:resolve] > 0
-      puts "#{result[:resolve]} API response(s) flagged as resolved"
-    else
-      puts "No API responses flagged as resolved"
+      responses.each do |response|
+        puts response[:message]
+      end
     end
   end
 end
