@@ -1,7 +1,7 @@
 INTERNAL_PARAMS = %w(controller action format _method only_path)
 
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
-  if payload[:controller] == "Api::V3::ArticlesController"
+  if payload[:controller] == "Api::V3::ArticlesController" && payload[:params]["api_key"].present?
     ApiRequest.create! do |api_request|
       api_request.format = payload[:format] || "html"
       api_request.view_duration = payload[:view_runtime]
