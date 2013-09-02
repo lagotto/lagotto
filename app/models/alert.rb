@@ -1,12 +1,13 @@
-class ErrorMessage < ActiveRecord::Base
+class Alert < ActiveRecord::Base
 
   attr_accessor :exception, :request
 
   belongs_to :source
+  belongs_to :article
 
   before_create :collect_env_info
 
-  default_scope where("unresolved = 1").order("error_messages.created_at DESC")
+  default_scope where("unresolved = 1").order("alerts.created_at DESC")
 
   scope :query, lambda { |query| where("class_name like ? OR message like ? or status = ?", "%#{query}%", "%#{query}%", query) }
   scope :total, lambda { |days| where("created_at > NOW() - INTERVAL ? DAY", days) }

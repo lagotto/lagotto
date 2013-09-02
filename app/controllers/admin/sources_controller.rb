@@ -5,8 +5,8 @@ class Admin::SourcesController < Admin::ApplicationController
   def show
     respond_with do |format|
       format.html do
-        text = File.file?(Rails.root.join("docs/#{@source.name.capitalize}.md")) ? IO.read(Rails.root.join("docs/#{@source.name.capitalize}.md")) : nil
-        @doc = { :text => text }
+        filename = Rails.root.join("docs/#{@source.name.capitalize}.md")
+        @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
         render :show
       end
       format.json do
@@ -49,8 +49,5 @@ class Admin::SourcesController < Admin::ApplicationController
   protected
   def load_source
     @source = Source.find_by_name(params[:id])
-
-    # raise error if source wasn't found
-    raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
   end
 end

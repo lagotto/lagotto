@@ -54,6 +54,14 @@ module ApplicationHelper
     Source.order("group_id, display_name")
   end
 
+  def alerts
+    %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError ArticleNotUpdatedError SourceNotUpdatedError)
+  end
+
+  def article_alerts
+    %w(EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError ArticleNotUpdatedError)
+  end
+
   def documents
     %w(Home Installation Setup Sources API Rake Errors FAQ Roadmap Past-Contributors)
   end

@@ -1,39 +1,55 @@
-class Admin::ErrorMessagesController < Admin::ApplicationController
+class Admin::AlertsController < Admin::ApplicationController
 
   load_and_authorize_resource
 
   def index
-    collection = ErrorMessage
+    collection = Alert
     if params[:source_id]
       collection = collection.where(:source_id => params[:source_id])
       @source = Source.find(params[:source_id])
     end
+    if params[:class_name]
+      collection = collection.where(:class_name => params[:class_name])
+      @class_name = params[:class_name]
+    end
     collection = collection.query(params[:query]) if params[:query]
 
-    @error_messages = collection.paginate(:page => params[:page])
-    respond_with @error_messages
+    @alerts = collection.paginate(:page => params[:page])
+    respond_with @alerts
   end
 
   def destroy
-    @error_message = ErrorMessage.find(params[:id])
+    @alert = Alert.find(params[:id])
     if params[:filter] == "class_name"
-      ErrorMessage.where(:class_name => @error_message.class_name).update_all(:unresolved => false)
+      Alert.where(:class_name => @alert.class_name).update_all(:unresolved => false)
     elsif params[:filter] == "source_id"
-      ErrorMessage.where(:source_id => @error_message.source_id).update_all(:unresolved => false)
+      Alert.where(:source_id => @alert.source_id).update_all(:unresolved => false)
+    elsif params[:filter] == "article_id"
+      Alert.where(:article_id => @alert.article_id).update_all(:unresolved => false)
     else
-      ErrorMessage.where(:message => @error_message.message).update_all(:unresolved => false)
+      Alert.where(:message => @alert.message).update_all(:unresolved => false)
     end
 
-    collection = ErrorMessage
+    collection = Alert
     if params[:source_id]
       collection = collection.where(:source_id => params[:source_id])
       @source = Source.find(params[:source_id])
     end
+    if params[:class_name]
+      collection = collection.where(:class_name => params[:class_name])
+      @class_name = params[:class_name]
+    end
     collection = collection.query(params[:query]) if params[:query]
 
-    @error_messages = collection.paginate(:page => params[:page])
-    respond_with(@error_messages) do |format|
-      format.js { render :index }
+    @alerts = collection.paginate(:page => params[:page])
+    respond_with(@alerts) do |format|
+      if params[:article_id]
+        id_hash = Article.from_uri(params[:article_id])
+        @article = Article.where(id_hash).first
+        format.js { render :error }
+      else
+        format.js { render :index }
+      end
     end
   end
 

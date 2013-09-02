@@ -27,7 +27,7 @@ class Source < ActiveRecord::Base
   has_many :retrieval_histories, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses
   has_many :delayed_jobs, :primary_key => "name", :foreign_key => "queue"
-  has_many :error_messages
+  has_many :alerts
   has_many :api_responses
   belongs_to :group, :touch => true
 
@@ -82,7 +82,7 @@ class Source < ActiveRecord::Base
 
   def queue_all_articles
     if inactive?
-      ErrorMessage.create(:exception => "", :class_name => "SourceInactiveError",
+      Alert.create(:exception => "", :class_name => "SourceInactiveError",
                           :message => "#{display_name} (#{name}) is either not active or disabled",
                           :source_id => id)
       nil
@@ -141,12 +141,12 @@ class Source < ActiveRecord::Base
   def check_for_failures
     # condition for not adding more jobs and disabling the source
 
-    failed_queries = ErrorMessage.where("source_id = :id and updated_at > :updated_date",
+    failed_queries = Alert.where("source_id = :id and updated_at > :updated_date",
                                          { :id => id,
                                            :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds) }).count(:id)
 
     if failed_queries > max_failed_queries
-      ErrorMessage.create(:exception => "", :class_name => "TooManyErrorsBySourceError",
+      Alert.create(:exception => "", :class_name => "TooManyErrorsBySourceError",
                           :message => "#{display_name} has exceeded maximum failed queries. Disabling the source.",
                           :source_id => id)
       self.update_attributes(disable_until: Time.zone.now + disable_delay.seconds)

@@ -1,24 +1,24 @@
-class ErrorMessagesController < ActionController::Base
+class AlertsController < ActionController::Base
   layout APP_CONFIG['layout']
 
   respond_to :html, :xml, :json, :rss
 
   def create
     exception = env["action_dispatch.exception"]
-    @error_message = ErrorMessage.new(:exception => exception, :request => request)
+    @alert = Alert.new(:exception => exception, :request => request)
 
     # Filter for errors that should not be saved
     unless["ActiveRecord::RecordNotFound","ActionController::RoutingError"].include?(exception.class.to_s)
-      @error_message.save
+      @alert.save
     else
-      @error_message.status = request.headers["PATH_INFO"][1..-1]
+      @alert.status = request.headers["PATH_INFO"][1..-1]
     end
 
-    respond_with(@error_message) do |format|
-      format.json { render json: { error: @error_message.public_message }, status: @error_message.status }
-      format.xml  { render xml: @error_message.public_message, root: "error", status: @error_message.status }
-      format.html { render :show, status: @error_message.status, layout: !request.xhr? }
-      format.rss { render :show, status: @error_message.status, layout: false }
+    respond_with(@alert) do |format|
+      format.json { render json: { error: @alert.public_message }, status: @alert.status }
+      format.xml  { render xml: @alert.public_message, root: "error", status: @alert.status }
+      format.html { render :show, status: @alert.status, layout: !request.xhr? }
+      format.rss { render :show, status: @alert.status, layout: false }
     end
   end
 

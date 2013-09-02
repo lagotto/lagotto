@@ -153,6 +153,8 @@ function main() {
 
       requestEnter.append("div")
           .attr("class", "source hidden-phone")
+          .append("a")
+          .attr("href", function(d) { return "/admin/users?query=" + d.api_key; })
           .text(function(d) { return d.api_key; });
 
       requestEnter.append("div")
@@ -164,7 +166,7 @@ function main() {
           .text(function(d) { return d.source; });
 
       requestEnter.append("div")
-          .attr("class", "hidden-phone")
+          .attr("class", "ids hidden-phone")
           .text(function(d) { return d.ids; });
 
       request.exit().remove();

@@ -1,0 +1,4 @@
+<% if @article.alerts.empty? %>
+  $('#alert-error-message').hide();
+<% end %>
+$('#alert').html("<%= escape_javascript(render "admin/articles/alert") %>");

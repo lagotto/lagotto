@@ -16,7 +16,7 @@
         <td><%= status_label(source["status"]).html_safe %></td>
         <td class="hidden-phone number"><%= number_with_delimiter(source["response_count"].nil? ? 0 : source["response_count"]) %></td>
         <td class="hidden-phone number"><%= number_with_precision(source["response_duration"].nil? ? 0 : source["response_duration"], precision: 0) %></td>
-        <td class="number"><%= link_to_unless source["error_count"].nil?, number_with_delimiter(source["error_count"].nil? ? 0 : source["error_count"]), admin_error_messages_path(:source_id => source["id"]) %></td>
+        <td class="number"><%= link_to_unless source["error_count"].nil?, number_with_delimiter(source["error_count"].nil? ? 0 : source["error_count"]), admin_alerts_path(:source_id => source["id"]) %></td>
         </tr>
       <% end %>
     <% end %>
