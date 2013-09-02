@@ -24,7 +24,8 @@ require 'faraday-cookie_jar'
 
 module SourceHelper
   DEFAULT_TIMEOUT = 60
-  SourceHelperExceptions = [Faraday::Error::ClientError, Delayed::WorkerTimeout, Errno::EPIPE, Errno::ECONNRESET].freeze
+  SourceHelperExceptions = [Faraday::Error::ClientError].freeze
+  # Delayed::WorkerTimeout, Errno::EPIPE, Errno::ECONNRESET
 
   def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
     conn = conn_json
@@ -154,6 +155,7 @@ module SourceHelper
     Faraday.new do |c|
       c.headers['content-type'] = 'application/json'
       c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
+      c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.request  :json
       c.response :json
       c.use      Faraday::Response::RaiseError
@@ -165,6 +167,7 @@ module SourceHelper
     Faraday.new do |c|
       c.headers['content-type'] = 'application/xml'
       c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
+      c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.use      Faraday::Response::RaiseError
       c.adapter  Faraday.default_adapter
     end
@@ -200,8 +203,8 @@ module SourceHelper
         status = 408
       elsif error.respond_to?('status')
         status = error[:status]
-      elsif error.respond_to?('response')# && error.response.respond_to?('status')
-        status = error.response[:status] || error.response.status
+      elsif error.response
+        status = error.response[:status]
       else
         status = 400
       end
