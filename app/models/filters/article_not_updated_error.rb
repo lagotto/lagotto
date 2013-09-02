@@ -27,7 +27,7 @@ class ArticleNotUpdatedError < Filter
       responses = responses.all.map { |response| { source_id: response.source_id,
                                                    article_id: response.article_id,
                                                    message: "Article not updated for #{response.update_interval} days" }}
-      raise_errors(responses)
+      raise_alerts(responses)
     end
 
     responses.count

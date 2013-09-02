@@ -75,7 +75,7 @@ class Admin::ArticlesController < Admin::ApplicationController
     collection = collection.query(params[:query])  if params[:query]
     if params[:class_name]
       @class_name = params[:class_name]
-      collection = collection.joins(:alerts)
+      collection = collection.includes(:alerts)
       if @class_name == "All Alerts"
         collection = collection.where("alerts.unresolved = 1 ")
       else

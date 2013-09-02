@@ -20,7 +20,7 @@
 
 namespace :filter do
 
-  desc "Raise all errors found in API responses and flag them as resolved"
+  desc "Create alerts by filtering API responses"
   task :all => :environment do
     response = Filter.all
     if response.nil?

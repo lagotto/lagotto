@@ -38,11 +38,11 @@ describe Copernicus do
       stub = stub_request(:get, "http://#{copernicus.username}:#{copernicus.password}@harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").to_return(:body => File.read(fixture_path + 'copernicus_unauthorized.json'), :status => [401, "Unauthorized: You are not authorized to access this resource."])
       copernicus.get_data(article, options = { :source_id => copernicus.id }).should be_nil
       stub.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPUnauthorized")
-      error_message.status.should == 401
-      error_message.source_id.should == copernicus.id
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPUnauthorized")
+      alert.status.should == 401
+      alert.source_id.should == copernicus.id
     end
 
     it "should catch timeout errors with the Copernicus API" do
@@ -50,11 +50,11 @@ describe Copernicus do
       stub = stub_request(:get, "http://#{copernicus.username}:#{copernicus.password}@harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").to_return(:status => [408])
       copernicus.get_data(article, options = { :source_id => copernicus.id }).should be_nil
       stub.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-      error_message.status.should == 408
-      error_message.source_id.should == copernicus.id
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPRequestTimeOut")
+      alert.status.should == 408
+      alert.source_id.should == copernicus.id
     end
   end
 end

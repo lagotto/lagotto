@@ -58,19 +58,19 @@ describe SourceHelper do
       it "get_json" do
         stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [404])
         @source_helper_class.get_json(url).should eq(error)
-        ErrorMessage.count.should == 0
+        Alert.count.should == 0
       end
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [404])
         @source_helper_class.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
-        ErrorMessage.count.should == 0
+        Alert.count.should == 0
       end
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [404])
         @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
-        ErrorMessage.count.should == 0
+        Alert.count.should == 0
       end
     end
 
@@ -79,28 +79,28 @@ describe SourceHelper do
       it "get_json" do
         stub = stub_request(:get, url).to_return(:status => [408])
         @source_helper_class.get_json(url).should be_nil
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.status.should == 408
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPRequestTimeOut")
+        alert.status.should == 408
       end
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:status => [408])
         @source_helper_class.get_xml(url) { |response| response.should be_nil }
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.status.should == 408
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPRequestTimeOut")
+        alert.status.should == 408
       end
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [408])
         @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.status.should == 408
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPRequestTimeOut")
+        alert.status.should == 408
       end
     end
 
@@ -109,31 +109,31 @@ describe SourceHelper do
       it "get_json" do
         stub = stub_request(:get, url).to_timeout
         @source_helper_class.get_json(url).should be_nil
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.message.should include("execution expired")
-        error_message.status.should == 408
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPRequestTimeOut")
+        alert.message.should include("execution expired")
+        alert.status.should == 408
       end
 
       it "get_xml" do
         stub = stub_request(:get, url).to_timeout
         @source_helper_class.get_xml(url) { |response| response.should be_nil }
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.message.should include("execution expired")
-        error_message.status.should == 408
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPRequestTimeOut")
+        alert.message.should include("execution expired")
+        alert.status.should == 408
       end
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_timeout
         @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.message.should include("execution expired")
-        error_message.status.should == 408
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPRequestTimeOut")
+        alert.message.should include("execution expired")
+        alert.status.should == 408
       end
     end
 
@@ -142,28 +142,28 @@ describe SourceHelper do
       it "get_json" do
         stub = stub_request(:get, url).to_return(:status => [429])
         @source_helper_class.get_json(url).should be_nil
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPClientError")
-        error_message.status.should == 429
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPClientError")
+        alert.status.should == 429
       end
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
         @source_helper_class.get_xml(url) { |response| response.should be_nil }
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPClientError")
-        error_message.status.should == 429
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPClientError")
+        alert.status.should == 429
       end
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [429])
         @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPClientError")
-        error_message.status.should == 429
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPClientError")
+        alert.status.should == 429
       end
     end
 
@@ -172,29 +172,29 @@ describe SourceHelper do
       it "get_json" do
         stub = stub_request(:get, url).to_return(:status => [429])
         @source_helper_class.get_json(url, source_id: 1).should be_nil
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPClientError")
-        error_message.status.should == 429
-        error_message.source_id.should == 1
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPClientError")
+        alert.status.should == 429
+        alert.source_id.should == 1
       end
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:content_type => 'application/xml', :status => [429])
         @source_helper_class.get_xml(url, source_id: 1) { |response| response.should be_nil }
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPClientError")
-        error_message.source_id.should == 1
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPClientError")
+        alert.source_id.should == 1
       end
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:content_type => 'application/xml', :status => [429])
         @source_helper_class.post_xml(url, data: post_data.to_xml, source_id: 1) { |response| response.should be_nil }
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPClientError")
-        error_message.source_id.should == 1
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPClientError")
+        alert.source_id.should == 1
       end
     end
 
@@ -207,7 +207,7 @@ describe SourceHelper do
         stub = stub_request(:head, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = @source_helper_class.get_original_url(article.doi_as_url)
         response.should eq(url)
-        ErrorMessage.count.should == 0
+        Alert.count.should == 0
         stub.should have_been_requested
       end
 
@@ -218,7 +218,7 @@ describe SourceHelper do
         stub = stub_request(:head, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = @source_helper_class.get_original_url(article.doi_as_url)
         response.should eq(url)
-        ErrorMessage.count.should == 0
+        Alert.count.should == 0
         stub.should have_been_requested
       end
 
@@ -227,7 +227,7 @@ describe SourceHelper do
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 404)
         response = @source_helper_class.get_original_url(article.doi_as_url)
         response.should be_nil
-        ErrorMessage.count.should == 0
+        Alert.count.should == 0
         stub.should have_been_requested
       end
 
@@ -236,10 +236,10 @@ describe SourceHelper do
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 401)
         response = @source_helper_class.get_original_url(article.doi_as_url)
         response.should be_nil
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPUnauthorized")
-        error_message.status.should == 401
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPUnauthorized")
+        alert.status.should == 401
         stub.should have_been_requested
       end
 
@@ -248,10 +248,10 @@ describe SourceHelper do
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => [408])
         response = @source_helper_class.get_original_url(article.doi_as_url)
         response.should be_nil
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-        error_message.status.should == 408
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPRequestTimeOut")
+        alert.status.should == 408
         stub.should have_been_requested
       end
     end
@@ -328,16 +328,16 @@ describe SourceHelper do
       rev = @source_helper_class.put_alm_data(url, data: data)
       new_rev = @source_helper_class.put_alm_data(url, data: data)
 
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPConflict")
-      error_message.status.should == 409
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPConflict")
+      alert.status.should == 409
     end
 
     it "handle missing data" do
       get_response = @source_helper_class.get_alm_data(id)
       get_response.should eq(error)
-      ErrorMessage.count.should == 0
+      Alert.count.should == 0
     end
   end
 end

@@ -144,7 +144,7 @@ module SourceHelper
   rescue *SourceHelperExceptions => e
     rescue_faraday_error(url, e, options.merge(:xml => true))
   rescue => exception
-    ErrorMessage.create(:exception => exception, :class_name => exception.class.to_s,
+    Alert.create(:exception => exception, :class_name => exception.class.to_s,
                         :message => exception.message,
                         :status => 500,
                         :source_id => options[:source_id])
@@ -242,7 +242,7 @@ module SourceHelper
         class_name = Net::HTTPServiceUnavailable
       end
 
-      ErrorMessage.create(:exception => exception,
+      Alert.create(:exception => exception,
                           :class_name => class_name.to_s,
                           :message => message,
                           :status => status,

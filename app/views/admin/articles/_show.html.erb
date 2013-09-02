@@ -60,13 +60,9 @@
   </dl>
 <% end %>
 
-<% if can?(:manage, Article) && !@article.alerts.empty? %>
-  <div class="alert alert-block" id="alert-error-message">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <h4>Alerts</h4>
-    <% @article.alerts.limit(20).each do |alert| %>
-      <%= alert.message %><%= alert.source.nil? ? "" : " for #{alert.source.display_name}" %></br>
-    <% end %>
+<% if can?(:manage, Article) %>
+  <div id="alert-error-message">
+    <%= render :partial => 'admin/articles/alert_message' %>
   </div>
 <% end %>
 
@@ -109,10 +105,10 @@
         <% end %>
       </div>
       <div class="tab-pane hidden-phone" id="more">
-         <%= render :partial => 'admin/articles/more' %>
+        <%= render :partial => 'admin/articles/more' %>
       </div>
       <div class="tab-pane hidden-phone" id="alert">
-         <%= render :partial => 'admin/articles/alert' %>
+        <%= render :partial => 'admin/articles/alert' %>
       </div>
     </div>
   <% else %>

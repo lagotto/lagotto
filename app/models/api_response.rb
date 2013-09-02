@@ -13,6 +13,6 @@ class ApiResponse < ActiveRecord::Base
   scope :slow, lambda { |number| where("duration >= ? AND retrieval_history_id IS NOT NULL", number * 1000) }
   scope :article_not_updated, lambda { |number| where("event_count IS NULL AND update_interval >= ?", number) }
   scope :source_not_updated, lambda { |number| where("update_interval >= ?", number) }
-  scope :citation_milestone, lambda { |number, source_ids| where("event_count >= ? AND previous_count < ? AND source_id in ?", number, number, source_ids) }
+  scope :citation_milestone, lambda { |number, source_ids| where("(event_count DIV ?) > (previous_count DIV ?) AND source_id in (?)", number, number, source_ids) }
 
 end

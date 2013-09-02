@@ -36,7 +36,7 @@ describe Mendeley do
       stub.should have_been_requested
       stub_doi.should have_been_requested
       stub_title.should have_been_requested
-      ErrorMessage.count.should == 0
+      Alert.count.should == 0
     end
 
     it "should return nil for the Mendeley uuid if the Mendeley API returns incomplete response" do
@@ -47,7 +47,7 @@ describe Mendeley do
       stub.should have_been_requested
       stub_doi.should have_been_requested
       stub_title.should have_been_requested
-      ErrorMessage.count.should == 0
+      Alert.count.should == 0
     end
   end
 
@@ -57,7 +57,7 @@ describe Mendeley do
       stub = stub_request(:get, mendeley.get_query_url(article.mendeley)).to_return(:body => File.read(fixture_path + 'mendeley_error.json'), :status => 404)
       mendeley.get_data(article).should eq({ :events => [], :event_count => 0 })
       stub.should have_been_requested
-      ErrorMessage.count.should == 0
+      Alert.count.should == 0
     end
 
     it "should report if there are events and event_count returned by the Mendeley API" do
@@ -77,7 +77,7 @@ describe Mendeley do
       stub = stub_request(:get, mendeley.get_query_url(article.mendeley)).to_return(:body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
       mendeley.get_data(article).should eq({ :events => [], :event_count => 0 })
       stub.should have_been_requested
-      ErrorMessage.count.should == 0
+      Alert.count.should == 0
     end
 
     it "should report no events and event_count if the Mendeley API returns malformed response" do
@@ -85,7 +85,7 @@ describe Mendeley do
       stub = stub_request(:get, mendeley.get_query_url(article.mendeley)).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 404)
       mendeley.get_data(article).should eq({ :events => [], :event_count => 0 })
       stub.should have_been_requested
-      ErrorMessage.count.should == 0
+      Alert.count.should == 0
     end
 
     it "should filter out the mendeley_authors attribute" do
@@ -106,11 +106,11 @@ describe Mendeley do
       stub = stub_request(:get, mendeley.get_query_url(article.mendeley)).to_return(:status => [408])
       mendeley.get_data(article, options = { :source_id => mendeley.id }).should be_nil
       stub.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-      error_message.status.should == 408
-      error_message.source_id.should == mendeley.id
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPRequestTimeOut")
+      alert.status.should == 408
+      alert.source_id.should == mendeley.id
     end
   end
 end

@@ -22,8 +22,8 @@ class Report < ActiveRecord::Base
 
   has_and_belongs_to_many :users
 
-  def send_daily_error_report
-    ReportMailer.send_daily_error_report(self).deliver
+  def send_daily_report
+    ReportMailer.send_daily_report(self).deliver
   end
 
 end

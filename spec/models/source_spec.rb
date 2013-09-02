@@ -64,21 +64,21 @@ describe Source do
       it "with inactive source" do
         source.active = false
         source.queue_all_articles.should be_nil
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("SourceInactiveError")
-        error_message.message.should eq("#{source.display_name} (#{source.name}) is either not active or disabled")
-        error_message.source_id.should == source.id
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("SourceInactiveError")
+        alert.message.should eq("#{source.display_name} (#{source.name}) is either not active or disabled")
+        alert.source_id.should == source.id
       end
 
       it "with disabled source" do
         source.disable_until = Time.zone.now + 1.hour
         source.queue_all_articles.should be_nil
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("SourceInactiveError")
-        error_message.message.should eq("#{source.display_name} (#{source.name}) is either not active or disabled")
-        error_message.source_id.should == source.id
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("SourceInactiveError")
+        alert.message.should eq("#{source.display_name} (#{source.name}) is either not active or disabled")
+        alert.source_id.should == source.id
       end
     end
 
@@ -122,7 +122,7 @@ describe Source do
       end
 
       it "with too many failed queries" do
-        FactoryGirl.create_list(:error_message, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
+        FactoryGirl.create_list(:alert, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
         source.max_failed_queries = 5
         source.queue_articles.should eq(source.disable_delay)
         source.disable_until.should_not be_nil
@@ -150,7 +150,7 @@ describe Source do
     context "check for failures" do
       before(:each) do
         @class_name = "Net::HTTPRequestTimeOut"
-        FactoryGirl.create_list(:error_message, 10, { source_id: source.id,
+        FactoryGirl.create_list(:alert, 10, { source_id: source.id,
                                                       updated_at: Time.zone.now - 10.minutes,
                                                       class_name: @class_name })
       end
@@ -158,19 +158,19 @@ describe Source do
       it "few failed queries" do
         source.check_for_failures.should be_false
         source.disable_until.should be_nil
-        ErrorMessage.count.should == 10
+        Alert.count.should == 10
       end
 
       it "too many failed queries" do
         source.max_failed_queries = 5
         source.check_for_failures.should be_true
         source.disable_until.should_not be_nil
-        ErrorMessage.count.should == 11
+        Alert.count.should == 11
 
-        error_message = ErrorMessage.where("class_name != '#{@class_name}'").first
-        error_message.class_name.should eq("TooManyErrorsBySourceError")
-        error_message.message.should eq("#{source.display_name} has exceeded maximum failed queries. Disabling the source.")
-        error_message.source_id.should == source.id
+        alert = Alert.where("class_name != '#{@class_name}'").first
+        alert.class_name.should eq("TooManyErrorsBySourceError")
+        alert.message.should eq("#{source.display_name} has exceeded maximum failed queries. Disabling the source.")
+        alert.source_id.should == source.id
       end
 
       it "too many failed queries but they are too old" do
@@ -178,7 +178,7 @@ describe Source do
         source.max_failed_query_time_interval = 500
         source.check_for_failures.should be_false
         source.disable_until.should be_nil
-        ErrorMessage.count.should == 10
+        Alert.count.should == 10
       end
     end
   end

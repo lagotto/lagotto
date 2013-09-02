@@ -32,11 +32,11 @@ describe Facebook do
       stub = stub_request(:get, facebook.get_query_url(article.doi_as_url)).to_return(:body => File.read(fixture_path + 'facebook_error.json'), :status => [401])
       facebook.get_data(article, options = { :source_id => facebook.id }).should be_nil
       stub.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPUnauthorized")
-      error_message.status.should == 401
-      error_message.source_id.should == facebook.id
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPUnauthorized")
+      alert.status.should == 401
+      alert.source_id.should == facebook.id
     end
 
   end

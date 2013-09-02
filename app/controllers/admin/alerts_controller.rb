@@ -46,7 +46,7 @@ class Admin::AlertsController < Admin::ApplicationController
       if params[:article_id]
         id_hash = Article.from_uri(params[:article_id])
         @article = Article.where(id_hash).first
-        format.js { render :error }
+        format.js { render :alert }
       else
         format.js { render :index }
       end

@@ -1,10 +1,10 @@
 ### GIVEN ###
-Given /^we have (\d+) error messages?$/ do |number|
-  FactoryGirl.create_list(:error_message, number.to_i)
+Given /^we have (\d+) alerts?$/ do |number|
+  FactoryGirl.create_list(:alert, number.to_i)
 end
 
-Given /^we have (\d+) resolved error messages?$/ do |number|
-  FactoryGirl.create_list(:error_message, number.to_i, :unresolved => false)
+Given /^we have (\d+) resolved alerts?$/ do |number|
+  FactoryGirl.create_list(:alert, number.to_i, :unresolved => false)
 end
 
 ### WHEN ###
@@ -24,20 +24,20 @@ When /^I go to page (\d+)$/ do |page_number|
   end
 end
 
-When /^I click on the "(.*?)" menu item of the Delete button of the first error message and confirm$/ do |menu_item|
+When /^I click on the "(.*?)" menu item of the Delete button of the first alert and confirm$/ do |menu_item|
   scope = menu_item.split.last.downcase
   id = first('.accordion-toggle')[:id][5..-1]
   click_link "link_#{id}"
-  within("#error_message_#{id}") do
+  within("#alert_#{id}") do
     click_link "#{id}-delete"
     click_link "#{id}-delete-#{scope}"
   end
 end
 
 ### THEN ###
-Then /^I should see (\d+) error messages?$/ do |number|
+Then /^I should see (\d+) alerts?$/ do |number|
 sleep 5
-    page.driver.render("tmp/capybara/#{number}_error_messages.png")
+    page.driver.render("tmp/capybara/#{number}_alerts.png")
   page.has_css?('.accordion-group', :visible => true, :count => number.to_i).should be_true
 end
 
@@ -47,8 +47,8 @@ Then /^I should see the "(.*?)" error number$/ do |error_number|
   end
 end
 
-Then /^I should see the "(.*?)" error message$/ do |error_message|
-  page.should have_content error_message
+Then /^I should see the "(.*?)" error message$/ do |error|
+  page.should have_content error
 end
 
 Then /^I should see the "(.*?)" error$/ do |error|

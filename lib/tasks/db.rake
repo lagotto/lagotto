@@ -87,15 +87,15 @@ namespace :db do
 
   end
 
-  namespace :error_messages do
+  namespace :alerts do
 
-    desc "Delete messages for all resolved errors"
+    desc "Delete all resolved alerts"
     task :delete => :environment do
-      ErrorMessage.unscoped {
-        before = ErrorMessage.count
-        ErrorMessage.destroy_all(:unresolved => false)
-        after = ErrorMessage.count
-        puts "Deleted #{before - after} messages for resolved errors, #{after} unresolved errors remaining"
+      Alert.unscoped {
+        before = Alert.count
+        Alert.destroy_all(:unresolved => false)
+        after = Alert.count
+        puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
       }
     end
   end

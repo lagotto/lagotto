@@ -28,7 +28,7 @@ class SourceNotUpdatedError < Filter
     if responses.count > 0
       responses = responses.map { |response| { source_id: response,
                                                message: "Source not updated for 24 hours" }}
-      raise_errors(responses)
+      raise_alerts(responses)
     end
 
     responses.count

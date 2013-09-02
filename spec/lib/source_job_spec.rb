@@ -100,10 +100,10 @@ describe SourceJob do
     result[:event_count].should be_nil
     result[:retrieval_history_id].should be_nil
 
-    ErrorMessage.count.should == 1
-    error_message = ErrorMessage.first
-    error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-    error_message.status.should == 408
-    error_message.source_id.should == citeulike.id
+    Alert.count.should == 1
+    alert = Alert.first
+    alert.class_name.should eq("Net::HTTPRequestTimeOut")
+    alert.status.should == 408
+    alert.source_id.should == citeulike.id
   end
 end
