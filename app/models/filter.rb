@@ -18,104 +18,101 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class Filter
+class Filter < ActiveRecord::Base
+  extend ActionView::Helpers::NumberHelper
+  extend ActionView::Helpers::TextHelper
+
+  has_many :reviews, :primary_key => "name", :foreign_key => "name"
+
+  serialize :config, OpenStruct
+
+  validates :name, :presence => true, :uniqueness => true
+  validates :display_name, :presence => true
+
+  default_scope order("name")
+  scope :active, where(:active => true)
+
   class << self
 
     def all
+      # To sync filters
+      # Only run filter if we have unresolved API responses
+      options = { id: ApiResponse.unresolved.maximum(:id),
+                  input: ApiResponse.unresolved.count(:id),
+                  output: 0,
+                  started_at: ApiResponse.unresolved.minimum(:created_at),
+                  ended_at: ApiResponse.unresolved.maximum(:created_at),
+                  review_messages: [] }
 
-      # To avoid race conditions
-      id = last_id
-      result = []
+      return nil unless options[:id]
 
-      return result unless id
+      Filter.active.each do |filter|
 
-      result << decreasing(id)
-      result << increasing(id)
-      result << slow(id)
-      result << not_updated(id)
-      result << resolve(id)
-    end
-
-    def last_id
-      ApiResponse.maximum(:id)
-    end
-
-    def decreasing(id)
-      class_name = "EventCountDecreasingError"
-      responses = ApiResponse.filter(id).decreasing
-      message = "Event count decreased"
-      sum_message = "Found #{responses.count} decreasing event count error(s)"
-
-      raise_errors(responses, class_name: class_name, message: message) if responses.count > 0
-
-      { class_name: class_name, result: responses.count, message: sum_message }
-    end
-
-    def increasing(id, limit = 1000)
-      class_name = "EventCountIncreasingTooFastError"
-      responses = ApiResponse.filter(id).increasing(limit)
-      message = "Event count increased too fast"
-      sum_message = "Found #{responses.count} increasing event count error(s)"
-
-      raise_errors(responses, class_name: class_name, message: message) if responses.count > 0
-
-      { class_name: class_name, result: responses.count, message: sum_message }
-    end
-
-    def slow(id, limit = 15)
-      class_name = "ApiResponseTooSlowError"
-      responses = ApiResponse.filter(id).slow(limit)
-      message = "API response too slow"
-      sum_message = "Found #{responses.count} API too slow error(s)"
-
-      raise_errors(responses, class_name: class_name, message: message) if responses.count > 0
-
-      { class_name: class_name, result: responses.count, message: sum_message }
-    end
-
-    def not_updated(id, limit = 40)
-      class_name = "ArticleNotUpdatedError"
-      responses = ApiResponse.filter(id).not_updated(limit)
-      message = "Article not updated for too long"
-      sum_message = "Found #{responses.count} article not updated error(s)"
-
-      raise_errors(responses, class_name: class_name, message: message) if responses.count > 0
-
-      { class_name: class_name, result: responses.count, message: sum_message }
-    end
-
-    def resolve(id)
-      count = ApiResponse.filter(id).update_all(unresolved: false)
-      sum_message = "Resolved #{count} API response(s)"
-
-      { class_name: nil, result: count, message: sum_message }
-    end
-
-    def raise_errors(responses, options = { class_name: "ApiResponseError", message: "An error occured in the API response" })
-      responses.each do |response|
-        ErrorMessage.create(exception: "",
-                            class_name: options[:class_name],
-                            message: options[:message],
-                            source_id: response.source_id,
-                            article_id: response.article_id)
+        options[:name] = filter.name
+        options[:display_name] = filter.display_name
+        options[:time] = Benchmark.realtime {options[:output] = filter.run_filter(options) }
+        options[:message] = formatted_message(options)
+        options[:review_messages] << create_review(options)
       end
+
+      resolve(options.except(:name, :display_name))
+    end
+
+    def formatted_message(options)
+      formatted_input = pluralize(number_with_delimiter(options[:input]), 'API response')
+      formatted_output = pluralize(number_with_delimiter(options[:output]), options[:display_name])
+      formatted_time = number_with_precision(options[:time] * 1000)
+
+      "Found #{formatted_output} in #{formatted_input}, taking #{formatted_time} ms"
+    end
+
+    def create_review(options)
+      review = Review.find_or_initialize_by_name_and_state_id(name: options[:name], state_id: options[:id])
+      review.update_attributes(message: options[:message],
+                               input: options[:input],
+                               output: options[:output],
+                               started_at: options[:started_at],
+                               ended_at: options[:ended_at])
+      options[:message]
+    end
+
+    def resolve(options)
+      options[:time] = Benchmark.realtime {options[:output] = ApiResponse.filter(options[:id]).update_all(unresolved: false) }
+      options[:message] = "Resolved #{pluralize(number_with_delimiter(options[:output]), 'API response')} in #{number_with_precision(options[:time] * 1000)} ms"
+      options
+    end
+
+    def unresolve(options = {})
+      options[:time] = Benchmark.realtime { options[:output] = ApiResponse.update_all(unresolved: true) }
+      options[:id] = ApiResponse.maximum(:id)
+      options[:message] = "Unresolved #{pluralize(number_with_delimiter(options[:output]), 'API response')} in #{number_with_precision(options[:time] * 1000)} ms"
+      options
+    end
+  end
+
+  def get_config_fields
+    []
+  end
+
+  def status
+    (active ? "active" : "inactive")
+  end
+
+  def run_filter(options = {})
+    raise NotImplementedError, 'Children classes should override run_filter method'
+  end
+
+  def raise_errors(responses)
+    responses.each do |response|
+      error_message = ErrorMessage.find_or_initialize_by_class_name_and_article_id_and_source_id(class_name: name,
+                                                                                                 source_id: response[:source_id],
+                                                                                                 article_id: response[:article_id])
+      error_message.update_attributes(exception: "", message: response[:message] ? response[:message] : "An API response error occured")
     end
   end
 end
 
 module Exceptions
-  # class of errors in API responses
+  # Default filter error
   class ApiResponseError < StandardError; end
-
-  # the event count received from a source is decreasing
-  class EventCountDecreasingError < ApiResponseError; end
-
-  # the event count received from a source is increasing too fast
-  class EventCountIncreasingTooFastError < ApiResponseError; end
-
-  # the API took too long to respond
-  class ApiResponseTooSlowError < ApiResponseError; end
-
-  # the article was not updated for too long
-  class ArticleNotUpdatedError < ApiResponseError; end
 end

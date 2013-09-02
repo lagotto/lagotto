@@ -11,7 +11,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130829072441) do
+ActiveRecord::Schema.define(:version => 20130831141614) do
+
+  create_table "alerts", :force => true do |t|
+    t.integer  "source_id"
+    t.string   "class_name"
+    t.text     "message"
+    t.text     "trace"
+    t.string   "target_url"
+    t.string   "user_agent"
+    t.integer  "status"
+    t.string   "content_type"
+    t.text     "details"
+    t.boolean  "unresolved",   :default => true
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.string   "remote_ip"
+    t.integer  "article_id"
+    t.boolean  "error",        :default => true
+  end
+
+  add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"
+  add_index "alerts", ["unresolved", "updated_at"], :name => "index_error_messages_on_unresolved_and_updated_at"
+  add_index "alerts", ["updated_at"], :name => "index_error_messages_on_updated_at"
 
   create_table "api_requests", :force => true do |t|
     t.string   "format"
@@ -36,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20130829072441) do
     t.integer  "previous_count"
     t.float    "duration"
     t.datetime "created_at"
+    t.integer  "update_interval"
     t.boolean  "unresolved",           :default => true
   end
 
@@ -72,32 +95,34 @@ ActiveRecord::Schema.define(:version => 20130829072441) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
-  create_table "error_messages", :force => true do |t|
-    t.integer  "source_id"
-    t.string   "class_name"
-    t.text     "message"
-    t.text     "trace"
-    t.string   "target_url"
-    t.string   "user_agent"
-    t.integer  "status"
-    t.string   "content_type"
-    t.text     "details"
-    t.boolean  "unresolved",   :default => true
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-    t.string   "remote_ip"
-    t.integer  "article_id"
+  create_table "filters", :force => true do |t|
+    t.string  "type",                           :null => false
+    t.string  "name",                           :null => false
+    t.string  "display_name",                   :null => false
+    t.text    "description"
+    t.boolean "active",       :default => true
+    t.text    "config"
   end
-
-  add_index "error_messages", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"
-  add_index "error_messages", ["unresolved", "updated_at"], :name => "index_error_messages_on_unresolved_and_updated_at"
-  add_index "error_messages", ["updated_at"], :name => "index_error_messages_on_updated_at"
 
   create_table "groups", :force => true do |t|
     t.string   "name",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "reports", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reports_users", :id => false, :force => true do |t|
+    t.integer "report_id"
+    t.integer "user_id"
+  end
+
+  add_index "reports_users", ["report_id", "user_id"], :name => "index_reports_users_on_report_id_and_user_id"
+  add_index "reports_users", ["user_id"], :name => "index_reports_users_on_user_id"
 
   create_table "retrieval_histories", :force => true do |t|
     t.integer  "retrieval_status_id",                :null => false
@@ -131,6 +156,21 @@ ActiveRecord::Schema.define(:version => 20130829072441) do
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
   add_index "retrieval_statuses", ["id", "event_count"], :name => "index_retrieval_statuses_on_id_and_event_count"
+
+  create_table "reviews", :force => true do |t|
+    t.string   "name"
+    t.integer  "state_id"
+    t.text     "message"
+    t.integer  "input"
+    t.integer  "output"
+    t.boolean  "unresolved", :default => true
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "created_at"
+  end
+
+  add_index "reviews", ["name"], :name => "index_reviews_on_name"
+  add_index "reviews", ["state_id"], :name => "index_reviews_on_state_id"
 
   create_table "sources", :force => true do |t|
     t.string   "type",                                              :null => false

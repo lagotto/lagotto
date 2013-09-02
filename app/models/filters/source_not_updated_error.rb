@@ -18,21 +18,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-namespace :filter do
+class SourceNotUpdatedError < Filter
 
-  desc "Raise all errors found in API responses and flag them as resolved"
-  task :all => :environment do
-    response = Filter.all
-    if response.nil?
-      puts "Found 0 unresolved API responses"
-    else
-      response[:review_messages].each { |review_message| puts review_message }
-      puts response[:message]
+  def run_filter(state)
+    responses_by_source = ApiResponse.filter(state[:id]).group(:source_id).count
+    source_ids = Source.where("name != 'pmc'").pluck(:id)
+    responses = source_ids.select { |source_id| !responses_by_source.has_key?(source_id) }
+
+    if responses.count > 0
+      responses = responses.map { |response| { source_id: response,
+                                               message: "Source not updated for 24 hours" }}
+      raise_errors(responses)
     end
+
+    responses.count
   end
 
-  task :unresolve => :environment do
-    response = Filter.unresolve
-    puts response[:message]
-  end
+end
+
+module Exceptions
+  class SourceNotUpdatedError < ApiResponseError; end
 end

@@ -4,146 +4,226 @@ require 'spec_helper'
 
 describe Filter do
 
-  subject { Filter }
+  context "class methods" do
+    subject { Filter }
 
-  it { should respond_to(:all) }
-  it { should respond_to(:last_id) }
-  it { should respond_to(:decreasing) }
-  it { should respond_to(:increasing) }
-  it { should respond_to(:slow) }
-  it { should respond_to(:not_updated) }
-  it { should respond_to(:resolve) }
-  it { should respond_to(:raise_errors) }
+    it { should respond_to(:all) }
+    it { should respond_to(:formatted_message) }
+    it { should respond_to(:create_review) }
+    it { should respond_to(:resolve) }
+    it { should respond_to(:unresolve) }
 
-  context "API responses" do
-    before do
-      @api_responses = FactoryGirl.create_list(:api_response, 3, event_count: 1050, duration: 16000)
-      @id = @api_responses.last.id
+    context "API responses" do
+      before do
+        @api_responses = FactoryGirl.create_list(:api_response, 3, event_count: 1050, duration: 16000)
+        @id = @api_responses.last.id
+      end
+
+      it "should call all filters" do
+        response = subject.all
+        response[:id].should eq(@id)
+        response[:output].should == 3
+        response[:message].should include("Resolved 3 API responses")
+        response[:review_messages].should eq(2)
+      end
     end
 
-    it "should get the last insert id" do
-      subject.last_id.should eq(@id)
+    context "no API responses" do
+      it "should get nil from all method" do
+        subject.all.should be_nil
+      end
     end
 
-    it "should call all filters" do
-      subject.all.size.should == 5
+    context "no unresolved API responses" do
+      before do
+        @api_responses = FactoryGirl.create_list(:api_response, 3, unresolved: false)
+      end
+
+       it "should get nil from all method" do
+        subject.all.should be_nil
+      end
+    end
+
+    context "resolve" do
+      let(:api_responses) { FactoryGirl.create_list(:api_response, 3) }
+      let(:options) {{ id: api_responses.last.id }}
+
+      it "should resolve API responses" do
+        subject.resolve(options)[:output].should == api_responses.size
+      end
+    end
+
+    context "unresolve" do
+      before do
+        @api_responses = FactoryGirl.create_list(:api_response, 3, unresolved: false)
+      end
+
+      it "should unresolve API responses" do
+        subject.unresolve[:output].should == @api_responses.size
+      end
     end
   end
 
-  context "no API responses" do
-    it "should get nil as last insert id if no API responses" do
-      subject.last_id.should be_nil
-    end
+  context "instance methods" do
+    subject { FactoryGirl.create(:filter) }
 
-    it "should get an empty result if no API responses" do
-      subject.all.should be_empty
-    end
+    it { should validate_uniqueness_of(:name) }
+    it { should validate_presence_of(:display_name) }
+    it { should respond_to(:raise_errors) }
   end
 
   context "decreasing event count" do
+    subject { FactoryGirl.create(:decreasing_event_count_error) }
+
     context "real decrease" do
       let(:api_responses) { FactoryGirl.create_list(:api_response, 3, previous_count: 12) }
-      let(:id) { api_responses.last.id }
+      let(:options) {{ id: api_responses.last.id }}
 
       it "should raise errors" do
-        subject.decreasing(id)[:result].should eq(api_responses.size)
+        subject.run_filter(options).should == api_responses.size
         ErrorMessage.count.should == 3
         error_message = ErrorMessage.first
         error_message.class_name.should eq("EventCountDecreasingError")
-        error_message.message.should eq("Event count decreased")
+        error_message.message.should include("Event count decreased")
         error_message.source_id.should == 1
       end
     end
 
     context "decrease to zero" do
       let(:api_responses) { FactoryGirl.create_list(:api_response, 3, event_count: 0) }
-      let(:id) { api_responses.last.id }
+      let(:options) {{ id: api_responses.last.id }}
 
       it "should raise errors" do
-        subject.decreasing(id)[:result].should eq(api_responses.size)
+        subject.run_filter(options).should == api_responses.size
         ErrorMessage.count.should == 3
       end
     end
 
     context "success no data" do
       let(:api_responses) { FactoryGirl.create_list(:api_response, 3, event_count: 0) }
-      let(:id) { api_responses.last.id }
+      let(:options) {{ id: api_responses.last.id }}
 
       it "should raise errors" do
-        subject.decreasing(id)[:result].should eq(api_responses.size)
+        subject.run_filter(options).should == api_responses.size
         ErrorMessage.count.should == 3
       end
     end
 
     context "skipped" do
       let(:api_responses) { FactoryGirl.create_list(:api_response, 3, event_count: 0, retrieval_history_id: nil) }
-      let(:id) { api_responses.last.id }
+      let(:options) {{ id: api_responses.last.id }}
 
       it "should not raise errors" do
-        subject.decreasing(id)[:result].should == 0
+        subject.run_filter(options).should == 0
         ErrorMessage.count.should == 0
       end
     end
 
     context "API errors" do
       let(:api_responses) { FactoryGirl.create_list(:api_response, 3, event_count: nil) }
-      let(:id) { api_responses.last.id }
+      let(:options) {{ id: api_responses.last.id }}
 
       it "should not raise errors" do
-        subject.decreasing(id)[:result].should == 0
+        subject.run_filter(options).should == 0
         ErrorMessage.count.should == 0
       end
     end
   end
 
   context "increasing event count" do
-    let(:api_responses) { FactoryGirl.create_list(:api_response, 3, event_count: 1050) }
-    let(:id) { api_responses.last.id }
+    subject { FactoryGirl.create(:increasing_event_count_error) }
 
-    it "should raise errors" do
-      subject.increasing(id)[:result].should eq(api_responses.size)
-      ErrorMessage.count.should == 3
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("EventCountIncreasingTooFastError")
-      error_message.message.should eq("Event count increased too fast")
-      error_message.source_id.should == 1
+    context "real increase" do
+      let(:api_responses) { FactoryGirl.create_list(:api_response, 3, event_count: 3600) }
+      let(:options) {{ id: api_responses.last.id }}
+
+      it "should raise errors" do
+        subject.run_filter(options).should == api_responses.size
+        ErrorMessage.count.should == 3
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("EventCountIncreasingTooFastError")
+        error_message.message.should include("Event count increased")
+        error_message.source_id.should == 1
+      end
+    end
+
+    context "same day" do
+      let(:api_responses) { FactoryGirl.create_list(:api_response, 3, event_count: 3600, update_interval: 0) }
+      let(:options) {{ id: api_responses.last.id }}
+
+      it "should raise errors" do
+        subject.run_filter(options).should == api_responses.size
+        ErrorMessage.count.should == 3
+        error_message = ErrorMessage.first
+        error_message.class_name.should eq("EventCountIncreasingTooFastError")
+        error_message.message.should include("Event count increased")
+        error_message.source_id.should == 1
+      end
+    end
+
+    context "first time" do
+      let(:api_responses) { FactoryGirl.create_list(:api_response, 3, event_count: 3600, update_interval: nil) }
+      let(:options) {{ id: api_responses.last.id }}
+
+      it "should not raise errors" do
+        subject.run_filter(options).should == 0
+        ErrorMessage.count.should == 0
+      end
     end
   end
 
   context "slow API responses" do
-    let(:api_responses) { FactoryGirl.create_list(:api_response, 3, duration: 16000) }
-    let(:id) { api_responses.last.id }
+    subject { FactoryGirl.create(:api_too_slow_error) }
+
+    let(:duration) { 16000.0 }
+    let(:api_responses) { FactoryGirl.create_list(:api_response, 3, duration: duration) }
+    let(:options) {{ id: api_responses.last.id }}
 
     it "should raise errors" do
-      subject.slow(id)[:result].should eq(api_responses.size)
+      subject.run_filter(options).should == api_responses.size
       ErrorMessage.count.should == 3
       error_message = ErrorMessage.first
       error_message.class_name.should eq("ApiResponseTooSlowError")
-      error_message.message.should eq("API response too slow")
+      error_message.message.should include("API response took #{duration} ms")
       error_message.source_id.should == 1
     end
   end
 
-  context "not_updated" do
-    let(:api_responses) { FactoryGirl.create_list(:api_response, 3, update_interval: 42) }
-    let(:id) { api_responses.last.id }
+  context "article not updated" do
+    subject { FactoryGirl.create(:article_not_updated_error) }
+
+    let(:days) { 42 }
+    let(:api_responses) { FactoryGirl.create_list(:api_response, 3, event_count: nil, update_interval: days) }
+    let(:options) {{ id: api_responses.last.id }}
 
     it "should raise errors" do
-      subject.not_updated(id)[:result].should eq(api_responses.size)
-              ErrorMessage.count.should == 3
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("ArticleNotUpdatedError")
-        error_message.message.should eq("Article not updated for too long")
-        error_message.source_id.should == 1
+      subject.run_filter(options).should == api_responses.size
+      ErrorMessage.count.should == 3
+      error_message = ErrorMessage.first
+      error_message.class_name.should eq("ArticleNotUpdatedError")
+      error_message.message.should include("Article not updated for #{days}")
+      error_message.source_id.should == 1
     end
   end
 
-  context "resolve" do
-    let(:api_responses) { FactoryGirl.create_list(:api_response, 3) }
-    let(:id) { api_responses.last.id }
+  context "source not updated" do
+    subject { FactoryGirl.create(:source_not_updated_error) }
 
-    it "should resolve API responses" do
-      subject.resolve(id)[:result].should eq(api_responses.size)
+    before do
+      @citeulike = FactoryGirl.create(:citeulike)
+      @mendeley = FactoryGirl.create(:mendeley)
+    end
+
+    let(:api_responses) { FactoryGirl.create_list(:api_response, 3, source_id: @citeulike.id) }
+    let(:options) {{ id: api_responses.last.id }}
+
+    it "should raise errors" do
+      subject.run_filter(options).should == 1
+      ErrorMessage.count.should == 1
+      error_message = ErrorMessage.first
+      error_message.class_name.should eq("SourceNotUpdatedError")
+      error_message.message.should include("Source not updated for 24 hours")
+      error_message.source_id.should == @mendeley.id
     end
   end
 end

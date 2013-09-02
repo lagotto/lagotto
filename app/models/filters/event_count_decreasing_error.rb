@@ -18,21 +18,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-namespace :filter do
+class EventCountDecreasingError < Filter
 
-  desc "Raise all errors found in API responses and flag them as resolved"
-  task :all => :environment do
-    response = Filter.all
-    if response.nil?
-      puts "Found 0 unresolved API responses"
-    else
-      response[:review_messages].each { |review_message| puts review_message }
-      puts response[:message]
+  def run_filter(state)
+    responses = ApiResponse.filter(state[:id]).decreasing
+
+    if responses.count > 0
+      responses = responses.all.map { |response| { source_id: response.source_id,
+                                                   article_id: response.article_id,
+                                                   message: "Event count decreased from #{response.previous_count} to #{response.previous_count}" }}
+      raise_errors(responses)
     end
-  end
 
-  task :unresolve => :environment do
-    response = Filter.unresolve
-    puts response[:message]
+    responses.count
   end
+end
+
+module Exceptions
+  class EventCountDecreasingError < ApiResponseError; end
 end
