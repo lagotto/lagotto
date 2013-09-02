@@ -30,6 +30,13 @@ defaults: &defaults
   couchdb_url: http://localhost:5984/alm/
   doi_prefix:
   uid: doi
+  mail:
+    address:
+    port: 587
+    domain:
+    user_name:
+    password:
+    authentication: plain
 
 development:
   <<: *defaults

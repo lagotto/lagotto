@@ -18,13 +18,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "csv"
+class Report < ActiveRecord::Base
 
-Dir[File.join(Rails.root, 'lib', '*.rb')].each { |f| require f }
+  has_and_belongs_to_many :users
 
-include SourceHelper
+  def send_daily_error_report
+    ReportMailer.send_daily_error_report(self).deliver
+  end
 
-APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
-
-Faraday.default_adapter = :net_http_persistent
-ActiveSupport::XmlMini.backend = 'Nokogiri'
+end

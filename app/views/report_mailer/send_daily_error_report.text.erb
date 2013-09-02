@@ -1,0 +1,7 @@
+This is the daily ALM error report.
+
+<% Review.daily_error_report.each do |review| -%>
+<%= review.message %></br>
+<% end -%>
+
+See all errors: <%= admin_error_messages_url %>

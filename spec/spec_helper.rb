@@ -27,6 +27,7 @@ RSpec.configure do |config|
   config.include EmailSpec::Matchers
   config.include Rack::Test::Methods
   config.include FactoryGirl::Syntax::Methods
+  config.include(MailerMacros)
 
   config.use_transactional_fixtures = false
 
@@ -38,6 +39,7 @@ RSpec.configure do |config|
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
+    reset_email
   end
 
   config.after(:each) do

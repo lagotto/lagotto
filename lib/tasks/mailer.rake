@@ -18,13 +18,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "csv"
+namespace :mailer do
 
-Dir[File.join(Rails.root, 'lib', '*.rb')].each { |f| require f }
+  desc "Send daily error report"
+  task :report => :environment do
+    report = Report.first
+    report.send_daily_error_report
+    puts "Daily error report sent"
+  end
 
-include SourceHelper
-
-APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
-
-Faraday.default_adapter = :net_http_persistent
-ActiveSupport::XmlMini.backend = 'Nokogiri'
+  desc 'Send all mails'
+  task :all => [:environment, :report]
+end
