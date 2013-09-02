@@ -3,6 +3,11 @@ require "cancan/matchers"
 
 describe User do
 
+  subject { FactoryGirl.create(:user) }
+
+  it { should validate_presence_of(:name) }
+  it { should validate_uniqueness_of(:name) }
+
   context "describe admin role" do
     let(:user) { FactoryGirl.create(:user, :role => "admin") }
 

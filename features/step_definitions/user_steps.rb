@@ -44,7 +44,7 @@ Given /^I am logged in$/ do
 end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
-  FactoryGirl.create(:user, :role => role)
+  @user = FactoryGirl.create(:user, :role => role)
   visit '/users/auth/github'
 end
 
