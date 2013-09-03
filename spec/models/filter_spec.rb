@@ -15,16 +15,19 @@ describe Filter do
 
     context "API responses" do
       before do
-        @api_response = FactoryGirl.create(:api_response, event_count: 1050, duration: 16000)
-        @id = @api_response.id
+        @api_response = FactoryGirl.create(:api_response, previous_count: 12)
+        @filter = FactoryGirl.create(:decreasing_event_count_error)
       end
 
-      it "should call all filters" do
+      let(:id) { @api_response.id }
+
+      it "should call all active filters" do
         response = subject.all
-        response[:id].should eq(@id)
+        response[:id].should eq(id)
         response[:output].should == 1
         response[:message].should include("Resolved 1 API response")
-        response[:review_messages].should eq(2)
+        response[:review_messages].size.should == Filter.active.count
+        response[:review_messages].first.should include("Found 1 decreasing event count error in 1 API response")
       end
     end
 

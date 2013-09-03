@@ -44,13 +44,8 @@ Given /^I am logged in$/ do
 end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
-<<<<<<< HEAD
-  FactoryGirl.create(:user, :role => role)
-  visit '/users/auth/cas'
-=======
   @user = FactoryGirl.create(:user, :role => role)
-  visit '/users/auth/github'
->>>>>>> upstream/develop
+  visit '/users/auth/cas'
 end
 
 Given /^I exist as a user$/ do

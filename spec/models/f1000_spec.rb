@@ -51,11 +51,11 @@ describe F1000 do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
       f1000.get_data(article).should be_nil
       stub.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-      error_message.status.should == 408
-      error_message.source_id.should == f1000.id
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPRequestTimeOut")
+      alert.status.should == 408
+      alert.source_id.should == f1000.id
     end
 
     it "should catch an error when the F1000 feed can't be saved" do
@@ -67,12 +67,12 @@ describe F1000 do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pgen.0020051")
       f1000.get_data(article, options = { :source_id => f1000.id }).should be_nil
       stub.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Errno::EISDIR")
-      error_message.message.should include("Is a directory")
-      error_message.status.should == 500
-      error_message.source_id.should == f1000.id
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Errno::EISDIR")
+      alert.message.should include("Is a directory")
+      alert.status.should == 500
+      alert.source_id.should == f1000.id
     end
   end
 end

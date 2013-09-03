@@ -36,6 +36,7 @@ h3, h4, h5 { margin-bottom: 1px; }
 h1 img { vertical-align: 2px; }
 h4 img { vertical-align: 0px; }
 div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left: auto; margin-right: auto; }
+.dl-horizontal .report { padding-top: 10px; }
 .table .number { text-align: right; width: 150px;}
 .dashboard { padding-bottom: 2em; }
 .dashboard-label { padding-top: 3em; }
@@ -46,7 +47,7 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
     position:relative;
     top:50px;
 }
-.error-inner { min-height: 120px; }
+.alert-inner { min-height: 120px; }
 .navbar-form {
   float:left;
   margin-bottom:0;

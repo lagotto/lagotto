@@ -285,19 +285,20 @@ namespace :queue do
   desc "Queue all articles for a given source"
   task :all_jobs, [:source] => :environment do |t, args|
     if args.source.nil?
-      puts "Source is required"
+      sources = Source.active
+    else
+      sources = Source.active.where(name: args.source)
+    end
+
+    if sources.nil?
+      puts "No active source found."
       exit
     end
 
-    source = Source.find_by_name(args.source)
-    if source.nil?
-      puts "Source with name #{args.source} does not exist"
-      exit
+    sources.each do |source|
+      count = source.queue_all_articles
+      puts "#{count} articles for source #{source.display_name} have been queued."
     end
-
-    count = source.queue_all_articles
-
-    puts "#{count} Jobs for all the articles for source #{source.display_name} have been queued."
   end
 end
 

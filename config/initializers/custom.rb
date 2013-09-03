@@ -19,13 +19,10 @@
 # limitations under the License.
 
 require "csv"
-<<<<<<< HEAD
-=======
 
 Dir[File.join(Rails.root, 'lib', '*.rb')].each { |f| require f }
 
 include SourceHelper
->>>>>>> upstream/develop
 
 APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
 

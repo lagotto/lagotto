@@ -11,12 +11,6 @@ set :output, "#{path}/log/cron.log"
 #   rake "some:great:rake:task"
 #
 
-<<<<<<< HEAD
-# Delete resolved error messages
-# Delete API request information, keeping the last 10,000 requests
-every :monday, at: "4:00 AM" do
-  rake "db:error_messages:delete"
-=======
 # Create alerts by filtering API responses
 every 1.day, at: "3:00 AM" do
   rake "filter:all"
@@ -26,7 +20,6 @@ end
 # Delete API request information, keeping the last 10,000 requests
 every :monday, at: "4:00 AM" do
   rake "db:alerts:delete"
->>>>>>> upstream/develop
   rake "db:api_requests:delete"
 end
 

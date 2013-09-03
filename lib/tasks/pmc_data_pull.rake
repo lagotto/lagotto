@@ -50,7 +50,7 @@ namespace :pmc do
     source = Source.find_by_name("pmc")
     if source.nil?
       message = "Source \"pmc\" is missing"
-      ErrorMessage.create(:exception => "", :class_name => "NoMethodError",
+      Alert.create(:exception => "", :class_name => "NoMethodError",
                           :message => message)
       puts "Error: #{message}"
       exit
@@ -66,7 +66,7 @@ namespace :pmc do
       else
         message = "Url is missing"
       end
-      ErrorMessage.create(:exception => "", :class_name => "NoMethodError",
+      Alert.create(:exception => "", :class_name => "NoMethodError",
                           :message => message,
                           :source_id => source.id)
       puts "Error: #{message}"
@@ -101,7 +101,7 @@ namespace :pmc do
             process_doc(document, service_url)
           else
             message = "Bad status from PMC #{attributes['status']}"
-            ErrorMessage.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
+            Alert.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
                                 :message => message,
                                 :status => 500,
                                 :source_id => source.id)
@@ -183,7 +183,7 @@ namespace :pmc do
       begin
         response = put(url, new_data)
       rescue => e
-        ErrorMessage.create(:exception => e,
+        Alert.create(:exception => e,
                             :source_id => source.id)
         puts "Error: #{url} #{new_data} (#{e.class.name}: #{e.message})"
       end

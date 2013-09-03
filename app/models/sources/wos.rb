@@ -51,9 +51,9 @@ class Wos < Source
       end
       error = result.at_xpath('//xmlns:error')
       error = error.nil? ? 'an error occured' : error.content
-      error_message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
-      ErrorMessage.create(exception: '',
-                          message: error_message,
+      message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
+      Alert.create(exception: '',
+                          message: message,
                           class_name: class_name,
                           status: status_code,
                           source_id: id)

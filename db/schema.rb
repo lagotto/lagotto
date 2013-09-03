@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(:version => 20130831141614) do
     t.boolean  "error",        :default => true
   end
 
-  add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"
-  add_index "alerts", ["unresolved", "updated_at"], :name => "index_error_messages_on_unresolved_and_updated_at"
-  add_index "alerts", ["updated_at"], :name => "index_error_messages_on_updated_at"
+  add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_alerts_on_source_id_and_unresolved_and_updated_at"
+  add_index "alerts", ["unresolved", "updated_at"], :name => "index_alerts_on_unresolved_and_updated_at"
+  add_index "alerts", ["updated_at"], :name => "index_alerts_on_updated_at"
 
   create_table "api_requests", :force => true do |t|
     t.string   "format"

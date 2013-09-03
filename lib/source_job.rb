@@ -20,7 +20,7 @@
 
 require 'timeout'
 
-class SourceJob < Struct.new(:rs_ids)
+class SourceJob < Struct.new(:rs_ids, :source_id)
   include SourceHelper
 
   def enqueue(job)
@@ -30,7 +30,7 @@ class SourceJob < Struct.new(:rs_ids)
 
   def perform
 
-    source = Source.find_by_name(job.queue)
+    source = Source.find(source_id)
     return unless source.active
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
@@ -83,7 +83,7 @@ class SourceJob < Struct.new(:rs_ids)
     # An error occured, typically 408 (Request Timeout), 403 (Too Many Requests) or 401 (Unauthorized)
     # It could also be an error in our code. 404 (Not Found) errors are handled as SUCCESS NO DATA
     # We don't update retrieval status and don't create a retrieval_histories document,
-    # so that the request is repeated later. We could get stuck, but we see this in error_messages
+    # so that the request is repeated later. We could get stuck, but we see this in alerts
     #
     # This mnethod returns a hash in the format { event_count: 12, previous_count: 8, retrieval_history_id: 3736, update_interval: 31 }
     # This hash can be used to track API responses, e.g. when event counts go down
@@ -165,14 +165,12 @@ class SourceJob < Struct.new(:rs_ids)
 
   def error(job, e)
     source = Source.find_by_name(job.queue)
-    ErrorMessage.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
+    Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
   end
 
   def after(job)
-
     #reset the queued at value
     RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
   end
 
 end
-

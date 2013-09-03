@@ -1,7 +1,7 @@
 class Ability
   include CanCan::Ability
 
-  # To simplify, all admin permissions are linked to the ErrorMessage resource
+  # To simplify, all admin permissions are linked to the Alert resource
 
   def initialize(user)
     user ||= User.new(:role => "anonymous") # Guest user

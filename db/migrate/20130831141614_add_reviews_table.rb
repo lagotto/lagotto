@@ -37,8 +37,8 @@ class AddReviewsTable < ActiveRecord::Migration
     add_index :reports_users, [:report_id, :user_id]
     add_index :reports_users, :user_id
 
-    add_column :error_messages, :error, :boolean, default: 1
-    rename_table :error_messages, :alerts
+    add_column :alerts, :error, :boolean, default: 1
+    rename_table :alerts, :alerts
 
     remove_column :sources, :disable_delay
     remove_column :sources, :timeout
@@ -61,8 +61,8 @@ class AddReviewsTable < ActiveRecord::Migration
     drop_table :reviews
     drop_table :reports
     drop_table :reports_users
-    rename_table :alerts, :error_messages
-    remove_column :error_messages, :error
+    rename_table :alerts, :alerts
+    remove_column :alerts, :error
 
     add_column :sources, :disable_delay, :integer, default: 10, null: false
     add_column :sources, :timeout, :integer, default: 30, null: false

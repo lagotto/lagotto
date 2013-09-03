@@ -36,23 +36,23 @@ describe Wos do
       stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "application/xml" }).to_return(:body => File.read(fixture_path + 'wos_unauthorized.xml'), :status => 200)
       wos.get_data(article).should eq({ :events => [], :event_count => nil })
       stub.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPUnauthorized")
-      error_message.message.should include("Web of Science error Server.authentication")
-      error_message.status.should == 401
-      error_message.source_id.should == wos.id
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPUnauthorized")
+      alert.message.should include("Web of Science error Server.authentication")
+      alert.status.should == 401
+      alert.source_id.should == wos.id
     end
 
     it "should catch errors with the Wos API" do
       stub = stub_request(:post, wos.get_query_url(article)).with(:body => /.*/, :headers => { "Content-Type" => "application/xml" }).to_return(:status => [408])
       wos.get_data(article, options = { :source_id => wos.id }).should eq({ :events => [], :event_count => nil })
       stub.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-      error_message.status.should == 408
-      error_message.source_id.should == wos.id
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPRequestTimeOut")
+      alert.status.should == 408
+      alert.source_id.should == wos.id
     end
   end
 end
