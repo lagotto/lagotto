@@ -1,0 +1,6 @@
+<p>This is the daily ALM report.</p>
+
+<% Review.daily_error_report.each do |review| -%>
+<%= review.message %></br>
+<% end -%>
+<p>See all alerts: <%= admin_alerts_url %></p>

@@ -5,7 +5,7 @@ class Admin::EventsController < Admin::ApplicationController
   def index
     respond_with do |format|
       format.html do
-        authorize! :index, ErrorMessage
+        authorize! :index, Alert
       end
       format.json do
         articles = Source.for_events.map { |source| source.retrieval_statuses.count(:conditions => "event_count > 0") }

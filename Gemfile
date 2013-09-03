@@ -9,6 +9,7 @@ gem "daemons", "~> 1.1.9"
 gem "foreman", "~> 0.63.0"
 gem "rake", "~> 10.1.0"
 gem "whenever", "~> 0.8.2", :require => false
+gem "mail", "~> 2.5.4"
 
 gem "faraday", "~> 0.8.7"
 gem "faraday_middleware", "~> 0.9.0"

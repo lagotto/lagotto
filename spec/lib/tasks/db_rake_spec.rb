@@ -15,7 +15,7 @@ end
 describe "db:articles:delete" do
   include_context "rake"
 
-  before do 
+  before do
     FactoryGirl.create_list(:article, 5)
   end
 
@@ -26,14 +26,14 @@ describe "db:articles:delete" do
   end
 end
 
-describe "db:error_messages:delete" do
+describe "db:alerts:delete" do
   include_context "rake"
 
   before do
-    FactoryGirl.create_list(:error_message, 5, :unresolved => false)
+    FactoryGirl.create_list(:alert, 5, :unresolved => false)
   end
 
-  let(:output) { "Deleted 5 messages for resolved errors, 0 unresolved errors remaining\n" }
+  let(:output) { "Deleted 5 resolved alerts, 0 unresolved alerts remaining\n" }
 
   it "should run" do
     capture_stdout { subject.invoke }.should eq(output)

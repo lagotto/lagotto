@@ -18,18 +18,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'source_helper'
 require 'cgi'
-require 'ostruct'
 
 class Source < ActiveRecord::Base
-  include SourceHelper
 
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses
   has_many :delayed_jobs, :primary_key => "name", :foreign_key => "queue"
-  has_many :error_messages
+  has_many :alerts
   has_many :api_responses
   belongs_to :group, :touch => true
 
@@ -42,8 +39,8 @@ class Source < ActiveRecord::Base
   validates :workers, :numericality => { :only_integer => true }, :inclusion => { :in => 1..10, :message => "should be between 1 and 10" }
   validates :timeout, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
   validates :wait_time, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
-  validates :max_failed_queries, :numericality => { :only_integer => true }, :inclusion => { :in => 0..1000, :message => "should be between 0 and 1000" }
-  validates :max_failed_query_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 0..864000, :message => "should be between 0 and 864000" }
+  validates :max_failed_queries, :numericality => { :only_integer => true }, :inclusion => { :in => 1..1000, :message => "should be between 1 and 1000" }
+  validates :max_failed_query_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 1..864000, :message => "should be between 1 and 864000" }
   validates :job_batch_size, :numericality => { :only_integer => true }, :inclusion => { :in => 1..1000, :message => "should be between 1 and 1000" }
   validates :max_job_batch_size, :numericality => { :only_integer => true }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :batch_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 1..86400, :message => "should be between 1 and 86400" }
@@ -52,8 +49,13 @@ class Source < ActiveRecord::Base
   validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_all, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
 
-  # for job priority
-  TOP_PRIORITY = 0
+  scope :active, where(:active => true).order("group_id, display_name")
+  scope :inactive, where(:active => false).order("group_id, display_name")
+  scope :for_events, where("active = 1 AND name != 'relativemetric'").order("group_id, display_name")
+
+  # some sources cannot be redistributed
+  scope :public_sources, lambda { where("private = false") }
+  scope :private_sources, lambda { where("private = true") }
 
   INTERVAL_OPTIONS = [['½ hour', 30.minutes],
                       ['1 hour', 1.hour],
@@ -66,37 +68,25 @@ class Source < ActiveRecord::Base
                       ['½ month', 1.month * 0.5],
                       ['1 month', 1.month]]
 
-  scope :active, where(:active => true).order("group_id, display_name")
-  scope :inactive, where(:active => false).order("group_id, display_name")
-  scope :for_events, where("active = 1 AND name != 'relativemetric'").order("group_id, display_name")
+  def self.validates_not_blank(*attrs)
+    validates_each attrs do |record, attr, value|
+      record.errors.add(attr, "can't be blank") if value.blank?
+    end
+  end
 
   def to_param  # overridden, use name instead of id
     name
   end
-
-  # some sources cannot be redistributed
-  scope :public_sources, lambda { where("private = false") }
-  scope :private_sources, lambda { where("private = true") }
 
   def get_data(article, options={})
     raise NotImplementedError, 'Children classes should override get_data method'
   end
 
   def queue_all_articles
-    if inactive?
-      ErrorMessage.create(:exception => "", :class_name => "StandardError",
-                          :message => "#{display_name} (#{name}) is either not active or disabled",
-                          :source_id => id)
-      nil
-    else
-      rs = retrieval_statuses.pluck("retrieval_statuses.id")
-      logger.debug "#{name} total articles queued #{rs.length}"
+    return 0 if inactive?
 
-      rs.each_slice(job_batch_size) do | rs_ids |
-        Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
-      end
-      rs
-    end
+    rs = retrieval_statuses.pluck("retrieval_statuses.id")
+    queue_article_jobs(rs)
   end
 
   def queue_articles
@@ -109,23 +99,20 @@ class Source < ActiveRecord::Base
     # if there are jobs already queued, wait a little bit
     return wait_time if get_queued_job_count > 0
 
-    queue_article_jobs
+    # find articles that need to be updated. Not queued currently, scheduled_at in the past
+    rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
+
+    queue_article_jobs(rs)
     batch_time_interval
   end
 
-  def queue_article_jobs
-    # find articles that need to be updated. Not queued currently, scheduled_at in the past
-    rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
+  def queue_article_jobs(rs)
     logger.debug "#{name} total articles queued #{rs.length}"
 
-    rs.each_slice(job_batch_size) do | rs_ids |
-      Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
+    rs.each_slice(job_batch_size) do |rs_ids|
+      Delayed::Job.enqueue SourceJob.new(rs_ids), queue: name
     end
-
-  end
-
-  def queue_article_job(retrieval_status, priority=Delayed::Worker.default_priority)
-    Delayed::Job.enqueue SourceJob.new([retrieval_status.id], id), :queue => name, :priority => priority
+    rs.length
   end
 
   def get_config_fields
@@ -137,29 +124,69 @@ class Source < ActiveRecord::Base
   end
 
   def get_query_url(article)
-    config.url % { :doi => article.doi_escaped }
+    url % { :doi => article.doi_escaped }
   end
 
   def check_for_failures
     # condition for not adding more jobs and disabling the source
 
-    failed_queries = ErrorMessage.where("source_id = :id and updated_at > :updated_date",
-                                         { :id => id,
-                                           :updated_date => (Time.zone.now - max_failed_query_time_interval.seconds) }).count(:id)
+    failed_queries = Alert.where("source_id = ? and updated_at > ?", id, Time.zone.now - max_failed_query_time_interval.seconds).count(:id)
 
-    if failed_queries > max_failed_queries
-      ErrorMessage.create(:exception => "", :class_name => "StandardError",
-                          :message => "#{display_name} has exceeded maximum failed queries. Disabling the source.",
-                          :source_id => id)
-      self.update_attributes(disable_until: Time.zone.now + disable_delay.seconds)
-    elsif disable_until.nil?
-      false
-    elsif disable_until < Time.zone.now
-      self.update_attributes(disable_until: nil)
-      false
-    else
-      true
-    end
+    return disabled? if failed_queries <= max_failed_queries
+
+    Alert.create(:exception => "", :class_name => "TooManyErrorsBySourceError",
+                 :message => "#{display_name} has exceeded maximum failed queries. Disabling the source.",
+                 :source_id => id)
+
+    self.update_attributes(disabled_until: Time.zone.now + disable_delay.seconds)
+  end
+
+  def workers
+    config.workers || 1
+  end
+
+  def workers=(value)
+    config.workers = value.to_i
+  end
+
+  def disable_delay
+    config.disable_delay || 10
+  end
+
+  def disable_delay=(value)
+    config.disable_delay = value.to_i
+  end
+
+  def timeout
+    config.timeout || 200
+  end
+
+  def timeout=(value)
+    config.timeout = value.to_i
+  end
+
+  def wait_time
+    config.wait_time || 300
+  end
+
+  def wait_time=(value)
+    config.wait_time = value.to_i
+  end
+
+  def max_failed_queries
+    config.max_failed_queries || 200
+  end
+
+  def max_failed_queries=(value)
+    config.max_failed_queries = value.to_i
+  end
+
+  def max_failed_query_time_interval
+    config.max_failed_query_time_interval || 86400
+  end
+
+  def max_failed_query_time_interval=(value)
+    config.max_failed_query_time_interval = value.to_i
   end
 
   def job_batch_size
@@ -195,7 +222,6 @@ class Source < ActiveRecord::Base
   # * first month: update daily
   # * first year: update every ¼ month
   # * after one year: update monthly
-
   def staleness_week
     config.staleness_week || 1.day
   end
@@ -237,7 +263,7 @@ class Source < ActiveRecord::Base
   end
 
   def disabled?
-    disable_until && disable_until > Time.zone.now
+    disabled_until > Time.zone.now
   end
 
   def inactive?
@@ -263,4 +289,12 @@ class Source < ActiveRecord::Base
     sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), '#{random_time.to_formatted_s(:db)}' from articles"
     conn.execute sql
   end
+end
+
+module Exceptions
+  # source is either not active or disabled
+  class SourceInactiveError < StandardError; end
+
+  # we have received too many errors (and will disable the source)
+  class TooManyErrorsBySourceError < StandardError; end
 end

@@ -1,0 +1,42 @@
+<% unless @article.retrieval_statuses.empty? %>
+  <div class="accordion" id="retrieval_status">
+    <% @article.retrieval_statuses.with_sources.each do |rs| %>
+      <% if !rs.source.nil? %>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <%= link_to ("<strong>" + rs.source.display_name + "</strong> (#{rs.event_count}), updated " + rs.retrieved_at.to_s(:friendly)).html_safe, "##{rs.source.name}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#retrieval_status" }, :href => "##{rs.source.name}" %>
+          </div>
+          <div id="<%= rs.source.name %>" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <% unless rs.events.blank? %>
+                  <% if rs.events.is_a?(Array) %>
+                    <ul>
+                      <% rs.events.each do |ed| %>
+                        <li>
+                          <% if ed.has_key?("event_url") %>
+                            <%= link_to ed["event"], ed["event_url"] %>
+                          <% else %>
+                            <%= ed %>
+                          <% end %>
+                        </li>
+                      <% end %>
+                      </ul>
+                  <% elsif rs.events.is_a?(Hash) %>
+                    <ul><li><%= rs.events %></li></ul>
+                  <% end %>
+              <% end %>
+
+              <h4><%= link_to rs.source.display_name, source_path(rs.source) %>
+                <% unless rs.events_url.nil? %>
+                | <%= link_to "Further Information", rs.events_url, :target => "_blank" %></h4>
+              <% end %>
+              </h4>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="alert alert-info">There are currently no events</div>
+<% end %>

@@ -166,7 +166,7 @@ function main() {
           .text(function(d) { return d.source; });
 
       requestEnter.append("div")
-          .attr("class", "hidden-phone")
+          .attr("class", "ids hidden-phone")
           .text(function(d) { return d.ids; });
 
       request.exit().remove();

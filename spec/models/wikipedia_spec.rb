@@ -30,11 +30,11 @@ describe Wikipedia do
       stub = stub_request(:get, /.*wiki/).to_return(:body => File.read(fixture_path + 'wikipedia_error.json'), :status => [408])
       wikipedia.get_data(article, options = { :source_id => wikipedia.id }).should be_nil
       stub.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-      error_message.status.should == 408
-      error_message.source_id.should == wikipedia.id
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPRequestTimeOut")
+      alert.status.should == 408
+      alert.source_id.should == wikipedia.id
     end
   end
 end

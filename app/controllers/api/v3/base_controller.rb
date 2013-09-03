@@ -20,7 +20,7 @@ class Api::V3::BaseController < ActionController::Base
       sign_in @user if @user
     else
       @error = "Missing API key."
-      ErrorMessage.create(:exception => "", :class_name => "Net::HTTPUnauthorized",
+      Alert.create(:exception => "", :class_name => "Net::HTTPUnauthorized",
                           :message => @error,
                           :target_url => request.original_url,
                           :remote_ip => request.remote_ip,

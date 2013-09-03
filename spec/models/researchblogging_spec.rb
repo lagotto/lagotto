@@ -35,11 +35,11 @@ describe Researchblogging do
       stub = stub_request(:get, "http://#{researchblogging.username}:#{researchblogging.password}@researchbloggingconnect.com/blogposts?article=doi:#{article.doi_escaped}&count=100").to_return(:status => [408])
       researchblogging.get_data(article, options = { :source_id => researchblogging.id }).should be_nil
       stub.should have_been_requested
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPRequestTimeOut")
-      error_message.status.should == 408
-      error_message.source_id.should == researchblogging.id
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPRequestTimeOut")
+      alert.status.should == 408
+      alert.source_id.should == researchblogging.id
     end
   end
 end

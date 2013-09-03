@@ -1,5 +1,3 @@
-require 'source_helper'
-
 ### GIVEN ###
 Given /^that we have added (\d+) documents to CouchDB$/ do |number|
   number.to_i.times do |i|

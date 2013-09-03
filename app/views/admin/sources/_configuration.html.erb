@@ -1,4 +1,4 @@
-<% if can?(:manage, ErrorMessage) && (controller.action_name == "edit" or (controller.action_name == "update" && !@source.errors.empty?)) %>
+<% if can?(:manage, Alert) && (controller.action_name == "edit" or (controller.action_name == "update" && !@source.errors.empty?)) %>
 
   <%= simple_form_for([:admin, @source.becomes(Source)], :url => admin_source_path(@source.name), :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
     <% f.object = @source.becomes(@source.class) %>
@@ -86,7 +86,7 @@
 
 <% else %>
   <div class="btn-toolbar pull-right">
-    <% if can?(:manage, ErrorMessage) %>
+    <% if can?(:manage, Alert) %>
       <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_source_path(@source.name), { :remote => true, :class => 'btn btn-mini', :title => "Edit" } %>
       <% end %>
   </div>
@@ -98,7 +98,7 @@
         <% @source.get_config_fields.each do |field| %>
           <tr>
             <th><%= field[:field_name].gsub(/_/, " ").capitalize %></th>
-            <td><%= @source.config.send(field[:field_name]) %></td>
+            <td><%= @source.send(field[:field_name]) %></td>
           </tr>
         <% end %>
       <% end %>

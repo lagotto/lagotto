@@ -24,9 +24,9 @@ Deletes all articles and associated rows in retrieval_statuses and retrieval_his
 
     rake db:articles:delete
 
-Deletes all resolved errors:
+Deletes all resolved alerts:
 
-    rake db:error_messages:delete
+    rake db:alerts:delete
 
 Delete old API requests (only keep the last 10,000):
 

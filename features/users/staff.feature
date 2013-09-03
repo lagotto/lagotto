@@ -39,8 +39,8 @@ Feature: Sign in as staff
       And I click on user "joeboxer"
       Then I should not see the "Edit" button
 
-    Scenario: Staff cannot delete errors
-      Given we have 1 error message
-      When I go to the "Errors" admin page
+    Scenario: Staff cannot delete alerts
+      Given we have 1 alert
+      When I go to the "Alerts" admin page
       And I click on the "[408] The request timed out." link
       Then I should not see the "Delete" button

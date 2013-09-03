@@ -16,10 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'source_helper'
-
 class RetrievalStatus < ActiveRecord::Base
-  include SourceHelper
 
   belongs_to :article, :touch => true
   belongs_to :source, :touch => true

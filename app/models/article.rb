@@ -32,6 +32,8 @@ class Article < ActiveRecord::Base
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
   has_many :sources, :through => :retrieval_statuses
+  has_many :alerts
+  has_many :api_responses
 
   validates :uid, :title, :presence => true
   validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true

@@ -18,10 +18,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'source_helper'
 require 'timeout'
 
-class SourceJob < Struct.new(:rs_ids, :source_id)
+class SourceJob < Struct.new(:rs_ids)
   include SourceHelper
 
   def enqueue(job)
@@ -31,7 +30,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   def perform
 
-    source = Source.find(source_id)
+    source = Source.find_by_name(job.queue)
     return unless source.active
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
@@ -86,20 +85,22 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # We don't update retrieval status and don't create a retrieval_histories document,
     # so that the request is repeated later. We could get stuck, but we see this in error_messages
     #
-    # This mnethod returns a hash in the format { event_count: 12, previous_count: 8, retrieval_history_id: 3736 }
+    # This mnethod returns a hash in the format { event_count: 12, previous_count: 8, retrieval_history_id: 3736, update_interval: 31 }
     # This hash can be used to track API responses, e.g. when event counts go down
+
+    previous_count = rs.event_count
+    update_interval = (Time.zone.now - rs.retrieved_at).to_i / 1.day
 
     data_from_source = rs.source.get_data(rs.article, { :retrieval_status => rs, :timeout => rs.source.timeout, :source_id => rs.source_id })
     if data_from_source.is_a?(Hash)
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]
       event_count = data_from_source[:event_count]
-      previous_count = rs.event_count
       event_metrics = data_from_source[:event_metrics]
       attachment = data_from_source[:attachment]
     else
       # ERROR
-      return { event_count: nil, previous_count: rs.event_count, retrieval_history_id: nil }
+      return { event_count: nil, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
     end
 
     retrieved_at = Time.zone.now
@@ -109,7 +110,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       rs.update_attributes(:retrieved_at => retrieved_at,
                            :scheduled_at => rs.stale_at,
                            :event_count => 0)
-      { event_count: 0, previous_count: previous_count, retrieval_history_id: nil }
+      { event_count: 0, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
     else
       rh = RetrievalHistory.create(:retrieval_status_id => rs.id,
                                    :article_id => rs.article_id,
@@ -158,12 +159,13 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       rh.retrieved_at = retrieved_at
       rh.save
 
-      { event_count: event_count, previous_count: previous_count, retrieval_history_id: rh.id }
+      { event_count: event_count, previous_count: previous_count, retrieval_history_id: rh.id, update_interval: update_interval }
     end
   end
 
   def error(job, e)
-    ErrorMessage.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source_id)
+    source = Source.find_by_name(job.queue)
+    ErrorMessage.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
   end
 
   def after(job)

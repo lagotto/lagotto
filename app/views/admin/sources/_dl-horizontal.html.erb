@@ -1,11 +1,11 @@
-<% if can? :read, ErrorMessage %>
+<% if can? :read, Alert %>
   <div class="visible-phone">
     <dt>Status</dt>
     <dd><%= h(@source.status) %></dd>
   </div>
-  <% unless @source.disable_until.blank? %>
+  <% if @source.disabled? %>
     <dt>Disabled until</dt>
-    <dd><%= @source.disable_until.to_s(:friendly) %></dd>
+    <dd><%= @source.disabled_until.to_s(:friendly) %></dd>
   <% end %>
 <% end %>
 <% unless @source.group.blank? %>

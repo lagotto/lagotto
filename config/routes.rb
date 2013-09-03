@@ -1,18 +1,18 @@
 Alm::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
-  
+
   root :to => "docs#show"
 
   # constraints is added to allow dot in the url (doi is used to show article)
   resources :articles, :constraints => { :id => /.+?/, :format => /html|json|xml|csv/}
-  
+
   resources :sources
   resources :groups
   resources :users
   resources :docs, :only => :show, :constraints => { :id => /[0-z\-\.\(\)]+/ }
-  
+
   match "oembed" => "oembed#show"
-  
+
   namespace :admin do
     root :to => "index#index"
     resources :articles, :constraints => { :id => /.+?/, :format => /html|js/ }
@@ -22,11 +22,12 @@ Alm::Application.routes.draw do
     resources :errors
     resources :events
     resources :responses
-    resources :error_messages
+    resources :alerts
     resources :api_requests
     resources :users
+    resources :filters
   end
-  
+
   namespace :api do
     namespace :v3 do
       root :to => "articles#index"

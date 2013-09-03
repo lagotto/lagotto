@@ -50,8 +50,8 @@ describe PubMed do
         stub = stub_request(:get, pub_med.get_query_url(article)).to_return(:status => [408])
         pub_med.get_data(article, options = { :source_id => pub_med.id }).should be_nil
         stub.should have_been_requested
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
+        Alert.count.should == 1
+        error_message = Alert.first
         error_message.class_name.should eq("Net::HTTPRequestTimeOut")
         error_message.status.should == 408
         error_message.source_id.should == pub_med.id

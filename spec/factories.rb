@@ -58,6 +58,14 @@ FactoryGirl.define do
     initialize_with { Group.find_or_create_by_name(name) }
   end
 
+  factory :report do
+    name 'Daily Report'
+
+    factory :report_with_admin_user do
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
+  end
+
   factory :retrieval_history do
     retrieved_at { Time.zone.now - 1.month }
     event_count { retrieval_status.event_count }
@@ -350,7 +358,7 @@ FactoryGirl.define do
     uid "12345"
   end
 
-  factory :error_message do
+  factory :alert do
     exception "An exception"
     class_name "Net::HTTPRequestTimeOut"
     message "The request timed out."
@@ -370,5 +378,64 @@ FactoryGirl.define do
     info "history"
     source nil
     ids "10.1371%2Fjournal.pone.000001"
+  end
+
+  factory :api_response do
+    duration 200
+    event_count 10
+    previous_count 5
+    update_interval 7
+    unresolved 1
+    source_id 1
+    retrieval_history_id 1
+  end
+
+  factory :review do
+    name "ArticleNotUpdatedError"
+  end
+
+  factory :article_not_updated_error, aliases: [:filter], class: ArticleNotUpdatedError do
+    type "ArticleNotUpdatedError"
+    name "ArticleNotUpdatedError"
+    display_name "article not updated error"
+    active true
+
+    initialize_with { ArticleNotUpdatedError.find_or_create_by_name(name) }
+  end
+
+  factory :decreasing_event_count_error, class: EventCountDecreasingError do
+    type "EventCountDecreasingError"
+    name "EventCountDecreasingError"
+    display_name "decreasing event count error"
+    active true
+
+    initialize_with { EventCountDecreasingError.find_or_create_by_name(name) }
+  end
+
+  factory :increasing_event_count_error, class: EventCountIncreasingTooFastError do
+    type "EventCountIncreasingTooFastError"
+    name "EventCountIncreasingTooFastError"
+    display_name "increasing event count error"
+    active true
+
+    initialize_with { EventCountIncreasingTooFastError.find_or_create_by_name(name) }
+  end
+
+  factory :api_too_slow_error, class: ApiResponseTooSlowError do
+    type "ApiResponseTooSlowError"
+    name "ApiResponseTooSlowError"
+    display_name "API too slow error"
+    active true
+
+    initialize_with { ApiResponseTooSlowError.find_or_create_by_name(name) }
+  end
+
+  factory :source_not_updated_error, class: SourceNotUpdatedError do
+    type "SourceNotUpdatedError"
+    name "SourceNotUpdatedError"
+    display_name "source not updated error"
+    active true
+
+    initialize_with { SourceNotUpdatedError.find_or_create_by_name(name) }
   end
 end

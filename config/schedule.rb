@@ -9,16 +9,24 @@ set :output, "#{path}/log/cron.log"
 #   command "/usr/bin/some_great_command"
 #   runner "MyModel.some_method"
 #   rake "some:great:rake:task"
-# end
 #
-# every 4.days do
-#   runner "AnotherModel.prune_old_records"
-# end
 
+<<<<<<< HEAD
 # Delete resolved error messages
 # Delete API request information, keeping the last 10,000 requests
 every :monday, at: "4:00 AM" do
   rake "db:error_messages:delete"
+=======
+# Create alerts by filtering API responses
+every 1.day, at: "3:00 AM" do
+  rake "filter:all"
+end
+
+# Delete resolved alerts
+# Delete API request information, keeping the last 10,000 requests
+every :monday, at: "4:00 AM" do
+  rake "db:alerts:delete"
+>>>>>>> upstream/develop
   rake "db:api_requests:delete"
 end
 

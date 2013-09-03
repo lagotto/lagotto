@@ -12,16 +12,16 @@ describe Source do
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
   it { should validate_presence_of(:display_name) }
-  it { should validate_numericality_of(:workers).only_integer }
+  it { should validate_numericality_of(:workers).only_integer.with_message("should be between 1 and 10") }
   it { should ensure_inclusion_of(:workers).in_range(1..10).with_message("should be between 1 and 10") }
-  it { should validate_numericality_of(:timeout).only_integer }
+  it { should validate_numericality_of(:timeout).only_integer.with_message("should be between 1 and 3600") }
   it { should ensure_inclusion_of(:timeout).in_range(1..3600).with_message("should be between 1 and 3600") }
-  it { should validate_numericality_of(:wait_time).only_integer }
+  it { should validate_numericality_of(:wait_time).only_integer.with_message("should be between 1 and 3600") }
   it { should ensure_inclusion_of(:wait_time).in_range(1..3600).with_message("should be between 1 and 3600") }
-  it { should validate_numericality_of(:max_failed_queries).only_integer }
-  it { should ensure_inclusion_of(:max_failed_queries).in_range(0..1000).with_message("should be between 0 and 1000") }
-  it { should validate_numericality_of(:max_failed_query_time_interval).only_integer }
-  it { should ensure_inclusion_of(:max_failed_query_time_interval).in_range(0..864000).with_message("should be between 0 and 864000") }
+  it { should validate_numericality_of(:max_failed_queries).only_integer.with_message("should be between 1 and 1000") }
+  it { should ensure_inclusion_of(:max_failed_queries).in_range(1..1000).with_message("should be between 1 and 1000") }
+  it { should validate_numericality_of(:max_failed_query_time_interval).only_integer.with_message("should be between 1 and 864000") }
+  it { should ensure_inclusion_of(:max_failed_query_time_interval).in_range(1..864000).with_message("should be between 1 and 864000") }
   it { should validate_numericality_of(:job_batch_size).only_integer.with_message("should be between 1 and 1000") }
   it { should ensure_inclusion_of(:job_batch_size).in_range(1..1000).with_message("should be between 1 and 1000") }
   it { should validate_numericality_of(:batch_time_interval).only_integer.with_message("should be between 1 and 86400") }
@@ -48,67 +48,57 @@ describe Source do
 
     context "queue all articles" do
       it "queue" do
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
         source.queue_all_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
       end
 
       it "with max_job_batch_size" do
         max_job_batch_size = 5
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
         source.max_job_batch_size = max_job_batch_size
         source.queue_all_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
       end
 
       it "with inactive source" do
         source.active = false
-        source.queue_all_articles.should be_nil
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("StandardError")
-        error_message.message.should eq("#{source.display_name} (#{source.name}) is either not active or disabled")
-        error_message.source_id.should == source.id
+        source.queue_all_articles.should == 0
       end
 
       it "with disabled source" do
-        source.disable_until = Time.zone.now + 1.hour
-        source.queue_all_articles.should be_nil
-        ErrorMessage.count.should == 1
-        error_message = ErrorMessage.first
-        error_message.class_name.should eq("StandardError")
-        error_message.message.should eq("#{source.display_name} (#{source.name}) is either not active or disabled")
-        error_message.source_id.should == source.id
+        source.disabled_until = Time.zone.now + 1.hour
+        source.queue_all_articles.should == 0
       end
     end
 
     context "queue articles" do
       it "queue" do
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
         source.queue_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
       end
 
       it "only stale articles" do
         retrieval_status = FactoryGirl.create(:retrieval_status, scheduled_at: Time.zone.now + 10.minutes)
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
         source.queue_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
       end
 
       it "not queued articles" do
         retrieval_status = FactoryGirl.create(:retrieval_status, queued_at: Time.zone.now)
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
         source.queue_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
       end
 
       it "with max_job_batch_size" do
         max_job_batch_size = 5
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[0...max_job_batch_size], source.id), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[0...max_job_batch_size]), { queue: source.name })
         source.max_job_batch_size = max_job_batch_size
         source.queue_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...max_job_batch_size], source.id))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...max_job_batch_size]))
       end
 
       it "with inactive source" do
@@ -117,15 +107,15 @@ describe Source do
       end
 
       it "with disabled source" do
-        source.disable_until = Time.zone.now + source.disable_delay
+        source.disabled_until = Time.zone.now + source.disable_delay
         source.queue_articles.should eq(source.disable_delay)
       end
 
       it "with too many failed queries" do
-        FactoryGirl.create_list(:error_message, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
+        FactoryGirl.create_list(:alert, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
         source.max_failed_queries = 5
         source.queue_articles.should eq(source.disable_delay)
-        source.disable_until.should_not be_nil
+        source.disabled_until.should_not be_nil
       end
 
       it "with queued jobs" do
@@ -134,40 +124,53 @@ describe Source do
       end
     end
 
-    it "queue article jobs" do
-      Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
-      source.queue_article_jobs
-      Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
-    end
+    context "queue article jobs" do
+      it "multiple articles" do
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
+        source.queue_article_jobs(rs_ids)
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
+      end
 
-    it "queue article job" do
-      retrieval_status = FactoryGirl.create(:retrieval_status)
-      Delayed::Job.stub(:enqueue).with(SourceJob.new([retrieval_status.id], source.id), { queue: source.name, priority: Delayed::Worker.default_priority })
-      source.queue_article_job(retrieval_status)
-      Delayed::Job.expects(:enqueue).with(SourceJob.new([retrieval_status.id], source.id))
+      it "single article" do
+        retrieval_status = FactoryGirl.create(:retrieval_status)
+        Delayed::Job.stub(:enqueue).with(SourceJob.new([retrieval_status.id]), { queue: source.name })
+        source.queue_article_jobs([retrieval_status.id])
+        Delayed::Job.expects(:enqueue).with(SourceJob.new([retrieval_status.id]))
+      end
     end
 
     context "check for failures" do
       before(:each) do
-        FactoryGirl.create_list(:error_message, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
+        @class_name = "Net::HTTPRequestTimeOut"
+        FactoryGirl.create_list(:alert, 10, { source_id: source.id,
+                                              updated_at: Time.zone.now - 10.minutes,
+                                              class_name: @class_name })
       end
 
       it "few failed queries" do
         source.check_for_failures.should be_false
-        source.disable_until.should be_nil
+        source.disabled_until.should < Time.zone.now
+        Alert.count.should == 10
       end
 
       it "too many failed queries" do
         source.max_failed_queries = 5
         source.check_for_failures.should be_true
-        source.disable_until.should_not be_nil
+        source.disabled_until.should > Time.zone.now
+        Alert.count.should == 11
+
+        alert = Alert.where("class_name != '#{@class_name}'").first
+        alert.class_name.should eq("TooManyErrorsBySourceError")
+        alert.message.should eq("#{source.display_name} has exceeded maximum failed queries. Disabling the source.")
+        alert.source_id.should == source.id
       end
 
       it "too many failed queries but they are too old" do
         source.max_failed_queries = 5
         source.max_failed_query_time_interval = 500
         source.check_for_failures.should be_false
-        source.disable_until.should be_nil
+        source.disabled_until.should < Time.zone.now
+        Alert.count.should == 10
       end
     end
   end

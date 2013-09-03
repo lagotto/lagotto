@@ -56,5 +56,5 @@ Feature: Use without signing in
 
     @allow-rescue
     Scenario: Anonymous user cannot see errors in the admin dashboard
-      When I go to the "Errors" admin page
+      When I go to the "Alerts" admin page
       Then I should see the "You are not authorized to access this page." error message

@@ -20,15 +20,8 @@
 
 class CrossRef < Source
 
-  validates_each :default_url, :username do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
-
-  if APP_CONFIG["doi_prefix"]
-    validates_each :url, :password do |record, attr, value|
-      record.errors.add(attr, "can't be blank") if value.blank?
-    end
-  end
+  validates_not_blank(:default_url, :username)
+  validates_not_blank(:url, :password) if APP_CONFIG["doi_prefix"]
 
   def get_data(article, options={})
 
@@ -41,7 +34,7 @@ class CrossRef < Source
     # Check whether we have published the DOI, otherwise use different API
     if article.is_publisher?
       raise(ArgumentError, "#{display_name} configuration requires username & password") \
-        if config.username.blank? or config.password.blank?
+        if username.blank? or password.blank?
 
       query_url = get_query_url(article)
       result = get_xml(query_url, options)
