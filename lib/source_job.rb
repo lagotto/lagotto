@@ -20,7 +20,7 @@
 
 require 'timeout'
 
-class SourceJob < Struct.new(:rs_ids, :source_id)
+class SourceJob < Struct.new(:rs_ids)
   include SourceHelper
 
   def enqueue(job)
@@ -30,7 +30,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   def perform
 
-    source = Source.find(source_id)
+    source = Source.find_by_name(job.queue)
     return unless source.active
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
@@ -164,7 +164,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def error(job, e)
-    ErrorMessage.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source_id)
+    source = Source.find_by_name(job.queue)
+    ErrorMessage.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
   end
 
   def after(job)

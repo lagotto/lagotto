@@ -187,7 +187,7 @@ namespace :queue do
       puts "Retrieval Status for article with doi #{args.doi} and source with name #{args.source} does not exist"
       exit
     end
-    source.queue_article_job(rs)
+    source.queue_article_jobs([rs.id])
 
     puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
   end
@@ -205,13 +205,9 @@ namespace :queue do
       exit
     end
 
-    ids = source.queue_all_articles
-    if ids.nil?
-      puts "Source with name #{args.source} is either inactive or is disabled"
-      exit
-    end
+    count = source.queue_all_articles
 
-    puts "Jobs for all the articles for source #{source.display_name} have been queued."
+    puts "#{count} Jobs for all the articles for source #{source.display_name} have been queued."
   end
 end
 

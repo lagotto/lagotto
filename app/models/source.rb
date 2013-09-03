@@ -50,9 +50,6 @@ class Source < ActiveRecord::Base
   validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_all, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
 
-  # for job priority
-  TOP_PRIORITY = 0
-
   INTERVAL_OPTIONS = [['½ hour', 30.minutes],
                       ['1 hour', 1.hour],
                       ['2 hours', 2.hours],
@@ -81,20 +78,10 @@ class Source < ActiveRecord::Base
   end
 
   def queue_all_articles
-    if inactive?
-      Alert.create(:exception => "", :class_name => "SourceInactiveError",
-                          :message => "#{display_name} (#{name}) is either not active or disabled",
-                          :source_id => id)
-      nil
-    else
-      rs = retrieval_statuses.pluck("retrieval_statuses.id")
-      logger.debug "#{name} total articles queued #{rs.length}"
+    return 0 if inactive?
 
-      rs.each_slice(job_batch_size) do | rs_ids |
-        Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
-      end
-      rs
-    end
+    rs = retrieval_statuses.pluck("retrieval_statuses.id")
+    queue_article_jobs(rs)
   end
 
   def queue_articles
@@ -107,23 +94,20 @@ class Source < ActiveRecord::Base
     # if there are jobs already queued, wait a little bit
     return wait_time if get_queued_job_count > 0
 
-    queue_article_jobs
+    # find articles that need to be updated. Not queued currently, scheduled_at in the past
+    rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
+
+    queue_article_jobs(rs)
     batch_time_interval
   end
 
-  def queue_article_jobs
-    # find articles that need to be updated. Not queued currently, scheduled_at in the past
-    rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
+  def queue_article_jobs(rs)
     logger.debug "#{name} total articles queued #{rs.length}"
 
-    rs.each_slice(job_batch_size) do | rs_ids |
-      Delayed::Job.enqueue SourceJob.new(rs_ids, id), :queue => name
+    rs.each_slice(job_batch_size) do |rs_ids|
+      Delayed::Job.enqueue SourceJob.new(rs_ids), queue: name
     end
-
-  end
-
-  def queue_article_job(retrieval_status, priority=Delayed::Worker.default_priority)
-    Delayed::Job.enqueue SourceJob.new([retrieval_status.id], id), :queue => name, :priority => priority
+    rs.length
   end
 
   def get_config_fields

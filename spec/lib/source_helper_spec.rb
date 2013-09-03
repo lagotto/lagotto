@@ -1,14 +1,13 @@
 require 'spec_helper'
 
+# turn SourceHelper module into a class so that we can talk to it directly
 class SourceHelperClass
+  extend(SourceHelper)
 end
 
 describe SourceHelper do
 
-  before(:each) do
-    @source_helper_class = SourceHelperClass.new
-    @source_helper_class.extend(SourceHelper)
-  end
+  subject { SourceHelperClass.new }
 
   context "HTTP" do
     let(:article) { FactoryGirl.create(:article_with_events) }
@@ -19,36 +18,36 @@ describe SourceHelper do
     context "response" do
       it "get_json" do
         stub = stub_request(:get, url).to_return(:body => data.to_json, :content_type => 'application/json', :status => 200)
-        response = @source_helper_class.get_json(url)
+        response = subject.get_json(url)
         response.should eq(data)
       end
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => data.to_xml, :content_type => 'application/xml', :status => 200)
-        @source_helper_class.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
+        subject.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
       end
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => data.to_xml, :content_type => 'application/xml', :status => 200)
-        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
+        subject.post_xml(url, data: post_data.to_xml) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
       end
     end
 
     context "empty response" do
       it "get_json" do
         stub = stub_request(:get, url).to_return(:body => nil, :content_type => 'application/json', :status => 200)
-        response = @source_helper_class.get_json(url)
+        response = subject.get_json(url)
         response.should be_nil
       end
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => nil, :content_type => 'application/xml', :status => 200)
-        @source_helper_class.get_xml(url) { |response| response.should be_nil }
+        subject.get_xml(url) { |response| response.should be_nil }
       end
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => nil, :content_type => 'application/xml', :status => 200)
-        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
+        subject.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
       end
     end
 
@@ -57,19 +56,19 @@ describe SourceHelper do
 
       it "get_json" do
         stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [404])
-        @source_helper_class.get_json(url).should eq(error)
+        subject.get_json(url).should eq(error)
         Alert.count.should == 0
       end
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [404])
-        @source_helper_class.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
+        subject.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
         Alert.count.should == 0
       end
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [404])
-        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
+        subject.post_xml(url, data: post_data.to_xml) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
         Alert.count.should == 0
       end
     end
@@ -78,7 +77,7 @@ describe SourceHelper do
 
       it "get_json" do
         stub = stub_request(:get, url).to_return(:status => [408])
-        @source_helper_class.get_json(url).should be_nil
+        subject.get_json(url).should be_nil
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -87,7 +86,7 @@ describe SourceHelper do
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:status => [408])
-        @source_helper_class.get_xml(url) { |response| response.should be_nil }
+        subject.get_xml(url) { |response| response.should be_nil }
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -96,7 +95,7 @@ describe SourceHelper do
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [408])
-        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
+        subject.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -108,7 +107,7 @@ describe SourceHelper do
 
       it "get_json" do
         stub = stub_request(:get, url).to_timeout
-        @source_helper_class.get_json(url).should be_nil
+        subject.get_json(url).should be_nil
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -118,7 +117,7 @@ describe SourceHelper do
 
       it "get_xml" do
         stub = stub_request(:get, url).to_timeout
-        @source_helper_class.get_xml(url) { |response| response.should be_nil }
+        subject.get_xml(url) { |response| response.should be_nil }
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -128,7 +127,7 @@ describe SourceHelper do
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_timeout
-        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
+        subject.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -141,7 +140,7 @@ describe SourceHelper do
 
       it "get_json" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        @source_helper_class.get_json(url).should be_nil
+        subject.get_json(url).should be_nil
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -150,7 +149,7 @@ describe SourceHelper do
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        @source_helper_class.get_xml(url) { |response| response.should be_nil }
+        subject.get_xml(url) { |response| response.should be_nil }
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -159,7 +158,7 @@ describe SourceHelper do
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [429])
-        @source_helper_class.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
+        subject.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -171,7 +170,7 @@ describe SourceHelper do
 
       it "get_json" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        @source_helper_class.get_json(url, source_id: 1).should be_nil
+        subject.get_json(url, source_id: 1).should be_nil
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -181,7 +180,7 @@ describe SourceHelper do
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:content_type => 'application/xml', :status => [429])
-        @source_helper_class.get_xml(url, source_id: 1) { |response| response.should be_nil }
+        subject.get_xml(url, source_id: 1) { |response| response.should be_nil }
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -190,7 +189,7 @@ describe SourceHelper do
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:content_type => 'application/xml', :status => [429])
-        @source_helper_class.post_xml(url, data: post_data.to_xml, source_id: 1) { |response| response.should be_nil }
+        subject.post_xml(url, data: post_data.to_xml, source_id: 1) { |response| response.should be_nil }
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -205,7 +204,7 @@ describe SourceHelper do
         url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:head, url).to_return(:status => 200, :headers => { 'Location' => url })
-        response = @source_helper_class.get_original_url(article.doi_as_url)
+        response = subject.get_original_url(article.doi_as_url)
         response.should eq(url)
         Alert.count.should == 0
         stub.should have_been_requested
@@ -216,7 +215,7 @@ describe SourceHelper do
         url = "http://www.tandfonline.com/doi/abs/10.1080/10629360600569196"
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:head, url).to_return(:status => 200, :headers => { 'Location' => url })
-        response = @source_helper_class.get_original_url(article.doi_as_url)
+        response = subject.get_original_url(article.doi_as_url)
         response.should eq(url)
         Alert.count.should == 0
         stub.should have_been_requested
@@ -225,7 +224,7 @@ describe SourceHelper do
       it "get_original_url with not found error" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 404)
-        response = @source_helper_class.get_original_url(article.doi_as_url)
+        response = subject.get_original_url(article.doi_as_url)
         response.should be_nil
         Alert.count.should == 0
         stub.should have_been_requested
@@ -234,7 +233,7 @@ describe SourceHelper do
       it "get_original_url unauthorized error" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => 401)
-        response = @source_helper_class.get_original_url(article.doi_as_url)
+        response = subject.get_original_url(article.doi_as_url)
         response.should be_nil
         Alert.count.should == 1
         alert = Alert.first
@@ -246,7 +245,7 @@ describe SourceHelper do
       it "get_original_url with timeout error" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:head, "http://dx.doi.org/#{article.doi}").to_return(:status => [408])
-        response = @source_helper_class.get_original_url(article.doi_as_url)
+        response = subject.get_original_url(article.doi_as_url)
         response.should be_nil
         Alert.count.should == 1
         alert = Alert.first
@@ -259,11 +258,11 @@ describe SourceHelper do
 
   context "CouchDB" do
     before(:each) do
-      @source_helper_class.put_alm_database
+      subject.put_alm_database
     end
 
     after(:each) do
-      @source_helper_class.delete_alm_database
+      subject.delete_alm_database
     end
 
     let(:id) { "test" }
@@ -272,9 +271,9 @@ describe SourceHelper do
     let(:error) { {"error"=>"not_found", "reason"=>"missing"} }
 
     it "get database info" do
-      rev = @source_helper_class.put_alm_data(url, data: data)
+      rev = subject.put_alm_data(url, data: data)
 
-      get_info = @source_helper_class.get_alm_database
+      get_info = subject.get_alm_database
       db_name = Addressable::URI.parse(APP_CONFIG['couchdb_url']).path[1..-2]
       get_info["db_name"].should eq(db_name)
       get_info["disk_size"].should be > 0
@@ -282,51 +281,51 @@ describe SourceHelper do
     end
 
     it "put, get and delete data" do
-      rev = @source_helper_class.put_alm_data(url, data: data)
+      rev = subject.put_alm_data(url, data: data)
       rev.should_not be_nil
 
-      get_response = @source_helper_class.get_alm_data(id)
+      get_response = subject.get_alm_data(id)
       get_response.should include("_id" => id, "_rev" => rev)
 
-      new_rev = @source_helper_class.save_alm_data(id, data: data)
+      new_rev = subject.save_alm_data(id, data: data)
       new_rev.should_not be_nil
       new_rev.should_not eq(rev)
 
-      get_response = @source_helper_class.get_alm_data(id)
+      get_response = subject.get_alm_data(id)
       get_response.should include("_id" => id, "_rev" => new_rev)
 
-      delete_rev = @source_helper_class.remove_alm_data(id, new_rev)
+      delete_rev = subject.remove_alm_data(id, new_rev)
       delete_rev.should_not be_nil
       delete_rev.should_not eq(rev)
       delete_rev.should include("3-")
     end
 
     it "get correct revision" do
-      rev = @source_helper_class.put_alm_data(url, data: data)
+      rev = subject.put_alm_data(url, data: data)
       rev.should_not be_nil
 
-      new_rev = @source_helper_class.get_alm_rev(id)
+      new_rev = subject.get_alm_rev(id)
       new_rev.should_not be_nil
       new_rev.should eq(rev)
     end
 
     it "get nil for missing id" do
-      rev = @source_helper_class.get_alm_rev("xxx")
+      rev = subject.get_alm_rev("xxx")
       rev.should be_nil
     end
 
     it "handle revisions" do
-      rev = @source_helper_class.save_alm_data(id, data: data)
-      new_rev = @source_helper_class.save_alm_data(id, data: data)
+      rev = subject.save_alm_data(id, data: data)
+      new_rev = subject.save_alm_data(id, data: data)
       new_rev.should_not be_nil
       new_rev.should_not eq(rev)
-      delete_rev = @source_helper_class.remove_alm_data(id, new_rev)
+      delete_rev = subject.remove_alm_data(id, new_rev)
       delete_rev.should_not eq(new_rev)
     end
 
     it "revision conflict" do
-      rev = @source_helper_class.put_alm_data(url, data: data)
-      new_rev = @source_helper_class.put_alm_data(url, data: data)
+      rev = subject.put_alm_data(url, data: data)
+      new_rev = subject.put_alm_data(url, data: data)
 
       Alert.count.should == 1
       alert = Alert.first
@@ -335,7 +334,7 @@ describe SourceHelper do
     end
 
     it "handle missing data" do
-      get_response = @source_helper_class.get_alm_data(id)
+      get_response = subject.get_alm_data(id)
       get_response.should eq(error)
       Alert.count.should == 0
     end
