@@ -18,6 +18,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'source_helper'
 require 'timeout'
 
 class SourceJob < Struct.new(:rs_ids, :source_id)
