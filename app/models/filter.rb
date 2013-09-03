@@ -18,8 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'ostruct'
-
 class Filter < ActiveRecord::Base
   extend ActionView::Helpers::NumberHelper
   extend ActionView::Helpers::TextHelper
@@ -35,6 +33,11 @@ class Filter < ActiveRecord::Base
   scope :active, where(:active => true)
 
   class << self
+    def validates_not_blank(*attrs)
+      validates_each attrs do |record, attr, value|
+        record.errors.add(attr, "can't be blank") if value.blank?
+      end
+    end
 
     def all
       # To sync filters
