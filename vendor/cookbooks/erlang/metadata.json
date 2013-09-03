@@ -1,5 +1,6 @@
 {
   "name": "erlang",
+  "version": "1.3.2",
   "description": "Installs erlang, optionally install GUI tools.",
   "long_description": "",
   "maintainer": "Opscode, Inc.",
@@ -39,6 +40,5 @@
     "erlang::package": "Installs Erlang via native package",
     "erlang::source": "Installs Erlang via source",
     "erlang::esl": "Installs Erlang from Erlang Solutions' package repositories"
-  },
-  "version": "1.3.0"
+  }
 }

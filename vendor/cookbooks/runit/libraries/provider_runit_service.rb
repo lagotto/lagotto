@@ -44,6 +44,7 @@ class Chef
           @log_main_dir = nil
           @default_log_dir = nil
           @log_run_script = nil
+          @log_config_file = nil
           @env_dir = nil
           @env_files = nil
           @finish_script = nil
@@ -94,6 +95,7 @@ class Chef
           @new_resource.enabled(true)
           restart_service if @new_resource.restart_on_update and run_script.updated_by_last_action?
           restart_log_service if @new_resource.restart_on_update and log_run_script.updated_by_last_action?
+          restart_log_service if @new_resource.restart_on_update and log_config_file.updated_by_last_action?
         end
 
         def configure_service
@@ -109,6 +111,7 @@ class Chef
               log_main_dir.run_action(:create)
               default_log_dir.run_action(:create) if new_resource.default_logger
               log_run_script.run_action(:create)
+              log_config_file.run_action(:create)
             else
               Chef::Log.debug("log not specified for #{new_resource.service_name}, continuing")
             end
@@ -362,6 +365,27 @@ EOF
           @log_run_script
         end
 
+        def log_config_file
+          return @log_config_file unless @log_config_file.nil?
+          @log_config_file = Chef::Resource::Template.new(::File.join(sv_dir_name, 'log', 'config'), run_context)
+          @log_config_file.owner(new_resource.owner)
+          @log_config_file.group(new_resource.group)
+          @log_config_file.mode(00644)
+          @log_config_file.cookbook("runit")
+          @log_config_file.source("log-config.erb")
+          @log_config_file.variables({
+            :size => new_resource.log_size,
+            :num => new_resource.log_num,
+            :min => new_resource.log_min,
+            :timeout => new_resource.log_timeout,
+            :processor => new_resource.log_processor,
+            :socket => new_resource.log_socket,
+            :prefix => new_resource.log_prefix,
+            :append => new_resource.log_config_append
+          })
+          @log_config_file
+        end
+
         def env_dir
           return @env_dir unless @env_dir.nil?
           @env_dir = Chef::Resource::Directory.new(::File.join(sv_dir_name, 'env'), run_context)
@@ -428,7 +452,7 @@ EOF
 
         def lsb_init
           return @lsb_init unless @lsb_init.nil?
-          initfile = ::File.join( '/etc', 'init.d', new_resource.service_name)
+          initfile = ::File.join(new_resource.lsb_init_dir, new_resource.service_name)
           if node['platform'] == 'debian'
             ::File.unlink(initfile) if ::File.symlink?(initfile)
             @lsb_init = Chef::Resource::Template.new(initfile, run_context)
