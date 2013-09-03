@@ -14,6 +14,7 @@ set :output, "#{path}/log/cron.log"
 # Create alerts by filtering API responses
 every 1.day, at: "3:00 AM" do
   rake "filter:all"
+  rake "mailer:report"
 end
 
 # Delete resolved alerts
