@@ -13,7 +13,7 @@ Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
   elsif status == "active"
     @articles = FactoryGirl.create_list(:article_with_events, 10)
   elsif status == "disabled"
-    @source = FactoryGirl.create(:source, disable_until: (Time.now + 1.hour))
+    @source = FactoryGirl.create(:source, disabled_until: (Time.now + 1.hour))
   elsif status == "with errors"
     @articles = FactoryGirl.create_list(:article_with_errors, 10)
   end

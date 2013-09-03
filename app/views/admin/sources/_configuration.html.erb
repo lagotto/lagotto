@@ -98,7 +98,7 @@
         <% @source.get_config_fields.each do |field| %>
           <tr>
             <th><%= field[:field_name].gsub(/_/, " ").capitalize %></th>
-            <td><%= @source.config.send(field[:field_name]) %></td>
+            <td><%= @source.send(field[:field_name]) %></td>
           </tr>
         <% end %>
       <% end %>

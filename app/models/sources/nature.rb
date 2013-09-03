@@ -20,9 +20,7 @@
 
 class Nature < Source
 
-  validates_each :url do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
+  validates_not_blank(:url)
 
   def get_data(article, options={})
 

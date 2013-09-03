@@ -12,16 +12,16 @@ describe Source do
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
   it { should validate_presence_of(:display_name) }
-  it { should validate_numericality_of(:workers).only_integer }
+  it { should validate_numericality_of(:workers).only_integer.with_message("should be between 1 and 10") }
   it { should ensure_inclusion_of(:workers).in_range(1..10).with_message("should be between 1 and 10") }
-  it { should validate_numericality_of(:timeout).only_integer }
+  it { should validate_numericality_of(:timeout).only_integer.with_message("should be between 1 and 3600") }
   it { should ensure_inclusion_of(:timeout).in_range(1..3600).with_message("should be between 1 and 3600") }
-  it { should validate_numericality_of(:wait_time).only_integer }
+  it { should validate_numericality_of(:wait_time).only_integer.with_message("should be between 1 and 3600") }
   it { should ensure_inclusion_of(:wait_time).in_range(1..3600).with_message("should be between 1 and 3600") }
-  it { should validate_numericality_of(:max_failed_queries).only_integer }
-  it { should ensure_inclusion_of(:max_failed_queries).in_range(0..1000).with_message("should be between 0 and 1000") }
-  it { should validate_numericality_of(:max_failed_query_time_interval).only_integer }
-  it { should ensure_inclusion_of(:max_failed_query_time_interval).in_range(0..864000).with_message("should be between 0 and 864000") }
+  it { should validate_numericality_of(:max_failed_queries).only_integer.with_message("should be between 1 and 1000") }
+  it { should ensure_inclusion_of(:max_failed_queries).in_range(1..1000).with_message("should be between 1 and 1000") }
+  it { should validate_numericality_of(:max_failed_query_time_interval).only_integer.with_message("should be between 1 and 864000") }
+  it { should ensure_inclusion_of(:max_failed_query_time_interval).in_range(1..864000).with_message("should be between 1 and 864000") }
   it { should validate_numericality_of(:job_batch_size).only_integer.with_message("should be between 1 and 1000") }
   it { should ensure_inclusion_of(:job_batch_size).in_range(1..1000).with_message("should be between 1 and 1000") }
   it { should validate_numericality_of(:batch_time_interval).only_integer.with_message("should be between 1 and 86400") }
@@ -67,7 +67,7 @@ describe Source do
       end
 
       it "with disabled source" do
-        source.disable_until = Time.zone.now + 1.hour
+        source.disabled_until = Time.zone.now + 1.hour
         source.queue_all_articles.should == 0
       end
     end
@@ -107,7 +107,7 @@ describe Source do
       end
 
       it "with disabled source" do
-        source.disable_until = Time.zone.now + source.disable_delay
+        source.disabled_until = Time.zone.now + source.disable_delay
         source.queue_articles.should eq(source.disable_delay)
       end
 
@@ -115,7 +115,7 @@ describe Source do
         FactoryGirl.create_list(:alert, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
         source.max_failed_queries = 5
         source.queue_articles.should eq(source.disable_delay)
-        source.disable_until.should_not be_nil
+        source.disabled_until.should_not be_nil
       end
 
       it "with queued jobs" do
@@ -149,14 +149,14 @@ describe Source do
 
       it "few failed queries" do
         source.check_for_failures.should be_false
-        source.disable_until.should be_nil
+        source.disabled_until.should < Time.zone.now
         Alert.count.should == 10
       end
 
       it "too many failed queries" do
         source.max_failed_queries = 5
         source.check_for_failures.should be_true
-        source.disable_until.should_not be_nil
+        source.disabled_until.should > Time.zone.now
         Alert.count.should == 11
 
         alert = Alert.where("class_name != '#{@class_name}'").first
@@ -169,7 +169,7 @@ describe Source do
         source.max_failed_queries = 5
         source.max_failed_query_time_interval = 500
         source.check_for_failures.should be_false
-        source.disable_until.should be_nil
+        source.disabled_until.should < Time.zone.now
         Alert.count.should == 10
       end
     end

@@ -20,13 +20,11 @@
 
 class Mendeley < Source
 
-  validates_each :url, :url_with_type, :url_with_title, :related_articles_url, :api_key do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
+  validates_not_blank(:url, :url_with_type, :url_with_title, :related_articles_url, :api_key)
 
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires api key") \
-      if config.api_key.blank?
+      if api_key.blank?
 
     # First, we need to have the Mendeley uuid for this article.
     # Get it if we don't have it, and proceed only if we do.

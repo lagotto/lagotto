@@ -176,20 +176,13 @@ ActiveRecord::Schema.define(:version => 20130831141614) do
     t.string   "type",                                              :null => false
     t.string   "name",                                              :null => false
     t.string   "display_name",                                      :null => false
-    t.boolean  "active",                         :default => false
-    t.datetime "disable_until"
-    t.integer  "disable_delay",                  :default => 10,    :null => false
-    t.integer  "timeout",                        :default => 30,    :null => false
-    t.integer  "workers",                        :default => 1,     :null => false
+    t.boolean  "active",         :default => false
+    t.datetime "disabled_until", :default => '1970-01-01 00:00:00', :null => false
     t.text     "config"
     t.integer  "group_id",                                          :null => false
-    t.boolean  "private",                        :default => false
-    t.integer  "wait_time",                      :default => 300,   :null => false
+    t.boolean  "private",        :default => false
     t.datetime "created_at",                                        :null => false
     t.datetime "updated_at",                                        :null => false
-    t.integer  "max_failed_queries",             :default => 200,   :null => false
-    t.integer  "max_failed_query_time_interval", :default => 86400, :null => false
-    t.boolean  "refreshable",                    :default => true
     t.text     "description"
   end
 
