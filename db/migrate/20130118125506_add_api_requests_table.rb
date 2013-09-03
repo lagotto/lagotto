@@ -8,10 +8,10 @@ class AddApiRequestsTable < ActiveRecord::Migration
       t.float :view_duration
       t.datetime :created_at
     end
-    
+
     add_index :api_requests, :created_at
   end
-  
+
   def self.down
     drop_table :api_requests
   end
