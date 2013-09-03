@@ -20,6 +20,10 @@
 
 class CitationMilestoneAlert < Filter
 
+  validates_each :limit do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
+  end
+
   def run_filter(state)
     source_ids = Source.joins(:group).where("groups.name = 'Cited'").pluck(:id)
     responses = ApiResponse.filter(state[:id]).citation_milestone(limit, source_ids)

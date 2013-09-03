@@ -16,6 +16,8 @@ class Admin::FiltersController < Admin::ApplicationController
   end
 
   def update
+    params[:filter] ||= {}
+    params[:filter][:active] = params[:active] if params[:active]
     @filter.update_attributes(params[:filter])
     load_index
     respond_with(@filter) do |format|

@@ -20,6 +20,10 @@
 
 class ApiResponseTooSlowError < Filter
 
+  validates_each :limit do |record, attr, value|
+    record.errors.add(attr, "can't be blank") if value.blank?
+  end
+
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).slow(limit)
 
