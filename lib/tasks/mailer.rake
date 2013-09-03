@@ -20,11 +20,11 @@
 
 namespace :mailer do
 
-  desc "Send daily error report"
+  desc "Send daily report"
   task :report => :environment do
     report = Report.first
-    report.send_daily_error_report
-    puts "Daily error report sent"
+    report.send_daily_report
+    puts "Daily report sent"
   end
 
   desc 'Send all mails'
