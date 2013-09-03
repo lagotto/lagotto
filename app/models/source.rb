@@ -85,7 +85,8 @@ class Source < ActiveRecord::Base
   def queue_all_articles
     return 0 if inactive?
 
-    rs = retrieval_statuses.pluck("retrieval_statuses.id")
+    # find articles that are not queued currently. Staleness doesn't matter
+    rs = retrieval_statuses.not_queued.pluck("retrieval_statuses.id")
     queue_article_jobs(rs)
   end
 
@@ -110,7 +111,7 @@ class Source < ActiveRecord::Base
     logger.debug "#{name} total articles queued #{rs.length}"
 
     rs.each_slice(job_batch_size) do |rs_ids|
-      Delayed::Job.enqueue SourceJob.new(rs_ids), queue: name
+      Delayed::Job.enqueue SourceJob.new(rs_ids, id), queue: name
     end
     rs.length
   end

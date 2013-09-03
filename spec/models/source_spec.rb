@@ -48,17 +48,17 @@ describe Source do
 
     context "queue all articles" do
       it "queue" do
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
         source.queue_all_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "with max_job_batch_size" do
         max_job_batch_size = 5
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
         source.max_job_batch_size = max_job_batch_size
         source.queue_all_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "with inactive source" do
@@ -74,31 +74,31 @@ describe Source do
 
     context "queue articles" do
       it "queue" do
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
         source.queue_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "only stale articles" do
         retrieval_status = FactoryGirl.create(:retrieval_status, scheduled_at: Time.zone.now + 10.minutes)
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
         source.queue_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "not queued articles" do
         retrieval_status = FactoryGirl.create(:retrieval_status, queued_at: Time.zone.now)
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
         source.queue_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "with max_job_batch_size" do
         max_job_batch_size = 5
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[0...max_job_batch_size]), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[0...max_job_batch_size], source.id), { queue: source.name })
         source.max_job_batch_size = max_job_batch_size
         source.queue_articles
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...max_job_batch_size]))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...max_job_batch_size], source.id))
       end
 
       it "with inactive source" do
@@ -126,16 +126,16 @@ describe Source do
 
     context "queue article jobs" do
       it "multiple articles" do
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name })
         source.queue_article_jobs(rs_ids)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "single article" do
         retrieval_status = FactoryGirl.create(:retrieval_status)
-        Delayed::Job.stub(:enqueue).with(SourceJob.new([retrieval_status.id]), { queue: source.name })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new([retrieval_status.id], source.id), { queue: source.name })
         source.queue_article_jobs([retrieval_status.id])
-        Delayed::Job.expects(:enqueue).with(SourceJob.new([retrieval_status.id]))
+        Delayed::Job.expects(:enqueue).with(SourceJob.new([retrieval_status.id], source.id))
       end
     end
 

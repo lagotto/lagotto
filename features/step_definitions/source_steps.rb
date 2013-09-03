@@ -82,7 +82,7 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
   if page_title == "Jobs"
     title = "delayed_jobs"
   elsif page_title == "Errors"
-    title = "error_messages"
+    title = "alerts"
   elsif page_title == "Home"
     title = ""
   elsif page_title == "API Requests"

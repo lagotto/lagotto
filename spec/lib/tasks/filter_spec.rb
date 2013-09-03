@@ -9,6 +9,7 @@ describe "filter:all" do
 
     before do
       FactoryGirl.create(:api_response)
+      FactoryGirl.create(:decreasing_event_count_error)
     end
 
     let(:output) { "Found 0 decreasing event count errors" }
@@ -35,6 +36,7 @@ describe "filter:all" do
 
     before do
       FactoryGirl.create(:api_response, previous_count: 12)
+      FactoryGirl.create(:decreasing_event_count_error)
     end
 
     let(:output) { "Found 1 decreasing event count error" }
@@ -48,6 +50,7 @@ describe "filter:all" do
 
     before do
       FactoryGirl.create(:api_response, event_count: 3600)
+      FactoryGirl.create(:increasing_event_count_error)
     end
 
     let(:output) { "Found 1 increasing event count error" }
@@ -61,6 +64,7 @@ describe "filter:all" do
 
     before do
       FactoryGirl.create(:api_response, duration: 16000)
+      FactoryGirl.create(:api_too_slow_error)
     end
 
     let(:output) { "Found 1 API too slow error" }
@@ -74,6 +78,7 @@ describe "filter:all" do
 
     before do
       FactoryGirl.create(:api_response, event_count: nil, update_interval: 42)
+      FactoryGirl.create(:article_not_updated_error)
     end
 
     let(:output) { "Found 1 article not updated error" }
@@ -83,12 +88,13 @@ describe "filter:all" do
     end
   end
 
-  context "report article not updated errors" do
+  context "report source not updated errors" do
 
     before do
       @citeulike = FactoryGirl.create(:citeulike)
       FactoryGirl.create(:mendeley)
       FactoryGirl.create(:api_response, source_id: @citeulike.id)
+      FactoryGirl.create(:source_not_updated_error)
     end
 
     let(:output) { "Found 1 source not updated error" }
