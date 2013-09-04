@@ -28,7 +28,7 @@
         </div>
         <div class="btn-group">
           <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-filter"></i> <%= @class_name.nil? ? "All Articles" : h(@class_name) %> <span class="caret"></span></a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu pull-right">
             <li><%= link_to "All Articles", admin_articles_path(:query => params[:query]) %></li>
             <li class="divider"></li>
             <li><%= link_to "All Alerts", admin_articles_path(:class_name => "All Alerts", :query => params[:query]) %></li>
