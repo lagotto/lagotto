@@ -296,7 +296,7 @@ DEPENDENCIES
   draper (~> 1.2.1)
   email_spec (~> 1.5.0)
   factory_girl_rails (~> 4.2.1)
-  faraday (~> 0.8.7)
+  faraday (~> 0.8.8)
   faraday-cookie_jar
   faraday_middleware (~> 0.9.0)
   faye-websocket (~> 0.4.7)

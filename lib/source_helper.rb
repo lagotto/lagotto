@@ -157,7 +157,7 @@ module SourceHelper
       c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.request  :json
-      c.response :json
+      c.response :json, :content_type => /\bjson$/
       c.use      Faraday::Response::RaiseError
       c.adapter  Faraday.default_adapter
     end

@@ -11,7 +11,7 @@ gem "rake", "~> 10.1.0"
 gem "whenever", "~> 0.8.2", :require => false
 gem "mail", "~> 2.5.4"
 
-gem "faraday", "~> 0.8.7"
+gem "faraday", "~> 0.8.8"
 gem "faraday_middleware", "~> 0.9.0"
 gem 'faraday-cookie_jar'
 gem "nokogiri", "~> 1.6.0"
