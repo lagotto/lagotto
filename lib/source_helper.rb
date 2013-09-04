@@ -153,7 +153,7 @@ module SourceHelper
 
   def conn_json
     Faraday.new do |c|
-      c.headers['content-type'] = 'application/json'
+      c.headers['Accept'] = 'application/json'
       c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.request  :json
@@ -165,7 +165,7 @@ module SourceHelper
 
   def conn_xml
     Faraday.new do |c|
-      c.headers['content-type'] = 'application/xml'
+      c.headers['Accept'] = 'application/xml'
       c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.use      Faraday::Response::RaiseError

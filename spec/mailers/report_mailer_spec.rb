@@ -14,5 +14,19 @@ describe ReportMailer do
     it "renders the body" do
       mail.body.encoded.should include("This is the daily ALM report.")
     end
+
+    it "includes no reviews" do
+      mail.body.encoded.should include("No review found.")
+    end
+
+    # context "contains reviews" do
+    #   before(:each) do
+    #     @review = FactoryGirl.create(:review)
+    #   end
+
+    #   it "includes message" do
+    #     mail.body.encoded.should include(@review.message)
+    #   end
+    # end
   end
 end

@@ -12,18 +12,18 @@ describe SourceHelper do
   context "HTTP" do
     let(:article) { FactoryGirl.create(:article_with_events) }
     let(:url) { "http://127.0.0.1/api/v3/articles/info:doi/#{article.doi}"}
-    let(:data) { { "name" => "Fred"} }
-    let(:post_data) { { "name" => "Jack"} }
+    let(:data) { { "name" => "Fred" } }
+    let(:post_data) { { "name" => "Jack" } }
 
     context "response" do
       it "get_json" do
-        stub = stub_request(:get, url).to_return(:body => data.to_json, :content_type => 'application/json', :status => 200)
+        stub = stub_request(:get, url).to_return(:body => data.to_json, :status => 200, :headers => { "Content-Type" => "application/json" })
         response = subject.get_json(url)
         response.should eq(data)
       end
 
       it "get_xml" do
-        stub = stub_request(:get, url).to_return(:body => data.to_xml, :content_type => 'application/xml', :status => 200)
+        stub = stub_request(:get, url).to_return(:body => data.to_xml, :status => 200, :headers => { "Content-Type" => "application/xml" })
         subject.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
       end
 
@@ -35,18 +35,18 @@ describe SourceHelper do
 
     context "empty response" do
       it "get_json" do
-        stub = stub_request(:get, url).to_return(:body => nil, :content_type => 'application/json', :status => 200)
+        stub = stub_request(:get, url).to_return(:body => nil, :status => 200, :headers => { "Content-Type" => "application/json" })
         response = subject.get_json(url)
         response.should be_nil
       end
 
       it "get_xml" do
-        stub = stub_request(:get, url).to_return(:body => nil, :content_type => 'application/xml', :status => 200)
+        stub = stub_request(:get, url).to_return(:body => nil, :status => 200, :headers => { "Content-Type" => "application/xml" })
         subject.get_xml(url) { |response| response.should be_nil }
       end
 
       it "post_xml" do
-        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => nil, :content_type => 'application/xml', :status => 200)
+        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => nil, :status => 200, :headers => { "Content-Type" => "application/xml" })
         subject.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
       end
     end
@@ -55,19 +55,19 @@ describe SourceHelper do
       let(:error) { { "error" => "Not Found"} }
 
       it "get_json" do
-        stub = stub_request(:get, url).to_return(:body => error.to_json, :content_type => 'application/json', :status => [404])
+        stub = stub_request(:get, url).to_return(:body => error.to_json, :status => [404], :headers => { "Content-Type" => "application/json" })
         subject.get_json(url).should eq(error)
         Alert.count.should == 0
       end
 
       it "get_xml" do
-        stub = stub_request(:get, url).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [404])
+        stub = stub_request(:get, url).to_return(:body => error.to_xml, :status => [404], :headers => { "Content-Type" => "application/xml" })
         subject.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
         Alert.count.should == 0
       end
 
       it "post_xml" do
-        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => error.to_xml, :content_type => 'application/xml', :status => [404])
+        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => error.to_xml, :status => [404], :headers => { "Content-Type" => "application/xml" })
         subject.post_xml(url, data: post_data.to_xml) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
         Alert.count.should == 0
       end
@@ -179,7 +179,7 @@ describe SourceHelper do
       end
 
       it "get_xml" do
-        stub = stub_request(:get, url).to_return(:content_type => 'application/xml', :status => [429])
+        stub = stub_request(:get, url).to_return(:status => [429])
         subject.get_xml(url, source_id: 1) { |response| response.should be_nil }
         Alert.count.should == 1
         alert = Alert.first
@@ -188,7 +188,7 @@ describe SourceHelper do
       end
 
       it "post_xml" do
-        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:content_type => 'application/xml', :status => [429])
+        stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [429])
         subject.post_xml(url, data: post_data.to_xml, source_id: 1) { |response| response.should be_nil }
         Alert.count.should == 1
         alert = Alert.first
