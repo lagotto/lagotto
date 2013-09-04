@@ -199,12 +199,15 @@ module SourceHelper
         error.response[:body]
       end
     else
+      details = nil
+
       if error.kind_of?(Faraday::Error::TimeoutError)
         status = 408
       elsif error.respond_to?('status')
         status = error[:status]
       elsif error.response
         status = error.response[:status]
+        details = error.response[:body]
       else
         status = 400
       end
@@ -242,12 +245,13 @@ module SourceHelper
         class_name = Net::HTTPServiceUnavailable
       end
 
-      Alert.create(:exception => exception,
-                          :class_name => class_name.to_s,
-                          :message => message,
-                          :status => status,
-                          :target_url => url,
-                          :source_id => options[:source_id])
+      Alert.create(exception: exception,
+                   class_name: class_name.to_s,
+                   message: message,
+                   details: details,
+                   status: status,
+                   target_url: url,
+                   source_id: options[:source_id])
       nil
     end
   end
