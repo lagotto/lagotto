@@ -121,6 +121,11 @@
                 <% end %>
               <% end %>
 
+              <% unless alert.details.blank? %>
+                <h5>Details</h5>
+                <%= h(alert.details) %>
+              <% end %>
+
               <% unless alert.trace.blank? %>
                 <h5>Trace</h5>
                 <%= simple_format(alert.trace) %>
