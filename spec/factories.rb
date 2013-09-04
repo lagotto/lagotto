@@ -285,6 +285,9 @@ FactoryGirl.define do
 
   factory :review do
     name "ArticleNotUpdatedError"
+    message "Found 0 article not updated errors in 29,899 API responses, taking 29.899 ms"
+    input 10
+    created_at { Time.zone.now }
   end
 
   factory :article_not_updated_error, aliases: [:filter], class: ArticleNotUpdatedError do

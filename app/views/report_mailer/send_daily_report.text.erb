@@ -1,7 +1,11 @@
 This is the daily ALM report.
 
-<% Review.daily_error_report.each do |review| -%>
-<%= review.message %></br>
+<% unless @reviews.empty? -%>
+<% @reviews.each do |review| -%>
+<%= review.message %>
+<% end -%>
+<% else -%>
+No review found.
 <% end -%>
 
 See all alerts: <%= admin_alerts_url %>
