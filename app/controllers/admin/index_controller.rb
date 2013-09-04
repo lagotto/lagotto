@@ -24,7 +24,7 @@ class Admin::IndexController < Admin::ApplicationController
     @articles_count = Article.count
     @articles_recent_count = Article.last_x_days(30).count
     @sources_disabled_count = Source.where("disabled_until > NOW()").count
-    @alerts_last_day_count = Alert.total(1).count
+    @alerts_last_day_count = Alert.total_errors(1).count
     @events_count = RetrievalStatus.joins(:source).where("active = 1 AND name != 'relativemetric'").sum(:event_count)
     @queued_count = RetrievalStatus.queued.count
     @delayed_jobs_active_count = DelayedJob.count

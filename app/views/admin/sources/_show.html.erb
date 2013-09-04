@@ -20,7 +20,7 @@
     <tr>
       <th>Responses in the last 24 Hours</th>
       <td class="number"><%= number_with_delimiter(@source.api_responses.total(1).size) %></td>
-      <td class="number"><%= link_to_if @source.alerts.total(1).size > 0, number_with_delimiter(@source.alerts.total(1).size), admin_alerts_path(:source_id => @source.id) %></td>
+      <td class="number"><%= link_to_if @source.alerts.total_errors(1).size > 0, number_with_delimiter(@source.alerts.total_errors(1).size), admin_alerts_path(:source_id => @source.id) %></td>
     </tr>
     <tr>
       <th/>
