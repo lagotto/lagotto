@@ -74,8 +74,8 @@ class ScienceSeeker < Source
     config.staleness_year || 1.month
   end
 
-  def max_job_batch_size
-    config.max_job_batch_size || 1000
+  def rate_limiting
+    config.rate_limiting || 1000
   end
 
 end
