@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130831141614) do
+ActiveRecord::Schema.define(:version => 20130905084922) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(:version => 20130831141614) do
     t.boolean  "error",        :default => true
   end
 
-  add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_alerts_on_source_id_and_unresolved_and_updated_at"
-  add_index "alerts", ["unresolved", "updated_at"], :name => "index_alerts_on_unresolved_and_updated_at"
-  add_index "alerts", ["updated_at"], :name => "index_alerts_on_updated_at"
+  add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"
+  add_index "alerts", ["unresolved", "updated_at"], :name => "index_error_messages_on_unresolved_and_updated_at"
+  add_index "alerts", ["updated_at"], :name => "index_error_messages_on_updated_at"
 
   create_table "api_requests", :force => true do |t|
     t.string   "format"
@@ -173,17 +173,18 @@ ActiveRecord::Schema.define(:version => 20130831141614) do
   add_index "reviews", ["state_id"], :name => "index_reviews_on_state_id"
 
   create_table "sources", :force => true do |t|
-    t.string   "type",                                              :null => false
-    t.string   "name",                                              :null => false
-    t.string   "display_name",                                      :null => false
-    t.boolean  "active",         :default => false
-    t.datetime "disabled_until", :default => '1970-01-01 00:00:00', :null => false
+    t.string   "type",                                            :null => false
+    t.string   "name",                                            :null => false
+    t.string   "display_name",                                    :null => false
+    t.boolean  "active",       :default => false
+    t.datetime "run_at",       :default => '1970-01-01 00:00:00', :null => false
     t.text     "config"
-    t.integer  "group_id",                                          :null => false
-    t.boolean  "private",        :default => false
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
+    t.integer  "group_id",                                        :null => false
+    t.boolean  "private",      :default => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
     t.text     "description"
+    t.boolean  "queued",       :default => true
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true

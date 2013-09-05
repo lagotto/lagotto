@@ -9,6 +9,7 @@
       <%= f.association :group, :include_blank => false %>
       <%= f.input :active, :as => :boolean %>
       <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
+      <%= f.input :queued, :as => :boolean, hint: "Articles for this source can be queued" %>
       <%= f.input :description, :input_html => { :rows => 3, :class => "span9" } %>
 
       <% if not @source.get_config_fields.empty? %>
@@ -33,9 +34,9 @@
                                                     include_blank: false,
                                                     input_html: { class: "span2" },
                                                     hint: "Batch job interval" %>
-      <%= f.input :max_job_batch_size, :as => :numeric, label: false,
+      <%= f.input :rate_limiting, :as => :numeric, label: false,
                                                     input_html: { class: "input-mini" },
-                                                    hint: "Max. requests per batch job" %>
+                                                    hint: "Max. requests per hour" %>
 
       <%= f.input :wait_time, label: false,
                               input_html: { class: "input-mini" },
@@ -111,9 +112,8 @@
       <tr>
         <th>Job queue</th>
         <td>
-          <%= @source.rate_limiting %> per hour rate-limiting:</br>
+          <%= @source.rate_limiting %> per hour rate-limiting</br>
           <%= distance_of_time(@source.batch_time_interval) %> between batch jobs</br>
-          Max. <%= @source.max_job_batch_size %> articles per batch job interval</br></br>
           <%= @source.job_batch_size %> articles per job</br>
           <%= @source.wait_time %> seconds before more jobs can be added</br>
         </td>

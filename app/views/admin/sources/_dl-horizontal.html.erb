@@ -1,11 +1,11 @@
-<% if can? :read, Alert %>
+<% if can?(:read, Alert) %>
   <div class="visible-phone">
     <dt>Status</dt>
     <dd><%= h(@source.status) %></dd>
   </div>
-  <% if @source.disabled? %>
-    <dt>Disabled until</dt>
-    <dd><%= @source.disabled_until.to_s(:friendly) %></dd>
+  <% if @source.run_at > Time.zone.now %>
+    <dt>Scheduled Run</dt>
+    <dd><%= @source.run_at.to_s(:friendly) %></dd>
   <% end %>
 <% end %>
 <% unless @source.group.blank? %>
