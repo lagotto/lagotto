@@ -6,6 +6,7 @@ class Admin::EventsController < Admin::ApplicationController
     respond_with do |format|
       format.html do
         authorize! :index, Alert
+        @sources = Source.active
       end
       format.json do
         articles = Source.for_events.map { |source| source.retrieval_statuses.count(:conditions => "event_count > 0") }

@@ -213,12 +213,12 @@ class Source < ActiveRecord::Base
   def queue_article_jobs(rs, options = {})
     return 0 unless active?
 
-    run_at = DelayedJob.where(queue: name).maximum(:run_at) || Time.zone.now - batch_interval
+    schedule_at = DelayedJob.where(queue: name).maximum(:run_at) || Time.zone.now - batch_interval
     priority = options[:priority] || Delayed::Worker.default_priority
 
     rs.each_slice(job_batch_size) do |rs_ids|
-      run_at += batch_interval
-      Delayed::Job.enqueue SourceJob.new(rs_ids, id), queue: name, run_at: run_at, priority: priority
+      schedule_at += batch_interval
+      Delayed::Job.enqueue SourceJob.new(rs_ids, id), queue: name, run_at: schedule_at, priority: priority
     end
 
     rs.length
