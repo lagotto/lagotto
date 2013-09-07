@@ -28,7 +28,7 @@ namespace :queue do
       sources = Source.active.where(name: args.source)
     end
 
-    if sources.nil?
+    if sources.empty?
       puts "No active source found."
       exit
     end
@@ -79,7 +79,7 @@ namespace :queue do
       sources = Source.queueable.where(name: args.source)
     end
 
-    if sources.nil?
+    if sources.empty?
       puts "No active queueable source found."
       exit
     end
@@ -102,7 +102,7 @@ namespace :queue do
       sources = Source.queueable.where(name: args.source)
     end
 
-    if sources.nil?
+    if sources.empty?
       puts "No active queueable source found."
       exit
     end

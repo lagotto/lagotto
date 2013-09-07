@@ -91,7 +91,7 @@ class Source < ActiveRecord::Base
       end
     end
 
-    state all - [:working, :queueing, :waiting] do
+    state all - [:working, :queueing, :waiting, :idle] do
       def active?
         false
       end
@@ -124,7 +124,7 @@ class Source < ActiveRecord::Base
     end
 
     event :activate do
-      transition :inactive => :working
+      transition [:inactive] => :working
     end
 
     event :inactivate do
@@ -140,9 +140,9 @@ class Source < ActiveRecord::Base
     end
 
     event :check do
-      transition [:working, :queueing] => :disabled, :if => :check_for_failures
-      transition [:working, :queueing] => :waiting, :if => :check_for_queued_jobs
-      transition :working => :queueing
+      transition any - [:disabled] => :disabled, :if => :check_for_failures
+      transition any => :waiting, :if => :check_for_queued_jobs
+      transition any => :queueing
     end
 
     event :work do
@@ -379,10 +379,6 @@ class Source < ActiveRecord::Base
     ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
   end
 
-  def ready?
-    active && run_at <= Time.zone.now
-  end
-
   private
 
   def create_retrievals
@@ -400,7 +396,7 @@ class Source < ActiveRecord::Base
 end
 
 module Exceptions
-  # source is either not active or disabled
+  # source is either inactive or disabled
   class SourceInactiveError < StandardError; end
 
   # we have received too many errors (and will disable the source)
