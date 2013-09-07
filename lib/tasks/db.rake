@@ -113,4 +113,53 @@ namespace :db do
       puts "Deleted #{before - after} API requests, #{after} API requests remaining"
     end
   end
+
+  namespace :sources do
+
+    desc "Activate sources"
+    task :activate, [:source] => :environment do |t, args|
+      if args.source.nil?
+        sources = Source.inactive
+      else
+        sources = Source.inactive.where(name: args.source)
+      end
+
+      if sources.empty?
+        puts "No inactive source found."
+        exit
+      end
+
+      sources.each do |source|
+        source.activate
+        if source.working?
+          puts "Source #{source.display_name} has been activated."
+        else
+          puts "Source #{source.display_name} could not be activated."
+        end
+      end
+    end
+
+    desc "Inactivate sources"
+    task :inactivate, [:source] => :environment do |t, args|
+      if args.source.nil?
+        sources = Source.active
+      else
+        sources = Source.active.where(name: args.source)
+      end
+
+      if sources.empty?
+        puts "No active source found."
+        exit
+      end
+
+      sources.each do |source|
+        source.inactivate
+        if source.inactive?
+          puts "Source #{source.display_name} has been inactivated."
+        else
+          puts "Source #{source.display_name} could not be inactivated."
+        end
+      end
+    end
+  end
 end

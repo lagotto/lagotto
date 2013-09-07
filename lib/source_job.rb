@@ -52,7 +52,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
         if response[:event_count]
           # observe rate-limiting settings
-          sleep_interval = start_time + source.batch_interval - Time.zone.now
+          sleep_interval = start_time + source.job_interval - Time.zone.now
           sleep(sleep_interval) if sleep_interval > 0
         else
           # each time we fail to get an answer from a source, wait longer
@@ -174,6 +174,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def after(job)
     #reset the queued at value
     RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
+
+    source = Source.find(source_id)
+    source.start_waiting unless source.check_for_queued_jobs
   end
 
 end

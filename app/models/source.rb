@@ -82,7 +82,8 @@ class Source < ActiveRecord::Base
     state :working, value: 1  # can't queue jobs but can process them
     state :queueing, value: 2 # can queue jobs and can process them
     state :disabled, value: 3 # can't queue or process jobs, generates alert
-    state :waiting, value: 4  # can't queue or process jobs
+    state :waiting, value: 4  # can't queue or process jobs, next queueing job scheduled
+    state :idle, value: 5 # can't queue or process jobs
 
     state all - [:inactive, :disabled] do
       def active?
@@ -90,7 +91,7 @@ class Source < ActiveRecord::Base
       end
     end
 
-    state all - [:working, :queueing, :waiting] do
+    state all - [:working, :queueing, :waiting, :idle] do
       def active?
         false
       end
@@ -111,45 +112,46 @@ class Source < ActiveRecord::Base
     end
 
     after_transition :to => :waiting do |source|
-      source.update_attributes(run_at: Time.zone.now + source.wait_time)
-    end
-
-    after_transition :queueing => :working do |source|
-      source.update_attributes(run_at: Time.zone.now + source.batch_time_interval)
+      if source.check_for_queued_jobs
+        source.update_attributes(run_at: Time.zone.now + source.wait_time)
+      else
+        source.update_attributes(run_at: source.run_at + source.batch_time_interval)
+      end
     end
 
     after_transition :inactive => :working do |source|
       source.update_attributes(run_at: Time.zone.now)
     end
 
-    event :check do
-      transition [:working, :queueing] => :disabled, :if => :check_for_failures
-      transition [:working, :queueing] => :waiting, :if => :check_for_queued_jobs
-      transition :working => :queueing
-    end
-
     event :activate do
-      transition :inactive => :working
+      transition [:inactive] => :working
     end
 
     event :inactivate do
       transition any => :inactive
     end
 
-    event :wait do
-      transition any => :waiting
-    end
-
-    event :is_done_queueing do
-      transition :queueing => :working
+    event :disable do
+      transition any => :disabled
     end
 
     event :start_queueing do
       transition [:working, :waiting] => :queueing, :if => :queueable
     end
 
-    event :disable do
-      transition any => :disabled
+    event :check do
+      transition any - [:disabled] => :disabled, :if => :check_for_failures
+      transition any => :waiting, :if => :check_for_queued_jobs
+      transition any => :queueing
+    end
+
+    event :work do
+      transition [:idle, :waiting, :queueing] => :working
+    end
+
+    event :start_waiting do
+      transition [:queueing, :working] => :waiting, :if => :queueable
+      transition [:working] => :idle
     end
   end
 
@@ -184,7 +186,12 @@ class Source < ActiveRecord::Base
 
     # find articles that are not queued currently, scheduled_at doesn't matter
     rs = retrieval_statuses.pluck("retrieval_statuses.id")
-    queue_article_jobs(rs, { priority: 1 })
+    count = queue_article_jobs(rs, { priority: 1 })
+
+    # start working on jobs we have just queued
+    work
+
+    count
   end
 
   def queue_stale_articles
@@ -197,8 +204,8 @@ class Source < ActiveRecord::Base
     rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
     count = queue_article_jobs(rs, {})
 
-    # wait until we can queue more articles
-    is_done_queueing
+    # start working on jobs we have just queued
+    work
 
     count
   end
@@ -237,6 +244,10 @@ class Source < ActiveRecord::Base
 
   def get_queued_job_count
     Delayed::Job.count('id', :conditions => ["queue = ?", name])
+  end
+
+  def get_queueing_job_count
+    Delayed::Job.count('id', :conditions => ["queue = ?", "#{name}-queue"])
   end
 
   def workers
@@ -307,8 +318,12 @@ class Source < ActiveRecord::Base
     config.rate_limiting = value.to_i
   end
 
+  def job_interval
+    3600 / rate_limiting
+  end
+
   def batch_interval
-    3600 * job_batch_size / rate_limiting
+    job_interval * job_batch_size
   end
 
   def batch_time_interval
@@ -364,10 +379,6 @@ class Source < ActiveRecord::Base
     ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
   end
 
-  def ready?
-    active && run_at <= Time.zone.now
-  end
-
   private
 
   def create_retrievals
@@ -385,7 +396,7 @@ class Source < ActiveRecord::Base
 end
 
 module Exceptions
-  # source is either not active or disabled
+  # source is either inactive or disabled
   class SourceInactiveError < StandardError; end
 
   # we have received too many errors (and will disable the source)
