@@ -28,14 +28,13 @@ class QueueJob < Struct.new(:source_id)
   end
 
   def error(job, e)
-    name = job.queue[0..-7]
-    source = Source.find_by_name(name)
+    source = Source.find(source_id)
     Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
   end
 
   def after(job)
     source = Source.find(source_id)
-    Delayed::Job.enqueue QueueJob.new(source.id), queue: "#{source.name}-queue", run_at: source.run_at, priority: 0
+    Delayed::Job.enqueue QueueJob.new(source.id), queue: "#{source.name}-queue", run_at: source.run_at + source.batch_time_interval, priority: 0
   end
 
 end
