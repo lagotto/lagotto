@@ -117,7 +117,7 @@ FactoryGirl.define do
     type "Citeulike"
     name "citeulike"
     display_name "CiteULike"
-    active true
+    state 1
     url "http://www.citeulike.org/api/posts/for/doi/%{doi}"
 
     group
@@ -129,7 +129,7 @@ FactoryGirl.define do
     type "Copernicus"
     name "copernicus"
     display_name "Copernicus"
-    active true
+    state 1
     url "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:%{doi}"
     username "EXAMPLE"
     password "EXAMPLE"
@@ -143,7 +143,7 @@ FactoryGirl.define do
     type "Counter"
     name "counter"
     display_name "Counter"
-    active true
+    state 1
     url "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
 
     group
@@ -155,7 +155,7 @@ FactoryGirl.define do
     type "CrossRef"
     name "crossref"
     display_name "CrossRef"
-    active true
+    state 1
     url "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
     default_url "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
     username "EXAMPLE"
@@ -170,7 +170,7 @@ FactoryGirl.define do
     type "Nature"
     name "nature"
     display_name "Nature"
-    active true
+    state 1
     url "http://blogs.nature.com/posts.json?doi=%{doi}"
 
     group
@@ -182,7 +182,7 @@ FactoryGirl.define do
     type "F1000"
     name "f1000"
     display_name "F1000Prime"
-    active true
+    state 1
     url "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml"
     filename "PLOS-intermediate.xml"
 
@@ -195,7 +195,7 @@ FactoryGirl.define do
     type "Figshare"
     name "figshare"
     display_name "Figshare"
-    active true
+    state 1
     url "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}"
 
     group
@@ -207,7 +207,7 @@ FactoryGirl.define do
     type "Pmc"
     name "pmc"
     display_name "PubMed Central Usage Stats"
-    active true
+    state 1
     url "http://rwc-couch01.int.plos.org:5984/pmc_usage_stats/%{doi}"
     filepath "/home/alm/pmcdata/"
 
@@ -220,7 +220,7 @@ FactoryGirl.define do
     type "PubMed"
     name "pubmed"
     display_name "PubMed"
-    active true
+    state 1
     url "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
 
     group
@@ -232,7 +232,7 @@ FactoryGirl.define do
     type "Researchblogging"
     name "researchblogging"
     display_name "Research Blogging"
-    active true
+    state 1
     url "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
     username "EXAMPLE"
     password "EXAMPLE"
@@ -246,7 +246,7 @@ FactoryGirl.define do
     type "ScienceSeeker"
     name "scienceseeker"
     display_name "ScienceSeeker"
-    active true
+    state 1
     url "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
 
     group
@@ -258,7 +258,7 @@ FactoryGirl.define do
     type "Scopus"
     name "scopus"
     display_name "Scopus"
-    active true
+    state 1
     username "EXAMPLE"
     salt "EXAMPLE"
     partner_id "EXAMPLE"
@@ -272,7 +272,7 @@ FactoryGirl.define do
     type "Twitter"
     name "twitter"
     display_name "Twitter"
-    active true
+    state 1
     url "http://rwc-couch01.int.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key=%{doi}"
 
     group
@@ -284,7 +284,7 @@ FactoryGirl.define do
     type "Wos"
     name "wos"
     display_name "Web of Science"
-    active true
+    state 1
     private true
     url "https://ws.isiknowledge.com:80/cps/xrpc"
 
@@ -297,7 +297,7 @@ FactoryGirl.define do
     type "Wikipedia"
     name "wikipedia"
     display_name "Wikipedia"
-    active true
+    state 1
     url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
 
     group
@@ -309,7 +309,7 @@ FactoryGirl.define do
     type "Mendeley"
     name "mendeley"
     display_name "Mendeley"
-    active true
+    state 1
     url "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}"
     url_with_type "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}"
     url_with_title "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10&consumer_key=%{api_key}"
@@ -325,7 +325,7 @@ FactoryGirl.define do
     type "Facebook"
     name "facebook"
     display_name "Facebook"
-    active true
+    state 1
     url "http://graph.facebook.com:443/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'"
     access_token "EXAMPLE"
 
@@ -338,7 +338,7 @@ FactoryGirl.define do
     type "RelativeMetric"
     name "relativemetric"
     display_name "Relative Metric"
-    active true
+    state 1
     url "http://rwc-couch01.int.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key=%{key}"
     solr_url "http://api.plos.org/search"
 

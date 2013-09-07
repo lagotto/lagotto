@@ -22,9 +22,9 @@ class QueueJob < Struct.new(:source_id)
 
   def perform
     source = Source.find(source_id)
-    return 0 unless source.ready?
+    return 0 unless source.queueable
 
-    queue_stale_articles
+    source.queue_stale_articles
   end
 
   def error(job, e)

@@ -32,10 +32,13 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def perform
 
     source = Source.find(source_id)
-    return 0 unless source.ready?
+    return 0 if source.inactive?
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
       sleep_time = 0
+
+      sleep(source.run_at - Time.zone.now) if source.disabled?
+
       rs_ids.each do | rs_id |
         rs = RetrievalStatus.find(rs_id)
 

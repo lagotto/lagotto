@@ -176,7 +176,6 @@ ActiveRecord::Schema.define(:version => 20130905084922) do
     t.string   "type",                                            :null => false
     t.string   "name",                                            :null => false
     t.string   "display_name",                                    :null => false
-    t.boolean  "active",       :default => false
     t.datetime "run_at",       :default => '1970-01-01 00:00:00', :null => false
     t.text     "config"
     t.integer  "group_id",                                        :null => false
@@ -184,7 +183,9 @@ ActiveRecord::Schema.define(:version => 20130905084922) do
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
     t.text     "description"
-    t.boolean  "queued",       :default => true
+    t.integer  "state",        :default => 0
+    t.boolean  "queueable",    :default => true
+    t.string   "queue"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true

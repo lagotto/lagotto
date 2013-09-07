@@ -42,13 +42,13 @@ namespace :queue do
   desc "Queue stale articles"
   task :stale, [:source] => :environment do |t, args|
     if args.source.nil?
-      sources = Source.can_be_queued
+      sources = Source.queueable
     else
-      sources = Source.can_be_queued.where(name: args.source)
+      sources = Source.queueable.where(name: args.source)
     end
 
     if sources.nil?
-      puts "No active source found."
+      puts "No active queueable source found."
       exit
     end
 
@@ -93,18 +93,19 @@ namespace :queue do
   desc "Start job queue"
   task :start, [:source] => :environment do |t, args|
     if args.source.nil?
-      sources = Source.can_be_queued
+      sources = Source.queueable
     else
-      sources = Source.can_be_queued.where(name: args.source)
+      sources = Source.queueable.where(name: args.source)
     end
 
     if sources.nil?
-      puts "No active source found."
+      puts "No active queueable source found."
       exit
     end
 
     sources.each do |source|
-      if source.start_queue
+      source.start_queueing
+      if source.queueing?
         puts "Job queue for source #{source.display_name} has been started."
       else
         puts "Job queue for source #{source.display_name} could not be started."
@@ -115,18 +116,19 @@ namespace :queue do
   desc "Stop job queue"
   task :stop, [:source] => :environment do |t, args|
     if args.source.nil?
-      sources = Source.can_be_queued
+      sources = Source.queueable
     else
-      sources = Source.can_be_queued.where(name: args.source)
+      sources = Source.queueable.where(name: args.source)
     end
 
     if sources.nil?
-      puts "No active source found."
+      puts "No active queueable source found."
       exit
     end
 
     sources.each do |source|
-      if source.stop_queue
+      source.is_done_queueing
+      unless source.queueing?
         puts "Job queue for source #{source.display_name} has been stopped."
       else
         puts "Job queue for source #{source.display_name} could not be stopped."

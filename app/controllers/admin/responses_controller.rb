@@ -8,7 +8,7 @@ class Admin::ResponsesController < Admin::ApplicationController
     errors = Alert.total_errors(1).group(:source_id).count
     @sources = Source.active.map { |source| { "id" => source.id,
                                               "name" => source.display_name,
-                                              "status" => source.status,
+                                              "state" => source.human_state_name,
                                               "url" => admin_source_path(source),
                                               "group" => source.group_id,
                                               "response_count" => responses[source.id],

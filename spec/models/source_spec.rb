@@ -60,10 +60,74 @@ describe Source do
   it { should validate_numericality_of(:staleness_all).with_message("should be between 1 and 2678400") }
   it { should ensure_inclusion_of(:staleness_all).in_range(1..2678400).with_message("should be between 1 and 2678400") }
 
-  it "stale_at should depend on article age" do
-    #@source.articles << build(:article, :published_on => 1.day.ago)
-    #@source.articles << build(:article, :published_on => 2.months.ago)
-    #@source.articles << build(:article, :published_on => 3.years.ago)
+  describe 'states' do
+    describe ':working' do
+      it 'should be an initial state' do
+        source.should be_working
+      end
+
+      it 'should change to :inactive on :inactivate' do
+        source.inactivate
+        source.should be_inactive
+        source.run_at.should eq(Time.zone.now + 5.years)
+      end
+
+      it 'should change to :disabled on :disable' do
+        source.disable
+        source.should be_disabled
+        source.run_at.should eq(Time.zone.now + source.disable_delay)
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("TooManyErrorsBySourceError")
+        alert.message.should eq("#{source.display_name} has exceeded maximum failed queries. Disabling the source.")
+        alert.source_id.should == source.id
+      end
+
+      it 'should change to :waiting on :wait' do
+        source.wait
+        source.should be_waiting
+        source.run_at.should eq(Time.zone.now + source.wait_time)
+      end
+
+      it 'should change to :queueing on :start_queueing' do
+        source.should receive(:start_queue)
+        source.start_queueing
+        source.should be_queueing
+      end
+
+      it 'should not change to :queueing on :start_queueing if not queueable' do
+        source.queueable = false
+        source.should_not receive(:start_queue)
+        source.start_queueing
+        source.should_not be_queueing
+        source.should be_working
+      end
+    end
+
+    describe ':queueing' do
+      before(:each) do
+        source.start_queueing
+      end
+
+      it 'should change to :working on :is_done_queueing' do
+        source.should receive(:stop_queue)
+        source.is_done_queueing
+        source.should be_working
+        source.run_at.should eq(Time.zone.now + source.batch_time_interval)
+      end
+    end
+
+    describe ':inactive' do
+      before(:each) do
+        source.inactivate
+      end
+
+      it 'should change to :working on :activate' do
+        source.activate
+        source.should be_working
+        source.run_at.should eq(Time.zone.now)
+      end
+    end
   end
 
   context "use background jobs" do
@@ -85,25 +149,32 @@ describe Source do
       end
 
       it "with inactive source" do
-        source.active = false
+        source.inactivate
+        source.should be_inactive
         source.queue_all_articles.should == 0
       end
 
       it "with disabled source" do
-        source.run_at = Time.zone.now + 1.hour
+        source.disable
+        source.should be_disabled
         source.queue_all_articles.should == 0
       end
     end
 
     context "queue articles" do
+      before(:each) do
+        source.start_queueing
+      end
+
       it "queue" do
+        source.should be_queueing
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
         source.queue_stale_articles.should == 10
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "only stale articles" do
-        retrieval_status = FactoryGirl.create(:retrieval_status, scheduled_at: Time.zone.now + 1.day)
+        retrieval_status = FactoryGirl.create(:retrieval_status, scheduled_at: nil)
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
         source.queue_stale_articles.should == 10
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
@@ -125,13 +196,13 @@ describe Source do
       end
 
       it "with inactive source" do
-        source.active = false
+        source.inactivate
         source.queue_stale_articles.should == 0
-        source.run_at.should eq(Time.zone.now + source.batch_time_interval)
+        source.run_at.should eq(Time.zone.now + 5.years)
       end
 
       it "with disabled source" do
-        source.run_at = Time.zone.now + source.disable_delay
+        source.disable
         source.queue_stale_articles.should == 0
         source.run_at.should eq(Time.zone.now + source.disable_delay)
       end
@@ -140,12 +211,14 @@ describe Source do
         FactoryGirl.create_list(:alert, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
         source.max_failed_queries = 5
         source.queue_stale_articles.should == 0
+        source.should be_disabled
         source.run_at.should eq(Time.zone.now + source.disable_delay)
       end
 
       it "with queued jobs" do
         Delayed::Job.stub(:count).with('id', :conditions => ["queue = ?", source.name]).and_return(1)
         source.queue_stale_articles.should == 0
+        source.should be_waiting
         source.run_at.should eq(Time.zone.now + source.wait_time)
       end
     end
@@ -165,7 +238,7 @@ describe Source do
       end
     end
 
-    context "check for failures" do
+    describe "check for failures" do
 
       let(:class_name) { "Net::HTTPRequestTimeOut" }
       before(:each) do
@@ -175,29 +248,18 @@ describe Source do
       end
 
       it "few failed queries" do
-        source.check_for_failures.should be_true
-        source.run_at.should < Time.zone.now
-        Alert.count.should == 10
+        source.check_for_failures.should be_false
       end
 
       it "too many failed queries" do
         source.max_failed_queries = 5
-        source.check_for_failures.should be_false
-        source.run_at.should > Time.zone.now
-        Alert.count.should == 11
-
-        alert = Alert.where("class_name != '#{class_name}'").first
-        alert.class_name.should eq("TooManyErrorsBySourceError")
-        alert.message.should eq("#{source.display_name} has exceeded maximum failed queries. Disabling the source.")
-        alert.source_id.should == source.id
+        source.check_for_failures.should be_true
       end
 
       it "too many failed queries but they are too old" do
         source.max_failed_queries = 5
         source.max_failed_query_time_interval = 500
-        source.check_for_failures.should be_true
-        source.run_at.should < Time.zone.now
-        Alert.count.should == 10
+        source.check_for_failures.should be_false
       end
     end
   end

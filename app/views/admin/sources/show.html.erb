@@ -21,7 +21,7 @@
 <div class="content">
   <% cache @source do %>
     <div class="page-header" id="page-header">
-      <%= render :partial => 'page-header', :locals => { :status => " <small class=\"hidden-phone\">#{@source.status}</small>".html_safe } %>
+      <%= render :partial => 'page-header' %>
     </div>
 
     <dl class="dl-horizontal" id="dl-horizontal">
