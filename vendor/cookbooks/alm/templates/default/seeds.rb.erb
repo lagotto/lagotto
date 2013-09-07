@@ -104,6 +104,7 @@ pmc = Pmc.find_or_create_by_name(
   :display_name => "PubMed Central Usage Stats",
   :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
   :state => <%= node[:alm][:pmc][:url] == "EXAMPLE" ? 0 : 1 %>,
+  :queueable => false,
   :workers => 1,
   :group_id => viewed.id,
   :url => "<%= node[:alm][:pmc][:url] %>",
@@ -117,6 +118,7 @@ counter = Counter.find_or_create_by_name(
   :display_name => "Counter",
   :description => "Usage stats from the PLOS website",
   :state => <%= node[:alm][:counter][:url] == "EXAMPLE" ? 0 : 1 %>,
+  :queueable => false,
   :workers => 1,
   :group_id => viewed.id,
   :url => "<%= node[:alm][:counter][:url] %>")

@@ -17,4 +17,5 @@ Feature: Status of sources
       | Status      |
       | inactive    |
       | disabled    |
-      | active      |
+      | working     |
+      | waiting     |

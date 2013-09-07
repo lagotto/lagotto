@@ -39,25 +39,6 @@ namespace :queue do
     end
   end
 
-  desc "Queue stale articles"
-  task :stale, [:source] => :environment do |t, args|
-    if args.source.nil?
-      sources = Source.queueable
-    else
-      sources = Source.queueable.where(name: args.source)
-    end
-
-    if sources.nil?
-      puts "No active queueable source found."
-      exit
-    end
-
-    sources.each do |source|
-      count = source.queue_stale_articles
-      puts "#{count} stale articles for source #{source.display_name} have been queued."
-    end
-  end
-
   desc "Queue article with given DOI"
   task :one, [:doi, :source] => :environment do |t, args|
     if args.doi.nil?
@@ -127,7 +108,7 @@ namespace :queue do
     end
 
     sources.each do |source|
-      source.is_done_queueing
+      source.start_waiting
       unless source.queueing?
         puts "Job queue for source #{source.display_name} has been stopped."
       else

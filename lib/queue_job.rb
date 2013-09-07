@@ -34,8 +34,7 @@ class QueueJob < Struct.new(:source_id)
   end
 
   def after(job)
-    name = job.queue[0..-7]
-    source = Source.find_by_name(name)
+    source = Source.find(source_id)
     Delayed::Job.enqueue QueueJob.new(source.id), queue: "#{source.name}-queue", run_at: source.run_at, priority: 0
   end
 

@@ -83,10 +83,23 @@ describe Source do
         alert.source_id.should == source.id
       end
 
-      it 'should change to :waiting on :wait' do
-        source.wait
+      it 'should change to :waiting on :start_waiting' do
+        source.start_waiting
+        source.should be_waiting
+        source.run_at.should eq(Time.zone.now + source.batch_time_interval)
+      end
+
+      it 'should change to :waiting on :start_waiting if jobs are queued' do
+        Delayed::Job.stub(:count).with('id', :conditions => ["queue = ?", source.name]).and_return(1)
+        source.start_waiting
         source.should be_waiting
         source.run_at.should eq(Time.zone.now + source.wait_time)
+      end
+
+      it 'should change to :idle on :start_waiting if not queueable' do
+        source.queueable = false
+        source.start_waiting
+        source.should be_idle
       end
 
       it 'should change to :queueing on :start_queueing' do
@@ -109,10 +122,10 @@ describe Source do
         source.start_queueing
       end
 
-      it 'should change to :working on :is_done_queueing' do
+      it 'should change to :waiting on :start_waiting' do
         source.should receive(:stop_queue)
-        source.is_done_queueing
-        source.should be_working
+        source.start_waiting
+        source.should be_waiting
         source.run_at.should eq(Time.zone.now + source.batch_time_interval)
       end
     end

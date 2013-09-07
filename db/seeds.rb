@@ -101,6 +101,7 @@ pmc = Pmc.find_or_create_by_name(
   :display_name => "PubMed Central Usage Stats",
   :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
   :state => 1,
+  :queueable => false,
   :workers => 1,
   :group_id => viewed.id,
   :url => "http://localhost:5984/pmc_usage_stats/%{doi}",
@@ -112,6 +113,7 @@ counter = Counter.find_or_create_by_name(
   :display_name => "Counter",
   :description => "Usage stats from the PLOS website",
   :state => 1,
+  :queueable => false,
   :workers => 1,
   :group_id => viewed.id,
   :url => "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}")

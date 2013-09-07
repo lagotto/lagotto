@@ -14,7 +14,7 @@ Feature: Run rake tasks
       | Task                         | Description                                        |
       | jobs:work                    | Start a delayed_job worker                         |
       | workers:start_all            | Start all the workers                              |
-      | queue:single_job[doi,source] | Queue article with given DOI for a specific source |
+      | queue:one[doi,source]        | Queue article with given DOI                       |
       | db:alerts:delete             | Delete all resolved alerts                         |
       | db:api_requests:delete       | Delete API requests, keeping last 10,000 requests  |
       | db:articles:seed             | Seed sample articles                               |
