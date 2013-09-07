@@ -32,18 +32,19 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def perform
 
     source = Source.find(source_id)
-    return unless source.active
+    return 0 if source.inactive?
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
-      # wait till the source is no longer disabled
-      sleep(source.disable_delay) while source.disabled?
-
       sleep_time = 0
+
+      sleep(source.run_at - Time.zone.now) if source.disabled?
+
       rs_ids.each do | rs_id |
         rs = RetrievalStatus.find(rs_id)
 
         # Track API response result and duration in api_responses table
         response = { article_id: rs.article_id, source_id: rs.source_id, retrieval_status_id: rs_id }
+        start_time = Time.zone.now
         ActiveSupport::Notifications.instrument("api_response.get") do |payload|
           response.merge!(perform_get_data(rs))
           payload.merge!(response)
@@ -51,7 +52,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
         if response[:event_count]
           # observe rate-limiting settings
-          sleep(source.batch_time_interval / source.max_job_batch_size)
+          sleep_interval = start_time + source.batch_interval - Time.zone.now
+          sleep(sleep_interval) if sleep_interval > 0
         else
           # each time we fail to get an answer from a source, wait longer
           sleep(sleep_time += source.disable_delay)

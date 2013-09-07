@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -16,10 +18,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Delayed::Worker.destroy_failed_jobs = true
-Delayed::Worker.sleep_delay = 5
-Delayed::Worker.max_attempts = 1
-Delayed::Worker.default_priority = 3
-Delayed::Worker.max_run_time = 4.hours
-Delayed::Worker.read_ahead = 10
-Delayed::Worker.delay_jobs = !Rails.env.test?
+class QueueJob < Struct.new(:source_id)
+
+  def perform
+    source = Source.find(source_id)
+    return 0 unless source.queueable
+
+    source.queue_stale_articles
+  end
+
+  def error(job, e)
+    name = job.queue[0..-7]
+    source = Source.find_by_name(name)
+    Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
+  end
+
+  def after(job)
+    name = job.queue[0..-7]
+    source = Source.find_by_name(name)
+    Delayed::Job.enqueue QueueJob.new(source.id), queue: "#{source.name}-queue", run_at: source.run_at, priority: 0
+  end
+
+end

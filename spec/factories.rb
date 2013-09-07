@@ -112,7 +112,7 @@ FactoryGirl.define do
     type "Citeulike"
     name "citeulike"
     display_name "CiteULike"
-    active true
+    state 1
     url "http://www.citeulike.org/api/posts/for/doi/%{doi}"
 
     group
@@ -124,7 +124,7 @@ FactoryGirl.define do
     type "Copernicus"
     name "copernicus"
     display_name "Copernicus"
-    active true
+    state 1
     url "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:%{doi}"
     username "EXAMPLE"
     password "EXAMPLE"
@@ -138,7 +138,7 @@ FactoryGirl.define do
     type "CrossRef"
     name "crossref"
     display_name "CrossRef"
-    active true
+    state 1
     url "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
     default_url "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
     username "EXAMPLE"
@@ -153,7 +153,7 @@ FactoryGirl.define do
     type "Nature"
     name "nature"
     display_name "Nature"
-    active true
+    state 1
     url "http://blogs.nature.com/posts.json?doi=%{doi}"
 
     group
@@ -165,7 +165,7 @@ FactoryGirl.define do
     type "PubMed"
     name "pubmed"
     display_name "PubMed"
-    active true
+    state 1
     url "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
 
     group
@@ -177,7 +177,7 @@ FactoryGirl.define do
     type "Researchblogging"
     name "researchblogging"
     display_name "Research Blogging"
-    active true
+    state 1
     url "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
     username "EXAMPLE"
     password "EXAMPLE"
@@ -191,7 +191,7 @@ FactoryGirl.define do
     type "ScienceSeeker"
     name "scienceseeker"
     display_name "ScienceSeeker"
-    active true
+    state 1
     url "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
 
     group
@@ -203,7 +203,7 @@ FactoryGirl.define do
     type "Wikipedia"
     name "wikipedia"
     display_name "Wikipedia"
-    active true
+    state 1
     url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
 
     group
@@ -215,7 +215,7 @@ FactoryGirl.define do
     type "Mendeley"
     name "mendeley"
     display_name "Mendeley"
-    active true
+    state 1
     url "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}"
     url_with_type "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}"
     url_with_title "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10&consumer_key=%{api_key}"
@@ -231,7 +231,7 @@ FactoryGirl.define do
     type "Facebook"
     name "facebook"
     display_name "Facebook"
-    active true
+    state 1
     url "http://graph.facebook.com:443/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'"
     access_token "EXAMPLE"
 

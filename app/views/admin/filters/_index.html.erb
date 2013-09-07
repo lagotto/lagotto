@@ -44,7 +44,7 @@
           <tr>
             <td><%= h(filter.name) %></td>
             <td><%= h(filter.description) %></td>
-            <td><%= status_label(filter.status).html_safe %></td>
+            <td><%= state_label(filter.status).html_safe %></td>
             <% if can? :manage, Alert %>
               <td class="hidden-phone" %>
                 <div class="btn-group">

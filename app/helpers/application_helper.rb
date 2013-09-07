@@ -40,13 +40,13 @@ module ApplicationHelper
     GitHub::Markdown.render_gfm(text).html_safe
   end
 
-  def status_label(status)
-    if status == "inactive"
+  def state_label(state)
+    if state == "inactive"
       '<span class="label label-info">inactive</span>'
-    elsif status == "disabled"
+    elsif state == "disabled"
       '<span class="label label-important">disabled</span>'
     else
-      "active"
+      state
     end
   end
 
