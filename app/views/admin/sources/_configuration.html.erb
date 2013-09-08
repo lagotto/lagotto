@@ -7,7 +7,7 @@
 
       <%= f.input :display_name, :input_html => { :class => "span3" } %>
       <%= f.association :group, :include_blank => false %>
-      <%= f.input :state, :as => :boolean, label: "Active", input_html: { value: '3' }, hint: "Source is talking to external APIs" %>
+      <%= f.input :state_event, :as => :boolean, label: "Active", :checked_value => 'activate', :unchecked_value => 'inactivate', input_html: { checked: @source.active? }, hint: "Source is talking to external APIs" %>
       <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
       <%= f.input :queueable, :as => :boolean, hint: "Articles for this source can be queued" %>
       <%= f.input :description, :input_html => { :rows => 3, :class => "span9" } %>
