@@ -116,8 +116,8 @@
           <%= distance_of_time(@source.batch_time_interval) %> between batch jobs</br>
           <%= @source.job_batch_size %> articles per job</br>
           <%= @source.wait_time %> seconds before more jobs can be added</br>
-          <% if @source.queueable && @source.job_queue && @source.job_queue.run_at > Time.zone.now %>
-            </br>Batch jobs will again be queued at <%= @source.job_queue.run_at.to_s(:friendly) %>
+          <% if @source.queueable && @source.run_at > Time.zone.now %>
+            </br>Batch jobs will again be queued at <%= @source.run_at.to_s(:friendly) %>
           <% elsif !@source.queueable %>
             </br>Batch jobs need to be queued by rake task
           <% end %>
