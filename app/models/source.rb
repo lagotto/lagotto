@@ -227,6 +227,11 @@ class Source < ActiveRecord::Base
   def queue_article_jobs(rs, options = {})
     return 0 unless active?
 
+    if rs.length == 0
+      stop_working
+      return 0
+    end
+
     priority = options[:priority] || Delayed::Worker.default_priority
 
     rs.each_slice(job_batch_size) do |rs_ids|
