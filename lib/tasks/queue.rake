@@ -108,7 +108,7 @@ namespace :queue do
     end
 
     sources.each do |source|
-      source.start_waiting
+      source.stop_queueing
       unless source.queueing?
         puts "Job queue for source #{source.display_name} has been stopped."
       else

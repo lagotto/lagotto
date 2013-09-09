@@ -6,7 +6,7 @@ describe SourceJob do
   let(:citeulike) { FactoryGirl.create(:citeulike) }
   let(:rs_id) { "#{retrieval_status.source.name}:#{retrieval_status.article.doi_escaped}" }
 
-  subject { SourceJob.new([retrieval_status.id]) }
+  subject { SourceJob.new([retrieval_status.id], citeulike.id) }
 
   before(:each) do
     subject.put_alm_database

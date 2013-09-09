@@ -17,8 +17,8 @@ Feature: See jobs
     Scenario: Jobs in dashboard
       When I go to the "Jobs" admin page
       Then the table "JobsTable" should be:
-        | Source    | Status  | Pending | Working | Stale Articles | Queued Articles |
-        | CiteULike | working | 0       | 0       | 5              | 0               |
+        | Source    | Status   | Pending | Working | Stale Articles | Queued Articles |
+        | CiteULike | queueing | 0       | 0       | 5              | 0               |
 
     @not-teamcity
     Scenario: Jobs in source view

@@ -9,13 +9,13 @@ end
 
 Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
   if status == "inactive"
-    @source = FactoryGirl.create(:source, state: 0)
+    @source = FactoryGirl.create(:source, state_event: "inactivate")
   elsif status == "working"
-    @source = FactoryGirl.create(:source, state: 1)
+    @source = FactoryGirl.create(:source, state_event: "start_working")
   elsif status == "disabled"
-    @source = FactoryGirl.create(:source, state: 3)
+    @source = FactoryGirl.create(:source, state_event: "disable")
   elsif status == "waiting"
-    @source = FactoryGirl.create(:source, state: 4)
+    @source = FactoryGirl.create(:source, state_event: "start_waiting")
   end
 end
 

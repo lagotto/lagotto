@@ -80,7 +80,7 @@ module SourceHelper
   def save_alm_data(id, options = { :data => nil })
     data_rev = get_alm_rev(id)
     unless data_rev.nil?
-      options[:data][:_id] = id
+      options[:data][:_id] = "#{id}"
       options[:data][:_rev] = data_rev
     end
 

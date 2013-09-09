@@ -32,7 +32,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def perform
 
     source = Source.find(source_id)
-    return 0 if source.inactive?
+    return 0 unless source.ready?
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
       sleep_time = 0
@@ -167,7 +167,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def error(job, e)
-    source = Source.find_by_name(job.queue)
+    source = Source.find(source_id)
     Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
   end
 
@@ -176,7 +176,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
 
     source = Source.find(source_id)
-    source.start_waiting unless source.check_for_queued_jobs
+    source.stop_working unless source.check_for_queued_jobs
   end
 
 end
