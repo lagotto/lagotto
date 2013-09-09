@@ -172,7 +172,8 @@ class Source < ActiveRecord::Base
     end
 
     event :start_waiting do
-      transition any - [:waiting] => :waiting
+      transition any => :waiting, :if => :queueable
+      transition any => :idle
     end
   end
 
