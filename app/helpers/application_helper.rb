@@ -52,6 +52,14 @@ module ApplicationHelper
     end
   end
 
+  def number_not_showing_zero(number)
+    if number > 0
+      number_with_delimiter(number)
+    else
+      ""
+    end
+  end
+
   def sources
     Source.order("group_id, display_name")
   end

@@ -176,7 +176,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
 
     source = Source.find(source_id)
-    source.stop_working unless source.check_for_queued_jobs
+    source.stop_working unless source.get_queued_job_count > 1
   end
 
 end
