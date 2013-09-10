@@ -50,11 +50,13 @@ module ApplicationHelper
     end
   end
 
-  def number_not_showing_zero(number)
-    if number > 0
-      number_with_delimiter(number)
-    else
+  def number_not_showing_zero(number, precision = nil)
+    if number.nil? or number == 0
       ""
+    elsif precision
+      number_with_precision(number, precision: precision)
+    else
+      number_with_delimiter(number)
     end
   end
 
