@@ -26,9 +26,15 @@ class Facebook < Source
     raise(ArgumentError, "#{display_name} configuration requires access_token") \
       if access_token.blank?
 
-    return  { :events => [], :event_count => nil } if article.doi.blank?
+    # Fetch the fulltext URL
+    if article.url.blank? and !article.doi.blank?
+      original_url = get_original_url(article.doi_as_url)
+      article.update_attributes(:url => original_url) if original_url.blank?
+    end
 
-    query_url = get_query_url(article.doi_as_url)
+    return  { :events => [], :event_count => nil } if article.url.blank?
+
+    query_url = get_query_url(article)
     result = get_json(query_url, options)
 
     if result.nil?
@@ -50,9 +56,8 @@ class Facebook < Source
     end
   end
 
-  def get_query_url(query_url, options={})
-    # https://graph.facebook.com/fql?access_token=%{access_token}&q=select%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,%20click_count,%20comments_fbid,%20commentsbox_count%20from%20link_stat%20where%20url%20=%20'%{query_url}'
-    URI.escape(url % { :access_token => access_token, :query_url => query_url }) unless query_url.blank?
+  def get_query_url(article, options={})
+    URI.escape(url % { :access_token => access_token, :query_url => CGI.escape(article.url) }) unless article.url.blank?
   end
 
   def get_config_fields
