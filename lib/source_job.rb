@@ -32,7 +32,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def perform
 
     source = Source.find(source_id)
-    return 0 if source.inactive?
+    return 0 unless source.ready?
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
       sleep_time = 0
@@ -103,6 +103,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       attachment = data_from_source[:attachment]
     else
       # ERROR
+      rs.update_attributes(:queued_at => nil)
       return { event_count: nil, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
     end
 
@@ -112,6 +113,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     if event_count.nil?
       rs.update_attributes(:retrieved_at => retrieved_at,
                            :scheduled_at => rs.stale_at,
+                           :queued_at => nil,
                            :event_count => 0)
       { event_count: 0, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
     else
@@ -157,6 +159,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
       rs.retrieved_at = retrieved_at
       rs.scheduled_at = rs.stale_at
+      rs.queued_at = nil
       rs.save
 
       rh.retrieved_at = retrieved_at
@@ -167,16 +170,13 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def error(job, e)
-    source = Source.find_by_name(job.queue)
+    source = Source.find(source_id)
     Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
   end
 
   def after(job)
-    #reset the queued at value
-    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
-
     source = Source.find(source_id)
-    source.start_waiting unless source.check_for_queued_jobs
+    source.stop_working unless source.get_queued_job_count > 1
   end
 
 end

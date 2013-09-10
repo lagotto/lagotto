@@ -21,11 +21,11 @@
 namespace :queue do
 
   desc "Queue all articles"
-  task :all, [:source] => :environment do |t, args|
-    if args.source.nil?
+  task :all => :environment do |t, args|
+    if args.extras.empty?
       sources = Source.active
     else
-      sources = Source.active.where(name: args.source)
+      sources = Source.active.where("name in (?)", args.extras)
     end
 
     if sources.empty?
@@ -40,7 +40,7 @@ namespace :queue do
   end
 
   desc "Queue article with given DOI"
-  task :one, [:doi, :source] => :environment do |t, args|
+  task :one, [:doi] => :environment do |t, args|
     if args.doi.nil?
       puts "DOI is required"
       exit
@@ -52,10 +52,10 @@ namespace :queue do
       exit
     end
 
-    if args.source.nil?
+    if args.extras.empty?
       sources = Source.active
     else
-      sources = Source.active.where(name: args.source)
+      sources = Source.active.where("name in (?)", args.extras)
     end
 
     sources.each do |source|
@@ -72,11 +72,11 @@ namespace :queue do
   end
 
   desc "Start job queue"
-  task :start, [:source] => :environment do |t, args|
-    if args.source.nil?
+  task :start => :environment do |t, args|
+    if args.extras.empty?
       sources = Source.queueable
     else
-      sources = Source.queueable.where(name: args.source)
+      sources = Source.queueable.where("name in (?)", args.extras)
     end
 
     if sources.empty?
@@ -95,11 +95,11 @@ namespace :queue do
   end
 
   desc "Stop job queue"
-  task :stop, [:source] => :environment do |t, args|
-    if args.source.nil?
+  task :stop => :environment do |t, args|
+    if args.extras.empty?
       sources = Source.queueable
     else
-      sources = Source.queueable.where(name: args.source)
+      sources = Source.queueable.where("name in (?)", args.extras)
     end
 
     if sources.empty?
@@ -108,7 +108,7 @@ namespace :queue do
     end
 
     sources.each do |source|
-      source.start_waiting
+      source.stop_queueing
       unless source.queueing?
         puts "Job queue for source #{source.display_name} has been stopped."
       else

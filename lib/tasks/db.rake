@@ -114,14 +114,25 @@ namespace :db do
     end
   end
 
+  namespace :api_responses do
+
+    desc "Delete all resolved API responses older than 24 hours"
+    task :delete => :environment do
+      before = ApiResponse.count
+      ApiResponse.destroy_all("unresolved = 0 AND created_at < NOW() - INTERVAL 1 DAY")
+      after = ApiResponse.count
+      puts "Deleted #{before - after} resolved API responses, #{after} unresolved API responses remaining"
+    end
+  end
+
   namespace :sources do
 
     desc "Activate sources"
-    task :activate, [:source] => :environment do |t, args|
-      if args.source.nil?
+    task :activate => :environment do |t, args|
+      if args.extras.empty?
         sources = Source.inactive
       else
-        sources = Source.inactive.where(name: args.source)
+        sources = Source.inactive.where("name in (?)", args.extras)
       end
 
       if sources.empty?
@@ -131,8 +142,10 @@ namespace :db do
 
       sources.each do |source|
         source.activate
-        if source.working?
-          puts "Source #{source.display_name} has been activated."
+        if source.queueing?
+          puts "Source #{source.display_name} has been activated and is now queueing."
+        elsif source.idle?
+          puts "Source #{source.display_name} has been activated and is now idle."
         else
           puts "Source #{source.display_name} could not be activated."
         end
@@ -140,11 +153,11 @@ namespace :db do
     end
 
     desc "Inactivate sources"
-    task :inactivate, [:source] => :environment do |t, args|
-      if args.source.nil?
+    task :inactivate => :environment do |t, args|
+      if args.extras.empty?
         sources = Source.active
       else
-        sources = Source.active.where(name: args.source)
+        sources = Source.active.where("name in (?)", args.extras)
       end
 
       if sources.empty?

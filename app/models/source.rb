@@ -28,13 +28,11 @@ class Source < ActiveRecord::Base
   has_many :alerts
   has_many :api_responses
   has_many :delayed_jobs, primary_key: "name", foreign_key: "queue", :dependent => :destroy
-  has_one :job_queue, class_name: DelayedJob, primary_key: "queue", foreign_key: "queue", :dependent => :destroy
   belongs_to :group
 
   serialize :config, OpenStruct
 
   after_create :create_retrievals
-  after_create :create_job_queue, :if => Proc.new{ self.queueable }
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
@@ -79,11 +77,11 @@ class Source < ActiveRecord::Base
 
   state_machine :initial => :inactive do
     state :inactive, value: 0 # source disabled by admin
-    state :working, value: 1  # can't queue jobs but can process them
-    state :queueing, value: 2 # can queue jobs and can process them
-    state :disabled, value: 3 # can't queue or process jobs, generates alert
-    state :waiting, value: 4  # can't queue or process jobs, next queueing job scheduled
-    state :idle, value: 5 # can't queue or process jobs
+    state :disabled, value: 1 # can't queue or process jobs, generates alert
+    state :idle, value: 2     # source active
+    state :waiting, value: 3  # source active, waiting for next queueing job
+    state :working, value: 4  # processing jobs
+    state :queueing, value: 5 # queueing and processing jobs
 
     state all - [:inactive, :disabled] do
       def active?
@@ -97,34 +95,46 @@ class Source < ActiveRecord::Base
       end
     end
 
-    before_transition any => :queueing, :do => :start_queue
-    before_transition :queueing => any - :queueing, :do => :stop_queue
+    state all - [:inactive, :queueing, :waiting, :idle] do
+      def ready?
+        true
+      end
+    end
+
+    state all - [:working, :disabled] do
+      def ready?
+        false
+      end
+    end
+
+    after_transition any => :queueing do |source|
+      source.add_queue
+    end
 
     after_transition :to => :inactive do |source|
+      source.remove_queue
       source.update_attributes(run_at: Time.zone.now + 5.years)
+    end
+
+    after_transition :inactive => [:queueing, :idle] do |source|
+      source.update_attributes(run_at: Time.zone.now)
     end
 
     after_transition :to => :disabled do |source|
       Alert.create(:exception => "", :class_name => "TooManyErrorsBySourceError",
                    :message => "#{source.display_name} has exceeded maximum failed queries. Disabling the source.",
                    :source_id => source.id)
-      source.update_attributes(run_at: Time.zone.now + source.disable_delay)
+      source.add_queue(Time.zone.now + source.disable_delay)
     end
 
     after_transition :to => :waiting do |source|
-      if source.check_for_queued_jobs
-        source.update_attributes(run_at: Time.zone.now + source.wait_time)
-      else
-        source.update_attributes(run_at: source.run_at + source.batch_time_interval)
-      end
-    end
-
-    after_transition :inactive => :working do |source|
-      source.update_attributes(run_at: Time.zone.now)
+      source.add_queue(Time.zone.now + source.wait_time) if source.check_for_queued_jobs
     end
 
     event :activate do
-      transition [:inactive] => :working
+      transition [:inactive] => :idle, :unless => :queueable
+      transition [:inactive] => :queueing
+      transition any => same
     end
 
     event :inactivate do
@@ -139,19 +149,31 @@ class Source < ActiveRecord::Base
       transition [:working, :waiting] => :queueing, :if => :queueable
     end
 
-    event :check do
-      transition any - [:disabled] => :disabled, :if => :check_for_failures
-      transition any => :waiting, :if => :check_for_queued_jobs
-      transition any => :queueing
+    event :stop_queueing do
+      transition any - [:waiting, :inactive, :disabled] => :waiting, :if => :queueable
+      transition any => same
     end
 
-    event :work do
+    event :start_working_with_check do
+      transition [:inactive] => same
+      transition any => :disabled, :if => :check_for_failures
+      transition any => :waiting, :if => :check_for_queued_jobs
+      transition any => :working
+    end
+
+    event :start_working do
       transition [:idle, :waiting, :queueing] => :working
+      transition any => same
+    end
+
+    event :stop_working do
+      transition [:queueing, :working] => :waiting, :if => :queueable
+      transition [:working] => :idle
     end
 
     event :start_waiting do
-      transition [:queueing, :working] => :waiting, :if => :queueable
-      transition [:working] => :idle
+      transition any => :waiting, :if => :queueable
+      transition any => :idle
     end
   end
 
@@ -163,61 +185,57 @@ class Source < ActiveRecord::Base
     raise NotImplementedError, 'Children classes should override get_data method'
   end
 
-  def start_queue
-    # create queue job for this source if it doesn't exist already, schedule it for now
-    # Some sources don't have a job queue, return false for them
+  def add_queue(queue_at = Time.zone.now)
+    # create queue job for this source if it doesn't exist already
+    # Some sources can't have a job queue, return false for them
     return false unless queueable
 
-    self.update_attributes(queue: "#{name}-queue") if queue.nil?
+    DelayedJob.delete_all(queue: "#{name}-queue")
+    Delayed::Job.enqueue QueueJob.new(id), queue: "#{name}-queue", run_at: queue_at, priority: 0
 
-    unless job_queue.nil?
-      job_queue.update_attributes(run_at: Time.zone.now)
-    else
-      Delayed::Job.enqueue QueueJob.new(id), queue: "#{name}-queue", run_at: Time.zone.now, priority: 0
-    end
+    self.update_attributes(run_at: queue_at)
   end
 
-  def stop_queue
-    job_queue.update_attributes(run_at: Time.zone.now + 5.years) unless job_queue.nil?
+  def get_queue
+    DelayedJob.where(queue: "#{name}-queue").first
+  end
+
+  def remove_queue
+    DelayedJob.delete_all(queue: "#{name}-queue")
   end
 
   def queue_all_articles
-    return 0 unless active?
+    start_working
+
+    return 0 unless working?
 
     # find articles that are not queued currently, scheduled_at doesn't matter
     rs = retrieval_statuses.pluck("retrieval_statuses.id")
-    count = queue_article_jobs(rs, { priority: 1 })
-
-    # start working on jobs we have just queued
-    work
-
-    count
+    queue_article_jobs(rs, { priority: 1 })
   end
 
   def queue_stale_articles
     # check to see if source is disabled, has too many failures or jobs are already queued
-    check
+    start_working_with_check
 
-    return 0 unless queueing?
+    return 0 unless working?
 
     # find articles that need to be updated. Not queued currently, scheduled_at in the past
     rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
-    count = queue_article_jobs(rs, {})
-
-    # start working on jobs we have just queued
-    work
-
-    count
+    queue_article_jobs(rs, {})
   end
 
   def queue_article_jobs(rs, options = {})
     return 0 unless active?
 
-    schedule_at = DelayedJob.where(queue: name).maximum(:run_at) || Time.zone.now - batch_interval
+    if rs.length == 0
+      stop_working
+      return 0
+    end
+
     priority = options[:priority] || Delayed::Worker.default_priority
 
     rs.each_slice(job_batch_size) do |rs_ids|
-      schedule_at += batch_interval
       Delayed::Job.enqueue SourceJob.new(rs_ids, id), queue: name, run_at: schedule_at, priority: priority
     end
 
@@ -234,7 +252,7 @@ class Source < ActiveRecord::Base
 
   def check_for_failures
     # condition for not adding more jobs and disabling the source
-    failed_queries = Alert.where("source_id = ? and updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count(:id)
+    failed_queries = Alert.where("source_id = ? and updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count
     failed_queries > max_failed_queries
   end
 
@@ -248,6 +266,14 @@ class Source < ActiveRecord::Base
 
   def get_queueing_job_count
     Delayed::Job.count('id', :conditions => ["queue = ?", "#{name}-queue"])
+  end
+
+  def schedule_at
+    if delayed_jobs.empty?
+      Time.zone.now
+    else
+      delayed_jobs.maximum(:run_at) + batch_interval
+    end
   end
 
   def workers
@@ -387,11 +413,6 @@ class Source < ActiveRecord::Base
     random_time = Time.zone.now + rand(7.days)
     sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), '#{random_time.to_formatted_s(:db)}' from articles"
     conn.execute sql
-  end
-
-  def create_job_queue
-    # Create a delayed job for queueing articles
-    DelayedJob.find_or_create_by_queue("#{name}-queue", run_at: Time.zone.now, priority: 0)
   end
 end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130905084922) do
+ActiveRecord::Schema.define(:version => 20130908073125) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -186,6 +186,7 @@ ActiveRecord::Schema.define(:version => 20130905084922) do
     t.integer  "state",        :default => 0
     t.boolean  "queueable",    :default => true
     t.string   "queue"
+    t.string   "state_event"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true

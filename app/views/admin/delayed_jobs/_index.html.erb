@@ -17,11 +17,11 @@
           <tr>
           <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
           <td><%= state_label(source.human_state_name).html_safe %></td>
-          <td class="hidden-phone number"><%= number_with_delimiter(source.get_queueing_job_count) %></td>
-          <td class="hidden-phone number"><%= number_with_delimiter(source.delayed_jobs.count - source.delayed_jobs.count(:locked_at)) %></td>
-          <td class="hidden-phone number"><%= number_with_delimiter(source.delayed_jobs.count(:locked_at)) %></td>
-          <td class="hidden-phone number"><%= number_with_delimiter(source.retrieval_statuses.stale.count) %></td>
-          <td class="number"><%= number_with_delimiter(source.retrieval_statuses.queued.count) %></td>
+          <td class="hidden-phone number"><%= number_not_showing_zero(source.get_queueing_job_count) %></td>
+          <td class="hidden-phone number"><%= number_not_showing_zero(source.delayed_jobs.count - source.delayed_jobs.count(:locked_at)) %></td>
+          <td class="hidden-phone number"><%= number_not_showing_zero(source.delayed_jobs.count(:locked_at)) %></td>
+          <td class="hidden-phone number"><%= number_not_showing_zero(source.retrieval_statuses.stale.count) %></td>
+          <td class="number"><%= number_not_showing_zero(source.retrieval_statuses.queued.count) %></td>
           </tr>
         <% end %>
       <% end %>

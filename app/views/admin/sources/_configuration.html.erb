@@ -7,7 +7,7 @@
 
       <%= f.input :display_name, :input_html => { :class => "span3" } %>
       <%= f.association :group, :include_blank => false %>
-      <%= f.input :state, :as => :boolean, label: "Active", input_html: { value: '3' }, hint: "Source is talking to external APIs" %>
+      <%= f.input :state_event, :as => :boolean, label: "Active", :checked_value => 'activate', :unchecked_value => 'inactivate', input_html: { checked: @source.active? }, hint: "Source is talking to external APIs" %>
       <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
       <%= f.input :queueable, :as => :boolean, hint: "Articles for this source can be queued" %>
       <%= f.input :description, :input_html => { :rows => 3, :class => "span9" } %>
@@ -116,8 +116,8 @@
           <%= distance_of_time(@source.batch_time_interval) %> between batch jobs</br>
           <%= @source.job_batch_size %> articles per job</br>
           <%= @source.wait_time %> seconds before more jobs can be added</br>
-          <% if @source.queueable && @source.job_queue && @source.job_queue.run_at > Time.zone.now %>
-            </br>Batch jobs will again be queued at <%= @source.job_queue.run_at.to_s(:friendly) %>
+          <% if @source.queueable && @source.run_at > Time.zone.now %>
+            </br>Batch jobs will again be queued at <%= @source.run_at.to_s(:friendly) %>
           <% elsif !@source.queueable %>
             </br>Batch jobs need to be queued by rake task
           <% end %>
