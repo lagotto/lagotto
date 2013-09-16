@@ -52,11 +52,13 @@ module ApplicationHelper
     end
   end
 
-  def number_not_showing_zero(number)
-    if number > 0
-      number_with_delimiter(number)
-    else
+  def number_not_showing_zero(number, options = {})
+    if number.nil? or number.to_i == 0
       ""
+    elsif options[:precision]
+      number_with_precision(number, precision: options[:precision])
+    else
+      number_with_delimiter(number.to_i)
     end
   end
 

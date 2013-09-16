@@ -22,7 +22,7 @@ class SourceNotUpdatedError < Filter
 
   def run_filter(state)
     responses_by_source = ApiResponse.filter(state[:id]).group(:source_id).count
-    source_ids = Source.where("name != 'pmc'").pluck(:id)
+    source_ids = Source.where("state > 0 AND name != 'pmc'").pluck(:id)
     responses = source_ids.select { |source_id| !responses_by_source.has_key?(source_id) }
 
     if responses.count > 0

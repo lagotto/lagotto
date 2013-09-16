@@ -185,6 +185,7 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
     t.text     "description"
     t.integer  "state",        :default => 0
     t.boolean  "queueable",    :default => true
+    t.string   "queue"
     t.string   "state_event"
   end
 

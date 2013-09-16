@@ -28,9 +28,6 @@ class CrossRef < Source
     # Check that article has DOI
     return { :events => [], :event_count => nil } if article.doi.blank?
 
-    # Fetch the fulltext URL
-    article.update_attributes(:url => get_original_url(article.doi_as_url)) if article.url.blank?
-
     # Check whether we have published the DOI, otherwise use different API
     if article.is_publisher?
       raise(ArgumentError, "#{display_name} configuration requires username & password") \

@@ -8,27 +8,6 @@ describe CrossRef do
     cross_ref.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
 
-  context "lookup original URL" do
-
-    it "should look up original URL if there is no article url" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :url => nil)
-      lookup_stub = stub_request(:head, article.doi_as_url).to_return(:status => 200, :headers => { 'Location' => article.url })
-      stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'), :status => 200)
-      response = cross_ref.get_data(article)
-      lookup_stub.should have_been_requested
-      stub.should have_been_requested
-    end
-
-    it "should not look up original URL if there is no article url" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
-      lookup_stub = stub_request(:head, article.doi_as_url).to_return(:status => 200, :headers => { 'Location' => article.url })
-      stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'), :status => 200)
-      response = cross_ref.get_data(article)
-      lookup_stub.should_not have_been_requested
-      stub.should have_been_requested
-    end
-  end
-
   context "use the CrossRef API" do
     let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007") }
 

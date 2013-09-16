@@ -269,11 +269,10 @@ class Source < ActiveRecord::Base
   end
 
   def schedule_at
-    if delayed_jobs.empty?
-      Time.zone.now
-    else
-      delayed_jobs.maximum(:run_at) + batch_interval
-    end
+    last_job = DelayedJob.where(queue: name).maximum(:run_at)
+    return Time.zone.now if last_job.nil?
+
+    last_job + batch_interval
   end
 
   def workers

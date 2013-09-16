@@ -117,4 +117,3 @@ namespace :queue do
     end
   end
 end
-

@@ -216,6 +216,17 @@ describe Source do
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...rate_limiting], source.id))
       end
 
+      it "with job_batch_size" do
+        job_batch_size = 5
+        Delayed::Job.stub(:enqueue).with(QueueJob.new(source.id), { queue: "#{source.name}-queue", run_at: Time.zone.now, priority: 0 })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[0...job_batch_size], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[job_batch_size..10], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        source.job_batch_size = job_batch_size
+        source.queue_stale_articles.should == 10
+        source.should be_working
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...job_batch_size], source.id))
+      end
+
       it "with inactive source" do
         source.inactivate
         source.queue_stale_articles.should == 0
