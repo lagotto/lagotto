@@ -1,0 +1,149 @@
+<div class="page-header">
+  <div class="btn-toolbar pull-right">
+    <div class="btn-group">
+      <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-filter"></i> <%= @source.nil? ? "All Sources" : @source.display_name %> <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><%= link_to "All Sources", admin_alerts_path(:class_name => params[:class_name], :query => params[:query]) %></li>
+        <li class="divider"></li>
+        <% sources.active.each do|source| %>
+        <li><%= link_to h(source.display_name), admin_alerts_path(:source_id => source.id, :class_name => params[:class_name], :query => params[:query]) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="btn-group">
+      <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-filter"></i> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
+      <ul class="dropdown-menu pull-right">
+        <li><%= link_to "All Alerts", admin_alerts_path(:source_id => params[:source_id], :query => params[:query]) %></li>
+        <li class="divider"></li>
+        <% alerts.each do|alert| %>
+        <li><%= link_to h(alert), admin_alerts_path(:class_name => alert, :source_id => params[:source_id], :query => params[:query]) %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <h1>
+    <%= pluralize(@alerts.count, 'Alert') %>
+    <% unless params[:query].blank? %>
+        <small>with <em><%= params[:query] %></em> in the class name or message</small>
+    <% end %>
+  </h1>
+</div>
+
+<div class="search">
+  <%= form_tag(admin_alerts_path, :method => "get", :class => "form-search") do %>
+    <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "input-large", :id => "appendedInputButtons" %>
+    <button type="submit" class="btn hidden-phone"><i class="icon-search"></i></button>
+    <% unless params[:query].blank? %>
+      <%= link_to "clear", admin_alerts_path(:source_id => params[:source_id]), :class => "btn btn-link hidden-phone" %>
+    <% end %>
+  <% end %>
+</div>
+
+<% if @alerts.size > 0 %>
+  <div class="accordion" id="alert">
+    <% @alerts.each do |alert| %>
+      <% cache alert do %>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + "<strong>" + h(alert.message) + "</strong>").html_safe, "#alert_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %>
+          </div>
+          <div class="accordion-body collapse" id="alert_<%= alert.id %>">
+            <div class="accordion-inner alert-inner">
+              <% if can?(:destroy, Alert) %>
+                <div class="btn-group pull-right">
+                  <a class="btn btn-mini dropdown-toggle" id="<%= alert.id %>-delete" data-toggle="dropdown" href="#">
+                    <i class="icon-trash"></i> Delete <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to "by Message", admin_alert_path(alert, :query => params[:query],
+                                                                                          :source_id => params[:source_id],
+                                                                                          :page => params[:page]),
+                                                                                          :method => :delete,
+                                                                                          :data => { :confirm => 'Are you sure?' },
+                                                                                          :remote => true,
+                                                                                          :id => "#{alert.id}-delete-message" %></li>
+                    <li><%= link_to "by Class", admin_alert_path(alert, :query => params[:query],
+                                                                                        :source_id => params[:source_id],
+                                                                                        :filter => "class_name",
+                                                                                        :page => params[:page]),
+                                                                                        :method => :delete,
+                                                                                        :data => { :confirm => 'Are you sure?' },
+                                                                                        :remote => true,
+                                                                                        :id => "#{alert.id}-delete-class" %></li>
+                    <% unless alert.source_id.nil? %>
+                      <li><%= link_to "by Source", admin_alert_path(alert, :query => params[:query],
+                                                                                           :source_id => params[:source_id],
+                                                                                           :filter => "source_id",
+                                                                                           :page => params[:page]),
+                                                                                           :method => :delete,
+                                                                                           :data => { :confirm => 'Are you sure?' },
+                                                                                           :remote => true,
+                                                                                           :id => "#{alert.id}-delete-source" %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
+              <p class="class_name"><%= link_to alert.class_name, admin_alerts_path(:class_name => h(alert.class_name),
+                                                                                                    :source_id => params[:source_id],
+                                                                                                    :query => params[:query]) %></p>
+              <% unless alert.source_id.blank? %>
+                <h5>Source</h5>
+                <%= link_to alert.source.display_name, admin_alerts_path(source_id: alert.source_id) %>
+              <% end %>
+
+              <% unless alert.article_id.blank? %>
+                <h5>Article</h5>
+                <%= link_to alert.article.uid, admin_article_path(alert.article) %>
+              <% end %>
+
+              <h5>Time</h5>
+              <%= alert.created_at.to_s(:friendly) %>
+
+              <% unless alert.content_type.blank? or alert.content_type == "text/html" %>
+                <h5>Content Type</h5>
+                <%= alert.content_type %>
+              <% end %>
+
+              <% unless alert.target_url.blank? %>
+                <h5>Target URL</h5>
+                <%= link_to alert.target_url, alert.target_url %>
+              <% end %>
+
+              <% if ["Net::HTTPUnauthorized","ActionDispatch::RemoteIp::IpSpoofAttackError"].include? alert.class_name %>
+                <% unless alert.remote_ip.blank? %>
+                  <h5>Remote IP</h5>
+                  <%= link_to alert.remote_ip, alert.remote_ip %>
+                <% end %>
+
+                <% unless alert.user_agent.blank? %>
+                  <h5>User Agent</h5>
+                  <%= alert.user_agent %>
+                <% end %>
+              <% end %>
+
+              <% unless alert.details.blank? %>
+                <h5>Details</h5>
+                <%= h(alert.details) %>
+              <% end %>
+
+              <% unless alert.trace.blank? %>
+                <h5>Trace</h5>
+                <%= simple_format(alert.trace) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <%= will_paginate @alerts, :params => { :controller => admin_alerts_path }, :renderer => BootstrapPagination::Rails %>
+<% else %>
+  <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>alerts
+    <% unless @source.nil? %>
+        for <%= @source.display_name %>
+    <% end %>
+    <% unless params[:query].blank? %>
+        with <em><%= params[:query] %></em> in the class name or message
+    <% end %>
+  </div>
+<% end %>

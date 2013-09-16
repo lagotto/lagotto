@@ -18,20 +18,20 @@
 
 class Admin::IndexController < Admin::ApplicationController
 
-  load_and_authorize_resource :error_message, :parent => false
+  load_and_authorize_resource :alert, :parent => false
 
   def index
     @articles_count = Article.count
     @articles_recent_count = Article.last_x_days(30).count
-    @sources_disabled_count = Source.where("disable_until IS NOT NULL").count
-    @error_messages_last_day_count = ErrorMessage.total(1).count
-    @events_count = RetrievalStatus.joins(:source).where("active = 1 AND name != 'relativemetric'").sum(:event_count)
+    @sources_disabled_count = Source.where("state = 1").count
+    @alerts_last_day_count = Alert.total_errors(1).count
+    @events_count = RetrievalStatus.joins(:source).where("state > 0 AND name != 'relativemetric'").sum(:event_count)
     @queued_count = RetrievalStatus.queued.count
     @delayed_jobs_active_count = DelayedJob.count
-    @delayed_jobs_count = RetrievalStatus.total(1).count
-    @requests_count = ApiRequest.where("created_at > NOW() - INTERVAL 24 HOUR").count
+    @responses_count = ApiResponse.total(1).count
+    @requests_count = ApiRequest.where("created_at > NOW() - INTERVAL 1 DAY").count
     @users_count = User.count
-    @couchdb_info = RetrievalHistory.new.get_alm_database || { "doc_count" => 0, "disk_size" => 0 }
+    @couchdb_info = RetrievalStatus.new.get_alm_database || { "doc_count" => 0, "disk_size" => 0 }
     @mysql_info = RetrievalHistory.table_status
 
     render :index

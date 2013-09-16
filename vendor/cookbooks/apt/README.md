@@ -7,11 +7,42 @@ the apt-cacher-ng caching proxy and proxy clients. It also includes a
 LWRP for managing APT repositories in /etc/apt/sources.list.d as well as
 an LWRP for pinning packages via /etc/apt/preferences.d.
 
+Requirements
+============
+
+Version 2.0.0+ of this cookbook requires **Chef 11.0.0** or later.
+
+If your Chef version is earlier than 11.0.0, use version 1.10.0 of
+this cookbook.
+
+See [COOK-2258](http://tickets.opscode.com/browse/COOK-2258) for more
+information on this requirement.
+
+Version 1.8.2 to 1.10.0 of this cookbook requires **Chef 10.16.4** or
+later.
+
+If your Chef version is earlier than 10.16.4, use version 1.7.0 of
+this cookbook.
+
+See [CHEF-3493](http://tickets.opscode.com/browse/CHEF-3493) and
+[this code comment](http://bit.ly/VgvCgf) for more information on this
+requirement.
+
+## Platform
+
+Please refer to the [TESTING file](TESTING.md) to see the currently (and passing) tested platforms. The release was tested on:
+* Ubuntu 10.04
+* Ubuntu 12.04
+* Ubuntu 13.04
+* Debian 7.1
+* Debian 6.0 (have with manual testing)
+
+May work with or without modification on other Debian derivatives.
+
 Recipes
 =======
 
-default
--------
+## default
 
 This recipe installs the `update-notifier-common` package to provide
 the timestamp file used to only run `apt-get update` if the cache is
@@ -23,36 +54,44 @@ any `package` resources with Chef.
 
 This recipe also sets up a local cache directory for preseeding packages.
 
-cacher-ng
----------
+## cacher-client
+
+Configures the node to use the `apt-cacher-ng` server as a client.
+
+## cacher-ng
 
 Installs the `apt-cacher-ng` package and service so the system can
 provide APT caching. You can check the usage report at
-http://{hostname}:3142/acng-report.html. The `cacher-ng` recipe
-includes the `cacher-client` recipe, so it helps seed itself.
+http://{hostname}:3142/acng-report.html.
 
-cacher-client
--------------
-Configures the node to use the `apt-cacher-ng` server as a client. If you
-want to restrict your node to using the `apt-cacher-ng` server in your
-Environment, set `['apt']['cacher-client']['restrict_environment']` to `true`.
+If you wish to help the `cacher-ng` recipe seed itself, you must now explicitly
+include the `cacher-client` recipe in your run list **after** `cacher-ng` or you
+will block your ability to install any packages (ie. `apt-cacher-ng`).
+
+Attributes
+==========
+
+* `['apt']['cacher_ipaddress']` - use a cacher server (or standard proxy server) not available via search
+* `['apt']['cacher_port']` - port for the cacher-ng service (either client or server), default is '3142'
+* `['apt']['cacher_dir']` - directory used by cacher-ng service, default is '/var/cache/apt-cacher-ng'
+* `['apt']['cacher-client']['restrict_environment']` - restrict your node to using the `apt-cacher-ng` server in your Environment, default is 'false'
+* `['apt']['compiletime']` - force the `cacher-client` recipe to run before other recipes. It forces apt to use the proxy before other recipes run. Useful if your nodes have limited access to public apt repositories. This is overridden if the `cacher-ng` recipe is in your run list. Default is 'false'
 
 Resources/Providers
 ===================
 
-Managing repositories
----------------------
+## Managing repositories
 
 This LWRP provides an easy way to manage additional APT repositories.
 Adding a new repository will notify running the `execute[apt-get-update]`
 resource immediately.
 
-# Actions
+### Actions
 
 - :add: creates a repository file and builds the repository listing
 - :remove: removes the repository file
 
-# Attribute Parameters
+### Attribute Parameters
 
 - repo_name: name attribute. The name of the channel to discover
 - uri: the base of the Debian distribution
@@ -67,11 +106,12 @@ resource immediately.
 - key: if a `keyserver` is provided, this is assumed to be the
   fingerprint, otherwise it can be either the URI to the GPG key for
   the repo, or a cookbook_file.
+- key_proxy: if set, pass the specified proxy via `http-proxy=` to GPG.
 - cookbook: if key should be a cookbook_file, specify a cookbook where
   the key is located for files/default. Defaults to nil, so it will
   use the cookbook where the resource is used.
 
-# Examples
+### Examples
 
     # add the Zenoss repo
     apt_repository "zenoss" do
@@ -98,22 +138,6 @@ resource immediately.
       deb_src true
     end
 
-    # add the Cloudkick Repo
-    apt_repository "cloudkick" do
-      uri "http://packages.cloudkick.com/ubuntu"
-      distribution node['lsb']['codename']
-      components ["main"]
-      key "http://packages.cloudkick.com/cloudkick.packages.key"
-    end
-
-    # add the Cloudkick Repo with the key downloaded in the cookbook
-    apt_repository "cloudkick" do
-      uri "http://packages.cloudkick.com/ubuntu"
-      distribution node['lsb']['codename']
-      components ["main"]
-      key "cloudkick.packages.key"
-    end
-
     # add the Cloudera Repo of CDH4 packages for Ubuntu 12.04 on AMD64
     apt_repository "cloudera" do
       uri "http://archive.cloudera.com/cdh4/ubuntu/precise/amd64/cdh"
@@ -128,8 +152,7 @@ resource immediately.
       action :remove
     end
 
-Pinning packages
-----------------
+## Pinning packages
 
 This LWRP provides an easy way to pin packages in /etc/apt/preferences.d.
 Although apt-pinning is quite helpful from time to time please note that Debian
@@ -138,18 +161,19 @@ does not encourage its use without thorough consideration.
 Further information regarding apt-pinning is available via
 http://wiki.debian.org/AptPreferences.
 
-# Actions
+### Actions
 
 - :add: creates a preferences file under /etc/apt/preferences.d
 - :remove: Removes the file, therefore unpin the package
 
-# Attribute Parameters
+### Attribute Parameters
 
 - package_name: name attribute. The name of the package
+- glob: Pin by glob() expression or regexp surrounded by /.
 - pin: The package version/repository to pin
 - pin_priority: The pinning priority aka "the highest package version wins"
 
-# Examples
+### Examples
 
     # Pin libmysqlclient16 to version 5.1.49-3
     apt_preference "libmysqlclient16" do
@@ -160,6 +184,13 @@ http://wiki.debian.org/AptPreferences.
     # Unpin libmysqlclient16
     apt_preference "libmysqlclient16" do
       action :remove
+    end
+
+    # Pin all packages from dotdeb.org
+    apt_preference "dotdeb" do
+      glob "*"
+      pin "origin packages.dotdeb.org "
+      pin_priority "700"
     end
 
 Usage
@@ -187,11 +218,13 @@ and `apt-get autoremove` resources provided for automated cleanup.
 License and Author
 ==================
 
-Author:: Joshua Timberman (<joshua@opscode.com>)
-Author:: Matt Ray (<matt@opscode.com>)
-Author:: Seth Chisamore (<schisamo@opscode.com>)
-
-Copyright 2009-2012 Opscode, Inc.
+|                      |                                         |
+|:---------------------|:----------------------------------------|
+| **Author**           | Joshua Timberman <joshua@opscode.com>   |
+| **Author**           | Matt Ray (<matt@opscode.com>)           |
+| **Author**           | Seth Chisamore (<schisamo@opscode.com>) |
+|                      |                                         |
+| **Copyright**        | Copyright (c) 2009-2013, Opscode, Inc.  |
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

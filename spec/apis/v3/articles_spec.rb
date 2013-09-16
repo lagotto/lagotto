@@ -1,20 +1,20 @@
 require "spec_helper"
 
 describe "/api/v3/articles" do
-  
+
   context "index" do
     let(:articles) { FactoryGirl.create_list(:article_with_events, 55) }
-    
+
     context "more than 50 articles in query" do
       before(:each) do
-        article_list = articles.collect { |article| "#{CGI.escape(article.doi)}" }.join(",") 
-        @uri = "/api/v3/articles?ids=#{article_list}&type=doi&api_key=12345"
+        article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
+        @uri = "/api/v3/articles?api_key=12345&ids=#{article_list}&type=doi"
       end
-      
+
       it "JSON" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
-  
+
         response = JSON.parse(last_response.body)
         response.length.should eql(50)
         response.any? do |article|
@@ -22,11 +22,11 @@ describe "/api/v3/articles" do
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
         end.should be_true
       end
-    
+
       it "XML" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
-        
+
         response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
         response = response["articles"]["article"]
         response.length.should eql(50)
@@ -37,12 +37,12 @@ describe "/api/v3/articles" do
       end
     end
   end
-  
+
   context "show" do
-    
+
     context "show summary information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?info=summary&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&type=doi&info=summary"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -53,7 +53,7 @@ describe "/api/v3/articles" do
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response["sources"].should be_nil
       end
-    
+
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
@@ -65,10 +65,10 @@ describe "/api/v3/articles" do
         response["sources"].should be_nil
       end
     end
-  
+
     context "historical data after 30 days" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?days=30&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&days=30"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -82,11 +82,11 @@ describe "/api/v3/articles" do
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
-    
+
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
-        
+
         response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
@@ -96,12 +96,12 @@ describe "/api/v3/articles" do
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
-    
+
     end
-  
+
     context "historical data after 6 months" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?months=6&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&months=6"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -115,11 +115,11 @@ describe "/api/v3/articles" do
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
-    
+
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
-        
+
         response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
@@ -129,11 +129,11 @@ describe "/api/v3/articles" do
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
-    end 
-    
+    end
+
     context "historical data until 2012" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?year=2012&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&year=2012"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -147,11 +147,11 @@ describe "/api/v3/articles" do
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
-    
+
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
-        
+
         response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
@@ -161,11 +161,11 @@ describe "/api/v3/articles" do
         response_source["events"].should be_nil
         response_source["histories"].should be_nil
       end
-    end 
-    
+    end
+
     context "show detail information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?info=detail&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&info=detail"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -181,11 +181,11 @@ describe "/api/v3/articles" do
         response_source["histories"].should_not be_nil
 
       end
-    
+
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
-        
+
         response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
@@ -195,12 +195,12 @@ describe "/api/v3/articles" do
         #response_source["events"].should_not be_nil
         response_source["histories"].should_not be_nil
       end
-    
+
     end
-    
+
     context "show history information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?info=history&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&info=history"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -214,7 +214,7 @@ describe "/api/v3/articles" do
         response_source["events"].should be_nil
         response_source["histories"].should_not be_nil
       end
-    
+
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
@@ -228,12 +228,12 @@ describe "/api/v3/articles" do
         response_source["events"].should be_nil
         response_source["histories"].should_not be_nil
       end
-    
+
     end
-    
+
     context "show event information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?info=event&api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&info=event"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -249,7 +249,7 @@ describe "/api/v3/articles" do
         response_source["histories"].should be_nil
 
       end
-    
+
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
@@ -263,6 +263,6 @@ describe "/api/v3/articles" do
         #response_source["events"].should_not be_nil
         response_source["histories"].should be_nil
       end
-    end    
+    end
   end
 end

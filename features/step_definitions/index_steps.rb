@@ -1,9 +1,7 @@
-require 'source_helper'
-
 ### GIVEN ###
 Given /^that we have added (\d+) documents to CouchDB$/ do |number|
   number.to_i.times do |i|
-    put_alm_data("#{APP_CONFIG['couchdb_url']}#{i}", { "name" => "Fred" }.to_json)
+    put_alm_data("#{APP_CONFIG['couchdb_url']}#{i}", data: { "name" => "Fred" })
  end
 end
 

@@ -13,24 +13,24 @@ describe "/api/v3/articles" do
       get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
       last_response.status.should eql(401)
       last_response.body.should eq(missing_key.to_json)
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPUnauthorized")
-      error_message.message.should include("Missing API key.")
-      error_message.content_type.should eq("application/json")
-      error_message.status.should == 401
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPUnauthorized")
+      alert.message.should include("Missing API key.")
+      alert.content_type.should eq("application/json")
+      alert.status.should == 401
     end
 
     it "XML" do
       get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
       last_response.status.should eql(401)
       last_response.body.should eq(missing_key.to_xml)
-      ErrorMessage.count.should == 1
-      error_message = ErrorMessage.first
-      error_message.class_name.should eq("Net::HTTPUnauthorized")
-      error_message.message.should include("Missing API key.")
-      error_message.content_type.should eq("application/xml")
-      error_message.status.should == 401
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPUnauthorized")
+      alert.message.should include("Missing API key.")
+      alert.content_type.should eq("application/xml")
+      alert.status.should == 401
     end
   end
 
@@ -39,7 +39,7 @@ describe "/api/v3/articles" do
 
     context "articles found via DOI" do
       before(:each) do
-        article_list = articles.collect { |article| "#{CGI.escape(article.doi)}" }.join(",")
+        article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
         @uri = "/api/v3/articles?ids=#{article_list}&type=doi&api_key=12345"
       end
 
@@ -83,7 +83,7 @@ describe "/api/v3/articles" do
 
     context "articles found via PMID" do
       before(:each) do
-        article_list = articles.collect { |article| "#{CGI.escape(article.pub_med)}" }.join(",")
+        article_list = articles.collect { |article| "#{article.pub_med}" }.join(",")
         @uri = "/api/v3/articles?ids=#{article_list}&type=pmid&api_key=12345"
       end
 

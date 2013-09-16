@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -18,24 +20,21 @@
 
 class Facebook < Source
 
-  validates_each :url, :access_token do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
+  validates_not_blank(:url, :access_token)
 
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires access_token") \
-      if config.access_token.blank?
+      if access_token.blank?
 
     # Fetch the fulltext URL
     if article.url.blank? and !article.doi.blank?
-      original_url = get_original_url(article.doi)
-      article.update_attributes(:url => original_url) unless original_url.blank?
+      original_url = get_original_url(article.doi_as_url)
+      article.update_attributes(:url => original_url) if original_url.blank?
     end
 
-    return  { :events => [], :event_count => nil } if article.doi.blank?
+    return  { :events => [], :event_count => nil } if article.url.blank?
 
-    query_url = get_query_url(article.doi_as_url)
-    options[:source_id] = id
+    query_url = get_query_url(article)
     result = get_json(query_url, options)
 
     if result.nil?
@@ -57,9 +56,8 @@ class Facebook < Source
     end
   end
 
-  def get_query_url(query_url, options={})
-    # https://graph.facebook.com/fql?access_token=%{access_token}&q=select%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,%20click_count,%20comments_fbid,%20commentsbox_count%20from%20link_stat%20where%20url%20=%20'%{query_url}'
-    URI.escape(config.url % { :access_token => config.access_token, :query_url => query_url }) unless query_url.blank?
+  def get_query_url(article, options={})
+    URI.escape(url % { :access_token => access_token, :query_url => CGI.escape(article.url) }) unless article.url.blank?
   end
 
   def get_config_fields

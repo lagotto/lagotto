@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -21,9 +23,7 @@ class Wikipedia < Source
   # Taken from http://toolserver.org/~dartar/cite-o-meter/?doip=10.1371
   LANGUAGES = %w(en de fr it pl es ru ja nl pt sv zh ca uk no fi vi cs hu ko commons)
 
-  validates_each :url do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
+  validates_not_blank(:url)
 
   def get_data(article, options={})
 
@@ -37,7 +37,6 @@ class Wikipedia < Source
 
       host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
       query_url = get_query_url(article, :host => host)
-      options[:source_id] = id
       results = get_json(query_url, options)
 
       # if server doesn't return a result
@@ -82,14 +81,13 @@ class Wikipedia < Source
 
     host = options[:host] || "en.wikipedia.org"
 
-    # http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1
     # We search for the DOI in parentheses to only get exact matches
-    config.url % { :host => host, :doi => CGI.escape("\"#{article.doi}\"") }
+    url % { :host => host, :doi => "\"#{article.doi}\"" }
   end
 
   def get_events_url(article)
     unless article.doi.blank?
-      "http://en.wikipedia.org/w/index.php?search=#{CGI.escape("\"#{article.doi}\"")}"
+      "http://en.wikipedia.org/w/index.php?search=\"#{article.doi_escaped}\""
     else
       nil
     end
@@ -106,5 +104,4 @@ class Wikipedia < Source
   def url=(value)
     config.url = value
   end
-
 end

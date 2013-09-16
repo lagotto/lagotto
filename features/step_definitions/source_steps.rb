@@ -9,15 +9,13 @@ end
 
 Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
   if status == "inactive"
-    @source = FactoryGirl.create(:source, active: 0)
-  elsif status == "active"
-    @articles = FactoryGirl.create_list(:article_with_events, 10)
+    @source = FactoryGirl.create(:source, state_event: "inactivate")
+  elsif status == "working"
+    @source = FactoryGirl.create(:source, state_event: "start_working")
   elsif status == "disabled"
-    @source = FactoryGirl.create(:source, disable_until: (Time.now + 1.hour))
-  elsif status == "no events"
-    @source = FactoryGirl.create(:source)
-  elsif status == "with errors"
-    @articles = FactoryGirl.create_list(:article_with_errors, 10)
+    @source = FactoryGirl.create(:source, state_event: "disable")
+  elsif status == "waiting"
+    @source = FactoryGirl.create(:source, state_event: "start_waiting")
   end
 end
 
@@ -84,7 +82,7 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
   if page_title == "Jobs"
     title = "delayed_jobs"
   elsif page_title == "Errors"
-    title = "error_messages"
+    title = "alerts"
   elsif page_title == "Home"
     title = ""
   elsif page_title == "API Requests"

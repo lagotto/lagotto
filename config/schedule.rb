@@ -5,21 +5,17 @@
 
 set :output, "#{path}/log/cron.log"
 
-# every 2.hours do
-#   command "/usr/bin/some_great_command"
-#   runner "MyModel.some_method"
-#   rake "some:great:rake:task"
-# end
-#
-# every 4.days do
-#   runner "AnotherModel.prune_old_records"
-# end
+# Create alerts by filtering API responses and mail them
+# Delete resolved alerts
+# Delete API request information, keeping the last 10,000 requests
+# Delete API response information, keeping responses from the last 24 hours
+every 1.day, at: "4:00 AM" do
+  rake "filter:all"
+  rake "mailer:report"
 
-# Delete resolved error messages
-# Delete API request information, keeping the last 50,000 requests
-every :monday, at: "4:00 AM" do
-  rake "db:error_messages:delete"
-  rake "db:api_requests:delete"  
+  rake "db:alerts:delete"
+  rake "db:api_requests:delete"
+  rake "db:api_responses:delete"
 end
 
 # Learn more: http://github.com/javan/whenever

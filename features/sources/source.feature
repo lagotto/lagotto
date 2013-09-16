@@ -12,12 +12,11 @@ Feature: Edit sources
       When I edit the source "CiteULike"
       Then "Saved" should be the only option for "Group"
 
-    Scenario: Content from settings.yml should be displayed
+    Scenario: Configuration options should be displayed
       When I go to the "Configuration" tab of source "CiteULike"
-      Then I should see the "Job batch size" settings
-      And I should see the "Batch time interval" settings
-      And I should see the "Staleness interval" settings
-      And I should see the "Requests per day" settings
+      Then I should see the "Job queue" settings
+      And I should see the "Update interval" settings
+      And I should see the "Failed queries" settings
 
     Scenario: Source overview should display source image
       When I go to the "Sources" page

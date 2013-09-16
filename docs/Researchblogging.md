@@ -8,7 +8,7 @@ Research Blogging is a science blog aggregator.
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: 7.days<br/>batch_time_interval: 1.hour</td>
+<td valign="top" width=80%>staleness: [ 1.day, 1.day, 1.month, 1.month]</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
@@ -113,7 +113,7 @@ Research Blogging is a science blog aggregator.
       </post>
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/researchblogging.rb). 
+The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/researchblogging.rb).
 
 ## Further Documentation
 * [Research Blogging website](http://researchblogging.org)

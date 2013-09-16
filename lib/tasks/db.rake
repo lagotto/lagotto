@@ -18,7 +18,7 @@
 
 namespace :db do
   namespace :articles do
-    
+
     desc "Bulk-load articles from standard input"
     task :load => :environment do
       puts "Reading DOIs from standard input..."
@@ -67,7 +67,7 @@ namespace :db do
 
       puts "Saved #{created.size} new articles, updated #{updated.size} articles, ignored #{duplicate.size} other existing articles"
     end
-    
+
     desc "Seed sample articles"
     task :seed => :environment do
       before = Article.count
@@ -76,32 +76,32 @@ namespace :db do
       after = Article.count
       puts "Seeded #{after - before} articles"
     end
-    
+
     desc "Delete all articles"
     task :delete => :environment do
       before = Article.count
-      Article.destroy_all if Rails.env != 'production' 
+      Article.destroy_all unless Rails.env.production?
       after = Article.count
       puts "Deleted #{before - after} articles, #{after} articles remaining"
     end
-    
+
   end
-  
-  namespace :error_messages do
-    
-    desc "Delete messages for all resolved errors"
+
+  namespace :alerts do
+
+    desc "Delete all resolved alerts"
     task :delete => :environment do
-      ErrorMessage.unscoped {
-        before = ErrorMessage.count
-        ErrorMessage.destroy_all(:unresolved => false)
-        after = ErrorMessage.count
-        puts "Deleted #{before - after} messages for resolved errors, #{after} unresolved errors remaining"
+      Alert.unscoped {
+        before = Alert.count
+        Alert.destroy_all(:unresolved => false)
+        after = Alert.count
+        puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
       }
     end
   end
-  
+
   namespace :api_requests do
-    
+
     desc "Delete API requests, keeping last 10,000 requests"
     task :delete => :environment do
       before = ApiRequest.count
@@ -111,6 +111,68 @@ namespace :db do
       end
       after = ApiRequest.count
       puts "Deleted #{before - after} API requests, #{after} API requests remaining"
+    end
+  end
+
+  namespace :api_responses do
+
+    desc "Delete all resolved API responses older than 24 hours"
+    task :delete => :environment do
+      before = ApiResponse.count
+      ApiResponse.destroy_all("unresolved = 0 AND created_at < NOW() - INTERVAL 1 DAY")
+      after = ApiResponse.count
+      puts "Deleted #{before - after} resolved API responses, #{after} unresolved API responses remaining"
+    end
+  end
+
+  namespace :sources do
+
+    desc "Activate sources"
+    task :activate => :environment do |t, args|
+      if args.extras.empty?
+        sources = Source.inactive
+      else
+        sources = Source.inactive.where("name in (?)", args.extras)
+      end
+
+      if sources.empty?
+        puts "No inactive source found."
+        exit
+      end
+
+      sources.each do |source|
+        source.activate
+        if source.queueing?
+          puts "Source #{source.display_name} has been activated and is now queueing."
+        elsif source.idle?
+          puts "Source #{source.display_name} has been activated and is now idle."
+        else
+          puts "Source #{source.display_name} could not be activated."
+        end
+      end
+    end
+
+    desc "Inactivate sources"
+    task :inactivate => :environment do |t, args|
+      if args.extras.empty?
+        sources = Source.active
+      else
+        sources = Source.active.where("name in (?)", args.extras)
+      end
+
+      if sources.empty?
+        puts "No active source found."
+        exit
+      end
+
+      sources.each do |source|
+        source.inactivate
+        if source.inactive?
+          puts "Source #{source.display_name} has been inactivated."
+        else
+          puts "Source #{source.display_name} could not be inactivated."
+        end
+      end
     end
   end
 end

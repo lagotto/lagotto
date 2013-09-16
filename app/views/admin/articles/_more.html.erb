@@ -1,0 +1,13 @@
+<% unless @article.retrieval_statuses.empty? %>
+  <div class="accordion" id="retrieval_status">
+    <% @article.retrieval_statuses.with_sources.each do |status| %>
+      <% if !status.source.nil? %>
+        <div class="accordion-group" id="<%= status.source.name %>">
+          <%= render partial: 'admin/articles/source', locals: { status: status } %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="alert alert-info">There are currently no events</div>
+<% end %>
