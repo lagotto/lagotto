@@ -31,12 +31,8 @@ defaults: &defaults
   doi_prefix:
   uid: doi
   mail:
-    address:
-    port: 587
-    domain:
-    user_name:
-    password:
-    authentication: plain
+    address: localhost
+    port: 25
 
 development:
   <<: *defaults

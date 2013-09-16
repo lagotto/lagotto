@@ -18,11 +18,7 @@ defaults: &defaults
   uid: <%= node[:alm][:uid] %>
   mail:
     address: <%= node[:alm][:mail][:address] %>
-    port: 587
-    domain: <%= node[:alm][:mail][:domain] %>
-    user_name: <%= node[:alm][:mail][:user_name] %>
-    password: <%= node[:alm][:mail][:password] %>
-    authentication: plain
+    port: <%= node[:alm][:mail][:port] %>
 
 development:
   <<: *defaults
