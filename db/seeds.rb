@@ -1,6 +1,10 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
+# Load default admin user
+if Rails.env != "production"
+  User.create(:username => "articlemetrics", :email => "admin@example.com", :password => "articlemetrics", :password_confirmation => "articlemetrics") if User.count == 0
+end
 
 # Load default groups
 viewed = Group.find_or_create_by_name(:name => "Viewed")
@@ -84,53 +88,51 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
 
 # The following sources require passwords/API keys
-
-
 crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
   :display_name => "CrossRef",
   :description => "CrossRef is a non-profit organization that enables cross-publisher citation linking.",
-  :state_event => "activate",
+  :state_event => "",
   :workers => 1,
   :group_id => cited.id,
   :default_url => "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true",
   :url => "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}",
-  :username => "plos",
-  :password => "plos1")
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
 
 facebook = Facebook.find_or_create_by_name(
   :name => "facebook",
   :display_name => "Facebook",
   :description => "Facebook is the largest social network.",
-  :state_event => "activate",
+  :state_event => "",
   :workers => 1,
   :group_id => discussed.id,
   :url => "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'",
-  :access_token => "318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q")
+  :access_token => "EXAMPLE")
 
 mendeley = Mendeley.find_or_create_by_name(
   :name => "mendeley",
   :display_name => "Mendeley",
   :description => "Mendeley is a reference manager and social bookmarking tool.",
-  :state_event => "activate",
+  :state_event => "",
   :workers => 1,
   :group_id => saved.id,
   :url => "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}",
   :url_with_type => "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}",
   :url_with_title => "http://api.mendeley.com/oapi/documents/search/%{title}/?items=10&consumer_key=%{api_key}",
   :related_articles_url => "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}",
-  :api_key => "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5")
+  :api_key => "EXAMPLE")
 
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",
   :display_name => "Research Blogging",
   :description => "Research Blogging is a science blog aggregator.",
-  :state_event => "activate",
+  :state_event => "",
   :workers => 1,
   :group_id => discussed.id,
   :url => "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}",
-  :username => "plosuser",
-  :password => "siWSaA546pM")
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
 
 # Load sample articles
 if ENV['ARTICLES']
