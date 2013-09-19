@@ -100,7 +100,9 @@ When /^I go to "(.*?)"$/ do |path|
 end
 
 When /^click on the "(.*?)" tab$/ do |tab_name|
-  click_link tab_name
+  within ("ul.nav-tabs") do
+    click_link tab_name
+  end
   page.driver.render("tmp/capybara/#{tab_name}.png")
 end
 

@@ -26,18 +26,21 @@ end
 
 When /^I click on the "(.*?)" menu item of the Delete button of the first alert and confirm$/ do |menu_item|
   scope = menu_item.split.last.downcase
-  id = first('.accordion-toggle')[:id][5..-1]
-  click_link "link_#{id}"
-  within("#alert_#{id}") do
-    click_link "#{id}-delete"
-    click_link "#{id}-delete-#{scope}"
+  within("#alert") do
+    id = first('.accordion-toggle')[:id][5..-1]
+    click_link "link_#{id}"
+    page.driver.render("tmp/capybara/#{menu_item}_alerts.png")
+    within("#alert_#{id}") do
+      click_link "#{id}-delete"
+      click_link "#{id}-delete-#{scope}"
+    end
   end
 end
 
 ### THEN ###
 Then /^I should see (\d+) alerts?$/ do |number|
-sleep 5
-    page.driver.render("tmp/capybara/#{number}_alerts.png")
+  sleep 5
+  page.driver.render("tmp/capybara/#{number}_alerts.png")
   page.has_css?('.accordion-group', :visible => true, :count => number.to_i).should be_true
 end
 
@@ -55,6 +58,10 @@ Then /^I should see the "(.*?)" error$/ do |error|
   within(".accordion-heading") do
     page.should have_content error
   end
+end
+
+Then /^I should see the alert for the article$/ do
+  page.has_css?('#alert-error-message').should be_true
 end
 
 Then /^I should see the "(.*?)" class name$/ do |class_name|
