@@ -26,5 +26,4 @@ include SourceHelper
 
 APP_CONFIG = YAML.load(ERB.new(File.read("#{Rails.root}/config/settings.yml")).result)[Rails.env]
 
-Faraday.default_adapter = :net_http_persistent
 ActiveSupport::XmlMini.backend = 'Nokogiri'
