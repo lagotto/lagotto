@@ -15,7 +15,7 @@ Feature: View documentation
         | Sources           |
         | API               |
         | Rake              |
-        | Errors            |
+        | Alerts            |
         | FAQ               |
         | Roadmap           |
         | Past-Contributors |

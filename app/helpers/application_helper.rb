@@ -73,7 +73,7 @@ module ApplicationHelper
   end
 
   def documents
-    %w(Home Installation Setup Sources API Rake Errors FAQ Roadmap Past-Contributors)
+    %w(Home Installation Setup Sources API Rake Alerts FAQ Roadmap Past-Contributors)
   end
 
   def roles
