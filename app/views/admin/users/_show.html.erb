@@ -51,11 +51,15 @@
     <% end %>
     <dt>API Key</dt>
     <dd><%= @user.authentication_token %></dd>
-    <% unless @user.reports.empty? %>
+    <% unless @user.role == "user" %>
       <dt class="report">Reports</dt>
       <dd class="report">
-        <% @user.reports.each do |report| %>
-          <%= h(report.name) %></br>
+        <% unless @user.reports.empty? %>
+          <% @user.reports.each do |report| %>
+            <%= h(report.name) %></br>
+          <% end %>
+        <% else %>
+          Not subscribed
         <% end %>
       </dd>
     <% end %>

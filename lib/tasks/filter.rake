@@ -31,6 +31,7 @@ namespace :filter do
     end
   end
 
+  desc "Unresolve all alerts"
   task :unresolve => :environment do
     response = Filter.unresolve
     puts response[:message]

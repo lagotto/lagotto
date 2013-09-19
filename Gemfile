@@ -15,6 +15,8 @@ gem "state_machine", "~> 1.2.0"
 gem "faraday", "~> 0.8.8"
 gem "faraday_middleware", "~> 0.9.0"
 gem 'faraday-cookie_jar'
+gem 'addressable', "~> 2.3.5"
+gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.7.8"
 gem "oj", "~> 2.1.4"
