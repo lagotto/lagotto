@@ -321,4 +321,8 @@ if ENV['ARTICLES']
     :doi => "10.5194/se-1-1-2010",
     :title => "The Eons of Chaos and Hades",
     :published_on => "2010-02-02")
+  Article.find_or_create_by_doi(
+    :doi => "10.1590/S1413-86702012000300021",
+    :title => "Terry's nails",
+    :published_on => "2012-06-01")
 end
