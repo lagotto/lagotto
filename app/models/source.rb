@@ -65,8 +65,8 @@ class Source < ActiveRecord::Base
                       ['6 hours', 6.hours],
                       ['12 hours', 12.hours],
                       ['24 hours', 24.hours],
-                      ['¼ month', 1.month * 0.25],
-                      ['½ month', 1.month * 0.5],
+                      ['¼ month', (1.month * 0.25).to_i],
+                      ['½ month', (1.month * 0.5).to_i],
                       ['1 month', 1.month]]
 
   def self.validates_not_blank(*attrs)
