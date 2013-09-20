@@ -53,10 +53,10 @@ class Wos < Source
       error = error.nil? ? 'an error occured' : error.content
       message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
       Alert.create(exception: '',
-                          message: message,
-                          class_name: class_name,
-                          status: status_code,
-                          source_id: id)
+                   message: message,
+                   class_name: class_name,
+                   status: status_code,
+                   source_id: id)
       return { events: [], event_count: nil }
     end
 
@@ -96,13 +96,18 @@ class Wos < Source
                 src: "app.id=#{APP_CONFIG['useragent']},env.id=#{Rails.env},partner.email=#{APP_CONFIG['notification_email']}") do
       xml.fn(name: "LinksAMR.retrieve") do
         xml.list do
-          xml.map(name: 'WOS') do
-            xml.val 'timesCited'
-            xml.val 'ut'
-            xml.val 'citingArticlesURL'
+          xml.map
+          xml.map do
+            xml.list(name: 'WOS') do
+              xml.val 'timesCited'
+              xml.val 'ut'
+              xml.val 'citingArticlesURL'
+            end
           end
-          xml.map(name: 'cite_id') do
-            xml.val article.doi, name: 'doi'
+          xml.map do
+            xml.map(name: 'cite_id') do
+              xml.val article.doi, name: 'doi'
+            end
           end
         end
       end
