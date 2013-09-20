@@ -27,7 +27,7 @@ when 'debian'
 
   apt_repository 'erlang_solutions_repo' do
     uri 'http://binaries.erlang-solutions.com/debian'
-    distribution node['lsb']['codename']
+    distribution node['erlang']['esl']['lsb_codename']
     components ['contrib']
     key 'http://binaries.erlang-solutions.com/debian/erlang_solutions.asc'
     action :add

@@ -22,14 +22,14 @@ require 'date'
 include SourceHelper
 
 namespace :f1000 do
-  
+
   desc "Bulk-import F1000Prime data"
-  task :update => :environment do 
+  task :update => :environment do
     source = Source.find_by_name("f1000")
     if source.nil?
       message = "Source \"f1000\" is missing"
-      ErrorMessage.create(:exception => "", :class_name => "NoMethodError",
-                          :message => message)
+      Alert.create(:exception => "", :class_name => "NoMethodError",
+                                     :message => message)
       puts "Error: #{message}"
       exit
     end

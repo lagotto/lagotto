@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<response xmlns="http://www.isinet.com/xrpc42" src="app.id=Article Level Metrics,env.id=test,partner.email=alm@alm.plos.org">
+<response xmlns="http://www.isinet.com/xrpc42" src="app.id=Article Level Metrics,env.id=test,partner.email=alm@plos.org">
 <fn name="LinksAMR.retrieve" rc="OK">
 <map>
 <map name="cite_id">

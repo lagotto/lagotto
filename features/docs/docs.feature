@@ -15,7 +15,7 @@ Feature: View documentation
         | Sources           |
         | API               |
         | Rake              |
-        | Errors            |
+        | Alerts            |
         | FAQ               |
         | Roadmap           |
         | Past-Contributors |
@@ -28,7 +28,6 @@ Feature: View documentation
     Scenario: Documentation on source page
       Given the source "Citeulike" exists
       When I go to the source "CiteULike"
-      And click on the "Documentation" tab
       Then I should see the "Documentation" sidebar
 
     Scenario: Documentation on source admin page

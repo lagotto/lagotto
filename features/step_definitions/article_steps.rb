@@ -3,6 +3,10 @@ Given /^there is an article$/ do
   @article = FactoryGirl.create(:article_with_events)
 end
 
+Given /^there is an article with alerts$/ do
+  @article = FactoryGirl.create(:article_with_events_and_alerts)
+end
+
 Given /^there is an article with the DOI "(.*?)"$/ do |doi|
   FactoryGirl.create(:article_with_events, :doi => doi)
 end
@@ -101,4 +105,8 @@ end
 
 Then(/^I should see the "(.*?)" chart$/) do |title|
    page.find(:xpath, "//div[@id='#{title}']/*[name()='svg']").should be_true
+end
+
+Then(/^I should see the "(.*?)" menu$/) do |id|
+  page.has_css?("div##{id}").should be_true
 end

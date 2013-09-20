@@ -18,6 +18,8 @@
 
 class User < ActiveRecord::Base
 
+  has_and_belongs_to_many :reports
+
   before_save :ensure_authentication_token
   after_create :set_role
 
@@ -26,7 +28,7 @@ class User < ActiveRecord::Base
          :token_authenticatable, :omniauthable, :omniauth_providers => [:cas] # ignoring :github, :persona
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token, :report_ids
 
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
@@ -107,6 +109,14 @@ class User < ActiveRecord::Base
 
   def api_key
     authentication_token
+  end
+
+  def email_with_name
+    if name && email && name != email
+      "#{name} <#{email}>"
+    else
+      email
+    end
   end
 
   protected

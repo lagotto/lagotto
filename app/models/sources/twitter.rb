@@ -28,7 +28,7 @@ class Twitter < Source
   def get_data(article, options={})
     raise(ArgumentError, "Twitter configuration requires url") \
       if url.blank?
-        
+
     return  { :events => [], :event_count => nil } if article.doi.blank?
 
     events = []
@@ -47,7 +47,7 @@ class Twitter < Source
   def execute_search(events, article, options={})
 
     query_url = get_query_url(article)
-    options[:source_id] = id 
+    options[:source_id] = id
 
     json_data = get_json(query_url, options)
 
@@ -81,16 +81,16 @@ class Twitter < Source
         }
 
         events << event
-        event_metrics = { :pdf => nil, 
-                          :html => nil, 
-                          :shares => nil, 
+        event_metrics = { :pdf => nil,
+                          :html => nil,
+                          :shares => nil,
                           :groups => nil,
-                          :comments => events.length, 
-                          :likes => nil, 
-                          :citations => nil, 
+                          :comments => events.length,
+                          :likes => nil,
+                          :citations => nil,
                           :total => events.length }
-                          
-        { :events => events, 
+
+        { :events => events,
           :event_count => events.length,
           :event_metrics => event_metrics }
       end
@@ -98,7 +98,7 @@ class Twitter < Source
   end
 
   def get_query_url(article)
-    doi = CGI.escape("\"#{article.doi}\"")
+    doi = Addressable::URI.encode("\"#{article.doi}\"")
     config.url % { :doi => doi }
   end
 

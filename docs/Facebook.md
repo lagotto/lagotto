@@ -12,7 +12,7 @@ Facebook has problems with DOIs that require cookies during DOI resolution. We t
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: [ 1.day, 1.day, 1.month * 0.25, 1.month]<br/>batch_time_interval: 1.hour</td>
+<td valign="top" width=80%>staleness: [ 1.day, 1.day, 1.month * 0.25, 1.month]</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>

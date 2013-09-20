@@ -21,7 +21,7 @@
 <div class="content">
   <% cache @source do %>
     <div class="page-header" id="page-header">
-      <%= render :partial => 'page-header', :locals => { :status => " <small class=\"hidden-phone\">#{@source.status}</small>".html_safe } %>
+      <%= render :partial => 'page-header' %>
     </div>
 
     <dl class="dl-horizontal" id="dl-horizontal">
@@ -30,6 +30,8 @@
 
     <ul class="nav nav-tabs">
       <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
+      <li class="hidden-phone"><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+      <li class="hidden-phone"><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Most-Cited <b class="caret"></b></a>
         <ul class="dropdown-menu">
@@ -39,10 +41,6 @@
         <li><a href="#most-cited" data-toggle="tab">All-time</a></li>
         </ul>
       </li>
-      <li class="hidden-phone"><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
-      <% if @doc[:text] %>
-        <li class="hidden-phone"><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
-      <% end %>
     </ul>
 
     <div class="tab-content">

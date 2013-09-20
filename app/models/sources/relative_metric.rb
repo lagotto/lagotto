@@ -51,7 +51,7 @@ class RelativeMetric < Source
       { :events => events,
         :event_count => total,
         :event_metrics => event_metrics }
-    
+
     else
       { :events => [], :event_count => nil }
     end
@@ -108,7 +108,7 @@ class RelativeMetric < Source
     return subject_areas
   end
 
-  def get_relative_metric_data(article) 
+  def get_relative_metric_data(article)
     events = {}
 
     subject_areas = get_subject_areas(article)
@@ -122,17 +122,17 @@ class RelativeMetric < Source
     subject_areas.each do | subject_area |
       key = [subject_area, year]
 
-      url = config.url % { :key => CGI.escape(key.to_json) }
+      url = config.url % { :key => Addressable::URI.encode(key.to_json) }
       data = get_json(url)
 
       # there should be only one set of data
-      if (data["rows"].size == 1) 
-        if (data["rows"][0]["value"].size > 0) 
+      if (data["rows"].size == 1)
+        if (data["rows"][0]["value"].size > 0)
           average_usages << { :subject_area => subject_area, :average_usage => data["rows"][0]["value"] }
         end
       end
     end
-    
+
     events[:subject_areas] = average_usages
 
     return events
@@ -140,7 +140,7 @@ class RelativeMetric < Source
 
   def get_config_fields
     [
-      { :field_name => "url", :field_type => "text_area", :size => "90x2"}, 
+      { :field_name => "url", :field_type => "text_area", :size => "90x2"},
       { :field_name => "solr_url", :field_type => "text_area", :size => "90x2"}
     ]
   end
@@ -148,7 +148,7 @@ class RelativeMetric < Source
   def url
     config.url
   end
-  
+
   def url=(value)
     config.url = value
   end

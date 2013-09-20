@@ -1,0 +1,9 @@
+<div class="content">
+  <div class="page-header">
+    <h1>
+      <%= @alert.status.blank? ? 500 : @alert.status %>
+    </h1>
+  </div>
+
+  <%= @alert.public_message %>
+</div>

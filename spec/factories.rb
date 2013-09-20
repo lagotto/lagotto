@@ -18,6 +18,11 @@ FactoryGirl.define do
       retrieval_statuses { |article| [article.association(:retrieval_status)] }
     end
 
+    factory :article_with_events_and_alerts do
+      retrieval_statuses { |article| [article.association(:retrieval_status)] }
+      alerts { |article| [article.association(:alert)] }
+    end
+
     factory :article_for_feed do
       published_on { Time.zone.today - 1.day }
       retrieval_statuses { |article| [article.association(:retrieval_status, retrieved_at: Time.zone.today - 1.day)] }
@@ -58,6 +63,14 @@ FactoryGirl.define do
     initialize_with { Group.find_or_create_by_name(name) }
   end
 
+  factory :report do
+    name 'Daily Report'
+
+    factory :report_with_admin_user do
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
+  end
+
   factory :retrieval_history do
     retrieved_at { Time.zone.now - 1.month }
     event_count { retrieval_status.event_count }
@@ -67,6 +80,7 @@ FactoryGirl.define do
   factory :retrieval_status do
     event_count 50
     retrieved_at { Time.zone.now - 1.month }
+    sequence(:scheduled_at) {|n| Time.zone.now - 1.day + n.minutes }
 
     association :article
     association :source, factory: :citeulike
@@ -108,7 +122,7 @@ FactoryGirl.define do
     type "Citeulike"
     name "citeulike"
     display_name "CiteULike"
-    active true
+    state_event "activate"
     url "http://www.citeulike.org/api/posts/for/doi/%{doi}"
 
     group
@@ -120,7 +134,7 @@ FactoryGirl.define do
     type "Copernicus"
     name "copernicus"
     display_name "Copernicus"
-    active true
+    state_event "activate"
     url "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:%{doi}"
     username "EXAMPLE"
     password "EXAMPLE"
@@ -134,7 +148,7 @@ FactoryGirl.define do
     type "Counter"
     name "counter"
     display_name "Counter"
-    active true
+    state_event "activate"
     url "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
 
     group
@@ -146,7 +160,7 @@ FactoryGirl.define do
     type "CrossRef"
     name "crossref"
     display_name "CrossRef"
-    active true
+    state_event "activate"
     url "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
     default_url "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
     username "EXAMPLE"
@@ -161,9 +175,8 @@ FactoryGirl.define do
     type "Nature"
     name "nature"
     display_name "Nature"
-    active true
-    url "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}"
-    api_key "EXAMPLE"
+    state_event "activate"
+    url "http://blogs.nature.com/posts.json?doi=%{doi}"
 
     group
 
@@ -174,7 +187,7 @@ FactoryGirl.define do
     type "F1000"
     name "f1000"
     display_name "F1000Prime"
-    active true
+    state_event "activate"
     url "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml"
     filename "PLOS-intermediate.xml"
 
@@ -187,7 +200,7 @@ FactoryGirl.define do
     type "Figshare"
     name "figshare"
     display_name "Figshare"
-    active true
+    state_event "activate"
     url "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}"
 
     group
@@ -199,7 +212,7 @@ FactoryGirl.define do
     type "Pmc"
     name "pmc"
     display_name "PubMed Central Usage Stats"
-    active true
+    state_event "activate"
     url "http://rwc-couch01.int.plos.org:5984/pmc_usage_stats/%{doi}"
     filepath "/home/alm/pmcdata/"
 
@@ -212,7 +225,7 @@ FactoryGirl.define do
     type "PubMed"
     name "pubmed"
     display_name "PubMed"
-    active true
+    state_event "activate"
     url "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
 
     group
@@ -224,7 +237,7 @@ FactoryGirl.define do
     type "Researchblogging"
     name "researchblogging"
     display_name "Research Blogging"
-    active true
+    state_event "activate"
     url "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
     username "EXAMPLE"
     password "EXAMPLE"
@@ -238,7 +251,7 @@ FactoryGirl.define do
     type "ScienceSeeker"
     name "scienceseeker"
     display_name "ScienceSeeker"
-    active true
+    state_event "activate"
     url "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
 
     group
@@ -250,7 +263,7 @@ FactoryGirl.define do
     type "Scopus"
     name "scopus"
     display_name "Scopus"
-    active true
+    state_event "activate"
     username "EXAMPLE"
     salt "EXAMPLE"
     partner_id "EXAMPLE"
@@ -264,7 +277,7 @@ FactoryGirl.define do
     type "Twitter"
     name "twitter"
     display_name "Twitter"
-    active true
+    state_event "activate"
     url "http://rwc-couch01.int.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key=%{doi}"
 
     group
@@ -276,9 +289,9 @@ FactoryGirl.define do
     type "Wos"
     name "wos"
     display_name "Web of Science"
-    active true
+    state_event "activate"
     private true
-    url "https://ws.isiknowledge.com/cps/xrpc"
+    url "https://ws.isiknowledge.com:80/cps/xrpc"
 
     group
 
@@ -289,7 +302,7 @@ FactoryGirl.define do
     type "Wikipedia"
     name "wikipedia"
     display_name "Wikipedia"
-    active true
+    state_event "activate"
     url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
 
     group
@@ -301,7 +314,7 @@ FactoryGirl.define do
     type "Mendeley"
     name "mendeley"
     display_name "Mendeley"
-    active true
+    state_event "activate"
     url "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}"
     url_with_type "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}"
     url_with_title "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10&consumer_key=%{api_key}"
@@ -317,7 +330,7 @@ FactoryGirl.define do
     type "Facebook"
     name "facebook"
     display_name "Facebook"
-    active true
+    state_event "activate"
     url "http://graph.facebook.com:443/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'"
     access_token "EXAMPLE"
 
@@ -330,7 +343,7 @@ FactoryGirl.define do
     type "RelativeMetric"
     name "relativemetric"
     display_name "Relative Metric"
-    active true
+    state_event "activate"
     url "http://rwc-couch01.int.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key=%{key}"
     solr_url "http://api.plos.org/search"
 
@@ -350,7 +363,7 @@ FactoryGirl.define do
     uid "12345"
   end
 
-  factory :error_message do
+  factory :alert do
     exception "An exception"
     class_name "Net::HTTPRequestTimeOut"
     message "The request timed out."
@@ -358,14 +371,79 @@ FactoryGirl.define do
     request "A request"
     user_agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/536.26.17 (KHTML, like Gecko) Version/6.0.2 Safari/536.26.17"
     target_url "http://127.0.0.1/sources/x"
+    remote_ip "127.0.0.1"
     status 408
     content_type "text/html"
   end
 
   factory :api_request do
-    path "/api/v3/articles"
-    page_duration 800
     db_duration 100
     view_duration 700
+    api_key "12345"
+    info "history"
+    source nil
+    ids "10.1371%2Fjournal.pone.000001"
+  end
+
+  factory :api_response do
+    duration 200
+    event_count 10
+    previous_count 5
+    update_interval 7
+    unresolved 1
+    source_id 1
+    retrieval_history_id 1
+  end
+
+  factory :review do
+    name "ArticleNotUpdatedError"
+    message "Found 0 article not updated errors in 29,899 API responses, taking 29.899 ms"
+    input 10
+    created_at { Time.zone.now }
+  end
+
+  factory :article_not_updated_error, aliases: [:filter], class: ArticleNotUpdatedError do
+    type "ArticleNotUpdatedError"
+    name "ArticleNotUpdatedError"
+    display_name "article not updated error"
+    active true
+
+    initialize_with { ArticleNotUpdatedError.find_or_create_by_name(name) }
+  end
+
+  factory :decreasing_event_count_error, class: EventCountDecreasingError do
+    type "EventCountDecreasingError"
+    name "EventCountDecreasingError"
+    display_name "decreasing event count error"
+    active true
+
+    initialize_with { EventCountDecreasingError.find_or_create_by_name(name) }
+  end
+
+  factory :increasing_event_count_error, class: EventCountIncreasingTooFastError do
+    type "EventCountIncreasingTooFastError"
+    name "EventCountIncreasingTooFastError"
+    display_name "increasing event count error"
+    active true
+
+    initialize_with { EventCountIncreasingTooFastError.find_or_create_by_name(name) }
+  end
+
+  factory :api_too_slow_error, class: ApiResponseTooSlowError do
+    type "ApiResponseTooSlowError"
+    name "ApiResponseTooSlowError"
+    display_name "API too slow error"
+    active true
+
+    initialize_with { ApiResponseTooSlowError.find_or_create_by_name(name) }
+  end
+
+  factory :source_not_updated_error, class: SourceNotUpdatedError do
+    type "SourceNotUpdatedError"
+    name "SourceNotUpdatedError"
+    display_name "source not updated error"
+    active true
+
+    initialize_with { SourceNotUpdatedError.find_or_create_by_name(name) }
   end
 end

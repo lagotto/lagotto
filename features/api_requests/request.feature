@@ -8,15 +8,15 @@ Feature: Show API requests
     Given I am logged in as "admin"
 
     Scenario: Seeing that there are no API requests
-      When I go to the submenu "API Requests" of menu "Users"
+      When I go to the submenu "External API Requests" of menu "Users"
       Then I should see that no API requests were made
 
     Scenario: Seeing request information
       Given we have 3 API requests
-      When I go to the submenu "API Requests" of menu "Users"
+      When I go to the submenu "External API Requests" of menu "Users"
       Then I should see 3 API requests were made
 
     Scenario: Only load 10,000 API requests
       Given we have 10005 API requests
-      When I go to the submenu "API Requests" of menu "Users"
+      When I go to the submenu "External API Requests" of menu "Users"
       Then I should see 10000 API requests were made

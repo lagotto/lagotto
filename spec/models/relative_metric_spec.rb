@@ -7,8 +7,8 @@ describe RelativeMetric do
     article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723")
 
     stub_request(:get, "#{relative_metric.solr_url}?fl=id,subject_hierarchy&fq=doc_type:full&q=id:%2210.1371/journal.pone.0005723%22&wt=json").
-      with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
-      to_return(:status => 200, :body => File.read("#{fixture_path}relative_metric_subject_areas.json"), :headers => {})
+      with(:headers => { "Accept" => "application/json" }).
+      to_return(:status => 200, :body => File.read("#{fixture_path}relative_metric_subject_areas.json"), :headers => { "Content-Type" => "application/json" })
 
     subject_areas = relative_metric.get_subject_areas(article)
 
@@ -20,8 +20,8 @@ describe RelativeMetric do
     article = FactoryGirl.build(:article, :doi => doi)
 
     stub_request(:get, "#{relative_metric.solr_url}?fl=id,subject_hierarchy&fq=doc_type:full&q=id:%22#{doi}%22&wt=json").
-      with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
-      to_return(:status => 200, :body => File.read("#{fixture_path}relative_metric_no_subject_areas.json"), :headers => {})
+      with(:headers => { "Accept" => "application/json" }).
+      to_return(:status => 200, :body => File.read("#{fixture_path}relative_metric_no_subject_areas.json"), :headers => { "Content-Type" => "application/json" })
 
     subject_areas = relative_metric.get_subject_areas(article)
 
@@ -32,13 +32,13 @@ describe RelativeMetric do
     article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020041")
 
     stub_request(:get, "#{relative_metric.solr_url}?fl=id,subject_hierarchy&fq=doc_type:full&q=id:%2210.1371/journal.pmed.0020041%22&wt=json").
-      with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
-      to_return(:status => 200, :body => File.read("#{fixture_path}relative_metric_no_subject_areas2.json"), :headers => {})
+      with(:headers => { "Accept" => "application/json" }).
+      to_return(:status => 200, :body => File.read("#{fixture_path}relative_metric_no_subject_areas2.json"), :headers => { "Content-Type" => "application/json" })
 
     subject_areas = relative_metric.get_subject_areas(article)
 
     subject_areas.should eq(Set.new)
-  end  
+  end
 
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
@@ -54,12 +54,13 @@ describe RelativeMetric do
     article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
 
     stub_request(:get, "#{relative_metric.solr_url}?fl=id,subject_hierarchy&fq=doc_type:full&q=id:%2210.1371/journal.pone.0005723%22&wt=json").
-      with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
-      to_return(:status => 200, :body => File.read("#{fixture_path}relative_metric_subject_areas_small.json"), :headers => {})
+      with(:headers => { "Accept" => "application/json" }).
+      to_return(:status => 200, :body => File.read("#{fixture_path}relative_metric_subject_areas_small.json"), :headers => { "Content-Type" => "application/json" })
 
     key = ["/Biology and life sciences", 2009]
-    url = relative_metric.url % { :key => CGI.escape(key.to_json) }
-    stub_request(:get, "#{url}").to_return(:body => File.read("#{fixture_path}relative_metric_biology.json"))
+    url = relative_metric.url % { :key => Addressable::URI.encode(key.to_json) }
+    stub_request(:get, "#{url}").with(:headers => { "Accept" => "application/json" }).
+      to_return(:body => File.read("#{fixture_path}relative_metric_biology.json"), :headers => { "Content-Type" => "application/json" })
 
     data = relative_metric.get_data(article)
 

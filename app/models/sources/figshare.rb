@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -23,14 +25,14 @@ class Figshare < Source
   end
 
   def get_data(article, options={})
-    
+
     return  { :events => [], :event_count => nil } unless article.doi[0..6] == APP_CONFIG["doi_prefix"].to_s
-    
+
     query_url = get_query_url(article)
     options[:source_id] = id
     result = get_json(query_url, options)
-    
-    if result.nil?       
+
+    if result.nil?
       nil
     elsif result.empty? or result["items"].empty?
       { :events => [], :event_count => nil }
@@ -40,21 +42,21 @@ class Figshare < Source
       likes = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["likes"].to_i }
       total = views + downloads + likes
 
-      event_metrics = { :pdf => downloads, 
-                        :html => views, 
-                        :shares => nil, 
+      event_metrics = { :pdf => downloads,
+                        :html => views,
+                        :shares => nil,
                         :groups => nil,
-                        :comments => nil, 
-                        :likes => likes, 
-                        :citations => nil, 
+                        :comments => nil,
+                        :likes => likes,
+                        :citations => nil,
                         :total => total }
-                        
-      { :events => result, 
+
+      { :events => result,
         :event_count => total,
         :event_metrics => event_metrics }
     end
   end
-  
+
   def get_query_url(article)
     config.url % { :doi => article.doi }
   end
@@ -62,7 +64,7 @@ class Figshare < Source
   def get_config_fields
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
   end
-  
+
   def url
     config.url
   end

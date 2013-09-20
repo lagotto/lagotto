@@ -59,9 +59,11 @@ class ArticlesController < ApplicationController
     format_options = params.slice :events, :history, :source
 
     @groups = Group.order("id")
+    @api_key = APP_CONFIG['api_key']
 
-    admin = User.order("created_at ASC").first
-    @api_key = admin.nil? ? "" : admin.authentication_token
+    # if private sources have been filtered out, the source parameter will be present and modified
+    # private sources are filtered out in the load_article_eager_includes method by looking at source parameter
+    load_article_eager_includes
 
     # if private sources have been filtered out, the source parameter will be present and modified
     # private sources are filtered out in the load_article_eager_includes method by looking at source parameter

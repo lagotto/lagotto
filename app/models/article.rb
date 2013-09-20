@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -16,7 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "cgi"
+require 'cgi'
+require 'addressable/uri'
 require "builder"
 
 class Article < ActiveRecord::Base
@@ -29,6 +32,8 @@ class Article < ActiveRecord::Base
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
   has_many :sources, :through => :retrieval_statuses
+  has_many :alerts
+  has_many :api_responses
 
   validates :uid, :title, :presence => true
   validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true
@@ -65,7 +70,7 @@ class Article < ActiveRecord::Base
     if id.starts_with? "http://dx.doi.org/"
       { :doi => id[18..-1] }
     elsif id.starts_with? "info:doi/"
-      { :doi => id[9..-1] }
+      { :doi => CGI.unescape(id[9..-1]) }
     elsif id.starts_with? "info:pmid/"
       { :pub_med => id[10..-1] }
     elsif id.starts_with? "info:pmcid/"
@@ -87,17 +92,15 @@ class Article < ActiveRecord::Base
     id
   end
 
-  def self.to_url(id)
-    return nil if id.nil?
-    unless id.starts_with? "http://dx.doi.org/"
-      id = "http://dx.doi.org/" + from_uri(id).values.first
-    end
-    id
+  def self.to_url(doi)
+    return nil if doi.nil?
+    return doi if doi.starts_with? "http://dx.doi.org/"
+    "http://dx.doi.org/#{from_uri(doi).values.first}"
   end
 
   def self.clean_id(id)
     if id.starts_with? "10."
-      URI.unescape(id)
+      Addressable::URI.unencode(id)
     elsif id.starts_with? "PMC"
       id[3..-1]
     else
@@ -112,6 +115,10 @@ class Article < ActiveRecord::Base
 
   def uid
     self.send(Article.uid)
+  end
+
+  def uid_escaped
+    CGI.escape(uid)
   end
 
   def to_param
@@ -140,9 +147,13 @@ class Article < ActiveRecord::Base
     end
   end
 
+  def doi_escaped
+    CGI.escape(doi)
+  end
+
   def doi_as_url
     if doi[0..2] == "10."
-      "http://dx.doi.org/" + doi
+      Addressable::URI.encode("http://dx.doi.org/#{doi}")
     else
       nil
     end
@@ -151,7 +162,7 @@ class Article < ActiveRecord::Base
   def doi_as_publisher_url
     # for now use the PLOS doi resolver
     if doi[0..6] == "10.1371"
-      "http://dx.plos.org/" + doi
+      "http://dx.plos.org/#{doi_escaped}"
     else
       nil
     end
@@ -168,6 +179,10 @@ class Article < ActiveRecord::Base
   def mendeley_url
     rs = retrieval_statuses.includes(:source).where("sources.name" => "mendeley").first
     rs.nil? ? nil : rs.events_url
+  end
+
+  def title_escaped
+    CGI.escape(title).gsub("+", "%20")
   end
 
   def to_xml(options = {})

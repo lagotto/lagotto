@@ -16,10 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'source_helper'
-
 class RetrievalHistory < ActiveRecord::Base
-  include SourceHelper
 
   belongs_to :retrieval_status
   belongs_to :article

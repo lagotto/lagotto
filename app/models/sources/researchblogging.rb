@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -18,59 +20,51 @@
 
 class Researchblogging < Source
 
-  validates_each :url, :username, :password do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
+  validates_not_blank(:url, :username, :password)
 
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires username & password") \
-      if config.username.blank? or config.password.blank?
+      if username.blank? or password.blank?
 
     # Check that article has DOI
     return  { :events => [], :event_count => nil } if article.doi.blank?
-        
+
     query_url = get_query_url(article)
-    options[:source_id] = id 
-    
-    get_xml(query_url, options.merge(:username => username, :password => password)) do |document|
-      
-      # Check that ResearchBlogging has returned something, otherwise an error must have occured
-      return nil if document.nil?
-      
-      events = []
+    result = get_xml(query_url, options.merge(:username => username, :password => password))
 
-      total_count = document.root.attributes.get_attribute("total_records_found")
+    return nil if result.nil?
 
-      document.find("//blogposts/post").each do |post|
-        post_string = post.to_s(:encoding => XML::Encoding::UTF_8)
-        event = Hash.from_xml(post_string)
-        event = event['post']
+    events = []
 
-        events << {:event => event, :event_url => event['post_URL']}
-      end
-      
-      events_url = get_events_url(article)
-      event_metrics = { :pdf => nil, 
-                        :html => nil, 
-                        :shares => nil, 
-                        :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => total_count.value.to_i, 
-                        :total => total_count.value.to_i }
-                        
-      { :events => events,
-        :events_url => events_url,
-        :event_count => total_count.value.to_i,
-        :event_metrics => event_metrics,
-        :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s } }
+    total_count = result.at_xpath("//blogposts/@total_records_found")
+
+    result.xpath("//blogposts/post").each do |post|
+      event = Hash.from_xml(post.to_s)
+      event = event['post']
+
+      events << {:event => event, :event_url => event['post_URL']}
     end
 
+    events_url = get_events_url(article)
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => total_count.value.to_i,
+                      :total => total_count.value.to_i }
+
+    { :events => events,
+      :events_url => events_url,
+      :event_count => total_count.value.to_i,
+      :event_metrics => event_metrics,
+      :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
-  
+
   def get_events_url(article)
     unless article.doi.blank?
-      "http://researchblogging.org/post-search/list?article=#{CGI.escape(article.doi)}"
+      "http://researchblogging.org/post-search/list?article=#{article.doi_escaped}"
     else
       nil
     end
@@ -100,7 +94,16 @@ class Researchblogging < Source
   def password
     config.password
   end
+
   def password=(value)
     config.password = value
+  end
+
+  def staleness_year
+    config.staleness_year || 1.month
+  end
+
+  def rate_limiting
+    config.rate_limiting || 1000
   end
 end

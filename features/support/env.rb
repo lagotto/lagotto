@@ -11,7 +11,6 @@ require 'cucumber/rails'
 require 'factory_girl_rails'
 require 'capybara/poltergeist'
 require 'webmock/cucumber'
-require 'source_helper'
 
 World(SourceHelper)
 World(FactoryGirl::Syntax::Methods)

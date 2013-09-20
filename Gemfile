@@ -3,23 +3,27 @@ source 'http://rubygems.org'
 gem 'rails', '3.2.14'
 gem 'mysql2', '0.3.13'
 
-gem "delayed_job", "~> 3.0.4"
-gem "delayed_job_active_record", "~> 0.3.3"
+gem "delayed_job", "~> 4.0.0"
+gem "delayed_job_active_record", "~> 4.0.0"
 gem "daemons", "~> 1.1.9"
 gem "foreman", "~> 0.63.0"
 gem "rake", "~> 10.1.0"
 gem "whenever", "~> 0.8.2", :require => false
+gem "mail", "~> 2.5.4"
+gem "state_machine", "~> 1.2.0"
 
-gem "faraday", "~> 0.8.7"
+gem "faraday", "~> 0.8.8"
 gem "faraday_middleware", "~> 0.9.0"
 gem 'faraday-cookie_jar'
-gem "libxml-ruby", "~> 2.4.0", :require => 'xml'
+gem 'addressable', "~> 2.3.5"
+gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.7.8"
-gem "oj", "~> 2.0.5"
-gem "nori", "~> 2.2.0"
+gem "oj", "~> 2.1.4"
+gem "nori", "~> 2.3.0"
+
 gem 'mumboe-soap4r', '1.5.8.5'
-gem "devise", "~> 2.2.4"
+gem "devise", "~> 3.0.3"
 #gem "omniauth-github", "~> 1.1.0"
 #gem "omniauth-persona"
 gem "omniauth-cas", "~> 1.0.4"
@@ -58,7 +62,7 @@ group :test do
   gem "email_spec", "~> 1.5.0"
   gem "rack-test", "~> 0.6.2", :require => "rack/test"
   gem "simplecov", "~> 0.7.1", :require => false
-  gem "shoulda-matchers", "~> 2.2.0", :require => false
+  gem "shoulda-matchers", "~> 2.3.0", :require => false
   gem "webmock", "~> 1.13.0"
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1", :require => false

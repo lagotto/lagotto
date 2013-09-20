@@ -42,6 +42,7 @@ task :knife do
   Rake::Task[:prepare_sandbox].execute
 
   ENV["BUNDLE_GEMFILE"] = "test/support/Gemfile"
+  sh "bundle install"
   sh "bundle exec knife cookbook test cookbook -c #{sandbox_root}/knife.rb"
 end
 

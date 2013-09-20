@@ -46,11 +46,10 @@ function main() {
   var charts = [
 
     barChart()
-        .dimension(date)
-        .group(dates)
-        .round(d3.time.day.round)
-        .x(d3.time.scale()
-        .domain(d3.extent(data, function(d) { return d.date; }))
+        .dimension(hour)
+        .group(hours)
+        .x(d3.scale.linear()
+        .domain([0, 24])
         .rangeRound([0, 10 * 30])),
 
     barChart()
@@ -58,13 +57,6 @@ function main() {
         .group(db_durations)
         .x(d3.scale.linear()
         .domain([0, 500])
-        .rangeRound([0, 10 * 30])),
-
-    barChart()
-        .dimension(hour)
-        .group(hours)
-        .x(d3.scale.linear()
-        .domain([0, 24])
         .rangeRound([0, 10 * 30])),
 
     barChart()
@@ -160,8 +152,22 @@ function main() {
           .text(function(d) { return formatFixed(d.view_duration) + " ms"; });
 
       requestEnter.append("div")
-          .attr("class", "url hidden-phone")
-          .text(function(d) { return d.url; });
+          .attr("class", "source hidden-phone")
+          .append("a")
+          .attr("href", function(d) { return "/admin/users?query=" + d.api_key; })
+          .text(function(d) { return d.api_key; });
+
+      requestEnter.append("div")
+          .attr("class", "info hidden-phone")
+          .text(function(d) { return d.info; });
+
+      requestEnter.append("div")
+          .attr("class", "source hidden-phone")
+          .text(function(d) { return d.source; });
+
+      requestEnter.append("div")
+          .attr("class", "ids hidden-phone")
+          .text(function(d) { return d.ids; });
 
       request.exit().remove();
 

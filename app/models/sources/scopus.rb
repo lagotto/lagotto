@@ -55,7 +55,7 @@ class Scopus < Source
 
     # Check that article has DOI
     return { :events => [], :event_count => nil } if article.doi.blank?
-        
+
     # Guarantee Kosher for Great Justice
     fix_scopus_wsdl
 
@@ -71,14 +71,14 @@ class Scopus < Source
     if not (countList.nil?)
       event_url = get_event_url(article.doi)
       event_count = countList[0].linkData[0].citedByCount.to_i
-      
-      event_metrics = { :pdf => nil, 
-                        :html => nil, 
-                        :shares => nil, 
+
+      event_metrics = { :pdf => nil,
+                        :html => nil,
+                        :shares => nil,
                         :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => event_count, 
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => event_count,
                         :total => event_count }
 
       { :events => event_count,
@@ -91,7 +91,7 @@ class Scopus < Source
 
   def get_event_url(doi)
     #TODO this link doesn't seem to work anymore!
-    query_string = "doi=" + CGI.escape(doi) \
+    query_string = "doi=" + Addressable::URI.encode(doi) \
       + "&rel=R3.0.0&partnerID=#{config.partner_id}"
 
     digest = Digest::MD5.hexdigest(query_string + config.salt)

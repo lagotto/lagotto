@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -18,37 +20,31 @@
 
 class Mendeley < Source
 
-  validates_each :url, :url_with_type, :url_with_title, :related_articles_url, :api_key do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
+  validates_not_blank(:url, :url_with_type, :url_with_title, :related_articles_url, :api_key)
 
   def get_data(article, options={})
     raise(ArgumentError, "#{display_name} configuration requires api key") \
-      if config.api_key.blank?
+      if api_key.blank?
 
-    options[:source_id] = id
-    
-    # First, we need to have the Mendeley uuid for this article. 
+    # First, we need to have the Mendeley uuid for this article.
     # Get it if we don't have it, and proceed only if we do.
     if article.mendeley.blank?
-      return  { :events => [], :event_count => nil } if article.doi.blank? 
       mendeley = get_mendeley_uuid(article, options)
       article.update_attributes(:mendeley => mendeley) unless mendeley.blank?
       return  { :events => [], :event_count => nil } if article.mendeley.blank?
     end
-    
-    result = get_json(get_query_url(article.mendeley), options)
-    
-    # When Mendeley doesn't know about an article it can return
+
+    query_url = get_query_url(article)
+    result = get_json(query_url, options)
+
+    # When Mendeley doesn't return a proper API response it can return
     # - a 404 status and error hash
     # - an empty array
     # - an incomplete hash with just the Mendeley uuid
-    # We should handle all 3 cases without errors
-    
-    if result.nil?
+    # We should handle all 3 cases without errors and ignore the result
+
+    if result.blank? or !result['mendeley_url']
       nil
-    elsif result.empty? or !result["stats"]
-      { :events => [], :event_count => 0 }
     else
       # remove "mendeley_authors" key, as it is not needed and creates problems in XML: "mendeley_authors" => {"4712245473"=>5860673}
       result.except!("mendeley_authors")
@@ -62,58 +58,63 @@ class Mendeley < Source
 
       groups = result['groups']
       total += groups.length unless groups.nil?
-      event_metrics = { :pdf => nil, 
-                        :html => nil, 
-                        :shares => readers.nil? ? 0 : readers, 
+      event_metrics = { :pdf => nil,
+                        :html => nil,
+                        :shares => readers.nil? ? 0 : readers,
                         :groups => groups.nil? ? 0 : groups.length,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => nil, 
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => nil,
                         :total => total }
 
       related_articles = get_json(get_related_url(result['uuid']), options)
       result[:related] = related_articles['documents'] if related_articles
-    
+
       { :events => result,
         :events_url => events_url,
         :event_count => total,
         :event_metrics => event_metrics }
     end
   end
-  
+
   def get_mendeley_uuid(article, options={})
     # get Mendeley uuid, try pmid first, then doi
     # Otherwise search by title
     # Only use uuid if we also get mendeley_url, otherwise the uuid is broken and we return nil
-    
+
     unless article.pub_med.blank?
-      result = get_json(get_query_url(article.pub_med, "pmid"), options)
+      result = get_json(get_query_url(article, "pmid"), options)
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
     end
-    
+
     unless article.doi.blank?
-      result = get_json(get_query_url(CGI.escape(CGI.escape(article.doi)), "doi"), options)
+      result = get_json(get_query_url(article, "doi"), options)
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
-      
-      # search by title if we can't get the uuid using the pmid or doi
-      results = get_json(get_query_url(CGI.escape(CGI.escape(article.title)), "title"), options)
+    end
+
+    # search by title if we can't get the uuid using the pmid or doi
+    unless article.title.blank?
+      results = get_json(get_query_url(article, "title"), options)
       if results.is_a?(Hash) and results['documents']
         documents = results["documents"].select { |document| document["doi"] == article.doi }
         return documents[0]['uuid'] if documents and documents.length == 1 and documents[0]['mendeley_url']
       end
     end
-    
+
     # return nil if we can't get the correct uuid. We can enter the uuid manually if we have it
     nil
   end
 
-  def get_query_url(id, id_type = nil)
-    if id_type.nil?
-      url % { :id => id, :api_key => api_key }
-    elsif id_type == "title"
-      url_with_title % { :title => id, :api_key => api_key }
-    else
-      url_with_type % { :id => id, :doc_type => id_type, :api_key => api_key }
+  def get_query_url(article, id_type = nil)
+    case id_type
+    when nil
+      url % { :id => article.mendeley, :api_key => api_key }
+    when "doi"
+      url_with_type % { :id => CGI.escape(article.doi_escaped), :doc_type => id_type, :api_key => api_key }
+    when "pmid"
+      url_with_type % { :id => article.pub_med, :doc_type => id_type, :api_key => api_key }
+    when "title"
+      url_with_title % { :title => CGI.escape("title:#{article.title}"), :api_key => api_key }
     end
   end
 
@@ -144,7 +145,7 @@ class Mendeley < Source
   def url_with_type=(value)
     config.url_with_type = value
   end
-  
+
   def url_with_title
     config.url_with_title
   end

@@ -12,8 +12,8 @@
     <div><%= link_to "Disabled sources", admin_sources_path %></div>
   </div>
   <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost"><%= number_with_delimiter(@error_messages_last_day_count) %></h1>
-    <div><%= link_to "Errors in the last 24 hours", admin_error_messages_path %></div>
+    <h1 class="signpost"><%= number_with_delimiter(@alerts_last_day_count) %></h1>
+    <div><%= link_to "Unresolved alerts in the last 24 hours", admin_alerts_path %></div>
   </div>
 </div>
 <div class="row">
@@ -26,8 +26,8 @@
     <div><%= link_to "Jobs", admin_delayed_jobs_path %></div>
   </div>
   <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost"><%= number_with_delimiter(@delayed_jobs_count) %></h1>
-    <div><%= link_to "Responses in the last 24 hours", admin_responses_path %></div>
+    <h1 class="signpost"><%= number_with_delimiter(@responses_count) %></h1>
+    <div><%= link_to "API responses in the last 24 hours", admin_responses_path %></div>
   </div>
   <div class="span3 text-center dashboard dashboard-label">
     <h1 class="signpost" id="event"><%= number_with_delimiter(@events_count) %></h1>

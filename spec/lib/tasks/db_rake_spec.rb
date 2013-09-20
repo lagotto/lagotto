@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "db:articles:seed" do
   include_context "rake"
 
-  let(:output) { "Seeded 25 articles\n" }
+  let(:output) { "Seeded 26 articles\n" }
 
   its(:prerequisites) { should include("environment") }
 
@@ -15,7 +15,7 @@ end
 describe "db:articles:delete" do
   include_context "rake"
 
-  before do 
+  before do
     FactoryGirl.create_list(:article, 5)
   end
 
@@ -26,14 +26,14 @@ describe "db:articles:delete" do
   end
 end
 
-describe "db:error_messages:delete" do
+describe "db:alerts:delete" do
   include_context "rake"
 
   before do
-    FactoryGirl.create_list(:error_message, 5, :unresolved => false)
+    FactoryGirl.create_list(:alert, 5, :unresolved => false)
   end
 
-  let(:output) { "Deleted 5 messages for resolved errors, 0 unresolved errors remaining\n" }
+  let(:output) { "Deleted 5 resolved alerts, 0 unresolved alerts remaining\n" }
 
   it "should run" do
     capture_stdout { subject.invoke }.should eq(output)
@@ -48,6 +48,48 @@ describe "db:api_requests:delete" do
   end
 
   let(:output) { "Deleted 0 API requests, 5 API requests remaining\n" }
+
+  it "should run" do
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
+describe "db:api_responses:delete" do
+  include_context "rake"
+
+  before do
+    FactoryGirl.create_list(:api_response, 5, unresolved: false, created_at: Time.zone.now - 2.days)
+  end
+
+  let(:output) { "Deleted 5 resolved API responses, 0 unresolved API responses remaining\n" }
+
+  it "should run" do
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
+describe "db:sources:activate" do
+  include_context "rake"
+
+  before do
+    FactoryGirl.create(:source, state_event: nil)
+  end
+
+  let(:output) { "Source CiteULike has been activated and is now queueing.\n" }
+
+  it "should run" do
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
+describe "db:sources:inactivate" do
+  include_context "rake"
+
+  before do
+    FactoryGirl.create(:source)
+  end
+
+  let(:output) { "Source CiteULike has been inactivated.\n" }
 
   it "should run" do
     capture_stdout { subject.invoke }.should eq(output)

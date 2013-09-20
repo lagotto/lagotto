@@ -16,10 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'source_helper'
-
 class RetrievalStatus < ActiveRecord::Base
-  include SourceHelper
 
   belongs_to :article, :touch => true
   belongs_to :source, :touch => true
@@ -35,9 +32,10 @@ class RetrievalStatus < ActiveRecord::Base
   scope :most_cited_last_x_months, lambda { |months| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? MONTH", months).order("event_count desc").limit(25) }
 
   scope :queued, where("queued_at is NOT NULL")
-  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND scheduled_at <= NOW()")
+  scope :not_queued, where("queued_at is NULL")
+  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND scheduled_at <= NOW()").order("scheduled_at")
   scope :published, joins(:article).where("queued_at is NULL AND articles.published_on <= CURDATE()")
-  scope :with_sources, joins(:source).where("sources.active = 1").order("group_id, display_name")
+  scope :with_sources, joins(:source).where("sources.state > 0").order("group_id, display_name")
 
   scope :total, lambda { |days| where("retrieved_at > NOW() - INTERVAL ? DAY", days) }
   scope :with_events, lambda { |days| where("event_count > 0 AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
@@ -47,7 +45,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   def data
     if event_count > 0
-      data = get_alm_data("#{source.name}:#{CGI.escape(article.doi)}")
+      data = get_alm_data("#{source.name}:#{article.doi_escaped}")
     else
       nil
     end
@@ -198,8 +196,8 @@ class RetrievalStatus < ActiveRecord::Base
 
   def delete_document
     unless data_rev.nil
-      document_id = "#{source.name}:#{CGI.escape(article.uid)}"
-      remove_alm_data(data_rev, document_id)
+      document_id = "#{source.name}:#{article.uid_escaped}"
+      remove_alm_data(document_id, data_rev)
     else
       nil
     end
@@ -215,11 +213,11 @@ class RetrievalStatus < ActiveRecord::Base
 
     if age_in_days < 0
       article.published_on
-    elsif (0..7) === age_in_days and source.staleness.length > 1
+    elsif (0..7) === age_in_days
       random_time(source.staleness[0])
-    elsif (8..31) === age_in_days and source.staleness.length > 2
+    elsif (8..31) === age_in_days
       random_time(source.staleness[1])
-    elsif (32..365) === age_in_days and source.staleness.length > 3
+    elsif (32..365) === age_in_days
       random_time(source.staleness[2])
     else
       random_time(source.staleness.last)

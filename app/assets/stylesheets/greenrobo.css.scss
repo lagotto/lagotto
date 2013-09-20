@@ -34,8 +34,10 @@ h3 { font-size: 18px; line-heigth: 21px;}
 h3, h4, h5 { margin-bottom: 1px; }
 h1 img { vertical-align: 2px; }
 h4 img { vertical-align: 0px; }
+.article-inner h5 { padding-bottom: 10px; }
 div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left: auto; margin-right: auto; }
-.table .number { text-align: right; }
+.dl-horizontal .report { padding-top: 10px; }
+.table .number { text-align: right; width: 150px;}
 .dashboard { padding-bottom: 2em; }
 .dashboard-label { padding-top: 3em; }
 .signpost { font-size: 32px; font-weight:bold; margin: 0; }
@@ -45,16 +47,10 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .github { padding-top: 0.5em; padding-bottom: 1em; }
 .sidebar-nav-fixed {
     padding: 9px 0;
-    position:fixed;
-    right:50px;
-    top:90px;
-}
-.sidebar-nav-fixed-lower {
-    padding: 9px 0;
     position:relative;
-    right:-50px;
     top:50px;
 }
+.alert-inner { min-height: 120px; }
 .navbar-form {
   float:left;
   margin-bottom:0;
@@ -150,6 +146,21 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
   width: 80px;
   padding-right: 20px;
   text-align: right;
+}
+
+#request-list div.info {
+  width: 40px;
+  padding-right: 20px;
+}
+
+#request-list div.source {
+  width: 160px;
+  padding-right: 20px;
+}
+
+#request-list div.ids {
+  width: 400px;
+  padding-right: 20px;
 }
 
 #request-list .fast {

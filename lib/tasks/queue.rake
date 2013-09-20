@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -18,216 +20,27 @@
 
 namespace :queue do
 
-  task :pmc => :environment do
-
-    # this rake task should be scheduled to run after pmc data import rake task runs
-    source = Source.find_by_name("pmc")
-    source.queue_all_articles
-
-  end
-
-  task :counter => :environment do
-
-    # this rake task should be scheduled after counter data has been processed for the day
-    source = Source.find_by_name("counter")
-    source.queue_all_articles
-
-  end
-
-  task :biod => :environment do
-
-    # this rake task should be scheduled after counter data has been processed for the day
-    source = Source.find_by_name("biod")
-    source.queue_all_articles
-
-  end
-
-  task :citeulike => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("citeulike")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
+  desc "Queue all articles"
+  task :all => :environment do |t, args|
+    if args.extras.empty?
+      sources = Source.active
+    else
+      sources = Source.active.where("name in (?)", args.extras)
     end
 
-  end
-
-  task :crossref => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("crossref")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-
-  task :nature => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("nature")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-
-  task :mendeley => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("mendeley")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-
-  task :researchblogging => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("researchblogging")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-
-  task :wos => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("wos")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-
-  task :pubmed => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("pubmed")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-
-  task :scopus => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("scopus")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-
-  task :facebook => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("facebook")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-
-  task :twitter => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("twitter")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-  
-  task :wikipedia => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("wikipedia")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-  
-  task :scienceseeker => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("scienceseeker")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-  
-  task :copernicus => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("copernicus")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-
-  task :relativemetric => :environment do
-
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name("relativemetric")
-      sleep_time = source.queue_articles
-      sleep(sleep_time)
-    end
-
-  end
-
-  task :one, [:source, :verbose] => :environment do |t, args|
-    if args.source.nil?
-      puts "Source name is required"
+    if sources.empty?
+      puts "No active source found."
       exit
     end
 
-    # this rake task is setup to run forever
-    loop do
-      source = Source.find_by_name(args.source)
-      sleep_time = source.queue_articles
-      puts "Stale articles for source #{source.display_name} queued" unless args.verbose.nil?
-      puts "Now sleeping for #{sleep_time} sec" unless args.verbose.nil?
-      sleep(sleep_time)
-    end
-  end
-  
-  task :all, [:verbose] => :environment do |t, args|
-
-    # this rake task is setup to run forever
-    loop do
-      sleep_time = 0
-      Source.active.each do |source|
-        sleep_time = source.queue_articles
-        puts "Stale articles for source #{source.display_name} queued" unless args.verbose.nil?
-      end
-      puts "Now sleeping for #{sleep_time} sec" unless args.verbose.nil?
-      sleep(3600)
+    sources.each do |source|
+      count = source.queue_all_articles
+      puts "#{count} articles for source #{source.display_name} have been queued."
     end
   end
 
-  desc "Queue article with given DOI for a specific source"
-  task :single_job, [:doi, :source] => :environment do |t, args|
+  desc "Queue article with given DOI"
+  task :one, [:doi] => :environment do |t, args|
     if args.doi.nil?
       puts "DOI is required"
       exit
@@ -239,43 +52,68 @@ namespace :queue do
       exit
     end
 
-    if args.source.nil?
-      puts "Source is required"
-      exit
+    if args.extras.empty?
+      sources = Source.active
+    else
+      sources = Source.active.where("name in (?)", args.extras)
     end
 
-    source = Source.find_by_name(args.source)
-    if source.nil?
-      puts "Source with name #{args.source} does not exist"
-      exit
-    end
+    sources.each do |source|
+      rs = RetrievalStatus.find_by_article_id_and_source_id(article.id, source.id)
 
-    rs = RetrievalStatus.find_by_article_id_and_source_id(article.id, source.id)
-    if rs.nil?
-      puts "Retrieval Status for article with doi #{args.doi} and source with name #{args.source} does not exist"
-      exit
-    end
-    source.queue_article_job(rs)
+      if rs.nil?
+        puts "Retrieval Status for article with doi #{args.doi} and source with name #{args.source} does not exist"
+        exit
+      end
 
-    puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
+      source.queue_article_jobs([rs.id])
+      puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
+    end
   end
 
-  desc "Queue all articles for a given source"
-  task :all_jobs, [:source] => :environment do |t, args|
-    if args.source.nil?
-      puts "Source is required"
+  desc "Start job queue"
+  task :start => :environment do |t, args|
+    if args.extras.empty?
+      sources = Source.queueable
+    else
+      sources = Source.queueable.where("name in (?)", args.extras)
+    end
+
+    if sources.empty?
+      puts "No active queueable source found."
       exit
     end
 
-    source = Source.find_by_name(args.source)
-    if source.nil?
-      puts "Source with name #{args.source} does not exist"
+    sources.each do |source|
+      source.start_queueing
+      if source.queueing?
+        puts "Job queue for source #{source.display_name} has been started."
+      else
+        puts "Job queue for source #{source.display_name} could not be started."
+      end
+    end
+  end
+
+  desc "Stop job queue"
+  task :stop => :environment do |t, args|
+    if args.extras.empty?
+      sources = Source.queueable
+    else
+      sources = Source.queueable.where("name in (?)", args.extras)
+    end
+
+    if sources.empty?
+      puts "No active queueable source found."
       exit
     end
 
-    source.queue_all_articles
-
-    puts "Jobs for all the articles for source #{source.display_name} have been queued."
+    sources.each do |source|
+      source.stop_queueing
+      unless source.queueing?
+        puts "Job queue for source #{source.display_name} has been stopped."
+      else
+        puts "Job queue for source #{source.display_name} could not be stopped."
+      end
+    end
   end
 end
-

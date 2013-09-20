@@ -27,35 +27,30 @@ class Bloglines < Source
       if config.username.blank? or config.password.blank?
 
     query_url = get_query_url(article)
+    result = get_xml(query_url, options)
 
-    get_xml(query_url, options) do |document|
-      events = []
-      document.find("//resultset/result").each do |cite|
-        event = {}
-        %w[site/name site/url site/feedurl title author abstract url].each do |a|
-          first = cite.find_first("#{a}")
-          if first
-            event[a.gsub('/','_').intern] = first.content
-          end
+    events = []
+    result.xpath("//resultset/result").each do |cite|
+      event = {}
+      %w[site/name site/url site/feedurl title author abstract url].each do |a|
+        first = cite.at_xpath("#{a}")
+        if first
+          event[a.gsub('/','_').intern] = first.content
         end
-        # Ignore citations of the dx.doi.org URI itself
-        events << event \
-          unless Article::from_uri(event[:url]) == article.doi
       end
-
-      xml_string = document.to_s(:encoding => XML::Encoding::UTF_8)
-
-      {:events => events,
-       :event_count => events.length,
-       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => xml_string }
-      }
-
+      # Ignore citations of the dx.doi.org URI itself
+      events << event \
+        unless Article::from_uri(event[:url]) == article.doi
     end
+
+    {:events => events,
+     :event_count => events.length,
+     :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 
   def get_query_url(article)
     title = article.title.gsub(/<\/?[^>]*>/, "")
-    config.url % { :username => config.username, :password => config.password, :title => CGI.escape(title) }
+    config.url % { :username => config.username, :password => config.password, :title => Addressable::URI.encode(title) }
   end
 
   def get_config_fields

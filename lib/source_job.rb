@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -23,51 +25,45 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   include SourceHelper
 
   def enqueue(job)
-    Rails.logger.debug "enqueue #{rs_ids.inspect}"
-
     # keep track of when the article was queued up
     RetrievalStatus.update_all(["queued_at = ?", Time.zone.now], ["id in (?)", rs_ids] )
   end
 
   def perform
 
-    # check to see if source is active or not
     source = Source.find(source_id)
-    unless source.active
-      Rails.logger.info "#{source.name} not active. Exiting the job"
-      return
-    end
+    return 0 unless source.ready?
 
-    srand
-    #time to sleep between failures
-    sleep_time = 0
-
-    # just in case a worker gets stuck
     Timeout.timeout(Delayed::Worker.max_run_time) do
-      # wait till the source isn't disabled
-      while not (source.disable_until.nil? || source.disable_until < Time.zone.now)
-        Rails.logger.info "#{source.name} is disabled. Sleep for #{source.disable_delay} seconds."
-        sleep(source.disable_delay)
-      end
+      sleep_time = 0
+
+      sleep(source.run_at - Time.zone.now) if source.disabled?
 
       rs_ids.each do | rs_id |
-        unless perform_get_data(rs_id)
+        rs = RetrievalStatus.find(rs_id)
+
+        # Track API response result and duration in api_responses table
+        response = { article_id: rs.article_id, source_id: rs.source_id, retrieval_status_id: rs_id }
+        start_time = Time.zone.now
+        ActiveSupport::Notifications.instrument("api_response.get") do |payload|
+          response.merge!(perform_get_data(rs))
+          payload.merge!(response)
+        end
+
+        if response[:event_count]
+          # observe rate-limiting settings
+          sleep_interval = start_time + source.job_interval - Time.zone.now
+          sleep(sleep_interval) if sleep_interval > 0
+        else
           # each time we fail to get an answer from a source, wait longer
-          # and wait random amount of time
-          sleep_time += source.disable_delay + rand(source.disable_delay)
-          Rails.logger.info "Sleep for #{sleep_time} seconds"
-          sleep(sleep_time)
+          sleep(sleep_time += source.disable_delay)
         end
       end
     end
 
   end
 
-  def perform_get_data(rs_id)
-
-    rs = RetrievalStatus.find(rs_id)
-
-    Rails.logger.debug "#{rs.source.name} #{rs.article.doi} perform"
+  def perform_get_data(rs)
 
     # we can get data_from_source in 4 different formats
     # - hash with event_count nil: SKIPPED
@@ -75,11 +71,11 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # - hash with event_count > 0: SUCCESS
     # - nil                      : ERROR
     #
-    # SKIPPED 
+    # SKIPPED
     # The source doesn't know about the article identifier, and we never call the API.
     # Examples: mendeley, pub_med, counter, copernicus
     # We don't want to create a retrieval_history record, but should update retrieval_status
-    # 
+    #
     # SUCCESS NO DATA
     # The source knows about the article identifier, but returns an event_count of 0
     #
@@ -89,10 +85,16 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # ERROR
     # An error occured, typically 408 (Request Timeout), 403 (Too Many Requests) or 401 (Unauthorized)
     # It could also be an error in our code. 404 (Not Found) errors are handled as SUCCESS NO DATA
-    # We don't update retrieval status and don't create a retrieval_histories document, 
-    # so that the request is repeated later. We could get stuck, but we see this in error_messages
-    
-    data_from_source = rs.source.get_data(rs.article, {:retrieval_status => rs, :timeout => rs.source.timeout })
+    # We don't update retrieval status and don't create a retrieval_histories document,
+    # so that the request is repeated later. We could get stuck, but we see this in alerts
+    #
+    # This mnethod returns a hash in the format { event_count: 12, previous_count: 8, retrieval_history_id: 3736, update_interval: 31 }
+    # This hash can be used to track API responses, e.g. when event counts go down
+
+    previous_count = rs.event_count
+    update_interval = (Time.zone.now - rs.retrieved_at).to_i / 1.day
+
+    data_from_source = rs.source.get_data(rs.article, { :retrieval_status => rs, :timeout => rs.source.timeout, :source_id => rs.source_id })
     if data_from_source.is_a?(Hash)
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]
@@ -101,17 +103,17 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       attachment = data_from_source[:attachment]
     else
       # ERROR
-      return nil 
+      return { event_count: nil, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
     end
-    
+
     retrieved_at = Time.zone.now
-    
+
     # SKIPPED
     if event_count.nil?
-      rs.update_attributes(:retrieved_at => retrieved_at, 
-                           :scheduled_at => rs.stale_at, 
+      rs.update_attributes(:retrieved_at => retrieved_at,
+                           :scheduled_at => rs.stale_at,
                            :event_count => 0)
-      { :retrieval_status => rs } 
+      { event_count: 0, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
     else
       rh = RetrievalHistory.create(:retrieval_status_id => rs.id,
                                    :article_id => rs.article_id,
@@ -126,65 +128,55 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                  :event_metrics => event_metrics,
                  :doc_type => "current" }
 
-        if !attachment.nil?
-
-          if !attachment[:filename].nil? && !attachment[:content_type].nil? && !attachment[:data].nil?
-            data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
-                                                             "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
-          end
+        if attachment.present? && attachment[:filename].present? && attachment[:content_type].present? && attachment[:data].present?
+          data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
+                                                           "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
         end
-        
-        # save the data to couchdb
-        data_rev = save_alm_data(rs.data_rev, data.clone, "#{rs.source.name}:#{CGI.escape(rs.article.doi)}")
-        rs.data_rev = data_rev unless data_rev.nil?
+
+        # save the data to mysql
         rs.event_count = event_count
         rs.event_metrics = event_metrics
         rs.events_url = events_url
-        
-        # save the history data to couchdb
-        #TODO change this to a copy
+
+        rh.event_count = event_count
+
+        # save the data to couchdb
+        rs_rev = save_alm_data("#{rs.source.name}:#{rs.article.doi_escaped}", data: data.clone, source_id: rs.source_id)
+
         data.delete(:_attachments)
         data[:doc_type] = "history"
-        save_alm_data(nil, data, rh.id)
+        rh_rev = save_alm_data(rh.id, data: data, source_id: rs.source_id)
 
-        # set retrieval history status to success
-        rh.status = RetrievalHistory::SUCCESS_MSG
-        # save the event count in mysql
-        rh.event_count = event_count
-      
       # SUCCESS NO DATA
       else
-        # if we don't get any data
+        # save the data to mysql
+        # don't save any data to couchdb
         rs.event_count = 0
-        
-        # don't save any data to CouchDB
-
-        # set retrieval history status to success with no data
-        rh.status = RetrievalHistory::SUCCESS_NODATA_MSG
         rh.event_count = 0
       end
 
       rs.retrieved_at = retrieved_at
       rs.scheduled_at = rs.stale_at
       rs.save
-       
+
       rh.retrieved_at = retrieved_at
       rh.save
-      { :retrieval_status => rs, :retrieval_history => rh }
+
+      { event_count: event_count, previous_count: previous_count, retrieval_history_id: rh.id, update_interval: update_interval }
     end
   end
 
   def error(job, e)
-    source_id = Source.where(:name => job.queue).pluck(:id).first
-    ErrorMessage.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source_id)
+    source = Source.find(source_id)
+    Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
   end
 
   def after(job)
-    Rails.logger.debug "job completed"
-
     #reset the queued at value
     RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
+
+    source = Source.find(source_id)
+    source.stop_working unless source.get_queued_job_count > 1
   end
 
 end
-

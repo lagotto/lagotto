@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -34,7 +36,7 @@ class Pmc < Source
 
     results = get_json(query_url, options)
 
-    if results.nil?       
+    if results.nil?
       nil
     elsif results.empty? or !results["views"]
       { :events => [], :event_count => 0 }
@@ -49,17 +51,17 @@ class Pmc < Source
         end
       end
     end
-    
-    event_metrics = { :pdf => events.nil? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }, 
-                      :html => events.nil? ? nil : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }, 
-                      :shares => nil, 
+
+    event_metrics = { :pdf => events.nil? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i },
+                      :html => events.nil? ? nil : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i },
+                      :shares => nil,
                       :groups => nil,
-                      :comments => nil, 
-                      :likes => nil, 
-                      :citations => nil, 
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => nil,
                       :total => event_count }
 
-    { :events => events, 
+    { :events => events,
       :event_count => event_count,
       :event_metrics => event_metrics }
   end

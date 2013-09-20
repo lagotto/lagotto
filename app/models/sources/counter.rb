@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -23,73 +25,68 @@ class Counter < Source
   end
 
   def get_data(article, options={})
-    
+
     # Check that article has DOI
     return { :events => [], :event_count => nil } if article.doi.blank?
 
     query_url = get_query_url(article)
-    options[:source_id] = id
+    result = get_xml(query_url, options)
 
-    get_xml(query_url, options) do |document|
-      
-      # Check that Counter has returned something, otherwise an error must have occured
-      return nil if document.nil?
-      
-      views = []
-      event_count = 0
-      document.find("//rest/response/results/item").each do | view |
+    return nil if result.nil?
 
-        month = view.find_first("month")
-        year = view.find_first("year")
-        month = view.find_first("month")
-        html = view.find_first("get-document")
-        xml = view.find_first("get-xml")
-        pdf = view.find_first("get-pdf")
+    views = []
+    event_count = 0
+    result.xpath("//rest/response/results/item").each do | view |
 
-        curMonth = {}
-        curMonth[:month] = month.content
-        curMonth[:year] = year.content
+      month = view.at_xpath("month")
+      year = view.at_xpath("year")
+      month = view.at_xpath("month")
+      html = view.at_xpath("get-document")
+      xml = view.at_xpath("get-xml")
+      pdf = view.at_xpath("get-pdf")
 
-        if pdf
-          curMonth[:pdf_views] = pdf.content
-          event_count += pdf.content.to_i
-        else
-          curMonth[:pdf_views] = 0
-        end
+      curMonth = {}
+      curMonth[:month] = month.content
+      curMonth[:year] = year.content
 
-        if xml
-          curMonth[:xml_views] = xml.content
-          event_count += xml.content.to_i
-        else
-          curMonth[:xml_views] = 0
-        end
-
-        if html
-          curMonth[:html_views] = html.content
-          event_count += html.content.to_i
-        else
-          curMonth[:html_views] = 0
-        end
-
-        views << curMonth
+      if pdf
+        curMonth[:pdf_views] = pdf.content
+        event_count += pdf.content.to_i
+      else
+        curMonth[:pdf_views] = 0
       end
-      
-      event_metrics = { :pdf => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i }, 
-                        :html => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:html_views].to_i }, 
-                        :shares => nil, 
-                        :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => nil, 
-                        :total => event_count }
 
-      {:events => views,
-       :events_url => query_url,
-       :event_count => event_count,
-       :event_metrics => event_metrics,
-       :attachment => views.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => document.to_s }
-      }
+      if xml
+        curMonth[:xml_views] = xml.content
+        event_count += xml.content.to_i
+      else
+        curMonth[:xml_views] = 0
+      end
+
+      if html
+        curMonth[:html_views] = html.content
+        event_count += html.content.to_i
+      else
+        curMonth[:html_views] = 0
+      end
+
+      views << curMonth
     end
+
+    event_metrics = { :pdf => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i },
+                      :html => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:html_views].to_i },
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => nil,
+                      :total => event_count }
+
+    {:events => views,
+     :events_url => query_url,
+     :event_count => event_count,
+     :event_metrics => event_metrics,
+     :attachment => views.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
 
   end
 

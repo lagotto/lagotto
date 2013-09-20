@@ -65,26 +65,28 @@
     <div class="navbar">
   	  <div class="navbar-inner">
         <div class="nav-collapse collapse">
-          <% if can? :read, ErrorMessage %>
+          <% if can? :read, Alert %>
             <ul class="nav">
               <%= controller.controller_name == "index" ? '<li class="visible-desktop active">'.html_safe : '<li class="visible-desktop">'.html_safe %><%= link_to 'Home', admin_root_path %></li>
             </ul>
           <% end %>
         </div>
   				<ul class="nav">
-            <% if can? :read, ErrorMessage %>
+            <% if can? :read, Alert %>
               <%= controller.controller_name == "index" ? '<li class="hidden-desktop active">'.html_safe : '<li class="hidden-desktop">'.html_safe %><%= link_to "Home", admin_root_path %></li>
             <% end %>
   					<%= controller.controller_name == "articles" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", articles_path %></li>
-            <% if can? :read, ErrorMessage %>
+            <% if can? :read, Alert %>
               <%= controller.controller_name == "sources" ? '<li class="hidden-desktop active">'.html_safe : '<li class="hidden-desktop">'.html_safe %><%= link_to "Sources", admin_sources_path %></li>
   						<%= controller.controller_name == "sources" ? '<li class="dropdown visible-desktop active">'.html_safe : '<li class="dropdown visible-desktop">'.html_safe %>
   					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sources <b class="caret"></b></a>
   				      <ul class="dropdown-menu">
                   <li><%= link_to "All Sources", admin_sources_path %></li>
-                  <li class="divider"></li>
-                  <% sources.active.each do |source| %>
-                    <li><%= link_to h(source.display_name), admin_source_path(source) %></li>
+                  <% unless Source.active.empty? %>
+                    <li class="divider"></li>
+                    <% sources.active.each do |source| %>
+                      <li><%= link_to h(source.display_name), admin_source_path(source) %></li>
+                    <% end %>
                   <% end %>
                   <% unless Source.inactive.empty? %>
                     <li class="divider"></li>
@@ -104,7 +106,7 @@
             <span class="icon-bar"></span>
           </a>
           <div class="nav-collapse collapse">
-            <% if can? :read, ErrorMessage %>
+            <% if can? :read, Alert %>
               <ul class="nav">
                 <%= controller.controller_name == "delayed_jobs" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Jobs', admin_delayed_jobs_path %></li>
                 <%= controller.controller_name == "responses" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Responses', admin_responses_path %></li>
@@ -114,10 +116,18 @@
                   <ul class="dropdown-menu">
                     <li><%= link_to "All Users", admin_users_path %></li>
                     <li class="divider"></li>
-                    <li><%= link_to "API Requests", admin_api_requests_path %></li>
+                    <li><%= link_to "Local API Requests", admin_api_requests_path(local: 1) %></li>
+                    <li><%= link_to "External API Requests", admin_api_requests_path %></li>
                   </ul>
                 </li>
-                <%= controller.controller_name == "error_messages" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Errors', admin_error_messages_path %></li>
+                <%= ["filters","alerts"].include?(controller.controller_name) ? '<li class="dropdown active">'.html_safe : '<li class="dropdown">'.html_safe %>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Errors <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Alerts', admin_alerts_path %></li>
+                  <li class="divider"></li>
+                  <li><%= link_to "Filters", admin_filters_path %></li>
+                </ul>
+              </li>
               </ul>
             <% end %>
             <% unless ["sessions","registrations"].include?(controller.controller_name) %>

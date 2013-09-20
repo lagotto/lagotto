@@ -42,6 +42,10 @@ The username and password for the web interface are `articlemetrics`. The code f
 
 The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, and is auto-generated during the installation. CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
 
+If you want to use the CouchDB web interface (Futon), make sure you set the `bind_address` to `0.0.0.0`. You also have to restart the VM:
+
+   vagrant reload --no-provision
+
 ## Automatic Installation on AWS using Vagrant
 This is the preferred way to install the ALM application on Amazon Web Services (AWS). machine. Download and install  [Vagrant][vagrant]. Install the vagrant-aws plugin:
 

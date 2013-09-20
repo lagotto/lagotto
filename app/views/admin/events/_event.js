@@ -16,6 +16,7 @@ d3.json("/admin/events.json", function(error, data) {
     .attr("class", "chart")
     .append("g")
     .attr("transform", "translate(230,20)");
+
   var x = d3.scale.log()
     .domain([0.1, d3.max(data, function(d) { return d.event_count; })])
     .range([1, w]);
@@ -25,6 +26,7 @@ d3.json("/admin/events.json", function(error, data) {
   var z = d3.scale.ordinal()
     .domain(data.map(function(d) { return d.group; }))
     .range(colors);
+
   chart.selectAll("text.labels")
     .data(data)
     .enter().append("a").attr("xlink:href", function(d) { return d.url; }).append("text")

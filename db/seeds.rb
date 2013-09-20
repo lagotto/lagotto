@@ -2,8 +2,8 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
 # Load default admin user
-if Rails.env != "production"
-  User.create(:username => "voldemort", :name => "Admin", :email => "admin@plos.org", :password => "voldemort", :password_confirmation => "voldemort") if User.count == 0
+unless Rails.env.production?
+  User.create(:username => "voldemort", :name => "Admin", :email => "alm@plos.org", :password => "voldemort", :password_confirmation => "voldemort") if User.count == 0
 end
 
 # Load default groups
@@ -15,15 +15,40 @@ recommended = Group.find_or_create_by_name(:name => "Recommended")
 other = Group.find_or_create_by_name(:name => "Other")
 
 # Load default reports
-# new_user = NewUserReport.find_or_create_by_name(:name => "new_user", :display_name => "New User")
-# disabled_source = DisabledSourceReport.find_or_create_by_name(:name => "disabled_source", :display_name => "Source disabled")
+daily_report = Report.find_or_create_by_name(:name => "Daily Report")
+
+# Load default filters
+article_not_updated_error = ArticleNotUpdatedError.find_or_create_by_name(
+  :name => "ArticleNotUpdatedError",
+  :display_name => "article not updated error",
+  :description => "Raises an error if articles have not been updated within the specified interval in days.")
+event_count_decreasing_error = EventCountDecreasingError.find_or_create_by_name(
+  :name => "EventCountDecreasingError",
+  :display_name => "decreasing event count error",
+  :description => "Raises an error if event count decreases.")
+event_count_increasing_too_fast_error = EventCountIncreasingTooFastError.find_or_create_by_name(
+  :name => "EventCountIncreasingTooFastError",
+  :display_name => "increasing event count error",
+  :description => "Raises an error if the event count increases faster than the specified value per day.")
+api_response_too_slow_error = ApiResponseTooSlowError.find_or_create_by_name(
+  :name => "ApiResponseTooSlowError",
+  :display_name => "API too slow error",
+  :description => "Raises an error if an API response takes longer than the specified interval in seconds.")
+source_not_updated_error = SourceNotUpdatedError.find_or_create_by_name(
+  :name => "SourceNotUpdatedError",
+  :display_name => "source not updated error",
+  :description => "Raises an error if a source has not been updated in 24 hours.")
+citation_milestone_alert = CitationMilestoneAlert.find_or_create_by_name(
+  :name => "CitationMilestoneAlert",
+  :display_name => "citation milestone alert",
+  :description => "Creates an alert if an article has been cited the specified number of times.")
 
 # Load default sources
 citeulike = Citeulike.find_or_create_by_name(
 	:name => "citeulike",
 	:display_name => "CiteULike",
   :description => "CiteULike is a free social bookmarking service for scholarly content.",
-	:active => true,
+	:state_event => "activate",
 	:workers => 1,
 	:group_id => saved.id,
 	:url => "http://www.citeulike.org/api/posts/for/doi/%{doi}" )
@@ -31,7 +56,7 @@ pubmed = PubMed.find_or_create_by_name(
   :name => "pubmed",
   :display_name => "PubMed",
   :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
-  :active => true,
+  :state_event => "activate",
   :workers => 1,
   :group_id => cited.id,
   :url => "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}")
@@ -39,35 +64,56 @@ scienceseeker = ScienceSeeker.find_or_create_by_name(
 	:name => "scienceseeker",
 	:display_name => "ScienceSeeker",
   :description => "Research Blogging is a science blog aggregator.",
-	:active => true,
+	:state_event => "activate",
 	:workers => 1,
 	:group_id => discussed.id,
 	:url => "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}" )
+
+nature = Nature.find_or_create_by_name(
+  :name => "nature",
+  :display_name => "Nature Blogs",
+  :description => "Nature Blogs is a science blog aggregator.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => discussed.id,
+  :url => "http://blogs.nature.com/posts.json?doi=%{doi}")
 
 wikipedia = Wikipedia.find_or_create_by_name(
   :name => "wikipedia",
   :display_name => "Wikipedia",
   :description => "Wikipedia is a free encyclopedia that everyone can edit.",
-  :active => true,
+  :state_event => "activate",
   :workers => 1,
   :group_id => discussed.id,
-  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
+  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
 wos = Wos.find_or_create_by_name(
 	:name => "wos",
 	:display_name => "Web of Science",
   :description => "Web of Science is an online academic citation index.",
-	:active => true,
+	:state_event => "activate",
   :private => 1,
 	:workers => 1,
 	:group_id => cited.id,
 	:url => "https://ws.isiknowledge.com/cps/xrpc" )
+
+pmc = Pmc.find_or_create_by_name(
+  :name => "pmc",
+  :display_name => "PubMed Central Usage Stats",
+  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
+  :state_event => "activate",
+  :queueable => false,
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "http://localhost:5984/pmc_usage_stats/%{doi}",
+  :filepath => "/home/vagrant/pmcdata/")
 
 # The following sources require passwords/API keys
 counter = Counter.find_or_create_by_name(
   :name => "counter",
   :display_name => "Counter",
   :description => "Usage stats from the PLOS website",
-  :active => true,
+  :state_event => "activate",
+  :queueable => false,
   :workers => 1,
   :group_id => viewed.id,
   :url => "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}")
@@ -76,7 +122,7 @@ scopus = Scopus.find_or_create_by_name(
   :name => "scopus",
   :display_name => "Scopus",
   :description => "The world's largest abstract and citation database of peer-reviewed literature.",
-  :active => false,
+  :state_event => "",
   :workers => 1,
   :group_id => cited.id,
   :username => "EXAMPLE",
@@ -87,7 +133,7 @@ f1000 = F1000.find_or_create_by_name(
   :name => "f1000",
   :display_name => "F1000Prime",
   :description => "Post-publication peer review of the biomedical literature.",
-  :active => true,
+  :state_event => "activate",
   :workers => 1,
   :group_id => recommended.id,
   :url => "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml",
@@ -97,7 +143,7 @@ figshare = Figshare.find_or_create_by_name(
   :name => "figshare",
   :display_name => "Figshare",
   :description => "Figures, tables and supplementary files hosted by figshare",
-  :active => true,
+  :state_event => "activate",
   :workers => 1,
   :group_id => viewed.id,
   :url => "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}")
@@ -107,7 +153,7 @@ crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
   :display_name => "CrossRef",
   :description => "CrossRef is a non-profit organization that enables cross-publisher citation linking.",
-  :active => true,
+  :state_event => "activate",
   :workers => 1,
   :group_id => cited.id,
   :default_url => "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true",
@@ -119,7 +165,7 @@ facebook = Facebook.find_or_create_by_name(
   :name => "facebook",
   :display_name => "Facebook",
   :description => "Facebook is the largest social network.",
-  :active => true,
+  :state_event => "activate",
   :workers => 1,
   :group_id => discussed.id,
   :url => "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'",
@@ -129,40 +175,20 @@ mendeley = Mendeley.find_or_create_by_name(
   :name => "mendeley",
   :display_name => "Mendeley",
   :description => "Mendeley is a reference manager and social bookmarking tool.",
-  :active => true,
+  :state_event => "activate",
   :workers => 1,
   :group_id => saved.id,
   :url => "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}",
   :url_with_type => "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}",
-  :url_with_title => "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10&consumer_key=%{api_key}",
+  :url_with_title => "http://api.mendeley.com/oapi/documents/search/%{title}/?items=10&consumer_key=%{api_key}",
   :related_articles_url => "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}",
   :api_key => "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5")
-
-nature = Nature.find_or_create_by_name(
-  :name => "nature",
-  :display_name => "Nature Blogs",
-  :description => "Nature Blogs is a science blog aggregator.",
-  :active => true,
-  :workers => 1,
-  :group_id => discussed.id,
-  :url => "http://blogs.nature.com/posts.json?api_key=%{api_key}&doi=%{doi}",
-  :api_key => "7jug74j8rh49n8rbn8atwyec")
-
-pmc = Pmc.find_or_create_by_name(
-  :name => "pmc",
-  :display_name => "PubMed Central Usage Stats",
-  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
-  :active => true,
-  :workers => 1,
-  :group_id => viewed.id,
-  :url => "http://localhost:5984/pmc_usage_stats/%{doi}",
-  :filepath => "/home/vagrant/pmcdata/")
 
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",
   :display_name => "Research Blogging",
   :description => "Research Blogging is a science blog aggregator.",
-  :active => true,
+  :state_event => "activate",
   :workers => 1,
   :group_id => discussed.id,
   :url => "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}",
@@ -295,4 +321,8 @@ if ENV['ARTICLES']
     :doi => "10.5194/se-1-1-2010",
     :title => "The Eons of Chaos and Hades",
     :published_on => "2010-02-02")
+  Article.find_or_create_by_doi(
+    :doi => "10.1590/S1413-86702012000300021",
+    :title => "Terry's nails",
+    :published_on => "2012-06-01")
 end

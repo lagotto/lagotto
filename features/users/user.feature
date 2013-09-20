@@ -41,6 +41,6 @@ Feature: Sign in as user
       Then I should see the "You are not authorized to access this page." error message
 
     @allow-rescue
-    Scenario: User cannot see errors in the admin dashboard
-      When I go to the "Errors" admin page
+    Scenario: User cannot see alerts in the admin dashboard
+      When I go to the "Alerts" admin page
       Then I should see the "You are not authorized to access this page." error message

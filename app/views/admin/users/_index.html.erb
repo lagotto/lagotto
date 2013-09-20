@@ -12,7 +12,7 @@
   <h1>
     <%= pluralize(number_with_delimiter(@users.count), 'User') %>
     <% unless params[:query].blank? %>
-        with <em><%= params[:query] %></em> in the name, username or API key
+        <small>with <em><%= params[:query] %></em> in the name, username or API key</small>
     <% end %>
   </h1>
 </div>
@@ -66,7 +66,7 @@
               <% end %>
 
               <h5>API key</h5>
-              <%= h(user.authentication_token) %>
+              <%= link_to user.authentication_token, admin_api_requests_path(api_key: user.authentication_token) %>
 
               <h5>Role</h5>
               <%= user.role.capitalize %>

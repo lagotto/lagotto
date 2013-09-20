@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -27,9 +29,9 @@ class F1000 < Source
     options[:source_id] = id
     save_to_file(url, filename, options)
   end
- 
+
   def get_data(article, options={})
-    
+
     # Check that article has DOI
     return  { :events => [], :event_count => nil } if article.doi.blank?
 
@@ -41,20 +43,20 @@ class F1000 < Source
 
     if result.nil?
       # F1000 doesn't know about the article
-      return  { :events => [], :event_count => 0 } 
+      return  { :events => [], :event_count => 0 }
     else
       event = result.to_s
       event = Hash.from_xml(event)
       event = event["Article"]
-      event_metrics = { :pdf => nil, 
-                        :html => nil, 
-                        :shares => nil, 
+      event_metrics = { :pdf => nil,
+                        :html => nil,
+                        :shares => nil,
                         :groups => nil,
-                        :comments => nil, 
-                        :likes => nil, 
-                        :citations => event["TotalScore"].to_i, 
+                        :comments => nil,
+                        :likes => nil,
+                        :citations => event["TotalScore"].to_i,
                         :total => event["TotalScore"].to_i }
-                               
+
       { :events => event,
         :events_url => event["Url"],
         :event_count => event["TotalScore"].to_i,

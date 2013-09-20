@@ -3,7 +3,7 @@
     <h1><%= link_to "Events", admin_events_path %></h1>
   </div>
 
-  <% if Article.count > 0 %>
+  <% if Article.count > 0 && @sources.count > 0 %>
     <ul class="nav nav-tabs">
       <li class="active"><a href="#article" data-toggle="tab">Articles with Events</a></li>
       <li><a href="#event" data-toggle="tab">All Events</a></li>

@@ -16,6 +16,7 @@ d3.json("/admin/events.json", function(error, json) {
     .attr("class", "chart")
     .append("g")
     .attr("transform", "translate(230,20)");
+
   var x = d3.scale.linear()
     .domain([0, d3.max(data, function(d) { return d.article_count; })])
     .range([0, w]);
@@ -25,6 +26,7 @@ d3.json("/admin/events.json", function(error, json) {
   var z = d3.scale.ordinal()
     .domain(data.map(function(d) { return d.group; }))
     .range(colors);
+
   chart.selectAll("text.labels")
     .data(data)
     .enter().append("a").attr("xlink:href", function(d) { return d.url; }).append("text")
@@ -48,4 +50,5 @@ d3.json("/admin/events.json", function(error, json) {
     .attr("dx", 5) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(function(d) { return d.article_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); });
+
 });
