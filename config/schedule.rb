@@ -12,6 +12,7 @@ set :output, "#{path}/log/cron.log"
 every 1.day, at: "4:00 AM" do
   rake "filter:all"
   rake "mailer:report"
+  rake "queue:start"
 
   rake "db:alerts:delete"
   rake "db:api_requests:delete"
