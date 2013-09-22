@@ -254,6 +254,45 @@ describe SourceHelper do
         stub.should have_been_requested
       end
     end
+
+    context "save to file" do
+
+      it "save contents from url" do
+        url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
+        filename = "test"
+        stub = stub_request(:get, url).to_return(:status => 200, :body => "Test")
+        response = @source_helper_class.save_to_file(url, filename)
+        response.should eq(filename)
+        Alert.count.should == 0
+      end
+
+      it "should catch errors fetching a file" do
+        url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
+        filename = "test"
+        stub = stub_request(:get, url).to_return(:status => [408])
+        response = @source_helper_class.save_to_file(url, filename)
+        response.should be_nil
+        stub.should have_been_requested
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPRequestTimeOut")
+        alert.status.should == 408
+      end
+
+      it "should catch errors saving a file" do
+        url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
+        filename = ""
+        stub = stub_request(:get, url).to_return(:status => 200, :body => "Test")
+        response = @source_helper_class.save_to_file(url, filename)
+        response.should be_nil
+        stub.should have_been_requested
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Errno::EISDIR")
+        alert.message.should include("Is a directory")
+        alert.status.should == 500
+      end
+    end
   end
 
   context "CouchDB" do

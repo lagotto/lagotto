@@ -65,6 +65,10 @@ class ArticlesController < ApplicationController
     # private sources are filtered out in the load_article_eager_includes method by looking at source parameter
     load_article_eager_includes
 
+    # if private sources have been filtered out, the source parameter will be present and modified
+    # private sources are filtered out in the load_article_eager_includes method by looking at source parameter
+    load_article_eager_includes
+
     respond_with(@article) do |format|
       format.csv  { render :csv => @article }
       format.json { render :json => @article.as_json(format_options), :callback => params[:callback] }
