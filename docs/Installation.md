@@ -17,7 +17,11 @@ There are many installation options, but the following two should cover most sce
 Hosting the ALM application at a Platform as a Service (PaaS) provider such as Heroku or OpenShift is possible, but has not been tested.
 
 ## Automatic Installation using Vagrant
-This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox], [Vagrant] and the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo). Then install the application with:
+This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox], [Vagrant] and the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo).
+
+Rename the file `config.json.example` to `config.json` and add your personalized settings to it, including username/password, API keys, MySQL password.
+
+Then install the application with:
 
     git clone git://github.com/articlemetrics/alm.git
     cd alm
