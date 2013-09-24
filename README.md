@@ -25,16 +25,21 @@ There are many installation options, but the following two should cover most sce
 Instructions for automated installation via VMware or Amazon EC2 will be added soon. Hosting the ALM application at a Platform as a Service (PaaS) provider such as Heroku is possible, but has not been tested.
 
 ## Automatic Installation using Vagrant
-This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine. Download and install [Virtualbox][virtualbox] and [Vagrant][vagrant]. Then install the application with:
-    
+This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox], [Vagrant] and the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo).
+
+#### Custom settings (passwords, API keys)
+This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
+
+Then install the application with:
+
     git clone git://github.com/articlemetrics/alm.git
     cd alm
     vagrant up
-      
-[virtualbox]: https://www.virtualbox.org/wiki/Downloads
-[vagrant]: http://downloads.vagrantup.com/
-[rvm]: https://rvm.io
-[rbenv]: https://github.com/sstephenson/rbenv
+
+[Virtualbox]: https://www.virtualbox.org/wiki/Downloads
+[Vagrant]: http://downloads.vagrantup.com/
+[Omnibus]: https://github.com/schisamo/vagrant-omnibus
+[Chef Solo]: http://docs.opscode.com/chef_solo.html
 
 This installs the ALM server on a Ubuntu 12.04 virtual machine. After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at
 
@@ -48,40 +53,49 @@ The username and password for the web interface are `articlemetrics`. The code f
 
     vagrant ssh
     cd /vagrant
-	
-The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding. 
 
-## Automatic Installation on AWS using Vagrant 
+The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
+
+## Automatic Installation on AWS using Vagrant
 This is the preferred way to install the ALM application on Amazon Web Services (AWS). machine. Download and install  [Vagrant][vagrant]. Install the vagrant-aws plugin:
 
-    vagrant plugin install vagrant-aws 
+    vagrant plugin install vagrant-aws
+
+So that we can use any Amazon Machine Image ([AMI](https://aws.amazon.com/amis)) - the ALM application has been tested with Ubuntu 12.04 and CentOS 6.3 - we want to install the [vagrant-omnibus] plugin that adds Chef solo to any VM:
+
+    vagrant plugin install vagrant-omnibus
 
 Install a dummy AWS box and name it precise64:
 
     vagrant box add precise64 https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 
-Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_name, security_groups) to Vagrantfile. We recommend to use at least a small EC2 instance, the ami `ami-e4b8218d` contains Ubuntu 12.04 with Chef solo.
+Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_name, security_groups) to Vagrantfile. We recommend to use at least a small EC2 instance, the ami `ami-e7582d8e` contains Ubuntu 12.04. We also install the latest Chef version using omnibus.
 
-    config.vm.provider :aws do |aws|   
+    config.omnibus.chef_version = :latest
+
+    config.vm.hostname = "alm"
+
+    config.vm.provider :aws do |aws, override|
       aws.access_key_id = "EXAMPLE"
       aws.secret_access_key = "EXAMPLE"
-      aws.ssh_private_key_path = "/EXAMPLE.pem"
       aws.keypair_name = "EXAMPLE"
       aws.security_groups = ["EXAMPLE"]
-      aws.instance_type = 'm1.small'     
-      aws.ssh_username = "ubuntu"
-      aws.ami = "ami-e4b8218d"
+      aws.instance_type = 'm1.small'
+      aws.ami = "ami-e7582d8e"
       aws.tags = { Name: 'Vagrant alm' }
+
+      override.ssh.username = "ubuntu"
+      override.ssh.private_key_path = "/EXAMPLE.pem"
     end
 
+#### Custom settings (passwords, API keys)
+This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
+
 Then install the application with:
-    
+
     git clone git://github.com/articlemetrics/alm.git
     cd alm
     vagrant up --provider was
-      
-[vagrant]: http://downloads.vagrantup.com/
-[vagrant-aws]: https://github.com/mitchellh/vagrant-aws
 
 After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at the web address of your EC2 instance (the use of Elastic IPs and a DNS server is recommended).
 
@@ -89,8 +103,18 @@ After installation you first have to create a default user using the `Sign Up` b
 
     ssh -i /EXAMPLE.pem ubuntu@EXAMPLE.ORG
     cd /vagrant
-	
+
 The Rails application runs in Production mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
+
+The ALM application can be installed in [Rackspace] or [DigitalOcean] using Vagrant and the respective plugins ([vagrant-rackspace] and [vagrant-digitalocean]) in a process similar to the AWS installation, but this has not been tested with the ALM application.
+
+[vagrant]: http://downloads.vagrantup.com/
+[vagrant-aws]: https://github.com/mitchellh/vagrant-aws
+[vagrant-omnibus]: https://github.com/schisamo/vagrant-omnibus
+[Rackspace]: http://www.rackspace.com
+[DigitalOcean]: https://www.digitalocean.com
+[vagrant-rackspace]: https://github.com/mitchellh/vagrant-rackspace
+[vagrant-digitalocean]: https://github.com/smdahlen/vagrant-digitalocean
 
 ## Manual installation for development
 These instructions assume a fresh installation of Ubuntu 12.04. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9. The instructions assume a user with sudo privileges, and this can also be a new user created just for running the ALM application.
@@ -175,7 +199,7 @@ You want to set the MySQL username/password in `database.yml`, using either the 
     cp config/settings.yml.example config/settings.yml
 
 #### Install ALM databases
-We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including sample articles and a default user account (username/password _articlemetrics_). Use `RAILS_ENV=production` if you set up Passenger to run in the production environment. 
+We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including sample articles and a default user account (username/password _articlemetrics_). Use `RAILS_ENV=production` if you set up Passenger to run in the production environment.
 
 It is possible to connect the ALM app to MySQL and/or CouchDB running on a different server, please change `host` in database.yml and `couched_url` in settings.yml accordingly.
 
@@ -234,7 +258,7 @@ Add these two files from your development machine, change settings as needed.
 
     /var/www/alm/shared/database.yml
     /var/www/alm/shared/settings.yml
-    
+
 #### Install Capistrano
 The next steps are all done on the local development machine.
 
@@ -263,7 +287,7 @@ Edit the deployment configuration file that was just created by Capistrano. Add 
     set :branch, "master"
 
     set :bundle_without, [:development, :test]
-   
+
     set :ruby_vm_type,      :mri        # :ree, :mri
     set :web_server_type,   :apache     # :apache, :nginx
     set :app_server_type,   :passenger  # :passenger, :mongrel
@@ -308,12 +332,12 @@ Deploy the application with the current code from Github without or with databas
     cap deploy
     cap deploy:migrations
     cap deploy:rollback
-    
+
 ## Usage
 
 ### Setup
 
-Groups and sources are already configured if you installed via Chef/Vagrant, or if you issued the `rake db:setup` command. You can also add groups and sources later with `rake db:seed`. 
+Groups and sources are already configured if you installed via Chef/Vagrant, or if you issued the `rake db:setup` command. You can also add groups and sources later with `rake db:seed`.
 
 The admin user can be created when using the web interface for the first time. After logging in as admin you can add articles and configure sources.
 
@@ -321,8 +345,8 @@ The following configuration options for sources are stored in `source_configs.ym
 
 * job_batch_size: number of articles per job (default 200)
 * staleness: refresh interval (default 7 days)
-* batch_time_interval (default 1 hour) 
-* requests_per_day (default nil) 
+* batch_time_interval (default 1 hour)
+* requests_per_day (default nil)
 
 The following configuration options for sources are available via the web interface:
 
@@ -342,7 +366,7 @@ All rake tasks are issued from the application root folder. `RAILS_ENV=productio
 A set of 25 sample articles is loaded during installation when using Vagrant and `seed_sample_articles` in `node.json`is set to `true`. They can also be seeded later via rake task:
 
     rake db:articles:seed
-    
+
 ### Adding articles
 
 Articles can be added via the web interface (after logging in as admin), or via the command line:
@@ -351,7 +375,7 @@ Articles can be added via the web interface (after logging in as admin), or via 
 
 The command `rake doi_import <DOI_DUMP` is an alias. This bulk-loads a file consisting of DOIs, one per line. It'll ignore (but count) invalid ones and those that already exist in the database.
 
-Format for import file: 
+Format for import file:
 
     DOI Date(YYYY-MM-DD) Title
 
@@ -364,60 +388,60 @@ Articles can be deleted via the web interface (after logging in as admin), or vi
     rake db:articles:delete
 
 This rake task deletes all articles. For security reasons this rake task doesn't work in the production environment.
-    
+
 ### Adding metrics in development
 
-Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We have to set up a queue and at least one worker for every source. 
+Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We have to set up a queue and at least one worker for every source.
 
 In development mode this is done with `foreman`, using the configuration in `Procfile`:
-    
+
     foreman start
-    
+
 To stop all background processing, kill foreman with `ctrl-c`.
-    
+
 ### Adding metrics in production
-    
+
 In production mode the background processes run via the `upstart`system utility. The upstart scripts can be created using foreman (where USER is the user running the web server) via
 
     sudo foreman export upstart /etc/init -a alm -f Procfile.prod -l /USER/log -u USER
-    
+
 This command creates two upstart scripts for each source (one worker and one queuing script). For servers with less than 1 GB of memory we can run the background processes with only two scripts via
 
     sudo foreman export upstart /etc/init -a alm -f Procfile.staging -l /USER/log -u USER
-    
+
 The background processes can then be started or stopped using Upstart:
 
     sudo start alm
     sudo stop alm
-    
+
 ## More Documentation
 In the Wiki at [https://github.com/articlemetrics/alm/wiki][documentation].
- 
+
 [documentation]: https://github.com/articlemetrics/alm/wiki
- 
+
 ## Follow @plosalm on Twitter
 You should follow [@plosalm][follow] on Twitter for announcements and updates.
- 
+
 [follow]: https://twitter.com/plosalm
- 
+
 ## Mailing List
 Please direct questions about the library to the [mailing list].
- 
+
 [mailing list]: https://groups.google.com/group/plos-api-developers
- 
+
 ## List your application in the Wiki
 Does your project or organization use this application? Add it to the [
 FAQ][faq]!
- 
+
 [faq]: https://github.com/articlemetrics/alm/wiki/faq
- 
+
 ## Note on Patches/Pull Requests
- 
+
 * Fork the project
 * Write tests for your new feature or a test that reproduces a bug
 * Implement your feature or make a bug fix
 * Do not mess with Rakefile, version or history
 * Commit, push and make a pull request. Bonus points for topical branches.
- 
+
 ## Copyright
 Copyright (c) 2009-2012 by Public Library of Science. See [LICENSE](https://github.com/articlemetrics/alm/blob/master/LICENSE.md) for details.

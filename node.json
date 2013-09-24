@@ -2,7 +2,6 @@
   "run_list": [
     "recipe[yum]",
     "recipe[git]",
-    "recipe[mysql::server]",
     "recipe[couchdb]",
     "recipe[phantomjs]",
     "recipe[simple_iptables]",
