@@ -13,12 +13,24 @@ when "centos"
   yum_package "urw-fonts"
 end
 
-# Create new settings.yml
 require 'securerandom'
+# Create new settings.yml unless it exists already
 # Set these passwords in config.json to keep them persistent
-node.set_unless['alm']['key'] = SecureRandom.hex(30)
-node.set_unless['alm']['secret'] = SecureRandom.hex(30)
-node.set_unless['alm']['api_key'] = SecureRandom.hex(10)
+unless File.exists?("/vagrant/config/settings.yml")
+  node.set_unless['alm']['key'] = SecureRandom.hex(30)
+  node.set_unless['alm']['secret'] = SecureRandom.hex(30)
+  node.set_unless['alm']['api_key'] = SecureRandom.hex(10)
+else
+  settings = YAML::load(IO.read("/vagrant/config/settings.yml"))
+  rest_auth_site_key = settings["#{node[:alm][:environment]}"]["rest_auth_site_key"]
+  secret_token = settings["#{node[:alm][:environment]}"]["secret_token"]
+  api_key = settings["#{node[:alm][:environment]}"]["api_key"]
+
+  node.set_unless['alm']['key'] = rest_auth_site_key
+  node.set_unless['alm']['secret'] = secret_token
+  node.set_unless['alm']['api_key'] = api_key
+end
+
 template "/vagrant/config/settings.yml" do
   source 'settings.yml.erb'
   owner 'root'
@@ -26,11 +38,21 @@ template "/vagrant/config/settings.yml" do
   mode 0644
 end
 
-# Create new database.yml
+# Create new database.yml unless it exists already
 # Set these passwords in config.json to keep them persistent
-node.set_unless['mysql']['server_root_password'] = SecureRandom.hex(8)
-node.set_unless['mysql']['server_repl_password'] = SecureRandom.hex(8)
-node.set_unless['mysql']['server_debian_password'] = SecureRandom.hex(8)
+unless File.exists?("/vagrant/config/database.yml")
+  node.set_unless['mysql']['server_root_password'] = SecureRandom.hex(8)
+  node.set_unless['mysql']['server_repl_password'] = SecureRandom.hex(8)
+  node.set_unless['mysql']['server_debian_password'] = SecureRandom.hex(8)
+else
+  database = YAML::load(IO.read("/vagrant/config/database.yml"))
+  server_root_password = database["#{node[:alm][:environment]}"]["password"]
+
+  node.set_unless['mysql']['server_root_password'] = server_root_password
+  node.set_unless['mysql']['server_repl_password'] = server_root_password
+  node.set_unless['mysql']['server_debian_password'] = server_root_password
+end
+
 template "/vagrant/config/database.yml" do
   source 'database.yml.erb'
   owner 'root'
