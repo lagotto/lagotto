@@ -17,7 +17,12 @@ There are many installation options, but the following two should cover most sce
 Hosting the ALM application at a Platform as a Service (PaaS) provider such as Heroku or OpenShift is possible, but has not been tested.
 
 ## Automatic Installation using Vagrant
-This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox] and [Vagrant]. Then install the application with:
+This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox], [Vagrant] and the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo).
+
+### Custom settings (passwords, API keys)
+This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
+
+Then install the application with:
 
     git clone git://github.com/articlemetrics/alm.git
     cd alm
@@ -25,6 +30,7 @@ This is the preferred way to install the ALM application on a development machin
 
 [Virtualbox]: https://www.virtualbox.org/wiki/Downloads
 [Vagrant]: http://downloads.vagrantup.com/
+[Omnibus]: https://github.com/schisamo/vagrant-omnibus
 [Chef Solo]: http://docs.opscode.com/chef_solo.html
 
 This installs the ALM server on a Ubuntu 12.04 virtual machine. After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at
@@ -41,10 +47,6 @@ The username and password for the web interface are `articlemetrics`. The code f
     cd /vagrant
 
 The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, and is auto-generated during the installation. CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
-
-If you want to use the CouchDB web interface (Futon), make sure you set the `bind_address` to `0.0.0.0`. You also have to restart the VM:
-
-   vagrant reload --no-provision
 
 ## Automatic Installation on AWS using Vagrant
 This is the preferred way to install the ALM application on Amazon Web Services (AWS). machine. Download and install  [Vagrant][vagrant]. Install the vagrant-aws plugin:
@@ -77,6 +79,9 @@ Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_
       override.ssh.username = "ubuntu"
       override.ssh.private_key_path = "/EXAMPLE.pem"
     end
+
+#### Custom settings (passwords, API keys)
+This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
 
 Then install the application with:
 
