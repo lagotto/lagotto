@@ -188,10 +188,13 @@ class Source < ActiveRecord::Base
   def add_queue(queue_at = Time.zone.now)
     # create queue job for this source if it doesn't exist already
     # Some sources can't have a job queue, return false for them
+    # Only create queue if delayed_job is enabled, i.e. not in testing
     return false unless queueable
 
-    DelayedJob.delete_all(queue: "#{name}-queue")
-    Delayed::Job.enqueue QueueJob.new(id), queue: "#{name}-queue", run_at: queue_at, priority: 0
+    if Delayed::Worker.delay_jobs
+      DelayedJob.delete_all(queue: "#{name}-queue")
+      Delayed::Job.enqueue QueueJob.new(id), queue: "#{name}-queue", run_at: queue_at, priority: 0
+    end
 
     self.update_attributes(run_at: queue_at)
   end

@@ -22,7 +22,7 @@ class QueueJob < Struct.new(:source_id)
 
   def perform
     source = Source.find(source_id)
-    return 0 unless source.queueing?
+    return 0 unless source.active?
 
     source.queue_stale_articles
   end
@@ -33,10 +33,8 @@ class QueueJob < Struct.new(:source_id)
   end
 
   def after(job)
-    if Delayed::Worker.delay_jobs
-      source = Source.find(source_id)
-      source.add_queue(source.run_at + source.batch_time_interval)
-    end
+    source = Source.find(source_id)
+    source.add_queue(source.run_at + source.batch_time_interval)
   end
 
 end
