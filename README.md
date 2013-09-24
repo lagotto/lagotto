@@ -27,7 +27,8 @@ Instructions for automated installation via VMware or Amazon EC2 will be added s
 ## Automatic Installation using Vagrant
 This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox], [Vagrant] and the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo).
 
-Rename the file `config.json.example` to `config.json` and add your personalized settings to it, including username/password, API keys, MySQL password.
+### Custom settings (passwords, API keys)
+This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
 
 Then install the application with:
 

@@ -1,10 +1,6 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
-# Load default admin user
-if Rails.env != "production"
-  User.create(:username => "articlemetrics", :email => "admin@example.com", :password => "articlemetrics", :password_confirmation => "articlemetrics") if User.count == 0
-end
 
 # Load default groups
 viewed = Group.find_or_create_by_name(:name => "Viewed")
@@ -45,13 +41,13 @@ citation_milestone_alert = CitationMilestoneAlert.find_or_create_by_name(
 
 # Load default sources
 citeulike = Citeulike.find_or_create_by_name(
-  :name => "citeulike",
-  :display_name => "CiteULike",
+	:name => "citeulike",
+	:display_name => "CiteULike",
   :description => "CiteULike is a free social bookmarking service for scholarly content.",
-  :state_event => "activate",
-  :workers => 1,
-  :group_id => saved.id,
-  :url => "http://www.citeulike.org/api/posts/for/doi/%{doi}" )
+	:state_event => "activate",
+	:workers => 1,
+	:group_id => saved.id,
+	:url => "http://www.citeulike.org/api/posts/for/doi/%{doi}" )
 pubmed = PubMed.find_or_create_by_name(
   :name => "pubmed",
   :display_name => "PubMed",
@@ -61,13 +57,13 @@ pubmed = PubMed.find_or_create_by_name(
   :group_id => cited.id,
   :url => "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}")
 scienceseeker = ScienceSeeker.find_or_create_by_name(
-  :name => "scienceseeker",
-  :display_name => "ScienceSeeker",
+	:name => "scienceseeker",
+	:display_name => "ScienceSeeker",
   :description => "Research Blogging is a science blog aggregator.",
-  :state_event => "activate",
-  :workers => 1,
-  :group_id => discussed.id,
-  :url => "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}" )
+	:state_event => "activate",
+	:workers => 1,
+	:group_id => discussed.id,
+	:url => "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}" )
 
 nature = Nature.find_or_create_by_name(
   :name => "nature",
@@ -88,6 +84,8 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
 
 # The following sources require passwords/API keys
+
+
 crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
   :display_name => "CrossRef",

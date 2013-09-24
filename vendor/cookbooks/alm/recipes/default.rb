@@ -10,22 +10,12 @@ when "ubuntu"
     gem_binary "/usr/bin/gem"
   end
 when "centos"
-  # required by Cucumber tests
-  gem_package "faye-websocket" do
-    version "0.4.7"
-  end
   yum_package "urw-fonts"
-end
-
-# Install required gems via bundler
-script "bundle" do
-  interpreter "bash"
-  cwd "/vagrant"
-  code "bundle install"
 end
 
 # Create new settings.yml
 require 'securerandom'
+# Set these passwords in config.json to keep them persistent
 node.set_unless['alm']['key'] = SecureRandom.hex(30)
 node.set_unless['alm']['secret'] = SecureRandom.hex(30)
 node.set_unless['alm']['api_key'] = SecureRandom.hex(10)
@@ -48,12 +38,29 @@ template "/vagrant/config/database.yml" do
   mode 0644
 end
 
+include_recipe "mysql::server"
+
 # Seed the database with sources, groups and sample articles
 template "/vagrant/db/seeds.rb" do
   source 'seeds.rb.erb'
   owner 'root'
   group 'root'
   mode 0644
+end
+
+# Install required gems via bundler
+script "bundle" do
+  interpreter "bash"
+  cwd "/vagrant"
+  code "bundle install"
+end
+
+case node['platform']
+when "centos"
+  # required by Cucumber tests
+  gem_package "faye-websocket" do
+    version "0.4.7"
+  end
 end
 
 # Create default databases and run migrations
