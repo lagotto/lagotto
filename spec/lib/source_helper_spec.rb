@@ -56,7 +56,7 @@ describe SourceHelper do
 
       it "get_json" do
         stub = stub_request(:get, url).to_return(:body => error.to_json, :status => [404], :headers => { "Content-Type" => "application/json" })
-        subject.get_json(url).should eq(error)
+        ActiveSupport::JSON.decode(subject.get_json(url)).should eq(error)
         Alert.count.should == 0
       end
 
@@ -385,7 +385,7 @@ describe SourceHelper do
 
     it "handle missing data" do
       get_response = subject.get_alm_data(id)
-      get_response.should eq(error)
+      ActiveSupport::JSON.decode(get_response).should eq(error)
       Alert.count.should == 0
     end
   end
