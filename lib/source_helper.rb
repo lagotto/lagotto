@@ -192,7 +192,7 @@ module SourceHelper
       if !error.response
         nil
       elsif options[:json]
-        ActiveSupport::JSON.decode(error.response[:body])
+        error.response[:body]
       elsif options[:xml]
         Nokogiri::XML(error.response[:body])
       else
