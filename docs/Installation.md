@@ -80,6 +80,9 @@ Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_
       override.ssh.private_key_path = "/EXAMPLE.pem"
     end
 
+#### Custom settings (passwords, API keys)
+This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
+
 Then install the application with:
 
     git clone git://github.com/articlemetrics/alm.git

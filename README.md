@@ -27,7 +27,7 @@ Instructions for automated installation via VMware or Amazon EC2 will be added s
 ## Automatic Installation using Vagrant
 This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox], [Vagrant] and the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo).
 
-### Custom settings (passwords, API keys)
+#### Custom settings (passwords, API keys)
 This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
 
 Then install the application with:
@@ -61,32 +61,41 @@ This is the preferred way to install the ALM application on Amazon Web Services 
 
     vagrant plugin install vagrant-aws
 
+So that we can use any Amazon Machine Image ([AMI](https://aws.amazon.com/amis)) - the ALM application has been tested with Ubuntu 12.04 and CentOS 6.3 - we want to install the [vagrant-omnibus] plugin that adds Chef solo to any VM:
+
+    vagrant plugin install vagrant-omnibus
+
 Install a dummy AWS box and name it precise64:
 
     vagrant box add precise64 https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 
-Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_name, security_groups) to Vagrantfile. We recommend to use at least a small EC2 instance, the ami `ami-e4b8218d` contains Ubuntu 12.04 with Chef solo.
+Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_name, security_groups) to Vagrantfile. We recommend to use at least a small EC2 instance, the ami `ami-e7582d8e` contains Ubuntu 12.04. We also install the latest Chef version using omnibus.
 
-    config.vm.provider :aws do |aws|
+    config.omnibus.chef_version = :latest
+
+    config.vm.hostname = "alm"
+
+    config.vm.provider :aws do |aws, override|
       aws.access_key_id = "EXAMPLE"
       aws.secret_access_key = "EXAMPLE"
-      aws.ssh_private_key_path = "/EXAMPLE.pem"
       aws.keypair_name = "EXAMPLE"
       aws.security_groups = ["EXAMPLE"]
       aws.instance_type = 'm1.small'
-      aws.ssh_username = "ubuntu"
-      aws.ami = "ami-e4b8218d"
+      aws.ami = "ami-e7582d8e"
       aws.tags = { Name: 'Vagrant alm' }
+
+      override.ssh.username = "ubuntu"
+      override.ssh.private_key_path = "/EXAMPLE.pem"
     end
+
+#### Custom settings (passwords, API keys)
+This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
 
 Then install the application with:
 
     git clone git://github.com/articlemetrics/alm.git
     cd alm
     vagrant up --provider was
-
-[vagrant]: http://downloads.vagrantup.com/
-[vagrant-aws]: https://github.com/mitchellh/vagrant-aws
 
 After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at the web address of your EC2 instance (the use of Elastic IPs and a DNS server is recommended).
 
@@ -96,6 +105,16 @@ After installation you first have to create a default user using the `Sign Up` b
     cd /vagrant
 
 The Rails application runs in Production mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
+
+The ALM application can be installed in [Rackspace] or [DigitalOcean] using Vagrant and the respective plugins ([vagrant-rackspace] and [vagrant-digitalocean]) in a process similar to the AWS installation, but this has not been tested with the ALM application.
+
+[vagrant]: http://downloads.vagrantup.com/
+[vagrant-aws]: https://github.com/mitchellh/vagrant-aws
+[vagrant-omnibus]: https://github.com/schisamo/vagrant-omnibus
+[Rackspace]: http://www.rackspace.com
+[DigitalOcean]: https://www.digitalocean.com
+[vagrant-rackspace]: https://github.com/mitchellh/vagrant-rackspace
+[vagrant-digitalocean]: https://github.com/smdahlen/vagrant-digitalocean
 
 ## Manual installation for development
 These instructions assume a fresh installation of Ubuntu 12.04. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9. The instructions assume a user with sudo privileges, and this can also be a new user created just for running the ALM application.
