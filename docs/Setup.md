@@ -46,6 +46,11 @@ We are using the default scope, which only reads public information and can't wr
 
 To use Persona, make sure Github is disabled and `config/settings.yml` contains `persona: true`. No other configuration is necessary.
 
+### Precompile assets
+Assets (CSS, Javascripts, images) need to be precompiled when running Rails in the `production` environment (but not in `development`). Run the following rake task, then restart the server:
+
+    bundle exec rake assets:precompile RAILS_ENV=production
+
 ### Seeding articles
 
 A set of 25 sample articles is loaded during installation when using Vagrant and `seed_sample_articles` in `node.json`is set to `true`. They can also be seeded later via rake task:
