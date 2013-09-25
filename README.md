@@ -361,6 +361,11 @@ Through these setup options the behavior of sources can be fine-tuned. Please co
 
 All rake tasks are issued from the application root folder. `RAILS_ENV=production` should be appended to the rake command when running in production.
 
+### Precompile assets
+Assets (CSS, Javascripts, images) need to be precompiled when running Rails in the `production` environment (but not in `development`). Run the following rake task, then restart the server:
+
+    bundle exec rake assets:precompile RAILS_ENV=production
+
 ### Seeding articles
 
 A set of 25 sample articles is loaded during installation when using Vagrant and `seed_sample_articles` in `node.json`is set to `true`. They can also be seeded later via rake task:
@@ -403,7 +408,7 @@ To stop all background processing, kill foreman with `ctrl-c`.
 
 In production mode the background processes run via the `upstart`system utility. The upstart scripts can be created using foreman (where USER is the user running the web server) via
 
-    sudo foreman export upstart /etc/init -a alm -f Procfile.prod -l /USER/log -u USER
+    sudo foreman export upstart /etc/init -a alm -l /USER/log -u USER
 
 This command creates two upstart scripts for each source (one worker and one queuing script). For servers with less than 1 GB of memory we can run the background processes with only two scripts via
 
