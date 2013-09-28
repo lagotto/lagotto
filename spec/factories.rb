@@ -178,6 +178,30 @@ FactoryGirl.define do
     initialize_with { PubMed.find_or_create_by_name(name) }
   end
 
+  factory :pmc_europe, class: PmcEurope do
+    type "PmcEurope"
+    name "pmceurope"
+    display_name "PMC Europe Citations"
+    state_event "activate"
+    url "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/citations/1/json"
+
+    group
+
+    initialize_with { PmcEurope.find_or_create_by_name(name) }
+  end
+
+    factory :pmc_europe_data, class: PmcEuropeData do
+    type "PmcEuropeData"
+    name "pmceuropedata"
+    display_name "PMC Europe Database Citations"
+    state_event "activate"
+    url "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/databaseLinks//1/json"
+
+    group
+
+    initialize_with { PmcEuropeData.find_or_create_by_name(name) }
+  end
+
   factory :researchblogging, class: Researchblogging do
     type "Researchblogging"
     name "researchblogging"
