@@ -10,6 +10,8 @@ The ALM application provides a number of public sources. Most sources require a 
 * [ScienceSeeker](Scienceseeker)
 * [Wordpress.com](Wordpress)
 * [Wikipedia](Wikipedia)
+* [Reddit](Reddit)
+* [OpenEdition](Openedition)
 
 ### Saved
 * [CiteULike](Citeulike)
@@ -24,7 +26,6 @@ The ALM application provides a number of public sources. Most sources require a 
 ### Private Sources
 * [PLOS Usage Stats](Counter)
 * [PubMed Central Usage Stats](Pmc)
-* [PLOS Biodiversity Hub](Biod)
 * [PLOS Figshare Usage Stats](Figshare)
 * [Twitter](Twitter)
 * [Web of Science](Wos)

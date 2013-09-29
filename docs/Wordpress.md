@@ -133,5 +133,8 @@ Wordpress.com is a blog hosting platform by the makers of the Wordpress blogging
       }
     ]
 
+## Source Code
+The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/wordpress.rb).
+
 ## Further Documentation
 * [WordPress.com Search](http://en.support.wordpress.com/wordpresscom-search/)
