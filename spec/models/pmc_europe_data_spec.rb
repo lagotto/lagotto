@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'spec_helper'
 
 describe PmcEuropeData do
@@ -13,7 +15,7 @@ describe PmcEuropeData do
       it "should report if there are no events and event_count returned by the PMC Europe API" do
         article = FactoryGirl.build(:article, :pub_med => "20098740")
         stub = stub_request(:get, pmc_europe_data.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'pmc_europe_data_nil.json'), :status => 200)
-        pmc_europe_data.get_data(article).should eq({ :events => nil, :event_count => 0, :events_url=>"http://europepmc.org/abstract/MED/20098740#fragment-related-bioentities", :event_metrics => {:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0} })
+        pmc_europe_data.get_data(article).should eq({ :events => nil, :event_count => 0, :events_url=>"http://europepmc.org/abstract/MED/#{article.pub_med}#fragment-related-bioentities", :event_metrics => {:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0} })
         stub.should have_been_requested
       end
     end
@@ -23,7 +25,7 @@ describe PmcEuropeData do
 
       it "should report if there are events and event_count returned by the PMC Europe API" do
         stub = stub_request(:get, pmc_europe_data.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'pmc_europe_data.json'), :status => 200)
-        pmc_europe_data.get_data(article).should eq({ :events => { "EMBL" => 10, "UNIPROT" => 21700 }, :event_count => 21710, :events_url=>"http://europepmc.org/abstract/MED/14624247#fragment-related-bioentities", :event_metrics => {:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>21710, :total=>21710} })
+        pmc_europe_data.get_data(article).should eq({ :events => { "EMBL" => 10, "UNIPROT" => 21700 }, :event_count => 21710, :events_url=>"http://europepmc.org/abstract/MED/#{article.pub_med}#fragment-related-bioentities", :event_metrics => {:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>21710, :total=>21710} })
         stub.should have_been_requested
       end
 
