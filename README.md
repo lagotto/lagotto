@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/articlemetrics/alm.png?label=ready)](https://waffle.io/articlemetrics/alm)  
 Article Level Metrics (ALM), is a Ruby on Rails application started by the [Public Library of Science (PLOS)](http://www.plos.org/) in 2009. It stores and reports user configurable performance data on research articles. Examples of possible metrics are online usage, citations, social bookmarks, notes, comments, ratings and blog coverage.
 
 For more information on how PLOS uses Article-Level Metrics, see [http://article-level-metrics.plos.org/](http://article-level-metrics.plos.org/).
