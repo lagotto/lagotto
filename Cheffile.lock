@@ -31,6 +31,7 @@ SITE
     phantomjs (1.0.2)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
+    postfix (3.0.0)
     powershell (1.1.2)
       windows (>= 1.2.8)
     runit (1.2.0)
@@ -72,4 +73,5 @@ DEPENDENCIES
   mysql (= 3.0.2)
   passenger_apache2 (>= 0)
   phantomjs (= 1.0.2)
+  postfix (= 3.0.0)
 

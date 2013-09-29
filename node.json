@@ -6,6 +6,7 @@
     "recipe[couchdb]",
     "recipe[phantomjs]",
     "recipe[memcached]",
+    "recipe[postfix]",
     "recipe[apache2]",
     "recipe[alm]"
   ],

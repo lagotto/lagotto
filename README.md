@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/articlemetrics/alm.png?label=ready)](https://waffle.io/articlemetrics/alm)  
+[![Stories in Ready](https://badge.waffle.io/articlemetrics/alm.png?label=ready)](https://waffle.io/articlemetrics/alm)
 Article Level Metrics (ALM), is a Ruby on Rails application started by the [Public Library of Science (PLOS)](http://www.plos.org/) in 2009. It stores and reports user configurable performance data on research articles. Examples of possible metrics are online usage, citations, social bookmarks, notes, comments, ratings and blog coverage.
 
 For more information on how PLOS uses Article-Level Metrics, see [http://article-level-metrics.plos.org/](http://article-level-metrics.plos.org/).
@@ -142,6 +142,23 @@ We only need one Ruby version and manage gems with bundler, so there is no need 
 Memcached is used to cache requests (in particular API requests) in production, and the default configuration can be used. If you want to run memcached on a different host, change `config.cache_store = :dalli_store, { :namespace => "alm" }` in `config/environments/production.rb` to `config.cache_store = :dalli_store, 'cache.example.com', { :namespace => "alm" }`.
 
     sudo apt-get install memcached
+
+#### Install Postfix
+Postfix is used to send reports via email. Alternatively, a different SMTP host can be configured in `config/settings.yml`.
+
+    sudo apt-get install postfix
+
+The default configuration assumes `address: localhost`, `port: 25`. You can configure mail in `config/settings.yml`:
+
+    mail:
+      address:
+      port:
+      domain:
+      user_name:
+      password:
+      authentication:
+
+More information can be found [here](http://guides.rubyonrails.org/action_mailer_basics.html).
 
 #### Install Apache and dependencies required for Passenger
 

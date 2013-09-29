@@ -134,6 +134,23 @@ Memcached is used to cache requests (in particular API requests) in production, 
 
     sudo apt-get install memcached
 
+#### Install Postfix
+Postfix is used to send reports via email. Alternatively, a different SMTP host can be configured in `config/settings.yml`.
+
+    sudo apt-get install postfix
+
+The default configuration assumes `address: localhost`, `port: 25`. You can configure mail in `config/settings.yml`:
+
+    mail:
+      address:
+      port:
+      domain:
+      user_name:
+      password:
+      authentication:
+
+More information can be found [here](http://guides.rubyonrails.org/action_mailer_basics.html).
+
 #### Install Apache and dependencies required for Passenger
 
     sudo apt-get install apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev
