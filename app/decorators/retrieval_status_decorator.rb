@@ -62,8 +62,6 @@ class RetrievalStatusDecorator < Draper::Decorator
       case name
       when "citeulike"
         { :pdf => nil, :html => nil, :shares => event_count, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
-      when "wordpress"
-        { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => event_count, :likes => nil, :citations => nil, :total => event_count }
       when "facebook"
         if events.kind_of? Hash
           { :pdf => nil, :html => nil, :shares => events["share_count"], :groups => nil, :comments => events["comment_count"], :likes => events["like_count"], :citations => nil, :total => event_count }
@@ -77,7 +75,7 @@ class RetrievalStatusDecorator < Draper::Decorator
       when "copernicus"
         { :pdf => (events.blank? ? nil : events['counter']['PdfDownloads'].to_i), :html => (events.blank? ? nil : events['counter']['AbstractViews'].to_i), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       else
-      # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia, pmceurope, pmceuropedata
+      # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia, pmceurope, pmceuropedata, wordpress, openedition
         { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
       end
     end
@@ -105,6 +103,11 @@ class RetrievalStatusDecorator < Draper::Decorator
       events_30 = events.select { |event| Time.at(event["event"]["epoch_time"].to_i).to_date - article.published_on < 30 }
       return nil if events_30.blank?
       events_30.group_by {|event| Time.at(event["event"]["epoch_time"].to_i).to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+    when "openedition"
+      return nil if events.blank?
+      events_30 = events.select { |event| Time.at(event["event"]["epoch_time"].to_i).to_date - article.published_on < 30 }
+      return nil if events_30.blank?
+      events_30.group_by {|event| event["event"]["date"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
     else
     # crossref, facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
       nil
@@ -137,6 +140,12 @@ class RetrievalStatusDecorator < Draper::Decorator
         nil
       else
         events.group_by {|event| Time.at(event["event"]["epoch_time"].to_i).to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    when "openedition"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["date"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
       end
     else
     # crossref, facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
@@ -175,6 +184,12 @@ class RetrievalStatusDecorator < Draper::Decorator
         nil
       else
         events.group_by {|event| Time.at(event["event"]["epoch_time"].to_i).to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
+      end
+    when "openedition"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["date"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length }}
       end
     else
     # facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
