@@ -100,6 +100,33 @@ nature = Nature.find_or_create_by_name(
   :group_id => discussed.id,
   :url => "http://blogs.nature.com/posts.json?doi=%{doi}")
 
+openedition = Openedition.find_or_create_by_name(
+  :name => "openedition",
+  :display_name => "OpenEdition",
+  :description => "OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda, four platforms dedicated to electronic resources in the humanities and social sciences.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => discussed.id,
+  :url => "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_url}&field[]=All&pf=Hypotheses.org")
+
+wordpress = Wordpress.find_or_create_by_name(
+  :name => "wordpress",
+  :display_name => "Wordpress.com",
+  :description => "Wordpress.com is one of the largest blog hosting platforms.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => discussed.id,
+  :url => "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json")
+
+reddit = Reddit.find_or_create_by_name(
+  :name => "reddit",
+  :display_name => "Reddit",
+  :description => "User-generated news links.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => discussed.id,
+  :url => "http://www.reddit.com/search.json?q=\"%{id}\"")
+
 wikipedia = Wikipedia.find_or_create_by_name(
   :name => "wikipedia",
   :display_name => "Wikipedia",
@@ -208,6 +235,19 @@ facebook = Facebook.find_or_create_by_name(
   :group_id => discussed.id,
   :url => "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'",
   :access_token => "<%= node[:alm][:facebook][:access_token] %>")
+
+twitter_search = TwitterSearch.find_or_create_by_name(
+  :name => "twittersearch",
+  :display_name => "Twitter",
+  :description => "Twitter is an online social networking and microblogging service.",
+  :state_event => "<%= node[:alm][:twittersearch][:access_token] == 'EXAMPLE' ? "" : 'activate' %>",
+  :workers => 1,
+  :group_id => discussed.id,
+  :url => "https://api.twitter.com/1.1/search/tweets.json?q=\"%{doi}\"",
+  :consumer_key => "<%= node[:alm][:twittersearch][:consumer_key] %>",
+  :consumer_secret => "<%= node[:alm][:twittersearch][:consumer_secret] %>",
+  :access_token => "<%= node[:alm][:twittersearch][:access_token] %>",
+  :access_token_secret => "<%= node[:alm][:twittersearch][:access_token_secret] %>")
 
 mendeley = Mendeley.find_or_create_by_name(
   :name => "mendeley",
@@ -384,4 +424,14 @@ if ENV['ARTICLES']
     :doi => "10.1371/journal.pone.0033288",
     :title => "Genome Features of 'Dark-Fly', a <italic>Drosophila</italic> Line Reared Long-Term in a Dark Environment",
     :published_on => "2012-03-14")
+
+  Article.find_or_create_by_doi(
+    :doi => "10.2307/1158830",
+    :title => "Histoires de riz, histoires d'igname: le cas de la Moyenne Cote d'Ivoire",
+    :published_on => "1981-01-01")
+
+  Article.find_or_create_by_doi(
+    :doi => "10.2307/683422",
+    :title => "Review of: The Life and Times of Sara Baartman: The Hottentot Venus by Zola Maseko",
+    :published_on => "2000-09-01")
 end
