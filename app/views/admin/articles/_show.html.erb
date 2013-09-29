@@ -23,12 +23,12 @@
   <div class="page-header">
     <h1>
       <% if can?(:manage, Article) %>
-      <div class="btn-toolbar pull-right">
-        <div class="btn-group">
-          <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_article_path(@article), { :remote => true, :class => 'btn btn-mini' } %>
-          <%= link_to '<i class="icon-trash"></i> Delete'.html_safe, admin_article_path(@article), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-mini' %>
+        <div class="btn-toolbar pull-right">
+          <div class="btn-group">
+            <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_article_path(@article), { :remote => true, :class => 'btn btn-mini' } %>
+            <%= link_to '<i class="icon-trash"></i> Delete'.html_safe, admin_article_path(@article), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-mini' %>
+          </div>
         </div>
-      </div>
       <% end %>
       <%= h@article.title %>
     </h1>
@@ -60,7 +60,7 @@
   </dl>
 <% end %>
 
-<% if can?(:manage, Article) %>
+<% if can? :read, Alert %>
   <div id="alert-error-message">
     <%= render :partial => 'admin/articles/alert_message' %>
   </div>
@@ -73,7 +73,7 @@
       <li class="hidden-phone"><a href="#month" data-toggle="tab" title="by Month">Metrics by Month</a></li>
       <li class="hidden-phone"><a href="#year" data-toggle="tab" title="by Year">Metrics by Year</a></li>
       <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
-      <% if can?(:manage, Article) %>
+      <% if can? :read, Alert %>
         <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
       <% end %>
     </ul>
