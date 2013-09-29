@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 FactoryGirl.define do
 
   factory :article do
@@ -226,6 +228,47 @@ FactoryGirl.define do
     group
 
     initialize_with { ScienceSeeker.find_or_create_by_name(name) }
+  end
+
+  factory :wordpress, class: Wordpress do
+    type "Wordpress"
+    name "wordpress"
+    display_name "Wordpress.com"
+    state_event "activate"
+    url "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json"
+
+    group
+
+    initialize_with { Wordpress.find_or_create_by_name(name) }
+  end
+
+  factory :reddit, class: Reddit do
+    type "Reddit"
+    name "reddit"
+    display_name "Reddit"
+    state_event "activate"
+    url "http://www.reddit.com/search.json?q=\"%{id}\""
+
+    group
+
+    initialize_with { Reddit.find_or_create_by_name(name) }
+  end
+
+
+  factory :twittersearch, class: TwitterSearch do
+    type "TwitterSearch"
+    name "twittersearch"
+    display_name "Twitter"
+    state_event "activate"
+    url "https://api.twitter.com/1.1/search/tweets.json?q=\"%{doi}\""
+    consumer_key "x"
+    consumer_secret "x"
+    access_token "x"
+    access_token_secret "x"
+
+    group
+
+    initialize_with { TwitterSearch.find_or_create_by_name(name) }
   end
 
   factory :wikipedia, class: Wikipedia do
