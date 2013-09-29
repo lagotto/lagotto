@@ -8,6 +8,7 @@ The ALM application provides a number of public sources. Most sources require a 
 * [Nature Blogs](Nature)
 * [Research Blogging](Researchblogging)
 * [ScienceSeeker](Scienceseeker)
+* [Wordpress.com](Wordpress)
 * [Wikipedia](Wikipedia)
 
 ### Saved
@@ -17,6 +18,8 @@ The ALM application provides a number of public sources. Most sources require a 
 ### Cited
 * [CrossRef](Crossref)
 * [PubMed Central Citations](Pubmed)
+* [PMC Europe Citations](PmcEurope)
+* [PMC Europe Database Citations](PmcEuropeData)
 
 ### Private Sources
 * [PLOS Usage Stats](Counter)
@@ -27,13 +30,6 @@ The ALM application provides a number of public sources. Most sources require a 
 * [Web of Science](Wos)
 * [Scopus](Scopus)
 * [F1000Prime](F1000)
-
-### Planned Sources
-* PubMed Central Europe Citations
-* PubMed Central Europe Database Links
-* Wordpress
-* Twitter
-* Reddit
 
 Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for questions or feedback regarding sources.
 

@@ -129,6 +129,11 @@ We only need one Ruby version and manage gems with bundler, so there is no need 
 
     sudo apt-get install couchdb mysql-server
 
+#### Install Memcached
+Memcached is used to cache requests (in particular API requests) in production, and the default configuration can be used. If you want to run memcached on a different host, change `config.cache_store = :dalli_store, { :namespace => "alm" }` in `config/environments/production.rb` to `config.cache_store = :dalli_store, 'cache.example.com', { :namespace => "alm" }`.
+
+    sudo apt-get install memcached
+
 #### Install Apache and dependencies required for Passenger
 
     sudo apt-get install apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev

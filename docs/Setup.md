@@ -1,4 +1,4 @@
-Nine sources are preconfigured, 5 of them are not activated because you have to first supply passwords or API keys for them. CiteULike, PubMed Central Citations, Wikipedia and ScienceSeeker can be used without further configuration. Twenty-five sample articles from PLOS and Copernicus are provided, and can be seeded with `rake db:articles:seed`.
+Nine sources are preconfigured, 5 of them are not activated because you have to first supply passwords or API keys for them. CiteULike, PubMed Central Citations, Wikipedia and ScienceSeeker can be used without further configuration. Thirty sample articles from PLOS and Copernicus are provided, and can be seeded with `rake db:articles:seed`.
 
 Groups and sources are already configured if you installed via Chef/Vagrant, or if you issued the `rake db:setup` command. You can also add groups and sources later with `rake db:seed`.
 
@@ -10,12 +10,13 @@ All rake tasks are issued from the application root folder. `RAILS_ENV=productio
 
 The following configuration options for sources are available via the web interface:
 
+* whether the source is queueing jobs (default true)
 * whether the results can be shared via the API (default true)
 * number of workers for the job queue (default 1)
 * job_batch_size: number of articles per job (default 200)
 * batch_time_interval (default 1 hour)
 * staleness: update interval depending on article publication date (default daily the first 31 days, then 4 times a month up until one year, then monthly)
-* rate-limiting (default 0 or no rate-limiting)
+* rate-limiting (default 10,000 or no rate-limiting)
 * timeout (default 30 sec)
 * maximum number of failed queries allowed before being disabled (default 200)
 * maximum number of failed queries allowed in a time interval (default 86400 sec)
@@ -81,7 +82,7 @@ This rake task deletes all articles. For security reasons this rake task doesn't
 
 ### Adding metrics in development
 
-Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We have to set up a queue and at least one worker for every source.
+Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We need to run at least one delayed_job to do this.
 
 In development mode this is done with `foreman`, using the configuration in `Procfile`:
 
@@ -91,15 +92,19 @@ To stop all background processing, kill foreman with `ctrl-c`.
 
 ### Adding metrics in production
 
-In production mode the background processes run via the `upstart`system utility. The upstart scripts can be created using foreman (where USER is the user running the web server) via
+In production mode the background processes run via the `upstart`system utility. The upstart scripts can be created using foreman (where USER is the user running the web server). To have foreman detect the production environment, create a file `.env` in the root folder of your application with the content
 
-    sudo foreman export upstart /etc/init -a alm -f Procfile.prod -l /USER/log -u USER
+    RAILS_ENV=production
 
-This command creates two upstart scripts for each source (one worker and one queuing script). For servers with less than 1 GB of memory we can run the background processes with only two scripts via
+Use the path to the Rails log folder and the username of the user running the application:
 
-    sudo foreman export upstart /etc/init -a alm -f Procfile.staging -l /USER/log -u USER
+    sudo foreman export upstart /etc/init -l /PATH_TO_LOG_FOLDER/log -u USER -c worker=3
+
+This command creates three upstart scripts that will run in parallel. The number of workers you will need depends on the number of articles (and sources) and the available RAM on your server, a rough estimate is one worker per 5,000-10,000 articles.
 
 The background processes can then be started or stopped using Upstart:
 
     sudo start alm
     sudo stop alm
+
+Foreman also supports bluepill, inittab and runit, read the [man page](http://ddollar.github.io/foreman/) for more information.
