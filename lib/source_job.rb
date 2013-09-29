@@ -35,7 +35,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     return 0 unless source.ready?
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
-      sleep_time = 0
 
       sleep(source.run_at - Time.zone.now) if source.disabled?
 
@@ -50,14 +49,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
           payload.merge!(response)
         end
 
-        if response[:event_count]
-          # observe rate-limiting settings
-          sleep_interval = start_time + source.job_interval - Time.zone.now
-          sleep(sleep_interval) if sleep_interval > 0
-        else
-          # each time we fail to get an answer from a source, wait longer
-          sleep(sleep_time += source.disable_delay)
-        end
+        # observe rate-limiting settings
+        sleep_interval = start_time + source.job_interval - Time.zone.now
+        sleep(sleep_interval) if sleep_interval > 0
       end
     end
 
