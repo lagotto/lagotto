@@ -56,6 +56,10 @@ class Copernicus < Source
     end
   end
 
+  def get_query_url(article)
+    url % { :doi => article.doi }
+  end
+
   def get_config_fields
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
      {:field_name => "username", :field_type => "text_field"},
