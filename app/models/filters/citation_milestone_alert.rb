@@ -23,7 +23,6 @@ class CitationMilestoneAlert < Filter
   validates_not_blank(:limit)
 
   def run_filter(state)
-    source_ids = Source.joins(:group).where("groups.name = 'Cited'").pluck(:id)
     responses = ApiResponse.filter(state[:id]).citation_milestone(limit, source_ids)
 
     if responses.count > 0
@@ -38,7 +37,8 @@ class CitationMilestoneAlert < Filter
   end
 
   def get_config_fields
-    [{ field_name: "limit", field_type: "text_field", field_hint: "Creates an alert if an article has been cited the specified number of times." }]
+    [{ field_name: "source_ids" },
+     { field_name: "limit", field_type: "text_field", field_hint: "Creates an alert if an article has been cited the specified number of times." }]
   end
 
   def limit
@@ -47,5 +47,13 @@ class CitationMilestoneAlert < Filter
 
   def limit=(value)
     config.limit = value
+  end
+
+  def source_ids
+    config.source_ids || Source.active.joins(:group).where("groups.name in ('Cited','Saved')").pluck(:id)
+  end
+
+  def source_ids=(value)
+    config.source_ids = value.map { |e| e.to_i }
   end
 end

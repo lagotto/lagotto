@@ -40,7 +40,7 @@ class ApiResponseTooSlowError < Filter
   end
 
   def limit
-    config.limit || 15
+    config.limit || 30
   end
 
   def limit=(value)

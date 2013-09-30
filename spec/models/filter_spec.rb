@@ -178,7 +178,7 @@ describe Filter do
   context "slow API responses" do
     subject { FactoryGirl.create(:api_too_slow_error) }
 
-    let(:duration) { 16000.0 }
+    let(:duration) { 31000.0 }
     let(:api_response) { FactoryGirl.create(:api_response, duration: duration) }
     let(:options) {{ id: api_response.id }}
 
