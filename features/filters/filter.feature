@@ -13,7 +13,7 @@ Feature: Edit filters
       When I change the limit of filter "ApiResponseTooSlowError" to 20
       Then I should see the filter "ApiResponseTooSlowError"
 
-    Scenario: Sources for Filter are changed succesfully
-      Given I have a filter "EventCountDecreasingError"
-      When I change the sources of filter "EventCountDecreasingError" to "CiteULike"
-      Then I should see the filter "EventCountDecreasingError"
+ #   Scenario: Sources for Filter are changed succesfully
+ #     Given I have a filter "EventCountDecreasingError"
+ #     When I change the sources of filter "EventCountDecreasingError" to "CiteULike"
+ #     Then I should see the filter "EventCountDecreasingError"

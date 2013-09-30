@@ -35,7 +35,7 @@ describe Copernicus do
 
     it "should catch authentication errors with the Copernicus API" do
       article = FactoryGirl.build(:article, :doi => "10.5194/ms-2-175-2011")
-      stub = stub_request(:get, "http://#{copernicus.username}:#{copernicus.password}@harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi_escaped}").to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'copernicus_unauthorized.json'), :status => [401, "Unauthorized: You are not authorized to access this resource."])
+      stub = stub_request(:get, "http://#{copernicus.username}:#{copernicus.password}@harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'copernicus_unauthorized.json'), :status => [401, "Unauthorized: You are not authorized to access this resource."])
       copernicus.get_data(article, options = { :source_id => copernicus.id }).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
@@ -47,7 +47,7 @@ describe Copernicus do
 
     it "should catch timeout errors with the Copernicus API" do
       article = FactoryGirl.build(:article, :doi => "10.5194/ms-2-175-2011")
-      stub = stub_request(:get, "http://#{copernicus.username}:#{copernicus.password}@harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi_escaped}").to_return(:status => [408])
+      stub = stub_request(:get, "http://#{copernicus.username}:#{copernicus.password}@harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").to_return(:status => [408])
       copernicus.get_data(article, options = { :source_id => copernicus.id }).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1

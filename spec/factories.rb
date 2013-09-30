@@ -370,6 +370,7 @@ FactoryGirl.define do
     type "EventCountDecreasingError"
     name "EventCountDecreasingError"
     display_name "decreasing event count error"
+    source_ids [1]
     active true
 
     initialize_with { EventCountDecreasingError.find_or_create_by_name(name) }
