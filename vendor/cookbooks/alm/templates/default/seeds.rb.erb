@@ -236,19 +236,6 @@ facebook = Facebook.find_or_create_by_name(
   :url => "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'",
   :access_token => "<%= node[:alm][:facebook][:access_token] %>")
 
-twitter_search = TwitterSearch.find_or_create_by_name(
-  :name => "twittersearch",
-  :display_name => "Twitter",
-  :description => "Twitter is an online social networking and microblogging service.",
-  :state_event => "<%= node[:alm][:twittersearch][:access_token] == 'EXAMPLE' ? "" : 'activate' %>",
-  :workers => 1,
-  :group_id => discussed.id,
-  :url => "https://api.twitter.com/1.1/search/tweets.json?q=\"%{doi}\"",
-  :consumer_key => "<%= node[:alm][:twittersearch][:consumer_key] %>",
-  :consumer_secret => "<%= node[:alm][:twittersearch][:consumer_secret] %>",
-  :access_token => "<%= node[:alm][:twittersearch][:access_token] %>",
-  :access_token_secret => "<%= node[:alm][:twittersearch][:access_token_secret] %>")
-
 mendeley = Mendeley.find_or_create_by_name(
   :name => "mendeley",
   :display_name => "Mendeley",
