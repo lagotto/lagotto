@@ -235,7 +235,8 @@ Europe PubMed Central ([Europe PMC](http://europepmc.org/)) is an archive of lif
       }
     }
 
-
+## Source Code
+The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/pmc_europe_data.rb).
 
 ## API Documentation
 * [PMC Europe RESTful Web Service](http://europepmc.org/RestfulWebService)

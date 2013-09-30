@@ -168,6 +168,18 @@ FactoryGirl.define do
     initialize_with { Nature.find_or_create_by_name(name) }
   end
 
+  factory :openedition, class: Openedition do
+    type "Openedition"
+    name "openedition"
+    display_name "OpenEdition"
+    state_event "activate"
+    url "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_url}&field[]=All&pf=Hypotheses.org"
+
+    group
+
+    initialize_with { Openedition.find_or_create_by_name(name) }
+  end
+
   factory :pub_med, class: PubMed do
     type "PubMed"
     name "pubmed"
@@ -252,23 +264,6 @@ FactoryGirl.define do
     group
 
     initialize_with { Reddit.find_or_create_by_name(name) }
-  end
-
-
-  factory :twittersearch, class: TwitterSearch do
-    type "TwitterSearch"
-    name "twittersearch"
-    display_name "Twitter"
-    state_event "activate"
-    url "https://api.twitter.com/1.1/search/tweets.json?q=\"%{doi}\""
-    consumer_key "x"
-    consumer_secret "x"
-    access_token "x"
-    access_token_secret "x"
-
-    group
-
-    initialize_with { TwitterSearch.find_or_create_by_name(name) }
   end
 
   factory :wikipedia, class: Wikipedia do
@@ -375,6 +370,7 @@ FactoryGirl.define do
     type "EventCountDecreasingError"
     name "EventCountDecreasingError"
     display_name "decreasing event count error"
+    source_ids [1]
     active true
 
     initialize_with { EventCountDecreasingError.find_or_create_by_name(name) }
@@ -384,6 +380,7 @@ FactoryGirl.define do
     type "EventCountIncreasingTooFastError"
     name "EventCountIncreasingTooFastError"
     display_name "increasing event count error"
+    source_ids [1]
     active true
 
     initialize_with { EventCountIncreasingTooFastError.find_or_create_by_name(name) }

@@ -10,7 +10,7 @@ describe Reddit do
     reddit.get_data(article).should eq({ :events => [], :event_count => nil })
   end
 
-  context "use the reddit API" do
+  context "use the Reddit API" do
     it "should report if there are no events and event_count returned by the Reddit API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       stub = stub_request(:get, reddit.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'reddit_nil.json', encoding: 'UTF-8'), :status => 200)
