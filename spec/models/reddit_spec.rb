@@ -23,7 +23,7 @@ describe Reddit do
       stub = stub_request(:get, reddit.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'reddit.json', encoding: 'UTF-8'), :status => 200)
       response = reddit.get_data(article)
       response[:events].length.should eq(3)
-      response[:event_count].should eq(1013)
+      response[:event_count].should eq(1171)
       response[:event_metrics][:likes].should eq(1013)
       response[:event_metrics][:comments].should eq(158)
       response[:events_url].should eq("http://www.reddit.com/search?q=\"#{CGI.escape(article.doi_escaped)}\"")
