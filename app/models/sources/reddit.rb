@@ -34,14 +34,15 @@ class Reddit < Source
       nil
     else
       events = result["data"]["children"].map { |item| { event: item["data"], event_url: item["data"]['url'] }}
-      event_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["score"] }
+      like_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["score"] }
       comment_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["num_comments"] }
+      event_count = like_count + comment_count
       event_metrics = { pdf: nil,
                         html: nil,
                         shares: nil,
                         groups: nil,
                         comments: comment_count,
-                        likes: event_count,
+                        likes: like_count,
                         citations: nil,
                         total: event_count }
 
