@@ -63,7 +63,7 @@ describe "filter:all" do
   context "report slow API response errors" do
 
     before do
-      FactoryGirl.create(:api_response, duration: 16000)
+      FactoryGirl.create(:api_response, duration: 31000)
       FactoryGirl.create(:api_too_slow_error)
     end
 

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
@@ -56,6 +58,22 @@ pubmed = PubMed.find_or_create_by_name(
   :workers => 1,
   :group_id => cited.id,
   :url => "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}")
+pmc_europe = PmcEurope.find_or_create_by_name(
+  :name => "pmceurope",
+  :display_name => "PMC Europe Citations",
+  :description => "Europe PubMed Central (Europe PMC) is an archive of life sciences journal literature.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => cited.id,
+  :url => "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/citations/1/json")
+pmc_europe_data = PmcEuropeData.find_or_create_by_name(
+  :name => "pmceuropedata",
+  :display_name => "PMC Europe Database Citations",
+  :description => "Europe PubMed Central (Europe PMC) is an archive of life sciences journal literature.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => cited.id,
+  :url => "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/databaseLinks//1/json")
 scienceseeker = ScienceSeeker.find_or_create_by_name(
 	:name => "scienceseeker",
 	:display_name => "ScienceSeeker",
@@ -74,6 +92,33 @@ nature = Nature.find_or_create_by_name(
   :group_id => discussed.id,
   :url => "http://blogs.nature.com/posts.json?doi=%{doi}")
 
+openedition = Openedition.find_or_create_by_name(
+  :name => "openedition",
+  :display_name => "OpenEdition",
+  :description => "OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda, four platforms dedicated to electronic resources in the humanities and social sciences.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => discussed.id,
+  :url => "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_url}&field[]=All&pf=Hypotheses.org")
+
+wordpress = Wordpress.find_or_create_by_name(
+  :name => "wordpress",
+  :display_name => "Wordpress.com",
+  :description => "Wordpress.com is one of the largest blog hosting platforms.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => discussed.id,
+  :url => "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json")
+
+reddit = Reddit.find_or_create_by_name(
+  :name => "reddit",
+  :display_name => "Reddit",
+  :description => "User-generated news links.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => discussed.id,
+  :url => "http://www.reddit.com/search.json?q=\"%{id}\"")
+
 wikipedia = Wikipedia.find_or_create_by_name(
   :name => "wikipedia",
   :display_name => "Wikipedia",
@@ -84,7 +129,16 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
 
 # The following sources require passwords/API keys
-
+copernicus = Copernicus.find_or_create_by_name(
+  :name => "copernicus",
+  :display_name => "Copernicus",
+  :description => "Usage stats for Copernicus articles.",
+  :state_event => "",
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "EXAMPLE",
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
 
 crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
@@ -258,8 +312,39 @@ if ENV['ARTICLES']
     :doi => "10.5194/se-1-1-2010",
     :title => "The Eons of Chaos and Hades",
     :published_on => "2010-02-02")
+
   Article.find_or_create_by_doi(
     :doi => "10.1590/S1413-86702012000300021",
     :title => "Terry's nails",
     :published_on => "2012-06-01")
+
+  Article.find_or_create_by_doi(
+    :doi => "10.1371/journal.pbio.0000045",
+    :title => "The Genome Sequence of Caenorhabditis briggsae: A Platform for Comparative Genomics",
+    :published_on => "2003-11-17")
+
+  Article.find_or_create_by_doi(
+    :doi => "10.1371/journal.pbio.0050254",
+    :title => "The Diploid Genome Sequence of an Individual Human",
+    :published_on => "2007-09-04")
+
+  Article.find_or_create_by_doi(
+    :doi => "10.1371/journal.pone.0044271",
+    :title => "Lesula: A New Species of <italic>Cercopithecus</italic> Monkey Endemic to the Democratic Republic of Congo and Implications for Conservation of Congo’s Central Basin",
+    :published_on => "2012-09-12")
+
+  Article.find_or_create_by_doi(
+    :doi => "10.1371/journal.pone.0033288",
+    :title => "Genome Features of 'Dark-Fly', a <italic>Drosophila</italic> Line Reared Long-Term in a Dark Environment",
+    :published_on => "2012-03-14")
+
+  Article.find_or_create_by_doi(
+    :doi => "10.2307/1158830",
+    :title => "Histoires de riz, histoires d'igname: le cas de la Moyenne Cote d'Ivoire",
+    :published_on => "1981-01-01")
+
+  Article.find_or_create_by_doi(
+    :doi => "10.2307/683422",
+    :title => "Review of: The Life and Times of Sara Baartman: The Hottentot Venus by Zola Maseko",
+    :published_on => "2000-09-01")
 end

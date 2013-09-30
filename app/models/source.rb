@@ -112,7 +112,7 @@ class Source < ActiveRecord::Base
     end
 
     after_transition :to => :inactive do |source|
-      source.remove_queue
+      source.remove_queues
       source.update_attributes(run_at: Time.zone.now + 5.years)
     end
 
@@ -203,8 +203,10 @@ class Source < ActiveRecord::Base
     DelayedJob.where(queue: "#{name}-queue").first
   end
 
-  def remove_queue
+  def remove_queues
     DelayedJob.delete_all(queue: "#{name}-queue")
+    DelayedJob.delete_all(queue: name)
+    RetrievalStatus.update_all(["queued_at = ?", nil], ["source_id = ?", id])
   end
 
   def queue_all_articles
@@ -295,7 +297,7 @@ class Source < ActiveRecord::Base
   end
 
   def timeout
-    config.timeout || 200
+    config.timeout || 30
   end
 
   def timeout=(value)

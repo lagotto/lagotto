@@ -6,7 +6,14 @@
 
       <% if not @filter.get_config_fields.empty? %>
         <% @filter.get_config_fields.each do |field| %>
-          <% if field[:field_type] == "check_box" %>
+          <% if field[:field_name] == "source_ids" %>
+            <%= f.input :source_ids, :as => :check_boxes,
+                                      collection: Source.active.where("name != 'relativemetric'"),
+                                      label_method: :display_name,
+                                      value_method: :id,
+                                      label: "Sources",
+                                      :selected => @filter.source_ids %>
+          <% elsif field[:field_type] == "check_box" %>
             <%= f.input field[:field_name], :label => field[:field_name].gsub(/_/, " ").capitalize %>
           <% elsif field[:field_type] == "text_field" %>
             <%= f.input field[:field_name], :as => :numeric,

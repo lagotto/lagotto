@@ -78,7 +78,7 @@ describe Source do
       end
 
       it 'should change to :inactive on :inactivate' do
-        source.should receive(:remove_queue)
+        source.should receive(:remove_queues)
         source.inactivate
         source.should be_inactive
         source.run_at.should eq(Time.zone.now + 5.years)

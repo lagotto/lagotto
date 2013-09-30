@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 FactoryGirl.define do
 
   factory :article do
@@ -166,6 +168,18 @@ FactoryGirl.define do
     initialize_with { Nature.find_or_create_by_name(name) }
   end
 
+  factory :openedition, class: Openedition do
+    type "Openedition"
+    name "openedition"
+    display_name "OpenEdition"
+    state_event "activate"
+    url "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_url}&field[]=All&pf=Hypotheses.org"
+
+    group
+
+    initialize_with { Openedition.find_or_create_by_name(name) }
+  end
+
   factory :pub_med, class: PubMed do
     type "PubMed"
     name "pubmed"
@@ -176,6 +190,30 @@ FactoryGirl.define do
     group
 
     initialize_with { PubMed.find_or_create_by_name(name) }
+  end
+
+  factory :pmc_europe, class: PmcEurope do
+    type "PmcEurope"
+    name "pmceurope"
+    display_name "PMC Europe Citations"
+    state_event "activate"
+    url "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/citations/1/json"
+
+    group
+
+    initialize_with { PmcEurope.find_or_create_by_name(name) }
+  end
+
+    factory :pmc_europe_data, class: PmcEuropeData do
+    type "PmcEuropeData"
+    name "pmceuropedata"
+    display_name "PMC Europe Database Citations"
+    state_event "activate"
+    url "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/databaseLinks//1/json"
+
+    group
+
+    initialize_with { PmcEuropeData.find_or_create_by_name(name) }
   end
 
   factory :researchblogging, class: Researchblogging do
@@ -202,6 +240,30 @@ FactoryGirl.define do
     group
 
     initialize_with { ScienceSeeker.find_or_create_by_name(name) }
+  end
+
+  factory :wordpress, class: Wordpress do
+    type "Wordpress"
+    name "wordpress"
+    display_name "Wordpress.com"
+    state_event "activate"
+    url "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json"
+
+    group
+
+    initialize_with { Wordpress.find_or_create_by_name(name) }
+  end
+
+  factory :reddit, class: Reddit do
+    type "Reddit"
+    name "reddit"
+    display_name "Reddit"
+    state_event "activate"
+    url "http://www.reddit.com/search.json?q=\"%{id}\""
+
+    group
+
+    initialize_with { Reddit.find_or_create_by_name(name) }
   end
 
   factory :wikipedia, class: Wikipedia do
@@ -308,6 +370,7 @@ FactoryGirl.define do
     type "EventCountDecreasingError"
     name "EventCountDecreasingError"
     display_name "decreasing event count error"
+    source_ids [1]
     active true
 
     initialize_with { EventCountDecreasingError.find_or_create_by_name(name) }
@@ -317,6 +380,7 @@ FactoryGirl.define do
     type "EventCountIncreasingTooFastError"
     name "EventCountIncreasingTooFastError"
     display_name "increasing event count error"
+    source_ids [1]
     active true
 
     initialize_with { EventCountIncreasingTooFastError.find_or_create_by_name(name) }

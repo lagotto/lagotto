@@ -23,7 +23,7 @@ class EventCountIncreasingTooFastError < Filter
     validates_not_blank(:limit)
 
   def run_filter(state)
-    responses = ApiResponse.filter(state[:id]).increasing(limit)
+    responses = ApiResponse.filter(state[:id]).increasing(limit, source_ids)
 
     if responses.count > 0
       responses = responses.all.map { |response| { source_id: response.source_id,
@@ -36,7 +36,8 @@ class EventCountIncreasingTooFastError < Filter
   end
 
   def get_config_fields
-    [{ field_name: "limit", field_type: "text_field", field_hint: "Raises an error if the event count increases faster than the specified value per day." }]
+    [{ field_name: "source_ids" },
+     { field_name: "limit", field_type: "text_field", field_hint: "Raises an error if the event count increases faster than the specified value per day." }]
   end
 
   def limit
@@ -45,6 +46,14 @@ class EventCountIncreasingTooFastError < Filter
 
   def limit=(value)
     config.limit = value
+  end
+
+  def source_ids
+    config.source_ids || Source.active.joins(:group).where("groups.name IN ('Viewed','Discussed')").pluck(:id)
+  end
+
+  def source_ids=(value)
+    config.source_ids = value.map { |e| e.to_i }
   end
 end
 

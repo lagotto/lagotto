@@ -29,7 +29,7 @@ class Facebook < Source
     # Fetch the fulltext URL
     if article.url.blank? and !article.doi.blank?
       original_url = get_original_url(article.doi_as_url)
-      article.update_attributes(:url => original_url) if original_url.blank?
+      article.update_attributes(:url => original_url) unless original_url.blank?
     end
 
     return  { :events => [], :event_count => nil } if article.url.blank?
@@ -57,7 +57,7 @@ class Facebook < Source
   end
 
   def get_query_url(article, options={})
-    URI.escape(url % { :access_token => access_token, :query_url => CGI.escape(article.url) }) unless article.url.blank?
+    URI.escape(url % { :access_token => access_token, :query_url => CGI.escape(article.url) })
   end
 
   def get_config_fields

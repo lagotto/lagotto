@@ -10,9 +10,9 @@ class Admin::SourcesController < Admin::ApplicationController
         render :show
       end
       format.json do
-        status = [{ "name" => "queued", "value" => @source.retrieval_statuses.queued.size },
-                 { "name" => "stale ", "value" => @source.retrieval_statuses.stale.size },
-                 { "name" => "refreshed", "value" => Article.count - (@source.retrieval_statuses.stale.size + @source.retrieval_statuses.queued.size) }]
+        status = [{ "name" => "refreshed", "value" => Article.count - (@source.retrieval_statuses.stale.size + @source.retrieval_statuses.queued.size) },
+                  { "name" => "queued", "value" => @source.retrieval_statuses.queued.size },
+                  { "name" => "stale ", "value" => @source.retrieval_statuses.stale.size }]
         events = [{ "name" => "with events ",
                            "day" => @source.retrieval_statuses.with_events(1).size,
                            "month" => @source.retrieval_statuses.with_events(31).size },
