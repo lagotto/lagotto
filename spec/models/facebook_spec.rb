@@ -12,8 +12,7 @@ describe Facebook do
 
     it "should look up original URL if there is no article url" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :url => nil)
-      url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007"
-      lookup_stub = stub_request(:head, article.doi_as_url).to_return(:status => 200, :headers => { 'Location' => url })
+      lookup_stub = stub_request(:head, article.doi_as_url).to_return(:status => 404)
       response = facebook.get_data(article)
       lookup_stub.should have_been_requested
     end
@@ -58,6 +57,5 @@ describe Facebook do
       alert.status.should == 401
       alert.source_id.should == facebook.id
     end
-
   end
 end
