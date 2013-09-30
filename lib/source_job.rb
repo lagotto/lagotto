@@ -87,8 +87,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
     previous_count = rs.event_count
     update_interval = (Time.zone.now - rs.retrieved_at).to_i / 1.day
+    article = Article.find(rs.article_id)
 
-    data_from_source = rs.source.get_data(rs.article, { :retrieval_status => rs, :timeout => rs.source.timeout, :source_id => rs.source_id })
+    data_from_source = rs.source.get_data(article, { :retrieval_status => rs, :timeout => rs.source.timeout, :source_id => rs.source_id })
     if data_from_source.is_a?(Hash)
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]
