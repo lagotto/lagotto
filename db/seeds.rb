@@ -129,7 +129,16 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
 
 # The following sources require passwords/API keys
-
+copernicus = Copernicus.find_or_create_by_name(
+  :name => "copernicus",
+  :display_name => "Copernicus",
+  :description => "Usage stats for Copernicus articles.",
+  :state_event => "",
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "EXAMPLE",
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
 
 crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",

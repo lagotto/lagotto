@@ -433,7 +433,7 @@ In production mode the background processes run via the `upstart`system utility.
 
     RAILS_ENV=production
 
-Use the path to the Rails log folder and the username of the user running the application:
+This file is created automatically if you use Vagrant. Use the path to the Rails log folder and the username of the user running the application:
 
     sudo foreman export upstart /etc/init -l /PATH_TO_LOG_FOLDER/log -u USER -c worker=3
 

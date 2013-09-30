@@ -201,7 +201,6 @@ figshare = Figshare.find_or_create_by_name(
   :url => "<%= node[:alm][:figshare][:url] %>")
 <% end -%>
 
-<% if node[:alm][:doi_prefix] == "10.5194" -%>
 copernicus = Copernicus.find_or_create_by_name(
   :name => "copernicus",
   :display_name => "Copernicus",
@@ -209,10 +208,9 @@ copernicus = Copernicus.find_or_create_by_name(
   :state_event => "<%= node[:alm][:copernicus][:password] == 'EXAMPLE' ? "" : 'activate' %>",
   :workers => 1,
   :group_id => viewed.id,
-  :url => ,
+  :url => "<%= node[:alm][:copernicus][:url] %>",
   :username => "<%= node[:alm][:copernicus][:username] %>",
   :password => "<%= node[:alm][:copernicus][:password] %>")
-<% end -%>
 
 crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
