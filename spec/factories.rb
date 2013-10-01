@@ -185,6 +185,18 @@ FactoryGirl.define do
     initialize_with { Nature.find_or_create_by_name(name) }
   end
 
+  factory :openedition, class: Openedition do
+    type "Openedition"
+    name "openedition"
+    display_name "OpenEdition"
+    state_event "activate"
+    url "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_url}&field[]=All&pf=Hypotheses.org"
+
+    group
+
+    initialize_with { Openedition.find_or_create_by_name(name) }
+  end
+
   factory :f1000, class: F1000 do
     type "F1000"
     name "f1000"
@@ -283,6 +295,30 @@ FactoryGirl.define do
     group
 
     initialize_with { ScienceSeeker.find_or_create_by_name(name) }
+  end
+
+  factory :wordpress, class: Wordpress do
+    type "Wordpress"
+    name "wordpress"
+    display_name "Wordpress.com"
+    state_event "activate"
+    url "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json"
+
+    group
+
+    initialize_with { Wordpress.find_or_create_by_name(name) }
+  end
+
+  factory :reddit, class: Reddit do
+    type "Reddit"
+    name "reddit"
+    display_name "Reddit"
+    state_event "activate"
+    url "http://www.reddit.com/search.json?q=\"%{id}\""
+
+    group
+
+    initialize_with { Reddit.find_or_create_by_name(name) }
   end
 
   factory :scopus, class: Scopus do
