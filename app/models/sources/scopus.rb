@@ -64,12 +64,12 @@ class Scopus < Source
     driver = get_soap_driver(config.username, url)
 
     result = driver.getCitedByCount(build_payload(article.doi))
-    return nil unless result.status.statusCode == "OK"
+    return { :events => [], :event_count => 0 } unless result.status.statusCode == "OK"
 
     countList = result.getCitedByCountRspPayload.citedByCountList
 
     if not (countList.nil?)
-      event_url = get_event_url(article.doi)
+      event_url = get_event_url(article)
       event_count = countList[0].linkData[0].citedByCount.to_i
 
       event_metrics = { :pdf => nil,
@@ -89,11 +89,9 @@ class Scopus < Source
 
   end
 
-  def get_event_url(doi)
+  def get_event_url(article)
     #TODO this link doesn't seem to work anymore!
-    query_string = "doi=" + Addressable::URI.encode(doi) \
-      + "&rel=R3.0.0&partnerID=#{config.partner_id}"
-
+    query_string = "doi=#{article.doi_escaped}&rel=R3.0.0&partnerID=#{config.partner_id}"
     digest = Digest::MD5.hexdigest(query_string + config.salt)
 
     "http://www.scopus.com/scopus/inward/citedby.url?" \
