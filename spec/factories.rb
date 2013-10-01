@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 FactoryGirl.define do
 
   factory :article do
@@ -72,7 +74,7 @@ FactoryGirl.define do
   end
 
   factory :retrieval_history do
-    retrieved_at { Time.zone.now - 1.month }
+    retrieved_at { Time.zone.today - 1.month }
     event_count { retrieval_status.event_count }
     status { event_count > 0 ? "SUCCESS" : "ERROR" }
   end
@@ -231,6 +233,30 @@ FactoryGirl.define do
     group
 
     initialize_with { PubMed.find_or_create_by_name(name) }
+  end
+
+  factory :pmc_europe, class: PmcEurope do
+    type "PmcEurope"
+    name "pmceurope"
+    display_name "PMC Europe Citations"
+    state_event "activate"
+    url "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/citations/1/json"
+
+    group
+
+    initialize_with { PmcEurope.find_or_create_by_name(name) }
+  end
+
+    factory :pmc_europe_data, class: PmcEuropeData do
+    type "PmcEuropeData"
+    name "pmceuropedata"
+    display_name "PMC Europe Database Citations"
+    state_event "activate"
+    url "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/databaseLinks//1/json"
+
+    group
+
+    initialize_with { PmcEuropeData.find_or_create_by_name(name) }
   end
 
   factory :researchblogging, class: Researchblogging do
@@ -415,6 +441,7 @@ FactoryGirl.define do
     type "EventCountDecreasingError"
     name "EventCountDecreasingError"
     display_name "decreasing event count error"
+    source_ids [1]
     active true
 
     initialize_with { EventCountDecreasingError.find_or_create_by_name(name) }
@@ -424,6 +451,7 @@ FactoryGirl.define do
     type "EventCountIncreasingTooFastError"
     name "EventCountIncreasingTooFastError"
     display_name "increasing event count error"
+    source_ids [1]
     active true
 
     initialize_with { EventCountIncreasingTooFastError.find_or_create_by_name(name) }

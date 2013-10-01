@@ -8,7 +8,10 @@ The ALM application provides a number of public sources. Most sources require a 
 * [Nature Blogs](Nature)
 * [Research Blogging](Researchblogging)
 * [ScienceSeeker](Scienceseeker)
+* [Wordpress.com](Wordpress)
 * [Wikipedia](Wikipedia)
+* [Reddit](Reddit)
+* [OpenEdition](Openedition)
 
 ### Saved
 * [CiteULike](Citeulike)
@@ -17,23 +20,17 @@ The ALM application provides a number of public sources. Most sources require a 
 ### Cited
 * [CrossRef](Crossref)
 * [PubMed Central Citations](Pubmed)
+* [PMC Europe Citations](PmcEurope)
+* [PMC Europe Database Citations](PmcEuropeData)
 
 ### Private Sources
 * [PLOS Usage Stats](Counter)
 * [PubMed Central Usage Stats](Pmc)
-* [PLOS Biodiversity Hub](Biod)
 * [PLOS Figshare Usage Stats](Figshare)
 * [Twitter](Twitter)
 * [Web of Science](Wos)
 * [Scopus](Scopus)
 * [F1000Prime](F1000)
-
-### Planned Sources
-* PubMed Central Europe Citations
-* PubMed Central Europe Database Links
-* Wordpress
-* Twitter
-* Reddit
 
 Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for questions or feedback regarding sources.
 

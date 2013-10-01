@@ -1,0 +1,66 @@
+{
+  "name": "memcached",
+  "version": "1.5.0",
+  "description": "Installs memcached and provides a define to set up an instance of memcache via runit",
+  "long_description": "Description\n===========\n\nInstalls memcached and provides a define to set up an instance of\nmemcache via runit.\n\nRequirements\n============\n\nA runit service can be set up for instances using the\n`memcache_instance` definition.\n\n## Platforms:\n\nTested on:\n\n* Ubuntu 10.04, 12.04\n* CentOS 5.8, 6.3\n* openSUSE 12.3\n* SLES 12 SP2\n* SmartOS base64 1.8.1\n  * Note that SMF directly configures memcached with no opportunity to alter settings.\n    If you need custom parameters, use the `memcached_instance` provider instead.\n\nMay work on any Debian or Red Hat family distributions with or without\nmodification.\n\n## Cookbooks:\n\n* runit\n\nAttributes\n==========\n\nThe following are node attributes passed to the template for the runit\nservice.\n\n* `memcached['memory']` - maximum memory for memcached instances.\n* `memcached['user']` - user to run memcached as.\n* `memcached['port']` - port for memcached to listen on.\n* `memcached['listen']` - IP address for memcache to listen on, defaults to **0.0.0.0** (world accessible).\n* `memcached['maxconn']` - maximum number of connections to accept (defaults to 1024)\n* `memcached['max_object_size']` - maximum size of an object to cache (defaults to 1MB)\n* `memcached['logfilename']` - logfile to which memcached output will be redirected in /var/log/$logfilename.\n\nUsage\n=====\n\nSimply set the attributes and it will configure the\n/etc/memcached.conf file. If you want to use multiple memcached\ninstances, you'll need to modify the recipe to disable the startup\nscript and the template in the default recipe.\n\nUse the define, memcached_instance, to set up a runit service for the\nnamed memcached instance.\n\n    memcached_instance \"myproj\"\n\nThe recipe also reads in whether to start up memcached from a\n/etc/default/memcached \"ENABLE_MEMCACHED\" setting, which is \"yes\" by\ndefault.\n\nLicense and Author\n==================\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nAuthor:: Joshua Sierles (<joshua@37signals.com>)\n\nCopyright:: 2009-2012, Opscode, Inc\nCopyright:: 2009, 37signals\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "ubuntu": ">= 0.0.0",
+    "debian": ">= 0.0.0",
+    "redhat": ">= 0.0.0",
+    "fedora": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "scientific": ">= 0.0.0",
+    "amazon": ">= 0.0.0",
+    "smartos": ">= 0.0.0",
+    "suse": ">= 0.0.0"
+  },
+  "dependencies": {
+    "runit": "~> 1.0",
+    "yum": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+    "memcached/memory": {
+      "display_name": "Memcached Memory",
+      "description": "Memory allocated for memcached instance",
+      "default": "64"
+    },
+    "memcached/port": {
+      "display_name": "Memcached Port",
+      "description": "Port to use for memcached instance",
+      "default": "11211"
+    },
+    "memcached/user": {
+      "display_name": "Memcached User",
+      "description": "User to run memcached instance as",
+      "default": "nobody"
+    },
+    "memcached/listen": {
+      "display_name": "Memcached IP Address",
+      "description": "IP address to use for memcached instance",
+      "default": "0.0.0.0"
+    },
+    "memcached/logfilename": {
+      "display_name": "Memcached logfilename",
+      "description": "The filename used to log memcached",
+      "default": "memcached.log"
+    }
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "memcached": "Installs and configures memcached"
+  }
+}

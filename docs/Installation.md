@@ -129,6 +129,28 @@ We only need one Ruby version and manage gems with bundler, so there is no need 
 
     sudo apt-get install couchdb mysql-server
 
+#### Install Memcached
+Memcached is used to cache requests (in particular API requests) in production, and the default configuration can be used. If you want to run memcached on a different host, change `config.cache_store = :dalli_store, { :namespace => "alm" }` in `config/environments/production.rb` to `config.cache_store = :dalli_store, 'cache.example.com', { :namespace => "alm" }`.
+
+    sudo apt-get install memcached
+
+#### Install Postfix
+Postfix is used to send reports via email. Alternatively, a different SMTP host can be configured in `config/settings.yml`.
+
+    sudo apt-get install postfix
+
+The default configuration assumes `address: localhost`, `port: 25`. You can configure mail in `config/settings.yml`:
+
+    mail:
+      address:
+      port:
+      domain:
+      user_name:
+      password:
+      authentication:
+
+More information can be found [here](http://guides.rubyonrails.org/action_mailer_basics.html).
+
 #### Install Apache and dependencies required for Passenger
 
     sudo apt-get install apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev

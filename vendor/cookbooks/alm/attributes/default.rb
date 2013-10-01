@@ -18,6 +18,7 @@ default[:alm][:copernicus] = { :url => "EXAMPLE", :username => "EXAMPLE", :passw
 default[:alm][:counter] = { :url => "EXAMPLE" }
 default[:alm][:crossref] = { :username => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:facebook] = { :access_token => "EXAMPLE" }
+default[:alm][:twittersearch] = { :consumer_key => "EXAMPLE", :consumer_secret => "EXAMPLE", :access_token => "EXAMPLE", :access_token_secret => "EXAMPLE" }
 default[:alm][:mendeley] = { :api_key => "EXAMPLE" }
 default[:alm][:pmc] = { :url => "EXAMPLE", :filepath => "EXAMPLE" }
 default[:alm][:f1000] = { :url => "EXAMPLE", :filename => "EXAMPLE" }

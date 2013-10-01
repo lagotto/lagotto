@@ -5,6 +5,8 @@
     "recipe[couchdb]",
     "recipe[phantomjs]",
     "recipe[simple_iptables]",
+    "recipe[memcached]",
+    "recipe[postfix]",
     "recipe[alm]"
   ],
   "passenger": { "version": "3.0.19" },

@@ -9,6 +9,7 @@ class Ability
       can :manage, :all
     elsif user.role == "staff"
       can :read, :all
+      can :destroy, Alert
       can :update, User, :id => user.id
     elsif user.role == "user"
       can [:update, :show], User, :id => user.id
