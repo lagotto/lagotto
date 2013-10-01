@@ -153,7 +153,6 @@ pmc = Pmc.find_or_create_by_name(
   :filepath => "/home/vagrant/pmcdata/")
 
 # The following sources require passwords/API keys
-<<<<<<< HEAD
 counter = Counter.find_or_create_by_name(
   :name => "counter",
   :display_name => "Counter",
