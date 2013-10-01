@@ -45,6 +45,10 @@ Facebook has problems with DOIs that require cookies during DOI resolution. We t
 <td valign="top" width=20%><strong>API URL</strong></td>
 <td valign="top" width=80%>https://graph.facebook.com/fql?access_token=ACCESS_TOKEN&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = 'URL'</td>
 </tr>
+<tr>
+<td valign="top" width=20%><strong>License</strong></td>
+<td valign="top" width=80%>unknown</td>
+</tr>
 </tbody>
 </table>
 

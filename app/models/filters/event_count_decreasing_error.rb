@@ -21,7 +21,7 @@
 class EventCountDecreasingError < Filter
 
   def run_filter(state)
-    responses = ApiResponse.filter(state[:id]).decreasing
+    responses = ApiResponse.filter(state[:id]).decreasing(source_ids)
 
     if responses.count > 0
       responses = responses.all.map { |response| { source_id: response.source_id,
@@ -31,6 +31,18 @@ class EventCountDecreasingError < Filter
     end
 
     responses.count
+  end
+
+  def get_config_fields
+    [{ field_name: "source_ids" }]
+  end
+
+  def source_ids
+    config.source_ids || Source.active.joins(:group).where("groups.name in ('Cited','Saved','Recommended', 'Viewed')").pluck(:id)
+  end
+
+  def source_ids=(value)
+    config.source_ids = value.map { |e| e.to_i }
   end
 end
 

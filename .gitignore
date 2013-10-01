@@ -36,3 +36,4 @@ pickle-email-*.html
 .vagrant*
 config.json
 Capfile
+/public/assets

@@ -23,7 +23,7 @@ class AddApiResponseTable < ActiveRecord::Migration
 
     add_index :api_requests, :api_key
 
-    add_column :alerts, :remote_ip, :string
+    add_column :error_messages, :remote_ip, :string
   end
 
   def self.down
@@ -38,6 +38,6 @@ class AddApiResponseTable < ActiveRecord::Migration
 
     remove_index :api_requests, name: 'index_api_requests_on_api_key'
 
-    remove_column :alerts, :remote_ip
+    remove_column :error_messages, :remote_ip
   end
 end

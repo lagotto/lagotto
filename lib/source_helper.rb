@@ -198,6 +198,9 @@ module SourceHelper
       else
         error.response[:body]
       end
+    # malformed JSON is treated as ResourceNotFound
+    elsif error.message.include?("unexpected token")
+      nil
     else
       details = nil
 

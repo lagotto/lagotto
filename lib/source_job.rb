@@ -35,7 +35,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     return 0 unless source.ready?
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
-      sleep_time = 0
 
       sleep(source.run_at - Time.zone.now) if source.disabled?
 
@@ -50,14 +49,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
           payload.merge!(response)
         end
 
-        if response[:event_count]
-          # observe rate-limiting settings
-          sleep_interval = start_time + source.job_interval - Time.zone.now
-          sleep(sleep_interval) if sleep_interval > 0
-        else
-          # each time we fail to get an answer from a source, wait longer
-          sleep(sleep_time += source.disable_delay)
-        end
+        # observe rate-limiting settings
+        sleep_interval = start_time + source.job_interval - Time.zone.now
+        sleep(sleep_interval) if sleep_interval > 0
       end
     end
 
@@ -93,8 +87,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
     previous_count = rs.event_count
     update_interval = (Time.zone.now - rs.retrieved_at).to_i / 1.day
+    article = Article.find(rs.article_id)
 
-    data_from_source = rs.source.get_data(rs.article, { :retrieval_status => rs, :timeout => rs.source.timeout, :source_id => rs.source_id })
+    data_from_source = rs.source.get_data(article, { :retrieval_status => rs, :timeout => rs.source.timeout, :source_id => rs.source_id })
     if data_from_source.is_a?(Hash)
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]

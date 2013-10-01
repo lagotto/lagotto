@@ -104,9 +104,16 @@ script "create CouchDB database #{node[:alm][:name]}" do
   ignore_failure true
 end
 
-# Generate new Procfile
+# Generate new Procfile and associated .env file
 template "/vagrant/Procfile" do
   source 'Procfile.erb'
+  owner 'root'
+  group 'root'
+  mode 0644
+end
+
+template "/vagrant/.env" do
+  source 'env.erb'
   owner 'root'
   group 'root'
   mode 0644

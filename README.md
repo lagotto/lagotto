@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/articlemetrics/alm.png?label=ready)](https://waffle.io/articlemetrics/alm)
 Article Level Metrics (ALM), is a Ruby on Rails application started by the [Public Library of Science (PLOS)](http://www.plos.org/) in 2009. It stores and reports user configurable performance data on research articles. Examples of possible metrics are online usage, citations, social bookmarks, notes, comments, ratings and blog coverage.
 
 For more information on how PLOS uses Article-Level Metrics, see [http://article-level-metrics.plos.org/](http://article-level-metrics.plos.org/).
@@ -136,6 +137,28 @@ We only need one Ruby version and manage gems with bundler, so there is no need 
 #### Install databases
 
     sudo apt-get install couchdb mysql-server
+
+#### Install Memcached
+Memcached is used to cache requests (in particular API requests) in production, and the default configuration can be used. If you want to run memcached on a different host, change `config.cache_store = :dalli_store, { :namespace => "alm" }` in `config/environments/production.rb` to `config.cache_store = :dalli_store, 'cache.example.com', { :namespace => "alm" }`.
+
+    sudo apt-get install memcached
+
+#### Install Postfix
+Postfix is used to send reports via email. Alternatively, a different SMTP host can be configured in `config/settings.yml`.
+
+    sudo apt-get install postfix
+
+The default configuration assumes `address: localhost`, `port: 25`. You can configure mail in `config/settings.yml`:
+
+    mail:
+      address:
+      port:
+      domain:
+      user_name:
+      password:
+      authentication:
+
+More information can be found [here](http://guides.rubyonrails.org/action_mailer_basics.html).
 
 #### Install Apache and dependencies required for Passenger
 
@@ -341,25 +364,30 @@ Groups and sources are already configured if you installed via Chef/Vagrant, or 
 
 The admin user can be created when using the web interface for the first time. After logging in as admin you can add articles and configure sources.
 
-The following configuration options for sources are stored in `source_configs.yml`:
-
-* job_batch_size: number of articles per job (default 200)
-* staleness: refresh interval (default 7 days)
-* batch_time_interval (default 1 hour)
-* requests_per_day (default nil)
+### Configuring sources
 
 The following configuration options for sources are available via the web interface:
 
-* timeout (default 30 sec)
-* disable delay (default 10 sec)
-* number of workers for the job queue (default 1)
+* whether the source is queueing jobs (default true)
 * whether the results can be shared via the API (default true)
+* number of workers for the job queue (default 1)
+* job_batch_size: number of articles per job (default 200)
+* batch_time_interval (default 1 hour)
+* staleness: update interval depending on article publication date (default daily the first 31 days, then 4 times a month up until one year, then monthly)
+* rate-limiting (default 10,000 or no rate-limiting)
+* timeout (default 30 sec)
 * maximum number of failed queries allowed before being disabled (default 200)
 * maximum number of failed queries allowed in a time interval (default 86400 sec)
+* disable delay after too many failed queries (default 10 sec)
 
-Through these setup options the behavior of sources can be fine-tuned. Please contact us if you have any questions.
+Through these setup options the behavior of sources can be fine-tuned, but the default settings should almost always work. Rate-limiting is currently only implemented for the Nature Blogs source. Please contact us if you have any questions.
 
 All rake tasks are issued from the application root folder. `RAILS_ENV=production` should be appended to the rake command when running in production.
+
+### Precompile assets
+Assets (CSS, Javascripts, images) need to be precompiled when running Rails in the `production` environment (but not in `development`). Run the following rake task, then restart the server:
+
+    bundle exec rake assets:precompile RAILS_ENV=production
 
 ### Seeding articles
 
@@ -401,18 +429,22 @@ To stop all background processing, kill foreman with `ctrl-c`.
 
 ### Adding metrics in production
 
-In production mode the background processes run via the `upstart`system utility. The upstart scripts can be created using foreman (where USER is the user running the web server) via
+In production mode the background processes run via the `upstart`system utility. The upstart scripts can be created using foreman (where USER is the user running the web server). To have foreman detect the production environment, create a file `.env` in the root folder of your application with the content
 
-    sudo foreman export upstart /etc/init -a alm -f Procfile.prod -l /USER/log -u USER
+    RAILS_ENV=production
 
-This command creates two upstart scripts for each source (one worker and one queuing script). For servers with less than 1 GB of memory we can run the background processes with only two scripts via
+This file is created automatically if you use Vagrant. Use the path to the Rails log folder and the username of the user running the application:
 
-    sudo foreman export upstart /etc/init -a alm -f Procfile.staging -l /USER/log -u USER
+    sudo foreman export upstart /etc/init -l /PATH_TO_LOG_FOLDER/log -u USER -c worker=3
+
+This command creates three upstart scripts that will run in parallel. The number of workers you will need depends on the number of articles (and sources) and the available RAM on your server, a rough estimate is one worker per 5,000-10,000 articles.
 
 The background processes can then be started or stopped using Upstart:
 
     sudo start alm
     sudo stop alm
+
+Foreman also supports bluepill, inittab and runit, read the [man page](http://ddollar.github.io/foreman/) for more information.
 
 ## More Documentation
 In the Wiki at [https://github.com/articlemetrics/alm/wiki][documentation].
