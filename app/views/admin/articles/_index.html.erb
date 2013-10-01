@@ -23,7 +23,7 @@
   <div class="page-header">
     <% if can?(:manage, Article) %>
       <div class="btn-toolbar pull-right">
-        <div class="btn-group">
+        <div class="btn-group hidden-phone">
           <%= link_to '<i class="icon-plus"></i> New'.html_safe, new_admin_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-small' } %>
         </div>
         <div class="btn-group" id="article-alerts">
