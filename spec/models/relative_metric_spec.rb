@@ -17,7 +17,7 @@ describe RelativeMetric do
     article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
 
     url = relative_metric.url % { :key => CGI.escape(article.doi) }
-    stub_request(:get, "#{url}").to_return(:body => File.read("#{fixture_path}relative_metric.json"))
+    stub_request(:get, "#{url}").to_return(:headers => {"Content-Type" => "application/json"}, :body => File.read("#{fixture_path}relative_metric.json"), :status => 200)
 
     data = relative_metric.get_data(article)
 
@@ -58,7 +58,7 @@ describe RelativeMetric do
     article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000000", :published_on => Date.new(2009, 5, 19))
 
     url = relative_metric.url % { :key => CGI.escape(article.doi) }
-    stub_request(:get, "#{url}").to_return(:body => File.read("#{fixture_path}relative_metric_nodata.json"))
+    stub_request(:get, "#{url}").to_return(:headers => {"Content-Type" => "application/json"}, :body => File.read("#{fixture_path}relative_metric_nodata.json"), :status => 200)
 
     data = relative_metric.get_data(article)
 
