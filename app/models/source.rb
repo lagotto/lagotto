@@ -154,6 +154,11 @@ class Source < ActiveRecord::Base
       transition any => same
     end
 
+    event :start_jobs_with_check do
+      transition any => :disabled, :if => :check_for_failures
+      transition any => :working
+    end
+
     event :start_working_with_check do
       transition [:inactive] => same
       transition any => :disabled, :if => :check_for_failures
