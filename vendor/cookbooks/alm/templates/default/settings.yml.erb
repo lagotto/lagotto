@@ -19,6 +19,7 @@ defaults: &defaults
   mail:
     address: <%= node[:alm][:mail][:address] %>
     port: <%= node[:alm][:mail][:port] %>
+    domain: <%= node[:alm][:mail][:domain] %>
 
 development:
   <<: *defaults
