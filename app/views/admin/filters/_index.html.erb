@@ -39,7 +39,7 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Description</th>
+          <th class="hidden-phone">Description</th>
           <th>Status</th>
           <% if can?(:manage, Alert) %>
             <th class="hidden-phone">Actions</th>
@@ -50,7 +50,7 @@
         <% @filters.each do |filter| %>
           <tr>
             <td><%= h(filter.name) %></td>
-            <td><%= h(filter.description) %></td>
+            <td class="hidden-phone"><%= h(filter.description) %></td>
             <td><%= state_label(filter.status).html_safe %></td>
             <% if can? :manage, Alert %>
               <td class="hidden-phone" %>

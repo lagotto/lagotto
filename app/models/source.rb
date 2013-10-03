@@ -95,18 +95,6 @@ class Source < ActiveRecord::Base
       end
     end
 
-    state all - [:inactive, :queueing, :waiting, :idle] do
-      def ready?
-        true
-      end
-    end
-
-    state all - [:working, :disabled] do
-      def ready?
-        false
-      end
-    end
-
     after_transition any => :queueing do |source|
       source.add_queue
     end
@@ -152,6 +140,11 @@ class Source < ActiveRecord::Base
     event :stop_queueing do
       transition any - [:waiting, :inactive, :disabled] => :waiting, :if => :queueable
       transition any => same
+    end
+
+    event :start_jobs_with_check do
+      transition any => :disabled, :if => :check_for_failures
+      transition any => :working
     end
 
     event :start_working_with_check do

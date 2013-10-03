@@ -22,7 +22,7 @@ class QueueJob < Struct.new(:source_id)
 
   def perform
     source = Source.find(source_id)
-    return 0 unless source.active?
+    return 0 if source.inactive?
 
     source.queue_stale_articles
   end

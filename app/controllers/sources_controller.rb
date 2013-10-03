@@ -26,8 +26,8 @@ class SourcesController < ApplicationController
     # raise error if source wasn't found
     raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
 
-    text = File.file?(Rails.root.join("docs/#{@source.name.capitalize}.md")) ? IO.read(Rails.root.join("docs/#{@source.name.capitalize}.md")) : nil
-    @doc = { :text => text }
+    filename = Rails.root.join("docs/#{@source.name.capitalize}.md")
+    @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
 
     if params[:days]
       @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_days(params[:days].to_i)

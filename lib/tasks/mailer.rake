@@ -24,7 +24,7 @@ namespace :mailer do
   task :report => :environment do
     report = Report.first
     report.send_daily_report
-    puts "Daily report sent"
+    puts "Daily report sent to #{report.users.count} subscriber(s)"
   end
 
   desc 'Send all mails'
