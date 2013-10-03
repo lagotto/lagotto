@@ -151,7 +151,7 @@ describe Filter do
     end
 
     context "same day" do
-      let(:api_response) { FactoryGirl.create(:api_response, event_count: 3600, update_interval: 0) }
+      let(:api_response) { FactoryGirl.create(:api_response, event_count: 3600, update_interval: 1) }
       let(:options) {{ id: api_response.id }}
 
       it "should raise errors" do
@@ -161,16 +161,6 @@ describe Filter do
         alert.class_name.should eq("EventCountIncreasingTooFastError")
         alert.message.should include("Event count increased")
         alert.source_id.should == 1
-      end
-    end
-
-    context "first time" do
-      let(:api_response) { FactoryGirl.create(:api_response, event_count: 3600, update_interval: nil) }
-      let(:options) {{ id: api_response.id }}
-
-      it "should not raise errors" do
-        subject.run_filter(options).should == 0
-        Alert.count.should == 0
       end
     end
   end
