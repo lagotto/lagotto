@@ -95,18 +95,6 @@ class Source < ActiveRecord::Base
       end
     end
 
-    state all - [:inactive, :queueing, :waiting, :idle] do
-      def ready?
-        true
-      end
-    end
-
-    state all - [:working, :disabled] do
-      def ready?
-        false
-      end
-    end
-
     after_transition any => :queueing do |source|
       source.add_queue
     end
