@@ -60,10 +60,13 @@ action :install do
         ignore_failure true
       end
     when "mpkg", "pkg"
-      execute "sudo installer -pkg '/Volumes/#{volumes_dir}/#{new_resource.app}.#{new_resource.type}' -target /"
+      execute "sudo installer -pkg '/Volumes/#{volumes_dir}/#{new_resource.app}.#{new_resource.type}' -target /" do
+        # Prevent cfprefsd from holding up hdiutil detach for certain disk images
+        environment( {'__CFPREFERENCES_AVOID_DAEMON' => '1'} ) if Chef::Version::Platform.new(node['platform_version']) >= Chef::Version::Platform.new("10.8")
+      end
     end
 
-    execute "hdiutil detach '/Volumes/#{volumes_dir}'"
+    execute "hdiutil detach '/Volumes/#{volumes_dir}' || hdiutil detach '/Volumes/#{volumes_dir}' -force"
   end
 end
 
@@ -73,8 +76,8 @@ def installed?
   if ( ::File.directory?("#{new_resource.destination}/#{new_resource.app}.app") )
     Chef::Log.info "Already installed; to upgrade, remove \"#{new_resource.destination}/#{new_resource.app}.app\""
     true
-  elsif ( system("pkgutil --pkgs=#{new_resource.package_id}") )
-    Chef::Log.info "Already installed; to upgrade, try \"sudo pkgutil --forget #{new_resource.package_id}\""
+  elsif ( system("pkgutil --pkgs='#{new_resource.package_id}'") )
+    Chef::Log.info "Already installed; to upgrade, try \"sudo pkgutil --forget '#{new_resource.package_id}'\""
     true
   else
     false
