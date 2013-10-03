@@ -3,6 +3,12 @@ dmg Cookbook CHANGELOG
 This file is used to list changes made in each version of the dmg ookbook.
 
 
+v2.0.2
+------
+### Bug
+- **[COOK-3578](https://tickets.opscode.com/browse/COOK-3578)** - Support `package_id`s with spaces
+- **[COOK-3302](https://tickets.opscode.com/browse/COOK-3302)** - Fix an issue where `hdiutil detach` fails due to `cfprefsd` running in the background
+
 v2.0.0
 ------
 ### Bug

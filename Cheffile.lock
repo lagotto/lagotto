@@ -10,7 +10,7 @@ SITE
     couchdb (2.4.0)
       erlang (>= 0.0.0)
       yum (>= 0.0.0)
-    dmg (2.0.0)
+    dmg (2.0.2)
     erlang (1.3.2)
       apt (>= 1.7.0)
       build-essential (>= 0.0.0)
@@ -44,9 +44,9 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 51b218dfa655f8858115f247123d12584e343799
+  sha: 26542b1e2d1a4a6497d7fc2b6918cbe1f5db956a
   specs:
-    alm (1.2.7)
+    alm (1.2.8)
       build-essential (>= 0.0.0)
       couchdb (>= 0.0.0)
       git (>= 0.0.0)
