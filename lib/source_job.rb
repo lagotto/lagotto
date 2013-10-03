@@ -32,13 +32,11 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def perform
 
     source = Source.find(source_id)
-    return 0 unless source.ready?
+    source.start_jobs_with_check
 
-    start_jobs_with_check
+    return 0 unless source.working?
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
-
-      sleep(source.run_at - Time.zone.now) if source.disabled?
 
       rs_ids.each do | rs_id |
         rs = RetrievalStatus.find(rs_id)
@@ -88,7 +86,11 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # This hash can be used to track API responses, e.g. when event counts go down
 
     previous_count = rs.event_count
-    update_interval = (Time.zone.now - rs.retrieved_at).to_i / 1.day
+    if [Date.new(1970, 1, 1), Date.today].include?(rs.retrieved_at.to_date)
+      update_interval = 1
+    else
+      update_interval = (Date.today - rs.retrieved_at.to_date).to_i
+    end
 
     data_from_source = rs.source.get_data(rs.article, { :retrieval_status => rs, :timeout => rs.source.timeout, :source_id => rs.source_id })
     if data_from_source.is_a?(Hash)
@@ -168,10 +170,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def after(job)
-    #reset the queued at value
-    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
-
+    #reset the queued_at value
     source = Source.find(source_id)
+    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] ) if source.working?
     source.stop_working unless source.get_queued_job_count > 1
   end
 
