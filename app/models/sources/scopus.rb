@@ -60,33 +60,32 @@ class Scopus < Source
     fix_scopus_wsdl
 
     url = Scopus::query_url(config.live_mode)
-
     driver = get_soap_driver(config.username, url)
 
     result = driver.getCitedByCount(build_payload(article.doi))
     return { :events => [], :event_count => 0 } unless result.status.statusCode == "OK"
 
     countList = result.getCitedByCountRspPayload.citedByCountList
-
-    if not (countList.nil?)
-      event_url = get_event_url(article)
+    if countList.nil?
+      event_count = 0
+    else
       event_count = countList[0].linkData[0].citedByCount.to_i
-
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => event_count,
-                        :total => event_count }
-
-      { :events => event_count,
-        :events_url => event_url,
-        :event_count => event_count,
-        :event_metrics => event_metrics }
     end
 
+    events_url = get_event_url(article)
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => event_count,
+                      :total => event_count }
+
+    { :events => event_count,
+      :events_url => events_url,
+      :event_count => event_count,
+      :event_metrics => event_metrics }
   end
 
   def get_event_url(article)
