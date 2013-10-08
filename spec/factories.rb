@@ -326,6 +326,7 @@ FactoryGirl.define do
     name "scopus"
     display_name "Scopus"
     state_event "activate"
+    live_mode "true"
     username "EXAMPLE"
     salt "EXAMPLE"
     partner_id "EXAMPLE"
