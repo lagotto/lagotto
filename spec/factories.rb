@@ -407,8 +407,7 @@ FactoryGirl.define do
     name "relativemetric"
     display_name "Relative Metric"
     state_event "activate"
-    url "http://rwc-couch01.int.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key=%{key}"
-    solr_url "http://api.plos.org/search"
+    url "http://rwc-couch01.int.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key=\"%{doi}\""
 
     group
 

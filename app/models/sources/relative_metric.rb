@@ -17,45 +17,48 @@
 class RelativeMetric < Source
 
   if APP_CONFIG["doi_prefix"]
-    validates_each :url, :solr_url do |record, attr, value|
+    validates_each :url do |record, attr, value|
       record.errors.add(attr, "can't be blank") if value.blank?
     end
   end
 
   def get_data(article, options={})
+    raise(ArgumentError, "#{display_name} configuration require url") \
+      if config.url.blank?
+
     # Check that article has DOI
     return { :events => [], :event_count => nil } if article.doi.blank?
 
-    # Check whether we have published the DOI, otherwise use different API
     if article.is_publisher?
-
-      raise(ArgumentError, "#{display_name} configuration require url and solr url") \
-        if config.url.blank? or config.solr_url.blank?
 
       events = get_relative_metric_data(article)
 
-      total = 0
-      events[:subject_areas].each do | subject_area |
-        total += subject_area[:average_usage].reduce(:+)
-      end
+      if events.blank?
+        return nil
+      else
+        total = 0
+        events[:subject_areas].each do | subject_area |
+          total += subject_area[:average_usage].reduce(:+)
+        end
 
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => nil,
-                        :total => total }
+        event_metrics = { :pdf => nil,
+                          :html => nil,
+                          :shares => nil,
+                          :groups => nil,
+                          :comments => nil,
+                          :likes => nil,
+                          :citations => nil,
+                          :total => total }
 
-      { :events => events,
-        :event_count => total,
-        :event_metrics => event_metrics }
-    
+        { :events => events,
+          :event_count => total,
+          :event_metrics => event_metrics }
+      end    
     else
       { :events => [], :event_count => nil }
     end
   end
+
 
   def get_relative_metric_data(article) 
     events = {}
@@ -65,24 +68,21 @@ class RelativeMetric < Source
     events[:start_date] = "#{year}-01-01T00:00:00Z"
     events[:end_date] = Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z")
 
-    average_usages = []
+    query_url = get_query_url(article)
+    data = get_json(query_url)
 
-    url = config.url % { :key => CGI.escape(article.doi) }
-    data = get_json(url)
-
-    data["rows"].each do | row |
-      average_usages << { :subject_area => row["value"]["subject_area"], :average_usage => row["value"]["data"] }
+    if data.nil?
+      return nil
+    else
+      events[:subject_areas] = data["rows"].map { |row| { :subject_area => row["value"]["subject_area"], :average_usage => row["value"]["data"] } }
     end
-    
-    events[:subject_areas] = average_usages
 
     return events
   end
 
   def get_config_fields
     [
-      { :field_name => "url", :field_type => "text_area", :size => "90x2"}, 
-      { :field_name => "solr_url", :field_type => "text_area", :size => "90x2"}
+      { :field_name => "url", :field_type => "text_area", :size => "90x2"}
     ]
   end
 
@@ -94,11 +94,4 @@ class RelativeMetric < Source
     config.url = value
   end
 
-  def solr_url
-    config.solr_url
-  end
-
-  def solr_url=(value)
-    config.solr_url = value
-  end
 end
