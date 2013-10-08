@@ -59,37 +59,49 @@ class Scopus < Source
     # Guarantee Kosher for Great Justice
     fix_scopus_wsdl
 
-    url = Scopus::query_url(config.live_mode)
+    url = Scopus::query_url(live_mode)
+    driver = get_soap_driver(username, url)
 
-    driver = get_soap_driver(config.username, url)
-
-    result = driver.getCitedByCount(build_payload(article.doi))
-    return { :events => [], :event_count => 0 } unless result.status.statusCode == "OK"
-
-    countList = result.getCitedByCountRspPayload.citedByCountList
-
-    if not (countList.nil?)
-      event_url = get_event_url(article)
+    begin
+      result = driver.getCitedByCount(build_payload(article.doi))
+      countList = result.getCitedByCountRspPayload.citedByCountList
       event_count = countList[0].linkData[0].citedByCount.to_i
-
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => event_count,
-                        :total => event_count }
-
-      { :events => event_count,
-        :events_url => event_url,
-        :event_count => event_count,
-        :event_metrics => event_metrics }
+    rescue SOAP::EmptyResponseError
+      event_count = 0
+    rescue SOAP::HTTPStreamError => error
+      status = error.to_s[0..2]
+      if status == "404"
+        event_count = 0
+      else
+        message = "A #{status} error occured for article #{article.doi}"
+        Alert.create(exception: "",
+             class_name: "SOAP::HTTPStreamError",
+             message: message,
+             status: status,
+             target_url: url,
+             article_id: article.id,
+             source_id: id)
+        return nil
+      end
     end
 
+    events_url = get_events_url(article)
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => event_count,
+                      :total => event_count }
+
+    { :events => event_count,
+      :events_url => events_url,
+      :event_count => event_count,
+      :event_metrics => event_metrics }
   end
 
-  def get_event_url(article)
+  def get_events_url(article)
     #TODO this link doesn't seem to work anymore!
     query_string = "doi=#{article.doi_escaped}&rel=R3.0.0&partnerID=#{config.partner_id}"
     digest = Digest::MD5.hexdigest(query_string + config.salt)
@@ -116,6 +128,7 @@ class Scopus < Source
   def username
     config.username
   end
+
   def username=(value)
     config.username = value
   end
@@ -123,17 +136,15 @@ class Scopus < Source
   def live_mode
     config.live_mode
   end
+
   def live_mode=(value)
-    if value == "1"
-      config.live_mode = true
-    elsif value == "0"
-      config.live_mode = false
-    end
+    value == "1" ? config.live_mode = true : config.live_mode = false
   end
 
   def salt
     config.salt
   end
+
   def salt=(value)
     config.salt = value
   end
@@ -141,6 +152,7 @@ class Scopus < Source
   def partner_id
     config.partner_id
   end
+
   def partner_id=(value)
     config.partner_id = value
   end

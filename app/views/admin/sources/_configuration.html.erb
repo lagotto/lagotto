@@ -15,7 +15,7 @@
       <% if not @source.get_config_fields.empty? %>
         <% @source.get_config_fields.each do |field| %>
           <% if field[:field_type] == "check_box" %>
-            <%= f.input field[:field_name], :label => field[:field_name].gsub(/_/, " ").capitalize %>
+            <%= f.input field[:field_name], :as => :boolean, :label => field[:field_name].gsub(/_/, " ").capitalize %>
           <% elsif field[:field_type] == "text_field" %>
             <%= f.input field[:field_name], :input_html => { :class => "span3" } %>
           <% elsif field[:field_type] == "text_area" %>
