@@ -3,10 +3,6 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
-# Load default admin user
-unless Rails.env.production?
-  User.create(:username => "voldemort", :name => "Admin", :email => "alm@plos.org", :password => "voldemort", :password_confirmation => "voldemort") if User.count == 0
-end
 
 # Load default groups
 viewed = Group.find_or_create_by_name(:name => "Viewed")
@@ -99,7 +95,7 @@ nature = Nature.find_or_create_by_name(
 openedition = Openedition.find_or_create_by_name(
   :name => "openedition",
   :display_name => "OpenEdition",
-  :description => "OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda, four platforms dedicated to electronic resources in the humanities and social sciences.",
+  :description => "OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda in the humanities and social sciences.",
   :state_event => "activate",
   :workers => 1,
   :group_id => discussed.id,
@@ -192,6 +188,17 @@ figshare = Figshare.find_or_create_by_name(
   :workers => 1,
   :group_id => viewed.id,
   :url => "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}")
+
+copernicus = Copernicus.find_or_create_by_name(
+  :name => "copernicus",
+  :display_name => "Copernicus",
+  :description => "Usage stats for Copernicus articles.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "http://editor.copernicus.org/api/v1/articleStatisticsDoi/doi:%{doi}.json",
+  :username => "harvester",
+  :password => "bQ_99!-O=tXc")
 
 crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",

@@ -8,12 +8,15 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//
+// Loads all Bootstrap javascripts
+//= require bootstrap
 //
 // Loads all Bootstrap javascripts
 //= require bootstrap
 //
 // Load the D3 visualization library
 //= require d3.v3
+//
 // Load the Crossfilter library
 //= require crossfilter
