@@ -17,9 +17,9 @@ require 'securerandom'
 # Create new settings.yml unless it exists already
 # Set these passwords in config.json to keep them persistent
 unless File.exists?("/vagrant/config/settings.yml")
-  node.set_unless['alm']['key'] = SecureRandom.hex(30)
-  node.set_unless['alm']['secret'] = SecureRandom.hex(30)
-  node.set_unless['alm']['api_key'] = SecureRandom.hex(10)
+  node.set['alm']['key'] = SecureRandom.hex(30) unless node['alm']['key']
+  node.set['alm']['secret'] = SecureRandom.hex(30) unless node['alm']['secret']
+  node.set['alm']['api_key'] = SecureRandom.hex(30) unless node['alm']['api_key']
 else
   settings = YAML::load(IO.read("/vagrant/config/settings.yml"))
   rest_auth_site_key = settings["#{node[:alm][:environment]}"]["rest_auth_site_key"]
