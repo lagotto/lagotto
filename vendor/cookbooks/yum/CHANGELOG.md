@@ -3,6 +3,13 @@ yum Cookbook CHANGELOG
 This file is used to list changes made in each version of the yum cookbook.
 
 
+v2.3.4
+------
+### Improvement
+- **[COOK-3689](https://tickets.opscode.com/browse/COOK-3689)** - Fix warnings about resource cloning
+- **[COOK-3574](https://tickets.opscode.com/browse/COOK-3574)** - Add missing "description" field in metadata
+
+
 v2.3.2
 ------
 ### Bug

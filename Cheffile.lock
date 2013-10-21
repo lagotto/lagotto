@@ -1,7 +1,7 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    apache2 (1.7.0)
+    apache2 (1.8.4)
     apt (2.1.1)
     build-essential (1.4.2)
     chef_handler (1.1.4)
@@ -10,7 +10,7 @@ SITE
     couchdb (2.4.0)
       erlang (>= 0.0.0)
       yum (>= 0.0.0)
-    dmg (2.0.2)
+    dmg (2.0.4)
     erlang (1.3.2)
       apt (>= 1.7.0)
       build-essential (>= 0.0.0)
@@ -34,19 +34,19 @@ SITE
     postfix (3.0.0)
     powershell (1.1.2)
       windows (>= 1.2.8)
-    runit (1.2.0)
+    runit (1.3.0)
       build-essential (>= 0.0.0)
       yum (>= 0.0.0)
-    windows (1.10.0)
+    windows (1.11.0)
       chef_handler (>= 0.0.0)
-    yum (2.3.2)
+    yum (2.3.4)
 
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 26542b1e2d1a4a6497d7fc2b6918cbe1f5db956a
+  sha: 736a8558968222bd3a5ab41d76f682b0326a10c0
   specs:
-    alm (1.2.8)
+    alm (1.3.2)
       build-essential (>= 0.0.0)
       couchdb (>= 0.0.0)
       git (>= 0.0.0)

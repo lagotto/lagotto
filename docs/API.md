@@ -71,7 +71,9 @@ The metrics for every source are returned as total number, and separated in cate
 
 * **Facebook**: shares, likes, comments
 
-* **CrossRef, PubMed, Nature Blogs, ResearchBlogging, ScienceSeeker, Wikipedia**: citations
+* **Reddit**: likes, comments
+
+* **CrossRef, PubMed, Nature Blogs, ResearchBlogging, ScienceSeeker, Wordpress.com, Wikipedia, PMC Europe Citations, PMC Europe Database Citations**: citations
 
 * **Counter, PubMed Central**: html, pdf
 
