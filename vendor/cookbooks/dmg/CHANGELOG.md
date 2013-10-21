@@ -3,12 +3,6 @@ dmg Cookbook CHANGELOG
 This file is used to list changes made in each version of the dmg ookbook.
 
 
-v2.0.4
-------
-### Bug
-- **[COOK-3331](https://tickets.opscode.com/browse/COOK-3331)** - Fix an issue where `dmg_package` with no source raises an exception
-
-
 v2.0.2
 ------
 ### Bug

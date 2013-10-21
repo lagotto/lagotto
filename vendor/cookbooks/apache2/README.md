@@ -1,7 +1,5 @@
-apache2 Cookbook
-================
-[![Build Status](https://secure.travis-ci.org/opscode-cookbooks/apache2.png?branch=master)](http://travis-ci.org/opscode-cookbooks/apache2)
-
+Description
+===========
 
 This cookbook provides a complete Debian/Ubuntu style Apache HTTPD
 configuration. Non-Debian based distributions such as Red Hat/CentOS,
@@ -163,7 +161,7 @@ the top of the file.
 * `node['apache']['cache_dir']` - Location for cached files used by Apache itself or recipes
 * `node['apache']['pid_file']` - Location of the PID file for Apache httpd
 * `node['apache']['lib_dir']` - Location for shared libraries
-* `node['apache']['default_site_enabled']` - Default site enabled. Default is false.
+* `node['apache']['default_site_enabled']` - Default site enabled. Defaults to true on redhat-family platforms
 * `node['apache']['ext_status']` - if true, enables ExtendedStatus for `mod_status`
 
 General settings
@@ -172,7 +170,6 @@ General settings
 These are general settings used in recipes and templates. Default
 values are noted.
 
-* `node['apache']['listen_addresses']` - Addresses that httpd should listen on. Default is any ("*").
 * `node['apache']['listen_ports']` - Ports that httpd should listen on. Default is port 80.
 * `node['apache']['contact']` - Value for ServerAdmin directive. Default "ops@example.com".
 * `node['apache']['timeout']` - Value for the Timeout directive. Default is 300.
@@ -422,7 +419,7 @@ the definition is used. See __Examples__.
 
 ### Examples:
 
-Enable the ssl module, which also has a configuration template in `templates/default/mods/ssl.conf.erb`.
+Enable the ssl module, which also has a configuration template in `templates/default/ssl.conf.erb`.
 
     apache_module "ssl" do
       conf true

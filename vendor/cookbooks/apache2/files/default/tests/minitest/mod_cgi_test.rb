@@ -9,4 +9,5 @@ describe 'apache2::mod_cgi' do
       apache_enabled_modules.include?('cgid_module')
     )
   end
+
 end

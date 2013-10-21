@@ -14,8 +14,6 @@ default[:alm][:cas_url] = nil
 default[:alm][:github_client_id] = nil
 default[:alm][:github_client_secret] = nil
 default[:alm][:persona] = true
-default[:alm][:user] = "vagrant"
-default[:alm][:concurrency] = 1
 default[:alm][:copernicus] = { :url => "EXAMPLE", :username => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:counter] = { :url => "EXAMPLE" }
 default[:alm][:crossref] = { :username => "EXAMPLE", :password => "EXAMPLE" }

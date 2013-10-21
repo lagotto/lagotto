@@ -47,7 +47,6 @@ class Chef
           @log_config_file = nil
           @env_dir = nil
           @env_files = nil
-          @check_script = nil
           @finish_script = nil
           @control_dir = nil
           @control_signal_files = nil
@@ -123,13 +122,6 @@ class Chef
               env_files.each {|file| file.run_action(:create)}
             else
               Chef::Log.debug("Environment not specified for #{new_resource.service_name}, continuing")
-            end
-
-            if new_resource.check
-              Chef::Log.debug("Creating check script for #{new_resource.service_name}")
-              check_script.run_action(:create)
-            else
-              Chef::Log.debug("Check script not specified for #{new_resource.service_name}, continuing")
             end
 
             if new_resource.finish
@@ -413,20 +405,6 @@ EOF
             env_file
           end
           @env_files
-        end
-
-        def check_script
-          return @check_script unless @check_script.nil?
-          @check_script = Chef::Resource::Template.new(::File.join(sv_dir_name, 'check'), run_context)
-          @check_script.owner(new_resource.owner)
-          @check_script.group(new_resource.group)
-          @check_script.source("sv-#{new_resource.check_script_template_name}-check.erb")
-          @check_script.cookbook(template_cookbook)
-          @check_script.mode(00755)
-          if new_resource.options.respond_to?(:has_key?)
-            @check_script.variables(:options => new_resource.options)
-          end
-          @check_script
         end
 
         def finish_script

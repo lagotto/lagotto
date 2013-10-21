@@ -3,15 +3,6 @@ runit Cookbook CHANGELOG
 This file is used to list changes made in each version of the runit cookbook.
 
 
-v1.3.0
-------
-### Improvement
-- **[COOK-3663](https://tickets.opscode.com/browse/COOK-3663)** - Add ./check scripts support
-
-### Bug
-- **[COOK-3271](https://tickets.opscode.com/browse/COOK-3271)** - Fix an issue where runit fails to install rpm package on rehl systems
-
-
 v1.2.0
 ------
 ### New Feature

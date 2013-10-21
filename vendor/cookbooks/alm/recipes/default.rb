@@ -17,9 +17,9 @@ require 'securerandom'
 # Create new settings.yml unless it exists already
 # Set these passwords in config.json to keep them persistent
 unless File.exists?("/vagrant/config/settings.yml")
-  node.set['alm']['key'] = SecureRandom.hex(30) unless node['alm']['key']
-  node.set['alm']['secret'] = SecureRandom.hex(30) unless node['alm']['secret']
-  node.set['alm']['api_key'] = SecureRandom.hex(30) unless node['alm']['api_key']
+  node.set_unless['alm']['key'] = SecureRandom.hex(30)
+  node.set_unless['alm']['secret'] = SecureRandom.hex(30)
+  node.set_unless['alm']['api_key'] = SecureRandom.hex(10)
 else
   settings = YAML::load(IO.read("/vagrant/config/settings.yml"))
   rest_auth_site_key = settings["#{node[:alm][:environment]}"]["rest_auth_site_key"]
@@ -44,7 +44,6 @@ unless File.exists?("/vagrant/config/database.yml")
   node.set_unless['mysql']['server_root_password'] = SecureRandom.hex(8)
   node.set_unless['mysql']['server_repl_password'] = SecureRandom.hex(8)
   node.set_unless['mysql']['server_debian_password'] = SecureRandom.hex(8)
-  database_exists = false
 else
   database = YAML::load(IO.read("/vagrant/config/database.yml"))
   server_root_password = database["#{node[:alm][:environment]}"]["password"]
@@ -52,7 +51,6 @@ else
   node.set_unless['mysql']['server_root_password'] = server_root_password
   node.set_unless['mysql']['server_repl_password'] = server_root_password
   node.set_unless['mysql']['server_debian_password'] = server_root_password
-  database_exists = true
 end
 
 template "/vagrant/config/database.yml" do
@@ -87,29 +85,21 @@ when "centos"
   end
 end
 
-# Create default databases if they don't exist yet and run migrations otherwise
-if database_exists
-  script "RAILS_ENV=#{node[:alm][:environment]} rake db:migrations" do
-    interpreter "bash"
-    cwd "/vagrant"
-    code "RAILS_ENV=#{node[:alm][:environment]} rake db:migrations"
-    code "RAILS_ENV=#{node[:alm][:environment]} rake db:seed"
-  end
-else
-  script "RAILS_ENV=#{node[:alm][:environment]} rake db:setup" do
-    interpreter "bash"
-    cwd "/vagrant"
-    if node[:alm][:seed_sample_articles]
-      code "RAILS_ENV=#{node[:alm][:environment]} rake db:setup ARTICLES='1'"
-    else
-      code "RAILS_ENV=#{node[:alm][:environment]} rake db:setup"
-    end
+# Create default databases and run migrations
+script "RAILS_ENV=#{node[:alm][:environment]} rake db:setup" do
+  interpreter "bash"
+  cwd "/vagrant"
+  if node[:alm][:seed_sample_articles]
+    code "RAILS_ENV=#{node[:alm][:environment]} rake db:setup ARTICLES='1'"
+  else
+    code "RAILS_ENV=#{node[:alm][:environment]} rake db:setup"
   end
 end
 
 # Create default CouchDB database
 script "create CouchDB database #{node[:alm][:name]}" do
   interpreter "bash"
+  code "curl -X DELETE http://#{node[:alm][:host]}:#{node[:couch_db][:config][:httpd][:port]}/#{node[:alm][:name]}/"
   code "curl -X PUT http://#{node[:alm][:host]}:#{node[:couch_db][:config][:httpd][:port]}/#{node[:alm][:name]}/"
   ignore_failure true
 end
@@ -129,27 +119,6 @@ template "/vagrant/.env" do
   mode 0644
 end
 
-# Precompile assets in production and install upstart scripts for workers
-if node[:alm][:environment] == "production"
-  script "RAILS_ENV=#{node[:alm][:environment]} rake assets:precompile" do
-    interpreter "bash"
-    cwd "/vagrant"
-    code "RAILS_ENV=#{node[:alm][:environment]} rake assets:precompile"
-  end
-
-  script "sudo start alm" do
-    interpreter "bash"
-    cwd "/vagrant"
-    code "sudo foreman export upstart /etc/init -a alm -l /vagrant/log -u #{node[:alm][:user]} -c worker=#{node[:alm][:concurrency]}"
-  end
-
-  service "alm" do
-    provider Chef::Provider::Service::Upstart
-    supports :status => true, :restart => true, :reload => true
-    action [:restart]
-  end
-end
-
 case node['platform']
 when "ubuntu"
   node.set_unless['passenger']['root_path'] = "/var/lib/gems/1.9.1/gems/passenger-#{node['passenger']['version']}"
@@ -162,7 +131,7 @@ when "ubuntu"
 
   web_app "alm" do
     template "alm.conf.erb"
-    notifies :restart, resources(:service => "apache2"), :delayed
+    notifies :reload, resources(:service => "apache2"), :delayed
   end
 when "centos"
   template "/etc/httpd/conf.d/alm.conf" do

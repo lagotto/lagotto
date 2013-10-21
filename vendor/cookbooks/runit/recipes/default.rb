@@ -71,11 +71,16 @@ when "rhel"
         tar xzf runit-2.1.1.tar.gz
         cd runit-2.1.1
         ./build.sh
-        rpm_root_dir=`rpm --eval "%{_rpmdir}"`
-        rpm -ivh "$rpm_root_dir/runit-2.1.1.rpm"
       EOH
+      notifies :install, "rpm_package[runit-211]", :immediately
       action :run
       not_if rpm_installed
+    end
+
+    rpm_root_dir = `rpm --eval "%{_rpmdir}"`
+    rpm_package "runit-211" do
+      source rpm_root_dir.strip + "/runit-2.1.1.rpm"
+      action :nothing
     end
   end
 

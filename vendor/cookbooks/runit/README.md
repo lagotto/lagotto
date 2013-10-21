@@ -136,8 +136,6 @@ Many of these parameters are only used in the `:enable` action.
 - **cookbook** - A cookbook where templates are located instead of
    where the resource is used. Applies for all the templates in the
    `enable` action.
-- **check** - whether the service has a check script, requires a
-   template `sv-service_name-check.erb`
 - **finish** - whether the service has a finish script, requires a
    template `sv-service_name-finish.erb`
 - **control** - An array of signals to customize control of the service,
@@ -152,8 +150,6 @@ Many of these parameters are only used in the `:enable` action.
    use replacing `service_name`.
 - **log_template_name** - alternate filename of the log run script to
    use replacing `service_name`.
-- **check_script_template_name** - alternate filename of the check
-   script to use, replacing `service_name`.
 - **finish_script_template_name** - alternate filename of the finish
    script to use, replacing `service_name`.
 - **control_template_names** - a hash of control signals (see *control*
@@ -231,18 +227,6 @@ runit_service "no-svlog" do
   log false
 end
 ```
-
-**Check Script**
-
-To create a service that has a check script in its service directory, set the `check` parameter to `true`, and create a `sv-checker-check.erb` template.
-
-```ruby
-runit_service "checker" do
-  check true
-end
-```
-
-This will create `/etc/sv/checker/check`.
 
 **Finish Script**
 
