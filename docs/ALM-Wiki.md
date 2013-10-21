@@ -9,7 +9,6 @@ For more information on how PLOS uses Article-Level Metrics, see [http://article
 Read the following pages to get started:
 
 * [Install](https://github.com/articlemetrics/alm/wiki/Install)
-* [Capistrano](https://github.com/articlemetrics/alm/wiki/Capistrano)
 * [Formats](https://github.com/articlemetrics/alm/wiki/Formats)
 * [Development](https://github.com/articlemetrics/alm/wiki/Development)
 * [Rake](https://github.com/articlemetrics/alm/wiki/Rake)
@@ -17,5 +16,4 @@ Read the following pages to get started:
 
 ## Information
 * [Data Analysis and Evaluation](https://github.com/articlemetrics/alm/wiki/Data-Analysis-and-Evaluation)
-* [Videos](https://github.com/articlemetrics/alm/wiki/Videos)
 * [Past Contributors](https://github.com/articlemetrics/alm/wiki/Past-Contributors)

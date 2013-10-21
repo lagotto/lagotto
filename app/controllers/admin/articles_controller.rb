@@ -86,9 +86,6 @@ class Admin::ArticlesController < Admin::ApplicationController
 
     @articles = collection.paginate(:page => params[:page])
 
-    # source url parameter is only used for csv format
-    @source = Source.find_by_name(params[:source].downcase) if params[:source]
-
     if params[:source]
       @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("name")
     else

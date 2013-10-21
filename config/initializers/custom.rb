@@ -18,8 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "csv"
-
 Dir[File.join(Rails.root, 'lib', '*.rb')].each { |f| require f }
 
 include SourceHelper
