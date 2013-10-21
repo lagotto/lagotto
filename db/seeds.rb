@@ -3,6 +3,10 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
+# Load default admin user
+unless Rails.env.production?
+  User.create(:username => "EXAMPLE", :name => "Admin", :email => "admin@example.org", :password => "EXAMPLE", :password_confirmation => "EXAMPLE") if User.count == 0
+end
 
 # Load default groups
 viewed = Group.find_or_create_by_name(:name => "Viewed")
@@ -129,6 +133,7 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
 
 # The following sources require passwords/API keys
+
 copernicus = Copernicus.find_or_create_by_name(
   :name => "copernicus",
   :display_name => "Copernicus",
