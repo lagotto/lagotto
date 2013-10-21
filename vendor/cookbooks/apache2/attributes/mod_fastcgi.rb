@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: apache2
-# Recipe:: authz_host
+# Attributes:: mod_fastcgi
 #
-# Copyright 2008-2013, Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-apache_module 'authz_host'
+default['apache']['mod_fastcgi']['download_url'] = 'http://www.fastcgi.com/dist/mod_fastcgi-current.tar.gz'
