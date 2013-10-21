@@ -96,7 +96,7 @@ Then install the application with:
 
     git clone git://github.com/articlemetrics/alm.git
     cd alm
-    vagrant up --provider was
+    vagrant up --provider aws
 
 After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at the web address of your EC2 instance (the use of Elastic IPs and a DNS server is recommended).
 

@@ -6,4 +6,10 @@ To facilitate the dissemination of Article-Level Metrics, PLOS has made this app
 * Use the API to collect information about individual articles, or a set of articles
 * Install the Article-Level Metrics application to collect their own metrics
 
-Use the documentation for more information on these topics. To use the API, please sign up with your [Mozilla Persona](http://www.mozilla.org/en-US/persona/) account and use the API key generated for you. To learn how PLOS uses Article-Level Metrics, see [http://article-level-metrics.plos.org/](http://article-level-metrics.plos.org/). For technical questions regarding the Article-Level Metrics application, visit the [PLOS API Developers Google Group](https://groups.google.com/forum/?fromgroups#!forum/plos-api-developers) or use the [Github issue tracker](https://github.com/articlemetrics/alm/issues).
+The following organizations have implemented Article-Level Metrics using the Open Source ALM application:
+
+* [Public Library of Science (PLOS)](http://article-level-metrics.plos.org/)
+* [Copernicus Publications](http://publications.copernicus.org/services/article_level_metrics.html)
+* [Public Knowledge Project (PKP)](http://pkp.sfu.ca/pkp-launches-article-level-metrics-for-ojs-journals/)
+
+To use the API, please sign up with your [Mozilla Persona](http://www.mozilla.org/en-US/persona/) account and use the API key generated for you. To learn more about Article-Level Metrics, see the [SPARC ALM primer](http://www.sparc.arl.org/resource/sparc-article-level-metrics-primer). For technical questions regarding the Article-Level Metrics application, visit the [PLOS API Developers Google Group](https://groups.google.com/forum/?fromgroups#!forum/plos-api-developers) or use the [Github issue tracker](https://github.com/articlemetrics/alm/issues).

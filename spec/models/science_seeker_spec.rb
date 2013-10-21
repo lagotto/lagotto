@@ -16,6 +16,13 @@ describe ScienceSeeker do
       stub.should have_been_requested
     end
 
+    it "should report if there is an incomplete response returned by the ScienceSeeker API" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
+      stub = stub_request(:get, science_seeker.get_query_url(article)).to_return(:body => File.read(fixture_path + 'science_seeker_incomplete.xml'), :status => 200)
+      science_seeker.get_data(article).should eq({ :events => [], :event_count => 0, :event_metrics => { :pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, :attachment => nil, :events_url => "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}" })
+      stub.should have_been_requested
+    end
+
     it "should report if there are events and event_count returned by the ScienceSeeker API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0035869")
       stub = stub_request(:get, science_seeker.get_query_url(article)).to_return(:body => File.read(fixture_path + 'science_seeker.xml'), :status => 200)
