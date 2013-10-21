@@ -3,10 +3,12 @@
     <h1 class="signpost" id="article"><%= number_with_delimiter(@articles_count) %></h1>
     <div><%= link_to "Articles", articles_path %></div>
   </div>
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost"><%= number_with_delimiter(@articles_recent_count) %></h1>
-    <div><%= link_to "Articles published last 30 days", articles_path %></div>
-  </div>
+  <% unless Article.has_many? %>
+    <div class="span3 text-center dashboard dashboard-label">
+      <h1 class="signpost"><%= number_with_delimiter(@articles_recent_count) %></h1>
+      <div><%= link_to "Articles published last 30 days", articles_path %></div>
+    </div>
+  <% end %>
   <div class="span3 text-center dashboard dashboard-label">
     <h1 class="signpost"><%= number_with_delimiter(@sources_disabled_count) %></h1>
     <div><%= link_to "Disabled sources", admin_sources_path %></div>
@@ -18,21 +20,19 @@
 </div>
 <div class="row">
   <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost"><%= number_with_delimiter(@queued_count) %></h1>
-    <div><%= link_to "Queued articles", admin_delayed_jobs_path %></div>
-  </div>
-  <div class="span3 text-center dashboard dashboard-label">
     <h1 class="signpost"><%= number_with_delimiter(@delayed_jobs_active_count) %></h1>
-    <div><%= link_to "Jobs", admin_delayed_jobs_path %></div>
+    <div><%= link_to "Pending and working jobs", admin_delayed_jobs_path %></div>
   </div>
   <div class="span3 text-center dashboard dashboard-label">
     <h1 class="signpost"><%= number_with_delimiter(@responses_count) %></h1>
     <div><%= link_to "API responses in the last 24 hours", admin_responses_path %></div>
   </div>
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="event"><%= number_with_delimiter(@events_count) %></h1>
-    <div><%= link_to "Events", admin_events_path %></div>
-  </div>
+  <% unless Article.has_many? %>
+    <div class="span3 text-center dashboard dashboard-label">
+      <h1 class="signpost" id="event"><%= number_with_delimiter(@events_count) %></h1>
+      <div><%= link_to "Events", admin_events_path %></div>
+    </div>
+  <% end %>
 </div>
 <div class="row">
   <div class="span3 text-center dashboard dashboard-label">
