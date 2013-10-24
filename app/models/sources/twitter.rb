@@ -63,9 +63,11 @@ class Twitter < Source
 
         if data.has_key?("from_user")
           user = data["from_user"]
+          user_name = data["from_user_name"]
           user_profile_image = data["profile_image_url"]
         else
           user = data["user"]["screen_name"]
+          user_name = data["user"]["name"]
           user_profile_image = data["user"]["profile_image_url"]
         end
 
@@ -73,6 +75,7 @@ class Twitter < Source
         event_data[:text] = data["text"]
         event_data[:created_at] = data["created_at"]
         event_data[:user] = user
+        event_data[:user_name] = user_name
         event_data[:user_profile_image] = user_profile_image
 
         event = {
