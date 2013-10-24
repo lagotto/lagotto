@@ -10,6 +10,8 @@ var s = 1;   // spacing between bars
 d3.json("/admin/events.json", function(error, json) {
   data = json;
 
+  d3.select("#loading-article").remove();
+
   var chart = d3.select("div#article").append("svg")
     .attr("width", w + l + r)
     .attr("height", data.length * (h + 2 * s) + 30)

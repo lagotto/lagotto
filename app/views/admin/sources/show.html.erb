@@ -47,7 +47,7 @@
       <div id="source-show">
         <%= render :partial => 'admin/sources/show', :locals => { :name => @source.name } %>
       </div>
-      <% if Article.count > 0 %>
+      <% if Article.count > 0 and !Article.has_many? %>
         <div class="row">
           <div class="span4" id="chart_status">
             <%= javascript_tag do -%>

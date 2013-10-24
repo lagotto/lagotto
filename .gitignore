@@ -37,3 +37,6 @@ pickle-email-*.html
 config.json
 Capfile
 /public/assets
+.idea/*
+db/seeds-test.rb
+db/seeds-production.rb

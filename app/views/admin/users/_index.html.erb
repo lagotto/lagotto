@@ -33,7 +33,7 @@
       <% cache user do %>
         <div class="accordion-group">
           <div class="accordion-heading">
-            <%= link_to ("<strong>" + h(user.name) + "</strong>" + (user.last_sign_in_at.blank? ? "" : " (last sign in " + user.last_sign_in_at.to_s(:friendly) + ")")).html_safe, "#user_#{user.id}", :class => "accordion-toggle", :id => "link_#{user.id}", :data => { :toggle => "collapse", :parent => "#user" }, :href => "#user_#{user.id}" %>
+            <%= link_to ("<strong>" + h(user.name) + "</strong>" + "<span class='pull-right'>#{user.last_sign_in_at.blank? ? "" : user.last_sign_in_at.to_s(:short)}</span").html_safe, "#user_#{user.id}", :class => "accordion-toggle", :id => "link_#{user.id}", :data => { :toggle => "collapse", :parent => "#user" }, :href => "#user_#{user.id}" %>
           </div>
           <div id="user_<%= user.id %>" class="accordion-body collapse">
             <div class="accordion-inner">

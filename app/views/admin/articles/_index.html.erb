@@ -21,11 +21,13 @@
 
 <% else %>
   <div class="page-header">
-    <% if can?(:manage, Article) %>
+    <% if can? :read, Alert %>
       <div class="btn-toolbar pull-right">
-        <div class="btn-group hidden-phone">
-          <%= link_to '<i class="icon-plus"></i> New'.html_safe, new_admin_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-small' } %>
-        </div>
+        <% if can?(:manage, Article) %>
+          <div class="btn-group hidden-phone">
+            <%= link_to '<i class="icon-plus"></i> New'.html_safe, new_admin_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-small' } %>
+          </div>
+        <% end %>
         <div class="btn-group" id="article-alerts">
           <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-filter"></i> <%= @class_name.nil? ? "All Articles" : h(@class_name) %> <span class="caret"></span></a>
           <ul class="dropdown-menu pull-right">

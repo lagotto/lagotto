@@ -68,4 +68,8 @@ class Reddit < Source
   def url=(value)
     config.url = value
   end
+
+  def rate_limiting
+    config.rate_limiting || 1800
+  end
 end

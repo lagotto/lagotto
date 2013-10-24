@@ -32,15 +32,17 @@
       <td class="number"><%= number_with_precision(@source.api_responses.total(1).average("duration").nil? ? 0 : @source.api_responses.total(1).average("duration"), precision: 0) %></td>
       <td class="number"><%= number_with_precision(@source.api_responses.total(1).maximum("duration").nil? ? 0 : @source.api_responses.total(1).maximum("duration"), precision: 0) %></td>
     </tr>
-    <tr>
-      <th/>
-      <th class="number">Articles&nbsp;with&nbsp;Events</th>
-      <th class="number">All Events</th>
-    </tr>
-    <tr>
-      <th>Events</th>
-      <td class="number"><%= number_with_delimiter(@source.articles.cited(1).size) %></td>
-      <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.sum(:event_count)) %></td>
-    </tr>
+    <% unless Article.has_many? %>
+      <tr>
+        <th/>
+        <th class="number">Articles&nbsp;with&nbsp;Events</th>
+        <th class="number">All Events</th>
+      </tr>
+      <tr>
+        <th>Events</th>
+        <td class="number"><%= number_with_delimiter(@source.articles.cited(1).size) %></td>
+        <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.sum(:event_count)) %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
