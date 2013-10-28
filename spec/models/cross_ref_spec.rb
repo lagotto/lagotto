@@ -8,6 +8,11 @@ describe CrossRef do
     cross_ref.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
 
+  it "should report that there are no events if article was published on the same day" do
+    article_without_doi = FactoryGirl.build(:article, :published_on => Time.zone.today)
+    cross_ref.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
+  end
+
   context "use the CrossRef API" do
     let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007") }
 

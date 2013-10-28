@@ -18,7 +18,7 @@
 
 class ArticlesController < ApplicationController
 
-  respond_to :html, :xml, :json
+  respond_to :html
 
   # GET /articles
   def index
@@ -34,19 +34,13 @@ class ArticlesController < ApplicationController
 
     @articles = collection.includes(:retrieval_statuses).paginate(:page => params[:page])
 
-    # source url parameter is only used for csv format
-    @source = Source.find_by_name(params[:source].downcase) if params[:source]
-
     if params[:source]
       @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("name")
     else
       @sources = Source.order("name")
     end
 
-    respond_with(@articles) do |format|
-      format.json { render :json => @articles, :callback => params[:callback] }
-      format.csv  { render :csv => @articles }
-    end
+    respond_with(@articles)
   end
 
   # GET /articles/:id
@@ -59,16 +53,7 @@ class ArticlesController < ApplicationController
     @groups = Group.order("id")
     @api_key = APP_CONFIG['api_key']
 
-    respond_with(@article) do |format|
-      format.csv  { render :csv => @article }
-      format.json { render :json => @article.as_json(format_options), :callback => params[:callback] }
-      format.xml  do
-        response.headers['Content-Disposition'] = 'attachment; filename=' + params[:id].sub(/^info:/,'') + '.xml'
-        render :xml => @article.to_xml(:events => format_options[:events],
-                                       :history => format_options[:history],
-                                       :source => format_options[:source])
-      end
-    end
+    respond_with(@article)
   end
 
   protected
