@@ -29,12 +29,17 @@ class SourcesController < ApplicationController
     filename = Rails.root.join("docs/#{@source.name.capitalize}.md")
     @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
 
-    if params[:days]
-      @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_days(params[:days].to_i)
-    elsif params[:months]
-      @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_months(params[:months].to_i)
-    else
-      @retrieval_statuses = @source.retrieval_statuses.most_cited
+    respond_with(@source) do |format|
+      format.rss do
+        if params[:days]
+          @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_days(params[:days].to_i)
+        elsif params[:months]
+          @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_months(params[:months].to_i)
+        else
+          @retrieval_statuses = @source.retrieval_statuses.most_cited
+        end
+        render :show
+      end
     end
   end
 
