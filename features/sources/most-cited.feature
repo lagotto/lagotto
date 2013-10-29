@@ -8,14 +8,7 @@ Feature: Display most-cited articles
     Given I am logged in as "admin"
     And the source "Citeulike" exists
     And that we have 10 recent articles
-      
-    Scenario Outline: I should see the most-cited articles
-      When I go to the "<Submenu>" submenu of menu "Most-Cited" of source "CiteULike"
-      Then I should see a list of <Articles> articles
-      
-      Examples: 
-        | Submenu   | Articles |
-        | 7 days    | 10       |
-        | 30 days   | 10       |
-        | 12 months | 10       |
-        | All-time  | 10       |
+
+    Scenario: I should see the most-cited articles
+      When I go to the menu "Most-Cited" of source "CiteULike"
+      Then I should see a list of 10 articles
