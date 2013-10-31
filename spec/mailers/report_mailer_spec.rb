@@ -12,7 +12,7 @@ describe ReportMailer do
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("This is the daily ALM report.")
+      mail.body.encoded.should include("This is the daily ALM report")
     end
 
     it "includes no reviews" do
