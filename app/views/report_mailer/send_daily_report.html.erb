@@ -1,11 +1,11 @@
-This is the daily ALM report.
+<p>This is the daily ALM report.</p>
 
 <% unless @reviews.empty? -%>
-<% @reviews.each do |review| -%>
-<%= review.message %>
-<% end -%>
+<p><% @reviews.each do |review| -%>
+<%= review.message %><br/>
+<% end -%></p>
 <% else -%>
-No review found.
+<p>No review found.</p>
 <% end -%>
 
-See all alerts: <%= admin_alerts_url %>
+<p>See all alerts: <%= admin_alerts_url %></p>
