@@ -8,4 +8,4 @@ This is the daily ALM report, generated <%= Time.zone.now.to_formatted_s(:long) 
 No review found.
 <% end -%>
 
-See all alerts: <%= admin_alerts_url(:only_path => false) %>
+See all alerts: <%= admin_alerts_url(:host => APP_CONFIG['hostname']) %>
