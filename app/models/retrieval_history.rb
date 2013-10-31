@@ -22,13 +22,6 @@ class RetrievalHistory < ActiveRecord::Base
   belongs_to :article
   belongs_to :source
 
-  SUCCESS_MSG = "SUCCESS"
-  SUCCESS_NODATA_MSG = "SUCCESS WITH NO DATA"
-  ERROR_MSG = "ERROR"
-  SKIPPED_MSG = "SKIPPED"
-  SOURCE_DISABLED = "Source disabled"
-  SOURCE_NOT_ACTIVE = "Source not active"
-
   default_scope order("retrieved_at DESC")
 
   scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
@@ -69,23 +62,4 @@ class RetrievalHistory < ActiveRecord::Base
       nil
     end
   end
-
-  def v1_format?
-    updated_at < Date.parse("2012-07-31")
-  end
-
-  def as_json
-    {
-        :updated_at => (retrieved_at.nil? ? nil: retrieved_at.to_time),
-        :count => event_count
-    }
-  end
-
-  def to_xml(options = {})
-    options[:indent] ||= 2
-    xml = options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
-    xml.instruct! unless options[:skip_instruct]
-    xml.tag!("history", :updated_at => (retrieved_at.nil? ? nil: retrieved_at.to_time), :count => event_count)
-  end
-
 end
