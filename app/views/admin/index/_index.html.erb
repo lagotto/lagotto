@@ -33,6 +33,10 @@
       <div><%= link_to "Events", admin_events_path %></div>
     </div>
   <% end %>
+  <div class="span3 text-center dashboard dashboard-label">
+    <h1 class="signpost"><%= number_with_delimiter(@requests_count) %></h1>
+    <div><%= link_to "API requests in the last 24 hours", admin_api_requests_path %></div>
+  </div>
 </div>
 <div class="row">
   <div class="span3 text-center dashboard dashboard-label">
@@ -40,8 +44,8 @@
     <div><%= link_to "Users", admin_users_path %></div>
   </div>
   <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost"><%= number_with_delimiter(@requests_count) %></h1>
-    <div><%= link_to "API requests in the last 24 hours", admin_api_requests_path %></div>
+    <h1 class="signpost"><%= VERSION %></h1>
+    <div>ALM Version</div>
   </div>
   <div class="span3 text-center dashboard dashboard-label">
     <h1 class="signpost"><%= number_to_human_size(@mysql_info["data_length"]) %></h1>
