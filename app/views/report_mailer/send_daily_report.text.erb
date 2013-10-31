@@ -1,4 +1,4 @@
-This is the daily ALM report, generated <%= Time.zone.now.to_formatted_s(:long) %>.
+This is the daily ALM report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.
 
 <% unless @reviews.empty? -%>
 <% @reviews.each do |review| -%>
