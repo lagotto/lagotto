@@ -242,6 +242,18 @@ FactoryGirl.define do
     initialize_with { ScienceSeeker.find_or_create_by_name(name) }
   end
 
+  factory :datacite, class: Datacite do
+    type "Datacite"
+    name "datacite"
+    display_name "DataCite"
+    state_event "activate"
+    url "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true"
+
+    group
+
+    initialize_with { Datacite.find_or_create_by_name(name) }
+  end
+
   factory :wordpress, class: Wordpress do
     type "Wordpress"
     name "wordpress"
