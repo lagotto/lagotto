@@ -31,7 +31,7 @@ Alm::Application.configure do
   config.assets.debug = true
 
   # for devise
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  # config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
   # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict
@@ -39,4 +39,7 @@ Alm::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+  # strong_parameters gem, default in Rails 4
+  config.action_controller.action_on_unpermitted_parameters = :raise
 end
