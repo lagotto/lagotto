@@ -29,3 +29,11 @@
     action act.to_sym
   end
 end
+
+yum_repository "cook-3025" do
+  description "cook-3025"
+  url "http://example.invalid"
+  enabled 0
+  make_cache false
+  proxy "http://proxy.invalid:1234/path"
+end

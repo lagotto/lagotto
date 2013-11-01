@@ -148,6 +148,15 @@ pmc = Pmc.find_or_create_by_name(
   :url => "http://localhost:5984/pmc_usage_stats/%{doi}",
   :filepath => "/home/vagrant/pmcdata/")
 
+datacite = Datacite.find_or_create_by_name(
+  :name => "datacite",
+  :display_name => "DataCite",
+  :description => "Helping you to find, access, and reuse research data.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => cited.id,
+  :url => "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json")
+
 # The following sources require passwords/API keys
 counter = Counter.find_or_create_by_name(
   :name => "counter",
