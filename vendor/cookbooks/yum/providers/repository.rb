@@ -82,17 +82,14 @@ def repo_config
   #import the gpg key. If it needs to be downloaded or imported from a cookbook
   #that can be done in the calling recipe
   if new_resource.key then
-    yum_key "#{new_resource.repo_name}-key" do
-      key new_resource.key
-    end
+    yum_key new_resource.key
   end
-  #get the metadata for this repo only
-  execute "yum-makecache-#{new_resource.repo_name}" do
-    command "yum -q makecache --disablerepo=* --enablerepo=#{new_resource.repo_name}"
-    action :nothing
-  end
+  #get the metadata
+  # execute "yum -q makecache" do
+  #   action :nothing
+  # end
   #reload internal Chef yum cache
-  ruby_block "reload-internal-yum-cache-for-#{new_resource.repo_name}" do
+  ruby_block "reload-internal-yum-cache" do
     block do
       Chef::Provider::Package::Yum::YumCache.instance.reload
     end
@@ -114,17 +111,11 @@ def repo_config
                 :failovermethod => new_resource.failovermethod,
                 :bootstrapurl => new_resource.bootstrapurl,
                 :includepkgs => new_resource.includepkgs,
-                :exclude => new_resource.exclude,
-                :priority => new_resource.priority,
-                :metadata_expire => new_resource.metadata_expire,
-                :type => new_resource.type,
-                :proxy => new_resource.proxy,
-                :proxy_username => new_resource.proxy_username,
-                :proxy_password => new_resource.proxy_password
+                :exclude => new_resource.exclude
               })
     if new_resource.make_cache
-      notifies :run, "execute[yum-makecache-#{new_resource.repo_name}]", :immediately
-      notifies :create, "ruby_block[reload-internal-yum-cache-for-#{new_resource.repo_name}]", :immediately
+      notifies :run, resources(:execute => "yum -q makecache"), :immediately
+      notifies :create, resources(:ruby_block => "reload-internal-yum-cache"), :immediately
     end
   end
 end
