@@ -38,4 +38,7 @@ Alm::Application.configure do
 
   # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict
+
+  # strong_parameters gem, default in Rails 4
+  config.action_controller.action_on_unpermitted_parameters = :raise
 end

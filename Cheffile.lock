@@ -39,12 +39,12 @@ SITE
       yum (>= 0.0.0)
     windows (1.11.0)
       chef_handler (>= 0.0.0)
-    yum (2.3.4)
+    yum (2.4.0)
 
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 5b359506308f66670451ae49b0896b4edbbbcbe5
+  sha: 68ad2ad5a58bdb56dd1a3006b496fddaf5729639
   specs:
     alm (1.3.3)
       build-essential (>= 0.0.0)

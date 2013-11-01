@@ -128,6 +128,15 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :group_id => discussed.id,
   :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
 
+datacite = Datacite.find_or_create_by_name(
+  :name => "datacite",
+  :display_name => "DataCite",
+  :description => "Helping you to find, access, and reuse research data.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => cited.id,
+  :url => "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json")
+
 # The following sources require passwords/API keys
 copernicus = Copernicus.find_or_create_by_name(
   :name => "copernicus",
