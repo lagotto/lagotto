@@ -31,7 +31,7 @@ Alm::Application.configure do
   # config.force_ssl = true
 
   # See everything in the log (default is :info)
-  # config.log_level = :warn
+  config.log_level = :warn
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
@@ -60,5 +60,5 @@ Alm::Application.configure do
 
   # for devise
   # TODO Must set it with correct value!!
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  # config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end

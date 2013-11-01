@@ -64,22 +64,28 @@ class Scopus < Source
 
     begin
       result = driver.getCitedByCount(build_payload(article.doi))
-      countList = result.getCitedByCountRspPayload.citedByCountList
-      event_count = countList[0].linkData[0].citedByCount.to_i
+      payload = result.getCitedByCountRspPayload
+      if payload.citedByCountList.nil?
+        event_count = 0
+      else
+        countList = payload.citedByCountList
+        event_count = countList[0].linkData[0].citedByCount.to_i
+      end
     rescue SOAP::EmptyResponseError
       event_count = 0
-    rescue SOAP::HTTPStreamError => error
-      status = error.to_s[0..2]
+    rescue Exception => error
+      status = error.message.to_s[0..2]
       if status == "404"
         event_count = 0
       else
         message = "A #{status} error occured for article #{article.doi}"
         Alert.create(exception: "",
-             class_name: "SOAP::HTTPStreamError",
+             class_name: error.class.to_s,
              message: message,
              status: status,
              target_url: url,
              article_id: article.id,
+             details: result.inspect,
              source_id: id)
         return nil
       end

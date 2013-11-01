@@ -38,7 +38,7 @@ class Article < ActiveRecord::Base
   validates :uid, :title, :presence => true
   validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true
   validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future",
-                                                               :after => lambda { 50.years.ago }, :after_message => "must not be older than 50 years",
+                                                               :after => lambda { Date.new(1665,1,1) }, :after_message => "must not be older than 50 years",
                                                                :type => :date }
   after_create :create_retrievals
 
@@ -188,80 +188,6 @@ class Article < ActiveRecord::Base
 
   def title_escaped
     CGI.escape(title).gsub("+", "%20")
-  end
-
-  def to_xml(options = {})
-    sources = (options.delete(:source) || '').downcase.split(',')
-
-    options[:indent] ||= 2
-    xml = options[:builder] ||= ::Builder::XmlMarkup.new(:indent => options[:indent])
-    xml.instruct! unless options[:skip_instruct]
-    xml.tag!("article",
-             :doi => doi,
-             :title => title,
-             :pub_med => pub_med,
-             :pub_med_central => pub_med_central,
-             :events_count => events_count,
-             :published => (published_on.nil? ? nil : published_on.to_time)) do
-
-      if options[:events] or options[:history]
-        retrieval_options = options.merge!(:dasherize => false,
-                                           :skip_instruct => true)
-
-        retrieval_statuses.each do |rs|
-          rs.to_xml(retrieval_options) if (sources.empty? or sources.include?(rs.source.name.downcase))
-        end
-      end
-    end
-  end
-
-  def as_json(options={})
-    result = {
-        :article => {
-            :doi => doi,
-            :title => title,
-            :pub_med => pub_med,
-            :pub_med_central => pub_med_central,
-            :events_count => events_count,
-            :published => (published_on.nil? ? nil : published_on.to_time)
-        }
-    }
-
-    sources = (options.delete(:source) || '').downcase.split(',')
-    if options[:events] or options[:history]
-      result[:article][:source] = retrieval_statuses.map do |rs|
-        rs.as_json(options) if (sources.empty? or sources.include?(rs.source.name.downcase))
-      end.compact
-    end
-    result
-  end
-
-  def get_data_by_group(group)
-    data = []
-    r_statuses = retrieval_statuses.joins(:source => :group).where("groups.id = ?", group.id)
-    r_statuses.each do |rs|
-      if rs.event_count > 0
-        if not rs.data.nil?
-          data << {:source => rs.source.display_name,
-                   :events => rs.data["events"]}
-        end
-      end
-    end
-    data
-  end
-
-  def group_source_info
-    group_info = {}
-    retrieval_statuses.each do |rs|
-      if not rs.source.group.nil? and rs.event_count > 0
-        group_id = rs.source.group.id
-        group_info[group_id] = [] if group_info[group_id].nil?
-        group_info[group_id] << {:source => rs.source.display_name,
-                                 :count => rs.event_count,
-                                 :public_url => rs.events_url}
-      end
-    end
-    group_info
   end
 
   def is_publisher?

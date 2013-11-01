@@ -1,15 +1,15 @@
-<% unless sample.empty? %>
+<% unless @source.retrieval_statuses.most_cited.empty? %>
  <div class="pull-right">
-    <%= link_to image_tag("feed-icon-28x28.png"), url %>
+    <%= link_to image_tag("feed-icon-28x28.png"), source_path(@source, format: "rss") %>
   </div>
   <div class="row">
-  <% sample.each do |retrieval_status| %>
+  <% @source.retrieval_statuses.most_cited.each do |retrieval_status| %>
     <div class="span12">
       <h4><%= link_to retrieval_status.article.title, retrieval_status.article %></h4>
       <%= retrieval_status.article.published_on.to_s(:long) %> - <%= pluralize retrieval_status.event_count, "event" %>
     </div>
   <% end %>
-  </div>   
+  </div>
 <% else %>
   <div class="alert alert-info">No articles have been cited by this source</div>
 <% end %>
