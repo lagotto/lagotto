@@ -60,5 +60,5 @@ Alm::Application.configure do
 
   # for devise
   # TODO Must set it with correct value!!
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  # config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end
