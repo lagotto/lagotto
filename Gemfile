@@ -24,7 +24,7 @@ gem "oj", "~> 2.1.4"
 gem "nori", "~> 2.3.0"
 
 gem 'mumboe-soap4r', '1.5.8.5'
-gem "devise", "~> 3.1.1"
+gem "devise", "~> 3.0.3"
 gem "omniauth-github", "~> 1.1.0"
 gem "omniauth-persona"
 gem "cancan", "~> 1.6.10"
