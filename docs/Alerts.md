@@ -55,15 +55,11 @@ A background job could not be processed in `max_run_time`. This typically happen
 - timeout (default 30 sec)
 - batch_time_interval (default 1 hour)
 
-If all 200 jobs take close to 30 sec, and they will not be done within an hour, and before we process the next batch. Decrease `job_batch_size` and/or `timeout`, or increase `batch_time_interval` if you see to many of these errors for a source.
+If all 200 jobs take close to 3000 sec, and they will not be done within an hour, and before we process the next batch. Decrease `job_batch_size` and/or `timeout`, or increase `batch_time_interval` if you see to many of these errors for a source.
 
 ### [401] Missing API key.
 
-The ALM application uses the ALM API for some visualizations and uses the API key of the first admin user for this. This error means that this key couldn't be found, e.g. because no admin user was set up.
-
-### [409] Conflict while requesting "http://localhost:5984/alm/facebook:DOI"
-
-CouchDB can't be updated because the _rev for the document provided by the ALM application doesn't match the most recent _rev in CouchDB.
+An API request was done without an API key. Make sure the api_key is declared in `config/settings.yml`.
 
 ### [503] Service Temporarily Unavailable while requesting http://blogs.nature.com/posts.json?doi=DOI
 
