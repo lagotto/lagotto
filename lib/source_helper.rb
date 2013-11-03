@@ -154,7 +154,7 @@ module SourceHelper
   def conn_json
     Faraday.new do |c|
       c.headers['Accept'] = 'application/json'
-      c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
+      c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - http://#{APP_CONFIG['hostname']}"
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.request  :json
       c.response :json, :content_type => /\bjson$/
@@ -166,7 +166,7 @@ module SourceHelper
   def conn_xml
     Faraday.new do |c|
       c.headers['Accept'] = 'application/xml'
-      c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
+      c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - http://#{APP_CONFIG['hostname']}"
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.use      Faraday::Response::RaiseError
       c.adapter  Faraday.default_adapter
@@ -175,7 +175,7 @@ module SourceHelper
 
   def conn_doi
     Faraday.new do |c|
-      c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - #{APP_CONFIG['hostname']}"
+      c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - http://#{APP_CONFIG['hostname']}"
       c.use     FaradayMiddleware::FollowRedirects, :limit => 10
       c.use     :cookie_jar
       c.use     Faraday::Response::RaiseError

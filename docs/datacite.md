@@ -12,7 +12,7 @@
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
-<td valign="top" width=80%>url (as href)<br/>contributor (as creator)</td>
+<td valign="top" width=80%>url (as DOI)<br/>contributor (as creator)</td>
 </tr>
 <td valign="top" width=20%><strong>ALM Other Attributes</strong></td>
 <td valign="top" width=80%>title<br/>publisher</td>

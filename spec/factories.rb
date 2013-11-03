@@ -66,9 +66,19 @@ FactoryGirl.define do
   end
 
   factory :report do
-    name 'Daily Report'
+    name 'Error Report'
 
-    factory :report_with_admin_user do
+    factory :error_report_with_admin_user do
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
+
+    factory :status_report_with_admin_user do
+      name 'Status Report'
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
+
+    factory :disabled_source_report_with_admin_user do
+      name 'Disabled Source Report'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
   end
