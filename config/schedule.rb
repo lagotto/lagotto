@@ -11,7 +11,7 @@ set :output, "#{path}/log/cron.log"
 # Delete API response information, keeping responses from the last 24 hours
 every 1.day, at: "4:00 AM" do
   rake "filter:all"
-  rake "mailer:report"
+  rake "mailer:all"
   rake "queue:start"
 
   rake "db:alerts:delete"

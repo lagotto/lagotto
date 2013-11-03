@@ -13,7 +13,10 @@ recommended = Group.find_or_create_by_name(:name => "Recommended")
 other = Group.find_or_create_by_name(:name => "Other")
 
 # Load default reports
-daily_report = Report.find_or_create_by_name(:name => "Daily Report")
+error_report = Report.find_or_create_by_name(:name => "Daily Report")
+error_report.update_attribute(:name, "Error Report")
+status_report = Report.find_or_create_by_name(:name => "Status Report")
+disabled_source_report = Report.find_or_create_by_name(:name => "Disabled Source Report")
 
 # Load default filters
 article_not_updated_error = ArticleNotUpdatedError.find_or_create_by_name(
@@ -323,9 +326,14 @@ if ENV['ARTICLES']
     :published_on => "2010-02-02")
 
   Article.find_or_create_by_doi(
-    :doi => "10.1590/S1413-86702012000300021",
-    :title => "Terry's nails",
-    :published_on => "2012-06-01")
+    :doi => "10.1371/journal.ppat.1000446",
+    :title => "A New Malaria Agent in African Hominids",
+    :published_on => "2009-05-29")
+
+  Article.find_or_create_by_doi(
+    :doi => "10.1371/journal.pone.0020094",
+    :title => "Meiofauna in the Gollum Channels and the Whittard Canyon, Celtic Margin—How Local Environmental Conditions Shape Nematode Structure and Function",
+    :published_on => "2011-05-18")
 
   Article.find_or_create_by_doi(
     :doi => "10.1371/journal.pbio.0000045",

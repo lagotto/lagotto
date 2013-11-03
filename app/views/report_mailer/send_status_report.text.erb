@@ -1,0 +1,22 @@
+This is the ALM status report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.
+
+<%= number_with_delimiter(@articles_count) %> Articles
+<% unless Article.has_many? %>
+<%= number_with_delimiter(@articles_recent_count) %> Articles published last 30 days
+<% end %>
+<%= number_with_delimiter(@sources_disabled_count) %> Disabled sources
+<%= number_with_delimiter(@alerts_last_day_count) %> Unresolved alerts in the last 24 hours
+
+<%= number_with_delimiter(@delayed_jobs_active_count) %> Pending and working jobs
+<%= number_with_delimiter(@responses_count) %> API responses in the last 24 hours
+<% unless Article.has_many? %>
+<%= number_with_delimiter(@events_count) %> Events
+<%= number_with_delimiter(@requests_count) %> API requests in the last 24 hours
+<% end %>
+
+<%= number_with_delimiter(@users_count) %> Users
+ALM Version <%= VERSION %>
+MySQL retrieval_history size <%= number_to_human_size(@mysql_info["data_length"]) %>
+CouchDB database size <%= number_to_human_size(@couchdb_info["disk_size"]) %>
+
+Go to admin dashboard: <%= root_url(:host => APP_CONFIG['hostname']) %>

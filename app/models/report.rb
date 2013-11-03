@@ -22,8 +22,18 @@ class Report < ActiveRecord::Base
 
   has_and_belongs_to_many :users
 
-  def send_daily_report
-    ReportMailer.send_daily_report(self).deliver
+  # Reports are sent via delayed_job
+
+  def send_error_report
+    ReportMailer.delay(queue: 'mailer', priority: 0).send_error_report(self)
+  end
+
+  def send_status_report
+    ReportMailer.delay(queue: 'mailer', priority: 0).send_status_report(self)
+  end
+
+  def send_disabled_source_report(source_id)
+    ReportMailer.delay(queue: 'mailer', priority: 0).send_disabled_source_report(self, source_id)
   end
 
 end
