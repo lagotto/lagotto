@@ -2,6 +2,7 @@ default[:alm][:name] = "alm"
 default[:alm][:host] = "localhost"
 default[:alm][:environment] = "development"
 default[:alm][:useragent] = "Article-Level Metrics"
+default[:alm][:hostname] = "example.com"
 default[:alm][:api_key] = nil
 default[:alm][:admin] = { :username => "articlemetrics", :name => "Admin", :email => "admin@example.com", :password => nil }
 default[:alm][:mail] = { :address => "localhost", :port => 25, :domain => "localhost", :enable_starttls_auto => true }
