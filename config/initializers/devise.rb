@@ -86,8 +86,8 @@ Devise.setup do |config|
 
   # Setup a pepper to generate the encrypted password.
   # config.pepper = "5219e91e0152cabfb153d07e7180b16dee981818f1479c221bb65615bcdd3be48b8ea0a100dea4674e384082d5c39caf21c9a3b99161254c35242b3c492b17d3"
-  
-  # The default HTTP method used to sign out a resource. Default is :delete, use :get for Cucumber tests. 
+
+  # The default HTTP method used to sign out a resource. Default is :delete, use :get for Cucumber tests.
   # This change doesn't affect development or production environments
   config.sign_out_via = Rails.env.test? ? :get : :delete
 
@@ -213,7 +213,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   config.omniauth :github, APP_CONFIG['github_client_id'], APP_CONFIG['github_client_secret']
   config.omniauth :persona
-  
+
   OmniAuth.config.logger = Rails.logger
 
   # ==> Warden configuration

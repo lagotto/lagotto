@@ -3,6 +3,12 @@ yum Cookbook CHANGELOG
 This file is used to list changes made in each version of the yum cookbook.
 
 
+v2.4.0
+------
+### Improvement
+- [COOK-3025] - Allow per-repo proxy definitions
+
+
 v2.3.4
 ------
 ### Improvement

@@ -9,6 +9,3 @@ if APP_CONFIG['mail']
     :enable_starttls_auto => true
   }
 end
-
-ActionMailer::Base.default_url_options[:host] = APP_CONFIG['hostname']
-ActionMailer::Base.register_interceptor( DevelopmentMailInterceptor ) if Rails.env.development?

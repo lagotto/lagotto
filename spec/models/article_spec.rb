@@ -24,7 +24,7 @@ describe Article do
   end
 
   it 'validate published_on can\'t be too far in the past' do
-    article_in_past = build(:article, :cited, :published_on => 51.years.ago)
+    article_in_past = build(:article, :cited, :published_on => Date.new(1600,1,1))
     article_in_past.should_not be_valid
   end
 

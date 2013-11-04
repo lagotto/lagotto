@@ -47,12 +47,11 @@ When /^I go to the source "(.*?)"$/ do |display_name|
   visit source_path(source)
 end
 
-When /^I go to the "(.*?)" submenu of menu "(.*?)" of source "(.*?)"$/ do |label, menu, display_name|
+When /^I go to the menu "(.*?)" of source "(.*?)"$/ do |menu, display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
   click_link menu
-  click_link label
-  page.driver.render("tmp/capybara/#{label}.png")
+  page.driver.render("tmp/capybara/#{menu}.png")
 end
 
 When /^I edit the source "(\w+)"$/ do |display_name|

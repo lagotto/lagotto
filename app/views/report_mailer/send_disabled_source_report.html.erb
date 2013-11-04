@@ -1,0 +1,5 @@
+<p>The following source has been disabled at <%= Time.zone.now.to_formatted_s(:long) %> UTC:</p>
+
+<p><%= @source.display_name %></p>
+
+<p><%= link_to "Go to admin dashboard", admin_source_url(@source.name, :host => APP_CONFIG['hostname']) %></p>

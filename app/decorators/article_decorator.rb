@@ -96,6 +96,6 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def provider_url
-    APP_CONFIG['hostname']
+    "http://#{APP_CONFIG['hostname']}"
   end
 end

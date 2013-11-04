@@ -54,10 +54,6 @@ class Source < ActiveRecord::Base
   scope :for_events, where("state > 0 AND name != 'relativemetric'").order("group_id, display_name")
   scope :queueable, where("state > 0 AND queueable = 1").order("group_id, display_name")
 
-  # some sources cannot be redistributed
-  scope :public_sources, lambda { where("private = false") }
-  scope :private_sources, lambda { where("private = true") }
-
   INTERVAL_OPTIONS = [['½ hour', 30.minutes],
                       ['1 hour', 1.hour],
                       ['2 hours', 2.hours],
@@ -108,11 +104,13 @@ class Source < ActiveRecord::Base
       source.update_attributes(run_at: Time.zone.now)
     end
 
-    after_transition :to => :disabled do |source|
+    after_transition any - [:disabled] => :disabled do |source|
       Alert.create(:exception => "", :class_name => "TooManyErrorsBySourceError",
                    :message => "#{source.display_name} has exceeded maximum failed queries. Disabling the source.",
                    :source_id => source.id)
       source.add_queue(Time.zone.now + source.disable_delay)
+      report = Report.find_or_create_by_name(:name => "Disabled Source Report")
+      report.send_disabled_source_report(source.id)
     end
 
     after_transition :to => :waiting do |source|

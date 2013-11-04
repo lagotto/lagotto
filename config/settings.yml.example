@@ -38,14 +38,14 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  hostname: http://dev.example.org
+  hostname: dev.example.org
 
 test:
   <<: *defaults
-  hostname: http://test.example.org
+  hostname: test.example.org
   couchdb_url: http://localhost:5984/alm_test/
   doi_prefix: 10.1371
 
 production:
   <<: *defaults
-  hostname: http://alm.example.org
+  hostname: alm.example.org
