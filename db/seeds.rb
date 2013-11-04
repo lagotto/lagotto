@@ -43,6 +43,10 @@ citation_milestone_alert = CitationMilestoneAlert.find_or_create_by_name(
   :name => "CitationMilestoneAlert",
   :display_name => "citation milestone alert",
   :description => "Creates an alert if an article has been cited the specified number of times.")
+html_ratio_too_high_error= HtmlRatioTooHighError.find_or_create_by_name(
+  :name => "HtmlRatioTooHighError",
+  :display_name => "HTML ratio too high error",
+  :description => "Raises an error if HTML/PDF ratio is higher than 50.")
 
 # Load default sources
 citeulike = Citeulike.find_or_create_by_name(
@@ -98,7 +102,7 @@ nature = Nature.find_or_create_by_name(
 openedition = Openedition.find_or_create_by_name(
   :name => "openedition",
   :display_name => "OpenEdition",
-  :description => "OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda, four platforms dedicated to electronic resources in the humanities and social sciences.",
+  :description => "OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda in the humanities and social sciences.",
   :state_event => "activate",
   :workers => 1,
   :group_id => discussed.id,
