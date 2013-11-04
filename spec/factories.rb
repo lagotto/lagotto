@@ -57,6 +57,10 @@ FactoryGirl.define do
     factory :article_with_wos_citations do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_wos)] }
     end
+
+    factory :article_with_counter_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_counter)] }
+    end
   end
 
   factory :group do
@@ -113,6 +117,7 @@ FactoryGirl.define do
     trait(:with_researchblogging) { association :source, factory: :researchblogging }
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
+    trait(:with_counter) { association :source, factory: :counter }
 
     before(:create) do |retrieval_status|
       FactoryGirl.create(:retrieval_history,
@@ -513,6 +518,15 @@ FactoryGirl.define do
     active true
 
     initialize_with { EventCountIncreasingTooFastError.find_or_create_by_name(name) }
+  end
+
+  factory :html_ratio_too_high_error, class: HtmlRatioTooHighError do
+    type "HtmlRatioTooHighError"
+    name "HtmlRatioTooHighError"
+    display_name "html ratio too high error"
+    active true
+
+    initialize_with { HtmlRatioTooHighError.find_or_create_by_name(name) }
   end
 
   factory :api_too_slow_error, class: ApiResponseTooSlowError do

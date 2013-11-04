@@ -118,6 +118,8 @@ module SourceHelper
 
   def put_alm_database
     put_alm_data(couchdb_url)
+    filter = Faraday::UploadIO.new('design_doc/filter.js', 'application/json')
+    put_alm_data("#{couchdb_url}_design/filter", { data: filter })
   end
 
   def delete_alm_database
@@ -156,6 +158,7 @@ module SourceHelper
       c.headers['Accept'] = 'application/json'
       c.headers['User-agent'] = "#{APP_CONFIG['useragent']} - http://#{APP_CONFIG['hostname']}"
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
+      c.request  :multipart
       c.request  :json
       c.response :json, :content_type => /\bjson$/
       c.use      Faraday::Response::RaiseError
