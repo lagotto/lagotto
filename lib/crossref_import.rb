@@ -1,4 +1,5 @@
 require 'json'
+require 'net/http'
 
 class CrossrefImport
   # This method reads the given JSON file, parses DOIs, Dates and Title,
@@ -6,6 +7,141 @@ class CrossrefImport
 
   CURRENT_YEAR = DateTime.now.year
 
+  CROSSREF_BASEURL = "http://api.crossref.org/"
+  CROSSREF_PAGESIZE = 250
+
+
+
+  # Call via a daily cron job to import the latest works from yesterday until today:
+  #   bundle exec rails runner "CrossrefImport.pull_crossref_api"
+  # or call with specific dates, e.g.
+  #   bundle exec rails runner "CrossrefImport.pull_crossref_api('2013-10-24','2013-10-30')"
+
+  def self.pull_crossref_api(from_date_str = nil, until_date_str=from_date_str)
+    offset = 0
+    continue = true
+    error=false
+    invalid_record_counter = 0
+    valid_record_counter = 0
+    created_count = 0
+    updated_count = 0
+    duplicate_count = 0
+
+    from_date = from_date_str.nil? ? Date.yesterday : Date.parse(from_date_str)
+    until_date = until_date_str.nil? ? Date.today : Date.parse(until_date_str)
+
+    while continue do
+      result = self.pull_crossref_api_page(from_date, until_date, CROSSREF_PAGESIZE, offset)
+      if result[:success] == true
+        offset += CROSSREF_PAGESIZE
+        continue = offset < result[:total_results]
+
+        invalid_record_counter += result[:invalid_record_counter]
+        valid_record_counter += result[:valid_record_counter]
+        created_count += result[:created_count]
+        updated_count += result[:updated_count]
+        duplicate_count += result[:duplicate_count]
+      else
+        Rails.logger.error "CrossRef-API halting import #{result}"
+        continue = false
+        error = true
+      end
+    end
+
+    if (error)
+      Rails.logger.error "CrossRef-API halted with errors. from_date: #{from_date}, until_date: #{until_date}, invalid_record_counter: #{invalid_record_counter}, valid_record_counter: #{valid_record_counter}, created_count: #{created_count}, updated_count: #{updated_count}, duplicate_count: #{duplicate_count}"
+    else
+      Rails.logger.info "CrossRef-API finished. from_date: #{from_date}, until_date: #{until_date}, invalid_record_counter: #{invalid_record_counter}, valid_record_counter: #{valid_record_counter}, created_count: #{created_count}, updated_count: #{updated_count}, duplicate_count: #{duplicate_count}"
+    end
+
+    return !error
+
+  end
+
+
+
+  def self.pull_crossref_api_page(from_date, until_date, page_size, offset)
+
+    result = nil
+    begin
+      url = "#{CROSSREF_BASEURL}works?filter=from-update-date:#{from_date.to_s(:db)},until-update-date:#{until_date.to_s(:db)}&rows=#{page_size}&offset=#{offset}"
+      resp = Net::HTTP.get_response(URI.parse(url))
+      result = JSON.parse(resp.body)
+    rescue => e
+      Rails.logger.error "CrossRef-API #{e}"
+      return {:success=>false, :error=>e.message}
+    end
+
+
+    if result && result["status"] == "ok"
+      invalid_record_counter = 0
+      valid_record_counter = 0
+      created_count = 0
+      updated_count = 0
+      duplicate_count = 0
+
+      result["message"]["items"].each do |item|
+        begin
+          error = false
+          error_msg = nil
+
+          doi= item["DOI"] ? Article.from_uri(item["DOI"].strip).values.first : nil
+          title=item["title"] ? item["title"].first : nil
+          issued_on=  item["issued"] && item["issued"]["date-parts"] ? self.parse_date_parts(item["issued"]["date-parts"]) : nil
+        rescue => e
+          error = true
+          error_msg = e.message
+        ensure
+
+          #Is there an error processing this line?
+          if (error || !(doi =~ Article::FORMAT) || title.nil? || issued_on.nil?)
+            invalid_record_counter += 1
+
+            #Construct an appropriate error message if an exception was NOT thrown
+            if !error
+              error_msg = "doi invalid" unless (doi =~ Article::FORMAT)
+              error_msg = "title missing" if title.nil?
+              error_msg = "issued_on missing" if issued_on.nil?
+            end
+
+            Rails.logger.error "CrossRef-API #{error_msg}"
+            Rails.logger.error "CrossRef-API #{item}"
+          else
+
+            #Now load DOI
+            existing = Article.find_by_doi(doi)
+            unless existing
+              Article.create(:doi => doi, :published_on => issued_on, :title => title)
+              created_count += 1
+              Rails.logger.debug "CrossRef-API created #{doi}"
+            else
+              if existing.published_on != issued_on or existing.title != title
+                existing.published_on = issued_on
+                existing.title = title
+                existing.save!
+                updated_count += 1
+                Rails.logger.debug "CrossRef-API updated #{doi}"
+              else
+                duplicate_count += 1
+                Rails.logger.debug "CrossRef-API duplicate #{doi}"
+              end
+            end
+
+            valid_record_counter += 1
+          end
+        end #begin
+
+      end #each item
+
+      return {:success=>true, :invalid_record_counter=> invalid_record_counter, :valid_record_counter=>valid_record_counter,
+              :created_count=>created_count, :updated_count=>updated_count, :duplicate_count=>duplicate_count,
+              :total_results=>result["message"]["total-results"]}
+
+    else
+      Rails.logger.debug "CrossRef-API wrong status #{result}"
+      return {:success=>false, :error=>"Status is not ok: #{result}"}
+    end
+  end
 
   def self.parse_json(json_file, output_dir, block_size)
 
@@ -261,6 +397,17 @@ class CrossrefImport
       puts "Creating #{filename}"
     end
     File.open(File.join(output_dir, filename), 'w')
+  end
+
+  def self.parse_date_parts(date_parts)
+    if date_parts.flatten.length > 0 && !date_parts.flatten[0].nil?
+      year = date_parts.flatten[0]        #no default for year
+      month = date_parts.flatten[1] || 1  #default to January if month not specified
+      day = date_parts.flatten[2] || 1    #default to 1st of the month if day not specified
+      return Date.new(year,month,day)
+    else
+      return nil
+    end
   end
 
   def self.parse_date(date_object)
