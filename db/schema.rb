@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131023173939) do
+ActiveRecord::Schema.define(:version => 20131105105631) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -155,6 +155,8 @@ ActiveRecord::Schema.define(:version => 20131023173939) do
   end
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
+  add_index "retrieval_statuses", ["source_id", "article_id", "event_count"], :name => "index_retrieval_statuses_source_id_article_id_event_count_desc"
+  add_index "retrieval_statuses", ["source_id", "event_count"], :name => "index_retrieval_statuses_source_id_event_count_desc"
 
   create_table "reviews", :force => true do |t|
     t.string   "name"
@@ -182,7 +184,7 @@ ActiveRecord::Schema.define(:version => 20131023173939) do
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
     t.text     "description"
-    t.integer  "state",        :default => 0
+    t.integer  "state"
     t.boolean  "queueable",    :default => true
     t.string   "state_event"
   end
@@ -216,6 +218,14 @@ ActiveRecord::Schema.define(:version => 20131023173939) do
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
   add_index "users", ["username"], :name => "index_users_username", :unique => true
+
+  create_table "vw_retrieval_statuses_published_on", :id => false, :force => true do |t|
+    t.integer "id",           :default => 0, :null => false
+    t.integer "article_id",                  :null => false
+    t.integer "source_id",                   :null => false
+    t.integer "event_count",  :default => 0
+    t.date    "published_on"
+  end
 
   create_table "workers", :force => true do |t|
     t.integer  "identifier", :null => false
