@@ -95,7 +95,7 @@ class CrossrefImport
         ensure
 
           #Is there an error processing this line?
-          if (error || !(doi =~ Article::FORMAT) || title.nil? || issued_on.nil?)
+          if (error || !(doi =~ Article::FORMAT) || title.blank? || issued_on.nil?)
             invalid_record_counter += 1
 
             #Construct an appropriate error message if an exception was NOT thrown
@@ -207,13 +207,13 @@ class CrossrefImport
       ensure
 
         #Is there an error processing this line?
-        if (error || !(doi =~ Article::FORMAT) || title.nil? || published_on.nil?)
+        if (error || !(doi =~ Article::FORMAT) || title.blank? || published_on.nil?)
           invalid_record_counter += 1
 
           #Construct an appropriate error message if an exception was not thrown
           if !error
             error_msg = "doi invalid" unless (doi =~ Article::FORMAT)
-            error_msg = "title missing" if title.nil?
+            error_msg = "title missing" if title.blank?
             error_msg = "published_on missing" if published_on.nil?
           end
 
@@ -305,13 +305,13 @@ class CrossrefImport
         ensure
 
           #Is there an error processing this line?
-          if (error || !(doi =~ Article::FORMAT) || title.nil? || published_on.nil?)
+          if (error || !(doi =~ Article::FORMAT) || title.blank? || published_on.nil?)
             invalid_record_counter += 1
 
             #Construct an appropriate error message if an exception was not thrown
             if !error
               error_msg = "doi invalid" unless (doi =~ Article::FORMAT)
-              error_msg = "title missing" if title.nil?
+              error_msg = "title missing" if title.blank?
               error_msg = "published_on missing" if published_on.nil?
             end
 
