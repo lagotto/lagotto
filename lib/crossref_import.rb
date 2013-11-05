@@ -101,7 +101,7 @@ class CrossrefImport
             #Construct an appropriate error message if an exception was NOT thrown
             if !error
               error_msg = "doi invalid" unless (doi =~ Article::FORMAT)
-              error_msg = "title missing" if title.nil?
+              error_msg = "title missing" if title.blank?
               error_msg = "issued_on missing" if issued_on.nil?
             end
 
@@ -116,9 +116,9 @@ class CrossrefImport
               created_count += 1
               Rails.logger.debug "CrossRef-API created #{doi}"
             else
-              if existing.published_on != issued_on or existing.title != title
-                existing.published_on = issued_on
-                existing.title = title
+              if (!issued_on.nil? && existing.published_on != issued_on) or (!title.blank? && existing.title != title)
+                existing.published_on = issued_on unless issued_on.nil?
+                existing.title = title unless title.blank?
                 existing.save!
                 updated_count += 1
                 Rails.logger.debug "CrossRef-API updated #{doi}"
