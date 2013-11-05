@@ -51,7 +51,8 @@ class CrossrefImport
     if (error)
       Rails.logger.error "CrossRef-API halted with errors. from_date: #{from_date}, until_date: #{until_date}, invalid_record_counter: #{invalid_record_counter}, valid_record_counter: #{valid_record_counter}, created_count: #{created_count}, updated_count: #{updated_count}, duplicate_count: #{duplicate_count}"
     else
-      Rails.logger.info "CrossRef-API finished. from_date: #{from_date}, until_date: #{until_date}, invalid_record_counter: #{invalid_record_counter}, valid_record_counter: #{valid_record_counter}, created_count: #{created_count}, updated_count: #{updated_count}, duplicate_count: #{duplicate_count}"
+      #Use warn as info level does not appear in production logs
+      Rails.logger.warn "CrossRef-API finished. from_date: #{from_date}, until_date: #{until_date}, invalid_record_counter: #{invalid_record_counter}, valid_record_counter: #{valid_record_counter}, created_count: #{created_count}, updated_count: #{updated_count}, duplicate_count: #{duplicate_count}"
     end
 
     return !error
