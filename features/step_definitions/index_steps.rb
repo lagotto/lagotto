@@ -7,6 +7,7 @@ end
 
 ### THEN ###
 Then /^I should see that the CouchDB size is "(.*?)"$/ do |size|
+  page.driver.render("tmp/capybara/CouchDB_size.png")
   page.has_css?('h1#couchdb', :text => size).should be_true
 end
 

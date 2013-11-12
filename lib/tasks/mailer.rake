@@ -20,13 +20,20 @@
 
 namespace :mailer do
 
-  desc "Send daily report"
-  task :report => :environment do
-    report = Report.first
-    report.send_daily_report
-    puts "Daily report sent to #{report.users.count} subscriber(s)"
+  desc "Send error report"
+  task :error_report => :environment do
+    report = Report.where(:name => "Error Report").first
+    report.send_error_report
+    puts "Error report sent to #{report.users.count} subscriber(s)"
   end
 
-  desc 'Send all mails'
-  task :all => [:environment, :report]
+  desc "Send status report"
+  task :status_report => :environment do
+    report = Report.where(:name => "Status Report").first
+    report.send_status_report
+    puts "Status report sent to #{report.users.count} subscriber(s)"
+  end
+
+  desc 'Send all scheduled mails'
+  task :all => [:environment, :error_report, :status_report]
 end

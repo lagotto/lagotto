@@ -165,6 +165,38 @@ describe Filter do
     end
   end
 
+  context "HTML/PDF ratio" do
+    subject { FactoryGirl.create(:html_ratio_too_high_error) }
+
+    before(:each) do
+      #subject.put_alm_database
+    end
+
+    after(:each) do
+      subject.delete_alm_database
+    end
+
+    context "ratio too high" do
+      let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776") }
+      let(:counter) { FactoryGirl.create(:counter) }
+      let(:api_response) { FactoryGirl.create(:api_response) }
+      let(:options) {{ id: api_response.id }}
+
+      it "should raise errors" do
+        # body = File.read(fixture_path + 'counter_too_many_html.xml')
+        # stub = stub_request(:get, counter.get_query_url(article)).to_return(:body => body, :status => 200)
+        # response = counter.get_data(article)
+        # subject.get_alm_data("_design/filter/_view/html_ratio").should eq(2)
+        # subject.run_filter(options).should == 1
+        # Alert.count.should == 1
+        # alert = Alert.first
+        # alert.class_name.should eq("HtmlRatioTooHighError")
+        # alert.message.should include("Event count increased")
+        # alert.source_id.should == 1
+      end
+    end
+  end
+
   context "slow API responses" do
     subject { FactoryGirl.create(:api_too_slow_error) }
 

@@ -13,7 +13,10 @@ recommended = Group.find_or_create_by_name(:name => "Recommended")
 other = Group.find_or_create_by_name(:name => "Other")
 
 # Load default reports
-daily_report = Report.find_or_create_by_name(:name => "Daily Report")
+error_report = Report.find_or_create_by_name(:name => "Daily Report")
+error_report.update_attribute(:name, "Error Report")
+status_report = Report.find_or_create_by_name(:name => "Status Report")
+disabled_source_report = Report.find_or_create_by_name(:name => "Disabled Source Report")
 
 # Load default filters
 article_not_updated_error = ArticleNotUpdatedError.find_or_create_by_name(
@@ -40,6 +43,10 @@ citation_milestone_alert = CitationMilestoneAlert.find_or_create_by_name(
   :name => "CitationMilestoneAlert",
   :display_name => "citation milestone alert",
   :description => "Creates an alert if an article has been cited the specified number of times.")
+html_ratio_too_high_error= HtmlRatioTooHighError.find_or_create_by_name(
+  :name => "HtmlRatioTooHighError",
+  :display_name => "HTML ratio too high error",
+  :description => "Raises an error if HTML/PDF ratio is higher than 50.")
 
 # Load default sources
 citeulike = Citeulike.find_or_create_by_name(
@@ -95,7 +102,7 @@ nature = Nature.find_or_create_by_name(
 openedition = Openedition.find_or_create_by_name(
   :name => "openedition",
   :display_name => "OpenEdition",
-  :description => "OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda, four platforms dedicated to electronic resources in the humanities and social sciences.",
+  :description => "OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda in the humanities and social sciences.",
   :state_event => "activate",
   :workers => 1,
   :group_id => discussed.id,
@@ -147,6 +154,15 @@ pmc = Pmc.find_or_create_by_name(
   :group_id => viewed.id,
   :url => "http://localhost:5984/pmc_usage_stats/%{doi}",
   :filepath => "/home/vagrant/pmcdata/")
+
+datacite = Datacite.find_or_create_by_name(
+  :name => "datacite",
+  :display_name => "DataCite",
+  :description => "Helping you to find, access, and reuse research data.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => cited.id,
+  :url => "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json")
 
 # The following sources require passwords/API keys
 counter = Counter.find_or_create_by_name(
@@ -374,9 +390,14 @@ if ENV['ARTICLES']
     :published_on => "2010-02-02")
 
   Article.find_or_create_by_doi(
-    :doi => "10.1590/S1413-86702012000300021",
-    :title => "Terry's nails",
-    :published_on => "2012-06-01")
+    :doi => "10.1371/journal.ppat.1000446",
+    :title => "A New Malaria Agent in African Hominids",
+    :published_on => "2009-05-29")
+
+  Article.find_or_create_by_doi(
+    :doi => "10.1371/journal.pone.0020094",
+    :title => "Meiofauna in the Gollum Channels and the Whittard Canyon, Celtic Margin—How Local Environmental Conditions Shape Nematode Structure and Function",
+    :published_on => "2011-05-18")
 
   Article.find_or_create_by_doi(
     :doi => "10.1371/journal.pbio.0000045",

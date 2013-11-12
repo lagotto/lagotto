@@ -57,6 +57,10 @@ FactoryGirl.define do
     factory :article_with_wos_citations do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_wos)] }
     end
+
+    factory :article_with_counter_citations do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_counter)] }
+    end
   end
 
   factory :group do
@@ -66,9 +70,19 @@ FactoryGirl.define do
   end
 
   factory :report do
-    name 'Daily Report'
+    name 'Error Report'
 
-    factory :report_with_admin_user do
+    factory :error_report_with_admin_user do
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
+
+    factory :status_report_with_admin_user do
+      name 'Status Report'
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
+
+    factory :disabled_source_report_with_admin_user do
+      name 'Disabled Source Report'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
   end
@@ -103,6 +117,7 @@ FactoryGirl.define do
     trait(:with_researchblogging) { association :source, factory: :researchblogging }
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
+    trait(:with_counter) { association :source, factory: :counter }
 
     before(:create) do |retrieval_status|
       FactoryGirl.create(:retrieval_history,
@@ -295,6 +310,18 @@ FactoryGirl.define do
     group
 
     initialize_with { ScienceSeeker.find_or_create_by_name(name) }
+  end
+
+  factory :datacite, class: Datacite do
+    type "Datacite"
+    name "datacite"
+    display_name "DataCite"
+    state_event "activate"
+    url "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true"
+
+    group
+
+    initialize_with { Datacite.find_or_create_by_name(name) }
   end
 
   factory :wordpress, class: Wordpress do
@@ -491,6 +518,15 @@ FactoryGirl.define do
     active true
 
     initialize_with { EventCountIncreasingTooFastError.find_or_create_by_name(name) }
+  end
+
+  factory :html_ratio_too_high_error, class: HtmlRatioTooHighError do
+    type "HtmlRatioTooHighError"
+    name "HtmlRatioTooHighError"
+    display_name "html ratio too high error"
+    active true
+
+    initialize_with { HtmlRatioTooHighError.find_or_create_by_name(name) }
   end
 
   factory :api_too_slow_error, class: ApiResponseTooSlowError do
