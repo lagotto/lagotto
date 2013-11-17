@@ -134,26 +134,6 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :workers => 1,
   :group_id => discussed.id,
   :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
-wos = Wos.find_or_create_by_name(
-	:name => "wos",
-	:display_name => "Web of Science",
-  :description => "Web of Science is an online academic citation index.",
-	:state_event => "activate",
-  :private => 1,
-	:workers => 1,
-	:group_id => cited.id,
-	:url => "https://ws.isiknowledge.com/cps/xrpc" )
-
-pmc = Pmc.find_or_create_by_name(
-  :name => "pmc",
-  :display_name => "PubMed Central Usage Stats",
-  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
-  :state_event => "activate",
-  :queueable => false,
-  :workers => 1,
-  :group_id => viewed.id,
-  :url => "http://localhost:5984/pmc_usage_stats/%{doi}",
-  :filepath => "/home/vagrant/pmcdata/")
 
 datacite = Datacite.find_or_create_by_name(
   :name => "datacite",
@@ -163,6 +143,15 @@ datacite = Datacite.find_or_create_by_name(
   :workers => 1,
   :group_id => cited.id,
   :url => "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json")
+wos = Wos.find_or_create_by_name(
+	:name => "wos",
+	:display_name => "Web of Science",
+  :description => "Web of Science is an online academic citation index.",
+	:state_event => "activate",
+  :private => 1,
+	:workers => 1,
+	:group_id => cited.id,
+	:url => "https://ws.isiknowledge.com/cps/xrpc" )
 
 # The following sources require passwords/API keys
 pmc = Pmc.find_or_create_by_name(
