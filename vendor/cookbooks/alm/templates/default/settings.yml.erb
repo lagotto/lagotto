@@ -23,11 +23,11 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  hostname: http://dev.example.org
+  hostname: <%= node[:alm][:hostname] %>
 
 test:
   <<: *defaults
-  hostname: http://test.example.org
+  hostname: <%= node[:alm][:hostname] %>
   cas_url: <%= node[:alm][:cas_url] %>
   cas_login_url: /cas/login
   cas_logout_url: /cas/logout
@@ -40,4 +40,4 @@ test:
 
 production:
   <<: *defaults
-  hostname: http://alm.example.org
+  hostname: <%= node[:alm][:hostname] %>

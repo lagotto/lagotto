@@ -141,6 +141,19 @@ datacite = Datacite.find_or_create_by_name(
   :url => "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json")
 
 # The following sources require passwords/API keys
+pmc = Pmc.find_or_create_by_name(
+  :name => "pmc",
+  :display_name => "PubMed Central Usage Stats",
+  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
+  :state_event => "",
+  :queueable => false,
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "EXAMPLE",
+  :journals => "EXAMPLE,EXAMPLE",
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
+
 copernicus = Copernicus.find_or_create_by_name(
   :name => "copernicus",
   :display_name => "Copernicus",
@@ -156,7 +169,7 @@ crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
   :display_name => "CrossRef",
   :description => "CrossRef is a non-profit organization that enables cross-publisher citation linking.",
-  :state_event => "",
+  :state_event => "activate",
   :workers => 1,
   :group_id => cited.id,
   :default_url => "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true",
