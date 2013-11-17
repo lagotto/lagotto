@@ -1,5 +1,5 @@
 default[:alm][:name] = "alm"
-default[:alm][:host] = "localhost"
+default[:alm][:host] = "127.0.0.1"
 default[:alm][:environment] = "development"
 default[:alm][:useragent] = "Article-Level Metrics"
 default[:alm][:hostname] = "example.com"

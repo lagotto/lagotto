@@ -1,6 +1,7 @@
 The ALM application provides a number of public sources. Most sources require a user account with the service (see table below). The private ALM sources not made available here either use an internal application that is not available via public API (PLOS Usage Stats, PubMed Central Usage Stats, PLOS Biodiversity Hub, Twitter, figshare) or require a contract with the provider (Scopus, Web of Science, F1000).
 
 ### Viewed
+* [PubMed Central Usage Stats](Pmc)
 * [Copernicus](Copernicus)
 
 ### Discussed
@@ -25,7 +26,6 @@ The ALM application provides a number of public sources. Most sources require a 
 
 ### Private Sources
 * [PLOS Usage Stats](Counter)
-* [PubMed Central Usage Stats](Pmc)
 * [PLOS Figshare Usage Stats](Figshare)
 * [Twitter](Twitter)
 * [Web of Science](Wos)
