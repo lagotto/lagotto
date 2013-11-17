@@ -40,7 +40,7 @@ class Pmc < Source
         Alert.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
              :message => "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved",
              :status => 500,
-             :source_id => source.id)
+             :source_id => id)
         journals_with_errors << journal
       end
     end
