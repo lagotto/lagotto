@@ -165,6 +165,19 @@ datacite = Datacite.find_or_create_by_name(
   :url => "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json")
 
 # The following sources require passwords/API keys
+pmc = Pmc.find_or_create_by_name(
+  :name => "pmc",
+  :display_name => "PubMed Central Usage Stats",
+  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
+  :state_event => "activate",
+  :queueable => false,
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "EXAMPLE",
+  :journals => "EXAMPLE,EXAMPLE",
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
+
 counter = Counter.find_or_create_by_name(
   :name => "counter",
   :display_name => "Counter",

@@ -242,8 +242,10 @@ FactoryGirl.define do
     name "pmc"
     display_name "PubMed Central Usage Stats"
     state_event "activate"
-    url "http://rwc-couch01.int.plos.org:5984/pmc_usage_stats/%{doi}"
-    filepath "/home/alm/pmcdata/"
+    url "http://localhost:5984/pmc_usage_stats_test"
+    journals "plosbiol"
+    username "EXAMPLE"
+    password "EXAMPLE"
 
     group
 

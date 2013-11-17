@@ -18,6 +18,7 @@ default[:alm][:persona] = true
 default[:alm][:user] = "vagrant"
 default[:alm][:concurrency] = 1
 default[:alm][:copernicus] = { :url => "EXAMPLE", :username => "EXAMPLE", :password => "EXAMPLE" }
+default[:alm][:pmc] = { :url => "EXAMPLE", :journals => "EXAMPLE,EXAMPLE", :username => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:counter] = { :url => "EXAMPLE" }
 default[:alm][:crossref] = { :username => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:facebook] = { :access_token => "EXAMPLE" }
