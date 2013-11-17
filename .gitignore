@@ -21,6 +21,7 @@ capybara-*.html
 /db/*.sqlite3
 /public/system/*
 /coverage/
+/data/
 /spec/tmp/*
 /config/database.yml
 /config/settings.yml
