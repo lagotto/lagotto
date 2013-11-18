@@ -13,7 +13,7 @@ describe Pmc do
     pmc.get_data(article).should eq({ :events => [], :event_count => nil })
   end
 
-  context "save and parse PMC data" do
+  context "save PMC data" do
     let(:month) { 1.month.ago.month }
     let(:year) { 1.month.ago.year }
     let(:journal) { "plosbiol" }
@@ -28,7 +28,7 @@ describe Pmc do
     end
   end
 
-  context "save and parse PMC data" do
+  context "parse PMC data" do
     let(:month) { 1.month.ago.month }
     let(:year) { 1.month.ago.year }
     let(:journal) { "plosbiol" }

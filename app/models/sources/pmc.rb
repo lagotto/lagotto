@@ -100,7 +100,12 @@ class Pmc < Source
     return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
 
     query_url = get_query_url(article)
+
+    Rails.logger.info query_url
+
     result = get_json(query_url, options)
+
+    Rails.logger.info result
 
     return nil if result.blank? or !result["views"]
 
@@ -125,7 +130,7 @@ class Pmc < Source
   end
 
   def get_query_url(article)
-    "#{url}#{CGI.escape(article.doi)}"
+    "#{url}#{article.doi_escaped}"
   end
 
   def get_feed_url(month, year, journal)
