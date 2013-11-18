@@ -84,7 +84,7 @@ describe Pmc do
       stub = stub_request(:get, pmc.get_query_url(article)).to_return(:status => [408])
       pmc.get_data(article, options = { :source_id => pmc.id }).should be_nil
       stub.should have_been_requested
-      Alert.count.should == 2
+      Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("Net::HTTPRequestTimeOut")
       alert.status.should == 408

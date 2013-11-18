@@ -102,14 +102,7 @@ class Pmc < Source
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    Alert.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
-             :message => "Error with PMC Usage stats for doi #{article.doi}: #{result}",
-             :status => 500,
-             :source_id => id)
-
-    if result.blank? or !result["views"]
-      return nil
-    end
+    return nil if result.nil?
 
     events = result["views"]
 
