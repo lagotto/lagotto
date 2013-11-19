@@ -97,7 +97,7 @@ class Pmc < Source
       if url.blank?
 
     # Check that article has DOI and is at least one day old
-    return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
+    #return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)

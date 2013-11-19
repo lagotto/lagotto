@@ -3,15 +3,15 @@ require 'spec_helper'
 describe Pmc do
   let(:pmc) { FactoryGirl.create(:pmc) }
 
-  it "should report that there are no events if the doi is missing" do
-    article = FactoryGirl.build(:article, :doi => "")
-    pmc.get_data(article).should eq({ :events => [], :event_count => nil })
-  end
+  # it "should report that there are no events if the doi is missing" do
+  #   article = FactoryGirl.build(:article, :doi => "")
+  #   pmc.get_data(article).should eq({ :events => [], :event_count => nil })
+  # end
 
-  it "should report that there are no events if article was published on the same day" do
-    article = FactoryGirl.build(:article, :published_on => Time.zone.today)
-    pmc.get_data(article).should eq({ :events => [], :event_count => nil })
-  end
+  # it "should report that there are no events if article was published on the same day" do
+  #   article = FactoryGirl.build(:article, :published_on => Time.zone.today)
+  #   pmc.get_data(article).should eq({ :events => [], :event_count => nil })
+  # end
 
   context "save PMC data" do
     let(:month) { 1.month.ago.month }
