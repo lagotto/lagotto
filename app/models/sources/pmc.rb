@@ -81,7 +81,7 @@ class Pmc < Source
             data = { 'views' => [view] }
           else
             # update existing entry
-            data['views'].delete_if { |view| view['month'] == month && view['year'] == year }
+            data['views'].delete_if { |view| view['month'].to_i == month && view['year'].to_i == year }
             data['views'] << view
           end
 
@@ -97,7 +97,7 @@ class Pmc < Source
       if url.blank?
 
     # Check that article has DOI and is at least one day old
-    #return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
+    return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
