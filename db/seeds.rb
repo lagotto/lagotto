@@ -153,6 +153,24 @@ wos = Wos.find_or_create_by_name(
 	:group_id => cited.id,
 	:url => "https://ws.isiknowledge.com/cps/xrpc" )
 
+articleconverage = ArticleCoverage.find_or_create_by_name(
+    :name => "articlecoverage",
+    :display_name => "Article Coverage",
+    :description => "Article Coverage",
+    :state_event => "activate",
+    :workers => 1,
+    :group_id => discussed.id,
+    :url => "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all" )
+
+articlecoveragecurated = ArticleCoverageCurated.find_or_create_by_name(
+    :name => "articlecoveragecurated",
+    :display_name => "Article Coverage Curated",
+    :description => "Article Coverage Curated",
+    :state_event => "activate",
+    :workers => 1,
+    :group_id => discussed.id,
+    :url => "http://mediacuration.plos.org/api/v1?doi=%{doi}" )
+
 # The following sources require passwords/API keys
 pmc = Pmc.find_or_create_by_name(
   :name => "pmc",

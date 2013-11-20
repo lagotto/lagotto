@@ -443,6 +443,30 @@ FactoryGirl.define do
     initialize_with { RelativeMetric.find_or_create_by_name(name) }
   end
 
+  factory :article_coverage, class: ArticleCoverage do
+    type "ArticleCoverage"
+    name "articlecoverage"
+    display_name "Article Coverage"
+    state_event "activate"
+    url "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all"
+
+    group
+
+    initialize_with { ArticleCoverage.find_or_create_by_name(name) }
+  end
+
+  factory :article_coverage_curated, class: ArticleCoverageCurated do
+    type "ArticleCoverageCurated"
+    name "articlecoveragecurated"
+    display_name "Article Coverage Curated"
+    state_event "activate"
+    url "http://mediacuration.plos.org/api/v1?doi=%{doi}"
+
+    group
+
+    initialize_with { ArticleCoverageCurated.find_or_create_by_name(name) }
+  end
+
   factory :user do
     sequence(:username) {|n| "joesmith#{n}" }
     sequence(:name) {|n| "Joe Smith#{n}" }
