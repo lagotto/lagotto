@@ -242,8 +242,10 @@ FactoryGirl.define do
     name "pmc"
     display_name "PubMed Central Usage Stats"
     state_event "activate"
-    url "http://rwc-couch01.int.plos.org:5984/pmc_usage_stats/%{doi}"
-    filepath "/home/alm/pmcdata/"
+    url "http://127.0.0.1:5984/pmc_usage_stats_test/"
+    journals "plosbiol"
+    username "EXAMPLE"
+    password "EXAMPLE"
 
     group
 
@@ -439,6 +441,30 @@ FactoryGirl.define do
     group
 
     initialize_with { RelativeMetric.find_or_create_by_name(name) }
+  end
+
+  factory :article_coverage, class: ArticleCoverage do
+    type "ArticleCoverage"
+    name "articlecoverage"
+    display_name "Article Coverage"
+    state_event "activate"
+    url "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all"
+
+    group
+
+    initialize_with { ArticleCoverage.find_or_create_by_name(name) }
+  end
+
+  factory :article_coverage_curated, class: ArticleCoverageCurated do
+    type "ArticleCoverageCurated"
+    name "articlecoveragecurated"
+    display_name "Article Coverage Curated"
+    state_event "activate"
+    url "http://mediacuration.plos.org/api/v1?doi=%{doi}"
+
+    group
+
+    initialize_with { ArticleCoverageCurated.find_or_create_by_name(name) }
   end
 
   factory :user do

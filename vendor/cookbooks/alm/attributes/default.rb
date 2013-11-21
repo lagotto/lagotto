@@ -1,5 +1,5 @@
 default[:alm][:name] = "alm"
-default[:alm][:host] = "localhost"
+default[:alm][:host] = "127.0.0.1"
 default[:alm][:environment] = "development"
 default[:alm][:useragent] = "Article-Level Metrics"
 default[:alm][:hostname] = "example.com"
@@ -18,6 +18,7 @@ default[:alm][:persona] = true
 default[:alm][:user] = "vagrant"
 default[:alm][:concurrency] = 1
 default[:alm][:copernicus] = { :url => "EXAMPLE", :username => "EXAMPLE", :password => "EXAMPLE" }
+default[:alm][:pmc] = { :url => "EXAMPLE", :journals => "EXAMPLE,EXAMPLE", :username => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:counter] = { :url => "EXAMPLE" }
 default[:alm][:crossref] = { :username => "EXAMPLE", :password => "EXAMPLE" }
 default[:alm][:facebook] = { :access_token => "EXAMPLE" }

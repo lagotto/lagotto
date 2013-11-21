@@ -14,7 +14,7 @@
            "facebook": { "access_token": "EXAMPLE" },
            "mendeley": { "api_key": "EXAMPLE" },
            "nature": { "api_key": "EXAMPLE"},
-           "pmc": { "url": "EXAMPLE", "filepath": "EXAMPLE" },
+           "pmc": { "url": "EXAMPLE", "journals": "EXAMPLE,EXAMPLE", "username": "EXAMPLE", "password": "EXAMPLE" },
            "f1000": { "url": "EXAMPLE", "filename": "EXAMPLE" },
            "researchblogging": { "username": "EXAMPLE", "password": "EXAMPLE" },
            "wos": { "url": "EXAMPLE" }},

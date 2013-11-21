@@ -134,6 +134,15 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :workers => 1,
   :group_id => discussed.id,
   :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
+
+datacite = Datacite.find_or_create_by_name(
+  :name => "datacite",
+  :display_name => "DataCite",
+  :description => "Helping you to find, access, and reuse research data.",
+  :state_event => "activate",
+  :workers => 1,
+  :group_id => cited.id,
+  :url => "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json")
 wos = Wos.find_or_create_by_name(
 	:name => "wos",
 	:display_name => "Web of Science",
@@ -144,6 +153,25 @@ wos = Wos.find_or_create_by_name(
 	:group_id => cited.id,
 	:url => "https://ws.isiknowledge.com/cps/xrpc" )
 
+articleconverage = ArticleCoverage.find_or_create_by_name(
+    :name => "articlecoverage",
+    :display_name => "Article Coverage",
+    :description => "Article Coverage",
+    :state_event => "activate",
+    :workers => 1,
+    :group_id => discussed.id,
+    :url => "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all" )
+
+articlecoveragecurated = ArticleCoverageCurated.find_or_create_by_name(
+    :name => "articlecoveragecurated",
+    :display_name => "Article Coverage Curated",
+    :description => "Article Coverage Curated",
+    :state_event => "activate",
+    :workers => 1,
+    :group_id => discussed.id,
+    :url => "http://mediacuration.plos.org/api/v1?doi=%{doi}" )
+
+# The following sources require passwords/API keys
 pmc = Pmc.find_or_create_by_name(
   :name => "pmc",
   :display_name => "PubMed Central Usage Stats",
@@ -152,19 +180,11 @@ pmc = Pmc.find_or_create_by_name(
   :queueable => false,
   :workers => 1,
   :group_id => viewed.id,
-  :url => "http://localhost:5984/pmc_usage_stats/%{doi}",
-  :filepath => "/home/vagrant/pmcdata/")
+  :url => "EXAMPLE",
+  :journals => "EXAMPLE,EXAMPLE",
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
 
-datacite = Datacite.find_or_create_by_name(
-  :name => "datacite",
-  :display_name => "DataCite",
-  :description => "Helping you to find, access, and reuse research data.",
-  :state_event => "activate",
-  :workers => 1,
-  :group_id => cited.id,
-  :url => "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json")
-
-# The following sources require passwords/API keys
 counter = Counter.find_or_create_by_name(
   :name => "counter",
   :display_name => "Counter",
