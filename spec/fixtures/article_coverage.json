@@ -1,0 +1,23 @@
+{
+    "doi": "10.1371/journal.pone.0047712",
+    "referrals": [
+        {
+            "referral": "http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html",
+            "language": "English",
+            "title": "Everything You Know About Your Personal Hygiene Is Wrong",
+            "type": "Blog",
+            "publication": "The Huffington Post",
+            "published_on": "2013-11-20T00:00:00Z",
+            "link_state": "APPROVED"
+        },
+        {
+            "referral": "http://www.huffingtonpost.com/us/entry/4217839?utm_hp_ref=mostpopular",
+            "language": "",
+            "title": "Something's Gone Terribly Wrong",
+            "type": "Blog",
+            "publication": "",
+            "published_on": "2013-11-20T00:00:00Z",
+            "link_state": "APPROVED"
+        }
+    ]
+}
