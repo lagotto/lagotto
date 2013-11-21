@@ -102,7 +102,7 @@ class Pmc < Source
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    return nil if result.nil?
+    return nil if result.nil? || !result['views']
 
     events = result["views"]
 
