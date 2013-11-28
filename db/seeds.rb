@@ -43,7 +43,6 @@ citation_milestone_alert = CitationMilestoneAlert.find_or_create_by_name(
   :name => "CitationMilestoneAlert",
   :display_name => "citation milestone alert",
   :description => "Creates an alert if an article has been cited the specified number of times.")
-
 # Load default sources
 citeulike = Citeulike.find_or_create_by_name(
 	:name => "citeulike",
@@ -128,8 +127,7 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :description => "Wikipedia is a free encyclopedia that everyone can edit.",
   :state_event => "activate",
   :workers => 1,
-  :group_id => discussed.id,
-  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
+  :group_id => discussed.id)
 
 datacite = Datacite.find_or_create_by_name(
   :name => "datacite",
@@ -141,6 +139,19 @@ datacite = Datacite.find_or_create_by_name(
   :url => "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json")
 
 # The following sources require passwords/API keys
+pmc = Pmc.find_or_create_by_name(
+  :name => "pmc",
+  :display_name => "PubMed Central Usage Stats",
+  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
+  :state_event => "",
+  :queueable => false,
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "EXAMPLE",
+  :journals => "EXAMPLE",
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
+
 copernicus = Copernicus.find_or_create_by_name(
   :name => "copernicus",
   :display_name => "Copernicus",

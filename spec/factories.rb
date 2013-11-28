@@ -190,6 +190,21 @@ FactoryGirl.define do
     initialize_with { Openedition.find_or_create_by_name(name) }
   end
 
+  factory :pmc, class: Pmc do
+    type "Pmc"
+    name "pmc"
+    display_name "PubMed Central Usage Stats"
+    state_event "activate"
+    url "http://127.0.0.1:5984/pmc_usage_stats_test/"
+    journals "plosbiol"
+    username "EXAMPLE"
+    password "EXAMPLE"
+
+    group
+
+    initialize_with { Pmc.find_or_create_by_name(name) }
+  end
+
   factory :pub_med, class: PubMed do
     type "PubMed"
     name "pubmed"
@@ -293,7 +308,8 @@ FactoryGirl.define do
     name "wikipedia"
     display_name "Wikipedia"
     state_event "activate"
-    url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
+    url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace={namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
+    languages "en"
 
     group
 

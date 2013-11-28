@@ -21,8 +21,8 @@ describe Wikipedia do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pcbi.1002445")
       stub = stub_request(:get, /.*wiki/).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'wikipedia.json'), :status => 200)
       response = wikipedia.get_data(article)
-      response[:events].length.should eq(Wikipedia::LANGUAGES.length + 1)
-      response[:event_count].should eq(Wikipedia::LANGUAGES.length * 12)
+      response[:events].length.should eq(1 + 1)
+      response[:event_count].should eq(1 * 12)
     end
 
     it "should catch errors with the Wikipedia API" do

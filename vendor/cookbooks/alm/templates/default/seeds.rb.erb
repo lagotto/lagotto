@@ -49,7 +49,12 @@ citation_milestone_alert = CitationMilestoneAlert.find_or_create_by_name(
   :name => "CitationMilestoneAlert",
   :display_name => "citation milestone alert",
   :description => "Creates an alert if an article has been cited the specified number of times.")
-
+<% if node[:alm][:layout] == "plos" -%>
+html_ratio_too_high_error= HtmlRatioTooHighError.find_or_create_by_name(
+  :name => "HtmlRatioTooHighError",
+  :display_name => "HTML ratio too high error",
+  :description => "Raises an error if HTML/PDF ratio is higher than 50.")
+<% end %>
 # Load default sources
 citeulike = Citeulike.find_or_create_by_name(
 	:name => "citeulike",
@@ -136,8 +141,7 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :description => "Wikipedia is a free encyclopedia that everyone can edit.",
   :state_event => "activate",
   :workers => 1,
-  :group_id => discussed.id,
-  :url => "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
+  :group_id => discussed.id)
 
 datacite = Datacite.find_or_create_by_name(
   :name => "datacite",
@@ -157,17 +161,6 @@ wos = Wos.find_or_create_by_name(
 	:workers => 1,
 	:group_id => cited.id,
 	:url => "<%= node[:alm][:wos][:url] %>" )
-
-pmc = Pmc.find_or_create_by_name(
-  :name => "pmc",
-  :display_name => "PubMed Central Usage Stats",
-  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
-  :state_event => "<%= node[:alm][:pmc][:url] == 'EXAMPLE' ? "" : 'activate' %>",
-  :queueable => false,
-  :workers => 1,
-  :group_id => viewed.id,
-  :url => "<%= node[:alm][:pmc][:url] %>",
-  :filepath => "<%= node[:alm][:pmc][:filepath] %>")
 <% end -%>
 
 # The following sources require passwords/API keys
@@ -212,6 +205,18 @@ figshare = Figshare.find_or_create_by_name(
   :group_id => viewed.id,
   :url => "<%= node[:alm][:figshare][:url] %>")
 <% end -%>
+pmc = Pmc.find_or_create_by_name(
+  :name => "pmc",
+  :display_name => "PubMed Central Usage Stats",
+  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
+  :state_event => "<%= node[:alm][:pmc][:username] == 'EXAMPLE' ? "" : 'activate' %>",
+  :queueable => false,
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "<%= node[:alm][:pmc][:url] %>",
+  :journals => "<%= node[:alm][:pmc][:journals] %>",
+  :username => "<%= node[:alm][:pmc][:username] %>",
+  :password => "<%= node[:alm][:pmc][:password] %>")
 
 copernicus = Copernicus.find_or_create_by_name(
   :name => "copernicus",
