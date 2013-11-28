@@ -21,7 +21,6 @@
 require 'cgi'
 require 'addressable/uri'
 require "builder"
-require 'sanitize'
 
 class Article < ActiveRecord::Base
   strip_attributes
