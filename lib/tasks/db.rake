@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -83,6 +85,12 @@ namespace :db do
       Article.destroy_all unless Rails.env.production?
       after = Article.count
       puts "Deleted #{before - after} articles, #{after} articles remaining"
+    end
+
+    desc "Remove all HTML and XML tags from article titles"
+    task :sanitize_title => :environment do
+      Article.all.each { |article| article.save }
+      puts "#{Article.count} article titles sanitized"
     end
 
   end

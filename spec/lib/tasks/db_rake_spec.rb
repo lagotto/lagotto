@@ -26,6 +26,20 @@ describe "db:articles:delete" do
   end
 end
 
+describe "db:articles:sanitize_title" do
+  include_context "rake"
+
+  before do
+    FactoryGirl.create_list(:article, 5)
+  end
+
+  let(:output) { "5 article titles sanitized\n" }
+
+  it "should run" do
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
 describe "db:alerts:delete" do
   include_context "rake"
 

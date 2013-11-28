@@ -21,6 +21,7 @@
 require 'cgi'
 require 'addressable/uri'
 require "builder"
+require 'sanitize'
 
 class Article < ActiveRecord::Base
   strip_attributes
@@ -40,6 +41,7 @@ class Article < ActiveRecord::Base
   validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future",
                                                                :after => lambda { Date.new(1665,1,1) }, :after_message => "must not be older than 50 years",
                                                                :type => :date }
+  before_validation :sanitize_title
   after_create :create_retrievals
 
   default_scope order("published_on DESC")
@@ -187,7 +189,7 @@ class Article < ActiveRecord::Base
   end
 
   def title_escaped
-    CGI.escape(title).gsub("+", "%20")
+    CGI.escape(title.to_str).gsub("+", "%20")
   end
 
   def is_publisher?
@@ -218,6 +220,10 @@ class Article < ActiveRecord::Base
   end
 
   private
+
+  def sanitize_title
+    self.title = ActionController::Base.helpers.sanitize(self.title)
+  end
 
   def create_retrievals
     # Create an empty retrieval record for every source for the new article
