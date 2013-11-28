@@ -70,6 +70,16 @@ By default the rake tasks above run for all sources. Do have them run for one or
 
     rake queue:all[mendeley,citeulike]
 
+### pmc.rake
+
+Import latest PubMed Central usage stats.
+
+    rake pmc:update
+
+Import all PubMed Central usage stats since month/year.
+
+    rake pmc:update[month,year]
+
 ### workers.rake
 
 Start all the workers.
@@ -112,6 +122,10 @@ Send all reports
 
     rake mailer:all
 
-Send daily report
+Send error report
 
-    rake mailer:report
+    rake mailer:error_report
+
+Send status report
+
+    rake mailer:status_report
