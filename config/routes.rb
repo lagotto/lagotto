@@ -31,7 +31,11 @@ Alm::Application.routes.draw do
     namespace :v3 do
       root :to => "articles#index"
       resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index, :show]
-      resources :articles, :constraints => { :id => /.+?/, :ip => /127.0.0.1/, :format=> false }
+    end
+
+    namespace :v4 do
+      root :to => "articles#index"
+      resources :articles, :constraints => { :id => /.+?/, :format=> false }
     end
   end
 end
