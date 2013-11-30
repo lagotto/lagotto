@@ -3,30 +3,30 @@
   "_rev": "3-dc46776a84eff58f3f8015bee069ef1b",
   "views": [
     {
-      "unique_ip": "5",
-      "full_text": "3",
+      "unique-ip": "5",
+      "full-text": "3",
       "pdf": "2",
       "abstract": "0",
-      "scanned_summary": "0",
-      "scanned_page_browse": "0",
+      "scanned-summary": "0",
+      "scanned-page-browse": "0",
       "figure": "2",
-      "supp_data": "0",
-      "cited_by": "0",
-      "year": 2013,
-      "month": 9
+      "supp-data": "0",
+      "cited-by": "0",
+      "year": "2013",
+      "month": "9"
     },
     {
-      "unique_ip": "8",
-      "full_text": "6",
+      "unique-ip": "8",
+      "full-text": "6",
       "pdf": "2",
       "abstract": "0",
-      "scanned_summary": "0",
-      "scanned_page_browse": "0",
+      "scanned-summary": "0",
+      "scanned-page-browse": "0",
       "figure": "3",
-      "supp_data": "0",
-      "cited_by": "0",
-      "year": 2013,
-      "month": 10
+      "supp-data": "0",
+      "cited-by": "0",
+      "year": "2013",
+      "month": "10"
     }
   ]
 }
