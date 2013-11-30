@@ -196,7 +196,7 @@ class RetrievalStatusDecorator < Draper::Decorator
       if events.blank?
         nil
       else
-        events.group_by {|event| event["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => v.inject(0) { |sum, hash| sum + hash["pdf"].to_i }, :html => v.inject(0) { |sum, hash| sum + hash["full_text"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.inject(0) { |sum, hash| sum + hash["full_text"].to_i + hash["pdf"].to_i } }}
+        events.group_by {|event| event["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => v.inject(0) { |sum, hash| sum + hash["pdf"].to_i }, :html => v.inject(0) { |sum, hash| sum + hash["full-text"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.inject(0) { |sum, hash| sum + hash["full-text"].to_i + hash["pdf"].to_i } }}
       end
     when "citeulike"
       if events.blank?
