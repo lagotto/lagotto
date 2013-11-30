@@ -84,7 +84,7 @@ class Pmc < Source
             data = { 'views' => [view] }
           else
             # update existing entry
-            data['views'].delete_if { |view| view['month'] == month.to_ss && view['year'] == year.to_s }
+            data['views'].delete_if { |view| view['month'] == month.to_s && view['year'] == year.to_s }
             data['views'] << view
           end
 
