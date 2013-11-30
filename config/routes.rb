@@ -17,10 +17,10 @@ Alm::Application.routes.draw do
     resources :articles, :constraints => { :id => /.+?/, :format => /html|js/ }
     resources :sources
     resources :groups
-    resources :delayed_jobs
     resources :errors
     resources :events
     resources :responses
+    resources :delayed_jobs
     resources :alerts
     resources :api_requests
     resources :users
@@ -31,6 +31,11 @@ Alm::Application.routes.draw do
     namespace :v3 do
       root :to => "articles#index"
       resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index, :show]
+      resources :sources, :constraints => { :format=> false }, only: [:show]
+      resources :events, :constraints => { :format=> false }, only: [:index]
+      resources :responses, :constraints => { :format=> false }, only: [:index]
+      resources :delayed_jobs, :constraints => { :format=> false }, only: [:index]
+      resources :status, :constraints => { :format=> false }, only: [:index]
     end
 
     namespace :v4 do

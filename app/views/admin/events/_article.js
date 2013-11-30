@@ -1,5 +1,6 @@
 var data;
 var colors = ["#304345","#789aa1","#a0d5d6","#ad9a27","#a17f78"];
+var api_key = d3.select("h1#api_key").attr('data-api_key');
 
 var l = 200; // left margin
 var r = 120; // right margin
@@ -7,10 +8,10 @@ var w = 600; // width of drawing area
 var h = 30;  // bar height
 var s = 1;   // spacing between bars
 
-d3.json("/admin/events.json", function(error, json) {
+d3.json("/api/v3/events?api_key=" + api_key, function(error, json) {
   data = json;
 
-  d3.select("#loading-article").remove();
+  var formatFixed = d3.format(",.0f");
 
   var chart = d3.select("div#article").append("svg")
     .attr("width", w + l + r)
@@ -51,6 +52,14 @@ d3.json("/admin/events.json", function(error, json) {
     .attr("y", function(d) { return y(d.name) + y.rangeBand() / 2; })
     .attr("dx", 5) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
-    .text(function(d) { return d.article_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); });
+    .text(function(d) { return number_with_delimiter(d.article_count); });
+
+  function number_with_delimiter(number) {
+    if(number !== 0) {
+      return formatFixed(number);
+    } else {
+      return null;
+    }
+  }
 
 });

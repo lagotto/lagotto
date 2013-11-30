@@ -4,13 +4,13 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
+// Loads all Bootstrap javascripts
+//= require bootstrap
+//
 // Load jQuery
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//
-// Loads all Bootstrap javascripts
-//= require bootstrap
 //
 // Load the D3 visualization library
 //= require d3.v3

@@ -111,9 +111,7 @@
             <ul class="nav">
               <%= controller.controller_name == "delayed_jobs" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Jobs', admin_delayed_jobs_path %></li>
               <%= controller.controller_name == "responses" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Responses', admin_responses_path %></li>
-              <% unless Article.has_many? %>
-                <%= controller.controller_name == "events" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Events', admin_events_path %></li>
-              <% end %>
+              <%= controller.controller_name == "events" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to 'Events', admin_events_path %></li>
     					<%= controller.controller_name == "api_requests" ? '<li class="dropdown active">'.html_safe : '<li class="dropdown">'.html_safe %>
   					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users <b class="caret"></b></a>
   				      <ul class="dropdown-menu">

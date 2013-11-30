@@ -9,8 +9,8 @@
   <tbody>
     <tr>
       <th>Jobs</th>
-      <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count - @source.delayed_jobs.count(:locked_at)) %></td>
-      <td class="number"><%= number_with_delimiter(@source.delayed_jobs.count(:locked_at)) %></td>
+      <td class="number" id="pending_count">&nbsp;</td>
+      <td class="number" id="working_count">&nbsp;</td>
     </tr>
     <tr>
       <th/>
@@ -19,8 +19,8 @@
     </tr>
     <tr>
       <th>Responses in the last 24 Hours</th>
-      <td class="number"><%= number_with_delimiter(@source.api_responses.total(1).size) %></td>
-      <td class="number"><%= link_to_if @source.alerts.total_errors(1).size > 0, number_with_delimiter(@source.alerts.total_errors(1).size), admin_alerts_path(:source_id => @source.id) %></td>
+      <td class="number" id="responses_count">&nbsp;</td>
+      <td class="number" id="alerts_count">&nbsp;</td>
     </tr>
     <tr>
       <th/>
@@ -29,20 +29,18 @@
     </tr>
     <tr>
       <th>Response duration in the last 24 Hours (ms)</th>
-      <td class="number"><%= number_with_precision(@source.api_responses.total(1).average("duration").nil? ? 0 : @source.api_responses.total(1).average("duration"), precision: 0) %></td>
-      <td class="number"><%= number_with_precision(@source.api_responses.total(1).maximum("duration").nil? ? 0 : @source.api_responses.total(1).maximum("duration"), precision: 0) %></td>
+      <td class="number" id="average_count">&nbsp;</td>
+      <td class="number" id="maximum_count">&nbsp;</td>
     </tr>
-    <% unless Article.has_many? %>
-      <tr>
-        <th/>
-        <th class="number">Articles&nbsp;with&nbsp;Events</th>
-        <th class="number">All Events</th>
-      </tr>
-      <tr>
-        <th>Events</th>
-        <td class="number"><%= number_with_delimiter(@source.articles.cited(1).size) %></td>
-        <td class="number"><%= number_with_delimiter(@source.retrieval_statuses.sum(:event_count)) %></td>
-      </tr>
-    <% end %>
+    <tr>
+      <th/>
+      <th class="number">Articles&nbsp;with&nbsp;Events</th>
+      <th class="number">All Events</th>
+    </tr>
+    <tr>
+      <th>Events</th>
+      <td class="number" id="article_count">&nbsp;</td>
+      <td class="number" id="event_count">&nbsp;</td>
+    </tr>
   </tbody>
 </table>

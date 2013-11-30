@@ -61,6 +61,12 @@ FactoryGirl.define do
     initialize_with { Group.find_or_create_by_name(name) }
   end
 
+  factory :delayed_job do
+    queue 'citeulike-queue'
+
+    initialize_with { DelayedJob.find_or_create_by_queue(queue) }
+  end
+
   factory :report do
     name 'Error Report'
 

@@ -1,3 +1,4 @@
+var api_key = d3.select("h1#api_key").attr('data-api_key');
 var color = d3.scale.ordinal()
     .range(["#304345","#789aa1","#c7c0b5"]);
 
@@ -5,9 +6,8 @@ var w = 300,
     h = 200,
     radius = Math.min(w, h) / 2;
 
-d3.json("/admin/sources/<%= name %>.json", function(error, data) {
-
-  data = data["status"];
+d3.json("/api/v3/sources/<%= name %>?api_key=" + api_key, function(error, json) {
+  data = json["status"];
 
   var chart = d3.select("div#chart_status").append("svg")
       .data([data])

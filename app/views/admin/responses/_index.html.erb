@@ -11,15 +11,13 @@
     </thead>
     <tbody>
       <% @sources.each do|source| %>
-        <% cache source do %>
-          <tr>
-          <td><%= link_to h(source["name"]), source["url"] %></td>
-          <td><%= state_label(source["state"]).html_safe %></td>
-          <td class="hidden-phone number"><%= number_not_showing_zero(source["response_count"]) %></td>
-          <td class="hidden-phone number"><%= number_not_showing_zero(source["response_duration"], precision: 0) %></td>
-          <td class="number"><%= link_to_unless source["error_count"].nil?, number_not_showing_zero(source["error_count"]), admin_alerts_path(:source_id => source["id"]) %></td>
-          </tr>
-        <% end %>
+        <tr>
+          <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
+          <td><%= state_label(source.human_state_name).html_safe %></td>
+          <td class="hidden-phone number" id="response_count_<%= source.id %>">&nbsp;</td>
+          <td class="hidden-phone number" id="response_duration_<%= source.id %>">&nbsp;</td>
+          <td class="number" id="error_count_<%= source.id %>">&nbsp;</td>
+        </tr>
       <% end %>
     </tbody>
   </table>
