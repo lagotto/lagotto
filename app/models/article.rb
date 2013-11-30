@@ -225,7 +225,7 @@ class Article < ActiveRecord::Base
     # Schedule retrieval immediately, rate-limiting will automatically limit the external API calls
     # when we bulk-upload lots of articles.
 
-    Source.queueable.each do |source|
+    Source.all.each do |source|
       RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id, :scheduled_at => Time.zone.now)
     end
   end

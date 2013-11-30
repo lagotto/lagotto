@@ -83,6 +83,7 @@ class Counter < Source
                       :total => event_count }
 
     {:events => views,
+     :events_url => query_url,
      :event_count => event_count,
      :event_metrics => event_metrics,
      :attachment => views.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
