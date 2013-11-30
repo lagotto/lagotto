@@ -1,7 +1,9 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2013 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -83,6 +85,35 @@ namespace :db do
       Article.destroy_all unless Rails.env.production?
       after = Article.count
       puts "Deleted #{before - after} articles, #{after} articles remaining"
+    end
+
+    desc "Add missing sources"
+    task :add_sources, [:date] => :environment do |t, args|
+      if args.date.nil?
+        puts "Date in format YYYY-MM-DD required"
+        exit
+      end
+
+      articles = Article.where("published_on >= ?", args.date)
+
+      if args.extras.empty?
+        sources = Source.where("queueable = 0")
+      else
+        sources = Source.active.where("name in (?)", args.extras)
+      end
+
+      retrieval_statuses = []
+      articles.each do |article|
+        sources.each do |source|
+          retrieval_status = RetrievalStatus.find_or_initialize_by_article_id_and_source_id(article.id, source.id, :scheduled_at => Time.zone.now)
+          if retrieval_status.new_record?
+            retrieval_status.save!
+            retrieval_statuses << retrieval_status
+          end
+        end
+      end
+
+      puts "#{retrieval_statuses.count} retrieval status(es) added for #{sources.count} source(s) and #{articles.count} articles"
     end
 
   end
