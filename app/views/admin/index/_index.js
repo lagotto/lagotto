@@ -16,8 +16,6 @@ d3.json("/api/v3/status?api_key=" + api_key, function(error, json) {
     }
   };
 
-  values.filter(function(el){return el !== null;})
-
   function number_with_delimiter(number) { return formatFixed(number); }
 
   // Format file size into human-readable format

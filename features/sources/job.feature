@@ -9,10 +9,6 @@ Feature: See jobs
     And the source "Citeulike" exists
     And that we have 5 articles
 
-    Scenario: Loading page …
-      When I go to the "Jobs" admin page
-      Then I should see the message "Loading page …" disappear
-
     @not-teamcity
     Scenario: Jobs in dashboard
       When I go to the "Jobs" admin page

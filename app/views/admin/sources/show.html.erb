@@ -67,5 +67,5 @@
 </div>
 
 <%= javascript_tag do -%>
-  <%= render :partial => 'index', formats: :js, :locals => { :name => @source.name } %>
+  <%= render :partial => 'show', formats: :js, :locals => { :name => @source.name } %>
 <% end %>
