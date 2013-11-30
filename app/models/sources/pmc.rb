@@ -68,11 +68,14 @@ class Pmc < Source
       else
         # go through all the articles in the xml document
         document.xpath("//article").each do |article|
-          info = Hash.from_xml(article.to_s)
-          doi = info["article"]["meta_data"]["doi"]
-          view = info["article"]["usage"]
-          view['year'] = year
-          view['month'] = month
+          article = article.to_hash
+          article = article["article"]
+
+          doi = article["meta-data"]["doi"]
+
+          view = article["usage"]
+          view['year'] = year.to_s
+          view['month'] = month.to_s
 
           # try to get the existing information about the given article
           data = get_json("#{url}#{CGI.escape(doi)}")
@@ -81,7 +84,7 @@ class Pmc < Source
             data = { 'views' => [view] }
           else
             # update existing entry
-            data['views'].delete_if { |view| view['month'].to_i == month && view['year'].to_i == year }
+            data['views'].delete_if { |view| view['month'] == month && view['year'] == year }
             data['views'] << view
           end
 
@@ -107,7 +110,7 @@ class Pmc < Source
     events = result["views"]
 
     pdf = events.nil? ? 0 : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }
-    html = events.nil? ? 0 : events.inject(0) { |sum, hash| sum + hash["full_text"].to_i }
+    html = events.nil? ? 0 : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }
     event_count = pdf + html
 
     event_metrics = { :pdf => pdf,
