@@ -20,9 +20,7 @@ disabled_source_report = Report.find_or_create_by_name(:name => "Disabled Source
 
 # Load default cache keys
 status_key = ApiCacheKey.find_or_create_by_name(:name => "status")
-events_key = ApiCacheKey.find_or_create_by_name(:name => "events")
-responses_key = ApiCacheKey.find_or_create_by_name(:name => "responses")
-delayed_jobs_key = ApiCacheKey.find_or_create_by_name(:name => "delayed_jobs")
+sources_key = ApiCacheKey.find_or_create_by_name(:name => "sources")
 
 # Load default filters
 article_not_updated_error = ArticleNotUpdatedError.find_or_create_by_name(

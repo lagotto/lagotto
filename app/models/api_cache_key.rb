@@ -1,7 +1,9 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2013 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,4 +19,18 @@
 # limitations under the License.
 
 class ApiCacheKey < ActiveRecord::Base
+
+  class << self
+    def expire_all
+      ApiCacheKey.all.each do |cache_key|
+        cache_key.touch
+        url = "http://localhost/api/v3/#{cache_key.name}?api_key=#{api_key}"
+        response = get_json(url)
+      end
+    end
+
+    def api_key
+      APP_CONFIG['api_key']
+    end
+  end
 end

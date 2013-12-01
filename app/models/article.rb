@@ -65,11 +65,6 @@ class Article < ActiveRecord::Base
     end
   }
 
-  # simplify admin dashboard when we have more than 150,000 articles
-  def self.has_many?
-    Article.count > 150000
-  end
-
   def self.from_uri(id)
     return nil if id.nil?
     id = id.gsub("%2F", "/")

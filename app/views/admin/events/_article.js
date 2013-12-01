@@ -8,7 +8,7 @@ var w = 600; // width of drawing area
 var h = 30;  // bar height
 var s = 1;   // spacing between bars
 
-d3.json("/api/v3/events?api_key=" + api_key, function(error, json) {
+d3.json("/api/v3/sources?api_key=" + api_key, function(error, json) {
   data = json;
 
   var formatFixed = d3.format(",.0f");
@@ -24,7 +24,7 @@ d3.json("/api/v3/events?api_key=" + api_key, function(error, json) {
     .domain([0, d3.max(data, function(d) { return d.article_count; })])
     .range([0, w]);
   var y = d3.scale.ordinal()
-    .domain(data.map(function(d) { return d.name; }))
+    .domain(data.map(function(d) { return d.display_name; }))
     .rangeBands([0, (h + 2 * s) * data.length]);
   var z = d3.scale.ordinal()
     .domain(data.map(function(d) { return d.group; }))
@@ -32,24 +32,24 @@ d3.json("/api/v3/events?api_key=" + api_key, function(error, json) {
 
   chart.selectAll("text.labels")
     .data(data)
-    .enter().append("a").attr("xlink:href", function(d) { return d.url; }).append("text")
+    .enter().append("a").attr("xlink:href", function(d) { return "/admin/sources/" + d.name; }).append("text")
     .attr("x", 0)
-    .attr("y", function(d) { return y(d.name) + y.rangeBand() / 2; })
+    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
     .attr("dx", -230) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
-    .text(function(d) { return d.name; });
+    .text(function(d) { return d.display_name; });
   chart.selectAll("rect")
     .data(data)
     .enter().append("rect")
     .attr("fill", function(d) { return z(d.group); })
-    .attr("y", function(d,i) { return y(d.name); })
+    .attr("y", function(d,i) { return y(d.display_name); })
     .attr("height", h)
     .attr("width", function(d) { return x(d.article_count); });
   chart.selectAll("text.values")
     .data(data)
     .enter().append("text")
     .attr("x", function(d) { return x(d.article_count); })
-    .attr("y", function(d) { return y(d.name) + y.rangeBand() / 2; })
+    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
     .attr("dx", 5) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(function(d) { return number_with_delimiter(d.article_count); });

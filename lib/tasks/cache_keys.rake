@@ -22,13 +22,7 @@ namespace :cache_keys do
 
   desc "Expire all API cache keys"
   task :expire => :environment do
-    api_key = APP_CONFIG['api_key']
-
-    ApiCacheKey.all.each do |cache_key|
-      cache_key.touch
-      url = "http://localhost/api/v3/#{cache_key.name}?api_key=#{api_key}"
-      response = get_json(url)
-    end
+    ApiCacheKey.expire_all
     puts "Expired all API cache keys"
   end
 end

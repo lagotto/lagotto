@@ -15,10 +15,10 @@
         <tr>
         <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
         <td><%= state_label(source.human_state_name).html_safe %></td>
-        <td class="hidden-phone number" id="queueing_count_<%= source.id %>">&nbsp;</td>
-        <td class="hidden-phone number" id="pending_count_<%= source.id %>">&nbsp;</td>
-        <td class="hidden-phone number" id="working_count_<%= source.id %>">&nbsp;</td>
-        <td class="hidden-phone number" id="stale_count_<%= source.id %>">&nbsp;</td>
+        <td class="hidden-phone number" id="queueing_count_<%= source.name %>">&nbsp;</td>
+        <td class="hidden-phone number" id="pending_count_<%= source.name %>">&nbsp;</td>
+        <td class="hidden-phone number" id="working_count_<%= source.name %>">&nbsp;</td>
+        <td class="hidden-phone number" id="stale_count_<%= source.name %>">&nbsp;</td>
         </tr>
       <% end %>
     </tbody>

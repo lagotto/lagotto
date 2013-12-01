@@ -31,10 +31,7 @@ Alm::Application.routes.draw do
     namespace :v3 do
       root :to => "articles#index"
       resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index, :show]
-      resources :sources, :constraints => { :format=> false }, only: [:show]
-      resources :events, :constraints => { :format=> false }, only: [:index]
-      resources :responses, :constraints => { :format=> false }, only: [:index]
-      resources :delayed_jobs, :constraints => { :format=> false }, only: [:index]
+      resources :sources, :constraints => { :format=> false }, only: [:index, :show]
       resources :status, :constraints => { :format=> false }, only: [:index]
     end
 
