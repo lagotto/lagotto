@@ -3,10 +3,12 @@ class Admin::ApiRequestsController < Admin::ApplicationController
   load_and_authorize_resource
 
   def index
-    if params[:api_key]
-      collection = ApiRequest.where("api_key = ?", params[:api_key])
+    if params[:key]
+      collection = ApiRequest.where("api_key = ?", params[:key])
     elsif params[:local]
       collection = ApiRequest.where("api_key = ?", APP_CONFIG['api_key'])
+    elsif params[:source]
+      collection = ApiRequest.where("ids LIKE ?", "Api::%")
     else
       collection = ApiRequest.where("api_key != ?", APP_CONFIG['api_key'])
     end

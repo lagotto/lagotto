@@ -98,6 +98,7 @@
                   <li class="divider"></li>
                   <li><%= link_to "Local API Requests", admin_api_requests_path(local: 1) %></li>
                   <li><%= link_to "External API Requests", admin_api_requests_path %></li>
+                  <li><%= link_to "Other API Requests", admin_api_requests_path(source: 1) %></li>
   		          </ul>
   		        </li>
               <%= ["filters","alerts"].include?(controller.controller_name) ? '<li class="dropdown active">'.html_safe : '<li class="dropdown">'.html_safe %>
