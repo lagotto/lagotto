@@ -35,6 +35,6 @@ class Api::V3::StatusController < Api::V3::BaseController
                                mysql_size: RetrievalHistory.table_status["data_length"]
               })
 
-    @cache_key = ApiCacheKey.find_by_name("status")
+    @cache_key = Time.zone.now.strftime("%Y-%m-%d/%H")
   end
 end

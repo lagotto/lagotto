@@ -35,12 +35,6 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
   add_index "alerts", ["unresolved", "updated_at"], :name => "index_error_messages_on_unresolved_and_updated_at"
   add_index "alerts", ["updated_at"], :name => "index_error_messages_on_updated_at"
 
-  create_table "api_cache_keys", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "api_requests", :force => true do |t|
     t.string   "format"
     t.float    "db_duration"
@@ -196,6 +190,7 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
     t.boolean  "queueable",    :default => true
     t.string   "queue"
     t.string   "state_event"
+    t.datetime "cached_at",    :default => '1970-01-01 00:00:00', :null => false
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true

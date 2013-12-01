@@ -18,7 +18,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class ApiCacheKey < ActiveRecord::Base
+class ApiCache < ActiveRecord::Base
 
   class << self
     def expire_all
@@ -28,6 +28,7 @@ class ApiCacheKey < ActiveRecord::Base
         response = get_json(url)
       end
     end
+    handle_asynchronously :expire_all, priority: 0, queue: "api-cache"
 
     def api_key
       APP_CONFIG['api_key']

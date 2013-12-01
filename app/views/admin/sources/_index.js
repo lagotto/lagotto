@@ -17,16 +17,16 @@ d3.json("/api/v3/sources?api_key=" + api_key, function(error, json) {
     item = data[i];
 
     // Jobs tab
-    d3.select("#queueing_count_" + item["name"]).html(number_with_delimiter(item["queueing_count"]));
-    d3.select("#pending_count_" + item["name"]).html(number_with_delimiter(item["pending_count"]));
-    d3.select("#working_count_" + item["name"]).html(number_with_delimiter(item["working_count"]));
+    d3.select("#queueing_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["queueing"]));
+    d3.select("#pending_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["pending"]));
+    d3.select("#working_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["working"]));
     if(item["stale_count"] !== null) {
-      d3.select("#stale_count_" + item["name"]).html(number_with_delimiter(item["stale_count"]));
+      d3.select("#stale_count_" + item["name"]).html(number_with_delimiter(item["status"]["stale"]));
     }
 
     // Responses tab
-    d3.select("#response_count_" + item["name"]).html(number_with_delimiter(item["response_count"]));
-    d3.select("#average_count_" + item["name"]).html(number_with_delimiter(item["average_count"]));
+    d3.select("#response_count_" + item["name"]).html(number_with_delimiter(item["responses"]["count"]));
+    d3.select("#average_count_" + item["name"]).html(number_with_delimiter(item["responses"]["average"]));
     d3.select("#error_count_" + item["name"]).html(number_with_delimiter(item["error_count"]));
   };
 

@@ -138,6 +138,8 @@ FactoryGirl.define do
     state_event "activate"
     url "http://www.citeulike.org/api/posts/for/doi/%{doi}"
 
+    cached_at { Time.zone.now - 10.minutes }
+
     group
 
     initialize_with { Citeulike.find_or_create_by_name(name) }

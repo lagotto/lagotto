@@ -1,6 +1,3 @@
 collection @sources
-cache @cache_key
 
-node do |source|
-  source
-end
+extends "api/v3/sources/show"

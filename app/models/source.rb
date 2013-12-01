@@ -33,6 +33,7 @@ class Source < ActiveRecord::Base
   serialize :config, OpenStruct
 
   after_create :create_retrievals
+  after_save :check_cache
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
@@ -115,6 +116,7 @@ class Source < ActiveRecord::Base
 
     after_transition :to => :waiting do |source|
       source.add_queue(Time.zone.now + source.wait_time) if source.check_for_queued_jobs
+      source.expire_cache
     end
 
     event :activate do
@@ -400,6 +402,15 @@ class Source < ActiveRecord::Base
     ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
   end
 
+  def expire_cache
+    url = "http://localhost/api/v3/sources/#{name}?api_key=#{APP_CONFIG['api_key']}"
+    self.update_attributes(:cached_at => Time.zone.now) unless get_json(url).nil?
+
+    status_url = "http://localhost/api/v3/status?api_key=#{APP_CONFIG['api_key']}"
+    get_json(status_url)
+  end
+  handle_asynchronously :expire_cache, priority: 0, queue: "api-cache"
+
   private
 
   def create_retrievals
@@ -408,6 +419,10 @@ class Source < ActiveRecord::Base
     random_time = Time.zone.now + rand(7.days)
     sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), '#{random_time.to_formatted_s(:db)}' from articles"
     conn.execute sql
+  end
+
+  def check_cache
+    self.expire_cache if (updated_at - cached_at) > 15.minutes
   end
 end
 

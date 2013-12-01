@@ -19,8 +19,8 @@ describe "/api/v3/sources" do
         responses = JSON.parse(last_response.body)
         response = responses.first
         response["name"].should eq(@source.name)
-        response["queueing_count"].should == 1
-        response["stale_count"].should == 10
+        response["jobs"]["queueing"].should == 1
+        response["status"]["stale"].should == 10
       end
     end
 
@@ -36,8 +36,8 @@ describe "/api/v3/sources" do
         responses = JSON.parse(last_response.body)
         response = responses.first
         response["name"].should eq(@source.name)
-        response["response_count"].should == 5
-        response["average_count"].should == 200
+        response["responses"]["count"].should == 5
+        response["responses"]["average"].should == 200
       end
     end
 
@@ -79,13 +79,10 @@ describe "/api/v3/sources" do
         response["name"].should eq(source.name)
         response["article_count"].should == 5
         response["event_count"].should == 250
-        response["response_count"].should == 5
-        response["average_count"].should == 200
-        response["status"][0]["value"].should == 5
-
-
-        response["queueing_count"].should == 1
-        response["stale_count"].should == 5
+        response["responses"]["count"].should == 5
+        response["responses"]["average"].should == 200
+        response["jobs"]["queueing"].should == 1
+        response["status"]["stale"].should == 5
       end
     end
   end

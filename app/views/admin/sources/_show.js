@@ -1,25 +1,32 @@
 var data;
-var api_key = d3.select("h1#api_key").attr('data-api_key');
+var name = d3.select("h1").attr('data-name');
+var api_key = d3.select("h1").attr('data-api_key');
 var color = d3.scale.ordinal()
     .range(["#304345","#789aa1","#c7c0b5"]);
 var w = 300,
     h = 200,
     radius = Math.min(w, h) / 2;
 
-d3.json("/api/v3/sources/<%= name %>?api_key=" + api_key, function(error, json) {
+d3.json("/api/v3/sources/" + name + "?api_key=" + api_key, function(error, json) {
   data = json;
 
   var formatFixed = d3.format(",.0f");
 
   // Summary table
-  for (var item in data) {
-    if(item.substr(item.length - 5) == "count") {
-      d3.select("#" + item).html(formatFixed(data[item]));
-    }
-  };
+  d3.select("#pending_count").html(formatFixed(data["jobs"]["pending"]));
+  d3.select("#working_count").html(formatFixed(data["jobs"]["working"]));
+
+  d3.select("#response_count").html(formatFixed(data["responses"]["count"]));
+  d3.select("#error_count").html(formatFixed(data["error_count"]));
+
+  d3.select("#average_count").html(formatFixed(data["responses"]["average"]));
+  d3.select("#maximum_count").html(formatFixed(data["responses"]["maximum"]));
+
+  d3.select("#article_count").html(formatFixed(data["article_count"]));
+  d3.select("#event_count").html(formatFixed(data["event_count"]));
 
   // Status donut chart
-  data = json["status"];
+  data = d3.entries(json["status"]);
 
   var chart = d3.select("div#chart_status").append("svg")
       .data([data])
@@ -48,7 +55,7 @@ d3.json("/api/v3/sources/<%= name %>?api_key=" + api_key, function(error, json) 
       .attr("d", arc);
 
   arcs.each(
-      function(d,i){ $(this).tooltip({title: formatFixed(d.data.value) + " articles " + d.data.name, container: "body"});
+      function(d,i){ $(this).tooltip({title: formatFixed(d.data.value) + " articles " + d.data.key, container: "body"});
   });
 
   chart.append("text")
@@ -63,8 +70,8 @@ d3.json("/api/v3/sources/<%= name %>?api_key=" + api_key, function(error, json) 
       .attr("class", "subtitle")
       .text("of articles");
 
-  // Events per day donut chart
-  data = json["events"];
+  // Events today donut chart
+  data = d3.entries(json["by_day"]);
 
   var chart = d3.select("div#chart_day").append("svg")
       .data([data])
@@ -80,7 +87,7 @@ d3.json("/api/v3/sources/<%= name %>?api_key=" + api_key, function(error, json) 
 
   var pie = d3.layout.pie()
       .sort(null)
-      .value(function(d) { return d.day; });
+      .value(function(d) { return d.value; });
 
   var arcs = chart.selectAll("g.slice")
       .data(pie)
@@ -92,7 +99,7 @@ d3.json("/api/v3/sources/<%= name %>?api_key=" + api_key, function(error, json) 
       .attr("fill", function(d, i) { return color(i); } )
       .attr("d", arc);
   arcs.each(
-      function(d,i){ $(this).tooltip({title: formatFixed(d.data.day) + " articles " + d.data.name, container: "body"});
+      function(d,i){ $(this).tooltip({title: formatFixed(d.data.value) + " articles " + d.data.key.replace("_", " "), container: "body"});
   });
 
   chart.append("text")
@@ -106,6 +113,9 @@ d3.json("/api/v3/sources/<%= name %>?api_key=" + api_key, function(error, json) 
       .attr("text-anchor", "middle")
       .attr("class", "subtitle")
       .text("last 24 hours");
+
+  // Events this month donut chart
+  data = d3.entries(json["by_month"]);
 
   var chart = d3.select("div#chart_month").append("svg")
       .data([data])
@@ -121,7 +131,7 @@ d3.json("/api/v3/sources/<%= name %>?api_key=" + api_key, function(error, json) 
 
   var pie = d3.layout.pie()
       .sort(null)
-      .value(function(d) { return d.month; });
+      .value(function(d) { return d.value; });
 
   var arcs = chart.selectAll("g.slice")
       .data(pie)
@@ -133,7 +143,7 @@ d3.json("/api/v3/sources/<%= name %>?api_key=" + api_key, function(error, json) 
       .attr("fill", function(d, i) { return color(i); } )
       .attr("d", arc);
   arcs.each(
-    function(d,i){ $(this).tooltip({title: formatFixed(d.data.month) + " articles " + d.data.name, container: "body"});
+    function(d,i){ $(this).tooltip({title: formatFixed(d.data.value) + " articles " + d.data.key.replace("_", " "), container: "body"});
   });
 
   chart.append("text")
