@@ -18,9 +18,6 @@ Alm::Application.routes.draw do
     resources :sources
     resources :groups
     resources :errors
-    resources :events
-    resources :responses
-    resources :delayed_jobs
     resources :alerts
     resources :api_requests
     resources :users

@@ -1,8 +1,10 @@
-<% unless @sources.empty? %>
+<p>Number of articles that have been updated with new information from sources.</p><br/>
+
+<% unless @sources.active.empty? %>
   <table class="table table-striped" id="ResponsesTable">
     <thead>
       <tr>
-        <th>Source</th>
+        <th class="name">Source</th>
         <th>Status</th>
         <th class="hidden-phone number">Responses&nbsp;(24&nbsp;hours)</th>
         <th class="hidden-phone number">Average Duration&nbsp;(ms)</th>
@@ -10,12 +12,12 @@
       </tr>
     </thead>
     <tbody>
-      <% @sources.each do|source| %>
+      <% @sources.active.each do|source| %>
         <tr>
-          <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
+          <td class="name"><%= link_to h(source.display_name), admin_source_path(source) %></td>
           <td><%= state_label(source.human_state_name).html_safe %></td>
           <td class="hidden-phone number" id="response_count_<%= source.name %>">&nbsp;</td>
-          <td class="hidden-phone number" id="response_duration_<%= source.name %>">&nbsp;</td>
+          <td class="hidden-phone number" id="average_count<%= source.name %>">&nbsp;</td>
           <td class="number" id="error_count_<%= source.name %>">&nbsp;</td>
         </tr>
       <% end %>

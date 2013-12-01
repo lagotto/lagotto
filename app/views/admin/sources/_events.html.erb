@@ -1,0 +1,5 @@
+<% if Article.count > 0 && @sources.count > 0 %>
+  <p>Total number of events per source, logarithmic scale.</p><br/>
+<% else %>
+  <div class="alert alert-info">No events found</div>
+<% end %>

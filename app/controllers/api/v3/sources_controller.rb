@@ -10,7 +10,7 @@ class Api::V3::SourcesController < Api::V3::BaseController
     durations = ApiResponse.total(1).group(:source_id).average("duration")
     errors = Alert.total_errors(1).group(:source_id).count
 
-    @sources = Source.for_events.zip(articles, events).map { |source|
+    @sources = Source.active.zip(articles, events).map { |source|
       { name: source.first.name,
         display_name: source.first.display_name,
         state: source.first.human_state_name,
@@ -23,7 +23,7 @@ class Api::V3::SourcesController < Api::V3::BaseController
         average_count: durations[source.first.id].nil? ? 0 : durations[source.first.id].to_i,
         error_count: errors[source.first.id].nil? ? 0 : errors[source.first.id],
         article_count: source[1],
-        event_count: source[2],
+        event_count: source[2].nil? ? 0 : source[2],
         update_date: source.first.updated_at.utc.iso8601 }}
 
     @cache_key = ApiCacheKey.find_by_name("sources")

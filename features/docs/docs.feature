@@ -36,3 +36,8 @@ Feature: View documentation
       And the source "Citeulike" exists
       When I go to the "Documentation" tab of source "CiteULike"
       Then I should see the "Documentation" sidebar
+
+    Scenario: Documentation on sources admin page
+      Given I am logged in as "admin"
+      When I go to the "Documentation" tab of the Sources admin page
+      Then I should see the "Documentation" sidebar

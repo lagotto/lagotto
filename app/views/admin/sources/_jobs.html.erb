@@ -1,24 +1,26 @@
-<% unless @sources.empty? %>
+<p>Number of background jobs and stale articles.</p><br/>
+
+<% unless @sources.active.empty? %>
   <table class="table table-striped" id="JobsTable">
     <thead>
       <tr>
-        <th>Source</th>
+        <th class="name">Source</th>
         <th>Status</th>
         <th class="hidden-phone number">Queuing</th>
         <th class="hidden-phone number">Pending</th>
         <th class="hidden-phone number">Working</th>
-        <th class="hidden-phone number">Stale&nbsp;Articles</th>
+        <th class="number">Stale&nbsp;Articles</th>
       </tr>
     </thead>
     <tbody>
-      <% @sources.each do|source| %>
+      <% @sources.active.each do|source| %>
         <tr>
-        <td><%= link_to h(source.display_name), admin_source_path(source) %></td>
+        <td class="name"><%= link_to h(source.display_name), admin_source_path(source) %></td>
         <td><%= state_label(source.human_state_name).html_safe %></td>
         <td class="hidden-phone number" id="queueing_count_<%= source.name %>">&nbsp;</td>
         <td class="hidden-phone number" id="pending_count_<%= source.name %>">&nbsp;</td>
         <td class="hidden-phone number" id="working_count_<%= source.name %>">&nbsp;</td>
-        <td class="hidden-phone number" id="stale_count_<%= source.name %>">&nbsp;</td>
+        <td class="number" id="stale_count_<%= source.name %>">&nbsp;</td>
         </tr>
       <% end %>
     </tbody>

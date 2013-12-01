@@ -141,6 +141,16 @@ FactoryGirl.define do
     group
 
     initialize_with { Citeulike.find_or_create_by_name(name) }
+
+    factory :source_with_api_responses do
+      ignore do
+        api_responses_count 5
+      end
+
+      after(:create) do |source, evaluator|
+        FactoryGirl.create_list(:api_response, evaluator.api_responses_count, source: source)
+      end
+    end
   end
 
   factory :copernicus, class: Copernicus do

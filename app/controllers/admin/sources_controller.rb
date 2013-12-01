@@ -8,6 +8,9 @@ class Admin::SourcesController < Admin::ApplicationController
   end
 
   def index
+    filename = Rails.root.join("docs/Sources.md")
+    @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
+
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     respond_with @groups
   end
