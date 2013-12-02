@@ -17,6 +17,7 @@ end
 ### WHEN ###
 When /^I change the name of group "(.*?)" to "(.*?)"$/ do |group_name, new_name|
   visit admin_sources_path
+  click_on "Configuration"
   click_on "#{group_name}-edit"
   fill_in 'Name', :with => new_name
   click_on 'Save'
@@ -24,11 +25,13 @@ end
 
 When /^I delete the group "(.*?)"$/ do |group_name|
   visit admin_sources_path
+  click_on "Configuration"
   click_on "#{group_name}-delete"
 end
 
 When /^I add the group "(.*?)"$/ do |group_name|
   visit admin_sources_path
+  click_on "Configuration"
   click_on "New"
   fill_in 'group_name', :with => group_name
   click_on 'Save'
@@ -36,11 +39,15 @@ end
 
 ### THEN ###
 Then /^I should see the group "(.*?)"$/ do |group_name|
-  page.should have_content group_name
+  within ("#configuration") do
+    page.should have_content group_name
+  end
 end
 
 Then /^I should not see the group "(.*?)"$/ do |group_name|
-  page.should_not have_content group_name
+  within ("#configuration") do
+    page.should_not have_content group_name
+  end
 end
 
 Then /^I should see the error "(.*?)"$/ do |error|

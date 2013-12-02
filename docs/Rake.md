@@ -24,6 +24,10 @@ Deletes all articles and associated rows in retrieval_statuses and retrieval_his
 
     rake db:articles:delete
 
+Removes all HTML and XML tags from title field (for legacy data).
+
+    rake db:articles:sanitize_title
+
 Deletes all resolved alerts
 
     rake db:alerts:delete

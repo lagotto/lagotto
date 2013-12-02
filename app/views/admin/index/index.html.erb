@@ -20,10 +20,14 @@
 
 <div class="content">
   <div class="page-header">
-    <h1><%= link_to 'Home'.html_safe, admin_root_path %></h1>
+    <h1 id="api_key" data-api_key="<%= APP_CONFIG['api_key'] %>">Home</h1>
   </div>
 
   <div id="home">
     <%= render :partial => 'index' %>
   </div>
+
+  <%= javascript_tag do -%>
+    <%= render :partial => 'index', formats: :js %>
+  <% end %>
 </div>

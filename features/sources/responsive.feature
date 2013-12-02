@@ -9,11 +9,15 @@ Feature: Responsive design of sources
     And the source "Citeulike" exists
     And that we have 10 articles
 
-  Scenario: I should  see all information for groups
-    When I go to the "Sources" admin page
-    Then I should see the "Group" column
+  Scenario: I should see the responses tab
+    When I go to the "Responses" tab of the Sources admin page
+    Then I should see the "Errors (24 hours)" column
 
   Scenario: I should see the source summary tab
     When I go to the admin page of source "CiteULike"
     Then I should see the "Summary" tab
     And I should not see the "Configuration" tab
+
+  Scenario: I should not see the configuration tab
+    When I go to the "Sources" admin page
+    Then I should not see the "Configuration" tab

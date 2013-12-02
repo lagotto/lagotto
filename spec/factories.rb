@@ -69,6 +69,12 @@ FactoryGirl.define do
     initialize_with { Group.find_or_create_by_name(name) }
   end
 
+  factory :delayed_job do
+    queue 'citeulike-queue'
+
+    initialize_with { DelayedJob.find_or_create_by_queue(queue) }
+  end
+
   factory :report do
     name 'Error Report'
 
@@ -142,9 +148,21 @@ FactoryGirl.define do
     state_event "activate"
     url "http://www.citeulike.org/api/posts/for/doi/%{doi}"
 
+    cached_at { Time.zone.now - 10.minutes }
+
     group
 
     initialize_with { Citeulike.find_or_create_by_name(name) }
+
+    factory :source_with_api_responses do
+      ignore do
+        api_responses_count 5
+      end
+
+      after(:create) do |source, evaluator|
+        FactoryGirl.create_list(:api_response, evaluator.api_responses_count, source: source)
+      end
+    end
   end
 
   factory :copernicus, class: Copernicus do
@@ -395,7 +413,8 @@ FactoryGirl.define do
     name "wikipedia"
     display_name "Wikipedia"
     state_event "activate"
-    url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
+    url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace={namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
+    languages "en"
 
     group
 

@@ -42,11 +42,10 @@
         </div>
       </div>
     <% end %>
-    <h1>
-      <%= pluralize(@articles.total_entries, 'Article') %>
-      <% unless params[:query].blank? %>
-          <small>with <em><%= params[:query] %></em> in the title or DOI</small>
-      <% end %>
+    <h1>Articles
+    <% unless params[:query].blank? %>
+      <small>with <em><%= params[:query] %></em> in the title or DOI</small>
+    <% end %>
     </h1>
   </div>
 <% end %>

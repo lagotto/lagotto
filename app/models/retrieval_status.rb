@@ -19,7 +19,7 @@
 class RetrievalStatus < ActiveRecord::Base
 
   belongs_to :article, :touch => true
-  belongs_to :source, :touch => true
+  belongs_to :source
   has_many :retrieval_histories, :dependent => :destroy
 
   serialize :event_metrics

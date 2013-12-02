@@ -116,6 +116,12 @@ namespace :db do
       puts "#{retrieval_statuses.count} retrieval status(es) added for #{sources.count} source(s) and #{articles.count} articles"
     end
 
+    desc "Remove all HTML and XML tags from article titles"
+      task :sanitize_title => :environment do
+        Article.all.each { |article| article.save }
+        puts "#{Article.count} article titles sanitized"
+      end
+    end
   end
 
   namespace :alerts do

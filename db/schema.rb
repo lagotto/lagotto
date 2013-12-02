@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130908073125) do
+ActiveRecord::Schema.define(:version => 20131129180235) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
   end
 
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
+  add_index "articles", ["published_on"], :name => "index_articles_published_on_desc"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -156,6 +157,8 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
   add_index "retrieval_statuses", ["id", "event_count"], :name => "index_retrieval_statuses_on_id_and_event_count"
+  add_index "retrieval_statuses", ["source_id", "article_id", "event_count"], :name => "index_retrieval_statuses_source_id_article_id_event_count_desc"
+  add_index "retrieval_statuses", ["source_id", "event_count"], :name => "index_retrieval_statuses_source_id_event_count_desc"
 
   create_table "reviews", :force => true do |t|
     t.string   "name"
@@ -183,10 +186,11 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
     t.text     "description"
-    t.integer  "state",        :default => 0
+    t.integer  "state"
     t.boolean  "queueable",    :default => true
     t.string   "queue"
     t.string   "state_event"
+    t.datetime "cached_at",    :default => '1970-01-01 00:00:00', :null => false
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true

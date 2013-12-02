@@ -1,26 +1,23 @@
 @javascript
-Feature: See events
+Feature: See jobs
   In order to make sure that we collect metrics correctly
   An admin user
-  Should be able to see the number and sum of events
+  Should be able to see the jobs
 
   Background:
     Given I am logged in as "admin"
     And the source "Citeulike" exists
-    And the source "CrossRef" exists
     And that we have 5 articles
 
-    Scenario: Events for articles in dashboard
-      When I go to the "Events" admin page
-      Then the chart should show 5 events for "CiteULike"
-
-    Scenario: Events in dashboard
-      When I go to the "Events" admin page
-      And click on the "All Events" tab
-      Then the chart should show 250 events for "CiteULike"
+    @not-teamcity
+    Scenario: Jobs in dashboard
+      When I go to the "Sources" admin page
+      Then the table "JobsTable" should be:
+        | Source    | Status   | Pending | Working | Stale Articles |
+        | CiteULike | queueing |         |         | 5              |
 
     @not-teamcity
-    Scenario: Events in source view
+    Scenario: Jobs in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should be:
         |                                             | Pending              | Working    |

@@ -100,7 +100,6 @@
       <div class="tab-pane hidden-phone" id="year">
         <div class="muted" id="loading-year">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
-          var api_key = "<%= @api_key %>";
           <%= render :partial => 'admin/articles/year', formats: :js %>
         <% end %>
       </div>

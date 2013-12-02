@@ -3,31 +3,14 @@ class Admin::SourcesController < Admin::ApplicationController
   load_and_authorize_resource
 
   def show
-    respond_with do |format|
-      format.html do
-        filename = Rails.root.join("docs/#{@source.name.capitalize}.md")
-        @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
-        render :show
-      end
-      format.json do
-        status = [{ "name" => "refreshed", "value" => Article.count - (@source.retrieval_statuses.stale.size + @source.retrieval_statuses.queued.size) },
-                  { "name" => "queued", "value" => @source.retrieval_statuses.queued.size },
-                  { "name" => "stale ", "value" => @source.retrieval_statuses.stale.size }]
-        events = [{ "name" => "with events ",
-                           "day" => @source.retrieval_statuses.with_events(1).size,
-                           "month" => @source.retrieval_statuses.with_events(31).size },
-                         { "name" => "without events",
-                           "day" => @source.retrieval_statuses.without_events(1).size,
-                           "month" => @source.retrieval_statuses.without_events(31).size },
-                         { "name" => "not updated",
-                           "day" => Article.count - (@source.retrieval_statuses.with_events(1).size + @source.retrieval_statuses.without_events(1).size),
-                           "month" => Article.count - (@source.retrieval_statuses.with_events(31).size + @source.retrieval_statuses.without_events(31).size) }]
-        render :json => { "status" => status, "events" => events }
-      end
-    end
+    filename = Rails.root.join("docs/#{@source.name.capitalize}.md")
+    @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
   end
 
   def index
+    filename = Rails.root.join("docs/Sources.md")
+    @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
+
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     respond_with @groups
   end
@@ -37,7 +20,6 @@ class Admin::SourcesController < Admin::ApplicationController
       format.js { render :show }
     end
   end
-
 
   def update
     @source.update_attributes(params[:source])

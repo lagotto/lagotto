@@ -10,6 +10,7 @@ class Ability
     elsif user.role == "staff"
       can :read, :all
       can :destroy, Alert
+      can :create, Article
       can :update, User, :id => user.id
     elsif user.role == "user"
       can [:update, :show], User, :id => user.id

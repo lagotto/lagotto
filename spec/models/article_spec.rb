@@ -28,6 +28,11 @@ describe Article do
     article_in_past.should_not be_valid
   end
 
+  it 'sanitize title' do
+    article = FactoryGirl.create(:article, title: "<italic>Test</italic>")
+    article.title.should eq("Test")
+  end
+
   it 'to doi escaped' do
     CGI.escape(article.doi).should eq(article.doi_escaped)
   end
@@ -45,7 +50,7 @@ describe Article do
   end
 
   it 'to title escaped' do
-    CGI.escape(article.title).gsub("+", "%20").should eq(article.title_escaped)
+    CGI.escape(article.title.to_str).gsub("+", "%20").should eq(article.title_escaped)
   end
 
   it "events count" do

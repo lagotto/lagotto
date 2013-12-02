@@ -4,8 +4,6 @@ class Admin::DelayedJobsController < Admin::ApplicationController
 
   def index
     @sources = Source.active
-    @delayed_jobs = DelayedJob.all
-    render :index
   end
 
 end

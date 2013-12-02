@@ -37,6 +37,13 @@ When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, display_name|
   page.driver.render("tmp/capybara/configuration.png")
 end
 
+When /^I go to the "(.*?)" tab of the Sources admin page$/ do |tab_title|
+  visit admin_sources_path
+  within ("ul.nav-tabs") do
+    click_link tab_title
+  end
+end
+
 When /^I go to the admin page of source "(.*?)"$/ do |display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
@@ -78,9 +85,7 @@ When /^I go to the "(.*?)" page$/ do |page_title|
 end
 
 When /^I go to the "(.*?)" admin page$/ do |page_title|
-  if page_title == "Jobs"
-    title = "delayed_jobs"
-  elsif page_title == "Errors"
+  if page_title == "Errors"
     title = "alerts"
   elsif page_title == "Home"
     title = ""

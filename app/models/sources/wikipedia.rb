@@ -19,11 +19,8 @@
 # limitations under the License.
 
 class Wikipedia < Source
-  # List of Wikipedias to search, we are using 20 most popular wikis
-  # Taken from http://toolserver.org/~dartar/cite-o-meter/?doip=10.1371
-  LANGUAGES = %w(en de fr it pl es ru ja nl pt sv zh ca uk no fi vi cs hu ko commons)
 
-  validates_not_blank(:url)
+  validates_not_blank(:url, :languages)
 
   def get_data(article, options={})
 
@@ -33,10 +30,11 @@ class Wikipedia < Source
     events = {}
 
     # Loop through the languages
-    LANGUAGES.each do |lang|
+    languages.split(" ").each do |lang|
 
       host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
-      query_url = get_query_url(article, :host => host)
+      namespace = (lang == "commons") ? "6" : "0"
+      query_url = get_query_url(article, host: host, namespace: namespace)
       results = get_json(query_url, options)
 
       # if server doesn't return a result
@@ -75,14 +73,16 @@ class Wikipedia < Source
     # Build URL for calling the MediaWiki API, using the following parameters:
     #
     # host - the Mediawiki to search, default en.wikipedia.org (English Wikipedia)
+    # namespace - the namespace to search: 0 = pages, 6 = files
     # doi - the DOI to search for, uses article.doi
     #
     # API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
 
     host = options[:host] || "en.wikipedia.org"
+    namespace = options[:namespace] || "0"
 
     # We search for the DOI in parentheses to only get exact matches
-    url % { :host => host, :doi => "\"#{article.doi}\"" }
+    url % { host: host, namespace: namespace, doi: "\"#{article.doi}\"" }
   end
 
   def get_events_url(article)
@@ -94,14 +94,25 @@ class Wikipedia < Source
   end
 
   def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
+     {:field_name => "languages", :field_type => "text_area", :size => "90x2"}]
   end
 
   def url
-    config.url
+    config.url || "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
   end
 
   def url=(value)
     config.url = value
+  end
+
+  def languages
+    # Default is 25 largest Wikipedias:
+    # https://meta.wikimedia.org/wiki/List_of_Wikipedias#All_Wikipedias_ordered_by_number_of_articles
+    config.languages || "en nl de sv fr it ru es pl war ceb ja vi pt zh uk ca no fi fa id cs ko hu ar commons"
+  end
+
+  def languages=(value)
+    config.languages = value
   end
 end
