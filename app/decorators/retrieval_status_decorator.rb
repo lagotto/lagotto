@@ -77,7 +77,7 @@ class RetrievalStatusDecorator < Draper::Decorator
       when "biod"
         { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash[:html_views].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "pmc"
-        { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["full_text"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+        { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "copernicus"
         { :pdf => (events.blank? ? nil : events['counter']['PdfDownloads'].to_i), :html => (events.blank? ? nil : events['counter']['AbstractViews'].to_i), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "twitter"
@@ -140,7 +140,7 @@ class RetrievalStatusDecorator < Draper::Decorator
       if events.blank?
         nil
       else
-        events.map { |event| { :year => event["year"].to_i, :month => event["month"].to_i, :pdf => event["pdf"].to_i, :html => event["full_text"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf"].to_i + event["full_text"].to_i } }
+        events.map { |event| { :year => event["year"].to_i, :month => event["month"].to_i, :pdf => event["pdf"].to_i, :html => event["full-text"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf"].to_i + event["full-text"].to_i } }
       end
     when "citeulike"
       if events.blank?

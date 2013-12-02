@@ -12,9 +12,6 @@
 // Loads all Bootstrap javascripts
 //= require bootstrap
 //
-// Loads all Bootstrap javascripts
-//= require bootstrap
-//
 // Load the D3 visualization library
 //= require d3.v3
 //
