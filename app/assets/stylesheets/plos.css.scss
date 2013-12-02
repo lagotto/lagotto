@@ -32,7 +32,6 @@ th.name, td.name { width: 300px; }
 .btn-toolbar { padding-left: 6px; }
 h1 { font-size: 32px; line-heigth: 36px;}
 h2 { font-size: 24px; line-heigth: 28px;}
-h2 .icon-file, .icon-tags, .icon-wrench, .icon-list, .icon-download, .icon-flag, .icon-warning-sign, .icon-tasks, .icon-time, .icon-th { vertical-align: 2px; }
 h3, h4, h5 { margin-bottom: 1px; }
 h1 img { vertical-align: 2px; }
 h4 img { vertical-align: 0px; }
@@ -188,3 +187,5 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .markdown table tr:nth-child(even) {
     background:rgba(0,0,0,0.06)
 }
+
+.markdown h3 { font-size: 16px; }

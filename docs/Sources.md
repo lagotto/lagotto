@@ -61,6 +61,14 @@ Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for
 <td>unknown</td>
 </tr>
 <tr>
+<td>DataCite</td>
+<td>no</td>
+<td>no</td>
+<td>JSON or XML</td>
+<td>REST</td>
+<td>unknown</td>
+</tr>
+<tr>
 <td>Facebook</td>
 <td>OAuth 2.0</td>
 <td>no</td>
@@ -91,6 +99,22 @@ Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for
 <td>XML</td>
 <td>REST</td>
 <td>unknown</td>
+</tr>
+<tr>
+<td>PubMed Central Usage Stats</td>
+<td>yes</td>
+<td>no</td>
+<td>XML</td>
+<td>HTTP</td>
+<td>unknown</td>
+</tr>
+<tr>
+<td>Reddit</td>
+<td>no</td>
+<td>no</td>
+<td>JSON</td>
+<td>REST</td>
+<td>1,800/hr</td>
 </tr>
 <tr>
 <td>Research Blogging</td>
