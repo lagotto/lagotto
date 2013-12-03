@@ -46,7 +46,7 @@ class Article < ActiveRecord::Base
   default_scope order("published_on DESC")
 
   scope :query, lambda { |query| where("doi like ? OR title like ?", "%#{query}%", "%#{query}%") }
-  scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
+  scope :last_x_days, lambda { |days| where("published_on >= CURDATE() - INTERVAL ? DAY", days) }
 
   scope :cited, lambda { |cited|
     case cited

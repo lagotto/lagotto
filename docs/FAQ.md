@@ -20,3 +20,6 @@ Article-Level Metrics is a very dynamic area, as of July 2013 the following orga
 * [altmetric.com](http://altmetric.com)
 * [ImpactStory](http://impactstory.org)
 * [Plum Analytics](http://www.plumanalytics.com)
+
+### Are there tools to interact with the ALM API?
+The [alm](http://ropensci.org/packages/alm.html) package for the R statistical language is provided by the [rOpenSci](http://ropensci.org/) project. Cameron Neylon has released [pyalm](https://github.com/cameronneylon/pyalm), an experimental Python wrapper for the ALM API. Both tools are Open Source software.

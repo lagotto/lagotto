@@ -1,9 +1,7 @@
-# encoding: UTF-8
-
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2013 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,20 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class ApiCache < ActiveRecord::Base
+class Status < ActiveRecord::Base
 
   class << self
-    def expire_all
-      ApiCacheKey.all.each do |cache_key|
-        cache_key.touch
-        url = "http://localhost/api/v3/#{cache_key.name}?api_key=#{api_key}"
-        response = get_json(url)
-      end
-    end
-    handle_asynchronously :expire_all, priority: 0, queue: "api-cache"
 
-    def api_key
-      APP_CONFIG['api_key']
+    def cache_key
+      data = get_alm_data("status:timestamp")
+      data.nil? ? Time.zone.now.to_s(:number) : data["timestamp"]
     end
   end
 end

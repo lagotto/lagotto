@@ -18,7 +18,7 @@ class ReportMailer < ActionMailer::Base
     @sources_disabled_count = Source.where("state = 1").count
     @alerts_last_day_count = Alert.total_errors(1).count
 
-    @delayed_jobs_active_count = DelayedJob.where("priority > 0").count
+    @delayed_jobs_active_count = DelayedJob.count
     @responses_count = ApiResponse.total(1).count
     @events_count = RetrievalStatus.joins(:source).where("state > 0 AND name != 'relativemetric'").sum(:event_count)
     @requests_count = ApiRequest.where("created_at > NOW() - INTERVAL 1 DAY").count
