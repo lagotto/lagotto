@@ -32,7 +32,8 @@ class Api::V3::StatusController < Api::V3::BaseController
                                users_count: User.count,
                                version: VERSION,
                                couchdb_size: RetrievalStatus.new.get_alm_database["disk_size"] || 0,
-                               mysql_size: RetrievalHistory.table_status["data_length"] })
-    @cache_key = Status.cache_key
+                               mysql_size: RetrievalHistory.table_status["data_length"],
+                               update_date: Status.update_date })
+    @cache_key = Status.update_date
   end
 end

@@ -20,9 +20,9 @@ class Status < ActiveRecord::Base
 
   class << self
 
-    def cache_key
+    def update_date
       data = get_alm_data("status:timestamp")
-      data.nil? ? Time.zone.now.to_s(:number) : data["timestamp"]
+      data.nil? ? Time.zone.now.utc.iso8601 : data["timestamp"]
     end
   end
 end

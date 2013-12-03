@@ -426,7 +426,7 @@ class Source < ActiveRecord::Base
     self.update_column(:cached_at, Time.zone.now) unless get_json(url).nil?
 
     status_url = "http://localhost/api/v3/status?api_key=#{APP_CONFIG['api_key']}"
-    save_alm_data("status:timestamp", data: { timestamp: Time.zone.now.to_s(:number) }) unless get_json(status_url).nil?
+    save_alm_data("status:timestamp", data: { timestamp: Time.zone.now.utc.iso8601 }) unless get_json(status_url).nil?
   end
 end
 
