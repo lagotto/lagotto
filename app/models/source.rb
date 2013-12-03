@@ -33,7 +33,7 @@ class Source < ActiveRecord::Base
   serialize :config, OpenStruct
 
   after_create :create_retrievals
-  after_update :expire_cache, :if => Proc.new { |source| source.name_changed? ||
+  after_update :check_cache, :if => Proc.new { |source| source.name_changed? ||
                                                          source.display_name_changed? ||
                                                          source.state_changed? ||
                                                          source.group_id_changed? }
@@ -409,8 +409,6 @@ class Source < ActiveRecord::Base
   end
 
   private
-
-  private
   def create_retrievals
     # Create an empty retrieval record for every article for the new source, make scheduled_at a random timestamp within a week
     conn = RetrievalStatus.connection
@@ -419,16 +417,17 @@ class Source < ActiveRecord::Base
     conn.execute sql
   end
 
-  def expire_cache
-    return nil unless ActionController::Base.perform_caching
+  def check_cache
+    self.delay(priority: 0, queue: "api-cache").expire_cache if ActionController::Base.perform_caching
+  end
 
+  def expire_cache
     url = "http://localhost/api/v3/sources/#{name}?api_key=#{APP_CONFIG['api_key']}"
     self.update_column(:cached_at, Time.zone.now) unless get_json(url).nil?
 
     status_url = "http://localhost/api/v3/status?api_key=#{APP_CONFIG['api_key']}"
     save_alm_data("status:timestamp", data: { timestamp: Time.zone.now.to_s(:number) }) unless get_json(status_url).nil?
   end
-  handle_asynchronously :expire_cache, priority: 0, queue: "api-cache"
 end
 
 module Exceptions
