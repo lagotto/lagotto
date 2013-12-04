@@ -226,7 +226,7 @@ class Source < ActiveRecord::Base
 
     # find articles that need to be updated. Not queued currently, scheduled_at in the past
     rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
-    queue_article_jobs(rs, {})
+    queue_article_jobs(rs)
   end
 
   def queue_article_jobs(rs, options = {})

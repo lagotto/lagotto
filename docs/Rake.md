@@ -6,7 +6,7 @@ Depending on your server setup you may have to use `bundle exec rake` instead of
 
 ### db.rake
 
-Bulk-load a file consisting of DOIs, one per line. it'll ignore (but count) invalid ones and those that already exist in the database:
+Bulk-load a file consisting of DOIs, one per line. It'll ignore (but count) invalid ones and those that already exist in the database:
 
     rake db:articles:load <DOI_DUMP
 
@@ -22,7 +22,17 @@ Loads 25 sample articles
 
 Deletes all articles and associated rows in retrieval_statuses and retrieval_histories. For safety reasons doesn't work in the production environment.
 
-    rake db:articles:delete
+    rake db:articles:delete_all
+
+Bulk-load a file consisting of DOIs, one per line. It'll ignore (but count) invalid DOIs, and will delete all articles with matching DOIs:
+
+    rake db:articles:delete <DOI_DUMP
+
+Format for import file
+
+    DOI Date(YYYY-MM-DD) Title
+
+The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
 
 Removes all HTML and XML tags from title field (for legacy data).
 

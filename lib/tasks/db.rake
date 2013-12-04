@@ -67,7 +67,7 @@ namespace :db do
         end
       end
 
-      puts "Saved #{created.size} new articles, updated #{updated.size} articles, ignored #{duplicate.size} other existing articles"
+      puts "Saved #{created.size} new articles, updated #{updated.size} articles, ignored #{duplicate.size} existing articles"
     end
 
     desc "Seed sample articles"
@@ -79,8 +79,46 @@ namespace :db do
       puts "Seeded #{after - before} articles"
     end
 
-    desc "Delete all articles"
+    desc "Delete articles with DOI from standard input"
     task :delete => :environment do
+      puts "Reading DOIs from standard input..."
+      valid = []
+      invalid = []
+      missing = []
+      deleted = []
+
+      while (line = STDIN.gets)
+        line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
+        raw_doi, raw_other = line.strip.split(" ", 2)
+
+        doi = Article.from_uri(raw_doi.strip).values.first
+        if (doi =~ Article::FORMAT)
+          valid << [doi]
+        else
+          puts "Ignoring DOI: #{raw_doi}"
+          invalid << [raw_doi]
+        end
+      end
+
+      puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
+
+      if valid.size > 0
+        valid.each do |doi|
+          existing = Article.find_by_doi(doi)
+          if existing
+            existing.destroy
+            deleted << doi
+          else
+            missing << doi
+          end
+        end
+      end
+
+      puts "Deleted #{deleted.size} articles, ignored #{missing.size} articles"
+    end
+
+    desc "Delete all articles"
+    task :delete_all => :environment do
       before = Article.count
       Article.destroy_all unless Rails.env.production?
       after = Article.count

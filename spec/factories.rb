@@ -117,15 +117,11 @@ FactoryGirl.define do
 
     before(:create) do |retrieval_status|
       FactoryGirl.create(:retrieval_history,
-                              retrieved_at: Time.zone.today - 1.year + 1.day,
-                              event_count: 10,
-                              retrieval_status: retrieval_status,
-                              article: retrieval_status.article,
-                              source: retrieval_status.source)
-      FactoryGirl.create(:retrieval_history,
-                              retrieval_status: retrieval_status,
-                              article: retrieval_status.article,
-                              source: retrieval_status.source)
+                          retrieved_at: Time.zone.today - 1.year + 1.day,
+                          event_count: 10,
+                          retrieval_status: retrieval_status,
+                          article: retrieval_status.article,
+                          source: retrieval_status.source)
     end
 
     initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
