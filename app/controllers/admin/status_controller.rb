@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class Admin::IndexController < Admin::ApplicationController
+class Admin::StatusController < Admin::ApplicationController
 
   load_and_authorize_resource :alert, :parent => false
 
