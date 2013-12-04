@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
   end
 
   add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
+  add_index "retrieval_histories", ["source_id", "event_count"], :name => "index_retrieval_histories_on_source_id_and_event_count"
   add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
 
   create_table "retrieval_statuses", :force => true do |t|
@@ -191,6 +192,7 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
     t.text     "description"
     t.integer  "state"
     t.boolean  "queueable",    :default => true
+    t.string   "queue"
     t.string   "state_event"
     t.datetime "cached_at",    :default => '1970-01-01 00:00:00', :null => false
   end
