@@ -1,17 +1,21 @@
-var data = <%= raw @data %>;
+var data;
+var api_key = d3.select("h1#api_key").attr('data-api_key');
+var key = d3.select("h1#api_key").attr('data-key');
 
-if (data.length > 0) {
-  main();
-} else {
-  d3.select("div.span12").text("")
-    .insert("div")
-    .attr("class", "alert alert-info")
-    .text("No API requests found");
-  d3.select("div#charts").remove();
-  d3.select("div#lists").remove();
-}
+d3.json("/api/v3/api_requests?api_key=" + api_key + (key != "" ? "&key=" + key : ""), function(error, json) {
+  data = json;
 
-function main() {
+  console.log(data);
+
+  if (data.length == 0) {
+    d3.select("div.span12").text("")
+      .insert("div")
+      .attr("class", "alert alert-info")
+      .text("No API requests found");
+    d3.select("div#charts").remove();
+    d3.select("div#lists").remove();
+    return;
+  }
 
   var today = new Date();
 
@@ -366,4 +370,4 @@ function main() {
 
     return d3.rebind(chart, brush, "on");
   }
-}
+});

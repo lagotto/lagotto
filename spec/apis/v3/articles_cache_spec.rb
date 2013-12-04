@@ -1,6 +1,9 @@
 require "spec_helper"
 
 describe "/api/v3/articles", :not_teamcity => true do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:api_key) { user.authentication_token }
+
   context "caching", :caching => true do
 
     context "index" do
@@ -8,7 +11,7 @@ describe "/api/v3/articles", :not_teamcity => true do
 
       before(:each) do
         article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
-        @uri = "/api/v3/articles?ids=#{article_list}&type=doi&api_key=12345"
+        @uri = "/api/v3/articles?ids=#{article_list}&type=doi&api_key=#{api_key}"
       end
 
       it "can cache articles in JSON" do
@@ -70,7 +73,7 @@ describe "/api/v3/articles", :not_teamcity => true do
 
     context "show" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=12345"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{api_key}"}
       let(:key) { "rabl/#{ArticleDecorator.decorate(article).cache_key}" }
       let(:title) { "Foo" }
       let(:event_count) { 75 }
@@ -295,7 +298,7 @@ describe "/api/v3/articles", :not_teamcity => true do
 
         Rails.cache.exist?("#{key}//json").should be_true
 
-        year_uri = "#{uri}?year=2013"
+        year_uri = "#{uri}&year=2013"
         get year_uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 

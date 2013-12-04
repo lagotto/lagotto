@@ -4,6 +4,7 @@ describe "/api/v3/sources", :not_teamcity => true do
 
   let(:source) { FactoryGirl.create(:source_with_api_responses) }
   let(:user) { FactoryGirl.create(:user) }
+  let(:api_key) { user.authentication_token }
 
   before(:each) do
     source.put_alm_database
@@ -19,7 +20,7 @@ describe "/api/v3/sources", :not_teamcity => true do
       let(:cross_ref) { FactoryGirl.create(:cross_ref) }
       let(:mendeley) { FactoryGirl.create(:mendeley) }
       let(:sources) { [source, cross_ref, mendeley] }
-      let(:uri) { "/api/v3/sources?api_key=#{user.authentication_token}" }
+      let(:uri) { "/api/v3/sources?api_key=#{api_key}" }
 
       it "can cache sources in JSON" do
         sources.any? do |source|
@@ -52,7 +53,7 @@ describe "/api/v3/sources", :not_teamcity => true do
     end
 
     context "show" do
-      let(:uri) { "/api/v3/sources/#{source.name}?api_key=#{user.authentication_token}" }
+      let(:uri) { "/api/v3/sources/#{source.name}?api_key=#{api_key}" }
       let(:key) { "rabl/#{SourceDecorator.decorate(source).cache_key}" }
       let(:display_name) { "Foo" }
       let(:event_count) { 75 }

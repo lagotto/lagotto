@@ -22,6 +22,8 @@ class RetrievalStatus < ActiveRecord::Base
   belongs_to :source
   has_many :retrieval_histories, :dependent => :destroy
 
+  before_destroy :delete_couchdb_document
+
   serialize :event_metrics
 
   delegate :name, :to => :source
@@ -99,6 +101,14 @@ class RetrievalStatus < ActiveRecord::Base
 
   def random_time(duration)
     Time.zone.now + duration + rand(duration/10)
+  end
+
+  private
+
+  def delete_couchdb_document
+    couchdb_id = "#{source.name}:#{article.doi_escaped}"
+    data_rev = get_alm_rev(couchdb_id)
+    remove_alm_data(couchdb_id, data_rev)
   end
 
 end

@@ -12,7 +12,7 @@ describe "db:articles:seed" do
   end
 end
 
-describe "db:articles:delete" do
+describe "db:articles:delete_all" do
   include_context "rake"
 
   before do

@@ -30,6 +30,7 @@ Alm::Application.routes.draw do
       resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index, :show]
       resources :sources, :constraints => { :format=> false }, only: [:index, :show]
       resources :status, :constraints => { :format=> false }, only: [:index]
+      resources :api_requests, :constraints => { :format=> false }, only: [:index]
     end
 
     namespace :v4 do

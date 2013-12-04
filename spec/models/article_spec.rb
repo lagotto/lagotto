@@ -89,12 +89,6 @@ describe Article do
     end
   end
 
-  it "cited consistency" do
-    #(Article.cited(1).count + Article.cited(0).count).should equal(Article.count)
-    #Article.cited(nil).count.should == Article.count
-    #Article.cited('blah').count.should == Article.count
-  end
-
   it "order by doi" do
     articles = Article.order_articles("doi")
     i = 0
@@ -116,6 +110,34 @@ describe Article do
   it "should get the all_urls" do
     article = FactoryGirl.build(:article, :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
     article.all_urls.should eq([article.doi_as_url,article.doi_as_publisher_url,article.url])
+  end
+
+  context "associations" do
+    it "should create associated retrieval_statuses" do
+      RetrievalStatus.count.should == 0
+      @articles = FactoryGirl.create_list(:article_with_events, 2)
+      RetrievalStatus.count.should == 2
+    end
+
+    it "should delete associated retrieval_statuses" do
+      @articles = FactoryGirl.create_list(:article_with_events, 2)
+      RetrievalStatus.count.should == 2
+      @articles.each {|article| article.destroy }
+      RetrievalStatus.count.should == 0
+    end
+
+    it "should create associated retrieval_histories" do
+      RetrievalStatus.count.should == 0
+      @articles = FactoryGirl.create_list(:article_with_events, 2)
+      RetrievalHistory.count.should == 2
+    end
+
+    it "should delete associated retrieval_histories" do
+      @articles = FactoryGirl.create_list(:article_with_events, 2)
+      RetrievalHistory.count.should == 2
+      @articles.each {|article| article.destroy }
+      RetrievalHistory.count.should == 0
+    end
   end
 
 end

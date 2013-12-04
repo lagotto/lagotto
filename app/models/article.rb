@@ -38,15 +38,16 @@ class Article < ActiveRecord::Base
   validates :uid, :title, :presence => true
   validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true
   validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future",
-                                                               :after => lambda { Date.new(1665,1,1) }, :after_message => "must not be older than 50 years",
+                                                               :after => lambda { Date.new(1665,1,1) }, :after_message => "must not be older than 350 years",
                                                                :type => :date }
   before_validation :sanitize_title
   after_create :create_retrievals
 
   default_scope order("published_on DESC")
 
-  scope :query, lambda { |query| where("doi like ? OR title like ?", "%#{query}%", "%#{query}%") }
-  scope :last_x_days, lambda { |days| where("published_on >= CURDATE() - INTERVAL ? DAY", days) }
+  scope :query, lambda { |query| where("doi like ?", "#{query}%") }
+
+  scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
 
   scope :cited, lambda { |cited|
     case cited
@@ -222,11 +223,12 @@ class Article < ActiveRecord::Base
   def create_retrievals
     # Create an empty retrieval record for every source for the new article
 
-    # Schedule retrieval immediately, rate-limiting will automatically limit the external API calls
-    # when we bulk-upload lots of articles.
+    # Don't schedule retrieval immediately, instead use a random time in the next 30 days. This is to reduce the
+    # strain on external API calls, especially when bulk-loading a lot of data
+    random_time = Time.zone.now + rand(30.days)
 
     Source.all.each do |source|
-      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id, :scheduled_at => Time.zone.now)
+      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id, :scheduled_at => random_time) # Time.zone.now
     end
   end
 end

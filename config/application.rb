@@ -50,6 +50,9 @@ module Alm
     # Define custom exception handler
     config.exceptions_app = lambda { |env| AlertsController.action(:create).call(env) }
 
+    # Skip validation of locale
+    I18n.enforce_available_locales = false
+
     # Disable IP spoofing check
     config.action_dispatch.ip_spoofing_check = false
   end

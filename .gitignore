@@ -41,3 +41,7 @@ Capfile
 .idea/*
 db/seeds-test.rb
 db/seeds-production.rb
+
+erl_crash.dump
+
+optimise-db.txt

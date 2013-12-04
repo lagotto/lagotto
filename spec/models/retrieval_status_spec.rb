@@ -57,4 +57,42 @@ describe RetrievalStatus do
       (retrieval_status.stale_at - Time.zone.now).should be_between(duration, 1.1 * duration)
     end
   end
+
+  context "CouchDB" do
+    let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
+    let(:citeulike) { FactoryGirl.create(:citeulike) }
+    let(:rs_id) { "#{retrieval_status.source.name}:#{retrieval_status.article.doi_escaped}" }
+    let(:error) {{ "error" => "not_found", "reason" => "deleted" }}
+
+    subject { SourceJob.new([retrieval_status.id], citeulike.id) }
+
+    before(:each) do
+      subject.put_alm_database
+    end
+
+    after(:each) do
+      subject.delete_alm_database
+    end
+
+    it "should perform and get data" do
+      stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
+      result = subject.perform_get_data(retrieval_status)
+      rh_id = result[:retrieval_history_id]
+
+      rs_result = subject.get_alm_data(rs_id)
+      rs_result.should include("source" => retrieval_status.source.name,
+                               "doi" => retrieval_status.article.doi,
+                               "doc_type" => "current",
+                               "_id" =>  "#{retrieval_status.source.name}:#{retrieval_status.article.doi}")
+      rh_result = subject.get_alm_data(rh_id)
+      rh_result.should include("source" => retrieval_status.source.name,
+                               "doi" => retrieval_status.article.doi,
+                               "doc_type" => "history",
+                               "_id" => "#{rh_id}")
+
+      retrieval_status.article.destroy
+      subject.get_alm_data(rs_id).strip.should eq(error.to_json)
+      subject.get_alm_data(rh_id).strip.should eq(error.to_json)
+    end
+  end
 end
