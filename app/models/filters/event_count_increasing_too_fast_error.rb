@@ -28,6 +28,7 @@ class EventCountIncreasingTooFastError < Filter
     if responses.count > 0
       responses = responses.all.map { |response| { source_id: response.source_id,
                                                    article_id: response.article_id,
+                                                   error: 0,
                                                    message: "Event count increased by #{response.event_count - response.previous_count} in #{response.update_interval} day(s)" }}
       raise_alerts(responses)
     end
