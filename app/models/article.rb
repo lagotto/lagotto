@@ -45,7 +45,11 @@ class Article < ActiveRecord::Base
 
   default_scope order("published_on DESC")
 
-  scope :query, lambda { |query| where("doi like ? OR title like ?", "%#{query}%", "%#{query}%") }
+  # MW: do not use wildcard (%) as first character in the where clause, otherwise database indexes cannot be used - for 9m records it can take ~3 minutes
+  #scope :query, lambda { |query| where("doi like ? OR title like ?", "%#{query}%", "%#{query}%") }
+
+  scope :query, lambda { |query| where("doi like ? OR title like ?", "#{query}%", "#{query}%") }
+
   scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
 
   scope :cited, lambda { |cited|

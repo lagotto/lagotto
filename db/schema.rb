@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
 
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
   add_index "articles", ["published_on"], :name => "index_articles_published_on_desc"
+  add_index "articles", ["title", "doi", "published_on", "id"], :name => "index_articles_title_doi_published_on_article_id", :length => {"title"=>255, "doi"=>nil, "published_on"=>nil, "id"=>nil}
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -94,7 +95,10 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
     t.datetime "updated_at",                :null => false
   end
 
+  add_index "delayed_jobs", ["locked_at", "locked_by", "failed_at"], :name => "index_delayed_jobs_locked_at_locked_by_failed_at"
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+  add_index "delayed_jobs", ["queue"], :name => "index_delayed_jobs_queue"
+  add_index "delayed_jobs", ["run_at", "locked_at", "locked_by", "failed_at", "priority"], :name => "index_delayed_jobs_run_at_locked_at_locked_by_failed_at_priority"
 
   create_table "filters", :force => true do |t|
     t.string  "type",                           :null => false
@@ -138,7 +142,6 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
   end
 
   add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
-  add_index "retrieval_histories", ["source_id", "event_count"], :name => "index_retrieval_histories_on_source_id_and_event_count"
   add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
 
   create_table "retrieval_statuses", :force => true do |t|
@@ -188,7 +191,6 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
     t.text     "description"
     t.integer  "state"
     t.boolean  "queueable",    :default => true
-    t.string   "queue"
     t.string   "state_event"
     t.datetime "cached_at",    :default => '1970-01-01 00:00:00', :null => false
   end
