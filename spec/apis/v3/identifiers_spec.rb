@@ -1,12 +1,14 @@
 require "spec_helper"
 
 describe "/api/v3/articles" do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:api_key) { user.authentication_token }
   let(:error) { { "error" => "Article not found."} }
 
   context "missing api_key" do
     let(:article) { FactoryGirl.create(:article_with_events) }
     let(:uri) { "/api/v3/articles/info:doi/#{article.doi}"}
-    let(:missing_key) { { "error" => "Missing API key."} }
+    let(:missing_key) { { "error" => "Missing or wrong API key."} }
 
 
     it "JSON" do
@@ -16,7 +18,7 @@ describe "/api/v3/articles" do
       Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("Net::HTTPUnauthorized")
-      alert.message.should include("Missing API key.")
+      alert.message.should include("Missing or wrong API key.")
       alert.content_type.should eq("application/json")
       alert.status.should == 401
     end
@@ -28,7 +30,7 @@ describe "/api/v3/articles" do
       Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("Net::HTTPUnauthorized")
-      alert.message.should include("Missing API key.")
+      alert.message.should include("Missing or wrong API key.")
       alert.content_type.should eq("application/xml")
       alert.status.should == 401
     end
@@ -40,7 +42,7 @@ describe "/api/v3/articles" do
     context "articles found via DOI" do
       before(:each) do
         article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
-        @uri = "/api/v3/articles?ids=#{article_list}&type=doi&api_key=12345"
+        @uri = "/api/v3/articles?ids=#{article_list}&type=doi&api_key=#{api_key}"
       end
 
       it "no format" do
@@ -84,7 +86,7 @@ describe "/api/v3/articles" do
     context "articles found via PMID" do
       before(:each) do
         article_list = articles.collect { |article| "#{article.pub_med}" }.join(",")
-        @uri = "/api/v3/articles?ids=#{article_list}&type=pmid&api_key=12345"
+        @uri = "/api/v3/articles?ids=#{article_list}&type=pmid&api_key=#{api_key}"
       end
 
 
@@ -114,7 +116,7 @@ describe "/api/v3/articles" do
     end
 
     context "no records found" do
-      let(:uri) { "/api/v3/articles?api_key=12345"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -135,7 +137,7 @@ describe "/api/v3/articles" do
 
     context "DOI" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=12345"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{api_key}"}
 
       it "no format" do
         get uri
@@ -181,7 +183,7 @@ describe "/api/v3/articles" do
 
     context "PMID" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:pmid/#{article.pub_med}?api_key=12345"}
+      let(:uri) { "/api/v3/articles/info:pmid/#{article.pub_med}?api_key=#{api_key}"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -206,7 +208,7 @@ describe "/api/v3/articles" do
 
     context "PMCID" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:pmcid/PMC#{article.pub_med_central}?api_key=12345"}
+      let(:uri) { "/api/v3/articles/info:pmcid/PMC#{article.pub_med_central}?api_key=#{api_key}"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -231,7 +233,7 @@ describe "/api/v3/articles" do
 
     context "Mendeley" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:mendeley/#{article.mendeley}?api_key=12345"}
+      let(:uri) { "/api/v3/articles/info:mendeley/#{article.mendeley}?api_key=#{api_key}"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -256,7 +258,7 @@ describe "/api/v3/articles" do
 
     context "wrong DOI" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}xx?api_key=12345"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}xx?api_key=#{api_key}"}
 
 
       it "JSON" do
@@ -274,16 +276,16 @@ describe "/api/v3/articles" do
 
     context "article not found when using format as file extension" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}xx?api_key=12345"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}xx"}
 
       it "JSON" do
-        get "#{uri}.json", nil, { 'HTTP_ACCEPT' => "application/json" }
+        get "#{uri}.json?api_key=#{api_key}", nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(404)
         last_response.body.should eq(error.to_json)
       end
 
       it "XML" do
-        get "#{uri}.xml", nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get "#{uri}.xml?api_key=#{api_key}", nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(404)
         last_response.body.should eq(error.to_xml)
       end

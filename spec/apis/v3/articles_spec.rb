@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe "/api/v3/articles" do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:api_key) { user.authentication_token }
 
   context "index" do
     let(:articles) { FactoryGirl.create_list(:article_with_events, 55) }
@@ -8,7 +10,7 @@ describe "/api/v3/articles" do
     context "more than 50 articles in query" do
       before(:each) do
         article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
-        @uri = "/api/v3/articles?api_key=12345&ids=#{article_list}&type=doi"
+        @uri = "/api/v3/articles?api_key=#{api_key}&ids=#{article_list}&type=doi"
       end
 
       it "JSON" do
@@ -42,7 +44,7 @@ describe "/api/v3/articles" do
 
     context "show summary information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&type=doi&info=summary"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&type=doi&info=summary"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -68,7 +70,7 @@ describe "/api/v3/articles" do
 
     context "historical data after 30 days" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&days=30"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&days=30"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -101,7 +103,7 @@ describe "/api/v3/articles" do
 
     context "historical data after 6 months" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&months=6"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&months=6"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -133,7 +135,7 @@ describe "/api/v3/articles" do
 
     context "historical data until 2012" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&year=2012"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&year=2012"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -165,7 +167,7 @@ describe "/api/v3/articles" do
 
     context "show detail information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&info=detail"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=detail"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -200,7 +202,7 @@ describe "/api/v3/articles" do
 
     context "show history information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&info=history"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=history"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
@@ -233,7 +235,7 @@ describe "/api/v3/articles" do
 
     context "show event information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=12345&ids=#{article.doi_escaped}&info=event"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=event"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }

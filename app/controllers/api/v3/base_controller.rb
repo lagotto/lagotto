@@ -16,11 +16,11 @@ class Api::V3::BaseController < ActionController::Base
   end
 
   def after_token_authentication
-    if params[:api_key].present?
-      @user = User.find_by_authentication_token(params[:api_key])
-      sign_in @user if @user
+    @user = User.find_by_authentication_token(params[:api_key]) if params[:api_key].present?
+    if @user
+      sign_in @user
     else
-      @error = "Missing API key."
+      @error = "Missing or wrong API key."
       Alert.create(:exception => "", :class_name => "Net::HTTPUnauthorized",
                           :message => @error,
                           :target_url => request.original_url,
