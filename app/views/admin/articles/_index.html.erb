@@ -44,7 +44,7 @@
     <% end %>
     <h1>Articles
     <% unless params[:query].blank? %>
-      <small>with <em><%= params[:query] %></em> in the title or DOI</small>
+      <small>with <em><%= params[:query] %></em> in the DOI</small>
     <% end %>
     </h1>
   </div>
@@ -53,7 +53,7 @@
 <% if can?(:manage, Article) %>
   <div class="search">
     <%= form_tag(admin_articles_path, :method => "get", :class => "form-search") do %>
-      <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "input-large", :id => "appendedInputButtons" %>
+      <%= search_field_tag :query, params[:query], :placeholder => "Search by DOI", :class => "input-large", :id => "appendedInputButtons" %>
       <button type="submit" class="btn hidden-phone"><i class="icon-search"></i></button>
       <% unless params[:query].blank? %>
         <%= link_to "clear", admin_articles_path, :class => "btn btn-link hidden-phone" %>

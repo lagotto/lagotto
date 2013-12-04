@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131129180235) do
+ActiveRecord::Schema.define(:version => 20131204092137) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
     t.text     "ids"
   end
 
+  add_index "api_requests", ["api_key", "created_at"], :name => "index_api_requests_api_key_created_at"
   add_index "api_requests", ["api_key"], :name => "index_api_requests_on_api_key"
   add_index "api_requests", ["created_at"], :name => "index_api_requests_on_created_at"
 
@@ -62,8 +63,10 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
     t.boolean  "unresolved",           :default => true
   end
 
+  add_index "api_responses", ["created_at"], :name => "index_api_responses_created_at"
   add_index "api_responses", ["created_at"], :name => "index_api_responses_on_created_at"
   add_index "api_responses", ["event_count"], :name => "index_api_responses_on_event_count"
+  add_index "api_responses", ["unresolved", "id"], :name => "index_api_responses_unresolved_id"
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -77,9 +80,9 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
     t.string   "mendeley"
   end
 
+  add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
   add_index "articles", ["published_on"], :name => "index_articles_published_on_desc"
-  add_index "articles", ["title", "doi", "published_on", "id"], :name => "index_articles_title_doi_published_on_article_id", :length => {"title"=>255, "doi"=>nil, "published_on"=>nil, "id"=>nil}
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -162,6 +165,7 @@ ActiveRecord::Schema.define(:version => 20131129180235) do
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
   add_index "retrieval_statuses", ["id", "event_count"], :name => "index_retrieval_statuses_on_id_and_event_count"
   add_index "retrieval_statuses", ["source_id", "article_id", "event_count"], :name => "index_retrieval_statuses_source_id_article_id_event_count_desc"
+  add_index "retrieval_statuses", ["source_id", "event_count", "retrieved_at"], :name => "index_retrieval_statuses_source_id_event_count_retrieved_at_desc"
   add_index "retrieval_statuses", ["source_id", "event_count"], :name => "index_retrieval_statuses_source_id_event_count_desc"
 
   create_table "reviews", :force => true do |t|

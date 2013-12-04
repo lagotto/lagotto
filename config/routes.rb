@@ -13,7 +13,7 @@ Alm::Application.routes.draw do
   match "oembed" => "oembed#show"
 
   namespace :admin do
-    root :to => "index#index"
+    root :to => "status#index"
     resources :articles, :constraints => { :id => /.+?/, :format => /html|js/ }
     resources :sources
     resources :groups
