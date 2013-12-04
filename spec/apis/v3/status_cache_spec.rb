@@ -4,7 +4,7 @@ describe "/api/v3/status", :not_teamcity => true do
 
   let(:source) { FactoryGirl.create(:source_with_api_responses) }
   let(:user) { FactoryGirl.create(:user) }
-  let(:key) { "rabl/#{Status.cache_key}" }
+  let(:key) { "rabl/#{Status.update_date}" }
 
   before(:each) do
     source.put_alm_database
@@ -66,7 +66,7 @@ describe "/api/v3/status", :not_teamcity => true do
 
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
-        cache_key = "rabl/#{Status.cache_key}"
+        cache_key = "rabl/#{Status.update_date}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = Rails.cache.read("#{cache_key}//json")
@@ -83,7 +83,7 @@ describe "/api/v3/status", :not_teamcity => true do
 
       it "can cache sources in JSON" do
         sources.any? do |source|
-          Rails.cache.exist?("rabl/#{Status.cache_key}//json")
+          Rails.cache.exist?("rabl/#{Status.update_date}//json")
         end.should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
@@ -91,11 +91,11 @@ describe "/api/v3/status", :not_teamcity => true do
         sleep 1
 
         sources.all? do |source|
-          Rails.cache.exist?("rabl/#{Status.cache_key}//json")
+          Rails.cache.exist?("rabl/#{Status.update_date}//json")
         end.should be_true
 
         source = sources.first
-        response = Rails.cache.read("rabl/#{Status.cache_key}//json")
+        response = Rails.cache.read("rabl/#{Status.update_date}//json")
         response[:name].should eql(source.name)
         response[:update_date].should eql(source.cached_at.utc.iso8601)
       end
@@ -163,10 +163,10 @@ describe "/api/v3/status", :not_teamcity => true do
 
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
-        cache_key = "rabl/#{Status.cache_key}"
+        cache_key = "rabl/#{Status.update_date}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
-        response = Rails.cache.read("#{cache_key}//json")
+        response = Rails.cache.read("#{update_date}//json")
         response[:display_name].should eql(source.display_name)
         response[:display_name].should eql(display_name)
       end

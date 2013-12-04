@@ -54,7 +54,7 @@ describe "/api/v3/sources" do
         responses = JSON.parse(last_response.body)
         response = responses.first
         response["name"].should eq(@source.name)
-        response["article_count"].should == 20
+        response["article_count"].should == 10
         response["event_count"].should == 500
       end
     end
@@ -77,7 +77,7 @@ describe "/api/v3/sources" do
 
         response = JSON.parse(last_response.body)
         response["name"].should eq(source.name)
-        response["article_count"].should == 10
+        response["article_count"].should == 5
         response["event_count"].should == 250
         response["responses"]["count"].should == 5
         response["responses"]["average"].should == 200
