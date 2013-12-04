@@ -58,6 +58,10 @@ class SourceDecorator < Draper::Decorator
   end
 
   def article_count
+    model.articles.cited(1).size
+  end
+
+  def all_articles_count
     Article.count
   end
 
@@ -74,7 +78,7 @@ class SourceDecorator < Draper::Decorator
   end
 
   def status
-    { "refreshed" => article_count - (stale_count + queued_count),
+    { "refreshed" => all_articles_count - (stale_count + queued_count),
       "queued" => queued_count,
       "stale" => stale_count }
   end
@@ -90,7 +94,7 @@ class SourceDecorator < Draper::Decorator
   def by_day
     { "with_events" => with_events_by_day_count,
       "without_events" => without_events_by_day_count,
-      "not_updated" => article_count - (with_events_by_day_count + without_events_by_day_count) }
+      "not_updated" => all_articles_count - (with_events_by_day_count + without_events_by_day_count) }
   end
 
   def with_events_by_month_count
@@ -104,7 +108,7 @@ class SourceDecorator < Draper::Decorator
   def by_month
     { "with_events" => with_events_by_month_count,
       "without_events" => without_events_by_month_count,
-      "not_updated" => article_count - (with_events_by_month_count + without_events_by_month_count) }
+      "not_updated" => all_articles_count - (with_events_by_month_count + without_events_by_month_count) }
   end
 
   def cache_key
