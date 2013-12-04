@@ -33,7 +33,10 @@ class Source < ActiveRecord::Base
   serialize :config, OpenStruct
 
   after_create :create_retrievals
-  after_save :check_cache
+  after_update :check_cache, :if => Proc.new { |source| source.name_changed? ||
+                                                         source.display_name_changed? ||
+                                                         source.state_changed? ||
+                                                         source.group_id_changed? }
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
@@ -116,7 +119,6 @@ class Source < ActiveRecord::Base
 
     after_transition :to => :waiting do |source|
       source.add_queue(Time.zone.now + source.wait_time) if source.check_for_queued_jobs
-      source.expire_cache
     end
 
     event :activate do
@@ -174,6 +176,10 @@ class Source < ActiveRecord::Base
     name
   end
 
+  # some sources cannot be redistributed
+  scope :public_sources, lambda { where("private = false") }
+  scope :private_sources, lambda { where("private = true") }
+
   def get_data(article, options={})
     raise NotImplementedError, 'Children classes should override get_data method'
   end
@@ -186,7 +192,7 @@ class Source < ActiveRecord::Base
 
     if Delayed::Worker.delay_jobs
       DelayedJob.delete_all(queue: "#{name}-queue")
-      Delayed::Job.enqueue QueueJob.new(id), queue: "#{name}-queue", run_at: queue_at, priority: 0
+      Delayed::Job.enqueue QueueJob.new(id), queue: "#{name}-queue", run_at: queue_at, priority: 1
     end
 
     self.update_attributes(run_at: queue_at)
@@ -209,7 +215,7 @@ class Source < ActiveRecord::Base
 
     # find articles that are not queued currently, scheduled_at doesn't matter
     rs = retrieval_statuses.pluck("retrieval_statuses.id")
-    queue_article_jobs(rs, { priority: 1 })
+    queue_article_jobs(rs, { priority: 2 })
   end
 
   def queue_stale_articles
@@ -402,19 +408,7 @@ class Source < ActiveRecord::Base
     ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
   end
 
-  def expire_cache
-    return nil unless ActionController::Base.perform_caching
-
-    url = "http://localhost/api/v3/sources/#{name}?api_key=#{APP_CONFIG['api_key']}"
-    self.update_attributes(:cached_at => Time.zone.now) unless get_json(url).nil?
-
-    status_url = "http://localhost/api/v3/status?api_key=#{APP_CONFIG['api_key']}"
-    get_json(status_url)
-  end
-  handle_asynchronously :expire_cache, priority: 0, queue: "api-cache"
-
   private
-
   def create_retrievals
     # Create an empty retrieval record for every article for the new source, make scheduled_at a random timestamp within a week
     conn = RetrievalStatus.connection
@@ -424,7 +418,15 @@ class Source < ActiveRecord::Base
   end
 
   def check_cache
-    self.expire_cache if (updated_at - cached_at) > 15.minutes
+    self.delay(priority: 0, queue: "api-cache").expire_cache if ActionController::Base.perform_caching
+  end
+
+  def expire_cache
+    url = "http://localhost/api/v3/sources/#{name}?api_key=#{APP_CONFIG['api_key']}"
+    self.update_column(:cached_at, Time.zone.now) unless get_json(url).nil?
+
+    status_url = "http://localhost/api/v3/status?api_key=#{APP_CONFIG['api_key']}"
+    save_alm_data("status:timestamp", data: { timestamp: Time.zone.now.utc.iso8601 }) unless get_json(status_url).nil?
   end
 end
 
