@@ -16,6 +16,7 @@ gem 'strong_parameters', "~> 0.2.1"
 gem "faraday", "~> 0.8.8"
 gem "faraday_middleware", "~> 0.9.0"
 gem 'faraday-cookie_jar'
+gem "net-http-persistent", "~> 2.9"
 gem 'addressable', "~> 2.3.5"
 gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"

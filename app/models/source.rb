@@ -403,6 +403,8 @@ class Source < ActiveRecord::Base
   end
 
   def expire_cache
+    return nil unless ActionController::Base.perform_caching
+
     url = "http://localhost/api/v3/sources/#{name}?api_key=#{APP_CONFIG['api_key']}"
     self.update_attributes(:cached_at => Time.zone.now) unless get_json(url).nil?
 
