@@ -1,9 +1,6 @@
 <div class="content">
   <div class="page-header">
-    <h1>
-      <%= link_to "API Requests", admin_api_requests_path %>
-      <%= @api_key ? "<small>with key #{@api_key}</small>".html_safe : "" %>
-    </h1>
+    <h1 id="api_key" data-api_key="<%= APP_CONFIG['api_key'] %>" data-key="<%= params[:key] %>">API Requests</h1>
   </div>
 
   <div class="row">
@@ -31,6 +28,6 @@
   </div>
 
   <%= javascript_tag do -%>
-    <%= render :partial => 'request', formats: :js %>
+    <%= render :partial => 'index', formats: :js %>
   <% end %>
 </div>
