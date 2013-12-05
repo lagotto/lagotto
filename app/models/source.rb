@@ -408,6 +408,10 @@ class Source < ActiveRecord::Base
     ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
   end
 
+  def check_cache
+    self.delay(priority: 0, queue: "api-cache").expire_cache if ActionController::Base.perform_caching
+  end
+
   private
   def create_retrievals
     # Create an empty retrieval record for every article for the new source, make scheduled_at a random timestamp within a week
@@ -415,10 +419,6 @@ class Source < ActiveRecord::Base
     random_time = Time.zone.now + rand(7.days)
     sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), '#{random_time.to_formatted_s(:db)}' from articles"
     conn.execute sql
-  end
-
-  def check_cache
-    self.delay(priority: 0, queue: "api-cache").expire_cache if ActionController::Base.perform_caching
   end
 
   def expire_cache
