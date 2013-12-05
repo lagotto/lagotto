@@ -1,4 +1,4 @@
-@javascript
+@javascript @not_teamcity
 Feature: See donut visualizations for source
   In order to make sure that we collect metrics correctly
   An admin user
@@ -8,23 +8,23 @@ Feature: See donut visualizations for source
     Given I am logged in as "admin"
     And the source "Citeulike" exists
     And that we have 5 articles
-    
+
     Scenario Outline: See donut
     When I go to the "Summary" tab of source "CiteULike"
-    Then I should see the donut "<Name>" 
-    
+    Then I should see the donut "<Name>"
+
     Examples:
-    | Name   | 
+    | Name   |
     | status |
     | day    |
     | month  |
-    
+
     # @javascript
     # Scenario Outline: See tooltip
     # When I go to the "Summary" tab of source "CiteULike"
-    # And I hover over the donut "<Name>" 
+    # And I hover over the donut "<Name>"
     # Then I should see the tooltip
-    # 
+    #
     # Examples:
     # | Name   |
     # | status |

@@ -1,4 +1,4 @@
-@javascript
+@javascript @not_teamcity
 Feature: Add article
   In order to collect metrics
   A user

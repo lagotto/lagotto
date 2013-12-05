@@ -1,4 +1,4 @@
-@javascript
+@javascript @not_teamcity
 Feature: See jobs
   In order to make sure that we collect metrics correctly
   An admin user
