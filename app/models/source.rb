@@ -422,11 +422,13 @@ class Source < ActiveRecord::Base
   end
 
   def expire_cache
-    self.update_column(:cached_at, Time.zone.now) unless get_json(url).nil?
-    url = "http://localhost/api/v3/sources/#{name}?api_key=#{APP_CONFIG['api_key']}"
+    self.update_column(:cached_at, Time.zone.now)
+    source_url = "http://localhost/api/v3/sources/#{name}?api_key=#{APP_CONFIG['api_key']}"
+    get_json(source_url)
 
-    save_alm_data("status:timestamp", data: { timestamp: Time.zone.now.utc.iso8601 }) unless get_json(status_url).nil?
+    save_alm_data("status:timestamp", data: { timestamp: Time.zone.now.utc.iso8601 })
     status_url = "http://localhost/api/v3/status?api_key=#{APP_CONFIG['api_key']}"
+    get_json(status_url)
   end
 end
 
