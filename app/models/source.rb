@@ -408,6 +408,10 @@ class Source < ActiveRecord::Base
     ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
   end
 
+  def check_cache
+    self.delay(priority: 0, queue: "api-cache").expire_cache if ActionController::Base.perform_caching
+  end
+
   private
   def create_retrievals
     # Create an empty retrieval record for every article for the new source, make scheduled_at a random timestamp within a week
@@ -417,16 +421,14 @@ class Source < ActiveRecord::Base
     conn.execute sql
   end
 
-  def check_cache
-    self.delay(priority: 0, queue: "api-cache").expire_cache if ActionController::Base.perform_caching
-  end
-
   def expire_cache
-    self.update_column(:cached_at, Time.zone.now) unless get_json(url).nil?
-    url = "http://localhost/api/v3/sources/#{name}?api_key=#{APP_CONFIG['api_key']}"
+    self.update_column(:cached_at, Time.zone.now)
+    source_url = "http://localhost/api/v3/sources/#{name}?api_key=#{APP_CONFIG['api_key']}"
+    get_json(source_url)
 
-    save_alm_data("status:timestamp", data: { timestamp: Time.zone.now.utc.iso8601 }) unless get_json(status_url).nil?
+    save_alm_data("status:timestamp", data: { timestamp: Time.zone.now.utc.iso8601 })
     status_url = "http://localhost/api/v3/status?api_key=#{APP_CONFIG['api_key']}"
+    get_json(status_url)
   end
 end
 
