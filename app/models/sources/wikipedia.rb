@@ -82,7 +82,7 @@ class Wikipedia < Source
     namespace = options[:namespace] || "0"
 
     # We search for the DOI in parentheses to only get exact matches
-    url % { host: host, namespace: namespace, doi: "\"#{article.doi}\"" }
+    url % { host: host, namespace: namespace, doi: CGI.escape("\"#{article.doi}\"") }
   end
 
   def get_events_url(article)
