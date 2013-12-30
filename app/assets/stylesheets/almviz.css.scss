@@ -1,0 +1,235 @@
+.alm {
+  font-size: 1em;
+	margin-bottom: 15px;
+}
+
+.title {
+  font-size: 1.5em;
+  color: #789aa1;
+}
+
+.alm-chart-area {
+  position: absolute;
+  top: 0;
+  left: 175px;
+  font-size: 11px;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: black;
+	stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.barsForTooltip {
+  fill: ffffff;
+  fill-opacity: 0;
+}
+
+.bar.main{
+	fill: #789aa1;
+}
+
+.bar.alt{
+	fill: #304345;
+}
+
+.alm-row {
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.with-chart {
+  height: 125px;
+}
+
+.alm-category-row {
+  width: 100%;
+  overflow: hidden;
+}
+
+.alm-category-row-info {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	border: none;
+	background-color: transparent;
+  position: relative;
+  top: -5px;
+  left: 2px;
+  margin-top: 5px;
+}
+
+.alm-category-row-heading {
+  border-bottom: 1px solid #eee;
+}
+
+.alm-count-label {
+	width: 100px;
+  margin-top: .5em;
+  margin-left: 2em;
+	margin-right: 2em;
+	padding: 0.8em;
+	text-align: center;
+	border: 1px solid #ccc;
+	background: #fff;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	color: #304345;
+
+}
+
+.alm-count-label a {
+    text-decoration: none;
+}
+
+.alm-count-label a:hover {
+	background-color: transparent !important;
+	color: #555555 !important;
+}
+
+.alm-count-label img {
+	padding-right:0.5em;
+}
+
+.alm-count {
+	font-size: 1.15em;
+	padding-bottom: 0.4em;
+	padding-top: 0.4em;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+.alm-control {
+	text-decoration: underline;
+	color: blue;
+}
+
+.alm-control.active {
+	text-decoration: none;
+}
+
+.alm-control.disabled {
+	cursor: default;
+	text-decoration: none;
+	color: grey;
+}
+
+.alm-control:hover {
+	background-color: transparent;
+}
+
+.label-img {
+	vertical-align: middle;
+}
+
+.chart div {
+  background-color: white;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+
+.chart a {
+  fill: $linkColor;
+}
+
+.chart .title { font-size: 24px; }
+.chart .subtitle { fill: grey; }
+
+.chart .line {
+  fill: none;
+  stroke: #999;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+.req-chart {
+  display: inline-block;
+  height: 151px;
+  margin-bottom: 20px;
+}
+
+.reset {
+  padding-left: 1em;
+  font-size: 13px;
+  font-weigth: normal;
+  color: #978d7f;
+}
+
+.background.bar {
+  fill: #dfdbd4;
+}
+
+.foreground.bar {
+  fill: #789aa1;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.brush rect.extent {
+  fill: #978d7f;
+  fill-opacity: .125;
+}
+
+.brush .resize path {
+  fill: #eee;
+  stroke: #666;
+}
+
+#request-list { min-height: 1024px; }
+#request-list .date,
+#request-list .day { margin-bottom: .4em; }
+#request-list .request {
+  line-height: 1.5em;
+  background: #f2f2f2;
+  margin-bottom: 1px;
+}
+#request-list .time { color: #999; }
+
+#request-list .request div {
+  display: inline-block;
+  width: 100px;
+}
+
+#request-list div.duration {
+  width: 80px;
+  padding-right: 20px;
+  text-align: right;
+}
+
+#request-list div.info {
+  width: 40px;
+  padding-right: 20px;
+}
+
+#request-list div.source {
+  width: 160px;
+  padding-right: 20px;
+}
+
+#request-list div.ids {
+  width: 400px;
+  padding-right: 20px;
+}
+
+#request-list .fast {
+  color: #789aa1;
+}
+
+#request-list .slow {
+  color: #a17f78;
+}
+
+#totals {font-size: smaller; }

@@ -68,10 +68,7 @@
 
 <% if @article.retrieval_statuses.sum(:event_count) > 0 %>
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#all" data-toggle="tab" title="All Metrics">All Metrics</a></li>
-      <li class="hidden-phone"><a href="#day" data-toggle="tab" title="by Day">Metrics by Day</a></li>
-      <li class="hidden-phone"><a href="#month" data-toggle="tab" title="by Month">Metrics by Month</a></li>
-      <li class="hidden-phone"><a href="#year" data-toggle="tab" title="by Year">Metrics by Year</a></li>
+      <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
       <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
       <% if can? :read, Alert %>
         <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
@@ -79,28 +76,10 @@
     </ul>
 
     <div class="tab-content">
-      <div class="tab-pane active" id="all">
-        <div class="muted" id="loading-all">Loading page … <%= image_tag "spinner.gif" %></div>
+      <div class="tab-pane active" id="metrics">
+        <div class="muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
-          <%= render :partial => 'admin/articles/all', formats: :js %>
-        <% end %>
-      </div>
-      <div class="tab-pane hidden-phone" id="day">
-        <div class="muted" id="loading-day">Loading page … <%= image_tag "spinner.gif" %></div>
-        <%= javascript_tag do -%>
-          <%= render :partial => 'admin/articles/day', formats: :js %>
-        <% end %>
-      </div>
-      <div class="tab-pane hidden-phone" id="month">
-        <div class="muted" id="loading-month">Loading page … <%= image_tag "spinner.gif" %></div>
-        <%= javascript_tag do -%>
-          <%= render :partial => 'admin/articles/month', formats: :js %>
-        <% end %>
-      </div>
-      <div class="tab-pane hidden-phone" id="year">
-        <div class="muted" id="loading-year">Loading page … <%= image_tag "spinner.gif" %></div>
-        <%= javascript_tag do -%>
-          <%= render :partial => 'admin/articles/year', formats: :js %>
+          <%= render :partial => 'admin/articles/alm', formats: :js %>
         <% end %>
       </div>
       <div class="tab-pane" id="more">
