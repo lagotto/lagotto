@@ -22,8 +22,9 @@ body { padding-top: 50px; padding-bottom: 20px; }
 
 @import "bootstrap-responsive";
 
+@import "almviz";
+
 th.number, td.number { width: 120px; text-align: right; }
-th.name, td.name { width: 300px; }
 .section { padding-bottom: 4px; }
 .graphs { text-align:center; }
 .page-header { padding-bottom: 0; border-bottom: 0; margin: 0 0 10px; }
@@ -58,121 +59,6 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
   margin-top:0;
   position:relative;
 }
-.navbar-form > button { color: #777777; text-shadow:white 0 1px 0; }
-.navbar-form > button:hover,
-.navbar-form > button:focus {
-  background-color:transparent;
-  color:#333333;
-  text-decoration:none;
-}
-.chart div {
-  background-color: white;
-  text-align: right;
-  padding: 3px;
-  margin: 1px;
-  color: white;
-}
-
-.chart a {
-  fill: $linkColor;
-}
-
-.chart .title { font-size: 24px; }
-.chart .subtitle { fill: grey; }
-
-.chart .line {
-  fill: none;
-  stroke: #999;
-  stroke-width: 1px;
-  shape-rendering: crispEdges;
-}
-
-.req-chart {
-  display: inline-block;
-  height: 151px;
-  margin-bottom: 20px;
-}
-
-.reset {
-  padding-left: 1em;
-  font-size: 13px;
-  font-weigth: normal;
-  color: #978d7f;
-}
-
-.background.bar {
-  fill: #dfdbd4;
-}
-
-.foreground.bar {
-  fill: #789aa1;
-}
-
-.axis path, .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.axis text {
-  font: 10px sans-serif;
-}
-
-.brush rect.extent {
-  fill: #978d7f;
-  fill-opacity: .125;
-}
-
-.brush .resize path {
-  fill: #eee;
-  stroke: #666;
-}
-
-#request-list { min-height: 1024px; }
-#request-list .date,
-#request-list .day { margin-bottom: .4em; }
-#request-list .request {
-  line-height: 1.5em;
-  background: #f2f2f2;
-  margin-bottom: 1px;
-}
-#request-list .time { color: #999; }
-
-#request-list .request div {
-  display: inline-block;
-  width: 100px;
-}
-
-#request-list div.duration {
-  width: 80px;
-  padding-right: 20px;
-  text-align: right;
-}
-
-#request-list div.info {
-  width: 40px;
-  padding-right: 20px;
-}
-
-#request-list div.source {
-  width: 160px;
-  padding-right: 20px;
-}
-
-#request-list div.ids {
-  width: 400px;
-  padding-right: 20px;
-}
-
-#request-list .fast {
-  color: #789aa1;
-}
-
-#request-list .slow {
-  color: #a17f78;
-}
-
-#totals {font-size: smaller; }
 
 .markdown table {
     border:1px solid rgba(0,0,0,0.25);
@@ -195,4 +81,3 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .markdown table tr:nth-child(even) {
     background:rgba(0,0,0,0.06)
 }
-.markdown h3 { font-size: 16px; }

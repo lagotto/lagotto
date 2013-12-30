@@ -4,7 +4,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs runit and provides runit_service definition"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "1.4.0"
+version           "1.4.6"
 
 recipe "runit", "Installs and configures runit"
 
@@ -13,4 +13,4 @@ recipe "runit", "Installs and configures runit"
 end
 
 depends "build-essential"
-depends "yum"
+depends "yum", '< 3.0'

@@ -1,3 +1,4 @@
+# Encoding: utf-8
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)
 # Cookbook Name:: yum
@@ -24,8 +25,8 @@ yum_key node['yum']['epel']['key'] do
   action :add
 end
 
-yum_repository "epel" do
-  description "Extra Packages for Enterprise Linux"
+yum_repository 'epel' do
+  description 'Extra Packages for Enterprise Linux'
   key node['yum']['epel']['key']
   url node['yum']['epel']['baseurl']
   mirrorlist node['yum']['epel']['url']

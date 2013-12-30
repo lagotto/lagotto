@@ -1,3 +1,4 @@
+# Encoding: utf-8
 #
 # Cookbook Name:: yum
 # Provider:: key
@@ -27,9 +28,9 @@ action :add do
     Chef::Log.info "Adding #{new_resource.key} GPG key to /etc/pki/rpm-gpg/"
 
     if node['platform_version'].to_i <= 5
-      package "gnupg"
+      package 'gnupg'
     elsif node['platform_version'].to_i >= 6
-      package "gnupg2"
+      package 'gnupg2'
     end
 
     execute "import-rpm-gpg-key-#{new_resource.key}" do
@@ -56,11 +57,11 @@ action :add do
     EOH
     end
 
-    #download the file if necessary
+    # download the file if necessary
     unless new_resource.url.nil?
       remote_file "/etc/pki/rpm-gpg/#{new_resource.key}" do
         source new_resource.url
-        mode "0644"
+        mode '0644'
         notifies :run, "execute[import-rpm-gpg-key-#{new_resource.key}]", :immediately
       end
     end

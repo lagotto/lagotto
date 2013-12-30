@@ -1,5 +1,4 @@
 class AlertsController < ActionController::Base
-  layout APP_CONFIG['layout']
 
   respond_to :html, :xml, :json, :rss
 

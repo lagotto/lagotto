@@ -3,6 +3,11 @@ yum Cookbook CHANGELOG
 This file is used to list changes made in each version of the yum cookbook.
 
 
+v2.4.4
+------
+Reverting to Ruby 1.8 hash syntax.
+
+
 v2.4.2
 ------
 [COOK-3275] LWRP repository.rb :add method fails to create yum repo in

@@ -1,8 +1,8 @@
-# $HeadURL$
-# $Id$
 #
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
+# Cookbook Name:: apache2
+# Attributes:: mod_pagespeed
+#
+# Copyright 2013, ZOZI
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,17 +15,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-class ApplicationController < ActionController::Base
-  protect_from_forgery
-
-  layout 'application'
-
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+default['apache2']['mod_pagespeed']['package_link'] =
+  if node['kernel']['machine'] =~ /^i[36']86$/
+    'https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_i386.deb'
+  else
+    'https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb'
   end
-
-  def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || user_path("me")
-  end
-end

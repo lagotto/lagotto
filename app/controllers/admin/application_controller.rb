@@ -27,5 +27,5 @@ class Admin::ApplicationController < ActionController::Base
 
   respond_to :html, :js, :json
 
-  layout APP_CONFIG['layout']
+  layout 'application'
 end

@@ -1,3 +1,4 @@
+# Encoding: utf-8
 #
 # Cookbook Name:: yum
 # Recipe:: elrepo
@@ -21,8 +22,8 @@ yum_key node['yum']['elrepo']['key'] do
   action :add
 end
 
-yum_repository "elrepo" do
-  description "ELRepo.org Community Enterprise Linux Extras Repository"
+yum_repository 'elrepo' do
+  description 'ELRepo.org Community Enterprise Linux Extras Repository'
   key node['yum']['elrepo']['key']
   mirrorlist node['yum']['elrepo']['url']
   includepkgs node['yum']['elrepo']['includepkgs']

@@ -125,12 +125,40 @@ namespace :db do
       puts "Deleted #{before - after} articles, #{after} articles remaining"
     end
 
+    desc "Add missing sources"
+    task :add_sources, [:date] => :environment do |t, args|
+      if args.date.nil?
+        puts "Date in format YYYY-MM-DD required"
+        exit
+      end
+
+      articles = Article.where("published_on >= ?", args.date)
+
+      if args.extras.empty?
+        sources = Source.all
+      else
+        sources = Source.where("name in (?)", args.extras)
+      end
+
+      retrieval_statuses = []
+      articles.each do |article|
+        sources.each do |source|
+          retrieval_status = RetrievalStatus.find_or_initialize_by_article_id_and_source_id(article.id, source.id, :scheduled_at => Time.zone.now)
+          if retrieval_status.new_record?
+            retrieval_status.save!
+            retrieval_statuses << retrieval_status
+          end
+        end
+      end
+
+      puts "#{retrieval_statuses.count} retrieval status(es) added for #{sources.count} source(s) and #{articles.count} articles"
+    end
+
     desc "Remove all HTML and XML tags from article titles"
     task :sanitize_title => :environment do
       Article.all.each { |article| article.save }
       puts "#{Article.count} article titles sanitized"
     end
-
   end
 
   namespace :alerts do

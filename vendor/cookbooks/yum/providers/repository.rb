@@ -1,3 +1,4 @@
+# Encoding: utf-8
 #
 # Cookbook Name:: yum
 # Provider:: repository
@@ -56,10 +57,10 @@ action :update do
       file.each_line do |line|
         case line
         when /^\[(\S+)\]/
-          repo_name = $1
+          repo_name = Regexp.last_match[1]
           repos[repo_name] ||= {}
         when /^(\S+?)=(.*)$/
-          param, value = $1, $2
+          param, value = Regexp.last_match[1], Regexp.last_match[2]
           repos[repo_name][param] = value
         else
         end
@@ -68,7 +69,7 @@ action :update do
   else
     Chef::Log.error "Repo /etc/yum.repos.d/#{new_resource.repo_name}.repo does not exist, you must create it first"
   end
-  if !repos.has_key?(new_resource.repo_name) || repos[new_resource.repo_name]['enabled'].to_i != new_resource.enabled
+  if !repos.key?(new_resource.repo_name) || repos[new_resource.repo_name]['enabled'].to_i != new_resource.enabled
     Chef::Log.info "Updating #{new_resource.repo_name} repository in /etc/yum.repos.d/#{new_resource.repo_name}.repo (setting enabled=#{new_resource.enabled})"
     repo_config
   else
@@ -79,49 +80,49 @@ end
 private
 
 def repo_config
-  #import the gpg key. If it needs to be downloaded or imported from a cookbook
-  #that can be done in the calling recipe
+  # import the gpg key. If it needs to be downloaded or imported from a cookbook
+  # that can be done in the calling recipe
   if new_resource.key then
     yum_key "#{new_resource.repo_name}-key" do
       key new_resource.key
     end
   end
-  #get the metadata for this repo only
+  # get the metadata for this repo only
   execute "yum-makecache-#{new_resource.repo_name}" do
     command "yum -q makecache --disablerepo=* --enablerepo=#{new_resource.repo_name}"
     action :nothing
   end
-  #reload internal Chef yum cache
+  # reload internal Chef yum cache
   ruby_block "reload-internal-yum-cache-for-#{new_resource.repo_name}" do
     block do
       Chef::Provider::Package::Yum::YumCache.instance.reload
     end
     action :nothing
   end
-  #write out the file
+  # write out the file
   template "/etc/yum.repos.d/#{new_resource.repo_name}.repo" do
-    cookbook "yum"
-    source "repo.erb"
-    mode "0644"
-    variables({
-                :repo_name => new_resource.repo_name,
-                :description => new_resource.description,
-                :url => new_resource.url,
-                :mirrorlist => new_resource.mirrorlist,
-                :key => new_resource.key,
-                :enabled => new_resource.enabled,
-                :type => new_resource.type,
-                :failovermethod => new_resource.failovermethod,
-                :bootstrapurl => new_resource.bootstrapurl,
-                :includepkgs => new_resource.includepkgs,
-                :exclude => new_resource.exclude,
-                :priority => new_resource.priority,
-                :metadata_expire => new_resource.metadata_expire,
-                :type => new_resource.type,
-                :proxy => new_resource.proxy,
-                :proxy_username => new_resource.proxy_username,
-                :proxy_password => new_resource.proxy_password
-              })
+    cookbook 'yum'
+    source 'repo.erb'
+    mode '0644'
+    variables(
+      repo_name: new_resource.repo_name,
+      description: new_resource.description,
+      url: new_resource.url,
+      mirrorlist: new_resource.mirrorlist,
+      key: new_resource.key,
+      enabled: new_resource.enabled,
+      type: new_resource.type,
+      failovermethod: new_resource.failovermethod,
+      bootstrapurl: new_resource.bootstrapurl,
+      includepkgs: new_resource.includepkgs,
+      exclude: new_resource.exclude,
+      priority: new_resource.priority,
+      metadata_expire: new_resource.metadata_expire,
+      type: new_resource.type,
+      proxy: new_resource.proxy,
+      proxy_username: new_resource.proxy_username,
+      proxy_password: new_resource.proxy_password
+      )
     if new_resource.make_cache
       notifies :run, "execute[yum-makecache-#{new_resource.repo_name}]", :immediately
       notifies :create, "ruby_block[reload-internal-yum-cache-for-#{new_resource.repo_name}]", :immediately

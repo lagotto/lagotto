@@ -1,3 +1,4 @@
+# Encoding: utf-8
 #
 # Cookbook Name:: yum
 # Attributes:: epel
@@ -19,18 +20,18 @@
 #
 
 case node['platform']
-when "amazon"
-  default['yum']['epel']['url'] = "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-6&arch=$basearch"
-  default['yum']['epel']['baseurl'] = ""
-  default['yum']['epel']['key'] = "RPM-GPG-KEY-EPEL-6"
+when 'amazon'
+  default['yum']['epel']['url'] = 'http://mirrors.fedoraproject.org/mirrorlist?repo=epel-6&arch=$basearch'
+  default['yum']['epel']['baseurl'] = ''
+  default['yum']['epel']['key'] = 'RPM-GPG-KEY-EPEL-6'
 else
   default['yum']['epel']['url'] = "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-#{node['platform_version'].to_i}&arch=$basearch"
-  default['yum']['epel']['baseurl'] = ""
+  default['yum']['epel']['baseurl'] = ''
 
   if node['platform_version'].to_i >= 6
-    default['yum']['epel']['key'] = "RPM-GPG-KEY-EPEL-6"
+    default['yum']['epel']['key'] = 'RPM-GPG-KEY-EPEL-6'
   else
-    default['yum']['epel']['key'] = "RPM-GPG-KEY-EPEL"
+    default['yum']['epel']['key'] = 'RPM-GPG-KEY-EPEL'
   end
 end
 
