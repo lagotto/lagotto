@@ -66,7 +66,7 @@
 }
 
 .alm-count-label {
-	width: 100px;
+	width: 130px;
   margin-top: .5em;
   margin-left: 2em;
 	margin-right: 2em;
@@ -95,9 +95,9 @@
 }
 
 .alm-count {
-	font-size: 1.15em;
-	padding-bottom: 0.4em;
-	padding-top: 0.4em;
+	font-size: 1.75em;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
 	font-weight: bold;
 	vertical-align: middle;
 }
@@ -134,7 +134,7 @@
 }
 
 .chart a {
-  fill: $linkColor;
+  fill: $link_color;
 }
 
 .chart .title { font-size: 24px; }
