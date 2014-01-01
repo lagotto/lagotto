@@ -45,7 +45,7 @@ class Api::V4::ArticlesController < Api::V4::BaseController
   end
 
   def create
-    @article = Article.new(params[:article])
+    @article = Article.new(article_params)
     authorize! :create, @article
 
     if @article.save
@@ -66,7 +66,7 @@ class Api::V4::ArticlesController < Api::V4::BaseController
       @error = "No article found."
       @article = @id_hash
       render "error", :status => :not_found
-    elsif @article.update_attributes(params[:article])
+    elsif @article.update_attributes(article_params)
       @success = "Article updated."
       @article = @id_hash
       render "success", :status => :ok
@@ -113,5 +113,11 @@ class Api::V4::ArticlesController < Api::V4::BaseController
     else
       source_ids = Source.where("private = 0").order("name").pluck(:id)
     end
+  end
+
+  private
+
+  def article_params
+    params.require(:article).permit(:doi, :title, :published_on)
   end
 end

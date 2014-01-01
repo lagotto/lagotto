@@ -31,7 +31,7 @@ class Admin::ArticlesController < Admin::ApplicationController
   # POST /articles
   def create
     load_index
-    @article = Article.new(params[:article])
+    @article = Article.new(article_params)
     @article.save
     respond_with(@article) do |format|
       format.js { render :index }
@@ -47,7 +47,7 @@ class Admin::ArticlesController < Admin::ApplicationController
 
   # PUT /articles/:id(.:format)
   def update
-    @article.update_attributes(params[:article])
+    @article.update_attributes(article_params)
     respond_with(@article) do |format|
       format.js { render :show }
     end
@@ -91,5 +91,11 @@ class Admin::ArticlesController < Admin::ApplicationController
     else
       @sources = Source.order("name")
     end
+  end
+
+  private
+
+  def article_params
+    params.require(:article).permit(:doi, :title, :published_on)
   end
 end
