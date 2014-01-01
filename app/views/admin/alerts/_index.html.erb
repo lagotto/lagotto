@@ -1,7 +1,7 @@
 <div class="page-header">
   <div class="btn-toolbar pull-right">
-    <div class="btn-group">
-      <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-filter"></i> <%= @source.nil? ? "All Sources" : @source.display_name %> <span class="caret"></span></a>
+    <div class="btn-group btn-group-sm">
+      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @source.nil? ? "All Sources" : @source.display_name %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li><%= link_to "All Sources", admin_alerts_path(:class_name => params[:class_name], :query => params[:query]) %></li>
         <li class="divider"></li>
@@ -10,8 +10,8 @@
         <% end %>
       </ul>
     </div>
-    <div class="btn-group">
-      <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-filter"></i> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
+    <div class="btn-group btn-group-sm">
+      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
         <li><%= link_to "All Alerts", admin_alerts_path(:source_id => params[:source_id], :query => params[:query]) %></li>
         <li class="divider"></li>
@@ -30,28 +30,30 @@
 </div>
 
 <div class="search">
-  <%= form_tag(admin_alerts_path, :method => "get", :class => "form-search") do %>
-    <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "input-large", :id => "appendedInputButtons" %>
-    <button type="submit" class="btn hidden-phone"><i class="icon-search"></i></button>
+  <%= form_tag(admin_alerts_path, :method => "get", :class => "form-inline", :role => "form") do %>
+    <div class="form-group">
+      <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "form-control" %>
+    </div>
+    <button type="submit" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></button>
     <% unless params[:query].blank? %>
-      <%= link_to "clear", admin_alerts_path(:source_id => params[:source_id]), :class => "btn btn-link hidden-phone" %>
+      <%= link_to "clear", admin_alerts_path(:source_id => params[:source_id]), :class => "btn btn-link" %>
     <% end %>
   <% end %>
 </div>
 
 <% if @alerts.size > 0 %>
-  <div class="accordion" id="alert">
+  <div class="panel-group" id="alert">
     <% @alerts.each do |alert| %>
-      <div class="accordion-group">
-        <div class="accordion-heading">
-          <%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + "<strong>" + h(alert.message) + "</strong>").html_safe, "#alert_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title"><%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %></h4>
         </div>
-        <div class="accordion-body collapse" id="alert_<%= alert.id %>">
-          <div class="accordion-inner alert-inner">
+        <div class="panel-collapse collapse" id="alert_<%= alert.id %>">
+          <div class="panel-body alert-inner">
             <% if can?(:destroy, Alert) %>
-              <div class="btn-group pull-right">
-                <a class="btn btn-mini dropdown-toggle" id="<%= alert.id %>-delete" data-toggle="dropdown" href="#">
-                  <i class="icon-trash"></i> Delete <b class="caret"></b>
+              <div class="btn-group btn-group-sm pull-right">
+                <a class="btn btn-default dropdown-toggle" id="<%= alert.id %>-delete" data-toggle="dropdown" href="#">
+                  <span class="glyphicon glyphicon-trash"></span> Delete <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
                   <li><%= link_to "by Message", admin_alert_path(alert, :query => params[:query],

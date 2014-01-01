@@ -2,7 +2,7 @@ var data;
 var name = d3.select("h1").attr('data-name');
 var api_key = d3.select("h1").attr('data-api_key');
 var color = d3.scale.ordinal()
-    .range(["#304345","#789aa1","#c7c0b5"]);
+    .range(["#1abc9c","#ecf0f1","#95a5a6"]);
 var w = 300,
     h = 200,
     radius = Math.min(w, h) / 2;

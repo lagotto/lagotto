@@ -7,13 +7,11 @@
 // Load jQuery
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap
 //= require turbolinks
 //
-// Loads all Bootstrap javascripts
-//= require bootstrap
-//
 // Load the D3 visualization library
-//= require d3.v3
+//= require d3
 //
 // Load the Crossfilter library
 //= require crossfilter

@@ -26,10 +26,10 @@
   <ul class="nav nav-tabs">
     <li class="active"><a href="#jobs" data-toggle="tab" title="Jobs">Jobs</a></li>
     <li><a href="#responses" data-toggle="tab" title="Responses">Responses</a></li>
-    <li class="hidden-phone"><a href="#articles" data-toggle="tab" title="Articles">Articles</a></li>
-    <li class="hidden-phone"><a href="#events" data-toggle="tab" title="Events">Events</a></li>
-    <li class="hidden-phone"><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
-    <li class="hidden-phone"><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
+    <li><a href="#articles" data-toggle="tab" title="Articles">Articles</a></li>
+    <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
+    <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
   </ul>
 
 <div class="tab-content">
@@ -45,11 +45,11 @@
   <div class="tab-pane" id="events">
     <%= render :partial => 'events' %>
   </div>
-  <div class="tab-pane hidden-phone" id="configuration">
+  <div class="tab-pane" id="configuration">
     <%= render :partial => 'admin/groups/index' %>
   </div>
-  <div class="tab-pane hidden-phone" id="documentation">
-    <%= render :partial => 'documentation' %>
+  <div class="tab-pane" id="documentation">
+    <%= render :partial => 'docs/show' %>
   </div>
 </div>
 

@@ -1,27 +1,43 @@
 <p>Number of background jobs and stale articles.</p><br/>
 
 <% unless @sources.active.empty? %>
-  <table class="table table-striped" id="JobsTable">
+  <table class="table" id="ResponsesTable">
     <thead>
       <tr>
+        <th class="name">Group</th>
         <th class="name">Source</th>
         <th>Status</th>
-        <th class="hidden-phone number">Queuing</th>
-        <th class="hidden-phone number">Pending</th>
-        <th class="hidden-phone number">Working</th>
+        <th class="number">Queuing</th>
+        <th class="number">Pending</th>
+        <th class="number">Working</th>
         <th class="number">Stale&nbsp;Articles</th>
       </tr>
     </thead>
     <tbody>
-      <% @sources.active.each do|source| %>
+      <% @groups.each do |group| %>
         <tr>
-        <td class="name"><%= link_to h(source.display_name), admin_source_path(source) %></td>
-        <td><%= state_label(source.human_state_name).html_safe %></td>
-        <td class="hidden-phone number" id="queueing_count_<%= source.name %>">&nbsp;</td>
-        <td class="hidden-phone number" id="pending_count_<%= source.name %>">&nbsp;</td>
-        <td class="hidden-phone number" id="working_count_<%= source.name %>">&nbsp;</td>
-        <td class="number" id="stale_count_<%= source.name %>">&nbsp;</td>
+          <% if group.sources.active.size > 0 %>
+            <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>><h4><%= h(group.name) %></h4></td>
+            <td class="name"><%= link_to group.sources.first.display_name, admin_source_path(group.sources.first.name) %></td>
+            <td><%= state_label(group.sources.first.human_state_name).html_safe %></td>
+            <td class="number" id="queueing_count_<%= group.sources.first.name %>">&nbsp;</td>
+            <td class="number" id="pending_count_<%= group.sources.first.name %>">&nbsp;</td>
+            <td class="number" id="working_count_<%= group.sources.first.name %>">&nbsp;</td>
+            <td class="number" id="stale_count_<%= group.sources.first.name %>">&nbsp;</td>
+          <% end %>
         </tr>
+        <% if group.sources.size > 1 %>
+          <% group.sources.active[1..-1].each do |source| %>
+            <tr>
+              <td><%= link_to source.display_name, admin_source_path(source) %></td>
+              <td><%= state_label(source.human_state_name).html_safe %></td>
+              <td class="number" id="queueing_count_<%= source.name %>">&nbsp;</td>
+              <td class="number" id="pending_count_<%= source.name %>">&nbsp;</td>
+              <td class="number" id="working_count_<%= source.name %>">&nbsp;</td>
+              <td class="number" id="stale_count_<%= source.name %>">&nbsp;</td>
+            </tr>
+          <% end %>
+        <% end %>
       <% end %>
     </tbody>
   </table>

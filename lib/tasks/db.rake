@@ -3,7 +3,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2013 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -135,9 +135,9 @@ namespace :db do
       articles = Article.where("published_on >= ?", args.date)
 
       if args.extras.empty?
-        sources = Source.where("queueable = 0")
+        sources = Source.all
       else
-        sources = Source.active.where("name in (?)", args.extras)
+        sources = Source.where("name in (?)", args.extras)
       end
 
       retrieval_statuses = []

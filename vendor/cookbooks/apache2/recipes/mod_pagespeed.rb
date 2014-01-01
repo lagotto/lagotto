@@ -1,8 +1,8 @@
-# $HeadURL$
-# $Id$
 #
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
+# Cookbook Name:: apache2
+# Recipe:: default
+#
+# Copyright 2013, ZOZI
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,17 +15,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-class ApplicationController < ActionController::Base
-  protect_from_forgery
-
-  layout 'application'
-
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+if platform_family?('debian')
+  remote_file "#{Chef::Config[:file_cache_path]}/mod-pagespeed.deb" do
+    source node['apache2']['mod_pagespeed']['package_link']
+    mode '0644'
+    action :create_if_missing
   end
 
-  def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || user_path("me")
+  package 'mod_pagespeed' do
+    source "#{Chef::Config[:file_cache_path]}/mod-pagespeed.deb"
+    action :install
   end
+
+  apache_module 'pagespeed' do
+    conf true
+  end
+else
+  Chef::Log.warm "apache::mod_pagespeed does not support #{node["platform_family"]} yet, and is not being installed"
 end

@@ -4,13 +4,13 @@
     <fieldset>
       <legend>New Article</legend>
 
-      <%= f.input :title, :input_html => { :rows => 2, :class => "span6" } %>
-      <%= f.input :doi, :label => 'DOI', :input_html => { :class => "span6" } %>
-      <%= f.input :pub_med, :label => 'PubMed ID', :input_html => { :class => "span6" } %>
-      <%= f.input :pub_med_central, :label => 'PubMed Central ID', :input_html => { :class => "span6" } %>
-      <%= f.input :mendeley, :label => 'Mendeley UUID', :input_html => { :class => "span6" } %>
-      <%= f.input :url, :label => 'URL', :input_html => { :class => "span6" } %>
-      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 10, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "span1" } %>
+      <%= f.input :title, :input_html => { :rows => 2, :class => "col-md-6" } %>
+      <%= f.input :doi, :label => 'DOI', :input_html => { :class => "col-md-6" } %>
+      <%= f.input :pub_med, :label => 'PubMed ID', :input_html => { :class => "col-md-6" } %>
+      <%= f.input :pub_med_central, :label => 'PubMed Central ID', :input_html => { :class => "col-md-6" } %>
+      <%= f.input :mendeley, :label => 'Mendeley UUID', :input_html => { :class => "col-md-6" } %>
+      <%= f.input :url, :label => 'URL', :input_html => { :class => "col-md-6" } %>
+      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 10, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "col-md-1" } %>
 
       <div class="form-actions">
         <%= f.submit "Save ", class: "btn btn-primary" %>
@@ -24,12 +24,12 @@
     <% if can? :read, Alert %>
       <div class="btn-toolbar pull-right">
         <% if can?(:manage, Article) %>
-          <div class="btn-group hidden-phone">
-            <%= link_to '<i class="icon-plus"></i> New'.html_safe, new_admin_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-small' } %>
+          <div class="btn-group btn-group-sm">
+            <%= link_to '<span class="glyphicon glyphicon-plus"></span> New'.html_safe, new_admin_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-default' } %>
           </div>
         <% end %>
-        <div class="btn-group" id="article-alerts">
-          <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-filter"></i> <%= @class_name.nil? ? "All Articles" : h(@class_name) %> <span class="caret"></span></a>
+        <div class="btn-group btn-group-sm" id="article-alerts">
+          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Articles" : h(@class_name) %> <span class="caret"></span></a>
           <ul class="dropdown-menu pull-right">
             <li><%= link_to "All Articles", admin_articles_path(:query => params[:query]) %></li>
             <li class="divider"></li>
@@ -52,21 +52,25 @@
 
 <% if can?(:manage, Article) %>
   <div class="search">
-    <%= form_tag(admin_articles_path, :method => "get", :class => "form-search") do %>
-      <%= search_field_tag :query, params[:query], :placeholder => "Search by DOI", :class => "input-large", :id => "appendedInputButtons" %>
-      <button type="submit" class="btn hidden-phone"><i class="icon-search"></i></button>
+    <%= form_tag(admin_articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
+      <div class="form-group">
+        <%= search_field_tag :query, params[:query], :placeholder => "Search by DOI", :class => "form-control" %>
+      </div>
+      <button type="submit" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></button>
       <% unless params[:query].blank? %>
-        <%= link_to "clear", admin_articles_path, :class => "btn btn-link hidden-phone" %>
+        <%= link_to "clear", admin_articles_path, :class => "btn btn-sm btn-link" %>
       <% end %>
     <% end %>
   </div>
 <% else %>
   <div class="search">
-    <%= form_tag(articles_path, :method => "get", :class => "form-search") do %>
-      <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "input-large", :id => "appendedInputButtons" %>
-      <button type="submit" class="btn hidden-phone"><i class="icon-search"></i></button>
+    <%= form_tag(articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
+       <div class="form-group">
+        <%= search_field_tag :query, params[:query], :placeholder => "Search by DOI", :class => "form-control" %>
+      </div>
+      <button type="submit" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></button>
       <% unless params[:query].blank? %>
-        <%= link_to "clear", articles_path, :class => "btn btn-link hidden-phone" %>
+        <%= link_to "clear", admin_articles_path, :class => "btn btn-sm btn-link" %>
       <% end %>
     <% end %>
   </div>
@@ -75,19 +79,11 @@
 <% if @articles.size > 0 %>
   <% @articles.each do |article| %>
     <% cache article do %>
-      <div class="row">
-      <div class="span12">
-        <h4><%= link_to article.title, article %></h4>
-        <%= article.published_on.to_s(:long) %> - <%= pluralize article.cited_retrievals_count, "source" %>
-      </div>
-      </div>
+      <h4 class="article"><%= link_to article.title, article %></h4>
+      <%= article.published_on.to_s(:long) %> - <%= pluralize article.cited_retrievals_count, "source" %>
     <% end %>
   <% end %>
-  <div class="row">
-    <div class="span11 offset1">
-       <%= will_paginate @articles, :renderer => BootstrapPagination::Rails %>
-    </div>
-  </div>
+  <%= will_paginate @articles, :renderer => BootstrapPagination::Rails %>
 <% else %>
   <div class="alert alert-info">No articles found</div>
 <% end %>
