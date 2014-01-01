@@ -17,7 +17,7 @@ class UsersController < ApplicationController
 
   def update_password
     load_user
-    if @user.update_with_password(params[:user])
+    if @user.update_with_password(user_params)
       # Sign in the user by passing validation in case his password changed
       sign_in @user, :bypass => true
       redirect_to root_path
@@ -27,11 +27,18 @@ class UsersController < ApplicationController
   end
 
   protected
+
   def load_user
     if user_signed_in?
       @user = current_user
     else
       raise CanCan::AccessDenied.new("Please sign in first.", :read, User)
     end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:password, :password_confirmation)
   end
 end

@@ -15,9 +15,9 @@
         <%= f.association :reports, as: :check_boxes %>
       <% end %>
 
-      <div class="form-actions">
-        <%= f.submit "Save ", class: "btn btn-primary" %>
-        <%= link_to 'Cancel', admin_user_path(@user), { :remote => true, :class => 'btn' } %>
+      <div class="form-group">
+        <%= f.submit "Save ", class: "btn btn-primary btn-sm" %>
+        <%= link_to 'Cancel', admin_user_path(@user), { :remote => true, :class => 'btn btn-sm' } %>
       </div>
     </fieldset>
   <% end %>

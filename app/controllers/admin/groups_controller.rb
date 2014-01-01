@@ -1,11 +1,11 @@
 class Admin::GroupsController < Admin::ApplicationController
-  
-  load_and_authorize_resource 
-  
+
+  load_and_authorize_resource
+
   # GET /groups
   def index
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
-    respond_with do |format|  
+    respond_with do |format|
       format.js { render :index }
     end
   end
@@ -14,7 +14,7 @@ class Admin::GroupsController < Admin::ApplicationController
   def edit
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     @group = Group.find(params[:id])
-    respond_with(@group) do |format|  
+    respond_with(@group) do |format|
       format.js { render :index }
     end
   end
@@ -23,8 +23,8 @@ class Admin::GroupsController < Admin::ApplicationController
   def update
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     @group = Group.find(params[:id])
-    @group.update_attributes(params[:group])
-    respond_with(@group) do |format|  
+    @group.update_attributes(group_params)
+    respond_with(@group) do |format|
       format.js { render :index }
     end
   end
@@ -34,7 +34,7 @@ class Admin::GroupsController < Admin::ApplicationController
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     @group = Group.find(params[:id])
     @group.destroy
-    respond_with(@group) do |format|  
+    respond_with(@group) do |format|
       format.js { render :index }
     end
   end
@@ -42,7 +42,7 @@ class Admin::GroupsController < Admin::ApplicationController
   # GET /groups/new
   def new
     @group = Group.new
-    respond_with(@group) do |format|  
+    respond_with(@group) do |format|
       format.js { render :index }
     end
   end
@@ -50,11 +50,16 @@ class Admin::GroupsController < Admin::ApplicationController
   # POST /groups
   def create
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
-    @group = Group.new(params[:group])
+    @group = Group.new(group_params)
     @group.save
-    respond_with(@group) do |format|  
+    respond_with(@group) do |format|
       format.js { render :index }
     end
   end
-  
+
+  private
+
+  def group_params
+    params.require(:group).permit(:name)
+  end
 end

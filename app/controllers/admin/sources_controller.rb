@@ -22,7 +22,7 @@ class Admin::SourcesController < Admin::ApplicationController
   end
 
   def update
-    @source.update_attributes(params[:source])
+    @source.update_attributes(source_params)
     respond_with(@source) do |format|
       format.js { render :show }
     end
@@ -31,5 +31,29 @@ class Admin::SourcesController < Admin::ApplicationController
   protected
   def load_source
     @source = Source.find_by_name(params[:id])
+  end
+
+  private
+
+  def source_params
+    params.require(:source).permit(:display_name,
+                                   :group,
+                                   :state_event,
+                                   :private,
+                                   :queueable,
+                                   :description,
+                                   :job_batch_size,
+                                   :batch_time_interval,
+                                   :rate_limiting,
+                                   :wait_time,
+                                   :staleness_week,
+                                   :staleness_month,
+                                   :staleness_year,
+                                   :staleness_all,
+                                   :timeout,
+                                   :max_failed_queries,
+                                   :max_failed_query_time_interval,
+                                   :disable_delay)
+    # @source.get_config_fields
   end
 end

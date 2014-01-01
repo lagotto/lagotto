@@ -78,7 +78,7 @@
                                   input_html: { class: "input-mini" },
                                   hint: "Time interval before source is disabled after maximum number of failed queries is reached (seconds)" %>
 
-      <div class="form-actions">
+      <div class="form-group">
         <%= f.submit "Save ", class: "btn btn-primary" %>
         <%= link_to 'Cancel', admin_source_path(@source.name), { :remote => true, :class => 'btn btn-sm' } %>
       </div>

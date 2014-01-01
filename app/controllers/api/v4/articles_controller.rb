@@ -118,6 +118,6 @@ class Api::V4::ArticlesController < Api::V4::BaseController
   private
 
   def article_params
-    params.require(:article).permit(:doi, :title, :published_on)
+    params.require(:article).permit(:doi, :title, :published_on, :pub_med, :pub_med_central, :mendeley, :url)
   end
 end
