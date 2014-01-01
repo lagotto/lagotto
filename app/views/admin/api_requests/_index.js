@@ -8,7 +8,7 @@ d3.json("/api/v3/api_requests?api_key=" + api_key + (key != "" ? "&key=" + key :
   console.log(data);
 
   if (data.length == 0) {
-    d3.select("div.span12").text("")
+    d3.select("div.col-md-12").text("")
       .insert("div")
       .attr("class", "alert alert-info")
       .text("No API requests found");
@@ -156,21 +156,21 @@ d3.json("/api/v3/api_requests?api_key=" + api_key + (key != "" ? "&key=" + key :
           .text(function(d) { return formatFixed(d.view_duration) + " ms"; });
 
       requestEnter.append("div")
-          .attr("class", "source hidden-phone")
+          .attr("class", "source hidden-xs")
           .append("a")
           .attr("href", function(d) { return "/admin/users?query=" + d.api_key; })
           .text(function(d) { return d.api_key; });
 
       requestEnter.append("div")
-          .attr("class", "info hidden-phone")
+          .attr("class", "info hidden-xs")
           .text(function(d) { return d.info; });
 
       requestEnter.append("div")
-          .attr("class", "source hidden-phone")
+          .attr("class", "source hidden-xs")
           .text(function(d) { return d.source; });
 
       requestEnter.append("div")
-          .attr("class", "ids hidden-phone")
+          .attr("class", "ids hidden-xs")
           .text(function(d) { return d.ids; });
 
       request.exit().remove();

@@ -1,54 +1,102 @@
 <div class="row">
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="articles_count">&nbsp;</h1>
-    <div><%= link_to "Articles", articles_path %></div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="articles_count">&nbsp;</h2>
+      </div>
+      <div class="panel-footer"><%= link_to "Articles", articles_path %></div>
+    </div>
   </div>
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="articles_recent_count">&nbsp;</h1>
-    <div><%= link_to "Articles published last 30 days", articles_path %></div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="articles_recent_count">&nbsp;</h2>
+      </div>
+      <div class="panel-footer"><%= link_to "Articles published last 30 days", articles_path %></div>
+    </div>
   </div>
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="sources_disabled_count">&nbsp;</h1>
-    <div><%= link_to "Disabled sources", admin_sources_path %></div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="sources_disabled_count">&nbsp;</h2>
+      </div>
+      <div class="panel-footer"><%= link_to "Disabled sources", admin_sources_path %></div>
+    </div>
   </div>
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="alerts_last_day_count">&nbsp;</h1>
-    <div><%= link_to "Unresolved alerts in the last 24 hours", admin_alerts_path %></div>
-  </div>
-</div>
-<div class="row">
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="delayed_jobs_active_count">&nbsp;</h1>
-    <div><%= link_to "Pending and working jobs", admin_sources_path %></div>
-  </div>
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="responses_count">&nbsp;</h1>
-    <div><%= link_to "API responses in the last 24 hours", admin_sources_path %></div>
-  </div>
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="events_count">&nbsp;</h1>
-    <div><%= link_to "Events", admin_sources_path %></div>
-  </div>
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="requests_count">&nbsp;</h1>
-    <div><%= link_to "API requests in the last 24 hours", admin_api_requests_path %></div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="alerts_last_day_count">&nbsp;</h2>
+      </div>
+      <div class="panel-footer"><%= link_to "Unresolved alerts last 24 hours", admin_alerts_path %></div>
+    </div>
   </div>
 </div>
 <div class="row">
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="users_count">&nbsp;</h1>
-    <div><%= link_to "Users", admin_users_path %></div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="delayed_jobs_active_count">&nbsp;</h2>
+      </div>
+      <div class="panel-footer"><%= link_to "Pending and working jobs", admin_sources_path %></div>
+    </div>
   </div>
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="version">&nbsp;</h1>
-    <div>ALM Version</div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="responses_count">&nbsp;</h2>
+      </div>
+      <div class="panel-footer"><%= link_to "API responses last 24 hours", admin_sources_path %></div>
+    </div>
   </div>
-  <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="mysql_size">&nbsp;</h1>
-    <div>MySQL retrieval_history size</div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="events_count">&nbsp;</h2>
+      </div>
+      <div class="panel-footer"><%= link_to "Events", admin_sources_path %></div>
+    </div>
   </div>
-    <div class="span3 text-center dashboard dashboard-label">
-    <h1 class="signpost" id="couchdb_size">&nbsp;</h1>
-    <div>CouchDB database size</div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="requests_count">&nbsp;</h2>
+      </div>
+      <div class="panel-footer"><%= link_to "API requests in the last 24 hours", admin_api_requests_path %></div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="users_count">&nbsp;</h2>
+      </div>
+      <div class="panel-footer"><%= link_to "Users", admin_users_path %></div>
+    </div>
+  </div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="version">&nbsp;</h2>
+      </div>
+      <div class="panel-footer">ALM Version</div>
+    </div>
+  </div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="mysql_size">&nbsp;</h2>
+      </div>
+      <div class="panel-footer">MySQL retrieval_history size</div>
+    </div>
+  </div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 id="couchdb_size">&nbsp;</h2>
+      </div>
+      <div class="panel-footer">CouchDB database size</div>
+    </div>
   </div>
 </div>

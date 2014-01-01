@@ -64,7 +64,7 @@ function AlmViz(options) {
 
         if (!metricsFound_) {
             vizDiv.append("p")
-                .attr("class", "muted")
+                .attr("class", "text-muted")
                 .text("No metrics found.");
         }
     };
@@ -509,7 +509,7 @@ function AlmViz(options) {
             .attr("height", 0);
 
         bars
-            .attr("x", function(d) { return viz.x(getDate_(level, d)) + 2; }) // padding of 2, 1 each side
+            .attr("x", function(d) { return viz.x(getDate_(level, d)) + 2; })
             .attr("width", barWidth);
 
         bars.transition()
@@ -568,7 +568,7 @@ options = {
         minDaysForDaily: 6
     },
     vizDiv: "#metrics",
-    hasIcon: ['wikipedia', 'scienceseeker', 'researchblogging', 'pubmed', 'nature', 'mendeley', 'facebook', 'crossref', 'citeulike'],
+    hasIcon: ['wikipedia', 'scienceseeker', 'researchblogging', 'pubmed', 'nature', 'mendeley', 'facebook', 'crossref', 'citeulike', 'reddit', 'wordpress'],
     showTitle: false,
     categories: [{ name: "html", display_name: "HTML Views", tooltip_text: 'Total number of HTML page views for this article. These views are recorded directly within the system itself. Overall monthly view counts may also be available.' },
         { name: "pdf", display_name: "PDF Downloads", tooltip_text: 'Total number of PDF views and downloads for this article. These views are recorded directly within the system itself. Overall monthly view counts may also be available.' },
@@ -578,8 +578,8 @@ options = {
         { name: "citations", display_name: "Citations", tooltip_text: 'Citations of this article found in CrossRef, PubMed and Wikipedia. In most cases, clicking on the citation count will take you to a listing in the referencing service itself.' }],
   };
 
-var doi = d3.select("dd#doi").attr('data-doi');
-var api_key = d3.select("dd#doi").attr('data-api_key');
+var doi = d3.select(".doi").attr('data-doi');
+var api_key = d3.select(".doi").attr('data-api_key');
 var data;
 
 d3.json(encodeURI("/api/v3/articles?api_key=" + api_key + "&ids=" + doi + "&info=history"), function(error, json) {

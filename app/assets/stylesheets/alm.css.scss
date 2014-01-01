@@ -1,0 +1,265 @@
+/* $HeadURL$
+ * $Id$
+ *
+ * Copyright (c) 2009-2013 by Public Library of Science, a non-profit corporation
+ * http://www.plos.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Colors
+// -------------------------
+
+$turquoise:     #1abc9c;
+$emerald:       #2ecc71;
+$peter-river:   #3498db;
+$amethyst:      #9b59b6;
+$wet-asphalt:   #34495e;
+$sun-flower:    #f1c40f;
+$carrot:        #e67e22;
+$alizarin:      #e74c3c;
+
+$gray:          lighten($wet-asphalt, 50%);
+$gray-light:    lighten($wet-asphalt, 65%);
+$gray-lighter:  lighten($wet-asphalt, 75%);
+$gray-dark:     lighten($wet-asphalt, 35%);
+$inverse:       white;
+
+$brand-primary:         $wet-asphalt;
+$brand-secondary:       $peter-river;
+$brand-success:         $emerald;
+$brand-warning:         $sun-flower;
+$brand-danger:          $alizarin;
+$brand-info:            $peter-river;
+
+$body-bg:               white;
+$text-color:            $brand-primary;
+
+$link-color:            $peter-river;
+$link-hover-color:      $peter-river;
+
+// Typography
+// -------------------------
+
+$font-family-base:      'Source Sans Pro', Helvetica, Arial, sans-serif;
+$font-family-demo:      'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family-monospace: Monaco, Menlo, Consolas, "Courier New", monospace;
+$font-size-base:        16px;
+$font-size-large:       ceil(($font-size-base * 1.25));
+$font-size-small:       ceil(($font-size-base * 0.85));
+
+$font-size-h1:          floor($font-size-base * 2.4);
+$font-size-h2:          floor($font-size-base * 2);
+$font-size-h3:          floor($font-size-base * 1.7);
+$font-size-h4:          floor($font-size-base * 1.4);
+$font-size-h5:          $font-size-base;
+$font-size-h6:          $font-size-base;
+
+$line-height-base:      1.4375;
+$line-height-computed:  floor($font-size-base * $line-height-base);
+$line-height-large:     1.33;
+$line-height-small:     $line-height-base;
+
+$headings-font-family:  $font-family-base;
+$headings-font-weight:  600;
+$headings-line-height:  1.1;
+$headings-color:        $brand-primary;
+$headings-small-color:  $gray-dark;
+
+// Components
+// -------------------------
+
+$padding-base-vertical: 6px;
+$padding-large-vertical: 10px;
+$padding-small-vertical: 5px;
+
+// Buttons
+// -------------------------
+
+$btn-font-weight:       normal;
+
+$btn-default-color:     $brand-primary;
+$btn-default-bg:        $gray-light;
+$btn-default-border:    $gray-light;
+$btn-hover-bg:          mix($gray-light, white, 80%);
+$btn-active-bg:         mix($gray-light, black, 85%);
+
+$btn-primary-hover-bg:  mix($brand-secondary, white, 80%);
+$btn-primary-active-bg: mix($brand-secondary, black, 85%);
+
+$btn-info-hover-bg:     mix($brand-info, white, 80%);
+$btn-info-active-bg:    mix($brand-info, black, 85%);
+
+$btn-success-hover-bg:  mix($brand-success, white, 80%);
+$btn-success-active-bg: mix($brand-success, black, 85%);
+
+$btn-danger-hover-bg:   mix($brand-danger, white, 80%);
+$btn-danger-active-bg:  mix($brand-danger, black, 85%);
+
+$btn-warning-hover-bg:  overlay($brand-warning, darken(white, 37.5%));
+$btn-warning-active-bg: mix($brand-warning, black, 85%);
+
+$btn-inverse-hover-bg:  overlay($brand-primary, darken(white, 37.5%));
+$btn-inverse-active-bg: mix($brand-primary, black, 85%);
+
+$btn-link-disabled-color: $gray-lighter;
+
+// Navbar
+// -------------------------
+
+$navbar-link-space:    20px;
+$navbar-sublink-space: 9px;
+$navbar-height:        50px;
+$navbar-inverse-bg:    $brand-primary;
+
+// Nav
+// -------------------------
+
+$nav-tabs-border-color: $gray-light;
+$nav-tabs-active-link-hover-color: $gray-dark;
+
+// Dropdown Menu
+// -------------------------
+
+$dropdown-bg: $inverse;
+$dropdown-caret-color: $brand-primary;
+$dropdown-divider-bg: $gray-light;
+$dropdown-link-color: $brand-primary;
+
+// Panels, alerts and labels
+// -------------------------
+
+$panel-footer-bg:                lighten($brand-primary, 60%);
+$panel-inner-border:             lighten($brand-primary, 60%);
+
+$panel-default-text:             $brand-primary;
+$panel-default-heading-bg:       lighten($brand-primary, 60%);
+$panel-default-border:           lighten($brand-primary, 60%);
+
+$panel-warning-text:             $brand-warning;
+$panel-warning-border:           $brand-warning;
+$panel-warning-heading-bg:       $body-bg;
+
+$state-warning-text:             $brand-warning;
+$state-warning-border:           $brand-warning;
+$state-warning-bg:               $body-bg;
+
+$state-success-text:             $brand-success;
+$state-success-border:           $brand-success;
+$state-success-bg:               $body-bg;
+
+$state-info-text:                $brand-info;
+$state-info-border:              $brand-info;
+$state-info-bg:                  $body-bg;
+
+$state-danger-text:              $brand-danger;
+$state-danger-border:            $brand-danger;
+$state-danger-bg:                $body-bg;
+
+$label-info-bg:                  $brand-info;
+$label-warning-bg:               $brand-warning;
+
+$alert-padding:                  10px;
+
+// Badges
+// -------------------------
+
+$badge-bg: $gray-dark;
+
+// Tables
+// -------------------------
+
+$table-cell-padding:             10px;
+$table-bg-hover:                 lighten($brand-primary, 65%);
+$table-bg-accent:                lighten($brand-primary, 65%);
+$table-border-color:             lighten($brand-primary, 65%);
+
+// Forms
+// -------------------------
+
+$input-height-base:              ($line-height-computed + ($padding-base-vertical * 2) + 2);
+$input-height-large:             (floor($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 2);
+$input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2);
+
+// Charts
+// -------------------------
+
+$bar-color-1: $turquoise;
+$bar-color-2: $emerald;
+$bar-color-3: $peter-river;
+$bar-color-4: $amethyst;
+$bar-color-5: $wet-asphalt;
+
+$bar-color-6: darken($bar-color-1, 10%);
+$bar-color-7: lighten($bar-color-1, 20%);
+
+@import "almviz";
+@import "bootstrap";
+
+body { padding-top: 50px; padding-bottom: 20px; }
+
+// Fix inconsistencies
+.panel-group .panel .panel-heading { background-color: $body-bg; }
+.panel-group .panel .panel-heading h4 small { margin-top: 3px; }
+.btn-link { color: $navbar-inverse-link-color; }
+.btn-link:hover, .btn-link:focus, .btn-link:active { color: $navbar-inverse-link-hover-color; text-decoration: none; }
+#configuration .btn { margin-bottom: 1em; }
+
+.table .number { text-align: right; width: 180px;}
+.table .name { width: 300px;}
+.section { padding-bottom: 4px; }
+.graphs { text-align:center; }
+.page-header { padding-bottom: 0; border-bottom: 0; margin: 0 0 10px; }
+.tab-content { margin-top: 1em; }
+.help-block { font-size: 13px; font-weight: normal; color: #999999; }
+.btn-toolbar { padding-left: 6px; }
+btn.persona { border: 0; }
+
+h1 img { vertical-align: 2px; }
+h5 { margin-bottom: 0; }
+h4.article { margin-bottom: 0; }
+td h4 { margin-top: 0; }
+div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left: auto; margin-right: auto; }
+.dl-horizontal .report { padding-top: 10px; }
+//dt, dd { line-height: 1.1; }
+.border-bottom { border-bottom: 1px solid #eee; }
+.github { padding-top: 0.5em; padding-bottom: 1em; }
+.sidebar-nav-fixed {
+    padding: 9px 0;
+    position:relative;
+    top:50px;
+}
+.alert-inner { min-height: 120px; }
+
+.markdown pre { font-size: 0.85em; }
+.markdown table {
+    border:1px solid rgba(0,0,0,0.25);
+    border-collapse:collapse;
+    display:table;
+    empty-cells:hide;
+    margin:-1px 0 23px;
+    padding:0;
+    table-layout:fixed
+}
+.markdown td,th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 13px;
+    padding-right: 13px;
+}
+.markdown table tr:nth-child(odd) {
+    background:rgba(248,248,248,0.06)
+}
+.markdown table tr:nth-child(even) {
+    background:rgba(0,0,0,0.06)
+}

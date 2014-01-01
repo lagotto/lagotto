@@ -1,12 +1,12 @@
 var data;
-var colors = ["#304345","#789aa1","#a0d5d6","#ad9a27","#a17f78"];
+var colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e"];
 var api_key = d3.select("h1#api_key").attr('data-api_key');
 
 var l = 200; // left margin
 var r = 120; // right margin
 var w = 600; // width of drawing area
-var h = 30;  // bar height
-var s = 1;   // spacing between bars
+var h = 36;  // bar height
+var s = 2;   // spacing between bars
 
 d3.json("/api/v3/sources?api_key=" + api_key, function(error, json) {
   data = json;

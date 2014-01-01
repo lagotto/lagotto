@@ -1,25 +1,40 @@
 <p>Number of articles that have been updated with new information from sources.</p><br/>
 
 <% unless @sources.active.empty? %>
-  <table class="table table-striped" id="ResponsesTable">
+  <table class="table" id="ResponsesTable">
     <thead>
       <tr>
+        <th class="name">Group</th>
         <th class="name">Source</th>
         <th>Status</th>
-        <th class="hidden-phone number">Responses&nbsp;(24&nbsp;hours)</th>
-        <th class="hidden-phone number">Average Duration&nbsp;(ms)</th>
+        <th class="number">Responses&nbsp;(24&nbsp;hours)</th>
+        <th class="number">Average Duration&nbsp;(ms)</th>
         <th class="number">Errors (24&nbsp;hours)</th>
       </tr>
     </thead>
     <tbody>
-      <% @sources.active.each do|source| %>
+      <% @groups.each do |group| %>
         <tr>
-          <td class="name"><%= link_to h(source.display_name), admin_source_path(source) %></td>
-          <td><%= state_label(source.human_state_name).html_safe %></td>
-          <td class="hidden-phone number" id="response_count_<%= source.name %>">&nbsp;</td>
-          <td class="hidden-phone number" id="average_count_<%= source.name %>">&nbsp;</td>
-          <td class="number" id="error_count_<%= source.name %>">&nbsp;</td>
+          <% if group.sources.active.size > 0 %>
+            <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>><h4><%= h(group.name) %></h4></td>
+            <td class="name"><%= link_to group.sources.first.display_name, admin_source_path(group.sources.first.name) %></td>
+            <td><%= state_label(group.sources.first.human_state_name).html_safe %></td>
+            <td class="number" id="response_count_<%= group.sources.first.name %>">&nbsp;</td>
+            <td class="number" id="average_count_<%= group.sources.first.name %>">&nbsp;</td>
+            <td class="number" id="error_count_<%= group.sources.first.name %>">&nbsp;</td>
+          <% end %>
         </tr>
+        <% if group.sources.size > 1 %>
+          <% group.sources.active[1..-1].each do |source| %>
+            <tr>
+              <td><%= link_to source.display_name, admin_source_path(source) %></td>
+              <td><%= state_label(source.human_state_name).html_safe %></td>
+              <td class="number" id="response_count_<%= source.name %>">&nbsp;</td>
+              <td class="number" id="average_count_<%= source.name %>">&nbsp;</td>
+              <td class="number" id="error_count_<%= source.name %>">&nbsp;</td>
+            </tr>
+          <% end %>
+        <% end %>
       <% end %>
     </tbody>
   </table>

@@ -28,11 +28,11 @@
 }
 
 .bar.main{
-	fill: #789aa1;
+	fill: $bar-color-1;
 }
 
 .bar.alt{
-	fill: #304345;
+	fill: $bar-color-6;
 }
 
 .alm-row {
@@ -66,7 +66,7 @@
 }
 
 .alm-count-label {
-	width: 130px;
+	width: 150px;
   margin-top: .5em;
   margin-left: 2em;
 	margin-right: 2em;
@@ -104,7 +104,7 @@
 
 .alm-control {
 	text-decoration: underline;
-	color: blue;
+	color: $link-color;
 }
 
 .alm-control.active {
@@ -157,7 +157,7 @@
   padding-left: 1em;
   font-size: 13px;
   font-weigth: normal;
-  color: #978d7f;
+  color: $bar-color-1;
 }
 
 .background.bar {
@@ -165,7 +165,7 @@
 }
 
 .foreground.bar {
-  fill: #789aa1;
+  fill: $bar-color-1;
 }
 
 .axis path, .axis line {
@@ -225,7 +225,7 @@
 }
 
 #request-list .fast {
-  color: #789aa1;
+  color: $bar-color-1;
 }
 
 #request-list .slow {

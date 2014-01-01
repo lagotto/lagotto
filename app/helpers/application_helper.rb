@@ -25,7 +25,7 @@ module ApplicationHelper
     elsif APP_CONFIG['persona']
       s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
         p = hidden_field_tag('assertion')
-        p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link btn-form')
+        p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link btn-form persona')
         p
       end
       s.html_safe
