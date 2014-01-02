@@ -36,6 +36,7 @@ class Admin::SourcesController < Admin::ApplicationController
   private
 
   def source_params
+    config_fields = @source.get_config_fields.map { |config_field| config_field[:field_name] }
     params.require(:source).permit(:display_name,
                                    :group_id,
                                    :state_event,
@@ -58,7 +59,7 @@ class Admin::SourcesController < Admin::ApplicationController
                                    :url_with_type,
                                    :url_with_title,
                                    :related_articles_url,
-                                   :api_key)
-    # @source.get_config_fields
+                                   :api_key,
+                                   *config_fields)
   end
 end
