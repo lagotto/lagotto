@@ -1,4 +1,3 @@
-# Encoding: utf-8
 #
 # Cookbook Name:: yum
 # Resource:: key
@@ -21,8 +20,8 @@
 actions :add, :remove
 default_action :add
 
-attribute :key, kind_of: String, name_attribute: true
-attribute :url, kind_of: String, default: nil
+attribute :key, :kind_of => String, :name_attribute => true
+attribute :url, :kind_of => String, :default => nil
 
 def initialize(*args)
   super
