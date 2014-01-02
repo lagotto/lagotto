@@ -1,4 +1,5 @@
 class AlertsController < ActionController::Base
+  layout 'application'
 
   respond_to :html, :xml, :json, :rss
 
