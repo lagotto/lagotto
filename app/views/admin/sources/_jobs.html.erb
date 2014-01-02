@@ -17,16 +17,16 @@
       <% @groups.each do |group| %>
         <tr>
           <% if group.sources.active.size > 0 %>
-            <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>><h4><%= h(group.name) %></h4></td>
-            <td class="name"><%= link_to group.sources.first.display_name, admin_source_path(group.sources.first.name) %></td>
-            <td><%= state_label(group.sources.first.human_state_name).html_safe %></td>
-            <td class="number" id="queueing_count_<%= group.sources.first.name %>">&nbsp;</td>
-            <td class="number" id="pending_count_<%= group.sources.first.name %>">&nbsp;</td>
-            <td class="number" id="working_count_<%= group.sources.first.name %>">&nbsp;</td>
-            <td class="number" id="stale_count_<%= group.sources.first.name %>">&nbsp;</td>
+            <td <%= group.sources.active.empty? ? "rowspan=1" : "rowspan=#{group.sources.active.count}" %>><h4><%= h(group.name) %></h4></td>
+            <td class="name"><%= link_to group.sources.active.first.display_name, admin_source_path(group.sources.active.first.name) %></td>
+            <td><%= state_label(group.sources.active.first.human_state_name).html_safe %></td>
+            <td class="number" id="queueing_count_<%= group.sources.active.first.name %>">&nbsp;</td>
+            <td class="number" id="pending_count_<%= group.sources.active.first.name %>">&nbsp;</td>
+            <td class="number" id="working_count_<%= group.sources.active.first.name %>">&nbsp;</td>
+            <td class="number" id="stale_count_<%= group.sources.active.first.name %>">&nbsp;</td>
           <% end %>
         </tr>
-        <% if group.sources.size > 1 %>
+        <% if group.sources.active.size > 1 %>
           <% group.sources.active[1..-1].each do |source| %>
             <tr>
               <td><%= link_to source.display_name, admin_source_path(source) %></td>

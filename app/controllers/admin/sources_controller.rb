@@ -37,7 +37,7 @@ class Admin::SourcesController < Admin::ApplicationController
 
   def source_params
     params.require(:source).permit(:display_name,
-                                   :group,
+                                   :group_id,
                                    :state_event,
                                    :private,
                                    :queueable,
@@ -53,7 +53,12 @@ class Admin::SourcesController < Admin::ApplicationController
                                    :timeout,
                                    :max_failed_queries,
                                    :max_failed_query_time_interval,
-                                   :disable_delay)
+                                   :disable_delay,
+                                   :url,
+                                   :url_with_type,
+                                   :url_with_title,
+                                   :related_articles_url,
+                                   :api_key)
     # @source.get_config_fields
   end
 end
