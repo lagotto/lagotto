@@ -69,7 +69,9 @@ GIT
 DEPENDENCIES
   alm (>= 0)
   couchdb (= 2.4.0)
+  couchdb (= 2.4.0)
   git (= 2.5.2)
+  mysql (= 3.0.2)
   mysql (= 3.0.2)
   passenger_apache2 (>= 0)
   phantomjs (= 1.0.2)

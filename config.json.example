@@ -1,6 +1,5 @@
 {
-  "alm": { "layout": "plos",
-           "uid": "doi",
+  "alm": { "uid": "doi",
            "doi_prefix": "10.1371",
            "environment": "development",
            "github_client_id": "",

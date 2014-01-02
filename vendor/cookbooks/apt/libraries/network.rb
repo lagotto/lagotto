@@ -1,7 +1,6 @@
-# Encoding: utf-8
 #
-# Cookbook Name:: yum
-# Attributes:: elrepo
+# Cookbook Name:: apt
+# library:: network
 #
 # Copyright 2013, Opscode, Inc.
 #
@@ -18,8 +17,17 @@
 # limitations under the License.
 #
 
-default['yum']['elrepo']['url'] = "http://elrepo.org/mirrors-elrepo.el#{node['platform_version'].to_i}"
-default['yum']['elrepo']['key'] = 'RPM-GPG-KEY-elrepo.org'
-default['yum']['elrepo']['key_url'] = "http://elrepo.org/#{node['yum']['elrepo']['key']}"
-default['yum']['elrepo']['includepkgs'] = nil
-default['yum']['elrepo']['exclude'] = nil
+module ::Apt
+  def interface_ipaddress(host, interface)
+    if interface
+      addresses = host['network']['interfaces'][interface]['addresses']
+      addresses.select do |ip, data|
+        if data['family'].eql?('inet')
+          return ip
+        end
+      end
+    else
+      return host.ipaddress
+    end
+  end
+end
