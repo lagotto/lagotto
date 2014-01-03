@@ -21,8 +21,7 @@ class Status < ActiveRecord::Base
   class << self
 
     def update_date
-      data = get_alm_data("status:timestamp")
-      data.nil? ? Time.zone.now.utc.iso8601 : data["timestamp"]
+      Rails.cache.fetch('status:timestamp') { Time.zone.now.utc.iso8601 }
     end
   end
 end

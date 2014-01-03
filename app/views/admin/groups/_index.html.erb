@@ -65,12 +65,10 @@
           </tr>
           <% if group.sources.size > 1 %>
             <% group.sources[1..-1].each do |source| %>
-              <% cache source do %>
-                <tr>
-                  <td><%= link_to source.display_name, admin_source_path(source) %></td>
-                  <td><%= state_label(source.human_state_name).html_safe %></td>
-                </tr>
-              <% end %>
+              <tr>
+                <td><%= link_to source.display_name, admin_source_path(source) %></td>
+                <td><%= state_label(source.human_state_name).html_safe %></td>
+              </tr>
             <% end %>
           <% end %>
         <% end %>

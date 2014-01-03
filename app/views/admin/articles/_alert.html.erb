@@ -1,78 +1,76 @@
 <% unless @article.alerts.empty? %>
   <div class="panel-group" id="alert">
     <% @article.alerts.limit(20).each do |alert| %>
-      <% cache alert do %>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title"><%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + "<strong>" + h(alert.message) + "</strong>").html_safe, "#error_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %></h4>
-          </div>
-          <div class="panel-collapse collapse" id="alert_<%= alert.id %>">
-            <div class="panel-body alert-inner">
-              <% if can?(:destroy, Alert) %>
-                <div class="btn-group pull-right">
-                  <a class="btn btn-sm dropdown-toggle" id="<%= alert.id %>-delete" data-toggle="dropdown" href="#">
-                    <span class="glyphicon glyphicon-trash"></span> <span class="caret"></span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><%= link_to "by Message", admin_alert_path(alert, :article_id => @article.uid),
-                                                                          :method => :delete,
-                                                                          :data => { :confirm => 'Are you sure?' },
-                                                                          :remote => true,
-                                                                          :id => "#{alert.id}-delete-message" %></li>
-                    <li><%= link_to "by Class", admin_alert_path(alert,   :article_id => @article.uid,
-                                                                          :filter => "class_name"),
-                                                                          :method => :delete,
-                                                                          :data => { :confirm => 'Are you sure?' },
-                                                                          :remote => true,
-                                                                          :id => "#{alert.id}-delete-class" %></li>
-                    <li><%= link_to "by Article", admin_alert_path(alert, :article_id => @article.uid,
-                                                                          :filter => "article_id"),
-                                                                          :method => :delete,
-                                                                          :data => { :confirm => 'Are you sure?' },
-                                                                          :remote => true,
-                                                                          :id => "#{alert.id}-delete-article" %></li>
-                  </ul>
-                </div>
-              <% end %>
-              <p class="class_name"><%= h(alert.class_name) %></p>
-              <% unless alert.source_id.blank? %>
-                <h5>Source</h5>
-                <%= link_to alert.source.display_name, admin_alerts_path(source_id: alert.source_id) %>
-              <% end %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title"><%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + "<strong>" + h(alert.message) + "</strong>").html_safe, "#error_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %></h4>
+        </div>
+        <div class="panel-collapse collapse" id="alert_<%= alert.id %>">
+          <div class="panel-body alert-inner">
+            <% if can?(:destroy, Alert) %>
+              <div class="btn-group pull-right">
+                <a class="btn btn-sm dropdown-toggle" id="<%= alert.id %>-delete" data-toggle="dropdown" href="#">
+                  <span class="glyphicon glyphicon-trash"></span> <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "by Message", admin_alert_path(alert, :article_id => @article.uid),
+                                                                        :method => :delete,
+                                                                        :data => { :confirm => 'Are you sure?' },
+                                                                        :remote => true,
+                                                                        :id => "#{alert.id}-delete-message" %></li>
+                  <li><%= link_to "by Class", admin_alert_path(alert,   :article_id => @article.uid,
+                                                                        :filter => "class_name"),
+                                                                        :method => :delete,
+                                                                        :data => { :confirm => 'Are you sure?' },
+                                                                        :remote => true,
+                                                                        :id => "#{alert.id}-delete-class" %></li>
+                  <li><%= link_to "by Article", admin_alert_path(alert, :article_id => @article.uid,
+                                                                        :filter => "article_id"),
+                                                                        :method => :delete,
+                                                                        :data => { :confirm => 'Are you sure?' },
+                                                                        :remote => true,
+                                                                        :id => "#{alert.id}-delete-article" %></li>
+                </ul>
+              </div>
+            <% end %>
+            <p class="class_name"><%= h(alert.class_name) %></p>
+            <% unless alert.source_id.blank? %>
+              <h5>Source</h5>
+              <%= link_to alert.source.display_name, admin_alerts_path(source_id: alert.source_id) %>
+            <% end %>
 
-              <h5>Time</h5>
-              <%= alert.created_at.to_s(:friendly) %>
+            <h5>Time</h5>
+            <%= alert.created_at.to_s(:friendly) %>
 
-              <% unless alert.content_type.blank? or alert.content_type == "text/html" %>
-                <h5>Content Type</h5>
-                <%= alert.content_type %>
-              <% end %>
+            <% unless alert.content_type.blank? or alert.content_type == "text/html" %>
+              <h5>Content Type</h5>
+              <%= alert.content_type %>
+            <% end %>
 
-              <% unless alert.target_url.blank? %>
-                <h5>Target URL</h5>
-                <%= link_to alert.target_url, alert.target_url %>
-              <% end %>
+            <% unless alert.target_url.blank? %>
+              <h5>Target URL</h5>
+              <%= link_to alert.target_url, alert.target_url %>
+            <% end %>
 
-              <% if ["Net::HTTPUnauthorized","ActionDispatch::RemoteIp::IpSpoofAttackError"].include? alert.class_name %>
-                <% unless alert.remote_ip.blank? %>
-                  <h5>Remote IP</h5>
-                  <%= link_to alert.remote_ip, alert.remote_ip %>
-                <% end %>
-
-                <% unless alert.user_agent.blank? %>
-                  <h5>User Agent</h5>
-                  <%= alert.user_agent %>
-                <% end %>
+            <% if ["Net::HTTPUnauthorized","ActionDispatch::RemoteIp::IpSpoofAttackError"].include? alert.class_name %>
+              <% unless alert.remote_ip.blank? %>
+                <h5>Remote IP</h5>
+                <%= link_to alert.remote_ip, alert.remote_ip %>
               <% end %>
 
-              <% unless alert.trace.blank? %>
-                <h5>Trace</h5>
-                <%= simple_format(alert.trace) %>
+              <% unless alert.user_agent.blank? %>
+                <h5>User Agent</h5>
+                <%= alert.user_agent %>
               <% end %>
-            </div>
+            <% end %>
+
+            <% unless alert.trace.blank? %>
+              <h5>Trace</h5>
+              <%= simple_format(alert.trace) %>
+            <% end %>
           </div>
         </div>
-      <% end %>
+      </div>
     <% end %>
   </div>
 <% else %>
