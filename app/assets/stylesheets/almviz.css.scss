@@ -72,7 +72,7 @@
 	margin-right: 2em;
 	padding: 0.8em;
 	text-align: center;
-	border: 1px solid #ccc;
+	border: 2px solid $gray-light;
 	background: #fff;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -193,18 +193,21 @@
 #request-list .day { margin-bottom: .4em; }
 #request-list .request {
   line-height: 1.5em;
-  background: #f2f2f2;
-  margin-bottom: 1px;
+  background: $gray-light;
+  margin-bottom: 2px;
 }
-#request-list .time { color: #999; }
 
 #request-list .request div {
   display: inline-block;
   width: 100px;
 }
 
+#request-list div.time {
+  color: $gray-dark;
+}
+
 #request-list div.duration {
-  width: 80px;
+  width: 100px;
   padding-right: 20px;
   text-align: right;
 }
@@ -215,7 +218,7 @@
 }
 
 #request-list div.source {
-  width: 160px;
+  width: 180px;
   padding-right: 20px;
 }
 
@@ -225,11 +228,11 @@
 }
 
 #request-list .fast {
-  color: $bar-color-1;
+  color: $brand-success;
 }
 
 #request-list .slow {
-  color: #a17f78;
+  color: $brand-warning;
 }
 
 #totals {font-size: smaller; }

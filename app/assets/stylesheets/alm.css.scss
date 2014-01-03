@@ -33,8 +33,9 @@ $concrete:      #95a6a6;
 
 $gray:          lighten($wet-asphalt, 50%);
 $gray-light:    lighten($wet-asphalt, 65%);
-$gray-lighter:  lighten($wet-asphalt, 75%);
+$gray-lighter:  lighten($wet-asphalt, 70%);
 $gray-dark:     lighten($wet-asphalt, 35%);
+$gray-darker:   lighten($wet-asphalt, 20%);
 $inverse:       white;
 
 $brand-primary:         $wet-asphalt;
@@ -49,6 +50,8 @@ $text-color:            $brand-primary;
 
 $link-color:            $peter-river;
 $link-hover-color:      $peter-river;
+
+$hr-border:             $gray-light;
 
 // Typography
 // -------------------------
@@ -78,12 +81,21 @@ $headings-line-height:  1.1;
 $headings-color:        $brand-primary;
 $headings-small-color:  $gray-dark;
 
+$pre-color:             $gray-darker;
+$pre-bg:                $gray-light;
+$pre-border-color:      $gray-light;
+
+$text-muted:            $gray-dark;
+
 // Components
 // -------------------------
 
-$padding-base-vertical: 6px;
+$padding-base-vertical:  6px;
 $padding-large-vertical: 10px;
 $padding-small-vertical: 5px;
+
+$component-active-color: white;
+$component-active-bg:    $brand-primary;
 
 // Buttons
 // -------------------------
@@ -99,6 +111,8 @@ $btn-active-bg:         mix($gray-light, black, 85%);
 $btn-primary-hover-bg:  mix($brand-secondary, white, 80%);
 $btn-primary-active-bg: mix($brand-secondary, black, 85%);
 
+$btn-info-bg:           $brand-info;
+$btn-info-border:       $brand-info;
 $btn-info-hover-bg:     mix($brand-info, white, 80%);
 $btn-info-active-bg:    mix($brand-info, black, 85%);
 
@@ -193,6 +207,7 @@ $table-border-color:             lighten($brand-primary, 65%);
 $input-height-base:              ($line-height-computed + ($padding-base-vertical * 2) + 2);
 $input-height-large:             (floor($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 2);
 $input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2);
+$input-color:                    $gray-dark;
 
 // Charts
 // -------------------------
@@ -220,6 +235,7 @@ body { padding-top: 50px; padding-bottom: 20px; }
 
 .table .number { text-align: right; width: 180px;}
 .table .name { width: 300px;}
+.table .status { width: 100px;}
 .section { padding-bottom: 4px; }
 .graphs { text-align:center; }
 .page-header { padding-bottom: 0; border-bottom: 0; margin: 0 0 10px; }

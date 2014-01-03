@@ -40,9 +40,9 @@
         <tr>
           <th>Name</th>
           <th>Description</th>
-          <th>Status</th>
+          <th class="status">Status</th>
           <% if can?(:manage, Alert) %>
-            <th class="name">Actions</th>
+            <th>Actions</th>
           <% end %>
         </tr>
       </thead>
@@ -51,21 +51,24 @@
           <tr>
             <td><%= h(filter.name) %></td>
             <td><%= h(filter.description) %></td>
-            <td><%= state_label(filter.status).html_safe %></td>
             <% if can? :manage, Alert %>
               <td>
-                <div class="btn-group btn-group-sm">
-                  <% if filter.get_config_fields.empty? %>
-                    <%= link_to '<span class="glyphicon glyphicon-pencil"></span> Edit Filter'.html_safe, "#", { :class => 'btn btn-default btn-sm disabled', :id => "#{filter.name}-edit" } %>
-                  <% else %>
-                    <%= link_to '<span class="glyphicon glyphicon-pencil"></span> Edit Filter'.html_safe, edit_admin_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
-                  <% end %>
-                  <% if filter.active %>
-                    <%= link_to '<span class="glyphicon glyphicon-refresh"></span> Inactivate Filter'.html_safe, admin_filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
-                  <% else %>
-                    <%= link_to '<i class="icon-refresh"></i> Activate Filter'.html_safe, admin_filter_path(filter, active: 1), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
-                  <% end %>
-                </div>
+                <% if filter.active %>
+                  <%= link_to 'Active'.html_safe, admin_filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
+                <% else %>
+                  <%= link_to 'Inactive'.html_safe, admin_filter_path(filter, active: 1), :method => :put, :remote => true, :class => 'btn btn-default btn-info btn-sm', :id => "#{filter.name}-status" %>
+                <% end %>
+              </td>
+            <% else %>
+              <td><%= state_label(filter.status).html_safe %></td>
+            <% end %>
+            <% if can? :manage, Alert %>
+              <td>
+                <% if filter.get_config_fields.empty? %>
+                  <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, "#", { :class => 'btn btn-default btn-sm disabled', :id => "#{filter.name}-edit" } %>
+                <% else %>
+                  <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
+                <% end %>
               </td>
             <% end %>
           </tr>

@@ -1,7 +1,7 @@
 <% if can?(:manage, Alert) and (controller.action_name == "new" or (controller.action_name == "create" and !@group.errors.empty?)) %>
 
   <%= simple_form_for @group, :url => admin_groups_path, :html => { :class => 'form-horizontal', :role => 'form', :remote => true } do |f| %>
-    <h2>New Group</h2>
+    <h3>New Group</h3>
 
     <%= f.input :name, :input_html => { :class => "form-control" } %>
 
@@ -25,7 +25,7 @@
 
 <% else %>
   <% if can?(:manage, Alert) %>
-    <%= link_to '<span class="glyphicon glyphicon-plus"></span> New Group'.html_safe, new_admin_group_path, { :remote => true, :class => 'btn btn-default btn-sm pull-right', :id => 'New' } %>
+    <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_admin_group_path, { :remote => true, :class => 'btn btn-default btn-sm pull-right', :id => 'New' } %>
   <% end %>
 
   <% if @groups.size > 0 %>
@@ -52,9 +52,13 @@
             <% end %>
             <% if can? :manage, Alert %>
               <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>
-                <div class="btn-group btn-group-sm">
-                  <%= link_to '<span class="glyphicon glyphicon-pencil"></span> Edit Group'.html_safe, edit_admin_group_path(group), { :remote => true, :class => 'btn btn-default', :id => "#{group.name}-edit" } %>
-                  <%= link_to '<span class="glyphicon glyphicon-trash"></span> Delete Group'.html_safe, admin_group_path(group), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default', :id => "#{group.name}-delete" %>
+                <div class="btn-toolbar">
+                  <div class="btn-group btn-group-sm">
+                    <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_group_path(group), { :remote => true, :class => 'btn btn-default', :id => "#{group.name}-edit" } %>
+                  </div>
+                  <div class="btn-group btn-group-sm">
+                    <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, admin_group_path(group), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default', :id => "#{group.name}-delete" %>
+                  </div>
                 </div>
               </td>
             <% end %>

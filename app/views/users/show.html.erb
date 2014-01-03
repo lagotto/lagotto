@@ -25,22 +25,5 @@
 
   <hr>
 
-  <div class="row">
-    <div class="span9">
-      <h1><%= h(@doc[:title]) %></h1>
-      <div class="markdown">
-        <%= markdown @doc[:text] %>
-      </div>
-    </div>
-    <div class="offset1 span2">
-      <div class="sidebar-nav-fixed visible-desktop">
-        <ul class="nav nav-list">
-          <li class="nav-header">Documentation</li>
-          <% documents.each do|document| %>
-            <li><%= link_to h(document.tr('-', ' ')), doc_path(document) %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+  <h1>API</h1>
+  <%= render :partial => 'docs/show' %>

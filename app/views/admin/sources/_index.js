@@ -30,6 +30,9 @@ d3.json("/api/v3/sources?api_key=" + api_key, function(error, json) {
     d3.select("#error_count_" + item["name"]).html(number_with_delimiter(item["error_count"]));
   };
 
+  // remove source not needed for the following visualizations
+  data = data.filter(function(d) { return d.name != "relativemetric"; });
+
   // Articles tab
   var chart = d3.select("div#articles").append("svg")
     .attr("width", w + l + r)
