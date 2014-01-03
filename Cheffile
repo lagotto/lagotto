@@ -9,8 +9,5 @@ cookbook "phantomjs", "1.0.2"
 cookbook "simple_iptables", "0.3.0"
 
 cookbook "passenger_apache2", :git => "https://github.com/articlemetrics/passenger_apache2.git", :ref => "articlemetrics"
-cookbook "mysql", "3.0.2"
-cookbook "couchdb", "2.4.0"
-cookbook "phantomjs", "1.0.2"
 
 cookbook "alm", :git => "https://github.com/articlemetrics/alm-cookbook.git"
