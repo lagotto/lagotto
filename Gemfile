@@ -34,6 +34,7 @@ gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.3.0"
 gem "rabl", "~> 0.9.0"
+gem "memcache-client", "~> 1.8.5"
 gem "dalli", "~> 2.6.4"
 gem "cache_digests", "~> 0.3.1"
 
