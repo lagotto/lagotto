@@ -13,8 +13,7 @@ recommended = Group.find_or_create_by_name(:name => "Recommended")
 other = Group.find_or_create_by_name(:name => "Other")
 
 # Load default reports
-error_report = Report.find_or_create_by_name(:name => "Daily Report")
-error_report.update_attribute(:name, "Error Report")
+error_report = Report.find_or_create_by_name(:name => "Error Report")
 status_report = Report.find_or_create_by_name(:name => "Status Report")
 disabled_source_report = Report.find_or_create_by_name(:name => "Disabled Source Report")
 
@@ -47,7 +46,6 @@ html_ratio_too_high_error= HtmlRatioTooHighError.find_or_create_by_name(
   :name => "HtmlRatioTooHighError",
   :display_name => "HTML ratio too high error",
   :description => "Raises an error if HTML/PDF ratio is higher than 50.")
-
 # Load default sources
 citeulike = Citeulike.find_or_create_by_name(
 	:name => "citeulike",
@@ -115,7 +113,7 @@ wordpress = Wordpress.find_or_create_by_name(
   :state_event => "activate",
   :workers => 1,
   :group_id => discussed.id,
-  :url => "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json")
+  :url => "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json&size=20")
 
 reddit = Reddit.find_or_create_by_name(
   :name => "reddit",
@@ -224,63 +222,75 @@ figshare = Figshare.find_or_create_by_name(
   :workers => 1,
   :group_id => viewed.id,
   :url => "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}")
+pmc = Pmc.find_or_create_by_name(
+  :name => "pmc",
+  :display_name => "PubMed Central Usage Stats",
+  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
+  :state_event => "",
+  :queueable => false,
+  :workers => 1,
+  :group_id => viewed.id,
+  :url => "http://127.0.0.1:5984/pmc_usage_stats/",
+  :journals => "plosbiol,plosmed,ploscomp,plosgen,plospath,plosone,plosntd,plosct,ploscurrents",
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
 
 copernicus = Copernicus.find_or_create_by_name(
   :name => "copernicus",
   :display_name => "Copernicus",
   :description => "Usage stats for Copernicus articles.",
-  :state_event => "activate",
+  :state_event => "",
   :workers => 1,
   :group_id => viewed.id,
   :url => "http://editor.copernicus.org/api/v1/articleStatisticsDoi/doi:%{doi}.json",
-  :username => "harvester",
-  :password => "bQ_99!-O=tXc")
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
 
 crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
   :display_name => "CrossRef",
   :description => "CrossRef is a non-profit organization that enables cross-publisher citation linking.",
-  :state_event => "activate",
+  :state_event => "",
   :workers => 1,
   :group_id => cited.id,
   :default_url => "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true",
   :url => "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}",
-  :username => "plos",
-  :password => "plos1")
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
 
 facebook = Facebook.find_or_create_by_name(
   :name => "facebook",
   :display_name => "Facebook",
   :description => "Facebook is the largest social network.",
-  :state_event => "activate",
+  :state_event => "",
   :workers => 1,
   :group_id => discussed.id,
   :url => "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'",
-  :access_token => "318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q")
+  :access_token => "EXAMPLE")
 
 mendeley = Mendeley.find_or_create_by_name(
   :name => "mendeley",
   :display_name => "Mendeley",
   :description => "Mendeley is a reference manager and social bookmarking tool.",
-  :state_event => "activate",
+  :state_event => "",
   :workers => 1,
   :group_id => saved.id,
   :url => "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}",
   :url_with_type => "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}",
   :url_with_title => "http://api.mendeley.com/oapi/documents/search/%{title}/?items=10&consumer_key=%{api_key}",
   :related_articles_url => "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}",
-  :api_key => "dcd28c9a2ed8cd145533731ebd3278e504c06f3d5")
+  :api_key => "EXAMPLE")
 
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",
   :display_name => "Research Blogging",
   :description => "Research Blogging is a science blog aggregator.",
-  :state_event => "activate",
+  :state_event => "",
   :workers => 1,
   :group_id => discussed.id,
   :url => "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}",
-  :username => "plosuser",
-  :password => "siWSaA546pM")
+  :username => "EXAMPLE",
+  :password => "EXAMPLE")
 
 # Load sample articles
 if ENV['ARTICLES']
