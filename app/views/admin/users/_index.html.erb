@@ -41,9 +41,9 @@
             <div class="panel-body">
               <% if can?(:manage, user) and user.id != current_user.id %>
                 <div class="btn-group btn-sm pull-right">
-                  <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span> Delete".html_safe, admin_user_path(user, :query => params[:query], :role => params[:role]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{user.id}-delete" %>
+                  <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe, admin_user_path(user, :query => params[:query], :role => params[:role]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{user.id}-delete" %>
                   <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#" id='<%= "#{user.id}-update" %>'>
-                    <span class="glyphicon glyphicon-pencil"></span> Edit <span class="caret"></span>
+                    <span class="glyphicon glyphicon-pencil"></span> <span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu">
                     <% if user.role != "user" %>

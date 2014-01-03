@@ -25,7 +25,7 @@
       <div class="btn-toolbar pull-right">
         <% if can?(:manage, Article) %>
           <div class="btn-group btn-group-sm">
-            <%= link_to '<span class="glyphicon glyphicon-plus"></span> New'.html_safe, new_admin_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-default' } %>
+            <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_admin_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-default' } %>
           </div>
         <% end %>
         <div class="btn-group btn-group-sm" id="article-alerts">

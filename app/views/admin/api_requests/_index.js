@@ -154,21 +154,21 @@ d3.json("/api/v3/api_requests?api_key=" + api_key + (key != "" ? "&key=" + key :
           .text(function(d) { return formatFixed(d.view_duration) + " ms"; });
 
       requestEnter.append("div")
-          .attr("class", "source hidden-xs")
+          .attr("class", "source")
           .append("a")
           .attr("href", function(d) { return "/admin/users?query=" + d.api_key; })
           .text(function(d) { return d.api_key; });
 
       requestEnter.append("div")
-          .attr("class", "info hidden-xs")
+          .attr("class", "info")
           .text(function(d) { return d.info; });
 
       requestEnter.append("div")
-          .attr("class", "source hidden-xs")
+          .attr("class", "source")
           .text(function(d) { return d.source; });
 
       requestEnter.append("div")
-          .attr("class", "ids hidden-xs")
+          .attr("class", "ids")
           .text(function(d) { return d.ids; });
 
       request.exit().remove();

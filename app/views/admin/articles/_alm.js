@@ -415,7 +415,7 @@ function AlmViz(options) {
         // the chart
         viz.svg = viz.chartDiv.append("svg")
             .attr("width", viz.width + viz.margin.left + viz.margin.right)
-            .attr("height", viz.height + viz.margin.top + viz.margin.bottom)
+            .attr("height", viz.height + viz.margin.top + viz.margin.bottom + 1)
             .append("g")
             .attr("transform", "translate(" + viz.margin.left + "," + viz.margin.top + ")");
 
@@ -428,7 +428,7 @@ function AlmViz(options) {
 
         viz.svg.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + (viz.height - 1) + ")");
+            .attr("transform", "translate(0," + viz.height + ")");
 
         viz.svg.append("g")
             .attr("class", "y axis");

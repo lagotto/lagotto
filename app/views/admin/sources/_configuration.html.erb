@@ -87,7 +87,7 @@
 
 <% else %>
   <% if can?(:manage, Alert) %>
-    <%= link_to '<span class="glyphicon glyphicon-pencil"></span> Edit'.html_safe, edit_admin_source_path(@source.name), { :remote => true, :class => 'btn btn-default btn-sm pull-right', :title => "Edit" } %>
+    <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_source_path(@source.name), { :remote => true, :class => 'btn btn-default btn-sm pull-right', :title => "Edit" } %>
   <% end %>
   <table class="table table-striped">
     <thead>

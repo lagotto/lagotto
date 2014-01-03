@@ -1,4 +1,4 @@
 <h1 data-name="<%= @source.name %>" data-api_key="<%= APP_CONFIG['api_key'] %>">
   <%= image_tag(@source.name + ".png", :size => "16x16") if FileTest.exist?("#{Rails.root.to_s}/app/assets/images/#{@source.name}.png") %>
-  <%= h(@source.display_name) %> <small class=\"hidden-phone\"><%= h(@source.human_state_name) %></small>
+  <%= h(@source.display_name) %> <small><%= h(@source.human_state_name) %></small>
 </h1>

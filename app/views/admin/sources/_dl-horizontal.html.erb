@@ -1,9 +1,3 @@
-<% if can?(:read, Alert) %>
-  <div class="visible-phone">
-    <dt>Status</dt>
-    <dd><%= h(@source.human_state_name) %></dd>
-  </div>
-<% end %>
 <% unless @source.group.blank? %>
   <dt>Group</dt>
   <dd><%= h(@source.group.name) %></dd>
