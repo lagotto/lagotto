@@ -6,7 +6,6 @@ default[:alm][:hostname] = "example.com"
 default[:alm][:api_key] = nil
 default[:alm][:admin] = { :username => "articlemetrics", :name => "Admin", :email => "admin@example.com", :password => nil }
 default[:alm][:mail] = { :address => "localhost", :port => 25, :domain => "localhost", :enable_starttls_auto => true }
-default[:alm][:layout] = "greenrobo"
 default[:alm][:uid] = "doi"
 default[:alm][:doi_prefix] = ""
 default[:alm][:key] = nil
