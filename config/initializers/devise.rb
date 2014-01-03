@@ -73,7 +73,7 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing :skip => :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth, :token_auth]
+  config.skip_session_storage = [:token_auth]
 
   # ==> Configuration for :database_authenticatable
   # For bcrypt, this is the cost for hashing the password and defaults to 10. If
@@ -214,9 +214,10 @@ Devise.setup do |config|
   config.omniauth :cas, url: APP_CONFIG['cas_url'],
                         login_url: APP_CONFIG['cas_login_url'],
                         logout_url: APP_CONFIG['cas_logout_url'],
-                        service_validate_url: APP_CONFIG['cas_service_validate_url']
-  # config.omniauth :github, APP_CONFIG['github_client_id'], APP_CONFIG['github_client_secret']
-  # config.omniauth :persona
+                        service_validate_url: APP_CONFIG['cas_service_validate_url'],
+                        ssl: true
+  config.omniauth :github, APP_CONFIG['github_client_id'], APP_CONFIG['github_client_secret']
+  config.omniauth :persona
 
   OmniAuth.config.logger = Rails.logger
 
