@@ -26,9 +26,9 @@ gem "nori", "~> 2.3.0"
 
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 3.0.3"
-#gem "omniauth-github", "~> 1.1.0"
-#gem "omniauth-persona"
-gem "omniauth-cas", "~> 1.0.4"
+gem "omniauth-github", "~> 1.1.0"
+gem "omniauth-persona"
+gem "omniauth-cas", :git => 'git://github.com/dlindahl/omniauth-cas.git'
 gem "cancan", "~> 1.6.10"
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
