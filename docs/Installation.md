@@ -24,9 +24,11 @@ This is an optional step. Rename the file `config.json.example` to `config.json`
 
 Then install the application with:
 
-    git clone git://github.com/articlemetrics/alm.git
-    cd alm
-    vagrant up
+```sh
+git clone git://github.com/articlemetrics/alm.git
+cd alm
+vagrant up
+```
 
 [Virtualbox]: https://www.virtualbox.org/wiki/Downloads
 [Vagrant]: http://downloads.vagrantup.com/
@@ -35,66 +37,84 @@ Then install the application with:
 
 This installs the ALM server on a Ubuntu 12.04 virtual machine. After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at
 
-    http://localhost:8080
+```sh
+http://localhost:8080
+```
 
 or
 
-    http://33.33.33.44
+```sh
+http://33.33.33.44
+```
 
 The username and password for the web interface are `articlemetrics`. The code for the ALM application is in a shared folder and can be reached both from the host and virtual machine. To get to the application root directory in the virtual machine, do
 
-    vagrant ssh
-    cd /vagrant
+```sh
+vagrant ssh
+cd /vagrant
+```
 
 The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, and is auto-generated during the installation. CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
 
 ## Automatic Installation on AWS using Vagrant
 This is the preferred way to install the ALM application on Amazon Web Services (AWS). machine. Download and install  [Vagrant][vagrant]. Install the vagrant-aws plugin:
 
-    vagrant plugin install vagrant-aws
+```sh
+vagrant plugin install vagrant-aws
+```
 
 So that we can use any Amazon Machine Image ([AMI](https://aws.amazon.com/amis)) - the ALM application has been tested with Ubuntu 12.04 and CentOS 6.3 - we want to install the [vagrant-omnibus] plugin that adds Chef solo to any VM:
 
-    vagrant plugin install vagrant-omnibus
+```sh
+vagrant plugin install vagrant-omnibus
+```
 
 Install a dummy AWS box and name it precise64:
 
-    vagrant box add precise64 https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+```sh
+vagrant box add precise64 https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+```
 
 Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_name, security_groups) to Vagrantfile. We recommend to use at least a small EC2 instance, the ami `ami-e7582d8e` contains Ubuntu 12.04. We also install the latest Chef version using omnibus.
 
-    config.omnibus.chef_version = :latest
+```ruby
+config.omnibus.chef_version = :latest
 
-    config.vm.hostname = "alm"
+config.vm.hostname = "alm"
 
-    config.vm.provider :aws do |aws, override|
-      aws.access_key_id = "EXAMPLE"
-      aws.secret_access_key = "EXAMPLE"
-      aws.keypair_name = "EXAMPLE"
-      aws.security_groups = ["EXAMPLE"]
-      aws.instance_type = 'm1.small'
-      aws.ami = "ami-e7582d8e"
-      aws.tags = { Name: 'Vagrant alm' }
+config.vm.provider :aws do |aws, override|
+  aws.access_key_id = "EXAMPLE"
+  aws.secret_access_key = "EXAMPLE"
+  aws.keypair_name = "EXAMPLE"
+  aws.security_groups = ["EXAMPLE"]
+  aws.instance_type = 'm1.small'
+  aws.ami = "ami-e7582d8e"
+  aws.tags = { Name: 'Vagrant alm' }
 
-      override.ssh.username = "ubuntu"
-      override.ssh.private_key_path = "/EXAMPLE.pem"
-    end
+  override.ssh.username = "ubuntu"
+  override.ssh.private_key_path = "/EXAMPLE.pem"
+end
+```
 
 #### Custom settings (passwords, API keys)
 This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
 
 Then install the application with:
 
-    git clone git://github.com/articlemetrics/alm.git
-    cd alm
-    vagrant up --provider aws
+```sh
+git clone git://github.com/articlemetrics/alm.git
+cd alm
+vagrant up --provider aws
+```
 
 After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at the web address of your EC2 instance (the use of Elastic IPs and a DNS server is recommended).
 
 After installation you first have to create a default user using the `Sign Up` button. The code for the ALM application is in the `/vagrant` folder and is rsynced from the host. To get to the application root directory in the virtual machine, do (using the `private_key_path` and `host_name`):
 
-    ssh -i /EXAMPLE.pem ubuntu@EXAMPLE.ORG
-    cd /vagrant
+```sh
+vagrant ssh
+cd /vagrant
+```
 
 The Rails application runs in Production mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
 
@@ -113,12 +133,16 @@ These instructions assume a fresh installation of Ubuntu 12.04. Installation on 
 
 #### Update package lists
 
-    sudo apt-get update
+```sh
+sudo apt-get update
+```
 
 #### Install required packages
 `libxml2-dev` and `libxslt1-dev` are required for XML processing by the `nokogiri` and `libxml-ruby` gems, `nodejs` provides Javascript for the `therubyracer` gem.
 
-    sudo apt-get install curl build-essential git-core libxml2-dev libxslt1-dev nodejs
+```sh
+sudo apt-get install curl build-essential git-core libxml2-dev libxslt1-dev nodejs
+```
 
 #### Install Ruby 1.9.3
 We only need one Ruby version and manage gems with bundler, so there is no need to install `rvm` or `rbenv`.
@@ -277,45 +301,47 @@ The next steps are done on the local development machine.
 #### Edit deployment configuration
 Edit the deployment configuration file that was just created by Capistrano. Add the name or IP address of your production server as `server`, and pick a `:user` and `:group` from the production server. We can either set `:password` or use SSH keys.
 
-    # /var/www/alm/config/deploy.rb
-    require "bundler/capistrano"
-    load 'deploy/assets'
+```ruby
+# /var/www/alm/config/deploy.rb
+require "bundler/capistrano"
+load 'deploy/assets'
 
-    server "EXAMPLE.ORG", :app, :web, :db, :primary => true
+server "EXAMPLE.ORG", :app, :web, :db, :primary => true
 
-    set :application, "alm"
-    set :user, "deploy"
-    set :group, "deploy"
-    set :password, "EXAMPLE"
-    set :deploy_to, "/var/www/#{application}"
-    set :deploy_via, :remote_cache
+set :application, "alm"
+set :user, "deploy"
+set :group, "deploy"
+set :password, "EXAMPLE"
+set :deploy_to, "/var/www/#{application}"
+set :deploy_via, :remote_cache
 
-    set :scm, "git"
-    set :repository, "git://github.com/articlemetrics/alm.git"
-    set :branch, "master"
+set :scm, "git"
+set :repository, "git://github.com/articlemetrics/alm.git"
+set :branch, "master"
 
-    set :bundle_without, [:development, :test]
+set :bundle_without, [:development, :test]
 
-    set :ruby_vm_type,      :mri        # :ree, :mri
-    set :web_server_type,   :apache     # :apache, :nginx
-    set :app_server_type,   :passenger  # :passenger, :mongrel
-    set :db_server_type,    :mysql      # :mysql, :postgresql, :sqlite
+set :ruby_vm_type,      :mri        # :ree, :mri
+set :web_server_type,   :apache     # :apache, :nginx
+set :app_server_type,   :passenger  # :passenger, :mongrel
+set :db_server_type,    :mysql      # :mysql, :postgresql, :sqlite
 
-    set :keep_releases, 5
+set :keep_releases, 5
 
-    namespace :deploy do
-      task :start do ; end
-      task :stop do ; end
-      task :restart, :roles => :app, :except => { :no_release => true } do
-        run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-      end
-    end
+namespace :deploy do
+  task :start do ; end
+  task :stop do ; end
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+  end
+end
 
-    before "deploy:assets:precompile" do
-      run ["ln -nfs #{shared_path}/settings.yml #{release_path}/config/settings.yml",
-       "ln -nfs #{shared_path}/database.yml #{release_path}/config/database.yml",
-       ].join(" && ")
-    end
+before "deploy:assets:precompile" do
+  run ["ln -nfs #{shared_path}/settings.yml #{release_path}/config/settings.yml",
+   "ln -nfs #{shared_path}/database.yml #{release_path}/config/database.yml",
+   ].join(" && ")
+end
+```
 
 #### Setup remote server
 This will create the required directories (`/var/www/alm/current`, `/var/www/alm/releases` and `/var/www/alm/shared`) on the production server (it is safe to run this command if one of the directories already exists). `deploy:update` will fetch the application via git. `rake db:setup` will not create user accounts or sample articles in the production environment.

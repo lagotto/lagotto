@@ -82,7 +82,7 @@ $headings-color:        $brand-primary;
 $headings-small-color:  $gray-dark;
 
 $pre-color:             $gray-darker;
-$pre-bg:                $gray-light;
+$pre-bg:                $body-bg;
 $pre-border-color:      $gray-light;
 
 $text-muted:            $gray-dark;
@@ -153,6 +153,14 @@ $dropdown-divider-bg: $gray-light;
 $dropdown-link-color: $brand-primary;
 $dropdown-link-hover-bg: $inverse;
 
+// Close button
+// -------------------------
+
+$close-font-weight: bold;
+$close-color:       $inverse;
+$close-text-shadow: 0;
+
+
 // Panels, alerts and labels
 // -------------------------
 
@@ -167,22 +175,23 @@ $panel-warning-text:             $brand-warning;
 $panel-warning-border:           $brand-warning;
 $panel-warning-heading-bg:       $body-bg;
 
-$state-warning-text:             $brand-warning;
+$state-warning-text:             $inverse;
 $state-warning-border:           $brand-warning;
-$state-warning-bg:               $body-bg;
+$state-warning-bg:               $brand-warning;
 
-$state-success-text:             $brand-success;
+$state-success-text:             $inverse;
 $state-success-border:           $brand-success;
-$state-success-bg:               $body-bg;
+$state-success-bg:               $brand-success;
 
-$state-info-text:                $brand-info;
+$state-info-text:                $inverse;
 $state-info-border:              $brand-info;
-$state-info-bg:                  $body-bg;
+$state-info-bg:                  $brand-info;
 
-$state-danger-text:              $brand-danger;
+$state-danger-text:              $inverse;
 $state-danger-border:            $brand-danger;
-$state-danger-bg:                $body-bg;
+$state-danger-bg:                $brand-danger;
 
+$label-default-bg:               $gray-dark;
 $label-info-bg:                  $brand-info;
 $label-warning-bg:               $brand-warning;
 
@@ -208,6 +217,7 @@ $input-height-base:              ($line-height-computed + ($padding-base-vertica
 $input-height-large:             (floor($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 2);
 $input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2);
 $input-color:                    $gray-dark;
+$input-color-placeholder:        $gray;
 
 // Charts
 // -------------------------
@@ -224,7 +234,7 @@ $bar-color-7: lighten($bar-color-1, 20%);
 @import "almviz";
 @import "bootstrap";
 
-body { padding-top: 50px; padding-bottom: 20px; }
+body { padding-top: 60px; padding-bottom: 20px; }
 
 // Fix inconsistencies
 .panel-group .panel .panel-heading { background-color: $body-bg; }
