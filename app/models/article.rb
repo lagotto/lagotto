@@ -223,12 +223,11 @@ class Article < ActiveRecord::Base
   def create_retrievals
     # Create an empty retrieval record for every source for the new article
 
-    # Don't schedule retrieval immediately, instead use a random time in the next 30 days. This is to reduce the
-    # strain on external API calls, especially when bulk-loading a lot of data
-    random_time = Time.zone.now + rand(30.days)
+    # Schedule retrieval immediately, rate-limiting will automatically limit the external API calls
+    # when we bulk-upload lots of articles.
 
     Source.all.each do |source|
-      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id, :scheduled_at => random_time) # Time.zone.now
+      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id, :scheduled_at => Time.zone.now)
     end
   end
 end
