@@ -1,6 +1,16 @@
-erland Cookbook CHANGELOG
+erlang Cookbook CHANGELOG
 =========================
 This file is used to list changes made in each version of the erlang cookbook.
+
+v1.4.2
+------
+COOK-4155, use a version in version conditional
+
+v1.4.0
+------
+Porting to use cookbook yum ~> 3.0
+Moving tests from minitest to bats
+Fixing style against rubocop
 
 
 v1.3.6
