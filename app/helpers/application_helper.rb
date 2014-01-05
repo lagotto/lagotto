@@ -25,7 +25,7 @@ module ApplicationHelper
     elsif APP_CONFIG['persona']
       s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
         p = hidden_field_tag('assertion')
-        p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link btn-form persona')
+        p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link persona')
         p
       end
       s.html_safe
@@ -42,11 +42,15 @@ module ApplicationHelper
 
   def state_label(state)
     if state == "working"
-      '<span class="label label-default">working</span>'
+      '<span class="label label-success">working</span>'
     elsif state == "inactive"
       '<span class="label label-info">inactive</span>'
     elsif state == "disabled"
       '<span class="label label-warning">disabled</span>'
+    elsif state == "available"
+      '<span class="label label-primary">available</span>'
+    elsif state == "retired"
+      '<span class="label label-default">retired</span>'
     else
       state
     end

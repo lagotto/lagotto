@@ -20,8 +20,6 @@
 
 class Wikipedia < Source
 
-  validates_not_blank(:url, :languages)
-
   def get_data(article, options={})
 
     # Check that article has DOI
@@ -100,10 +98,6 @@ class Wikipedia < Source
 
   def url
     config.url || "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
-  end
-
-  def url=(value)
-    config.url = value
   end
 
   def languages

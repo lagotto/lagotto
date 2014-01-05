@@ -20,8 +20,6 @@
 
 class PmcEurope < Source
 
-  validates_not_blank(:url)
-
   def get_data(article, options={})
 
     # We need to have the PMID for this article, and we let the pub_med source fetch it
@@ -58,11 +56,7 @@ class PmcEurope < Source
   end
 
   def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
+    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/citations/1/json"
   end
 
 end

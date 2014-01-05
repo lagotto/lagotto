@@ -20,8 +20,6 @@
 
 class Datacite < Source
 
-  validates_not_blank(:url)
-
   def get_data(article, options={})
 
     # Check that article has DOI
@@ -58,10 +56,7 @@ class Datacite < Source
   end
 
   def url
-    config.url
+    config.url || "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json"
   end
 
-  def url=(value)
-    config.url = value
-  end
 end

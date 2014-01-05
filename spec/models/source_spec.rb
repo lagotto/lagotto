@@ -135,14 +135,48 @@ describe Source do
     end
 
     describe ':inactive' do
-      before(:each) do
-        source.inactivate
-      end
+      let(:source) { FactoryGirl.create(:source, state_event: 'install' ) }
 
       it 'should change to :queuing on :activate' do
+        source.should be_inactive
         source.activate
         source.should be_queueing
         source.run_at.should eq(Time.zone.now)
+      end
+
+      describe 'invalid source' do
+        let(:source) { FactoryGirl.create(:source, state_event: 'install', url: '' ) }
+
+        it 'should not change to :queuing on :activate' do
+          source.activate
+          source.should be_inactive
+          source.errors.full_messages.first.should eq("Url can't be blank")
+        end
+      end
+    end
+
+    describe ':available' do
+      before(:each) do
+        source.uninstall
+      end
+
+      it 'should change to :inactive on :install' do
+        source.install
+        source.should be_inactive
+        source.run_at.should eq(Time.zone.now + 5.years)
+      end
+    end
+
+    describe ':retired' do
+      let(:source) { FactoryGirl.create(:source, obsolete: true ) }
+
+      before(:each) do
+        source.uninstall
+      end
+
+      it 'should change to :retired on :install' do
+        source.install
+        source.should be_retired
       end
     end
   end

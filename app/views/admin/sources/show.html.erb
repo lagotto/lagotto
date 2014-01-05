@@ -30,7 +30,9 @@
   <ul class="nav nav-tabs">
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
     <li><a href="#most-cited" data-toggle="tab">Most-Cited</a></li>
-    <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <% if @source.state > 0 %>
+      <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <% end %>
     <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
   </ul>
 
@@ -50,9 +52,11 @@
     <div class="tab-pane" id="most-cited">
       <%= render :partial => 'most-cited' %>
     </div>
-    <div class="tab-pane" id="configuration">
-      <%= render :partial => 'configuration' %>
-    </div>
+    <% if @source.state > 0 %>
+      <div class="tab-pane" id="configuration">
+        <%= render :partial => 'configuration' %>
+      </div>
+    <% end %>
     <div class="tab-pane" id="documentation">
       <%= render :partial => 'docs/show' %>
     </div>

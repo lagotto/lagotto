@@ -20,8 +20,6 @@
 
 class Openedition < Source
 
-  validates_not_blank(:url)
-
   def get_data(article, options={})
 
     return  { :events => [], :event_count => nil } if article.doi.blank?
@@ -66,11 +64,7 @@ class Openedition < Source
   end
 
   def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
+    config.url || "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_url}&field[]=All&pf=Hypotheses.org"
   end
 
   def staleness_year

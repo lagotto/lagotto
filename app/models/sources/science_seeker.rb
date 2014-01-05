@@ -20,8 +20,6 @@
 
 class ScienceSeeker < Source
 
-  validates_not_blank(:url)
-
   def get_data(article, options={})
 
     # Check that article has DOI
@@ -63,11 +61,7 @@ class ScienceSeeker < Source
   end
 
   def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
+    config.url || "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
   end
 
   def staleness_year

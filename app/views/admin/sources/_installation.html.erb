@@ -1,82 +1,61 @@
-<% if can?(:manage, Alert) and (controller.action_name == "new" or (controller.action_name == "create" and !@group.errors.empty?)) %>
+<p>Install and activate sources.</p>
 
-  <%= simple_form_for @group, :url => admin_groups_path, :html => { :class => 'form-horizontal', :role => 'form', :remote => true } do |f| %>
-    <h3>New Group</h3>
-
-    <%= f.input :name, :input_html => { :class => "form-control" } %>
-
-    <div class="form-group">
-      <%= f.submit "Save ", class: "btn btn-default btn-primary btn-sm" %>
-      <%= link_to 'Cancel', admin_groups_path, { :remote => true, :class => 'btn btn-sm' } %>
-    </div>
-  <% end %>
-
-<% elsif can?(:manage, Alert) and (controller.action_name == "edit" or (controller.action_name == "update" and !@group.errors.empty?)) %>
-    <%= simple_form_for @group, :url => admin_group_path(@group), :html => { :class => 'form-horizontal', :role => 'form', :remote => true } do |f| %>
-      <h2>Edit Group</h2>
-
-      <%= f.input :name, :input_html => { :class => "form-control" } %>
-
-      <div class="form-group">
-        <%= f.submit "Save ", class: "btn btn-default btn-primary btn-sm" %>
-        <%= link_to 'Cancel', admin_groups_path, { :remote => true, :class => 'btn btn-default btn-sm' } %>
-      </div>
-    <% end %>
-
-<% else %>
-  <% if can?(:manage, Alert) %>
-    <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_admin_group_path, { :remote => true, :class => 'btn btn-default btn-sm pull-right', :id => 'New' } %>
-  <% end %>
-
-  <% if @groups.size > 0 %>
-    <table class="table">
-      <thead>
+<% if @groups.size > 0 %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="group">Group</th>
+        <th class="name">Source</th>
+        <th>Status</th>
+        <% if can?(:manage, Alert) %>
+          <th class="status">Actions</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @groups.each do |group| %>
         <tr>
-          <th class="name">Group</th>
-          <th class="name">Source</th>
-          <th>Status</th>
-          <% if can?(:manage, Alert) %>
-            <th class="action">Actions</th>
+          <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>><h4><%= h(group.name) %></h4></td>
+          <% if group.sources.size > 0 %>
+            <td class="name"><%= link_to_if group.sources.first.installed?, group.sources.first.display_name, admin_source_path(group.sources.first.name) %></td>
+            <td><%= state_label(group.sources.first.human_state_name).html_safe %></td>
+            <td>
+              <% if group.sources.first.human_state_name == "available" %>
+                <%= link_to '<span class="glyphicon glyphicon-save"></span>'.html_safe, admin_source_path(group.sources.first, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-primary btn-sm', :id => "#{group.sources.first.name}-status", :title => "Install Source" %>
+              <% elsif group.sources.first.human_state_name == "available" %>
+              <% elsif group.sources.first.human_state_name == "inactive" %>
+                <%= link_to '<span class="glyphicon glyphicon-play"></span>'.html_safe, admin_source_path(group.sources.first, state_event: "activate"), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{group.sources.first.name}-status", :title => "Activate Source" %>
+              <% else %>
+                <%= link_to '<span class="glyphicon glyphicon-pause"></span>'.html_safe, admin_source_path(group.sources.first, state_event: "inactivate"), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{group.sources.first.name}-status", :title => "Inactivate Source" %>
+              <% end %>
+            </td>
+          <% else %>
+            <td colspan=3/>
           <% end %>
         </tr>
-      </thead>
-      <tbody>
-        <% @groups.each do |group| %>
-          <tr>
-            <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>><h4><%= h(group.name) %></h4></td>
-            <% if group.sources.size > 0 %>
-              <td class="name"><%= link_to group.sources.first.display_name, admin_source_path(group.sources.first.name) %></td>
-              <td><%= state_label(group.sources.first.human_state_name).html_safe %></td>
-            <% else %>
-              <td/><td/>
-            <% end %>
-            <% if can? :manage, Alert %>
-              <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>
-                <div class="btn-toolbar">
-                  <div class="btn-group btn-group-sm">
-                    <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_group_path(group), { :remote => true, :class => 'btn btn-default', :id => "#{group.name}-edit" } %>
-                  </div>
-                  <div class="btn-group btn-group-sm">
-                    <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, admin_group_path(group), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default', :id => "#{group.name}-delete" %>
-                  </div>
-                </div>
-              </td>
-            <% end %>
-          </tr>
-          <% if group.sources.size > 1 %>
-            <% group.sources[1..-1].each do |source| %>
-              <% cache source do %>
-                <tr>
-                  <td><%= link_to source.display_name, admin_source_path(source) %></td>
-                  <td><%= state_label(source.human_state_name).html_safe %></td>
-                </tr>
-              <% end %>
+        <% if group.sources.size > 1 %>
+          <% group.sources[1..-1].each do |source| %>
+            <% cache source do %>
+              <tr>
+                <td><%= link_to_if source.installed?, source.display_name, admin_source_path(source) %></td>
+                <td><%= state_label(source.human_state_name).html_safe %></td>
+                <td>
+                  <% if source.human_state_name == "available" %>
+                    <%= link_to '<span class="glyphicon glyphicon-save"></span>'.html_safe, admin_source_path(source, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-primary btn-sm', :id => "#{source.name}-status", :title => "Install Source" %>
+                  <% elsif source.human_state_name == "retired" %>
+                  <% elsif source.human_state_name == "inactive" %>
+                    <%= link_to '<span class="glyphicon glyphicon-play"></span>'.html_safe, admin_source_path(source, state_event: "activate"), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{source.name}-status", :title => "Activate Source" %>
+                  <% else %>
+                    <%= link_to '<span class="glyphicon glyphicon-pause"></span>'.html_safe, admin_source_path(source, state_event: "inactivate"), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{source.name}-status", :title => "Inactivate Source" %>
+                  <% end %>
+                </td>
+              </tr>
             <% end %>
           <% end %>
         <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <div class="alert alert-info">There are currently no groups.</div>
-  <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info">There are currently no groups</div>
 <% end %>

@@ -20,11 +20,7 @@
 
 class Facebook < Source
 
-  validates_not_blank(:url, :access_token)
-
   def get_data(article, options={})
-    raise(ArgumentError, "#{display_name} configuration requires access_token") \
-      if access_token.blank?
 
     # Fetch the fulltext URL
     if article.url.blank? and !article.doi.blank?
@@ -66,11 +62,7 @@ class Facebook < Source
   end
 
   def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
+    config.url || "http://graph.facebook.com:443/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'"
   end
 
   def access_token
@@ -80,4 +72,5 @@ class Facebook < Source
   def access_token=(value)
     config.access_token = value
   end
+
 end

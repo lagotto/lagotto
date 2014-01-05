@@ -20,11 +20,7 @@
 
 class Researchblogging < Source
 
-  validates_not_blank(:url, :username, :password)
-
   def get_data(article, options={})
-    raise(ArgumentError, "#{display_name} configuration requires username & password") \
-      if username.blank? or password.blank?
 
     # Check that article has DOI
     return  { :events => [], :event_count => nil } if article.doi.blank?
@@ -77,26 +73,7 @@ class Researchblogging < Source
   end
 
   def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
-  end
-
-  def username
-    config.username
-  end
-  def username=(value)
-    config.username = value
-  end
-
-  def password
-    config.password
-  end
-
-  def password=(value)
-    config.password = value
+    config.url || "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
   end
 
   def staleness_year

@@ -20,8 +20,6 @@
 
 class Pmc < Source
 
-  validates_not_blank(:url, :journals, :username, :password)
-
   def put_pmc_database
     put_alm_data(url)
   end
@@ -96,8 +94,6 @@ class Pmc < Source
   end
 
   def get_data(article, options={})
-    raise(ArgumentError, "#{display_name} configuration requires URL") \
-      if url.blank?
 
     # Check that article has DOI and is at least one day old
     return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
@@ -159,19 +155,4 @@ class Pmc < Source
     config.journals = value
   end
 
-  def username
-    config.username
-  end
-
-  def username=(value)
-    config.username = value
-  end
-
-  def password
-    config.password
-  end
-
-  def password=(value)
-    config.password = value
-  end
 end
