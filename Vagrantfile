@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
   # Override settings for specific providers
   config.vm.provider :virtualbox do |vb, override|
     vb.name = "alm"
-    vb.customize ["modifyvm", :id, "--memory", "2048"]
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
   config.vm.provider :vmware_fusion do |fusion, override|

@@ -12,7 +12,6 @@ defaults: &defaults
   github_client_id: <%= node[:alm][:github_client_id] %>
   github_client_secret: <%= node[:alm][:github_client_secret] %>
   persona: <%= node[:alm][:persona] %>
-  layout: <%= node[:alm][:layout] %>
   couchdb_url: http://<%= node[:alm][:host] %>:<%= node[:couch_db][:config][:httpd][:port] %>/<%= node[:alm][:name] %>/
   doi_prefix: <%= node[:alm][:doi_prefix] %>
   uid: <%= node[:alm][:uid] %>

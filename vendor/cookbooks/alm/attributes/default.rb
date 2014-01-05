@@ -4,9 +4,8 @@ default[:alm][:environment] = "development"
 default[:alm][:useragent] = "Article-Level Metrics"
 default[:alm][:hostname] = "example.com"
 default[:alm][:api_key] = nil
-default[:alm][:admin] = { :username => "articlemetrics", :name => "Admin", :email => "admin@example.com", :password => nil }
-default[:alm][:mail] = { :address => "localhost", :port => 25, :domain => "localhost", :enable_starttls_auto => true }
-default[:alm][:layout] = "greenrobo"
+default[:alm][:admin] = { username: "articlemetrics", name: "Admin", email: "admin@example.com", password: nil }
+default[:alm][:mail] = { address: "localhost", port: 25, domain: "localhost", enable_starttls_auto: true }
 default[:alm][:uid] = "doi"
 default[:alm][:doi_prefix] = ""
 default[:alm][:key] = nil
@@ -17,18 +16,14 @@ default[:alm][:github_client_secret] = nil
 default[:alm][:persona] = true
 default[:alm][:user] = "vagrant"
 default[:alm][:concurrency] = 1
-default[:alm][:copernicus] = { :url => "EXAMPLE", :username => "EXAMPLE", :password => "EXAMPLE" }
-default[:alm][:pmc] = { :url => "EXAMPLE", :journals => "EXAMPLE,EXAMPLE", :username => "EXAMPLE", :password => "EXAMPLE" }
-default[:alm][:counter] = { :url => "EXAMPLE" }
-default[:alm][:crossref] = { :username => "EXAMPLE", :password => "EXAMPLE" }
-default[:alm][:facebook] = { :access_token => "EXAMPLE" }
-default[:alm][:twittersearch] = { :consumer_key => "EXAMPLE", :consumer_secret => "EXAMPLE", :access_token => "EXAMPLE", :access_token_secret => "EXAMPLE" }
-default[:alm][:mendeley] = { :api_key => "EXAMPLE" }
-default[:alm][:pmc] = { :url => "EXAMPLE", :filepath => "EXAMPLE" }
-default[:alm][:f1000] = { :url => "EXAMPLE", :filename => "EXAMPLE" }
-default[:alm][:figshare] = { :url => "EXAMPLE" }
-default[:alm][:researchblogging] = { :username => "EXAMPLE", :password => "EXAMPLE" }
-default[:alm][:scopus] = { :username => "EXAMPLE", :salt => "EXAMPLE", :partner_id => "EXAMPLE" }
-default[:alm][:wos] = { :url => "EXAMPLE" }
+default[:alm][:pmc] = {}
+default[:alm][:mendeley] = { api_key: nil }
+default[:alm][:pmc] = { url: nil, journals: nil, username: nil, password: nil }
+default[:alm][:f1000] = {}
+default[:alm][:facebook] = { access_token: nil }
+default[:alm][:crossref] = { username: nil, password: nil }
+default[:alm][:copernicus] = { url: nil, username: nil, password: nil }
+default[:alm][:researchblogging] = { username: nil, password: nil }
+default[:alm][:scopus] = { username: nil, salt: nil, partner_id: nil }
 default[:alm][:seed_sample_articles] = false
 default[:couch_db][:config][:httpd][:port] = 5984
