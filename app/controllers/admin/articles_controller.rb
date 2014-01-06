@@ -1,5 +1,6 @@
 class Admin::ArticlesController < Admin::ApplicationController
   before_filter :load_article, :only => [ :show, :edit, :update, :destroy ]
+  before_filter :new_article, :only => [:create]
   load_and_authorize_resource
 
   respond_to :html, :js
@@ -31,7 +32,6 @@ class Admin::ArticlesController < Admin::ApplicationController
   # POST /articles
   def create
     load_index
-    @article = Article.new(article_params)
     @article.save
     respond_with(@article) do |format|
       format.js { render :index }
@@ -47,7 +47,7 @@ class Admin::ArticlesController < Admin::ApplicationController
 
   # PUT /articles/:id(.:format)
   def update
-    @article.update_attributes(article_params)
+    @article.update_attributes(safe_params)
     respond_with(@article) do |format|
       format.js { render :show }
     end
@@ -60,13 +60,17 @@ class Admin::ArticlesController < Admin::ApplicationController
   end
 
   protected
-  def load_article()
+  def load_article
     # Load one article given query params
     id_hash = Article.from_uri(params[:id])
     @article = Article.where(id_hash).first
 
     # raise error if article wasn't found
     raise ActiveRecord::RecordNotFound.new if @article.blank?
+  end
+
+  def new_article
+    @article = Article.new(safe_params)
   end
 
   def load_index
@@ -95,7 +99,7 @@ class Admin::ArticlesController < Admin::ApplicationController
 
   private
 
-  def article_params
-    params.require(:article).permit(:doi, :title, :published_on, :pub_med, :pub_med_central, :mendeley, :url)
+  def safe_params
+    params.require(:article).permit(:doi, :title, :pub_med, :pub_med_central, :mendeley, :url, :published_on)
   end
 end
