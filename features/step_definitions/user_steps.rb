@@ -110,13 +110,15 @@ Then /^I should not see user "(.*?)"$/ do |username|
 end
 
 Then /^I should be signed in$/ do
-  page.should have_css('#sign_out')
-  page.should_not have_css('#sign_in')
+  # sign_out menu item is hidden in dropdown
+  page.should have_css('#sign_out', :visible => false)
+  page.should_not have_css('#sign_in', :visible => false)
 end
 
 Then /^I should be signed out$/ do
-  page.should have_css('#sign_in')
-  page.should_not have_css('#sign_out')
+  # sign_in menu item is hidden in dropdown
+  page.should have_css('#sign_in', :visible => false)
+  page.should_not have_css('#sign_out', :visible => false)
 end
 
 Then /^I should reach the Sign In page$/ do

@@ -21,7 +21,7 @@ Feature: Sign in as staff
         |                                             | Articles with Events | All Events |
         | Events                                      | 5                    | 250        |
 
-    Scenario: Content from settings.yml should be displayed
+    Scenario: Configuration should be displayed
       Given the source "Citeulike" exists
       When I go to the "Configuration" tab of source "CiteULike"
       Then I should see the "Job queue" settings

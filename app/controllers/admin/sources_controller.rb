@@ -28,10 +28,10 @@ class Admin::SourcesController < Admin::ApplicationController
     if @source.invalid?
       error_messages = @source.errors.full_messages.join(', ')
       flash.now[:alert] = "Please configure source #{@source.display_name}: #{error_messages}"
+      @flash = flash
     end
     respond_with(@source) do |format|
       if params[:state_event]
-        @flash = flash
         @groups = Group.includes(:sources).order("groups.id, sources.display_name")
         format.js { render :index }
       else
