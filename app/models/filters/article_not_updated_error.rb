@@ -20,8 +20,6 @@
 
 class ArticleNotUpdatedError < Filter
 
-  validates_not_blank(:limit)
-
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).article_not_updated(limit)
 
@@ -42,10 +40,6 @@ class ArticleNotUpdatedError < Filter
 
   def limit
     config.limit || 40
-  end
-
-  def limit=(value)
-    config.limit = value
   end
 end
 

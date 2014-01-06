@@ -41,10 +41,6 @@ class EventCountDecreasingError < Filter
   def source_ids
     config.source_ids || Source.active.joins(:group).where("groups.name in ('Cited','Saved','Recommended', 'Viewed')").pluck(:id)
   end
-
-  def source_ids=(value)
-    config.source_ids = value.map { |e| e.to_i }
-  end
 end
 
 module Exceptions
