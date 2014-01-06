@@ -24,7 +24,7 @@ end
 
 ### GIVEN ###
 Given /^we have a user with role "(.*?)"$/ do |role|
-  FactoryGirl.create(:user, :role => role)
+  FactoryGirl.create(:user, role: role)
 end
 
 Given /^we have (\d+) users$/  do |number|
@@ -32,7 +32,7 @@ Given /^we have (\d+) users$/  do |number|
 end
 
 Given /^we have user "(.*?)" with name "(.*?)"$/ do |username, name|
-  FactoryGirl.create(:user, :username => username, :name => name)
+  FactoryGirl.create(:user, username: username, name: name)
 end
 
 Given /^I am not logged in$/ do
@@ -44,7 +44,7 @@ Given /^I am logged in$/ do
 end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
-  @user = FactoryGirl.create(:user, :role => role)
+  @user = FactoryGirl.create(:user, role: role, authentication_token: "12345")
   visit '/users/auth/github'
 end
 
@@ -96,7 +96,7 @@ end
 
 ### THEN ###
 Then /^I should see (\d+) user[s]?$/ do |number|
-  page.should have_css('div.accordion-group', :visible => true, :count => number.to_i)
+  page.should have_css('div.panel', :visible => true, :count => number.to_i)
 end
 
 Then /^I should see user "(.*?)"$/ do |username|

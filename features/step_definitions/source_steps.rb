@@ -19,21 +19,28 @@ Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
   end
 end
 
+Given /^the screen size is "(.*?)" x "(.*?)"$/ do |width, height|
+  page.driver.resize(width.to_i, height.to_i)
+end
+
+### WHEN ###
+When /^I go to the "(.*?)" menu$/ do |menu|
+  visit admin_root_path
+  click_link menu
+end
+
 When /^I go to the submenu "(.*?)" of menu "(.*?)"$/ do |label, menu|
   click_link menu
   click_link label
   page.driver.render("tmp/capybara/#{label}.png")
 end
 
-Given /^the screen size is "(.*?)" x "(.*?)"$/ do |width, height|
-  page.driver.resize(width.to_i, height.to_i)
-end
-
-### WHEN ###
 When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
-  click_link tab_title
+  within ("ul.nav-tabs") do
+    click_link tab_title
+  end
   page.driver.render("tmp/capybara/configuration.png")
 end
 
@@ -116,6 +123,11 @@ When /^I hover over the donut "(.*?)"$/ do |title|
 end
 
 ### THEN ###
+Then /^I should see the "(.*?)" menu item$/ do |menu_item|
+  page.driver.render("tmp/capybara/#{menu_item}.png")
+  page.has_css?('.dropdown-menu li', :text => menu_item, :visible => true).should be_true
+end
+
 Then /^I should see the "(.*?)" tab$/ do |tab_title|
   page.driver.render("tmp/capybara/#{tab_title}.png")
   page.has_css?('li', :text => tab_title, :visible => true).should be_true
