@@ -367,10 +367,12 @@ FactoryGirl.define do
   factory :api_request do
     db_duration 100
     view_duration 700
-    api_key "12345"
+    api_key "67890"
     info "history"
     source nil
     ids "10.1371%2Fjournal.pone.000001"
+
+    trait(:local) { api_key "12345" }
   end
 
   factory :api_response do
