@@ -3,8 +3,7 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
-
-# Load default groups
+# Load groups
 viewed = Group.find_or_create_by_name(:name => "Viewed")
 cited = Group.find_or_create_by_name(:name => "Cited")
 saved = Group.find_or_create_by_name(:name => "Saved")
@@ -12,13 +11,12 @@ discussed = Group.find_or_create_by_name(:name => "Discussed")
 recommended = Group.find_or_create_by_name(:name => "Recommended")
 other = Group.find_or_create_by_name(:name => "Other")
 
-# Load default reports
-error_report = Report.find_or_create_by_name(:name => "Daily Report")
-error_report.update_attribute(:name, "Error Report")
+# Load reports
+error_report = Report.find_or_create_by_name(:name => "Error Report")
 status_report = Report.find_or_create_by_name(:name => "Status Report")
 disabled_source_report = Report.find_or_create_by_name(:name => "Disabled Source Report")
 
-# Load default filters
+# Load filters
 article_not_updated_error = ArticleNotUpdatedError.find_or_create_by_name(
   :name => "ArticleNotUpdatedError",
   :display_name => "article not updated error",
@@ -43,171 +41,118 @@ citation_milestone_alert = CitationMilestoneAlert.find_or_create_by_name(
   :name => "CitationMilestoneAlert",
   :display_name => "citation milestone alert",
   :description => "Creates an alert if an article has been cited the specified number of times.")
-# Load default sources
+
+# Load sources
 citeulike = Citeulike.find_or_create_by_name(
 	:name => "citeulike",
 	:display_name => "CiteULike",
   :description => "CiteULike is a free social bookmarking service for scholarly content.",
 	:state_event => "activate",
-	:workers => 1,
-	:group_id => saved.id,
-	:url => "http://www.citeulike.org/api/posts/for/doi/%{doi}" )
+	:group_id => saved.id)
 pubmed = PubMed.find_or_create_by_name(
   :name => "pubmed",
   :display_name => "PubMed",
   :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
   :state_event => "activate",
-  :workers => 1,
-  :group_id => cited.id,
-  :url => "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}")
+  :group_id => cited.id)
 pmc_europe = PmcEurope.find_or_create_by_name(
   :name => "pmceurope",
   :display_name => "PMC Europe Citations",
   :description => "Europe PubMed Central (Europe PMC) is an archive of life sciences journal literature.",
-  :state_event => "activate",
-  :workers => 1,
-  :group_id => cited.id,
-  :url => "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/citations/1/json")
+  :group_id => cited.id)
 pmc_europe_data = PmcEuropeData.find_or_create_by_name(
   :name => "pmceuropedata",
   :display_name => "PMC Europe Database Citations",
   :description => "Europe PubMed Central (Europe PMC) is an archive of life sciences journal literature.",
-  :state_event => "activate",
-  :workers => 1,
-  :group_id => cited.id,
-  :url => "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/databaseLinks//1/json")
+  :group_id => cited.id)
 scienceseeker = ScienceSeeker.find_or_create_by_name(
 	:name => "scienceseeker",
 	:display_name => "ScienceSeeker",
   :description => "Research Blogging is a science blog aggregator.",
-	:state_event => "activate",
-	:workers => 1,
-	:group_id => discussed.id,
-	:url => "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}" )
-
+	:group_id => discussed.id)
 nature = Nature.find_or_create_by_name(
   :name => "nature",
   :display_name => "Nature Blogs",
   :description => "Nature Blogs is a science blog aggregator.",
-  :state_event => "activate",
-  :workers => 1,
-  :group_id => discussed.id,
-  :url => "http://blogs.nature.com/posts.json?doi=%{doi}")
-
+  :group_id => discussed.id)
 openedition = Openedition.find_or_create_by_name(
   :name => "openedition",
   :display_name => "OpenEdition",
   :description => "OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda in the humanities and social sciences.",
-  :state_event => "activate",
-  :workers => 1,
-  :group_id => discussed.id,
-  :url => "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_url}&field[]=All&pf=Hypotheses.org")
-
+  :group_id => discussed.id)
 wordpress = Wordpress.find_or_create_by_name(
   :name => "wordpress",
   :display_name => "Wordpress.com",
   :description => "Wordpress.com is one of the largest blog hosting platforms.",
   :state_event => "activate",
-  :workers => 1,
-  :group_id => discussed.id,
-  :url => "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json")
-
+  :group_id => discussed.id)
 reddit = Reddit.find_or_create_by_name(
   :name => "reddit",
   :display_name => "Reddit",
   :description => "User-generated news links.",
   :state_event => "activate",
-  :workers => 1,
-  :group_id => discussed.id,
-  :url => "http://www.reddit.com/search.json?q=\"%{id}\"")
-
+  :group_id => discussed.id)
 wikipedia = Wikipedia.find_or_create_by_name(
   :name => "wikipedia",
   :display_name => "Wikipedia",
   :description => "Wikipedia is a free encyclopedia that everyone can edit.",
   :state_event => "activate",
-  :workers => 1,
   :group_id => discussed.id)
-
 datacite = Datacite.find_or_create_by_name(
   :name => "datacite",
   :display_name => "DataCite",
   :description => "Helping you to find, access, and reuse research data.",
-  :state_event => "activate",
-  :workers => 1,
-  :group_id => cited.id,
-  :url => "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&wt=json")
+  :group_id => cited.id)
 
 # The following sources require passwords/API keys
 pmc = Pmc.find_or_create_by_name(
   :name => "pmc",
   :display_name => "PubMed Central Usage Stats",
   :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
-  :state_event => "",
   :queueable => false,
-  :workers => 1,
   :group_id => viewed.id,
-  :url => "EXAMPLE",
-  :journals => "EXAMPLE",
-  :username => "EXAMPLE",
-  :password => "EXAMPLE")
-
+  :url => nil,
+  :journals => nil,
+  :username => nil,
+  :password => nil)
 copernicus = Copernicus.find_or_create_by_name(
   :name => "copernicus",
   :display_name => "Copernicus",
   :description => "Usage stats for Copernicus articles.",
-  :state_event => "",
-  :workers => 1,
   :group_id => viewed.id,
-  :url => "EXAMPLE",
-  :username => "EXAMPLE",
-  :password => "EXAMPLE")
-
+  :url => nil,
+  :username => nil,
+  :password => nil)
 crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
   :display_name => "CrossRef",
   :description => "CrossRef is a non-profit organization that enables cross-publisher citation linking.",
-  :state_event => "",
-  :workers => 1,
+  :state_event => "install",
   :group_id => cited.id,
-  :default_url => "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true",
-  :url => "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}",
-  :username => "EXAMPLE",
-  :password => "EXAMPLE")
-
+  :username => nil,
+  :password => nil)
 facebook = Facebook.find_or_create_by_name(
   :name => "facebook",
   :display_name => "Facebook",
   :description => "Facebook is the largest social network.",
-  :state_event => "",
-  :workers => 1,
+  :state_event => "install",
   :group_id => discussed.id,
-  :url => "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'",
-  :access_token => "EXAMPLE")
-
+  :access_token => nil)
 mendeley = Mendeley.find_or_create_by_name(
   :name => "mendeley",
   :display_name => "Mendeley",
   :description => "Mendeley is a reference manager and social bookmarking tool.",
-  :state_event => "",
-  :workers => 1,
+  :state_event => "install",
   :group_id => saved.id,
-  :url => "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}",
-  :url_with_type => "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}",
-  :url_with_title => "http://api.mendeley.com/oapi/documents/search/%{title}/?items=10&consumer_key=%{api_key}",
-  :related_articles_url => "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}",
-  :api_key => "EXAMPLE")
-
+  :api_key => nil)
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",
   :display_name => "Research Blogging",
   :description => "Research Blogging is a science blog aggregator.",
-  :state_event => "",
-  :workers => 1,
+  :state_event => "install",
   :group_id => discussed.id,
-  :url => "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}",
-  :username => "EXAMPLE",
-  :password => "EXAMPLE")
+  :username => nil,
+  :password => nil)
 
 # Load sample articles
 if ENV['ARTICLES']
