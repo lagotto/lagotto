@@ -1,10 +1,13 @@
 {
   "run_list": [
-    "recipe[yum]",
+    "recipe[apt]",
+    "recipe[build-essential]",
     "recipe[git]",
     "recipe[couchdb]",
     "recipe[phantomjs]",
-    "recipe[simple_iptables]",
+    "recipe[memcached]",
+    "recipe[postfix]",
+    "recipe[apache2]",
     "recipe[alm]"
   ],
   "passenger": { "version": "3.0.19" },

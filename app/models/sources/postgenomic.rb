@@ -36,12 +36,7 @@ class Postgenomic < Source
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
   end
 
-  def url
-    config.url
-  end
-
   def obsolete?
     true
   end
-
 end

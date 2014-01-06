@@ -2,7 +2,7 @@ SITE
   remote: http://community.opscode.com/api/v1
   specs:
     apache2 (1.8.14)
-    apt (2.3.4)
+    apt (2.1.1)
     build-essential (1.4.2)
     chef_handler (1.1.4)
     chocolatey (0.0.5)
@@ -11,16 +11,22 @@ SITE
       erlang (>= 0.0.0)
       yum (>= 0.0.0)
     dmg (2.1.2)
-    erlang (1.3.6)
+    erlang (1.4.2)
       apt (>= 1.7.0)
       build-essential (>= 0.0.0)
-      yum (< 3.0.0)
+      yum (~> 3.0)
+      yum-epel (>= 0.0.0)
+      yum-erlang_solutions (>= 0.0.0)
     git (2.5.2)
       build-essential (>= 0.0.0)
       dmg (>= 0.0.0)
       runit (>= 1.0)
       windows (>= 0.0.0)
       yum (>= 0.0.0)
+    memcached (1.7.0)
+      runit (~> 1.0)
+      yum (~> 3.0)
+      yum-epel (>= 0.0.0)
     mysql (3.0.2)
       build-essential (> 1.1.0)
       openssl (>= 0.0.0)
@@ -28,21 +34,27 @@ SITE
     phantomjs (1.0.2)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
+    postfix (3.0.0)
     powershell (2.0.0)
       windows (>= 1.2.8)
-    runit (1.4.6)
+    runit (1.5.8)
       build-essential (>= 0.0.0)
-      yum (< 3.0.0)
-    simple_iptables (0.3.0)
+      yum (~> 3.0)
+      yum-epel (>= 0.0.0)
     windows (1.12.6)
       chef_handler (>= 0.0.0)
+    yum (3.0.4)
+    yum-epel (0.2.0)
+      yum (~> 3.0)
+    yum-erlang_solutions (0.1.4)
+      yum (~> 3.0)
 
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 7264171144db87c01594d08ffddb9aad041139f8
+  sha: 55992f246177be85061b1cefb2724716ad50b386
   specs:
-    alm (1.4.0)
+    alm (1.4.4)
       couchdb (>= 0.0.0)
       git (>= 0.0.0)
       mysql (>= 0.0.0)
@@ -58,20 +70,15 @@ GIT
       apache2 (>= 1.0.4)
       build-essential (>= 0.0.0)
 
-GIT
-  remote: https://github.com/articlemetrics/yum.git
-  ref: master
-  sha: b21abde18e2f0db69214279df8cf3ae4eb280e05
-  specs:
-    yum (2.1.0)
-
 DEPENDENCIES
   alm (>= 0)
+  apt (= 2.1.1)
+  build-essential (= 1.4.2)
   couchdb (= 2.4.0)
   git (= 2.5.2)
+  memcached (= 1.7.0)
   mysql (= 3.0.2)
   passenger_apache2 (>= 0)
   phantomjs (= 1.0.2)
-  simple_iptables (= 0.3.0)
-  yum (>= 0)
+  postfix (= 3.0.0)
 

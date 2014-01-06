@@ -20,10 +20,6 @@
 
 class Wos < Source
 
-  validates_each :url do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
-
   def get_data(article, options = {})
 
     # Check that article has DOI
@@ -112,50 +108,9 @@ class Wos < Source
         end
       end
     end
-
-    # doc = XML::Document.new()
-    # doc.root = XML::Node.new('request')
-    # doc.root['xmlns'] = "http://www.isinet.com/xrpc42"
-    # doc.root['src'] = "app.id=#{APP_CONFIG['useragent']},env.id=#{Rails.env},partner.email=#{APP_CONFIG['notification_email']}"
-
-    # doc.root << fn = XML::Node.new('fn')
-    # fn['name'] = "LinksAMR.retrieve"
-
-    # fn << list = XML::Node.new('list')
-
-    # list << map1 = XML::Node.new('map')
-
-    # list << map2 = XML::Node.new('map')
-
-    # map2 << list2 = XML::Node.new('list')
-    # list2['name'] = "WOS"
-
-    # list2 << val = XML::Node.new('val')
-    # val << 'timesCited'
-    # list2 << val = XML::Node.new('val')
-    # val << 'ut'
-    # list2 << val = XML::Node.new('val')
-    # val << 'citingArticlesURL'
-
-    # list << map3 = XML::Node.new('map')
-    # map3 << map = XML::Node.new('map')
-    # map['name'] = "cite_id"
-
-    # map << val = XML::Node.new('val')
-    # val['name'] = "doi"
-    # val << article.doi
   end
 
   def get_config_fields
     [{ field_name: 'url', field_type: 'text_area', size: '90x2' }]
   end
-
-  def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
-  end
-
 end

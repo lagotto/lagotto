@@ -1,0 +1,3 @@
+#!/bin/sh
+exec 2>&1
+exec chpst -u <%= @options[:user] %> /usr/bin/memcached -v -m <%= @options[:memory] %> -U <%= @options[:udp_port] %> -p <%= @options[:port] %> -u <%= @options[:user] %> -l <%= @options[:listen] %> -c <%= @options[:maxconn] %>

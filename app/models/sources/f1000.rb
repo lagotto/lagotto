@@ -20,10 +20,6 @@
 
 class F1000 < Source
 
-  validates_each :url, :filename do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
-
   # Retrieve PLOS-specific XML feed and store in <filename>. Returns nil if an error occured.
   def get_feed(options={})
     options[:source_id] = id
@@ -88,13 +84,5 @@ class F1000 < Source
 
   def filename=(value)
     config.filename = value
-  end
-
-  def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
   end
 end

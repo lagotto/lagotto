@@ -173,6 +173,24 @@ if Source.const_defined?('Figshare')
     :state_event => "install",
     :group_id => viewed.id)
 end
+if Source.const_defined?('ArticleCoverage')
+  articleconverage = ArticleCoverage.find_or_create_by_name(
+    :name => "articlecoverage",
+    :display_name => "Article Coverage",
+    :description => "Article Coverage",
+    :group_id => discussed.id)
+end
+if Source.const_defined?('ArticleCoverageCurated')
+  articlecoveragecurated = ArticleCoverageCurated.find_or_create_by_name(
+    :name => "articlecoveragecurated",
+    :display_name => "Article Coverage Curated",
+    :description => "Article Coverage Curated",
+    :state_event => "activate",
+    :workers => 1,
+    :group_id => discussed.id,
+    :url => "http://mediacuration.plos.org/api/v1?doi=%{doi}" )
+end
+
 # These sources are retired, but we need to keep them around for the data we collected
 connotea = Connotea.find_or_create_by_name(
   :name => "connotea",
