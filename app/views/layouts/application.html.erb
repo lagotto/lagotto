@@ -134,14 +134,9 @@
     </nav>
 
     <div class="container">
-      <% flash.each do |name, msg| %>
-        <div class="alert alert-<%= name == :notice ? "success" : "danger" %>">
-          <a class="close" data-dismiss="alert">&#215;</a>
-          <%= content_tag :div, msg, :id => "flash_#{name}" if msg.present? and msg.is_a?(String) %>
-        </div>
-      <% end %>
-
-      <%= yield %>
+      <% @flash = flash -%>
+      <div id="flash"><%= render :partial => 'layouts/flash' -%></div>
+      <%= yield -%>
     </div>
 
   </body>

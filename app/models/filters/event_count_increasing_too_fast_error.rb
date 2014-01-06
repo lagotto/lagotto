@@ -20,8 +20,6 @@
 
 class EventCountIncreasingTooFastError < Filter
 
-    validates_not_blank(:limit)
-
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).increasing(limit, source_ids)
 
@@ -45,16 +43,8 @@ class EventCountIncreasingTooFastError < Filter
     config.limit || 500
   end
 
-  def limit=(value)
-    config.limit = value
-  end
-
   def source_ids
     config.source_ids || Source.active.joins(:group).where("groups.name IN ('Viewed','Discussed')").pluck(:id)
-  end
-
-  def source_ids=(value)
-    config.source_ids = value.map { |e| e.to_i }
   end
 end
 

@@ -64,12 +64,12 @@ Then /^I should see an article with title "(.*?)"$/ do |title|
 end
 
 Then /^I should see a list of articles$/ do
-  page.has_css?('div.span12').should be_true
+  page.has_css?('h4.article').should be_true
 end
 
 Then /^I should see a list of (\d+) article[s]?$/ do |number|
   page.driver.render("tmp/capybara/#{number}.png")
-  page.has_css?('div.span12', :visible => true, :count => number.to_i).should be_true
+  page.has_css?('h4.article', :visible => true, :count => number.to_i).should be_true
 end
 
 Then /^I should see the DOI "(.*?)" as a link$/ do |doi|
@@ -79,7 +79,7 @@ end
 
 Then /^I should see the error message "(.*?)"$/ do |error|
   page.driver.render("tmp/capybara/error.png")
-  page.has_css?('span.help-inline', :text => error).should be_true
+  page.has_css?('span.error', :text => error).should be_true
 end
 
 Then /^I should see "(.*?)" with the "(.*?)" for the article$/ do |value, label|

@@ -1,4 +1,4 @@
-<% if can?(:manage, Alert) && (controller.action_name == "edit" or (controller.action_name == "update" && !@source.errors.empty?)) %>
+<% if can?(:manage, Alert) && @source.state > 1 && (controller.action_name == "edit" or (controller.action_name == "update" && !@source.errors.empty?)) %>
 
   <%= simple_form_for([:admin, @source.becomes(Source)], :url => admin_source_path(@source.name), :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
     <% f.object = @source.becomes(@source.class) %>
@@ -86,8 +86,8 @@
   <% end %>
 
 <% else %>
-  <% if can?(:manage, Alert) %>
-    <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_source_path(@source.name), { :remote => true, :class => 'btn btn-default btn-sm pull-right', :title => "Edit" } %>
+  <% if can?(:manage, Alert) && @source.state > 1 %>
+    <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_source_path(@source.name), { :remote => true, :class => 'btn btn-default btn-sm pull-right configuration-edit', :title => "Edit" } %>
   <% end %>
   <table class="table table-striped">
     <thead>

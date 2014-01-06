@@ -24,7 +24,7 @@ end
 
 ### GIVEN ###
 Given /^we have a user with role "(.*?)"$/ do |role|
-  FactoryGirl.create(:user, :role => role)
+  FactoryGirl.create(:user, role: role)
 end
 
 Given /^we have (\d+) users$/  do |number|
@@ -32,7 +32,7 @@ Given /^we have (\d+) users$/  do |number|
 end
 
 Given /^we have user "(.*?)" with name "(.*?)"$/ do |username, name|
-  FactoryGirl.create(:user, :username => username, :name => name)
+  FactoryGirl.create(:user, username: username, name: name)
 end
 
 Given /^I am not logged in$/ do
@@ -44,7 +44,7 @@ Given /^I am logged in$/ do
 end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
-  @user = FactoryGirl.create(:user, :role => role)
+  @user = FactoryGirl.create(:user, role: role, authentication_token: "12345")
   visit '/users/auth/cas'
 end
 
@@ -97,7 +97,7 @@ end
 
 ### THEN ###
 Then /^I should see (\d+) user[s]?$/ do |number|
-  page.should have_css('div.accordion-group', :visible => true, :count => number.to_i)
+  page.should have_css('div.panel', :visible => true, :count => number.to_i)
 end
 
 Then /^I should see user "(.*?)"$/ do |username|
@@ -111,18 +111,15 @@ Then /^I should not see user "(.*?)"$/ do |username|
 end
 
 Then /^I should be signed in$/ do
-  page.driver.render("tmp/capybara/sign_in.png")
-  within("#user_menu") do
-    page.should have_css('#sign_out')
-    page.should_not have_css('#sign_in')
-  end
+  # sign_out menu item is hidden in dropdown
+  page.should have_css('#sign_out', :visible => false)
+  page.should_not have_css('#sign_in', :visible => false)
 end
 
 Then /^I should be signed out$/ do
-  within("#user_menu") do
-    page.should have_css('#sign_in')
-    page.should_not have_css('#sign_out')
-  end
+  # sign_in menu item is hidden in dropdown
+  page.should have_css('#sign_in', :visible => false)
+  page.should_not have_css('#sign_out', :visible => false)
 end
 
 Then /^I should reach the Sign In page$/ do

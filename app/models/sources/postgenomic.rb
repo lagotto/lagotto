@@ -18,11 +18,8 @@
 
 class Postgenomic < Source
 
-  validates_each :url do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
-
   def get_data(article, options={})
+
     query_url = get_query_url(article)
 
     events = get_json(query_url, options).map do |result|
@@ -43,8 +40,8 @@ class Postgenomic < Source
     config.url
   end
 
-  def url=(value)
-    config.url = value
+  def obsolete?
+    true
   end
 
 end

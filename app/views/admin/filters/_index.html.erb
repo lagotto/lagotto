@@ -42,7 +42,7 @@
           <th>Description</th>
           <th class="status">Status</th>
           <% if can?(:manage, Alert) %>
-            <th>Actions</th>
+            <th>Edit</th>
           <% end %>
         </tr>
       </thead>
@@ -65,7 +65,7 @@
             <% if can? :manage, Alert %>
               <td>
                 <% if filter.get_config_fields.empty? %>
-                  <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, "#", { :class => 'btn btn-default btn-sm disabled', :id => "#{filter.name}-edit" } %>
+                  &nbsp;
                 <% else %>
                   <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
                 <% end %>

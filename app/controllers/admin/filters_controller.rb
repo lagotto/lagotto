@@ -38,6 +38,6 @@ class Admin::FiltersController < Admin::ApplicationController
   private
 
   def filter_params
-    params.require(:filter).permit(:active)
+    params.require(:filter).permit(:active, *@filter.config_fields)
   end
 end

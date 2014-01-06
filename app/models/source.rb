@@ -32,11 +32,10 @@ class Source < ActiveRecord::Base
 
   serialize :config, OpenStruct
 
-  after_create :create_retrievals
   after_update :check_cache, :if => Proc.new { |source| source.name_changed? ||
-                                                         source.display_name_changed? ||
-                                                         source.state_changed? ||
-                                                         source.group_id_changed? }
+                                                        source.display_name_changed? ||
+                                                        source.state_changed? ||
+                                                        source.group_id_changed? }
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
@@ -53,10 +52,17 @@ class Source < ActiveRecord::Base
   validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_all, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
 
-  scope :active, where("state > 0").order("group_id, display_name")
-  scope :inactive, where("state = 0").order("group_id, display_name")
-  scope :for_events, where("state > 0 AND name != 'relativemetric'").order("group_id, display_name")
-  scope :queueable, where("state > 0 AND queueable = 1").order("group_id, display_name")
+  scope :available, where("state = 0").order("group_id, display_name")
+  scope :installed, where("state > 0").order("group_id, display_name")
+  scope :retired, where("state = 1").order("group_id, display_name")
+  scope :inactive, where("state = 2").order("group_id, display_name")
+  scope :active, where("state > 2").order("group_id, display_name")
+  scope :for_events, where("state > 2 AND name != 'relativemetric'").order("group_id, display_name")
+  scope :queueable, where("state > 2 AND queueable = 1").order("group_id, display_name")
+
+  # some sources cannot be redistributed
+  scope :public_sources, lambda { where("private = false") }
+  scope :private_sources, lambda { where("private = true") }
 
   INTERVAL_OPTIONS = [['½ hour', 30.minutes],
                       ['1 hour', 1.hour],
@@ -67,23 +73,22 @@ class Source < ActiveRecord::Base
                       ['24 hours', 24.hours],
                       ['¼ month', (1.month * 0.25).to_i],
                       ['½ month', (1.month * 0.5).to_i],
-                      ['1 month', 1.month]]
+                      ['1 month', 1.month],
+                      ['3 months', 3.months],
+                      ['6 months', 6.months],
+                      ['12 months', 12.months]]
 
-  def self.validates_not_blank(*attrs)
-    validates_each attrs do |record, attr, value|
-      record.errors.add(attr, "can't be blank") if value.blank?
-    end
-  end
+  state_machine :initial => :available do
+    state :available, value: 0 # source available, but not installed
+    state :retired, value: 1   # source installed, but no longer accepting new data
+    state :inactive, value: 2  # source disabled by admin
+    state :disabled, value: 3  # can't queue or process jobs, generates alert
+    state :idle, value: 4      # source active
+    state :waiting, value: 5   # source active, waiting for next queueing job
+    state :working, value: 6   # processing jobs
+    state :queueing, value: 7  # queueing and processing jobs
 
-  state_machine :initial => :inactive do
-    state :inactive, value: 0 # source disabled by admin
-    state :disabled, value: 1 # can't queue or process jobs, generates alert
-    state :idle, value: 2     # source active
-    state :waiting, value: 3  # source active, waiting for next queueing job
-    state :working, value: 4  # processing jobs
-    state :queueing, value: 5 # queueing and processing jobs
-
-    state all - [:inactive, :disabled] do
+    state all - [:available, :retired, :inactive, :disabled] do
       def active?
         true
       end
@@ -95,8 +100,28 @@ class Source < ActiveRecord::Base
       end
     end
 
+    state all - [:available, :retired, :inactive] do
+      validate { |source| source.validate_config_fields }
+    end
+
+    state all - [:available] do
+      def installed?
+        true
+      end
+    end
+
+    state :available do
+      def installed?
+        false
+      end
+    end
+
     after_transition any => :queueing do |source|
       source.add_queue
+    end
+
+    after_transition :available => any - [:available, :retired] do |source|
+      source.create_retrievals
     end
 
     after_transition :to => :inactive do |source|
@@ -121,9 +146,20 @@ class Source < ActiveRecord::Base
       source.add_queue(Time.zone.now + source.wait_time) if source.check_for_queued_jobs
     end
 
+    event :install do
+      transition [:available] => :retired, :if => :obsolete?
+      transition [:available] => :inactive
+    end
+
+    event :uninstall do
+      transition any - [:available] => :available, :if => :remove_all_retrievals
+      transition any - [:available, :retired] => :retired
+    end
+
     event :activate do
-      transition [:inactive] => :idle, :unless => :queueable
-      transition [:inactive] => :queueing
+      transition [:available] => :retired, :if => :obsolete?
+      transition [:available, :inactive] => :idle, :unless => :queueable
+      transition [:available, :inactive] => :queueing
       transition any => same
     end
 
@@ -175,10 +211,6 @@ class Source < ActiveRecord::Base
   def to_param  # overridden, use name instead of id
     name
   end
-
-  # some sources cannot be redistributed
-  scope :public_sources, lambda { where("private = false") }
-  scope :private_sources, lambda { where("private = true") }
 
   def get_data(article, options={})
     raise NotImplementedError, 'Children classes should override get_data method'
@@ -246,8 +278,53 @@ class Source < ActiveRecord::Base
     rs.length
   end
 
+  # Array of hashes for forms, defined in subclassed sources
   def get_config_fields
     []
+  end
+
+  # List of field names for strong_parameters and validations
+  def config_fields
+    get_config_fields.map { |f| f[:field_name].to_sym }
+  end
+
+  # Custom validations that are triggered in state machine
+  def validate_config_fields
+    config_fields.each do |field|
+      errors.add(field, "can't be blank") if send(field).blank?
+    end
+  end
+
+  def url
+    config.url
+  end
+
+  def url=(value)
+    config.url = value
+  end
+
+  def username
+    config.username
+  end
+
+  def username=(value)
+    config.username = value
+  end
+
+  def password
+    config.password
+  end
+
+  def password=(value)
+    config.password = value
+  end
+
+  def api_key
+    config.api_key
+  end
+
+  def api_key=(value)
+    config.api_key = value
   end
 
   def get_query_url(article)
@@ -408,18 +485,41 @@ class Source < ActiveRecord::Base
     ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
   end
 
+  # is this source no longer accepting new data?
+  def obsolete
+    config.obsolete || false
+  end
+
+  def obsolete=(value)
+    config.obsolete = value
+  end
+
+  alias_method :obsolete?, :obsolete
+
   def check_cache
     self.delay(priority: 0, queue: "api-cache").expire_cache if ActionController::Base.perform_caching
   end
 
-  private
+  def remove_all_retrievals
+    # Remove all retrieval records for this source that have never been updated,
+    # return true if all records are removed
+    rs = retrieval_statuses.where(:retrieved_at == '1970-01-01').delete_all
+    retrieval_statuses.count == 0
+  end
+
   def create_retrievals
-    # Create an empty retrieval record for every article for the new source, make scheduled_at a random timestamp within a week
+    # Create an empty retrieval record for every article for the new source
+    article_ids = RetrievalStatus.where(:source_id => id).pluck(:article_id)
     conn = RetrievalStatus.connection
-    random_time = Time.zone.now + rand(7.days)
-    sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), '#{random_time.to_formatted_s(:db)}' from articles"
+    if article_ids.empty?
+      sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles"
+    else
+      sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles where articles.id not in (#{article_ids.join(",")})"
+    end
     conn.execute sql
   end
+
+  private
 
   def expire_cache
     self.update_column(:cached_at, Time.zone.now)

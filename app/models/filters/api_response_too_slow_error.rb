@@ -20,8 +20,6 @@
 
 class ApiResponseTooSlowError < Filter
 
-  validates_not_blank(:limit)
-
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).slow(limit)
 
@@ -42,10 +40,6 @@ class ApiResponseTooSlowError < Filter
 
   def limit
     config.limit || 30
-  end
-
-  def limit=(value)
-    config.limit = value
   end
 end
 

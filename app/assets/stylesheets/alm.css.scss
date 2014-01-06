@@ -239,12 +239,14 @@ body { padding-top: 60px; padding-bottom: 20px; }
 // Fix inconsistencies
 .panel-group .panel .panel-heading { background-color: $body-bg; }
 .panel-group .panel .panel-heading h4 small { margin-top: 3px; }
+.label { font-weight: normal; }
 .btn-link { color: $navbar-inverse-link-color; }
 .btn-link:hover, .btn-link:focus, .btn-link:active { color: $navbar-inverse-link-hover-color; text-decoration: none; }
-#configuration .btn { margin-bottom: 1em; }
+.configuration-edit { margin-bottom: 1em; }
 
 .table .number { text-align: right; width: 180px;}
 .table .name { width: 300px;}
+.table .group { width: 180px;}
 .table .status { width: 100px;}
 .section { padding-bottom: 4px; }
 .graphs { text-align:center; }

@@ -40,11 +40,11 @@ end
 Then /^I should see (\d+) alerts?$/ do |number|
   sleep 5
   page.driver.render("tmp/capybara/#{number}_alerts.png")
-  page.has_css?('.accordion-group', :visible => true, :count => number.to_i).should be_true
+  page.has_css?('.panel', :visible => true, :count => number.to_i).should be_true
 end
 
 Then /^I should see the "(.*?)" error number$/ do |error_number|
-  within(".accordion-heading") do
+  within(".panel-heading") do
     page.should have_content error_number
   end
 end
@@ -54,7 +54,7 @@ Then /^I should see the "(.*?)" error message$/ do |error|
 end
 
 Then /^I should see the "(.*?)" error$/ do |error|
-  within(".accordion-heading") do
+  within(".panel-heading") do
     page.should have_content error
   end
 end
@@ -64,19 +64,19 @@ Then /^I should see the alert for the article$/ do
 end
 
 Then /^I should see the "(.*?)" class name$/ do |class_name|
-  within(".accordion-body") do
+  within(".panel") do
     page.has_css?('p.class_name', :text => class_name, :visible => true).should be_true
   end
 end
 
 Then /^I should not see the "(.*?)" class name$/ do |class_name|
-  within(".accordion-body") do
+  within(".panel") do
     page.has_css?('p.class_name', :text => class_name, :visible => true).should_not be_true
   end
 end
 
 Then /^I should see the "(.*?)" status$/ do |status|
-  within(".accordion-body") do
+  within(".panel") do
     page.has_css?('div.collapse', :text => status, :visible => true).should be_true
   end
 end

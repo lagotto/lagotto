@@ -27,7 +27,7 @@ Wordpress.com is a blog hosting platform by the makers of the Wordpress blogging
 </tr>
 <tr>
 <td valign="top" width=20%><strong>Rate-limiting</strong></td>
-<td valign="top" width=80%>unknown</td>
+<td valign="top" width=80%>100/min</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>Authentication</strong></td>

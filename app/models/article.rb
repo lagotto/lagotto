@@ -221,12 +221,12 @@ class Article < ActiveRecord::Base
   end
 
   def create_retrievals
-    # Create an empty retrieval record for every source for the new article
+    # Create an empty retrieval record for every installed source for the new article
 
     # Schedule retrieval immediately, rate-limiting will automatically limit the external API calls
     # when we bulk-upload lots of articles.
 
-    Source.all.each do |source|
+    Source.installed.each do |source|
       RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id, :scheduled_at => Time.zone.now)
     end
   end

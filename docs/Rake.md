@@ -28,7 +28,7 @@ Bulk-load a file consisting of DOIs, one per line. It'll ignore (but count) inva
 
     rake db:articles:delete <DOI_DUMP
 
-Format for import file
+Format for import file:
 
     DOI Date(YYYY-MM-DD) Title
 
@@ -38,15 +38,23 @@ Removes all HTML and XML tags from title field (for legacy data).
 
     rake db:articles:sanitize_title
 
-Deletes all resolved alerts
+Isnstall sources. Provide one or more source names as arguments, e.g. `rake db:sources:install[pmc]` or install all available sources without arguments:
+
+    rake db:sources:install
+
+Uninstall sources. Provide one or more source names as arguments, e.g. `rake db:sources:uninstall[pmc]`:
+
+    rake db:sources:uninstall
+
+Deletes all resolved alerts:
 
     rake db:alerts:delete
 
-Delete old API requests (only keep the last 10,000)
+Delete old API requests (only keep the last 10,000):
 
     rake db:api_requests:delete
 
-Delete all resolved API responses older than 24 hours
+Delete all resolved API responses older than 24 hours:
 
     rake db:api_responses:delete
 

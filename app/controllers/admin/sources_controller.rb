@@ -22,9 +22,21 @@ class Admin::SourcesController < Admin::ApplicationController
   end
 
   def update
+    params[:source] ||= {}
+    params[:source][:state_event] = params[:state_event]
     @source.update_attributes(source_params)
+    if @source.invalid?
+      error_messages = @source.errors.full_messages.join(', ')
+      flash.now[:alert] = "Please configure source #{@source.display_name}: #{error_messages}"
+      @flash = flash
+    end
     respond_with(@source) do |format|
-      format.js { render :show }
+      if params[:state_event]
+        @groups = Group.includes(:sources).order("groups.id, sources.display_name")
+        format.js { render :index }
+      else
+        format.js { render :show }
+      end
     end
   end
 
@@ -36,7 +48,6 @@ class Admin::SourcesController < Admin::ApplicationController
   private
 
   def source_params
-    config_fields = @source.get_config_fields.map { |config_field| config_field[:field_name] }
     params.require(:source).permit(:display_name,
                                    :group_id,
                                    :state_event,
@@ -60,6 +71,6 @@ class Admin::SourcesController < Admin::ApplicationController
                                    :url_with_title,
                                    :related_articles_url,
                                    :api_key,
-                                   *config_fields)
+                                   *@source.config_fields)
   end
 end

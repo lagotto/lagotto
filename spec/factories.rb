@@ -142,7 +142,6 @@ FactoryGirl.define do
     name "citeulike"
     display_name "CiteULike"
     state_event "activate"
-    url "http://www.citeulike.org/api/posts/for/doi/%{doi}"
 
     cached_at { Time.zone.now - 10.minutes }
 
@@ -192,8 +191,6 @@ FactoryGirl.define do
     name "crossref"
     display_name "CrossRef"
     state_event "activate"
-    url "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
-    default_url "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
     username "EXAMPLE"
     password "EXAMPLE"
 
@@ -207,7 +204,6 @@ FactoryGirl.define do
     name "nature"
     display_name "Nature"
     state_event "activate"
-    url "http://blogs.nature.com/posts.json?doi=%{doi}"
 
     group
 
@@ -219,7 +215,6 @@ FactoryGirl.define do
     name "openedition"
     display_name "OpenEdition"
     state_event "activate"
-    url "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_url}&field[]=All&pf=Hypotheses.org"
 
     group
 
@@ -271,7 +266,6 @@ FactoryGirl.define do
     name "pubmed"
     display_name "PubMed"
     state_event "activate"
-    url "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
 
     group
 
@@ -283,7 +277,6 @@ FactoryGirl.define do
     name "pmceurope"
     display_name "PMC Europe Citations"
     state_event "activate"
-    url "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/citations/1/json"
 
     group
 
@@ -295,7 +288,6 @@ FactoryGirl.define do
     name "pmceuropedata"
     display_name "PMC Europe Database Citations"
     state_event "activate"
-    url "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/databaseLinks//1/json"
 
     group
 
@@ -307,7 +299,6 @@ FactoryGirl.define do
     name "researchblogging"
     display_name "Research Blogging"
     state_event "activate"
-    url "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
     username "EXAMPLE"
     password "EXAMPLE"
 
@@ -321,7 +312,6 @@ FactoryGirl.define do
     name "scienceseeker"
     display_name "ScienceSeeker"
     state_event "activate"
-    url "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
 
     group
 
@@ -333,7 +323,6 @@ FactoryGirl.define do
     name "datacite"
     display_name "DataCite"
     state_event "activate"
-    url "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true"
 
     group
 
@@ -345,7 +334,6 @@ FactoryGirl.define do
     name "wordpress"
     display_name "Wordpress.com"
     state_event "activate"
-    url "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json"
 
     group
 
@@ -357,7 +345,6 @@ FactoryGirl.define do
     name "reddit"
     display_name "Reddit"
     state_event "activate"
-    url "http://www.reddit.com/search.json?q=\"%{id}\""
 
     group
 
@@ -409,7 +396,6 @@ FactoryGirl.define do
     name "wikipedia"
     display_name "Wikipedia"
     state_event "activate"
-    url "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace={namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
     languages "en"
 
     group
@@ -422,10 +408,6 @@ FactoryGirl.define do
     name "mendeley"
     display_name "Mendeley"
     state_event "activate"
-    url "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}"
-    url_with_type "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}"
-    url_with_title "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10&consumer_key=%{api_key}"
-    related_articles_url "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}"
     api_key "EXAMPLE"
 
     group
@@ -438,7 +420,6 @@ FactoryGirl.define do
     name "facebook"
     display_name "Facebook"
     state_event "activate"
-    url "http://graph.facebook.com:443/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'"
     access_token "EXAMPLE"
 
     group
@@ -509,10 +490,12 @@ FactoryGirl.define do
   factory :api_request do
     db_duration 100
     view_duration 700
-    api_key "12345"
+    api_key "67890"
     info "history"
     source nil
     ids "10.1371%2Fjournal.pone.000001"
+
+    trait(:local) { api_key "12345" }
   end
 
   factory :api_response do

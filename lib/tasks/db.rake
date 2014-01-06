@@ -248,5 +248,54 @@ namespace :db do
         end
       end
     end
+
+    desc "Install sources"
+    task :install => :environment do |t, args|
+      if args.extras.empty?
+        sources = Source.available
+      else
+        sources = Source.available.where("name in (?)", args.extras)
+      end
+
+      if sources.empty?
+        puts "No available source found."
+        exit
+      end
+
+      sources.each do |source|
+        source.install
+        unless source.available?
+          puts "Source #{source.display_name} has been installed."
+        else
+          puts "Source #{source.display_name} could not be installed."
+        end
+      end
+    end
+
+    desc "Uninstall sources"
+    task :uninstall => :environment do |t, args|
+      if args.extras.empty?
+        puts "No source name provided."
+        exit
+      else
+        sources = Source.installed.where("name in (?)", args.extras)
+      end
+
+      if sources.empty?
+        puts "No installed source found."
+        exit
+      end
+
+      sources.each do |source|
+        source.uninstall
+        if source.available?
+          puts "Source #{source.display_name} has been uninstalled."
+        elsif source.retired?
+          puts "Source #{source.display_name} has been retired."
+        else
+          puts "Source #{source.display_name} could not be uninstalled."
+        end
+      end
+    end
   end
 end

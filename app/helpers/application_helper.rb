@@ -35,11 +35,15 @@ module ApplicationHelper
 
   def state_label(state)
     if state == "working"
-      '<span class="label label-default">working</span>'
+      '<span class="label label-success">working</span>'
     elsif state == "inactive"
       '<span class="label label-info">inactive</span>'
     elsif state == "disabled"
       '<span class="label label-warning">disabled</span>'
+    elsif state == "available"
+      '<span class="label label-primary">available</span>'
+    elsif state == "retired"
+      '<span class="label label-default">retired</span>'
     else
       state
     end

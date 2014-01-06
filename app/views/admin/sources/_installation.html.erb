@@ -1,0 +1,61 @@
+<p>Install and activate sources.</p>
+
+<% if @groups.size > 0 %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="group">Group</th>
+        <th class="name">Source</th>
+        <th>Status</th>
+        <% if can?(:manage, Alert) %>
+          <th class="status">Actions</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @groups.each do |group| %>
+        <tr>
+          <td <%= group.sources.empty? ? "rowspan=1" : "rowspan=#{group.sources.count}" %>><h4><%= h(group.name) %></h4></td>
+          <% if group.sources.size > 0 %>
+            <td class="name"><%= link_to_if group.sources.first.installed?, group.sources.first.display_name, admin_source_path(group.sources.first.name) %></td>
+            <td><%= state_label(group.sources.first.human_state_name).html_safe %></td>
+            <td>
+              <% if group.sources.first.human_state_name == "available" %>
+                <%= link_to '<span class="glyphicon glyphicon-save"></span>'.html_safe, admin_source_path(group.sources.first, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-primary btn-sm', :id => "#{group.sources.first.name}-status", :title => "Install Source" %>
+              <% elsif group.sources.first.human_state_name == "available" %>
+              <% elsif group.sources.first.human_state_name == "inactive" %>
+                <%= link_to '<span class="glyphicon glyphicon-play"></span>'.html_safe, admin_source_path(group.sources.first, state_event: "activate"), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{group.sources.first.name}-status", :title => "Activate Source" %>
+              <% else %>
+                <%= link_to '<span class="glyphicon glyphicon-pause"></span>'.html_safe, admin_source_path(group.sources.first, state_event: "inactivate"), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{group.sources.first.name}-status", :title => "Inactivate Source" %>
+              <% end %>
+            </td>
+          <% else %>
+            <td colspan=3/>
+          <% end %>
+        </tr>
+        <% if group.sources.size > 1 %>
+          <% group.sources[1..-1].each do |source| %>
+            <% cache source do %>
+              <tr>
+                <td><%= link_to_if source.installed?, source.display_name, admin_source_path(source) %></td>
+                <td><%= state_label(source.human_state_name).html_safe %></td>
+                <td>
+                  <% if source.human_state_name == "available" %>
+                    <%= link_to '<span class="glyphicon glyphicon-save"></span>'.html_safe, admin_source_path(source, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-primary btn-sm', :id => "#{source.name}-status", :title => "Install Source" %>
+                  <% elsif source.human_state_name == "retired" %>
+                  <% elsif source.human_state_name == "inactive" %>
+                    <%= link_to '<span class="glyphicon glyphicon-play"></span>'.html_safe, admin_source_path(source, state_event: "activate"), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{source.name}-status", :title => "Activate Source" %>
+                  <% else %>
+                    <%= link_to '<span class="glyphicon glyphicon-pause"></span>'.html_safe, admin_source_path(source, state_event: "inactivate"), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{source.name}-status", :title => "Inactivate Source" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info">There are currently no groups</div>
+<% end %>
