@@ -86,7 +86,7 @@ describe "db:sources:activate" do
   include_context "rake"
 
   before do
-    FactoryGirl.create(:source, state_event: nil)
+    FactoryGirl.create(:source, state_event: 'install')
   end
 
   let(:output) { "Source CiteULike has been activated and is now queueing.\n" }
@@ -107,5 +107,34 @@ describe "db:sources:inactivate" do
 
   it "should run" do
     capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
+describe "db:sources:install" do
+  include_context "rake"
+
+  before do
+    FactoryGirl.create(:source, state_event: nil)
+  end
+
+  let(:output) { "Source CiteULike has been installed.\n" }
+
+  it "should run" do
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
+describe "db:sources:uninstall[citeulike,pmc]" do
+  include_context "rake"
+
+  before do
+    FactoryGirl.create(:source)
+    FactoryGirl.create(:pmc)
+  end
+
+  let(:output) { "Source CiteULike has been uninstalled.\nSource PubMed Central Usage Stats has been uninstalled.\n" }
+
+  it "should run" do
+    capture_stdout { subject.invoke(*task_args) }.should eq(output)
   end
 end
