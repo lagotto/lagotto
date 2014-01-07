@@ -11,9 +11,6 @@
       <%= f.input :email, :input_html => { class: "col-md-6" } %>
       <%= f.input :password, :input_html => { class: "col-md-6" } %>
       <%= f.input :password_confirmation, :input_html => { class: "col-md-6" } %>
-      <% if Report.count > 0 %>
-        <%= f.association :reports, as: :check_boxes %>
-      <% end %>
 
       <div class="form-group">
         <%= f.submit "Save ", class: "btn btn-primary btn-sm" %>
@@ -53,17 +50,5 @@
     <% end %>
     <dt>API Key</dt>
     <dd><%= @user.authentication_token %></dd>
-    <% unless @user.role == "user" %>
-      <dt class="report">Reports</dt>
-      <dd class="report">
-        <% unless @user.reports.empty? %>
-          <% @user.reports.each do |report| %>
-            <%= h(report.name) %></br>
-          <% end %>
-        <% else %>
-          Not subscribed
-        <% end %>
-      </dd>
-    <% end %>
   </dl>
 <% end %>

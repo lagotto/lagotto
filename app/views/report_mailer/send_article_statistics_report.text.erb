@@ -1,0 +1,6 @@
+This is the ALM article statistics report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.
+
+<%= number_with_delimiter(@articles_count) %> Articles
+<%= number_with_delimiter(@articles_recent_count) %> Articles published last 30 days
+
+Go to admin dashboard: <%= root_url(:host => CONFIG[:hostname]) %>

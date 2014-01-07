@@ -30,6 +30,15 @@ class ReportMailer < ActionMailer::Base
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Status Report")
   end
 
+  def send_article_statistics_report(report)
+    return if report.users.empty?
+
+    @articles_count = Article.count
+    @articles_recent_count = Article.last_x_days(30).count
+
+    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Article Statistics Report")
+  end
+
   def send_disabled_source_report(report, source_id)
     return if report.users.empty?
 

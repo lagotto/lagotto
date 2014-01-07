@@ -1,0 +1,6 @@
+<p>This is the ALM article statistics report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.</p>
+
+<p><%= number_with_delimiter(@articles_count) %> Articles<br/>
+<%= number_with_delimiter(@articles_recent_count) %> Articles published last 30 days<br/>
+
+<p><%= link_to "Go to admin dashboard", root_url(:host => CONFIG[:hostname]) %></p>

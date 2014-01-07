@@ -79,6 +79,11 @@ FactoryGirl.define do
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
+    factory :article_statistics_report_with_admin_user do
+      name 'Article Statistics Report'
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
+
     factory :disabled_source_report_with_admin_user do
       name 'Disabled Source Report'
       users { [FactoryGirl.create(:user, role: "admin")] }

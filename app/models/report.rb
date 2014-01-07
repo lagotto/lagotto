@@ -22,6 +22,14 @@ class Report < ActiveRecord::Base
 
   has_and_belongs_to_many :users
 
+  def self.available(role)
+    if role == "user"
+      where(private: false)
+    else
+      all
+    end
+  end
+
   # Reports are sent via delayed_job
 
   def send_error_report
@@ -30,6 +38,10 @@ class Report < ActiveRecord::Base
 
   def send_status_report
     ReportMailer.delay(queue: 'mailer', priority: 0).send_status_report(self)
+  end
+
+  def send_article_statistics_report
+    ReportMailer.delay(queue: 'mailer', priority: 0).send_article_statistics_report(self)
   end
 
   def send_disabled_source_report(source_id)
