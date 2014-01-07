@@ -28,12 +28,12 @@ class Admin::UsersController < Admin::ApplicationController
   def update
     # User updates his account
     if params[:user][:email]
-      sign_in @user, :bypass => true if @user.update_attributes(user_params)
+      sign_in @user, :bypass => true if @user.update_attributes(safe_params)
       respond_with(@user) do |format|
         format.js { render :show }
       end
     else
-      @user.update_attributes(user_params)
+      @user.update_attributes(safe_params)
       load_index
       respond_with(@users) do |format|
         format.js { render :index }
@@ -67,7 +67,7 @@ class Admin::UsersController < Admin::ApplicationController
 
   private
 
-  def user_params
+  def safe_params
     params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :role, { report_ids: []})
   end
 end

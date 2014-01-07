@@ -24,7 +24,7 @@ class Admin::SourcesController < Admin::ApplicationController
   def update
     params[:source] ||= {}
     params[:source][:state_event] = params[:state_event]
-    @source.update_attributes(source_params)
+    @source.update_attributes(safe_params)
     if @source.invalid?
       error_messages = @source.errors.full_messages.join(', ')
       flash.now[:alert] = "Please configure source #{@source.display_name}: #{error_messages}"
@@ -47,7 +47,7 @@ class Admin::SourcesController < Admin::ApplicationController
 
   private
 
-  def source_params
+  def safe_params
     params.require(:source).permit(:display_name,
                                    :group_id,
                                    :state_event,
