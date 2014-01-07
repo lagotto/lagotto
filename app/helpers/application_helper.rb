@@ -20,9 +20,9 @@ require 'github/markdown'
 
 module ApplicationHelper
   def link_to_setup_or_login
-    if APP_CONFIG['github_client_id']
+    if CONFIG[:github_client_id]
       link_to "Sign In with Github", user_omniauth_authorize_path(:github), :id => "sign_in"
-    elsif APP_CONFIG['persona']
+    elsif CONFIG[:persona]
       s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
         p = hidden_field_tag('assertion')
         p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link persona')

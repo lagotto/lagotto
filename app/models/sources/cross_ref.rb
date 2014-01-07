@@ -20,7 +20,7 @@
 
 class CrossRef < Source
 
-  validates :url, :password, presence: true, if: "APP_CONFIG['doi_prefix']"
+  validates :url, :password, presence: true, if: "CONFIG[:doi_prefix]"
 
   def get_data(article, options={})
 

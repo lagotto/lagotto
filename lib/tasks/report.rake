@@ -62,7 +62,7 @@ namespace :report do
       exit
     end
 
-    service_url = APP_CONFIG['couchdb_url']
+    service_url = CONFIG[:couchdb_url]
     service_url = service_url + "_design/reports/_view/mendeley"
 
     json = SourceHelper::get_json(service_url)
@@ -143,7 +143,7 @@ namespace :report do
       exit
     end
 
-    service_url = APP_CONFIG['couchdb_url']
+    service_url = CONFIG[:couchdb_url]
     service_url = service_url + "_design/reports/_view/counter_html_views"
 
     Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
@@ -155,7 +155,7 @@ namespace :report do
       exit
     end
 
-    service_url = APP_CONFIG['couchdb_url']
+    service_url = CONFIG[:couchdb_url]
     service_url = service_url + "_design/reports/_view/counter_pdf_views"
 
     Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
@@ -167,7 +167,7 @@ namespace :report do
       exit
     end
 
-    service_url = APP_CONFIG['couchdb_url']
+    service_url = CONFIG[:couchdb_url]
     service_url = service_url + "_design/reports/_view/counter_xml_views"
 
     Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
@@ -179,7 +179,7 @@ namespace :report do
       exit
     end
 
-    service_url = APP_CONFIG['couchdb_url']
+    service_url = CONFIG[:couchdb_url]
     service_url = service_url + "_design/reports/_view/counter_combined_views"
 
     Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
@@ -191,7 +191,7 @@ namespace :report do
       exit
     end
 
-    service_url = APP_CONFIG['couchdb_url']
+    service_url = CONFIG[:couchdb_url]
     service_url = service_url + "_design/reports/_view/pmc_html_views"
 
     Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
@@ -203,7 +203,7 @@ namespace :report do
       exit
     end
 
-    service_url = APP_CONFIG['couchdb_url']
+    service_url = CONFIG[:couchdb_url]
     service_url = service_url + "_design/reports/_view/pmc_pdf_views"
 
     Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
@@ -215,7 +215,7 @@ namespace :report do
       exit
     end
 
-    service_url = APP_CONFIG['couchdb_url']
+    service_url = CONFIG[:couchdb_url]
     service_url = service_url + "_design/reports/_view/pmc_combined_views"
 
     Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)

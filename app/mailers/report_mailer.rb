@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class ReportMailer < ActionMailer::Base
-  default :from => APP_CONFIG['notification_email']
+  default :from => CONFIG[:notification_email]
 
   def send_error_report(report)
     return if report.users.empty?

@@ -8,7 +8,7 @@ describe ReportMailer do
     it "sends email" do
       mail.subject.should eq("[ALM] Error Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
-      mail.from.should eq([APP_CONFIG['notification_email']])
+      mail.from.should eq([CONFIG[:notification_email]])
     end
 
     it "renders the body" do
@@ -21,7 +21,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: admin_alerts_url(:host => APP_CONFIG['hostname']))
+      body_html.should have_link('Go to admin dashboard', href: admin_alerts_url(:host => CONFIG[:hostname]))
     end
   end
 
@@ -32,7 +32,7 @@ describe ReportMailer do
     it "sends email" do
       mail.subject.should eq("[ALM] Status Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
-      mail.from.should eq([APP_CONFIG['notification_email']])
+      mail.from.should eq([CONFIG[:notification_email]])
     end
 
     it "renders the body" do
@@ -41,7 +41,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: root_url(:host => APP_CONFIG['hostname']))
+      body_html.should have_link('Go to admin dashboard', href: root_url(:host => CONFIG[:hostname]))
     end
   end
 
@@ -53,7 +53,7 @@ describe ReportMailer do
     it "sends email" do
       mail.subject.should eq("[ALM] Disabled Source Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
-      mail.from.should eq([APP_CONFIG['notification_email']])
+      mail.from.should eq([CONFIG[:notification_email]])
     end
 
     it "renders the body" do
@@ -62,7 +62,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: admin_source_url(source.name, :host => APP_CONFIG['hostname']))
+      body_html.should have_link('Go to admin dashboard', href: admin_source_url(source.name, :host => CONFIG[:hostname]))
     end
   end
 end

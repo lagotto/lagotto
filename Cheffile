@@ -11,7 +11,7 @@ cookbook "passenger_apache2", :git => "https://github.com/articlemetrics/passeng
 cookbook "mysql", "3.0.2"
 cookbook "couchdb", "2.4.0"
 cookbook "phantomjs", "1.0.2"
-cookbook "memcached", "1.5.0"
+cookbook "memcached", "1.7.0"
 cookbook "postfix", "3.0.0"
 
 cookbook "alm", :git => "https://github.com/articlemetrics/alm-cookbook.git"

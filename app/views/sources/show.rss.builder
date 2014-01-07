@@ -1,7 +1,7 @@
 xml.instruct! :xml, :version => "1.0"
 xml.rss :version => "2.0" do
   xml.channel do
-    xml.title APP_CONFIG['useragent'] + ": most-cited articles in #{@source.display_name}"
+    xml.title CONFIG[:useragent] + ": most-cited articles in #{@source.display_name}"
     xml.link source_url(@source)
 
     @retrieval_statuses.each do |retrieval_status|

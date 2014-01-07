@@ -4,9 +4,9 @@ class Api::V3::ApiRequestsController < Api::V3::BaseController
 
   def index
     if params[:key] == "local"
-      collection = ApiRequest.where("api_key = ?", APP_CONFIG['api_key'])
+      collection = ApiRequest.where("api_key = ?", CONFIG[:api_key])
     elsif params[:key] == "external"
-      collection = ApiRequest.where("api_key != ?", APP_CONFIG['api_key'])
+      collection = ApiRequest.where("api_key != ?", CONFIG[:api_key])
     elsif params[:key]
       collection = ApiRequest.where("api_key = ?", params[:key])
     else

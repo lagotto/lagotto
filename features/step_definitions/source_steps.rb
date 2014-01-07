@@ -179,7 +179,7 @@ end
 
 Then /^I should not see the "(.*?)" link in the menu bar$/ do |link_text|
   if link_text == "Home"
-    page.has_css?('a', :text => APP_CONFIG['useragent'], :visible => true).should_not be_true
+    page.has_css?('a', :text => CONFIG[:useragent], :visible => true).should_not be_true
   else
     page.has_css?('div.collapse ul li a', :visible => true).should_not be_true
     page.driver.render("tmp/capybara/#{link_text}_link.png")

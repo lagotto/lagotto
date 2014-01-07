@@ -523,11 +523,11 @@ class Source < ActiveRecord::Base
 
   def expire_cache
     self.update_column(:cached_at, Time.zone.now)
-    source_url = "http://localhost/api/v3/sources/#{name}?api_key=#{APP_CONFIG['api_key']}"
+    source_url = "http://localhost/api/v3/sources/#{name}?api_key=#{CONFIG[:api_key]}"
     get_json(source_url)
 
     Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
-    status_url = "http://localhost/api/v3/status?api_key=#{APP_CONFIG['api_key']}"
+    status_url = "http://localhost/api/v3/status?api_key=#{CONFIG[:api_key]}"
     get_json(status_url)
   end
 end

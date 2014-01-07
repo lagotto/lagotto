@@ -20,7 +20,7 @@
 
 <div class="content">
   <div class="page-header" id="page-header">
-    <h1 id="api_key" data-api_key="<%= APP_CONFIG['api_key'] %>">Sources</h1>
+    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>">Sources</h1>
   </div>
 
   <ul class="nav nav-tabs" id="nav_index">
@@ -31,21 +31,22 @@
     <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
   </ul>
 
-<div class="tab-content">
-  <div class="tab-pane active" id="jobs">
-    <%= render :partial => 'jobs' %>
-  </div>
-  <div class="tab-pane" id="responses">
-    <%= render :partial => 'responses' %>
-  </div>
-  <div class="tab-pane" id="articles">
-    <%= render :partial => 'articles' %>
-  </div>
-  <div class="tab-pane" id="events">
-    <%= render :partial => 'events' %>
-  </div>
-  <div class="tab-pane" id="configuration">
-    <%= render :partial => 'installation' %>
+  <div class="tab-content">
+    <div class="tab-pane active" id="jobs">
+      <%= render :partial => 'jobs' %>
+    </div>
+    <div class="tab-pane" id="responses">
+      <%= render :partial => 'responses' %>
+    </div>
+    <div class="tab-pane" id="articles">
+      <%= render :partial => 'articles' %>
+    </div>
+    <div class="tab-pane" id="events">
+      <%= render :partial => 'events' %>
+    </div>
+    <div class="tab-pane" id="configuration">
+      <%= render :partial => 'installation' %>
+    </div>
   </div>
 </div>
 
