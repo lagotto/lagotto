@@ -144,7 +144,7 @@ class Pmc < Source
 
   def url=(value)
     # make sure we have trailing slash
-    config.url = value.chomp("/") + "/"
+    config.url = value ? value.chomp("/") + "/" : nil
   end
 
   def journals

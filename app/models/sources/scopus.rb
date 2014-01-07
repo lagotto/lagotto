@@ -119,14 +119,14 @@ class Scopus < Source
   end
 
   def get_config_fields
-    [{:field_name => "username", :field_type => "text_field"},
-    {:field_name => "live_mode", :field_type => "check_box"},
-    {:field_name => "salt", :field_type => "password_field"},
-    {:field_name => "partner_id", :field_type => "text_field"}]
+    [{ field_name: "username", field_type: "text_field" },
+     { field_name: "live_mode", field_type: "check_box" },
+     { field_name: "salt", field_type: "password_field" },
+     { field_name: "partner_id", field_type: "text_field" }]
   end
 
   def live_mode
-    config.live_mode
+    config.live_mode || 1
   end
 
   def live_mode=(value)
