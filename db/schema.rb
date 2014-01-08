@@ -122,10 +122,10 @@ ActiveRecord::Schema.define(:version => 20140107120549) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "description"
-    t.string   "interval"
-    t.string   "url"
-    t.boolean  "private",     :default => true
+    t.string   "display_name"
+    t.text     "description"
+    t.text     "config"
+    t.boolean  "private",      :default => true
   end
 
   create_table "reports_users", :id => false, :force => true do |t|

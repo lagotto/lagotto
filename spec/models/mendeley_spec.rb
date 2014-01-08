@@ -1,6 +1,19 @@
 require 'spec_helper'
 
 describe Mendeley do
+
+  context "class methods" do
+    subject { Mendeley }
+
+    let(:url) { "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley" }
+
+    it "should format the CouchDB report as csv" do
+      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+      response = subject.to_csv
+      response.should eq(2)
+    end
+  end
+
   let(:mendeley) { FactoryGirl.create(:mendeley) }
 
   it "should report that there are no events if the doi, pmid, mendeley uuid and title are missing" do

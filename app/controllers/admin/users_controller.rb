@@ -26,17 +26,27 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def update
-    # User updates his account
-    if params[:user][:email]
-      sign_in @user, :bypass => true if @user.update_attributes(safe_params)
-      respond_with(@user) do |format|
-        format.js { render :show }
-      end
-    else
+    # Admin updates user role
+    if params[:user][:role]
       @user.update_attributes(safe_params)
       load_index
       respond_with(@users) do |format|
         format.js { render :index }
+      end
+    # User updates his account
+    else
+      if params[:user][:subscribe]
+        report = Report.find(params[:user][:subscribe])
+        @user.reports << report
+      elsif params[:user][:unsubscribe]
+        report = Report.find(params[:user][:unsubscribe])
+        @user.reports.delete(report)
+      else
+        sign_in @user, :bypass => true if @user.update_attributes(safe_params)
+      end
+
+      respond_with(@user) do |format|
+        format.js { render :show }
       end
     end
   end
@@ -52,6 +62,7 @@ class Admin::UsersController < Admin::ApplicationController
   protected
   def load_user
     @user = User.find(params[:id])
+    @reports = Report.available(@user.role)
   end
 
   def load_index
@@ -68,6 +79,6 @@ class Admin::UsersController < Admin::ApplicationController
   private
 
   def safe_params
-    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :role, { report_ids: []})
+    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :role, :subscribe, :unsubscribe)
   end
 end
