@@ -26,7 +26,9 @@ namespace :report do
 
     csv = Report.to_csv(include_private_sources: ENV['PRIVATE'])
 
-    if IO.write(filepath, csv)
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif IO.write(filepath, csv)
       puts "Report \"#{filename}\" has been written."
     else
       puts "Report \"#{filename}\" could not be written."
@@ -40,7 +42,9 @@ namespace :report do
 
     csv = Mendeley.to_csv
 
-    if IO.write(filepath, csv)
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif IO.write(filepath, csv)
       puts "Report \"#{filename}\" has been written."
     else
       puts "Report \"#{filename}\" could not be written."
@@ -58,7 +62,9 @@ namespace :report do
 
     csv = Pmc.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
-    if IO.write(filepath, csv)
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif IO.write(filepath, csv)
       puts "Report \"#{filename}\" has been written."
     else
       puts "Report \"#{filename}\" could not be written."
@@ -94,12 +100,14 @@ namespace :report do
 
   desc 'Generate CSV file with combined ALM stats'
   task :combined_stats => :environment do |t, args|
-    filename = "alm_result_#{Date.today.iso8601}.csv"
+    filename = "alm_report_#{Date.today.iso8601}.csv"
     filepath = "#{Rails.root}/data/#{filename}"
 
     csv = Report.merge_stats(date: ENV['DATE'])
 
-    if IO.write(filepath, csv)
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif IO.write(filepath, csv)
       puts "Report \"#{filename}\" has been written."
     else
       puts "Report \"#{filename}\" could not be written."

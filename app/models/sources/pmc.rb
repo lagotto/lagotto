@@ -36,6 +36,7 @@ class Pmc < Source
 
     result = get_json(service_url, options)
     result = result["rows"]
+    return nil if result.blank?
 
     if view == "pmc"
       CSV.generate do |csv|

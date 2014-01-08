@@ -9,8 +9,10 @@ describe Mendeley do
 
     it "should format the CouchDB report as csv" do
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
-      response = subject.to_csv
-      response.should eq(2)
+      response = CSV.parse(subject.to_csv)
+      response.count.should == 31
+      response.first.should eq(["doi", "readers", "groups", "total"])
+      response.last.should eq(["10.5194/se-1-1-2010", "6", "0", "6"])
     end
   end
 
