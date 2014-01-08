@@ -26,26 +26,15 @@ Through these setup options the behavior of sources can be fine-tuned, but the d
 
 ### Adding users
 
-The ALM application can be configured to use [Mozilla Persona](http://www.mozilla.org/en-US/persona/) or [Github OAuth](http://developer.github.com/v3/oauth/) to add additional users. The ALM application supports the following roles:
+The ALM application can be configured to use [Mozilla Persona](http://www.mozilla.org/en-US/persona/) to add additional users. To use Persona, make sure `config/settings.yml` contains `persona: true`, the default setting. No other configuration is necessary.
+
+The ALM application supports the following roles:
 
 * API user - only API key
 * staff - read-only access to admin area
 * admin - full access to admin area
 
 The API key is shown in the account profile, use `&api_key=[API_KEY]` in all API requests.
-
-##### Github OAuth
-
-To use Github OAuth, login into your Github account and register your ALM application at https://github.com/settings/applications (under Developer applications). Provide the name and URL to your application, which you can also use for the callback parameter (no need to include the callback path `/auth/github/callback`). Then copy the `Client ID` and `Client Secret` into `config/settings.yml`:
-
-    github_client_id: xxx
-    github_client_secret: xxx
-
-We are using the default scope, which only reads public information and can't write to the Github account.
-
-##### Persona
-
-To use Persona, make sure Github is disabled and `config/settings.yml` contains `persona: true`. No other configuration is necessary.
 
 ### Precompile assets
 Assets (CSS, Javascripts, images) need to be precompiled when running Rails in the `production` environment (but not in `development`). Run the following rake task, then restart the server:

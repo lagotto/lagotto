@@ -112,7 +112,7 @@ class Article < ActiveRecord::Base
 
   def self.uid
     # use the column name defined in settings.yml, default to doi
-    APP_CONFIG["uid"] || "doi"
+    CONFIG[:uid] || "doi"
   end
 
   def uid
@@ -188,7 +188,7 @@ class Article < ActiveRecord::Base
   end
 
   def is_publisher?
-    APP_CONFIG["doi_prefix"].to_s == doi[0..6]
+    CONFIG[:doi_prefix].to_s == doi[0..6]
   end
 
   def views

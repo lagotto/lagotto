@@ -13,7 +13,7 @@ class Admin::ArticlesController < Admin::ApplicationController
   end
 
   def show
-    @api_key = APP_CONFIG['api_key']
+    @api_key = CONFIG[:api_key]
 
     respond_with(@article) do |format|
       format.js { render :show }

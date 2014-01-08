@@ -20,6 +20,22 @@
 
 class Mendeley < Source
 
+  # Format Mendeley events for all articles as csv
+  def self.to_csv(options = {})
+
+    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
+
+    result = get_json(service_url, options)
+    return nil if result.blank?
+
+    result = result["rows"]
+
+    CSV.generate do |csv|
+      csv << ["doi", "readers", "groups", "total"]
+      result.each { |row| csv << [row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
+    end
+  end
+
   def get_data(article, options={})
 
     # First, we need to have the Mendeley uuid for this article.

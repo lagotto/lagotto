@@ -92,10 +92,10 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def provider_name
-    APP_CONFIG['useragent']
+    CONFIG[:useragent]
   end
 
   def provider_url
-    "http://#{APP_CONFIG['hostname']}"
+    "http://#{CONFIG[:hostname]}"
   end
 end

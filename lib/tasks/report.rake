@@ -14,210 +14,106 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "csv"
+require 'csv'
+require 'date'
 
 namespace :report do
 
-  task :all_stats, [:report_file] => :environment do |t, args|
+  desc 'Generate CSV file with ALM stats for all sources'
+  task :alm_stats => :environment do |t, args|
+    filename = "alm_stats_#{Date.today.iso8601}.csv"
+    filepath = "#{Rails.root}/data/#{filename}"
 
-    if args.report_file.nil?
-      Rails.logger.error("report_file is missing")
-      exit
-    end
+    csv = Report.to_csv(include_private_sources: ENV['PRIVATE'])
 
-    sql_stat = "select a.doi, a.published_on, a.title, rs.article_id"
-
-    sources = Source.where(:private => false)
-    sources.each do |source|
-      sql_stat = sql_stat + ", group_concat(if(rs.source_id = #{source.id}, rs.event_count, NULL)) as '#{source.name}'"
-    end
-
-    sql_stat = sql_stat + " from retrieval_statuses rs, articles a where a.id = rs.article_id group by rs.article_id"
-
-    db_config = YAML.load_file("#{Rails.root}/config/database.yml")[Rails.env]
-
-    if db_config["host"].nil? || db_config["username"].nil? || db_config["password"].nil? || db_config["database"].nil?
-      puts "Database configuration is missing.  Try again"
-      exit
-    end
-
-    client = Mysql2::Client.new(:host => db_config["host"],
-                                :username => db_config["username"],
-                                :password => db_config["password"],
-                                :database => db_config["database"])
-
-    results = client.query(sql_stat)
-
-    CSV.open(args.report_file, 'wb', :force_quotes => true) do |csv|
-      csv << ["DOI", "Published", "Title"] + sources.map(&:display_name)
-      results.each do |row|
-        csv << [row["doi"], row["published_on"], row["title"]] + sources.map {|source| row[source.name]}
-      end
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif IO.write(filepath, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
     end
   end
 
-  task :mendeley_stats, [:report_file] => :environment do |t, args|
-    if args.report_file.nil?
-      Rails.logger.error("report_file is missing")
-      exit
-    end
+  desc 'Generate CSV file with Mendeley stats'
+  task :mendeley_stats => :environment do |t, args|
+    filename = "mendeley_#{Date.today.iso8601}.csv"
+    filepath = "#{Rails.root}/data/#{filename}"
 
-    service_url = APP_CONFIG['couchdb_url']
-    service_url = service_url + "_design/reports/_view/mendeley"
+    csv = Mendeley.to_csv
 
-    json = SourceHelper::get_json(service_url)
-
-    results = json["rows"]
-    mendeley_stats = Hash.new
-    results.each { |result| mendeley_stats[result["key"]] = result["value"] }
-
-    articles = Article.all
-    CSV.open(args.report_file, 'wb', :force_quotes => true) do |csv|
-      csv << ["DOI", "Mendeley Readers", "Mendeley Groups", "Mendeley Total"]
-      articles.each do |article|
-        mendeley_stat = mendeley_stats[article.doi]
-        if !mendeley_stat.nil?
-          csv << [article.doi, mendeley_stat["readers"], mendeley_stat["groups"], mendeley_stat["readers"] + mendeley_stat["groups"]]
-        else
-          csv << [article.doi, 0, 0, 0]
-        end
-      end
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif IO.write(filepath, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
     end
   end
 
-  task :counter_stats, [:report_url,:report_file] => :environment do |t, args|
-    if args.report_url.nil? || args.report_file.nil?
-      Rails.logger.error("report_url or report_file is missing")
-      exit
+  desc 'Generate CSV file with PMC usage stats'
+  task :pmc_stats => :environment do |t, args|
+    if ENV['FORMAT']
+      filename = "pmc_#{ENV['FORMAT']}_#{Date.today.iso8601}.csv"
+    else
+      filename = "pmc_#{Date.today.iso8601}.csv"
     end
+    filepath = "#{Rails.root}/data/#{filename}"
 
-    start_year = 2003;
-    start_month = 8;
+    csv = Pmc.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
-    keys = []
-
-    (start_month..12).each {|month| keys << "#{start_year}-#{month}"}
-
-    (2004..Date.today.prev_year.year).each do | year |
-      (1..12).each do | month |
-        keys << "#{year}-#{month}"
-      end
-    end
-
-    (1..Date.today.month).each {|month| keys << "#{Date.today.year}-#{month}"}
-
-    json = SourceHelper::get_json(args.report_url)
-
-    results = json["rows"]
-    counter_html_stats = Hash.new
-    results.each { |result| counter_html_stats[result["key"]] = result["value"] }
-
-    articles = Article.where("doi like '10.1371/journal.p%'").order("doi")
-
-    CSV.open(args.report_file, 'wb', :force_quotes => true) do |csv|
-
-      csv << ["DOI"] + keys
-      articles.each do |article|
-        counter_html_stat = counter_html_stats[article.doi]
-        if !counter_html_stat.nil?
-          stat_row = Array.new
-          keys.each do | key |
-            stat = counter_html_stat[key]
-            if !stat.nil?
-              stat_row << stat
-            else
-              stat_row << 0
-            end
-          end
-          csv << [article.doi] + stat_row
-        else
-          csv << [article.doi] + Array.new(keys.length, 0)
-        end
-      end
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif IO.write(filepath, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
     end
   end
 
-  task :counter_html_stats, [:report_file] => :environment do |t, args|
-    if args.report_file.nil?
-      Rails.logger.error("report_file is missing")
-      exit
-    end
-
-    service_url = APP_CONFIG['couchdb_url']
-    service_url = service_url + "_design/reports/_view/counter_html_views"
-
-    Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
+  desc 'Generate CSV file with PMC HTML usage stats over time'
+  task :pmc_html_stats => :environment do |t, args|
+    date = 1.year.ago.to_date
+    ENV['FORMAT'] = "html"
+    ENV['MONTH'] = date.month.to_s
+    ENV['YEAR'] = date.year.to_s
+    Rake::Task["report:pmc_stats"].invoke
   end
 
-  task :counter_pdf_stats, [:report_file] => :environment do |t, args|
-    if args.report_file.nil?
-      Rails.logger.error("report_file is missing")
-      exit
-    end
-
-    service_url = APP_CONFIG['couchdb_url']
-    service_url = service_url + "_design/reports/_view/counter_pdf_views"
-
-    Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
+  desc 'Generate CSV file with PMC PDF usage stats over time'
+  task :pmc_pdf_stats => :environment do |t, args|
+    date = 1.year.ago.to_date
+    ENV['FORMAT'] = "pdf"
+    ENV['MONTH'] = date.month.to_s
+    ENV['YEAR'] = date.year.to_s
+    Rake::Task["report:pmc_stats"].invoke
   end
 
-  task :counter_xml_stats, [:report_file] => :environment do |t, args|
-    if args.report_file.nil?
-      Rails.logger.error("report_file is missing")
-      exit
-    end
-
-    service_url = APP_CONFIG['couchdb_url']
-    service_url = service_url + "_design/reports/_view/counter_xml_views"
-
-    Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
+  desc 'Generate CSV file with PMC combined usage stats over time'
+  task :pmc_combined_stats => :environment do |t, args|
+    date = 1.year.ago.to_date
+    ENV['FORMAT'] = "combined"
+    ENV['MONTH'] = date.month.to_s
+    ENV['YEAR'] = date.year.to_s
+    Rake::Task["report:pmc_stats"].invoke
   end
 
-  task :counter_combined_stats, [:report_file] => :environment do |t, args|
-    if args.report_file.nil?
-      Rails.logger.error("report_file is missing")
-      exit
+  desc 'Generate CSV file with combined ALM stats'
+  task :combined_stats => :environment do |t, args|
+    filename = "alm_report_#{Date.today.iso8601}.csv"
+    filepath = "#{Rails.root}/data/#{filename}"
+
+    csv = Report.merge_stats(date: ENV['DATE'])
+
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif IO.write(filepath, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
     end
-
-    service_url = APP_CONFIG['couchdb_url']
-    service_url = service_url + "_design/reports/_view/counter_combined_views"
-
-    Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
   end
 
-  task :pmc_html_stats, [:report_file] => :environment do |t, args|
-    if args.report_file.nil?
-      Rails.logger.error("report_file is missing")
-      exit
-    end
-
-    service_url = APP_CONFIG['couchdb_url']
-    service_url = service_url + "_design/reports/_view/pmc_html_views"
-
-    Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
-  end
-
-  task :pmc_pdf_stats, [:report_file] => :environment do |t, args|
-    if args.report_file.nil?
-      Rails.logger.error("report_file is missing")
-      exit
-    end
-
-    service_url = APP_CONFIG['couchdb_url']
-    service_url = service_url + "_design/reports/_view/pmc_pdf_views"
-
-    Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
-  end
-
-  task :pmc_combined_stats, [:report_file] => :environment do |t, args|
-    if args.report_file.nil?
-      Rails.logger.error("report_file is missing")
-      exit
-    end
-
-    service_url = APP_CONFIG['couchdb_url']
-    service_url = service_url + "_design/reports/_view/pmc_combined_views"
-
-    Rake::Task["report:counter_stats"].invoke(service_url, args.report_file)
-  end
+  desc 'Generate all article stats reports'
+  task :all_stats => [:environment, :alm_stats, :mendeley_stats, :pmc_stats, :pmc_html_stats, :pmc_pdf_stats, :pmc_combined_stats, :combined_stats]
 end

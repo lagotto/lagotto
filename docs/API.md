@@ -10,7 +10,7 @@ All API calls to the version 3 API start with ``/api/v3/articles``.
 The media type is set in the header, e.g. "Accept: application/json". Media type negotiation via file extension (e.g. ".json") is not supported. The API defaults to JSON if no media type is given, e.g. to test the API with a browser.
 
 ## API Key
-All API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use **Github OAuth** or other services. For the PLOS ALM application you need to sign in with your [PLOS Journals account](http://register.plos.org/ambra-registration/register.action).
+All API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS Journals account](http://register.plos.org/ambra-registration/register.action).
 
 ## Query for one or several Articles
 Specify one or more articles by a comma-separated list of DOIs in the `ids` parameter. These DOIs have to be URL-escaped, e.g. `%2F` for `/`:

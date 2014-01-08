@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class ReportMailer < ActionMailer::Base
-  default :from => APP_CONFIG['notification_email']
+  default :from => CONFIG[:notification_email]
 
   def send_error_report(report)
     return if report.users.empty?
@@ -28,6 +28,15 @@ class ReportMailer < ActionMailer::Base
     @mysql_info = RetrievalHistory.table_status
 
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Status Report")
+  end
+
+  def send_article_statistics_report(report)
+    return if report.users.empty?
+
+    @articles_count = Article.count
+    @articles_recent_count = Article.last_x_days(30).count
+
+    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Article Statistics Report")
   end
 
   def send_disabled_source_report(report, source_id)

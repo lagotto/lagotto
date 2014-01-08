@@ -31,6 +31,7 @@ class UsersController < ApplicationController
   def load_user
     if user_signed_in?
       @user = current_user
+      @reports = Report.available(@user.role)
     else
       raise CanCan::AccessDenied.new("Please sign in first.", :read, User)
     end

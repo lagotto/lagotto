@@ -1,0 +1,37 @@
+{
+  "_id": "_design/reports",
+  "_rev": "7-1bd841c99f55d4f47a8a286c0303709e",
+  "language": "javascript",
+  "views": {
+    "mendeley": {
+      "map": "function(doc) {\n  if (doc.doc_type === \"current\" && doc.source === \"mendeley\") {\n    emit(doc.doi, {readers: doc.event_metrics.shares, groups: doc.event_metrics.groups, total: doc.event_metrics.total});\n  }\n  }"
+    },
+    "counter": {
+      "map": "function(doc) {\n  if (doc.doc_type === \"current\" && doc.source === \"counter\") {\n    emit(doc.doi, {html: doc.event_metrics.html, pdf: doc.event_metrics.pdf, total: doc.event_metrics.total});\n  }\n  }"
+    },
+    "counter_html_views": {
+      "map": "function(doc) {\n  if (doc.doc_type === \"current\" && doc.source === \"counter\") {\n    var views = {};\n    var key = \"\";\n    for (var i = 0; i < doc.events.length; i++) {\n      key = doc.events[i].year + \"-\" + doc.events[i].month;\n      views[key] = parseInt(doc.events[i].html_views);\n    } \n    emit(doc.doi, views);\n  } \n}"
+    },
+    "counter_pdf_views": {
+      "map": "function(doc) {\n  if (doc.doc_type === \"current\" && doc.source === \"counter\") {\n    var views = {};\n    var key = \"\";\n    for (var i = 0; i < doc.events.length; i++) {\n      key = doc.events[i].year + \"-\" + doc.events[i].month;\n      views[key] = parseInt(doc.events[i].pdf_views);\n    } \n    emit(doc.doi, views);\n  } \n}"
+    },
+    "counter_xml_views": {
+      "map": "function(doc) {\n  if (doc.doc_type === \"current\" && doc.source === \"counter\") {\n    var views = {};\n    var key = \"\";\n    for (var i = 0; i < doc.events.length; i++) {\n      key = doc.events[i].year + \"-\" + doc.events[i].month;\n      views[key] = parseInt(doc.events[i].xml_views);\n    } \n    emit(doc.doi, views);\n  } \n}"
+    },
+    "counter_combined_views": {
+      "map": "function(doc) {\n  if (doc.doc_type === \"current\" && doc.source === \"counter\") {\n    var views = {};\n    var key = \"\";\n    for (var i = 0; i < doc.events.length; i++) {\n      key = doc.events[i].year + \"-\" + doc.events[i].month;\n      views[key] = parseInt(doc.events[i].pdf_views) + parseInt(doc.events[i].xml_views) + parseInt(doc.events[i].html_views);\n    } \n    emit(doc.doi, views);\n  } \n}"
+    },
+    "pmc": {
+      "map": "function(doc) {\n  if (doc.doc_type === \"current\" && doc.source === \"pmc\") {\n    emit(doc.doi, {html: doc.event_metrics.html, pdf: doc.event_metrics.pdf, total: doc.event_metrics.total});\n  }\n  }"
+    },
+    "pmc_pdf_views": {
+      "map": "function(doc) {\n  if (doc.doc_type === \"current\" && doc.source === \"pmc\") {\n    var views = {};\n    var key = \"\";\n    for (var i = 0; i < doc.events.length; i++) {\n      key = doc.events[i].year + \"-\" + doc.events[i].month;\n      views[key] = parseInt(doc.events[i].pdf);\n    } \n    emit(doc.doi, views);\n  } \n}"
+    },
+    "pmc_html_views": {
+      "map": "function(doc) {\n  if (doc.doc_type === \"current\" && doc.source === \"pmc\") {\n    var views = {};\n    var key = \"\";\n    for (var i = 0; i < doc.events.length; i++) {\n      key = doc.events[i].year + \"-\" + doc.events[i].month;\n      views[key] = parseInt(doc.events[i]['full-text']);\n    } \n    emit(doc.doi, views);\n  } \n}"
+    },
+    "pmc_combined_views": {
+      "map": "function(doc) {\n  if (doc.doc_type === \"current\" && doc.source === \"pmc\") {\n    var views = {};\n    var key = \"\";\n    for (var i = 0; i < doc.events.length; i++) {\n      key = doc.events[i].year + \"-\" + doc.events[i].month;\n      views[key] = parseInt(doc.events[i]['full-text']) + parseInt(doc.events[i].pdf);\n    } \n    emit(doc.doi, views);\n  } \n}"
+    }
+  }
+}

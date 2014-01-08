@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131204092137) do
+ActiveRecord::Schema.define(:version => 20140107120549) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -122,6 +122,10 @@ ActiveRecord::Schema.define(:version => 20131204092137) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "display_name"
+    t.text     "description"
+    t.text     "config"
+    t.boolean  "private",      :default => true
   end
 
   create_table "reports_users", :id => false, :force => true do |t|

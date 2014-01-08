@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :token_authenticatable, :omniauthable, :omniauth_providers => [:cas] # ignoring :github, :persona
+         :token_authenticatable, :omniauthable, :omniauth_providers => [:cas] # ignoring :persona
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token, :report_ids

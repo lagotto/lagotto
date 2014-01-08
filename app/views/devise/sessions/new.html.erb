@@ -1,20 +1,25 @@
 <div class="content">
-  
+
   <%= simple_form_for resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => 'form-horizontal' } do |f| %>
     <fieldset>
-      <legend>Sign In</legend>  
-          
+      <legend>Sign In</legend>
+
       <%= f.input :login %>
       <%= f.input :password %>
-      
+
       <% if devise_mapping.rememberable? -%>
         <%= f.input :remember_me, :as => :boolean %>
       <% end -%>
 
       <div class="form-actions">
         <%= f.submit "Sign in with Password", class: "btn btn-primary" %>
-        <% if APP_CONFIG['cas_url'] %>
-          <%= link_to "Sign in with PLOS", user_omniauth_authorize_path(:cas), class: "btn btn-info" %>
+        <% if CONFIG[:github_client_id] %>
+          <%= link_to "Sign in with Github", user_omniauth_authorize_path(:github), class: "btn btn-info" %>
+        <% elsif CONFIG[:persona] %>
+          <%= form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do %>
+            <%= hidden_field_tag('assertion') %>
+            <%= button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-info') %>
+          <% end %>
         <% end %>
       </div>
     </fieldset>
