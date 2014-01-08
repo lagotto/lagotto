@@ -3,6 +3,36 @@ memcached Cookbook CHANGELOG
 This file is used to list changes made in each version of the memcached cookbook.
 
 
+v1.7.0
+------
+Updating for yum ~> 3.0. 
+Fixing up style issues for rubocop. 
+Updating test-kitchen harness
+
+
+v1.6.6
+------
+fixing metadata version error. locking to 3.0
+
+
+v1.6.4
+------
+Locking yum dependency to '< 3'
+
+
+v1.6.2
+------
+[COOK-3741] UDP settings for memcached
+
+
+v1.6.0
+------
+### Bug
+- **[COOK-3682](https://tickets.opscode.com/browse/COOK-3682)** - Set user when using Debian packages
+
+### Improvement
+- **[COOK-3336](https://tickets.opscode.com/browse/COOK-3336)** - Add an option to specify the logfile (fix)
+
 v1.5.0
 ------
 ### Improvement
