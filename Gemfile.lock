@@ -139,7 +139,7 @@ GEM
     gherkin (2.12.2)
       multi_json (~> 1.3)
     github-markdown (0.6.3)
-    haml (4.0.4)
+    haml (4.0.5)
       tilt
     hashie (2.0.5)
     highline (1.6.20)
@@ -181,19 +181,10 @@ GEM
     omniauth (1.1.4)
       hashie (>= 1.2, < 3)
       rack
-<<<<<<< HEAD
     omniauth-cas (1.0.4)
       addressable (~> 2.3)
       nokogiri (~> 1.6)
       omniauth (~> 1.1.0)
-    omniauth-github (1.1.1)
-      omniauth (~> 1.0)
-      omniauth-oauth2 (~> 1.1)
-    omniauth-oauth2 (1.1.1)
-      oauth2 (~> 0.8.0)
-      omniauth (~> 1.0)
-=======
->>>>>>> upstream/develop
     omniauth-persona (0.0.1)
       faraday
       multi_json
@@ -365,11 +356,7 @@ DEPENDENCIES
   nokogiri (~> 1.6.0)
   nori (~> 2.3.0)
   oj (~> 2.1.4)
-<<<<<<< HEAD
   omniauth-cas (~> 1.0.4)
-  omniauth-github (~> 1.1.0)
-=======
->>>>>>> upstream/develop
   omniauth-persona
   poltergeist (~> 1.3.0)
   rabl (~> 0.9.0)

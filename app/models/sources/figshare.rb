@@ -22,7 +22,7 @@ class Figshare < Source
 
   def get_data(article, options={})
 
-    return  { :events => [], :event_count => nil } unless article.doi[0..6] == APP_CONFIG["doi_prefix"].to_s
+    return  { :events => [], :event_count => nil } unless article.doi[0..6] == CONFIG[:doi_prefix].to_s
 
     query_url = get_query_url(article)
     options[:source_id] = id

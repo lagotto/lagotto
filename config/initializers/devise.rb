@@ -211,12 +211,11 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :cas, url: APP_CONFIG['cas_url'],
-                        login_url: APP_CONFIG['cas_login_url'],
-                        logout_url: APP_CONFIG['cas_logout_url'],
-                        service_validate_url: APP_CONFIG['cas_service_validate_url'],
+  config.omniauth :cas, url: CONFIG[:cas_url],
+                        login_url: CONFIG[:cas_login_url],
+                        logout_url: CONFIG[:cas_logout_url],
+                        service_validate_url: CONFIG[:cas_service_validate_url],
                         ssl: true
-  config.omniauth :github, APP_CONFIG['github_client_id'], APP_CONFIG['github_client_secret']
   config.omniauth :persona
 
   OmniAuth.config.logger = Rails.logger

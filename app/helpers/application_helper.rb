@@ -20,7 +20,7 @@ require 'github/markdown'
 
 module ApplicationHelper
   def link_to_setup_or_login
-    if APP_CONFIG['cas_url']
+    if CONFIG[:cas_url]
       link_to "Sign In", user_omniauth_authorize_path(:cas), :id => "sign_in"
     elsif User.count > 0
       link_to "Sign In", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : '', :id => "sign_in"
