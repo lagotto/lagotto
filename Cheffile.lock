@@ -23,9 +23,10 @@ SITE
       runit (>= 1.0)
       windows (>= 0.0.0)
       yum (>= 0.0.0)
-    memcached (1.5.0)
+    memcached (1.7.0)
       runit (~> 1.0)
-      yum (>= 0.0.0)
+      yum (~> 3.0)
+      yum-epel (>= 0.0.0)
     mysql (3.0.2)
       build-essential (> 1.1.0)
       openssl (>= 0.0.0)
@@ -51,7 +52,7 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 9aae5b81b29e320959059678610465f8632306d9
+  sha: 0a110f57b8a901d8b5690dce00765ecbff8e0790
   specs:
     alm (1.4.4)
       couchdb (>= 0.0.0)
@@ -75,7 +76,7 @@ DEPENDENCIES
   build-essential (= 1.4.2)
   couchdb (= 2.4.0)
   git (= 2.5.2)
-  memcached (= 1.5.0)
+  memcached (= 1.7.0)
   mysql (= 3.0.2)
   passenger_apache2 (>= 0)
   phantomjs (= 1.0.2)

@@ -26,7 +26,6 @@ gem "nori", "~> 2.3.0"
 
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 3.0.3"
-gem "omniauth-github", "~> 1.1.0"
 gem "omniauth-persona"
 gem "cancan", "~> 1.6.10"
 gem "validates_timeliness", "~> 3.0.14"
@@ -49,7 +48,7 @@ gem 'will_paginate', '3.0.5'
 gem "will_paginate-bootstrap", "~> 1.0.0"
 gem "simple_form", "~> 2.1.0"
 gem "dotiw", "~> 1.1.1"
-gem "github-markdown", "~> 0.6.1"
+gem "github-markdown", "~> 0.6.3"
 
 group :test do
   gem "factory_girl_rails", "~> 4.2.1", :require => false

@@ -38,19 +38,6 @@ class User < ActiveRecord::Base
 
   scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
 
-  def self.find_for_github_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    unless user
-      user = User.create!(:username => auth.info.nickname,
-                          :name => auth.info.name,
-                          :authentication_token => auth.token,
-                          :provider => auth.provider,
-                          :uid => auth.uid)
-    end
-
-    user
-  end
-
   def self.find_for_persona_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     unless user
