@@ -35,8 +35,9 @@ class Pmc < Source
     service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
 
     result = get_json(service_url, options)
-    result = result["rows"]
     return nil if result.blank?
+
+    result = result["rows"]
 
     if view == "pmc"
       CSV.generate do |csv|

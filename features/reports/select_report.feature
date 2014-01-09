@@ -15,16 +15,12 @@ Feature: Select Reports
     Scenario: Staff can select report
       Given we have report "Error Report"
       When I go to my account page
-      And I click on the "edit" link
-      And I check the checkbox for the report "Error Report"
-      And I click on the "Save" button
-      Then I should see the report "Error Report"
+      And I click on the "Subscribe" link
+      Then I should see the "Unsubscribe" link
 
     Scenario: Staff can unselect report
       Given we have report "Error Report"
       And we have selected the report
       When I go to my account page
-      And I click on the "edit" link
-      And I uncheck the checkbox for the report "Error Report"
-      And I click on the "Save" button
-      Then I should not see the report "Error Report"
+      And I click on the "Unsubscribe" link
+      Then I should see the "Subscribe" link

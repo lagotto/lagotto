@@ -2,7 +2,7 @@
   <div class="panel-group" id="retrieval_status">
     <% @article.retrieval_statuses.with_sources.each do |status| %>
       <% if !status.source.nil? %>
-        <div class="panel <%= status.retrieved_at > '1970-01-01' ? 'panel-default' : 'panel-warning' %>" id="<%= status.source.name %>">
+        <div class="panel <%= (status.retrieved_at > '1970-01-01' || status.source.retired?) ? 'panel-default' : 'panel-warning' %>" id="<%= status.source.name %>">
           <%= render partial: 'admin/articles/source', locals: { status: status } %>
         </div>
       <% end %>

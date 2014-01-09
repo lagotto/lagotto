@@ -76,24 +76,32 @@ FactoryGirl.define do
   end
 
   factory :report do
-    name 'Error Report'
+    name 'error_report'
+    display_name 'Error Report'
+    description 'Reports error summary'
 
     factory :error_report_with_admin_user do
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
     factory :status_report_with_admin_user do
-      name 'Status Report'
+      name 'status_report'
+      display_name 'Status Report'
+      description 'Reports application status'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
     factory :article_statistics_report_with_admin_user do
-      name 'Article Statistics Report'
+      name 'article_statistics_report'
+      display_name 'Article Statistics Report'
+      description 'Generates CSV file with ALM for all articles'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
     factory :disabled_source_report_with_admin_user do
-      name 'Disabled Source Report'
+      name 'disabled_source_report'
+      display_name 'Disabled Source Report'
+      description 'Reports when a source has been disabled'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
   end
