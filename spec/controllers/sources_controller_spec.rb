@@ -8,8 +8,10 @@ describe SourcesController do
       expect { get source_path("x") }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it "returns a proper error for an unknown source in the admin dashboard" do
-      expect { get admin_source_path("x") }.to raise_error(ActiveRecord::RecordNotFound)
+    it "redirects to the login page for an unknown source in the admin dashboard" do
+      get admin_source_path("x")
+      last_response.status.should eql(302)
+      last_response.body.should include("/users/sign_in")
     end
   end
 
@@ -81,5 +83,4 @@ describe SourcesController do
       expect { get source_path("x"), format: "rss" }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
-
 end
