@@ -19,7 +19,8 @@
 class Admin::ApplicationController < ActionController::Base
   protect_from_forgery
 
-  check_authorization
+  before_filter :authenticate_user_from_token!
+  before_filter :authenticate_user!
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
@@ -28,4 +29,15 @@ class Admin::ApplicationController < ActionController::Base
   respond_to :html, :js, :json
 
   layout 'application'
+
+  private
+
+  def authenticate_user_from_token!
+    user_token = params[:user_token].presence
+    user       = user_token && User.find_by_authentication_token(user_token.to_s)
+
+    if user
+      sign_in user, store: false
+    end
+  end
 end
