@@ -99,7 +99,6 @@ class Report < ActiveRecord::Base
   end
 
   # Reports are sent via delayed_job
-
   def send_error_report
     ReportMailer.delay(queue: 'mailer', priority: 1).send_error_report(self)
   end

@@ -49,13 +49,12 @@ module ApplicationHelper
     end
   end
 
-  def number_not_showing_zero(number, options = {})
-    if number.nil? or number.to_i == 0
-      ""
-    elsif options[:precision]
-      number_with_precision(number, precision: options[:precision])
+  def article_statistics_report_path
+    path = "/public/files/alm_report.zip"
+    if File.exist?(Rails.root + path)
+      path
     else
-      number_with_delimiter(number.to_i)
+      nil
     end
   end
 

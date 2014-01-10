@@ -12,7 +12,12 @@
       <% @reports.each do |report| %>
         <tr>
           <td><%= h(report.display_name) %></td>
-          <td><%= h(report.description) %></td>
+          <td>
+            <%= h(report.description) %>
+            <% if report.name == "article_statistics_report" && article_statistics_report_path %>
+              <%= link_to "Download Report", article_statistics_report_path %>
+            <% end %>
+          </td>
           <td><%= distance_of_time(report.interval) %></td>
           <td>
           <% if report.users.exists?(@user) %>
