@@ -236,10 +236,14 @@ if Source.const_defined?('ArticleCoverageCurated')
     :display_name => "Article Coverage Curated",
     :description => "Article Coverage Curated",
     :state_event => "activate",
-    :workers => 1,
-    :group_id => discussed.id,
-    :url => "http://mediacuration.plos.org/api/v1?doi=%{doi}" )
+    :group_id => discussed.id)
 end
+  plos_comments = PlosComments.find_or_create_by_name(
+    :name => "plos_comments",
+    :display_name => "Journal Comments",
+    :description => "Comments from the PLOS website.",
+    :state_event => "activate",
+    :group_id => discussed.id)
 
 # These sources are retired, but we need to keep them around for the data we collected
 connotea = Connotea.find_or_create_by_name(

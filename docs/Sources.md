@@ -27,6 +27,7 @@ The ALM application provides a number of public sources. Most sources require a 
 ### Private Sources
 * [PLOS Usage Stats](Counter)
 * [PLOS Figshare Usage Stats](Figshare)
+* [PLOS Comments](Plos-Comments)
 * [Twitter](Twitter)
 * [Web of Science](Wos)
 * [Scopus](Scopus)

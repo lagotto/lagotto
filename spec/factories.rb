@@ -259,6 +259,18 @@ FactoryGirl.define do
     initialize_with { Figshare.find_or_create_by_name(name) }
   end
 
+  factory :plos_comments, class: PlosComments do
+    type "PlosComments"
+    name "plos_comments"
+    display_name "PLOS Comments"
+    state_event "activate"
+    url "http://api.plosjournals.org/v1/articles/%{doi}?comments"
+
+    group
+
+    initialize_with { PlosComments.find_or_create_by_name(name) }
+  end
+
   factory :pmc, class: Pmc do
     type "Pmc"
     name "pmc"
