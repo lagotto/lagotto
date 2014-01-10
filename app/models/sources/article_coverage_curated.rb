@@ -42,7 +42,7 @@ class ArticleCoverageCurated < Source
                           html: nil,
                           shares: nil,
                           groups: nil,
-                          comments: nil,
+                          comments: events.length,
                           likes: nil,
                           citations: nil,
                           total: events.length }
