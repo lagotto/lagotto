@@ -50,8 +50,8 @@ describe RetrievalStatus do
       (retrieval_status.stale_at - Time.zone.now).should be_between(duration, 1.1 * duration)
     end
 
-    it "published 370 days ago" do
-      article = FactoryGirl.create(:article, :published_on => Time.zone.today - 370.days)
+    it "published 400 days ago" do
+      article = FactoryGirl.create(:article, :published_on => Time.zone.today - 400.days)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[3]
       (retrieval_status.stale_at - Time.zone.now).should be_between(duration, 1.1 * duration)
