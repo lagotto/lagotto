@@ -26,7 +26,7 @@ gem "nori", "~> 2.3.0"
 
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 3.0.3"
-gem "omniauth-persona"
+#gem "omniauth-persona"
 gem "omniauth-cas", "~> 1.0.4"
 gem "cancan", "~> 1.6.10"
 gem "validates_timeliness", "~> 3.0.14"

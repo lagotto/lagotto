@@ -63,19 +63,19 @@ class User < ActiveRecord::Base
     user
   end
 
-  def self.find_for_persona_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    unless user
-      user = User.create!(:username => auth.info.email,
-                          :name => auth.info.name,
-                          :authentication_token => auth.token,
-                          :provider => auth.provider,
-                          :uid => auth.uid,
-                          :email => auth.info.email)
-    end
+  # def self.find_for_persona_oauth(auth, signed_in_resource=nil)
+  #   user = User.where(:provider => auth.provider, :uid => auth.uid).first
+  #   unless user
+  #     user = User.create!(:username => auth.info.email,
+  #                         :name => auth.info.name,
+  #                         :authentication_token => auth.token,
+  #                         :provider => auth.provider,
+  #                         :uid => auth.uid,
+  #                         :email => auth.info.email)
+  #   end
 
-    user
-  end
+  #   user
+  # end
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'

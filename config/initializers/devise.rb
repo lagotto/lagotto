@@ -216,9 +216,7 @@ Devise.setup do |config|
                         logout_url: CONFIG[:cas_logout_url],
                         service_validate_url: CONFIG[:cas_service_validate_url],
                         ssl: true
-  config.omniauth :persona
-
-  OmniAuth.config.logger = Rails.logger
+  # config.omniauth :persona
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
