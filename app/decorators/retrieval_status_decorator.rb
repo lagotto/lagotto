@@ -121,6 +121,11 @@ class RetrievalStatusDecorator < Draper::Decorator
       events_30 = events.select { |event| event["event"]["created_at"].to_date - article.published_on < 30 }
       return nil if events_30.blank?
       events_30.group_by {|event| event["event"]["created_at"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
+    when "article_coverage_curated"
+      return nil if events.blank?
+      events_30 = events.select { |event| event["event"]["published_on"].to_date - article.published_on < 30 }
+      return nil if events_30.blank?
+      events_30.group_by {|event| event["event"]["published_on"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
     when "plos_comments"
       return nil if events.blank?
       events_30 = events.select { |event| event["event"]["created"].to_date - article.published_on < 30 }
@@ -131,7 +136,6 @@ class RetrievalStatusDecorator < Draper::Decorator
       nil
     end
   end
-
 
   def by_month
     case name
@@ -158,6 +162,12 @@ class RetrievalStatusDecorator < Draper::Decorator
         nil
       else
         events.group_by {|event| event["event"]["created_at"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
+      end
+    when "article_coverage_curated"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["published_on"].to_datetime.strftime("%Y-%m") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
       end
     when "plos_comments"
       if events.blank?
@@ -232,6 +242,12 @@ class RetrievalStatusDecorator < Draper::Decorator
         nil
       else
         events.group_by {|event| event["event"]["created"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
+      end
+    when "article_coverage_curated"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["event"]["published_on"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
       end
     when "researchblogging"
       if events.blank?
