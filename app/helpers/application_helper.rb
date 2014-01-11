@@ -19,19 +19,13 @@
 require 'github/markdown'
 
 module ApplicationHelper
-  def link_to_setup_or_login
-    if CONFIG[:persona]
-      s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
-        p = hidden_field_tag('assertion')
-        p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link persona')
-        p
-      end
-      s.html_safe
-    elsif User.count > 0
-      link_to "Sign In", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : '', :id => "sign_in"
-    else
-      link_to 'Sign Up', new_user_registration_path, :class => current_page?(new_user_registration_path) ? 'current' : '', :id => "sign_in"
+  def login_link
+    s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
+      p = hidden_field_tag('assertion')
+      p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link persona')
+      p
     end
+    s.html_safe
   end
 
   def markdown(text)
