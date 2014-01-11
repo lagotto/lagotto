@@ -2,7 +2,7 @@ class Api::V3::BaseController < ActionController::Base
 
   respond_to :json, :xml
 
-  before_filter :default_format_json, :after_token_authentication, :cors_preflight_check
+  before_filter :default_format_json, :authenticate_user_from_token!, :cors_preflight_check
   after_filter :cors_set_access_control_headers
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -15,10 +15,12 @@ class Api::V3::BaseController < ActionController::Base
     request.format = :json if request.format.html?
   end
 
-  def after_token_authentication
-    @user = User.find_by_authentication_token(params[:api_key]) if params[:api_key].present?
-    if @user
-      sign_in @user
+  def authenticate_user_from_token!
+    user_token = params[:api_key].presence
+    user       = user_token && User.find_by_authentication_token(user_token.to_s)
+
+    if user
+      sign_in user, store: false
     else
       @error = "Missing or wrong API key."
       Alert.create(:exception => "", :class_name => "Net::HTTPUnauthorized",
