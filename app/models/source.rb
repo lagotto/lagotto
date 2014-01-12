@@ -52,13 +52,13 @@ class Source < ActiveRecord::Base
   validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_all, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
 
-  scope :available, where("state = 0").order("group_id, display_name")
-  scope :installed, where("state > 0").order("group_id, display_name")
-  scope :retired, where("state = 1").order("group_id, display_name")
-  scope :inactive, where("state = 2").order("group_id, display_name")
-  scope :active, where("state > 2").order("group_id, display_name")
-  scope :for_events, where("state > 2 AND name != 'relativemetric'").order("group_id, display_name")
-  scope :queueable, where("state > 2 AND queueable = 1").order("group_id, display_name")
+  scope :available, where("state = 0").order("group_id, sources.display_name")
+  scope :installed, where("state > 0").order("group_id, sources.display_name")
+  scope :retired, where("state = 1").order("group_id, sources.display_name")
+  scope :inactive, where("state = 2").order("group_id, sources.display_name")
+  scope :active, where("state > 2").order("group_id, sources.display_name")
+  scope :for_events, where("state > 2 AND name != 'relativemetric'").order("group_id, sources.display_name")
+  scope :queueable, where("state > 2 AND queueable = 1").order("group_id, sources.display_name")
 
   # some sources cannot be redistributed
   scope :public_sources, lambda { where("private = false") }
@@ -303,6 +303,14 @@ class Source < ActiveRecord::Base
     config.url = value
   end
 
+  def events_url
+    config.events_url
+  end
+
+  def events_url=(value)
+    config.events_url = value
+  end
+
   def username
     config.username
   end
@@ -327,8 +335,20 @@ class Source < ActiveRecord::Base
     config.api_key = value
   end
 
+  def access_token
+    config.access_token
+  end
+
+  def access_token=(value)
+    config.access_token = value
+  end
+
   def get_query_url(article)
     url % { :doi => article.doi_escaped }
+  end
+
+  def get_events_url(article)
+    events_url % { :doi => article.doi_escaped }
   end
 
   def check_for_failures
