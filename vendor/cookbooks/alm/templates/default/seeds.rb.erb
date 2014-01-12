@@ -11,25 +11,25 @@ end
 <% end %>
 
 # Load groups
-viewed = Group.find_or_create_by_name(:name => "Viewed")
-saved = Group.find_or_create_by_name(:name => "Saved")
-discussed = Group.find_or_create_by_name(:name => "Discussed")
-cited = Group.find_or_create_by_name(:name => "Cited")
-recommended = Group.find_or_create_by_name(:name => "Recommended")
-other = Group.find_or_create_by_name(:name => "Other")
+viewed = Group.find_or_create_by_name(name: "viewed", display_name: "Viewed")
+saved = Group.find_or_create_by_name(name: "saved", display_name: "Saved")
+discussed = Group.find_or_create_by_name(name: "discussed", display_name: "Discussed")
+cited = Group.find_or_create_by_name(name: "cited", display_name: "Cited")
+recommended = Group.find_or_create_by_name(name: "recommended", display_name: "Recommended")
+other = Group.find_or_create_by_name(name: "other", display_name: "Other")
 
 # Load reports
-error_report = Report.find_or_create_by_name(:name => "Error Report")
-error_report.update_attributes(:name => "error_report", :display_name => "Error Report", :description => "Reports error summary",
+error_report = Report.find_or_create_by_name(:name => "error_report",
+  :display_name => "Error Report", :description => "Reports error summary",
   :interval => 1.day, :private => true)
-status_report = Report.find_or_create_by_name(:name => "Status Report")
-status_report.update_attributes(:name => "status_report", :display_name => "Status Report", :description => "Reports application status",
+status_report = Report.find_or_create_by_name(:name => "status_report",
+  :display_name => "Status Report", :description => "Reports application status",
   :interval => 1.week, :private => true)
-article_statistics_report = Report.find_or_create_by_name(:name => "Article Statistics Report")
-article_statistics_report.update_attributes(:name => "article_statistics_report", :display_name => "Article Statistics Report",
+article_statistics_report = Report.find_or_create_by_name(:name => "article_statistics_report",
+  :display_name => "Article Statistics Report",
   :description => "Generates CSV file with ALM for all articles", :interval => 1.month, :private => false)
-disabled_source_report = Report.find_or_create_by_name(:name => "Disabled Source Report")
-disabled_source_report.update_attributes(:name => "disabled_source_report", :display_name => "Disabled Source Report",
+disabled_source_report = Report.find_or_create_by_name(:name => "disabled_source_report",
+  :display_name => "Disabled Source Report",
   :description => "Reports when a source has been disabled", :interval => 0, :private => true)
 
 # Load filters
@@ -153,7 +153,6 @@ if Source.const_defined?('Wos')
     :display_name => "Web of Science",
     :description => "Web of Science is an online academic citation index.",
     :private => 1,
-    :workers => 1,
     :group_id => cited.id)
 end
 if Source.const_defined?('Scopus')
@@ -195,9 +194,15 @@ if Source.const_defined?('ArticleCoverageCurated')
     :display_name => "Article Coverage Curated",
     :description => "Article Coverage Curated",
     :state_event => "activate",
-    :workers => 1,
-    :group_id => discussed.id,
-    :url => "http://mediacuration.plos.org/api/v1?doi=%{doi}" )
+    :group_id => discussed.id)
+end
+if Source.const_defined?('PlosComments')
+  plos_comments = PlosComments.find_or_create_by_name(
+    :name => "plos_comments",
+    :display_name => "Journal Comments",
+    :description => "Comments from the PLOS website.",
+    :state_event => "activate",
+    :group_id => discussed.id)
 end
 
 # These sources are retired, but we need to keep them around for the data we collected
@@ -237,8 +242,6 @@ crossref = CrossRef.find_or_create_by_name(
   :description => "CrossRef is a non-profit organization that enables cross-publisher citation linking.",
   :state_event => "install",
   :group_id => cited.id,
-  :default_url => "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true",
-  :url => "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}",
   :username => "<%= node[:alm][:crossref][:username] %>",
   :password => "<%= node[:alm][:crossref][:password] %>")
 facebook = Facebook.find_or_create_by_name(
@@ -247,7 +250,6 @@ facebook = Facebook.find_or_create_by_name(
   :description => "Facebook is the largest social network.",
   :state_event => "install",
   :group_id => discussed.id,
-  :url => "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'",
   :access_token => "<%= node[:alm][:facebook][:access_token] %>")
 mendeley = Mendeley.find_or_create_by_name(
   :name => "mendeley",
@@ -255,10 +257,6 @@ mendeley = Mendeley.find_or_create_by_name(
   :description => "Mendeley is a reference manager and social bookmarking tool.",
   :state_event => "install",
   :group_id => saved.id,
-  :url => "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}",
-  :url_with_type => "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}",
-  :url_with_title => "http://api.mendeley.com/oapi/documents/search/%{title}/?items=10&consumer_key=%{api_key}",
-  :related_articles_url => "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}",
   :api_key => "<%= node[:alm][:mendeley][:api_key] %>")
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",
@@ -266,7 +264,6 @@ researchblogging = Researchblogging.find_or_create_by_name(
   :description => "Research Blogging is a science blog aggregator.",
   :state_event => "install",
   :group_id => discussed.id,
-  :url => "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}",
   :username => "<%= node[:alm][:researchblogging][:username] %>",
   :password => "<%= node[:alm][:researchblogging][:password] %>")
 

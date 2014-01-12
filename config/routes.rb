@@ -16,7 +16,6 @@ Alm::Application.routes.draw do
     root :to => "status#index"
     resources :articles, :constraints => { :id => /.+?/, :format => /html|js/ }
     resources :sources
-    resources :groups
     resources :errors
     resources :alerts
     resources :api_requests

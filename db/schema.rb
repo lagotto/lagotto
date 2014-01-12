@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140107120549) do
+ActiveRecord::Schema.define(:version => 20140111114925) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -113,9 +113,10 @@ ActiveRecord::Schema.define(:version => 20140107120549) do
   end
 
   create_table "groups", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "name",         :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "display_name"
   end
 
   create_table "reports", :force => true do |t|
@@ -193,7 +194,6 @@ ActiveRecord::Schema.define(:version => 20140107120549) do
     t.string   "display_name",                                    :null => false
     t.datetime "run_at",       :default => '1970-01-01 00:00:00', :null => false
     t.text     "config"
-    t.integer  "group_id",                                        :null => false
     t.boolean  "private",      :default => false
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(:version => 20140107120549) do
     t.string   "queue"
     t.string   "state_event"
     t.datetime "cached_at",    :default => '1970-01-01 00:00:00', :null => false
+    t.integer  "group_id"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
