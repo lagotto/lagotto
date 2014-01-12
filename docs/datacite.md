@@ -46,42 +46,44 @@
 
 ## Example Response
 
-    {
-      "responseHeader": {
-        "status": 0,
-        "QTime": 2
-      },
-      "response": {
-        "numFound": 1,
-        "start": 0,
-        "docs": [
-          {
-            "doi": "10.5061/DRYAD.8515",
-            "relatedIdentifier": [
-              "HasPart:DOI:10.5061/DRYAD.8515/1",
-              "HasPart:DOI:10.5061/DRYAD.8515/2",
-              "IsReferencedBy:DOI:10.1371/JOURNAL.PPAT.1000446",
-              "IsReferencedBy:DOI:"
-            ],
-            "creator": [
-              "Ollomo, Benjamin",
-              "Durand, Patrick",
-              "Prugnolle, Franck",
-              "Douzery, Emmanuel J. P.",
-              "Arnathau, Céline",
-              "Nkoghe, Dieudonné",
-              "Leroy, Eric",
-              "Renaud, François"
-            ],
-            "publisher": "Dryad Digital Repository",
-            "title": [
-              "Data from: A new malaria agent in African hominids."
-            ],
-            "publicationYear": "2011"
-          }
-        ]
+```json
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 2
+  },
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "docs": [
+      {
+        "doi": "10.5061/DRYAD.8515",
+        "relatedIdentifier": [
+          "HasPart:DOI:10.5061/DRYAD.8515/1",
+          "HasPart:DOI:10.5061/DRYAD.8515/2",
+          "IsReferencedBy:DOI:10.1371/JOURNAL.PPAT.1000446",
+          "IsReferencedBy:DOI:"
+        ],
+        "creator": [
+          "Ollomo, Benjamin",
+          "Durand, Patrick",
+          "Prugnolle, Franck",
+          "Douzery, Emmanuel J. P.",
+          "Arnathau, Céline",
+          "Nkoghe, Dieudonné",
+          "Leroy, Eric",
+          "Renaud, François"
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "Data from: A new malaria agent in African hominids."
+        ],
+        "publicationYear": "2011"
       }
-    }
+    ]
+  }
+}
+```
 
 ## Source Code
 The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/datacite.rb).

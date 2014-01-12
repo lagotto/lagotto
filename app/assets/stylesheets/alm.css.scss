@@ -81,9 +81,9 @@ $headings-line-height:  1.1;
 $headings-color:        $brand-primary;
 $headings-small-color:  $gray-dark;
 
-$pre-color:             $gray-darker;
-$pre-bg:                $body-bg;
-$pre-border-color:      $gray-light;
+$pre-color:             black;
+//$pre-bg:                $body-bg;
+// $pre-border-color:      $gray-light;
 
 $text-muted:            $gray-dark;
 
@@ -232,6 +232,7 @@ $bar-color-6: darken($bar-color-1, 10%);
 $bar-color-7: lighten($bar-color-1, 20%);
 
 @import "almviz";
+@import "github";
 @import "bootstrap";
 
 body { padding-top: 60px; padding-bottom: 20px; }
@@ -271,7 +272,16 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 }
 .alert-inner { min-height: 120px; }
 
-.markdown pre { font-size: 0.85em; }
+.markdown pre { font-size: 0.75em; }
+.markdown code {
+  margin: 0 2px;
+  padding: 0px 5px;
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+  color: black;
+  font-size: 0.75em;
+}
 .markdown table {
     border:1px solid rgba(0,0,0,0.25);
     border-collapse:collapse;

@@ -39,25 +39,33 @@ The API key is shown in the account profile, use `&api_key=[API_KEY]` in all API
 ### Precompile assets
 Assets (CSS, Javascripts, images) need to be precompiled when running Rails in the `production` environment (but not in `development`). Run the following rake task, then restart the server:
 
-    bundle exec rake assets:precompile RAILS_ENV=production
+```sh
+bundle exec rake assets:precompile RAILS_ENV=production
+```
 
 ### Seeding articles
 
 A set of 25 sample articles is loaded during installation when using Vagrant and `seed_sample_articles` in `node.json`is set to `true`. They can also be seeded later via rake task:
 
-    rake db:articles:seed
+```sh
+rake db:articles:seed
+```
 
 ### Adding articles
 
 Articles can be added via the web interface (after logging in as admin), or via the command line:
 
-    rake db:articles:load <DOI_DUMP
+```sh
+rake db:articles:load <DOI_DUMP
+```
 
 The command `rake doi_import <DOI_DUMP` is an alias. This bulk-loads a file consisting of DOIs, one per line. It'll ignore (but count) invalid ones and those that already exist in the database.
 
 Format for import file:
 
-    DOI Date(YYYY-MM-DD) Title
+```sh
+DOI Date(YYYY-MM-DD) Title
+```
 
 The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
 
@@ -65,7 +73,9 @@ The rake task splits on white space for the first two elements, and then takes t
 
 Articles can be deleted via the web interface (after logging in as admin), or via the command line:
 
-    rake db:articles:delete
+```sh
+rake db:articles:delete
+```
 
 This rake task deletes all articles. For security reasons this rake task doesn't work in the production environment.
 
@@ -75,7 +85,9 @@ Metrics are added by calling external APIs in the background, using the [delayed
 
 In development mode this is done with `foreman`, using the configuration in `Procfile`:
 
-    foreman start
+```sh
+foreman start
+```
 
 To stop all background processing, kill foreman with `ctrl-c`.
 
@@ -83,17 +95,23 @@ To stop all background processing, kill foreman with `ctrl-c`.
 
 In production mode the background processes run via the `upstart`system utility. The upstart scripts can be created using foreman (where USER is the user running the web server). To have foreman detect the production environment, create a file `.env` in the root folder of your application with the content
 
-    RAILS_ENV=production
+```sh
+RAILS_ENV=production
+```
 
 This file is created automatically if you use Vagrant. Use the path to the Rails log folder and the username of the user running the application:
 
-    sudo foreman export upstart /etc/init -l /PATH_TO_LOG_FOLDER/log -u USER -c worker=3
+```sh
+sudo foreman export upstart /etc/init -l /PATH_TO_LOG_FOLDER/log -u USER -c worker=3
+```
 
 This command creates three upstart scripts that will run in parallel. The number of workers you will need depends on the number of articles (and sources) and the available RAM on your server, a rough estimate is one worker per 5,000-10,000 articles.
 
 The background processes can then be started or stopped using Upstart:
 
-    sudo start alm
-    sudo stop alm
+```sh
+sudo start alm
+sudo stop alm
+```
 
 Foreman also supports bluepill, inittab and runit, read the [man page](http://ddollar.github.io/foreman/) for more information.

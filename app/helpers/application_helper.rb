@@ -17,6 +17,7 @@
 # limitations under the License.
 
 require 'github/markdown'
+require 'rouge'
 
 module ApplicationHelper
   def login_link
@@ -29,7 +30,17 @@ module ApplicationHelper
   end
 
   def markdown(text)
-    GitHub::Markdown.render_gfm(text).html_safe
+    text = GitHub::Markdown.render_gfm(text)
+    syntax_highlighter(text).html_safe
+  end
+
+  def syntax_highlighter(html)
+    formatter = Rouge::Formatters::HTML.new(:css_class => 'hll')
+    lexer = Rouge::Lexers::Shell.new
+
+    doc = Nokogiri::HTML(html)
+    doc.search("//pre").each { |pre| pre.replace formatter.format(lexer.lex(pre.text)) }
+    doc.to_s
   end
 
   def state_label(state)

@@ -49,6 +49,7 @@ gem "will_paginate-bootstrap", "~> 1.0.0"
 gem "simple_form", "~> 2.1.0"
 gem "dotiw", "~> 1.1.1"
 gem "github-markdown", "~> 0.6.3"
+gem "rouge", "~> 1.3.1"
 
 group :test do
   gem "factory_girl_rails", "~> 4.2.1", :require => false

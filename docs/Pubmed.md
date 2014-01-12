@@ -45,21 +45,24 @@
 </table>
 
 ## Example
-    <PubMedToPMCcitingformSET>
-    	<REFORM>
-    		<PMID>19562078</PMID>
-    		<PMCID>2768794</PMCID>
-    		<PMCID>2855371</PMCID>
-    		<PMCID>2931710</PMCID>
-    		<PMCID>2956678</PMCID>
-    		<PMCID>3059854</PMCID>
-    		<PMCID>3162524</PMCID>
-    		<PMCID>3214728</PMCID>
-    		<PMCID>3328792</PMCID>
-    		<PMCID>3335864</PMCID>
-    		<PMCID>3357800</PMCID>
-    	</REFORM>
-    </PubMedToPMCcitingformSET>
+
+```xml
+<PubMedToPMCcitingformSET>
+	<REFORM>
+		<PMID>19562078</PMID>
+		<PMCID>2768794</PMCID>
+		<PMCID>2855371</PMCID>
+		<PMCID>2931710</PMCID>
+		<PMCID>2956678</PMCID>
+		<PMCID>3059854</PMCID>
+		<PMCID>3162524</PMCID>
+		<PMCID>3214728</PMCID>
+		<PMCID>3328792</PMCID>
+		<PMCID>3335864</PMCID>
+		<PMCID>3357800</PMCID>
+	</REFORM>
+</PubMedToPMCcitingformSET>
+```
 
 ## API Documentation
 * [PubMed Central citation data](http://www.pubmedcentral.nih.gov/utils/)

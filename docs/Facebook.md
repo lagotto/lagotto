@@ -53,17 +53,20 @@ Facebook has problems with DOIs that require cookies during DOI resolution. We t
 </table>
 
 ## Example Response
-     {
-         "commentsbox_count": 0,
-         "like_count": 0,
-         "normalized_url": "http://www.plosbiology.org/article/info:doi/10.1371/journal.pbio.0000002",
-         "comments_fbid": 10150608377818440,
-         "total_count": 3,
-         "comment_count": 0,
-         "url": "plosbiology.org/article/info:doi/10.1371/journal.pbio.0000002",
-         "share_count": 3,
-         "click_count": 0
-     }
+
+```json
+{
+  "commentsbox_count": 0,
+  "like_count": 0,
+  "normalized_url": "http://www.plosbiology.org/article/info:doi/10.1371/journal.pbio.0000002",
+  "comments_fbid": 10150608377818440,
+  "total_count": 3,
+  "comment_count": 0,
+  "url": "plosbiology.org/article/info:doi/10.1371/journal.pbio.0000002",
+  "share_count": 3,
+  "click_count": 0
+}
+```
 
 ## Source Code
 The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/facebook.rb).
