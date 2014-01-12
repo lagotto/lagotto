@@ -64,7 +64,8 @@ FactoryGirl.define do
   end
 
   factory :group do
-    name 'Saved'
+    name 'saved'
+    display_name 'Saved'
 
     initialize_with { Group.find_or_create_by_name(name) }
   end
@@ -374,6 +375,18 @@ FactoryGirl.define do
     group
 
     initialize_with { Reddit.find_or_create_by_name(name) }
+  end
+
+  factory :twitter_search, class: TwitterSearch do
+    type "TwitterSearch"
+    name "twitter_search"
+    display_name "Twitter"
+    state_event "activate"
+    access_token "TOKEN"
+
+    group
+
+    initialize_with { TwitterSearch.find_or_create_by_name(name) }
   end
 
   factory :scopus, class: Scopus do

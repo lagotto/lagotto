@@ -170,6 +170,17 @@ class Article < ActiveRecord::Base
     end
   end
 
+  def get_url
+    return url if url.present?
+
+    if doi.present?
+      original_url = get_original_url(doi_as_url)
+      update_attributes(:url => original_url) if original_url.present?
+    end
+
+    return url
+  end
+
   def all_urls
     urls = []
     urls << doi_as_url unless doi.nil?

@@ -1,6 +1,5 @@
 {
   "_id": "_design/reports",
-  "_rev": "1-00cc2dd6eebd36ba0d7e967f83c3158f",
   "language": "javascript",
   "views": {
     "mendeley": {

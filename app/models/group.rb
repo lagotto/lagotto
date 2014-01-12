@@ -20,4 +20,5 @@ class Group < ActiveRecord::Base
   has_many :sources, :order => "display_name", :dependent => :nullify
 
   validates :name, :presence => true, :uniqueness => true
+  validates :display_name, :presence => true
 end

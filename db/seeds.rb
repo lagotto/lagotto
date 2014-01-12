@@ -4,25 +4,25 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
 # Load groups
-viewed = Group.find_or_create_by_name(:name => "Viewed")
-cited = Group.find_or_create_by_name(:name => "Cited")
-saved = Group.find_or_create_by_name(:name => "Saved")
-discussed = Group.find_or_create_by_name(:name => "Discussed")
-recommended = Group.find_or_create_by_name(:name => "Recommended")
-other = Group.find_or_create_by_name(:name => "Other")
+viewed = Group.find_or_create_by_name(name: "viewed", display_name: "Viewed")
+saved = Group.find_or_create_by_name(name: "saved", display_name: "Saved")
+discussed = Group.find_or_create_by_name(name: "discussed", display_name: "Discussed")
+cited = Group.find_or_create_by_name(name: "cited", display_name: "Cited")
+recommended = Group.find_or_create_by_name(name: "recommended", display_name: "Recommended")
+other = Group.find_or_create_by_name(name: "other", display_name: "Other")
 
 # Load reports
-error_report = Report.find_or_create_by_name(:name => "Error Report")
-error_report.update_attributes(:name => "error_report", :display_name => "Error Report", :description => "Reports error summary",
+error_report = Report.find_or_create_by_name(:name => "error_report",
+  :display_name => "Error Report", :description => "Reports error summary",
   :interval => 1.day, :private => true)
-status_report = Report.find_or_create_by_name(:name => "Status Report")
-status_report.update_attributes(:name => "status_report", :display_name => "Status Report", :description => "Reports application status",
+status_report = Report.find_or_create_by_name(:name => "status_report",
+  :display_name => "Status Report", :description => "Reports application status",
   :interval => 1.week, :private => true)
-article_statistics_report = Report.find_or_create_by_name(:name => "Article Statistics Report")
-article_statistics_report.update_attributes(:name => "article_statistics_report", :display_name => "Article Statistics Report",
+article_statistics_report = Report.find_or_create_by_name(:name => "article_statistics_report",
+  :display_name => "Article Statistics Report",
   :description => "Generates CSV file with ALM for all articles", :interval => 1.month, :private => false)
-disabled_source_report = Report.find_or_create_by_name(:name => "Disabled Source Report")
-disabled_source_report.update_attributes(:name => "disabled_source_report", :display_name => "Disabled Source Report",
+disabled_source_report = Report.find_or_create_by_name(:name => "disabled_source_report",
+  :display_name => "Disabled Source Report",
   :description => "Reports when a source has been disabled", :interval => 0, :private => true)
 
 # Load filters

@@ -30,6 +30,7 @@ module SourceHelper
   def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
     conn = conn_json
     conn.basic_auth(options[:username], options[:password]) if options[:username]
+    conn.authorization :Bearer, options[:bearer] if options[:bearer]
     conn.options[:timeout] = options[:timeout]
     response = conn.get url
     response.body
