@@ -4,10 +4,8 @@
     <fieldset>
       <legend>Edit Your Account</legend>
 
-      <% if @user.provider != "github" %>
-        <%= f.input :name, :input_html => { class: "col-md-6" } %>
-        <%= f.input :username, :input_html => { class: "col-md-6" } %>
-      <% end %>
+      <%= f.input :name, :input_html => { class: "col-md-6" } %>
+      <%= f.input :username, :input_html => { class: "col-md-6" } %>
       <%= f.input :email, :input_html => { class: "col-md-6" } %>
       <%= f.input :password, :input_html => { class: "col-md-6" } %>
       <%= f.input :password_confirmation, :input_html => { class: "col-md-6" } %>
