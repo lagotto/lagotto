@@ -48,42 +48,42 @@
     <% end %>
     </h1>
   </div>
-<% end %>
 
-<% if can?(:manage, Article) %>
-  <div class="search">
-    <%= form_tag(admin_articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
-      <div class="form-group">
-        <%= search_field_tag :query, params[:query], :placeholder => "Search by DOI", :class => "form-control" %>
-      </div>
-      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-      <% unless params[:query].blank? %>
-        <%= link_to "clear", admin_articles_path, :class => "btn btn-sm btn-link" %>
+  <% if can?(:manage, Article) %>
+    <div class="search">
+      <%= form_tag(admin_articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
+        <div class="form-group">
+          <%= search_field_tag :query, params[:query], :placeholder => "Search by DOI", :class => "form-control" %>
+        </div>
+        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+        <% unless params[:query].blank? %>
+          <%= link_to "clear", admin_articles_path, :class => "btn btn-sm btn-link" %>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
-<% else %>
-  <div class="search">
-    <%= form_tag(articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
-       <div class="form-group">
-        <%= search_field_tag :query, params[:query], :placeholder => "Search by DOI", :class => "form-control" %>
-      </div>
-      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-      <% unless params[:query].blank? %>
-        <%= link_to "clear", admin_articles_path, :class => "btn btn-sm btn-link" %>
+    </div>
+  <% else %>
+    <div class="search">
+      <%= form_tag(articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
+         <div class="form-group">
+          <%= search_field_tag :query, params[:query], :placeholder => "Search by DOI", :class => "form-control" %>
+        </div>
+        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+        <% unless params[:query].blank? %>
+          <%= link_to "clear", admin_articles_path, :class => "btn btn-sm btn-link" %>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
-<% end %>
-
-<% if @articles.size > 0 %>
-  <% @articles.each do |article| %>
-    <% cache article do %>
-      <h4 class="article"><%= link_to article.title, article %></h4>
-      <%= article.published_on.to_s(:long) %> - <%= pluralize article.cited_retrievals_count, "source" %>
-    <% end %>
+    </div>
   <% end %>
-  <%= will_paginate @articles, :renderer => BootstrapPagination::Rails %>
-<% else %>
-  <div class="alert alert-info">No articles found</div>
+
+  <% if @articles.size > 0 %>
+    <% @articles.each do |article| %>
+      <% cache article do %>
+        <h4 class="article"><%= link_to article.title, article %></h4>
+        <%= article.published_on.to_s(:long) %> - <%= pluralize article.cited_retrievals_count, "source" %>
+      <% end %>
+    <% end %>
+    <%= will_paginate @articles, :renderer => BootstrapPagination::Rails %>
+  <% else %>
+    <div class="alert alert-info">No articles found</div>
+  <% end %>
 <% end %>
