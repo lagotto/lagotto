@@ -5,8 +5,6 @@ var key = d3.select("h1#api_key").attr('data-key');
 d3.json("/api/v3/api_requests?api_key=" + api_key + (key != "" ? "&key=" + key : ""), function(error, json) {
   data = json;
 
-  console.log(data);
-
   if (data.length == 0) {
     d3.select("div.col-md-12").text("")
       .insert("div")

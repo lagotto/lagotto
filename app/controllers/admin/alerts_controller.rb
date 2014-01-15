@@ -4,9 +4,9 @@ class Admin::AlertsController < Admin::ApplicationController
 
   def index
     collection = Alert
-    if params[:source_id]
-      collection = collection.where(:source_id => params[:source_id])
-      @source = Source.find(params[:source_id])
+    if params[:source]
+      collection = collection.includes(:source).where("sources.name = ?", params[:source])
+      @source = Source.find_by_name(params[:source])
     end
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])
@@ -31,9 +31,9 @@ class Admin::AlertsController < Admin::ApplicationController
     end
 
     collection = Alert
-    if params[:source_id]
-      collection = collection.where(:source_id => params[:source_id])
-      @source = Source.find(params[:source_id])
+    if params[:source]
+      collection = collection.includes(:source).where("sources.name = ?", params[:source])
+      @source = Source.find_by_name(params[:source])
     end
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])
