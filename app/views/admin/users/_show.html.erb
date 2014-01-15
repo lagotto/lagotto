@@ -1,18 +1,18 @@
 <% if can?(:update, User) and (controller.action_name == "edit" or (controller.action_name == "update" and !@user.errors.empty?)) %>
 
-  <%= simple_form_for @user, :url => admin_user_path(@user), :html => { :class => 'form-horizontal', :remote => true } do |f| %>
+  <%= simple_form_for @user, :url => admin_user_path(@user), :html => { :remote => true } do |f| %>
     <fieldset>
       <legend>Edit Your Account</legend>
 
-      <%= f.input :name, :input_html => { class: "col-md-6" } %>
-      <%= f.input :username, :input_html => { class: "col-md-6" } %>
-      <%= f.input :email, :input_html => { class: "col-md-6" } %>
-      <%= f.input :password, :input_html => { class: "col-md-6" } %>
-      <%= f.input :password_confirmation, :input_html => { class: "col-md-6" } %>
+      <%= f.input :name %>
+      <%= f.input :username %>
+      <%= f.input :email %>
+      <%= f.input :password %>
+      <%= f.input :password_confirmation %>
 
       <div class="form-group">
-        <%= f.submit "Save ", class: "btn btn-primary btn-sm" %>
-        <%= link_to 'Cancel', admin_user_path(@user), { remote: true, class: 'btn btn-sm' } %>
+        <%= f.submit "Save ", class: "btn btn-default" %>
+        <%= link_to 'Cancel', admin_user_path(@user), { remote: true, class: 'btn' } %>
       </div>
     </fieldset>
   <% end %>

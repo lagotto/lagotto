@@ -1,19 +1,19 @@
 <% if can?(:manage, Article) and (controller.action_name == "new" or (controller.action_name == "create" and !@article.errors.empty?)) %>
 
-<%= simple_form_for @article, :url => admin_articles_path, :html => { :class => 'form-horizontal', :remote => true } do |f| %>
+  <%= simple_form_for @article, :url => admin_articles_path, :html => { :remote => true } do |f| %>
     <fieldset>
       <legend>New Article</legend>
 
-      <%= f.input :title, :input_html => { :rows => 2, :class => "col-md-6" } %>
-      <%= f.input :doi, :label => 'DOI', :input_html => { :class => "col-md-6" } %>
-      <%= f.input :pub_med, :label => 'PubMed ID', :input_html => { :class => "col-md-6" } %>
-      <%= f.input :pub_med_central, :label => 'PubMed Central ID', :input_html => { :class => "col-md-6" } %>
-      <%= f.input :mendeley, :label => 'Mendeley UUID', :input_html => { :class => "col-md-6" } %>
-      <%= f.input :url, :label => 'URL', :input_html => { :class => "col-md-6" } %>
-      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 10, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "col-md-1" } %>
+      <%= f.input :title, :input_html => { :rows => 2 } %>
+      <%= f.input :doi, :label => 'DOI' %>
+      <%= f.input :pub_med, :label => 'PubMed ID' %>
+      <%= f.input :pub_med_central, :label => 'PubMed Central ID' %>
+      <%= f.input :mendeley, :label => 'Mendeley UUID' %>
+      <%= f.input :url, :label => 'URL' %>
+      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 50, :end_year => Time.zone.now.year, :order => [:day, :month, :year] %>
 
-      <div class="form-actions">
-        <%= f.submit "Save ", class: "btn btn-primary" %>
+      <div class="form-group">
+        <%= f.submit "Save ", class: "btn btn-default" %>
         <%= link_to 'Cancel', admin_articles_path, { :remote => true, :class => 'btn' } %>
       </div>
     </fieldset>
