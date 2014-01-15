@@ -79,7 +79,7 @@
     <% @articles.each do |article| %>
       <% cache article do %>
         <h4 class="article"><%= link_to article.title, article %></h4>
-        <%= article.published_on.to_s(:long) %> - <%= pluralize article.cited_retrievals_count, "source" %>
+        <p><%= article.published_on.to_s(:long) %> - <%= pluralize article.cited_retrievals_count, "source" %></p>
       <% end %>
     <% end %>
     <%= will_paginate @articles, :renderer => BootstrapPagination::Rails %>
