@@ -2,8 +2,8 @@
   <table class="table">
     <thead>
       <tr>
-        <th class="name0">Name</th>
-        <th>Description</th>
+        <th class="name">Name</th>
+        <th class="description">Description</th>
         <th>Interval</th>
         <th class="status">Action</th>
       </tr>
@@ -12,15 +12,15 @@
       <% @reports.each do |report| %>
         <tr>
           <td><%= h(report.display_name) %></td>
-          <td><%= h(report.description) %></td>
-          <td><%= distance_of_time(report.interval) %></td>
-          <td>
           <% if report.users.exists?(@user) %>
-            <%= link_to 'Unsubscribe'.html_safe, admin_user_path(@user, :user => { :unsubscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{report.name}-status" %>
+            <td><%= description_with_link(report).html_safe %></td>
+            <td><%= distance_of_time(report.interval) %></td>
+            <td><%= link_to 'Unsubscribe'.html_safe, admin_user_path(@user, :user => { :unsubscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{report.name}-status" %></td>
           <% else %>
-            <%= link_to 'Subscribe'.html_safe, admin_user_path(@user, :user => { :subscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{report.name}-status" %>
+            <td><%= h(report.description) %></td>
+            <td><%= distance_of_time(report.interval) %></td>
+            <td><%= link_to 'Subscribe'.html_safe, admin_user_path(@user, :user => { :subscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{report.name}-status" %></td>
           <% end %>
-          </td>
         </tr>
       <% end %>
     </tbody>

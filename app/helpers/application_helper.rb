@@ -67,6 +67,23 @@ module ApplicationHelper
     %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end
 
+  def article_statistics_report_path
+    path = "/files/alm_report.zip"
+    if File.exist?("#{Rails.root}/public#{path}")
+      path
+    else
+      nil
+    end
+  end
+
+  def description_with_link(report)
+    if report.name == 'article_statistics_report' && article_statistics_report_path
+      h(report.description) + link_to("Download", article_statistics_report_path, :class => 'pull-right')
+    else
+      h(report.description)
+    end
+  end
+
   def article_alerts
     %w(EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError ArticleNotUpdatedError CitationMilestoneAlert)
   end
