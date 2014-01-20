@@ -1,5 +1,12 @@
 # encoding: UTF-8
 # Load sources
+viewed = Group.find_by_name("viewed")
+saved = Group.find_by_name("saved")
+discussed = Group.find_by_name("discussed")
+cited = Group.find_by_name("cited")
+recommended = Group.find_by_name("recommended")
+other = Group.find_by_name("other")
+
 # These sources are installed and activated by default
 citeulike = Citeulike.find_or_create_by_name(
 	:name => "citeulike",
@@ -23,12 +30,6 @@ reddit = Reddit.find_or_create_by_name(
   :name => "reddit",
   :display_name => "Reddit",
   :description => "User-generated news links.",
-  :state_event => "activate",
-  :group_id => discussed.id)
-facebook = Facebook.find_or_create_by_name(
-  :name => "facebook",
-  :display_name => "Facebook",
-  :description => "Facebook is the largest social network.",
   :state_event => "activate",
   :group_id => discussed.id)
 wikipedia = Wikipedia.find_or_create_by_name(

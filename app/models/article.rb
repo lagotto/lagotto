@@ -46,7 +46,7 @@ class Article < ActiveRecord::Base
   default_scope order("published_on DESC")
 
   scope :query, lambda { |query|
-    if Article.has_many?
+    if self.has_many?
       where("doi like ?", "#{query}%")
     else
       where("doi like ? OR title like ?", "%#{query}%", "%#{query}%")
