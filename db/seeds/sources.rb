@@ -1,4 +1,11 @@
 # encoding: UTF-8
+viewed = Group.find_by_name("viewed")
+saved = Group.find_by_name("saved")
+discussed = Group.find_by_name("discussed")
+cited = Group.find_by_name("cited")
+recommended = Group.find_by_name("recommended")
+other = Group.find_by_name("other")
+
 # Load sources
 # These sources are installed and activated by default
 citeulike = Citeulike.find_or_create_by_name(
