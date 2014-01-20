@@ -3,7 +3,7 @@ require "spec_helper"
 describe "/api/v4/articles" do
   context "create" do
     context "as admin user" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) {{ "article" => { "doi" => "10.1371/journal.pone.0036790",
                                      "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                                      "published_on" => "2012-05-15" }}}
@@ -54,7 +54,7 @@ describe "/api/v4/articles" do
     end
 
     context "with wrong password" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) {{ "article" => { "doi" => "10.1371/journal.pone.0036790",
                                      "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                                      "published_on" => "2012-05-15" }}}
@@ -71,7 +71,7 @@ describe "/api/v4/articles" do
     end
 
     context "with missing title" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) {{ "article" => { "doi" => "10.1371/journal.pone.0036790",
                                      "title" => nil,
                                      "published_on" => "2012-05-15" }}}
@@ -90,7 +90,7 @@ describe "/api/v4/articles" do
 
   context "update" do
     context "as admin user" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryGirl.create(:admin_user) }
       let(:article) { FactoryGirl.create(:article) }
       let(:params) {{ "article" => { "doi" => article.doi,
                                      "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
@@ -144,7 +144,7 @@ describe "/api/v4/articles" do
     end
 
     context "with wrong password" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryGirl.create(:admin_user) }
       let(:article) { FactoryGirl.create(:article) }
       let(:params) {{ "article" => { "doi" => article.doi,
                                      "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
@@ -164,7 +164,7 @@ describe "/api/v4/articles" do
 
   context "destroy" do
     context "as admin user" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryGirl.create(:admin_user) }
       let(:article) { FactoryGirl.create(:article) }
       let(:uri) { "/api/v4/articles/info:doi/#{article.doi}"}
 
@@ -209,7 +209,7 @@ describe "/api/v4/articles" do
     end
 
     context "with wrong password" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryGirl.create(:admin_user) }
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:uri) { "/api/v4/articles/info:doi/#{article.doi}"}
       let(:error) {{"error"=>"You are not authorized to access this page."}}

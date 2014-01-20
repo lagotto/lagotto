@@ -3,7 +3,7 @@ require "spec_helper"
 describe "/api/v3/sources", :not_teamcity => true do
 
   let(:source) { FactoryGirl.create(:source_with_api_responses) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:admin_user) }
   let(:api_key) { user.authentication_token }
 
   before(:each) do

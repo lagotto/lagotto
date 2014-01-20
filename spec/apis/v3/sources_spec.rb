@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe "/api/v3/sources" do
   context "index" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryGirl.create(:admin_user) }
     let(:uri) { "/api/v3/sources?api_key=#{user.authentication_token}" }
 
     context "get jobs" do
@@ -67,7 +67,7 @@ describe "/api/v3/sources" do
         @articles = FactoryGirl.create_list(:article_with_events, 5)
       end
 
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryGirl.create(:admin_user) }
       let(:source) { FactoryGirl.create(:source_with_api_responses) }
       let(:uri) { "/api/v3/sources/#{source.name}?api_key=#{user.authentication_token}" }
 
