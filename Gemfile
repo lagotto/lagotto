@@ -38,7 +38,7 @@ gem "dalli", "~> 2.6.4"
 gem "cache_digests", "~> 0.3.1"
 
 gem "d3_rails", "~> 3.3.13"
-gem "crossfilter-rails", "~> 1.3.1"
+gem "crossfilter-rails", "~> 1.3.5"
 gem "uglifier", "~> 2.3.0"
 gem "jquery-rails", "~> 3.0.4"
 gem "therubyracer", "~> 0.12.0"

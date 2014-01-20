@@ -13,15 +13,16 @@
 
       <div class="form-group">
         <%= f.submit "Sign in with Password", class: "btn btn-primary" %>
-        <% if CONFIG[:cas_url] %>
-          <%= link_to "Sign In with PLOS ID", user_omniauth_authorize_path(:cas), class: "btn btn-info" %>
-        <% elsif CONFIG[:persona] %>
-          <%= form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do %>
-            <%= hidden_field_tag('assertion') %>
-            <%= button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-info') %>
-          <% end %>
-        <% end %>
       </div>
     </fieldset>
+  <% end %>
+
+  <% if CONFIG[:cas_url] %>
+    <%= link_to "Sign In with PLOS ID", user_omniauth_authorize_path(:cas), class: "btn btn-info" %>
+  <% elsif CONFIG[:persona] %>
+    <%= form_tag '/users/auth/persona/callback', :id => 'persona_form' do %>
+      <%= hidden_field_tag('assertion') %>
+      <%= button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-info persona') %>
+    <% end %>
   <% end %>
 </div>

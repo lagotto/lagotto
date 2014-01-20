@@ -6,7 +6,7 @@ d3.json("/api/v3/api_requests?api_key=" + api_key + (key != "" ? "&key=" + key :
   data = json;
 
   if (data.length == 0) {
-    d3.select("div.col-md-12").text("")
+    d3.select("#description").text("")
       .insert("div")
       .attr("class", "alert alert-info")
       .text("No API requests found");

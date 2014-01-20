@@ -45,7 +45,13 @@ class Article < ActiveRecord::Base
 
   default_scope order("published_on DESC")
 
-  scope :query, lambda { |query| where("doi like ?", "#{query}%") }
+  scope :query, lambda { |query|
+    if Article.has_many?
+      where("doi like ?", "#{query}%")
+    else
+      where("doi like ? OR title like ?", "%#{query}%", "%#{query}%")
+    end
+  }
 
   scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
 
@@ -65,6 +71,11 @@ class Article < ActiveRecord::Base
       order("published_on DESC")
     end
   }
+
+  # simplify admin dashboard when we have more than 150,000 articles
+  def self.has_many?
+    Article.count > 150000
+  end
 
   def self.from_uri(id)
     return nil if id.nil?

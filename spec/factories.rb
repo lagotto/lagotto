@@ -519,6 +519,11 @@ FactoryGirl.define do
     role "admin"
     provider "cas"
     uid "12345"
+
+    factory :admin_user do
+      role "admin"
+      authentication_token "12345"
+    end
   end
 
   factory :alert do

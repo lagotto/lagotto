@@ -79,7 +79,7 @@ end
 
 Then /^I should see the error message "(.*?)"$/ do |error|
   page.driver.render("tmp/capybara/error.png")
-  page.has_css?('span.error', :text => error).should be_true
+  page.has_css?('span.has-error', :text => error).should be_true
 end
 
 Then /^I should see "(.*?)" with the "(.*?)" for the article$/ do |value, label|

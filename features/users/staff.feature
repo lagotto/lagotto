@@ -13,11 +13,11 @@ Feature: Sign in as staff
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should be:
         |                                             | Pending              | Working    |
-        | Jobs                                        | 0                    | 0          |
+        | Jobs                                        |                      |            |
         |                                             | Responses            | Errors     |
-        | Responses in the last 24 Hours              | 0                    | 0          |
+        | Responses in the last 24 Hours              |                      |            |
         |                                             | Average              | Maximum    |
-        | Response duration in the last 24 Hours (ms) | 0                    | 0          |
+        | Response duration in the last 24 Hours (ms) |                      |            |
         |                                             | Articles with Events | All Events |
         | Events                                      | 5                    | 250        |
 
