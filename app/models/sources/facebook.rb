@@ -22,7 +22,7 @@ class Facebook < Source
 
   def get_data(article, options={})
 
-    return  { :events => [], :event_count => nil } unless article.get_url
+    return  { :events => [], :event_count => nil } if article.doi.blank?
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
@@ -46,16 +46,15 @@ class Facebook < Source
     end
   end
 
-  def get_query_url(article, options={})
-    URI.escape(url % { :access_token => access_token, :query_url => CGI.escape(article.url) })
+  def get_config_fields
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "access_token", :field_type => "text_field"}]
+  def get_query_url(article)
+    URI.escape(url % { :doi_as_url => article.doi_as_url })
   end
 
   def url
-    config.url || "http://graph.facebook.com:443/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'"
+    config.url || "https://graph.facebook.com/fql?q=select url, share_count, like_count, comment_count, click_count, total_count, comments_fbid from link_stat where url = '%{doi_as_url}'"
   end
 end

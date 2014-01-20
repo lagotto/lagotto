@@ -56,6 +56,9 @@ namespace :update do
     # Sources have to be installed and activated again in the admin dashboard
     Source.all.each { |source| source.uninstall }
 
+    # Changes to Facebook source configuration
+    facebook = Source.find_by_name("facebook")
+    facebook.update_attributes(url: "https://graph.facebook.com/fql?q=select url, share_count, like_count, comment_count, click_count, total_count, comments_fbid from link_stat where url = '%{doi_as_url}'")
     puts "Updated ALM data from ALM #{from_version} to ALM #{to_version}."
   end
 end
