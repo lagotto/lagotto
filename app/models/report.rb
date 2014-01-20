@@ -19,6 +19,7 @@
 # limitations under the License.
 
 require 'csv'
+require 'zip'
 
 class Report < ActiveRecord::Base
 
@@ -43,11 +44,11 @@ class Report < ActiveRecord::Base
       sources = Source.installed.where(:private => false)
     end
 
-    sql_stat = "select a.doi, a.published_on, a.title, rs.article_id"
+    sql_stat = "SELECT a.doi, a.published_on, a.title"
     sources.each do |source|
-      sql_stat = sql_stat + ", group_concat(if(rs.source_id = #{source.id}, rs.event_count, NULL)) as '#{source.name}'"
+      sql_stat = sql_stat + ", GROUP_CONCAT(IF(rs.source_id = #{source.id}, CAST(rs.event_count as CHAR), NULL)) AS '#{source.name}'"
     end
-    sql_stat = sql_stat + " from retrieval_statuses rs, articles a where a.id = rs.article_id group by rs.article_id"
+    sql_stat = sql_stat + " FROM retrieval_statuses rs, articles a WHERE a.id = rs.article_id GROUP BY rs.article_id"
 
     results = connection.execute sql_stat
 
@@ -57,18 +58,47 @@ class Report < ActiveRecord::Base
     end
   end
 
+  # write report into folder with current date in name
+  def self.write(filename, content, options = {})
+    return nil unless filename && content
+
+    date = options[:date] || Date.today.iso8601
+    folderpath = "#{Rails.root}/data/report_#{date}"
+    Dir.mkdir folderpath unless Dir.exist? folderpath
+    filepath = "#{folderpath}/#{filename}"
+    if IO.write(filepath, content)
+      filepath
+    else
+      nil
+    end
+  end
+
+  def self.read_stats(stat, options = {})
+    date = options[:date] || Date.today.iso8601
+    filename = "#{stat[:name]}.csv"
+    filepath = "#{Rails.root}/data/report_#{date}/#{filename}"
+    csv = File.exist?(filepath) ? CSV.read(filepath, { headers: stat[:headers] ? stat[:headers] : :first_row, return_headers: true }) : nil
+  end
+
   def self.merge_stats(options = {})
-    alm_stats = self.read_stats({ name: "alm_stats" })
+    if options[:include_private_sources]
+      alm_stats = self.read_stats({ name: "alm_private_stats" })
+    else
+      alm_stats = self.read_stats({ name: "alm_stats" })
+    end
     return nil if alm_stats.blank?
 
-    stats = [{ name: "mendeley", headers: ["doi","mendeley_readers","mendeley_groups","mendeley"] },
-             { name: "pmc", headers: ["doi","pmc_html","pmc_pdf","pmc"] },
-             { name: "counter", headers: ["doi","counter_html","counter_pdf","counter"] }]
+    stats = [{ name: "mendeley_stats", headers: ["doi","mendeley_readers","mendeley_groups","mendeley"] },
+             { name: "pmc_stats", headers: ["doi","pmc_html","pmc_pdf","pmc"] },
+             { name: "counter_stats", headers: ["doi","counter_html","counter_pdf","counter"] }]
     stats.each do |stat|
       stat[:csv] = self.read_stats(stat, options).to_a
       alm_stats.delete(stat[:name]) unless stat[:csv].blank?
     end
+
+    # return alm_stats if no additional stats are found
     stats.reject! { |stat| stat[:csv].blank? }
+    return alm_stats if stats.empty?
 
     CSV.generate do |csv|
       alm_stats.each do |row|
@@ -83,11 +113,33 @@ class Report < ActiveRecord::Base
     end
   end
 
-  def self.read_stats(stat, options = {})
+  def self.zip_file(options = {})
     date = options[:date] || Date.today.iso8601
-    filename = "#{stat[:name]}_#{Date.today.iso8601}.csv"
-    filepath = "#{Rails.root}/data/#{filename}"
-    csv = File.exist?(filepath) ? CSV.read(filepath, { headers: stat[:headers] ? stat[:headers] : :first_row, return_headers: true }) : nil
+    filename = "alm_report_#{date}.csv"
+    filepath = "#{Rails.root}/data/report_#{date}/alm_report.csv"
+    zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
+    return nil unless File.exist? filepath
+
+    Zip::File.open(zip_filepath, Zip::File::CREATE) do |zipfile|
+      zipfile.add(filename, filepath)
+    end
+    File.chmod(0755, zip_filepath)
+    zip_filepath
+  end
+
+  def self.zip_folder(options = {})
+    date = options[:date] || Date.today.iso8601
+    folderpath = "#{Rails.root}/data/report_#{date}"
+    zip_filepath = "#{Rails.root}/data/report_#{date}.zip"
+    return nil unless File.exist? folderpath
+
+    Zip::File.open(zip_filepath, Zip::File::CREATE) do |zipfile|
+      Dir["#{folderpath}/*"].each do |filepath|
+        zipfile.add(File.basename(filepath), filepath)
+      end
+    end
+    FileUtils.rm_rf(folderpath)
+    zip_filepath
   end
 
   def interval

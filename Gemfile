@@ -23,6 +23,7 @@ gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.1.4"
 gem "nori", "~> 2.3.0"
+gem 'rubyzip',  "~> 1.1", require: 'zip'
 
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 3.0.3"

@@ -46,12 +46,20 @@ FactoryGirl.define do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_pubmed)] }
     end
 
+    factory :article_with_mendeley_events do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_mendeley)] }
+    end
+
     factory :article_with_nature_citations do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_pubmed)] }
     end
 
     factory :article_with_researchblogging_citations do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_researchblogging)] }
+    end
+
+    factory :article_with_tweets do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_twitter_search)] }
     end
   end
 
@@ -128,6 +136,7 @@ FactoryGirl.define do
     trait(:with_researchblogging) { association :source, factory: :researchblogging }
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
+    trait(:with_twitter_search) { association :source, factory: :twitter_search }
 
     before(:create) do |retrieval_status|
       FactoryGirl.create(:retrieval_history,

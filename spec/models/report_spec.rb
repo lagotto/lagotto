@@ -1,6 +1,109 @@
 require 'spec_helper'
 
 describe Report do
+  subject { Report }
+
+  context "available reports" do
+
+    before(:each) do
+      FactoryGirl.create(:error_report_with_admin_user)
+    end
+
+    it "admin users should see one report" do
+      response = subject.available("admin")
+      response.length.should == 1
+    end
+
+    it "regular users should not see any report" do
+      response = subject.available("user")
+      response.length.should == 0
+    end
+  end
+
+  context "generate csv" do
+
+    before(:each) do
+      @article = FactoryGirl.create(:article_with_events)
+    end
+
+    it "should format the ALM data as csv" do
+      response = CSV.parse(subject.to_csv)
+      response.length.should == 2
+      response.first.should eq(["doi", "publication_date", "title", "citeulike"])
+      response.last.should eq([@article.doi, @article.published_on.iso8601, @article.title, "50"])
+    end
+  end
+
+  context "write csv to file" do
+
+    before(:each) do
+      @article = FactoryGirl.create(:article_with_events, doi: "10.1371/journal.pcbi.1000204")
+      FileUtils.rm_rf("#{Rails.root}/data/report_#{Date.today.iso8601}")
+    end
+
+    let(:csv) { subject.to_csv }
+    let(:filename) { "alm_stats.csv" }
+
+    it "should write report file" do
+      filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}/#{filename}"
+      response = subject.write(filename, csv)
+      response.should eq (filepath)
+    end
+
+    describe "merge and compress csv file" do
+
+      before(:each) do
+        subject.write(filename, csv)
+      end
+
+      it "should read stats" do
+        stat = { name: "alm_stats" }
+        response = subject.read_stats(stat).to_s
+        response.should eq(csv)
+      end
+
+      it "should merge stats" do
+        FactoryGirl.create(:article_with_mendeley_events)
+        url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
+        stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+        filename = "mendeley_stats.csv"
+        filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}/#{filename}"
+        csv = Mendeley.to_csv
+        subject.write(filename, csv)
+
+        response = CSV.parse(subject.merge_stats)
+        response.length.should == 2
+        response.first.should eq(["doi", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups", "mendeley"])
+        response.last.should eq([@article.doi, @article.published_on.iso8601, @article.title, "50", "1663", "0", "1663"])
+        File.delete filepath
+      end
+
+      it "should merge stats from single report" do
+        response = subject.merge_stats.to_s
+        response.should eq(csv)
+      end
+
+      it "should zip report file" do
+        csv = subject.merge_stats
+        filename = "alm_report.csv"
+        zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
+        alm_report = subject.write(filename, csv)
+
+        response = subject.zip_file
+        response.should eq(zip_filepath)
+        File.exist?(zip_filepath).should be_true
+        File.delete zip_filepath
+      end
+
+      it "should zip report folder" do
+        zip_filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}.zip"
+        response = subject.zip_folder
+        response.should eq(zip_filepath)
+        File.exist?(zip_filepath).should be_true
+        File.delete zip_filepath
+      end
+    end
+  end
 
   context "error report" do
     let(:report) { FactoryGirl.create(:error_report_with_admin_user) }

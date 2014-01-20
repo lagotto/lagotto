@@ -19,16 +19,30 @@ require 'date'
 
 namespace :report do
 
-  desc 'Generate CSV file with ALM stats for all sources'
+  desc 'Generate CSV file with ALM stats for public sources'
   task :alm_stats => :environment do |t, args|
-    filename = "alm_stats_#{Date.today.iso8601}.csv"
-    filepath = "#{Rails.root}/data/#{filename}"
+    filename = "alm_stats.csv"
 
-    csv = Report.to_csv(include_private_sources: ENV['PRIVATE'])
+    csv = Report.to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
-    elsif IO.write(filepath, csv)
+    elsif Report.write(filename, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
+    end
+  end
+
+  desc 'Generate CSV file with ALM stats for private and public sources'
+  task :alm_private_stats => :environment do |t, args|
+    filename = "alm_private_stats.csv"
+
+    csv = Report.to_csv(include_private_sources: true)
+
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif Report.write(filename, csv)
       puts "Report \"#{filename}\" has been written."
     else
       puts "Report \"#{filename}\" could not be written."
@@ -37,14 +51,12 @@ namespace :report do
 
   desc 'Generate CSV file with Mendeley stats'
   task :mendeley_stats => :environment do |t, args|
-    filename = "mendeley_#{Date.today.iso8601}.csv"
-    filepath = "#{Rails.root}/data/#{filename}"
-
+    filename = "mendeley_stats.csv"
     csv = Mendeley.to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
-    elsif IO.write(filepath, csv)
+    elsif Report.write(filename, csv)
       puts "Report \"#{filename}\" has been written."
     else
       puts "Report \"#{filename}\" could not be written."
@@ -54,17 +66,16 @@ namespace :report do
   desc 'Generate CSV file with PMC usage stats'
   task :pmc_stats => :environment do |t, args|
     if ENV['FORMAT']
-      filename = "pmc_#{ENV['FORMAT']}_#{Date.today.iso8601}.csv"
+      filename = "pmc_#{ENV['FORMAT']}.csv"
     else
-      filename = "pmc_#{Date.today.iso8601}.csv"
+      filename = "pmc_stats.csv"
     end
-    filepath = "#{Rails.root}/data/#{filename}"
 
     csv = Pmc.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
-    elsif IO.write(filepath, csv)
+    elsif Report.write(filename, csv)
       puts "Report \"#{filename}\" has been written."
     else
       puts "Report \"#{filename}\" could not be written."
@@ -100,20 +111,45 @@ namespace :report do
 
   desc 'Generate CSV file with combined ALM stats'
   task :combined_stats => :environment do |t, args|
-    filename = "alm_report_#{Date.today.iso8601}.csv"
-    filepath = "#{Rails.root}/data/#{filename}"
+    filename = "alm_report.csv"
 
     csv = Report.merge_stats(date: ENV['DATE'])
-
     if csv.nil?
       puts "No data for report \"#{filename}\"."
-    elsif IO.write(filepath, csv)
+    elsif Report.write(filename, csv)
       puts "Report \"#{filename}\" has been written."
     else
       puts "Report \"#{filename}\" could not be written."
     end
   end
 
+  desc 'Generate CSV file with combined ALM private and public stats'
+  task :combined_private_stats => :environment do |t, args|
+    filename = "alm_private_report.csv"
+
+    csv = Report.merge_stats(include_private_sources: true, date: ENV['DATE'])
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif Report.write(filename, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
+    end
+  end
+
+  desc 'Zip reports'
+  task :zip => :environment do |t, args|
+
+    folderpath = "#{Rails.root}/data/report_#{Date.today.iso8601}"
+    if not Dir.exist? folderpath
+      puts "No reports to compress."
+    elsif Report.zip_file && Report.zip_folder
+       puts "Reports have been compressed."
+    else
+      puts "Reports could not be compressed."
+    end
+  end
+
   desc 'Generate all article stats reports'
-  task :all_stats => [:environment, :alm_stats, :mendeley_stats, :pmc_stats, :pmc_html_stats, :pmc_pdf_stats, :pmc_combined_stats, :combined_stats]
+  task :all_stats => [:environment, :alm_stats, :mendeley_stats, :pmc_stats, :pmc_html_stats, :pmc_pdf_stats, :pmc_combined_stats, :combined_stats, :alm_private_stats, :combined_private_stats, :zip]
 end

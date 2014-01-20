@@ -15,7 +15,7 @@ Several videos, presentations and other information are available at the [PLOS A
 Please contact us if you are using the ALM application and want your organization to be listed here.
 
 ### What other services provide Article-Level Metrics?
-Article-Level Metrics is a very dynamic area, as of July 2013 the following organizations also provide comprehensive ALM data:
+Article-Level Metrics is a very dynamic area, as of January 2014 the following organizations also provide comprehensive ALM data:
 
 * [altmetric.com](http://altmetric.com)
 * [ImpactStory](http://impactstory.org)
