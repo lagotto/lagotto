@@ -119,7 +119,7 @@ module SourceHelper
 
   def put_alm_database
     put_alm_data(couchdb_url)
-    filter = Faraday::UploadIO.new('design_doc/filter.js', 'application/json')
+    filter = Faraday::UploadIO.new('design_doc/filter.json', 'application/json')
     put_alm_data("#{couchdb_url}_design/filter", { data: filter })
   end
 

@@ -270,6 +270,7 @@ FactoryGirl.define do
     name "facebook"
     display_name "Facebook"
     state_event "activate"
+    access_token "EXAMPLE"
 
     group
 
