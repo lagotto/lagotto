@@ -18,11 +18,11 @@
   <% end %>
 
   <% if CONFIG[:cas_url] %>
-    <%= link_to "Sign In with PLOS ID", user_omniauth_authorize_path(:cas), class: "btn btn-info" %>
+    <%= link_to "Sign in with PLOS ID", user_omniauth_authorize_path(:cas), class: "btn btn-info" %>
   <% elsif CONFIG[:persona] %>
     <%= form_tag '/users/auth/persona/callback', :id => 'persona_form' do %>
       <%= hidden_field_tag('assertion') %>
-      <%= button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-info persona') %>
+      <%= button_tag('Sign in with Persona', :id => 'sign_in', :class => 'btn btn-info persona') %>
     <% end %>
   <% end %>
 </div>
