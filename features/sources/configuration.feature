@@ -10,7 +10,7 @@ Feature: Edit sources
 
     Scenario: Group must be selected
       When I edit the source "CiteULike"
-      Then "Saved" should be the only option for "Group"
+      Then "24 hours" should be one option for "Batch job interval"
 
     Scenario: Configuration options should be displayed
       When I go to the "Configuration" tab of source "CiteULike"
@@ -25,5 +25,3 @@ Feature: Edit sources
     Scenario: Source should display source image
       When I go to the admin page of source "CiteULike"
       Then I should see the image "citeulike.png"
-
-

@@ -148,8 +148,8 @@ Then /^I should not see a blog count$/ do
   page.should_not have_content "Nature Blogs"
 end
 
-Then /^"(.*?)" should be the only option for "(.*?)"$/ do |value, field|
-  page.has_select?("source_group_id", :options => [value]).should be_true
+Then /^"(.*?)" should be one option for "(.*?)"$/ do |value, field|
+  page.has_select?('source_batch_time_interval', :with_options => [value]).should be_true
 end
 
 Then /^I should see the "(.*?)" column$/ do |column_title|

@@ -13,12 +13,12 @@ end
 
 def sign_up
   delete_user
-  visit '/users/auth/github'
+  visit '/users/auth/persona'
   find_user
 end
 
 def sign_in
-  visit '/users/auth/github'
+  visit '/users/auth/persona'
   find_user
 end
 
@@ -44,8 +44,12 @@ Given /^I am logged in$/ do
 end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
-  @user = FactoryGirl.create(:user, role: role, authentication_token: "12345")
-  visit '/users/auth/github'
+  if role == "admin"
+    @user = FactoryGirl.create(:admin_user)
+  else
+    @user = FactoryGirl.create(:user, role: role, authentication_token: "12345")
+  end
+  visit '/users/auth/persona'
 end
 
 Given /^I exist as a user$/ do
@@ -96,6 +100,7 @@ end
 
 ### THEN ###
 Then /^I should see (\d+) user[s]?$/ do |number|
+  page.driver.render("tmp/capybara/users.png")
   page.should have_css('div.panel', :visible => true, :count => number.to_i)
 end
 

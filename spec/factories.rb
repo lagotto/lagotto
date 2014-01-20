@@ -381,9 +381,13 @@ FactoryGirl.define do
     sequence(:email) {|n| "joe#{n}@example.com" }
     password "joesmith"
     sequence(:authentication_token) {|n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
-    role "admin"
-    provider "github"
+    provider "persona"
     uid "12345"
+
+    factory :admin_user do
+      role "admin"
+      authentication_token "12345"
+    end
   end
 
   factory :alert do

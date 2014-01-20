@@ -89,6 +89,7 @@ namespace :report do
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
     Rake::Task["report:pmc_stats"].invoke
+    Rake::Task["report:pmc_stats"].reenable
   end
 
   desc 'Generate CSV file with PMC PDF usage stats over time'
@@ -98,6 +99,7 @@ namespace :report do
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
     Rake::Task["report:pmc_stats"].invoke
+    Rake::Task["report:pmc_stats"].reenable
   end
 
   desc 'Generate CSV file with PMC combined usage stats over time'
@@ -107,6 +109,7 @@ namespace :report do
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
     Rake::Task["report:pmc_stats"].invoke
+    Rake::Task["report:pmc_stats"].reenable
   end
 
   desc 'Generate CSV file with combined ALM stats'
@@ -151,5 +154,5 @@ namespace :report do
   end
 
   desc 'Generate all article stats reports'
-  task :all_stats => [:environment, :alm_stats, :mendeley_stats, :pmc_stats, :pmc_html_stats, :pmc_pdf_stats, :pmc_combined_stats, :combined_stats, :alm_private_stats, :combined_private_stats, :zip]
+  task :all_stats => [:environment, :alm_stats, :mendeley_stats, :pmc_html_stats, :pmc_pdf_stats, :pmc_combined_stats, :pmc_stats, :combined_stats, :alm_private_stats, :combined_private_stats, :zip]
 end
