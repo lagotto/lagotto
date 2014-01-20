@@ -4,7 +4,7 @@ describe "/api/v3/articles" do
 
   context "private source" do
     context "as admin user" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryGirl.create(:admin_user) }
       let(:article) { FactoryGirl.create(:article_with_private_citations) }
       let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}"}
 
