@@ -146,6 +146,7 @@ FactoryGirl.define do
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
     trait(:with_counter) { association :source, factory: :counter }
+    trait(:with_twitter_search) { association :source, factory: :twitter_search }
 
     before(:create) do |retrieval_status|
       FactoryGirl.create(:retrieval_history,
