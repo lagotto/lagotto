@@ -3,7 +3,7 @@ require "spec_helper"
 describe "/api/v3/status" do
 
   context "index" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryGirl.create(:admin_user) }
     let(:uri) { "/api/v3/status?api_key=#{user.authentication_token}" }
 
     context "get response" do
