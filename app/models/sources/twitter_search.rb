@@ -22,17 +22,29 @@ class TwitterSearch < Source
 
   def get_data(article, options={})
 
-    return  { events: [], event_count: nil } unless article.get_url
+    return  { events: [], event_count: nil } if article.doi.blank?
 
-    query_url = get_query_url(article)
-    result = get_json(query_url, options.merge(bearer: access_token))
+    # Twitter returns 15 results per query
+    # They don't use pagination, but the tweet id to loop through results
+    # See https://dev.twitter.com/docs/working-with-timelines
+    response = {}
+    since_id = get_since_id(article)
+    max_id = nil
+    result = []
 
-    if result.nil?
+    begin
+      query_url = get_query_url(article, max_id: max_id)
+      response = get_json(query_url, options.merge(bearer: access_token))
+      if response
+        max_id = get_max_id(response["search_metadata"]["next_results"])
+        result += response["statuses"]
+      end
+    end while response && max_id
+
+    if response.nil?
       nil
-    elsif result.empty? or !result["statuses"]
-      { events: [], event_count: nil }
     else
-      events = result["statuses"].map do |event|
+      events = result.map do |event|
         if event.has_key?("from_user")
           user = event["from_user"]
           user_name = event["from_user_name"]
@@ -63,11 +75,22 @@ class TwitterSearch < Source
                         citations: nil,
                         total: events.length }
 
+      set_since_id(article, since_id: since_id)
+
       { events: events,
         event_count: events.length,
         events_url: events_url,
         event_metrics: event_metrics }
     end
+  end
+
+  def get_query_url(article, options={})
+    params = { q: article.doi_escaped,
+               max_id: options[:max_id],
+               count: 100,
+               include_entities: 1,
+               result_type: "mixed" }
+    query_url = url + params.to_query
   end
 
   def get_config_fields
@@ -76,20 +99,27 @@ class TwitterSearch < Source
      { field_name: "access_token", field_type: "text_field" }]
   end
 
-  def get_query_url(article)
-    url % { :id => article.url }
+  def get_max_id(next_results)
+    query = Rack::Utils.parse_query(next_results)
+    query["?max_id"]
   end
 
-  def get_events_url(article)
-    events_url % { :id => article.url }
+  def get_since_id(article)
+    rs = retrieval_statuses.where(article_id: article.id).first
+    rs.data_rev.to_i # will be 0 the first time
+  end
+
+  def set_since_id(article, options={})
+    rs = retrieval_statuses.where(article_id: article.id).first
+    rs.update_attributes(data_rev: options[:since_id])
   end
 
   def url
-    config.url || "https://api.twitter.com/1.1/search/tweets.json?q=%{id}"
+    config.url || "https://api.twitter.com/1.1/search/tweets.json?"
   end
 
   def events_url
-    config.events_url || "https://twitter.com/search?q=%{id}"
+    config.events_url || "https://twitter.com/search?q=%{doi}"
   end
 
   def staleness_week

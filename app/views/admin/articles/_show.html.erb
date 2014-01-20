@@ -1,20 +1,22 @@
 <% if can?(:manage, Article) and (controller.action_name == "edit" or (controller.action_name == "update" and !@article.errors.empty?)) %>
 
-  <%= simple_form_for @article, :url => admin_article_path(@article), :html => { :class => 'form-horizontal', :role => "form", :remote => true } do |f| %>
-    <h2>Edit Article</h2>
+  <%= simple_form_for @article, :url => admin_article_path(@article), :html => { :role => "form", :remote => true } do |f| %>
+    <fieldset>
+      <legend>New Article</legend>
 
-    <%= f.input :title, :input_html => { :rows => 2, :class => "col-md-6" } %>
-    <%= f.input :doi, :label => 'DOI', :disabled => true, :input_html => { :class => "cold-md-6 doi", :data => { :doi => @article.doi, :api_key => CONFIG[:api_key] }} %>
-    <%= f.input :pub_med, :label => 'PubMed ID', :input_html => { :class => "col-md-6" } %>
-    <%= f.input :pub_med_central, :label => 'PubMed Central ID', :input_html => { :class => "col-md-6" } %>
-    <%= f.input :mendeley, :label => 'Mendeley UUID', :input_html => { :class => "col-md-6" } %>
-    <%= f.input :url, :label => 'URL', :input_html => { :class => "col-md-6" } %>
-    <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 50, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "input-small" } %>
+      <%= f.input :title, :input_html => { :rows => 2 } %>
+      <%= f.input :doi, :label => 'DOI', :disabled => true %>
+      <%= f.input :pub_med, :label => 'PubMed ID' %>
+      <%= f.input :pub_med_central, :label => 'PubMed Central ID' %>
+      <%= f.input :mendeley, :label => 'Mendeley UUID' %>
+      <%= f.input :url, :label => 'URL' %>
+      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 50, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "input-small" } %>
 
-    <div class="form-group">
-      <%= f.submit "Save ", class: "btn btn-primary" %>
-      <%= link_to 'Cancel', admin_article_path(@article), { :remote => true, :class => 'btn' } %>
-    </div>
+      <div class="form-group">
+        <%= f.submit "Save ", class: "btn btn-default" %>
+        <%= link_to 'Cancel', admin_article_path(@article), { :remote => true, :class => 'btn' } %>
+      </div>
+    </fieldset>
   <% end %>
 
 <% else %>

@@ -5,11 +5,11 @@
         "result_type": "recent",
         "iso_language_code": "en"
       },
-      "created_at": "Sat Jan 11 22:30:50 +0000 2014",
-      "id": 422133526704979968,
-      "id_str": "422133526704979968",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+      "created_at": "Sat Jan 11 16:17:43 +0000 2014",
+      "id": 422039629882089472,
+      "id_str": "422039629882089472",
+      "text": "A bit technical but worth a read: randomised medical control studies may be almost entirely false:... http://t.co/ohldzDxNiq",
+      "source": "<a href=\"http://www.facebook.com/twitter\" rel=\"nofollow\">Facebook</a>",
       "truncated": false,
       "in_reply_to_status_id": null,
       "in_reply_to_status_id_str": null,
@@ -17,307 +17,20 @@
       "in_reply_to_user_id_str": null,
       "in_reply_to_screen_name": null,
       "user": {
-        "id": 328957205,
-        "id_str": "328957205",
-        "name": "Mohamad Al-Awadhi",
-        "screen_name": "i486DX2WB",
-        "location": "Kuwait City/Al-Rowda",
-        "description": "Well Surveillance '08, Deep Drilling '10, MS&R '12, Gas Operations '13 (S&EK), @KOCOfficial",
-        "url": null,
-        "entities": {
-          "description": {
-            "urls": [
-            ]
-          }
-        },
-        "protected": false,
-        "followers_count": 142,
-        "friends_count": 74,
-        "listed_count": 1,
-        "created_at": "Mon Jul 04 09:57:16 +0000 2011",
-        "favourites_count": 6,
-        "utc_offset": null,
-        "time_zone": null,
-        "geo_enabled": true,
-        "verified": false,
-        "statuses_count": 3233,
-        "lang": "en",
-        "contributors_enabled": false,
-        "is_translator": false,
-        "profile_background_color": "C0DEED",
-        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_tile": false,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/378800000670976261/6bf68e953e993fd24c7bb5ed702db806_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/378800000670976261/6bf68e953e993fd24c7bb5ed702db806_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/328957205/1353030229",
-        "profile_link_color": "0084B4",
-        "profile_sidebar_border_color": "C0DEED",
-        "profile_sidebar_fill_color": "DDEEF6",
-        "profile_text_color": "333333",
-        "profile_use_background_image": true,
-        "default_profile": true,
-        "default_profile_image": false,
-        "following": null,
-        "follow_request_sent": null,
-        "notifications": null
-      },
-      "geo": null,
-      "coordinates": null,
-      "place": null,
-      "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
-      "favorite_count": 0,
-      "entities": {
-        "hashtags": [
-        ],
-        "symbols": [
-        ],
-        "urls": [
-          {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
-            "indices": [
-              139,
-              140
-            ]
-          }
-        ],
-        "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
-        ]
-      },
-      "favorited": false,
-      "retweeted": false,
-      "possibly_sensitive": false,
-      "lang": "en"
-    },
-    {
-      "metadata": {
-        "result_type": "recent",
-        "iso_language_code": "en"
-      },
-      "created_at": "Sat Jan 11 22:28:18 +0000 2014",
-      "id": 422132887371403264,
-      "id_str": "422132887371403264",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "web",
-      "truncated": false,
-      "in_reply_to_status_id": null,
-      "in_reply_to_status_id_str": null,
-      "in_reply_to_user_id": null,
-      "in_reply_to_user_id_str": null,
-      "in_reply_to_screen_name": null,
-      "user": {
-        "id": 311088925,
-        "id_str": "311088925",
-        "name": "Penguin ",
-        "screen_name": "Graffiti_Freakx",
-        "location": "Here there and everywhere. ",
-        "description": "EXIT THE WOMB THEY SAID LIFE WOULD BE GREAT THEY SAID.",
-        "url": "http://t.co/snRZPOi4gG",
+        "id": 353828191,
+        "id_str": "353828191",
+        "name": "ChampionsEverywhere",
+        "screen_name": "ChampsEvrywhere",
+        "location": "HQ Ireland",
+        "description": "Coaching the new generation 'old school' lessons. Learn how to train intelligently, move your body freely and run injury free.\ncoaching@ChampionsEverywhere.com",
+        "url": "http://t.co/pxBtDtVY0Y",
         "entities": {
           "url": {
             "urls": [
               {
-                "url": "http://t.co/snRZPOi4gG",
-                "expanded_url": "http://graffiti-freak.tumblr.com/",
-                "display_url": "graffiti-freak.tumblr.com",
+                "url": "http://t.co/pxBtDtVY0Y",
+                "expanded_url": "http://www.ChampionsEverywhere.com",
+                "display_url": "ChampionsEverywhere.com",
                 "indices": [
                   0,
                   22
@@ -331,31 +44,30 @@
           }
         },
         "protected": false,
-        "followers_count": 902,
-        "friends_count": 1101,
-        "listed_count": 3,
-        "created_at": "Sat Jun 04 21:43:55 +0000 2011",
-        "favourites_count": 2031,
-        "utc_offset": -18000,
-        "time_zone": "Quito",
+        "followers_count": 283,
+        "friends_count": 109,
+        "listed_count": 4,
+        "created_at": "Fri Aug 12 18:05:49 +0000 2011",
+        "favourites_count": 22,
+        "utc_offset": 0,
+        "time_zone": "Dublin",
         "geo_enabled": false,
         "verified": false,
-        "statuses_count": 84220,
+        "statuses_count": 1115,
         "lang": "en",
         "contributors_enabled": false,
         "is_translator": false,
-        "profile_background_color": "131516",
-        "profile_background_image_url": "http://a0.twimg.com/profile_background_images/304144233/tumblr_lndil0lVBu1qc4o5do1_500_large.jpg",
-        "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/304144233/tumblr_lndil0lVBu1qc4o5do1_500_large.jpg",
-        "profile_background_tile": true,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/421650170208849921/r70nDj5D_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/421650170208849921/r70nDj5D_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/311088925/1351376839",
-        "profile_link_color": "6F50C7",
-        "profile_sidebar_border_color": "5FFF29",
-        "profile_sidebar_fill_color": "030003",
-        "profile_text_color": "12EBCE",
-        "profile_use_background_image": true,
+        "profile_background_color": "8EC63F",
+        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_tile": false,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/1529794393/ce_logo_450px_normal.png",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/1529794393/ce_logo_450px_normal.png",
+        "profile_link_color": "0084B4",
+        "profile_sidebar_border_color": "000ECC",
+        "profile_sidebar_fill_color": "DDEEF6",
+        "profile_text_color": "333333",
+        "profile_use_background_image": false,
         "default_profile": false,
         "default_profile_image": false,
         "following": null,
@@ -366,152 +78,7 @@
       "coordinates": null,
       "place": null,
       "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
+      "retweet_count": 0,
       "favorite_count": 0,
       "entities": {
         "hashtags": [
@@ -520,66 +87,16 @@
         ],
         "urls": [
           {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
+            "url": "http://t.co/ohldzDxNiq",
+            "expanded_url": "http://fb.me/6xubTxHiN",
+            "display_url": "fb.me/6xubTxHiN",
             "indices": [
-              139,
-              140
+              102,
+              124
             ]
           }
         ],
         "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
         ]
       },
       "favorited": false,
@@ -592,297 +109,10 @@
         "result_type": "recent",
         "iso_language_code": "en"
       },
-      "created_at": "Sat Jan 11 22:13:35 +0000 2014",
-      "id": 422129187835883520,
-      "id_str": "422129187835883520",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
-      "truncated": false,
-      "in_reply_to_status_id": null,
-      "in_reply_to_status_id_str": null,
-      "in_reply_to_user_id": null,
-      "in_reply_to_user_id_str": null,
-      "in_reply_to_screen_name": null,
-      "user": {
-        "id": 534470688,
-        "id_str": "534470688",
-        "name": "Zara Brennan",
-        "screen_name": "marlozara",
-        "location": "Ireland",
-        "description": "Hot Lips★ Dirty Hips★Nice Ass★High Class★Sexy Smile★Bieber Style★",
-        "url": null,
-        "entities": {
-          "description": {
-            "urls": [
-            ]
-          }
-        },
-        "protected": false,
-        "followers_count": 545,
-        "friends_count": 1997,
-        "listed_count": 1,
-        "created_at": "Fri Mar 23 14:59:16 +0000 2012",
-        "favourites_count": 156,
-        "utc_offset": 3600,
-        "time_zone": "Amsterdam",
-        "geo_enabled": false,
-        "verified": false,
-        "statuses_count": 2510,
-        "lang": "en",
-        "contributors_enabled": false,
-        "is_translator": false,
-        "profile_background_color": "C0DEED",
-        "profile_background_image_url": "http://a0.twimg.com/profile_background_images/785623278/228b7a3c325ad5de39469dd3f0a97015.jpeg",
-        "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/785623278/228b7a3c325ad5de39469dd3f0a97015.jpeg",
-        "profile_background_tile": true,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/378800000589073675/263dfb007a8c03221e25aa161ebc671f_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/378800000589073675/263dfb007a8c03221e25aa161ebc671f_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/534470688/1388081691",
-        "profile_link_color": "333333",
-        "profile_sidebar_border_color": "FFFFFF",
-        "profile_sidebar_fill_color": "DDEEF6",
-        "profile_text_color": "0084B4",
-        "profile_use_background_image": true,
-        "default_profile": false,
-        "default_profile_image": false,
-        "following": null,
-        "follow_request_sent": null,
-        "notifications": null
-      },
-      "geo": null,
-      "coordinates": null,
-      "place": null,
-      "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
-      "favorite_count": 0,
-      "entities": {
-        "hashtags": [
-        ],
-        "symbols": [
-        ],
-        "urls": [
-          {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
-            "indices": [
-              139,
-              140
-            ]
-          }
-        ],
-        "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
-        ]
-      },
-      "favorited": false,
-      "retweeted": false,
-      "possibly_sensitive": false,
-      "lang": "en"
-    },
-    {
-      "metadata": {
-        "result_type": "recent",
-        "iso_language_code": "fr"
-      },
-      "created_at": "Sat Jan 11 22:12:11 +0000 2014",
-      "id": 422128834377306112,
-      "id_str": "422128834377306112",
-      "text": "Les francophones au 12ème rang sur la twittosphère: http://t.co/pNbtRHbJmV",
+      "created_at": "Fri Jan 10 16:16:30 +0000 2014",
+      "id": 421676937208012800,
+      "id_str": "421676937208012800",
+      "text": "First published in 2005 but still valid: Why most published research findings are false.\nhttp://t.co/IHWqAqHgAo",
       "source": "web",
       "truncated": false,
       "in_reply_to_status_id": null,
@@ -891,12 +121,12 @@
       "in_reply_to_user_id_str": null,
       "in_reply_to_screen_name": null,
       "user": {
-        "id": 383982326,
-        "id_str": "383982326",
-        "name": "Jean P Comeau",
-        "screen_name": "JPComeau3",
-        "location": "Ste-Foy",
-        "description": "Enseignant",
+        "id": 18342117,
+        "id_str": "18342117",
+        "name": "S P Sashidharan",
+        "screen_name": "SPSashidharan",
+        "location": "Scotland",
+        "description": "Psychiatrist",
         "url": null,
         "entities": {
           "description": {
@@ -905,25 +135,25 @@
           }
         },
         "protected": false,
-        "followers_count": 13,
-        "friends_count": 55,
-        "listed_count": 0,
-        "created_at": "Sun Oct 02 21:18:06 +0000 2011",
-        "favourites_count": 60,
+        "followers_count": 126,
+        "friends_count": 81,
+        "listed_count": 4,
+        "created_at": "Tue Dec 23 20:53:37 +0000 2008",
+        "favourites_count": 1,
         "utc_offset": null,
         "time_zone": null,
-        "geo_enabled": false,
+        "geo_enabled": true,
         "verified": false,
-        "statuses_count": 145,
-        "lang": "fr",
+        "statuses_count": 551,
+        "lang": "en",
         "contributors_enabled": false,
         "is_translator": false,
         "profile_background_color": "C0DEED",
         "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
         "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
         "profile_background_tile": false,
-        "profile_image_url": "http://abs.twimg.com/sticky/default_profile_images/default_profile_0_normal.png",
-        "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_0_normal.png",
+        "profile_image_url": "http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png",
+        "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png",
         "profile_link_color": "0084B4",
         "profile_sidebar_border_color": "C0DEED",
         "profile_sidebar_fill_color": "DDEEF6",
@@ -948,316 +178,16 @@
         ],
         "urls": [
           {
-            "url": "http://t.co/pNbtRHbJmV",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
+            "url": "http://t.co/IHWqAqHgAo",
+            "expanded_url": "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124",
+            "display_url": "plosmedicine.org/article/info:d…",
             "indices": [
-              52,
-              74
+              89,
+              111
             ]
           }
         ],
         "user_mentions": [
-        ]
-      },
-      "favorited": false,
-      "retweeted": false,
-      "possibly_sensitive": false,
-      "lang": "fr"
-    },
-    {
-      "metadata": {
-        "result_type": "recent",
-        "iso_language_code": "en"
-      },
-      "created_at": "Sat Jan 11 21:51:34 +0000 2014",
-      "id": 422123644798906368,
-      "id_str": "422123644798906368",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
-      "truncated": false,
-      "in_reply_to_status_id": null,
-      "in_reply_to_status_id_str": null,
-      "in_reply_to_user_id": null,
-      "in_reply_to_user_id_str": null,
-      "in_reply_to_screen_name": null,
-      "user": {
-        "id": 378070148,
-        "id_str": "378070148",
-        "name": "Wahab",
-        "screen_name": "itswahab",
-        "location": "",
-        "description": "Destruction is a form of creation, instagram: itswahab",
-        "url": "http://t.co/QIAbwWBIYD",
-        "entities": {
-          "url": {
-            "urls": [
-              {
-                "url": "http://t.co/QIAbwWBIYD",
-                "expanded_url": "http://itswahabs.tumblr.com",
-                "display_url": "itswahabs.tumblr.com",
-                "indices": [
-                  0,
-                  22
-                ]
-              }
-            ]
-          },
-          "description": {
-            "urls": [
-            ]
-          }
-        },
-        "protected": false,
-        "followers_count": 122,
-        "friends_count": 88,
-        "listed_count": 1,
-        "created_at": "Thu Sep 22 15:55:20 +0000 2011",
-        "favourites_count": 1035,
-        "utc_offset": 10800,
-        "time_zone": "Kuwait",
-        "geo_enabled": false,
-        "verified": false,
-        "statuses_count": 4783,
-        "lang": "en",
-        "contributors_enabled": false,
-        "is_translator": false,
-        "profile_background_color": "C0DEED",
-        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_tile": false,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/421970260385075200/c3Y1Fj98_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/421970260385075200/c3Y1Fj98_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/378070148/1387039826",
-        "profile_link_color": "0084B4",
-        "profile_sidebar_border_color": "C0DEED",
-        "profile_sidebar_fill_color": "DDEEF6",
-        "profile_text_color": "333333",
-        "profile_use_background_image": true,
-        "default_profile": true,
-        "default_profile_image": false,
-        "following": null,
-        "follow_request_sent": null,
-        "notifications": null
-      },
-      "geo": null,
-      "coordinates": null,
-      "place": null,
-      "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
-      "favorite_count": 0,
-      "entities": {
-        "hashtags": [
-        ],
-        "symbols": [
-        ],
-        "urls": [
-          {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
-            "indices": [
-              139,
-              140
-            ]
-          }
-        ],
-        "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
         ]
       },
       "favorited": false,
@@ -1268,898 +198,12 @@
     {
       "metadata": {
         "result_type": "recent",
-        "iso_language_code": "en"
+        "iso_language_code": "ja"
       },
-      "created_at": "Sat Jan 11 21:23:27 +0000 2014",
-      "id": 422116569784000512,
-      "id_str": "422116569784000512",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
-      "truncated": false,
-      "in_reply_to_status_id": null,
-      "in_reply_to_status_id_str": null,
-      "in_reply_to_user_id": null,
-      "in_reply_to_user_id_str": null,
-      "in_reply_to_screen_name": null,
-      "user": {
-        "id": 2231584091,
-        "id_str": "2231584091",
-        "name": "Anwaar",
-        "screen_name": "A26_x",
-        "location": "kuwait city",
-        "description": "New account \nالحمدالله ❤️",
-        "url": "http://t.co/1O5duhueNA",
-        "entities": {
-          "url": {
-            "urls": [
-              {
-                "url": "http://t.co/1O5duhueNA",
-                "expanded_url": "http://ask.fm/anoosha14",
-                "display_url": "ask.fm/anoosha14",
-                "indices": [
-                  0,
-                  22
-                ]
-              }
-            ]
-          },
-          "description": {
-            "urls": [
-            ]
-          }
-        },
-        "protected": false,
-        "followers_count": 92,
-        "friends_count": 54,
-        "listed_count": 0,
-        "created_at": "Wed Dec 18 12:22:31 +0000 2013",
-        "favourites_count": 1,
-        "utc_offset": null,
-        "time_zone": null,
-        "geo_enabled": false,
-        "verified": false,
-        "statuses_count": 173,
-        "lang": "en",
-        "contributors_enabled": false,
-        "is_translator": false,
-        "profile_background_color": "C0DEED",
-        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_tile": false,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/421989808534482944/uh2dXYNi_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/421989808534482944/uh2dXYNi_normal.jpeg",
-        "profile_link_color": "0084B4",
-        "profile_sidebar_border_color": "C0DEED",
-        "profile_sidebar_fill_color": "DDEEF6",
-        "profile_text_color": "333333",
-        "profile_use_background_image": true,
-        "default_profile": true,
-        "default_profile_image": false,
-        "following": null,
-        "follow_request_sent": null,
-        "notifications": null
-      },
-      "geo": null,
-      "coordinates": null,
-      "place": null,
-      "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
-      "favorite_count": 0,
-      "entities": {
-        "hashtags": [
-        ],
-        "symbols": [
-        ],
-        "urls": [
-          {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
-            "indices": [
-              139,
-              140
-            ]
-          }
-        ],
-        "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
-        ]
-      },
-      "favorited": false,
-      "retweeted": false,
-      "possibly_sensitive": false,
-      "lang": "en"
-    },
-    {
-      "metadata": {
-        "result_type": "recent",
-        "iso_language_code": "en"
-      },
-      "created_at": "Sat Jan 11 21:21:53 +0000 2014",
-      "id": 422116176299167744,
-      "id_str": "422116176299167744",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
-      "truncated": false,
-      "in_reply_to_status_id": null,
-      "in_reply_to_status_id_str": null,
-      "in_reply_to_user_id": null,
-      "in_reply_to_user_id_str": null,
-      "in_reply_to_screen_name": null,
-      "user": {
-        "id": 62230907,
-        "id_str": "62230907",
-        "name": "Tamara Hamad ॐ",
-        "screen_name": "TammyGHamad",
-        "location": "toronto/ku/leb",
-        "description": "Wild heart with a soul of a gypsy ॐ ~ 416 ~ Abel Tesfaye ~ the boo, @bitar_ali",
-        "url": null,
-        "entities": {
-          "description": {
-            "urls": [
-            ]
-          }
-        },
-        "protected": false,
-        "followers_count": 4256,
-        "friends_count": 3998,
-        "listed_count": 33,
-        "created_at": "Sun Aug 02 09:15:52 +0000 2009",
-        "favourites_count": 1057,
-        "utc_offset": -18000,
-        "time_zone": "Quito",
-        "geo_enabled": true,
-        "verified": false,
-        "statuses_count": 24584,
-        "lang": "en",
-        "contributors_enabled": false,
-        "is_translator": false,
-        "profile_background_color": "9AE4E8",
-        "profile_background_image_url": "http://a0.twimg.com/profile_background_images/733347884/6102df49338e12f24061d9d5c2742bac.jpeg",
-        "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/733347884/6102df49338e12f24061d9d5c2742bac.jpeg",
-        "profile_background_tile": true,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/419737630356815872/rbulqnCI_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/419737630356815872/rbulqnCI_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/62230907/1389444234",
-        "profile_link_color": "0084B4",
-        "profile_sidebar_border_color": "FFFFFF",
-        "profile_sidebar_fill_color": "FFABFF",
-        "profile_text_color": "000000",
-        "profile_use_background_image": true,
-        "default_profile": false,
-        "default_profile_image": false,
-        "following": null,
-        "follow_request_sent": null,
-        "notifications": null
-      },
-      "geo": null,
-      "coordinates": null,
-      "place": null,
-      "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
-      "favorite_count": 0,
-      "entities": {
-        "hashtags": [
-        ],
-        "symbols": [
-        ],
-        "urls": [
-          {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
-            "indices": [
-              139,
-              140
-            ]
-          }
-        ],
-        "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
-        ]
-      },
-      "favorited": false,
-      "retweeted": false,
-      "possibly_sensitive": false,
-      "lang": "en"
-    },
-    {
-      "metadata": {
-        "result_type": "recent",
-        "iso_language_code": "en"
-      },
-      "created_at": "Sat Jan 11 21:13:45 +0000 2014",
-      "id": 422114128971718656,
-      "id_str": "422114128971718656",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
-      "truncated": false,
-      "in_reply_to_status_id": null,
-      "in_reply_to_status_id_str": null,
-      "in_reply_to_user_id": null,
-      "in_reply_to_user_id_str": null,
-      "in_reply_to_screen_name": null,
-      "user": {
-        "id": 450770326,
-        "id_str": "450770326",
-        "name": "محمد الرمضان",
-        "screen_name": "M_Alramadan",
-        "location": "insta/snapchat..m_alramadan",
-        "description": "Shine bright like a diamond..",
-        "url": "http://t.co/QIFMRIzo1O",
-        "entities": {
-          "url": {
-            "urls": [
-              {
-                "url": "http://t.co/QIFMRIzo1O",
-                "expanded_url": "http://ask.fm/GrpKinDer",
-                "display_url": "ask.fm/GrpKinDer",
-                "indices": [
-                  0,
-                  22
-                ]
-              }
-            ]
-          },
-          "description": {
-            "urls": [
-            ]
-          }
-        },
-        "protected": false,
-        "followers_count": 3025,
-        "friends_count": 55,
-        "listed_count": 3,
-        "created_at": "Fri Dec 30 16:52:59 +0000 2011",
-        "favourites_count": 88,
-        "utc_offset": -36000,
-        "time_zone": "Hawaii",
-        "geo_enabled": true,
-        "verified": false,
-        "statuses_count": 25120,
-        "lang": "en",
-        "contributors_enabled": false,
-        "is_translator": false,
-        "profile_background_color": "050505",
-        "profile_background_image_url": "http://a0.twimg.com/profile_background_images/394815280/kinder-logo.gif",
-        "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/394815280/kinder-logo.gif",
-        "profile_background_tile": true,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/413972937503686656/ivRUnLkq_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/413972937503686656/ivRUnLkq_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/450770326/1388938065",
-        "profile_link_color": "010B0F",
-        "profile_sidebar_border_color": "FFFFFF",
-        "profile_sidebar_fill_color": "0A0909",
-        "profile_text_color": "EB0942",
-        "profile_use_background_image": true,
-        "default_profile": false,
-        "default_profile_image": false,
-        "following": null,
-        "follow_request_sent": null,
-        "notifications": null
-      },
-      "geo": null,
-      "coordinates": null,
-      "place": null,
-      "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
-      "favorite_count": 0,
-      "entities": {
-        "hashtags": [
-        ],
-        "symbols": [
-        ],
-        "urls": [
-          {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
-            "indices": [
-              139,
-              140
-            ]
-          }
-        ],
-        "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
-        ]
-      },
-      "favorited": false,
-      "retweeted": false,
-      "possibly_sensitive": false,
-      "lang": "en"
-    },
-    {
-      "metadata": {
-        "result_type": "recent",
-        "iso_language_code": "en"
-      },
-      "created_at": "Sat Jan 11 20:01:34 +0000 2014",
-      "id": 422095964560564224,
-      "id_str": "422095964560564224",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
+      "created_at": "Thu Jan 09 01:15:40 +0000 2014",
+      "id": 421087843750928384,
+      "id_str": "421087843750928384",
+      "text": ".@kohske ビジネスの統計解析もそうですが，かなりの数の研究者も信頼できる複数の統計学の教科書を端から端まで読んだことがないのでしょう．イオニダスの擬陽性のこの問題とかみると救いようがない状態です… http://t.co/5wssSZEmXo",
       "source": "web",
       "truncated": false,
       "in_reply_to_status_id": null,
@@ -2168,20 +212,20 @@
       "in_reply_to_user_id_str": null,
       "in_reply_to_screen_name": null,
       "user": {
-        "id": 267970311,
-        "id_str": "267970311",
-        "name": "ALMeqdad H.",
-        "screen_name": "iMugag",
-        "location": "Boulder, Colorado",
-        "description": "A Kuwaiti geek studying Architectural Engineering at CU Boulder.\nMovieholic. Milanista. Gamer.\nInstagram: @mugag",
-        "url": "http://t.co/dhyy32YPym",
+        "id": 4167551,
+        "id_str": "4167551",
+        "name": "Yuta Kashino",
+        "screen_name": "yutakashino",
+        "location": "Tokyo",
+        "description": "I'm an engineer and entrepreneur who has been living in Tokyo for 25 years. I love swimming, mathematics, and my family.",
+        "url": "http://t.co/DjGpni1O38",
         "entities": {
           "url": {
             "urls": [
               {
-                "url": "http://t.co/dhyy32YPym",
-                "expanded_url": "http://www.ask.fm/mugag",
-                "display_url": "ask.fm/mugag",
+                "url": "http://t.co/DjGpni1O38",
+                "expanded_url": "http://kashino.exblog.jp",
+                "display_url": "kashino.exblog.jp",
                 "indices": [
                   0,
                   22
@@ -2195,32 +239,31 @@
           }
         },
         "protected": false,
-        "followers_count": 265,
-        "friends_count": 163,
-        "listed_count": 3,
-        "created_at": "Thu Mar 17 22:31:55 +0000 2011",
-        "favourites_count": 290,
-        "utc_offset": 10800,
-        "time_zone": "Kuwait",
-        "geo_enabled": true,
+        "followers_count": 1316,
+        "friends_count": 86,
+        "listed_count": 99,
+        "created_at": "Wed Apr 11 12:29:48 +0000 2007",
+        "favourites_count": 7,
+        "utc_offset": 32400,
+        "time_zone": "Tokyo",
+        "geo_enabled": false,
         "verified": false,
-        "statuses_count": 32803,
+        "statuses_count": 8845,
         "lang": "en",
         "contributors_enabled": false,
         "is_translator": false,
         "profile_background_color": "C0DEED",
-        "profile_background_image_url": "http://a0.twimg.com/profile_background_images/730509524/e43eae7cc35945cfbcea7f7910119c14.jpeg",
-        "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/730509524/e43eae7cc35945cfbcea7f7910119c14.jpeg",
+        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
         "profile_background_tile": false,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/418891666276511744/ygHfLY9n_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/418891666276511744/ygHfLY9n_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/267970311/1388706527",
+        "profile_image_url": "http://pbs.twimg.com/profile_images/2792877062/bc785acdd48f72dc0b605baca129fc4c_normal.jpeg",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/2792877062/bc785acdd48f72dc0b605baca129fc4c_normal.jpeg",
         "profile_link_color": "0084B4",
-        "profile_sidebar_border_color": "FFFFFF",
-        "profile_sidebar_fill_color": "AFD0FA",
+        "profile_sidebar_border_color": "C0DEED",
+        "profile_sidebar_fill_color": "DDEEF6",
         "profile_text_color": "333333",
         "profile_use_background_image": true,
-        "default_profile": false,
+        "default_profile": true,
         "default_profile_image": false,
         "following": null,
         "follow_request_sent": null,
@@ -2230,153 +273,8 @@
       "coordinates": null,
       "place": null,
       "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
-      "favorite_count": 0,
+      "retweet_count": 0,
+      "favorite_count": 4,
       "entities": {
         "hashtags": [
         ],
@@ -2384,83 +282,43 @@
         ],
         "urls": [
           {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
+            "url": "http://t.co/5wssSZEmXo",
+            "expanded_url": "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124",
+            "display_url": "plosmedicine.org/article/info:d…",
             "indices": [
-              139,
-              140
+              103,
+              125
             ]
           }
         ],
         "user_mentions": [
           {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
+            "screen_name": "kohske",
+            "name": "kohske",
+            "id": 14289616,
+            "id_str": "14289616",
             "indices": [
-              3,
-              17
+              1,
+              8
             ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
           }
         ]
       },
       "favorited": false,
       "retweeted": false,
       "possibly_sensitive": false,
-      "lang": "en"
+      "lang": "ja"
     },
     {
       "metadata": {
         "result_type": "recent",
         "iso_language_code": "en"
       },
-      "created_at": "Sat Jan 11 19:47:02 +0000 2014",
-      "id": 422092305043308545,
-      "id_str": "422092305043308545",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+      "created_at": "Wed Jan 08 08:35:06 +0000 2014",
+      "id": 420836046268805120,
+      "id_str": "420836046268805120",
+      "text": "RT @bayesian_stats: Entertaining talk at #mcmski this morning: Gelman @StatModeling on using Bayesian methods for avoiding this: http://t.c…",
+      "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Mobile Web (M2)</a>",
       "truncated": false,
       "in_reply_to_status_id": null,
       "in_reply_to_status_id_str": null,
@@ -2468,307 +326,20 @@
       "in_reply_to_user_id_str": null,
       "in_reply_to_screen_name": null,
       "user": {
-        "id": 131493194,
-        "id_str": "131493194",
-        "name": "ibrahim j alansari",
-        "screen_name": "Bo_BaRHaM",
-        "location": "Shamiya, Kuwait",
-        "description": "Electricity Teacher, Porsche Lover & LFC Supporter #YNWA",
-        "url": null,
-        "entities": {
-          "description": {
-            "urls": [
-            ]
-          }
-        },
-        "protected": false,
-        "followers_count": 239,
-        "friends_count": 199,
-        "listed_count": 0,
-        "created_at": "Sat Apr 10 12:43:35 +0000 2010",
-        "favourites_count": 168,
-        "utc_offset": 10800,
-        "time_zone": "Kuwait",
-        "geo_enabled": true,
-        "verified": false,
-        "statuses_count": 15318,
-        "lang": "en",
-        "contributors_enabled": false,
-        "is_translator": false,
-        "profile_background_color": "131516",
-        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme14/bg.gif",
-        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme14/bg.gif",
-        "profile_background_tile": false,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/3731534792/6adb78ba3fb7625a8d0198fc36bc8c55_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/3731534792/6adb78ba3fb7625a8d0198fc36bc8c55_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/131493194/1369913312",
-        "profile_link_color": "F71808",
-        "profile_sidebar_border_color": "EEEEEE",
-        "profile_sidebar_fill_color": "EFEFEF",
-        "profile_text_color": "333333",
-        "profile_use_background_image": true,
-        "default_profile": false,
-        "default_profile_image": false,
-        "following": null,
-        "follow_request_sent": null,
-        "notifications": null
-      },
-      "geo": null,
-      "coordinates": null,
-      "place": null,
-      "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
-      "favorite_count": 0,
-      "entities": {
-        "hashtags": [
-        ],
-        "symbols": [
-        ],
-        "urls": [
-          {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
-            "indices": [
-              139,
-              140
-            ]
-          }
-        ],
-        "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
-        ]
-      },
-      "favorited": false,
-      "retweeted": false,
-      "possibly_sensitive": false,
-      "lang": "en"
-    },
-    {
-      "metadata": {
-        "result_type": "recent",
-        "iso_language_code": "en"
-      },
-      "created_at": "Sat Jan 11 19:41:08 +0000 2014",
-      "id": 422090822155116544,
-      "id_str": "422090822155116544",
-      "text": "RT @conradhackett: Twitter users per capita:\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nht…",
-      "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
-      "truncated": false,
-      "in_reply_to_status_id": null,
-      "in_reply_to_status_id_str": null,
-      "in_reply_to_user_id": null,
-      "in_reply_to_user_id_str": null,
-      "in_reply_to_screen_name": null,
-      "user": {
-        "id": 556183808,
-        "id_str": "556183808",
-        "name": "αмвєя ♥ ",
-        "screen_name": "AmberHMK",
-        "location": "England",
-        "description": "FOLLOW me If you LOVE my #TWEETS\r\n21, #ACCAaffilate, #GSKemployee #IoBM #MBA. #LoveTweeting #quotes #Music #Business, #Movies #Finance #Politics & #Sports",
-        "url": "http://t.co/nbcAcsYkke",
+        "id": 1966559934,
+        "id_str": "1966559934",
+        "name": "Ged Ridgway",
+        "screen_name": "RidgwayGR",
+        "location": "London",
+        "description": "MRC Research Fellow at Wellcome Trust Centre for Neuroimaging, UCL Institute of Neurology. Interested in methods, modelling, analysis, Alzheimer's and dementia.",
+        "url": "http://t.co/Y0lWK0P2xr",
         "entities": {
           "url": {
             "urls": [
               {
-                "url": "http://t.co/nbcAcsYkke",
-                "expanded_url": "http://favstar.fm/users/amberhmk",
-                "display_url": "favstar.fm/users/amberhmk",
+                "url": "http://t.co/Y0lWK0P2xr",
+                "expanded_url": "http://orcid.org/0000-0002-7676-7860",
+                "display_url": "orcid.org/0000-0002-7676…",
                 "indices": [
                   0,
                   22
@@ -2782,326 +353,25 @@
           }
         },
         "protected": false,
-        "followers_count": 2761,
-        "friends_count": 1004,
-        "listed_count": 22,
-        "created_at": "Tue Apr 17 18:35:03 +0000 2012",
-        "favourites_count": 7764,
-        "utc_offset": 18000,
-        "time_zone": "Islamabad",
-        "geo_enabled": false,
-        "verified": false,
-        "statuses_count": 23038,
-        "lang": "en-gb",
-        "contributors_enabled": false,
-        "is_translator": false,
-        "profile_background_color": "131516",
-        "profile_background_image_url": "http://a0.twimg.com/profile_background_images/378800000166334560/e1aBv2TV.jpeg",
-        "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/378800000166334560/e1aBv2TV.jpeg",
-        "profile_background_tile": true,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/422002837241856000/CdUhG7y0_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/422002837241856000/CdUhG7y0_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/556183808/1389448328",
-        "profile_link_color": "009999",
-        "profile_sidebar_border_color": "000000",
-        "profile_sidebar_fill_color": "99CC33",
-        "profile_text_color": "3E4415",
-        "profile_use_background_image": true,
-        "default_profile": false,
-        "default_profile_image": false,
-        "following": null,
-        "follow_request_sent": null,
-        "notifications": null
-      },
-      "geo": null,
-      "coordinates": null,
-      "place": null,
-      "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Sat Jan 11 13:41:41 +0000 2014",
-        "id": 422000360585437185,
-        "id_str": "422000360585437185",
-        "text": "Twitter users per capita:\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 39,
-        "favorite_count": 11,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                118,
-                140
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                82,
-                104
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 39,
-      "favorite_count": 0,
-      "entities": {
-        "hashtags": [
-        ],
-        "symbols": [
-        ],
-        "urls": [
-          {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
-            "indices": [
-              139,
-              140
-            ]
-          }
-        ],
-        "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              101,
-              123
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
-        ]
-      },
-      "favorited": false,
-      "retweeted": false,
-      "possibly_sensitive": true,
-      "lang": "en"
-    },
-    {
-      "metadata": {
-        "result_type": "recent",
-        "iso_language_code": "en"
-      },
-      "created_at": "Sat Jan 11 19:33:43 +0000 2014",
-      "id": 422088954150920192,
-      "id_str": "422088954150920192",
-      "text": "RT @conradhackett: Twitter users per capita:\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nht…",
-      "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
-      "truncated": false,
-      "in_reply_to_status_id": null,
-      "in_reply_to_status_id_str": null,
-      "in_reply_to_user_id": null,
-      "in_reply_to_user_id_str": null,
-      "in_reply_to_screen_name": null,
-      "user": {
-        "id": 792672906,
-        "id_str": "792672906",
-        "name": "فاطمه♡",
-        "screen_name": "F6ouMaa_",
-        "location": "Kuwait",
-        "description": "‏‏‏سهلها صعب المنال.",
-        "url": "http://t.co/EWWA3bfxok",
-        "entities": {
-          "url": {
-            "urls": [
-              {
-                "url": "http://t.co/EWWA3bfxok",
-                "expanded_url": "http://www.quran4iphone.com/MenuPhotosAR.html",
-                "display_url": "quran4iphone.com/MenuPhotosAR.h…",
-                "indices": [
-                  0,
-                  22
-                ]
-              }
-            ]
-          },
-          "description": {
-            "urls": [
-            ]
-          }
-        },
-        "protected": false,
-        "followers_count": 142,
-        "friends_count": 137,
-        "listed_count": 1,
-        "created_at": "Fri Aug 31 00:11:40 +0000 2012",
-        "favourites_count": 56,
+        "followers_count": 163,
+        "friends_count": 480,
+        "listed_count": 4,
+        "created_at": "Thu Oct 17 10:58:09 +0000 2013",
+        "favourites_count": 172,
         "utc_offset": null,
         "time_zone": null,
         "geo_enabled": false,
         "verified": false,
-        "statuses_count": 7210,
-        "lang": "en",
+        "statuses_count": 243,
+        "lang": "en-gb",
         "contributors_enabled": false,
         "is_translator": false,
         "profile_background_color": "C0DEED",
         "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
         "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
         "profile_background_tile": false,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/378800000620059927/a75fbe1bf5dd5a53f8bc2dd0494dbfb5_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/378800000620059927/a75fbe1bf5dd5a53f8bc2dd0494dbfb5_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/792672906/1385902293",
+        "profile_image_url": "http://pbs.twimg.com/profile_images/378800000609617444/a4971f3cefcc86e66d4bea337a463246_normal.png",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/378800000609617444/a4971f3cefcc86e66d4bea337a463246_normal.png",
         "profile_link_color": "0084B4",
         "profile_sidebar_border_color": "C0DEED",
         "profile_sidebar_fill_color": "DDEEF6",
@@ -3122,11 +392,11 @@
           "result_type": "recent",
           "iso_language_code": "en"
         },
-        "created_at": "Sat Jan 11 13:41:41 +0000 2014",
-        "id": 422000360585437185,
-        "id_str": "422000360585437185",
-        "text": "Twitter users per capita:\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
+        "created_at": "Wed Jan 08 08:27:23 +0000 2014",
+        "id": 420834101067657216,
+        "id_str": "420834101067657216",
+        "text": "Entertaining talk at #mcmski this morning: Gelman @StatModeling on using Bayesian methods for avoiding this: http://t.co/DbqjBCdH0b",
+        "source": "web",
         "truncated": false,
         "in_reply_to_status_id": null,
         "in_reply_to_status_id_str": null,
@@ -3134,20 +404,20 @@
         "in_reply_to_user_id_str": null,
         "in_reply_to_screen_name": null,
         "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
+          "id": 221292469,
+          "id_str": "221292469",
+          "name": "Richard Everitt",
+          "screen_name": "bayesian_stats",
+          "location": "Reading, UK",
+          "description": "Tweets about Bayesian statistics from a lecturer at the University of Reading.  Opinions are my own.",
+          "url": "http://t.co/sOlpKUxDK9",
           "entities": {
             "url": {
               "urls": [
                 {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
+                  "url": "http://t.co/sOlpKUxDK9",
+                  "expanded_url": "http://www.reading.ac.uk/~gt904211",
+                  "display_url": "reading.ac.uk/~gt904211",
                   "indices": [
                     0,
                     22
@@ -3161,32 +431,32 @@
             }
           },
           "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
+          "followers_count": 705,
+          "friends_count": 631,
+          "listed_count": 33,
+          "created_at": "Tue Nov 30 07:44:52 +0000 2010",
+          "favourites_count": 6,
+          "utc_offset": 0,
+          "time_zone": "London",
           "geo_enabled": false,
           "verified": false,
-          "statuses_count": 1848,
+          "statuses_count": 944,
           "lang": "en",
           "contributors_enabled": false,
           "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
+          "profile_background_color": "C0DEED",
+          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
           "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
+          "profile_image_url": "http://pbs.twimg.com/profile_images/1630834502/Bayes_grave_normal.gif",
+          "profile_image_url_https": "https://pbs.twimg.com/profile_images/1630834502/Bayes_grave_normal.gif",
+          "profile_banner_url": "https://pbs.twimg.com/profile_banners/221292469/1365687739",
           "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
+          "profile_sidebar_border_color": "C0DEED",
+          "profile_sidebar_fill_color": "DDEEF6",
           "profile_text_color": "333333",
           "profile_use_background_image": true,
-          "default_profile": false,
+          "default_profile": true,
           "default_profile_image": false,
           "following": null,
           "follow_request_sent": null,
@@ -3196,64 +466,41 @@
         "coordinates": null,
         "place": null,
         "contributors": null,
-        "retweet_count": 39,
-        "favorite_count": 11,
+        "retweet_count": 2,
+        "favorite_count": 1,
         "entities": {
           "hashtags": [
+            {
+              "text": "mcmski",
+              "indices": [
+                21,
+                28
+              ]
+            }
           ],
           "symbols": [
           ],
           "urls": [
             {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
+              "url": "http://t.co/DbqjBCdH0b",
+              "expanded_url": "http://goo.gl/V53CND",
+              "display_url": "goo.gl/V53CND",
               "indices": [
-                118,
-                140
+                109,
+                131
               ]
             }
           ],
           "user_mentions": [
-          ],
-          "media": [
             {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
+              "screen_name": "StatModeling",
+              "name": "Andrew Gelman",
+              "id": 214653213,
+              "id_str": "214653213",
               "indices": [
-                82,
-                104
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
+                50,
+                63
+              ]
             }
           ]
         },
@@ -3262,18 +509,25 @@
         "possibly_sensitive": false,
         "lang": "en"
       },
-      "retweet_count": 39,
+      "retweet_count": 2,
       "favorite_count": 0,
       "entities": {
         "hashtags": [
+          {
+            "text": "mcmski",
+            "indices": [
+              41,
+              48
+            ]
+          }
         ],
         "symbols": [
         ],
         "urls": [
           {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
+            "url": "http://t.co/DbqjBCdH0b",
+            "expanded_url": "http://goo.gl/V53CND",
+            "display_url": "goo.gl/V53CND",
             "indices": [
               139,
               140
@@ -3282,54 +536,24 @@
         ],
         "user_mentions": [
           {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
+            "screen_name": "bayesian_stats",
+            "name": "Richard Everitt",
+            "id": 221292469,
+            "id_str": "221292469",
             "indices": [
               3,
-              17
+              18
             ]
-          }
-        ],
-        "media": [
+          },
           {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
+            "screen_name": "StatModeling",
+            "name": "Andrew Gelman",
+            "id": 214653213,
+            "id_str": "214653213",
             "indices": [
-              101,
-              123
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
+              70,
+              83
+            ]
           }
         ]
       },
@@ -3343,11 +567,11 @@
         "result_type": "recent",
         "iso_language_code": "en"
       },
-      "created_at": "Sat Jan 11 19:27:33 +0000 2014",
-      "id": 422087404162658304,
-      "id_str": "422087404162658304",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+      "created_at": "Wed Jan 08 08:28:42 +0000 2014",
+      "id": 420834433340801024,
+      "id_str": "420834433340801024",
+      "text": "RT @bayesian_stats: Entertaining talk at #mcmski this morning: Gelman @StatModeling on using Bayesian methods for avoiding this: http://t.c…",
+      "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
       "truncated": false,
       "in_reply_to_status_id": null,
       "in_reply_to_status_id_str": null,
@@ -3355,306 +579,20 @@
       "in_reply_to_user_id_str": null,
       "in_reply_to_screen_name": null,
       "user": {
-        "id": 258519621,
-        "id_str": "258519621",
-        "name": "Abdulazeez",
-        "screen_name": "azeez2357",
+        "id": 1418703992,
+        "id_str": "1418703992",
+        "name": "BayeSNA",
+        "screen_name": "BayeSNA",
         "location": "",
-        "description": "I like good jokes & intriguing puzzles. Kind of a misinthrope & ex-caffiene addict.",
-        "url": null,
-        "entities": {
-          "description": {
-            "urls": [
-            ]
-          }
-        },
-        "protected": false,
-        "followers_count": 94,
-        "friends_count": 361,
-        "listed_count": 0,
-        "created_at": "Sun Feb 27 22:27:16 +0000 2011",
-        "favourites_count": 435,
-        "utc_offset": 10800,
-        "time_zone": "Baghdad",
-        "geo_enabled": true,
-        "verified": false,
-        "statuses_count": 3600,
-        "lang": "en",
-        "contributors_enabled": false,
-        "is_translator": false,
-        "profile_background_color": "C0DEED",
-        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_tile": false,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/378800000518566487/953cbaa599988b3077c74a329c625b39_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/378800000518566487/953cbaa599988b3077c74a329c625b39_normal.jpeg",
-        "profile_link_color": "0084B4",
-        "profile_sidebar_border_color": "C0DEED",
-        "profile_sidebar_fill_color": "DDEEF6",
-        "profile_text_color": "333333",
-        "profile_use_background_image": true,
-        "default_profile": true,
-        "default_profile_image": false,
-        "following": null,
-        "follow_request_sent": null,
-        "notifications": null
-      },
-      "geo": null,
-      "coordinates": null,
-      "place": null,
-      "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
-      "favorite_count": 0,
-      "entities": {
-        "hashtags": [
-        ],
-        "symbols": [
-        ],
-        "urls": [
-          {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
-            "indices": [
-              139,
-              140
-            ]
-          }
-        ],
-        "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
-        ]
-      },
-      "favorited": false,
-      "retweeted": false,
-      "possibly_sensitive": false,
-      "lang": "en"
-    },
-    {
-      "metadata": {
-        "result_type": "recent",
-        "iso_language_code": "en"
-      },
-      "created_at": "Sat Jan 11 19:18:22 +0000 2014",
-      "id": 422085091549261824,
-      "id_str": "422085091549261824",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "<a href=\"http://www.tweetcaster.com\" rel=\"nofollow\">TweetCaster for Android</a>",
-      "truncated": false,
-      "in_reply_to_status_id": null,
-      "in_reply_to_status_id_str": null,
-      "in_reply_to_user_id": null,
-      "in_reply_to_user_id_str": null,
-      "in_reply_to_screen_name": null,
-      "user": {
-        "id": 35065139,
-        "id_str": "35065139",
-        "name": "Mohammed Al-Shemmari",
-        "screen_name": "Greak",
-        "location": "Kuwait",
-        "description": "Hunt for Ogres and Dwarves",
-        "url": "http://t.co/0lOkTBvRlG",
+        "description": "Tweets about #Bayesian #stats, #sna, & #rstats from @albertocaimo",
+        "url": "http://t.co/8wzUr2vhdY",
         "entities": {
           "url": {
             "urls": [
               {
-                "url": "http://t.co/0lOkTBvRlG",
-                "expanded_url": "http://wewriteq8.com",
-                "display_url": "wewriteq8.com",
+                "url": "http://t.co/8wzUr2vhdY",
+                "expanded_url": "http://tinyurl.com/albertocaimo",
+                "display_url": "tinyurl.com/albertocaimo",
                 "indices": [
                   0,
                   22
@@ -3668,30 +606,391 @@
           }
         },
         "protected": false,
-        "followers_count": 447,
-        "friends_count": 306,
-        "listed_count": 14,
-        "created_at": "Fri Apr 24 22:41:01 +0000 2009",
-        "favourites_count": 70,
-        "utc_offset": 10800,
-        "time_zone": "Kuwait",
+        "followers_count": 82,
+        "friends_count": 178,
+        "listed_count": 3,
+        "created_at": "Fri May 10 17:51:41 +0000 2013",
+        "favourites_count": 2,
+        "utc_offset": 3600,
+        "time_zone": "Amsterdam",
         "geo_enabled": false,
         "verified": false,
-        "statuses_count": 32309,
+        "statuses_count": 49,
         "lang": "en",
         "contributors_enabled": false,
         "is_translator": false,
-        "profile_background_color": "000000",
-        "profile_background_image_url": "http://a0.twimg.com/profile_background_images/686484790/8efb38ad0e30107108174a608e3f8480.jpeg",
-        "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/686484790/8efb38ad0e30107108174a608e3f8480.jpeg",
-        "profile_background_tile": true,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/378800000756388195/dc15497b2080aaecd38715f73b98e537_normal.jpeg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/378800000756388195/dc15497b2080aaecd38715f73b98e537_normal.jpeg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/35065139/1350429511",
-        "profile_link_color": "213E7A",
-        "profile_sidebar_border_color": "000000",
-        "profile_sidebar_fill_color": "EFEFEF",
+        "profile_background_color": "005C8A",
+        "profile_background_image_url": "http://a0.twimg.com/profile_background_images/866835898/169f553f5955b3d3480c9cde040776d3.png",
+        "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/866835898/169f553f5955b3d3480c9cde040776d3.png",
+        "profile_background_tile": false,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/378800000491980507/6dc5b33a8ccbec6c46efc93e22c70d48_normal.png",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/378800000491980507/6dc5b33a8ccbec6c46efc93e22c70d48_normal.png",
+        "profile_link_color": "0084B4",
+        "profile_sidebar_border_color": "FFFFFF",
+        "profile_sidebar_fill_color": "DDEEF6",
         "profile_text_color": "333333",
+        "profile_use_background_image": false,
+        "default_profile": false,
+        "default_profile_image": false,
+        "following": null,
+        "follow_request_sent": null,
+        "notifications": null
+      },
+      "geo": null,
+      "coordinates": null,
+      "place": null,
+      "contributors": null,
+      "retweeted_status": {
+        "metadata": {
+          "result_type": "recent",
+          "iso_language_code": "en"
+        },
+        "created_at": "Wed Jan 08 08:27:23 +0000 2014",
+        "id": 420834101067657216,
+        "id_str": "420834101067657216",
+        "text": "Entertaining talk at #mcmski this morning: Gelman @StatModeling on using Bayesian methods for avoiding this: http://t.co/DbqjBCdH0b",
+        "source": "web",
+        "truncated": false,
+        "in_reply_to_status_id": null,
+        "in_reply_to_status_id_str": null,
+        "in_reply_to_user_id": null,
+        "in_reply_to_user_id_str": null,
+        "in_reply_to_screen_name": null,
+        "user": {
+          "id": 221292469,
+          "id_str": "221292469",
+          "name": "Richard Everitt",
+          "screen_name": "bayesian_stats",
+          "location": "Reading, UK",
+          "description": "Tweets about Bayesian statistics from a lecturer at the University of Reading.  Opinions are my own.",
+          "url": "http://t.co/sOlpKUxDK9",
+          "entities": {
+            "url": {
+              "urls": [
+                {
+                  "url": "http://t.co/sOlpKUxDK9",
+                  "expanded_url": "http://www.reading.ac.uk/~gt904211",
+                  "display_url": "reading.ac.uk/~gt904211",
+                  "indices": [
+                    0,
+                    22
+                  ]
+                }
+              ]
+            },
+            "description": {
+              "urls": [
+              ]
+            }
+          },
+          "protected": false,
+          "followers_count": 705,
+          "friends_count": 631,
+          "listed_count": 33,
+          "created_at": "Tue Nov 30 07:44:52 +0000 2010",
+          "favourites_count": 6,
+          "utc_offset": 0,
+          "time_zone": "London",
+          "geo_enabled": false,
+          "verified": false,
+          "statuses_count": 944,
+          "lang": "en",
+          "contributors_enabled": false,
+          "is_translator": false,
+          "profile_background_color": "C0DEED",
+          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+          "profile_background_tile": false,
+          "profile_image_url": "http://pbs.twimg.com/profile_images/1630834502/Bayes_grave_normal.gif",
+          "profile_image_url_https": "https://pbs.twimg.com/profile_images/1630834502/Bayes_grave_normal.gif",
+          "profile_banner_url": "https://pbs.twimg.com/profile_banners/221292469/1365687739",
+          "profile_link_color": "0084B4",
+          "profile_sidebar_border_color": "C0DEED",
+          "profile_sidebar_fill_color": "DDEEF6",
+          "profile_text_color": "333333",
+          "profile_use_background_image": true,
+          "default_profile": true,
+          "default_profile_image": false,
+          "following": null,
+          "follow_request_sent": null,
+          "notifications": null
+        },
+        "geo": null,
+        "coordinates": null,
+        "place": null,
+        "contributors": null,
+        "retweet_count": 2,
+        "favorite_count": 1,
+        "entities": {
+          "hashtags": [
+            {
+              "text": "mcmski",
+              "indices": [
+                21,
+                28
+              ]
+            }
+          ],
+          "symbols": [
+          ],
+          "urls": [
+            {
+              "url": "http://t.co/DbqjBCdH0b",
+              "expanded_url": "http://goo.gl/V53CND",
+              "display_url": "goo.gl/V53CND",
+              "indices": [
+                109,
+                131
+              ]
+            }
+          ],
+          "user_mentions": [
+            {
+              "screen_name": "StatModeling",
+              "name": "Andrew Gelman",
+              "id": 214653213,
+              "id_str": "214653213",
+              "indices": [
+                50,
+                63
+              ]
+            }
+          ]
+        },
+        "favorited": false,
+        "retweeted": false,
+        "possibly_sensitive": false,
+        "lang": "en"
+      },
+      "retweet_count": 2,
+      "favorite_count": 0,
+      "entities": {
+        "hashtags": [
+          {
+            "text": "mcmski",
+            "indices": [
+              41,
+              48
+            ]
+          }
+        ],
+        "symbols": [
+        ],
+        "urls": [
+          {
+            "url": "http://t.co/DbqjBCdH0b",
+            "expanded_url": "http://goo.gl/V53CND",
+            "display_url": "goo.gl/V53CND",
+            "indices": [
+              139,
+              140
+            ]
+          }
+        ],
+        "user_mentions": [
+          {
+            "screen_name": "bayesian_stats",
+            "name": "Richard Everitt",
+            "id": 221292469,
+            "id_str": "221292469",
+            "indices": [
+              3,
+              18
+            ]
+          },
+          {
+            "screen_name": "StatModeling",
+            "name": "Andrew Gelman",
+            "id": 214653213,
+            "id_str": "214653213",
+            "indices": [
+              70,
+              83
+            ]
+          }
+        ]
+      },
+      "favorited": false,
+      "retweeted": false,
+      "possibly_sensitive": false,
+      "lang": "en"
+    },
+    {
+      "metadata": {
+        "result_type": "recent",
+        "iso_language_code": "en"
+      },
+      "created_at": "Wed Jan 08 08:27:23 +0000 2014",
+      "id": 420834101067657216,
+      "id_str": "420834101067657216",
+      "text": "Entertaining talk at #mcmski this morning: Gelman @StatModeling on using Bayesian methods for avoiding this: http://t.co/DbqjBCdH0b",
+      "source": "web",
+      "truncated": false,
+      "in_reply_to_status_id": null,
+      "in_reply_to_status_id_str": null,
+      "in_reply_to_user_id": null,
+      "in_reply_to_user_id_str": null,
+      "in_reply_to_screen_name": null,
+      "user": {
+        "id": 221292469,
+        "id_str": "221292469",
+        "name": "Richard Everitt",
+        "screen_name": "bayesian_stats",
+        "location": "Reading, UK",
+        "description": "Tweets about Bayesian statistics from a lecturer at the University of Reading.  Opinions are my own.",
+        "url": "http://t.co/sOlpKUxDK9",
+        "entities": {
+          "url": {
+            "urls": [
+              {
+                "url": "http://t.co/sOlpKUxDK9",
+                "expanded_url": "http://www.reading.ac.uk/~gt904211",
+                "display_url": "reading.ac.uk/~gt904211",
+                "indices": [
+                  0,
+                  22
+                ]
+              }
+            ]
+          },
+          "description": {
+            "urls": [
+            ]
+          }
+        },
+        "protected": false,
+        "followers_count": 705,
+        "friends_count": 631,
+        "listed_count": 33,
+        "created_at": "Tue Nov 30 07:44:52 +0000 2010",
+        "favourites_count": 6,
+        "utc_offset": 0,
+        "time_zone": "London",
+        "geo_enabled": false,
+        "verified": false,
+        "statuses_count": 944,
+        "lang": "en",
+        "contributors_enabled": false,
+        "is_translator": false,
+        "profile_background_color": "C0DEED",
+        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_tile": false,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/1630834502/Bayes_grave_normal.gif",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/1630834502/Bayes_grave_normal.gif",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/221292469/1365687739",
+        "profile_link_color": "0084B4",
+        "profile_sidebar_border_color": "C0DEED",
+        "profile_sidebar_fill_color": "DDEEF6",
+        "profile_text_color": "333333",
+        "profile_use_background_image": true,
+        "default_profile": true,
+        "default_profile_image": false,
+        "following": null,
+        "follow_request_sent": null,
+        "notifications": null
+      },
+      "geo": null,
+      "coordinates": null,
+      "place": null,
+      "contributors": null,
+      "retweet_count": 2,
+      "favorite_count": 1,
+      "entities": {
+        "hashtags": [
+          {
+            "text": "mcmski",
+            "indices": [
+              21,
+              28
+            ]
+          }
+        ],
+        "symbols": [
+        ],
+        "urls": [
+          {
+            "url": "http://t.co/DbqjBCdH0b",
+            "expanded_url": "http://goo.gl/V53CND",
+            "display_url": "goo.gl/V53CND",
+            "indices": [
+              109,
+              131
+            ]
+          }
+        ],
+        "user_mentions": [
+          {
+            "screen_name": "StatModeling",
+            "name": "Andrew Gelman",
+            "id": 214653213,
+            "id_str": "214653213",
+            "indices": [
+              50,
+              63
+            ]
+          }
+        ]
+      },
+      "favorited": false,
+      "retweeted": false,
+      "possibly_sensitive": false,
+      "lang": "en"
+    },
+    {
+      "metadata": {
+        "result_type": "recent",
+        "iso_language_code": "en"
+      },
+      "created_at": "Tue Jan 07 01:10:06 +0000 2014",
+      "id": 420361667935870976,
+      "id_str": "420361667935870976",
+      "text": "RT @enda_ridge: #PLOSMedicine: Why Most Published Research Findings Are False http://t.co/ilGEMSutJU",
+      "source": "<a href=\"http://twitter.com/tweetbutton\" rel=\"nofollow\">Tweet Button</a>",
+      "truncated": false,
+      "in_reply_to_status_id": null,
+      "in_reply_to_status_id_str": null,
+      "in_reply_to_user_id": null,
+      "in_reply_to_user_id_str": null,
+      "in_reply_to_screen_name": null,
+      "user": {
+        "id": 104023421,
+        "id_str": "104023421",
+        "name": "Roman Martinez",
+        "screen_name": "endogarrido",
+        "location": "Villahermosa, Tabasco, México.",
+        "description": "Cirujano Dentista Especialista en Endodoncia.",
+        "url": null,
+        "entities": {
+          "description": {
+            "urls": [
+            ]
+          }
+        },
+        "protected": false,
+        "followers_count": 1010,
+        "friends_count": 1999,
+        "listed_count": 11,
+        "created_at": "Tue Jan 12 01:03:24 +0000 2010",
+        "favourites_count": 161,
+        "utc_offset": -21600,
+        "time_zone": "Mexico City",
+        "geo_enabled": false,
+        "verified": false,
+        "statuses_count": 3251,
+        "lang": "es",
+        "contributors_enabled": false,
+        "is_translator": false,
+        "profile_background_color": "0099B9",
+        "profile_background_image_url": "http://a0.twimg.com/profile_background_images/378800000116863119/393e2638adc78675a7595bf5e8ab6bfd.jpeg",
+        "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/378800000116863119/393e2638adc78675a7595bf5e8ab6bfd.jpeg",
+        "profile_background_tile": false,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/625828555/diente_normal.png",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/625828555/diente_normal.png",
+        "profile_link_color": "0099B9",
+        "profile_sidebar_border_color": "FFFFFF",
+        "profile_sidebar_fill_color": "95E8EC",
+        "profile_text_color": "3C3940",
         "profile_use_background_image": true,
         "default_profile": false,
         "default_profile_image": false,
@@ -3708,11 +1007,11 @@
           "result_type": "recent",
           "iso_language_code": "en"
         },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
+        "created_at": "Thu Dec 26 23:53:09 +0000 2013",
+        "id": 416356039085137920,
+        "id_str": "416356039085137920",
+        "text": "#PLOSMedicine: Why Most Published Research Findings Are False http://t.co/ilGEMSutJU",
+        "source": "<a href=\"http://twitter.com/tweetbutton\" rel=\"nofollow\">Tweet Button</a>",
         "truncated": false,
         "in_reply_to_status_id": null,
         "in_reply_to_status_id_str": null,
@@ -3720,20 +1019,20 @@
         "in_reply_to_user_id_str": null,
         "in_reply_to_screen_name": null,
         "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
+          "id": 251555510,
+          "id_str": "251555510",
+          "name": "Enda Ridge",
+          "screen_name": "enda_ridge",
+          "location": "London",
+          "description": "Senior Manager & Data Scientist with KPMG Data Insight Services UK.\r\n(Opinions are my own),",
+          "url": "http://t.co/xTzxabiKs4",
           "entities": {
             "url": {
               "urls": [
                 {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
+                  "url": "http://t.co/xTzxabiKs4",
+                  "expanded_url": "http://guerrilla-analytics.net/",
+                  "display_url": "guerrilla-analytics.net",
                   "indices": [
                     0,
                     22
@@ -3747,29 +1046,28 @@
             }
           },
           "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
+          "followers_count": 64,
+          "friends_count": 150,
+          "listed_count": 0,
+          "created_at": "Sun Feb 13 11:17:43 +0000 2011",
+          "favourites_count": 7,
+          "utc_offset": 0,
+          "time_zone": "Casablanca",
           "geo_enabled": false,
           "verified": false,
-          "statuses_count": 1848,
+          "statuses_count": 252,
           "lang": "en",
           "contributors_enabled": false,
           "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
+          "profile_background_color": "C0DEED",
+          "profile_background_image_url": "http://a0.twimg.com/profile_background_images/805451477/b5d48f1100f43c88cbae02d5bd81195b.jpeg",
+          "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/805451477/b5d48f1100f43c88cbae02d5bd81195b.jpeg",
           "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
+          "profile_image_url": "http://pbs.twimg.com/profile_images/3783049321/a9829d54691e1ed794768fb308a3e387_normal.jpeg",
+          "profile_image_url_https": "https://pbs.twimg.com/profile_images/3783049321/a9829d54691e1ed794768fb308a3e387_normal.jpeg",
           "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
+          "profile_sidebar_border_color": "FFFFFF",
+          "profile_sidebar_fill_color": "DDEEF6",
           "profile_text_color": "333333",
           "profile_use_background_image": true,
           "default_profile": false,
@@ -3782,65 +1080,32 @@
         "coordinates": null,
         "place": null,
         "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
+        "retweet_count": 1,
+        "favorite_count": 0,
         "entities": {
           "hashtags": [
+            {
+              "text": "PLOSMedicine",
+              "indices": [
+                0,
+                13
+              ]
+            }
           ],
           "symbols": [
           ],
           "urls": [
             {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
+              "url": "http://t.co/ilGEMSutJU",
+              "expanded_url": "http://dx.plos.org/10.1371/journal.pmed.0020124",
+              "display_url": "dx.plos.org/10.1371/journa…",
               "indices": [
-                117,
-                139
+                62,
+                84
               ]
             }
           ],
           "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
           ]
         },
         "favorited": false,
@@ -3848,74 +1113,41 @@
         "possibly_sensitive": false,
         "lang": "en"
       },
-      "retweet_count": 162,
+      "retweet_count": 1,
       "favorite_count": 0,
       "entities": {
         "hashtags": [
+          {
+            "text": "PLOSMedicine",
+            "indices": [
+              16,
+              29
+            ]
+          }
         ],
         "symbols": [
         ],
         "urls": [
           {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
+            "url": "http://t.co/ilGEMSutJU",
+            "expanded_url": "http://dx.plos.org/10.1371/journal.pmed.0020124",
+            "display_url": "dx.plos.org/10.1371/journa…",
             "indices": [
-              139,
-              140
+              78,
+              100
             ]
           }
         ],
         "user_mentions": [
           {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
+            "screen_name": "enda_ridge",
+            "name": "Enda Ridge",
+            "id": 251555510,
+            "id_str": "251555510",
             "indices": [
               3,
-              17
+              14
             ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
           }
         ]
       },
@@ -3927,13 +1159,13 @@
     {
       "metadata": {
         "result_type": "recent",
-        "iso_language_code": "en"
+        "iso_language_code": "und"
       },
-      "created_at": "Sat Jan 11 19:05:57 +0000 2014",
-      "id": 422081966914428928,
-      "id_str": "422081966914428928",
-      "text": "RT @conradhackett: Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhtt…",
-      "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+      "created_at": "Mon Jan 06 04:28:28 +0000 2014",
+      "id": 420049202400350208,
+      "id_str": "420049202400350208",
+      "text": "http://t.co/b5rDHjOVfH",
+      "source": "<a href=\"http://www.apple.com\" rel=\"nofollow\">iOS</a>",
       "truncated": false,
       "in_reply_to_status_id": null,
       "in_reply_to_status_id_str": null,
@@ -3941,12 +1173,12 @@
       "in_reply_to_user_id_str": null,
       "in_reply_to_screen_name": null,
       "user": {
-        "id": 115606316,
-        "id_str": "115606316",
-        "name": "Mesharey Shaheen",
-        "screen_name": "Mesharey",
-        "location": "Kuwait",
-        "description": "Gamer, Real Madrid fan",
+        "id": 495749911,
+        "id_str": "495749911",
+        "name": "Dario Trujano Ochoa",
+        "screen_name": "DarioTrujano",
+        "location": "",
+        "description": "",
         "url": null,
         "entities": {
           "description": {
@@ -3955,32 +1187,31 @@
           }
         },
         "protected": false,
-        "followers_count": 112,
-        "friends_count": 73,
-        "listed_count": 4,
-        "created_at": "Fri Feb 19 07:35:20 +0000 2010",
-        "favourites_count": 14,
-        "utc_offset": 10800,
-        "time_zone": "Kuwait",
+        "followers_count": 62,
+        "friends_count": 129,
+        "listed_count": 1,
+        "created_at": "Sat Feb 18 08:35:49 +0000 2012",
+        "favourites_count": 2,
+        "utc_offset": -18000,
+        "time_zone": "Eastern Time (US & Canada)",
         "geo_enabled": true,
         "verified": false,
-        "statuses_count": 2741,
+        "statuses_count": 185,
         "lang": "en",
         "contributors_enabled": false,
         "is_translator": false,
-        "profile_background_color": "C0DEED",
-        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_tile": false,
-        "profile_image_url": "http://pbs.twimg.com/profile_images/705194964/15796786994a694df10eb41_normal.jpg",
-        "profile_image_url_https": "https://pbs.twimg.com/profile_images/705194964/15796786994a694df10eb41_normal.jpg",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/115606316/1351070794",
-        "profile_link_color": "0084B4",
-        "profile_sidebar_border_color": "C0DEED",
-        "profile_sidebar_fill_color": "DDEEF6",
-        "profile_text_color": "333333",
+        "profile_background_color": "642D8B",
+        "profile_background_image_url": "http://a0.twimg.com/profile_background_images/438395408/Imagen0980.jpg",
+        "profile_background_image_url_https": "https://si0.twimg.com/profile_background_images/438395408/Imagen0980.jpg",
+        "profile_background_tile": true,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/1864192468/Imagen1003_normal.jpg",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/1864192468/Imagen1003_normal.jpg",
+        "profile_link_color": "FF0000",
+        "profile_sidebar_border_color": "65B0DA",
+        "profile_sidebar_fill_color": "7AC3EE",
+        "profile_text_color": "3D1957",
         "profile_use_background_image": true,
-        "default_profile": true,
+        "default_profile": false,
         "default_profile_image": false,
         "following": null,
         "follow_request_sent": null,
@@ -3990,152 +1221,7 @@
       "coordinates": null,
       "place": null,
       "contributors": null,
-      "retweeted_status": {
-        "metadata": {
-          "result_type": "recent",
-          "iso_language_code": "en"
-        },
-        "created_at": "Fri Jan 10 14:24:45 +0000 2014",
-        "id": 421648812818833408,
-        "id_str": "421648812818833408",
-        "text": "Twitter users per capita\n1 Kuwait\n2 N-lands\n3 Brunei\n4 UK\n5 US\n6 Chile\n7 Ireland\nhttp://t.co/j1wQ5fbtkQ\n2010-12 data\nhttp://t.co/pibS8cctta",
-        "source": "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
-        "truncated": false,
-        "in_reply_to_status_id": null,
-        "in_reply_to_status_id_str": null,
-        "in_reply_to_user_id": null,
-        "in_reply_to_user_id_str": null,
-        "in_reply_to_screen_name": null,
-        "user": {
-          "id": 71643224,
-          "id_str": "71643224",
-          "name": "Conrad Hackett",
-          "screen_name": "conradhackett",
-          "location": "Washington, DC",
-          "description": "Demographer, Pew Research Center. Measuring global religion.",
-          "url": "http://t.co/5ECkAZwY0U",
-          "entities": {
-            "url": {
-              "urls": [
-                {
-                  "url": "http://t.co/5ECkAZwY0U",
-                  "expanded_url": "http://www.pewresearch.org/experts/conrad-hackett/",
-                  "display_url": "pewresearch.org/experts/conrad…",
-                  "indices": [
-                    0,
-                    22
-                  ]
-                }
-              ]
-            },
-            "description": {
-              "urls": [
-              ]
-            }
-          },
-          "protected": false,
-          "followers_count": 11464,
-          "friends_count": 1272,
-          "listed_count": 554,
-          "created_at": "Fri Sep 04 21:25:12 +0000 2009",
-          "favourites_count": 170,
-          "utc_offset": -18000,
-          "time_zone": "Eastern Time (US & Canada)",
-          "geo_enabled": false,
-          "verified": false,
-          "statuses_count": 1848,
-          "lang": "en",
-          "contributors_enabled": false,
-          "is_translator": false,
-          "profile_background_color": "022330",
-          "profile_background_image_url": "http://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme15/bg.png",
-          "profile_background_tile": false,
-          "profile_image_url": "http://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/2238740539/hackett_sb_2_normal.jpg",
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/71643224/1383450980",
-          "profile_link_color": "0084B4",
-          "profile_sidebar_border_color": "A8C7F7",
-          "profile_sidebar_fill_color": "C0DFEC",
-          "profile_text_color": "333333",
-          "profile_use_background_image": true,
-          "default_profile": false,
-          "default_profile_image": false,
-          "following": null,
-          "follow_request_sent": null,
-          "notifications": null
-        },
-        "geo": null,
-        "coordinates": null,
-        "place": null,
-        "contributors": null,
-        "retweet_count": 162,
-        "favorite_count": 39,
-        "entities": {
-          "hashtags": [
-          ],
-          "symbols": [
-          ],
-          "urls": [
-            {
-              "url": "http://t.co/pibS8cctta",
-              "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-              "display_url": "plosone.org/article/info:d…",
-              "indices": [
-                117,
-                139
-              ]
-            }
-          ],
-          "user_mentions": [
-          ],
-          "media": [
-            {
-              "id": 421471090570166272,
-              "id_str": "421471090570166272",
-              "indices": [
-                81,
-                103
-              ],
-              "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-              "url": "http://t.co/j1wQ5fbtkQ",
-              "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-              "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-              "type": "photo",
-              "sizes": {
-                "large": {
-                  "w": 690,
-                  "h": 362,
-                  "resize": "fit"
-                },
-                "thumb": {
-                  "w": 150,
-                  "h": 150,
-                  "resize": "crop"
-                },
-                "small": {
-                  "w": 340,
-                  "h": 178,
-                  "resize": "fit"
-                },
-                "medium": {
-                  "w": 600,
-                  "h": 315,
-                  "resize": "fit"
-                }
-              },
-              "source_status_id": 421471090733764608,
-              "source_status_id_str": "421471090733764608"
-            }
-          ]
-        },
-        "favorited": false,
-        "retweeted": false,
-        "possibly_sensitive": false,
-        "lang": "en"
-      },
-      "retweet_count": 162,
+      "retweet_count": 0,
       "favorite_count": 0,
       "entities": {
         "hashtags": [
@@ -4144,81 +1230,30 @@
         ],
         "urls": [
           {
-            "url": "http://t.co/pibS8cctta",
-            "expanded_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0061981",
-            "display_url": "plosone.org/article/info:d…",
+            "url": "http://t.co/b5rDHjOVfH",
+            "expanded_url": "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124",
+            "display_url": "plosmedicine.org/article/info:d…",
             "indices": [
-              139,
-              140
+              0,
+              22
             ]
           }
         ],
         "user_mentions": [
-          {
-            "screen_name": "conradhackett",
-            "name": "Conrad Hackett",
-            "id": 71643224,
-            "id_str": "71643224",
-            "indices": [
-              3,
-              17
-            ]
-          }
-        ],
-        "media": [
-          {
-            "id": 421471090570166272,
-            "id_str": "421471090570166272",
-            "indices": [
-              100,
-              122
-            ],
-            "media_url": "http://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "media_url_https": "https://pbs.twimg.com/media/BdlduUyIAAAocNE.png",
-            "url": "http://t.co/j1wQ5fbtkQ",
-            "display_url": "pic.twitter.com/j1wQ5fbtkQ",
-            "expanded_url": "http://twitter.com/conradhackett/status/421471090733764608/photo/1",
-            "type": "photo",
-            "sizes": {
-              "large": {
-                "w": 690,
-                "h": 362,
-                "resize": "fit"
-              },
-              "thumb": {
-                "w": 150,
-                "h": 150,
-                "resize": "crop"
-              },
-              "small": {
-                "w": 340,
-                "h": 178,
-                "resize": "fit"
-              },
-              "medium": {
-                "w": 600,
-                "h": 315,
-                "resize": "fit"
-              }
-            },
-            "source_status_id": 421471090733764608,
-            "source_status_id_str": "421471090733764608"
-          }
         ]
       },
       "favorited": false,
       "retweeted": false,
       "possibly_sensitive": false,
-      "lang": "en"
+      "lang": "und"
     }
   ],
   "search_metadata": {
-    "completed_in": 0.06,
-    "max_id": 422133526704979968,
-    "max_id_str": "422133526704979968",
-    "next_results": "?max_id=422081966914428927&q=10.1371%2Fjournal.pone.0061981&include_entities=1",
-    "query": "10.1371%2Fjournal.pone.0061981",
-    "refresh_url": "?since_id=422133526704979968&q=10.1371%2Fjournal.pone.0061981&include_entities=1",
+    "completed_in": 0.048,
+    "max_id": 422039629882089472,
+    "max_id_str": "422039629882089472",
+    "query": "10.1371%2Fjournal.pmed.0020124",
+    "refresh_url": "?since_id=422039629882089472&q=10.1371%2Fjournal.pmed.0020124&include_entities=1",
     "count": 15,
     "since_id": 0,
     "since_id_str": "0"

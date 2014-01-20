@@ -81,9 +81,9 @@ $headings-line-height:  1.1;
 $headings-color:        $brand-primary;
 $headings-small-color:  $gray-dark;
 
-$pre-color:             $gray-darker;
-$pre-bg:                $body-bg;
-$pre-border-color:      $gray-light;
+$pre-color:             black;
+//$pre-bg:                $body-bg;
+// $pre-border-color:      $gray-light;
 
 $text-muted:            $gray-dark;
 
@@ -216,7 +216,7 @@ $table-border-color:             lighten($brand-primary, 65%);
 $input-height-base:              ($line-height-computed + ($padding-base-vertical * 2) + 2);
 $input-height-large:             (floor($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 2);
 $input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2);
-$input-color:                    $gray-dark;
+$input-color:                    black;
 $input-color-placeholder:        $gray;
 
 // Charts
@@ -232,6 +232,7 @@ $bar-color-6: darken($bar-color-1, 10%);
 $bar-color-7: lighten($bar-color-1, 20%);
 
 @import "almviz";
+@import "github";
 @import "bootstrap";
 
 body { padding-top: 60px; padding-bottom: 20px; }
@@ -246,16 +247,23 @@ body { padding-top: 60px; padding-bottom: 20px; }
 
 .table .number { text-align: right; width: 180px;}
 .table .name { width: 300px;}
-.table .group { width: 180px;}
-.table .status { width: 100px;}
+.table .description { width: 490px;}
+.table .group { width: 190px;}
+.table .status { width: 95px;}
 .section { padding-bottom: 4px; }
 .graphs { text-align:center; }
 .page-header { padding-bottom: 0; border-bottom: 0; margin: 0 0 10px; }
 .tab-content { margin-top: 1em; }
-.help-block { font-size: 13px; font-weight: normal; color: #999999; }
 .btn-toolbar { padding-left: 6px; }
 btn.persona { border: 0; }
-
+legend { color: $brand-primary; font-size: $font-size-h2; font-weight: bold; line-height: 1.4375; padding-top: 23px; }
+.help-block { font-weight: normal; }
+.boolean { padding-left: 5px; padding-right: 5px; }
+select.form-control { width: 190px; }
+label.date { display: block; }
+select.form-control.date { display: inline; }
+.form-group.has-error input, .form-group.has-error span.help-block, .has-error { color: $brand-danger; }
+.form-group.has-error input, .form-group.has-error textarea, .form-group.has-error select { border: 1px solid $brand-danger; }
 h1 img { vertical-align: 2px; }
 h5 { margin-bottom: 0; }
 h4.article { margin-bottom: 0; }
@@ -264,7 +272,6 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .dl-horizontal .report { padding-top: 10px; }
 //dt, dd { line-height: 1.1; }
 .border-bottom { border-bottom: 1px solid #eee; }
-.github { padding-top: 0.5em; padding-bottom: 1em; }
 .sidebar-nav-fixed {
     padding: 9px 0;
     position:relative;
@@ -272,7 +279,16 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 }
 .alert-inner { min-height: 120px; }
 
-.markdown pre { font-size: 0.85em; }
+.markdown pre { font-size: 0.75em; }
+.markdown code {
+  margin: 0 2px;
+  padding: 0px 5px;
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+  color: black;
+  font-size: 0.75em;
+}
 .markdown table {
     border:1px solid rgba(0,0,0,0.25);
     border-collapse:collapse;

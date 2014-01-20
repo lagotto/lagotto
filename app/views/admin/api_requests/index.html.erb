@@ -1,6 +1,6 @@
 <div class="content">
   <div class="page-header">
-    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-key="<%= params[:key] %>">API Requests</h1>
+    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-key="<%= params[:key] %>"><%= params[:key].blank? ? "Other" : params[:key].capitalize %> API Requests</h1>
   </div>
 
   <div class="row">

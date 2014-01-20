@@ -1,86 +1,74 @@
 <% if can?(:manage, Alert) && @source.state > 1 && (controller.action_name == "edit" or (controller.action_name == "update" && !@source.errors.empty?)) %>
 
-  <%= simple_form_for([:admin, @source.becomes(Source)], :url => admin_source_path(@source.name), :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
+  <%= simple_form_for([:admin, @source.becomes(Source)], :url => admin_source_path(@source.name), :html => { :remote => true }) do |f| %>
     <% f.object = @source.becomes(@source.class) %>
     <fieldset>
       <legend>Edit Source</legend>
 
-      <%= f.input :display_name, :input_html => { :class => "col-md-3" } %>
+      <%= f.input :display_name %>
       <%= f.association :group, :include_blank => false %>
       <%= f.input :state_event, :as => :boolean, label: "Active", :checked_value => 'activate', :unchecked_value => 'inactivate', input_html: { checked: @source.active? }, hint: "Source is talking to external APIs" %>
       <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
       <%= f.input :queueable, :as => :boolean, hint: "Articles for this source can be queued" %>
-      <%= f.input :description, :input_html => { :rows => 3, :class => "col-md-9" } %>
+      <%= f.input :description, :input_html => { :rows => 3 } %>
 
       <% if not @source.get_config_fields.empty? %>
         <% @source.get_config_fields.each do |field| %>
           <% if field[:field_type] == "check_box" %>
             <%= f.input field[:field_name], :as => :boolean, :label => field[:field_name].gsub(/_/, " ").capitalize %>
           <% elsif field[:field_type] == "text_field" %>
-            <%= f.input field[:field_name], :input_html => { :class => "span3" } %>
+            <%= f.input field[:field_name] %>
           <% elsif field[:field_type] == "text_area" %>
-            <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2), :class => "col-md-9" } %>
+            <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2) } %>
           <% elsif field[:field_type] == "password_field" %>
-            <%= f.input field[:field_name], :as => :string, :input_html => { :class => "col-md-3" } %>
+            <%= f.input field[:field_name], :as => :string %>
           <% end %>
         <% end %>
       <% end %>
 
       <%= f.input :job_batch_size, :as => :numeric, label: "Job queue",
-                                                    input_html: { class: "input-mini" },
                                                     hint: "Number of articles queued per job" %>
       <%= f.input :batch_time_interval, collection: Source::INTERVAL_OPTIONS,
                                                     label: false,
                                                     include_blank: false,
-                                                    input_html: { class: "col-md-2" },
                                                     hint: "Batch job interval" %>
       <%= f.input :rate_limiting, :as => :numeric, label: false,
-                                                    input_html: { class: "input-mini" },
                                                     hint: "Max. requests per hour" %>
 
       <%= f.input :wait_time, label: false,
-                              input_html: { class: "input-mini" },
                               hint: "Time interval before more jobs can be added to the job queue (seconds)" %>
 
       <%= f.input :staleness_week,  collection: Source::INTERVAL_OPTIONS,
                                     label: "Update interval",
                                     include_blank: false,
-                                    input_html: { class: "col-md-2" },
                                     hint: "First 7 days after publication" %>
       <%= f.input :staleness_month, collection: Source::INTERVAL_OPTIONS,
                                     label: false,
                                     include_blank: false,
-                                    input_html: { class: "col-md-2" },
                                     hint: "First 31 days after publication" %>
       <%= f.input :staleness_year,  collection: Source::INTERVAL_OPTIONS,
                                     label: false,
                                     include_blank: false,
-                                    input_html: { class: "col-md-2" },
                                     hint: "First year after publication" %>
       <%= f.input :staleness_all,   collection: Source::INTERVAL_OPTIONS,
                                     label: false,
                                     include_blank: false,
-                                    input_html: { class: "col-md-2" },
                                     hint: "More than one year after publication" %>
 
-      <%= f.input :timeout, input_html: { class: "input-mini" },
-                            hint: "Time to wait for response from the source (seconds)"  %>
+      <%= f.input :timeout, hint: "Time to wait for response from the source (seconds)"  %>
 
       <%= f.input :max_failed_queries, label: "Failed queries",
-                                       input_html: { class: "input-mini" },
                                        hint: "Maximum number of failed queries allowed before being disabled" %>
       <%= f.input :max_failed_query_time_interval, collection: Source::INTERVAL_OPTIONS,
                                                    label: false,
                                                    include_blank: false,
-                                                   input_html: { class: "col-md-2" },
                                                    hint: "Time interval for maximum number of failed queries" %>
       <%= f.input :disable_delay, label: false,
-                                  input_html: { class: "input-mini" },
                                   hint: "Time interval before source is disabled after maximum number of failed queries is reached (seconds)" %>
 
       <div class="form-group">
-        <%= f.submit "Save ", class: "btn btn-primary" %>
-        <%= link_to 'Cancel', admin_source_path(@source.name), { :remote => true, :class => 'btn btn-sm' } %>
+        <%= f.submit "Save ", class: "btn btn-default" %>
+        <%= link_to 'Cancel', admin_source_path(@source.name), { :remote => true, :class => 'btn' } %>
       </div>
     </fieldset>
   <% end %>

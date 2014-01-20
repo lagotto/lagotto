@@ -1,6 +1,6 @@
 <div class="content">
 
-  <%= simple_form_for resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => 'form-horizontal' } do |f| %>
+  <%= simple_form_for resource, :as => resource_name, :url => session_path(resource_name) do |f| %>
     <fieldset>
       <legend>Sign In</legend>
 
@@ -11,7 +11,7 @@
         <%= f.input :remember_me, :as => :boolean %>
       <% end -%>
 
-      <div class="form-actions">
+      <div class="form-group">
         <%= f.submit "Sign in with Password", class: "btn btn-primary" %>
         <% if CONFIG[:cas_url] %>
           <%= link_to "Sign In with PLOS ID", user_omniauth_authorize_path(:cas), class: "btn btn-info" %>

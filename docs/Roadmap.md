@@ -1,3 +1,2 @@
-### ALM 2.11 (December 2013)
+### ALM 3 (March 2014)
 * refactor data model
-* improved data visualizations

@@ -1,3 +1,5 @@
 <div class="markdown">
-  <%= markdown @doc[:text] %>
+  <% cache do %>
+    <%= markdown @doc[:text] %>
+  <% end %>
 </div>

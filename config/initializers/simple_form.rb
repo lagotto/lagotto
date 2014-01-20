@@ -42,7 +42,7 @@ SimpleForm.setup do |config|
 
     # Determines whether to use HTML5 (:email, :url, ...)
     # and required attributes
-    b.use :html5
+    # b.use :html5
 
     # Calculates placeholders automatically from I18n
     # You can also pass a string as f.input :placeholder => "Placeholder"
@@ -68,8 +68,8 @@ SimpleForm.setup do |config|
 
     ## Inputs
     b.use :label_input
-    b.use :hint,  :wrap_with => { :tag => :span, :class => :hint }
-    b.use :error, :wrap_with => { :tag => :span, :class => :error }
+    b.use :hint,  :wrap_with => { :tag => :span, :class => "help-block" }
+    b.use :error, :wrap_with => { :tag => :span, :class => "has-error" }
   end
 
   # The default wrapper to be used by the FormBuilder.
@@ -93,7 +93,7 @@ SimpleForm.setup do |config|
   config.error_notification_tag = :div
 
   # CSS class to add for error notification helper.
-  config.error_notification_class = 'alert alert-error'
+  config.error_notification_class = 'has-error'
 
   # ID to add for error notification helper.
   # config.error_notification_id = nil
@@ -119,13 +119,13 @@ SimpleForm.setup do |config|
   # config.item_wrapper_class = nil
 
   # How the label text should be generated altogether with the required text.
-  # config.label_text = lambda { |label, required| "#{required} #{label}" }
+  config.label_text = lambda { |label, required| required.present? ? "#{label} (required)" : "#{label}" }
 
   # You can define the class to use on all labels. Default is nil.
-  # config.label_class = 'control-label'
+  # config.label_class = 'col-sm-2 control-label'
 
   # You can define the class to use on all forms. Default is simple_form.
-  # config.form_class = :simple_form
+  # config.form_class = "simple_form"
 
   # You can define which elements should obtain additional classes
   # config.generate_additional_classes_for = [:wrapper, :label, :input]
@@ -135,7 +135,7 @@ SimpleForm.setup do |config|
 
   # Tell browsers whether to use default HTML5 validations (novalidate option).
   # Default is enabled.
-  config.browser_validations = false
+  # config.browser_validations = true
 
   # Collection of methods to detect if a file type was given.
   # config.file_methods = [ :mounted_as, :file?, :public_filename ]

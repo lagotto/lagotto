@@ -32,6 +32,7 @@ class Reddit < Source
       nil
     else
       events = result["data"]["children"].map { |item| { event: item["data"], event_url: item["data"]['url'] }}
+      events_url = get_events_url(article)
       like_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["score"] }
       comment_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["num_comments"] }
       event_count = like_count + comment_count
@@ -46,7 +47,7 @@ class Reddit < Source
 
       { events: events,
         event_count: event_count,
-        events_url: "http://www.reddit.com/search?q=\"#{CGI.escape(article.doi_escaped)}\"",
+        events_url: events_url,
         event_metrics: event_metrics }
     end
   end
@@ -55,12 +56,20 @@ class Reddit < Source
     url % { :id => CGI.escape(article.doi_escaped) }
   end
 
+  def get_events_url(article)
+    events_url % { :id => CGI.escape(article.doi_escaped) }
+  end
+
   def get_config_fields
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
   end
 
   def url
     config.url || "http://www.reddit.com/search.json?q=\"%{id}\""
+  end
+
+  def events_url
+    config.events_url || "http://www.reddit.com/search?q=\"%{id}\""
   end
 
   def rate_limiting

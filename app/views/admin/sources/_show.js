@@ -13,17 +13,19 @@ d3.json("/api/v3/sources/" + name + "?api_key=" + api_key, function(error, json)
   var formatFixed = d3.format(",.0f");
 
   // Summary table
-  d3.select("#pending_count").html(formatFixed(data["jobs"]["pending"]));
-  d3.select("#working_count").html(formatFixed(data["jobs"]["working"]));
+  d3.select("#pending_count").html(number_with_delimiter(data["jobs"]["pending"]));
+  d3.select("#working_count").html(number_with_delimiter(data["jobs"]["working"]));
 
-  d3.select("#response_count").html(formatFixed(data["responses"]["count"]));
-  d3.select("#error_count").html(formatFixed(data["error_count"]));
+  d3.select("#response_count").html(number_with_delimiter(data["responses"]["count"]));
+  if(data["error_count"] > 0) {
+    d3.select("#error_count").html("<a href='/admin/alerts?source=" + name + "'>" + formatFixed(data["error_count"]) + "</a>");
+  }
 
-  d3.select("#average_count").html(formatFixed(data["responses"]["average"]));
-  d3.select("#maximum_count").html(formatFixed(data["responses"]["maximum"]));
+  d3.select("#average_count").html(number_with_delimiter(data["responses"]["average"]));
+  d3.select("#maximum_count").html(number_with_delimiter(data["responses"]["maximum"]));
 
-  d3.select("#article_count").html(formatFixed(data["article_count"]));
-  d3.select("#event_count").html(formatFixed(data["event_count"]));
+  d3.select("#article_count").html(number_with_delimiter(data["article_count"]));
+  d3.select("#event_count").html(number_with_delimiter(data["event_count"]));
 
   // Status donut chart
   data = d3.entries(json["status"]);
@@ -157,4 +159,12 @@ d3.json("/api/v3/sources/" + name + "?api_key=" + api_key, function(error, json)
       .attr("text-anchor", "middle")
       .attr("class", "subtitle")
       .text("last 31 days");
+
+  function number_with_delimiter(number) {
+    if(number !== 0) {
+      return formatFixed(number);
+    } else {
+      return null;
+    }
+  }
 });

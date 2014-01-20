@@ -26,7 +26,7 @@
   <% unless @groups.empty? %>
     <% @groups.each do |group| %>
       <% unless group.sources.where("state > 0").empty? %>
-        <h2 class="border-bottom"><%= h(group.name) %></h2>
+        <h2 class="border-bottom"><%= h(group.display_name) %></h2>
         <% group.sources.where("state > 0").in_groups_of(4, false) do |sources| %>
             <% sources.each do |source| %>
               <h4 class="article">

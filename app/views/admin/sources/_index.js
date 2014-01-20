@@ -20,14 +20,16 @@ d3.json("/api/v3/sources?api_key=" + api_key, function(error, json) {
     d3.select("#queueing_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["queueing"]));
     d3.select("#pending_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["pending"]));
     d3.select("#working_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["working"]));
-    if(item["stale_count"] !== null) {
-      d3.select("#stale_count_" + item["name"]).html(number_with_delimiter(item["status"]["stale"]));
+    if(item["status"]["stale"]  > 0) {
+      d3.select("#stale_count_" + item["name"]).html(formatFixed(item["status"]["stale"]));
     }
 
     // Responses tab
     d3.select("#response_count_" + item["name"]).html(number_with_delimiter(item["responses"]["count"]));
     d3.select("#average_count_" + item["name"]).html(number_with_delimiter(item["responses"]["average"]));
-    d3.select("#error_count_" + item["name"]).html(number_with_delimiter(item["error_count"]));
+    if(item["error_count"] > 0) {
+      d3.select("#error_count_" + item["name"]).html("<a href='/admin/alerts?source=" + item["name"] + "'>" + formatFixed(item["error_count"]) + "</a>");
+    }
   };
 
   // remove source not needed for the following visualizations

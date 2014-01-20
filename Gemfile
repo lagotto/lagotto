@@ -23,6 +23,7 @@ gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.1.4"
 gem "nori", "~> 2.3.0"
+gem 'rubyzip',  "~> 1.1", require: 'zip'
 
 gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 3.0.3"
@@ -50,6 +51,7 @@ gem "will_paginate-bootstrap", "~> 1.0.0"
 gem "simple_form", "~> 2.1.0"
 gem "dotiw", "~> 1.1.1"
 gem "github-markdown", "~> 0.6.3"
+gem "rouge", "~> 1.3.1"
 
 group :test do
   gem "factory_girl_rails", "~> 4.2.1", :require => false

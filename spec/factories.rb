@@ -46,6 +46,10 @@ FactoryGirl.define do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_pubmed)] }
     end
 
+    factory :article_with_mendeley_events do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_mendeley)] }
+    end
+
     factory :article_with_nature_citations do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_pubmed)] }
     end
@@ -60,6 +64,10 @@ FactoryGirl.define do
 
     factory :article_with_counter_citations do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_counter)] }
+    end
+
+    factory :article_with_tweets do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :with_twitter_search)] }
     end
   end
 

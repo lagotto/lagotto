@@ -52,12 +52,15 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<%= root_path %>">ALM</a>
+        <% if can? :read, Alert %>
+          <a class="navbar-brand" href="<%= admin_root_path %>">ALM</a>
+        <% else %>
+          <a class="navbar-brand" href="#">ALM</a>
+        <% end %>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <% if can? :read, Alert %>
-            <%= controller.controller_name == "status" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Home", admin_root_path %></li>
             <%= controller.controller_name == "articles" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", admin_articles_path %></li>
             <%= controller.controller_name == "sources" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Sources", admin_sources_path %></li>
           <% else %>

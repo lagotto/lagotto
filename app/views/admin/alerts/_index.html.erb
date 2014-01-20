@@ -6,17 +6,17 @@
         <li><%= link_to "All Sources", admin_alerts_path(:class_name => params[:class_name], :query => params[:query]) %></li>
         <li class="divider"></li>
         <% sources.active.each do|source| %>
-        <li><%= link_to h(source.display_name), admin_alerts_path(:source_id => source.id, :class_name => params[:class_name], :query => params[:query]) %></li>
+        <li><%= link_to h(source.display_name), admin_alerts_path(:source => source.name, :class_name => params[:class_name], :query => params[:query]) %></li>
         <% end %>
       </ul>
     </div>
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
-        <li><%= link_to "All Alerts", admin_alerts_path(:source_id => params[:source_id], :query => params[:query]) %></li>
+        <li><%= link_to "All Alerts", admin_alerts_path(:source => params[:source], :query => params[:query]) %></li>
         <li class="divider"></li>
         <% alerts.each do|alert| %>
-        <li><%= link_to h(alert), admin_alerts_path(:class_name => alert, :source_id => params[:source_id], :query => params[:query]) %></li>
+        <li><%= link_to h(alert), admin_alerts_path(:class_name => alert, :source => params[:source], :query => params[:query]) %></li>
         <% end %>
       </ul>
     </div>
@@ -36,7 +36,7 @@
     </div>
     <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
     <% unless params[:query].blank? %>
-      <%= link_to "clear", admin_alerts_path(:source_id => params[:source_id]), :class => "btn btn-link" %>
+      <%= link_to "clear", admin_alerts_path(:source => params[:source]), :class => "btn btn-link" %>
     <% end %>
   <% end %>
 </div>
@@ -57,14 +57,14 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><%= link_to "by Message", admin_alert_path(alert, :query => params[:query],
-                                                                                        :source_id => params[:source_id],
+                                                                                        :source => params[:source],
                                                                                         :page => params[:page]),
                                                                                         :method => :delete,
                                                                                         :data => { :confirm => 'Are you sure?' },
                                                                                         :remote => true,
                                                                                         :id => "#{alert.id}-delete-message" %></li>
                   <li><%= link_to "by Class", admin_alert_path(alert, :query => params[:query],
-                                                                                      :source_id => params[:source_id],
+                                                                                      :source => params[:source],
                                                                                       :filter => "class_name",
                                                                                       :page => params[:page]),
                                                                                       :method => :delete,
@@ -73,8 +73,8 @@
                                                                                       :id => "#{alert.id}-delete-class" %></li>
                   <% unless alert.source_id.nil? %>
                     <li><%= link_to "by Source", admin_alert_path(alert, :query => params[:query],
-                                                                                         :source_id => params[:source_id],
-                                                                                         :filter => "source_id",
+                                                                                         :source => params[:source],
+                                                                                         :filter => "source",
                                                                                          :page => params[:page]),
                                                                                          :method => :delete,
                                                                                          :data => { :confirm => 'Are you sure?' },
@@ -85,11 +85,11 @@
               </div>
             <% end %>
             <p class="class_name"><%= link_to alert.class_name, admin_alerts_path(:class_name => h(alert.class_name),
-                                                                                                  :source_id => params[:source_id],
+                                                                                                  :source => params[:source],
                                                                                                   :query => params[:query]) %></p>
             <% unless alert.source_id.blank? %>
               <h5>Source</h5>
-              <%= link_to alert.source.display_name, admin_alerts_path(source_id: alert.source_id) %>
+              <%= link_to alert.source.display_name, admin_source_path(alert.source) %>
             <% end %>
 
             <% unless alert.article_id.blank? %>

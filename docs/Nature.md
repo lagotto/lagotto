@@ -50,51 +50,53 @@ Nature Blogs is a science blog aggregator. Since May 1st 2013 API keys are [no l
 
 ## Example Response
 
-    [
-      {
-        post: {
-          percent_complex_words: 12.9994,
-          popularity: 0,
-          created_at: "2009-02-05T17:12:41Z",
-          title: "A new link in the chain of whale evolution",
-          body: "Paleontologists have found a new fossil of a whale ancestor - and its announced just after I finish watching my preview DVD of Nat Geo's Morphed on whale evolution. I smell fate.Anyhow, the new whale predecessor was unveiled in a PLoS One article ...",
-          updated_at: "2009-09-22T23:09:56Z",
-          flesch: -21.5166,
-          url: "feedproxy.google.com/~r/observationsofanerd/~3/aMcNB2CZW_Y/new-link-in-chain-of-whale-evolution.html",
-          blog_id: 558,
-          id: 29082,
-          hashed_id: "a8b538120801f6735681c4ce346e3d27f4c1739f3bf349eec7f206d34cdba95b",
-          blog: {
-            percent_complex_words: 14.0934,
-            popularity: 2,
-            created_at: "2008-11-05T16:42:48Z",
-            title: "Observations of a Nerd",
-            niche_tag: "life_sciences",
-            updated_at: "2012-07-28T01:13:27Z",
-            flesch: -39.0166,
-            feed_url: "scienceblogs.com/observations/index.xml",
-            url: "http://scienceblogs.com/observations/",
-            decided_on: "2008-11-06T19:34:40Z",
-            rank: 426,
-            num_posts_per_week: 1.754,
-            id: 558,
-            outgoing_bloglove: 2,
-            num_words: 5852.28,
-            ip: "bogus address",
-            niche_rank: 141,
-            header_title: "BLOGS",
-            fog: 46.4802,
-            description: "A blog about anything and everything that piques the interest of a biologist",
-            status: "accepted"
-          },
-          links_to_doi: [
-            "10.1371/journal.pone.0004366"
-          ],
-          num_words: 6708,
-          published_at: "2009-02-05T17:12:41Z",
-          fog: 40.0465
-        }
+```json
+[
+  {
+    post: {
+      percent_complex_words: 12.9994,
+      popularity: 0,
+      created_at: "2009-02-05T17:12:41Z",
+      title: "A new link in the chain of whale evolution",
+      body: "Paleontologists have found a new fossil of a whale ancestor - and its announced just after I finish watching my preview DVD of Nat Geo's Morphed on whale evolution. I smell fate.Anyhow, the new whale predecessor was unveiled in a PLoS One article ...",
+      updated_at: "2009-09-22T23:09:56Z",
+      flesch: -21.5166,
+      url: "feedproxy.google.com/~r/observationsofanerd/~3/aMcNB2CZW_Y/new-link-in-chain-of-whale-evolution.html",
+      blog_id: 558,
+      id: 29082,
+      hashed_id: "a8b538120801f6735681c4ce346e3d27f4c1739f3bf349eec7f206d34cdba95b",
+      blog: {
+        percent_complex_words: 14.0934,
+        popularity: 2,
+        created_at: "2008-11-05T16:42:48Z",
+        title: "Observations of a Nerd",
+        niche_tag: "life_sciences",
+        updated_at: "2012-07-28T01:13:27Z",
+        flesch: -39.0166,
+        feed_url: "scienceblogs.com/observations/index.xml",
+        url: "http://scienceblogs.com/observations/",
+        decided_on: "2008-11-06T19:34:40Z",
+        rank: 426,
+        num_posts_per_week: 1.754,
+        id: 558,
+        outgoing_bloglove: 2,
+        num_words: 5852.28,
+        ip: "bogus address",
+        niche_rank: 141,
+        header_title: "BLOGS",
+        fog: 46.4802,
+        description: "A blog about anything and everything that piques the interest of a biologist",
+        status: "accepted"
       },
+      links_to_doi: [
+        "10.1371/journal.pone.0004366"
+      ],
+      num_words: 6708,
+      published_at: "2009-02-05T17:12:41Z",
+      fog: 40.0465
+    }
+  },
+```
 
 ## Further Documentation
 * [Nature Blogs API Documentation](http://www.nature.com/developers/documentation/api-references/blogs-api/)

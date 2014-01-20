@@ -35,21 +35,19 @@ class Pmc < Source
     service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
 
     result = get_json(service_url, options)
-    return nil if result.blank?
-
-    result = result["rows"]
+    return nil if result.blank? || result["rows"].blank?
 
     if view == "pmc"
       CSV.generate do |csv|
         csv << ["doi", "html", "pdf", "total"]
-        result.each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
+        result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
       end
     else
       dates = self.date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
 
       CSV.generate do |csv|
         csv << ["doi"] + dates
-        result.each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 }}
+        result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 }}
       end
     end
   end

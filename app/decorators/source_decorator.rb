@@ -20,13 +20,14 @@
 
 class SourceDecorator < Draper::Decorator
   delegate_all
+  decorates_association :group
 
   def state
     human_state_name
   end
 
   def group
-    group_id
+    model.group.name
   end
 
   def working_count

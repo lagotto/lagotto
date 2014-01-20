@@ -3,7 +3,19 @@ require 'spec_helper'
 describe "report:alm_stats" do
   include_context "rake"
 
-  let(:output) { "Report \"alm_stats_#{Date.today.iso8601}.csv\" has been written.\n" }
+  let(:output) { "Report \"alm_stats.csv\" has been written.\n" }
+
+  its(:prerequisites) { should include("environment") }
+
+  it "should run the rake task" do
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
+describe "report:alm_private_stats" do
+  include_context "rake"
+
+  let(:output) { "Report \"alm_private_stats.csv\" has been written.\n" }
 
   its(:prerequisites) { should include("environment") }
 
@@ -16,7 +28,7 @@ describe "report:mendeley_stats" do
   include_context "rake"
 
   let(:url) { "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley" }
-  let(:output) { "Report \"mendeley_#{Date.today.iso8601}.csv\" has been written.\n" }
+  let(:output) { "Report \"mendeley_stats.csv\" has been written.\n" }
 
   its(:prerequisites) { should include("environment") }
 
@@ -30,7 +42,7 @@ describe "report:pmc_stats" do
   include_context "rake"
 
   let(:url) { "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc" }
-  let(:output) { "Report \"pmc_#{Date.today.iso8601}.csv\" has been written.\n" }
+  let(:output) { "Report \"pmc_stats.csv\" has been written.\n" }
 
   its(:prerequisites) { should include("environment") }
 
@@ -44,7 +56,7 @@ describe "report:pmc_html_stats" do
   include_context "rake"
 
   let(:url) { "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_html_views" }
-  let(:output) { "Report \"pmc_html_#{Date.today.iso8601}.csv\" has been written.\n" }
+  let(:output) { "Report \"pmc_html.csv\" has been written.\n" }
 
   its(:prerequisites) { should include("environment") }
 
@@ -58,7 +70,7 @@ describe "report:pmc_pdf_stats" do
   include_context "rake"
 
   let(:url) { "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_pdf_views" }
-  let(:output) { "Report \"pmc_pdf_#{Date.today.iso8601}.csv\" has been written.\n" }
+  let(:output) { "Report \"pmc_pdf.csv\" has been written.\n" }
 
   its(:prerequisites) { should include("environment") }
 
@@ -72,7 +84,7 @@ describe "report:pmc_combined_stats" do
   include_context "rake"
 
   let(:url) { "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_combined_views" }
-  let(:output) { "Report \"pmc_combined_#{Date.today.iso8601}.csv\" has been written.\n" }
+  let(:output) { "Report \"pmc_combined.csv\" has been written.\n" }
 
   its(:prerequisites) { should include("environment") }
 
@@ -85,7 +97,38 @@ end
 describe "report:combined_stats" do
   include_context "rake"
 
-  let(:output) { "Report \"alm_report_#{Date.today.iso8601}.csv\" has been written.\n" }
+  let(:output) { "Report \"alm_report.csv\" has been written.\n" }
+
+  its(:prerequisites) { should include("environment") }
+
+  it "should run the rake task" do
+    ENV['PRIVATE'] = nil
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
+describe "report:combined_private_stats" do
+  include_context "rake"
+
+  let(:output) { "Report \"alm_private_report.csv\" has been written.\n" }
+
+  its(:prerequisites) { should include("environment") }
+
+  it "should run the rake task" do
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
+describe "report:zip" do
+  include_context "rake"
+
+  before do
+    folderpath = "#{Rails.root}/data/report_#{Date.today.iso8601}"
+    Dir.mkdir folderpath unless Dir.exist? folderpath
+    FileUtils.touch("#{folderpath}/alm_report.csv")
+  end
+
+  let(:output) { "Reports have been compressed.\n" }
 
   its(:prerequisites) { should include("environment") }
 

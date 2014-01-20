@@ -26,13 +26,11 @@ class Mendeley < Source
     service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
 
     result = get_json(service_url, options)
-    return nil if result.blank?
-
-    result = result["rows"]
+    return nil if result.blank? || result["rows"].blank?
 
     CSV.generate do |csv|
       csv << ["doi", "readers", "groups", "total"]
-      result.each { |row| csv << [row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
+      result["rows"].each { |row| csv << [row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
     end
   end
 

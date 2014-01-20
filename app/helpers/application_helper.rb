@@ -17,6 +17,7 @@
 # limitations under the License.
 
 require 'github/markdown'
+require 'rouge'
 
 module ApplicationHelper
   def login_link
@@ -24,7 +25,17 @@ module ApplicationHelper
   end
 
   def markdown(text)
-    GitHub::Markdown.render_gfm(text).html_safe
+    text = GitHub::Markdown.render_gfm(text)
+    syntax_highlighter(text).html_safe
+  end
+
+  def syntax_highlighter(html)
+    formatter = Rouge::Formatters::HTML.new(:css_class => 'hll')
+    lexer = Rouge::Lexers::Shell.new
+
+    doc = Nokogiri::HTML(html)
+    doc.search("//pre").each { |pre| pre.replace formatter.format(lexer.lex(pre.text)) }
+    doc.to_s
   end
 
   def state_label(state)
@@ -58,6 +69,23 @@ module ApplicationHelper
 
   def alerts
     %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
+  end
+
+  def article_statistics_report_path
+    path = "/files/alm_report.zip"
+    if File.exist?("#{Rails.root}/public#{path}")
+      path
+    else
+      nil
+    end
+  end
+
+  def description_with_link(report)
+    if report.name == 'article_statistics_report' && article_statistics_report_path
+      h(report.description) + link_to("Download", article_statistics_report_path, :class => 'pull-right')
+    else
+      h(report.description)
+    end
   end
 
   def article_alerts

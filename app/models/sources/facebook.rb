@@ -22,13 +22,7 @@ class Facebook < Source
 
   def get_data(article, options={})
 
-    # Fetch the fulltext URL
-    if article.url.blank? and !article.doi.blank?
-      original_url = get_original_url(article.doi_as_url)
-      article.update_attributes(:url => original_url) unless original_url.blank?
-    end
-
-    return  { :events => [], :event_count => nil } if article.url.blank?
+    return  { :events => [], :event_count => nil } unless article.get_url
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
@@ -64,13 +58,4 @@ class Facebook < Source
   def url
     config.url || "http://graph.facebook.com:443/fql?access_token=%{access_token}&q=select url, normalized_url, share_count, like_count, comment_count, total_count, click_count, comments_fbid, commentsbox_count from link_stat where url = '%{query_url}'"
   end
-
-  def access_token
-    config.access_token
-  end
-
-  def access_token=(value)
-    config.access_token = value
-  end
-
 end
