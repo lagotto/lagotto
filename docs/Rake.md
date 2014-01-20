@@ -86,14 +86,6 @@ rake db:api_responses:delete
 
 The last three rake tasks should run regularly, and can be set up to run as a daily cron task with `bundle exec whenever -w`.
 
-### doi_import.rake
-
-Alias to `rake db:articles:load`, see above.
-
-```sh
-rake doi_import <DOI_DUMP
-```
-
 ### queue.rake
 
 Queue all articles

@@ -1,6 +1,6 @@
 Facebook is the largest social network.
 
-Information about obtaining an app access token for this source can be found at http://developers.facebook.com/docs/howtos/login/login-as-app/. Access tokens no longer seem required as of summer 2013.
+Information about obtaining an app access token for this source can be found at http://developers.facebook.com/docs/howtos/login/login-as-app/. Access tokens are required for production use because of rate-limiting.
 
 Since January 2013 Facebook aggregates the stats from DOIs (e.g. http://dx.doi.org/10.1371/journal.pone.0035869) with those from the journal landing page (e.g. http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0035869), so that multiple API calls per article are no longer necessary, but the results aren't consistent. Since URLs with query parameters (e.g. `?pid=S1415-47572009000400031&lng=en&nrm=iso&tlng=en`) can cause problems, we use the DOI.
 

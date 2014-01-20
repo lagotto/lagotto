@@ -46,15 +46,20 @@ class Facebook < Source
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def get_query_url(article, options={})
+    URI.escape(url % { :access_token => access_token, :doi_as_url => article.doi_as_url })
   end
 
-  def get_query_url(article)
-    URI.escape(url % { :doi_as_url => article.doi_as_url })
+  def get_config_fields
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
+     {:field_name => "access_token", :field_type => "text_field"}]
   end
 
   def url
-    config.url || "https://graph.facebook.com/fql?q=select url, share_count, like_count, comment_count, click_count, total_count, comments_fbid from link_stat where url = '%{doi_as_url}'"
+    config.url || "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count, comments_fbid from link_stat where url = '%{doi_as_url}'"
+  end
+
+  def access_token
+    config.access_token
   end
 end
