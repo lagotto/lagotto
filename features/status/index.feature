@@ -1,4 +1,4 @@
-@javascript @couchdb @not_teamcity
+@javascript @couchdb
 Feature: View admin dashboard
   In order to understand the status of the application
   An admin user

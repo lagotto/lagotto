@@ -1,4 +1,4 @@
-@javascript @not_teamcity
+@javascript
 Feature: See sparklines for article
   In order to make sure that we collect metrics correctly
   We should be able to see the events for an article

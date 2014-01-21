@@ -18,7 +18,6 @@ Feature: See events
       When I go to the "Events" tab of the Sources admin page
       Then the chart should show 250 events for "CiteULike"
 
-    @not_teamcity
     Scenario: Events in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should be:
