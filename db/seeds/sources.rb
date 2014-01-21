@@ -1,11 +1,4 @@
 # encoding: UTF-8
-viewed = Group.find_by_name("viewed")
-saved = Group.find_by_name("saved")
-discussed = Group.find_by_name("discussed")
-cited = Group.find_by_name("cited")
-recommended = Group.find_by_name("recommended")
-other = Group.find_by_name("other")
-
 # Load sources
 viewed = Group.find_by_name("viewed")
 saved = Group.find_by_name("saved")

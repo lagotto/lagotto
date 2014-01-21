@@ -1,0 +1,240 @@
+{
+  "total_rows": 26,
+  "offset": 0,
+  "rows": [
+    {
+      "id": "counter:10.1371/journal.pbio.0000045",
+      "key": "10.1371/journal.pbio.0000045",
+      "value": {
+        "html": 42445,
+        "pdf": 4515,
+        "total": 47163
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pbio.0020413",
+      "key": "10.1371/journal.pbio.0020413",
+      "value": {
+        "html": 2396,
+        "pdf": 213,
+        "total": 2648
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pbio.0030137",
+      "key": "10.1371/journal.pbio.0030137",
+      "value": {
+        "html": 8280,
+        "pdf": 983,
+        "total": 9327
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pbio.0040015",
+      "key": "10.1371/journal.pbio.0040015",
+      "value": {
+        "html": 3064,
+        "pdf": 394,
+        "total": 3501
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pbio.0050254",
+      "key": "10.1371/journal.pbio.0050254",
+      "value": {
+        "html": 115327,
+        "pdf": 24766,
+        "total": 141030
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pbio.0060188",
+      "key": "10.1371/journal.pbio.0060188",
+      "value": {
+        "html": 13066,
+        "pdf": 2472,
+        "total": 15626
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pbio.1000242",
+      "key": "10.1371/journal.pbio.1000242",
+      "value": {
+        "html": 20904,
+        "pdf": 2502,
+        "total": 23499
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pcbi.0010057",
+      "key": "10.1371/journal.pcbi.0010057",
+      "value": {
+        "html": 78853,
+        "pdf": 16367,
+        "total": 95478
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pcbi.0020131",
+      "key": "10.1371/journal.pcbi.0020131",
+      "value": {
+        "html": 6185,
+        "pdf": 1777,
+        "total": 8027
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pcbi.1000204",
+      "key": "10.1371/journal.pcbi.1000204",
+      "value": {
+        "html": 59566,
+        "pdf": 7163,
+        "total": 67130
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pcbi.1002445",
+      "key": "10.1371/journal.pcbi.1002445",
+      "value": {
+        "html": 5333,
+        "pdf": 437,
+        "total": 5800
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pmed.0020124",
+      "key": "10.1371/journal.pmed.0020124",
+      "value": {
+        "html": 670388,
+        "pdf": 120171,
+        "total": 792885
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pmed.0020146",
+      "key": "10.1371/journal.pmed.0020146",
+      "value": {
+        "html": 8182,
+        "pdf": 821,
+        "total": 9079
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0000000",
+      "key": "10.1371/journal.pone.0000000",
+      "value": {
+        "html": 20014,
+        "pdf": 262,
+        "total": 20432
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0000443",
+      "key": "10.1371/journal.pone.0000443",
+      "value": {
+        "html": 24689,
+        "pdf": 3129,
+        "total": 28230
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0001636",
+      "key": "10.1371/journal.pone.0001636",
+      "value": {
+        "html": 9764,
+        "pdf": 2154,
+        "total": 11977
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0006872",
+      "key": "10.1371/journal.pone.0006872",
+      "value": {
+        "html": 3890,
+        "pdf": 726,
+        "total": 4643
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0008776",
+      "key": "10.1371/journal.pone.0008776",
+      "value": {
+        "html": 3858,
+        "pdf": 540,
+        "total": 4424
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0018657",
+      "key": "10.1371/journal.pone.0018657",
+      "value": {
+        "html": 7597,
+        "pdf": 810,
+        "total": 8466
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0020094",
+      "key": "10.1371/journal.pone.0020094",
+      "value": {
+        "html": 1785,
+        "pdf": 332,
+        "total": 2142
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0033288",
+      "key": "10.1371/journal.pone.0033288",
+      "value": {
+        "html": 199037,
+        "pdf": 1736,
+        "total": 200841
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0035869",
+      "key": "10.1371/journal.pone.0035869",
+      "value": {
+        "html": 18174,
+        "pdf": 1083,
+        "total": 19322
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0036240",
+      "key": "10.1371/journal.pone.0036240",
+      "value": {
+        "html": 14294,
+        "pdf": 1012,
+        "total": 15347
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0036790",
+      "key": "10.1371/journal.pone.0036790",
+      "value": {
+        "html": 5891,
+        "pdf": 964,
+        "total": 6879
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.pone.0044271",
+      "key": "10.1371/journal.pone.0044271",
+      "value": {
+        "html": 122054,
+        "pdf": 3035,
+        "total": 125149
+      }
+    },
+    {
+      "id": "counter:10.1371/journal.ppat.1000446",
+      "key": "10.1371/journal.ppat.1000446",
+      "value": {
+        "html": 7489,
+        "pdf": 1147,
+        "total": 8676
+      }
+    }
+  ]
+}

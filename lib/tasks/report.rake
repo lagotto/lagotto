@@ -64,7 +64,7 @@ namespace :report do
   end
 
   desc 'Generate CSV file with PMC usage stats'
-  task :pmc_stats => :environment do |t, args|
+  task :pmc => :environment do |t, args|
     if ENV['FORMAT']
       filename = "pmc_#{ENV['FORMAT']}.csv"
     else
@@ -88,8 +88,8 @@ namespace :report do
     ENV['FORMAT'] = "html"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:pmc_stats"].invoke
-    Rake::Task["report:pmc_stats"].reenable
+    Rake::Task["report:pmc"].invoke
+    Rake::Task["report:pmc"].reenable
   end
 
   desc 'Generate CSV file with PMC PDF usage stats over time'
@@ -98,8 +98,8 @@ namespace :report do
     ENV['FORMAT'] = "pdf"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:pmc_stats"].invoke
-    Rake::Task["report:pmc_stats"].reenable
+    Rake::Task["report:pmc"].invoke
+    Rake::Task["report:pmc"].reenable
   end
 
   desc 'Generate CSV file with PMC combined usage stats over time'
@@ -108,12 +108,21 @@ namespace :report do
     ENV['FORMAT'] = "combined"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:pmc_stats"].invoke
-    Rake::Task["report:pmc_stats"].reenable
+    Rake::Task["report:pmc"].invoke
+    Rake::Task["report:pmc"].reenable
+  end
+
+  desc 'Generate CSV file with PMC cumulative usage stats'
+  task :pmc_stats => :environment do |t, args|
+    ENV['FORMAT'] = nil
+    ENV['MONTH'] = nil
+    ENV['YEAR'] = nil
+    Rake::Task["report:pmc"].invoke
+    Rake::Task["report:pmc"].reenable
   end
 
   desc 'Generate CSV file with Counter usage stats'
-  task :counter_stats => :environment do |t, args|
+  task :counter => :environment do |t, args|
     if ENV['FORMAT']
       filename = "counter_#{ENV['FORMAT']}.csv"
     else
@@ -137,8 +146,8 @@ namespace :report do
     ENV['FORMAT'] = "html"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:counter_stats"].invoke
-    Rake::Task["report:counter_stats"].reenable
+    Rake::Task["report:counter"].invoke
+    Rake::Task["report:counter"].reenable
   end
 
   desc 'Generate CSV file with Counter PDF usage stats over time'
@@ -147,8 +156,8 @@ namespace :report do
     ENV['FORMAT'] = "pdf"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:counter_stats"].invoke
-    Rake::Task["report:counter_stats"].reenable
+    Rake::Task["report:counter"].invoke
+    Rake::Task["report:counter"].reenable
   end
 
   desc 'Generate CSV file with Counter XML usage stats over time'
@@ -157,8 +166,8 @@ namespace :report do
     ENV['FORMAT'] = "xml"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:counter_stats"].invoke
-    Rake::Task["report:counter_stats"].reenable
+    Rake::Task["report:counter"].invoke
+    Rake::Task["report:counter"].reenable
   end
 
   desc 'Generate CSV file with Counter combined usage stats over time'
@@ -167,8 +176,17 @@ namespace :report do
     ENV['FORMAT'] = "combined"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:counter_stats"].invoke
-    Rake::Task["report:counter_stats"].reenable
+    Rake::Task["report:counter"].invoke
+    Rake::Task["report:counter"].reenable
+  end
+
+  desc 'Generate CSV file with cumulative Counter usage stats'
+  task :counter_stats => :environment do |t, args|
+    ENV['FORMAT'] = nil
+    ENV['MONTH'] = nil
+    ENV['YEAR'] = nil
+    Rake::Task["report:counter"].invoke
+    Rake::Task["report:counter"].reenable
   end
 
   desc 'Generate CSV file with combined ALM stats'
@@ -213,5 +231,5 @@ namespace :report do
   end
 
   desc 'Generate all article stats reports'
-  task :all_stats => [:environment, :alm_stats, :mendeley_stats, :pmc_html_stats, :pmc_pdf_stats, :pmc_combined_stats, :pmc_stats, :counter_html_stats, :counter_pdf_stats, :counter_xml_stats, :counter_combined_stats, :combined_stats, :alm_private_stats, :combined_private_stats, :zip]
+  task :all_stats => [:environment, :alm_stats, :mendeley_stats, :pmc_html_stats, :pmc_pdf_stats, :pmc_combined_stats, :pmc_stats, :counter_html_stats, :counter_pdf_stats, :counter_xml_stats, :counter_combined_stats, :counter_stats, :combined_stats, :alm_private_stats, :combined_private_stats, :zip]
 end
