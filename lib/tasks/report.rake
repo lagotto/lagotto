@@ -63,8 +63,8 @@ namespace :report do
     end
   end
 
-  desc 'Generate CSV file with PMC usage stats'
-  task :pmc_stats => :environment do |t, args|
+desc 'Generate CSV file with PMC usage stats'
+  task :pmc => :environment do |t, args|
     if ENV['FORMAT']
       filename = "pmc_#{ENV['FORMAT']}.csv"
     else
@@ -88,8 +88,8 @@ namespace :report do
     ENV['FORMAT'] = "html"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:pmc_stats"].invoke
-    Rake::Task["report:pmc_stats"].reenable
+    Rake::Task["report:pmc"].invoke
+    Rake::Task["report:pmc"].reenable
   end
 
   desc 'Generate CSV file with PMC PDF usage stats over time'
@@ -98,8 +98,8 @@ namespace :report do
     ENV['FORMAT'] = "pdf"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:pmc_stats"].invoke
-    Rake::Task["report:pmc_stats"].reenable
+    Rake::Task["report:pmc"].invoke
+    Rake::Task["report:pmc"].reenable
   end
 
   desc 'Generate CSV file with PMC combined usage stats over time'
@@ -108,8 +108,17 @@ namespace :report do
     ENV['FORMAT'] = "combined"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:pmc_stats"].invoke
-    Rake::Task["report:pmc_stats"].reenable
+    Rake::Task["report:pmc"].invoke
+    Rake::Task["report:pmc"].reenable
+  end
+
+  desc 'Generate CSV file with PMC cumulative usage stats'
+  task :pmc_stats => :environment do |t, args|
+    ENV['FORMAT'] = nil
+    ENV['MONTH'] = nil
+    ENV['YEAR'] = nil
+    Rake::Task["report:pmc"].invoke
+    Rake::Task["report:pmc"].reenable
   end
 
   desc 'Generate CSV file with combined ALM stats'

@@ -34,7 +34,6 @@ class ReportMailer < ActionMailer::Base
     return if report.users.empty?
 
     @articles_count = Article.count
-    @articles_recent_count = Article.last_x_days(30).count
 
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Article Statistics Report")
   end

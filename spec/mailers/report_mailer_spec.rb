@@ -61,7 +61,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: root_url(:host => CONFIG[:hostname]))
+      body_html.should have_link('Download report', href: "#{CONFIG[:hostname]}/files/alm_report.zip")
     end
   end
 
