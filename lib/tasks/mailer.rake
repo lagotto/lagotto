@@ -42,5 +42,5 @@ namespace :mailer do
   end
 
   desc 'Send all scheduled mails'
-  task :all => [:environment, :error_report, :status_report]
+  task :all => [:environment, :error_report, :article_statistics_report, :status_report]
 end

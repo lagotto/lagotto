@@ -138,6 +138,7 @@ namespace :report do
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
     Rake::Task["report:counter_stats"].invoke
+    Rake::Task["report:counter_stats"].reenable
   end
 
   desc 'Generate CSV file with Counter PDF usage stats over time'
@@ -147,6 +148,7 @@ namespace :report do
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
     Rake::Task["report:counter_stats"].invoke
+    Rake::Task["report:counter_stats"].reenable
   end
 
   desc 'Generate CSV file with Counter XML usage stats over time'
@@ -156,6 +158,7 @@ namespace :report do
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
     Rake::Task["report:counter_stats"].invoke
+    Rake::Task["report:counter_stats"].reenable
   end
 
   desc 'Generate CSV file with Counter combined usage stats over time'
@@ -165,6 +168,7 @@ namespace :report do
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
     Rake::Task["report:counter_stats"].invoke
+    Rake::Task["report:counter_stats"].reenable
   end
 
   desc 'Generate CSV file with combined ALM stats'
@@ -209,5 +213,5 @@ namespace :report do
   end
 
   desc 'Generate all article stats reports'
-  task :all_stats => [:environment, :alm_stats, :mendeley_stats, :pmc_html_stats, :pmc_pdf_stats, :pmc_combined_stats, :pmc_stats, :combined_stats, :alm_private_stats, :combined_private_stats, :zip]
+  task :all_stats => [:environment, :alm_stats, :mendeley_stats, :pmc_html_stats, :pmc_pdf_stats, :pmc_combined_stats, :pmc_stats, :counter_html_stats, :counter_pdf_stats, :counter_xml_stats, :counter_combined_stats, :combined_stats, :alm_private_stats, :combined_private_stats, :zip]
 end
