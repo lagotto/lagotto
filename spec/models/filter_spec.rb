@@ -88,6 +88,7 @@ describe Filter do
         alert = Alert.first
         alert.class_name.should eq("EventCountDecreasingError")
         alert.message.should include("Event count decreased")
+        alert.error.should be_false
         alert.source_id.should == 1
       end
     end
@@ -146,6 +147,7 @@ describe Filter do
         alert = Alert.first
         alert.class_name.should eq("EventCountIncreasingTooFastError")
         alert.message.should include("Event count increased")
+        alert.error.should be_false
         alert.source_id.should == 1
       end
     end
@@ -210,6 +212,7 @@ describe Filter do
       alert = Alert.first
       alert.class_name.should eq("ApiResponseTooSlowError")
       alert.message.should include("API response took #{duration} ms")
+      alert.error.should be_false
       alert.source_id.should == 1
     end
   end
@@ -227,6 +230,7 @@ describe Filter do
       alert = Alert.first
       alert.class_name.should eq("ArticleNotUpdatedError")
       alert.message.should include("Article not updated for #{days}")
+      alert.error.should be_false
       alert.source_id.should == 1
     end
   end
@@ -248,6 +252,7 @@ describe Filter do
       alert = Alert.first
       alert.class_name.should eq("SourceNotUpdatedError")
       alert.message.should include("Source not updated for 24 hours")
+      alert.error.should be_true
       alert.source_id.should == @mendeley.id
     end
   end

@@ -1,0 +1,9 @@
+<% if Article.count > 0 && Source.active.any? %>
+  <p>Total number of articles with at least one event, linear scale.</p><br/>
+<% else %>
+  <div class="alert alert-info">No events found</div>
+<% end %>
+
+<%= javascript_tag do -%>
+  <%= render :partial => 'index', formats: :js %>
+<% end %>

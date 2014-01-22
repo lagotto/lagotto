@@ -3,31 +3,14 @@ class Admin::SourcesController < Admin::ApplicationController
   load_and_authorize_resource
 
   def show
-    respond_with do |format|
-      format.html do
-        filename = Rails.root.join("docs/#{@source.name.capitalize}.md")
-        @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
-        render :show
-      end
-      format.json do
-        status = [{ "name" => "refreshed", "value" => Article.count - (@source.retrieval_statuses.stale.size + @source.retrieval_statuses.queued.size) },
-                  { "name" => "queued", "value" => @source.retrieval_statuses.queued.size },
-                  { "name" => "stale ", "value" => @source.retrieval_statuses.stale.size }]
-        events = [{ "name" => "with events ",
-                           "day" => @source.retrieval_statuses.with_events(1).size,
-                           "month" => @source.retrieval_statuses.with_events(31).size },
-                         { "name" => "without events",
-                           "day" => @source.retrieval_statuses.without_events(1).size,
-                           "month" => @source.retrieval_statuses.without_events(31).size },
-                         { "name" => "not updated",
-                           "day" => Article.count - (@source.retrieval_statuses.with_events(1).size + @source.retrieval_statuses.without_events(1).size),
-                           "month" => Article.count - (@source.retrieval_statuses.with_events(31).size + @source.retrieval_statuses.without_events(31).size) }]
-        render :json => { "status" => status, "events" => events }
-      end
-    end
+    filename = Rails.root.join("docs/#{@source.name.capitalize}.md")
+    @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
   end
 
   def index
+    filename = Rails.root.join("docs/Sources.md")
+    @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
+
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     respond_with @groups
   end
@@ -38,16 +21,56 @@ class Admin::SourcesController < Admin::ApplicationController
     end
   end
 
-
   def update
-    @source.update_attributes(params[:source])
+    params[:source] ||= {}
+    params[:source][:state_event] = params[:state_event]
+    @source.update_attributes(safe_params)
+    if @source.invalid?
+      error_messages = @source.errors.full_messages.join(', ')
+      flash.now[:alert] = "Please configure source #{@source.display_name}: #{error_messages}"
+      @flash = flash
+    end
     respond_with(@source) do |format|
-      format.js { render :show }
+      if params[:state_event]
+        @groups = Group.includes(:sources).order("groups.id, sources.display_name")
+        format.js { render :index }
+      else
+        format.js { render :show }
+      end
     end
   end
 
   protected
   def load_source
     @source = Source.find_by_name(params[:id])
+  end
+
+  private
+
+  def safe_params
+    params.require(:source).permit(:display_name,
+                                   :group_id,
+                                   :state_event,
+                                   :private,
+                                   :queueable,
+                                   :description,
+                                   :job_batch_size,
+                                   :batch_time_interval,
+                                   :rate_limiting,
+                                   :wait_time,
+                                   :staleness_week,
+                                   :staleness_month,
+                                   :staleness_year,
+                                   :staleness_all,
+                                   :timeout,
+                                   :max_failed_queries,
+                                   :max_failed_query_time_interval,
+                                   :disable_delay,
+                                   :url,
+                                   :url_with_type,
+                                   :url_with_title,
+                                   :related_articles_url,
+                                   :api_key,
+                                   *@source.config_fields)
   end
 end

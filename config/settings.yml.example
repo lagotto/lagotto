@@ -23,10 +23,7 @@ defaults: &defaults
   rest_auth_site_key: #'run `rake secret` to generate a key to insert here'
   rest_auth_digest_stretches: 10
   secret_token: #'run `rake secret` again to generate a second key to insert here'
-  github_client_id:
-  github_client_secret:
   persona: true
-  layout: greenrobo
   couchdb_url: http://localhost:5984/alm/
   doi_prefix:
   uid: doi
@@ -42,6 +39,7 @@ development:
 
 test:
   <<: *defaults
+  api_key: 12345
   hostname: test.example.org
   couchdb_url: http://localhost:5984/alm_test/
   doi_prefix: 10.1371

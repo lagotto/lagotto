@@ -4,7 +4,8 @@ Feature: Run rake tasks
   Scenario: rake is installed
     When I run `bundle exec rake --version` interactively
     Then the output should contain "rake, version"
-  @not-teamcity
+
+  @not_teamcity
   Scenario Outline: rake tasks exist
     When I run `bundle exec rake -T` interactively
     Then the output should contain "<Task>"

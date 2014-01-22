@@ -7,16 +7,16 @@ Feature: See sparklines for article
     Given I am logged in as "admin"
     And the source "Citeulike" exists
     And there is an article
-    
+
     Scenario: See numbers
       When I go to the article
       Then I should see 50 bookmarks
-    
+
     #   Scenario Outline: See monthly chart
     #   When I go to the article
     #   And click on the "<Range>" tab
     #   Then I should see the "<Label>" chart
-    # 
+    #
     #   Examples:
     #   | Range            | Label                        |
     #   | Metrics by Day   | day-chart-citeulike-shares   |

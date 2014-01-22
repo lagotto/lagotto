@@ -33,7 +33,6 @@ class SourceNotUpdatedError < Filter
 
     responses.count
   end
-
 end
 
 module Exceptions

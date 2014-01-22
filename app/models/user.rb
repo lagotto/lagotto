@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :token_authenticatable, :omniauthable, :omniauth_providers => [:cas] # ignoring :github, :persona
+         :omniauthable, :omniauth_providers => [:cas] # ignoring :persona
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token, :report_ids
@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
     unless user
       unless Rails.env.test?
         # We obtain the email address from a second call to the CAS server
-        url = "#{APP_CONFIG["cas_url"]}/cas/email?guid=#{auth.uid}"
+        url = "#{CONFIG[:cas_url]}/cas/email?guid=#{auth.uid}"
         response = Faraday.get(url).body
         email = response.present? ? response : ""
       else
@@ -62,19 +62,6 @@ class User < ActiveRecord::Base
 
     user
   end
-
-  # def self.find_for_github_oauth(auth, signed_in_resource=nil)
-  #   user = User.where(:provider => auth.provider, :uid => auth.uid).first
-  #   unless user
-  #     user = User.create!(:username => auth.info.nickname,
-  #                         :name => auth.info.name,
-  #                         :authentication_token => auth.token,
-  #                         :provider => auth.provider,
-  #                         :uid => auth.uid)
-  #   end
-
-  #   user
-  # end
 
   # def self.find_for_persona_oauth(auth, signed_in_resource=nil)
   #   user = User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -164,5 +151,20 @@ class User < ActiveRecord::Base
       end
     end
     record
+  end
+
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
+
+  private
+
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
+    end
   end
 end

@@ -2,11 +2,13 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
+CONFIG = YAML.load(ERB.new(File.read(File.expand_path('../settings.yml', __FILE__))).result)[Rails.env]
+CONFIG.symbolize_keys!
+
 if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require *Rails.groups(:assets => %w(development test))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
+  # Require the gems listed in Gemfile, including any gems
+  # you've limited to :test, :development, or :production.
+  Bundler.require(:default, Rails.env)
 end
 
 module Alm
@@ -37,6 +39,9 @@ module Alm
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
+    # avoid mass-assignment
+    config.active_record.whitelist_attributes = false
+
     # Configure sensitive parameters which will be filtered from the log file.
     #TODO do I need to add salt here?
     config.filter_parameters += [:password]
@@ -49,6 +54,9 @@ module Alm
 
     # Define custom exception handler
     config.exceptions_app = lambda { |env| AlertsController.action(:create).call(env) }
+
+    # Skip validation of locale
+    I18n.enforce_available_locales = false
 
     # Disable IP spoofing check
     config.action_dispatch.ip_spoofing_check = false

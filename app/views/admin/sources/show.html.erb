@@ -29,39 +29,40 @@
 
   <ul class="nav nav-tabs">
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
-    <li class="hidden-phone"><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
-    <li class="hidden-phone"><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
     <li><a href="#most-cited" data-toggle="tab">Most-Cited</a></li>
+    <% if @source.state > 0 %>
+      <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <% end %>
+    <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
   </ul>
 
   <div class="tab-content">
     <div class="tab-pane active" id="summary">
       <div id="source-show">
-        <%= render :partial => 'admin/sources/show', :locals => { :name => @source.name } %>
+        <%= render :partial => 'show', :locals => { :name => @source.name } %>
       </div>
-      <% if Article.count > 0 and !Article.has_many? %>
+      <% if Article.count > 0 %>
         <div class="row">
-          <div class="span4" id="chart_status">
-            <%= javascript_tag do -%>
-              <%= render :partial => 'status', formats: :js, :locals => { :name => @source.name } %>
-            <% end %>
-          </div>
-          <div class="span4" id="chart_day">
-            <%= javascript_tag do -%>
-              <%= render :partial => 'day', formats: :js, :locals => { :name => @source.name } %>
-            <% end %>
-          </div>
-          <div class="span4" id="chart_month">
-            <%= javascript_tag do -%>
-              <%= render :partial => 'month', formats: :js, :locals => { :name => @source.name } %>
-            <% end %>
-          </div>
+          <div class="col-md-4" id="chart_status"></div>
+          <div class="col-md-4" id="chart_day"></div>
+          <div class="col-md-4" id="chart_month"></div>
         </div>
       <% end %>
     </div>
-    <div class="tab-pane hidden-phone" id="configuration">
-      <%= render :partial => 'configuration' %>
+    <div class="tab-pane" id="most-cited">
+      <%= render :partial => 'most-cited' %>
     </div>
-    <%= render :partial => 'tab-content', :locals => { :pane => "tab-pane hidden-phone" } %>
+    <% if @source.state > 0 %>
+      <div class="tab-pane" id="configuration">
+        <%= render :partial => 'configuration' %>
+      </div>
+    <% end %>
+    <div class="tab-pane" id="documentation">
+      <%= render :partial => 'docs/show' %>
+    </div>
   </div>
 </div>
+
+<%= javascript_tag do -%>
+  <%= render :partial => 'show', formats: :js, :locals => { :name => @source.name } %>
+<% end %>

@@ -26,6 +26,7 @@ class EventCountDecreasingError < Filter
     if responses.count > 0
       responses = responses.all.map { |response| { source_id: response.source_id,
                                                    article_id: response.article_id,
+                                                   error: 0,
                                                    message: "Event count decreased from #{response.previous_count} to #{response.event_count}" }}
       raise_alerts(responses)
     end
@@ -38,11 +39,7 @@ class EventCountDecreasingError < Filter
   end
 
   def source_ids
-    config.source_ids || Source.active.joins(:group).where("groups.name in ('Cited','Saved','Recommended', 'Viewed')").pluck(:id)
-  end
-
-  def source_ids=(value)
-    config.source_ids = value.map { |e| e.to_i }
+    config.source_ids || Source.active.joins(:group).where("groups.name in ('cited','saved','recommended', 'viewed')").pluck(:id)
   end
 end
 

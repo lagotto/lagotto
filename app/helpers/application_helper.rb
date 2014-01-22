@@ -17,39 +17,49 @@
 # limitations under the License.
 
 require 'github/markdown'
+require 'rouge'
 
 module ApplicationHelper
-  def link_to_setup_or_login
-    if APP_CONFIG['cas_url']
-      link_to "Sign In", user_omniauth_authorize_path(:cas), :id => "sign_in"
-    elsif User.count > 0
-      link_to "Sign In", new_user_session_path, :class => current_page?(new_user_session_path) ? 'current' : '', :id => "sign_in"
-    else
-      link_to 'Sign Up', new_user_registration_path, :class => current_page?(new_user_registration_path) ? 'current' : '', :id => "sign_in"
-    end
+  def login_link
+    link_to "Sign In", user_omniauth_authorize_path(:cas), :id => "sign_in"
   end
 
   def markdown(text)
-    GitHub::Markdown.render_gfm(text).html_safe
+    text = GitHub::Markdown.render_gfm(text)
+    syntax_highlighter(text).html_safe
+  end
+
+  def syntax_highlighter(html)
+    formatter = Rouge::Formatters::HTML.new(:css_class => 'hll')
+    lexer = Rouge::Lexers::Shell.new
+
+    doc = Nokogiri::HTML(html)
+    doc.search("//pre").each { |pre| pre.replace formatter.format(lexer.lex(pre.text)) }
+    doc.to_s
   end
 
   def state_label(state)
-    if state == "inactive"
+    if state == "working"
+      '<span class="label label-success">working</span>'
+    elsif state == "inactive"
       '<span class="label label-info">inactive</span>'
     elsif state == "disabled"
-      '<span class="label label-important">disabled</span>'
+      '<span class="label label-warning">disabled</span>'
+    elsif state == "available"
+      '<span class="label label-primary">available</span>'
+    elsif state == "retired"
+      '<span class="label label-default">retired</span>'
     else
       state
     end
   end
 
-  def number_not_showing_zero(number, options = {})
-    if number.nil? or number.to_i == 0
-      ""
-    elsif options[:precision]
-      number_with_precision(number, precision: options[:precision])
+  def article_statistics_report_path
+    path = "/public/files/alm_report.zip"
+    if File.exist?(Rails.root + path)
+      path
     else
-      number_with_delimiter(number.to_i)
+      nil
     end
   end
 
@@ -59,6 +69,23 @@ module ApplicationHelper
 
   def alerts
     %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
+  end
+
+  def article_statistics_report_path
+    path = "/files/alm_report.zip"
+    if File.exist?("#{Rails.root}/public#{path}")
+      path
+    else
+      nil
+    end
+  end
+
+  def description_with_link(report)
+    if report.name == 'article_statistics_report' && article_statistics_report_path
+      h(report.description) + link_to("Download", article_statistics_report_path, :class => 'pull-right')
+    else
+      h(report.description)
+    end
   end
 
   def article_alerts

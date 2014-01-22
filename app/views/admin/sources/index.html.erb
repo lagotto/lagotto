@@ -1,9 +1,51 @@
+<%#
+  # $HeadURL$
+  # $Id$
+  #
+  # Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+  # http://www.plos.org/
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+-%>
+
 <div class="content">
-  <div class="page-header">
-    <h1>All Sources</h1>
+  <div class="page-header" id="page-header">
+    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>">Sources</h1>
   </div>
 
-  <div id="index">
-    <%= render :partial => 'admin/sources/index' %> 
+  <ul class="nav nav-tabs" id="nav_index">
+    <li class="active"><a href="#jobs" data-toggle="tab" title="Jobs">Jobs</a></li>
+    <li><a href="#responses" data-toggle="tab" title="Responses">Responses</a></li>
+    <li><a href="#articles" data-toggle="tab" title="Articles">Articles</a></li>
+    <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
+    <li><a href="#installation" data-toggle="tab" title="Installation">Installation</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="jobs">
+      <%= render :partial => 'jobs' %>
+    </div>
+    <div class="tab-pane" id="responses">
+      <%= render :partial => 'responses' %>
+    </div>
+    <div class="tab-pane" id="articles">
+      <%= render :partial => 'articles' %>
+    </div>
+    <div class="tab-pane" id="events">
+      <%= render :partial => 'events' %>
+    </div>
+    <div class="tab-pane" id="installation">
+      <%= render :partial => 'installation' %>
+    </div>
   </div>
 </div>

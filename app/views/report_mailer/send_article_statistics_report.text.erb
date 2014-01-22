@@ -1,0 +1,5 @@
+This is the ALM article statistics report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.
+
+<%= number_with_delimiter(@articles_count) %> Articles
+
+Download report: <%= "#{CONFIG[:hostname]}/files/alm_report.zip" %>

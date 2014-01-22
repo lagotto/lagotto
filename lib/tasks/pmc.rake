@@ -27,26 +27,6 @@ namespace :pmc do
   desc "Bulk-import PMC usage stats by month and journal"
   task :update, [:month,:year] => :environment do |t, args|
 
-    end_date = 1.month.ago.to_date
-
-    if args.month && args.year
-      month = args.month.to_i
-      year = args.year.to_i
-      begin
-        start_date = Date.new(year, month, 1)
-      rescue
-        puts "Month and/or year values were invalid. Please try again."
-        exit
-      end
-      if start_date > end_date
-        puts "Date specified by month and year must not be later than one month ago."
-        exit
-      end
-    else
-      # looking at last month's information if no month and year was specified
-      start_date = end_date
-    end
-
     source = Source.find_by_name("pmc")
     if source.nil?
       message = "Source \"pmc\" is missing"
@@ -56,7 +36,8 @@ namespace :pmc do
       exit
     end
 
-    dates = (start_date..end_date).map { |date| { month: date.month, year: date.year } }.uniq
+    dates = Pmc.date_range(month: args.month, year: args.year)
+
     dates.each do |date|
       journals_with_errors = source.get_feed(date[:month], date[:year])
       if journals_with_errors.empty?

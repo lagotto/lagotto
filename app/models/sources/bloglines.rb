@@ -18,13 +18,7 @@
 
 class Bloglines < Source
 
-  validates_each :url, :username, :password do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
-
   def get_data(article, options={})
-    raise(ArgumentError, "#{display_name} configuration requires username & password") \
-      if config.username.blank? or config.password.blank?
 
     query_url = get_query_url(article)
     result = get_xml(query_url, options)
@@ -57,27 +51,5 @@ class Bloglines < Source
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
      {:field_name => "username", :field_type => "text_field"},
      {:field_name => "password", :field_type => "password_field"}]
-  end
-
-  def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
-  end
-
-  def username
-    config.username
-  end
-  def username=(value)
-    config.username = value
-  end
-
-  def password
-    config.password
-  end
-  def password=(value)
-    config.password = value
   end
 end

@@ -38,13 +38,21 @@ class Article < ActiveRecord::Base
   validates :uid, :title, :presence => true
   validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true
   validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future",
-                                                               :after => lambda { Date.new(1665,1,1) }, :after_message => "must not be older than 50 years",
+                                                               :after => lambda { Date.new(1665,1,1) }, :after_message => "must not be older than 350 years",
                                                                :type => :date }
+  before_validation :sanitize_title
   after_create :create_retrievals
 
   default_scope order("published_on DESC")
 
-  scope :query, lambda { |query| where("doi like ? OR title like ?", "%#{query}%", "%#{query}%") }
+  scope :query, lambda { |query|
+    if self.has_many?
+      where("doi like ?", "#{query}%")
+    else
+      where("doi like ? OR title like ?", "%#{query}%", "%#{query}%")
+    end
+  }
+
   scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
 
   scope :cited, lambda { |cited|
@@ -115,7 +123,7 @@ class Article < ActiveRecord::Base
 
   def self.uid
     # use the column name defined in settings.yml, default to doi
-    APP_CONFIG["uid"] || "doi"
+    CONFIG[:uid] || "doi"
   end
 
   def uid
@@ -173,6 +181,17 @@ class Article < ActiveRecord::Base
     end
   end
 
+  def get_url
+    return url if url.present?
+
+    if doi.present?
+      original_url = get_original_url(doi_as_url)
+      update_attributes(:url => original_url) if original_url.present?
+    end
+
+    return url
+  end
+
   def all_urls
     urls = []
     urls << doi_as_url unless doi.nil?
@@ -187,11 +206,11 @@ class Article < ActiveRecord::Base
   end
 
   def title_escaped
-    CGI.escape(title).gsub("+", "%20")
+    CGI.escape(title.to_str).gsub("+", "%20")
   end
 
   def is_publisher?
-    APP_CONFIG["doi_prefix"].to_s == doi[0..6]
+    CONFIG[:doi_prefix].to_s == doi[0..6]
   end
 
   def views
@@ -219,13 +238,17 @@ class Article < ActiveRecord::Base
 
   private
 
+  def sanitize_title
+    self.title = ActionController::Base.helpers.sanitize(self.title)
+  end
+
   def create_retrievals
-    # Create an empty retrieval record for every source for the new article
+    # Create an empty retrieval record for every installed source for the new article
 
     # Schedule retrieval immediately, rate-limiting will automatically limit the external API calls
     # when we bulk-upload lots of articles.
 
-    Source.all.each do |source|
+    Source.installed.each do |source|
       RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id, :scheduled_at => Time.zone.now)
     end
   end

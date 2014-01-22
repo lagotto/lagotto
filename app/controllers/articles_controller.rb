@@ -51,7 +51,6 @@ class ArticlesController < ApplicationController
     format_options = params.slice :events, :history, :source
 
     @groups = Group.order("id")
-    @api_key = APP_CONFIG['api_key']
 
     respond_with(@article)
   end

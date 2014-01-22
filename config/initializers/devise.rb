@@ -55,7 +55,7 @@ Devise.setup do |config|
   # It can be set to an array that will enable http authentication only for the
   # given strategies, for example, `config.http_authenticatable = [:token]` will
   # enable it only for token authentication.
-  # config.http_authenticatable = false
+  config.http_authenticatable = true
 
   # If http headers should be returned for AJAX requests. True by default.
   # config.http_authenticatable_on_xhr = true
@@ -73,7 +73,7 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing :skip => :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth]
+  # config.skip_session_storage = [:token_auth]
 
   # ==> Configuration for :database_authenticatable
   # For bcrypt, this is the cost for hashing the password and defaults to 10. If
@@ -86,8 +86,8 @@ Devise.setup do |config|
 
   # Setup a pepper to generate the encrypted password.
   # config.pepper = "5219e91e0152cabfb153d07e7180b16dee981818f1479c221bb65615bcdd3be48b8ea0a100dea4674e384082d5c39caf21c9a3b99161254c35242b3c492b17d3"
-  
-  # The default HTTP method used to sign out a resource. Default is :delete, use :get for Cucumber tests. 
+
+  # The default HTTP method used to sign out a resource. Default is :delete, use :get for Cucumber tests.
   # This change doesn't affect development or production environments
   config.sign_out_via = Rails.env.test? ? :get : :delete
 
@@ -211,11 +211,12 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :cas, url: APP_CONFIG['cas_url'], login_url: APP_CONFIG['cas_login_url'], logout_url: APP_CONFIG['cas_logout_url'], service_validate_url: APP_CONFIG['cas_service_validate_url']
-  # config.omniauth :github, APP_CONFIG['github_client_id'], APP_CONFIG['github_client_secret']
+  config.omniauth :cas, url: CONFIG[:cas_url],
+                        login_url: CONFIG[:cas_login_url],
+                        logout_url: CONFIG[:cas_logout_url],
+                        service_validate_url: CONFIG[:cas_service_validate_url],
+                        ssl: true
   # config.omniauth :persona
-  
-  OmniAuth.config.logger = Rails.logger
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

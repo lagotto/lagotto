@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130908073125) do
+ActiveRecord::Schema.define(:version => 20140111114925) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
     t.text     "ids"
   end
 
+  add_index "api_requests", ["api_key", "created_at"], :name => "index_api_requests_api_key_created_at"
   add_index "api_requests", ["api_key"], :name => "index_api_requests_on_api_key"
   add_index "api_requests", ["created_at"], :name => "index_api_requests_on_created_at"
 
@@ -62,8 +63,10 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
     t.boolean  "unresolved",           :default => true
   end
 
+  add_index "api_responses", ["created_at"], :name => "index_api_responses_created_at"
   add_index "api_responses", ["created_at"], :name => "index_api_responses_on_created_at"
   add_index "api_responses", ["event_count"], :name => "index_api_responses_on_event_count"
+  add_index "api_responses", ["unresolved", "id"], :name => "index_api_responses_unresolved_id"
 
   create_table "articles", :force => true do |t|
     t.string   "doi",             :null => false
@@ -77,7 +80,9 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
     t.string   "mendeley"
   end
 
+  add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
+  add_index "articles", ["published_on"], :name => "index_articles_published_on_desc"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -93,7 +98,10 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
     t.datetime "updated_at",                :null => false
   end
 
+  add_index "delayed_jobs", ["locked_at", "locked_by", "failed_at"], :name => "index_delayed_jobs_locked_at_locked_by_failed_at"
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+  add_index "delayed_jobs", ["queue"], :name => "index_delayed_jobs_queue"
+  add_index "delayed_jobs", ["run_at", "locked_at", "locked_by", "failed_at", "priority"], :name => "index_delayed_jobs_run_at_locked_at_locked_by_failed_at_priority"
 
   create_table "filters", :force => true do |t|
     t.string  "type",                           :null => false
@@ -105,15 +113,20 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
   end
 
   create_table "groups", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "name",         :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "display_name"
   end
 
   create_table "reports", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "display_name"
+    t.text     "description"
+    t.text     "config"
+    t.boolean  "private",      :default => true
   end
 
   create_table "reports_users", :id => false, :force => true do |t|
@@ -156,6 +169,9 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
   add_index "retrieval_statuses", ["id", "event_count"], :name => "index_retrieval_statuses_on_id_and_event_count"
+  add_index "retrieval_statuses", ["source_id", "article_id", "event_count"], :name => "index_retrieval_statuses_source_id_article_id_event_count_desc"
+  add_index "retrieval_statuses", ["source_id", "event_count", "retrieved_at"], :name => "index_retrieval_statuses_source_id_event_count_retrieved_at_desc"
+  add_index "retrieval_statuses", ["source_id", "event_count"], :name => "index_retrieval_statuses_source_id_event_count_desc"
 
   create_table "reviews", :force => true do |t|
     t.string   "name"
@@ -178,15 +194,16 @@ ActiveRecord::Schema.define(:version => 20130908073125) do
     t.string   "display_name",                                    :null => false
     t.datetime "run_at",       :default => '1970-01-01 00:00:00', :null => false
     t.text     "config"
-    t.integer  "group_id",                                        :null => false
     t.boolean  "private",      :default => false
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
     t.text     "description"
-    t.integer  "state",        :default => 0
+    t.integer  "state"
     t.boolean  "queueable",    :default => true
     t.string   "queue"
     t.string   "state_event"
+    t.datetime "cached_at",    :default => '1970-01-01 00:00:00', :null => false
+    t.integer  "group_id"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true

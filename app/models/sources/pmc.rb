@@ -20,7 +20,52 @@
 
 class Pmc < Source
 
-  validates_not_blank(:url, :journals, :username, :password)
+  # Format Pmc events for all articles as csv
+  # Show historical data if options[:format] is used
+  # options[:format] can be "html", "pdf" or "combined"
+  # options[:month] and options[:year] are the starting month and year, default to last month
+  def self.to_csv(options = {})
+
+    if ["html","pdf","combined"].include? options[:format]
+      view = "pmc_#{options[:format]}_views"
+    else
+      view = "pmc"
+    end
+
+    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
+
+    result = get_json(service_url, options)
+    return nil if result.blank? || result["rows"].blank?
+
+    if view == "pmc"
+      CSV.generate do |csv|
+        csv << ["doi", "html", "pdf", "total"]
+        result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
+      end
+    else
+      dates = self.date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
+
+      CSV.generate do |csv|
+        csv << ["doi"] + dates
+        result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 }}
+      end
+    end
+  end
+
+  # Array of hashes in format [{ month: 12, year: 2013 },{ month: 1, year: 2014 }]
+  # Provide starting month and year as input, otherwise defaults to last month
+  def self.date_range(options = {})
+    end_date = 1.month.ago.to_date
+
+    if options[:month] && options[:year]
+      start_date = Date.new(options[:year].to_i, options[:month].to_i, 1) rescue end_date
+      start_date = end_date if start_date > end_date
+    else
+      start_date = end_date
+    end
+
+    dates = (start_date..end_date).map { |date| { month: date.month, year: date.year } }.uniq
+  end
 
   def put_pmc_database
     put_alm_data(url)
@@ -96,8 +141,6 @@ class Pmc < Source
   end
 
   def get_data(article, options={})
-    raise(ArgumentError, "#{display_name} configuration requires URL") \
-      if url.blank?
 
     # Check that article has DOI and is at least one day old
     return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
@@ -148,7 +191,7 @@ class Pmc < Source
 
   def url=(value)
     # make sure we have trailing slash
-    config.url = value.chomp("/") + "/"
+    config.url = value ? value.chomp("/") + "/" : nil
   end
 
   def journals
@@ -159,19 +202,4 @@ class Pmc < Source
     config.journals = value
   end
 
-  def username
-    config.username
-  end
-
-  def username=(value)
-    config.username = value
-  end
-
-  def password
-    config.password
-  end
-
-  def password=(value)
-    config.password = value
-  end
 end

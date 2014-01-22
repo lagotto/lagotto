@@ -1,0 +1,14 @@
+{
+  "statuses": [
+  ],
+  "search_metadata": {
+    "completed_in": 0.008,
+    "max_id": 422066979814797312,
+    "max_id_str": "422066979814797312",
+    "query": "%2210.1371%2Fjournal.pone.0000000%22",
+    "refresh_url": "?since_id=422066979814797312&q=%2210.1371%2Fjournal.pone.0000000%22&include_entities=1",
+    "count": 15,
+    "since_id": 0,
+    "since_id_str": "0"
+  }
+}

@@ -19,15 +19,7 @@
 
 class Twitter < Source
 
-  include SourceHelper
-
-  validates_each :url do |record, attr, value|
-    record.errors.add(attr, "can't be blank") if value.blank?
-  end
-
   def get_data(article, options={})
-    raise(ArgumentError, "Twitter configuration requires url") \
-      if url.blank?
 
     return  { :events => [], :event_count => nil } if article.doi.blank?
 
@@ -108,13 +100,4 @@ class Twitter < Source
   def get_config_fields
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
   end
-
-  def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
-  end
-
 end

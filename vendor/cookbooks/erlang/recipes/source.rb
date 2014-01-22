@@ -20,15 +20,15 @@
 # limitations under the License.
 #
 
-include_recipe "build-essential"
+include_recipe 'build-essential'
 
-erlang_deps = case node["platform_family"]
-              when "debian"
-                [ "libncurses5-dev", "openssl", "libssl-dev" ]
-              when "rhel", "fedora"
-                [ "ncurses-devel", "openssl-devel" ]
+erlang_deps = case node['platform_family']
+              when 'debian'
+                %w{ libncurses5-dev openssl libssl-dev }
+              when 'rhel', 'fedora'
+                %w{ ncurses-devel openssl-devel }
               else
-                [ ]
+                []
               end
 
 erlang_deps.each do |pkg|
@@ -37,7 +37,7 @@ erlang_deps.each do |pkg|
   end
 end
 
-bash "install-erlang" do
+bash 'install-erlang' do
   cwd Chef::Config[:file_cache_path]
   code <<-EOH
     tar -xzf otp_src_#{node['erlang']['source']['version']}.tar.gz
@@ -49,8 +49,8 @@ end
 
 remote_file File.join(Chef::Config[:file_cache_path], "otp_src_#{node['erlang']['source']['version']}.tar.gz") do
   source node['erlang']['source']['url']
-  owner "root"
+  owner 'root'
   mode 0644
   checksum node['erlang']['source']['checksum']
-  notifies :run, "bash[install-erlang]", :immediately
+  notifies :run, 'bash[install-erlang]', :immediately
 end

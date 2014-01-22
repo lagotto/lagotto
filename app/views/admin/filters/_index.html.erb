@@ -1,8 +1,8 @@
 <% if can?(:manage, Alert) and (controller.action_name == "edit" or (controller.action_name == "update" and !@filter.errors.empty?)) %>
-  <%= simple_form_for([:admin, @filter.becomes(Filter)], :url => admin_filter_path(@filter), :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
+  <%= simple_form_for([:admin, @filter.becomes(Filter)], :url => admin_filter_path(@filter), :html => { :remote => true }) do |f| %>
   <% f.object = @filter.becomes(@filter.class) %>
     <fieldset>
-      <legend>Edit Filter <strong><%= @filter.name %></strong></legend>
+      <legend>Edit Filter <small><%= @filter.name %></small></legend>
 
       <% if not @filter.get_config_fields.empty? %>
         <% @filter.get_config_fields.each do |field| %>
@@ -16,33 +16,34 @@
           <% elsif field[:field_type] == "check_box" %>
             <%= f.input field[:field_name], :label => field[:field_name].gsub(/_/, " ").capitalize %>
           <% elsif field[:field_type] == "text_field" %>
-            <%= f.input field[:field_name], :as => :numeric,
-                                            :input_html => { :class => "input-mini" },
-                                            hint: h(field[:field_hint]) %>
+            <%= f.input field[:field_name], :as => :numeric, hint: h(field[:field_hint]) %>
           <% elsif field[:field_type] == "text_area" %>
-            <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2), :class => "span9" } %>
+            <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2), :class => "form-control" } %>
           <% elsif field[:field_type] == "password_field" %>
-            <%= f.input field[:field_name], :as => :string, :input_html => { :class => "span3" } %>
+            <%= f.input field[:field_name], :as => :string, :input_html => { :class => "form-control" } %>
           <% end %>
         <% end %>
       <% end %>
 
-      <div class="form-actions">
-        <%= f.submit "Save ", class: "btn btn-primary" %>
-        <%= link_to 'Cancel', admin_filters_path, { :remote => true, :class => 'btn' } %>
+      <div class="form-group">
+        <%= f.submit "Save ", class: "btn btn-default" %>
+        <%= link_to 'Cancel', admin_filters_path, { remote: true, class: 'btn' } %>
       </div>
     </fieldset>
   <% end %>
 <% else %>
+  <div class="page-header">
+    <h1>Filters</h1>
+  </div>
   <% if @filters.size > 0 %>
     <table class="table">
       <thead>
         <tr>
           <th>Name</th>
-          <th class="hidden-phone">Description</th>
-          <th>Status</th>
+          <th>Description</th>
+          <th class="status">Status</th>
           <% if can?(:manage, Alert) %>
-            <th class="hidden-phone">Actions</th>
+            <th>Edit</th>
           <% end %>
         </tr>
       </thead>
@@ -50,22 +51,25 @@
         <% @filters.each do |filter| %>
           <tr>
             <td><%= h(filter.name) %></td>
-            <td class="hidden-phone"><%= h(filter.description) %></td>
-            <td><%= state_label(filter.status).html_safe %></td>
+            <td><%= h(filter.description) %></td>
             <% if can? :manage, Alert %>
-              <td class="hidden-phone" %>
-                <div class="btn-group">
-                  <% if filter.get_config_fields.empty? %>
-                    <%= link_to '<i class="icon-pencil"></i> Edit Filter'.html_safe, "#", { :class => 'btn btn-mini disabled', :id => "#{filter.name}-edit" } %>
-                  <% else %>
-                    <%= link_to '<i class="icon-pencil"></i> Edit Filter'.html_safe, edit_admin_filter_path(filter), { :remote => true, :class => 'btn btn-mini', :id => "#{filter.name}-edit" } %>
-                  <% end %>
-                  <% if filter.active %>
-                    <%= link_to '<i class="icon-refresh"></i> Inactivate Filter'.html_safe, admin_filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-mini', :id => "#{filter.name}-status" %>
-                  <% else %>
-                    <%= link_to '<i class="icon-refresh"></i> Activate Filter'.html_safe, admin_filter_path(filter, active: 1), :method => :put, :remote => true, :class => 'btn btn-mini', :id => "#{filter.name}-status" %>
-                  <% end %>
-                </div>
+              <td>
+                <% if filter.active %>
+                  <%= link_to 'Active'.html_safe, admin_filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
+                <% else %>
+                  <%= link_to 'Inactive'.html_safe, admin_filter_path(filter, active: 1), :method => :put, :remote => true, :class => 'btn btn-default btn-info btn-sm', :id => "#{filter.name}-status" %>
+                <% end %>
+              </td>
+            <% else %>
+              <td><%= state_label(filter.status).html_safe %></td>
+            <% end %>
+            <% if can? :manage, Alert %>
+              <td>
+                <% if filter.get_config_fields.empty? %>
+                  &nbsp;
+                <% else %>
+                  <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
+                <% end %>
               </td>
             <% end %>
           </tr>

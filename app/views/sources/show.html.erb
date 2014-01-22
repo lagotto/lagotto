@@ -28,11 +28,16 @@
   </dl>
 
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
-    <li><a href="#most-cited" data-toggle="tab">Most-Cited</a></li>
+    <li class="active"><a href="#most-cited" data-toggle="tab">Most-Cited</a></li>
+    <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
   </ul>
 
   <div class="tab-content">
-    <%= render :partial => 'admin/sources/tab-content', :locals => { :pane => "tab-pane active" } %>
+    <div class="tab-pane active" id="most-cited">
+      <%= render :partial => 'admin/sources/most-cited' %>
+    </div>
+    <div class="tab-pane" id="documentation">
+      <%= render :partial => 'docs/show' %>
+    </div>
   </div>
 </div>

@@ -45,23 +45,26 @@ This source is providing usage stats from the Open Access publisher [Copernicus 
 </table>
 
 ## Example Response
-    {
-       "doi": "doi:10.5194/ms-2-175-2011",
-       "journalId": "449",
-       "articleId": "28",
-       "title": "Robust design ...",
-       "volumeNumber": "2",
-       "firstPage": "175",
-       "msNumber": "ms-2011-14",
-       "msId": "10760",
-       "counter": {
-           "PdfDownloads": "5",
-           "AbstractViews": "60",
-           "BibtexDownloads": "0",
-           "RisDownloads": "0",
-           "XmlDownloads": "0"
-       }
-    }
+
+```json
+{
+   "doi": "doi:10.5194/ms-2-175-2011",
+   "journalId": "449",
+   "articleId": "28",
+   "title": "Robust design ...",
+   "volumeNumber": "2",
+   "firstPage": "175",
+   "msNumber": "ms-2011-14",
+   "msId": "10760",
+   "counter": {
+       "PdfDownloads": "5",
+       "AbstractViews": "60",
+       "BibtexDownloads": "0",
+       "RisDownloads": "0",
+       "XmlDownloads": "0"
+   }
+}
+```
 
 ## Source Code
 The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/copernicus.rb).

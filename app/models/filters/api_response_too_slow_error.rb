@@ -20,14 +20,13 @@
 
 class ApiResponseTooSlowError < Filter
 
-  validates_not_blank(:limit)
-
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).slow(limit)
 
     if responses.count > 0
       responses = responses.all.map { |response| { source_id: response.source_id,
                                                    article_id: response.article_id,
+                                                   error: 0,
                                                    message: "API response took #{response.duration} ms" }}
       raise_alerts(responses)
     end
@@ -41,10 +40,6 @@ class ApiResponseTooSlowError < Filter
 
   def limit
     config.limit || 30
-  end
-
-  def limit=(value)
-    config.limit = value
   end
 end
 
