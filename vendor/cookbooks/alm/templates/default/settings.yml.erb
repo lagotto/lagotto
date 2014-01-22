@@ -23,6 +23,7 @@ development:
 
 test:
   <<: *defaults
+  api_key: 12345
   hostname: <%= node[:alm][:hostname] %>
   cas_url: <%= node[:alm][:cas_url] %>
   cas_login_url: /cas/login
