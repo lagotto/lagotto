@@ -65,8 +65,15 @@ end
 include_recipe "mysql::server"
 
 # Seed the database with sources, groups and sample articles
-template "/vagrant/db/seeds.rb" do
-  source 'seeds.rb.erb'
+template "/vagrant/db/seeds/sources_with_keys.rb" do
+  source 'sources_with_keys.rb.erb'
+  owner 'root'
+  group 'root'
+  mode 0644
+end
+
+template "/vagrant/db/seeds/private_sources.rb" do
+  source 'private_sources.rb.erb'
   owner 'root'
   group 'root'
   mode 0644

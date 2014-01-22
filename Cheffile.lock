@@ -41,7 +41,7 @@ SITE
       build-essential (>= 0.0.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
-    windows (1.12.6)
+    windows (1.12.8)
       chef_handler (>= 0.0.0)
     yum (3.0.4)
     yum-epel (0.2.0)
@@ -52,7 +52,7 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 236c6a426d5fd49cb246f540135c0155975196bd
+  sha: 7db22481bf9d2b48a1b137d76e3eb3831646d705
   specs:
     alm (1.4.4)
       couchdb (>= 0.0.0)
