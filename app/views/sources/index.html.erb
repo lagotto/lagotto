@@ -25,22 +25,16 @@
 
   <% unless @groups.empty? %>
     <% @groups.each do |group| %>
-      <% cache group do %>
-        <% unless group.sources.where("state > 0").empty? %>
-        <h2 class="border-bottom"><%= h(group.name) %></h2>
+      <% unless group.sources.where("state > 0").empty? %>
+        <h2 class="border-bottom"><%= h(group.display_name) %></h2>
         <% group.sources.where("state > 0").in_groups_of(4, false) do |sources| %>
-          <div class="row">
             <% sources.each do |source| %>
-              <div class="span3">
-                    <h4>
-                      <%= image_tag(source.name + ".png", :size => "16x16") if FileTest.exist?("#{Rails.root.to_s}/app/assets/images/#{source.name}.png") %>
-                      <%= link_to h(source.display_name), source_path(source) %>
-                    </h4>
-                    <p><%= h(source.description) if source.description %></p>
-              </div>
+              <h4 class="article">
+                <%= image_tag(source.name + ".png", :size => "16x16") if FileTest.exist?("#{Rails.root.to_s}/app/assets/images/#{source.name}.png") %>
+                <%= link_to h(source.display_name), source_path(source) %>
+              </h4>
+              <p><%= h(source.description) if source.description %></p>
             <% end %>
-          </div>
-        <% end %>
         <% end %>
       <% end %>
     <% end %>

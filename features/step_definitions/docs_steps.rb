@@ -9,8 +9,6 @@ Then /^I should see the "(.*?)" title$/ do |title|
   page.has_css?('h1', :text => title.tr('-', ' ')).should be_true
 end
 
-Then /^I should see the "(.*?)" sidebar$/ do |title|
-  within(".sidebar-nav-fixed-lower") do
-    page.has_css?('.nav-header', :text => title).should be_true
-  end
+Then /^I should see the documentation$/ do
+  page.has_css?('.markdown').should be_true
 end

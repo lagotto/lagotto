@@ -1,8 +1,10 @@
 Wikipedia is a free encyclopedia that everyone can edit.
 
-We are collecting the number of Wikipedia articles (`namespace=0`) in the 20 most popular wikipedias and Wikimedia Commons:
+We are collecting the number of Wikipedia articles (`namespace=0`) in the [25 most popular wikipedias](https://meta.wikimedia.org/wiki/List_of_Wikipedias#All_Wikipedias_ordered_by_number_of_articles) and Wikimedia Commons (`namespace=6`):
 
-    en de fr it pl es ru ja nl pt sv zh ca uk no fi vi cs hu ko commons
+```sh
+en nl de sv fr it ru es pl war ceb ja vi pt zh uk ca no fi fa id cs ko hu ar commons
+```
 
 We would for example use `en.wikipedia.org` as `HOST` in the `API URL` below.
 
@@ -20,7 +22,7 @@ Because of the extensive load-balancing on Wikipedia's servers, pagination (for 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
-<td valign="top" width=80%>url<br/>datetime<br/>title</td>
+<td valign="top" width=80%>url</td>
 </tr>
 <td valign="top" width=20%><strong>ALM Other Attributes</strong></td>
 <td valign="top" width=80%>language<br/>namespace</td>
@@ -47,31 +49,34 @@ Because of the extensive load-balancing on Wikipedia's servers, pagination (for 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>http://HOST/w/api.php?action=query&list=search&format=json&srsearch=%22DOI%22&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1</td>
+<td valign="top" width=80%>http://HOST/w/api.php?action=query&list=search&format=json&srsearch=%22DOI%22&srnamespace=NAMESPACE&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1</td>
 </tr>
 </tbody>
 </table>
 
 ## Example Response
-    {
-      "query-continue": {
-        "search": {
-          "sroffset": 1
-        }
-      },
-      "query": {
-        "searchinfo": {
-          "totalhits": 685
-        },
-        "search": [
-          {
-            "ns": 0,
-            "title": "Calliotropis tiara",
-            "timestamp": "2013-04-14T14:52:39Z"
-          }
-        ]
-      }
+
+```json
+{
+  "query-continue": {
+    "search": {
+      "sroffset": 1
     }
+  },
+  "query": {
+    "searchinfo": {
+      "totalhits": 685
+    },
+    "search": [
+      {
+        "ns": 0,
+        "title": "Calliotropis tiara",
+        "timestamp": "2013-04-14T14:52:39Z"
+      }
+    ]
+  }
+}
+```
 
 ## Source Code
 The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/wikipedia.rb).

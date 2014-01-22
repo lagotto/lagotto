@@ -19,22 +19,36 @@ Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
   end
 end
 
+Given /^the screen size is "(.*?)" x "(.*?)"$/ do |width, height|
+  page.driver.resize(width.to_i, height.to_i)
+end
+
+### WHEN ###
+When /^I go to the "(.*?)" menu$/ do |menu|
+  visit admin_root_path
+  click_link menu
+end
+
 When /^I go to the submenu "(.*?)" of menu "(.*?)"$/ do |label, menu|
   click_link menu
   click_link label
   page.driver.render("tmp/capybara/#{label}.png")
 end
 
-Given /^the screen size is "(.*?)" x "(.*?)"$/ do |width, height|
-  page.driver.resize(width.to_i, height.to_i)
-end
-
-### WHEN ###
 When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
-  click_link tab_title
+  within ("ul.nav-tabs") do
+    click_link tab_title
+  end
   page.driver.render("tmp/capybara/configuration.png")
+end
+
+When /^I go to the "(.*?)" tab of the Sources admin page$/ do |tab_title|
+  visit admin_sources_path
+  within ("ul.nav-tabs") do
+    click_link tab_title
+  end
 end
 
 When /^I go to the admin page of source "(.*?)"$/ do |display_name|
@@ -78,9 +92,7 @@ When /^I go to the "(.*?)" page$/ do |page_title|
 end
 
 When /^I go to the "(.*?)" admin page$/ do |page_title|
-  if page_title == "Jobs"
-    title = "delayed_jobs"
-  elsif page_title == "Errors"
+  if page_title == "Errors"
     title = "alerts"
   elsif page_title == "Home"
     title = ""
@@ -111,6 +123,11 @@ When /^I hover over the donut "(.*?)"$/ do |title|
 end
 
 ### THEN ###
+Then /^I should see the "(.*?)" menu item$/ do |menu_item|
+  page.driver.render("tmp/capybara/#{menu_item}.png")
+  page.has_css?('.dropdown-menu li', :text => menu_item, :visible => true).should be_true
+end
+
 Then /^I should see the "(.*?)" tab$/ do |tab_title|
   page.driver.render("tmp/capybara/#{tab_title}.png")
   page.has_css?('li', :text => tab_title, :visible => true).should be_true
@@ -131,8 +148,8 @@ Then /^I should not see a blog count$/ do
   page.should_not have_content "Nature Blogs"
 end
 
-Then /^"(.*?)" should be the only option for "(.*?)"$/ do |value, field|
-  page.has_select?("source_group_id", :options => [value]).should be_true
+Then /^"(.*?)" should be one option for "(.*?)"$/ do |value, field|
+  page.has_select?('source_batch_time_interval', :with_options => [value]).should be_true
 end
 
 Then /^I should see the "(.*?)" column$/ do |column_title|
@@ -162,7 +179,7 @@ end
 
 Then /^I should not see the "(.*?)" link in the menu bar$/ do |link_text|
   if link_text == "Home"
-    page.has_css?('a', :text => APP_CONFIG['useragent'], :visible => true).should_not be_true
+    page.has_css?('a', :text => CONFIG[:useragent], :visible => true).should_not be_true
   else
     page.has_css?('div.collapse ul li a', :visible => true).should_not be_true
     page.driver.render("tmp/capybara/#{link_text}_link.png")
@@ -187,5 +204,5 @@ end
 
 Then(/^I should see (\d+) bookmarks$/) do |number|
   page.driver.render("tmp/capybara/#{number}_bookmarks.png")
-  page.has_css?('h1#all-signpost-citeulike-shares', :text => number).should be_true
+  page.has_css?('#alm-count-citeulike-shares', :text => number).should be_true
 end

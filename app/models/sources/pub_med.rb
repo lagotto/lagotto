@@ -27,8 +27,6 @@ class PubMed < Source
 
   ToolID = 'ArticleLevelMetrics'
 
-  validates_not_blank(:url)
-
   def get_data(article, options={})
 
     # First, we need to have the PMID for this article.
@@ -161,11 +159,7 @@ class PubMed < Source
   end
 
   def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
+    config.url || "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
   end
 
 end

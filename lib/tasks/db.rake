@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -65,7 +67,7 @@ namespace :db do
         end
       end
 
-      puts "Saved #{created.size} new articles, updated #{updated.size} articles, ignored #{duplicate.size} other existing articles"
+      puts "Saved #{created.size} new articles, updated #{updated.size} articles, ignored #{duplicate.size} existing articles"
     end
 
     desc "Seed sample articles"
@@ -77,14 +79,86 @@ namespace :db do
       puts "Seeded #{after - before} articles"
     end
 
-    desc "Delete all articles"
+    desc "Delete articles with DOI from standard input"
     task :delete => :environment do
+      puts "Reading DOIs from standard input..."
+      valid = []
+      invalid = []
+      missing = []
+      deleted = []
+
+      while (line = STDIN.gets)
+        line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
+        raw_doi, raw_other = line.strip.split(" ", 2)
+
+        doi = Article.from_uri(raw_doi.strip).values.first
+        if (doi =~ Article::FORMAT)
+          valid << [doi]
+        else
+          puts "Ignoring DOI: #{raw_doi}"
+          invalid << [raw_doi]
+        end
+      end
+
+      puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
+
+      if valid.size > 0
+        valid.each do |doi|
+          existing = Article.find_by_doi(doi)
+          if existing
+            existing.destroy
+            deleted << doi
+          else
+            missing << doi
+          end
+        end
+      end
+
+      puts "Deleted #{deleted.size} articles, ignored #{missing.size} articles"
+    end
+
+    desc "Delete all articles"
+    task :delete_all => :environment do
       before = Article.count
       Article.destroy_all unless Rails.env.production?
       after = Article.count
       puts "Deleted #{before - after} articles, #{after} articles remaining"
     end
 
+    desc "Add missing sources"
+    task :add_sources, [:date] => :environment do |t, args|
+      if args.date.nil?
+        puts "Date in format YYYY-MM-DD required"
+        exit
+      end
+
+      articles = Article.where("published_on >= ?", args.date)
+
+      if args.extras.empty?
+        sources = Source.all
+      else
+        sources = Source.where("name in (?)", args.extras)
+      end
+
+      retrieval_statuses = []
+      articles.each do |article|
+        sources.each do |source|
+          retrieval_status = RetrievalStatus.find_or_initialize_by_article_id_and_source_id(article.id, source.id, :scheduled_at => Time.zone.now)
+          if retrieval_status.new_record?
+            retrieval_status.save!
+            retrieval_statuses << retrieval_status
+          end
+        end
+      end
+
+      puts "#{retrieval_statuses.count} retrieval status(es) added for #{sources.count} source(s) and #{articles.count} articles"
+    end
+
+    desc "Remove all HTML and XML tags from article titles"
+    task :sanitize_title => :environment do
+      Article.all.each { |article| article.save }
+      puts "#{Article.count} article titles sanitized"
+    end
   end
 
   namespace :alerts do
@@ -171,6 +245,55 @@ namespace :db do
           puts "Source #{source.display_name} has been inactivated."
         else
           puts "Source #{source.display_name} could not be inactivated."
+        end
+      end
+    end
+
+    desc "Install sources"
+    task :install => :environment do |t, args|
+      if args.extras.empty?
+        sources = Source.available
+      else
+        sources = Source.available.where("name in (?)", args.extras)
+      end
+
+      if sources.empty?
+        puts "No available source found."
+        exit
+      end
+
+      sources.each do |source|
+        source.install
+        unless source.available?
+          puts "Source #{source.display_name} has been installed."
+        else
+          puts "Source #{source.display_name} could not be installed."
+        end
+      end
+    end
+
+    desc "Uninstall sources"
+    task :uninstall => :environment do |t, args|
+      if args.extras.empty?
+        puts "No source name provided."
+        exit
+      else
+        sources = Source.installed.where("name in (?)", args.extras)
+      end
+
+      if sources.empty?
+        puts "No installed source found."
+        exit
+      end
+
+      sources.each do |source|
+        source.uninstall
+        if source.available?
+          puts "Source #{source.display_name} has been uninstalled."
+        elsif source.retired?
+          puts "Source #{source.display_name} has been retired."
+        else
+          puts "Source #{source.display_name} could not be uninstalled."
         end
       end
     end

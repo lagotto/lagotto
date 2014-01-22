@@ -33,57 +33,31 @@ when 'debian'
     action :add
   end
 
-when 'rhel'
-  case node['platform']
-  when 'centos', 'fedora'
-
-    if platform?('centos') && node['platform_version'].to_i == 5
-      Chef::Log.fatal("Erlang Solutions pacakge repositories are not available for Centos 5")
-      raise
-    else
-
-      include_recipe 'yum'
-
-      if platform?('centos')
-        include_recipe "yum::repoforge"
-      end
-
-      yum_key "RPM-KEY-Erlang-Solutions" do
-        # Yes, yes, I know the URL has 'debian' in it... that's the address
-        url "http://binaries.erlang-solutions.com/debian/erlang_solutions.asc"
-        action :add
-      end
-
-      # This replicates the files found at
-      #   http://binaries.erlang-solutions.com/rpm/fedora/erlang_solutions.repo
-      #   http://binaries.erlang-solutions.com/rpm/centos/erlang_solutions.repo
-      yum_repository "erlang-solutions" do
-        description "#{node['platform']} $releasever - $basearch - Erlang Solutions"
-        url "http://binaries.erlang-solutions.com/rpm/#{node['platform']}/$releasever/$basearch"
-        key "RPM-KEY-Erlang-Solutions"
-        enabled 1
-      end
-    end
-  else
-    Chef::Log.fatal("Erlang Solutions pacakge repositories are currently not supported for RHEL family #{node['platform']} systems")
-    raise
+  package 'esl-erlang' do
+    version node['erlang']['esl']['version'] if node['erlang']['esl']['version']
   end
-else
-  Chef::Log.fatal("Erlang Solutions pacakge repositories are currently not supported for #{node['platform_family']} systems")
-  raise
-end
 
-package "esl-erlang" do
-  version node['erlang']['esl']['version'] if node['erlang']['esl']['version']
+when 'rhel'
+  if node['platform_version'].to_i <= 5
+    Chef::Log.fatal('Erlang Solutions pacakge repositories are not available for EL5')
+  else
+    # include_recipe 'yum-repoforge'
+    include_recipe 'yum-erlang_solutions'
+  end
+
+  package 'erlang' do
+    version node['erlang']['esl']['version'] if node['erlang']['esl']['version']
+  end
+
 end
 
 # There's a small bug in the package for Ubuntu 10.04... this fixes
 # it.  Solution found at
 # https://github.com/davidcoallier/bigcouch/blob/f6a6daf7590ecbab4d9dc4747624573b3137dfad/README.md#ubuntu-1004-lts-potential-issues
-if platform?("ubuntu") && node['platform_version'] == "10.04"
-  bash "ubuntu-10.04-LTS-erlang-fix" do
-    user "root"
-    cwd "/usr/lib/erlang/man/man5"
+if platform?('ubuntu') && node['platform_version'] == '10.04'
+  bash 'ubuntu-10.04-LTS-erlang-fix' do
+    user 'root'
+    cwd '/usr/lib/erlang/man/man5'
     code <<-EOS
       rm modprobe.d.5
       ln -s modprobe.conf.5.gz modprobe.d.5

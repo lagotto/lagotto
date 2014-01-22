@@ -20,18 +20,18 @@
 
 class CrossRef < Source
 
-  validates_not_blank(:default_url, :username)
-  validates_not_blank(:url, :password) if APP_CONFIG["doi_prefix"]
+  validates :url, :password, presence: true, if: "CONFIG[:doi_prefix]"
 
   def get_data(article, options={})
 
     # Check that article has DOI and is at least one day old
     return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
 
+    # Raise error if article DOI doesn't resolve to a URL that we can store
+    return nil unless article.get_url
+
     # Check whether we have published the DOI, otherwise use different API
     if article.is_publisher?
-      raise(ArgumentError, "#{display_name} configuration requires username & password") \
-        if username.blank? or password.blank?
 
       query_url = get_query_url(article)
       result = get_xml(query_url, options)
@@ -67,9 +67,6 @@ class CrossRef < Source
 
   def get_default_data(article, options={})
 
-    raise(ArgumentError, "#{display_name} configuration requires username") \
-      if config.username.blank?
-
     query_url = get_default_query_url(article)
     result = get_xml(query_url, options.merge(:source_id => id))
 
@@ -100,35 +97,15 @@ class CrossRef < Source
   end
 
   def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
+    config.url || "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
   end
 
   def default_url
-    config.default_url
+    config.default_url || "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
   end
 
   def default_url=(value)
     config.default_url = value
-  end
-
-  def username
-    config.username
-  end
-
-  def username=(value)
-    config.username = value
-  end
-
-  def password
-    config.password
-  end
-
-  def password=(value)
-    config.password = value
   end
 
 end

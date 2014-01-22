@@ -22,6 +22,8 @@ class RetrievalHistory < ActiveRecord::Base
   belongs_to :article
   belongs_to :source
 
+  before_destroy :delete_couchdb_document
+
   default_scope order("retrieved_at DESC")
 
   scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
@@ -61,5 +63,12 @@ class RetrievalHistory < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  private
+
+  def delete_couchdb_document
+    data_rev = get_alm_rev(id)
+    remove_alm_data(id, data_rev)
   end
 end

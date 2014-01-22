@@ -28,6 +28,7 @@ class Filter < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
+  validate :validate_config_fields
 
   default_scope order("name")
   scope :active, where(:active => true)
@@ -95,8 +96,37 @@ class Filter < ActiveRecord::Base
     end
   end
 
+  # Array of hashes for forms, defined in subclassed filters
   def get_config_fields
     []
+  end
+
+  # List of field names for strong_parameters and custom validation
+  def config_fields
+    get_config_fields.map { |f| f[:field_name].to_sym }
+  end
+
+  # Custom validation
+  def validate_config_fields
+    config_fields.each do |field|
+      errors.add(field, "can't be blank") if send(field).blank?
+    end
+  end
+
+  def limit
+    config.limit
+  end
+
+  def limit=(value)
+    config.limit = value
+  end
+
+  def source_ids
+    config.source_ids || Source.active.pluck(:id)
+  end
+
+  def source_ids=(value)
+    config.source_ids = value.map { |e| e.to_i }
   end
 
   def status

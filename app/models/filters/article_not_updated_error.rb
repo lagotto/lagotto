@@ -20,14 +20,13 @@
 
 class ArticleNotUpdatedError < Filter
 
-  validates_not_blank(:limit)
-
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).article_not_updated(limit)
 
     if responses.count > 0
       responses = responses.all.map { |response| { source_id: response.source_id,
                                                    article_id: response.article_id,
+                                                   error: 0,
                                                    message: "Article not updated for #{response.update_interval} days" }}
       raise_alerts(responses)
     end
@@ -41,10 +40,6 @@ class ArticleNotUpdatedError < Filter
 
   def limit
     config.limit || 40
-  end
-
-  def limit=(value)
-    config.limit = value
   end
 end
 

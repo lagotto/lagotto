@@ -13,15 +13,15 @@ Feature: Sign in as staff
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should be:
         |                                             | Pending              | Working    |
-        | Jobs                                        | 0                    | 0          |
+        | Jobs                                        |                      |            |
         |                                             | Responses            | Errors     |
-        | Responses in the last 24 Hours              | 0                    | 0          |
+        | Responses in the last 24 Hours              |                      |            |
         |                                             | Average              | Maximum    |
-        | Response duration in the last 24 Hours (ms) | 0                    | 0          |
+        | Response duration in the last 24 Hours (ms) |                      |            |
         |                                             | Articles with Events | All Events |
         | Events                                      | 5                    | 250        |
 
-    Scenario: Content from settings.yml should be displayed
+    Scenario: Configuration should be displayed
       Given the source "Citeulike" exists
       When I go to the "Configuration" tab of source "CiteULike"
       Then I should see the "Job queue" settings
@@ -39,8 +39,8 @@ Feature: Sign in as staff
       And I click on user "joeboxer"
       Then I should not see the "Edit" button
 
-    Scenario: Staff can delete alerts
-      Given we have 1 alert
-      When I go to the "Alerts" admin page
-      And I click on the "[408] The request timed out." link
-      Then I should see the "Delete" button
+   # Scenario: Staff can delete alerts
+   #   Given we have 1 alert
+   #   When I go to the "Alerts" admin page
+   #   And I click on the "[408] The request timed out." link
+   #   Then I should see the "Delete" button

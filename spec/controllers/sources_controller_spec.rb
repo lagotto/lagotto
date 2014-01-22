@@ -8,8 +8,10 @@ describe SourcesController do
       expect { get source_path("x") }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it "returns a proper error for an unknown source in the admin dashboard" do
-      expect { get admin_source_path("x") }.to raise_error(ActiveRecord::RecordNotFound)
+    it "redirects to the login page for an unknown source in the admin dashboard" do
+      get admin_source_path("x")
+      last_response.status.should eql(302)
+      last_response.body.should include("/users/sign_in")
     end
   end
 
@@ -30,7 +32,7 @@ describe SourcesController do
       response = Nori.new.parse(last_response.body)
       response = response["rss"]
       response["@version"].should eq("2.0")
-      response["channel"]["title"].should eq(APP_CONFIG['useragent'] + ": most-cited articles in #{source.display_name}")
+      response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end
@@ -44,7 +46,7 @@ describe SourcesController do
       response = Nori.new.parse(last_response.body)
       response = response["rss"]
       response["@version"].should eq("2.0")
-      response["channel"]["title"].should eq(APP_CONFIG['useragent'] + ": most-cited articles in #{source.display_name}")
+      response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end
@@ -58,7 +60,7 @@ describe SourcesController do
       response = Nori.new.parse(last_response.body)
       response = response["rss"]
       response["@version"].should eq("2.0")
-      response["channel"]["title"].should eq(APP_CONFIG['useragent'] + ": most-cited articles in #{source.display_name}")
+      response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end
@@ -72,7 +74,7 @@ describe SourcesController do
       response = Nori.new.parse(last_response.body)
       response = response["rss"]
       response["@version"].should eq("2.0")
-      response["channel"]["title"].should eq(APP_CONFIG['useragent'] + ": most-cited articles in #{source.display_name}")
+      response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end

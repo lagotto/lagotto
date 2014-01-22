@@ -1,19 +1,19 @@
 <% if can?(:manage, Article) and (controller.action_name == "edit" or (controller.action_name == "update" and !@article.errors.empty?)) %>
 
-  <%= simple_form_for @article, :url => admin_article_path(@article), :html => { :class => 'form-horizontal', :remote => true } do |f| %>
+  <%= simple_form_for @article, :url => admin_article_path(@article), :html => { :role => "form", :remote => true } do |f| %>
     <fieldset>
-      <legend>Edit Article</legend>
+      <legend>New Article</legend>
 
-      <%= f.input :title, :input_html => { :rows => 2, :class => "span6" } %>
-      <%= f.input :doi, :label => 'DOI', :disabled => true, :input_html => { :class => "span6" } %>
-      <%= f.input :pub_med, :label => 'PubMed ID', :input_html => { :class => "span6" } %>
-      <%= f.input :pub_med_central, :label => 'PubMed Central ID', :input_html => { :class => "span6" } %>
-      <%= f.input :mendeley, :label => 'Mendeley UUID', :input_html => { :class => "span6" } %>
-      <%= f.input :url, :label => 'URL', :input_html => { :class => "span6" } %>
+      <%= f.input :title, :input_html => { :rows => 2 } %>
+      <%= f.input :doi, :label => 'DOI', :disabled => true %>
+      <%= f.input :pub_med, :label => 'PubMed ID' %>
+      <%= f.input :pub_med_central, :label => 'PubMed Central ID' %>
+      <%= f.input :mendeley, :label => 'Mendeley UUID' %>
+      <%= f.input :url, :label => 'URL' %>
       <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 50, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "input-small" } %>
 
-      <div class="form-actions">
-        <%= f.submit "Save ", class: "btn btn-primary" %>
+      <div class="form-group">
+        <%= f.submit "Save ", class: "btn btn-default" %>
         <%= link_to 'Cancel', admin_article_path(@article), { :remote => true, :class => 'btn' } %>
       </div>
     </fieldset>
@@ -24,9 +24,11 @@
     <h1>
       <% if can?(:manage, Article) %>
         <div class="btn-toolbar pull-right">
-          <div class="btn-group">
-            <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_article_path(@article), { :remote => true, :class => 'btn btn-mini' } %>
-            <%= link_to '<i class="icon-trash"></i> Delete'.html_safe, admin_article_path(@article), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-mini' %>
+          <div class="btn-group btn-group-sm">
+            <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_article_path(@article), { :remote => true, :class => 'btn btn-default' } %>
+          </div>
+          <div class="btn-group btn-group-sm">
+            <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, admin_article_path(@article), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
           </div>
         </div>
       <% end %>
@@ -39,7 +41,7 @@
     <dd><%= @article.published_on.to_s(:long) %></dd>
     <% if @article.doi %>
       <dt>DOI</dt>
-      <dd id="doi" data-doi="<%= @article.doi %>" data-api_key="<%= @api_key %>"><%= link_to h(@article.doi), @article.doi_as_url %></dd>
+      <dd class="doi" data-doi="<%= @article.doi %>" data-api_key="<%= CONFIG[:api_key] %>"><%= link_to h(@article.doi), @article.doi_as_url %></dd>
     <% end %>
     <% if @article.pub_med %>
       <dt>PubMed ID</dt>
@@ -58,20 +60,16 @@
       <dd><%= link_to h(@article.url), @article.url %></dd>
     <% end %>
   </dl>
-<% end %>
 
-<% if can? :read, Alert %>
-  <div id="alert-error-message">
-    <%= render :partial => 'admin/articles/alert_message' %>
-  </div>
-<% end %>
+  <% if can? :read, Alert %>
+    <div id="alert-error-message">
+      <%= render :partial => 'admin/articles/alert_message' %>
+    </div>
+  <% end %>
 
-<% if @article.retrieval_statuses.sum(:event_count) > 0 %>
+  <% if @article.retrieval_statuses.sum(:event_count) > 0 %>
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#all" data-toggle="tab" title="All Metrics">All Metrics</a></li>
-      <li class="hidden-phone"><a href="#day" data-toggle="tab" title="by Day">Metrics by Day</a></li>
-      <li class="hidden-phone"><a href="#month" data-toggle="tab" title="by Month">Metrics by Month</a></li>
-      <li class="hidden-phone"><a href="#year" data-toggle="tab" title="by Year">Metrics by Year</a></li>
+      <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
       <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
       <% if can? :read, Alert %>
         <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
@@ -79,29 +77,10 @@
     </ul>
 
     <div class="tab-content">
-      <div class="tab-pane active" id="all">
-        <div class="muted" id="loading-all">Loading page … <%= image_tag "spinner.gif" %></div>
+      <div class="tab-pane active" id="metrics">
+        <div class="text-muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
         <%= javascript_tag do -%>
-          <%= render :partial => 'admin/articles/all', formats: :js %>
-        <% end %>
-      </div>
-      <div class="tab-pane hidden-phone" id="day">
-        <div class="muted" id="loading-day">Loading page … <%= image_tag "spinner.gif" %></div>
-        <%= javascript_tag do -%>
-          <%= render :partial => 'admin/articles/day', formats: :js %>
-        <% end %>
-      </div>
-      <div class="tab-pane hidden-phone" id="month">
-        <div class="muted" id="loading-month">Loading page … <%= image_tag "spinner.gif" %></div>
-        <%= javascript_tag do -%>
-          <%= render :partial => 'admin/articles/month', formats: :js %>
-        <% end %>
-      </div>
-      <div class="tab-pane hidden-phone" id="year">
-        <div class="muted" id="loading-year">Loading page … <%= image_tag "spinner.gif" %></div>
-        <%= javascript_tag do -%>
-          var api_key = "<%= @api_key %>";
-          <%= render :partial => 'admin/articles/year', formats: :js %>
+          <%= render :partial => 'admin/articles/alm', formats: :js %>
         <% end %>
       </div>
       <div class="tab-pane" id="more">
@@ -114,3 +93,4 @@
   <% else %>
     <div class="alert alert-info">No sources have cited this article</div>
   <% end %>
+<% end %>

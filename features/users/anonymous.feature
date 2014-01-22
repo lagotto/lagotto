@@ -27,34 +27,30 @@ Feature: Use without signing in
    @allow-rescue
     Scenario: Anonymous user cannot see the main admin dashboard
       When I go to the "Home" admin page
-      Then I should see the "You are not authorized to access this page." error message
+      Then I should see the "You need to sign in or sign up before continuing." error message
 
     @allow-rescue
-    Scenario: Anonymous user cannot see jobs in the admin dashboard
-      When I go to the "Jobs" admin page
-      Then I should see the "You are not authorized to access this page." error message
+    Scenario: Anonymous user cannot see sources in the admin dashboard
+      When I go to the "Sources" admin page
+      Then I should see the "You need to sign in or sign up before continuing." error message
 
     @allow-rescue
-    Scenario: Anonymous user cannot see responses in the admin dashboard
-      When I go to the "Responses" admin page
-      Then I should see the "You are not authorized to access this page." error message
-
-    @allow-rescue
-    Scenario: Anonymous user cannot see events in the admin dashboard
-      When I go to the "Events" admin page
-      Then I should see the "You are not authorized to access this page." error message
+    Scenario: Anonymous user cannot see an individual source in the admin dashboard
+      Given the source "Citeulike" exists
+      When I go to the admin page of source "Citeulike"
+      Then I should see the "You need to sign in or sign up before continuing." error message
 
     @allow-rescue
     Scenario: Anonymous user cannot see users in the admin dashboard
       When I go to the "Users" admin page
-      Then I should see the "You are not authorized to access this page." error message
+      Then I should see the "You need to sign in or sign up before continuing." error message
 
     @allow-rescue
     Scenario: Anonymous user cannot see API requests in the admin dashboard
       When I go to the "API Requests" admin page
-      Then I should see the "You are not authorized to access this page." error message
+      Then I should see the "You need to sign in or sign up before continuing." error message
 
     @allow-rescue
     Scenario: Anonymous user cannot see errors in the admin dashboard
       When I go to the "Alerts" admin page
-      Then I should see the "You are not authorized to access this page." error message
+      Then I should see the "You need to sign in or sign up before continuing." error message

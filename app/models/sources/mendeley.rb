@@ -20,11 +20,21 @@
 
 class Mendeley < Source
 
-  validates_not_blank(:url, :url_with_type, :url_with_title, :related_articles_url, :api_key)
+  # Format Mendeley events for all articles as csv
+  def self.to_csv(options = {})
+
+    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
+
+    result = get_json(service_url, options)
+    return nil if result.blank? || result["rows"].blank?
+
+    CSV.generate do |csv|
+      csv << ["doi", "readers", "groups", "total"]
+      result["rows"].each { |row| csv << [row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
+    end
+  end
 
   def get_data(article, options={})
-    raise(ArgumentError, "#{display_name} configuration requires api key") \
-      if api_key.blank?
 
     # First, we need to have the Mendeley uuid for this article.
     # Get it if we don't have it, and proceed only if we do.
@@ -131,15 +141,11 @@ class Mendeley < Source
   end
 
   def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
+    config.url || "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}"
   end
 
   def url_with_type
-    config.url_with_type
+    config.url_with_type || "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}"
   end
 
   def url_with_type=(value)
@@ -147,7 +153,7 @@ class Mendeley < Source
   end
 
   def url_with_title
-    config.url_with_title
+    config.url_with_title || "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10&consumer_key=%{api_key}"
   end
 
   def url_with_title=(value)
@@ -155,18 +161,11 @@ class Mendeley < Source
   end
 
   def related_articles_url
-    config.related_articles_url
+    config.related_articles_url || "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}"
   end
 
   def related_articles_url=(value)
     config.related_articles_url = value
   end
 
-  def api_key
-    config.api_key
-  end
-
-  def api_key=(value)
-    config.api_key = value
-  end
 end

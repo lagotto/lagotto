@@ -16,18 +16,14 @@ Feature: Sign in as user
       Then I should see the "You are not authorized to access this page." error message
 
     @allow-rescue
-    Scenario: User cannot see jobs in the admin dashboard
-      When I go to the "Jobs" admin page
+    Scenario: Anonymous user cannot see sources in the admin dashboard
+      When I go to the "Sources" admin page
       Then I should see the "You are not authorized to access this page." error message
 
     @allow-rescue
-    Scenario: User cannot see responses in the admin dashboard
-      When I go to the "Responses" admin page
-      Then I should see the "You are not authorized to access this page." error message
-
-    @allow-rescue
-    Scenario: User cannot see events in the admin dashboard
-      When I go to the "Events" admin page
+    Scenario: Anonymous user cannot see an individual source in the admin dashboard
+      Given the source "Citeulike" exists
+      When I go to the admin page of source "Citeulike"
       Then I should see the "You are not authorized to access this page." error message
 
     @allow-rescue

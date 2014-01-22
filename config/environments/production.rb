@@ -43,7 +43,7 @@ Alm::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w(greenrobo.css)
+  # config.assets.precompile += %w()
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
@@ -60,5 +60,5 @@ Alm::Application.configure do
 
   # for devise
   # TODO Must set it with correct value!!
-  # config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { :host => "#{CONFIG[:mail][:address]}#{CONFIG[:mail][:port]}" }
 end

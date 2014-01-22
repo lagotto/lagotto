@@ -9,7 +9,7 @@
 # see man 1 memcached for more
 #
 MEMCACHED_PARAMS="<%= "-l #{@listen} -c #{@maxconn} " +
-                      "-m #{@memory} -p #{@port} >> /var/log/#{@logfilename} 2>&1"%>"
+                      "-m #{@memory} -U #{@udp_port} -p #{@port} >> /var/log/#{@logfilename} 2>&1"%>"
 
 ## Path:        Network/WWW/Memcached
 ## Description: username memcached should run as

@@ -1,3 +1,5 @@
+$stdout.sync = true
+
 Alm::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -11,7 +13,7 @@ Alm::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = true
+  config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
@@ -31,7 +33,7 @@ Alm::Application.configure do
   config.assets.debug = true
 
   # for devise
-  # config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { :host => "#{CONFIG[:mail][:address]}#{CONFIG[:mail][:port]}" }
 
   # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict

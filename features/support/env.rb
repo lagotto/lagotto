@@ -23,20 +23,19 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 # prefer to use XPath just remove this line and adjust any selectors in your
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
-Capybara.ignore_hidden_elements = true
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, {
     :timeout => 120,
     :js_errors => true,
-    :inspector => true,
-    :window_size => [1280, 960]
+    :debug => false,
+    :inspector => true
   })
 end
 Capybara.javascript_driver = :poltergeist
 
 Capybara.configure do |config|
   config.match = :prefer_exact
-  config.ignore_hidden_elements = false
+  config.ignore_hidden_elements = true
 end
 
 # By default, any exception happening in your Rails application will bubble up
@@ -69,10 +68,10 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 Before('@javascript') do
   OmniAuth.config.test_mode = true
-  omni_hash = { :provider => "github",
+  omni_hash = { :provider => "persona",
                 :uid => "12345",
-                :info => { "email" => "joe@example.com", "nickname" => "joesmith", "name" => "Joe Smith" }}
-  OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(omni_hash)
+                :info => { "email" => "joe@example.com", "name" => "joe@example.com" }}
+  OmniAuth.config.mock_auth[:persona] = OmniAuth::AuthHash.new(omni_hash)
 end
 
 After('@javascript') do

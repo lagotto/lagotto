@@ -20,8 +20,6 @@
 
 class Wordpress < Source
 
-  validates_not_blank(:url)
-
   def get_data(article, options={})
 
     # Check that article has DOI
@@ -56,14 +54,10 @@ class Wordpress < Source
   end
 
   def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
+    config.url || "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json&size=20"
   end
 
   def rate_limiting
-    config.rate_limiting || 1000
+    config.rate_limiting || 5000
   end
 end

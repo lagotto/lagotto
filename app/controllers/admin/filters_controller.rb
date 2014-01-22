@@ -18,7 +18,7 @@ class Admin::FiltersController < Admin::ApplicationController
   def update
     params[:filter] ||= {}
     params[:filter][:active] = params[:active] if params[:active]
-    @filter.update_attributes(params[:filter])
+    @filter.update_attributes(safe_params)
     load_index
     respond_with(@filter) do |format|
       format.js { render :index }
@@ -33,5 +33,11 @@ class Admin::FiltersController < Admin::ApplicationController
 
   def load_index
     @filters = Filter.order(:name)
+  end
+
+  private
+
+  def safe_params
+    params.require(:filter).permit(:active, *@filter.config_fields, { source_ids: []})
   end
 end

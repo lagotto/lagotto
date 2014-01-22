@@ -44,57 +44,6 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     end
   end
 
-  def create
-    @article = Article.new(params[:article])
-    authorize! :create, @article
-
-    if @article.save
-      @success = "Article created."
-      @article = params[:article]
-      render "success", :status => :created
-    else
-      @error = @article.errors
-      @article = params[:article]
-      render "error", :status => :bad_request
-    end
-  end
-
-  def update
-    authorize! :update, @article
-
-    if @article.blank?
-      @error = "No article found."
-      @article = @id_hash
-      render "error", :status => :not_found
-    elsif @article.update_attributes(params[:article])
-      @success = "Article updated."
-      @article = @id_hash
-      render "success", :status => :ok
-    else
-      @error = @article.errors
-      @article = @id_hash
-      render "error", :status => :bad_request
-    end
-  end
-
-  def destroy
-    authorize! :destroy, @article
-
-    if @article.blank?
-      @error = "No article found."
-      @article = @id_hash
-      render "error", :status => :not_found
-    elsif @article.destroy
-      @success = "Article deleted."
-      @article = @id_hash
-      render "success", :status => :ok
-    else
-      @error = "An error occured."
-      @article = @id_hash
-      render "error", :status => :bad_request
-    end
-  end
-
   protected
   def load_article
     # Load one article given query params

@@ -1,23 +1,18 @@
 <% if can?(:update, User) and (controller.action_name == "edit" or (controller.action_name == "update" and !@user.errors.empty?)) %>
 
-  <%= simple_form_for @user, :url => admin_user_path(@user), :html => { :class => 'form-horizontal', :remote => true } do |f| %>
+  <%= simple_form_for @user, :url => admin_user_path(@user), :html => { :remote => true } do |f| %>
     <fieldset>
       <legend>Edit Your Account</legend>
 
-      <% if @user.provider != "github" %>
-        <%= f.input :name, :input_html => { :class => "span6" } %>
-        <%= f.input :username, :input_html => { :class => "span6" } %>
-      <% end %>
-      <%= f.input :email, :input_html => { :class => "span6" } %>
-      <%= f.input :password, :input_html => { :class => "span6" } %>
-      <%= f.input :password_confirmation, :input_html => { :class => "span6" } %>
-      <% if Report.count > 0 %>
-        <%= f.association :reports, as: :check_boxes %>
-      <% end %>
+      <%= f.input :name %>
+      <%= f.input :username %>
+      <%= f.input :email %>
+      <%= f.input :password %>
+      <%= f.input :password_confirmation %>
 
-      <div class="form-actions">
-        <%= f.submit "Save ", class: "btn btn-primary" %>
-        <%= link_to 'Cancel', admin_user_path(@user), { :remote => true, :class => 'btn' } %>
+      <div class="form-group">
+        <%= f.submit "Save ", class: "btn btn-default" %>
+        <%= link_to 'Cancel', admin_user_path(@user), { remote: true, class: 'btn' } %>
       </div>
     </fieldset>
   <% end %>
@@ -25,9 +20,9 @@
 <% else %>
   <div class="page-header">
     <% if can?(:read, Alert) %>
-    <div class="btn-toolbar pull-right">
+    <div class="btn-toolbar btn-sm pull-right">
       <div class="btn-group">
-        <%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_admin_user_path(@user), { :remote => true, :class => 'btn btn-mini' } %>
+        <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_user_path(@user), { remote: true, class: 'btn btn-default btn-sm', id: 'edit' } %>
       </div>
     </div>
     <% end %>
@@ -53,17 +48,20 @@
     <% end %>
     <dt>API Key</dt>
     <dd><%= @user.authentication_token %></dd>
-    <% unless @user.role == "user" %>
-      <dt class="report">Reports</dt>
-      <dd class="report">
-        <% unless @user.reports.empty? %>
-          <% @user.reports.each do |report| %>
-            <%= h(report.name) %></br>
-          <% end %>
-        <% else %>
-          Not subscribed
-        <% end %>
-      </dd>
-    <% end %>
   </dl>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#reports" data-toggle="tab">Reports</a></li>
+    <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="reports">
+      <%= render :partial => 'admin/users/reports' %>
+    </div>
+    <div class="tab-pane" id="documentation">
+      <h1>API</h1>
+      <%= render :partial => 'docs/show' %>
+    </div>
+  </div>
 <% end %>

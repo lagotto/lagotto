@@ -1,11 +1,11 @@
-if APP_CONFIG['mail']
+if CONFIG[:mail]
   ActionMailer::Base.smtp_settings = {
-    :address              => APP_CONFIG['mail']['address'],
-    :port                 => APP_CONFIG['mail']['port'],
-    :domain               => APP_CONFIG['mail']['domain'],
-    :user_name            => APP_CONFIG['mail']['user_name'],
-    :password             => APP_CONFIG['mail']['password'],
-    :authentication       => APP_CONFIG['mail']['authentication'],
+    :address              => CONFIG[:mail][:address],
+    :port                 => CONFIG[:mail][:port],
+    :domain               => CONFIG[:mail][:domain],
+    :user_name            => CONFIG[:mail][:user_name],
+    :password             => CONFIG[:mail][:password],
+    :authentication       => CONFIG[:mail][:authentication],
     :enable_starttls_auto => true
   }
 end
