@@ -517,7 +517,7 @@ class Source < ActiveRecord::Base
   alias_method :obsolete?, :obsolete
 
   def check_cache
-    self.delay(priority: 0, queue: "api-cache").expire_cache if ActionController::Base.perform_caching
+    self.delay(priority: 3, queue: "api-cache").expire_cache if ActionController::Base.perform_caching
   end
 
   def remove_all_retrievals
