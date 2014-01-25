@@ -153,19 +153,19 @@ class Report < ActiveRecord::Base
   # Reports are sent via delayed_job
 
   def send_error_report
-    ReportMailer.delay(queue: 'mailer', priority: 0).send_error_report(self)
+    ReportMailer.delay(queue: 'mailer', priority: 3).send_error_report(self)
   end
 
   def send_status_report
-    ReportMailer.delay(queue: 'mailer', priority: 0).send_status_report(self)
+    ReportMailer.delay(queue: 'mailer', priority: 3).send_status_report(self)
   end
 
   def send_article_statistics_report
-    ReportMailer.delay(queue: 'mailer', priority: 0).send_article_statistics_report(self)
+    ReportMailer.delay(queue: 'mailer', priority: 3).send_article_statistics_report(self)
   end
 
   def send_disabled_source_report(source_id)
-    ReportMailer.delay(queue: 'mailer', priority: 0).send_disabled_source_report(self, source_id)
+    ReportMailer.delay(queue: 'mailer', priority: 1).send_disabled_source_report(self, source_id)
   end
 
 end

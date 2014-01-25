@@ -32,9 +32,9 @@ class Source < ActiveRecord::Base
 
   serialize :config, OpenStruct
 
-  after_update :check_cache, :if => Proc.new { |source| source.name_changed? ||
+  after_update :check_cache, :if => Proc.new { |source| source.state_changed? ||
+                                                        source.name_changed? ||
                                                         source.display_name_changed? ||
-                                                        source.state_changed? ||
                                                         source.group_id_changed? }
 
   validates :name, :presence => true, :uniqueness => true
@@ -517,7 +517,10 @@ class Source < ActiveRecord::Base
   alias_method :obsolete?, :obsolete
 
   def check_cache
-    self.delay(priority: 0, queue: "api-cache").expire_cache if ActionController::Base.perform_caching
+    if ActionController::Base.perform_caching
+      DelayedJob.delete_all(queue: "#{name}-cache-queue")
+      self.delay(priority: 2, queue: "#{name}-cache-queue").expire_cache
+    end
   end
 
   def remove_all_retrievals
