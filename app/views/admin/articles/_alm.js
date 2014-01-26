@@ -154,7 +154,7 @@ function AlmViz(options) {
         if (source.name == 'pkpTimedViews') {
             $countLabel.append("p")
                 .text(source.display_name);
-        } else if (source.name.match("facebook|reddit|counter|pmc")) {
+        } else if (["facebook","reddit","counter","pmc","figshare"].indexOf(source.name) >= 0) {
             $countLabel.append("p")
                 .text(source.display_name + " " + category.display_name);
         } else {
@@ -229,9 +229,8 @@ function AlmViz(options) {
                 };
 
                 var $levelControlsDiv = $chartDiv.append("div")
-                    .attr("style", "width: " + (viz.margin.left + viz.width) + "px;")
-                    .append("div")
-                    .attr("style", "float:right;");
+                    .attr("class", "alm-control-label")
+                    .attr("style", "width: " + (viz.margin.left + viz.width) + "px;");
 
                 if (showDaily) {
                     $levelControlsDiv.append("a")
@@ -374,9 +373,9 @@ function AlmViz(options) {
         var viz = {};
 
         // size parameters
-        viz.margin = {top: 10, right: 40, bottom: 0, left: 40};
+        viz.margin = {top: 10, right: 20, bottom: 5, left: 40};
         viz.width = 760 - viz.margin.left - viz.margin.right;
-        viz.height = 100 - viz.margin.top - viz.margin.bottom;
+        viz.height = 115 - viz.margin.top - viz.margin.bottom;
 
         // div where everything goes
         viz.chartDiv = chartDiv;
@@ -545,12 +544,12 @@ function AlmViz(options) {
 options = {
     baseUrl: '',
     minItemsToShowGraph: {
-        minEventsForYearly: 6,
-        minEventsForMonthly: 6,
-        minEventsForDaily: 6,
-        minYearsForYearly: 6,
-        minMonthsForMonthly: 6,
-        minDaysForDaily: 6
+        minEventsForYearly: 3,
+        minEventsForMonthly: 3,
+        minEventsForDaily: 3,
+        minYearsForYearly: 1,
+        minMonthsForMonthly: 1,
+        minDaysForDaily: 1
     },
     vizDiv: "#metrics",
     showTitle: false,
