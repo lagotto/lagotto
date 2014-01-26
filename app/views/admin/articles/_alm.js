@@ -373,7 +373,7 @@ function AlmViz(options) {
         var viz = {};
 
         // size parameters
-        viz.margin = {top: 10, right: 20, bottom: 5, left: 40};
+        viz.margin = {top: 10, right: 20, bottom: 5, left: 50};
         viz.width = 760 - viz.margin.left - viz.margin.right;
         viz.height = 115 - viz.margin.top - viz.margin.bottom;
 
