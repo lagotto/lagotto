@@ -11,7 +11,7 @@
 .alm-chart-area {
   position: absolute;
   top: 0;
-  left: 170px;
+  left: 150px;
   font-size: 14px;
 }
 
@@ -30,7 +30,7 @@
 .alm-row {
   position: relative;
   top: 0;
-  height: 120px;
+  height: 130px;
 }
 
 .alm-category-row {
@@ -53,8 +53,9 @@
 .alm-count-label {
 	width: 150px;
   height: 100px;
-  margin-top: .5em;
-  margin-left: 0;
+  position: absolute;
+  top: 10px;
+  left: 0;
 	padding: 5px;
 	text-align: center;
 	background: $wet-asphalt;
@@ -113,11 +114,11 @@
 }
 
 .alm-count-label p {
-  line-height: 18px;
+  line-height: 16px;
 }
 
 .alm-count-label a {
-  line-height: 18px;
+  line-height: 16px;
   color: #fff;
   text-decoration: none;
 }
@@ -132,6 +133,11 @@
 	font-weight: bold;
   margin-top: 25px;
   margin-bottom: 10px;
+}
+
+.alm-control-label {
+  text-align: right;
+  margin-top: -10px;
 }
 
 .alm-control {
