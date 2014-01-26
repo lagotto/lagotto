@@ -20,7 +20,6 @@ function AlmViz(options) {
 
     // Init basic options
     var baseUrl_ = options.baseUrl;
-    var hasIcon = options.hasIcon;
     var minItems_ = options.minItemsToShowGraph;
     var showTitle = options.showTitle;
     var formatNumber_ = d3.format(",d");
@@ -112,17 +111,6 @@ function AlmViz(options) {
             .attr("class", "alm-category-row")
             .attr("id", "category-" + category.name);
 
-        categoryTitle = categoryRow.append("h2")
-            .attr("class", "alm-category-row-heading")
-            .attr("id", "month-" + category.name)
-            .text(category.display_name);
-
-        tooltip = categoryTitle.append("div")
-            .attr("class", "alm-category-row-info").append("span")
-            .attr("class", "ui-icon ui-icon-info");
-
-        $(tooltip).tooltip({title: category.tooltip_text, container: 'body'});
-
         return categoryRow;
     };
 
@@ -144,37 +132,34 @@ function AlmViz(options) {
             .attr("class", "alm-row")
             .attr("id", "alm-row-" + source.name + "-" + category.name);
         $countLabel = $row.append("div")
-            .attr("class", "alm-count-label");
-
-        if (hasIcon.indexOf(source.name) >= 0) {
-            $countLabel.append("img")
-                .attr("src", baseUrl_ + '/assets/' + source.name + '.png')
-                .attr("alt", 'a description of the source')
-                .attr("class", "label-img");
-        }
+            .attr("class", "alm-count-label " + category.name);
 
         if (source.events_url) {
             // if there is an events_url, we can link to it from the count
-            $count = $countLabel.append("a")
+            $count = $countLabel.append("p")
+                .attr("class", "alm-count")
+                .attr("id", "alm-count-" + source.name + "-" + category.name)
+                .append("a")
                 .attr("href", function(d) { return source.events_url; });
         } else {
             // if no events_url, we just put in the count
-            $count = $countLabel.append("span");
+            $count = $countLabel.append("p")
+                .attr("class", "alm-count")
+                .attr("id", "alm-count-" + source.name + "-" + category.name);
         }
 
         $count
-            .attr("class", "alm-count")
-            .attr("id", "alm-count-" + source.name + "-" + category.name)
             .text(formatNumber_(total));
 
-        $countLabel.append("br");
-
         if (source.name == 'pkpTimedViews') {
-            $countLabel.append("span")
+            $countLabel.append("p")
                 .text(source.display_name);
+        } else if (source.name.match("facebook|reddit|counter|pmc")) {
+            $countLabel.append("p")
+                .text(source.display_name + " " + category.display_name);
         } else {
             // link the source name
-            $countLabel.append("a")
+            $countLabel.append("p").append("a")
                 .attr("href", baseUrl_ + "/sources/" + source.name)
                 .text(source.display_name);
         }
@@ -230,7 +215,7 @@ function AlmViz(options) {
             // check there is data for
             if (showDaily || showMonthly || showYearly) {
                 $row
-                    .attr('class', 'alm-row with-chart');
+                    .attr('class', 'alm-row');
 
                 var $chartDiv = $row.append("div")
                     .attr("class", "alm-chart-area");
@@ -410,7 +395,7 @@ function AlmViz(options) {
         viz.y.range([viz.height, 0]);
 
         viz.z = d3.scale.ordinal();
-        viz.z.range(['main', 'alt']);
+        viz.z.range([category.name, category.name + '-alt']);
 
         // the chart
         viz.svg = viz.chartDiv.append("svg")
@@ -568,12 +553,11 @@ options = {
         minDaysForDaily: 6
     },
     vizDiv: "#metrics",
-    hasIcon: ['wikipedia', 'scienceseeker', 'researchblogging', 'pubmed', 'nature', 'mendeley', 'facebook', 'crossref', 'citeulike', 'reddit', 'wordpress'],
     showTitle: false,
     categories: [{ name: "html", display_name: "HTML Views", tooltip_text: 'Total number of HTML page views for this article. These views are recorded directly within the system itself. Overall monthly view counts may also be available.' },
         { name: "pdf", display_name: "PDF Downloads", tooltip_text: 'Total number of PDF views and downloads for this article. These views are recorded directly within the system itself. Overall monthly view counts may also be available.' },
-        { name: "likes", display_name: "Likes", tooltip_text: 'Likes found in social networks such as Facebook.' },
         { name: "shares", display_name: "Shares", tooltip_text: 'Shares or bookmarks in social networks such as Facebook, CiteULike and Mendeley. In most cases, clicking on the number of shares will take you to a listing in the network itself.' },
+        { name: "likes", display_name: "Likes", tooltip_text: 'Likes found in social networks such as Facebook.' },
         { name: "comments", display_name: "Comments", tooltip_text: 'Comments are .' },
         { name: "citations", display_name: "Citations", tooltip_text: 'Citations of this article found in CrossRef, PubMed and Wikipedia. In most cases, clicking on the citation count will take you to a listing in the referencing service itself.' }],
   };

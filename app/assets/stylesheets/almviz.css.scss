@@ -11,8 +11,8 @@
 .alm-chart-area {
   position: absolute;
   top: 0;
-  left: 200px;
-  font-size: 11px;
+  left: 170px;
+  font-size: 14px;
 }
 
 .axis line,
@@ -27,21 +27,10 @@
   fill-opacity: 0;
 }
 
-.bar.main{
-	fill: $bar-color-1;
-}
-
-.bar.alt{
-	fill: $bar-color-6;
-}
-
 .alm-row {
   position: relative;
-  margin-bottom: 1em;
-}
-
-.with-chart {
-  height: 125px;
+  top: 0;
+  height: 120px;
 }
 
 .alm-category-row {
@@ -61,53 +50,97 @@
   margin-top: 5px;
 }
 
-.alm-category-row-heading {
-  border-bottom: 1px solid #eee;
-}
-
 .alm-count-label {
 	width: 150px;
+  height: 100px;
   margin-top: .5em;
-  margin-left: 2em;
-	margin-right: 2em;
-	padding: 0.8em;
+  margin-left: 0;
+	padding: 5px;
 	text-align: center;
-	border: 2px solid $gray-light;
-	background: #fff;
+	background: $wet-asphalt;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	color: #304345;
+	color: #fff;
+}
 
+.html, .pdf {
+  background: $peter-river;
+}
+
+.bar.html, .bar.pdf {
+  fill: $peter-river;
+}
+
+.bar.html-alt, .bar.pdf-alt {
+  fill: darken($peter-river, 15%);
+}
+
+.shares {
+  background: $emerald;
+}
+
+.bar.shares {
+  fill: $emerald;
+}
+
+.bar.shares-alt {
+  fill: darken($emerald, 15%);
+}
+
+.likes, .comments {
+  background: $turquoise;
+}
+
+.bar.likes, .bar.comments {
+  fill: $turquoise;
+}
+
+.bar.likes-alt, .bar.comments-alt {
+  fill: darken($turquoise, 15%);
+}
+
+.citations {
+  background: $amethyst;
+}
+
+.bar.citations {
+  fill: $amethyst;
+}
+
+.bar.citations-alt {
+  fill: darken($amethyst, 15%);
+}
+
+.alm-count-label p {
+  line-height: 18px;
 }
 
 .alm-count-label a {
-    text-decoration: none;
+  line-height: 18px;
+  color: #fff;
+  text-decoration: none;
 }
 
 .alm-count-label a:hover {
 	background-color: transparent !important;
-	color: #555555 !important;
-}
-
-.alm-count-label img {
-	padding-right:0.5em;
+	color: #fff !important;
 }
 
 .alm-count {
 	font-size: 1.75em;
-	padding-bottom: 0.5em;
-	padding-top: 0.5em;
 	font-weight: bold;
-	vertical-align: middle;
+  margin-top: 25px;
+  margin-bottom: 10px;
 }
 
 .alm-control {
-	text-decoration: underline;
 	color: $link-color;
+  font-size: 0.85em;
 }
 
 .alm-control.active {
+  color: $link-color;
 	text-decoration: none;
 }
 
@@ -118,7 +151,7 @@
 }
 
 .alm-control:hover {
-	background-color: transparent;
+  text-decoration: underline;
 }
 
 .label-img {
