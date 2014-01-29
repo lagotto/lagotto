@@ -519,7 +519,7 @@ class Source < ActiveRecord::Base
   def check_cache
     if ActionController::Base.perform_caching
       DelayedJob.delete_all(queue: "#{name}-cache-queue")
-      self.delay(priority: 2, queue: "#{name}-cache-queue").expire_cache
+      self.delay(priority: 3, queue: "#{name}-cache-queue").expire_cache
     end
   end
 

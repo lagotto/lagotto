@@ -22,32 +22,44 @@ class Facebook < Source
 
   def get_data(article, options={})
 
-    return  { :events => [], :event_count => nil } if article.doi.blank?
+    return  { :events => [], :event_count => nil } unless article.get_url
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    if result.nil?
+    if result.nil? or result["data"].nil?
       nil
     else
-      events = result["data"][0]
+      events = result["data"]
+      # the data we get for the DOI are consistent with the data we get for the URL
+      if events[0]["total_count"] == 0 || (events[1]["total_count"]/events[0]["total_count"]).between?(0.8, 1.2)
+        shares = events[0]["share_count"]
+        comments = events[0]["comment_count"]
+        likes = events[0]["like_count"]
+        total = events[0]["total_count"]
+      else
+        shares = 0
+        comments = 0
+        likes = 0
+        total = 0
+      end
       event_metrics = { :pdf => nil,
                         :html => nil,
-                        :shares => events["share_count"],
+                        :shares => shares,
                         :groups => nil,
-                        :comments => events["comment_count"],
-                        :likes => events["like_count"],
+                        :comments => comments,
+                        :likes => likes,
                         :citations => nil,
-                        :total => events["total_count"] }
+                        :total => total }
 
       { :events => events,
-        :event_count => events["total_count"],
+        :event_count => total,
         :event_metrics => event_metrics }
     end
   end
 
   def get_query_url(article, options={})
-    URI.escape(url % { :access_token => access_token, :doi_as_url => article.doi_as_url })
+    URI.escape(url % { :access_token => access_token, :query_url => article.url })
   end
 
   def get_config_fields
@@ -56,7 +68,7 @@ class Facebook < Source
   end
 
   def url
-    config.url || "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count, comments_fbid from link_stat where url = '%{doi_as_url}'"
+    config.url || "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count, comments_fbid from link_stat where url = '%{query_url}'"
   end
 
   def access_token
