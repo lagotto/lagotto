@@ -18,12 +18,21 @@ describe Facebook do
       stub.should have_been_requested
     end
 
+      it "should report if there is a mismatch of events and event_count returned by the Facebook API" do
+      article = FactoryGirl.build(:article, :url => "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124")
+      stub = stub_request(:get, facebook.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'facebook_mismatch.json'), :status => 200)
+      response = facebook.get_data(article)
+      response[:events].should be_true
+      response[:event_count].should eq(0)
+      stub.should have_been_requested
+    end
+
     it "should report if there are events and event_count returned by the Facebook API" do
       article = FactoryGirl.build(:article, :url => "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124")
       stub = stub_request(:get, facebook.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'facebook.json'), :status => 200)
       response = facebook.get_data(article)
       response[:events].should be_true
-      response[:event_count].should eq(3127)
+      response[:event_count].should eq(6745)
       stub.should have_been_requested
     end
 
