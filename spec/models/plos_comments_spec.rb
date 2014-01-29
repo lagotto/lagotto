@@ -14,6 +14,13 @@ describe PlosComments do
   end
 
   context "use the PLOS comments API" do
+    it "should report if the article was not found by the PLOS comments API" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0067729")
+      stub = stub_request(:get, plos_comments.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'plos_comments_error.txt'), :status => 404)
+      plos_comments.get_data(article).should eq({ :events => [], :event_count => nil })
+      stub.should have_been_requested
+    end
+
     it "should report if there are no events and event_count returned by the PLOS comments API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0067729")
       stub = stub_request(:get, plos_comments.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'plos_comments_nil.json'), :status => 200)

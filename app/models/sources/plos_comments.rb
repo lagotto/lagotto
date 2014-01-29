@@ -30,7 +30,7 @@ class PlosComments < Source
 
     if result.nil?
       nil
-    elsif result.empty?
+    elsif !result.kind_of?(Array) || result.empty?
       { :events => [], :event_count => nil }
     else
       events = result
