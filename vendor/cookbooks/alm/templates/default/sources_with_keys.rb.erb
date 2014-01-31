@@ -67,3 +67,10 @@ researchblogging = Researchblogging.find_or_create_by_name(
   :group_id => discussed.id,
   :username => "<%= node[:alm][:researchblogging][:username] %>",
   :password => "<%= node[:alm][:researchblogging][:password] %>")
+twitter_search = TwitterSearch.find_or_create_by_name(
+  :name => "twitter_search",
+  :display_name => "Twitter",
+  :description => "Twitter is a social networking and microblogging service.",
+  :state_event => "install",
+  :group_id => discussed.id,
+  :access_token => "<%= node[:alm][:twitter_search][:access_token] %>")
