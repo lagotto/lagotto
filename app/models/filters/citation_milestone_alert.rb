@@ -44,6 +44,6 @@ class CitationMilestoneAlert < Filter
   end
 
   def source_ids
-    config.source_ids || Source.active.joins(:group).where("groups.name in ('cited','saved')").pluck(:id)
+    config.source_ids || Source.active.joins(:group).where("groups.name" =>['cited','saved']).pluck(:id)
   end
 end

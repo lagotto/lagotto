@@ -29,7 +29,7 @@ class Report < ActiveRecord::Base
 
   def self.available(role)
     if role == "user"
-      where(private: false)
+      where(:private => false)
     else
       all
     end
