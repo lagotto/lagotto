@@ -76,3 +76,8 @@ group :test, :development do
   gem "rspec-rails", "~> 2.14.0"
   gem "brakeman", :require => false
 end
+
+group :development do
+  gem 'capistrano', '~> 2.15.5'
+  #gem 'capistrano-bundler'
+end
