@@ -26,7 +26,7 @@ class RetrievalHistory < ActiveRecord::Base
 
   default_scope order("retrieved_at DESC")
 
-  #PROBLEM - these cannot easily br tanslated to ActiveRecord
+  #PROBLEM - these cannot easily be tanslated to ActiveRecord?
   scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
   scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months) }
   scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year) }

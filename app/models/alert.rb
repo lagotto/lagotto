@@ -11,7 +11,7 @@ class Alert < ActiveRecord::Base
 
   scope :errors, where("alerts.error = ?", true) #where("alerts.error = 1")
   scope :query, lambda { |query| includes(:article).where("class_name like ? OR message like ? OR status = ? OR articles.doi = ?", "%#{query}%", "%#{query}%", query, query) }
-  scope :total, lambda { |duration| where("created_at > ?", Time.now - duration.days) } # NOW() - INTERVAL ? DAY", days) } #where("created_at > NOW() - INTERVAL ? DAY", days) }
+  scope :total, lambda { |duration| where("created_at > ?", Time.now - duration.days) } #where("created_at > NOW() - INTERVAL ? DAY", days) }
   scope :total_errors, lambda { |duration| where("alerts.error = ?", true).where("created_at > ?", Time.now - duration.days) } #where("alerts.error = 1 AND created_at > NOW() - INTERVAL ? DAY", days) }
   scope :from_sources, lambda { |duration| where("source_id IS NOT NULL").where("created_at > ?", Time.now - duration.days) } #where("source_id IS NOT NULL AND created_at > NOW() - INTERVAL ? DAY", days) }
 
