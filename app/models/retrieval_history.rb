@@ -26,15 +26,20 @@ class RetrievalHistory < ActiveRecord::Base
 
   default_scope order("retrieved_at DESC")
 
+  #PROBLEM - these cannot easily br tanslated to ActiveRecord
   scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
   scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months) }
   scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year) }
 
-  scope :total, lambda { |days| where("retrieved_at > NOW() - INTERVAL ? DAY", days) }
+  scope :total, lambda { |duration| where("retrieved_at > ?", Time.now - duration.days) }
 
   def self.table_status
     table_status = ActiveRecord::Base.connection.select_all("SHOW TABLE STATUS LIKE 'retrieval_histories'").first
     Hash[table_status.map {|k, v| [k.to_s.underscore, v] }]
+  end
+  
+  def self.table_status_pg
+    ActiveRecord::Base.connection.select_all("SELECT reltuples FROM pg_class WHERE oid = 'public.retrieval_histories'::regclass").first;
   end
 
   def data

@@ -29,19 +29,19 @@ class RetrievalStatus < ActiveRecord::Base
   delegate :name, :to => :source
   delegate :display_name, :to => :source
 
-  scope :most_cited, lambda { where("event_count > 0").order("event_count desc").limit(25) }
-  scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? DAY", days).order("event_count desc").limit(25) }
-  scope :most_cited_last_x_months, lambda { |months| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? MONTH", months).order("event_count desc").limit(25) }
+  scope :most_cited, lambda { where("event_count > ?", 0).order("event_count desc").limit(25) }
+  scope :most_cited_last_x_days, lambda { |duration| joins(:article).where("event_count > ?", 0).where("articles.published_on >= ?", Date.today - duration.days).order("event_count desc").limit(25) }
+  scope :most_cited_last_x_months, lambda { |duration| joins(:article).where("event_count > ?",0).where("articles.published_on >= ?", Date.today - duration.months).order("event_count desc").limit(25) }
 
   scope :queued, where("queued_at is NOT NULL")
   scope :not_queued, where("queued_at is NULL")
-  scope :stale, where("queued_at is NULL AND scheduled_at IS NOT NULL AND scheduled_at <= NOW()").order("scheduled_at")
-  scope :published, joins(:article).where("queued_at is NULL AND articles.published_on <= CURDATE()")
-  scope :with_sources, joins(:source).where("sources.state > 0").order("group_id, display_name")
+  scope :stale, where("queued_at is NULL").where("scheduled_at IS NOT NULL").where("scheduled_at <= ?", Time.now).order("scheduled_at")
+  scope :published, joins(:article).where("queued_at is NULL").where("articles.published_on <= ?", Date.today)
+  scope :with_sources, joins(:source).where("sources.state > ?", 0).order("group_id, display_name")
 
-  scope :total, lambda { |days| where("retrieved_at > NOW() - INTERVAL ? DAY", days) }
-  scope :with_events, lambda { |days| where("event_count > 0 AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
-  scope :without_events, lambda { |days| where("event_count = 0 AND retrieved_at > NOW() - INTERVAL ? DAY", days) }
+  scope :total, lambda { |duration| where("retrieved_at > ?", Time.now - duration.days) }
+  scope :with_events, lambda { |duration| where("event_count > ?", 0).where("retrieved_at > ?", Time.now - duration.days) }
+  scope :without_events, lambda { |duration| where("event_count = ?", 0).where("retrieved_at > ?", Time.now - duration.days) }
 
   scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
 
