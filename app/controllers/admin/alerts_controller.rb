@@ -12,7 +12,7 @@ class Admin::AlertsController < Admin::ApplicationController
       collection = collection.where(:class_name => params[:class_name])
       @class_name = params[:class_name]
     end
-    collection = collection.query(params[:query]) if params[:query]
+    collection = collection.query(params[:q]) if params[:q]
 
     @alerts = collection.paginate(:page => params[:page])
     respond_with @alerts
@@ -39,7 +39,7 @@ class Admin::AlertsController < Admin::ApplicationController
       collection = collection.where(:class_name => params[:class_name])
       @class_name = params[:class_name]
     end
-    collection = collection.query(params[:query]) if params[:query]
+    collection = collection.query(params[:q]) if params[:q]
 
     @alerts = collection.paginate(:page => params[:page])
     respond_with(@alerts) do |format|

@@ -53,14 +53,6 @@ class Article < ActiveRecord::Base
     end
   }
 
-  scope :q, lambda { |query|
-    if self.has_many?
-      where("doi like ?", "#{query}%")
-    else
-      where("doi like ? OR title like ?", "%#{query}%", "%#{query}%")
-    end
-  }
-
   scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
 
   scope :cited, lambda { |cited|
@@ -72,11 +64,11 @@ class Article < ActiveRecord::Base
     end
   }
 
-  scope :order_articles, lambda { |order|
-    if order == 'doi'
-      order("doi")
-    else
+  scope :order_articles, lambda { |name|
+    if name.blank?
       order("published_on DESC")
+    else
+      includes(:retrieval_statuses).joins(:sources).where("sources.name = ?", name).order("retrieval_statuses.event_count DESC, published_on DESC")
     end
   }
 

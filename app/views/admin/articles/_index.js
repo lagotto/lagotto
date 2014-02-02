@@ -3,10 +3,12 @@ var api_key = d3.select("h1#api_key").attr('data-api_key');
 var page = d3.select("h1#api_key").attr('data-page');
 var q = d3.select("h1#api_key").attr('data-q');
 var class_name = d3.select("h1#api_key").attr('data-class_name');
-var query = "/api/v5/articles?api_key=" + api_key + "&info=summary";
-if (page != "1") query += "&page=" + page;
+var order = d3.select("h1#api_key").attr('data-order');
+var query = "/api/v5/articles?api_key=" + api_key + "";
+if (page != "") query += "&page=" + page;
 if (q != "") query += "&q=" + q;
 if (class_name != "") query += "&class_name=" + class_name;
+if (order != "") query += "&source=" + order + "&order=" + order;
 
 d3.json(query, function(error, json) {
   data = json["data"];
@@ -14,6 +16,7 @@ d3.json(query, function(error, json) {
   json["href"] = "?page={{number}}";
   if (q != "") json["href"] += "&q=" + q;
   if (class_name != "") json["href"] += "&class_name=" + class_name;
+  if (order != "") json["href"] += "&order=" + order;
 
   if (data.length == 0) {
     d3.select("#results").text("")
@@ -46,7 +49,7 @@ d3.json(query, function(error, json) {
   };
 
   // Pagination
-  if (json["total_pages"] > 1) {
+  if ((page != "") & json["total_pages"] > 1) {
     d3.select("#results").append("div")
       .attr("id", "paginator");
 
@@ -65,6 +68,10 @@ d3.json(query, function(error, json) {
 
   function signpostsToString(article) {
     var arr = []
+    if (order != "") {
+      source = article["sources"].filter(function(d) { return d.name == order })[0];
+      arr.push(source.display_name + ": " + source.metrics.total);
+    }
     if (article["viewed"] > 0) arr.push("Viewed: " + formatFixed(article["viewed"]));
     if (article["cited"] > 0) arr.push("Cited: " + formatFixed(article["cited"]));
     if (article["saved"] > 0) arr.push("Saved: " + formatFixed(article["saved"]));

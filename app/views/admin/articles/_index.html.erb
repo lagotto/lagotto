@@ -42,7 +42,7 @@
         </div>
       <% end %>
       <div class="btn-group btn-group-sm" id="article-order">
-          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> Sort <span class="caret"></span></a>
+          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @order.nil? ? "Date" : h(sources.select { |s| s.name == @order }.first.display_name) %> <span class="caret"></span></a>
           <ul class="dropdown-menu pull-right">
             <li><%= link_to "Date", articles_path(q: params[:q], class_name: params[:class_name]) %></li>
             <li class="divider"></li>

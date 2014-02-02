@@ -4,7 +4,8 @@ Feature: Use without signing in
   Users should not be required to sign in
 
     Scenario: Anonymous user can see articles
-      Given that we have 5 articles
+      Given we have a user with role "admin"
+      And that we have 5 articles
       When I go to the "Articles" page
       Then I should see a list of 10 articles
 

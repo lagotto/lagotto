@@ -7,15 +7,23 @@ class Api::V5::ArticlesController < Api::V5::BaseController
     # Limit number of ids to 50
     source_ids = get_source_ids(params[:source])
 
-    type = { "doi" => "doi", "pmid" => "pub_med", "pmcid" => "pub_med_central", "mendeley" => "mendeley" }.assoc(params[:type])
-    type = type.nil? ? Article.uid : type[1]
-    ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Article.clean_id(id) }
+    if params[:ids]
+      if params[:type]
+        type = { "doi" => "doi",
+                 "pmid" => "pub_med",
+                 "pmcid" => "pub_med_central",
+                 "mendeley" => "mendeley" }.assoc(params[:type])
 
-    if ids
+        type = type.nil? ? Article.uid : type[1]
+      else
+        type = "doi"
+      end
+
+      ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Article.clean_id(id) }
       id_hash = { :articles => { type.to_sym => ids }, :retrieval_statuses => { :source_id => source_ids }}
       collection = ArticleDecorator.where(id_hash)
     else
-      collection = ArticleDecorator
+      collection = ArticleDecorator.includes(:retrieval_statuses).where(:retrieval_statuses => { :source_id => source_ids })
       collection = collection.query(params[:q]) if params[:q]
     end
 
@@ -29,15 +37,15 @@ class Api::V5::ArticlesController < Api::V5::BaseController
       end
     end
 
-    collection = collection.order_articles(params[:order])
-    @articles = collection.includes(:retrieval_statuses).paginate(:page => params[:page]).decorate(context: { info: params[:info], source: params[:source] })
+    collection = collection.unscoped.order_articles(params[:order])
+    @articles = collection.paginate(:page => params[:page]).decorate(context: { info: params[:info], source: params[:source] })
   end
 
   protected
 
   # Filter by source parameter, filter out private sources unless staff or admin
   def get_source_ids(source_names)
-    if source_names and current_user.try(:admin_or_staff?)
+    if source_names && current_user.try(:admin_or_staff?)
       source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
     elsif source_names
       source_ids = Source.where("private = 0 AND lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
