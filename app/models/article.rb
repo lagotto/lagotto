@@ -53,6 +53,14 @@ class Article < ActiveRecord::Base
     end
   }
 
+  scope :q, lambda { |query|
+    if self.has_many?
+      where("doi like ?", "#{query}%")
+    else
+      where("doi like ? OR title like ?", "%#{query}%", "%#{query}%")
+    end
+  }
+
   scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
 
   scope :cited, lambda { |cited|
@@ -235,6 +243,11 @@ class Article < ActiveRecord::Base
     crossref = retrieval_statuses.joins(:source).where("sources.name = 'crossref'").last
     (crossref.nil? ? 0 : crossref.event_count)
   end
+
+  alias_method :viewed, :views
+  alias_method :saved, :bookmarks
+  alias_method :discussed, :shares
+  alias_method :cited, :citations
 
   private
 

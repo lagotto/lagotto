@@ -87,7 +87,7 @@ class RetrievalStatusDecorator < Draper::Decorator
       return nil if events.blank?
       events_30 = events.select { |event| event["event"]["post_time"].to_date - article.published_on < 30 }
       return nil if events_30.blank?
-      events_30.group_by {|event| event["event"]["post_time"].to_datetime.strftime("%Y-%m-%d") }.sort.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
+      events_30.group_by { |event| event["event"]["post_time"].to_datetime.strftime("%Y-%m-%d") }.sort.map { |k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length }}
     when "researchblogging"
       return nil if events.blank?
       events_30 = events.select { |event| event["event"]["published_date"].to_date - article.published_on < 30 }
