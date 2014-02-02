@@ -21,69 +21,59 @@
 
 <% else %>
   <div class="page-header">
-    <% if can? :read, Alert %>
-      <div class="btn-toolbar pull-right">
-        <% if can?(:manage, Article) %>
-          <div class="btn-group btn-group-sm">
-            <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_admin_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-default' } %>
-          </div>
-        <% end %>
+    <div class="btn-toolbar pull-right">
+      <% if can?(:manage, Article) %>
+        <div class="btn-group btn-group-sm">
+          <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_admin_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-default' } %>
+        </div>
+      <% end %>
+      <% if can? :read, Alert %>
         <div class="btn-group btn-group-sm" id="article-alerts">
           <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Articles" : h(@class_name) %> <span class="caret"></span></a>
           <ul class="dropdown-menu pull-right">
-            <li><%= link_to "All Articles", admin_articles_path(:query => params[:query]) %></li>
+            <li><%= link_to "All Articles", articles_path(:q => params[:q]) %></li>
             <li class="divider"></li>
-            <li><%= link_to "All Alerts", admin_articles_path(:class_name => "All Alerts", :query => params[:query]) %></li>
+            <li><%= link_to "All Alerts", articles_path(:class_name => "All Alerts", :q => params[:q]) %></li>
             <li class="divider"></li>
             <% article_alerts.each do |alert| %>
-            <li><%= link_to h(alert), admin_articles_path(:class_name => alert, :query => params[:query]) %></li>
+            <li><%= link_to h(alert), articles_path(:class_name => alert, :q => params[:q]) %></li>
             <% end %>
           </ul>
         </div>
-      </div>
-    <% end %>
-    <h1>Articles
-    <% unless params[:query].blank? %>
-      <small>with <em><%= params[:query] %></em> in the DOI<%= Article.has_many? ? "" : " or Title" %></small>
+      <% end %>
+      <div class="btn-group btn-group-sm" id="article-order">
+          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> Sort <span class="caret"></span></a>
+          <ul class="dropdown-menu pull-right">
+            <li><%= link_to "Date", articles_path(q: params[:q], class_name: params[:class_name]) %></li>
+            <li class="divider"></li>
+            <% sources.each do |source| %>
+            <li><%= link_to h(source.display_name), articles_path(q: params[:q], class_name: params[:class_name], order: source.name) %></li>
+            <% end %>
+          </ul>
+        </div>
+    </div>
+     <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-page="<%= @page %>" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-order="<%= @order %>">Articles
+    <% unless params[:q].blank? %>
+      <small>with <em><%= params[:q] %></em> in the DOI<%= Article.has_many? ? "" : " or Title" %></small>
     <% end %>
     </h1>
   </div>
 
-  <% if can?(:manage, Article) %>
-    <div class="search">
-      <%= form_tag(admin_articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
-        <div class="form-group">
-          <%= search_field_tag :query, params[:query], :placeholder => Article.has_many? ? "Search by DOI" : "Search by DOi or Title", :class => "form-control" %>
-        </div>
-        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-        <% unless params[:query].blank? %>
-          <%= link_to "clear", admin_articles_path, :class => "btn" %>
-        <% end %>
-      <% end %>
-    </div>
-  <% else %>
-    <div class="search">
-      <%= form_tag(articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
-         <div class="form-group">
-          <%= search_field_tag :query, params[:query], :placeholder => Article.has_many? ? "Search by DOI" : "Search by DOI or Title", :class => "form-control" %>
-        </div>
-        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-        <% unless params[:query].blank? %>
-          <%= link_to "clear", admin_articles_path, :class => "btn btn-sm btn-link" %>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
-
-  <% if @articles.size > 0 %>
-    <% @articles.each do |article| %>
-      <% cache article do %>
-        <h4 class="article"><%= link_to article.title, article %></h4>
-        <p><%= article.published_on.to_s(:long) %> - <%= pluralize article.cited_retrievals_count, "source" %></p>
+  <div class="search">
+    <%= form_tag(articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
+       <div class="form-group">
+        <%= search_field_tag :q, params[:q], :placeholder => Article.has_many? ? "Search by DOI" : "Search by DOI or Title", :class => "form-control" %>
+      </div>
+      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+      <% unless params[:q].blank? %>
+        <%= link_to "clear", articles_path, :class => "btn" %>
       <% end %>
     <% end %>
-    <%= will_paginate @articles, :renderer => BootstrapPagination::Rails %>
-  <% else %>
-    <div class="alert alert-info">No articles found</div>
+  </div>
+
+  <div id="results"></div>
+
+  <%= javascript_tag do -%>
+    <%= render :partial => 'admin/articles/index', formats: :js %>
   <% end %>
 <% end %>

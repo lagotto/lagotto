@@ -8,6 +8,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require jquery.bootpag.min.js
 //= require turbolinks
 //
 // Load the D3 visualization library
