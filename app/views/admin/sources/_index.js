@@ -8,7 +8,7 @@ var w = 600; // width of drawing area
 var h = 36;  // bar height
 var s = 2;   // spacing between bars
 
-d3.json("/api/v3/sources?api_key=" + api_key, function(error, json) {
+d3.json("/api/v5/sources?api_key=" + api_key, function(error, json) {
   data = json;
 
   var formatFixed = d3.format(",.0f");

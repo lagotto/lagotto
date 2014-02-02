@@ -1,7 +1,7 @@
 var data;
 var api_key = d3.select("h1#api_key").attr('data-api_key');
 
-d3.json("/api/v3/status?api_key=" + api_key, function(error, json) {
+d3.json("/api/v5/status?api_key=" + api_key, function(error, json) {
   data = json;
 
   var formatFixed = d3.format(",.0f");

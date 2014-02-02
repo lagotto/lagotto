@@ -7,7 +7,7 @@ var w = 300,
     h = 200,
     radius = Math.min(w, h) / 2;
 
-d3.json("/api/v3/sources/" + name + "?api_key=" + api_key, function(error, json) {
+d3.json("/api/v5/sources/" + name + "?api_key=" + api_key, function(error, json) {
   data = json;
 
   var formatFixed = d3.format(",.0f");

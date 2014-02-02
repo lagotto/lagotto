@@ -1,7 +1,7 @@
 var data;
 var api_key = d3.select("h1#api_key").attr('data-api_key');
 var key = d3.select("h1#api_key").attr('data-key');
-var query = "/api/v3/api_requests?api_key=" + api_key
+var query = "/api/v5/api_requests?api_key=" + api_key
 if (key != "") query += "&key=" + key;
 
 d3.json(query, function(error, json) {
