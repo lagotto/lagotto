@@ -36,7 +36,7 @@
             <li><%= link_to "All Alerts", articles_path(:class_name => "All Alerts", :q => params[:q]) %></li>
             <li class="divider"></li>
             <% article_alerts.each do |alert| %>
-            <li><%= link_to h(alert), articles_path(:class_name => alert, :q => params[:q]) %></li>
+              <li><%= link_to h(alert), articles_path(:class_name => alert, :q => params[:q]) %></li>
             <% end %>
           </ul>
         </div>
@@ -47,7 +47,7 @@
             <li><%= link_to "Date", articles_path(q: params[:q], class_name: params[:class_name]) %></li>
             <li class="divider"></li>
             <% sources.each do |source| %>
-            <li><%= link_to h(source.display_name), articles_path(q: params[:q], class_name: params[:class_name], order: source.name) %></li>
+              <li><%= link_to h(source.display_name), articles_path(q: params[:q], class_name: params[:class_name], order: source.name) %></li>
             <% end %>
           </ul>
         </div>
