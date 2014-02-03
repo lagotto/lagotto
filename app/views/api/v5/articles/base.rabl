@@ -1,3 +1,5 @@
+cache @article
+
 attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date, :viewed, :saved, :discussed, :cited
 
 unless params[:info] == "summary"

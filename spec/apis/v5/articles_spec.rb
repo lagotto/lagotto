@@ -5,9 +5,10 @@ describe "/api/v5/articles" do
   let(:api_key) { user.authentication_token }
 
   context "index" do
-    let(:articles) { FactoryGirl.create_list(:article_with_events, 55) }
 
     context "more than 50 articles in query" do
+      let(:articles) { FactoryGirl.create_list(:article_with_events, 55) }
+
       before(:each) do
         article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
         @uri = "/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}"

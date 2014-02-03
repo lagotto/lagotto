@@ -6,6 +6,7 @@ class Api::V5::ArticlesController < Api::V5::BaseController
     # Translate type query parameter into column name
     # Limit number of ids to 50
     source_ids = get_source_ids(params[:source])
+    collection = ArticleDecorator.includes(:retrieval_statuses).where({ :retrieval_statuses => { :source_id => source_ids }})
 
     if params[:ids]
       if params[:type]
@@ -16,15 +17,13 @@ class Api::V5::ArticlesController < Api::V5::BaseController
 
         type = type.nil? ? Article.uid : type[1]
       else
-        type = "doi"
+        type = Article.uid
       end
 
       ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Article.clean_id(id) }
-      id_hash = { :articles => { type.to_sym => ids }, :retrieval_statuses => { :source_id => source_ids }}
-      collection = ArticleDecorator.where(id_hash)
-    else
-      collection = ArticleDecorator.includes(:retrieval_statuses).where(:retrieval_statuses => { :source_id => source_ids })
-      collection = collection.query(params[:q]) if params[:q]
+      collection = collection.where({ :articles => { type.to_sym => ids }})
+    elsif params[:q]
+      collection = collection.query(params[:q])
     end
 
     if params[:class_name]
@@ -37,8 +36,9 @@ class Api::V5::ArticlesController < Api::V5::BaseController
       end
     end
 
-    collection = collection.unscoped.order_articles(params[:order])
-    @articles = collection.paginate(:page => params[:page]).decorate(context: { info: params[:info], source: params[:source] })
+    collection = collection.order_articles(params[:order])
+    collection = collection.paginate(:page => params[:page])
+    @articles = collection.decorate(:context => { :info => params[:info], :source => params[:source] })
   end
 
   protected

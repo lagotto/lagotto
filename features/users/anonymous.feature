@@ -7,7 +7,7 @@ Feature: Use without signing in
       Given we have a user with role "admin"
       And that we have 5 articles
       When I go to the "Articles" page
-      Then I should see a list of 10 articles
+      Then I should see a list of 5 articles
 
     Scenario: Anonymous user can go to article
       Given we have a user with role "admin"
@@ -16,12 +16,13 @@ Feature: Use without signing in
       Then I should see the article
 
     Scenario: Anonymous user can see sources
-      Given the source "Citeulike" exists
+      Given we have a user with role "admin"
       When I go to the "Sources" page
       Then I should see the image "citeulike.png"
 
     Scenario: Anonymous user can go to source
-      Given the source "Citeulike" exists
+      Given we have a user with role "admin"
+      And the source "Citeulike" exists
       When I go to the source "CiteULike"
       Then I should see the image "citeulike.png"
 
