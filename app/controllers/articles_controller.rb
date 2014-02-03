@@ -25,10 +25,6 @@ class ArticlesController < ApplicationController
     @q = params[:q]
     @class_name = params[:class_name]
     @order = params[:order]
-
-    # respond_with do |format|
-    #   format.js { render "admin/articles/index" }
-    # end
   end
 
   def show
@@ -38,7 +34,11 @@ class ArticlesController < ApplicationController
 
     @groups = Group.order("id")
 
-    respond_with(@article)
+    if params[:id].starts_with? "info:doi/"
+      respond_with(@article)
+    else
+      redirect_to article_path(@article)
+    end
   end
 
   protected

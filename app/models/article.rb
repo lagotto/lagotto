@@ -133,7 +133,7 @@ class Article < ActiveRecord::Base
   end
 
   def to_param
-    CGI.escape(Article.to_uri(uid))
+    Article.to_uri(uid)
   end
 
   def self.per_page
