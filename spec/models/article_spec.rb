@@ -89,17 +89,8 @@ describe Article do
     end
   end
 
-  it "order by doi" do
-    articles = Article.order_articles("doi")
-    i = 0
-    while i < (articles.size-1)
-      assert(articles[i].doi < articles[i+1].doi)
-      i += 1
-    end
-  end
-
   it "order by published_on" do
-    articles = Article.order_articles("published_on")
+    articles = Article.order_articles("")
     i = 0
     while i < (articles.size-1)
       assert(articles[i].published_on <= articles[i+1].published_on)
