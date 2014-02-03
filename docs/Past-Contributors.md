@@ -7,4 +7,4 @@ The following people contributed to the development effort of Article-Level Metr
 * [Jennifer Song](http://www.plos.org/about/people/staff/) - Software developer at PLOS
 * [Martin Fenner](https://github.com/mfenner) - Software developer for PLOS (contract)
 * [Martin Whitwell](http://cottagelabs.com/people/martyn) - Software developer at Cottage Labs
-* [Juan Alperin](https://github.com/jalperin) - Software developer for PKP
+* [Juan Pablo Alperin](https://github.com/jalperin) - Software developer for PKP
