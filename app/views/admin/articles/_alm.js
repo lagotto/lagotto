@@ -565,9 +565,9 @@ var doi = d3.select(".doi").attr('data-doi');
 var api_key = d3.select(".doi").attr('data-api_key');
 var data;
 
-d3.json(encodeURI("/api/v3/articles?api_key=" + api_key + "&ids=" + doi + "&info=history"), function(error, json) {
+d3.json(encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + doi + "&info=history"), function(error, json) {
     if (error) return console.warn(error);
-    options['almStatsJson'] = json;
+    options['almStatsJson'] = json["data"];
     var almviz = new AlmViz(options);
     almviz.initViz();
 });

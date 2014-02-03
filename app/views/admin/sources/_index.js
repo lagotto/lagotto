@@ -9,7 +9,7 @@ var h = 36;  // bar height
 var s = 2;   // spacing between bars
 
 d3.json("/api/v5/sources?api_key=" + api_key, function(error, json) {
-  data = json;
+  data = json["data"];
 
   var formatFixed = d3.format(",.0f");
 

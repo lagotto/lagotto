@@ -1,4 +1,5 @@
 object false
+cache @articles
 
 node(:total) { |m| @articles.total_entries }
 node(:total_pages) { |m| (@articles.total_entries.to_f / @articles.per_page).ceil }

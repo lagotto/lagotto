@@ -5,7 +5,7 @@ var query = "/api/v5/api_requests?api_key=" + api_key
 if (key != "") query += "&key=" + key;
 
 d3.json(query, function(error, json) {
-  data = json;
+  data = json["data"];
 
   if (data.length == 0) {
     d3.select("#description").text("")

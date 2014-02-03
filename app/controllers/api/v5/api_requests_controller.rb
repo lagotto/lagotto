@@ -13,6 +13,6 @@ class Api::V5::ApiRequestsController < Api::V5::BaseController
       collection = ApiRequest.where("ids LIKE ?", "Api::%")
     end
 
-    @api_requests = collection.order("created_at DESC").limit(10000)
+    @api_requests = collection.order("created_at DESC").paginate(:page => params[:page])
   end
 end
