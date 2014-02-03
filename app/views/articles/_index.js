@@ -4,11 +4,15 @@ var page = d3.select("h1#api_key").attr('data-page');
 var q = d3.select("h1#api_key").attr('data-q');
 var class_name = d3.select("h1#api_key").attr('data-class_name');
 var order = d3.select("h1#api_key").attr('data-order');
-var query = "/api/v5/articles?api_key=" + api_key + "";
+var query = "/api/v5/articles?api_key=" + api_key;
 if (page != "") query += "&page=" + page;
 if (q != "") query += "&q=" + q;
 if (class_name != "") query += "&class_name=" + class_name;
-if (order != "") query += "&source=" + order + "&order=" + order;
+if (order != "") {
+  query += "&source=" + order + "&order=" + order;
+} else {
+  query += "&info=summary";
+}
 
 d3.json(query, function(error, json) {
   data = json["data"];
@@ -23,6 +27,7 @@ d3.json(query, function(error, json) {
       .insert("div")
       .attr("class", "alert alert-info")
       .text("No articles found");
+    if (page == "") d3.select("div#rss").remove();
     return;
   }
 

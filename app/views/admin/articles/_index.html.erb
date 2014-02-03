@@ -42,15 +42,19 @@
         </div>
       <% end %>
       <div class="btn-group btn-group-sm" id="article-order">
-          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @order.nil? ? "Date" : h(sources.select { |s| s.name == @order }.first.display_name) %> <span class="caret"></span></a>
-          <ul class="dropdown-menu pull-right">
-            <li><%= link_to "Date", articles_path(q: params[:q], class_name: params[:class_name]) %></li>
-            <li class="divider"></li>
-            <% sources.each do |source| %>
-              <li><%= link_to h(source.display_name), articles_path(q: params[:q], class_name: params[:class_name], order: source.name) %></li>
+        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @order.nil? ? "Date" : h(sources.select { |s| s.name == @order }.first.display_name) %> <span class="caret"></span></a>
+        <ul class="dropdown-menu pull-right">
+          <li><%= link_to "Date", articles_path(q: params[:q], class_name: params[:class_name]) %></li>
+            <% Group.order("id").each do |group| %>
+              <% unless group.sources.active.empty? %>
+                <li class="divider"></li>
+                <% group.sources.active.each do |source| %>
+                  <li><%= link_to h(source.display_name), articles_path(q: params[:q], class_name: params[:class_name], order: source.name) %></li>
+                <% end %>
+              <% end %>
             <% end %>
-          </ul>
-        </div>
+        </ul>
+      </div>
     </div>
      <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-page="<%= @page %>" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-order="<%= @order %>">Articles
     <% unless params[:q].blank? %>
@@ -74,6 +78,6 @@
   <div id="results"></div>
 
   <%= javascript_tag do -%>
-    <%= render :partial => 'admin/articles/index', formats: :js %>
+    <%= render :partial => 'articles/index', formats: :js %>
   <% end %>
 <% end %>

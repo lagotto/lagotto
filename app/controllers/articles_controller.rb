@@ -26,9 +26,9 @@ class ArticlesController < ApplicationController
     @class_name = params[:class_name]
     @order = params[:order]
 
-    respond_with do |format|
-      format.js { render :index }
-    end
+    # respond_with do |format|
+    #   format.js { render "admin/articles/index" }
+    # end
   end
 
   def show

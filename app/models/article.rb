@@ -43,8 +43,6 @@ class Article < ActiveRecord::Base
   before_validation :sanitize_title
   after_create :create_retrievals
 
-  default_scope order("published_on DESC")
-
   scope :query, lambda { |query|
     if self.has_many?
       where("doi like ?", "#{query}%")
@@ -68,7 +66,7 @@ class Article < ActiveRecord::Base
     if name.blank?
       order("published_on DESC")
     else
-      includes(:retrieval_statuses).joins(:sources).where("sources.name = ?", name).order("retrieval_statuses.event_count DESC, published_on DESC")
+      where("retrieval_statuses.event_count > 0").order("retrieval_statuses.event_count DESC, published_on DESC")
     end
   }
 

@@ -6,7 +6,10 @@ class Admin::ArticlesController < Admin::ApplicationController
   respond_to :html, :js
 
   def index
-    redirect_to articles_path
+    respond_with do |format|
+      format.js { render "admin/articles/index" }
+      format.html { redirect_to articles_path }
+    end
   end
 
   def show
