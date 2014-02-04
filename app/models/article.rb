@@ -203,6 +203,11 @@ class Article < ActiveRecord::Base
     rs.nil? ? nil : rs.events_url
   end
 
+  def citeulike_url
+    rs = retrieval_statuses.includes(:source).where("sources.name" => "citeulike").first
+    rs.nil? ? nil : rs.events_url
+  end
+
   def title_escaped
     CGI.escape(title.to_str).gsub("+", "%20")
   end
