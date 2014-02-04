@@ -23,17 +23,18 @@ describe "/api/v5/status", :not_teamcity => true do
       it "can cache status in JSON" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
         sleep 1
 
         Rails.cache.exist?("#{key}//json").should be_true
 
-        response = Rails.cache.read("#{key}//json")
-        response[:version].should eq(VERSION)
-        response[:users_count].should == 1
-        response[:responses_count].should == 5
-        response[:update_date].should eql(Status.update_date)
+        response = JSON.parse(Rails.cache.read("#{key}//json"))
+        data = response["data"]
+        data["version"].should eq(VERSION)
+        data["users_count"].should == 1
+        data["responses_count"].should == 5
+        data["update_date"].should eql(Status.update_date)
       end
 
       it "can make API requests 2x faster" do
@@ -46,8 +47,8 @@ describe "/api/v5/status", :not_teamcity => true do
         Rails.cache.exist?("#{key}//json").should be_true
 
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
-        ApiRequest.count.should eql(2)
+        last_response.status.should == 200
+        ApiRequest.count.should == 2
         ApiRequest.last.view_duration.should be < 0.5 * ApiRequest.first.view_duration
       end
 
@@ -59,11 +60,12 @@ describe "/api/v5/status", :not_teamcity => true do
         sleep 1
 
         Rails.cache.exist?("#{key}//json").should be_true
-        response = Rails.cache.read("#{key}//json")
-        response[:version].should eq(VERSION)
-        response[:users_count].should == 1
-        response[:responses_count].should == 5
-        response[:update_date].should eql(Status.update_date)
+        response = JSON.parse(Rails.cache.read("#{key}//json"))
+        data = response["data"]
+        data["version"].should eq(VERSION)
+        data["users_count"].should == 1
+        data["responses_count"].should == 5
+        data["update_date"].should eql(Status.update_date)
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
@@ -74,8 +76,9 @@ describe "/api/v5/status", :not_teamcity => true do
         cache_key = "rabl/#{Status.update_date}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
-        response = Rails.cache.read("#{cache_key}//json")
-        response[:update_date].should eql(Status.update_date)
+        response = JSON.parse(Rails.cache.read("#{cache_key}//json"))
+        data = response["data"]
+        data["update_date"].should eql(Status.update_date)
       end
     end
   end

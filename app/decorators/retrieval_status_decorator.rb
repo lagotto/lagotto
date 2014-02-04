@@ -2,6 +2,10 @@ class RetrievalStatusDecorator < Draper::Decorator
   delegate_all
   decorates_association :article
 
+  def group_name
+    group.name
+  end
+
   def events
     unless context[:days] || context[:months] || context[:year]
       model.events.blank? ? [] : model.events

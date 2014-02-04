@@ -14,13 +14,14 @@ describe "/api/v5/sources" do
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
-        responses = JSON.parse(last_response.body)
-        response = responses.first
-        response["name"].should eq(@source.name)
-        response["jobs"]["queueing"].should == 1
-        response["status"]["stale"].should == 10
+        response = JSON.parse(last_response.body)
+        data = response["data"]
+        item = data.first
+        item["name"].should eq(@source.name)
+        item["jobs"]["queueing"].should == 1
+        item["status"]["stale"].should == 10
       end
     end
 
@@ -31,13 +32,14 @@ describe "/api/v5/sources" do
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
-        responses = JSON.parse(last_response.body)
-        response = responses.first
-        response["name"].should eq(@source.name)
-        response["responses"]["count"].should == 5
-        response["responses"]["average"].should == 200
+        response = JSON.parse(last_response.body)
+        data = response["data"]
+        item = data.first
+        item["name"].should eq(@source.name)
+        item["responses"]["count"].should == 5
+        item["responses"]["average"].should == 200
       end
     end
 
@@ -49,13 +51,14 @@ describe "/api/v5/sources" do
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
-        responses = JSON.parse(last_response.body)
-        response = responses.first
-        response["name"].should eq(@source.name)
-        response["article_count"].should == 10
-        response["event_count"].should == 500
+        response = JSON.parse(last_response.body)
+        data = response["data"]
+        item = data.first
+        item["name"].should eq(@source.name)
+        item["article_count"].should == 10
+        item["event_count"].should == 500
       end
     end
   end
@@ -73,16 +76,17 @@ describe "/api/v5/sources" do
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
-        response["name"].should eq(source.name)
-        response["article_count"].should == 5
-        response["event_count"].should == 250
-        response["responses"]["count"].should == 5
-        response["responses"]["average"].should == 200
-        response["jobs"]["queueing"].should == 1
-        response["status"]["stale"].should == 5
+        data = response["data"]
+        data["name"].should eq(source.name)
+        data["article_count"].should == 5
+        data["event_count"].should == 250
+        data["responses"]["count"].should == 5
+        data["responses"]["average"].should == 200
+        data["jobs"]["queueing"].should == 1
+        data["status"]["stale"].should == 5
       end
     end
   end

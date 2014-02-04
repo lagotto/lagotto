@@ -26,8 +26,9 @@ describe "/api/v5/sources", :not_teamcity => true do
         sources.any? do |source|
           Rails.cache.exist?("rabl/#{SourceDecorator.decorate(source).cache_key}//json")
         end.should_not be_true
+
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
         sleep 1
 
@@ -36,17 +37,18 @@ describe "/api/v5/sources", :not_teamcity => true do
         end.should be_true
 
         source = sources.first
-        response = Rails.cache.read("rabl/#{SourceDecorator.decorate(source).cache_key}//json")
-        response[:name].should eql(source.name)
-        response[:update_date].should eql(source.cached_at.utc.iso8601)
+        response = JSON.parse(Rails.cache.read("rabl/#{SourceDecorator.decorate(source).cache_key}//json"))
+        data = response["data"]
+        data["name"].should eql(source.name)
+        data["update_date"].should eql(source.cached_at.utc.iso8601)
       end
 
       it "can make API requests 0.9x faster" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
         ApiRequest.count.should eql(2)
         ApiRequest.last.view_duration.should be < 0.9 * ApiRequest.first.view_duration
       end
@@ -61,28 +63,29 @@ describe "/api/v5/sources", :not_teamcity => true do
       it "can cache a source in JSON" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
         sleep 1
 
         Rails.cache.exist?("#{key}//json").should be_true
 
-        response = Rails.cache.read("#{key}//json")
-        response[:name].should eql(source.name)
-        response[:update_date].should eql(source.cached_at.utc.iso8601)
+        response = JSON.parse(Rails.cache.read("#{key}//json"))
+        data = response["data"]
+        data["name"].should eql(source.name)
+        data["update_date"].should eql(source.cached_at.utc.iso8601)
       end
 
       it "can make API requests 2x faster" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
         sleep 1
 
         Rails.cache.exist?("#{key}//json").should be_true
 
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
         ApiRequest.count.should eql(2)
         ApiRequest.last.view_duration.should be < 0.5 * ApiRequest.first.view_duration
       end
@@ -90,14 +93,15 @@ describe "/api/v5/sources", :not_teamcity => true do
       it "updates the cached_at column when a source is updated" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
         sleep 1
 
         Rails.cache.exist?("#{key}//json").should be_true
-        response = Rails.cache.read("#{key}//json")
-        response[:display_name].should eql(source.display_name)
-        response[:display_name].should_not eql(display_name)
+        response = JSON.parse(Rails.cache.read("#{key}//json"))
+        data = response["data"]
+        data["display_name"].should eql(source.display_name)
+        data["display_name"].should_not eql(display_name)
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
@@ -105,40 +109,43 @@ describe "/api/v5/sources", :not_teamcity => true do
         source.update_attributes!({ :display_name => display_name })
 
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
         cache_key = "rabl/#{SourceDecorator.decorate(source).cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
-        response = Rails.cache.read("#{cache_key}//json")
-        response[:display_name].should eql(source.display_name)
-        response[:display_name].should eql(display_name)
-        response[:update_date].should be > cached_at
+        response = JSON.parse(Rails.cache.read("#{cache_key}//json"))
+        data = response["data"]
+        data["display_name"].should eql(source.display_name)
+        data["display_name"].should eql(display_name)
+        data["update_date"].should be > cached_at
       end
 
       it "does not use a stale cache when a source is updated" do
         Rails.cache.exist?("#{key}//json").should_not be_true
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
         sleep 1
 
         Rails.cache.exist?("#{key}//json").should be_true
-        response = Rails.cache.read("#{key}//json")
-        response[:display_name].should eql(source.display_name)
-        response[:display_name].should_not eql(display_name)
+        response = JSON.parse(Rails.cache.read("#{key}//json"))
+        data = response["data"]
+        data["display_name"].should eql(source.display_name)
+        data["display_name"].should_not eql(display_name)
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
         source.update_attributes!({ :display_name => display_name })
 
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
         cache_key = "rabl/#{SourceDecorator.decorate(source).cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
-        response = Rails.cache.read("#{cache_key}//json")
-        response[:display_name].should eql(source.display_name)
-        response[:display_name].should eql(display_name)
+        response = JSON.parse(Rails.cache.read("#{cache_key}//json"))
+        data = response["data"]
+        data["display_name"].should eql(source.display_name)
+        data["display_name"].should eql(display_name)
       end
     end
   end

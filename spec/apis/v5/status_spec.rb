@@ -14,13 +14,14 @@ describe "/api/v5/status" do
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should eql(200)
+        last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
-        response["articles_count"].should == 5
-        response["responses_count"].should == 10
-        response["users_count"].should == 1
-        response["version"].should == VERSION
+        data = response["data"]
+        data["articles_count"].should == 5
+        data["responses_count"].should == 10
+        data["users_count"].should == 1
+        data["version"].should == VERSION
       end
     end
   end

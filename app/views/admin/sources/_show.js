@@ -8,7 +8,7 @@ var w = 300,
     radius = Math.min(w, h) / 2;
 
 d3.json("/api/v5/sources/" + name + "?api_key=" + api_key, function(error, json) {
-  data = json;
+  data = json["data"];
 
   var formatFixed = d3.format(",.0f");
 
