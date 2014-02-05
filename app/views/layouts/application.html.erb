@@ -60,11 +60,10 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
+          <%= controller.controller_name == "articles" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", articles_path %></li>
           <% if can? :read, Alert %>
-            <%= controller.controller_name == "articles" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", admin_articles_path %></li>
             <%= controller.controller_name == "sources" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Sources", admin_sources_path %></li>
           <% else %>
-            <%= controller.controller_name == "articles" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", articles_path %></li>
             <%= controller.controller_name == "sources" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Sources", sources_path %></li>
           <% end %>
           <% if can? :read, Alert %>

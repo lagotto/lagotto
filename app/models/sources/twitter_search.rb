@@ -20,6 +20,10 @@
 
 class TwitterSearch < Source
 
+  def put_pmc_database
+    put_alm_data(url)
+  end
+
   def get_data(article, options={})
 
     return  { events: [], event_count: nil } if article.doi.blank?
@@ -96,6 +100,7 @@ class TwitterSearch < Source
   def get_config_fields
     [{ field_name: "url", field_type: "text_area", size: "90x2" },
      { field_name: "events_url", field_type: "text_area", size: "90x2" },
+     { field_name: "data_url", field_type: "text_area", size: "90x2" },
      { field_name: "access_token", field_type: "text_field" }]
   end
 
@@ -120,6 +125,14 @@ class TwitterSearch < Source
 
   def events_url
     config.events_url || "https://twitter.com/search?q=%{doi}"
+  end
+
+  def data_url
+    config.data_url || "http://127.0.0.1:5984/twitter/"
+  end
+
+  def data_url=(value)
+    config.data_url = value
   end
 
   def staleness_week

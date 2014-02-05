@@ -20,42 +20,29 @@ class ArticlesController < ApplicationController
 
   respond_to :html
 
-  # GET /articles
   def index
-    # cited=0|1
-    # query=(doi fragment)
-    # order=doi|published_on (whitelist, default to published_on desc)
-    # source=source_type
-
-    collection = Article
-    collection = collection.cited(params[:cited]) if params[:cited]
-    collection = collection.query(params[:query]) if params[:query]
-    collection = collection.order_articles(params[:order])
-
-    @articles = collection.includes(:retrieval_statuses).paginate(:page => params[:page])
-
-    if params[:source]
-      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("name")
-    else
-      @sources = Source.order("name")
-    end
-
-    respond_with(@articles)
+    @page = params[:page] || 1
+    @q = params[:q]
+    @class_name = params[:class_name]
+    @order = params[:order]
   end
 
-  # GET /articles/:id
   def show
-
     load_article
 
     format_options = params.slice :events, :history, :source
 
     @groups = Group.order("id")
 
-    respond_with(@article)
+    if params[:id].starts_with? "info:doi/"
+      respond_with(@article)
+    else
+      redirect_to article_path(@article)
+    end
   end
 
   protected
+
   def load_article()
     # Load one article given query params
     id_hash = Article.from_uri(params[:id])

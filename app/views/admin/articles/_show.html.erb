@@ -2,7 +2,7 @@
 
   <%= simple_form_for @article, :url => admin_article_path(@article), :html => { :role => "form", :remote => true } do |f| %>
     <fieldset>
-      <legend>New Article</legend>
+      <legend>Edit Article</legend>
 
       <%= f.input :title, :input_html => { :rows => 2 } %>
       <%= f.input :doi, :label => 'DOI', :disabled => true %>
@@ -53,13 +53,23 @@
     <% end %>
     <% if @article.mendeley %>
       <dt>Mendeley UUID</dt>
-      <dd id="mendeley_uuid" data-mendeley="<%= @article.mendeley %>"><%= link_to_unless(@article.mendeley_url.blank?, h(@article.mendeley), @article.mendeley_url) %></dd>
+      <dd id="mendeley_uuid" data-mendeley="<%= @article.mendeley %>"><%= @article.mendeley %></dd>
     <% end %>
-    <% if @article.url %>
-      <dt>URL</dt>
-      <dd><%= link_to h(@article.url), @article.url %></dd>
-    <% end %>
-  </dl>
+    <dt>URLs</dt>
+    <dd>
+      <% if @article.url %>
+        <%= link_to h(@article.url), @article.url %><br/>
+      <% end %>
+      <% if @article.pub_med %>
+        <%= link_to "http://europepmc.org/abstract/MED/#{@article.pub_med}", "http://europepmc.org/abstract/MED/#{@article.pub_med}" %><br/>
+      <% end %>
+      <% if @article.mendeley_url %>
+        <%= link_to h(@article.mendeley_url), @article.mendeley_url %><br/>
+      <% end %>
+      <% if @article.citeulike_url %>
+        <%= link_to h(@article.citeulike_url), @article.citeulike_url %><br/>
+      <% end %>
+    </dd>
 
   <% if can? :read, Alert %>
     <div id="alert-error-message">

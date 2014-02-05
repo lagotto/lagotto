@@ -24,7 +24,7 @@ end
 
 ### GIVEN ###
 Given /^we have a user with role "(.*?)"$/ do |role|
-  FactoryGirl.create(:user, role: role)
+  FactoryGirl.create(:user, role: role, authentication_token: "12345")
 end
 
 Given /^we have (\d+) users$/  do |number|

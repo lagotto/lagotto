@@ -36,5 +36,13 @@ Alm::Application.routes.draw do
       root :to => "articles#index"
       resources :articles, :constraints => { :id => /.+?/, :format=> false }
     end
+
+    namespace :v5 do
+      root :to => "articles#index"
+      resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index]
+      resources :sources, :constraints => { :format=> false }, only: [:index, :show]
+      resources :status, :constraints => { :format=> false }, only: [:index]
+      resources :api_requests, :constraints => { :format=> false }, only: [:index]
+    end
   end
 end

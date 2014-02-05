@@ -31,13 +31,14 @@ Feature: View documentation
       Then I should see the documentation
 
     Scenario: Documentation on source page
-      Given the source "Citeulike" exists
+      Given we have a user with role "admin"
+      And the source "Citeulike" exists
       When I go to the source "CiteULike"
       And click on the "Documentation" tab
       Then I should see the documentation
 
     Scenario: Documentation on source admin page
-      Given I am logged in as "admin"
+      Given we have a user with role "admin"
       And the source "Citeulike" exists
       When I go to the "Documentation" tab of source "CiteULike"
       Then I should see the documentation

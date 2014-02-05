@@ -5,7 +5,7 @@ Feature: View article
   Should be able to see identifiers for an article
 
   Background:
-  Given the source "Citeulike" exists
+    Given the source "Citeulike" exists
 
     Scenario: No other article identifiers
       When I go to the article with the DOI "10.1371/journal.pone.000001" and no other identifiers

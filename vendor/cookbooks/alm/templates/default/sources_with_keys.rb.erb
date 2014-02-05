@@ -11,12 +11,12 @@ end
 <% end %>
 
 # Load sources
-viewed = Group.find_by_name("viewed")
-saved = Group.find_by_name("saved")
-discussed = Group.find_by_name("discussed")
-cited = Group.find_by_name("cited")
-recommended = Group.find_by_name("recommended")
-other = Group.find_by_name("other")
+viewed = Group.find_or_create_by_name(name: "viewed", display_name: "Viewed")
+saved = Group.find_or_create_by_name(name: "saved", display_name: "Saved")
+discussed = Group.find_or_create_by_name(name: "discussed", display_name: "Discussed")
+cited = Group.find_or_create_by_name(name: "cited", display_name: "Cited")
+recommended = Group.find_or_create_by_name(name: "recommended", display_name: "Recommended")
+other = Group.find_or_create_by_name(name: "other", display_name: "Other")
 
 # The following sources require passwords, API keys and/or contracts
 pmc = Pmc.find_or_create_by_name(
@@ -67,3 +67,10 @@ researchblogging = Researchblogging.find_or_create_by_name(
   :group_id => discussed.id,
   :username => "<%= node[:alm][:researchblogging][:username] %>",
   :password => "<%= node[:alm][:researchblogging][:password] %>")
+twitter_search = TwitterSearch.find_or_create_by_name(
+  :name => "twitter_search",
+  :display_name => "Twitter",
+  :description => "Twitter is a social networking and microblogging service.",
+  :state_event => "install",
+  :group_id => discussed.id,
+  :access_token => "<%= node[:alm][:twitter_search][:access_token] %>")
