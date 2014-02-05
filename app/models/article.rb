@@ -58,14 +58,18 @@ class Article < ActiveRecord::Base
 
 
   #PROBLEM - this is not performant on large tables.
-  #PROBLEM - IFNULL is not valid postgresql
-  
+
   scope :cited, lambda { |cited|
     case cited
       when '1', 1
         includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0)
       when '0', 0
-        where('EXISTS (SELECT * from retrieval_statuses where article_id = `articles`.id GROUP BY article_id HAVING SUM(IFNULL(retrieval_statuses.event_count,0)) = 0)')
+        if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
+          where('EXISTS (SELECT * from retrieval_statuses where article_id = `articles`.id GROUP BY article_id HAVING SUM(IFNULL(retrieval_statuses.event_count,0)) = 0)')
+        else
+          #postgresql version using COALESCE function
+          where('id IN (select article_id from retrieval_statuses group by article_id having sum(COALESCE(event_count,0))=0 )');
+        end
     end
   }
 

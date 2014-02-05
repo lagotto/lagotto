@@ -34,13 +34,15 @@ class RetrievalHistory < ActiveRecord::Base
   scope :total, lambda { |duration| where("retrieved_at > ?", Time.now - duration.days) }
 
   def self.table_status
-    table_status = ActiveRecord::Base.connection.select_all("SHOW TABLE STATUS LIKE 'retrieval_histories'").first
+    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
+      table_status = ActiveRecord::Base.connection.select_all("SHOW TABLE STATUS LIKE 'retrieval_histories'").first
+    else
+      table_status = ActiveRecord::Base.connection.select_all("SELECT * FROM pg_class WHERE oid = 'public.retrieval_histories'::regclass").first;
+    end
     Hash[table_status.map {|k, v| [k.to_s.underscore, v] }]
   end
   
-  def self.table_status_pg
-    ActiveRecord::Base.connection.select_all("SELECT reltuples FROM pg_class WHERE oid = 'public.retrieval_histories'::regclass").first;
-  end
+
 
   def data
     if event_count > 0
