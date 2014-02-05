@@ -11,24 +11,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140205171034) do
+ActiveRecord::Schema.define(:version => 20140205173729) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
     t.string   "class_name"
     t.text     "message"
     t.text     "trace"
-    t.string   "target_url"
+    t.string   "target_url",   :limit => 1000
     t.string   "user_agent"
     t.integer  "status"
     t.string   "content_type"
     t.text     "details"
-    t.boolean  "unresolved",   :default => true
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.boolean  "unresolved",                   :default => true
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
     t.string   "remote_ip"
     t.integer  "article_id"
-    t.boolean  "error",        :default => true
+    t.boolean  "error",                        :default => true
   end
 
   add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "alerts_source_id_unresolved_updated_at"
