@@ -140,11 +140,18 @@ module SourceHelper
 
     body = Nokogiri::HTML(response.body)
     body_url = body.at('link[rel="canonical"]')['href'] if body.at('link[rel="canonical"]')
-    body_url = body.at('meta[property="og:url"]')['content'] if !body_url && body.at('meta[property="og:url"]')
+    if !body_url && !body_url[0..3] == "http" && body.at('meta[property="og:url"]')
+      body_url = body.at('meta[property="og:url"]')['content']
+    end
+    body_url.downcase!
 
     url = response.env[:url].to_s
     # remove jsessionid used by J2EE servers
     url = url.gsub(/(.*);jsessionid=.*/,'\1')
+    # remove parameter used by IEEE
+    url = url.sub!("reload=true&", "")
+    # make url lowercase
+    url.downcase!
 
     # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
     if body_url.present? and body_url != url

@@ -44,13 +44,13 @@ d3.json(query, function(error, json) {
       .append("text")
       .text(article["title"]);
     d3.select("#results").append("p")
-      .text(iso8601ToDate(article["publication_date"]))
-      .append("text")
-      .text(signpostsToString(article))
+      .text(iso8601ToDate(article["publication_date"]) + ". ")
       .append("a")
       .attr("href", function(d) { return "http://dx.doi.org/" + article["doi"]; })
       .append("text")
       .text("http://dx.doi.org/" + article["doi"]);
+    d3.select("#results").append("p")
+      .text(signpostsToString(article));
   };
 
   // Pagination
@@ -75,16 +75,18 @@ d3.json(query, function(error, json) {
     var arr = []
     if (order != "") {
       source = article["sources"].filter(function(d) { return d.name == order })[0];
-      arr.push(source.display_name + ": " + source.metrics.total);
+      str = source.display_name + ": " + source.metrics.total;
+    } else {
+      str = "";
     }
     if (article["viewed"] > 0) arr.push("Viewed: " + formatFixed(article["viewed"]));
     if (article["cited"] > 0) arr.push("Cited: " + formatFixed(article["cited"]));
     if (article["saved"] > 0) arr.push("Saved: " + formatFixed(article["saved"]));
     if (article["discussed"] > 0) arr.push("Discussed: " + formatFixed(article["discussed"]));
     if (arr.length > 0) {
-      return ". " + arr.join(" • ") + ". ";
+      return str + " | " + arr.join(" • ") + ". ";
     } else {
-      return ". ";
+      return str;
     }
   }
 });
