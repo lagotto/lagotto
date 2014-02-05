@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140111114925) do
+ActiveRecord::Schema.define(:version => 20140205170221) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -190,7 +190,7 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.string   "type",                                            :null => false
     t.string   "name",                                            :null => false
     t.string   "display_name",                                    :null => false
-    t.datetime "run_at",                                          :null => false
+    t.datetime "run_at",       :default => '1970-01-01 00:00:00', :null => false
     t.text     "config"
     t.integer  "group_id",                                        :null => false
     t.boolean  "private",      :default => false
