@@ -183,8 +183,8 @@ class Article < ActiveRecord::Base
     return url if url.present?
 
     if doi.present?
-      original_url = get_original_url(doi_as_url)
-      update_attributes(:url => original_url) if original_url.present?
+      canonical_url = get_canonical_url(doi_as_url)
+      update_attributes(:url => canonical_url) if canonical_url.present?
     end
 
     return url
