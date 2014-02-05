@@ -1,5 +1,4 @@
 collection @articles
-cache @articles
 
 attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date, :viewed, :saved, :discussed, :cited
 
