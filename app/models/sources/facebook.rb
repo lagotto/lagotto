@@ -31,17 +31,18 @@ class Facebook < Source
       nil
     else
       events = result["data"]
-      # the data we get for the DOI are consistent with the data we get for the URL
-      if events[0]["total_count"] == 0 || (events[1]["total_count"]/events[0]["total_count"]).between?(0.8, 1.2)
-        shares = events[0]["share_count"]
-        comments = events[0]["comment_count"]
-        likes = events[0]["like_count"]
-        total = events[0]["total_count"]
-      else
+      # don't trust results if event count is above preset limit
+      # workaround for Facebook getting confused about the canonical URL
+      if events[0]["total_count"] > count_limit.to_i
         shares = 0
         comments = 0
         likes = 0
         total = 0
+      else
+        shares = events[0]["share_count"]
+        comments = events[0]["comment_count"]
+        likes = events[0]["like_count"]
+        total = events[0]["total_count"]
       end
       event_metrics = { :pdf => nil,
                         :html => nil,
@@ -59,19 +60,28 @@ class Facebook < Source
   end
 
   def get_query_url(article, options={})
-    URI.escape(url % { access_token: access_token, query_url: article.url, doi_as_url: article.doi_as_url })
+    URI.escape(url % { access_token: access_token, query_url: article.url })
   end
 
   def get_config_fields
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "access_token", :field_type => "text_field"}]
+     {:field_name => "access_token", :field_type => "text_field"},
+     {:field_name => "count_limit", :field_type => "text_field"}]
   end
 
   def url
-    config.url || "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count, comments_fbid from link_stat where url = '%{query_url}' or url = '%{doi_as_url}'"
+    config.url || "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'"
   end
 
   def access_token
     config.access_token
+  end
+
+  def count_limit
+    config.count_limit || 20000
+  end
+
+  def count_limit=(value)
+    config.count_limit = value
   end
 end

@@ -43,8 +43,6 @@ class Article < ActiveRecord::Base
   before_validation :sanitize_title
   after_create :create_retrievals
 
-  default_scope order("published_on DESC")
-
   scope :query, lambda { |query|
     if self.has_many?
       where("doi like ?", "#{query}%")
@@ -64,11 +62,11 @@ class Article < ActiveRecord::Base
     end
   }
 
-  scope :order_articles, lambda { |order|
-    if order == 'doi'
-      order("doi")
-    else
+  scope :order_articles, lambda { |name|
+    if name.blank?
       order("published_on DESC")
+    else
+      where("retrieval_statuses.event_count > 0").order("retrieval_statuses.event_count DESC, published_on DESC")
     end
   }
 
@@ -135,7 +133,7 @@ class Article < ActiveRecord::Base
   end
 
   def to_param
-    CGI.escape(Article.to_uri(uid))
+    Article.to_uri(uid)
   end
 
   def self.per_page
@@ -185,8 +183,8 @@ class Article < ActiveRecord::Base
     return url if url.present?
 
     if doi.present?
-      original_url = get_original_url(doi_as_url)
-      update_attributes(:url => original_url) if original_url.present?
+      canonical_url = get_canonical_url(doi_as_url)
+      update_attributes(:url => canonical_url) if canonical_url.present?
     end
 
     return url
@@ -202,6 +200,11 @@ class Article < ActiveRecord::Base
 
   def mendeley_url
     rs = retrieval_statuses.includes(:source).where("sources.name" => "mendeley").first
+    rs.nil? ? nil : rs.events_url
+  end
+
+  def citeulike_url
+    rs = retrieval_statuses.includes(:source).where("sources.name" => "citeulike").first
     rs.nil? ? nil : rs.events_url
   end
 
@@ -235,6 +238,11 @@ class Article < ActiveRecord::Base
     crossref = retrieval_statuses.joins(:source).where("sources.name = 'crossref'").last
     (crossref.nil? ? 0 : crossref.event_count)
   end
+
+  alias_method :viewed, :views
+  alias_method :saved, :bookmarks
+  alias_method :discussed, :shares
+  alias_method :cited, :citations
 
   private
 

@@ -28,6 +28,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   delegate :name, :to => :source
   delegate :display_name, :to => :source
+  delegate :group, :to => :source
 
   scope :most_cited, lambda { where("event_count > 0").order("event_count desc").limit(25) }
   scope :most_cited_last_x_days, lambda { |days| joins(:article).where("event_count > 0 AND articles.published_on >= CURDATE() - INTERVAL ? DAY", days).order("event_count desc").limit(25) }

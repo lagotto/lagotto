@@ -24,8 +24,8 @@ require 'faraday-cookie_jar'
 
 module SourceHelper
   DEFAULT_TIMEOUT = 60
-  SourceHelperExceptions = [Faraday::Error::ClientError].freeze
-  # Delayed::WorkerTimeout, Errno::EPIPE, Errno::ECONNRESET
+  SourceHelperExceptions = [Faraday::Error::ClientError, Delayed::WorkerTimeout].freeze
+  # Errno::EPIPE, Errno::ECONNRESET
 
   def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
     conn = conn_json
@@ -125,11 +125,33 @@ module SourceHelper
     delete_alm_data(couchdb_url)
   end
 
-  def get_original_url(url, options = { timeout: DEFAULT_TIMEOUT })
+  def get_canonical_url(url, options = { timeout: DEFAULT_TIMEOUT })
     conn = conn_doi
+    # disable ssl verification
+    conn.options[:ssl] = { verify: false }
+
     conn.options[:timeout] = options[:timeout]
-    response = conn.head url
-    response.env[:url].to_s
+    response = conn.get url
+
+    # Priority to find URL:
+    # 1. <link rel=canonical />
+    # 2. <meta property="og:url" />
+    # 3. URL from header
+
+    body = Nokogiri::HTML(response.body)
+    body_url = body.at('link[rel="canonical"]')['href'] if body.at('link[rel="canonical"]')
+    body_url = body.at('meta[property="og:url"]')['content'] if !body_url && body.at('meta[property="og:url"]')
+
+    url = response.env[:url].to_s
+    # remove jsessionid used by J2EE servers
+    url = url.gsub(/(.*);jsessionid=.*/,'\1')
+
+    # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
+    if body_url.present? and body_url != url
+      raise Faraday::Error::ClientError, "Canonical URL mismatch: #{body_url}"
+    end
+
+    url
   rescue *SourceHelperExceptions => e
     rescue_faraday_error(url, e, options)
   end
@@ -239,6 +261,8 @@ module SourceHelper
       when 409
         class_name = Net::HTTPConflict
         message = "#{error.message} with rev #{options[:data][:rev]}"
+      when 417
+        class_name = Net::HTTPExpectationFailed
       when 429
         class_name = Net::HTTPClientError
       when 500
