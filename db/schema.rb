@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140205170221) do
+ActiveRecord::Schema.define(:version => 20140205171034) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -153,14 +153,14 @@ ActiveRecord::Schema.define(:version => 20140205170221) do
   add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "retrieval_histories_source_id_status_updated_at"
 
   create_table "retrieval_statuses", :force => true do |t|
-    t.integer  "article_id",                   :null => false
-    t.integer  "source_id",                    :null => false
+    t.integer  "article_id",                                       :null => false
+    t.integer  "source_id",                                        :null => false
     t.datetime "queued_at"
-    t.datetime "retrieved_at",                 :null => false
+    t.datetime "retrieved_at",  :default => '1970-01-01 00:00:00', :null => false
     t.integer  "event_count",   :default => 0
     t.string   "data_rev"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
     t.datetime "scheduled_at"
     t.string   "events_url"
     t.string   "event_metrics"
