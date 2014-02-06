@@ -51,14 +51,23 @@ class Article < ActiveRecord::Base
     end
   }
 
-  scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
+  #scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
+  scope :last_x_days, lambda { |duration| where(published_on: (Date.today-duration.days)..Date.today) }
+
+
+  #PROBLEM - this is not performant on large tables.
 
   scope :cited, lambda { |cited|
     case cited
       when '1', 1
-        includes(:retrieval_statuses).where("retrieval_statuses.event_count > 0")
+        includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0)
       when '0', 0
-        where('EXISTS (SELECT * from retrieval_statuses where article_id = `articles`.id GROUP BY article_id HAVING SUM(IFNULL(retrieval_statuses.event_count,0)) = 0)')
+        if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
+          where('EXISTS (SELECT * from retrieval_statuses where article_id = `articles`.id GROUP BY article_id HAVING SUM(IFNULL(retrieval_statuses.event_count,0)) = 0)')
+        else
+          #postgresql version using COALESCE function
+          where('id IN (select article_id from retrieval_statuses group by article_id having sum(COALESCE(event_count,0))=0 )');
+        end
     end
   }
 
@@ -217,25 +226,25 @@ class Article < ActiveRecord::Base
   end
 
   def views
-    counter = retrieval_statuses.joins(:source).where("sources.name = 'counter'").last
-    pmc = retrieval_statuses.joins(:source).where("sources.name = 'pmc'").last
+    counter = retrieval_statuses.joins(:source).where("sources.name = ?", 'counter').last
+    pmc = retrieval_statuses.joins(:source).where("sources.name = ?", 'pmc').last
     (counter.nil? ? 0 : counter.event_count) + (pmc.nil? ? 0 : pmc.event_count)
   end
 
   def shares
-    twitter = retrieval_statuses.joins(:source).where("sources.name = 'twitter'").last
-    facebook = retrieval_statuses.joins(:source).where("sources.name = 'facebook'").last
+    twitter = retrieval_statuses.joins(:source).where("sources.name = ?", 'twitter').last
+    facebook = retrieval_statuses.joins(:source).where("sources.name = ?", 'facebook').last
     (twitter.nil? ? 0 : twitter.event_count) + (facebook.nil? ? 0 : facebook.event_count)
   end
 
   def bookmarks
-    citeulike = retrieval_statuses.joins(:source).where("sources.name = 'citeulike'").last
-    mendeley = retrieval_statuses.joins(:source).where("sources.name = 'mendeley'").last
+    citeulike = retrieval_statuses.joins(:source).where("sources.name = ?", 'citeulike').last
+    mendeley = retrieval_statuses.joins(:source).where("sources.name = ?", 'mendeley').last
     (citeulike.nil? ? 0 : citeulike.event_count) + (mendeley.nil? ? 0 : mendeley.event_count)
   end
 
   def citations
-    crossref = retrieval_statuses.joins(:source).where("sources.name = 'crossref'").last
+    crossref = retrieval_statuses.joins(:source).where("sources.name = ?", 'crossref').last
     (crossref.nil? ? 0 : crossref.event_count)
   end
 

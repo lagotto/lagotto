@@ -8,7 +8,7 @@
         <% @filter.get_config_fields.each do |field| %>
           <% if field[:field_name] == "source_ids" %>
             <%= f.input :source_ids, :as => :check_boxes,
-                                      collection: Source.active.where("name != 'relativemetric'"),
+                                      collection: Source.active.where("name != ?", 'relativemetric'),
                                       label_method: :display_name,
                                       value_method: :id,
                                       label: "Sources",

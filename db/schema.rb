@@ -11,29 +11,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140111114925) do
+ActiveRecord::Schema.define(:version => 20140205173729) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
     t.string   "class_name"
     t.text     "message"
     t.text     "trace"
-    t.string   "target_url"
+    t.string   "target_url",   :limit => 1000
     t.string   "user_agent"
     t.integer  "status"
     t.string   "content_type"
     t.text     "details"
-    t.boolean  "unresolved",   :default => true
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.boolean  "unresolved",                   :default => true
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
     t.string   "remote_ip"
     t.integer  "article_id"
-    t.boolean  "error",        :default => true
+    t.boolean  "error",                        :default => true
   end
 
-  add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"
-  add_index "alerts", ["unresolved", "updated_at"], :name => "index_error_messages_on_unresolved_and_updated_at"
-  add_index "alerts", ["updated_at"], :name => "index_error_messages_on_updated_at"
+  add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "alerts_source_id_unresolved_updated_at"
+  add_index "alerts", ["unresolved", "updated_at"], :name => "alerts_unresolved_updated_at"
+  add_index "alerts", ["updated_at"], :name => "alerts_updated_at"
 
   create_table "api_requests", :force => true do |t|
     t.string   "format"
@@ -46,9 +46,9 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.text     "ids"
   end
 
-  add_index "api_requests", ["api_key", "created_at"], :name => "index_api_requests_api_key_created_at"
-  add_index "api_requests", ["api_key"], :name => "index_api_requests_on_api_key"
-  add_index "api_requests", ["created_at"], :name => "index_api_requests_on_created_at"
+  add_index "api_requests", ["api_key", "created_at"], :name => "index_api_requests_api_key_created_at", :order => {"created_at"=>:desc}
+  add_index "api_requests", ["api_key"], :name => "api_requests_api_key"
+  add_index "api_requests", ["created_at"], :name => "api_requests_created_at"
 
   create_table "api_responses", :force => true do |t|
     t.integer  "article_id"
@@ -63,9 +63,9 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.boolean  "unresolved",           :default => true
   end
 
+  add_index "api_responses", ["created_at"], :name => "api_responses_created_at"
   add_index "api_responses", ["created_at"], :name => "index_api_responses_created_at"
-  add_index "api_responses", ["created_at"], :name => "index_api_responses_on_created_at"
-  add_index "api_responses", ["event_count"], :name => "index_api_responses_on_event_count"
+  add_index "api_responses", ["event_count"], :name => "api_responses_event_count"
   add_index "api_responses", ["unresolved", "id"], :name => "index_api_responses_unresolved_id"
 
   create_table "articles", :force => true do |t|
@@ -80,9 +80,9 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.string   "mendeley"
   end
 
-  add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"
-  add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
-  add_index "articles", ["published_on"], :name => "index_articles_published_on_desc"
+  add_index "articles", ["doi"], :name => "articles_doi", :unique => true
+  add_index "articles", ["published_on"], :name => "articles_published_on"
+  add_index "articles", ["title", "doi", "published_on", "id"], :name => "articles_title_doi_published_on_id"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -98,10 +98,10 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.datetime "updated_at",                :null => false
   end
 
-  add_index "delayed_jobs", ["locked_at", "locked_by", "failed_at"], :name => "index_delayed_jobs_locked_at_locked_by_failed_at"
-  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
-  add_index "delayed_jobs", ["queue"], :name => "index_delayed_jobs_queue"
-  add_index "delayed_jobs", ["run_at", "locked_at", "locked_by", "failed_at", "priority"], :name => "index_delayed_jobs_run_at_locked_at_locked_by_failed_at_priority"
+  add_index "delayed_jobs", ["locked_at", "locked_by", "failed_at"], :name => "delayed_jobs_locked_at_locked_by_failed_at"
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority_run_at"
+  add_index "delayed_jobs", ["queue"], :name => "delayed_jobs_queue"
+  add_index "delayed_jobs", ["run_at", "locked_at", "locked_by", "failed_at", "priority"], :name => "delayed_jobs_run_at_locked_at_locked_by_failed_at_priority"
 
   create_table "filters", :force => true do |t|
     t.string  "type",                           :null => false
@@ -134,8 +134,8 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.integer "user_id"
   end
 
-  add_index "reports_users", ["report_id", "user_id"], :name => "index_reports_users_on_report_id_and_user_id"
-  add_index "reports_users", ["user_id"], :name => "index_reports_users_on_user_id"
+  add_index "reports_users", ["report_id", "user_id"], :name => "reports_users_report_id_user_id"
+  add_index "reports_users", ["user_id"], :name => "reports_users_user_id"
 
   create_table "retrieval_histories", :force => true do |t|
     t.integer  "retrieval_status_id",                :null => false
@@ -144,21 +144,20 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.datetime "retrieved_at"
     t.string   "status"
     t.string   "msg"
-    t.integer  "event_count",         :default => 0, :null => false
+    t.integer  "event_count",         :default => 0
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
   end
 
-  add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
-  add_index "retrieval_histories", ["source_id", "event_count"], :name => "index_retrieval_histories_on_source_id_and_event_count"
-  add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
+  add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "retrieval_histories_retrieval_status_id_retrieved_at"
+  add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "retrieval_histories_source_id_status_updated_at"
 
   create_table "retrieval_statuses", :force => true do |t|
     t.integer  "article_id",                                       :null => false
     t.integer  "source_id",                                        :null => false
     t.datetime "queued_at"
     t.datetime "retrieved_at",  :default => '1970-01-01 00:00:00', :null => false
-    t.integer  "event_count",   :default => 0,                     :null => false
+    t.integer  "event_count",   :default => 0
     t.string   "data_rev"
     t.datetime "created_at",                                       :null => false
     t.datetime "updated_at",                                       :null => false
@@ -167,11 +166,10 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.string   "event_metrics"
   end
 
-  add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
-  add_index "retrieval_statuses", ["id", "event_count"], :name => "index_retrieval_statuses_on_id_and_event_count"
-  add_index "retrieval_statuses", ["source_id", "article_id", "event_count"], :name => "index_retrieval_statuses_source_id_article_id_event_count_desc"
-  add_index "retrieval_statuses", ["source_id", "event_count", "retrieved_at"], :name => "index_retrieval_statuses_source_id_event_count_retrieved_at_desc"
-  add_index "retrieval_statuses", ["source_id", "event_count"], :name => "index_retrieval_statuses_source_id_event_count_desc"
+  add_index "retrieval_statuses", ["article_id", "source_id"], :name => "retrieval_statuses_article_id_source_id", :unique => true
+  add_index "retrieval_statuses", ["source_id", "article_id", "event_count"], :name => "retrieval_statuses_source_id_article_id_event_count"
+  add_index "retrieval_statuses", ["source_id", "event_count", "retrieved_at"], :name => "index_retrieval_statuses_source_id_event_count_retr_at_desc", :order => {"event_count"=>:desc, "retrieved_at"=>:desc}
+  add_index "retrieval_statuses", ["source_id", "event_count"], :name => "retrieval_statuses_source_id_event_count"
 
   create_table "reviews", :force => true do |t|
     t.string   "name"
@@ -185,8 +183,8 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.datetime "created_at"
   end
 
-  add_index "reviews", ["name"], :name => "index_reviews_on_name"
-  add_index "reviews", ["state_id"], :name => "index_reviews_on_state_id"
+  add_index "reviews", ["name"], :name => "reviews_name"
+  add_index "reviews", ["state_id"], :name => "reviews_state_id"
 
   create_table "sources", :force => true do |t|
     t.string   "type",                                            :null => false
@@ -194,20 +192,19 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.string   "display_name",                                    :null => false
     t.datetime "run_at",       :default => '1970-01-01 00:00:00', :null => false
     t.text     "config"
+    t.integer  "group_id",                                        :null => false
     t.boolean  "private",      :default => false
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
     t.text     "description"
     t.integer  "state"
     t.boolean  "queueable",    :default => true
-    t.string   "queue"
     t.string   "state_event"
     t.datetime "cached_at",    :default => '1970-01-01 00:00:00', :null => false
-    t.integer  "group_id"
   end
 
-  add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
-  add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true
+  add_index "sources", ["name"], :name => "sources_name", :unique => true
+  add_index "sources", ["type"], :name => "sources_type", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",     :null => false
@@ -231,10 +228,10 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.string   "role",                   :default => "user"
   end
 
-  add_index "users", ["authentication_token"], :name => "index_users_authentication_token", :unique => true
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
-  add_index "users", ["username"], :name => "index_users_username", :unique => true
+  add_index "users", ["authentication_token"], :name => "users_authentication_token", :unique => true
+  add_index "users", ["email"], :name => "users_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "users_reset_password_token", :unique => true
+  add_index "users", ["username"], :name => "users_username", :unique => true
 
   create_table "workers", :force => true do |t|
     t.integer  "identifier", :null => false

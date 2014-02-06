@@ -52,17 +52,17 @@ class Source < ActiveRecord::Base
   validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_all, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
 
-  scope :available, where("state = 0").order("group_id, sources.display_name")
-  scope :installed, where("state > 0").order("group_id, sources.display_name")
-  scope :retired, where("state = 1").order("group_id, sources.display_name")
-  scope :inactive, where("state = 2").order("group_id, sources.display_name")
-  scope :active, where("state > 2").order("group_id, sources.display_name")
-  scope :for_events, where("state > 2 AND name != 'relativemetric'").order("group_id, sources.display_name")
-  scope :queueable, where("state > 2 AND queueable = 1").order("group_id, sources.display_name")
+  scope :available, where("state = ?", 0).order("group_id, sources.display_name")
+  scope :installed, where("state > ?", 0).order("group_id, sources.display_name")
+  scope :retired, where("state = ?", 1).order("group_id, sources.display_name")
+  scope :inactive, where("state = ?", 2).order("group_id, sources.display_name")
+  scope :active, where("state > ?", 2).order("group_id, sources.display_name")
+  scope :for_events, where("state > ?", 2).where("name != ?",'relativemetric').order("group_id, sources.display_name")
+  scope :queueable, where("state > ?", 2).where("queueable = ?", true).order("group_id, sources.display_name")
 
   # some sources cannot be redistributed
-  scope :public_sources, lambda { where("private = false") }
-  scope :private_sources, lambda { where("private = true") }
+  scope :public_sources, lambda { where("private = ?", false) }
+  scope :private_sources, lambda { where("private = ?", true) }
 
   INTERVAL_OPTIONS = [['½ hour', 30.minutes],
                       ['1 hour', 1.hour],

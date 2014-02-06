@@ -39,7 +39,7 @@ class EventCountDecreasingError < Filter
   end
 
   def source_ids
-    config.source_ids || Source.active.joins(:group).where("groups.name in ('cited','saved','recommended', 'viewed')").pluck(:id)
+    config.source_ids || Source.active.joins(:group).where("groups.name" => ['cited','saved','recommended','viewed']).pluck(:id)
   end
 end
 
