@@ -75,17 +75,10 @@ describe Article do
     end
   end
 
-  it "cited" do
-    articles = Article.cited(1)
+  it "is cited" do
+    articles = Article.is_cited
     articles.each do |article|
       assert(article.events_count > 0)
-    end
-  end
-
-  it "uncited" do
-    articles = Article.cited(0)
-    articles.each do |article|
-      assert(article.events_count == 0)
     end
   end
 

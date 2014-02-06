@@ -30,9 +30,9 @@ class Api::V5::ArticlesController < Api::V5::BaseController
       @class_name = params[:class_name]
       collection = collection.includes(:alerts)
       if @class_name == "All Alerts"
-        collection = collection.where("alerts.unresolved = 1 ")
+        collection = collection.where("alerts.unresolved = ?", true)
       else
-        collection = collection.where("alerts.unresolved = 1 AND alerts.class_name = ?", @class_name)
+        collection = collection.where("alerts.unresolved = ?", true).where("alerts.class_name = ?", @class_name)
       end
     end
 
@@ -48,11 +48,11 @@ class Api::V5::ArticlesController < Api::V5::BaseController
     if source_names && current_user.try(:admin_or_staff?)
       source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
     elsif source_names
-      source_ids = Source.where("private = 0 AND lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
+      source_ids = Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
     elsif current_user.try(:admin_or_staff?)
       source_ids = Source.order("group_id, sources.display_name").pluck(:id)
     else
-      source_ids = Source.where("private = 0").order("group_id, sources.display_name").pluck(:id)
+      source_ids = Source.where("private = ?", false).order("group_id, sources.display_name").pluck(:id)
     end
   end
 end

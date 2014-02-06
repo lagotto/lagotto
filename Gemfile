@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.2.16'
-gem 'mysql2', '0.3.13'
+#gem 'mysql2', '0.3.13'
 gem 'pg', '~> 0.14.1'
 
 gem "delayed_job", "~> 4.0.0"
@@ -75,9 +75,4 @@ end
 group :test, :development do
   gem "rspec-rails", "~> 2.14.0"
   gem "brakeman", :require => false
-end
-
-group :development do
-  gem 'capistrano', '~> 2.15.5'
-  #gem 'capistrano-bundler'
 end

@@ -14,7 +14,6 @@ Feature: View article
       And I should not see the "PubMed ID" for the article
       And I should not see the "PubMed Central ID" for the article
       And I should not see the "Mendeley UUID" for the article
-      And I should not see the "URL" for the article
 
     Scenario Outline: Article identifiers
       When I go to the article with "<Value>" for "<Identifier>"

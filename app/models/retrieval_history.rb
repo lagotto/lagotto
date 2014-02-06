@@ -27,22 +27,23 @@ class RetrievalHistory < ActiveRecord::Base
   default_scope order("retrieved_at DESC")
 
   #PROBLEM - these cannot easily be tanslated to ActiveRecord?
+  # This table will be dropped in ALM 3.0
   scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
   scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months) }
   scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year) }
 
   scope :total, lambda { |duration| where("retrieved_at > ?", Time.now - duration.days) }
 
+  # This is needed to calculate and display the table size
   def self.table_status
     if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
-      table_status = ActiveRecord::Base.connection.select_all("SHOW TABLE STATUS LIKE 'retrieval_histories'").first
+     sql = "SHOW TABLE STATUS LIKE 'retrieval_histories'"
     else
-      table_status = ActiveRecord::Base.connection.select_all("SELECT * FROM pg_class WHERE oid = 'public.retrieval_histories'::regclass").first;
+      sql = "SELECT * FROM pg_class WHERE oid = 'public.retrieval_histories'::regclass"
     end
+    table_status = ActiveRecord::Base.connection.select_all(sql).first
     Hash[table_status.map {|k, v| [k.to_s.underscore, v] }]
   end
-  
-
 
   def data
     if event_count > 0

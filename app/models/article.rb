@@ -51,25 +51,8 @@ class Article < ActiveRecord::Base
     end
   }
 
-  #scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
   scope :last_x_days, lambda { |duration| where(published_on: (Date.today-duration.days)..Date.today) }
-
-
-  #PROBLEM - this is not performant on large tables.
-
-  scope :cited, lambda { |cited|
-    case cited
-      when '1', 1
-        includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0)
-      when '0', 0
-        if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
-          where('EXISTS (SELECT * from retrieval_statuses where article_id = `articles`.id GROUP BY article_id HAVING SUM(IFNULL(retrieval_statuses.event_count,0)) = 0)')
-        else
-          #postgresql version using COALESCE function
-          where('id IN (select article_id from retrieval_statuses group by article_id having sum(COALESCE(event_count,0))=0 )');
-        end
-    end
-  }
+  scope :is_cited, lambda { includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0) }
 
   scope :order_articles, lambda { |name|
     if name.blank?
