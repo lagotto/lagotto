@@ -1,5 +1,3 @@
-OAuth 2 [Application-only authentication](https://dev.twitter.com/docs/auth/application-only-auth)
-
 [Twitter](http://www.twitter.com/) is a social networking and microblogging service. Twitter does store tweets only for a limited amount of time, so it is up to us to collect this information regularly.
 
 ## Authentication
@@ -376,4 +374,4 @@ The source code is available [here](https://github.com/articlemetrics/alm/blob/m
 
 ## Further Documentation
 * [Twitter Developer Documentation](https://dev.twitter.com/)
-* [Twitter Application-Only Authentication](http://www.reddit.com/dev/api)
+* [Twitter Application-Only Authentication](https://dev.twitter.com/docs/auth/application-only-auth)
