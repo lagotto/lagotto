@@ -72,21 +72,19 @@ d3.json(query, function(error, json) {
   }
 
   function signpostsToString(article) {
-    var arr = []
+
     if (order != "") {
       source = article["sources"].filter(function(d) { return d.name == order })[0];
-      str = source.display_name + ": " + source.metrics.total;
+      a = [source.display_name + ": " + formatFixed(source.metrics.total)];
     } else {
-      str = "";
+      a = [];
     }
-    if (article["viewed"] > 0) arr.push("Viewed: " + formatFixed(article["viewed"]));
-    if (article["cited"] > 0) arr.push("Cited: " + formatFixed(article["cited"]));
-    if (article["saved"] > 0) arr.push("Saved: " + formatFixed(article["saved"]));
-    if (article["discussed"] > 0) arr.push("Discussed: " + formatFixed(article["discussed"]));
-    if (arr.length > 0) {
-      return str + " | " + arr.join(" • ") + ". ";
-    } else {
-      return str;
-    }
+    var b = []
+    if (article["viewed"] > 0) b.push("Viewed: " + formatFixed(article["viewed"]));
+    if (article["cited"] > 0) b.push("Cited: " + formatFixed(article["cited"]));
+    if (article["saved"] > 0) b.push("Saved: " + formatFixed(article["saved"]));
+    if (article["discussed"] > 0) b.push("Discussed: " + formatFixed(article["discussed"]));
+    a.push(b.join(" • "));
+    return a.join(" | ");
   }
 });
