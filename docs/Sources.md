@@ -6,6 +6,7 @@ The ALM application provides a number of public sources. Most sources require a 
 
 ### Discussed
 * [Facebook](Facebook)
+* [Twitter](Twittersearch)
 * [Nature Blogs](Nature)
 * [Research Blogging](Researchblogging)
 * [ScienceSeeker](Scienceseeker)
@@ -27,7 +28,6 @@ The ALM application provides a number of public sources. Most sources require a 
 ### Private Sources
 * [PLOS Usage Stats](Counter)
 * [PLOS Figshare Usage Stats](Figshare)
-* [Twitter](Twitter)
 * [Web of Science](Wos)
 * [Scopus](Scopus)
 * [F1000Prime](F1000)
