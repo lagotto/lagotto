@@ -45,8 +45,14 @@ class Report < ActiveRecord::Base
     end
 
     sql_stat = "SELECT a.doi, a.published_on, a.title"
-    sources.each do |source|
-      sql_stat = sql_stat + ", GROUP_CONCAT(IF(rs.source_id = #{source.id}, CAST(rs.event_count as CHAR), NULL)) AS '#{source.name}'"
+    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
+      sources.each do |source|
+        sql_stat = sql_stat + ", GROUP_CONCAT(IF(rs.source_id = #{source.id}, CAST(rs.event_count as CHAR), NULL)) AS #{source.name}"
+      end
+    else
+      sources.each do |source|
+        sql_stat = sql_stat + ", ARRAY_AGG(CASE WHEN rs.source_id = #{source.id} THEN CAST(rs.event_count as CHAR) ELSE NULL END) AS #{source.name}"
+      end
     end
     sql_stat = sql_stat + " FROM retrieval_statuses rs, articles a WHERE a.id = rs.article_id GROUP BY rs.article_id"
 

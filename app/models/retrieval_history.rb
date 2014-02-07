@@ -26,13 +26,10 @@ class RetrievalHistory < ActiveRecord::Base
 
   default_scope order("retrieved_at DESC")
 
-  #PROBLEM - these cannot easily be tanslated to ActiveRecord?
-  # This table will be dropped in ALM 3.0
-  scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
-  scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months) }
-  scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year) }
-
-  scope :total, lambda { |duration| where("retrieved_at > ?", Time.now - duration.days) }
+  scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL '? DAYS'", days) }
+  scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL '? MONTH'", months) }
+  scope :until_year, lambda { |year| joins(:article).where("EXTRACT(YEAR FROM retrieved_at) <= ?", year) }
+  scope :total, lambda { |duration| where("retrieved_at > ?", Time.zone.now - duration.days) }
 
   # This is needed to calculate and display the table size
   def self.table_status

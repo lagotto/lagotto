@@ -11,9 +11,9 @@ class Alert < ActiveRecord::Base
 
   scope :errors, where("alerts.error = ?", true)
   scope :query, lambda { |query| includes(:article).where("class_name like ? OR message like ? OR status = ? OR articles.doi = ?", "%#{query}%", "%#{query}%", query, query) }
-  scope :total, lambda { |duration| where("created_at > ?", Time.now - duration.days) }
-  scope :total_errors, lambda { |duration| where("alerts.error = ?", true).where("created_at > ?", Time.now - duration.days) }
-  scope :from_sources, lambda { |duration| where("source_id IS NOT NULL").where("created_at > ?", Time.now - duration.days) }
+  scope :total, lambda { |duration| where("created_at > ?", Time.zone.now - duration.days) }
+  scope :total_errors, lambda { |duration| where("alerts.error = ?", true).where("created_at > ?", Time.zone.now - duration.days) }
+  scope :from_sources, lambda { |duration| where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now - duration.days) }
 
   def self.per_page
     20

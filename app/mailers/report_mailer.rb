@@ -21,7 +21,7 @@ class ReportMailer < ActionMailer::Base
     @delayed_jobs_active_count = DelayedJob.count
     @responses_count = ApiResponse.total(1).count
     @events_count = RetrievalStatus.joins(:source).where("state > ?", 0).where("name != ?", 'relativemetric').sum(:event_count)
-    @requests_count = ApiRequest.where("created_at > ?", Time.now - 1.day).count
+    @requests_count = ApiRequest.where("created_at > ?", Time.zone.now - 1.day).count
 
     @users_count = User.count
     @couchdb_info = RetrievalStatus.new.get_alm_database || { "doc_count" => 0, "disk_size" => 0 }
