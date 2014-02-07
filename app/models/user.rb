@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :reports
 
   before_save :ensure_authentication_token
-  after_create :set_role
+  after_create :set_first_user
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -83,9 +83,12 @@ class User < ActiveRecord::Base
 
   protected
 
-  def set_role
-    # The first user we create has an admin role unless it is in the test environment
-    self.update_attributes(:role => "admin") if (User.count == 1 and !Rails.env.test?)
+  def set_first_user
+    # The first user we create has an admin role and uses the configuration API key
+    # unless it is in the test environment
+    if (User.count == 1 and !Rails.env.test?)
+      self.update_attributes(role: "admin", authentication_token: CONFIG[:api_key])
+    end
   end
 
   # Don't require email or password, as we also use OAuth
