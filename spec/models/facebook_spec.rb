@@ -4,8 +4,8 @@ describe Facebook do
   let(:facebook) { FactoryGirl.create(:facebook) }
 
   it "should report that there are no events if the doi is missing" do
-    article_without_doi = FactoryGirl.build(:article, :doi => "")
-    facebook.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
+    article = FactoryGirl.build(:article, :doi => "")
+    facebook.get_data(article).should eq({ :events => [], :event_count => nil })
   end
 
   context "use the Facebook API" do

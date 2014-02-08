@@ -162,30 +162,22 @@ class Article < ActiveRecord::Base
     end
   end
 
-  def doi_as_publisher_url
-    # for now use the PLOS doi resolver
-    if doi[0..6] == "10.1371"
-      "http://dx.plos.org/#{doi_escaped}"
-    else
-      nil
-    end
-  end
-
   def get_url
-    return canonical_url if canonical_url.present?
+    return true if canonical_url.present?
+    return false unless doi.present?
 
-    if doi.present?
-      url = get_canonical_url(doi_as_url)
-      update_attributes(:canonical_url => url) if url.present?
+    url = get_canonical_url(doi_as_url)
+
+    if url.present?
+      update_attributes(:canonical_url => url)
+    else
+      false
     end
-
-    return url
   end
 
   def all_urls
     urls = []
     urls << doi_as_url if doi.present?
-    urls << doi_as_publisher_url if doi_as_publisher_url.present?
     urls << canonical_url if canonical_url.present?
     urls
   end

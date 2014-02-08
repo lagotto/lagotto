@@ -93,7 +93,7 @@ describe Article do
 
   it "should get the all_urls" do
     article = FactoryGirl.build(:article, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
-    article.all_urls.should eq([article.doi_as_url,article.doi_as_publisher_url,article.canonical_url])
+    article.all_urls.should eq([article.doi_as_url,article.canonical_url])
   end
 
   context "associations" do

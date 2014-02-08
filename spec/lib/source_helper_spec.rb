@@ -274,7 +274,7 @@ describe SourceHelper do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 404)
         response = subject.get_canonical_url(article.doi_as_url)
-        response.should be_nil
+        response.should be_blank
         Alert.count.should == 0
         stub.should have_been_requested
       end
@@ -399,18 +399,7 @@ describe SourceHelper do
 
     it "get nil for missing id" do
       rev = subject.get_alm_rev("xxx")
-      rev.should be_nil
-    end
-
-    it "get correct revision" do
-      rev = @source_helper_class.save_alm_data(id, data)
-      new_rev = @source_helper_class.get_alm_rev(id)
-      new_rev.should eq(rev)
-    end
-
-    it "get nil for missing id" do
-      rev = @source_helper_class.get_alm_rev("xxx")
-      rev.should be_nil
+      rev.should be_blank
     end
 
     it "handle revisions" do

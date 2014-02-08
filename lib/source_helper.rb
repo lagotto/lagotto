@@ -37,7 +37,7 @@ module SourceHelper
     response = conn.get url
     response.body
   rescue *SourceHelperExceptions => e
-    rescue_faraday_error(url, e, options.merge(:json => true))
+    rescue_faraday_error(url, e, options.merge(json: true))
   end
 
   def get_xml(url, options = { timeout: DEFAULT_TIMEOUT })
@@ -54,7 +54,7 @@ module SourceHelper
     # We have issues with the Faraday XML parsing
     Nokogiri::XML(response.body)
   rescue *SourceHelperExceptions => e
-    rescue_faraday_error(url, e, options.merge(:xml => true))
+    rescue_faraday_error(url, e, options.merge(xml: true))
   end
 
   def post_xml(url, options = { data: nil, timeout: DEFAULT_TIMEOUT })
@@ -77,12 +77,12 @@ module SourceHelper
     # CouchDB revision is in etag header. We need to remove extra double quotes
     rev = response.env[:response_headers][:etag][1..-2]
   rescue *SourceHelperExceptions => e
-    rescue_faraday_error(url, e, options.merge(:head => true))
+    rescue_faraday_error(url, e, options.merge(head: true))
   end
 
-  def save_alm_data(id, options = { :data => nil })
+  def save_alm_data(id, options = { data: nil })
     data_rev = get_alm_rev(id)
-    unless data_rev.nil?
+    unless data_rev.blank?
       options[:data][:_id] = "#{id}"
       options[:data][:_rev] = data_rev
     end
@@ -90,7 +90,7 @@ module SourceHelper
     put_alm_data("#{couchdb_url}#{id}", options)
   end
 
-  def put_alm_data(url, options = { :data => nil })
+  def put_alm_data(url, options = { data: nil })
     return nil unless options[:data] || Rails.env.test?
     conn = conn_json
     conn.options[:timeout] = DEFAULT_TIMEOUT
@@ -224,7 +224,7 @@ module SourceHelper
 
   def rescue_faraday_error(url, error, options={})
     if error.kind_of?(Faraday::Error::ResourceNotFound)
-      if error.response.blank?
+      if error.response.blank? && error.response[:body].blank?
         nil
       elsif options[:json]
         error.response[:body]
