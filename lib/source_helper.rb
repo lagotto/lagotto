@@ -21,6 +21,8 @@
 require 'faraday'
 require 'faraday_middleware'
 require 'faraday-cookie_jar'
+require 'typhoeus'
+require 'typhoeus/adapters/faraday'
 
 module SourceHelper
   DEFAULT_TIMEOUT = 60
@@ -185,11 +187,12 @@ module SourceHelper
     Faraday.new do |c|
       c.headers['Accept'] = 'application/json'
       c.headers['User-agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
+      c.use      Faraday::HttpCache, store: Rails.cache
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.request  :json
       c.response :json, :content_type => /\bjson$/
       c.use      Faraday::Response::RaiseError
-      c.adapter  Faraday.default_adapter
+      c.adapter  :typhoeus
     end
   end
 
@@ -197,19 +200,21 @@ module SourceHelper
     Faraday.new do |c|
       c.headers['Accept'] = 'application/xml'
       c.headers['User-agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
+      c.use      Faraday::HttpCache, store: Rails.cache
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.use      Faraday::Response::RaiseError
-      c.adapter  Faraday.default_adapter
+      c.adapter  :typhoeus
     end
   end
 
   def conn_doi
     Faraday.new do |c|
       c.headers['User-agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
-      c.use     FaradayMiddleware::FollowRedirects, :limit => 10
-      c.use     :cookie_jar
-      c.use     Faraday::Response::RaiseError
-      c.adapter Faraday.default_adapter
+      c.use      Faraday::HttpCache, store: Rails.cache
+      c.use      FaradayMiddleware::FollowRedirects, :limit => 10
+      c.use      :cookie_jar
+      c.use      Faraday::Response::RaiseError
+      c.adapter  :typhoeus
     end
   end
 
@@ -219,7 +224,7 @@ module SourceHelper
 
   def rescue_faraday_error(url, error, options={})
     if error.kind_of?(Faraday::Error::ResourceNotFound)
-      if !error.response
+      if error.response.blank?
         nil
       elsif options[:json]
         error.response[:body]
