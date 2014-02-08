@@ -9,8 +9,7 @@ class Api::V4::ArticlesController < Api::V4::BaseController
     # Limit number of ids to 50
     source_ids = get_source_ids(params[:source])
 
-    type = { "doi" => "doi", "pmid" => "pub_med", "pmcid" => "pub_med_central", "mendeley" => "mendeley" }.assoc(params[:type])
-    type = type.nil? ? Article.uid : type[1]
+    type = ["doi","pmid","pmcid","mendeley_uuid"].detect { |t| t == params[:type] } || Article.uid
     ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| Article.clean_id(id) }
     id_hash = { :articles => { type.to_sym => ids }, :retrieval_statuses => { :source_id => source_ids }}
     @articles = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).order("articles.updated_at DESC").decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
@@ -118,6 +117,6 @@ class Api::V4::ArticlesController < Api::V4::BaseController
   private
 
   def article_params
-    params.require(:article).permit(:doi, :title, :published_on, :pub_med, :pub_med_central, :mendeley, :url)
+    params.require(:article).permit(:doi, :title, :published_on, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day)
   end
 end

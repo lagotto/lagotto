@@ -19,12 +19,12 @@ describe Mendeley do
   let(:mendeley) { FactoryGirl.create(:mendeley) }
 
   it "should report that there are no events if the doi, pmid, mendeley uuid and title are missing" do
-    article_without_ids = FactoryGirl.build(:article, :doi => "", :pub_med => "", :mendeley => "", :title => "")
+    article_without_ids = FactoryGirl.build(:article, :doi => "", :pmid => "", :mendeley_uuid => "", :title => "")
     mendeley.get_data(article_without_ids).should eq({ :events => [], :event_count => nil })
   end
 
   context "use the Mendeley API for uuid lookup" do
-    let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", :mendeley => "") }
+    let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "") }
 
     it "should return the Mendeley uuid by the Mendeley API" do
       stub = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
@@ -33,7 +33,7 @@ describe Mendeley do
     end
 
     it "should return the Mendeley uuid by searching the Mendeley API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001", :mendeley => "")
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001", :mendeley_uuid => "")
       stub = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
       stub_doi = stub_request(:get, mendeley.get_query_url(article, "doi")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
       stub_title = stub_request(:get, mendeley.get_query_url(article, "title")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
@@ -68,10 +68,10 @@ describe Mendeley do
 
   context "use the Mendeley API for metrics" do
     it "should report if there are events and event_count returned by the Mendeley API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", :mendeley => "46cb51a0-6d08-11df-afb8-0026b95d30b2")
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2")
       body = File.read(fixture_path + 'mendeley.json')
       stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      stub_related = stub_request(:get, mendeley.get_related_url(article.mendeley)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
+      stub_related = stub_request(:get, mendeley.get_related_url(article.mendeley_uuid)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
       response = mendeley.get_data(article)
       response[:events].should be_true
       response[:events_url].should be_true
@@ -104,10 +104,10 @@ describe Mendeley do
     end
 
     it "should filter out the mendeley_authors attribute" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pbio.0020002", :mendeley => "83e9b290-6d01-11df-936c-0026b95e484c")
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pbio.0020002", :mendeley_uuid => "83e9b290-6d01-11df-936c-0026b95e484c")
       body = File.read(fixture_path + 'mendeley_authors_tag.json')
       stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      stub_related = stub_request(:get, mendeley.get_related_url(article.mendeley)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
+      stub_related = stub_request(:get, mendeley.get_related_url(article.mendeley_uuid)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
       response = mendeley.get_data(article)
       response[:events].should be_true
       response[:events]["mendeley_authors"].should be_nil

@@ -32,15 +32,15 @@ class PubMed < Source
     # First, we need to have the PMID for this article.
     # Get it if we don't have it, and proceed only if we do.
     # We need a DOI to fetch the PMID
-    if article.pub_med.blank?
+    if article.pmid.blank?
       return  { :events => [], :event_count => nil } if article.doi.blank?
-      article.pub_med = get_pmid_from_doi(article.doi, options)
-      return  { :events => [], :event_count => nil } if article.pub_med.blank?
+      article.pmid = get_pmid_from_doi(article.doi, options)
+      return  { :events => [], :event_count => nil } if article.pmid.blank?
     end
 
     # Also get the PMCID, but wait until one month after publication
     if Time.zone.now - article.published_on.to_time >= 1.month
-      article.pub_med_central = get_pmcid_from_doi(article.doi, options) if article.pub_med_central.blank?
+      article.pmcid = get_pmcid_from_doi(article.doi, options) if article.pmcid.blank?
     end
 
     article.save if article.changed?
@@ -74,7 +74,7 @@ class PubMed < Source
                       :citations => events.length,
                       :total => events.length }
 
-    events_url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pub_med}"
+    events_url = "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=#{article.pmid}"
 
     { :events => events,
       :events_url => events_url,
@@ -128,7 +128,7 @@ class PubMed < Source
     query_url = ESUMMARY_URL + params.to_query
     result = get_xml(query_url, options)
       references = []
-      result = Nori.new.parse(result.to_s)
+      result = Hash.from_xml(result.to_s)
       result = result["eSummaryResult"]["DocumentSummarySet"]["DocumentSummary"]
       result = [result] unless result.is_a?(Array)
       result.each do |document_summary|
@@ -151,7 +151,7 @@ class PubMed < Source
   end
 
   def get_query_url(article)
-    url % { :pub_med => article.pub_med } unless article.pub_med.blank?
+    url % { :pmid => article.pmid }
   end
 
   def get_config_fields
@@ -159,7 +159,6 @@ class PubMed < Source
   end
 
   def url
-    config.url || "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pub_med}"
+    config.url || "http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=%{pmid}"
   end
-
 end

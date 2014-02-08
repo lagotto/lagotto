@@ -45,7 +45,7 @@ When /^I go to the article with the DOI "(.*?)"$/ do |doi|
 end
 
 When /^I go to the article with the DOI "(.*?)" and no other identifiers$/ do |doi|
-  article = FactoryGirl.create(:article, :doi => doi, :pub_med => "", :pub_med_central => "", :mendeley => "", :url => "", :published_on => "2012-10-23")
+  article = FactoryGirl.create(:article, :doi => doi, :pmid => "", :pmcid => "", :mendeley => "", :canonical_url => "", :published_on => "2012-10-23")
   visit article_path(article.doi)
 end
 

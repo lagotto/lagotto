@@ -74,6 +74,6 @@ class Admin::ArticlesController < Admin::ApplicationController
   private
 
   def safe_params
-    params.require(:article).permit(:doi, :title, :pub_med, :pub_med_central, :mendeley, :url, :published_on)
+    params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_id, :canonical_url, :published_on, :year, :month, :day)
   end
 end

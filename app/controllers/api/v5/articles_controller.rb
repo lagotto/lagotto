@@ -9,17 +9,7 @@ class Api::V5::ArticlesController < Api::V5::BaseController
     collection = ArticleDecorator.includes(:retrieval_statuses).where({ :retrieval_statuses => { :source_id => source_ids }})
 
     if params[:ids]
-      if params[:type]
-        type = { "doi" => "doi",
-                 "pmid" => "pub_med",
-                 "pmcid" => "pub_med_central",
-                 "mendeley" => "mendeley" }.assoc(params[:type])
-
-        type = type.nil? ? Article.uid : type[1]
-      else
-        type = Article.uid
-      end
-
+      type = ["doi","pmid","pmcid","mendeley_uuid"].detect { |t| t == params[:type] } || Article.uid
       ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Article.clean_id(id) }
       collection = collection.where({ :articles => { type.to_sym => ids }})
     elsif params[:q]

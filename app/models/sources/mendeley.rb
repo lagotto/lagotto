@@ -38,10 +38,10 @@ class Mendeley < Source
 
     # First, we need to have the Mendeley uuid for this article.
     # Get it if we don't have it, and proceed only if we do.
-    if article.mendeley.blank?
-      mendeley = get_mendeley_uuid(article, options)
-      article.update_attributes(:mendeley => mendeley) unless mendeley.blank?
-      return  { :events => [], :event_count => nil } if article.mendeley.blank?
+    if article.mendeley_uuid.blank?
+      mendeley_uuid = get_mendeley_uuid(article, options)
+      article.update_attributes(:mendeley_uuid => mendeley_uuid) unless mendeley_uuid.blank?
+      return  { :events => [], :event_count => nil } if article.mendeley_uuid.blank?
     end
 
     query_url = get_query_url(article)
@@ -92,7 +92,7 @@ class Mendeley < Source
     # Otherwise search by title
     # Only use uuid if we also get mendeley_url, otherwise the uuid is broken and we return nil
 
-    unless article.pub_med.blank?
+    unless article.pmid.blank?
       result = get_json(get_query_url(article, "pmid"), options)
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
     end
@@ -118,11 +118,11 @@ class Mendeley < Source
   def get_query_url(article, id_type = nil)
     case id_type
     when nil
-      url % { :id => article.mendeley, :api_key => api_key }
+      url % { :id => article.mendeley_uuid, :api_key => api_key }
     when "doi"
       url_with_type % { :id => CGI.escape(article.doi_escaped), :doc_type => id_type, :api_key => api_key }
     when "pmid"
-      url_with_type % { :id => article.pub_med, :doc_type => id_type, :api_key => api_key }
+      url_with_type % { :id => article.pmid, :doc_type => id_type, :api_key => api_key }
     when "title"
       url_with_title % { :title => CGI.escape("title:#{article.title}"), :api_key => api_key }
     end
