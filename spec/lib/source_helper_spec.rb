@@ -24,12 +24,12 @@ describe SourceHelper do
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => data.to_xml, :status => 200, :headers => { "Content-Type" => "application/xml" })
-        subject.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
+        subject.get_xml(url) { |response| Hash.from_xml(response.to_s)["hash"].should eq(data) }
       end
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => data.to_xml, :content_type => 'application/xml', :status => 200)
-        subject.post_xml(url, data: post_data.to_xml) { |response| Nori.new.parse(response.to_s)["hash"].should eq(data) }
+        subject.post_xml(url, data: post_data.to_xml) { |response| Hash.from_xml(response.to_s)["hash"].should eq(data) }
       end
     end
 
@@ -62,13 +62,13 @@ describe SourceHelper do
 
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => error.to_xml, :status => [404], :headers => { "Content-Type" => "application/xml" })
-        subject.get_xml(url) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
+        subject.get_xml(url) { |response| Hash.from_xml(response.to_s)["hash"].should eq(error) }
         Alert.count.should == 0
       end
 
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => error.to_xml, :status => [404], :headers => { "Content-Type" => "application/xml" })
-        subject.post_xml(url, data: post_data.to_xml) { |response| Nori.new.parse(response.to_s)["hash"].should eq(error) }
+        subject.post_xml(url, data: post_data.to_xml) { |response| Hash.from_xml(response.to_s)["hash"].should eq(error) }
         Alert.count.should == 0
       end
     end
@@ -111,7 +111,7 @@ describe SourceHelper do
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
-        alert.message.should include("execution expired")
+        alert.message.should include("request timed out")
         alert.status.should == 408
       end
 
@@ -121,7 +121,7 @@ describe SourceHelper do
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
-        alert.message.should include("execution expired")
+        alert.message.should include("request timed out")
         alert.status.should == 408
       end
 
@@ -131,7 +131,7 @@ describe SourceHelper do
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
-        alert.message.should include("execution expired")
+        alert.message.should include("request timed out")
         alert.status.should == 408
       end
     end
