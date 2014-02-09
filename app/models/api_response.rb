@@ -14,15 +14,12 @@ class ApiResponse < ActiveRecord::Base
   scope :article_not_updated, lambda { |number| where("event_count IS NULL").where("update_interval >= ?", number) }
   scope :source_not_updated, lambda { |number| where("update_interval >= ?", number) }
 
-  # we need integer division, which is handled differently by MySQL and Postgres.
-  # Also, Postgres raises error on division by 0 whereas MySQL returns null
+  # we need integer division, which is handled differently by MySQL and Postgres. Workaround is to use FLOOR.
   scope :citation_milestone, lambda { |number, source_ids|
     if number == 0
       limit(0)
-    elsif ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
-      where("(event_count DIV ?) > (previous_count DIV ?)", number, number).where("source_id IN (?)", source_ids)
     else
-      where("(event_count / ?) > (previous_count / ?)", number, number).where("source_id IN (?)", source_ids)
+      where("FLOOR(event_count / ?) > FLOOR(previous_count / ?)", number, number).where("source_id IN (?)", source_ids)
     end
   }
 

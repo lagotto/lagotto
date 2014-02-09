@@ -538,7 +538,7 @@ class Source < ActiveRecord::Base
     else
       sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles where articles.id not in (#{article_ids.join(",")})"
     end
-    connection.execute sql
+    ActiveRecord::Base.connection.execute sql
   end
 
   private

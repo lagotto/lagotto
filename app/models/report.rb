@@ -50,7 +50,7 @@ class Report < ActiveRecord::Base
     end
     sql = sql + " FROM articles a LEFT JOIN retrieval_statuses rs ON a.id = rs.article_id GROUP BY a.id"
 
-    results = connection.execute sql
+    results = ActiveRecord::Base.connection.exec_query(sql)
 
     CSV.generate do |csv|
       csv << ["doi", "publication_date", "title"] + sources.map(&:name)

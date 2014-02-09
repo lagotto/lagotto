@@ -9,7 +9,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     # Limit number of ids to 50
     source_ids = get_source_ids(params[:source])
 
-    type = { "doi" => "doi", "pmid" => "pmid", "pmcid" => "pmcid", "mendeley" => "mendeley_uuid" }.assoc(params[:type])
+    type = { "doi" => "doi", "pmid" => "pub_med", "pmcid" => "pub_med_central", "mendeley" => "mendeley" }.assoc(params[:type])
     type = type.nil? ? Article.uid : type[1]
     ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| Article.clean_id(id) }
     id_hash = { :articles => { type.to_sym => ids }, :retrieval_statuses => { :source_id => source_ids }}
@@ -56,11 +56,11 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     if source_names and current_user.try(:admin_or_staff?)
       source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
     elsif source_names
-      source_ids = Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)  #where("private = 0")
+      source_ids = Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
     elsif current_user.try(:admin_or_staff?)
       source_ids = Source.order("name").pluck(:id)
     else
-      source_ids = Source.where("private = ?", false).order("name").pluck(:id)  #where("private = 0")
+      source_ids = Source.where("private = ?", false).order("name").pluck(:id)
     end
   end
 end
