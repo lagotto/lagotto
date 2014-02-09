@@ -51,16 +51,8 @@ class Article < ActiveRecord::Base
     end
   }
 
-  scope :last_x_days, lambda { |days| where("published_on BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()", days) }
-
-  scope :cited, lambda { |cited|
-    case cited
-      when '1', 1
-        includes(:retrieval_statuses).where("retrieval_statuses.event_count > 0")
-      when '0', 0
-        where('EXISTS (SELECT * from retrieval_statuses where article_id = `articles`.id GROUP BY article_id HAVING SUM(IFNULL(retrieval_statuses.event_count,0)) = 0)')
-    end
-  }
+  scope :last_x_days, lambda { |duration| where(published_on: (Date.today-duration.days)..Date.today) }
+  scope :is_cited, lambda { includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0) }
 
   scope :order_articles, lambda { |name|
     if name.blank?
@@ -83,13 +75,13 @@ class Article < ActiveRecord::Base
     elsif id.starts_with? "info:doi/"
       { :doi => CGI.unescape(id[9..-1]) }
     elsif id.starts_with? "info:pmid/"
-      { :pub_med => id[10..-1] }
+      { :pmid => id[10..-1] }
     elsif id.starts_with? "info:pmcid/"
       # Strip PMC prefix
       id = id[3..-1] if id[11..13] == "PMC"
-      { :pub_med_central => id[11..-1] }
+      { :pmcid => id[11..-1] }
     elsif id.starts_with? "info:mendeley/"
-      { :mendeley => id[14..-1] }
+      { :mendeley_uuid => id[14..-1] }
     else
       { self.uid.to_sym => id }
     end
@@ -170,42 +162,24 @@ class Article < ActiveRecord::Base
     end
   end
 
-  def doi_as_publisher_url
-    # for now use the PLOS doi resolver
-    if doi[0..6] == "10.1371"
-      "http://dx.plos.org/#{doi_escaped}"
-    else
-      nil
-    end
-  end
-
   def get_url
-    return url if url.present?
+    return true if canonical_url.present?
+    return false unless doi.present?
 
-    if doi.present?
-      canonical_url = get_canonical_url(doi_as_url)
-      update_attributes(:url => canonical_url) if canonical_url.present?
+    url = get_canonical_url(doi_as_url)
+
+    if url.present?
+      update_attributes(:canonical_url => url)
+    else
+      false
     end
-
-    return url
   end
 
   def all_urls
     urls = []
-    urls << doi_as_url unless doi.nil?
-    urls << doi_as_publisher_url unless doi_as_publisher_url.nil?
-    urls << url unless url.nil?
+    urls << doi_as_url if doi.present?
+    urls << canonical_url if canonical_url.present?
     urls
-  end
-
-  def mendeley_url
-    rs = retrieval_statuses.includes(:source).where("sources.name" => "mendeley").first
-    rs.nil? ? nil : rs.events_url
-  end
-
-  def citeulike_url
-    rs = retrieval_statuses.includes(:source).where("sources.name" => "citeulike").first
-    rs.nil? ? nil : rs.events_url
   end
 
   def title_escaped
@@ -216,26 +190,39 @@ class Article < ActiveRecord::Base
     CONFIG[:doi_prefix].to_s == doi[0..6]
   end
 
+  def pmc
+    retrieval_statuses.by_name("pmc").first
+  end
+
+  def mendeley
+    retrieval_statuses.by_name("mendeley").first
+  end
+
+  def citeulike
+    retrieval_statuses.by_name("citeulike").first
+  end
+
+  def facebook
+    retrieval_statuses.by_name("facebook").first
+  end
+
+  def crossref
+    retrieval_statuses.by_name("crossref").first
+  end
+
   def views
-    counter = retrieval_statuses.joins(:source).where("sources.name = 'counter'").last
-    pmc = retrieval_statuses.joins(:source).where("sources.name = 'pmc'").last
-    (counter.nil? ? 0 : counter.event_count) + (pmc.nil? ? 0 : pmc.event_count)
+    (pmc.nil? ? 0 : pmc.event_count)
   end
 
   def shares
-    twitter = retrieval_statuses.joins(:source).where("sources.name = 'twitter'").last
-    facebook = retrieval_statuses.joins(:source).where("sources.name = 'facebook'").last
-    (twitter.nil? ? 0 : twitter.event_count) + (facebook.nil? ? 0 : facebook.event_count)
+    (facebook.nil? ? 0 : facebook.event_count)
   end
 
   def bookmarks
-    citeulike = retrieval_statuses.joins(:source).where("sources.name = 'citeulike'").last
-    mendeley = retrieval_statuses.joins(:source).where("sources.name = 'mendeley'").last
     (citeulike.nil? ? 0 : citeulike.event_count) + (mendeley.nil? ? 0 : mendeley.event_count)
   end
 
   def citations
-    crossref = retrieval_statuses.joins(:source).where("sources.name = 'crossref'").last
     (crossref.nil? ? 0 : crossref.event_count)
   end
 

@@ -12,7 +12,7 @@ This is the ALM status report, generated <%= Time.zone.now.to_formatted_s(:long)
 
 <%= number_with_delimiter(@users_count) %> Users
 ALM Version <%= VERSION %>
-MySQL retrieval_history size <%= number_to_human_size(@mysql_info["data_length"]) %>
+MySQL retrieval_history size <%= number_to_human_size(@sql_info["data_length"]) %>
 CouchDB database size <%= number_to_human_size(@couchdb_info["disk_size"]) %>
 
 Go to admin dashboard: <%= root_url(:host => CONFIG[:hostname]) %>

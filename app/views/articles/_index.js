@@ -41,7 +41,6 @@ d3.json(query, function(error, json) {
       .attr("class", "article")
       .append("a")
       .attr("href", function(d) { return "/articles/info:doi/" + article["doi"]; })
-      .append("text")
       .text(article["title"]);
     d3.select("#results").append("p")
       .text(iso8601ToDate(article["publication_date"]) + ". ")

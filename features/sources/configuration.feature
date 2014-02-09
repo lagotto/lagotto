@@ -23,5 +23,5 @@ Feature: Edit sources
       Then I should see the image "citeulike.png"
 
     Scenario: Source should display source image
-      When I go to the admin page of source "CiteULike"
+      When I go to the admin page of source "Citeulike"
       Then I should see the image "citeulike.png"

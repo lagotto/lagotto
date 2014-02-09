@@ -73,7 +73,7 @@ describe "/api/v3/articles" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response.length.should eql(50)
         response.any? do |article|
@@ -85,7 +85,7 @@ describe "/api/v3/articles" do
 
     context "articles found via PMID" do
       before(:each) do
-        article_list = articles.collect { |article| "#{article.pub_med}" }.join(",")
+        article_list = articles.collect { |article| "#{article.pmid}" }.join(",")
         @uri = "/api/v3/articles?ids=#{article_list}&type=pmid&api_key=#{api_key}"
       end
 
@@ -97,7 +97,7 @@ describe "/api/v3/articles" do
         response = JSON.parse(last_response.body)
         response.length.should eql(50)
         response.any? do |article|
-          article["pmid"] == articles[0].pub_med
+          article["pmid"] == articles[0].pmid
         end.should be_true
       end
 
@@ -105,11 +105,11 @@ describe "/api/v3/articles" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response.length.should eql(50)
         response.any? do |article|
-          article["pub_med"] == articles[0].pub_med
+          article["pmid"] == articles[0].pmid
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
         end.should be_true
       end
@@ -169,7 +169,7 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
         response["doi"].should_not be_nil
@@ -183,75 +183,75 @@ describe "/api/v3/articles" do
 
     context "PMID" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:pmid/#{article.pub_med}?api_key=#{api_key}"}
+      let(:uri) { "/api/v3/articles/info:pmid/#{article.pmid}?api_key=#{api_key}"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
-        response["pmid"].should eql(article.pub_med.to_s)
+        response["pmid"].should eql(article.pmid.to_s)
       end
 
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response["doi"].should_not be_nil
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response["pmid"].should eql(article.pub_med.to_s)
+        response["pmid"].should eql(article.pmid.to_s)
       end
 
     end
 
     context "PMCID" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:pmcid/PMC#{article.pub_med_central}?api_key=#{api_key}"}
+      let(:uri) { "/api/v3/articles/info:pmcid/PMC#{article.pmcid}?api_key=#{api_key}"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
-        response["pmcid"].should eql(article.pub_med_central.to_s)
+        response["pmcid"].should eql(article.pmcid.to_s)
       end
 
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response["doi"].should_not be_nil
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response["pmcid"].should eql(article.pub_med_central.to_s)
+        response["pmcid"].should eql(article.pmcid.to_s)
       end
 
     end
 
     context "Mendeley" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles/info:mendeley/#{article.mendeley}?api_key=#{api_key}"}
+      let(:uri) { "/api/v3/articles/info:mendeley/#{article.mendeley_uuid}?api_key=#{api_key}"}
 
       it "JSON" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
         response_article = JSON.parse(last_response.body)[0]
-        response_article["mendeley"].should eql(article.mendeley)
+        response_article["mendeley"].should eql(article.mendeley_uuid)
       end
 
       it "XML" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response["doi"].should_not be_nil
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response["mendeley"].should eql(article.mendeley)
+        response["mendeley"].should eql(article.mendeley_uuid)
       end
 
     end

@@ -11,16 +11,16 @@ class ArticleDecorator < Draper::Decorator
     published_on.nil? ? nil : published_on.to_time.utc.iso8601
   end
 
+  def url
+    canonical_url
+  end
+
+  def mendeley
+    mendeley_uuid
+  end
+
   def update_date
     updated_at.utc.iso8601
-  end
-
-  def pmid
-    pub_med
-  end
-
-  def pmcid
-    pub_med_central
   end
 
   def cache_key
@@ -63,33 +63,33 @@ class ArticleDecorator < Draper::Decorator
     "<span class=\"Z3988\" title=\"ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft_id=info:doi/#{doi_escaped}&amp;rft.genre=article&amp;rft.atitle=#{title_escaped}&amp;rft_date=#{published_on.to_s(:db)}\"></span>"
   end
 
-  def views_span
-    if model.views > 0
-      "<span class=\"alm label views\" data-views=\"#{model.views}\">#{model.views} Views</span>"
+  def viewed_span
+    if model.viewed > 0
+      "<span class=\"alm label viewed\" data-viewed=\"#{model.viewed}\">Viewed: #{model.viewed}</span>"
     else
       ""
     end
   end
 
-  def shares_span
-    if model.shares > 0
-      "<span class=\"alm label label-success shares\" data-shares=\"#{model.shares}\">#{model.shares} Social Shares</span>"
+  def discussed_span
+    if model.discussed > 0
+      "<span class=\"alm label label-success discussed\" data-discussed=\"#{model.discussed}\">Discussed: #{model.discussed}</span>"
     else
       ""
     end
   end
 
-  def bookmarks_span
+  def saved_span
     if model.bookmarks > 0
-      "<span class=\"alm label label-info bookmarks\" data-bookmarks=\"#{model.bookmarks}\">#{model.bookmarks} Academic Bookmarks</span>"
+      "<span class=\"alm label label-info saved\" data-saved=\"#{model.saved}\">Saved: #{model.saved}</span>"
     else
       ""
     end
   end
 
-  def citations_span
-    if model.citations > 0
-      "<span class=\"alm label label-inverse citations\" data-citations=\"#{model.citations}\">#{model.citations} Citations</span>"
+  def cited_span
+    if model.cited > 0
+      "<span class=\"alm label label-inverse cited\" data-cited=\"#{model.cited}\">Cited: #{model.cited}</span>"
     else
       ""
     end

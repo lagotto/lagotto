@@ -22,7 +22,7 @@ Feature: View documentation
         | Alerts            |
         | FAQ               |
         | Roadmap           |
-        | Past-Contributors |
+        | Contributors      |
 
     Scenario: Documentation on user page
       Given I am logged in as "user"
@@ -38,7 +38,7 @@ Feature: View documentation
       Then I should see the documentation
 
     Scenario: Documentation on source admin page
-      Given we have a user with role "admin"
+      Given I am logged in as "admin"
       And the source "Citeulike" exists
       When I go to the "Documentation" tab of source "CiteULike"
       Then I should see the documentation

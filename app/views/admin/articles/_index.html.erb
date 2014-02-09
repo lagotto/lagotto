@@ -6,10 +6,10 @@
 
       <%= f.input :title, :input_html => { :rows => 2 } %>
       <%= f.input :doi, :label => 'DOI' %>
-      <%= f.input :pub_med, :label => 'PubMed ID' %>
-      <%= f.input :pub_med_central, :label => 'PubMed Central ID' %>
-      <%= f.input :mendeley, :label => 'Mendeley UUID' %>
-      <%= f.input :url, :label => 'URL' %>
+      <%= f.input :pmid, :label => 'PubMed ID' %>
+      <%= f.input :pmcid, :label => 'PubMed Central ID' %>
+      <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
+      <%= f.input :canonical_url, :label => 'Canonical URL' %>
       <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 50, :end_year => Time.zone.now.year, :order => [:day, :month, :year] %>
 
       <div class="form-group">

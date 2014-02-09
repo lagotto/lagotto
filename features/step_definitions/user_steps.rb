@@ -44,11 +44,7 @@ Given /^I am logged in$/ do
 end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
-  if role == "admin"
-    @user = FactoryGirl.create(:admin_user)
-  else
-    @user = FactoryGirl.create(:user, role: role, authentication_token: "12345")
-  end
+  @user = FactoryGirl.create(:user, role: role, authentication_token: "12345")
   visit '/users/auth/cas'
 end
 
@@ -78,7 +74,6 @@ When /^I go to my account page$/ do
 end
 
 When /^I click on user "(.*?)"$/ do |username|
-  page.driver.render("tmp/capybara/#{username}.png")
   user = User.find_by_username(username)
   click_link "link_#{user.id}"
 end
@@ -101,6 +96,7 @@ end
 
 ### THEN ###
 Then /^I should see (\d+) user[s]?$/ do |number|
+  page.driver.render("tmp/capybara/users.png")
   page.should have_css('div.panel', :visible => true, :count => number.to_i)
 end
 
@@ -147,4 +143,5 @@ Then /^I should see the "(.*?)" role for user "(.*?)"$/ do |role, username|
   within("#user_#{user.id}") do
     page.should have_content role
   end
+  page.driver.render("tmp/capybara/#{role}_#{username}.png")
 end

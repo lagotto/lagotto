@@ -24,7 +24,8 @@
           <% end %>
         <% end %>
       <% end %>
-
+      <%= f.input :workers, :as => :numeric, label: "Workers",
+                                                    hint: "Max. number of workers" %>
       <%= f.input :job_batch_size, :as => :numeric, label: "Job queue",
                                                     hint: "Number of articles queued per job" %>
       <%= f.input :batch_time_interval, collection: Source::INTERVAL_OPTIONS,
@@ -99,6 +100,7 @@
         <td>
           <%= @source.rate_limiting %> per hour rate-limiting</br>
           <%= distance_of_time(@source.batch_time_interval) %> between batch jobs</br>
+          <%= pluralize(@source.workers, "worker") %></br>
           <%= @source.job_batch_size %> articles per job</br>
           <%= @source.wait_time %> seconds before more jobs can be added</br>
           <% if @source.queueable && @source.run_at > Time.zone.now %>

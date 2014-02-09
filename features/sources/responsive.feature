@@ -14,5 +14,5 @@ Feature: Responsive design of sources
     Then I should see the "Errors (24 hours)" column
 
   Scenario: I should see the source summary tab
-    When I go to the admin page of source "CiteULike"
+    When I go to the admin page of source "Citeulike"
     Then I should see the "Summary" tab
