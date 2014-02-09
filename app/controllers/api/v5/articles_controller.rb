@@ -4,7 +4,7 @@ class Api::V5::ArticlesController < Api::V5::BaseController
     # Filter by source parameter, filter out private sources unless admin
     # Load articles from ids listed in query string, use type parameter if present
     # Translate type query parameter into column name
-    # Limit number of ids to 50
+    # Paginate query results (50 per page)
     source_ids = get_source_ids(params[:source])
     collection = ArticleDecorator.includes(:retrieval_statuses).where({ :retrieval_statuses => { :source_id => source_ids }})
 

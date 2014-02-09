@@ -45,6 +45,7 @@ class RetrievalStatus < ActiveRecord::Base
   scope :without_events, lambda { |duration| where("event_count = ?", 0).where("retrieved_at > ?", Time.zone.now - duration.days) }
 
   scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
+  scope :by_name, lambda { |source| includes(:source).where("sources.name = ?", source) }
 
   def data
     if event_count > 0
