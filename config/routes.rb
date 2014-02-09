@@ -8,7 +8,7 @@ Alm::Application.routes.draw do
 
   resources :sources
   resources :users
-  resources :docs, :only => :show, :constraints => { :id => /[0-z\-\.\(\)]+/ }
+  resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
 
   match "oembed" => "oembed#show"
 
