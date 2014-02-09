@@ -1,12 +1,13 @@
-ALM is a typical Ruby on Rails web application with the following requirements:
+ALM is a typical Ruby on Rails web application with one unusual feature: it requires the CouchDB database. CouchDB is used to store the responses from external API calls, MySQL is used for everything else (or PostgreSQL, see below). The application has been tested with Apache/Passenger, but should also run in other deployment environments, e.g. Nginx/Unicorn or WEBrick. ALM uses Ruby on Rails 3.2.x. The application has extensive test coverage using [Rspec] and [Cucumber].
 
-* Ruby 1.9.3
-* CouchDB 1.1
-
-CouchDB is used to store the responses from external API calls, MySQL is used for everything else. The application has been tested with Apache/Passenger, but should also run in other deployment environments, e.g. Nginx/Unicorn or WEBrick. ALM uses Ruby on Rails 3.2.x. The application has extensive test coverage using Rspec and Cucumber.
+[Rspec]: http://rspec.info/
+[Cucumber]: http://cukes.info/
 
 #### Ruby 1.9
-ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM][rvm] and [Rbenv][rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies. The ALM application has not been tested with Ruby 2.0.
+ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies, making them sometimes not the best choices in a production environment. The ALM application has not been tested with Ruby 2.0, but migration to Ruby 2.0 is planned in 2014.
+
+[RVM]: http://rvm.io/
+[Rbenv]: https://github.com/sstephenson/rbenv
 
 #### Installation Options
 There are many installation options, but the following two should cover most scenarios:
@@ -17,7 +18,7 @@ There are many installation options, but the following two should cover most sce
 Hosting the ALM application at a Platform as a Service (PaaS) provider such as Heroku or OpenShift is possible, but has not been tested.
 
 ## Automatic Installation using Vagrant
-This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox], [Vagrant] and the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo).
+This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox], [Vagrant] and the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo). You can also use [VMware Fusion or Workstation](https://www.vagrantup.com/vmware) instead of [Virtualbox], but the VMware Vagrant plugin requires a commercial license.
 
 ### Custom settings (passwords, API keys)
 This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
@@ -63,16 +64,16 @@ This is the preferred way to install the ALM application on Amazon Web Services 
 vagrant plugin install vagrant-aws
 ```
 
-So that we can use any Amazon Machine Image ([AMI](https://aws.amazon.com/amis)) - the ALM application has been tested with Ubuntu 12.04 and CentOS 6.3 - we want to install the [vagrant-omnibus] plugin that adds Chef solo to any VM:
+So that we can use any Amazon Machine Image ([AMI](https://aws.amazon.com/amis)) - the ALM application has been tested with Ubuntu 12.04 - we want to install the [vagrant-omnibus] plugin that adds Chef solo to any VM:
 
 ```sh
 vagrant plugin install vagrant-omnibus
 ```
 
-Install a dummy AWS box and name it precise64:
+Install a dummy AWS box and name it `opscode-ubuntu-12.04`:
 
 ```sh
-vagrant box add precise64 https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+vagrant box add opscode-ubuntu-12.04 https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 ```
 
 Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_name, security_groups) to Vagrantfile. We recommend to use at least a small EC2 instance, the ami `ami-e7582d8e` contains Ubuntu 12.04. We also install the latest Chef version using omnibus.
@@ -118,7 +119,20 @@ cd /vagrant
 
 The Rails application runs in Production mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
 
-The ALM application can be installed in [Rackspace] or [DigitalOcean] using Vagrant and the respective plugins ([vagrant-rackspace] and [vagrant-digitalocean]) in a process similar to the AWS installation, but this has not been tested with the ALM application.
+The ALM application can also be installed with [DigitalOcean] or [Rackspace] using Vagrant and the respective plugins ([vagrant-digitalocean] and [vagrant-rackspace]) in a process similar to the AWS installation. The settings for DigitalOcean are as follows:
+
+```ruby
+config.vm.provider :digital_ocean do |provider, override|
+  override.ssh.private_key_path = '~/.ssh/id_rsa'
+  override.vm.box = 'digital_ocean'
+  override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+  override.ssh.username = "ubuntu"
+
+  provider.client_id = 'EXAMPLE'
+  provider.api_key = 'EXAMPLE'
+  provider.size = '1GB'
+end
+```
 
 [vagrant]: http://downloads.vagrantup.com/
 [vagrant-aws]: https://github.com/mitchellh/vagrant-aws
@@ -138,7 +152,7 @@ sudo apt-get update
 ```
 
 #### Install required packages
-`libxml2-dev` and `libxslt1-dev` are required for XML processing by the `nokogiri` and `libxml-ruby` gems, `nodejs` provides Javascript for the `therubyracer` gem.
+`libxml2-dev` and `libxslt1-dev` are required for XML processing by the `nokogiri` gem, `nodejs` provides Javascript for the `therubyracer` gem.
 
 ```sh
 sudo apt-get install curl build-essential git-core libxml2-dev libxslt1-dev nodejs
@@ -412,4 +426,37 @@ Deploy the application with the current code from Github without or with databas
 cap deploy
 cap deploy:migrations
 cap deploy:rollback
+```
+
+### Precompile assets
+Assets (CSS, Javascripts, images) need to be precompiled when running Rails in the `production` environment (but not in `development`). Run the following rake task, then restart the server:
+
+```sh
+bundle exec rake assets:precompile RAILS_ENV=production
+```
+
+## Using PostgreSQL instead of MySQL
+The instructions above are for using MySQL, but the ALM application can also be installed with PostgreSQL with two small changes:
+
+### Install PostgreSQL gem
+Uncomment `gem 'pg'` in your `Gemfile`, comment out `gem 'mysql2'` and run `bundle update`:
+
+```ruby
+gem 'rails', '3.2.16'
+#gem 'mysql2', '0.3.13'
+gem 'pg', '~> 0.17.1'
+```
+
+### Change database adapter
+Change the adapter in `config/database.yml` to use PostgreSQL instead of MySQL:
+
+```yaml
+production:
+  #adapter:   mysql2
+  adapter:   postgresql
+  database:  alm_production
+  username:  postgres
+  password:  YOUR_PASSWORD
+  host:      localhost
+  pool:      10
 ```

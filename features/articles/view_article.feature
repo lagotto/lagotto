@@ -14,7 +14,6 @@ Feature: View article
       And I should not see the "PubMed ID" for the article
       And I should not see the "PubMed Central ID" for the article
       And I should not see the "Mendeley UUID" for the article
-      And I should not see the "URL" for the article
 
     Scenario Outline: Article identifiers
       When I go to the article with "<Value>" for "<Identifier>"
@@ -22,7 +21,7 @@ Feature: View article
 
       Examples:
       | Identifier      | Value                                                                      | Label             |
-      | pub_med         | 17183632                                                                   | PubMed ID         |
-      | pub_med_central | 1762354                                                                    | PubMed Central ID |
-      | mendeley        | 1779fd30-6d0c-11df-a2b2-0026b95e3eb7                                       | Mendeley UUID     |
-      | url             | http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000010 | URL               |
+      | pmid            | 17183632                                                                   | PubMed ID         |
+      | pmcid           | 1762354                                                                    | PubMed Central ID |
+      | mendeley_uuid   | 1779fd30-6d0c-11df-a2b2-0026b95e3eb7                                       | Mendeley UUID     |
+      | canonical_url   | http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000010 | URL               |

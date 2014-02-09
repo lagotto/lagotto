@@ -29,9 +29,9 @@ describe SourcesController do
       last_response.should render_template("sources/show")
       last_response.content_type.should eq("application/rss+xml; charset=utf-8")
 
-      response = Nori.new.parse(last_response.body)
+      response = Hash.from_xml(last_response.body)
       response = response["rss"]
-      response["@version"].should eq("2.0")
+      response["version"].should eq("2.0")
       response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
@@ -43,9 +43,9 @@ describe SourcesController do
       last_response.should render_template("sources/show")
       last_response.content_type.should eq("application/rss+xml; charset=utf-8")
 
-      response = Nori.new.parse(last_response.body)
+      response = Hash.from_xml(last_response.body)
       response = response["rss"]
-      response["@version"].should eq("2.0")
+      response["version"].should eq("2.0")
       response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
@@ -57,9 +57,9 @@ describe SourcesController do
       last_response.should render_template("sources/show")
       last_response.content_type.should eq("application/rss+xml; charset=utf-8")
 
-      response = Nori.new.parse(last_response.body)
+      response = Hash.from_xml(last_response.body)
       response = response["rss"]
-      response["@version"].should eq("2.0")
+      response["version"].should eq("2.0")
       response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
@@ -71,9 +71,9 @@ describe SourcesController do
       last_response.should render_template("sources/show")
       last_response.content_type.should eq("application/rss+xml; charset=utf-8")
 
-      response = Nori.new.parse(last_response.body)
+      response = Hash.from_xml(last_response.body)
       response = response["rss"]
-      response["@version"].should eq("2.0")
+      response["version"].should eq("2.0")
       response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
@@ -83,5 +83,4 @@ describe SourcesController do
       expect { get source_path("x"), format: "rss" }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
-
 end

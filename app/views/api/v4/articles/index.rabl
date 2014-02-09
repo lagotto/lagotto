@@ -1,13 +1,10 @@
-collection @articles
+object false
 
-attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date, :views, :shares, :bookmarks, :citations
+node(:total) { |m| @articles.total_entries }
+node(:total_pages) { |m| (@articles.total_entries.to_f / @articles.per_page).ceil }
+node(:page) { |m| @articles.total_entries > 0 ? @articles.current_page : 0 }
+node(:error) { nil }
 
-unless params[:info] == "summary"
-  child :retrieval_statuses => :sources do
-    attributes :name, :display_name, :events_url, :metrics, :update_date
-
-    attributes :events if ["detail","event"].include?(params[:info])
-    attributes :histories if ["detail","history"].include?(params[:info])
-    attributes :histories, :by_day, :by_month, :by_year if ["detail","history"].include?(params[:info])
-  end
+node :data do
+  partial "api/v4/articles/collection", :object => @articles
 end

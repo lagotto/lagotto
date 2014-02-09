@@ -44,11 +44,7 @@ Given /^I am logged in$/ do
 end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
-  if role == "admin"
-    @user = FactoryGirl.create(:admin_user)
-  else
-    @user = FactoryGirl.create(:user, role: role, authentication_token: "12345")
-  end
+  @user = FactoryGirl.create(:user, role: role, authentication_token: "12345")
   visit '/users/auth/persona'
 end
 

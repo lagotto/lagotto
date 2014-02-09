@@ -13,19 +13,19 @@ describe ArticlesController do
     end
 
     it "GET pmid" do
-      get "/articles/info:pmid/#{article.pub_med}"
+      get "/articles/info:pmid/#{article.pmid}"
       last_response.status.should == 302
       last_response.body.should include("redirected")
     end
 
     it "GET pmcid" do
-      get "/articles/info:pmcid/PMC#{article.pub_med_central}"
+      get "/articles/info:pmcid/PMC#{article.pmcid}"
       last_response.status.should == 302
       last_response.body.should include("redirected")
     end
 
     it "GET mendeley" do
-      get "/articles/info:mendeley/#{article.mendeley}"
+      get "/articles/info:mendeley/#{article.mendeley_uuid}"
       last_response.status.should == 302
       last_response.body.should include("redirected")
     end

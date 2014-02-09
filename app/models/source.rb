@@ -52,17 +52,17 @@ class Source < ActiveRecord::Base
   validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_all, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
 
-  scope :available, where("state = 0").order("group_id, sources.display_name")
-  scope :installed, where("state > 0").order("group_id, sources.display_name")
-  scope :retired, where("state = 1").order("group_id, sources.display_name")
-  scope :inactive, where("state = 2").order("group_id, sources.display_name")
-  scope :active, where("state > 2").order("group_id, sources.display_name")
-  scope :for_events, where("state > 2 AND name != 'relativemetric'").order("group_id, sources.display_name")
-  scope :queueable, where("state > 2 AND queueable = 1").order("group_id, sources.display_name")
+  scope :available, where("state = ?", 0).order("group_id, sources.display_name")
+  scope :installed, where("state > ?", 0).order("group_id, sources.display_name")
+  scope :retired, where("state = ?", 1).order("group_id, sources.display_name")
+  scope :inactive, where("state = ?", 2).order("group_id, sources.display_name")
+  scope :active, where("state > ?", 2).order("group_id, sources.display_name")
+  scope :for_events, where("state > ?", 2).where("name != ?",'relativemetric').order("group_id, sources.display_name")
+  scope :queueable, where("state > ?", 2).where("queueable = ?", true).order("group_id, sources.display_name")
 
   # some sources cannot be redistributed
-  scope :public_sources, lambda { where("private = false") }
-  scope :private_sources, lambda { where("private = true") }
+  scope :public_sources, lambda { where("private = ?", false) }
+  scope :private_sources, lambda { where("private = ?", true) }
 
   INTERVAL_OPTIONS = [['½ hour', 30.minutes],
                       ['1 hour', 1.hour],
@@ -246,7 +246,7 @@ class Source < ActiveRecord::Base
     return 0 unless working?
 
     # find articles that are not queued currently, scheduled_at doesn't matter
-    rs = retrieval_statuses.pluck("retrieval_statuses.id")
+    rs = retrieval_statuses.order("id").pluck("retrieval_statuses.id")
     queue_article_jobs(rs, { priority: 2 })
   end
 
@@ -519,7 +519,7 @@ class Source < ActiveRecord::Base
   def check_cache
     if ActionController::Base.perform_caching
       DelayedJob.delete_all(queue: "#{name}-cache-queue")
-      self.delay(priority: 3, queue: "#{name}-cache-queue").expire_cache
+      self.delay(priority: 0, queue: "#{name}-cache-queue").expire_cache
     end
   end
 
@@ -533,24 +533,23 @@ class Source < ActiveRecord::Base
   def create_retrievals
     # Create an empty retrieval record for every article for the new source
     article_ids = RetrievalStatus.where(:source_id => id).pluck(:article_id)
-    conn = RetrievalStatus.connection
     if article_ids.empty?
       sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles"
     else
       sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles where articles.id not in (#{article_ids.join(",")})"
     end
-    conn.execute sql
+    ActiveRecord::Base.connection.execute sql
   end
 
   private
 
   def expire_cache
     self.update_column(:cached_at, Time.zone.now)
-    source_url = "http://localhost/api/v3/sources/#{name}?api_key=#{CONFIG[:api_key]}"
+    source_url = "http://localhost/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
     get_json(source_url)
 
     Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
-    status_url = "http://localhost/api/v3/status?api_key=#{CONFIG[:api_key]}"
+    status_url = "http://localhost/api/v5/status?api_key=#{CONFIG[:api_key]}"
     get_json(status_url)
   end
 end

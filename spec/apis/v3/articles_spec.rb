@@ -29,7 +29,7 @@ describe "/api/v3/articles" do
         get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response.length.should eql(50)
         response.any? do |article|
@@ -60,7 +60,7 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response["doi"].should eql(article.doi)
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
@@ -89,7 +89,7 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
         response["doi"].should eql(article.doi)
@@ -122,7 +122,7 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
         response["doi"].should eql(article.doi)
@@ -154,7 +154,7 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
         response["doi"].should eql(article.doi)
@@ -188,7 +188,7 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
         response["doi"].should eql(article.doi)
@@ -221,7 +221,7 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
         response["doi"].should eql(article.doi)
@@ -256,7 +256,7 @@ describe "/api/v3/articles" do
         get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
         last_response.status.should eql(200)
 
-        response = Nori.new(:advanced_typecasting => false).parse(last_response.body)
+        response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
         response["doi"].should eql(article.doi)

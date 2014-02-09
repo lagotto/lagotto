@@ -17,6 +17,7 @@ Feature: Use without signing in
 
     Scenario: Anonymous user can see sources
       Given we have a user with role "admin"
+      And the source "Citeulike" exists
       When I go to the "Sources" page
       Then I should see the image "citeulike.png"
 

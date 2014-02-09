@@ -3,7 +3,7 @@ class AddDescriptionColumn < ActiveRecord::Migration
     add_column :reports, :display_name, :string
     add_column :reports, :description, :text
     add_column :reports, :config, :text
-    add_column :reports, :private, :boolean, default: 1
+    add_column :reports, :private, :boolean, default: true  #should be true, not 1
   end
 
   def down

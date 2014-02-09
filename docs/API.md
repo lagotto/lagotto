@@ -1,4 +1,4 @@
-Version 3 of the API was released October 30, 2012 (ALM 2.3).
+Version 3 of the API was released October 30, 2012 (ALM 2.3). Version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11).
 
 ## Base URL
 All API calls to the version 3 API start with ``/api/v3/articles``.
@@ -765,3 +765,87 @@ The API returns `null` if no query was made, and `0` if the external API returns
   </article>
 </articles>
 ```
+
+## v4 API
+The v4 API is only available to users with admin prileges and uses basic authentication with username and password instead of an API key. The API supports the following REST actions:
+
+<table width=100% border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<th valign="top" width=30%>HTTP Verb</td>
+<th valign="top" width=40%>Path</td>
+<th valign="top" width=30%>Action</td>
+</tr>
+<tr>
+<td valign="top" width=30%>GET</td>
+<td valign="top" width=40%>/api/v4/articles</td>
+<td valign="top" width=30%>index</td>
+</tr>
+<tr>
+<td valign="top" width=30%>POST</td>
+<td valign="top" width=40%>/api/v4/articles</td>
+<td valign="top" width=30%>create</td>
+</tr>
+<tr>
+<td valign="top" width=30%>GET</td>
+<td valign="top" width=40%>/api/v4/articles/info:doi/DOI</td>
+<td valign="top" width=30%>show</td>
+</tr>
+<tr>
+<td valign="top" width=30%>PUT</td>
+<td valign="top" width=40%>/api/v4/articles/info:doi/DOI</td>
+<td valign="top" width=30%>update</td>
+</tr>
+<tr>
+<td valign="top" width=30%>DELETE</td>
+<td valign="top" width=40%>/api/v4/articles/info:doi/DOI</td>
+<td valign="top" width=30%>delete</td>
+</tr>
+</tbody>
+</table>
+
+The API response to get a list of articles or a single article is the same as for the v3 API. You can also use one of the other supported identifiers (pmid, pmcid, mendeley_uuid) instead of the DOI.
+
+### Create article
+A sample curl API call to create a new article would look like this:
+
+```sh
+curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"article":{"doi":"10.1371/journal.pone.0036790","published_on":"2012-05-15","title":"Test title"}}' http://HOST/api/v4/articles
+```
+
+When an article has been created successfully, the server reponds with `Status 201 Created` and the following JSON (the `data` object will include all article attributes):
+
+```sh
+{"success":"Article created.","error":null,"data":{ ... }
+```
+
+### Update article
+A sample curl API call to update an article would look like this:
+
+```sh
+curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"article":{"pmid":"22615813"}}' http://HOST/api/v4/articles/info:doi/10.1371/journal.pone.0036790
+```
+
+When an article has been updated successfully, the server reponds with `Status 200 Ok` and the following JSON (the `data` object will include all article attributes):
+
+```sh
+{"success":"Article updated.","error":null,"data":{ ... }
+```
+
+### Delete article
+A sample curl API call to delete an article would look like this:
+
+```sh
+curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"article":{"pmid":"22615813"}}' http://HOST/api/v4/articles/info:doi/10.1371/journal.pone.0036790
+```
+
+When an article has been deleted successfully, the server reponds with `Status 200 Ok` and the following JSON (the `data` object will include all article attributes):
+
+```sh
+{"success":"Article deleted.","error":null,"data":{ ... }
+```
+
+### Errors
+Some of the possible errors returned by the v4 APi are:
+
+```sh

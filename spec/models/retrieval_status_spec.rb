@@ -33,28 +33,28 @@ describe RetrievalStatus do
       article = FactoryGirl.create(:article, :published_on => Time.zone.today - 1.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[0]
-      (retrieval_status.stale_at - Time.zone.now).should be_between(duration, 1.1 * duration)
+      (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
     end
 
     it "published 8 days ago" do
       article = FactoryGirl.create(:article, :published_on => Time.zone.today - 8.days)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[1]
-      (retrieval_status.stale_at - Time.zone.now).should be_between(duration, 1.1 * duration)
+      (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
     end
 
     it "published 32 days ago" do
       article = FactoryGirl.create(:article, :published_on => Time.zone.today - 32.days)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[2]
-      (retrieval_status.stale_at - Time.zone.now).should be_between(duration, 1.1 * duration)
+      (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
     end
 
     it "published 370 days ago" do
       article = FactoryGirl.create(:article, :published_on => Time.zone.today - 370.days)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[3]
-      (retrieval_status.stale_at - Time.zone.now).should be_between(duration, 1.2 * duration)
+      (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
     end
   end
 

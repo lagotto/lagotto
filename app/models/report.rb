@@ -29,7 +29,7 @@ class Report < ActiveRecord::Base
 
   def self.available(role)
     if role == "user"
-      where(private: false)
+      where(:private => false)
     else
       all
     end
@@ -44,17 +44,17 @@ class Report < ActiveRecord::Base
       sources = Source.installed.where(:private => false)
     end
 
-    sql_stat = "SELECT a.doi, a.published_on, a.title"
+    sql = "SELECT a.doi, a.published_on, a.title"
     sources.each do |source|
-      sql_stat = sql_stat + ", GROUP_CONCAT(IF(rs.source_id = #{source.id}, CAST(rs.event_count as CHAR), NULL)) AS '#{source.name}'"
+      sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.event_count END) AS #{source.name}"
     end
-    sql_stat = sql_stat + " FROM retrieval_statuses rs, articles a WHERE a.id = rs.article_id GROUP BY rs.article_id"
+    sql = sql + " FROM articles a LEFT JOIN retrieval_statuses rs ON a.id = rs.article_id GROUP BY a.id"
 
-    results = connection.execute sql_stat
+    results = ActiveRecord::Base.connection.exec_query(sql)
 
     CSV.generate do |csv|
       csv << ["doi", "publication_date", "title"] + sources.map(&:name)
-      results.each { |row| csv << row }
+      results.each { |row| csv << row.values }
     end
   end
 
