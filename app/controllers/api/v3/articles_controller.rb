@@ -9,7 +9,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     # Limit number of ids to 50
     source_ids = get_source_ids(params[:source])
 
-    type = { "doi" => "doi", "pmid" => "pub_med", "pmcid" => "pub_med_central", "mendeley" => "mendeley" }.assoc(params[:type])
+    type = { "doi" => "doi", "pmid" => "pmid", "pmcid" => "pmcid", "mendeley" => "mendeley_uuid" }.assoc(params[:type])
     type = type.nil? ? Article.uid : type[1]
     ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| Article.clean_id(id) }
     id_hash = { :articles => { type.to_sym => ids }, :retrieval_statuses => { :source_id => source_ids }}
