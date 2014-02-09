@@ -36,8 +36,8 @@ describe Source do
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
   it { should validate_presence_of(:display_name) }
-  it { should validate_numericality_of(:workers).only_integer.with_message("should be between 1 and 10") }
-  it { should ensure_inclusion_of(:workers).in_range(1..10).with_message("should be between 1 and 10") }
+  it { should validate_numericality_of(:workers).only_integer.with_message("should be between 1 and 20") }
+  it { should ensure_inclusion_of(:workers).in_range(1..20).with_message("should be between 1 and 20") }
   it { should validate_numericality_of(:timeout).only_integer.with_message("should be between 1 and 3600") }
   it { should ensure_inclusion_of(:timeout).in_range(1..3600).with_message("should be between 1 and 3600") }
   it { should validate_numericality_of(:wait_time).only_integer.with_message("should be between 1 and 3600") }
