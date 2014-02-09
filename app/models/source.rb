@@ -246,7 +246,7 @@ class Source < ActiveRecord::Base
     return 0 unless working?
 
     # find articles that are not queued currently, scheduled_at doesn't matter
-    rs = retrieval_statuses.pluck("retrieval_statuses.id")
+    rs = retrieval_statuses.order("id").pluck("retrieval_statuses.id")
     queue_article_jobs(rs, { priority: 2 })
   end
 
@@ -519,7 +519,7 @@ class Source < ActiveRecord::Base
   def check_cache
     if ActionController::Base.perform_caching
       DelayedJob.delete_all(queue: "#{name}-cache-queue")
-      self.delay(priority: 3, queue: "#{name}-cache-queue").expire_cache
+      self.delay(priority: 0, queue: "#{name}-cache-queue").expire_cache
     end
   end
 
@@ -533,24 +533,23 @@ class Source < ActiveRecord::Base
   def create_retrievals
     # Create an empty retrieval record for every article for the new source
     article_ids = RetrievalStatus.where(:source_id => id).pluck(:article_id)
-    conn = RetrievalStatus.connection
     if article_ids.empty?
       sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles"
     else
       sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles where articles.id not in (#{article_ids.join(",")})"
     end
-    conn.execute sql
+    connection.execute sql
   end
 
   private
 
   def expire_cache
     self.update_column(:cached_at, Time.zone.now)
-    source_url = "http://localhost/api/v3/sources/#{name}?api_key=#{CONFIG[:api_key]}"
+    source_url = "http://localhost/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
     get_json(source_url)
 
     Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
-    status_url = "http://localhost/api/v3/status?api_key=#{CONFIG[:api_key]}"
+    status_url = "http://localhost/api/v5/status?api_key=#{CONFIG[:api_key]}"
     get_json(status_url)
   end
 end
