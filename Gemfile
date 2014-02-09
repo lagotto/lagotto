@@ -68,6 +68,7 @@ group :test do
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1", :require => false
   gem "poltergeist", "~> 1.5.0"
+  gem "minitest", "~> 5.2.2"
   gem "faye-websocket", "~> 0.4.7"
   gem "mocha", "~> 0.13.3", :require => false
 end
