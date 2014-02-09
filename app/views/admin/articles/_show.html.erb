@@ -51,9 +51,9 @@
       <dt>PubMed Central ID</dt>
       <dd id="pmcid" data-pmcid="<%= @article.pmcid %>"><%= link_to "PMC#{@article.pmcid}", "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pmcid}" %></dd>
     <% end %>
-    <% if @article.mendeley %>
+    <% if @article.mendeley_uuid %>
       <dt>Mendeley UUID</dt>
-      <dd id="mendeley_uuid" data-mendeley="<%= @article.mendeley %>"><%= @article.mendeley %></dd>
+      <dd id="mendeley_uuid" data-mendeley_uuid="<%= @article.mendeley_uuid %>"><%= @article.mendeley_uuid %></dd>
     <% end %>
     <dt>URLs</dt>
     <dd>
