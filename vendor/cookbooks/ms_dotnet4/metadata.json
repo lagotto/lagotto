@@ -1,0 +1,31 @@
+{
+  "name": "ms_dotnet4",
+  "description": "Installs Microsoft .NET 4.0",
+  "long_description": "Description\n===========\n\nThis cookbook installs the Microsoft .NET Framework 4.0\n\nRequirements\n============\n\n* Windows cookbook\n\nPlatform\n--------\n\n*Windows Vista SP1 or later\n*Windows Server 2008 (not supported on Server Core Role)\n*Windows 7\n*Windows Server 2008 R2 (not supported on Server Core Role)\n\n\nAttributes\n==========\n\nUsage\n=====\n\nInclude the default recipe on a node's runlist to ensure that .NET Framework 4.0 is installed on the system\n\n",
+  "maintainer": "Tim Smith",
+  "maintainer_email": "tsmith@llnw.com",
+  "license": "All rights reserved",
+  "platforms": {
+    "windows": ">= 0.0.0"
+  },
+  "dependencies": {
+    "windows": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "1.0.2"
+}

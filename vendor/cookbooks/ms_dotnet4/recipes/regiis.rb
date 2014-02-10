@@ -1,10 +1,11 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Author:: Julian C. Dunn (<jdunn@getchef.com>)
-# Cookbook Name:: powershell
-# Recipe:: default
+# Cookbook Name:: ms_dotnet4
+# Recipe:: regiis
+# Author: Kendrick Martin(<kendrick.martin@webtrends.com>)
 #
-# Copyright:: Copyright (c) 2011-2013 Chef Software, Inc.
+# This recipe registers .NET 4 with IIS to install ISAPI filters
+#
+# Copyright 2012, Webtrends, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,4 +18,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+
+execute 'aspnet_regiis' do
+  command '%WINDIR%\\Microsoft.Net\\Framework64\\v4.0.30319\\aspnet_regiis -i -enable'
+  action :run
+end

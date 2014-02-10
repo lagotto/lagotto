@@ -1,10 +1,9 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Author:: Julian C. Dunn (<jdunn@getchef.com>)
-# Cookbook Name:: powershell
-# Recipe:: default
+# Author:: Timothy Smith (<tsmith@llnw.com>)
+# Cookbook Name:: ms_dotnet4
+# Attribute:: default
 #
-# Copyright:: Copyright (c) 2011-2013 Chef Software, Inc.
+# Copyright:: Copyright (c) 2012 Webtrends Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,3 +17,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+default['ms_dotnet45']['http_url'] = 'http://download.microsoft.com/download/b/a/4/ba4a7e71-2906-4b2d-a0e1-80cf16844f5f/dotnetfx45_full_x86_x64.exe'
+default['ms_dotnet45']['timeout'] = 600
