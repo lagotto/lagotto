@@ -41,6 +41,17 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = "EXAMPLE"
   end
 
+  config.vm.provider :digital_ocean do |provider, override|
+    override.ssh.private_key_path = '~/.ssh/id_rsa'
+    override.vm.box = 'digital_ocean'
+    override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+    override.ssh.username = "ubuntu"
+
+    provider.client_id = 'EXAMPLE'
+    provider.api_key = 'EXAMPLE'
+    provider.size = '1GB'
+  end
+
   config.vm.hostname = "alm"
 
   # Boot with a GUI so you can see the screen. (Default is headless)

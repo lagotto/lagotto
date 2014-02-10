@@ -28,7 +28,7 @@ d3.json("/api/v5/sources/" + name + "?api_key=" + api_key, function(error, json)
   d3.select("#event_count").html(number_with_delimiter(data["event_count"]));
 
   // Status donut chart
-  data = d3.entries(json["status"]);
+  data = d3.entries(json["data"]["status"]);
 
   var chart = d3.select("div#chart_status").append("svg")
       .data([data])
@@ -73,7 +73,7 @@ d3.json("/api/v5/sources/" + name + "?api_key=" + api_key, function(error, json)
       .text("of articles");
 
   // Events today donut chart
-  data = d3.entries(json["by_day"]);
+  data = d3.entries(json["data"]["by_day"]);
 
   var chart = d3.select("div#chart_day").append("svg")
       .data([data])
@@ -117,7 +117,7 @@ d3.json("/api/v5/sources/" + name + "?api_key=" + api_key, function(error, json)
       .text("last 24 hours");
 
   // Events this month donut chart
-  data = d3.entries(json["by_month"]);
+  data = d3.entries(json["data"]["by_month"]);
 
   var chart = d3.select("div#chart_month").append("svg")
       .data([data])

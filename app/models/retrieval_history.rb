@@ -26,14 +26,31 @@ class RetrievalHistory < ActiveRecord::Base
 
   default_scope order("retrieved_at DESC")
 
-  scope :after_days, lambda { |days| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days) }
-  scope :after_months, lambda { |months| joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months) }
-  scope :until_year, lambda { |year| joins(:article).where("YEAR(retrieved_at) <= ?", year) }
+  scope :after_days, lambda { |days|
+    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
+      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days)
+    else
+      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL '? DAY'", days)
+    end
+  }
+  scope :after_months, lambda { |months|
+    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
+      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months)
+    else
+      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL '? MONTH'", months)
+    end
+  }
+  scope :until_year, lambda { |year| joins(:article).where("EXTRACT(YEAR FROM retrieved_at) <= ?", year) }
+  scope :total, lambda { |duration| where("retrieved_at > ?", Time.zone.now - duration.days) }
 
-  scope :total, lambda { |days| where("retrieved_at > NOW() - INTERVAL ? DAY", days) }
-
+  # This is needed to calculate and display the table size
   def self.table_status
-    table_status = ActiveRecord::Base.connection.select_all("SHOW TABLE STATUS LIKE 'retrieval_histories'").first
+    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
+     sql = "SHOW TABLE STATUS LIKE 'retrieval_histories'"
+    else
+      sql = "SELECT * FROM pg_class WHERE oid = 'public.retrieval_histories'::regclass"
+    end
+    table_status = ActiveRecord::Base.connection.select_all(sql).first
     Hash[table_status.map {|k, v| [k.to_s.underscore, v] }]
   end
 

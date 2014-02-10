@@ -176,12 +176,12 @@ namespace :db do
 
   namespace :api_requests do
 
-    desc "Delete API requests, keeping last 10,000 requests"
+    desc "Delete API requests, keeping last 1,000 requests"
     task :delete => :environment do
       before = ApiRequest.count
-      request = ApiRequest.order("created_at DESC").offset(10000).first
+      request = ApiRequest.order("created_at DESC").offset(1000).first
       unless request.nil?
-        ApiRequest.delete_all(['created_at <= ?', request.created_at])
+        ApiRequest.where("created_at <= ?", request.created_at).delete_all
       end
       after = ApiRequest.count
       puts "Deleted #{before - after} API requests, #{after} API requests remaining"
@@ -193,7 +193,7 @@ namespace :db do
     desc "Delete all resolved API responses older than 24 hours"
     task :delete => :environment do
       before = ApiResponse.count
-      ApiResponse.destroy_all("unresolved = 0 AND created_at < NOW() - INTERVAL 1 DAY")
+      ApiResponse.where(unresolved: false).where("created_at < ?", Time.zone.now - 1.day).destroy_all
       after = ApiResponse.count
       puts "Deleted #{before - after} resolved API responses, #{after} unresolved API responses remaining"
     end

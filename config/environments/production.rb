@@ -60,5 +60,5 @@ Alm::Application.configure do
 
   # for devise
   # TODO Must set it with correct value!!
-  config.action_mailer.default_url_options = { :host => "#{CONFIG[:mail][:address]}#{CONFIG[:mail][:port]}" }
+  config.action_mailer.default_url_options = { :host => "#{CONFIG[:mail]["address"]}#{CONFIG[:mail]["port"]}" }
 end

@@ -23,7 +23,7 @@ class Admin::SourcesController < Admin::ApplicationController
 
   def update
     params[:source] ||= {}
-    params[:source][:state_event] = params[:state_event]
+    params[:source][:state_event] = params[:state_event] if params[:state_event]
     @source.update_attributes(safe_params)
     if @source.invalid?
       error_messages = @source.errors.full_messages.join(', ')
@@ -55,6 +55,7 @@ class Admin::SourcesController < Admin::ApplicationController
                                    :queueable,
                                    :description,
                                    :job_batch_size,
+                                   :workers,
                                    :batch_time_interval,
                                    :rate_limiting,
                                    :wait_time,

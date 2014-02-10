@@ -165,9 +165,6 @@ describe "/api/v5/articles", :not_teamcity => true do
         data["doi"].should eql(article.doi)
         data["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
       end
-
-
-
     end
   end
 end

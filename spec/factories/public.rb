@@ -4,16 +4,16 @@ FactoryGirl.define do
 
   factory :article do
     sequence(:doi) {|n| "10.1371/journal.pone.00000#{n}" }
-    sequence(:pub_med) {|n| "1897483#{n}" }
-    pub_med_central 2568856
-    mendeley "46cb51a0-6d08-11df-afb8-0026b95d30b2"
+    sequence(:pmid) {|n| "1897483#{n}" }
+    pmcid 2568856
+    mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
     published_on { Time.zone.today - 1.year }
 
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
     trait(:not_publisher) { doi '10.1007/s00248-010-9734-2' }
-    trait(:missing_mendeley) { mendeley nil }
+    trait(:missing_mendeley) { mendeley_uuid nil }
     trait(:unpublished) { published_on { Time.zone.today + 1.week } }
 
     factory :article_with_events do

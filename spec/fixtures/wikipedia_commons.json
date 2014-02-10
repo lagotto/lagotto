@@ -1,0 +1,19 @@
+{
+  "query-continue": {
+    "search": {
+      "sroffset": 1
+    }
+  },
+  "query": {
+    "searchinfo": {
+      "totalhits": 8
+    },
+    "search": [
+      {
+        "ns": 6,
+        "title": "File:Journal.pone.0044271.g001.png",
+        "timestamp": "2013-08-29T21:14:47Z"
+      }
+    ]
+  }
+}

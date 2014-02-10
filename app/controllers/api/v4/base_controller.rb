@@ -10,6 +10,24 @@ class Api::V4::BaseController < ActionController::Base
     render "error", :status => 401
   end
 
+  rescue_from ActionController::ParameterMissing do |exception|
+    @error = { exception.param => ['parameter is required'] }
+    @article = nil
+    render "error", :status => 422
+  end
+
+  rescue_from ActionController::UnpermittedParameters do |exception|
+    @error = Hash[exception.params.map {|v| [v,['unpermitted parameter']]}]
+    @article = nil
+    render "error", :status => 422
+  end
+
+  rescue_from NoMethodError do |exception|
+    @error = "Undefined method."
+    @article = nil
+    render "error", :status => 422
+  end
+
   def default_format_json
     request.format = :json if request.format.html?
   end

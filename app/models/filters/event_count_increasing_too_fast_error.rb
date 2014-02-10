@@ -44,7 +44,7 @@ class EventCountIncreasingTooFastError < Filter
   end
 
   def source_ids
-    config.source_ids || Source.active.joins(:group).where("groups.name IN ('viewed','discussed')").pluck(:id)
+    config.source_ids || Source.active.joins(:group).where("groups.name" => ['viewed','discussed']).pluck(:id)
   end
 end
 

@@ -23,9 +23,9 @@ attribute :command, :kind_of => String, :name_attribute => true
 attribute :creates, :kind_of => String
 attribute :cwd, :kind_of => String
 attribute :environment, :kind_of => Hash
-attribute :user, :kind_of => [ String, Integer ]
-attribute :group, :kind_of => [ String, Integer ]
-attribute :returns, :kind_of => [ Integer, Array ]
+attribute :user, :kind_of => [String, Integer]
+attribute :group, :kind_of => [String, Integer]
+attribute :returns, :kind_of => [Integer, Array]
 attribute :timeout, :kind_of => Integer
 
 # Chef::Resource::Script
@@ -35,6 +35,7 @@ attribute :flags, :kind_of => String
 def initialize(*args)
   super
   @action = :run
+  Chef::Log.warn("Please use the powershell_script resource in Chef Client 11.6+") if Gem::Requirement.new("> 11.5").satisfied_by?(Gem::Version.new(::Chef::VERSION))
 end
 
 def interpreter
@@ -44,6 +45,6 @@ def interpreter
   elsif ::File.exist?("#{ENV['WINDIR']}\\system32\\WindowsPowershell\\v1.0\\powershell.exe")
     "#{ENV['WINDIR']}\\system32\\WindowsPowershell\\v1.0\\powershell.exe"
   else
-    "powershell.exe"
+    'powershell.exe'
   end
 end

@@ -23,7 +23,7 @@ class PmcEuropeData < Source
   def get_data(article, options={})
 
     # We need to have the PMID for this article, and we let the pub_med source fetch it
-    return  { :events => [], :event_count => nil } if article.pub_med.blank?
+    return  { :events => [], :event_count => nil } if article.pmid.blank?
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
@@ -49,14 +49,14 @@ class PmcEuropeData < Source
                         :total => event_count }
 
       { events: events,
-        events_url: "http://europepmc.org/abstract/MED/#{article.pub_med}#fragment-related-bioentities",
+        events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-bioentities",
         event_count: event_count,
         event_metrics: event_metrics }
     end
   end
 
   def get_query_url(article)
-    url % { :pub_med => article.pub_med } unless article.pub_med.blank?
+    url % { :pmid => article.pmid } unless article.pmid.blank?
   end
 
   def get_config_fields
@@ -64,7 +64,7 @@ class PmcEuropeData < Source
   end
 
   def url
-    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pub_med}/databaseLinks//1/json"
+    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pmid}/databaseLinks//1/json"
   end
 
 end

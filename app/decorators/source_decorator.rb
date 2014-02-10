@@ -59,7 +59,7 @@ class SourceDecorator < Draper::Decorator
   end
 
   def article_count
-    model.articles.cited(1).size
+    model.articles.is_cited.size
   end
 
   def all_articles_count
