@@ -36,8 +36,8 @@ describe Source do
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
   it { should validate_presence_of(:display_name) }
-  it { should validate_numericality_of(:workers).only_integer.with_message("should be between 1 and 10") }
-  it { should ensure_inclusion_of(:workers).in_range(1..10).with_message("should be between 1 and 10") }
+  it { should validate_numericality_of(:workers).only_integer.with_message("should be between 1 and 20") }
+  it { should ensure_inclusion_of(:workers).in_range(1..20).with_message("should be between 1 and 20") }
   it { should validate_numericality_of(:timeout).only_integer.with_message("should be between 1 and 3600") }
   it { should ensure_inclusion_of(:timeout).in_range(1..3600).with_message("should be between 1 and 3600") }
   it { should validate_numericality_of(:wait_time).only_integer.with_message("should be between 1 and 3600") }
@@ -325,6 +325,26 @@ describe Source do
         source.queue_article_jobs(rs_ids).should == 10
         Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id))
       end
+
+      # it "perform callback without workers" do
+      #   Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+      #   Delayed::Job.stub(:perform).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+      #   source.workers = 0
+      #   source.queue_article_jobs(rs_ids).should == 0
+      #   Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id))
+      # end
+
+      # it "perform callback without enough workers" do
+      #   job_batch_size = 5
+      #   Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[0...job_batch_size], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+      #   Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[job_batch_size..10], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+      #   Delayed::Job.stub(:perform).with(SourceJob.new(rs_ids[0...job_batch_size], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+      #   Delayed::Job.stub(:perform).with(SourceJob.new(rs_ids[job_batch_size..10], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+      #   source.job_batch_size = job_batch_size
+      #   source.workers = 1
+      #   source.queue_article_jobs(rs_ids).should == 5
+      #   Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id))
+      # end
 
       it "after callback" do
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })

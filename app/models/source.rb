@@ -39,7 +39,7 @@ class Source < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
-  validates :workers, :numericality => { :only_integer => true }, :inclusion => { :in => 1..10, :message => "should be between 1 and 10" }
+  validates :workers, :numericality => { :only_integer => true }, :inclusion => { :in => 1..20, :message => "should be between 1 and 20" }
   validates :timeout, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
   validates :wait_time, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
   validates :max_failed_queries, :numericality => { :only_integer => true }, :inclusion => { :in => 1..1000, :message => "should be between 1 and 1000" }
@@ -357,16 +357,25 @@ class Source < ActiveRecord::Base
     failed_queries > max_failed_queries
   end
 
-  def check_for_queued_jobs
-    get_queued_job_count > 0
-  end
-
   def get_queued_job_count
     Delayed::Job.count('id', :conditions => ["queue = ?", name])
   end
 
+  def check_for_queued_jobs
+    get_queued_job_count > 0
+  end
+
   def get_queueing_job_count
     Delayed::Job.count('id', :conditions => ["queue = ?", "#{name}-queue"])
+  end
+
+  def get_running_job_count
+    Delayed::Job.count('id', :conditions => ["queue = ? AND 'locked_at IS NOT NULL'", name ])
+  end
+
+  def check_for_running_jobs
+    # limit the number of workers per source
+    get_running_job_count >= workers
   end
 
   def schedule_at
