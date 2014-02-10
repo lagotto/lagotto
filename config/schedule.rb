@@ -6,9 +6,11 @@
 set :output, "#{path}/log/cron.log"
 
 # Create alerts by filtering API responses and mail them
+# Restart worker queues in case they got stuck
 # Delete resolved alerts
-# Delete API request information, keeping the last 10,000 requests
+# Delete API request information, keeping the last 1,000 requests
 # Delete API response information, keeping responses from the last 24 hours
+# Generate a monthly report
 every 1.day, at: "4:00 AM" do
   rake "filter:all"
   rake "mailer:error_report"

@@ -4,7 +4,7 @@ describe DocsController do
 
   it "GET 'index'" do
     get ""
-    last_response.status.should eql(200)
+    last_response.status.should == 302
   end
 
 end

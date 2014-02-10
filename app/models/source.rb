@@ -357,16 +357,25 @@ class Source < ActiveRecord::Base
     failed_queries > max_failed_queries
   end
 
-  def check_for_queued_jobs
-    get_queued_job_count > 0
-  end
-
   def get_queued_job_count
     Delayed::Job.count('id', :conditions => ["queue = ?", name])
   end
 
+  def check_for_queued_jobs
+    get_queued_job_count > 0
+  end
+
   def get_queueing_job_count
     Delayed::Job.count('id', :conditions => ["queue = ?", "#{name}-queue"])
+  end
+
+  def get_running_job_count
+    Delayed::Job.count('id', :conditions => ["queue = ? AND 'locked_at IS NOT NULL'", name ])
+  end
+
+  def check_for_running_jobs
+    # limit the number of workers per source
+    get_running_job_count >= workers
   end
 
   def schedule_at

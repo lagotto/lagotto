@@ -36,6 +36,6 @@ class DocsController < ApplicationController
   end
 
   def index
-    redirect_to root_path
+    redirect_to "/docs/Home"
   end
 end

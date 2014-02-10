@@ -95,7 +95,7 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
   if page_title == "Errors"
     title = "alerts"
   elsif page_title == "Home"
-    title = ""
+    title = "docs"
   elsif page_title == "API Requests"
     title = "api_requests"
   else

@@ -15,3 +15,9 @@ en:
     attributes:
       user:
         login: "Username or email"
+    errors:
+      models:
+        article:
+          attributes:
+            published_on:
+              invalid_date: "invalid date format"
