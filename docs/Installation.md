@@ -142,7 +142,7 @@ end
 [vagrant-rackspace]: https://github.com/mitchellh/vagrant-rackspace
 [vagrant-digitalocean]: https://github.com/smdahlen/vagrant-digitalocean
 
-## Manual installation for development
+## Manual installation
 These instructions assume a fresh installation of Ubuntu 12.04. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9. The instructions assume a user with sudo privileges, and this can also be a new user created just for running the ALM application.
 
 #### Update package lists
@@ -257,7 +257,7 @@ Bundler is a tool to manage dependencies of Ruby applications: http://gembundler
 
 ```sh
 sudo gem install bundler
-sudo gem install therubyracer -v '0.11.3'
+sudo gem install therubyracer -v '0.12.0'
 
 cd /var/www/alm
 bundle install
@@ -295,7 +295,7 @@ sudo service apache2 reload
 You can now access the ALM application with your web browser at the name or IP address (if it is the only virtual host) of your Ubuntu installation.
 
 ## Remote Installation via Capistrano
-This is the recommended strategy for production servers and uses [Capistrano](http://capistranorb.com), a deployment automation tool. Capistrano takes care of code updates via git, database migrations and server restarts, but you still have to do the initial server setup of Ruby, MySQL, CouchDB, Apache and Passenger. And Capistrano requires a second local ALM installation, done either via Vagrant or manually (see above).
+This is the recommended strategy for production servers that use [Capistrano](http://capistranorb.com), a deployment automation tool. Capistrano takes care of code updates via git, database migrations and server restarts, but you still have to do the initial server setup of Ruby, MySQL, CouchDB, Apache and Passenger. And Capistrano requires a second local ALM installation, done either via Vagrant or manually (see above).
 
 #### Install Ruby, MySQL, CouchDB, Apache and Passenger
 Unless you already have installed Ruby, MySQL, CouchDB, Apache and Passenger, please follow the steps for manual installation until _Install and configure Passenger_. We again assume Ubuntu 12.04.

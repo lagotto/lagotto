@@ -844,8 +844,3 @@ When an article has been deleted successfully, the server reponds with `Status 2
 ```sh
 {"success":"Article deleted.","error":null,"data":{ ... }
 ```
-
-### Errors
-Some of the possible errors returned by the v4 APi are:
-
-```sh
