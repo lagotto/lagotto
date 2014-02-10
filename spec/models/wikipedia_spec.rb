@@ -37,4 +37,18 @@ describe Wikipedia do
       alert.source_id.should == wikipedia.id
     end
   end
+
+  context "use the Wikimedia Commons API" do
+    let(:wikipedia) { FactoryGirl.create(:wikipedia, languages: "en commons") }
+
+    it "should report if there are events and event_count returned by the Wikimedia Commons API" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044271")
+      stub = stub_request(:get, /en.wikipedia.org/).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'wikipedia.json'), :status => 200)
+      stub_commons = stub_request(:get, /commons.wikimedia.org/).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'wikipedia_commons.json'), :status => 200)
+      response = wikipedia.get_data(article)
+      response[:events].length.should eq(1 + 1 + 1)
+      response[:event_count].should eq(8 + 12)
+    end
+
+   end
 end
