@@ -30,6 +30,11 @@ FactoryGirl.define do
       retrieval_statuses { |article| [article.association(:retrieval_status, retrieved_at: Time.zone.today - 1.day)] }
     end
 
+    factory :article_published_today do
+      published_on { Time.zone.today }
+      retrieval_statuses { |article| [article.association(:retrieval_status, retrieved_at: Time.zone.today)] }
+    end
+
     factory :article_with_errors do
       retrieval_statuses { |article| [article.association(:retrieval_status, :with_errors)] }
     end
@@ -97,6 +102,7 @@ FactoryGirl.define do
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
     trait(:with_counter) { association :source, factory: :counter }
     trait(:with_twitter_search) { association :source, factory: :twitter_search }
+    trait(:with_article_published_today) { association :article, factory: :article_published_today }
 
     before(:create) do |retrieval_status|
       FactoryGirl.create(:retrieval_history,
