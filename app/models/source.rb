@@ -240,13 +240,20 @@ class Source < ActiveRecord::Base
     RetrievalStatus.update_all(["queued_at = ?", nil], ["source_id = ?", id])
   end
 
-  def queue_all_articles
+  def queue_all_articles(options = {})
     start_working
 
     return 0 unless working?
 
     # find articles that are not queued currently, scheduled_at doesn't matter
-    rs = retrieval_statuses.order("id").pluck("retrieval_statuses.id")
+    rs = retrieval_statuses
+
+    # optionally limit by publication date
+    if options[:start_date] && options[:end_date]
+      rs = rs.joins(:article).where("articles.published_on" => options[:start_date]..options[:end_date])
+    end
+
+    rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
     queue_article_jobs(rs, { priority: 2 })
   end
 

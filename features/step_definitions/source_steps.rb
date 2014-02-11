@@ -95,14 +95,14 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
   if page_title == "Errors"
     title = "alerts"
   elsif page_title == "Home"
-    title = "docs"
+    title = ""
   elsif page_title == "API Requests"
     title = "api_requests"
   else
     title = page_title.downcase
   end
   visit "/admin/#{title}"
-  #page.driver.render("tmp/capybara/#{title}.png")
+  page.driver.render("tmp/capybara/#{title}.png")
 end
 
 When /^I go to "(.*?)"$/ do |path|
