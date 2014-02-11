@@ -15,4 +15,4 @@ ALM Version <%= VERSION %>
 MySQL retrieval_history size <%= number_to_human_size(@sql_info["data_length"]) %>
 CouchDB database size <%= number_to_human_size(@couchdb_info["disk_size"]) %>
 
-Go to admin dashboard: <%= root_url(:host => CONFIG[:hostname]) %>
+Go to admin dashboard: <%= admin_root_url(:host => CONFIG[:hostname]) %>

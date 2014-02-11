@@ -59,11 +59,7 @@ class Admin::UsersController < Admin::ApplicationController
   def load_user
     @user = User.find(params[:id])
     @reports = Report.available(@user.role)
-
-    # filter query parameters, use "Home" if no match is found
-    params[:id] = "Home" if params[:doc].nil?
-    id = %w(Home Installation Setup Sources API Rake Errors FAQ Roadmap Past-Contributors).detect { |s| s.casecmp(params[:id])==0 }
-    @doc = { :title => id, :text => IO.read(Rails.root.join("docs/#{id}.md")) }
+    @doc = { :title => "API", :text => IO.read(Rails.root.join("docs/API.md")) }
   end
 
   def load_index
