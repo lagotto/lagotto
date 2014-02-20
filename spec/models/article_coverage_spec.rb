@@ -4,7 +4,7 @@ describe ArticleCoverage do
   let(:article_coverage) { FactoryGirl.create(:article_coverage) }
 
   it "should report that there are no events if the doi is missing" do
-    article_without_doi = FactoryGirl.build(:article, :doi => "", :pub_med => "")
+    article_without_doi = FactoryGirl.build(:article, :doi => "")
     article_coverage.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
 

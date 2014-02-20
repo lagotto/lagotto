@@ -1,18 +1,17 @@
 # encoding: UTF-8
 # Load sources
-viewed = Group.find_by_name("viewed")
-saved = Group.find_by_name("saved")
-discussed = Group.find_by_name("discussed")
-cited = Group.find_by_name("cited")
-recommended = Group.find_by_name("recommended")
-other = Group.find_by_name("other")
+viewed = Group.find_or_create_by_name(name: "viewed", display_name: "Viewed")
+saved = Group.find_or_create_by_name(name: "saved", display_name: "Saved")
+discussed = Group.find_or_create_by_name(name: "discussed", display_name: "Discussed")
+cited = Group.find_or_create_by_name(name: "cited", display_name: "Cited")
+recommended = Group.find_or_create_by_name(name: "recommended", display_name: "Recommended")
+other = Group.find_or_create_by_name(name: "other", display_name: "Other")
 
-# The following sources require passwords/API keys and are installed by default
+# The following sources require passwords/API keys and are not installed by default
 crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
   :display_name => "CrossRef",
   :description => "CrossRef is a non-profit organization that enables cross-publisher citation linking.",
-  :state_event => "activate",
   :group_id => cited.id,
   :username => nil,
   :password => nil)
@@ -20,26 +19,21 @@ mendeley = Mendeley.find_or_create_by_name(
   :name => "mendeley",
   :display_name => "Mendeley",
   :description => "Mendeley is a reference manager and social bookmarking tool.",
-  :state_event => "activate",
   :group_id => saved.id,
   :api_key => nil)
 facebook = Facebook.find_or_create_by_name(
   :name => "facebook",
   :display_name => "Facebook",
   :description => "Facebook is the largest social network.",
-  :state_event => "activate",
   :group_id => discussed.id,
   :access_token => nil)
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",
   :display_name => "Research Blogging",
   :description => "Research Blogging is a science blog aggregator.",
-  :state_event => "activate",
   :group_id => discussed.id,
   :username => nil,
   :password => nil)
-
-# The following sources require passwords/API keys and are not installed by default
 pmc = Pmc.find_or_create_by_name(
   :name => "pmc",
   :display_name => "PubMed Central Usage Stats",
@@ -58,3 +52,10 @@ copernicus = Copernicus.find_or_create_by_name(
   :url => nil,
   :username => nil,
   :password => nil)
+twitter_search = TwitterSearch.find_or_create_by_name(
+  :name => "twitter_search",
+  :display_name => "Twitter",
+  :description => "Twitter is a social networking and microblogging service.",
+  :state_event => "install",
+  :group_id => discussed.id,
+  :access_token => nil)

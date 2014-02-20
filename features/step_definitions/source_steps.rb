@@ -4,7 +4,7 @@ Given /^that an article has no blog count$/ do
 end
 
 Given /^the source "(.*?)" exists$/ do |name|
-  FactoryGirl.create(name.underscore.to_sym)
+  FactoryGirl.create(name.underscore.downcase.to_sym)
 end
 
 Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
@@ -38,10 +38,10 @@ end
 When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
+  page.driver.render("tmp/capybara/#{tab_title}.png")
   within ("ul.nav-tabs") do
     click_link tab_title
   end
-  page.driver.render("tmp/capybara/configuration.png")
 end
 
 When /^I go to the "(.*?)" tab of the Sources admin page$/ do |tab_title|
@@ -51,8 +51,8 @@ When /^I go to the "(.*?)" tab of the Sources admin page$/ do |tab_title|
   end
 end
 
-When /^I go to the admin page of source "(.*?)"$/ do |display_name|
-  source = Source.find_by_display_name(display_name)
+When /^I go to the admin page of source "(.*?)"$/ do |name|
+  source = Source.find_by_name(name.underscore.downcase)
   visit admin_source_path(source)
 end
 
@@ -102,7 +102,7 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
     title = page_title.downcase
   end
   visit "/admin/#{title}"
-  #page.driver.render("tmp/capybara/#{title}.png")
+  page.driver.render("tmp/capybara/#{title}.png")
 end
 
 When /^I go to "(.*?)"$/ do |path|
@@ -188,7 +188,6 @@ end
 
 Then /^I should see the image "(.+)"$/ do |image|
   page.has_css?("img[src='/assets/#{image}']").should be_true
-  page.driver.render("tmp/capybara/#{image}")
 end
 
 Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|
@@ -204,5 +203,5 @@ end
 
 Then(/^I should see (\d+) bookmarks$/) do |number|
   page.driver.render("tmp/capybara/#{number}_bookmarks.png")
-  page.has_css?('#alm-count-citeulike-shares', :text => number).should be_true
+  page.has_css?('#alm-count-citeulike-saved', :text => number).should be_true
 end

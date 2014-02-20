@@ -11,24 +11,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140111114925) do
+ActiveRecord::Schema.define(:version => 20140208131043) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
     t.string   "class_name"
     t.text     "message"
     t.text     "trace"
-    t.string   "target_url"
+    t.string   "target_url",   :limit => 1000
     t.string   "user_agent"
     t.integer  "status"
     t.string   "content_type"
     t.text     "details"
-    t.boolean  "unresolved",   :default => true
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.boolean  "unresolved",                   :default => true
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
     t.string   "remote_ip"
     t.integer  "article_id"
-    t.boolean  "error",        :default => true
+    t.boolean  "error",                        :default => true
   end
 
   add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"
@@ -69,15 +69,15 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
   add_index "api_responses", ["unresolved", "id"], :name => "index_api_responses_unresolved_id"
 
   create_table "articles", :force => true do |t|
-    t.string   "doi",             :null => false
+    t.string   "doi",           :null => false
     t.text     "title"
     t.date     "published_on"
-    t.string   "pub_med"
-    t.string   "pub_med_central"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.string   "url"
-    t.string   "mendeley"
+    t.string   "pmid"
+    t.string   "pmcid"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "canonical_url"
+    t.string   "mendeley_uuid"
   end
 
   add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"
@@ -194,6 +194,7 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.string   "display_name",                                    :null => false
     t.datetime "run_at",       :default => '1970-01-01 00:00:00', :null => false
     t.text     "config"
+    t.integer  "group_id",                                        :null => false
     t.boolean  "private",      :default => false
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
@@ -203,7 +204,6 @@ ActiveRecord::Schema.define(:version => 20140111114925) do
     t.string   "queue"
     t.string   "state_event"
     t.datetime "cached_at",    :default => '1970-01-01 00:00:00', :null => false
-    t.integer  "group_id"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true

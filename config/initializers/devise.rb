@@ -180,7 +180,9 @@ Devise.setup do |config|
 
   # ==> Configuration for :token_authenticatable
   # Defines name of the authentication token params key
-  config.token_authentication_key = :api_key
+  # config.token_authentication_key = :api_key
+
+  config.secret_key = CONFIG[:secret_token]
 
   # ==> Scopes configuration
   # Turn scoped views on. Before rendering "sessions/new", it will first check for

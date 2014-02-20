@@ -1,20 +1,26 @@
 development:
   adapter:   mysql2
+  #adapter:  postgresql
   database:  <%= node[:alm][:name] %>_development
   username:  root
   password:  <%= node['mysql']['server_root_password'] %>
   host:      localhost
-    
+  pool: 10
+
 test:
   adapter:   mysql2
+  #adapter:  postgresql
   database:  <%= node[:alm][:name] %>_test
   username:  root
   password:  <%= node['mysql']['server_root_password'] %>
   host:      localhost
-  
+  pool: 10
+
 production:
   adapter:   mysql2
+  #adapter:  postgresql
   database:  <%= node[:alm][:name] %>_production
   username:  root
   password:  <%= node['mysql']['server_root_password'] %>
   host:      localhost
+  pool: 10

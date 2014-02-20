@@ -8,8 +8,8 @@
         <div class="panel-collapse collapse" id="alert_<%= alert.id %>">
           <div class="panel-body alert-inner">
             <% if can?(:destroy, Alert) %>
-              <div class="btn-group pull-right">
-                <a class="btn btn-sm dropdown-toggle" id="<%= alert.id %>-delete" data-toggle="dropdown" href="#">
+              <div class="btn-group btn-group-sm pull-right">
+                <a class="btn btn-default dropdown-toggle" id="<%= alert.id %>-delete" data-toggle="dropdown" href="#">
                   <span class="glyphicon glyphicon-trash"></span> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">

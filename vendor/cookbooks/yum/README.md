@@ -25,12 +25,37 @@ Requirements
 
 Resources/Providers
 -------------------
-
 ### yum_repository
 This resource manages a yum repository configuration file at
 /etc/yum.repos.d/`repositoryid`.repo. When the file needs to be
 repaired, it calls yum-makecache so packages in the repo become
 available to the next resource.
+
+#### Example
+``` ruby
+# add the Zenoss repository
+yum_repository 'zenoss' do
+  description "Zenoss Stable repo"
+  baseurl "http://dev.zenoss.com/yum/stable/"
+  gpgkey 'http://dev.zenoss.com/yum/RPM-GPG-KEY-zenoss'
+  action :create
+end
+
+# add the EPEL repo
+yum_repository 'epel' do
+  description 'Extra Packages for Enterprise Linux'
+  mirrorlist 'http://mirrors.fedoraproject.org/mirrorlist?repo=epel-6&arch=$basearch'
+  gpgkey 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6'
+  action :create
+end
+```
+
+``` ruby
+# delete CentOS-Media repo
+yum_repository 'CentOS-Media' do
+  action :delete
+end
+```
 
 #### Actions
 - `:create` - creates a repository file and builds the repository listing
@@ -123,37 +148,22 @@ available to the next resource.
   out. Defaults to 30 seconds. This may be too short of a time for
   extremely overloaded sites.
 
-#### Example
-``` ruby
-# add the Zenoss repository
-yum_repository 'zenoss' do
-  description "Zenoss Stable repo"
-  baseurl "http://dev.zenoss.com/yum/stable/"
-  gpgkey 'http://dev.zenoss.com/yum/RPM-GPG-KEY-zenoss'
-  action :create
-end
-
-# add the EPEL repo
-yum_repository 'epel' do
-  description 'Extra Packages for Enterprise Linux'
-  mirrorlist 'http://mirrors.fedoraproject.org/mirrorlist?repo=epel-6&arch=$basearch'
-  gpgkey 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6'
-  action :create
-end
-```
-
-``` ruby
-# delete CentOS-Media repo
-yum_repository 'CentOS-Media' do
-  action :delete
-end
-```
-
 ### yum_globalconfig
 This renders a template with global yum configuration parameters. The
 default recipe uses it to render `/etc/yum.conf`. It is flexible
 enough to be used in other scenarios, such as building RPMs in
 isolation by modifying `installroot`. 
+
+#### Example
+``` ruby
+yum_globalconfig '/my/chroot/etc/yum.conf' do
+  cachedir '/my/chroot/etc/yum.conf'
+  keepcache 'yes'
+  debuglevel '2'
+  installroot '/my/chroot'
+  action :create
+end
+```
 
 #### Parameters
 `yum_globalconfig` can take most of the same parameters as a
@@ -187,17 +197,6 @@ http://linux.die.net/man/5/yum.conf
   it should perform a GPG signature check on the packages gotten from
   this repository.
  
-#### Example
-``` ruby
-yum_globalconfig '/my/chroot/etc/yum.conf' do
-  cachedir '/my/chroot/etc/yum.conf'
-  keepcache 'yes'
-  debuglevel '2'
-  installroot '/my/chroot'
-  action :create
-end
-```
-
 Recipes
 -------
 * `default` - Configures `yum_globalconfig[/etc/yum.conf]` with values

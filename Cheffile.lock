@@ -10,7 +10,7 @@ SITE
     couchdb (2.4.0)
       erlang (>= 0.0.0)
       yum (>= 0.0.0)
-    dmg (2.1.2)
+    dmg (2.1.4)
     erlang (1.4.2)
       apt (>= 1.7.0)
       build-essential (>= 0.0.0)
@@ -27,6 +27,12 @@ SITE
       runit (~> 1.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
+    ms_dotnet2 (1.0.0)
+      windows (>= 0.0.0)
+    ms_dotnet4 (1.0.2)
+      windows (>= 0.0.0)
+    ms_dotnet45 (1.1.2)
+      windows (>= 0.0.0)
     mysql (3.0.2)
       build-essential (> 1.1.0)
       openssl (>= 0.0.0)
@@ -35,7 +41,10 @@ SITE
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
     postfix (3.0.0)
-    powershell (2.0.0)
+    powershell (3.0.0)
+      ms_dotnet2 (>= 0.0.0)
+      ms_dotnet4 (>= 0.0.0)
+      ms_dotnet45 (>= 0.0.0)
       windows (>= 1.2.8)
     runit (1.5.8)
       build-essential (>= 0.0.0)
@@ -43,7 +52,7 @@ SITE
       yum-epel (>= 0.0.0)
     windows (1.12.8)
       chef_handler (>= 0.0.0)
-    yum (3.0.4)
+    yum (3.0.6)
     yum-epel (0.2.0)
       yum (~> 3.0)
     yum-erlang_solutions (0.1.4)
@@ -52,9 +61,9 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 7db22481bf9d2b48a1b137d76e3eb3831646d705
+  sha: 33de93ee7fba52ab8037f06e9e3462d629428882
   specs:
-    alm (1.4.4)
+    alm (1.4.5)
       couchdb (>= 0.0.0)
       git (>= 0.0.0)
       mysql (>= 0.0.0)

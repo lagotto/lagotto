@@ -2,14 +2,14 @@
 
   <%= simple_form_for @article, :url => admin_article_path(@article), :html => { :role => "form", :remote => true } do |f| %>
     <fieldset>
-      <legend>New Article</legend>
+      <legend>Edit Article</legend>
 
       <%= f.input :title, :input_html => { :rows => 2 } %>
       <%= f.input :doi, :label => 'DOI', :disabled => true %>
-      <%= f.input :pub_med, :label => 'PubMed ID' %>
-      <%= f.input :pub_med_central, :label => 'PubMed Central ID' %>
-      <%= f.input :mendeley, :label => 'Mendeley UUID' %>
-      <%= f.input :url, :label => 'URL' %>
+      <%= f.input :pmid, :label => 'PubMed ID' %>
+      <%= f.input :pmcid, :label => 'PubMed Central ID' %>
+      <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
+      <%= f.input :canonical_url, :label => 'Canonical URL' %>
       <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 50, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "input-small" } %>
 
       <div class="form-group">
@@ -43,23 +43,33 @@
       <dt>DOI</dt>
       <dd class="doi" data-doi="<%= @article.doi %>" data-api_key="<%= CONFIG[:api_key] %>"><%= link_to h(@article.doi), @article.doi_as_url %></dd>
     <% end %>
-    <% if @article.pub_med %>
+    <% if @article.pmid %>
       <dt>PubMed ID</dt>
-      <dd id="pmid" data-pmid="<%= @article.pub_med %>"><%= link_to @article.pub_med, "http://www.ncbi.nlm.nih.gov/pubmed/#{@article.pub_med}" %></dd>
+      <dd id="pmid" data-pmid="<%= @article.pmid %>"><%= link_to @article.pmid, "http://www.ncbi.nlm.nih.gov/pubmed/#{@article.pmid}" %></dd>
     <% end %>
-    <% if @article.pub_med_central %>
+    <% if @article.pmcid %>
       <dt>PubMed Central ID</dt>
-      <dd id="pmcid" data-pmcid="<%= @article.pub_med_central %>"><%= link_to "PMC#{@article.pub_med_central}", "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pub_med_central}" %></dd>
+      <dd id="pmcid" data-pmcid="<%= @article.pmcid %>"><%= link_to "PMC#{@article.pmcid}", "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pmcid}" %></dd>
     <% end %>
-    <% if @article.mendeley %>
+    <% if @article.mendeley_uuid %>
       <dt>Mendeley UUID</dt>
-      <dd id="mendeley_uuid" data-mendeley="<%= @article.mendeley %>"><%= link_to_unless(@article.mendeley_url.blank?, h(@article.mendeley), @article.mendeley_url) %></dd>
+      <dd id="mendeley_uuid" data-mendeley_uuid="<%= @article.mendeley_uuid %>"><%= @article.mendeley_uuid %></dd>
     <% end %>
-    <% if @article.url %>
-      <dt>URL</dt>
-      <dd><%= link_to h(@article.url), @article.url %></dd>
-    <% end %>
-  </dl>
+    <dt>URLs</dt>
+    <dd>
+      <% if @article.canonical_url %>
+        <%= link_to h(@article.canonical_url), @article.canonical_url %><br/>
+      <% end %>
+      <% if @article.pmid %>
+        <%= link_to "http://europepmc.org/abstract/MED/#{@article.pmid}", "http://europepmc.org/abstract/MED/#{@article.pmid}" %><br/>
+      <% end %>
+      <% if @article.mendeley && @article.mendeley.events_url %>
+        <%= link_to h(@article.mendeley.events_url), @article.mendeley.events_url %><br/>
+      <% end %>
+      <% if @article.citeulike && @article.citeulike.events_url %>
+        <%= link_to h(@article.citeulike.events_url), @article.citeulike.events_url %><br/>
+      <% end %>
+    </dd>
 
   <% if can? :read, Alert %>
     <div id="alert-error-message">

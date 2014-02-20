@@ -18,6 +18,7 @@ default[:alm][:mendeley] = { api_key: nil }
 default[:alm][:pmc] = { url: nil, journals: nil, username: nil, password: nil }
 default[:alm][:f1000] = {}
 default[:alm][:facebook] = { access_token: nil }
+default[:alm][:twitter_search] = { access_token: nil }
 default[:alm][:crossref] = { username: nil, password: nil }
 default[:alm][:copernicus] = { url: nil, username: nil, password: nil }
 default[:alm][:researchblogging] = { username: nil, password: nil }

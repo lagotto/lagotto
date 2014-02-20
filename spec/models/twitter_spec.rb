@@ -10,7 +10,7 @@ describe Twitter do
 
   context "use the Twitter API" do
     it "should report if there are events and event_count returned by the Twitter API" do
-      article = FactoryGirl.build(:article, :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124")
+      article = FactoryGirl.build(:article, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124")
       stub = stub_request(:get, twitter.get_query_url(article)).to_return(:headers => {"Content-Type" => "application/json"}, :body => File.read(fixture_path + 'twitter.json'), :status => 200)
       response = twitter.get_data(article)
       response[:event_count].should eq(2)

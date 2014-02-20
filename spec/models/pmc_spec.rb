@@ -26,34 +26,40 @@ describe Pmc do
     it "should format the CouchDB HTML report as csv" do
       start_date = Date.new(2013,11,1)
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
+      row = ["10.1371/journal.ppat.1000446", "5", "4"]
+      row.fill("0", 3..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_html_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_html_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
       response = CSV.parse(subject.to_csv(format: "html", month: 11, year: 2013))
       response.count.should == 25
       response.first.should eq(["doi"] + dates)
-      response.last.should eq(["10.1371/journal.ppat.1000446", "5", "4"])
+      response.last.should eq(row)
     end
 
     it "should format the CouchDB PDF report as csv" do
       start_date = Date.new(2013,11,1)
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
+      row = ["10.1371/journal.pbio.0030137", "0", "0"]
+      row.fill("0", 3..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_pdf_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_pdf_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
       response = CSV.parse(subject.to_csv(format: "pdf", month: 11, year: 2013))
       response.count.should == 25
       response.first.should eq(["doi"] + dates)
-      response[2].should eq(["10.1371/journal.pbio.0030137", "0", "0"])
+      response[2].should eq(row)
     end
 
     it "should format the CouchDB combined report as csv" do
       start_date = Date.new(2013,11,1)
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
+      row = ["10.1371/journal.pbio.0040015", "9", "10"]
+      row.fill("0", 3..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_combined_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_combined_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
       response = CSV.parse(subject.to_csv(format: "combined", month: 11, year: 2013))
       response.count.should == 25
       response.first.should eq(["doi"] + dates)
-      response[3].should eq(["10.1371/journal.pbio.0040015", "9", "10"])
+      response[3].should eq(row)
     end
   end
 

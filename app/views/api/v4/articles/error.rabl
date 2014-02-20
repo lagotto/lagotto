@@ -1,6 +1,11 @@
 object false
 
+node(:total) { 0 }
+node(:total_pages) { 0 }
+node(:page) { 0 }
+node(:success) { nil }
 node(:error) { @error }
-unless @article.blank?
-  node(:article) { @article }
+
+node :data do
+  partial "v4/articles/base", :object => @article
 end

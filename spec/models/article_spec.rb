@@ -75,31 +75,15 @@ describe Article do
     end
   end
 
-  it "cited" do
-    articles = Article.cited(1)
+  it "is cited" do
+    articles = Article.is_cited
     articles.each do |article|
       assert(article.events_count > 0)
     end
   end
 
-  it "uncited" do
-    articles = Article.cited(0)
-    articles.each do |article|
-      assert(article.events_count == 0)
-    end
-  end
-
-  it "order by doi" do
-    articles = Article.order_articles("doi")
-    i = 0
-    while i < (articles.size-1)
-      assert(articles[i].doi < articles[i+1].doi)
-      i += 1
-    end
-  end
-
   it "order by published_on" do
-    articles = Article.order_articles("published_on")
+    articles = Article.order_articles("")
     i = 0
     while i < (articles.size-1)
       assert(articles[i].published_on <= articles[i+1].published_on)
@@ -108,8 +92,8 @@ describe Article do
   end
 
   it "should get the all_urls" do
-    article = FactoryGirl.build(:article, :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
-    article.all_urls.should eq([article.doi_as_url,article.doi_as_publisher_url,article.url])
+    article = FactoryGirl.build(:article, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
+    article.all_urls.should eq([article.doi_as_url,article.canonical_url])
   end
 
   context "associations" do

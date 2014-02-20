@@ -21,11 +21,13 @@
 require 'faraday'
 require 'faraday_middleware'
 require 'faraday-cookie_jar'
+require 'typhoeus'
+require 'typhoeus/adapters/faraday'
 
 module SourceHelper
   DEFAULT_TIMEOUT = 60
-  SourceHelperExceptions = [Faraday::Error::ClientError].freeze
-  # Delayed::WorkerTimeout, Errno::EPIPE, Errno::ECONNRESET
+  SourceHelperExceptions = [Faraday::Error::ClientError, Delayed::WorkerTimeout].freeze
+  # Errno::EPIPE, Errno::ECONNRESET
 
   def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
     conn = conn_json
@@ -35,7 +37,7 @@ module SourceHelper
     response = conn.get url
     response.body
   rescue *SourceHelperExceptions => e
-    rescue_faraday_error(url, e, options.merge(:json => true))
+    rescue_faraday_error(url, e, options.merge(json: true))
   end
 
   def get_xml(url, options = { timeout: DEFAULT_TIMEOUT })
@@ -52,7 +54,7 @@ module SourceHelper
     # We have issues with the Faraday XML parsing
     Nokogiri::XML(response.body)
   rescue *SourceHelperExceptions => e
-    rescue_faraday_error(url, e, options.merge(:xml => true))
+    rescue_faraday_error(url, e, options.merge(xml: true))
   end
 
   def post_xml(url, options = { data: nil, timeout: DEFAULT_TIMEOUT })
@@ -75,12 +77,12 @@ module SourceHelper
     # CouchDB revision is in etag header. We need to remove extra double quotes
     rev = response.env[:response_headers][:etag][1..-2]
   rescue *SourceHelperExceptions => e
-    rescue_faraday_error(url, e, options.merge(:head => true))
+    rescue_faraday_error(url, e, options.merge(head: true))
   end
 
-  def save_alm_data(id, options = { :data => nil })
+  def save_alm_data(id, options = { data: nil })
     data_rev = get_alm_rev(id)
-    unless data_rev.nil?
+    unless data_rev.blank?
       options[:data][:_id] = "#{id}"
       options[:data][:_rev] = data_rev
     end
@@ -88,7 +90,7 @@ module SourceHelper
     put_alm_data("#{couchdb_url}#{id}", options)
   end
 
-  def put_alm_data(url, options = { :data => nil })
+  def put_alm_data(url, options = { data: nil })
     return nil unless options[:data] || Rails.env.test?
     conn = conn_json
     conn.options[:timeout] = DEFAULT_TIMEOUT
@@ -127,11 +129,40 @@ module SourceHelper
     delete_alm_data(couchdb_url)
   end
 
-  def get_original_url(url, options = { timeout: DEFAULT_TIMEOUT })
+  def get_canonical_url(url, options = { timeout: DEFAULT_TIMEOUT })
     conn = conn_doi
+    # disable ssl verification
+    conn.options[:ssl] = { verify: false }
+
     conn.options[:timeout] = options[:timeout]
-    response = conn.head url
-    response.env[:url].to_s
+    response = conn.get url
+
+    # Priority to find URL:
+    # 1. <link rel=canonical />
+    # 2. <meta property="og:url" />
+    # 3. URL from header
+
+    body = Nokogiri::HTML(response.body)
+    body_url = body.at('link[rel="canonical"]')['href'] if body.at('link[rel="canonical"]')
+    if !body_url && body.at('meta[property="og:url"]')
+      body_url = body.at('meta[property="og:url"]')['content']
+    end
+
+    url = response.env[:url].to_s
+    if url
+      # remove jsessionid used by J2EE servers
+      url = url.gsub(/(.*);jsessionid=.*/,'\1')
+      # remove parameter used by IEEE
+      url = url.sub("reload=true&", "")
+      # make url lowercase
+    end
+
+    # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
+    if body_url.present? and body_url.casecmp(url) != 0
+      raise Faraday::Error::ClientError, "Canonical URL mismatch: #{body_url}"
+    end
+
+    url
   rescue *SourceHelperExceptions => e
     rescue_faraday_error(url, e, options)
   end
@@ -158,12 +189,13 @@ module SourceHelper
     Faraday.new do |c|
       c.headers['Accept'] = 'application/json'
       c.headers['User-agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
+      c.use      Faraday::HttpCache, store: Rails.cache
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.request  :multipart
       c.request  :json
       c.response :json, :content_type => /\bjson$/
       c.use      Faraday::Response::RaiseError
-      c.adapter  Faraday.default_adapter
+      c.adapter  :typhoeus
     end
   end
 
@@ -171,19 +203,21 @@ module SourceHelper
     Faraday.new do |c|
       c.headers['Accept'] = 'application/xml'
       c.headers['User-agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
+      c.use      Faraday::HttpCache, store: Rails.cache
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.use      Faraday::Response::RaiseError
-      c.adapter  Faraday.default_adapter
+      c.adapter  :typhoeus
     end
   end
 
   def conn_doi
     Faraday.new do |c|
       c.headers['User-agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
-      c.use     FaradayMiddleware::FollowRedirects, :limit => 10
-      c.use     :cookie_jar
-      c.use     Faraday::Response::RaiseError
-      c.adapter Faraday.default_adapter
+      c.use      Faraday::HttpCache, store: Rails.cache
+      c.use      FaradayMiddleware::FollowRedirects, :limit => 10
+      c.use      :cookie_jar
+      c.use      Faraday::Response::RaiseError
+      c.adapter  :typhoeus
     end
   end
 
@@ -193,7 +227,7 @@ module SourceHelper
 
   def rescue_faraday_error(url, error, options={})
     if error.kind_of?(Faraday::Error::ResourceNotFound)
-      if !error.response
+      if error.response.blank? && error.response[:body].blank?
         nil
       elsif options[:json]
         error.response[:body]
@@ -242,6 +276,8 @@ module SourceHelper
       when 409
         class_name = Net::HTTPConflict
         message = "#{error.message} with rev #{options[:data][:rev]}"
+      when 417
+        class_name = Net::HTTPExpectationFailed
       when 429
         class_name = Net::HTTPClientError
       when 500

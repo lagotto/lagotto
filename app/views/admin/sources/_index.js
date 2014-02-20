@@ -8,8 +8,8 @@ var w = 600; // width of drawing area
 var h = 36;  // bar height
 var s = 2;   // spacing between bars
 
-d3.json("/api/v3/sources?api_key=" + api_key, function(error, json) {
-  data = json;
+d3.json("/api/v5/sources?api_key=" + api_key, function(error, json) {
+  data = json["data"];
 
   var formatFixed = d3.format(",.0f");
 
@@ -20,9 +20,8 @@ d3.json("/api/v3/sources?api_key=" + api_key, function(error, json) {
     d3.select("#queueing_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["queueing"]));
     d3.select("#pending_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["pending"]));
     d3.select("#working_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["working"]));
-    if(item["status"]["stale"]  > 0) {
-      d3.select("#stale_count_" + item["name"]).html(formatFixed(item["status"]["stale"]));
-    }
+    d3.select("#queued_count_" + item["name"]).html(number_with_delimiter(item["status"]["queued"]));
+    d3.select("#stale_count_" + item["name"]).html(number_with_delimiter(item["status"]["stale"]));
 
     // Responses tab
     d3.select("#response_count_" + item["name"]).html(number_with_delimiter(item["responses"]["count"]));

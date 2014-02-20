@@ -30,5 +30,6 @@ Then /^I should not see the report "(.*?)"$/ do |name|
 end
 
 Then(/^I should see the "(.*?)" link$/) do |name|
+  page.driver.render("tmp/capybara/#{name}.png")
   page.has_link?(name).should be_true
 end

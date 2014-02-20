@@ -6,9 +6,9 @@ class Admin::ArticlesController < Admin::ApplicationController
   respond_to :html, :js
 
   def index
-    load_index
     respond_with do |format|
-      format.js { render :index }
+      format.js { render "admin/articles/index" }
+      format.html { redirect_to articles_path }
     end
   end
 
@@ -22,7 +22,6 @@ class Admin::ArticlesController < Admin::ApplicationController
 
   # GET /articles/new
   def new
-    load_index
     @article = Article.new
     respond_with(@article) do |format|
       format.js { render :index }
@@ -31,7 +30,6 @@ class Admin::ArticlesController < Admin::ApplicationController
 
   # POST /articles
   def create
-    load_index
     @article.save
     respond_with(@article) do |format|
       format.js { render :index }
@@ -73,33 +71,9 @@ class Admin::ArticlesController < Admin::ApplicationController
     @article = Article.new(safe_params)
   end
 
-  def load_index
-    collection = Article
-    collection = collection.cited(params[:cited])  if params[:cited]
-    collection = collection.query(params[:query])  if params[:query]
-    if params[:class_name]
-      @class_name = params[:class_name]
-      collection = collection.includes(:alerts)
-      if @class_name == "All Alerts"
-        collection = collection.where("alerts.unresolved = 1 ")
-      else
-        collection = collection.where("alerts.unresolved = 1 AND alerts.class_name = ?", @class_name)
-      end
-    end
-    collection = collection.order_articles(params[:order])
-
-    @articles = collection.paginate(:page => params[:page])
-
-    if params[:source]
-      @sources = Source.where("lower(name) in (?)", params[:source].split(",")).order("name")
-    else
-      @sources = Source.order("name")
-    end
-  end
-
   private
 
   def safe_params
-    params.require(:article).permit(:doi, :title, :pub_med, :pub_med_central, :mendeley, :url, :published_on)
+    params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :published_on, :year, :month, :day)
   end
 end

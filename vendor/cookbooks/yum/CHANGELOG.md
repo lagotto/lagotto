@@ -3,6 +3,11 @@ yum Cookbook CHANGELOG
 This file is used to list changes made in each version of the yum cookbook.
 
 
+v3.0.6 (2014-01-27)
+-------------------
+Updating default.rb to consume node['yum']['main']['proxy']
+
+
 v3.0.4 (2013-12-29)
 -------------------
 ### Bug

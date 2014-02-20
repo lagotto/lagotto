@@ -13,17 +13,17 @@ describe CrossRef do
     cross_ref.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
   end
 
-  context "lookup original URL" do
-    it "should look up original URL if there is no article url" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :url => nil)
-      lookup_stub = stub_request(:head, article.doi_as_url).to_return(:status => 404)
+  context "lookup canonical URL" do
+    it "should look up canonical URL if there is no article url" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => nil)
+      lookup_stub = stub_request(:get, article.doi_as_url).to_return(:status => 404)
       response = cross_ref.get_data(article)
       lookup_stub.should have_been_requested
     end
 
-    it "should not look up original URL if there is article url" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
-      lookup_stub = stub_request(:head, article.url).to_return(:status => 200, :headers => { 'Location' => article.url })
+    it "should not look up canonical URL if there is article url" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
+      lookup_stub = stub_request(:get, article.canonical_url).to_return(:status => 200, :headers => { 'Location' => article.canonical_url })
       stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'), :status => 200)
       response = cross_ref.get_data(article)
       lookup_stub.should_not have_been_requested
@@ -32,7 +32,7 @@ describe CrossRef do
   end
 
   context "use the CrossRef API" do
-    let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007") }
+    let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007") }
 
     it "should report if there are no events and event_count returned by the CrossRef API" do
       stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'), :status => 200)
@@ -64,7 +64,7 @@ describe CrossRef do
   end
 
   context "use the CrossRef OpenURL API" do
-    let(:article) { FactoryGirl.build(:article, :doi => "10.1007/s00248-010-9734-2", :url => "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1") }
+    let(:article) { FactoryGirl.build(:article, :doi => "10.1007/s00248-010-9734-2", :canonical_url => "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1") }
 
     it "should report if there is an event_count of zero returned by the CrossRef OpenURL API" do
       stub = stub_request(:get, cross_ref.get_default_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_openurl_nil.xml'), :status => 200)

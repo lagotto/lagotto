@@ -136,4 +136,8 @@ class Counter < Source
   def get_config_fields
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
   end
+
+  def workers
+    config.workers || 20
+  end
 end

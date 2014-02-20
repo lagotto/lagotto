@@ -16,7 +16,7 @@ Feature: Show API requests
       When I go to the submenu "External API Requests" of menu "Users"
       Then I should see 3 API requests were made
 
-    Scenario: Only load 10,000 API requests
-      Given we have 10005 API requests
+    Scenario: Only load 1,000 API requests
+      Given we have 1005 API requests
       When I go to the submenu "External API Requests" of menu "Users"
-      Then I should see 10000 API requests were made
+      Then I should see 1000 API requests were made

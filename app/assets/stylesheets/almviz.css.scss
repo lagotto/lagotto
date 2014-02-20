@@ -8,7 +8,7 @@
   color: #789aa1;
 }
 
-.alm-chart-area {
+.alm-chart {
   position: absolute;
   top: 0;
   left: 150px;
@@ -27,33 +27,27 @@
   fill-opacity: 0;
 }
 
-.alm-row {
+.alm-source {
+  float: left;
   position: relative;
   top: 0;
-  height: 130px;
+  padding-right: 50px;
+  height: 140px;
 }
 
-.alm-category-row {
+.with-chart {
+  width: 100%;
+}
+
+.alm-group {
   width: 100%;
   overflow: hidden;
 }
 
-.alm-category-row-info {
-	display: inline-block;
-	width: 14px;
-	height: 14px;
-	border: none;
-	background-color: transparent;
-  position: relative;
-  top: -5px;
-  left: 2px;
-  margin-top: 5px;
-}
-
-.alm-count-label {
+.alm-label {
 	width: 150px;
   height: 100px;
-  position: absolute;
+  position: relative;
   top: 10px;
   left: 0;
 	padding: 5px;
@@ -65,65 +59,65 @@
 	color: #fff;
 }
 
-.html, .pdf {
+.viewed {
   background: $peter-river;
 }
 
-.bar.html, .bar.pdf {
+.bar.viewed {
   fill: $peter-river;
 }
 
-.bar.html-alt, .bar.pdf-alt {
+.bar.viewed-alt {
   fill: darken($peter-river, 15%);
 }
 
-.shares {
+.saved {
   background: $emerald;
 }
 
-.bar.shares {
+.bar.saved {
   fill: $emerald;
 }
 
-.bar.shares-alt {
+.bar.saved-alt {
   fill: darken($emerald, 15%);
 }
 
-.likes, .comments {
+.discussed {
   background: $turquoise;
 }
 
-.bar.likes, .bar.comments {
+.bar.discussed {
   fill: $turquoise;
 }
 
-.bar.likes-alt, .bar.comments-alt {
+.bar.discussed-alt {
   fill: darken($turquoise, 15%);
 }
 
-.citations {
+.cited {
   background: $amethyst;
 }
 
-.bar.citations {
+.bar.cited {
   fill: $amethyst;
 }
 
-.bar.citations-alt {
+.bar.cited-alt {
   fill: darken($amethyst, 15%);
 }
 
-.alm-count-label p {
+.alm-label p {
   line-height: 18px;
 }
 
-.alm-count-label a {
+.alm-label a {
   line-height: 18px;
   color: #fff;
   text-decoration: none;
 }
 
-.alm-count-label a:hover {
+.alm-label a:hover {
 	background-color: transparent !important;
 	color: #fff !important;
 }

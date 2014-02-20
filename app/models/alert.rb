@@ -7,13 +7,13 @@ class Alert < ActiveRecord::Base
 
   before_create :collect_env_info
 
-  default_scope where("unresolved = 1").order("alerts.created_at DESC")
+  default_scope where("unresolved = ?", true).order("alerts.created_at DESC")
 
-  scope :errors, where("alerts.error = 1")
+  scope :errors, where("alerts.error = ?", true)
   scope :query, lambda { |query| includes(:article).where("class_name like ? OR message like ? OR status = ? OR articles.doi = ?", "%#{query}%", "%#{query}%", query, query) }
-  scope :total, lambda { |days| where("created_at > NOW() - INTERVAL ? DAY", days) }
-  scope :total_errors, lambda { |days| where("alerts.error = 1 AND created_at > NOW() - INTERVAL ? DAY", days) }
-  scope :from_sources, lambda { |days| where("source_id IS NOT NULL AND created_at > NOW() - INTERVAL ? DAY", days) }
+  scope :total, lambda { |duration| where("created_at > ?", Time.zone.now - duration.days) }
+  scope :total_errors, lambda { |duration| where("alerts.error = ?", true).where("created_at > ?", Time.zone.now - duration.days) }
+  scope :from_sources, lambda { |duration| where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now - duration.days) }
 
   def self.per_page
     20
@@ -55,5 +55,4 @@ class Alert < ActiveRecord::Base
 
     self.source_id      = source_id if source_id
   end
-
 end

@@ -75,4 +75,12 @@ class RelativeMetric < Source
   def get_config_fields
     [{ :field_name => "url", :field_type => "text_area", :size => "90x2"}]
   end
+
+  def rate_limiting
+    config.rate_limiting || 50000
+  end
+
+  def workers
+    config.workers || 5
+  end
 end
