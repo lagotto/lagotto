@@ -117,6 +117,8 @@ class Pmc < Source
           article = article["article"]
 
           doi = article["meta-data"]["doi"]
+          # sometimes doi metadata are missing
+          break unless doi
 
           view = article["usage"]
           view['year'] = year.to_s
