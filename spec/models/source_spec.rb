@@ -210,6 +210,24 @@ describe Source do
         source.should be_disabled
         source.queue_all_articles.should == 0
       end
+
+      it "within time interval" do
+        retrieval_statuses = FactoryGirl.create_list(:retrieval_status, 10, :with_article_published_today, source_id: source.id)
+        rs_ids = retrieval_statuses.map(&:id)
+
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 2 })
+        source.queue_all_articles({ start_date: Time.zone.now, end_date: Time.zone.now }).should == 10
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
+      end
+
+      it "outside time interval" do
+        retrieval_statuses = FactoryGirl.create_list(:retrieval_status, 10, :with_article_published_today, source_id: source.id)
+        rs_ids = retrieval_statuses.map(&:id)
+
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 2 })
+        source.queue_all_articles({ start_date: Date.today - 2.days, end_date: Date.today - 2.days }).should == 0
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
+      end
     end
 
     context "queue articles" do

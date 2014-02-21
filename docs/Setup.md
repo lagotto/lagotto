@@ -111,12 +111,14 @@ To collect metrics once for a set of articles, or for testing purposes the worke
 RAILS_ENV=development
 ```
 
-You then have to decide what articles you want updated. This can be either a specific DOI, all articles, or all articles for a list of specified sources. Issue one of the following commands (and include `RAILS_ENV=production` in production mode):
+You then have to decide what articles you want updated. This can be either a specific DOI, all articles, all articles for a list of specified sources, or all articles published in a specific time interval. Issue one of the following commands (and include `RAILS_ENV=production` in production mode):
 
 ```sh
 bundle exec rake queue:one[10.1371/journal.pone.0036790]
 bundle exec rake queue:all
 bundle exec rake queue:all[pubmed,mendeley]
+bundle exec rake queue:all START_DATE=2013-02-01 END_DATE=2014-02-08
+bundle exec rake queue:all[pubmed,mendeley] START_DATE=2013-02-01 END_DATE=2014-02-08
 ```
 
 You can then start the workers with:
