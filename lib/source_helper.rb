@@ -212,6 +212,7 @@ module SourceHelper
 
   def conn_doi
     Faraday.new do |c|
+      c.headers['Accept'] = 'text/html;charset=UTF-8'
       c.headers['User-agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
       c.use      Faraday::HttpCache, store: Rails.cache
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10

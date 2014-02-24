@@ -269,12 +269,12 @@ class RetrievalStatusDecorator < Draper::Decorator
       else
         events.group_by {|event| event["event"]["created_at"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
       end
-    when "plos_comments"
-      if events.blank?
-        nil
-      else
-        events.group_by {|event| event["event"]["created_at"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
-      end
+    # when "plos_comments"
+      # if events.blank?
+      #   nil
+      # else
+      #   events.group_by {|event| event["event"]["created_at"].to_datetime.year }.sort.map {|k,v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length }}
+      # end
     when "articlecoveragecurated"
       if events.blank?
         nil
