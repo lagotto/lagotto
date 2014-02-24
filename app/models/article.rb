@@ -194,6 +194,10 @@ class Article < ActiveRecord::Base
     retrieval_statuses.by_name("pmc").first
   end
 
+  def counter
+    retrieval_statuses.by_name("counter").first
+  end
+
   def mendeley
     retrieval_statuses.by_name("mendeley").first
   end
@@ -206,8 +210,12 @@ class Article < ActiveRecord::Base
     retrieval_statuses.by_name("facebook").first
   end
 
-  def crossref
-    retrieval_statuses.by_name("crossref").first
+  def twitter
+    retrieval_statuses.by_name("twitter").first
+  end
+
+  def scopus
+    retrieval_statuses.by_name("scopus").first
   end
 
   def views
