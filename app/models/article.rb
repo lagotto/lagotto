@@ -211,11 +211,11 @@ class Article < ActiveRecord::Base
   end
 
   def views
-    (pmc.nil? ? 0 : pmc.event_count)
+    (pmc.nil? ? 0 : pmc.event_count) + (counter.nil? ? 0 : counter.event_count)
   end
 
   def shares
-    (facebook.nil? ? 0 : facebook.event_count)
+    (facebook.nil? ? 0 : facebook.event_count) + (twitter.nil? ? 0 : twitter.event_count)
   end
 
   def bookmarks
@@ -223,7 +223,7 @@ class Article < ActiveRecord::Base
   end
 
   def citations
-    (crossref.nil? ? 0 : crossref.event_count)
+    (scopus.nil? ? 0 : scopus.event_count)
   end
 
   alias_method :viewed, :views
