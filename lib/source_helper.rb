@@ -154,7 +154,8 @@ module SourceHelper
       url = url.gsub(/(.*);jsessionid=.*/,'\1')
       # remove parameter used by IEEE
       url = url.sub("reload=true&", "")
-      # make url lowercase
+
+      url = Addressable::URI.encode(url)
     end
 
     # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
@@ -164,7 +165,7 @@ module SourceHelper
 
     url
   rescue *SourceHelperExceptions => e
-    rescue_faraday_error(url, e, options)
+    rescue_faraday_error(url, e, options.merge(doi_lookup: true))
   end
 
   def save_to_file(url, filename = "tmpdata", options = { timeout: DEFAULT_TIMEOUT })
@@ -229,6 +230,8 @@ module SourceHelper
   def rescue_faraday_error(url, error, options={})
     if error.kind_of?(Faraday::Error::ResourceNotFound)
       if error.response.blank? && error.response[:body].blank?
+        nil
+      elsif options[:doi_lookup]
         nil
       elsif options[:json]
         error.response[:body]
