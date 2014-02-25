@@ -26,7 +26,7 @@ if ENV['ARTICLES']
     doi: "10.1371/journal.pcbi.0010057",
     title: "Ten Simple Rules for Getting Published",
     year: 2005,
-    month: 10
+    month: 10,
     day: 28)
 
   Article.find_or_create_by_doi(
