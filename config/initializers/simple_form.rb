@@ -39,7 +39,7 @@ end
 
 class YearInput < SimpleForm::Inputs::Base
   def input
-    @builder.template.select_year(object.year, { start_year: Date.today.year - 50, end_year: Date.today.year + 1 }, { name: "article[year]", id: "article_year" })
+    @builder.template.select_year(object.year, { start_year: 1660, end_year: Date.today.year + 1 }, { name: "article[year]", id: "article_year" })
   end
 end
 
