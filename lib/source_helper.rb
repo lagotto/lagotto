@@ -61,6 +61,16 @@ module SourceHelper
     get_xml(url, options)
   end
 
+  def get_html(url, options = { timeout: DEFAULT_TIMEOUT })
+    conn = conn_html
+    conn.basic_auth(options[:username], options[:password]) if options[:username]
+    conn.options[:timeout] = options[:timeout]
+    response = conn.get url
+    response.body
+  rescue *SourceHelperExceptions => e
+    rescue_faraday_error(url, e, options.merge(html: true))
+  end
+
   def get_alm_data(id = "")
     get_json("#{couchdb_url}#{id}")
   end
@@ -130,7 +140,7 @@ module SourceHelper
   end
 
   def get_canonical_url(url, options = { timeout: DEFAULT_TIMEOUT })
-    conn = conn_doi
+    conn = conn_html
     # disable ssl verification
     conn.options[:ssl] = { verify: false }
 
@@ -154,8 +164,6 @@ module SourceHelper
       url = url.gsub(/(.*);jsessionid=.*/,'\1')
       # remove parameter used by IEEE
       url = url.sub("reload=true&", "")
-
-      url = Addressable::URI.encode(url)
     end
 
     # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
@@ -189,37 +197,37 @@ module SourceHelper
   def conn_json
     Faraday.new do |c|
       c.headers['Accept'] = 'application/json'
-      c.headers['User-agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
+      c.headers['User-Agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
       c.use      Faraday::HttpCache, store: Rails.cache
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.request  :multipart
       c.request  :json
       c.response :json, :content_type => /\bjson$/
       c.use      Faraday::Response::RaiseError
-      c.adapter  :typhoeus
+      c.adapter  Faraday.default_adapter
     end
   end
 
   def conn_xml
     Faraday.new do |c|
       c.headers['Accept'] = 'application/xml'
-      c.headers['User-agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
+      c.headers['User-Agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
       c.use      Faraday::HttpCache, store: Rails.cache
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.use      Faraday::Response::RaiseError
-      c.adapter  :typhoeus
+      c.adapter  Faraday.default_adapter
     end
   end
 
-  def conn_doi
+  def conn_html
     Faraday.new do |c|
-      c.headers['Accept'] = 'text/html;charset=UTF-8'
-      c.headers['User-agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
+      c.headers['Accept'] = 'text/html'
+      c.headers['User-Agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
       c.use      Faraday::HttpCache, store: Rails.cache
       c.use      FaradayMiddleware::FollowRedirects, :limit => 10
       c.use      :cookie_jar
       c.use      Faraday::Response::RaiseError
-      c.adapter  :typhoeus
+      c.adapter  Faraday.default_adapter
     end
   end
 
@@ -237,6 +245,8 @@ module SourceHelper
         error.response[:body]
       elsif options[:xml]
         Nokogiri::XML(error.response[:body])
+      elsif options[:html]
+        error.response[:body]
       else
         error.response[:body]
       end

@@ -14,7 +14,7 @@ Feature: Manage ALM Database
       And I pipe in the file "../../spec/fixtures/articles_year_month.txt"
       Then the output should contain "Reading DOIs from standard input..."
       Then the output should contain "Read 2 valid entries; ignored 0 invalid entries"
-      Then the output should contain "Saved 1 new articles, updated 1 articles, ignored 0 existing articles"
+      Then the output should contain "Saved 0 new articles, updated 2 articles, ignored 0 existing articles"
 
     @not_teamcity
     Scenario: Articles with year as publication date added succesfully

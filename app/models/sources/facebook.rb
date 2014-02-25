@@ -60,7 +60,7 @@ class Facebook < Source
   end
 
   def get_query_url(article, options={})
-    URI.escape(url % { access_token: access_token, query_url: article.canonical_url })
+    URI.escape(url % { access_token: access_token, query_url: CGI.escape(article.canonical_url) })
   end
 
   def get_config_fields
@@ -70,7 +70,7 @@ class Facebook < Source
   end
 
   def url
-    config.url || "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'"
+    config.url || "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = %{query_url}"
   end
 
   def access_token
