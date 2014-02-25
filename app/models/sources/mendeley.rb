@@ -45,8 +45,7 @@ class Mendeley < Source
     end
 
     query_url = get_query_url(article)
-    result = get_json(query_url, options)
-
+    result = get_json(query_url, options.merge(bearer: access_token))
     # When Mendeley doesn't return a proper API response it can return
     # - a 404 status and error hash
     # - an empty array
@@ -77,7 +76,7 @@ class Mendeley < Source
                         :citations => nil,
                         :total => total }
 
-      related_articles = get_json(get_related_url(result['uuid']), options)
+      related_articles = get_json(get_related_url(result['uuid']), options.merge(bearer: access_token))
       result[:related] = related_articles['documents'] if related_articles
 
       { :events => result,
@@ -93,18 +92,18 @@ class Mendeley < Source
     # Only use uuid if we also get mendeley_url, otherwise the uuid is broken and we return nil
 
     unless article.pmid.blank?
-      result = get_json(get_query_url(article, "pmid"), options)
+      result = get_json(get_query_url(article, "pmid"), options.merge(bearer: access_token))
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
     end
 
     unless article.doi.blank?
-      result = get_json(get_query_url(article, "doi"), options)
+      result = get_json(get_query_url(article, "doi"), options.merge(bearer: access_token))
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
     end
 
     # search by title if we can't get the uuid using the pmid or doi
     unless article.title.blank?
-      results = get_json(get_query_url(article, "title"), options)
+      results = get_json(get_query_url(article, "title"), options.merge(bearer: access_token))
       if results.is_a?(Hash) and results['documents']
         documents = results["documents"].select { |document| document["doi"] == article.doi }
         return documents[0]['uuid'] if documents and documents.length == 1 and documents[0]['mendeley_url']
@@ -118,18 +117,18 @@ class Mendeley < Source
   def get_query_url(article, id_type = nil)
     case id_type
     when nil
-      url % { :id => article.mendeley_uuid, :api_key => api_key }
+      url % { :id => article.mendeley_uuid }
     when "doi"
-      url_with_type % { :id => CGI.escape(article.doi_escaped), :doc_type => id_type, :api_key => api_key }
+      url_with_type % { :id => CGI.escape(article.doi_escaped), :doc_type => id_type }
     when "pmid"
-      url_with_type % { :id => article.pmid, :doc_type => id_type, :api_key => api_key }
+      url_with_type % { :id => article.pmid, :doc_type => id_type }
     when "title"
-      url_with_title % { :title => CGI.escape("title:#{article.title}"), :api_key => api_key }
+      url_with_title % { :title => CGI.escape("title:#{article.title}") }
     end
   end
 
   def get_related_url(uuid)
-    related_articles_url % { :id => uuid, :api_key => api_key}
+    related_articles_url % { :id => uuid }
   end
 
   def get_config_fields
@@ -137,15 +136,15 @@ class Mendeley < Source
      {:field_name => "url_with_type", :field_type => "text_area", :size => "90x2"},
      {:field_name => "url_with_title", :field_type => "text_area", :size => "90x2"},
      {:field_name => "related_articles_url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "api_key", :field_type => "text_field"}]
+     {:field_name => "access_token", :field_type => "text_field"}]
   end
 
   def url
-    config.url || "http://api.mendeley.com/oapi/documents/details/%{id}/?consumer_key=%{api_key}"
+    config.url || "http://api.mendeley.com/oapi/documents/details/%{id}/"
   end
 
   def url_with_type
-    config.url_with_type || "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}&consumer_key=%{api_key}"
+    config.url_with_type || "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}"
   end
 
   def url_with_type=(value)
@@ -153,7 +152,7 @@ class Mendeley < Source
   end
 
   def url_with_title
-    config.url_with_title || "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10&consumer_key=%{api_key}"
+    config.url_with_title || "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10"
   end
 
   def url_with_title=(value)
@@ -161,7 +160,7 @@ class Mendeley < Source
   end
 
   def related_articles_url
-    config.related_articles_url || "http://api.mendeley.com/oapi/documents/related/%{id}?consumer_key=%{api_key}"
+    config.related_articles_url || "http://api.mendeley.com/oapi/documents/related/%{id}"
   end
 
   def related_articles_url=(value)

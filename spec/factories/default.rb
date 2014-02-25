@@ -258,7 +258,7 @@ FactoryGirl.define do
     name "mendeley"
     display_name "Mendeley"
     state_event "activate"
-    api_key "EXAMPLE"
+    access_token "EXAMPLE"
 
     group
 

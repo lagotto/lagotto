@@ -52,4 +52,8 @@ class Bloglines < Source
      {:field_name => "username", :field_type => "text_field"},
      {:field_name => "password", :field_type => "password_field"}]
   end
+
+  def obsolete?
+    true
+  end
 end
