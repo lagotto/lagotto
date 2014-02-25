@@ -20,17 +20,23 @@ Given /^that we have (\d+) recent articles$/ do |number|
 end
 
 ### WHEN ###
-When /^I add an article with DOI "(.*?)", date "(.*?)" and title "(.*?)"$/ do |doi, date, title|
-  article = FactoryGirl.build(:article, :doi => doi, :published_on => Date.parse(date), :title => title)
+When /^I add an article with DOI "(.*?)", year "(.*?)", month "(.*?)", day "(.*?)" and title "(.*?)"$/ do |doi, year, month, day, title|
+  article = FactoryGirl.build(:article,
+                              :doi => doi,
+                              :year => year,
+                              :month => month,
+                              :day => day,
+                              :title => title)
+  month_name = Date::MONTHNAMES[month.to_i]
 
   visit articles_path
   click_on "new_article"
 
   fill_in 'article_title', :with => article.title
   fill_in 'article_doi', :with => article.doi
-  select article.published_on.strftime("%Y"), :from => "article_published_on_1i"
-  select article.published_on.strftime("%B"), :from => "article_published_on_2i"
-  select article.published_on.strftime("%d"), :from => "article_published_on_3i"
+  select article.year, :from => "article_year"
+  select month_name, :from => "article_month"
+  select article.day, :from => "article_day"
   click_on 'Save'
   page.driver.render("tmp/capybara/articles.png")
 end
@@ -44,8 +50,23 @@ When /^I go to the article with the DOI "(.*?)"$/ do |doi|
   visit article_path(article.doi)
 end
 
+When /^I go to the article with DOI "(.*?)", year "(.*?)", month "(.*?)" and day "(.*?)"$/ do |doi, year, month, day|
+  article = FactoryGirl.create(:article, :doi => doi, :year => year, :month => month, :day => day)
+  visit article_path(article.doi)
+end
+
+When /^I go to the article with DOI "(.*?)", year "(.*?)" and month "(.*?)"$/ do |doi, year, month|
+  article = FactoryGirl.create(:article, :doi => doi, :year => year, :month => month, :day => nil)
+  visit article_path(article.doi)
+end
+
+When /^I go to the article with DOI "(.*?)" and year "(.*?)"$/ do |doi, year|
+  article = FactoryGirl.create(:article, :doi => doi, :year => year, :month => nil, :day => nil)
+  visit article_path(article.doi)
+end
+
 When /^I go to the article with the DOI "(.*?)" and no other identifiers$/ do |doi|
-  article = FactoryGirl.create(:article, :doi => doi, :pmid => "", :pmcid => "", :mendeley_uuid => "", :canonical_url => "", :published_on => "2012-10-23")
+  article = FactoryGirl.create(:article, :doi => doi, :pmid => "", :pmcid => "", :mendeley_uuid => "", :canonical_url => "")
   visit article_path(article.doi)
 end
 

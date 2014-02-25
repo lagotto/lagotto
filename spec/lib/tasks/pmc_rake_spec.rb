@@ -6,7 +6,7 @@ describe "pmc:update" do
   let(:pmc) { FactoryGirl.create(:pmc) }
   let(:month) { 1.month.ago.month }
   let(:year) { 1.month.ago.year }
-  let(:journal) { "plosbiol" }
+  let(:journal) { "ajrccm" }
   let(:output) { "PMC Usage stats for month #{month} and year #{year} have been saved\nPMC Usage stats for month #{month} and year #{year} have been parsed\n" }
 
   before(:each) do
