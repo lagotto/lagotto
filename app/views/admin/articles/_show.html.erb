@@ -74,6 +74,7 @@
         <%= link_to h(@article.citeulike.events_url), @article.citeulike.events_url %><br/>
       <% end %>
     </dd>
+  </dl>
 
   <% if can? :read, Alert %>
     <div id="alert-error-message">
