@@ -1,4 +1,4 @@
-attributes :doi, :title, :canonical_url, :mendeley_uuid, :pmid, :pmcid, :publication_date, :update_date, :views, :shares, :bookmarks, :citations
+attributes :doi, :title, :canonical_url, :mendeley_uuid, :pmid, :pmcid, :issued, :views, :shares, :bookmarks, :citations, :update_date
 
 unless params[:info] == "summary"
   child :retrieval_statuses => :sources do

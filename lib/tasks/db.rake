@@ -159,6 +159,15 @@ namespace :db do
       Article.all.each { |article| article.save }
       puts "#{Article.count} article titles sanitized"
     end
+
+    desc "Add publication year, month and day"
+    task :date_parts => :environment do
+      Article.all.each do |article|
+        article.update_date_parts
+        article.save
+      end
+      puts "Date parts for #{Article.count} articles added"
+    end
   end
 
   namespace :alerts do

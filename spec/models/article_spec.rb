@@ -8,24 +8,39 @@ describe Article do
 
   it { should have_many(:retrieval_statuses).dependent(:destroy) }
   it { should validate_uniqueness_of(:doi) }
-  it { should validate_presence_of(:published_on) }
+  it { should validate_presence_of(:year) }
   it { should validate_presence_of(:title) }
+  it { should validate_numericality_of(:year).only_integer }
 
-  # TODO make shoulda_matcher work
-  #it { should validate_format_of(:doi).with(FORMAT) }
   it "validate doi format" do
-    invalid_doi = build(:article, :cited, :doi => "asdfasdfasdf")
+    invalid_doi = FactoryGirl.build(:article, :doi => "asdfasdfasdf")
     invalid_doi.should_not be_valid
   end
 
-  it 'validate published_on can\'t be too far in the future' do
-    article_in_future = build(:article, :cited, :published_on => 4.months.since)
-    article_in_future.should_not be_valid
+  it 'validate date' do
+    article = FactoryGirl.build(:article, day: 25)
+    article.should be_valid
   end
 
-  it 'validate published_on can\'t be too far in the past' do
-    article_in_past = build(:article, :cited, :published_on => Date.new(1600,1,1))
-    article_in_past.should_not be_valid
+  it 'validate date with missing day' do
+    article = FactoryGirl.build(:article, day: nil)
+    article.should be_valid
+  end
+
+  it 'validate date with missing month and day' do
+    article = FactoryGirl.build(:article, month: nil, day: nil)
+    article.should be_valid
+  end
+
+  it 'don\'t validate wrong date' do
+    article = FactoryGirl.build(:article, month: 2, day: 30)
+    article.should_not be_valid
+  end
+
+  it 'to published_on' do
+    article = FactoryGirl.create(:article)
+    date = Date.new(article.year, article.month, article.day)
+    article.published_on.should eq(date)
   end
 
   it 'sanitize title' do

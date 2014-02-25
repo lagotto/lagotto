@@ -22,7 +22,7 @@ class Admin::ArticlesController < Admin::ApplicationController
 
   # GET /articles/new
   def new
-    @article = Article.new
+    @article = Article.new(day: Date.today.day, month: Date.today.month, year: Date.today.year)
     respond_with(@article) do |format|
       format.js { render :index }
     end
@@ -74,6 +74,6 @@ class Admin::ArticlesController < Admin::ApplicationController
   private
 
   def safe_params
-    params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :published_on, :year, :month, :day)
+    params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day)
   end
 end

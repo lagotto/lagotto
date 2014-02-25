@@ -7,7 +7,9 @@ describe "/api/v4/articles" do
     let(:uri) { "/api/v4/articles"}
     let(:params) {{ "article" => { "doi" => "10.1371/journal.pone.0036790",
                                    "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
-                                   "published_on" => "2012-05-15" }}}
+                                   "year" => 2012,
+                                   "month" => 5,
+                                   "day" => 15 }}}
 
     context "as admin user" do
       let(:user) { FactoryGirl.create(:admin_user) }
@@ -66,7 +68,9 @@ describe "/api/v4/articles" do
       let(:article) { FactoryGirl.create(:article) }
       let(:params) {{ "article" => { "doi" => article.doi,
                                    "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
-                                   "published_on" => "2012-05-15" }}}
+                                   "year" => 2012,
+                                   "month" => 5,
+                                   "day" => 15 }}}
 
       it "JSON" do
         post uri, params, { 'HTTP_ACCEPT' => "application/json", 'HTTP_AUTHORIZATION' => "Basic " + Base64::encode64("#{CGI.escape(user.username)}:#{user.password}") }
@@ -83,7 +87,9 @@ describe "/api/v4/articles" do
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) {{ "data" => { "doi" => "10.1371/journal.pone.0036790",
                                   "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
-                                  "published_on" => "2012-05-15" }}}
+                                  "year" => 2012,
+                                   "month" => 5,
+                                   "day" => 15 }}}
 
       it "JSON" do
         post uri, params, { 'HTTP_ACCEPT' => "application/json", 'HTTP_AUTHORIZATION' => "Basic " + Base64::encode64("#{CGI.escape(user.username)}:#{user.password}") }
@@ -96,18 +102,18 @@ describe "/api/v4/articles" do
       end
     end
 
-    context "with missing title and published_on params" do
+    context "with missing title and year params" do
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) {{ "article" => { "doi" => "10.1371/journal.pone.0036790",
                                      "title" => nil,
-                                     "published_on" => nil }}}
+                                     "year" => nil }}}
 
       it "JSON" do
         post uri, params, { 'HTTP_ACCEPT' => "application/json", 'HTTP_AUTHORIZATION' => "Basic " + Base64::encode64("#{CGI.escape(user.username)}:#{user.password}") }
         last_response.status.should == 400
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({"title"=>["can't be blank"], "published_on"=>["can't be blank", "invalid date format"]})
+        response["error"].should eq ({"title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1660 and 2015"]})
         response["success"].should be_nil
         response["data"]["doi"].should eq (params["article"]["doi"])
         response["data"]["title"].should be_nil
@@ -148,8 +154,10 @@ describe "/api/v4/articles" do
     let(:article) { FactoryGirl.create(:article) }
     let(:uri) { "/api/v4/articles/info:doi/#{article.doi}"}
     let(:params) {{ "article" => { "doi" => article.doi,
-                                     "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
-                                     "published_on" => "2012-05-15" }}}
+                                   "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
+                                   "year" => 2012,
+                                   "month" => 5,
+                                   "day" => 15 }}}
 
     context "as admin user" do
       let(:user) { FactoryGirl.create(:admin_user) }
@@ -220,7 +228,9 @@ describe "/api/v4/articles" do
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) {{ "data" => { "doi" => "10.1371/journal.pone.0036790",
                                   "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
-                                  "published_on" => "2012-05-15" }}}
+                                  "year" => 2012,
+                                  "month" => 5,
+                                  "day" => 15 }}}
 
       it "JSON" do
         put uri, params, { 'HTTP_ACCEPT' => "application/json", 'HTTP_AUTHORIZATION' => "Basic " + Base64::encode64("#{CGI.escape(user.username)}:#{user.password}") }
@@ -233,18 +243,18 @@ describe "/api/v4/articles" do
       end
     end
 
-    context "with missing title and published_on params" do
+    context "with missing title and year params" do
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) {{ "article" => { "doi" => "10.1371/journal.pone.0036790",
                                      "title" => nil,
-                                     "published_on" => nil }}}
+                                     "year" => nil }}}
 
       it "JSON" do
         put uri, params, { 'HTTP_ACCEPT' => "application/json", 'HTTP_AUTHORIZATION' => "Basic " + Base64::encode64("#{CGI.escape(user.username)}:#{user.password}") }
         last_response.status.should == 400
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({"title"=>["can't be blank"], "published_on"=>["can't be blank", "invalid date format"]})
+        response["error"].should eq ({"title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1660 and 2015"], "published_on"=>["is not a valid date"]})
         response["success"].should be_nil
         response["data"]["doi"].should eq (params["article"]["doi"])
         response["data"]["title"].should be_nil

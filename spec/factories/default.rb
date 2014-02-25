@@ -130,7 +130,7 @@ FactoryGirl.define do
     display_name "PubMed Central Usage Stats"
     state_event "activate"
     url "http://127.0.0.1:5984/pmc_usage_stats_test/"
-    journals "plosbiol"
+    journals "ajrccm"
     username "EXAMPLE"
     password "EXAMPLE"
 

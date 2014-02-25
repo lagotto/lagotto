@@ -23,7 +23,7 @@ describe "/api/v5/articles" do
         data.length.should == 50
         data.any? do |article|
           article["doi"] == articles[0].doi
-          article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
+          article["issued"]["date_parts"] == [articles[0].year, articles[0].month, articles[0].day]
         end.should be_true
       end
     end
@@ -40,7 +40,7 @@ describe "/api/v5/articles" do
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eql(article.doi)
-        item["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
         item["sources"].should be_nil
       end
     end
@@ -57,7 +57,7 @@ describe "/api/v5/articles" do
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eql(article.doi)
-        item["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
 
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
@@ -79,7 +79,7 @@ describe "/api/v5/articles" do
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eql(article.doi)
-        item["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
 
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
@@ -100,7 +100,7 @@ describe "/api/v5/articles" do
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eql(article.doi)
-        item["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
 
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)

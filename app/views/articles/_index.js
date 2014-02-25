@@ -32,6 +32,8 @@ d3.json(query, function(error, json) {
   }
 
   var formatDate = d3.time.format("%B %d, %Y");
+  var formatMonthYear = d3.time.format("%B %Y");
+  var formatYear = d3.time.format("%Y");
   var formatFixed = d3.format(",.0f");
 
   for (var i=0; i<data.length; i++) {
@@ -43,7 +45,7 @@ d3.json(query, function(error, json) {
       .attr("href", function(d) { return "/articles/info:doi/" + article["doi"]; })
       .text(article["title"]);
     d3.select("#results").append("p")
-      .text(iso8601ToDate(article["publication_date"]) + ". ")
+      .text(datePartsToDate(article["issued"]["date_parts"]) + ". ")
       .append("a")
       .attr("href", function(d) { return "http://dx.doi.org/" + article["doi"]; })
       .append("text")
@@ -65,9 +67,19 @@ d3.json(query, function(error, json) {
       });
   }
 
-  function iso8601ToDate(iso8601_string) {
-    date = new Date(iso8601_string);
-    return formatDate(date).replace(/\b0(?=\d)/g, '');
+  // Construct date object from date parts and format acccordingly
+  // We are using "1" for missing day and month, but don't display them
+  function datePartsToDate(date_parts) {
+    len = date_parts.length;
+    while (date_parts.length < 3) date_parts.push(1);
+    date = new Date(date_parts);
+    if (len == 3) {
+      return formatDate(date);
+    } else if (len == 2) {
+      return formatMonthYear(date);
+    } else {
+      return formatYear(date);
+    }
   }
 
   function signpostsToString(article) {
