@@ -214,15 +214,18 @@ if ENV['ARTICLES']
   Article.find_or_create_by_doi(
     doi: "10.1371/journal.pone.0033288",
     title: "Genome Features of 'Dark-Fly', a <italic>Drosophila</italic> Line Reared Long-Term in a Dark Environment",
-    year: "2012-03-14")
+    year: 2012,
+    month: 3,
+    day: 14)
 
   Article.find_or_create_by_doi(
     doi: "10.2307/1158830",
     title: "Histoires de riz, histoires d'igname: le cas de la Moyenne Cote d'Ivoire",
-    year: "1981-01-01")
+    year: 1981)
 
   Article.find_or_create_by_doi(
     doi: "10.2307/683422",
     title: "Review of: The Life and Times of Sara Baartman: The Hottentot Venus by Zola Maseko",
-    year: "2000-09-01")
+    year: 2000,
+    month: 9)
 end
