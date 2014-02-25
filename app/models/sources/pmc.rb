@@ -71,11 +71,11 @@ class Pmc < Source
     put_alm_data(url)
   end
 
-  # Retrieve usage stats in XML and store in /data directory. Returns nil if an error occured.
+  # Retrieve usage stats in XML and store in /data directory. Returns an empty array if no error occured
   def get_feed(month, year, options={})
     options[:source_id] = id
 
-    journals_array = journals.split(",")
+    journals_array = journals.split(" ")
     journals_with_errors = []
     journals_array.each do |journal|
       feed_url = get_feed_url(month, year, journal)
@@ -92,10 +92,10 @@ class Pmc < Source
     journals_with_errors
   end
 
-  # Parse usage stats and store in CouchDB
+  # Parse usage stats and store in CouchDB. Returns an empty array if no error occured
   def parse_feed(month, year, options={})
 
-    journals_array = journals.split(",")
+    journals_array = journals.split(" ")
     journals_with_errors = []
     journals_array.each do |journal|
       filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
@@ -117,6 +117,8 @@ class Pmc < Source
           article = article["article"]
 
           doi = article["meta-data"]["doi"]
+          # sometimes doi metadata are missing
+          break unless doi
 
           view = article["usage"]
           view['year'] = year.to_s

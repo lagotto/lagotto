@@ -10,7 +10,11 @@
       <%= f.input :pmcid, :label => 'PubMed Central ID' %>
       <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
       <%= f.input :canonical_url, :label => 'Canonical URL' %>
-      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 50, :end_year => Time.zone.now.year, :order => [:day, :month, :year] %>
+      <%= f.input :published_on, label: "Publication Date" do %>
+        <%= f.input_field :day, as: :day %>
+        <%= f.input_field :month, as: :month %>
+        <%= f.input_field :year, as: :year %>
+      <% end %>
 
       <div class="form-group">
         <%= f.submit "Save ", class: "btn btn-default" %>

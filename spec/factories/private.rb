@@ -8,13 +8,14 @@ FactoryGirl.define do
     pmcid 2568856
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
-    published_on { Time.zone.today - 1.year }
+    year { Time.zone.now.year - 1 }
+    month { Time.zone.now.month }
+    day { Time.zone.now.day }
 
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
     trait(:not_publisher) { doi '10.1007/s00248-010-9734-2' }
     trait(:missing_mendeley) { mendeley_uuid nil }
-    trait(:unpublished) { published_on { Time.zone.today + 1.week } }
 
     factory :article_with_events do
       retrieval_statuses { |article| [article.association(:retrieval_status)] }
@@ -26,12 +27,13 @@ FactoryGirl.define do
     end
 
     factory :article_for_feed do
-      published_on { Time.zone.today - 1.day }
+      year { Time.zone.now.year }
+      day { Time.zone.now.day - 1 }
       retrieval_statuses { |article| [article.association(:retrieval_status, retrieved_at: Time.zone.today - 1.day)] }
     end
 
     factory :article_published_today do
-      published_on { Time.zone.today }
+      year { Time.zone.now.year }
       retrieval_statuses { |article| [article.association(:retrieval_status, retrieved_at: Time.zone.today)] }
     end
 
@@ -84,7 +86,6 @@ FactoryGirl.define do
     association :article
     association :source, factory: :citeulike
 
-    trait(:unpublished) { association :article, :unpublished, factory: :article }
     trait(:missing_mendeley) do
       association :article, :missing_mendeley, factory: :article
       association :source, factory: :mendeley

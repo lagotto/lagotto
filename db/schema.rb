@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140208131043) do
+ActiveRecord::Schema.define(:version => 20140216130343) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -69,15 +69,18 @@ ActiveRecord::Schema.define(:version => 20140208131043) do
   add_index "api_responses", ["unresolved", "id"], :name => "index_api_responses_unresolved_id"
 
   create_table "articles", :force => true do |t|
-    t.string   "doi",           :null => false
+    t.string   "doi",                             :null => false
     t.text     "title"
     t.date     "published_on"
     t.string   "pmid"
     t.string   "pmcid"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.string   "canonical_url"
     t.string   "mendeley_uuid"
+    t.integer  "year",          :default => 1970
+    t.integer  "month"
+    t.integer  "day"
   end
 
   add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"

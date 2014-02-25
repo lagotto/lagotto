@@ -35,11 +35,11 @@ class Article < ActiveRecord::Base
   has_many :alerts
   has_many :api_responses
 
-  validates :uid, :title, :presence => true
+  validates :uid, :title, :year, :presence => true
   validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true
-  validates :published_on, :presence => true, :timeliness => { :on_or_before => lambda { 3.months.since }, :on_or_before_message => "can't be more than thee months in the future",
-                                                               :after => lambda { Date.new(1660,1,1) }, :after_message => "must not be older than 350 years",
-                                                               :type => :date }
+  validates :year, :numericality => { :only_integer => true }, :inclusion => { :in => 1660..(Time.zone.now.year + 1), :message => "should be between 1660 and #{Time.zone.now.year + 1}" }
+  validate :validate_published_on
+
   before_validation :sanitize_title
   after_create :create_retrievals
 
@@ -239,7 +239,28 @@ class Article < ActiveRecord::Base
   alias_method :discussed, :shares
   alias_method :cited, :citations
 
+  def update_date_parts
+    return nil unless published_on
+
+    write_attribute(:year, published_on.year)
+    write_attribute(:month, published_on.month)
+    write_attribute(:day, published_on.day)
+  end
+
   private
+
+  # Use values from year, month, day for published_on
+  # Uses  "01" for month and day if they are missing
+  # Uses nil if invalid date
+  def update_published_on
+    date_parts = [year, month, day].reject(&:blank?)
+    published_on = Date.new(*date_parts) rescue nil
+    write_attribute(:published_on, published_on)
+  end
+
+  def validate_published_on
+    errors.add :published_on, "is not a valid date" unless update_published_on
+  end
 
   def sanitize_title
     self.title = ActionController::Base.helpers.sanitize(self.title)

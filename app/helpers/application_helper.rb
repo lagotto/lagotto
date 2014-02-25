@@ -80,6 +80,16 @@ module ApplicationHelper
     end
   end
 
+  def date_format(article)
+    if article.day
+      :long
+    elsif article.month
+      :month
+    else
+      :year
+    end
+  end
+
   def description_with_link(report)
     if report.name == 'article_statistics_report' && article_statistics_report_path
       h(report.description) + link_to("Download", article_statistics_report_path, :class => 'pull-right')
