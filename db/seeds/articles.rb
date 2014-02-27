@@ -228,4 +228,14 @@ if ENV['ARTICLES']
     title: "Review of: The Life and Times of Sara Baartman: The Hottentot Venus by Zola Maseko",
     year: 2000,
     month: 9)
+
+  Article.find_or_create_by_doi(
+    doi: "10.1098/rstl.1665.0022",
+    title: "Of A Way of Killing Ratle-Snakes",
+    year: 1665)
+
+  Article.find_or_create_by_doi(
+    doi: "10.1098/rstl.1665.0005",
+    title: "A Spot in One of the Belts of Jupiter",
+    year: 1665)
 end

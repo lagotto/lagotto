@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "db:articles:seed" do
   include_context "rake"
 
-  let(:output) { "Seeded 33 articles\n" }
+  let(:output) { "Seeded 35 articles\n" }
 
   its(:prerequisites) { should include("environment") }
 
