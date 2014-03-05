@@ -2,6 +2,13 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+      month: "%B %Y"
+      year: "%Y"
   will_paginate:
      previous_label: "&#171; Previous"
      next_label: "Next &#187;"

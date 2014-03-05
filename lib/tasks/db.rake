@@ -35,10 +35,13 @@ namespace :db do
         raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
 
         doi = Article.from_uri(raw_doi.strip).values.first
-        published_on = Date.parse(raw_published_on.strip) if raw_published_on
+        if raw_published_on
+          date_parts = raw_published_on.split("-")
+          year, month, day = date_parts[0], date_parts[1], date_parts[2]
+        end
         title = raw_title.strip if raw_title
-        if (doi =~ Article::FORMAT) and !published_on.nil? and !title.nil?
-          valid << [doi, published_on, title]
+        if (doi =~ Article::FORMAT) and !year.nil? and !title.nil?
+          valid << [doi, year, month, day, title]
         else
           puts "Ignoring DOI: #{raw_doi}, #{raw_published_on}, #{raw_title}"
           invalid << [raw_doi, raw_published_on, raw_title]
@@ -48,15 +51,20 @@ namespace :db do
       puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
 
       if valid.size > 0
-        valid.each do |doi, published_on, title|
+        valid.each do |doi, year, month, day, title|
           existing = Article.find_by_doi(doi)
           unless existing
-            article = Article.create(:doi => doi, :published_on => published_on,
-                                     :title => title)
+            article = Article.create(doi: doi,
+                                     year: year,
+                                     month: month,
+                                     day: day,
+                                     title: title)
             created << doi
           else
-            if existing.published_on != published_on or existing.title != title
-              existing.published_on = published_on
+            if [existing.year, existing.month, existing.day].join("-") != [year, month, day].join("-") || existing.title != title
+              existing.year = year
+              existing.month = month
+              existing.day = day
               existing.title = title
               existing.save!
               updated << doi
@@ -158,6 +166,15 @@ namespace :db do
     task :sanitize_title => :environment do
       Article.all.each { |article| article.save }
       puts "#{Article.count} article titles sanitized"
+    end
+
+    desc "Add publication year, month and day"
+    task :date_parts => :environment do
+      Article.all.each do |article|
+        article.update_date_parts
+        article.save
+      end
+      puts "Date parts for #{Article.count} articles added"
     end
   end
 

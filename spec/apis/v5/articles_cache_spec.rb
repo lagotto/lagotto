@@ -29,7 +29,7 @@ describe "/api/v5/articles", :not_teamcity => true do
         response = JSON.parse(Rails.cache.read("rabl/#{ArticleDecorator.decorate(article).cache_key}//json"))
         response_source = response[:sources][0]
         response[:doi].should eql(article.doi)
-        response[:publication_date].should eql(article.published_on.to_time.utc.iso8601)
+        response[:issued][:date_parts].should eql([article.year, article.month, article.day])
         response_source[:metrics][:total].should eql(article.retrieval_statuses.first.event_count)
         response_source[:events].should be_nil
         response_source[:histories].should be_nil
@@ -147,7 +147,7 @@ describe "/api/v5/articles", :not_teamcity => true do
         response = JSON.parse(last_response.body)
         data = response["data"][0]
         data["doi"].should eql(article.doi)
-        data["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        data["issued"]["date_parts"].should eql([article.year, article.month, article.day])
 
         response_source = data["sources"][0]
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
@@ -163,7 +163,7 @@ describe "/api/v5/articles", :not_teamcity => true do
         data = response["data"][0]
         data["sources"].should be_nil
         data["doi"].should eql(article.doi)
-        data["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        data["issued"]["date_parts"].should eql([article.year, article.month, article.day])
       end
     end
   end

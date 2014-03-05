@@ -59,10 +59,6 @@ module ApplicationHelper
     end
   end
 
-  def sources
-    Source.installed.order("group_id, display_name")
-  end
-
   def alerts
     %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end
@@ -73,6 +69,16 @@ module ApplicationHelper
       path
     else
       nil
+    end
+  end
+
+  def date_format(article)
+    if article.day
+      :long
+    elsif article.month
+      :month
+    else
+      :year
     end
   end
 

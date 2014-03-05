@@ -1,6 +1,6 @@
 collection @articles
 
-attributes :doi, :title, :canonical_url, :mendeley_uuid, :pmid, :pmcid, :publication_date, :update_date, :viewed, :saved, :discussed, :cited
+attributes :doi, :title, :canonical_url, :mendeley_uuid, :pmid, :pmcid, :issued, :viewed, :saved, :discussed, :cited, :update_date
 
 unless params[:info] == "summary"
   child :retrieval_statuses => :sources do
