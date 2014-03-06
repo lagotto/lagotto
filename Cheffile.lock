@@ -1,17 +1,20 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    apache2 (1.8.14)
+    apache2 (1.9.6)
+      iptables (>= 0.0.0)
+      logrotate (>= 0.0.0)
+      pacman (>= 0.0.0)
     apt (2.1.1)
     build-essential (1.4.2)
-    chef_handler (1.1.4)
-    chocolatey (0.0.5)
+    chef_handler (1.1.5)
+    chocolatey (0.1.0)
       powershell (>= 0.0.0)
     couchdb (2.4.0)
       erlang (>= 0.0.0)
       yum (>= 0.0.0)
-    dmg (2.1.4)
-    erlang (1.4.2)
+    dmg (2.2.0)
+    erlang (1.5.0)
       apt (>= 1.7.0)
       build-essential (>= 0.0.0)
       yum (~> 3.0)
@@ -23,6 +26,8 @@ SITE
       runit (>= 1.0)
       windows (>= 0.0.0)
       yum (>= 0.0.0)
+    iptables (0.12.0)
+    logrotate (1.5.0)
     memcached (1.7.0)
       runit (~> 1.0)
       yum (~> 3.0)
@@ -37,6 +42,7 @@ SITE
       build-essential (> 1.1.0)
       openssl (>= 0.0.0)
     openssl (1.1.0)
+    pacman (1.1.1)
     phantomjs (1.0.2)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
@@ -50,20 +56,20 @@ SITE
       build-essential (>= 0.0.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
-    windows (1.12.8)
+    windows (1.30.0)
       chef_handler (>= 0.0.0)
-    yum (3.0.6)
-    yum-epel (0.2.0)
+    yum (3.1.2)
+    yum-epel (0.3.4)
       yum (~> 3.0)
-    yum-erlang_solutions (0.1.4)
+    yum-erlang_solutions (0.2.0)
       yum (~> 3.0)
 
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 33de93ee7fba52ab8037f06e9e3462d629428882
+  sha: abed5ca2dcaee766f217acf64c6377488fe16608
   specs:
-    alm (1.4.5)
+    alm (1.5.0)
       couchdb (>= 0.0.0)
       git (>= 0.0.0)
       mysql (>= 0.0.0)

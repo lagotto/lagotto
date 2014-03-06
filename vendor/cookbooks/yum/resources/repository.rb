@@ -38,7 +38,7 @@ attribute :include_config, :kind_of => String, :regex => /.*/, :default => nil
 attribute :includepkgs, :kind_of => String, :regex => /.*/, :default => nil
 attribute :keepalive, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :max_retries, :kind_of => String, :regex => /.*/, :default => nil
-attribute :metadata_expire, :kind_of => String, :regex => [/^\d+$/, /^\d+d$/, /never/], :default => nil
+attribute :metadata_expire, :kind_of => String, :regex => [/^\d+$/, /^\d+[mhd]$/, /never/], :default => nil
 attribute :mirrorexpire, :kind_of => String, :regex => /.*/, :default => nil
 attribute :mirrorlist, :kind_of => String, :regex => /.*/, :default => nil
 attribute :mirror_expire, :kind_of => String, :regex => /^\d+$/, :default => nil
@@ -49,6 +49,8 @@ attribute :proxy_username, :kind_of => String, :regex => /.*/, :default => nil
 attribute :proxy_password, :kind_of => String, :regex => /.*/, :default => nil
 attribute :report_instanceid, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :repositoryid, :kind_of => String, :regex => /.*/, :name_attribute => true
+attribute :skip_if_unavailable, :kind_of => [TrueClass, FalseClass], :default => nil
+attribute :source, :kind_of => String, :regex => /.*/, :default => nil
 attribute :sslcacert, :kind_of => String, :regex => /.*/, :default => nil
 attribute :sslclientcert, :kind_of => String, :regex => /.*/, :default => nil
 attribute :sslclientkey, :kind_of => String, :regex => /.*/, :default => nil

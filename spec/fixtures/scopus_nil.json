@@ -1,0 +1,23 @@
+{
+  "search-results": {
+    "opensearch:totalResults": "0",
+    "opensearch:startIndex": "0",
+    "opensearch:itemsPerPage": "0",
+    "opensearch:Query": {
+      "@role": "request",
+      "@searchTerms": "DOI%2810.1371%2Fjournal.pone.000001%29",
+      "@startPage": "0"
+    },
+    "link": {
+      "@href": "http://api.elsevier.com:80/content/search/index:SCOPUS?start=0&count=25&query=DOI(10.1371%2Fjournal.pone.000001)&apiKey=13d2f5fc673aca2a725b7db8d18651fa&insttoken=9a2a694bed39b51f25cc0ed5ea5c921b",
+      "@ref": "self",
+      "@type": "application/json"
+    },
+    "entry": [
+      {
+        "@force-array": "true",
+        "error": "Result set was empty"
+      }
+    ]
+  }
+}

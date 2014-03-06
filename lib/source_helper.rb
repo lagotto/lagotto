@@ -34,7 +34,7 @@ module SourceHelper
     conn.basic_auth(options[:username], options[:password]) if options[:username]
     conn.authorization :Bearer, options[:bearer] if options[:bearer]
     conn.options[:timeout] = options[:timeout]
-    response = conn.get url
+    response = conn.get url, {}, options[:headers]
     response.body
   rescue *SourceHelperExceptions => e
     rescue_faraday_error(url, e, options.merge(json: true))
@@ -43,13 +43,15 @@ module SourceHelper
   def get_xml(url, options = { timeout: DEFAULT_TIMEOUT })
     conn = conn_xml
     conn.basic_auth(options[:username], options[:password]) if options[:username]
+    conn.authorization :Bearer, options[:bearer] if options[:bearer]
+    conn.headers.merge(options[:extraheaders]) if options[:extraheaders]
     conn.options[:timeout] = options[:timeout]
     if options[:data]
-      response = conn.post url do |request|
+      response = conn.post url, {}, options[:headers] do |request|
         request.body = options[:data]
       end
     else
-      response = conn.get url
+      response = conn.get url, {}, options[:headers]
     end
     # We have issues with the Faraday XML parsing
     Nokogiri::XML(response.body)

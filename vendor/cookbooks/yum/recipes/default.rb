@@ -24,7 +24,7 @@ yum_globalconfig '/etc/yum.conf' do
   logfile node['yum']['main']['logfile']
   exactarch node['yum']['main']['exactarch']
   obsoletes node['yum']['main']['obsoletes']
-  obsoletes node['yum']['main']['proxy']
+  proxy node['yum']['main']['proxy']
   installonly_limit node['yum']['main']['installonly_limit']
   installonlypkgs node['yum']['main']['installonlypkgs']
   installroot node['yum']['main']['installroot']
