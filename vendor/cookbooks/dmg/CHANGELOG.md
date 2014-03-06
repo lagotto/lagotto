@@ -3,6 +3,11 @@ dmg Cookbook CHANGELOG
 This file is used to list changes made in each version of the dmg ookbook.
 
 
+v2.2.0 (2014-02-25)
+-------------------
+- [COOK-4285] Accept long EULAs
+
+
 v2.1.4 (2014-01-26)
 -------------------
 * [COOK-4157] - dmg_package LWRP broken due to "puts" instead of "system"

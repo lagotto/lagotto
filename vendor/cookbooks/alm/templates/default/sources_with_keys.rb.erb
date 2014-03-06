@@ -41,29 +41,32 @@ crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
   :display_name => "CrossRef",
   :description => "CrossRef is a non-profit organization that enables cross-publisher citation linking.",
-  :state_event => "install",
   :group_id => cited.id,
   :username => "<%= node[:alm][:crossref][:username] %>",
   :password => "<%= node[:alm][:crossref][:password] %>")
+scopus = Scopus.find_or_create_by_name(
+  :name => "scopus",
+  :display_name => "Scopus",
+  :description => "Scopus is an abstract and citation database of peer-reviewed literature.",
+  :group_id => cited.id,
+  :api_key => "<%= node[:alm][:scopus][:api_key] %>",
+  :insttoken => "<%= node[:alm][:scopus][:insttoken] %>")
 facebook = Facebook.find_or_create_by_name(
   :name => "facebook",
   :display_name => "Facebook",
   :description => "Facebook is the largest social network.",
-  :state_event => "install",
   :group_id => discussed.id,
   :access_token => "<%= node[:alm][:facebook][:access_token] %>")
 mendeley = Mendeley.find_or_create_by_name(
   :name => "mendeley",
   :display_name => "Mendeley",
   :description => "Mendeley is a reference manager and social bookmarking tool.",
-  :state_event => "install",
   :group_id => saved.id,
   :api_key => "<%= node[:alm][:mendeley][:api_key] %>")
 researchblogging = Researchblogging.find_or_create_by_name(
   :name => "researchblogging",
   :display_name => "Research Blogging",
   :description => "Research Blogging is a science blog aggregator.",
-  :state_event => "install",
   :group_id => discussed.id,
   :username => "<%= node[:alm][:researchblogging][:username] %>",
   :password => "<%= node[:alm][:researchblogging][:password] %>")
@@ -71,6 +74,5 @@ twitter_search = TwitterSearch.find_or_create_by_name(
   :name => "twitter_search",
   :display_name => "Twitter",
   :description => "Twitter is a social networking and microblogging service.",
-  :state_event => "install",
   :group_id => discussed.id,
   :access_token => "<%= node[:alm][:twitter_search][:access_token] %>")

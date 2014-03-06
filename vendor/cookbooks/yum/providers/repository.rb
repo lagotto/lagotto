@@ -37,8 +37,12 @@ action :create  do
   # of these when dropping Chef 10 support.
 
   template "/etc/yum.repos.d/#{new_resource.repositoryid}.repo" do
-    source 'repo.erb'
-    cookbook 'yum'
+    if new_resource.source.nil?
+      source 'repo.erb'
+      cookbook 'yum'
+    else
+      source new_resource.source
+    end
     mode '0644'
     variables(:config => new_resource)
     notifies :run, "execute[yum-makecache-#{new_resource.repositoryid}]", :immediately
@@ -61,6 +65,19 @@ end
 action :delete do
   file "/etc/yum.repos.d/#{new_resource.repositoryid}.repo" do
     action :delete
+    notifies :run, "execute[yum clean #{new_resource.repositoryid}]", :immediately
+    notifies :create, "ruby_block[yum-cache-reload-#{new_resource.repositoryid}]", :immediately
+  end
+
+  execute "yum clean #{new_resource.repositoryid}" do
+    command "yum clean all --disablerepo=* --enablerepo=#{new_resource.repositoryid}"
+    only_if "yum repolist | grep -P '^#{new_resource.repositoryid}([ \t]|$)'"
+    action :nothing
+  end
+
+  ruby_block "yum-cache-reload-#{new_resource.repositoryid}" do
+    block { Chef::Provider::Package::Yum::YumCache.instance.reload }
+    action :nothing
   end
 end
 

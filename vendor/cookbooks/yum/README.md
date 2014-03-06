@@ -136,6 +136,8 @@ end
   and repositories
 * `repositoryid` - Must be a unique name for each repository, one word.
   Defaults to name attribute.
+* `source` - Use a custom template source instead of the default one
+  in the yum cookbook
 * `sslcacert` - Path to the directory containing the databases of the
   certificate authorities yum should use to verify SSL certificates.
   Defaults to none - uses system default
