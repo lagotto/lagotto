@@ -277,6 +277,18 @@ FactoryGirl.define do
     initialize_with { Facebook.find_or_create_by_name(name) }
   end
 
+  factory :scopus, class: Scopus do
+    type "Scopus"
+    name "scopus"
+    display_name "Scopus"
+    api_key "EXAMPLE"
+    insttoken "EXAMPLE"
+
+    group
+
+    initialize_with { Scopus.find_or_create_by_name(name) }
+  end
+
   factory :alert do
     exception "An exception"
     class_name "Net::HTTPRequestTimeOut"
