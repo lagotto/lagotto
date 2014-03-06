@@ -166,21 +166,6 @@ FactoryGirl.define do
     initialize_with { PlosComments.find_or_create_by_name(name) }
   end
 
-  factory :scopus, class: Scopus do
-    type "Scopus"
-    name "scopus"
-    display_name "Scopus"
-    state_event "activate"
-    live_mode "true"
-    username "EXAMPLE"
-    salt "EXAMPLE"
-    partner_id "EXAMPLE"
-
-    group
-
-    initialize_with { Scopus.find_or_create_by_name(name) }
-  end
-
   factory :twitter, class: Twitter do
     type "Twitter"
     name "twitter"
