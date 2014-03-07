@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Wordpress.com"
+title: Wordpress.com
 ---
 
 Wordpress.com is a blog hosting platform by the makers of the Wordpress blogging software. Search results are currently limited to the first 10 hits.

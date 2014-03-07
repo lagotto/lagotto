@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Setup"
+title: Setup
 ---
 
 To configure the ALM application, the following steps are necessary:
@@ -216,14 +216,14 @@ bundle exec whenever --update-crontab alm
 ### Filters
 Filters check all API responses of the last 24 hours for errors and potential anti-gaming activity, and they are typically run as cron job. They can be activated and configured (e.g. to set limits) individually in the admin panel:
 
-![Filters](filters.png)
+![Filters](/assets/filters.png)
 
-These filters will generate alerts that are displayed in the admin panel in various places. More information is available on the [Alerts](Alerts) page.
+These filters will generate alerts that are displayed in the admin panel in various places. More information is available on the [Alerts](/docs/Alerts) page.
 
 ### Reports
 The ALM application generates a number of email reports:
 
-![Profile](profile.png)
+![Profile](/assets/profile.png)
 
 The **Article Statistics Report** is available to all users, all other reports only to admin and staff users. Users can sign up for these reports in the account preferences.
 

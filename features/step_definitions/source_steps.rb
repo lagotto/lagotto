@@ -88,6 +88,8 @@ When /^I go to the "(.*?)" page$/ do |page_title|
     visit articles_path
   elsif page_title == "Sources"
     visit sources_path
+  elsif page_title == "Home"
+    visit root_path
   end
 end
 

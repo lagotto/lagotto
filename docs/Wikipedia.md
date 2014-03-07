@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Wikipedia"
+title: Wikipedia
 ---
 
 Wikipedia is a free encyclopedia that everyone can edit.

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Scopus"
+title: Scopus
 ---
 
 [Scopus](http://www.scopus.com) is an abstract and citation database of peer-reviewed literature. Information about access to the Scopus API can be found [here](http://www.developers.elsevier.com/cms/restful-api-authentication-new).

@@ -38,6 +38,11 @@ The ALM application provides a number of public sources. Most sources require a 
 * [Web of Science](/docs/wos)
 * [F1000Prime](/docs/f1000)
 
+### Retired Sources
+* [Biod](/docs/biod)
+* [Connotea](/docs/connotea)
+* [Postgenomic](/docs/postgenomic)
+
 Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for questions or feedback regarding sources.
 
 <table>
