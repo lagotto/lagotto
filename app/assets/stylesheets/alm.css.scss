@@ -59,9 +59,9 @@ $hr-border:             $gray-light;
 $font-family-base:      'Source Sans Pro', Helvetica, Arial, sans-serif;
 $font-family-demo:      'Helvetica Neue', Helvetica, Arial, sans-serif;
 $font-family-monospace: Monaco, Menlo, Consolas, "Courier New", monospace;
-$font-size-base:        16px;
-$font-size-large:       ceil(($font-size-base * 1.25));
-$font-size-small:       ceil(($font-size-base * 0.85));
+$font-size-base:        18px;
+$font-size-large:       ceil(($font-size-base * 1.278));
+$font-size-small:       ceil(($font-size-base * 0.853));
 
 $font-size-h1:          floor($font-size-base * 2.4);
 $font-size-h2:          floor($font-size-base * 2);
@@ -70,7 +70,7 @@ $font-size-h4:          floor($font-size-base * 1.4);
 $font-size-h5:          $font-size-base;
 $font-size-h6:          $font-size-base;
 
-$line-height-base:      1.4375;
+$line-height-base:      1.444;
 $line-height-computed:  floor($font-size-base * $line-height-base);
 $line-height-large:     1.33;
 $line-height-small:     $line-height-base;
