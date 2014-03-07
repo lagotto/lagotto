@@ -1,3 +1,8 @@
+---
+layout: page
+title: "API"
+---
+
 Version 3 of the API was released October 30, 2012 (ALM 2.3). Version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11).
 
 ## Base URL

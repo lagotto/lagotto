@@ -1,3 +1,8 @@
+---
+layout: page
+title: "Nature"
+---
+
 Nature Blogs is a science blog aggregator. Since May 1st 2013 API keys are [no longer necessary](http://www.nature.com/developers/documentation/api-references/blogs-api/).
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">

@@ -1,3 +1,8 @@
+---
+layout: page
+title: "FAQ"
+---
+
 Please add questions that are not listed here to the [Issue Tracker](https://github.com/articlemetrics/alm/issues).
 
 ### Where can I ask questions regarding the ALM application?

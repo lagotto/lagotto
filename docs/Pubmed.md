@@ -1,3 +1,8 @@
+---
+layout: page
+title: "PubMed Central"
+---
+
 [PubMed Central](http://www.ncbi.nlm.nih.gov/pmc/) is a free full-text archive of biomedical and life sciences journal literature at the U.S. National Institutes of Health's National Library of Medicine. PubMed Central provides information about citing articles in PubMed.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">

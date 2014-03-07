@@ -7,7 +7,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
     else
       session["devise.persona_data"] = request.env["omniauth.auth"]
-      redirect_to "/docs/Home"
+      redirect_to root_path
     end
   end
 end

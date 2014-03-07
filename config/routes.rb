@@ -1,7 +1,7 @@
 Alm::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
 
-  root :to => "users#index"
+  root :to => "docs#index"
 
   # constraints is added to allow dot in the url (doi is used to show article)
   resources :articles, :constraints => { :id => /.+?/, :format => /html/}

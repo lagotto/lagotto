@@ -1,3 +1,8 @@
+---
+layout: page
+title: "CiteULike"
+---
+
 [CiteULike](http://www.citeulike.org) is a social bookmarking service for scholarly content.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">

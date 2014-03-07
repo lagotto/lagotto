@@ -1,3 +1,8 @@
+---
+layout: page
+title: "Europe PMC Database Links"
+---
+
 Europe PubMed Central ([Europe PMC](http://europepmc.org/)) is an archive of life sciences journal literature. PMC Europe tracks the database entries that cite a given publication.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">

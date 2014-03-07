@@ -1,3 +1,8 @@
+---
+layout: page
+title: "Contributors"
+---
+
 The following people contributed to the development effort of Article-Level Metrics:
 
 * [Bryan Stearns](http://www.linkedin.com/in/bryanstearns) - Original developer of the Article-Level Metrics application

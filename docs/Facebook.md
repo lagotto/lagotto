@@ -1,3 +1,8 @@
+---
+layout: page
+title: "Facebook"
+---
+
 Facebook is the largest social network.
 
 Information about obtaining an app access token for this source can be found at http://developers.facebook.com/docs/howtos/login/login-as-app/. Access tokens are required for production use because of rate-limiting.

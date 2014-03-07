@@ -1,3 +1,8 @@
+---
+layout: page
+title: "Twitter"
+---
+
 [Twitter](http://www.twitter.com/) is a social networking and microblogging service. Twitter does store tweets only for a limited amount of time, so it is up to us to collect this information regularly.
 
 ## Authentication

@@ -26,8 +26,7 @@ class SourcesController < ApplicationController
     # raise error if source wasn't found
     raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
 
-    filename = Rails.root.join("docs/#{@source.name.capitalize}.md")
-    @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
+    @doc = Doc.find(@source.name)
 
     respond_with(@source) do |format|
       format.rss do
