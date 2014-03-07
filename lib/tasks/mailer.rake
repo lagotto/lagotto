@@ -41,6 +41,13 @@ namespace :mailer do
     puts "Article statistics report sent to #{report.users.count} subscriber(s)"
   end
 
+  desc "Send stale source report"
+  task :stale_source_report => :environment do
+    report = Report.where(:name => "stale_source_report").first
+    report.send_stale_source_report
+    puts "Stale source report sent to #{report.users.count} subscriber(s)"
+  end
+
   desc 'Send all scheduled mails'
-  task :all => [:environment, :error_report, :article_statistics_report, :status_report]
+  task :all => [:environment, :error_report, :article_statistics_report, :status_report, :stale_source_report]
 end

@@ -168,4 +168,7 @@ class Report < ActiveRecord::Base
     ReportMailer.delay(queue: 'mailer', priority: 1).send_disabled_source_report(self, source_id)
   end
 
+  def send_stale_source_report
+    ReportMailer.delay(queue: 'mailer', priority: 3).send_stale_source_report(self)
+  end
 end

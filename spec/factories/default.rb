@@ -44,6 +44,13 @@ FactoryGirl.define do
       description 'Reports when a source has been disabled'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
+
+    factory :stale_source_report_with_admin_user do
+      name 'stale_source_report'
+      display_name 'Stale Source Report'
+      description 'Reports when a source has not been updated'
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
   end
 
   factory :retrieval_history do

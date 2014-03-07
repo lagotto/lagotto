@@ -1,0 +1,11 @@
+<p>This is the ALM stale source report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.</p>
+
+<% unless @reviews.empty? -%>
+<p><% @reviews.each do |review| -%>
+<%= review.message %><br/>
+<% end -%></p>
+<% else -%>
+<p>No review found.</p>
+<% end -%>
+
+<p><%= link_to "Go to admin dashboard", admin_alerts_url(:host => CONFIG[:hostname], :class => "SourceNotUpdatedError") %></p>

@@ -14,15 +14,16 @@ set :output, "#{path}/log/cron.log"
 every 1.day, at: "4:00 AM" do
   rake "filter:all"
   rake "mailer:error_report"
+  rake "mailer:stale_source_report"
   rake "queue:start"
 
   rake "db:api_requests:delete"
   rake "db:api_responses:delete"
+  rake "db:alerts:delete"
 end
 
 every :monday, at: "4:30 AM" do
   rake "mailer:status_report"
-  rake "db:alerts:delete"
 end
 
 # every 10th of the month at 5 AM
