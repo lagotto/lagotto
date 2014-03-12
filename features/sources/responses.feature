@@ -9,7 +9,7 @@ Feature: See responses from sources
     And the source "Citeulike" exists
     And that we have 5 articles
 
-    @not-teamcity
+    @not_teamcity
     Scenario: Responses from last 24 hours in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should be:

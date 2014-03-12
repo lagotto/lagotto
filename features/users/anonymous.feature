@@ -19,13 +19,13 @@ Feature: Use without signing in
       Given we have a user with role "admin"
       And the source "Citeulike" exists
       When I go to the "Sources" page
-      Then I should see the image "citeulike.png"
+      Then I should see the subtitle "CiteULike"
 
     Scenario: Anonymous user can go to source
       Given we have a user with role "admin"
       And the source "Citeulike" exists
       When I go to the source "CiteULike"
-      Then I should see the image "citeulike.png"
+      Then I should see the title "CiteULike"
 
    @allow-rescue
     Scenario: Anonymous user cannot see the main admin dashboard
@@ -58,8 +58,8 @@ Feature: Use without signing in
       When I go to the "Alerts" admin page
       Then I should see the "You need to sign in or sign up before continuing." error message
 
-    @allow-rescue
+    @allow-rescue @not_teamcity
     Scenario: Anonymous user can download the monthly report
-      Given we have a monthly article statistics report
-      When I go to the URL
-      Then I should not see the "The page you were looking for doesn't exist.." error message
+      Given we have report "article_statistics_report"
+      When I go to the "/files/alm_report.zip" URL
+      Then I should not see the "No route matches" error message
