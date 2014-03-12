@@ -88,7 +88,9 @@ describe ReportMailer do
 
   describe "stale source report" do
     let(:report) { FactoryGirl.create(:stale_source_report_with_admin_user) }
-    let(:mail) { ReportMailer.send_stale_source_report(report) }
+    let(:source) { FactoryGirl.create(:citeulike) }
+    let(:source_ids) { [source.id] }
+    let(:mail) { ReportMailer.send_stale_source_report(report, source_ids) }
 
     it "sends email" do
       mail.subject.should eq("[ALM] Stale Source Report")
@@ -97,11 +99,7 @@ describe ReportMailer do
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("This is the ALM stale source report")
-    end
-
-    it "includes no reviews" do
-      mail.body.encoded.should include("No review found.")
+      mail.body.encoded.should include("The following sources have not been updated for 24 hours")
     end
 
     it "provides a link to the admin dashboard" do
