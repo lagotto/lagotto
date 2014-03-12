@@ -10,15 +10,16 @@ services:
   - couchdb
   - memcached
 
-script:
-  - RAILS_ENV=test bundle exec rake db:migrate --trace
-  - bundle exec rake db:test:prepare
-  - bundle exec rake SPEC_OPTS="--tag ~@not_teamcity --tags ~@not_teamcity"
-
 before_script:
   - cp config/settings.yml.example config/settings.yml
   - cp config/database.yml.example config/database.yml
   - mysql -e 'create database alm_test'
+
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake db:test:prepare
+  - bundle exec rake spec SPEC_OPTS="--tag ~@not_teamcity"
+  - bundle exec rake cucumber SPEC_OPTS="--tags ~@not_teamcity"
 
 env:
   global:
