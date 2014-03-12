@@ -29,6 +29,10 @@ When /^I go to the "(.*?)" menu$/ do |menu|
   click_link menu
 end
 
+When(/^I go to the "(.*?)" URL$/) do |url|
+  visit url
+end
+
 When /^I go to the submenu "(.*?)" of menu "(.*?)"$/ do |label, menu|
   click_link menu
   click_link label
@@ -88,6 +92,8 @@ When /^I go to the "(.*?)" page$/ do |page_title|
     visit articles_path
   elsif page_title == "Sources"
     visit sources_path
+  elsif page_title == "Home"
+    visit root_path
   end
 end
 
@@ -136,6 +142,14 @@ end
 Then /^I should not see the "(.*?)" tab$/ do |tab_title|
   page.driver.render("tmp/capybara/#{tab_title}.png")
   page.has_css?('li', :text => tab_title, :visible => true).should_not be_true
+end
+
+Then /^I should see the title "(.*?)"$/ do |title|
+  page.has_css?('h1', :text => title, :visible => true).should be_true
+end
+
+Then /^I should see the subtitle "(.*?)"$/ do |title|
+  page.has_css?('h4', :text => title, :visible => true).should be_true
 end
 
 Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, source_name|

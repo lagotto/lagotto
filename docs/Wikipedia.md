@@ -1,3 +1,8 @@
+---
+layout: page
+title: Wikipedia
+---
+
 Wikipedia is a free encyclopedia that everyone can edit.
 
 We are collecting the number of Wikipedia articles (`namespace=0`) in the [25 most popular wikipedias](https://meta.wikimedia.org/wiki/List_of_Wikipedias#All_Wikipedias_ordered_by_number_of_articles) and Wikimedia Commons (`namespace=6`):

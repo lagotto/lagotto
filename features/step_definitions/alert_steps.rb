@@ -53,6 +53,11 @@ Then /^I should see the "(.*?)" error message$/ do |error|
   page.should have_content error
 end
 
+Then /^I should not see the "(.*?)" error message$/ do |error|
+  page.driver.render("tmp/capybara/error.png")
+  page.should_not have_content error
+end
+
 Then /^I should see the "(.*?)" error$/ do |error|
   within(".panel-heading") do
     page.should have_content error

@@ -40,7 +40,7 @@ d3.json("/api/v5/sources?api_key=" + api_key, function(error, json) {
     .attr("height", data.length * (h + 2 * s) + 30)
     .attr("class", "chart")
     .append("g")
-    .attr("transform", "translate(230,20)");
+    .attr("transform", "translate(250,20)");
 
   var x = d3.scale.linear()
     .domain([0, d3.max(data, function(d) { return d.article_count; })])
@@ -57,7 +57,7 @@ d3.json("/api/v5/sources?api_key=" + api_key, function(error, json) {
     .enter().append("a").attr("xlink:href", function(d) { return "/admin/sources/" + d.name; }).append("text")
     .attr("x", 0)
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
-    .attr("dx", -230) // padding-right
+    .attr("dx", -250) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(function(d) { return d.display_name; });
   chart.selectAll("rect")
@@ -82,7 +82,7 @@ d3.json("/api/v5/sources?api_key=" + api_key, function(error, json) {
     .attr("height", data.length * (h + 2 * s) + 30)
     .attr("class", "chart")
     .append("g")
-    .attr("transform", "translate(230,20)");
+    .attr("transform", "translate(250,20)");
 
   var x = d3.scale.log()
     .domain([0.1, d3.max(data, function(d) { return d.event_count; })])
@@ -93,7 +93,7 @@ d3.json("/api/v5/sources?api_key=" + api_key, function(error, json) {
     .enter().append("a").attr("xlink:href", function(d) { return "/admin/sources/" + d.name; }).append("text")
     .attr("x", 0)
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
-    .attr("dx", -230) // padding-right
+    .attr("dx", -250) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(function(d) { return d.display_name; });
   chart.selectAll("rect")

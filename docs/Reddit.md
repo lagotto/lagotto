@@ -1,3 +1,8 @@
+---
+layout: page
+title: "Reddit"
+---
+
 [Reddit](http://www.reddit.com/) provides user-generated news links. We can collect the number of posts and comments to them, but most interesting is the score, which is calculated from upvotes and downvotes.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">

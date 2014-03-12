@@ -1,3 +1,8 @@
+---
+layout: page
+title: "Installation"
+---
+
 ALM is a typical Ruby on Rails web application with one unusual feature: it requires the CouchDB database. CouchDB is used to store the responses from external API calls, MySQL is used for everything else (or PostgreSQL, see below). The application has been tested with Apache/Passenger, but should also run in other deployment environments, e.g. Nginx/Unicorn or WEBrick. ALM uses Ruby on Rails 3.2.x. The application has extensive test coverage using [Rspec] and [Cucumber].
 
 [Rspec]: http://rspec.info/

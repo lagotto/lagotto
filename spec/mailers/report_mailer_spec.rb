@@ -85,4 +85,26 @@ describe ReportMailer do
       body_html.should have_link('Go to admin dashboard', href: admin_source_url(source.name, :host => CONFIG[:hostname]))
     end
   end
+
+  describe "stale source report" do
+    let(:report) { FactoryGirl.create(:stale_source_report_with_admin_user) }
+    let(:source) { FactoryGirl.create(:citeulike) }
+    let(:source_ids) { [source.id] }
+    let(:mail) { ReportMailer.send_stale_source_report(report, source_ids) }
+
+    it "sends email" do
+      mail.subject.should eq("[ALM] Stale Source Report")
+      mail.to.should eq([report.users.map(&:email).join(",")])
+      mail.from.should eq([CONFIG[:notification_email]])
+    end
+
+    it "renders the body" do
+      mail.body.encoded.should include("The following sources have not been updated for 24 hours")
+    end
+
+    it "provides a link to the admin dashboard" do
+      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html.should have_link('Go to admin dashboard', href: admin_alerts_url(:host => CONFIG[:hostname], :class => "SourceNotUpdatedError"))
+    end
+  end
 end

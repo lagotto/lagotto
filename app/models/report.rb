@@ -151,6 +151,7 @@ class Report < ActiveRecord::Base
   end
 
   # Reports are sent via delayed_job
+
   def send_error_report
     ReportMailer.delay(queue: 'mailer', priority: 3).send_error_report(self)
   end
@@ -167,4 +168,7 @@ class Report < ActiveRecord::Base
     ReportMailer.delay(queue: 'mailer', priority: 1).send_disabled_source_report(self, source_id)
   end
 
+  def send_stale_source_report(source_ids)
+    ReportMailer.delay(queue: 'mailer', priority: 3).send_stale_source_report(self, source_ids)
+  end
 end

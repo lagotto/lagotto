@@ -2,6 +2,15 @@ runit Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the runit cookbook.
 
+v1.5.10 (2014-03-07)
+--------------------
+PR #53- Fix runit RPM file location for Chef provisionless Centos 5.9 Box Image
+
+
+v1.5.9
+------
+Fix runit RPM file location for Chef provisionless Centos 5.9 Box Image
+
 v1.5.8
 ------
 Fixing string interpolation bug

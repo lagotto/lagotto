@@ -1,3 +1,8 @@
+---
+layout: page
+title: "OpenEdition"
+---
+
 [OpenEdition](http://www.openedition.org/) is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda, four platforms dedicated to electronic resources in the humanities and social sciences.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">

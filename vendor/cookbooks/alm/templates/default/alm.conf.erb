@@ -11,15 +11,13 @@
       Options FollowSymLinks
       AllowOverride None
     </Directory>
-	
+
     <Directory /vagrant/public >
-      Options Indexes FollowSymLinks MultiViews
-      AllowOverride All
-      Order allow,deny
-      allow from all
+       AllowOverride all
+       Options -MultiViews
     </Directory>
 
-    # Important for ALM: keeps Apache from messing up encoded 
+    # Important for ALM: keeps Apache from messing up encoded
     # embedded slashes in DOIs
     AllowEncodedSlashes On
 

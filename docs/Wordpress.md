@@ -1,3 +1,8 @@
+---
+layout: page
+title: Wordpress.com
+---
+
 Wordpress.com is a blog hosting platform by the makers of the Wordpress blogging software. Search results are currently limited to the first 10 hits.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">

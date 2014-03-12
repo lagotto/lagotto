@@ -1,37 +1,47 @@
+---
+layout: page
+title: "Sources"
+---
+
 The ALM application provides a number of public sources. Most sources require a user account with the service (see table below). The private ALM sources not made available here either use an internal application that is not available via public API (PLOS Usage Stats, PubMed Central Usage Stats, PLOS Biodiversity Hub, Twitter, figshare) or require a contract with the provider (Scopus, Web of Science, F1000).
 
 ### Viewed
-* [PubMed Central Usage Stats](Pmc)
-* [Copernicus](Copernicus)
+* [PubMed Central Usage Stats](/docs/pmc)
+* [Copernicus](/docs/copernicus)
 
 ### Discussed
-* [Facebook](Facebook)
-* [Twitter](Twittersearch)
-* [Nature Blogs](Nature)
-* [Research Blogging](Researchblogging)
-* [ScienceSeeker](Scienceseeker)
-* [Wordpress.com](Wordpress)
-* [Wikipedia](Wikipedia)
-* [Reddit](Reddit)
-* [OpenEdition](Openedition)
+* [Facebook](/docs/facebook)
+* [Twitter](/docs/twittersearch)
+* [Nature Blogs](/docs/nature)
+* [Research Blogging](/docs/researchblogging)
+* [ScienceSeeker](/docs/scienceseeker)
+* [Wordpress.com](/docs/wordpress)
+* [Wikipedia](/docs/wikipedia)
+* [Reddit](/docs/reddit)
+* [OpenEdition](/docs/openedition)
 
 ### Saved
-* [CiteULike](Citeulike)
-* [Mendeley](Mendeley)
+* [CiteULike](/docs/citeulike)
+* [Mendeley](/docs/mendeley)
 
 ### Cited
-* [CrossRef](Crossref)
-* [PubMed Central Citations](Pubmed)
-* [PMC Europe Citations](PmcEurope)
-* [PMC Europe Database Citations](PmcEuropeData)
+* [CrossRef](/docs/crossref)
+* [PubMed Central Citations](/docs/pubmed)
+* [Europe PMC Citations](/docs/pmceurope)
+* [Scopus](/docs/scopus)
+* [DataCite](/docs/datacite)
+* [Europe PMC Database Citations](/docs/pmceuropedata)
 
 ### Private Sources
-* [PLOS Usage Stats](Counter)
-* [PLOS Figshare Usage Stats](Figshare)
-* [PLOS Comments](Plos-Comments)
-* [Web of Science](Wos)
-* [Scopus](Scopus)
-* [F1000Prime](F1000)
+* [PLOS Usage Stats](/docs/counter)
+* [PLOS Figshare Usage Stats](/docs/figshare)
+* [Web of Science](/docs/wos)
+* [F1000Prime](/docs/f1000)
+
+### Retired Sources
+* [Biod](/docs/biod)
+* [Connotea](/docs/connotea)
+* [Postgenomic](/docs/postgenomic)
 
 Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for questions or feedback regarding sources.
 
@@ -79,7 +89,7 @@ Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for
 </tr>
 <tr>
 <td>Mendeley</td>
-<td>OAuth 1.0</td>
+<td>OAuth 2.0</td>
 <td>no</td>
 <td>JSON</td>
 <td>REST</td>
@@ -130,6 +140,14 @@ Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for
 <td>no</td>
 <td>no</td>
 <td>XML</td>
+<td>REST</td>
+<td>unknown</td>
+</tr>
+<tr>
+<td>Scopus</td>
+<td>api_key<br/>insttoken</td>
+<td>optional</td>
+<td>XML or JSON</td>
 <td>REST</td>
 <td>unknown</td>
 </tr>

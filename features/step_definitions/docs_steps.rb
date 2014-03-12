@@ -1,6 +1,6 @@
 ### WHEN ###
 When /^I go to the "(.*?)" documentation page$/ do |title|
-  visit doc_path(title)
+  visit doc_path(title.downcase)
 end
 
 ### THEN ###

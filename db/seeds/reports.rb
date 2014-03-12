@@ -12,3 +12,6 @@ article_statistics_report = Report.find_or_create_by_name(:name => "article_stat
 disabled_source_report = Report.find_or_create_by_name(:name => "disabled_source_report",
   :display_name => "Disabled Source Report",
   :description => "Reports when a source has been disabled", :interval => 0, :private => true)
+stale_source_report = Report.find_or_create_by_name(:name => "stale_source_report",
+  :display_name => "Stale Source Report",
+  :description => "Reports when a source has not been updated", :interval => 1.day, :private => true)

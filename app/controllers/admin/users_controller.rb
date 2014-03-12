@@ -59,7 +59,7 @@ class Admin::UsersController < Admin::ApplicationController
   def load_user
     @user = User.find(params[:id])
     @reports = Report.available(@user.role)
-    @doc = { :title => "API", :text => IO.read(Rails.root.join("docs/API.md")) }
+    @doc = Doc.find("api")
   end
 
   def load_index

@@ -3,7 +3,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2014 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -138,7 +138,7 @@ class Source < ActiveRecord::Base
                    :message => "#{source.display_name} has exceeded maximum failed queries. Disabling the source.",
                    :source_id => source.id)
       source.add_queue(Time.zone.now + source.disable_delay)
-      report = Report.find_or_create_by_name(:name => "Disabled Source Report")
+      report = Report.find_or_create_by_name(:name => "disabled_source_report")
       report.send_disabled_source_report(source.id)
     end
 

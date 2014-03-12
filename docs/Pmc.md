@@ -1,3 +1,8 @@
+---
+layout: page
+title: "PubMed Central"
+---
+
 [PubMed Central](http://www.ncbi.nlm.nih.gov/pmc/) is a free full-text archive of biomedical and life sciences journal literature at the U.S. National Institutes of Health's National Library of Medicine. PubMed Central usage stats are available to publishers of these journal articles. The usage stats are available as individual XML files for a given journal, month and year.
 
 The rake task `rake pmc:update` fetches the usage stats XML file, parses it, and stores the information as JSON for every article in CouchDB. The pmc source therefore only needs to be updated once a month.
