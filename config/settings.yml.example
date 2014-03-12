@@ -18,11 +18,11 @@
 
 defaults: &defaults
   useragent: Article Level Metrics
-  api_key: #'run `rake secret` to generate a key to insert here'
+  api_key: 8897f9349100728d66d64d56bc21254bb346a9ed21954933 #'run `rake secret` to generate a key to insert here'
   notification_email: alm@alm.example.org
-  rest_auth_site_key: #'run `rake secret` to generate a key to insert here'
+  rest_auth_site_key: 3ff84e3896eff64f2645e508b69da6b9f88804ecb08c368fb9252c534251c57908d65fc831f9e6e94e8361bcdf9494f2f10789183d52d2a429a3e8bcc3512279 #'run `rake secret` to generate a new key to insert here'
   rest_auth_digest_stretches: 10
-  secret_token: #'run `rake secret` again to generate a second key to insert here'
+  secret_token: c436de247c988eb5d0908407e700098fc3992040629bb8f98223cd221e94ee4d15626aae5d815f153f3dbbce2724ccb8569c4e26a0f6f663375f6f2697f1f3cf #'run `rake secret` again to generate a second key to insert here'
   persona: true
   couchdb_url: http://localhost:5984/alm/
   doi_prefix:
