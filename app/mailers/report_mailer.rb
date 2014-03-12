@@ -45,10 +45,10 @@ class ReportMailer < ActionMailer::Base
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Disabled Source Report")
   end
 
-  def send_stale_source_report(report)
+  def send_stale_source_report(report, source_ids)
     return if report.users.empty?
 
-    @reviews = Review.daily_report
+    @sources = Source.find(source_ids)
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Stale Source Report")
   end
 end
