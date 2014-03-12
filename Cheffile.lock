@@ -52,13 +52,13 @@ SITE
       ms_dotnet4 (>= 0.0.0)
       ms_dotnet45 (>= 0.0.0)
       windows (>= 1.2.8)
-    runit (1.5.8)
+    runit (1.5.10)
       build-essential (>= 0.0.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
     windows (1.30.0)
       chef_handler (>= 0.0.0)
-    yum (3.1.2)
+    yum (3.1.4)
     yum-epel (0.3.4)
       yum (~> 3.0)
     yum-erlang_solutions (0.2.0)
@@ -67,7 +67,7 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: abed5ca2dcaee766f217acf64c6377488fe16608
+  sha: a189dcc4570b9476a2d99b20ac92e2016be00382
   specs:
     alm (1.5.0)
       couchdb (>= 0.0.0)
