@@ -13,7 +13,7 @@ services:
 script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake db:test:prepare
-  - bundle exec rake
+  - bundle exec rake SPEC_OPTS="--tag ~@not_teamcity --tags ~@not_teamcity"
 
 before_script:
   - cp config/settings.yml.example config/settings.yml
