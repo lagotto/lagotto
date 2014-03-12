@@ -57,3 +57,9 @@ Feature: Use without signing in
     Scenario: Anonymous user cannot see errors in the admin dashboard
       When I go to the "Alerts" admin page
       Then I should see the "You need to sign in or sign up before continuing." error message
+
+    @allow-rescue
+    Scenario: Anonymous user can download the monthly report
+      Given we have a monthly article statistics report
+      When I go to the URL
+      Then I should not see the "The page you were looking for doesn't exist.." error message
