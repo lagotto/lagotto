@@ -7,6 +7,7 @@ gem 'mysql2', '0.3.13'
 gem "delayed_job", "~> 4.0.0"
 gem "delayed_job_active_record", "~> 4.0.0"
 gem "daemons", "~> 1.1.9"
+gem "daemon_controller", "~> 1.2.0"
 gem "foreman", "~> 0.63.0"
 gem "rake", "~> 10.1.1"
 gem "whenever", "~> 0.9.0", :require => false
