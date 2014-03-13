@@ -29,6 +29,18 @@ class QueueJob < Struct.new(:source_id)
     Timeout.timeout(5.minutes) do
       source.queue_stale_articles
     end
+  rescue Timeout::Error
+    source = Source.find(source_id)
+    Alert.create(:exception => "",
+                 :class_name => "Timeout::Error",
+                 :message => "DelayedJob timeout error for #{source.display_name}",
+                 :status => 408,
+                 :source_id => source.id)
+  end
+
+  def error(job, e)
+    source = Source.find(source_id)
+    Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
   end
 
   def after(job)
