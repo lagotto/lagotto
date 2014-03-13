@@ -20,11 +20,11 @@
 
 <div class="content">
   <div class="page-header">
-    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>">Status</h1>
+    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>">Status <small id="update_date"></small></h1>
   </div>
 
-  <div id="status">
-    <%= render :partial => 'index' %>
+  <div id="summary">
+    <%= render :partial => 'summary' %>
   </div>
 
   <%= javascript_tag do -%>

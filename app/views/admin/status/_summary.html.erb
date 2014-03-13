@@ -10,9 +10,9 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="articles_recent_count">&nbsp;</h2>
+        <h2 id="events_count">&nbsp;</h2>
       </div>
-      <div class="panel-footer"><%= link_to "Articles published last 30 days", articles_path %></div>
+      <div class="panel-footer"><%= link_to "Events", admin_sources_path %></div>
     </div>
   </div>
   <div class="col-md-3 text-center">
@@ -36,6 +36,14 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
+        <h2 id="workers_count">&nbsp;</h2>
+      </div>
+      <div class="panel-footer">Active workers</div>
+    </div>
+  </div>
+  <div class="col-md-3 text-center">
+    <div class="panel panel-default">
+      <div class="panel-body">
         <h2 id="delayed_jobs_active_count">&nbsp;</h2>
       </div>
       <div class="panel-footer"><%= link_to "Pending and working jobs", admin_sources_path %></div>
@@ -47,14 +55,6 @@
         <h2 id="responses_count">&nbsp;</h2>
       </div>
       <div class="panel-footer"><%= link_to "API responses last 24 hours", admin_sources_path %></div>
-    </div>
-  </div>
-  <div class="col-md-3 text-center">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h2 id="events_count">&nbsp;</h2>
-      </div>
-      <div class="panel-footer"><%= link_to "Events", admin_sources_path %></div>
     </div>
   </div>
   <div class="col-md-3 text-center">
