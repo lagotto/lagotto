@@ -18,13 +18,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'timeout'
+
 class QueueJob < Struct.new(:source_id)
 
   def perform
     source = Source.find(source_id)
     return 0 if source.inactive?
 
-    source.queue_stale_articles
+    Timeout.timeout(5.minutes) do
+      source.queue_stale_articles
+    end
   end
 
   def after(job)

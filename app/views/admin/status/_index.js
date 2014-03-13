@@ -9,7 +9,7 @@ d3.json("/api/v5/status?api_key=" + api_key, function(error, json) {
 
   for (var item in data) {
     if(item.substr(item.length - 5) == "count") {
-      d3.select("#" + item).html(number_with_delimiter(data[item]));
+      d3.select("#" + item).html(formatFixed(data[item]));
     } else if(item.substr(item.length - 4) == "size") {
       d3.select("#" + item).html(number_to_human_size(data[item]));
     } else if(item == "update_date") {
@@ -18,8 +18,6 @@ d3.json("/api/v5/status?api_key=" + api_key, function(error, json) {
       d3.select("#" + item).html(data[item]);
     }
   };
-
-  function number_with_delimiter(number) { return formatFixed(number); }
 
   // Format file size into human-readable format
   function number_to_human_size(bytes) {
