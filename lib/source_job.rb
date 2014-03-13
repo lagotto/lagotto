@@ -164,11 +164,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     end
   end
 
-  def error(job, e)
-    source = Source.find(source_id)
-    Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
-  end
-
   def after(job)
     #reset the queued_at value
     source = Source.find(source_id)

@@ -26,6 +26,13 @@ every :monday, at: "4:30 AM" do
   rake "mailer:status_report"
 end
 
+# Check the status of workers
+if Rails.configuration.jobs.heartbeat_enabled
+  every Rails.configuration.jobs.dead_worker_polling_interval_minutes.minutes do
+    runner "Delayed::Plugins::HeartbeatPlugin.unlock_orphaned_jobs"
+  end
+end
+
 # every 10th of the month at 5 AM
 every '0 5 10 * *' do
   rake "report:all_stats"

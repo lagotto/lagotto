@@ -18,18 +18,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class QueueJob < Struct.new(:source_id)
+# Based on http://www.salsify.com/blog/delayed-jobs-callbacks-and-hooks-in-rails
 
-  def perform
-    source = Source.find(source_id)
-    return 0 if source.inactive?
+require 'delayed_job'
 
-    source.queue_stale_articles
-  end
+class AlertPlugin < Delayed::Plugin
 
-  def after(job)
-    source = Source.find(source_id)
-    source.add_queue(source.run_at + source.batch_time_interval)
+  callbacks do |lifecycle|
+    lifecycle.around(:invoke_job) do |job, *args, &block|
+      begin
+        # Forward the call to the next callback in the callback chain
+        block.call(job, *args)
+      rescue Exception => error
+        Alert.create(:exception => error,
+                     :class_name => error.class.name,
+                     :message => "#{error.message} in #{job.queue}",
+                     :backtrace => error.backtrace)
+        # Make sure we propagate the failure!
+        raise error
+      end
+    end
   end
 
 end
