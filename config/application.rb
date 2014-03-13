@@ -60,16 +60,5 @@ module Alm
 
     # Disable IP spoofing check
     config.action_dispatch.ip_spoofing_check = false
-
-    # From http://www.salsify.com/blog/detect-failed-delayed-job-workers
-    config.jobs = ActiveSupport::OrderedOptions.new
-    # Controls whether or not workers report heartbeats
-    config.jobs.heartbeat_enabled = true
-    # How often workers should send heartbeats
-    config.jobs.heartbeat_interval_minutes = 60
-    # How long a worker can go without sending a heartbeat before they're considered dead
-    config.jobs.heartbeat_timeout_minutes = 3 * 60
-    # How often to check for dead workers
-    config.jobs.dead_worker_polling_interval_minutes = 60
   end
 end
