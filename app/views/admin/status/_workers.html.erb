@@ -1,0 +1,26 @@
+<% unless @workers.empty? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Identifier</th>
+        <th>PID</th>
+        <th>State</th>
+        <th>Memory</th>
+        <th>Started</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @workers.each do |worker| %>
+      <tr>
+        <td><%= worker.id %></td>
+        <td><%= worker.pid %></td>
+        <td><%= worker.state %></td>
+        <td><%= worker.memory %></td>
+        <td><%= worker.created_at.to_s(:short) %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info">No active workers found</div>
+<% end %>

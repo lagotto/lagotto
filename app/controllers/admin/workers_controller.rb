@@ -16,11 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Delayed::Worker.destroy_failed_jobs = true
-Delayed::Worker.sleep_delay = 5
-Delayed::Worker.max_attempts = 1
-Delayed::Worker.default_priority = 3
-Delayed::Worker.max_run_time = 90.minutes
-Delayed::Worker.read_ahead = 10
-Delayed::Worker.delay_jobs = !Rails.env.test?
-Delayed::Worker.logger = Logger.new(Rails.root.join('log', 'delayed_job.log'))
+class WorkersController < ApplicationController
+
+  respond_to :html
+
+  def index
+    @workers = Worker.all
+  end
+
+  def show
+    @worker = Worker.find(params[:id])
+  end
+end
