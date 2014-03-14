@@ -37,6 +37,16 @@ class Worker
     all.count
   end
 
+  def self.monitor
+    expected = (CONFIG[:workers] || 1).to_i
+    if count < expected
+      report = Report.find_or_create_by_name(:name => "missing_workers_report")
+      report.send_missing_workers_report
+    end
+    { expected: expected,
+      running: count }
+  end
+
   def initialize(file)
     name = File.basename(file).split(".")
     @id = name.length == 3 ? name[1] : "n/a"

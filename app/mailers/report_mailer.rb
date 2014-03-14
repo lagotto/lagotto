@@ -51,4 +51,10 @@ class ReportMailer < ActionMailer::Base
     @sources = Source.find(source_ids)
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Stale Source Report")
   end
+
+  def send_missing_workers_report(report)
+    return if report.users.empty?
+
+    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Missing Workers Report")
+  end
 end
