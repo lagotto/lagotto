@@ -19,7 +19,7 @@ script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake db:test:prepare
   - bundle exec rake spec SPEC_OPTS="--tag ~@not_teamcity"
-  - bundle exec rake cucumber SPEC_OPTS="--tags ~@not_teamcity"
+  - bundle exec rake cucumber -p ci"
 
 env:
   global:
