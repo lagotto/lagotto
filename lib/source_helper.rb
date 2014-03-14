@@ -23,6 +23,7 @@ require 'faraday_middleware'
 require 'faraday-cookie_jar'
 require 'typhoeus'
 require 'typhoeus/adapters/faraday'
+require 'uri'
 
 module SourceHelper
   DEFAULT_TIMEOUT = 60
@@ -153,22 +154,29 @@ module SourceHelper
     # 2. <meta property="og:url" />
     # 3. URL from header
 
-    body = Nokogiri::HTML(response.body)
+    body = Nokogiri::HTML(response.body, nil, 'utf-8')
     body_url = body.at('link[rel="canonical"]')['href'] if body.at('link[rel="canonical"]')
     if !body_url && body.at('meta[property="og:url"]')
       body_url = body.at('meta[property="og:url"]')['content']
     end
+    # remove percent encoding
+    body_url = CGI.unescape(body_url) if body_url
 
     url = response.env[:url].to_s
     if url
+      # remove percent encoding
+      url = CGI.unescape(url)
+
       # remove jsessionid used by J2EE servers
       url = url.gsub(/(.*);jsessionid=.*/,'\1')
       # remove parameter used by IEEE
       url = url.sub("reload=true&", "")
     end
+    # get relative URL
+    path = URI.split(url)[5]
 
     # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
-    if body_url.present? and body_url.casecmp(url) != 0
+    if body_url.present? and ![url, path].include?(body_url)
       raise Faraday::Error::ClientError, "Canonical URL mismatch: #{body_url}"
     end
 
