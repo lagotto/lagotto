@@ -187,8 +187,8 @@ Then /^I should see the "(.*?)" settings$/ do |parameter|
 end
 
 Then /^I should see that the source is "(.*?)"$/ do |status|
-  page.should have_content status
   page.driver.render("tmp/capybara/#{status}.png")
+  page.should have_content status
 end
 
 Then /^I should not see the "(.*?)" link in the menu bar$/ do |link_text|

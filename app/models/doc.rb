@@ -27,7 +27,7 @@ class Doc
   end
 
   def self.find(param)
-    name = all.detect { |doc| doc == "#{param}.md" } || raise(ActiveRecord::RecordNotFound)
+    name = all.detect { |doc| doc.downcase == "#{param.downcase}.md" } || raise(ActiveRecord::RecordNotFound)
     self.new(name)
   end
 

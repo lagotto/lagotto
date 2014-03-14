@@ -1,5 +1,5 @@
 <dt>Status</dt>
-<dd><%= state_label(@source.human_state_name).html_safe %></dd>
+<dd><%= h(@source.human_state_name) %></dd>
 <% unless @source.group.blank? %>
   <dt>Group</dt>
   <dd><%= h(@source.group.display_name) %></dd>
