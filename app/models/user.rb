@@ -18,7 +18,7 @@
 
 class User < ActiveRecord::Base
 
-  has_and_belongs_to_many :reports
+  has_and_belongs_to_many :reports, :order => "reports.interval DESC"
 
   before_save :ensure_authentication_token
   after_create :set_first_user

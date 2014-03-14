@@ -60,7 +60,7 @@ class Facebook < Source
   end
 
   def get_query_url(article, options={})
-    URI.escape(url % { access_token: access_token, query_url: article.canonical_url })
+    URI.escape(url % { access_token: access_token, query_url: article.canonical_url_escaped })
   end
 
   def get_config_fields

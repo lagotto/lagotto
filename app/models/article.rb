@@ -182,6 +182,10 @@ class Article < ActiveRecord::Base
     urls
   end
 
+  def canonical_url_escaped
+    CGI.escape(canonical_url)
+  end
+
   def title_escaped
     CGI.escape(title.to_str).gsub("+", "%20")
   end
