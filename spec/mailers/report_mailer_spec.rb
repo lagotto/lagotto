@@ -107,4 +107,24 @@ describe ReportMailer do
       body_html.should have_link('Go to admin dashboard', href: admin_alerts_url(:host => CONFIG[:hostname], :class => "SourceNotUpdatedError"))
     end
   end
+
+  describe "missing workers report" do
+    let(:report) { FactoryGirl.create(:missing_workers_report_with_admin_user) }
+    let(:mail) { ReportMailer.send_missing_workers_report(report) }
+
+    it "sends email" do
+      mail.subject.should eq("[ALM] Missing Workers Report")
+      mail.to.should eq([report.users.map(&:email).join(",")])
+      mail.from.should eq([CONFIG[:notification_email]])
+    end
+
+    it "renders the body" do
+      mail.body.encoded.should include("Some workers are missing")
+    end
+
+    it "provides a link to the admin dashboard" do
+      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html.should have_link('Go to admin dashboard', href: admin_root_url(:host => CONFIG[:hostname]))
+    end
+  end
 end

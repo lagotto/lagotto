@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -172,23 +174,10 @@ namespace :workers do
   desc "Monitor workers"
   task :monitor => :environment do
 
-    while true
-      puts "monitoring workers "
+    status = Worker.monitor
+    puts "#{status[:expected]} workers expected, #{status[:running]} workers running."
+    puts "Missing workers report sent." if status[:expected] > status[:running]
 
-      Worker.all.each do | worker |
-        begin
-          pid = IO.read("#{Rails.root}/tmp/pids/delayed_job.#{worker.identifier}.pid")
-          Process.getpgid(pid.to_i)
-          puts "#{worker.queue} #{worker.identifier} #{pid.to_i} running"
-        rescue
-          puts "ERROR #{worker.queue} #{worker.identifier} not running"
-          # TODO email which process is having an issue
-        end
-      end
-
-      # sleeps for 2 hours
-      sleep(7200)
-    end
   end
 
 end

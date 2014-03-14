@@ -51,6 +51,13 @@ FactoryGirl.define do
       description 'Reports when a source has not been updated'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
+
+    factory :missing_workers_report_with_admin_user do
+      name 'missing_workers_report'
+      display_name 'Missing Workers Report'
+      description 'Reports when workers are not running'
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
   end
 
   factory :retrieval_history do

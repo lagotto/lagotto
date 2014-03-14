@@ -54,7 +54,12 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         sleep(sleep_interval) if sleep_interval > 0
       end
     end
-
+  rescue Timeout::Error
+    Alert.create(:exception => "",
+                 :class_name => "Timeout::Error",
+                 :message => "DelayedJob timeout error for #{source.display_name}",
+                 :status => 408,
+                 :source_id => source.id)
   end
 
   def perform_get_data(rs)

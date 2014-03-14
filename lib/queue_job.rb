@@ -3,7 +3,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2014 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,13 +18,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'timeout'
+
 class QueueJob < Struct.new(:source_id)
 
   def perform
     source = Source.find(source_id)
     return 0 if source.inactive?
 
-    source.queue_stale_articles
+    Timeout.timeout(5.minutes) do
+      source.queue_stale_articles
+    end
+  rescue Timeout::Error
+    source = Source.find(source_id)
+    Alert.create(:exception => "",
+                 :class_name => "Timeout::Error",
+                 :message => "DelayedJob timeout error for #{source.display_name}",
+                 :status => 408,
+                 :source_id => source.id)
   end
 
   def error(job, e)

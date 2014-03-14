@@ -171,4 +171,8 @@ class Report < ActiveRecord::Base
   def send_stale_source_report(source_ids)
     ReportMailer.delay(queue: 'mailer', priority: 3).send_stale_source_report(self, source_ids)
   end
+
+  def send_missing_workers_report
+    ReportMailer.send_missing_workers_report(self)
+  end
 end
