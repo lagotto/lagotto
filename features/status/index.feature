@@ -25,4 +25,4 @@ Feature: View admin dashboard
 
     Scenario: CouchDB info
       When I go to the "Home" admin page
-      Then I should see that the CouchDB size is "5.5 kB"
+      Then I should see that the CouchDB size is "2.6 kB"
