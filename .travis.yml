@@ -17,7 +17,7 @@ before_script:
   - mysql -e 'create database alm_test'
 
 script:
-  - bundle exec rake db:test:prepare
+  - RAILS_ENV=test bundle exec rake db:migrate
   - bundle exec rspec --tag ~@not_teamcity
   - bundle exec cucumber --tags ~@not_teamcity
 
