@@ -557,16 +557,20 @@ class Source < ActiveRecord::Base
     ActiveRecord::Base.connection.execute sql
   end
 
+  def cache_timeout
+    30.seconds + (Article.count / 250).seconds
+  end
+
   private
 
   def expire_cache
     self.update_column(:cached_at, Time.zone.now)
     source_url = "http://localhost/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
-    get_json(source_url, { :timeout => 300 })
+    get_json(source_url, { :timeout => cache_timeout })
 
     Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
     status_url = "http://localhost/api/v5/status?api_key=#{CONFIG[:api_key]}"
-    get_json(status_url, { :timeout => 300 })
+    get_json(status_url, { :timeout => cache_timeout })
   end
 end
 
