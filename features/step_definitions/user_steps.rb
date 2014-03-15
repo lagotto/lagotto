@@ -96,7 +96,7 @@ end
 
 ### THEN ###
 Then /^I should see (\d+) user[s]?$/ do |number|
-  page.driver.render("tmp/capybara/users.png")
+  page.driver.render("tmp/capybara/users.png") if @wip
   page.should have_css('div.panel', :visible => true, :count => number.to_i)
 end
 
@@ -143,5 +143,5 @@ Then /^I should see the "(.*?)" role for user "(.*?)"$/ do |role, username|
   within("#user_#{user.id}") do
     page.should have_content role
   end
-  page.driver.render("tmp/capybara/#{role}_#{username}.png")
+  page.driver.render("tmp/capybara/#{role}_#{username}.png") if @wip
 end

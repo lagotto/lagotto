@@ -21,6 +21,6 @@ Then(/^I should see that we have (\d+) events$/) do |number|
 end
 
 Then(/^I should see that we have (\d+) user$/) do |number|
-  page.driver.render("tmp/capybara/CouchDB.png")
+  page.driver.render("tmp/capybara/CouchDB.png") if @wip
   page.has_css?('#users_count', :text => number).should be_true
 end

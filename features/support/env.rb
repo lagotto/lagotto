@@ -85,3 +85,11 @@ end
 After('@couchdb') do
   delete_alm_database
 end
+
+Before('@wip') do
+  @wip = true
+end
+
+After('@wip') do
+  @wip = false
+end
