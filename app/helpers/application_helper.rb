@@ -59,6 +59,10 @@ module ApplicationHelper
     end
   end
 
+  def number_hiding_zero(number)
+    (number > 0 ? number : "")
+  end
+
   def alerts
     %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end

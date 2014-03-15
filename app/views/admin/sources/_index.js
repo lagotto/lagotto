@@ -17,9 +17,6 @@ d3.json("/api/v5/sources?api_key=" + api_key, function(error, json) {
     item = data[i];
 
     // Jobs tab
-    d3.select("#queueing_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["queueing"]));
-    d3.select("#pending_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["pending"]));
-    d3.select("#working_count_" + item["name"]).html(number_with_delimiter(item["jobs"]["working"]));
     d3.select("#queued_count_" + item["name"]).html(number_with_delimiter(item["status"]["queued"]));
     d3.select("#stale_count_" + item["name"]).html(number_with_delimiter(item["status"]["stale"]));
 

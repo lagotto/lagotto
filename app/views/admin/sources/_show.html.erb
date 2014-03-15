@@ -9,8 +9,8 @@
   <tbody>
     <tr>
       <th>Jobs</th>
-      <td class="number" id="pending_count">&nbsp;</td>
-      <td class="number" id="working_count">&nbsp;</td>
+      <td class="number" id="pending_count"><%= number_hiding_zero(@source.pending_count) %></td>
+      <td class="number" id="working_count"><%= number_hiding_zero(@source.working_count) %></td>
     </tr>
     <tr>
       <th/>
