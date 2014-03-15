@@ -28,9 +28,7 @@
       <% unless group.sources.installed.empty? %>
         <h2 class="border-bottom"><%= h(group.display_name) %></h2>
         <% group.sources.installed.each do |source| %>
-          <h4 class="article">
-            <%= link_to h(source.display_name), source_path(source) %>
-          </h4>
+          <h4 class="source"><%= link_to h(source.display_name), source_path(source) %></h4>
           <p><%= h(source.description) if source.description %></p>
         <% end %>
       <% end %>
