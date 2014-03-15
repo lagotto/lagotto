@@ -10,7 +10,7 @@ end
 ### WHEN ###
 When /^I click on the "(.*?)" button$/ do |button_name|
   click_button button_name
-  page.driver.render("tmp/capybara/#{button_name}.png")
+  page.driver.render("tmp/capybara/#{button_name}.png") if @wip
 end
 
 When /^I click on the "(.*?)" link$/ do |link_name|
@@ -28,7 +28,7 @@ When /^I click on the "(.*?)" menu item of the Delete button of the first alert 
   within("#alert") do
     id = first('.accordion-toggle')[:id][5..-1]
     click_link "link_#{id}"
-    page.driver.render("tmp/capybara/#{menu_item}_alerts.png")
+    page.driver.render("tmp/capybara/#{menu_item}_alerts.png") if @wip
     within("#alert_#{id}") do
       click_link "#{id}-delete"
       click_link "#{id}-delete-#{scope}"
@@ -39,7 +39,7 @@ end
 ### THEN ###
 Then /^I should see (\d+) alerts?$/ do |number|
   sleep 5
-  page.driver.render("tmp/capybara/#{number}_alerts.png")
+  page.driver.render("tmp/capybara/#{number}_alerts.png") if @wip
   page.has_css?('.panel', :visible => true, :count => number.to_i).should be_true
 end
 
@@ -54,7 +54,7 @@ Then /^I should see the "(.*?)" error message$/ do |error|
 end
 
 Then /^I should not see the "(.*?)" error message$/ do |error|
-  page.driver.render("tmp/capybara/error.png")
+  page.driver.render("tmp/capybara/error.png") if @wip
   page.should_not have_content error
 end
 

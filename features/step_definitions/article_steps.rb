@@ -38,12 +38,12 @@ When /^I add an article with DOI "(.*?)", year "(.*?)", month "(.*?)", day "(.*?
   select month_name, :from => "article_month"
   select article.day, :from => "article_day"
   click_on 'Save'
-  page.driver.render("tmp/capybara/articles.png")
+  page.driver.render("tmp/capybara/articles.png") if @wip
 end
 
 When /^I go to the article$/ do
   visit article_path(@article)
-  page.driver.render("tmp/capybara/#{@article.doi}.png")
+  page.driver.render("tmp/capybara/#{@article.doi}.png") if @wip
 end
 
 When /^I go to the article with the DOI "(.*?)"$/ do |doi|
@@ -89,22 +89,22 @@ Then /^I should see a list of articles$/ do
 end
 
 Then /^I should see a list of (\d+) article[s]?$/ do |number|
-  page.driver.render("tmp/capybara/#{number}.png")
+  page.driver.render("tmp/capybara/#{number}.png") if @wip
   page.has_css?('h4.article', :visible => true, :count => number.to_i).should be_true
 end
 
 Then /^I should see the DOI "(.*?)" as a link$/ do |doi|
-  page.driver.render("tmp/capybara/#{doi}.png")
+  page.driver.render("tmp/capybara/#{doi}.png") if @wip
   page.has_link?(doi, :href => "http://dx.doi.org/#{doi}").should be_true
 end
 
 Then /^I should see the error message "(.*?)"$/ do |error|
-  page.driver.render("tmp/capybara/error.png")
+  page.driver.render("tmp/capybara/error.png") if @wip
   page.has_css?('span.has-error', :text => error).should be_true
 end
 
 Then /^I should see "(.*?)" with the "(.*?)" for the article$/ do |value, label|
-  page.driver.render("tmp/capybara/#{label}.png")
+  page.driver.render("tmp/capybara/#{label}.png") if @wip
   page.has_css?('dt', :text => label).should be_true
   case label
   when "Publication Date"

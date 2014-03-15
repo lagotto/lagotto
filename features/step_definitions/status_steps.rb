@@ -7,7 +7,9 @@ end
 
 ### THEN ###
 Then /^I should see that the CouchDB size is "(.*?)"$/ do |size|
-  page.has_css?('#couchdb_size', :text => size).should be_true
+  within("#couchdb_size") do
+    page.should have_content('kB')
+  end
 end
 
 Then(/^I should see that we have (\d+) articles$/) do |number|
@@ -19,6 +21,6 @@ Then(/^I should see that we have (\d+) events$/) do |number|
 end
 
 Then(/^I should see that we have (\d+) user$/) do |number|
-  page.driver.render("tmp/capybara/CouchDB.png")
+  page.driver.render("tmp/capybara/CouchDB.png") if @wip
   page.has_css?('#users_count', :text => number).should be_true
 end
