@@ -364,8 +364,12 @@ class Source < ActiveRecord::Base
     failed_queries > max_failed_queries
   end
 
+  def get_queued_job_count
+    Delayed::Job.count('id', :conditions => ["queue = ?", name])
+  end
+
   def check_for_queued_jobs
-    delayed_jobs.count > 0
+    get_queued_job_count > 0
   end
 
   def queueing_count
