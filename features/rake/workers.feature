@@ -3,10 +3,15 @@ Feature: Start and stop workers
 
   @slow_process @not_teamcity
   Scenario: Start all workers
-    When I run `bundle exec rake workers:start_all` interactively
+    When I run `bundle exec rake workers:start` interactively
     Then the exit status should be 0
 
   @slow_process @not_teamcity
   Scenario: Stop all workers
-    When I run `bundle exec rake workers:stop_all` interactively
+    When I run `bundle exec rake workers:stop` interactively
+    Then the exit status should be 0
+
+  @slow_process @not_teamcity
+  Scenario: Stop all workers
+    When I run `bundle exec rake workers:monitor` interactively
     Then the exit status should be 0
