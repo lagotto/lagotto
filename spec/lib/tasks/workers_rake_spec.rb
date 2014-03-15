@@ -35,6 +35,7 @@ describe "workers:monitor" do
 
   before do
     Worker.stop
+    @report = FactoryGirl.create(:missing_workers_report_with_admin_user)
   end
 
   after do
