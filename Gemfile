@@ -70,6 +70,7 @@ group :test do
   gem "minitest", "~> 4.4.0"
   gem "faye-websocket", "~> 0.4.7"
   gem "mocha", "~> 0.13.3", :require => false
+  gem "codeclimate-test-reporter", require: nil
 end
 
 group :test, :development do
