@@ -16,7 +16,7 @@
         <td><%= worker.pid %></td>
         <td><%= worker.state %></td>
         <td><%= worker.memory %></td>
-        <td><%= worker.created_at.to_s(:short) %></td>
+        <td><%= worker.created_at.to_s(:short) %> UTC</td>
       </tr>
     <% end %>
     </tbody>

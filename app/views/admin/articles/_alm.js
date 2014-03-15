@@ -25,7 +25,11 @@ function AlmViz(options) {
     var formatNumber_ = d3.format(",d");
 
     // extract publication date
-    var pub_date = d3.time.format.iso.parse(data[0]["publication_date"]);
+    // Construct date object from date parts, using "1" for missing day and month
+    var date_parts = data[0]["issued"]["date_parts"];
+    var len = date_parts.length;
+    while (date_parts.length < 3) date_parts.push(1);
+    var pub_date = new Date(date_parts);
 
     var vizDiv;
     // Get the Div where the viz should go (default to one with ID "alm')

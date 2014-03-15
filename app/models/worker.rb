@@ -102,7 +102,7 @@ class Worker
     @pid = IO.read(file).strip
     @state = state
     @memory = memory
-    @created_at = File.ctime(file)
+    @created_at = File.ctime(file).utc
   end
 
   def <=> other
