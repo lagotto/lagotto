@@ -7,7 +7,9 @@ end
 
 ### THEN ###
 Then /^I should see that the CouchDB size is "(.*?)"$/ do |size|
-  page.has_css?('#couchdb_size', :text => size).should be_true
+  within("#couchdb_size") do
+    page.should have_content('kB')
+  end
 end
 
 Then(/^I should see that we have (\d+) articles$/) do |number|
