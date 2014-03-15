@@ -40,6 +40,7 @@ d3.json(query, function(error, json) {
     article = data[i];
 
     d3.select("#results").append("h4")
+      .attr("class", "article")
       .append("a")
       .attr("href", function(d) { return "/articles/info:doi/" + article["doi"]; })
       .text(article["title"]);
