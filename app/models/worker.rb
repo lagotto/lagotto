@@ -86,7 +86,7 @@ class Worker
       Alert.create(:exception => "",
                    :class_name => "StandardError",
                    :message => message)
-      report = Report.find_or_create_by_name(:name => "missing_workers_report")
+      report = Report.find_by(name: "missing_workers_report")
       report.send_missing_workers_report
 
       # restart workers
