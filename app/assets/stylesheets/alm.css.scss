@@ -265,7 +265,7 @@ select.form-control.date { display: inline; }
 .form-group.has-error input, .form-group.has-error span.help-block, .has-error { color: $brand-danger; }
 .form-group.has-error input, .form-group.has-error textarea, .form-group.has-error select { border: 1px solid $brand-danger; }
 h1 img { vertical-align: 2px; }
-h5 { margin-bottom: 0; }
+h5, h4.article { margin-bottom: 0; }
 #results h4, #results p { margin-bottom: 0; }
 #results p { line-height: 1.33; }
 td h4 { margin-top: 0; }

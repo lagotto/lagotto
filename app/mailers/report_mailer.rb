@@ -55,6 +55,8 @@ class ReportMailer < ActionMailer::Base
   def send_missing_workers_report(report)
     return if report.users.empty?
 
+    @workers_count = Worker.count
+
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Missing Workers Report")
   end
 end
