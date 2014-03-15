@@ -11,8 +11,9 @@ d3.json("/api/v5/sources/" + name + "?api_key=" + api_key, function(error, json)
   data = json["data"];
 
   var formatFixed = d3.format(",.0f");
-  var formatTime = d3.time.format("%d %b %H:%M");
-  d3.select("#update_date").html(formatTime(d3.time.format.iso.parse(data["update_date"])));
+  var inputTime = d3.time.format.iso;
+  var formatTime = d3.time.format.utc("%d %b %H:%M UTC");
+  d3.select("#update_date").html(formatTime(inputTime.parse(data["update_date"])));
 
   // Summary table
   d3.select("#pending_count").html(number_with_delimiter(data["jobs"]["pending"]));
