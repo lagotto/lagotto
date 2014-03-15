@@ -95,6 +95,7 @@ describe "filter:all" do
       FactoryGirl.create(:mendeley)
       FactoryGirl.create(:api_response, source_id: @citeulike.id)
       FactoryGirl.create(:source_not_updated_error)
+      FactoryGirl.create(:stale_source_report_with_admin_user)
     end
 
     let(:output) { "Found 1 source not updated error" }

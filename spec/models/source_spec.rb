@@ -85,6 +85,8 @@ describe Source do
       end
 
       it 'should change to :disabled on :disable' do
+        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+
         source.disable
         source.should be_disabled
         source.run_at.should eq(Time.zone.now + source.disable_delay)
@@ -206,6 +208,8 @@ describe Source do
       end
 
       it "with disabled source" do
+        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+
         source.disable
         source.should be_disabled
         source.queue_all_articles.should == 0
@@ -287,6 +291,8 @@ describe Source do
       end
 
       it "with disabled source" do
+        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+
         source.disable
         Delayed::Job.stub(:enqueue).with(QueueJob.new(source.id), { queue: "#{source.name}-queue", run_at: Time.zone.now, priority: 0 })
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
@@ -305,6 +311,8 @@ describe Source do
       end
 
       it "with too many failed queries" do
+        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+
         FactoryGirl.create_list(:alert, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
         source.max_failed_queries = 5
         source.queue_stale_articles.should == 0
