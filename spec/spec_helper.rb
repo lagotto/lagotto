@@ -1,11 +1,17 @@
-require "codeclimate-test-reporter"
+ENV["RAILS_ENV"] = 'test'
+require 'codeclimate-test-reporter'
+require 'simplecov'
+
+formatters = [SimpleCov::Formatter::HTMLFormatter]
+formatters << CodeClimate::TestReporter::Formatter if ENV['CODECLIMATE_REPO_TOKEN']
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[*formatters]
+
 CodeClimate::TestReporter.configure do |config|
   config.logger.level = Logger::WARN
 end
-CodeClimate::TestReporter.start
 
-ENV["RAILS_ENV"] = 'test'
-require 'simplecov'
+SimpleCov.start 'rails'
+
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
