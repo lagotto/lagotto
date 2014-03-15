@@ -22,39 +22,25 @@ namespace :mailer do
 
   desc "Send error report"
   task :error_report => :environment do
-    report = Report.where(:name => "error_report").first
+    report = Report.find_by(name: "error_report")
     report.send_error_report
     puts "Error report sent to #{report.users.count} subscriber(s)"
   end
 
   desc "Send status report"
   task :status_report => :environment do
-    report = Report.where(:name => "status_report").first
+    report = Report.find_by(name: "status_report")
     report.send_status_report
     puts "Status report sent to #{report.users.count} subscriber(s)"
   end
 
   desc "Send article statistics report"
   task :article_statistics_report => :environment do
-    report = Report.where(:name => "article_statistics_report").first
+    report = Report.find_by(name: "article_statistics_report")
     report.send_article_statistics_report
     puts "Article statistics report sent to #{report.users.count} subscriber(s)"
   end
 
-  desc "Send stale source report"
-  task :stale_source_report => :environment do
-    report = Report.where(:name => "stale_source_report").first
-    report.send_stale_source_report
-    puts "Stale source report sent to #{report.users.count} subscriber(s)"
-  end
-
-  desc "Send missing workers report"
-  task :missing_workers_report => :environment do
-    report = Report.where(:name => "missing_workers_report").first
-    report.send_missing_workers_report
-    puts "Missing workers report sent to #{report.users.count} subscriber(s)"
-  end
-
   desc 'Send all scheduled mails'
-  task :all => [:environment, :error_report, :article_statistics_report, :status_report, :stale_source_report, :missing_workers_report]
+  task :all => [:environment, :error_report, :article_statistics_report, :status_report]
 end
