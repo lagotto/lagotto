@@ -37,9 +37,10 @@ class Doc
     if (md = file.match(/^(?<metadata>---\s*\n.*?\n?)^(---\s*$\n?)/m))
       content = md.post_match
       metadata = YAML.load(md[:metadata])
+      title = metadata["title"]
     end
 
     @content = content || "No content"
-    @title = metadata["title"] || "No title"
+    @title = title || "No title"
   end
 end
