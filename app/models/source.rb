@@ -138,7 +138,7 @@ class Source < ActiveRecord::Base
                    :message => "#{source.display_name} has exceeded maximum failed queries. Disabling the source.",
                    :source_id => source.id)
       source.add_queue(Time.zone.now + source.disable_delay)
-      report = Report.find_by(name: "disabled_source_report")
+      report = Report.find_by_name("disabled_source_report")
       report.send_disabled_source_report(source.id)
     end
 

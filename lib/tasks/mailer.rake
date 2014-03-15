@@ -22,21 +22,21 @@ namespace :mailer do
 
   desc "Send error report"
   task :error_report => :environment do
-    report = Report.find_by(name: "error_report")
+    report = Report.find_by_name("error_report")
     report.send_error_report
     puts "Error report sent to #{report.users.count} subscriber(s)"
   end
 
   desc "Send status report"
   task :status_report => :environment do
-    report = Report.find_by(name: "status_report")
+    report = Report.find_by_name("status_report")
     report.send_status_report
     puts "Status report sent to #{report.users.count} subscriber(s)"
   end
 
   desc "Send article statistics report"
   task :article_statistics_report => :environment do
-    report = Report.find_by(name: "article_statistics_report")
+    report = Report.find_by_name("article_statistics_report")
     report.send_article_statistics_report
     puts "Article statistics report sent to #{report.users.count} subscriber(s)"
   end
