@@ -18,6 +18,49 @@ describe Mendeley do
 
   let(:mendeley) { FactoryGirl.create(:mendeley) }
 
+  context "lookup access token" do
+    let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(mendeley.client_id, mendeley.secret) }
+
+    it "should look up access token if blank" do
+      mendeley.access_token = nil
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
+      stub_auth = stub_request(:post, mendeley.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials").to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
+      stub_uuid = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:status => [408])
+
+      mendeley.get_data(article, options = { :source_id => mendeley.id }).should be_nil
+      stub_auth.should have_been_requested
+      stub_uuid.should have_been_requested
+      stub.should have_been_requested
+    end
+
+    it "should look up access token if expired" do
+      mendeley.expires_at = Time.zone.now
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
+      stub_auth = stub_request(:post, mendeley.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials").to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
+      stub_uuid = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:status => [408])
+
+      mendeley.get_data(article, options = { :source_id => mendeley.id }).should be_nil
+      stub_auth.should have_been_requested
+      stub_uuid.should have_been_requested
+      stub.should have_been_requested
+    end
+
+    it "should report that there are no events if access token can't be retrieved" do
+      mendeley.access_token = nil
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
+      stub = stub_request(:post, mendeley.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials").to_return(:headers => { "Content-Type" => "application/json" }, :body => "Credentials are required to access this resource.", :status => 401)
+      mendeley.get_data(article, options = { :source_id => mendeley.id }).should be_nil
+      stub.should have_been_requested
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPUnauthorized")
+      alert.message.should eq("the server responded with status 401 for https://api-oauth2.mendeley.com/oauth/token")
+      alert.status.should == 401
+    end
+  end
+
   it "should report that there are no events if the doi, pmid, mendeley uuid and title are missing" do
     article_without_ids = FactoryGirl.build(:article, :doi => "", :pmid => "", :mendeley_uuid => "", :title => "")
     mendeley.get_data(article_without_ids).should eq({ :events => [], :event_count => nil })
@@ -84,7 +127,7 @@ describe Mendeley do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       stub_uuid = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
-      mendeley.get_data(article).should be_nil
+      mendeley.get_data(article).should eq({:events=>[], :event_count=>nil})
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -93,7 +136,7 @@ describe Mendeley do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       stub_uuid = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 404)
-      mendeley.get_data(article).should be_nil
+      mendeley.get_data(article).should eq({:events=>[], :event_count=>nil})
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -102,7 +145,7 @@ describe Mendeley do
       article = FactoryGirl.build(:article)
       stub_uuid = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_error.json'), :status => 404)
-      mendeley.get_data(article).should be_nil
+      mendeley.get_data(article).should eq({:events=>[], :event_count=>nil})
       stub.should have_been_requested
       Alert.count.should == 0
     end
