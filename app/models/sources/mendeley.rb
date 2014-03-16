@@ -82,7 +82,7 @@ class Mendeley < Source
                       :citations => nil,
                       :total => total }
 
-    related_articles = get_json(get_related_url(result['uuid']), options)
+    related_articles = get_json(get_related_url(result['uuid']), options.merge(bearer: access_token))
     result[:related] = related_articles['documents'] if related_articles
 
     { :events => result,
@@ -97,18 +97,18 @@ class Mendeley < Source
     # Only use uuid if we also get mendeley_url, otherwise the uuid is broken and we return nil
 
     unless article.pmid.blank?
-      result = get_json(get_query_url(article, "pmid"), options)
+      result = get_json(get_query_url(article, "pmid"), options.merge(bearer: access_token))
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
     end
 
     unless article.doi.blank?
-      result = get_json(get_query_url(article, "doi"), options)
+      result = get_json(get_query_url(article, "doi"), options.merge(bearer: access_token))
       return result['uuid'] if result.is_a?(Hash) and result['mendeley_url']
     end
 
     # search by title if we can't get the uuid using the pmid or doi
     unless article.title.blank?
-      results = get_json(get_query_url(article, "title"), options)
+      results = get_json(get_query_url(article, "title"), options.merge(bearer: access_token))
       if results.is_a?(Hash) and results['documents']
         documents = results["documents"].select { |document| document["doi"] == article.doi }
         return documents[0]['uuid'] if documents and documents.length == 1 and documents[0]['mendeley_url']
@@ -137,19 +137,20 @@ class Mendeley < Source
   end
 
   def get_access_token(options={})
-    exp_time = expires_at.to_time.utc
 
     # Check whether access token is valid for at least another 5 minutes
-    return true if access_token.present? && Time.now.utc + 5.minutes < exp_time
+    return true if access_token.present? && (Time.now.utc + 5.minutes < expires_at.to_time.utc)
 
     # Otherwise get new access token
     result = post_json(authentication_url, options.merge(:username => client_id,
                                                          :password => secret,
-                                                         :data => "grant_type=client_credentials"))
+                                                         :data => "grant_type=client_credentials",
+                                                         :headers => { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
+
     if result.present? && result["access_token"] && result["expires_in"]
-      expires_at = exp_time.advance(seconds: result["expires_in"]).to_s
-      access_token = result["access_token"]
-      self.save
+      config.expires_at = Time.now.utc + result["expires_in"].seconds
+      config.access_token = result["access_token"]
+      save
     else
       false
     end

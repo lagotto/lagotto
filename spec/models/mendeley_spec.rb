@@ -21,6 +21,17 @@ describe Mendeley do
   context "lookup access token" do
     let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(mendeley.client_id, mendeley.secret) }
 
+    it "should make the right API call" do
+      Time.stub(:now).and_return(Time.mktime(2013,9,5))
+      mendeley.access_token = nil
+      mendeley.expires_at = Time.now
+      stub = stub_request(:post, mendeley.authentication_url).with(:body => "grant_type=client_credentials", :headers => { :authorization => auth }).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
+      mendeley.get_access_token.should be_true
+      stub.should have_been_requested
+      mendeley.access_token.should eq("MSwxMzk0OTg1MDcyMDk0LCwxOCwsLElEeF9XU256OWgzMDNlMmc4V0JaVkMyVnFtTQ")
+      mendeley.expires_at.should eq(Time.now + 3600.seconds)
+    end
+
     it "should look up access token if blank" do
       mendeley.access_token = nil
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
