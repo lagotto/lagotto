@@ -250,6 +250,14 @@ module SourceHelper
       if error.response.blank? && error.response[:body].blank?
         nil
       elsif options[:doi_lookup]
+        # we raise an error if a DOI can't be resolved
+        # This is different from other 404 errors
+        Alert.create(exception: error.exception,
+                     class_name: error.class.to_s,
+                     message: "DOI could not be resolved",
+                     details: error.response[:body],
+                     status: error.response[:status],
+                     target_url: url)
         nil
       elsif options[:json]
         error.response[:body]
