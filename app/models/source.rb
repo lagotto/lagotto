@@ -382,7 +382,7 @@ class Source < ActiveRecord::Base
 
   def check_for_available_workers
     # limit the number of workers per source
-    workers > working_count
+    workers >= working_count
   end
 
   def pending_count

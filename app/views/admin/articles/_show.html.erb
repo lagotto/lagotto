@@ -82,30 +82,24 @@
     </div>
   <% end %>
 
-  <% if @article.retrieval_statuses.sum(:event_count) > 0 %>
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
-      <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
-      <% if can? :read, Alert %>
-        <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
-      <% end %>
-    </ul>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
+    <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
+    <% if can? :read, Alert %>
+      <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
+    <% end %>
+  </ul>
 
-    <div class="tab-content">
-      <div class="tab-pane active" id="metrics">
-        <div class="text-muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
-        <%= javascript_tag do -%>
-          <%= render :partial => 'admin/articles/alm', formats: :js %>
-        <% end %>
-      </div>
-      <div class="tab-pane" id="more">
-        <%= render :partial => 'admin/articles/more' %>
-      </div>
-      <div class="tab-pane" id="alert">
-        <%= render :partial => 'admin/articles/alert' %>
-      </div>
+  <div class="tab-content">
+    <div class="tab-pane active" id="metrics">
+      <%= render :partial => 'admin/articles/metrics' %>
+
     </div>
-  <% else %>
-    <div class="alert alert-info">No sources have cited this article</div>
-  <% end %>
+    <div class="tab-pane" id="more">
+      <%= render :partial => 'admin/articles/more' %>
+    </div>
+    <div class="tab-pane" id="alert">
+      <%= render :partial => 'admin/articles/alert' %>
+    </div>
+  </div>
 <% end %>

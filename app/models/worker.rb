@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -23,18 +25,22 @@ class Worker
   include Comparable
   include Enumerable
 
-  attr_reader :id, :pid, :state, :memory, :created_at
+  attr_reader :id, :pid, :state, :memory, :queue, :locked_at, :created_at
+
+  def self.files
+    Dir[Rails.root.join("tmp/pids/delayed_job*pid")]
+  end
+
+  def self.count
+    files.count
+  end
 
   def self.all
-    Dir[Rails.root.join("tmp/pids/delayed_job*pid")].map { |file| Worker.new(file) }
+    files.map { |file| Worker.new(file) }
   end
 
   def self.find(param)
     all.detect { |f| f.id == param } || raise(ActiveRecord::RecordNotFound)
-  end
-
-  def self.count
-    all.count
   end
 
   def self.start
@@ -100,8 +106,10 @@ class Worker
     name = File.basename(file).split(".")
     @id = name.length == 3 ? name[1] : "n/a"
     @pid = IO.read(file).strip
-    @state = state
     @memory = memory
+    @state = state
+    @queue = queue
+    @locked_at = locked_at
     @created_at = File.ctime(file).utc
   end
 
@@ -133,5 +141,17 @@ class Worker
 
   def memory
     proc["VmRSS"] ? proc["VmRSS"].strip : nil
+  end
+
+  def job
+    DelayedJob.where("right(locked_by,?) = ?", @pid.length, @pid).first || OpenStruct.new(queue: nil, run_at: nil)
+  end
+
+  def queue
+    job.queue
+  end
+
+  def locked_at
+    job.locked_at
   end
 end

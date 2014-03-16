@@ -49,7 +49,7 @@ $body-bg:               white;
 $text-color:            $brand-primary;
 
 $link-color:            $peter-river;
-$link-hover-color:      $peter-river;
+$link-hover-color:      mix($peter-river, black, 85%);
 
 $hr-border:             $gray-light;
 
@@ -244,6 +244,7 @@ body { padding-top: 60px; padding-bottom: 20px; }
 .btn-link { color: $navbar-inverse-link-color; }
 .btn-link:hover, .btn-link:focus, .btn-link:active { color: $navbar-inverse-link-hover-color; text-decoration: none; }
 .configuration-edit { margin-bottom: 1em; }
+a { text-decoration: none; }
 
 .table .number { text-align: right; width: 180px;}
 .table .name { width: 300px;}
@@ -272,11 +273,6 @@ td h4 { margin-top: 0; }
 div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left: auto; margin-right: auto; }
 //dt, dd { line-height: 1.1; }
 .border-bottom { border-bottom: 1px solid #eee; }
-.sidebar-nav-fixed {
-    padding: 9px 0;
-    position:relative;
-    top:50px;
-}
 .alert-inner { min-height: 120px; }
 
 .markdown pre { font-size: 0.75em; }

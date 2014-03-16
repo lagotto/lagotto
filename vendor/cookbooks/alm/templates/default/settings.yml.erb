@@ -9,6 +9,7 @@ defaults: &defaults
   cas_login_url: /cas/login
   cas_logout_url: /cas/logout
   cas_service_validate_url: /cas/serviceValidate
+  workers: <%= node[:alm][:workers] %>
   couchdb_url: http://<%= node[:alm][:host] %>:<%= node[:couch_db][:config][:httpd][:port] %>/<%= node[:alm][:name] %>/
   doi_prefix: <%= node[:alm][:doi_prefix] %>
   uid: <%= node[:alm][:uid] %>
@@ -29,6 +30,7 @@ test:
   cas_login_url: /cas/login
   cas_logout_url: /cas/logout
   cas_service_validate_url: /cas/serviceValidate
+  workers: 1
   couchdb_url: http://<%= node[:alm][:host] %>:<%= node[:couch_db][:config][:httpd][:port] %>/<%= node[:alm][:name] %>_test/
   doi_prefix: 10.1371
 

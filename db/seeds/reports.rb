@@ -3,6 +3,9 @@
 error_report = Report.find_or_create_by_name(:name => "error_report",
   :display_name => "Error Report", :description => "Reports error summary",
   :interval => 1.day, :private => true)
+stale_source_report = Report.find_or_create_by_name(:name => "stale_source_report",
+  :display_name => "Stale Source Report",
+  :description => "Reports when a source has not been updated", :interval => 1.day, :private => true)
 status_report = Report.find_or_create_by_name(:name => "status_report",
   :display_name => "Status Report", :description => "Reports application status",
   :interval => 1.week, :private => true)
@@ -12,9 +15,6 @@ article_statistics_report = Report.find_or_create_by_name(:name => "article_stat
 disabled_source_report = Report.find_or_create_by_name(:name => "disabled_source_report",
   :display_name => "Disabled Source Report",
   :description => "Reports when a source has been disabled", :interval => 0, :private => true)
-stale_source_report = Report.find_or_create_by_name(:name => "stale_source_report",
-  :display_name => "Stale Source Report",
-  :description => "Reports when a source has not been updated", :interval => 1.day, :private => true)
-missing_worker_report = Report.find_or_create_by_name(:name => "missing_worker_report",
-  :display_name => "Missing Worker Report",
+missing_workers_report = Report.find_or_create_by_name(:name => "missing_workers_report",
+  :display_name => "Missing Workers Report",
   :description => "Reports when workers are not running", :interval => 0, :private => true)
