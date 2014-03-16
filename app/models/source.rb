@@ -380,9 +380,9 @@ class Source < ActiveRecord::Base
     delayed_jobs.count(:locked_at)
   end
 
-  def check_for_running_jobs
+  def check_for_available_workers
     # limit the number of workers per source
-    working_count >= workers
+    workers > working_count
   end
 
   def pending_count

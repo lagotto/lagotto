@@ -36,6 +36,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
     return 0 unless source.working?
 
+    # Check maximal number of workers we can use
+    return 0 unless source.check_for_available_workers
+
     Timeout.timeout(Delayed::Worker.max_run_time) do
 
       rs_ids.each do | rs_id |
