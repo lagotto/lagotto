@@ -37,12 +37,11 @@ class Mendeley < Source
   def get_data(article, options={})
 
     # First, we need to have the Mendeley uuid for this article.
-    # Get it if we don't have it, and proceed only if we do.
-    if article.mendeley_uuid.blank?
-      mendeley_uuid = get_mendeley_uuid(article, options)
-      article.update_attributes(:mendeley_uuid => mendeley_uuid) unless mendeley_uuid.blank?
-      return  { :events => [], :event_count => nil } if article.mendeley_uuid.blank?
-    end
+    # The Mendeley uuid is not persistent, so we need to get it every time
+    mendeley_uuid = get_mendeley_uuid(article, options)
+    return  { :events => [], :event_count => nil } if mendeley_uuid.blank?
+
+    article.update_attributes(:mendeley_uuid => mendeley_uuid)
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
