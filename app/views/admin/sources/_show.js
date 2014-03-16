@@ -16,9 +16,6 @@ d3.json("/api/v5/sources/" + name + "?api_key=" + api_key, function(error, json)
   d3.select("#update_date").html(formatTime(inputTime.parse(data["update_date"])));
 
   // Summary table
-  d3.select("#pending_count").html(number_with_delimiter(data["jobs"]["pending"]));
-  d3.select("#working_count").html(number_with_delimiter(data["jobs"]["working"]));
-
   d3.select("#response_count").html(number_with_delimiter(data["responses"]["count"]));
   if(data["error_count"] > 0) {
     d3.select("#error_count").html("<a href='/admin/alerts?source=" + name + "'>" + formatFixed(data["error_count"]) + "</a>");

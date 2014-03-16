@@ -372,17 +372,21 @@ class Source < ActiveRecord::Base
     get_queued_job_count > 0
   end
 
-  def get_queueing_job_count
+  def queueing_count
     Delayed::Job.count('id', :conditions => ["queue = ?", "#{name}-queue"])
   end
 
-  def get_running_job_count
-    Delayed::Job.count('id', :conditions => ["queue = ? AND 'locked_at IS NOT NULL'", name ])
+  def working_count
+    delayed_jobs.count(:locked_at)
   end
 
-  def check_for_running_jobs
+  def check_for_available_workers
     # limit the number of workers per source
-    get_running_job_count >= workers
+    workers > working_count
+  end
+
+  def pending_count
+    delayed_jobs.count - working_count
   end
 
   def schedule_at

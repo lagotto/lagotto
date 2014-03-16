@@ -54,6 +54,10 @@ module ApplicationHelper
     end
   end
 
+  def number_hiding_zero(number)
+    (number > 0 ? number : "")
+  end
+
   def article_statistics_report_path
     path = "/public/files/alm_report.zip"
     if File.exist?(Rails.root + path)
