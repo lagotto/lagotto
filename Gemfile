@@ -26,7 +26,6 @@ gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.5.4"
 gem 'rubyzip',  "~> 1.1", require: 'zip'
 
-gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 3.2.2"
 #gem "omniauth-persona"
 gem "omniauth-cas", "~> 1.0.4"
@@ -71,7 +70,6 @@ group :test do
   gem "minitest", "~> 4.4.0"
   gem "faye-websocket", "~> 0.4.7"
   gem "mocha", "~> 0.13.3", :require => false
-  gem "codeclimate-test-reporter", require: nil
 end
 
 group :test, :development do
