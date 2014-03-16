@@ -1,11 +1,4 @@
 ENV["RAILS_ENV"] = 'test'
-require 'codeclimate-test-reporter'
-
-CodeClimate::TestReporter.configure do |config|
-  config.logger.level = Logger::WARN
-end
-
-CodeClimate::TestReporter.start
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
