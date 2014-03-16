@@ -272,7 +272,10 @@ FactoryGirl.define do
     name "mendeley"
     display_name "Mendeley"
     state_event "activate"
+    client_id "EXAMPLE"
+    secret "EXAMPLE"
     access_token "EXAMPLE"
+    expires_at { Time.zone.now + 1.hour }
 
     group
 

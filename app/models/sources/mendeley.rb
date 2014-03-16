@@ -36,54 +36,59 @@ class Mendeley < Source
 
   def get_data(article, options={})
 
-    # First, we need to have the Mendeley uuid for this article.
-    # Get it if we don't have it, and proceed only if we do.
-    if article.mendeley_uuid.blank?
-      mendeley_uuid = get_mendeley_uuid(article, options)
-      article.update_attributes(:mendeley_uuid => mendeley_uuid) unless mendeley_uuid.blank?
-      return  { :events => [], :event_count => nil } if article.mendeley_uuid.blank?
-    end
+    # First check that we have a valid access token
+    return nil unless get_access_token
+
+    # We then need to have the Mendeley uuid for this article.
+    # The Mendeley uuid is not persistent, so we need to get it every time
+    mendeley_uuid = get_mendeley_uuid(article, options)
+    return  { :events => [], :event_count => nil } if mendeley_uuid.blank?
+
+    article.update_attributes(:mendeley_uuid => mendeley_uuid)
 
     query_url = get_query_url(article)
     result = get_json(query_url, options.merge(bearer: access_token))
+
     # When Mendeley doesn't return a proper API response it can return
     # - a 404 status and error hash
     # - an empty array
     # - an incomplete hash with just the Mendeley uuid
     # We should handle all 3 cases without errors and ignore the result
 
-    if result.blank? or !result['mendeley_url']
-      nil
-    else
-      # remove "mendeley_authors" key, as it is not needed and creates problems in XML: "mendeley_authors" => {"4712245473"=>5860673}
-      result.except!("mendeley_authors")
+    # an error has occured
+    return nil if result.blank?
 
-      events_url = result['mendeley_url']
+    # empty array or incomplete hash
+    return  { :events => [], :event_count => nil } if !result['mendeley_url']
 
-      # event count is the reader and group numbers combined
-      total = 0
-      readers = result['stats']['readers'] unless result['stats'].nil?
-      total += readers unless readers.nil?
+    # remove "mendeley_authors" key, as it is not needed and creates problems in XML: "mendeley_authors" => {"4712245473"=>5860673}
+    result.except!("mendeley_authors")
 
-      groups = result['groups']
-      total += groups.length unless groups.nil?
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => readers.nil? ? 0 : readers,
-                        :groups => groups.nil? ? 0 : groups.length,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => nil,
-                        :total => total }
+    events_url = result['mendeley_url']
 
-      related_articles = get_json(get_related_url(result['uuid']), options.merge(bearer: access_token))
-      result[:related] = related_articles['documents'] if related_articles
+    # event count is the reader and group numbers combined
+    total = 0
+    readers = result['stats']['readers'] unless result['stats'].nil?
+    total += readers unless readers.nil?
 
-      { :events => result,
-        :events_url => events_url,
-        :event_count => total,
-        :event_metrics => event_metrics }
-    end
+    groups = result['groups']
+    total += groups.length unless groups.nil?
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => readers.nil? ? 0 : readers,
+                      :groups => groups.nil? ? 0 : groups.length,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => nil,
+                      :total => total }
+
+    related_articles = get_json(get_related_url(result['uuid']), options.merge(bearer: access_token))
+    result[:related] = related_articles['documents'] if related_articles
+
+    { :events => result,
+      :events_url => events_url,
+      :event_count => total,
+      :event_metrics => event_metrics }
   end
 
   def get_mendeley_uuid(article, options={})
@@ -117,34 +122,58 @@ class Mendeley < Source
   def get_query_url(article, id_type = nil)
     case id_type
     when nil
-      url % { :id => article.mendeley_uuid }
+      url % { :id => article.mendeley_uuid, :api_key => api_key }
     when "doi"
-      url_with_type % { :id => CGI.escape(article.doi_escaped), :doc_type => id_type }
+      url_with_type % { :id => CGI.escape(article.doi_escaped), :doc_type => id_type, :api_key => api_key }
     when "pmid"
-      url_with_type % { :id => article.pmid, :doc_type => id_type }
+      url_with_type % { :id => article.pmid, :doc_type => id_type, :api_key => api_key }
     when "title"
-      url_with_title % { :title => CGI.escape("title:#{article.title}") }
+      url_with_title % { :title => CGI.escape("title:#{article.title}"), :api_key => api_key }
     end
   end
 
   def get_related_url(uuid)
-    related_articles_url % { :id => uuid }
+    related_articles_url % { :id => uuid, :api_key => api_key}
+  end
+
+  def get_access_token(options={})
+
+    # Check whether access token is valid for at least another 5 minutes
+    return true if access_token.present? && (Time.now.utc + 5.minutes < expires_at.to_time.utc)
+
+    # Otherwise get new access token
+    result = post_json(authentication_url, options.merge(:username => client_id,
+                                                         :password => secret,
+                                                         :data => "grant_type=client_credentials",
+                                                         :headers => { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
+
+    if result.present? && result["access_token"] && result["expires_in"]
+      config.expires_at = Time.now.utc + result["expires_in"].seconds
+      config.access_token = result["access_token"]
+      save
+    else
+      false
+    end
   end
 
   def get_config_fields
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
      {:field_name => "url_with_type", :field_type => "text_area", :size => "90x2"},
      {:field_name => "url_with_title", :field_type => "text_area", :size => "90x2"},
+     {:field_name => "authentication_url", :field_type => "text_area", :size => "90x2"},
      {:field_name => "related_articles_url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "access_token", :field_type => "text_field"}]
+     {:field_name => "client_id", :field_type => "text_field"},
+     {:field_name => "secret", :field_type => "text_field"},
+     {:field_name => "access_token", :field_type => "text_field"},
+     {:field_name => "expires_at", :field_type => "hidden_field"}]
   end
 
   def url
-    config.url || "http://api.mendeley.com/oapi/documents/details/%{id}/"
+    config.url || "http://api-oauth2.mendeley.com/oapi/documents/details/%{id}"
   end
 
   def url_with_type
-    config.url_with_type || "http://api.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}"
+    config.url_with_type || "http://api-oauth2.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}"
   end
 
   def url_with_type=(value)
@@ -152,7 +181,7 @@ class Mendeley < Source
   end
 
   def url_with_title
-    config.url_with_title || "http://api.mendeley.com/oapi/documents/search/title:%{title}/?items=10"
+    config.url_with_title || "http://api-oauth2.mendeley.com/oapi/documents/search/title:%{title}/?items=10"
   end
 
   def url_with_title=(value)
@@ -160,11 +189,43 @@ class Mendeley < Source
   end
 
   def related_articles_url
-    config.related_articles_url || "http://api.mendeley.com/oapi/documents/related/%{id}"
+    config.related_articles_url || "http://api-oauth2.mendeley.com/oapi/documents/related/%{id}"
   end
 
   def related_articles_url=(value)
     config.related_articles_url = value
+  end
+
+  def authentication_url
+    config.authentication_url || "https://api-oauth2.mendeley.com/oauth/token"
+  end
+
+  def authentication_url=(value)
+    config.authentication_url = value
+  end
+
+  def client_id
+    config.client_id
+  end
+
+  def client_id=(value)
+    config.client_id = value
+  end
+
+  def secret
+    config.secret
+  end
+
+  def secret=(value)
+    config.secret = value
+  end
+
+  def expires_at
+    config.expires_at || "1970-01-01"
+  end
+
+  def expires_at=(value)
+    config.expires_at = value
   end
 
 end

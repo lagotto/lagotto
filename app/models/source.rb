@@ -298,6 +298,11 @@ class Source < ActiveRecord::Base
   # Custom validations that are triggered in state machine
   def validate_config_fields
     config_fields.each do |field|
+
+      # Some fields can be blank
+      next if name == "crossref" && field == :password
+      next if name == "mendeley" && field == :access_token
+
       errors.add(field, "can't be blank") if send(field).blank?
     end
   end
