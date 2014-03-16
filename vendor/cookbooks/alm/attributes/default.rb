@@ -13,6 +13,7 @@ default[:alm][:secret] = nil
 default[:alm][:cas_url] = nil
 default[:alm][:user] = "vagrant"
 default[:alm][:concurrency] = 1
+default[:alm][:workers] = 3
 default[:alm][:counter] = { url: nil }
 default[:alm][:mendeley] = { api_key: nil }
 default[:alm][:pmc] = { url: nil, journals: nil, username: nil, password: nil }
