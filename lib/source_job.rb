@@ -126,7 +126,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         # keep track of history documents
         # by storing their id and event count
         previous_data = get_alm_data("#{rs.source.name}:#{rs.article.doi_escaped}")
-        history = previous_data[:history].presence || []
+        history = previous_data["history"] || []
         history << { :id => "#{rs.source.name}:#{rs.article.doi_escaped}:#{retrieved_at}",
                      :event_count => event_count }
 

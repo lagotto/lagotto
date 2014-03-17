@@ -24,7 +24,7 @@ class RetrievalStatus < ActiveRecord::Base
   before_destroy :delete_couchdb_document
 
   serialize :event_metrics
-  serialize :other
+  serialize :other, OpenStruct
 
   delegate :name, :to => :source
   delegate :display_name, :to => :source
@@ -67,10 +67,10 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def events
-    unless data.blank?
-      data["events"]
-    else
+    if data.blank? || data["error"]
       []
+    else
+      data["events"]
     end
   end
 

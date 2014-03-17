@@ -60,12 +60,6 @@ FactoryGirl.define do
     end
   end
 
-  factory :retrieval_history do
-    retrieved_at { Time.zone.today - 1.month }
-    event_count { retrieval_status.event_count }
-    status { event_count > 0 ? "SUCCESS" : "ERROR" }
-  end
-
   factory :citeulike, aliases: [:source], class: Citeulike do
     type "Citeulike"
     name "citeulike"
