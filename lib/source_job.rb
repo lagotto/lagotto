@@ -172,16 +172,20 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     end
   end
 
+  def success(job)
+    #reset the queued_at value, but not if we only postponed processing the job
+    source = Source.find(source_id)
+
+    if source.working? && source.check_for_available_workers
+      RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
+    end
+
+    source.stop_working unless source.get_queued_job_count > 1
+  end
+
   def error(job, e)
     source = Source.find(source_id)
     Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
-  end
-
-  def after(job)
-    #reset the queued_at value
-    source = Source.find(source_id)
-    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] ) if source.working?
-    source.stop_working unless source.get_queued_job_count > 1
   end
 
 end
