@@ -139,7 +139,7 @@ class Mendeley < Source
   def get_access_token(options={})
 
     # Check whether access token is valid for at least another 5 minutes
-    return true if access_token.present? && (Time.now.utc + 5.minutes < expires_at.to_time.utc)
+    return true if access_token.present? && (Time.zone.now + 5.minutes < expires_at.to_time.utc)
 
     # Otherwise get new access token
     result = post_json(authentication_url, options.merge(:username => client_id,
@@ -148,7 +148,7 @@ class Mendeley < Source
                                                          :headers => { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
 
     if result.present? && result["access_token"] && result["expires_in"]
-      config.expires_at = Time.now.utc + result["expires_in"].seconds
+      config.expires_at = Time.zone.now + result["expires_in"].seconds
       config.access_token = result["access_token"]
       save
     else
