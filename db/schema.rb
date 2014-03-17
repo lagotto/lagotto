@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140216130343) do
+ActiveRecord::Schema.define(:version => 20140317135852) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -54,13 +54,13 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
     t.integer  "article_id"
     t.integer  "source_id"
     t.integer  "retrieval_status_id"
-    t.integer  "retrieval_history_id"
     t.integer  "event_count"
     t.integer  "previous_count"
     t.float    "duration"
     t.datetime "created_at"
     t.integer  "update_interval"
-    t.boolean  "unresolved",           :default => true
+    t.boolean  "unresolved",          :default => true
+    t.boolean  "skipped",             :default => false
   end
 
   add_index "api_responses", ["created_at"], :name => "index_api_responses_created_at"
@@ -140,29 +140,12 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
   add_index "reports_users", ["report_id", "user_id"], :name => "index_reports_users_on_report_id_and_user_id"
   add_index "reports_users", ["user_id"], :name => "index_reports_users_on_user_id"
 
-  create_table "retrieval_histories", :force => true do |t|
-    t.integer  "retrieval_status_id",                :null => false
-    t.integer  "article_id",                         :null => false
-    t.integer  "source_id",                          :null => false
-    t.datetime "retrieved_at"
-    t.string   "status"
-    t.string   "msg"
-    t.integer  "event_count",         :default => 0, :null => false
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
-  end
-
-  add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
-  add_index "retrieval_histories", ["source_id", "event_count"], :name => "index_retrieval_histories_on_source_id_and_event_count"
-  add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
-
   create_table "retrieval_statuses", :force => true do |t|
     t.integer  "article_id",                                       :null => false
     t.integer  "source_id",                                        :null => false
     t.datetime "queued_at"
     t.datetime "retrieved_at",  :default => '1970-01-01 00:00:00', :null => false
     t.integer  "event_count",   :default => 0,                     :null => false
-    t.string   "data_rev"
     t.datetime "created_at",                                       :null => false
     t.datetime "updated_at",                                       :null => false
     t.datetime "scheduled_at"

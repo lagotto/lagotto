@@ -20,7 +20,6 @@ class RetrievalStatus < ActiveRecord::Base
 
   belongs_to :article, :touch => true
   belongs_to :source
-  has_many :retrieval_histories, :dependent => :destroy
 
   before_destroy :delete_couchdb_document
 
@@ -46,6 +45,17 @@ class RetrievalStatus < ActiveRecord::Base
 
   scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
   scope :by_name, lambda { |source| includes(:source).where("sources.name = ?", source) }
+
+  # This is needed to calculate and display the table size
+  def self.table_status
+    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
+     sql = "SHOW TABLE STATUS LIKE 'retrieval_statuses'"
+    else
+      sql = "SELECT * FROM pg_class WHERE oid = 'public.retrieval_statuses'::regclass"
+    end
+    table_status = ActiveRecord::Base.connection.select_all(sql).first
+    Hash[table_status.map {|k, v| [k.to_s.underscore, v] }]
+  end
 
   def data
     if event_count > 0

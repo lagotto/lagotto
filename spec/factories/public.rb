@@ -105,15 +105,6 @@ FactoryGirl.define do
     trait(:with_twitter_search) { association :source, factory: :twitter_search }
     trait(:with_article_published_today) { association :article, factory: :article_published_today }
 
-    before(:create) do |retrieval_status|
-      FactoryGirl.create(:retrieval_history,
-                          retrieved_at: Time.zone.today - 2.years + 1.day,
-                          event_count: 50,
-                          retrieval_status: retrieval_status,
-                          article: retrieval_status.article,
-                          source: retrieval_status.source)
-    end
-
     initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
   end
 

@@ -337,7 +337,6 @@ FactoryGirl.define do
     update_interval 7
     unresolved 1
     source_id 1
-    retrieval_history_id 1
   end
 
   factory :review do
