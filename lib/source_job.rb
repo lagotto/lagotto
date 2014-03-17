@@ -112,7 +112,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       return { event_count: nil, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
     end
 
-    retrieved_at = Time.zone.now
+    retrieved_at = Time.zone.now.utc.iso8601
 
     # SKIPPED
     if event_count.nil?
@@ -126,13 +126,22 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                                    :source_id => rs.source_id)
       # SUCCESS
       if event_count > 0
+        # get the previous data from couchdb
+        # keep track of history documents
+        # by storing their id and event count
+        previous_data = get_alm_data("#{rs.source.name}:#{rs.article.doi_escaped}")
+        history = previous_data[:history].presence || []
+        history << { :id => "#{rs.source.name}:#{rs.article.doi_escaped}:#{retrieved_at}",
+                     :event_count => event_count }
+
         data = { :doi => rs.article.doi,
                  :retrieved_at => retrieved_at,
                  :source => rs.source.name,
                  :events => events,
                  :events_url => events_url,
                  :event_metrics => event_metrics,
-                 :doc_type => "current" }
+                 :doc_type => "current",
+                 :history => history }
 
         if attachment.present? && attachment[:filename].present? && attachment[:content_type].present? && attachment[:data].present?
           data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
@@ -149,9 +158,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         # save the data to couchdb
         rs_rev = save_alm_data("#{rs.source.name}:#{rs.article.doi_escaped}", data: data.clone, source_id: rs.source_id)
 
-        data.delete(:_attachments)
+        data.except!(:_attachments)
         data[:doc_type] = "history"
-        rh_rev = save_alm_data(rh.id, data: data, source_id: rs.source_id)
+        rh_rev = save_alm_data("#{rs.source.name}:#{rs.article.doi_escaped}:#{retrieved_at}", data: data, source_id: rs.source_id)
 
       # SUCCESS NO DATA
       else
