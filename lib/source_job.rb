@@ -158,7 +158,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         # save the data to couchdb
         rs_rev = save_alm_data("#{rs.source.name}:#{rs.article.doi_escaped}", data: data.clone, source_id: rs.source_id)
 
-        data.except!(:_attachments)
+        data.except!(:history, :_attachments)
         data[:doc_type] = "history"
         rh_rev = save_alm_data("#{rs.source.name}:#{rs.article.doi_escaped}:#{retrieved_at}", data: data, source_id: rs.source_id)
 
