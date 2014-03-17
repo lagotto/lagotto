@@ -25,7 +25,6 @@ describe "/api/v3/articles" do
         response_source["metrics"].should include("likes")
         response_source["metrics"].should include("pdf")
         response_source["events"].should be_nil
-        response_source["histories"].should be_nil
       end
 
       it "XML" do
@@ -45,7 +44,6 @@ describe "/api/v3/articles" do
         response_source["metrics"]["likes"].should be_nil
         response_source["metrics"]["pdf"].should be_nil
         response_source["events"].should be_nil
-        response_source["histories"].should be_nil
       end
     end
 
@@ -71,7 +69,6 @@ describe "/api/v3/articles" do
         response_source["metrics"].should include("likes")
         response_source["metrics"].should include("pdf")
         response_source["events"].should be_nil
-        response_source["histories"].should be_nil
       end
 
       it "XML" do
@@ -91,7 +88,6 @@ describe "/api/v3/articles" do
         response_source["metrics"]["likes"].should be_nil
         response_source["metrics"]["pdf"].should be_nil
         response_source["events"].should be_nil
-        response_source["histories"].should be_nil
       end
     end
 

@@ -82,7 +82,7 @@ describe "/api/v3/articles" do
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
-        #response_source["events"].should_not be_nil
+        response_source["events"].should_not be_nil
 
       end
 
@@ -96,7 +96,7 @@ describe "/api/v3/articles" do
         response["doi"].should eql(article.doi)
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
-        #response_source["events"].should_not be_nil
+        response_source["events"].should_not be_nil
       end
 
     end
@@ -115,7 +115,7 @@ describe "/api/v3/articles" do
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
-        #response_source["events"].should_not be_nil
+        response_source["events"].should_not be_nil
 
       end
 
@@ -129,7 +129,7 @@ describe "/api/v3/articles" do
         response["doi"].should eql(article.doi)
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
-        #response_source["events"].should_not be_nil
+        response_source["events"].should_not be_nil
       end
     end
   end
