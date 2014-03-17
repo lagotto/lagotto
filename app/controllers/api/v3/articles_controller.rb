@@ -13,7 +13,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     type = type.nil? ? Article.uid : type[1]
     ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| Article.clean_id(id) }
     id_hash = { :articles => { type.to_sym => ids }, :retrieval_statuses => { :source_id => source_ids }}
-    @articles = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).order("articles.updated_at DESC").decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
+    @articles = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).order("articles.updated_at DESC").decorate(context: { info: params[:info], source: params[:source] })
 
     # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
     if @articles.blank?
@@ -31,7 +31,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     source_ids = get_source_ids(params[:source])
 
     id_hash = { :articles => Article.from_uri(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
-    @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash).decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
+    @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash).decorate(context: { info: params[:info], source: params[:source] })
 
     # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
     if @article.blank?

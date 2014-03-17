@@ -39,22 +39,10 @@ The version 3 API supports queries for DOI, PubMed ID, PubMed Central ID and Men
 /api/v3/articles?api_key=API_KEY&ids=437b07d9-bc40-4c57-b60e-1f60fefe2300&type=mendeley
 ```
 
-### info=summary|detail|event|history
+### info=summary|detail
 With the **summary** parameter no source information or metrics are provided, only article metadata such as DOI, PubMed ID, title or publication date. The only exception are summary statistics, aggregating metrics from several sources (views, shares, bookmarks and citations).
 
-With the **event** parameter all raw data sent by the source are provided.
-
-```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=event
-```
-
-With the **history** parameter all historical data are provided. This also includes metrics by day, month and year.
-
-```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=history
-```
-
-With the **detail** parameter all historical data and all raw data sent by the source are provided. This also includes metrics by day, month and year.
+With the **detail** parameter all raw data sent by the source are provided. This also includes metrics by day, month and year.
 
 ```sh
 /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail
@@ -65,20 +53,6 @@ Only provide metrics for a given source, or a list of sources. The response form
 
 ```sh
 /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley,crossref
-```
-
-### days=x or months=x
-With either of these parameters, the metrics are provided for a timepoint a given number of days or months after publiation. The response format is the same as the default response.
-
-```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&days=30
-```
-
-### year=x
-The metrics are provided for a timepoint at the end of the given year. The response format is the same as the default response.
-
-```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&year=2011
 ```
 
 ## Metrics

@@ -222,7 +222,7 @@ describe "/api/v3/articles", :not_teamcity => true do
 
         Rails.cache.exist?("#{key}//json").should be_true
 
-        history_uri = "#{uri}&info=history"
+        history_uri = "#{uri}&info=detail"
         get history_uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should eql(200)
 
@@ -233,7 +233,6 @@ describe "/api/v3/articles", :not_teamcity => true do
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
         response_source["events"].should be_nil
-        response_source["histories"].should_not be_nil
 
         summary_uri = "#{uri}&info=summary"
         get summary_uri, nil, { 'HTTP_ACCEPT' => "application/json" }
