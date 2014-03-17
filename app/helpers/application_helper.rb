@@ -58,15 +58,6 @@ module ApplicationHelper
     (number > 0 ? number : "")
   end
 
-  def article_statistics_report_path
-    path = "/public/files/alm_report.zip"
-    if File.exist?(Rails.root + path)
-      path
-    else
-      nil
-    end
-  end
-
   def sources
     Source.order("group_id, display_name")
   end
