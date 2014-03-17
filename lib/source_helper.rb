@@ -27,7 +27,10 @@ require 'uri'
 
 module SourceHelper
   DEFAULT_TIMEOUT = 60
-  SourceHelperExceptions = [Faraday::Error::ClientError, Delayed::WorkerTimeout].freeze
+  SourceHelperExceptions = [Faraday::Error::ClientError,
+                            Delayed::WorkerTimeout,
+                            Encoding::UndefinedConversionError,
+                            ArgumentError].freeze
   # Errno::EPIPE, Errno::ECONNRESET
 
   def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
