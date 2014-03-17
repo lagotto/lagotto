@@ -140,6 +140,22 @@ ActiveRecord::Schema.define(:version => 20140317135852) do
   add_index "reports_users", ["report_id", "user_id"], :name => "index_reports_users_on_report_id_and_user_id"
   add_index "reports_users", ["user_id"], :name => "index_reports_users_on_user_id"
 
+  create_table "retrieval_histories", :force => true do |t|
+    t.integer  "retrieval_status_id",                :null => false
+    t.integer  "article_id",                         :null => false
+    t.integer  "source_id",                          :null => false
+    t.datetime "retrieved_at"
+    t.string   "status"
+    t.string   "msg"
+    t.integer  "event_count",         :default => 0, :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
+  add_index "retrieval_histories", ["source_id", "event_count"], :name => "index_retrieval_histories_on_source_id_and_event_count"
+  add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
+
   create_table "retrieval_statuses", :force => true do |t|
     t.integer  "article_id",                                       :null => false
     t.integer  "source_id",                                        :null => false
@@ -151,6 +167,7 @@ ActiveRecord::Schema.define(:version => 20140317135852) do
     t.datetime "scheduled_at"
     t.string   "events_url"
     t.string   "event_metrics"
+    t.text     "other"
   end
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true

@@ -24,6 +24,7 @@ class RetrievalStatus < ActiveRecord::Base
   before_destroy :delete_couchdb_document
 
   serialize :event_metrics
+  serialize :other
 
   delegate :name, :to => :source
   delegate :display_name, :to => :source
@@ -113,6 +114,14 @@ class RetrievalStatus < ActiveRecord::Base
 
   def random_time(duration)
     Time.zone.now + duration + rand(duration/10)
+  end
+
+  def since_id
+    other.since_id || 0
+  end
+
+  def since_id=(value)
+    other.since_id = value
   end
 
   private
