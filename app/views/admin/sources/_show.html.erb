@@ -20,7 +20,7 @@
     <tr>
       <th>Responses in the last 24 Hours</th>
       <td class="number" id="response_count">&nbsp;</td>
-      <td class="number" id="error_count">&nbsp;</td>
+      <td class="number" id="error_count"><%= number_hiding_zero(@source.alerts.total_errors(1).size) %></td>
     </tr>
     <tr>
       <th/>
