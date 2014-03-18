@@ -3,18 +3,12 @@ layout: page
 title: "Twitter"
 ---
 
-[Twitter](http://www.twitter.com/) is a social networking and microblogging service. Twitter does store tweets only for a limited amount of time, so it is up to us to collect this information regularly.
+[Twitter](http://www.twitter.com/) is a social networking and microblogging service. Twitter does store tweets only for a limited amount of time, so it is up to us to collect this information regularly. We therefore store all information internally in a CouchDB database (defined by the `data_url` configuration).
 
 ## Authentication
-[Application-only authentication](https://dev.twitter.com/docs/auth/application-only-auth) is the preferred method of authentication because the authentication process is simpler and the rate-limits are higher. Application-only authentication uses OAuth2 and the first step is to register your application at the [Twitter Developer website](https://dev.twitter.com/apps) and obtain a **consumer key** and **consumer secret**.
+[Application-only authentication](https://dev.twitter.com/docs/auth/application-only-auth) is the preferred method of authentication because the authentication process is simpler and the rate-limits are higher. Application-only authentication uses OAuth2 and the first step is to register your application at the [Twitter Developer website](https://dev.twitter.com/apps) and obtain an `API key` and `API secret` (they are found under the `API Keys` tab).
 
-Next we generate a **bearer token** using the consumer key and consumer secret we have just obtained. This is best done using curl:
-
-```sh
-curl -u CONSUMER_KEY:CONSUMER_SECRET -d grant_type=client_credentials https://api.twitter.com/oauth2/token
-```
-
-The Twitter API will return an **access token** (the **bearer token**) which we then enter into the Twitter configuration on the ALM admin dashboard.
+Please enter `API key` and `API secret` in the ALM configuration settings. The application will automatically fetch and store an OAuth2 `access token` the first time we use the source.
 
 ## Rate-Limiting
 The rate-limits for application-only authentication and search are 450 requests per 15 min or 1,800 requests per hour. Depending on the number of articles we might have to adjust how often we contact Twitter, the default settings are every 12 hours the first 7 days after publication, then daily for the first month, and then weekly.
