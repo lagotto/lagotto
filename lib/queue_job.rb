@@ -33,7 +33,7 @@ class QueueJob < Struct.new(:source_id)
     source = Source.find(source_id)
     Alert.create(:exception => "",
                  :class_name => "Timeout::Error",
-                 :message => "DelayedJob timeout error for #{source.display_name}",
+                 :message => "QueueJob timeout error for #{source.display_name}",
                  :status => 408,
                  :source_id => source.id)
   end

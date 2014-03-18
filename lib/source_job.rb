@@ -60,7 +60,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   rescue Timeout::Error
     Alert.create(:exception => "",
                  :class_name => "Timeout::Error",
-                 :message => "DelayedJob timeout error for #{source.display_name}",
+                 :message => "SourceJob timeout error for #{source.display_name}",
                  :status => 408,
                  :source_id => source.id)
   end

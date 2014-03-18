@@ -188,7 +188,6 @@ class Source < ActiveRecord::Base
     event :start_working_with_check do
       transition [:inactive] => same
       transition any => :disabled, :if => :check_for_failures
-      transition any => :waiting, :if => :check_for_queued_jobs
       transition any => :working
     end
 
@@ -258,7 +257,7 @@ class Source < ActiveRecord::Base
   end
 
   def queue_stale_articles
-    # check to see if source is disabled, has too many failures or jobs are already queued
+    # check to see if source is disabled or has too many failures
     start_working_with_check
 
     return 0 unless working?
@@ -302,6 +301,7 @@ class Source < ActiveRecord::Base
       # Some fields can be blank
       next if name == "crossref" && field == :password
       next if name == "mendeley" && field == :access_token
+      next if name == "twitter_search" && field == :access_token
 
       errors.add(field, "can't be blank") if send(field).blank?
     end

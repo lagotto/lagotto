@@ -68,6 +68,11 @@ namespace :queue do
       sources = Source.active.where("name in (?)", args.extras)
     end
 
+    if sources.empty?
+      puts "No active source found."
+      exit
+    end
+
     sources.each do |source|
       rs = RetrievalStatus.find_by_article_id_and_source_id(article.id, source.id)
 
