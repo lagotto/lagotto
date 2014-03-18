@@ -34,10 +34,10 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     source = Source.find(source_id)
     source.start_jobs_with_check
 
-    return 0 unless source.working?
-
-    # Check maximal number of workers we can use
-    return 0 unless source.check_for_available_workers
+    # Check that source is working and we have workers for this source
+    # Otherwise raise an error and reschedule the job
+    raise SourceInactiveError unless source.working?
+    raise NotEnoughWorkersError unless source.check_for_available_workers
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
 
@@ -173,19 +173,23 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def success(job)
-    #reset the queued_at value, but not if we only postponed processing the job
+    # reset the queued_at value
+    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
+
     source = Source.find(source_id)
-
-    if source.working? && source.check_for_available_workers
-      RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
-    end
-
     source.stop_working unless source.get_queued_job_count > 1
   end
 
   def error(job, e)
+    # simply retry for these errors, raise an alert otherwise
+    return if e.kind_of?(SourceInactiveError) || e.kind_of?(NotEnoughWorkersError)
+
     source = Source.find(source_id)
     Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
   end
 
+  def failure(job)
+    source = Source.find(source_id)
+    Alert.create(:exception => "", :class_name => "DelayedJobError", :message => "Failure in #{job.queue}", :source_id => source.id)
+  end
 end

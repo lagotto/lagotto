@@ -81,7 +81,7 @@ namespace :queue do
         exit
       end
 
-      source.queue_article_jobs([rs.id])
+      source.queue_article_jobs([rs.id], { priority: 2 })
       puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
     end
   end
