@@ -9,10 +9,9 @@ Version 3 of the API was released October 30, 2012 (ALM 2.3). Version 4 of the A
 All API calls to the version 3 API start with ``/api/v3/articles``.
 
 ## Supported Media Types
-* JSON (default)
-* XML
+* JSON
 
-The media type is set in the header, e.g. "Accept: application/json". Media type negotiation via file extension (e.g. ".json") is not supported. The API defaults to JSON if no media type is given, e.g. to test the API with a browser.
+The media type is set in the header, e.g. "Accept: application/json". Media type negotiation via file extension (e.g. ".json") is not supported. The API defaults to JSON if no media type is given, e.g. to test the API with a browser. Support for XML has been depreciated.
 
 ## API Key
 All API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
@@ -39,22 +38,10 @@ The version 3 API supports queries for DOI, PubMed ID, PubMed Central ID and Men
 /api/v3/articles?api_key=API_KEY&ids=437b07d9-bc40-4c57-b60e-1f60fefe2300&type=mendeley
 ```
 
-### info=summary|detail|event|history
+### info=summary|detail
 With the **summary** parameter no source information or metrics are provided, only article metadata such as DOI, PubMed ID, title or publication date. The only exception are summary statistics, aggregating metrics from several sources (views, shares, bookmarks and citations).
 
-With the **event** parameter all raw data sent by the source are provided.
-
-```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=event
-```
-
-With the **history** parameter all historical data are provided. This also includes metrics by day, month and year.
-
-```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=history
-```
-
-With the **detail** parameter all historical data and all raw data sent by the source are provided. This also includes metrics by day, month and year.
+With the **detail** parameter all raw data sent by the source are provided. This also includes metrics by day, month and year.
 
 ```sh
 /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail
@@ -65,20 +52,6 @@ Only provide metrics for a given source, or a list of sources. The response form
 
 ```sh
 /api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley,crossref
-```
-
-### days=x or months=x
-With either of these parameters, the metrics are provided for a timepoint a given number of days or months after publiation. The response format is the same as the default response.
-
-```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&days=30
-```
-
-### year=x
-The metrics are provided for a timepoint at the end of the given year. The response format is the same as the default response.
-
-```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&year=2011
 ```
 
 ## Metrics
@@ -94,20 +67,21 @@ The metrics for every source are returned as total number, and separated in cate
 
 * **Reddit**: likes, comments
 
-* **CrossRef, PubMed, Nature Blogs, ResearchBlogging, ScienceSeeker, Wordpress.com, Wikipedia, PMC Europe Citations, PMC Europe Database Citations**: citations
+* **CrossRef, PubMed, Nature Blogs, ResearchBlogging, ScienceSeeker, Wordpress.com, Wikipedia, PMC Europe Citations, PMC Europe Database Citations, Scopus**: citations
 
 * **Counter, PubMed Central**: html, pdf
 
 ## Search
-Search is not supported by the v3 API, users have to provide specific identifiers.
+Search is not supported by the v3 API, users have to provide specific identifiers or retrieve batches of 50 documents
+sorted by descending date or event count.
 
 ## Signposts
 Several metrics are aggregated and available in all API queries:
 
-* views: counter + pmc (PLOS only)
-* shares: facebook (+ twitter at PLOS)
-* bookmarks: mendeley + citeulike
-* citations: crossref (scopus at PLOS)
+* Viewed: counter + pmc (PLOS only)
+* Discussed: facebook (+ twitter at PLOS)
+* Saved: mendeley + citeulike
+* Cited: crossref (scopus at PLOS)
 
 ## Date and Time Format
 All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``
@@ -441,334 +415,6 @@ The API returns `null` if no query was made, and `0` if the external API returns
     ]
   }
 ]
-```
-
-### XML
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<articles>
-  <article>
-    <doi>10.1371/journal.pone.0036240</doi>
-    <title>How Academic Biologists and Physicists View Science Outreach</title>
-    <url>http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0036240</url>
-    <mendeley>88bfe7f0-9cb4-11e1-ac31-0024e8453de6</mendeley>
-    <pmid>22590526</pmid>
-    <pmcid>3348938</pmcid>
-    <publication_date>2012-05-09T07:00:00Z</publication_date>
-    <update_date>2013-05-17T13:33:36Z</update_date>
-    <views>12987</views>
-    <shares>276</shares>
-    <bookmarks>38</bookmarks>
-    <citations>3</citations>
-    <sources>
-      <source>
-        <name>bloglines</name>
-        <display_name>Bloglines</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>0</citations>
-          <total>0</total>
-        </metrics>
-        <update_date>2009-03-12T00:29:00Z</update_date>
-      </source>
-      <source>
-        <name>citeulike</name>
-        <display_name>CiteULike</display_name>
-        <events_url>http://www.citeulike.org/doi/10.1371/journal.pone.0036240</events_url>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares>5</shares>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations nil="true"/>
-          <total>5</total>
-        </metrics>
-        <update_date>2013-05-12T21:20:14Z</update_date>
-      </source>
-      <source>
-        <name>connotea</name>
-        <display_name>Connotea</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>0</citations>
-          <total>0</total>
-        </metrics>
-        <update_date>2009-03-12T00:29:20Z</update_date>
-      </source>
-      <source>
-        <name>crossref</name>
-        <display_name>CrossRef</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>3</citations>
-          <total>3</total>
-        </metrics>
-        <update_date>2013-05-10T03:17:07Z</update_date>
-      </source>
-      <source>
-        <name>nature</name>
-        <display_name>Nature</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>1</citations>
-          <total>1</total>
-        </metrics>
-        <update_date>2013-05-15T16:04:54Z</update_date>
-      </source>
-      <source>
-        <name>postgenomic</name>
-        <display_name>Postgenomic</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>0</citations>
-          <total>0</total>
-        </metrics>
-        <update_date>2009-03-12T00:30:06Z</update_date>
-      </source>
-      <source>
-        <name>pubmed</name>
-        <display_name>PubMed Central</display_name>
-        <events_url>http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&amp;cmd=link&amp;LinkName=pubmed_pmc_refs&amp;from_uid=22590526</events_url>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>1</citations>
-          <total>1</total>
-        </metrics>
-        <update_date>2013-05-10T16:55:43Z</update_date>
-      </source>
-      <source>
-        <name>scopus</name>
-        <display_name>Scopus</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>0</citations>
-          <total>0</total>
-        </metrics>
-        <update_date>2013-02-01T09:44:57Z</update_date>
-      </source>
-      <source>
-        <name>counter</name>
-        <display_name>Counter</display_name>
-        <events_url>http://www.plosreports.org/services/rest?method=usage.stats&amp;doi=10.1371%2Fjournal.pone.0036240</events_url>
-        <metrics>
-          <pdf>814</pdf>
-          <html>12036</html>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations nil="true"/>
-          <total>12886</total>
-        </metrics>
-        <update_date>2013-05-17T13:33:36Z</update_date>
-      </source>
-      <source>
-        <name>researchblogging</name>
-        <display_name>Research Blogging</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>0</citations>
-          <total>0</total>
-        </metrics>
-        <update_date>2013-05-17T07:59:35Z</update_date>
-      </source>
-      <source>
-        <name>biod</name>
-        <display_name>Biod</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations nil="true"/>
-          <total>0</total>
-        </metrics>
-        <update_date>2013-05-17T12:52:04Z</update_date>
-      </source>
-      <source>
-        <name>wos</name>
-        <display_name>Web of Science®</display_name>
-        <events_url>http://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&amp;SrcApp=PARTNER_APP&amp;SrcAuth=PLoSCEL&amp;KeyUT=000305336100022&amp;DestLinkType=CitingArticles&amp;DestApp=WOS_CPL&amp;UsrCustomerID=c642dd6a62e245b029e19b27ca7f6b1c</events_url>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>1</citations>
-          <total>1</total>
-        </metrics>
-        <update_date>2013-05-16T06:13:38Z</update_date>
-      </source>
-      <source>
-        <name>pmc</name>
-        <display_name>PubMed Central Usage Stats</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf>19</pdf>
-          <html>82</html>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations nil="true"/>
-          <total>101</total>
-        </metrics>
-        <update_date>2013-05-17T02:06:31Z</update_date>
-      </source>
-      <source>
-        <name>facebook</name>
-        <display_name>Facebook</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares>58</shares>
-          <groups nil="true"/>
-          <comments>54</comments>
-          <likes>47</likes>
-          <citations nil="true"/>
-          <total>159</total>
-        </metrics>
-        <update_date>2013-05-16T04:09:20Z</update_date>
-      </source>
-      <source>
-        <name>mendeley</name>
-        <display_name>Mendeley</display_name>
-        <events_url>http://api.mendeley.com/research/academic-biologists-physicists-view-science-outreach-1/</events_url>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares>33</shares>
-          <groups>0</groups>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations nil="true"/>
-          <total>33</total>
-        </metrics>
-        <update_date>2013-05-03T12:13:26Z</update_date>
-      </source>
-      <source>
-        <name>twitter</name>
-        <display_name>Twitter</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>117</citations>
-          <total>117</total>
-        </metrics>
-        <update_date>2013-05-10T19:21:40Z</update_date>
-      </source>
-      <source>
-        <name>wikipedia</name>
-        <display_name>Wikipedia</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>0</citations>
-          <total>0</total>
-        </metrics>
-        <update_date>2013-05-05T13:18:29Z</update_date>
-      </source>
-      <source>
-        <name>scienceseeker</name>
-        <display_name>ScienceSeeker</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations>0</citations>
-          <total>0</total>
-        </metrics>
-        <update_date>2013-05-12T14:19:53Z</update_date>
-      </source>
-      <source>
-        <name>relativemetric</name>
-        <display_name>Relative Metric</display_name>
-        <events_url nil="true"/>
-        <metrics>
-          <pdf nil="true"/>
-          <html nil="true"/>
-          <shares nil="true"/>
-          <groups nil="true"/>
-          <comments nil="true"/>
-          <likes nil="true"/>
-          <citations nil="true"/>
-          <total>14031</total>
-        </metrics>
-        <update_date>2013-05-03T04:06:33Z</update_date>
-      </source>
-    </sources>
-  </article>
-</articles>
 ```
 
 ## v4 API
