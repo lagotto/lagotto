@@ -291,7 +291,7 @@ module SourceHelper
         status = 408
       elsif error.respond_to?('status')
         status = error[:status]
-      elsif error.try(:response)
+      elsif error.respond_to?('response') && error.response.present?
         status = error.response[:status]
         details = error.response[:body]
       else
