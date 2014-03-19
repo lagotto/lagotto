@@ -146,8 +146,3 @@ class Filter < ActiveRecord::Base
     end
   end
 end
-
-module Exceptions
-  # Default filter error
-  class ApiResponseError < StandardError; end
-end
