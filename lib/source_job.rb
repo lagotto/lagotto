@@ -182,7 +182,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   def error(job, e)
     # simply retry for these errors, raise an alert otherwise
-    return if e.kind_of?(SourceInactiveError) || e.kind_of?(NotEnoughWorkersError)
+    if e.kind_of?(SourceInactiveError) || e.kind_of?(NotEnoughWorkersError)
+      return if job.attempts < Delayed::Worker.max_attempts
+    end
 
     source = Source.find(source_id)
     Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)

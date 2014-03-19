@@ -398,7 +398,7 @@ class Source < ActiveRecord::Base
     last_job = DelayedJob.where(queue: name).maximum(:run_at)
     return Time.zone.now if last_job.nil?
 
-    last_job + batch_interval
+    last_job + batch_interval + rand(batch_interval/5)
   end
 
   def workers
