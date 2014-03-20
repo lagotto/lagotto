@@ -192,6 +192,24 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   def failure(job)
     source = Source.find(source_id)
-    Alert.create(:exception => "", :class_name => "DelayedJobError", :message => "Failure in #{job.queue}", :source_id => source.id)
+    Alert.create(:exception => "", :class_name => "DelayedJobError", :message => "Failure in #{job.queue}: #{job.last_error}", :source_id => source.id)
+  end
+
+  # override the default settings which are:
+  # On failure, the job is scheduled again in 5 seconds + N ** 4, where N is the number of retries.
+  # with the settings below we try for 23 hours. Max_attempts is 25
+  def reschedule_at(attempts, time)
+    case attempts
+    when (0..5)
+      1.minute.from_now
+    when (6..10)
+      5.minutes.from_now
+    when (11..15)
+      30.minutes.from_now
+    when (16..20)
+      1.hour.from_now
+    else
+      3.hours.from_now
+    end
   end
 end
