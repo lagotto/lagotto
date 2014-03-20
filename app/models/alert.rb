@@ -47,10 +47,10 @@ class Alert < ActiveRecord::Base
     end
 
     if request
-      self.target_url   = target_url || request.original_url
       self.remote_ip    = remote_ip || request.remote_ip
       self.user_agent   = user_agent || request.user_agent
       self.content_type = content_type || request.formats.first.to_s
+      self.target_url   = target_url || request.original_url
     end
 
     self.source_id      = source_id if source_id

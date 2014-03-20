@@ -25,6 +25,24 @@ inputs.each do |input_type|
   Object.const_set(input_type, new_class)
 end
 
+class DayInput < SimpleForm::Inputs::Base
+  def input
+    @builder.template.select_day(object.day, { include_blank: true }, { name: "article[day]", id: "article_day" })
+  end
+end
+
+class MonthInput < SimpleForm::Inputs::Base
+  def input
+    @builder.template.select_month(object.month, { include_blank: true }, { name: "article[month]", id: "article_month" })
+  end
+end
+
+class YearInput < SimpleForm::Inputs::Base
+  def input
+    @builder.template.select_year(object.year, { start_year: 1660, end_year: Date.today.year + 1 }, { name: "article[year]", id: "article_year" })
+  end
+end
+
 # Use this setup block to configure all options available in SimpleForm.
 SimpleForm.setup do |config|
   # Wrappers are used by the form builder to generate a

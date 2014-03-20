@@ -15,7 +15,7 @@ When(/^I change the sources of filter "(.*?)" to "(.*?)"$/) do |name, source|
   visit admin_filters_path
   click_on "#{name}-edit"
   sleep 5
-  page.driver.render("tmp/capybara/#{source}.png")
+  page.driver.render("tmp/capybara/#{source}.png") if @wip
   check source
   click_on 'Save'
 end

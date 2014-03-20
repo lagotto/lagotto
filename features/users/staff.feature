@@ -6,6 +6,7 @@ Feature: Sign in as staff
   Background:
     Given I am logged in as "staff"
 
+    @not_teamcity
     Scenario: Staff can see jobs in source view
       Given the source "Citeulike" exists
       And that we have 5 articles

@@ -49,7 +49,7 @@ $body-bg:               white;
 $text-color:            $brand-primary;
 
 $link-color:            $peter-river;
-$link-hover-color:      $peter-river;
+$link-hover-color:      mix($peter-river, black, 85%);
 
 $hr-border:             $gray-light;
 
@@ -59,9 +59,9 @@ $hr-border:             $gray-light;
 $font-family-base:      'Source Sans Pro', Helvetica, Arial, sans-serif;
 $font-family-demo:      'Helvetica Neue', Helvetica, Arial, sans-serif;
 $font-family-monospace: Monaco, Menlo, Consolas, "Courier New", monospace;
-$font-size-base:        16px;
-$font-size-large:       ceil(($font-size-base * 1.25));
-$font-size-small:       ceil(($font-size-base * 0.85));
+$font-size-base:        18px;
+$font-size-large:       ceil(($font-size-base * 1.278));
+$font-size-small:       ceil(($font-size-base * 0.853));
 
 $font-size-h1:          floor($font-size-base * 2.4);
 $font-size-h2:          floor($font-size-base * 2);
@@ -70,7 +70,7 @@ $font-size-h4:          floor($font-size-base * 1.4);
 $font-size-h5:          $font-size-base;
 $font-size-h6:          $font-size-base;
 
-$line-height-base:      1.4375;
+$line-height-base:      1.444;
 $line-height-computed:  floor($font-size-base * $line-height-base);
 $line-height-large:     1.33;
 $line-height-small:     $line-height-base;
@@ -244,6 +244,7 @@ body { padding-top: 60px; padding-bottom: 20px; }
 .btn-link { color: $navbar-inverse-link-color; }
 .btn-link:hover, .btn-link:focus, .btn-link:active { color: $navbar-inverse-link-hover-color; text-decoration: none; }
 .configuration-edit { margin-bottom: 1em; }
+a { text-decoration: none; }
 
 .table .number { text-align: right; width: 180px;}
 .table .name { width: 300px;}
@@ -265,18 +266,13 @@ select.form-control.date { display: inline; }
 .form-group.has-error input, .form-group.has-error span.help-block, .has-error { color: $brand-danger; }
 .form-group.has-error input, .form-group.has-error textarea, .form-group.has-error select { border: 1px solid $brand-danger; }
 h1 img { vertical-align: 2px; }
-h5 { margin-bottom: 0; }
+h5, h4.article { margin-bottom: 0; }
 #results h4, #results p { margin-bottom: 0; }
 #results p { line-height: 1.33; }
 td h4 { margin-top: 0; }
 div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left: auto; margin-right: auto; }
 //dt, dd { line-height: 1.1; }
 .border-bottom { border-bottom: 1px solid #eee; }
-.sidebar-nav-fixed {
-    padding: 9px 0;
-    position:relative;
-    top:50px;
-}
 .alert-inner { min-height: 120px; }
 
 .markdown pre { font-size: 0.75em; }

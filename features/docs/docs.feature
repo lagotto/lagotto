@@ -24,6 +24,10 @@ Feature: View documentation
         | Roadmap           |
         | Contributors      |
 
+    Scenario: Documentation on home page
+      When I go to the "Home" page
+      Then I should see the documentation
+
     Scenario: Documentation on user page
       Given I am logged in as "user"
       When I go to my account page
@@ -41,4 +45,9 @@ Feature: View documentation
       Given I am logged in as "admin"
       And the source "Citeulike" exists
       When I go to the "Documentation" tab of source "CiteULike"
+      Then I should see the documentation
+
+    Scenario: Documentation on sources admin page
+      Given I am logged in as "admin"
+      When I go to the "Documentation" tab of the Sources admin page
       Then I should see the documentation

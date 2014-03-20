@@ -85,6 +85,8 @@ describe Source do
       end
 
       it 'should change to :disabled on :disable' do
+        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+
         source.disable
         source.should be_disabled
         source.run_at.should eq(Time.zone.now + source.disable_delay)
@@ -206,6 +208,8 @@ describe Source do
       end
 
       it "with disabled source" do
+        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+
         source.disable
         source.should be_disabled
         source.queue_all_articles.should == 0
@@ -287,6 +291,8 @@ describe Source do
       end
 
       it "with disabled source" do
+        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+
         source.disable
         Delayed::Job.stub(:enqueue).with(QueueJob.new(source.id), { queue: "#{source.name}-queue", run_at: Time.zone.now, priority: 0 })
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
@@ -305,6 +311,8 @@ describe Source do
       end
 
       it "with too many failed queries" do
+        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+
         FactoryGirl.create_list(:alert, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
         source.max_failed_queries = 5
         source.queue_stale_articles.should == 0
@@ -344,25 +352,26 @@ describe Source do
         Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id))
       end
 
-      # it "perform callback without workers" do
-      #   Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
-      #   Delayed::Job.stub(:perform).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
-      #   source.workers = 0
-      #   source.queue_article_jobs(rs_ids).should == 0
-      #   Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id))
-      # end
+      it "perform callback without workers" do
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        Delayed::Job.stub(:perform).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        source.workers = 0
+        source.queue_article_jobs(rs_ids).should == 10
+        Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id)).once.returns(0)
+      end
 
-      # it "perform callback without enough workers" do
-      #   job_batch_size = 5
-      #   Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[0...job_batch_size], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
-      #   Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[job_batch_size..10], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
-      #   Delayed::Job.stub(:perform).with(SourceJob.new(rs_ids[0...job_batch_size], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
-      #   Delayed::Job.stub(:perform).with(SourceJob.new(rs_ids[job_batch_size..10], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
-      #   source.job_batch_size = job_batch_size
-      #   source.workers = 1
-      #   source.queue_article_jobs(rs_ids).should == 5
-      #   Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id))
-      # end
+      it "perform callback without enough workers" do
+        job_batch_size = 5
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[0...job_batch_size], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[job_batch_size..10], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        Delayed::Job.stub(:perform).with(SourceJob.new(rs_ids[0...job_batch_size], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        Delayed::Job.stub(:perform).with(SourceJob.new(rs_ids[job_batch_size..10], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        source.job_batch_size = job_batch_size
+        source.workers = 1
+        source.queue_article_jobs(rs_ids).should == 10
+        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id)).twice
+        Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id)).once
+      end
 
       it "after callback" do
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })

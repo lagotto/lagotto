@@ -4,7 +4,6 @@ Feature: Run rake tasks
   Scenario: rake is installed
     When I run `bundle exec rake --version` interactively
     Then the output should contain "rake, version"
-
   @not_teamcity
   Scenario Outline: rake tasks exist
     When I run `bundle exec rake -T` interactively
@@ -14,7 +13,9 @@ Feature: Run rake tasks
     Examples:
       | Task                             | Description                                                     |
       | jobs:work                        | Start a delayed_job worker                                      |
-      | workers:start_all                | Start all the workers                                           |
+      | workers:start                    | Start all the workers                                           |
+      | workers:stop                     | Stop all the workers                                            |
+      | workers:monitor                  | Monitor workers                                                 |
       | queue:one[doi]                   | Queue article with given DOI                                    |
       | db:alerts:delete                 | Delete all resolved alerts                                      |
       | db:api_requests:delete           | Delete API requests, keeping last 1,000 requests                |

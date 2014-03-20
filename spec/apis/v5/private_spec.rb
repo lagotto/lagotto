@@ -16,7 +16,7 @@ describe "/api/v5/articles" do
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eql(article.doi)
-        item["publication_date"].should eq(article.published_on.to_time.utc.iso8601)
+        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         item_source["metrics"].should include("citations")
@@ -27,7 +27,6 @@ describe "/api/v5/articles" do
         item_source["metrics"].should include("likes")
         item_source["metrics"].should include("pdf")
         item_source["events"].should be_nil
-        item_source["histories"].should be_nil
       end
     end
 
@@ -44,7 +43,7 @@ describe "/api/v5/articles" do
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eql(article.doi)
-        item["publication_date"].should eq(article.published_on.to_time.utc.iso8601)
+        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         item_source["metrics"].should include("citations")
@@ -55,7 +54,6 @@ describe "/api/v5/articles" do
         item_source["metrics"].should include("likes")
         item_source["metrics"].should include("pdf")
         item_source["events"].should be_nil
-        item_source["histories"].should be_nil
       end
     end
 

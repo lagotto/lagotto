@@ -67,7 +67,7 @@ attribute :localpkg_gpgcheck, :kind_of => [TrueClass, FalseClass], :default => n
 attribute :logfile, :kind_of => String, :regex => /.*/, :default => '/var/log/yum.log'
 attribute :max_retries, :kind_of => String, :regex => /^\d+$/, :default => nil
 attribute :mdpolicy, :kind_of => String, :equal_to => %w{ instant group:primary group:small group:main group:all }, :default => nil
-attribute :metadata_expire, :kind_of => String, :regex => /^\d+$/, :default => nil
+attribute :metadata_expire, :kind_of => String, :regex => [/^\d+$/, /^\d+[mhd]$/, /never/], :default => nil
 attribute :mirrorlist_expire, :kind_of => String, :regex => /^\d+$/, :default => nil
 attribute :multilib_policy, :kind_of => String, :equal_to => %w{ all best }, :default => nil
 attribute :obsoletes, :kind_of => [TrueClass, FalseClass], :default => '1'

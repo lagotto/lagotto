@@ -54,13 +54,8 @@ module ApplicationHelper
     end
   end
 
-  def article_statistics_report_path
-    path = "/public/files/alm_report.zip"
-    if File.exist?(Rails.root + path)
-      path
-    else
-      nil
-    end
+  def number_hiding_zero(number)
+    (number > 0 ? number : "")
   end
 
   def sources
@@ -68,7 +63,7 @@ module ApplicationHelper
   end
 
   def alerts
-    %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
+    %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout DelayedJobError Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError TooManyWorkersError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end
 
   def article_statistics_report_path
@@ -77,6 +72,16 @@ module ApplicationHelper
       path
     else
       nil
+    end
+  end
+
+  def date_format(article)
+    if article.day
+      :long
+    elsif article.month
+      :month
+    else
+      :year
     end
   end
 

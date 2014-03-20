@@ -3,13 +3,11 @@ class Admin::SourcesController < Admin::ApplicationController
   load_and_authorize_resource
 
   def show
-    filename = Rails.root.join("docs/#{@source.name.capitalize}.md")
-    @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
+    @doc = Doc.find(@source.name)
   end
 
   def index
-    filename = Rails.root.join("docs/Sources.md")
-    @doc = { :text => File.exist?(filename) ? IO.read(filename) : "No documentation found." }
+    @doc = Doc.find("sources")
 
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     respond_with @groups

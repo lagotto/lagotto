@@ -22,16 +22,27 @@ class SourceNotUpdatedError < Filter
 
   def run_filter(state)
     responses_by_source = ApiResponse.filter(state[:id]).group(:source_id).count
-    source_ids = Source.where("state > ?", 1).where("name != ?", 'pmc').pluck(:id)
     responses = source_ids.select { |source_id| !responses_by_source.has_key?(source_id) }
 
     if responses.count > 0
+      # send additional report, listing all stale sources by name
+      report = Report.find_by_name("stale_source_report")
+      report.send_stale_source_report(responses)
+
       responses = responses.map { |response| { source_id: response,
                                                message: "Source not updated for 24 hours" }}
       raise_alerts(responses)
     end
 
     responses.count
+  end
+
+  def get_config_fields
+    [{ field_name: "source_ids" }]
+  end
+
+  def source_ids
+    config.source_ids || Source.active.where("name != ?", 'pmc').pluck(:id)
   end
 end
 

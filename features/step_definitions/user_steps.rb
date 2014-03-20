@@ -14,12 +14,11 @@ end
 def sign_up
   delete_user
   visit '/users/auth/cas'
-  find_user
 end
 
 def sign_in
-  visit '/users/auth/cas'
   find_user
+  visit '/users/auth/cas'
 end
 
 ### GIVEN ###
@@ -59,6 +58,10 @@ end
 ### WHEN ###
 When /^I sign in$/ do
   sign_in
+end
+
+When /^I sign in as a new user$/ do
+  sign_up
 end
 
 When /^I sign out$/ do

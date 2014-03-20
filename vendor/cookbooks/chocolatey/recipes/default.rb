@@ -18,14 +18,20 @@
 # limitations under the License.
 #
 
-include_recipe "powershell"
+return 'platform not supported' if node['platform_family'] != 'windows'
 
-powershell "install chocolatey" do
-  code 'iex ((new-object net.webclient).DownloadString("https://raw.github.com/chocolatey/chocolatey/master/chocolateyInstall/InstallChocolatey.ps1"))'
-  not_if { ::File.exist?( ::File.join(node['chocolatey']['bin_path'], "chocolatey.bat") ) }
+include_recipe 'powershell'
+
+powershell 'install chocolatey' do
+  code "iex ((new-object net.webclient).DownloadString('#{node['chocolatey']['Uri']}'))"
+  not_if { ::File.exist?(::File.join(node['chocolatey']['bin_path'], 'chocolatey.bat')) }
 end
 
-file "cygwin log" do
-  path "C:/cygwin/var/log/setup.log"
+file 'cygwin log' do
+  path 'C:/cygwin/var/log/setup.log'
   action :delete
+end
+
+chocolatey 'chocolatey' do
+  action :upgrade if node['chocolatey']['upgrade']
 end

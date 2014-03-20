@@ -72,7 +72,7 @@ when 'rhel'
         cd runit-2.1.1
         ./build.sh
         rpm_root_dir=`rpm --eval '%{_rpmdir}'`
-        rpm -ivh '/root/rpmbuild/RPMS/runit-2.1.1.rpm'
+        rpm -ivh "${rpm_root_dir}/runit-2.1.1.rpm"
       EOH
       action :run
       not_if rpm_installed

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.16'
+gem 'rails', '3.2.17'
 gem 'mysql2', '0.3.13'
 #gem 'pg', '~> 0.17.1'
 
@@ -26,7 +26,6 @@ gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.5.4"
 gem 'rubyzip',  "~> 1.1", require: 'zip'
 
-gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 3.2.2"
 #gem "omniauth-persona"
 gem "omniauth-cas", "~> 1.0.4"
@@ -62,7 +61,7 @@ group :test do
   gem "launchy", "~> 2.4.2"
   gem "email_spec", "~> 1.5.0"
   gem "rack-test", "~> 0.6.2", :require => "rack/test"
-  gem "simplecov", "~> 0.8.2", :require => false
+  gem "simplecov", "~> 0.7.1", :require => false
   gem "shoulda-matchers", "~> 2.5.0", :require => false
   gem "webmock", "~> 1.17.2"
   gem "rest-client", "~> 1.6.7"

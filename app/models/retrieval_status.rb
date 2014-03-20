@@ -56,10 +56,10 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def events
-    unless data.blank?
-      data["events"]
-    else
+    if data.blank? || data["error"]
       []
+    else
+      data["events"]
     end
   end
 
@@ -83,7 +83,7 @@ class RetrievalStatus < ActiveRecord::Base
   # calculate datetime when retrieval_status should be updated, adding random interval
   def stale_at
     unless article.published_on.nil?
-      age_in_days = Time.zone.today - article.published_on
+      age_in_days = Date.today - article.published_on
     else
       age_in_days = 366
     end

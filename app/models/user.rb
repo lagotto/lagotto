@@ -44,8 +44,8 @@ class User < ActiveRecord::Base
       unless Rails.env.test?
         # We obtain the email address from a second call to the CAS server
         url = "#{CONFIG[:cas_url]}/cas/email?guid=#{auth.uid}"
-        response = Faraday.get(url).body
-        email = response.present? ? response : ""
+        response = get_html(url)
+        email = response.blank? ? "" : response
       else
         email = auth.info.email
       end

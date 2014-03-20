@@ -3,7 +3,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2014 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -138,7 +138,7 @@ class Source < ActiveRecord::Base
                    :message => "#{source.display_name} has exceeded maximum failed queries. Disabling the source.",
                    :source_id => source.id)
       source.add_queue(Time.zone.now + source.disable_delay)
-      report = Report.find_or_create_by_name(:name => "Disabled Source Report")
+      report = Report.find_by_name("disabled_source_report")
       report.send_disabled_source_report(source.id)
     end
 
@@ -188,7 +188,6 @@ class Source < ActiveRecord::Base
     event :start_working_with_check do
       transition [:inactive] => same
       transition any => :disabled, :if => :check_for_failures
-      transition any => :waiting, :if => :check_for_queued_jobs
       transition any => :working
     end
 
@@ -258,7 +257,7 @@ class Source < ActiveRecord::Base
   end
 
   def queue_stale_articles
-    # check to see if source is disabled, has too many failures or jobs are already queued
+    # check to see if source is disabled or has too many failures
     start_working_with_check
 
     return 0 unless working?
@@ -298,6 +297,12 @@ class Source < ActiveRecord::Base
   # Custom validations that are triggered in state machine
   def validate_config_fields
     config_fields.each do |field|
+
+      # Some fields can be blank
+      next if name == "crossref" && field == :password
+      next if name == "mendeley" && field == :access_token
+      next if name == "twitter_search" && field == :access_token
+
       errors.add(field, "can't be blank") if send(field).blank?
     end
   end
@@ -372,24 +377,28 @@ class Source < ActiveRecord::Base
     get_queued_job_count > 0
   end
 
-  def get_queueing_job_count
+  def queueing_count
     Delayed::Job.count('id', :conditions => ["queue = ?", "#{name}-queue"])
   end
 
-  def get_running_job_count
-    Delayed::Job.count('id', :conditions => ["queue = ? AND 'locked_at IS NOT NULL'", name ])
+  def working_count
+    delayed_jobs.count(:locked_at)
   end
 
-  def check_for_running_jobs
+  def check_for_available_workers
     # limit the number of workers per source
-    get_running_job_count >= workers
+    workers >= working_count
+  end
+
+  def pending_count
+    delayed_jobs.count - working_count
   end
 
   def schedule_at
     last_job = DelayedJob.where(queue: name).maximum(:run_at)
     return Time.zone.now if last_job.nil?
 
-    last_job + batch_interval
+    last_job + batch_interval + rand(batch_interval/5)
   end
 
   def workers
@@ -557,23 +566,19 @@ class Source < ActiveRecord::Base
     ActiveRecord::Base.connection.execute sql
   end
 
+  def cache_timeout
+    30.seconds + (Article.count / 250).seconds
+  end
+
   private
 
   def expire_cache
     self.update_column(:cached_at, Time.zone.now)
     source_url = "http://localhost/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
-    get_json(source_url)
+    get_json(source_url, { :timeout => cache_timeout })
 
     Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
     status_url = "http://localhost/api/v5/status?api_key=#{CONFIG[:api_key]}"
-    get_json(status_url)
+    get_json(status_url, { :timeout => cache_timeout })
   end
-end
-
-module Exceptions
-  # source is either inactive or disabled
-  class SourceInactiveError < StandardError; end
-
-  # we have received too many errors (and will disable the source)
-  class TooManyErrorsBySourceError < StandardError; end
 end

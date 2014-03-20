@@ -7,11 +7,12 @@ describe RetrievalStatus do
   it { should have_many(:retrieval_histories).dependent(:destroy) }
 
   it "stale_at should be publication date for unpublished articles" do
-    unpublished_article = build(:retrieval_status, :unpublished)
-    unpublished_article.stale_at.to_date.should eq(unpublished_article.article.published_on)
+    article = FactoryGirl.create(:article, year: Time.zone.now.year, day: Time.zone.now.day + 1)
+    retrieval_status = FactoryGirl.create(:retrieval_status, article: article)
+    retrieval_status.stale_at.to_date.should eq(retrieval_status.article.published_on)
   end
 
-  context "use stale_at" do
+  describe "use stale_at" do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
 
     it "stale_at should be a datetime" do
@@ -27,38 +28,42 @@ describe RetrievalStatus do
     end
   end
 
-  context "staleness intervals" do
+  describe "staleness intervals", :not_teamcity => true do
 
     it "published a day ago" do
-      article = FactoryGirl.create(:article, :published_on => Time.zone.today - 1.day)
+      date = Time.zone.today - 1.day
+      article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[0]
       (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
     end
 
     it "published 8 days ago" do
-      article = FactoryGirl.create(:article, :published_on => Time.zone.today - 8.days)
+      date = Time.zone.today - 8.days
+      article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[1]
       (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
     end
 
     it "published 32 days ago" do
-      article = FactoryGirl.create(:article, :published_on => Time.zone.today - 32.days)
+      date = Time.zone.today - 32.days
+      article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[2]
       (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
     end
 
     it "published 370 days ago" do
-      article = FactoryGirl.create(:article, :published_on => Time.zone.today - 370.days)
+      date = Time.zone.today - 370.days
+      article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[3]
       (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
     end
   end
 
-  context "CouchDB" do
+  describe "CouchDB" do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
     let(:citeulike) { FactoryGirl.create(:citeulike) }
     let(:rs_id) { "#{retrieval_status.source.name}:#{retrieval_status.article.doi_escaped}" }

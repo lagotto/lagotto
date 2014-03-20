@@ -115,6 +115,6 @@ class Api::V4::ArticlesController < Api::V4::BaseController
   private
 
   def safe_params
-    params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :published_on, :year, :month, :day)
+    params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day)
   end
 end

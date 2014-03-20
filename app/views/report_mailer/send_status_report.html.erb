@@ -1,13 +1,13 @@
 <p>This is the ALM status report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.</p>
 
 <p><%= number_with_delimiter(@articles_count) %> Articles<br/>
-<%= number_with_delimiter(@articles_recent_count) %> Articles published last 30 days<br/>
+<%= number_with_delimiter(@events_count) %> Events<br/>
 <%= number_with_delimiter(@sources_disabled_count) %> Disabled sources<br/>
 <%= number_with_delimiter(@alerts_last_day_count) %> Unresolved alerts in the last 24 hours<br/>
 </br>
+<%= number_with_delimiter(@workers_count) %> Active workers<br/>
 <%= number_with_delimiter(@delayed_jobs_active_count) %> Pending and working jobs<br/>
 <%= number_with_delimiter(@responses_count) %> API responses in the last 24 hours<br/>
-<%= number_with_delimiter(@events_count) %> Events<br/>
 <%= number_with_delimiter(@requests_count) %> API requests in the last 24 hours<br/>
 <br/>
 <%= number_with_delimiter(@users_count) %> Users<br/>

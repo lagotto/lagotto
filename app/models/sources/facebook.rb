@@ -22,6 +22,7 @@ class Facebook < Source
 
   def get_data(article, options={})
 
+    # Store an empty response if article DOI doesn't resolve to a URL that we can store
     return  { :events => [], :event_count => nil } unless article.get_url
 
     query_url = get_query_url(article)
@@ -60,7 +61,7 @@ class Facebook < Source
   end
 
   def get_query_url(article, options={})
-    URI.escape(url % { access_token: access_token, query_url: article.canonical_url })
+    URI.escape(url % { access_token: access_token, query_url: article.canonical_url_escaped })
   end
 
   def get_config_fields

@@ -44,6 +44,20 @@ FactoryGirl.define do
       description 'Reports when a source has been disabled'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
+
+    factory :stale_source_report_with_admin_user do
+      name 'stale_source_report'
+      display_name 'Stale Source Report'
+      description 'Reports when a source has not been updated'
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
+
+    factory :missing_workers_report_with_admin_user do
+      name 'missing_workers_report'
+      display_name 'Missing Workers Report'
+      description 'Reports when workers are not running'
+      users { [FactoryGirl.create(:user, role: "admin")] }
+    end
   end
 
   factory :retrieval_history do
@@ -130,7 +144,7 @@ FactoryGirl.define do
     display_name "PubMed Central Usage Stats"
     state_event "activate"
     url "http://127.0.0.1:5984/pmc_usage_stats_test/"
-    journals "plosbiol"
+    journals "ajrccm"
     username "EXAMPLE"
     password "EXAMPLE"
 
@@ -234,7 +248,9 @@ FactoryGirl.define do
     name "twitter_search"
     display_name "Twitter"
     state_event "activate"
-    access_token "TOKEN"
+    api_key "EXAMPLE"
+    api_secret "EXAMPLE"
+    access_token "EXAMPLE"
 
     group
 
@@ -258,7 +274,10 @@ FactoryGirl.define do
     name "mendeley"
     display_name "Mendeley"
     state_event "activate"
-    api_key "EXAMPLE"
+    client_id "EXAMPLE"
+    secret "EXAMPLE"
+    access_token "EXAMPLE"
+    expires_at { Time.zone.now + 1.hour }
 
     group
 
@@ -275,6 +294,18 @@ FactoryGirl.define do
     group
 
     initialize_with { Facebook.find_or_create_by_name(name) }
+  end
+
+  factory :scopus, class: Scopus do
+    type "Scopus"
+    name "scopus"
+    display_name "Scopus"
+    api_key "EXAMPLE"
+    insttoken "EXAMPLE"
+
+    group
+
+    initialize_with { Scopus.find_or_create_by_name(name) }
   end
 
   factory :alert do

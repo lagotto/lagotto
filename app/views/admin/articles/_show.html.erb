@@ -10,7 +10,11 @@
       <%= f.input :pmcid, :label => 'PubMed Central ID' %>
       <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
       <%= f.input :canonical_url, :label => 'Canonical URL' %>
-      <%= f.input :published_on, :label => 'Publication Date', :as => :date, :start_year => Time.zone.now.year - 50, :end_year => Time.zone.now.year, :order => [:day, :month, :year], :input_html => { :class => "input-small" } %>
+      <%= f.input :published_on, label: "Publication Date" do %>
+        <%= f.input_field :day, as: :day %>
+        <%= f.input_field :month, as: :month %>
+        <%= f.input_field :year, as: :year %>
+      <% end %>
 
       <div class="form-group">
         <%= f.submit "Save ", class: "btn btn-default" %>
@@ -38,7 +42,7 @@
 
   <dl class="dl-horizontal">
     <dt>Publication Date</dt>
-    <dd><%= @article.published_on.to_s(:long) %></dd>
+    <dd><%= l @article.published_on, format: date_format(@article) %></dd>
     <% if @article.doi %>
       <dt>DOI</dt>
       <dd class="doi" data-doi="<%= @article.doi %>" data-api_key="<%= CONFIG[:api_key] %>"><%= link_to h(@article.doi), @article.doi_as_url %></dd>
@@ -57,7 +61,7 @@
     <% end %>
     <dt>URLs</dt>
     <dd>
-      <% if @article.canonical_url %>
+      <% if !@article.canonical_url.blank? %>
         <%= link_to h(@article.canonical_url), @article.canonical_url %><br/>
       <% end %>
       <% if @article.pmid %>
@@ -70,6 +74,7 @@
         <%= link_to h(@article.citeulike.events_url), @article.citeulike.events_url %><br/>
       <% end %>
     </dd>
+  </dl>
 
   <% if can? :read, Alert %>
     <div id="alert-error-message">
@@ -77,30 +82,24 @@
     </div>
   <% end %>
 
-  <% if @article.retrieval_statuses.sum(:event_count) > 0 %>
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
-      <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
-      <% if can? :read, Alert %>
-        <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
-      <% end %>
-    </ul>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
+    <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
+    <% if can? :read, Alert %>
+      <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
+    <% end %>
+  </ul>
 
-    <div class="tab-content">
-      <div class="tab-pane active" id="metrics">
-        <div class="text-muted" id="loading">Loading page … <%= image_tag "spinner.gif" %></div>
-        <%= javascript_tag do -%>
-          <%= render :partial => 'admin/articles/alm', formats: :js %>
-        <% end %>
-      </div>
-      <div class="tab-pane" id="more">
-        <%= render :partial => 'admin/articles/more' %>
-      </div>
-      <div class="tab-pane" id="alert">
-        <%= render :partial => 'admin/articles/alert' %>
-      </div>
+  <div class="tab-content">
+    <div class="tab-pane active" id="metrics">
+      <%= render :partial => 'admin/articles/metrics' %>
+
     </div>
-  <% else %>
-    <div class="alert alert-info">No sources have cited this article</div>
-  <% end %>
+    <div class="tab-pane" id="more">
+      <%= render :partial => 'admin/articles/more' %>
+    </div>
+    <div class="tab-pane" id="alert">
+      <%= render :partial => 'admin/articles/alert' %>
+    </div>
+  </div>
 <% end %>

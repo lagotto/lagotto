@@ -23,7 +23,7 @@ describe "/api/v5/articles" do
         data.length.should == 50
         data.any? do |article|
           article["doi"] == articles[0].doi
-          article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
+          article["issued"]["date_parts"] == [articles[0].year, articles[0].month, articles[0].day]
         end.should be_true
       end
     end
@@ -40,7 +40,7 @@ describe "/api/v5/articles" do
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eql(article.doi)
-        item["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
         item["sources"].should be_nil
       end
     end
@@ -57,55 +57,12 @@ describe "/api/v5/articles" do
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eql(article.doi)
-        item["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
 
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         item_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
         item_source["events"].should_not be_nil
-        item_source["histories"].should_not be_nil
-      end
-    end
-
-    context "history information" do
-      let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&info=history&api_key=#{api_key}"}
-
-      it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should == 200
-
-        response = JSON.parse(last_response.body)
-        response["total"].should == 1
-        item = response["data"].first
-        item["doi"].should eql(article.doi)
-        item["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-
-        item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["events"].should be_nil
-        item_source["histories"].should_not be_nil
-      end
-    end
-
-    context "event information" do
-      let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&info=event&api_key=#{api_key}"}
-
-      it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
-        last_response.status.should == 200
-
-        response = JSON.parse(last_response.body)
-        response["total"].should == 1
-        item = response["data"].first
-        item["doi"].should eql(article.doi)
-        item["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-
-        item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["events"].should_not be_nil
-        item_source["histories"].should be_nil
       end
     end
   end

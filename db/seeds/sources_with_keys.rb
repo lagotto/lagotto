@@ -7,7 +7,7 @@ cited = Group.find_or_create_by_name(name: "cited", display_name: "Cited")
 recommended = Group.find_or_create_by_name(name: "recommended", display_name: "Recommended")
 other = Group.find_or_create_by_name(name: "other", display_name: "Other")
 
-# The following sources require passwords/API keys and are not installed by default
+# The following sources require passwords/API keys and are installed by default
 crossref = CrossRef.find_or_create_by_name(
   :name => "crossref",
   :display_name => "CrossRef",
@@ -15,6 +15,13 @@ crossref = CrossRef.find_or_create_by_name(
   :group_id => cited.id,
   :username => nil,
   :password => nil)
+scopus = Scopus.find_or_create_by_name(
+  :name => "scopus",
+  :display_name => "Scopus",
+  :description => "Scopus is an abstract and citation database of peer-reviewed literature.",
+  :group_id => cited.id,
+  :api_key => nil,
+  :insttoken => nil)
 mendeley = Mendeley.find_or_create_by_name(
   :name => "mendeley",
   :display_name => "Mendeley",
@@ -34,6 +41,8 @@ researchblogging = Researchblogging.find_or_create_by_name(
   :group_id => discussed.id,
   :username => nil,
   :password => nil)
+
+# The following sources require passwords/API keys and are not installed by default
 pmc = Pmc.find_or_create_by_name(
   :name => "pmc",
   :display_name => "PubMed Central Usage Stats",

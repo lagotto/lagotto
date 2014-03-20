@@ -2,6 +2,11 @@ erlang Cookbook CHANGELOG
 =========================
 This file is used to list changes made in each version of the erlang cookbook.
 
+v1.5.0 (2014-02-25)
+-------------------
+[COOK-4296] - Add custom build flags when building from source
+
+
 v1.4.2
 ------
 COOK-4155, use a version in version conditional

@@ -15,7 +15,7 @@ When /^I check the checkbox for the report "(.*?)"$/ do |name|
 end
 
 When /^I uncheck the checkbox for the report "(.*?)"$/ do |name|
-  page.driver.render("tmp/capybara/#{name}.png")
+  page.driver.render("tmp/capybara/#{name}.png") if @wip
   uncheck name
 end
 
@@ -30,6 +30,6 @@ Then /^I should not see the report "(.*?)"$/ do |name|
 end
 
 Then(/^I should see the "(.*?)" link$/) do |name|
-  page.driver.render("tmp/capybara/#{name}.png")
+  page.driver.render("tmp/capybara/#{name}.png") if @wip
   page.has_link?(name).should be_true
 end

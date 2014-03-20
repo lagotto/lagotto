@@ -11,11 +11,13 @@ Feature: Show API requests
       When I go to the submenu "External API Requests" of menu "Users"
       Then I should see that no API requests were made
 
+    @not_teamcity
     Scenario: Seeing request information
       Given we have 3 API requests
       When I go to the submenu "External API Requests" of menu "Users"
       Then I should see 3 API requests were made
 
+    @not_teamcity
     Scenario: Only load 1,000 API requests
       Given we have 1005 API requests
       When I go to the submenu "External API Requests" of menu "Users"
