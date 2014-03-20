@@ -68,6 +68,11 @@ namespace :queue do
       sources = Source.active.where("name in (?)", args.extras)
     end
 
+    if sources.empty?
+      puts "No active source found."
+      exit
+    end
+
     sources.each do |source|
       rs = RetrievalStatus.find_by_article_id_and_source_id(article.id, source.id)
 
@@ -76,7 +81,7 @@ namespace :queue do
         exit
       end
 
-      source.queue_article_jobs([rs.id])
+      source.queue_article_jobs([rs.id], { priority: 2 })
       puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
     end
   end

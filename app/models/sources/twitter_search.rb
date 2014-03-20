@@ -26,6 +26,9 @@ class TwitterSearch < Source
 
   def get_data(article, options={})
 
+    # First check that we have a valid OAuth2 access token
+    return nil unless get_access_token
+
     return  { events: [], event_count: nil } if article.doi.blank?
 
     # Twitter returns 15 results per query
@@ -97,11 +100,34 @@ class TwitterSearch < Source
     query_url = url + params.to_query
   end
 
+  def get_access_token(options={})
+
+    # Check whether we already have access token
+    return true if access_token.present?
+
+    # Otherwise get new access token
+    result = post_json(authentication_url, options.merge(:username => api_key,
+                                                         :password => api_secret,
+                                                         :data => "grant_type=client_credentials",
+                                                         :source_id => id,
+                                                         :headers => { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
+
+    if result.present? && result["access_token"]
+      config.access_token = result["access_token"]
+      save
+    else
+      false
+    end
+  end
+
   def get_config_fields
     [{ field_name: "url", field_type: "text_area", size: "90x2" },
      { field_name: "events_url", field_type: "text_area", size: "90x2" },
      { field_name: "data_url", field_type: "text_area", size: "90x2" },
-     { field_name: "access_token", field_type: "text_field" }]
+     { :field_name => "authentication_url", :field_type => "text_area", :size => "90x2" },
+     { :field_name => "api_key", :field_type => "text_field" },
+     { :field_name => "api_secret", :field_type => "text_field" },
+     { :field_name => "access_token", :field_type => "text_field" }]
   end
 
   def get_max_id(next_results)
@@ -133,6 +159,22 @@ class TwitterSearch < Source
 
   def data_url=(value)
     config.data_url = value
+  end
+
+  def authentication_url
+    config.authentication_url || "https://api.twitter.com/oauth2/token"
+  end
+
+  def authentication_url=(value)
+    config.authentication_url = value
+  end
+
+  def api_secret
+    config.api_secret
+  end
+
+  def api_secret=(value)
+    config.api_secret = value
   end
 
   def staleness_week

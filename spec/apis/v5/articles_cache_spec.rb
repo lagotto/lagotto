@@ -32,7 +32,6 @@ describe "/api/v5/articles", :not_teamcity => true do
         response[:issued][:date_parts].should eql([article.year, article.month, article.day])
         response_source[:metrics][:total].should eql(article.retrieval_statuses.first.event_count)
         response_source[:events].should be_nil
-        response_source[:histories].should be_nil
       end
 
       it "can make API requests 2x faster" do
@@ -140,8 +139,8 @@ describe "/api/v5/articles", :not_teamcity => true do
 
         Rails.cache.exist?("#{key}//json").should be_true
 
-        history_uri = "#{uri}&info=history"
-        get history_uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        detail_uri = "#{uri}&info=detail"
+        get detail_uri, nil, { 'HTTP_ACCEPT' => "application/json" }
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -152,8 +151,7 @@ describe "/api/v5/articles", :not_teamcity => true do
         response_source = data["sources"][0]
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should_not be_nil
+        response_source["events"].should_not be_nil
 
         summary_uri = "#{uri}&info=summary"
         get summary_uri, nil, { 'HTTP_ACCEPT' => "application/json" }

@@ -56,10 +56,10 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def events
-    unless data.blank?
-      data["events"]
-    else
+    if data.blank? || data["error"]
       []
+    else
+      data["events"]
     end
   end
 

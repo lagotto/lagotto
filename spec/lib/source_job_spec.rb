@@ -23,7 +23,7 @@ describe SourceJob do
     Alert.count.should == 1
     alert = Alert.first
     alert.class_name.should eq("Timeout::Error")
-    alert.message.should eq("DelayedJob timeout error for CiteULike")
+    alert.message.should eq("SourceJob timeout error for CiteULike")
     alert.status.should == 408
     alert.source_id.should == citeulike.id
   end

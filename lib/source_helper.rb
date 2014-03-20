@@ -27,7 +27,10 @@ require 'uri'
 
 module SourceHelper
   DEFAULT_TIMEOUT = 60
-  SourceHelperExceptions = [Faraday::Error::ClientError, Delayed::WorkerTimeout].freeze
+  SourceHelperExceptions = [Faraday::Error::ClientError,
+                            Delayed::WorkerTimeout,
+                            Encoding::UndefinedConversionError,
+                            ArgumentError].freeze
   # Errno::EPIPE, Errno::ECONNRESET
 
   def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
@@ -77,7 +80,7 @@ module SourceHelper
     conn = conn_html
     conn.basic_auth(options[:username], options[:password]) if options[:username]
     conn.options[:timeout] = options[:timeout]
-    response = conn.get url
+    response = conn.get url, {}, options[:headers]
     response.body
   rescue *SourceHelperExceptions => e
     rescue_faraday_error(url, e, options.merge(html: true))
@@ -157,7 +160,7 @@ module SourceHelper
     conn.options[:ssl] = { verify: false }
 
     conn.options[:timeout] = options[:timeout]
-    response = conn.get url
+    response = conn.get url, {}, options[:headers]
 
     # Priority to find URL:
     # 1. <link rel=canonical />
@@ -288,7 +291,7 @@ module SourceHelper
         status = 408
       elsif error.respond_to?('status')
         status = error[:status]
-      elsif error.response
+      elsif error.respond_to?('response') && error.response.present?
         status = error.response[:status]
         details = error.response[:body]
       else

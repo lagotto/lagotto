@@ -58,21 +58,12 @@ module ApplicationHelper
     (number > 0 ? number : "")
   end
 
-  def article_statistics_report_path
-    path = "/public/files/alm_report.zip"
-    if File.exist?(Rails.root + path)
-      path
-    else
-      nil
-    end
-  end
-
   def sources
     Source.order("group_id, display_name")
   end
 
   def alerts
-    %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
+    %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout DelayedJobError Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError TooManyWorkersError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end
 
   def article_statistics_report_path
