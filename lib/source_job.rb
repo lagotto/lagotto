@@ -201,15 +201,16 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def reschedule_at(attempts, time)
     case attempts
     when (0..5)
-      1.minute.from_now
+      interval = 1.minute
     when (6..10)
-      5.minutes.from_now
+      interval = 5.minutes
     when (11..15)
-      30.minutes.from_now
+      interval = 30.minutes
     when (16..20)
-      1.hour.from_now
+      interval = 1.hour
     else
-      3.hours.from_now
+      interval = 3.hours
     end
+    self.class.db_time_now + interval
   end
 end
