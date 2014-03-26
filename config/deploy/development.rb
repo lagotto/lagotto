@@ -6,6 +6,7 @@ set :rails_env, :development
 set :bundle_without, nil
 set :bundle_flags, nil
 
+role :app, %w{33.33.33.44}
 role :web, %w{33.33.33.44}
 role :db,  %w{33.33.33.44}
 
