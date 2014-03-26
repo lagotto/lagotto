@@ -1,5 +1,5 @@
 set :stage, :production
-set :branch, "master"
+set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
 set :rails_env, :production
 
 # Simple Role Syntax

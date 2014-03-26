@@ -1,10 +1,10 @@
 set :stage, :development
-set :branch, 'develop'
+set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "develop"
 set :deploy_user, 'vagrant'
 set :rails_env, :development
 
 set :bundle_without, nil
-set :bundle_flags, '--quiet'
+set :bundle_flags, nil
 
 role :app, %w{33.33.33.44}
 role :web, %w{33.33.33.44}

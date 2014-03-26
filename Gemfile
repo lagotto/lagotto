@@ -53,8 +53,8 @@ gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.3.1"
 
 group :development do
-  gem 'capistrano-rails', '~> 1.0.0'
-  gem 'capistrano-bundler', '~> 1.1.2'
+  gem 'capistrano-rails', '~> 1.1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1.2', require: false
 end
 
 group :test do
