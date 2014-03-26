@@ -9,6 +9,7 @@ cookbook "git", "2.5.2"
 
 cookbook "passenger_apache2", :git => "https://github.com/articlemetrics/passenger_apache2.git", :ref => "articlemetrics"
 cookbook "mysql", "3.0.2"
+cookbook "database", "2.0.0"
 cookbook "couchdb", "2.4.0"
 cookbook "phantomjs", "1.0.2"
 cookbook "memcached", "1.7.0"
