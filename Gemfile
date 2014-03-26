@@ -7,7 +7,6 @@ gem 'mysql2', '0.3.13'
 gem "delayed_job", "~> 4.0.0"
 gem "delayed_job_active_record", "~> 4.0.0"
 gem "daemons", "~> 1.1.9"
-gem "foreman", "~> 0.63.0"
 gem "rake", "~> 10.1.1"
 gem "whenever", "~> 0.9.0", :require => false
 gem "mail", "~> 2.5.4"
@@ -26,9 +25,9 @@ gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.5.4"
 gem 'rubyzip',  "~> 1.1", require: 'zip'
 
-gem 'mumboe-soap4r', '1.5.8.5'
 gem "devise", "~> 3.2.2"
 gem "omniauth-persona"
+gem "omniauth-cas", "~> 1.0.4"
 gem "cancan", "~> 1.6.10"
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
@@ -53,6 +52,11 @@ gem "dotiw", "~> 1.1.1"
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.3.1"
 
+group :development do
+  gem 'capistrano-rails', '~> 1.0.0'
+  gem 'capistrano-bundler', '~> 1.1.2'
+end
+
 group :test do
   gem "factory_girl_rails", "~> 4.3.0", :require => false
   gem "cucumber-rails", "~> 1.4.0", :require => false
@@ -68,9 +72,7 @@ group :test do
   gem "aruba", "~> 0.5.1", :require => false
   gem "poltergeist", "~> 1.5.0"
   gem "minitest", "~> 4.4.0"
-  gem "faye-websocket", "~> 0.4.7"
   gem "mocha", "~> 0.13.3", :require => false
-  gem "codeclimate-test-reporter", require: nil
 end
 
 group :test, :development do
