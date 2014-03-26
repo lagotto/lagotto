@@ -21,3 +21,6 @@ set :ssh_options, {
   keys: %w(~/.vagrant.d/insecure_private_key),
   auth_methods: %w(publickey)
 }
+
+# Set number of delayed_job workers
+set :delayed_job_args, "-n 3"
