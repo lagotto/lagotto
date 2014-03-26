@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: build-essential
-# Recipe:: suse
+# Cookbook Name:: apt
+# library:: network
 #
-# Copyright 2008-2013, Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,20 +17,15 @@
 # limitations under the License.
 #
 
-%w{
-  autoconf
-  bison
-  flex
-  gcc
-  gcc-c++
-  kernel-default-devel
-  make
-  m4
-}.each do |pkg|
-
-  r = package pkg do
-    action( node['build_essential']['compiletime'] ? :nothing : :install )
+module ::Apt
+  def interface_ipaddress(host, interface)
+    if interface
+      addresses = host['network']['interfaces'][interface]['addresses']
+      addresses.select do |ip, data|
+        return ip if data['family'].eql?('inet')
+      end
+    else
+      return host.ipaddress
+    end
   end
-  r.run_action(:install) if node['build_essential']['compiletime']
-
 end

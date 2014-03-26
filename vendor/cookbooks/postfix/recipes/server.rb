@@ -1,3 +1,4 @@
+# encoding: utf-8
 #
 # Author:: Joshua Timberman(<joshua@opscode.com>)
 # Cookbook Name:: postfix
@@ -21,4 +22,4 @@
 node.override['postfix']['mail_type'] = 'master'
 node.override['postfix']['main']['inet_interfaces'] = 'all'
 
-include_recipe "postfix"
+include_recipe 'postfix'

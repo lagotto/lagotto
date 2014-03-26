@@ -1,5 +1,9 @@
 #
-# Copyright 2012, Opscode, Inc.
+# Cookbook Name:: phantomjs
+# Attribute:: rhel
+#
+# Copyright 2012-2013, Seth Vargo (sethvargo@gmail.com)
+# Copyright 2012-2013, CustomInk
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,11 +17,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require File.expand_path('../support/helpers', __FILE__)
+#
+# This is the Red Hat and Fedora attributes file.
+#
 
-describe "postfix::server" do
-  include Helpers::Postfix
-  it 'doesnt configure postfix because solo is unsupported' do
-    skip "Postfix may be set up by default on the system, but not configured by Chef because this test assumes it is run under Chef Solo"
-  end
-end
+return unless %w(rhel fedora).include?(node['platform_family'])
+
+# The list of packages to install on redhat-based systems
+default['phantomjs']['packages'] = [
+  'fontconfig',
+  'freetype',
+]

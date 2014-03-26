@@ -1,18 +1,18 @@
-#!/usr/bin/env ruby
+##!/usr/bin/env ruby
 #^syntax detection
 
 site 'http://community.opscode.com/api/v1'
 
-cookbook "apt", "2.1.1"
-cookbook "build-essential", "1.4.2"
-cookbook "git", "2.5.2"
+cookbook "apt", "2.3.8"
+cookbook "build-essential", "2.0.0"
+cookbook "git", "4.0.0"
 
 cookbook "passenger_apache2", :git => "https://github.com/articlemetrics/passenger_apache2.git", :ref => "articlemetrics"
 cookbook "mysql", "3.0.2"
 cookbook "database", "2.0.0"
-cookbook "couchdb", "2.4.0"
-cookbook "phantomjs", "1.0.2"
-cookbook "memcached", "1.7.0"
-cookbook "postfix", "3.0.0"
+cookbook "couchdb", "2.5.1"
+cookbook "phantomjs", "1.0.3"
+cookbook "memcached", "1.7.2"
+cookbook "postfix", "3.1.6"
 
 cookbook "alm", :git => "https://github.com/articlemetrics/alm-cookbook.git"

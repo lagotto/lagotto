@@ -1,9 +1,8 @@
 #
-# Cookbook Name:: phantomjs
-# Attribute:: rehl
+# Cookbook Name:: build-essential
+# Recipe:: mac_os_x
 #
-# Copyright 2012-2013, Seth Vargo (sethvargo@gmail.com)
-# Copyright 2012-2013, CustomInk
+# Copyright 2008-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,14 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-#
-# This is the Red Hat and Fedora attributes file.
-#
 
-return unless %w(rhel fedora).include?(node['platform_family'])
-
-# The list of packages to install on redhat-based systems
-default['phantomjs']['packages'] = [
-  'fontconfig',
-  'freetype',
-]
+potentially_at_compile_time do
+  xcode_command_line_tools 'install'
+end

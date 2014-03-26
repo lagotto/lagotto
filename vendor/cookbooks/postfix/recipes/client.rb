@@ -1,4 +1,4 @@
-#
+# encoding: utf-8
 # Author:: Joshua Timberman(<joshua@opscode.com>)
 # Cookbook Name:: postfix
 # Recipe:: client
@@ -24,19 +24,19 @@ if Chef::Config[:solo]
 end
 
 query = "role:#{node['postfix']['relayhost_role']}"
-relayhost = ""
+relayhost = ''
 results = []
 
 if node.run_list.roles.include?(node['postfix']['relayhost_role'])
   relayhost << node['ipaddress']
 elsif node['postfix']['multi_environment_relay']
   results = search(:node, query)
-  relayhost = results.map {|n| n['ipaddress']}.first
+  relayhost = results.map { |n| n['ipaddress'] }.first
 else
   results = search(:node, "#{query} AND chef_environment:#{node.chef_environment}")
-  relayhost = results.map {|n| n['ipaddress']}.first
+  relayhost = results.map { |n| n['ipaddress'] }.first
 end
 
-node.set['postfix']['relayhost'] = "[#{relayhost}]"
+node.set['postfix']['main']['relayhost'] = "[#{relayhost}]"
 
-include_recipe "postfix"
+include_recipe 'postfix'
