@@ -24,6 +24,8 @@ require 'timeout'
 class SourceJob < Struct.new(:rs_ids, :source_id)
   include SourceHelper
 
+  SourceJobExceptions = [CustomError::SourceInactiveError, CustomError::NotEnoughWorkersError].freeze
+
   def enqueue(job)
     # keep track of when the article was queued up
     RetrievalStatus.update_all(["queued_at = ?", Time.zone.now], ["id in (?)", rs_ids] )
@@ -36,8 +38,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
     # Check that source is working and we have workers for this source
     # Otherwise raise an error and reschedule the job
-    raise CustomError::SourceInactiveError, "Source not working." unless source.working?
-    raise CustomError::NotEnoughWorkersError, "No workers available." unless source.check_for_available_workers
+    raise CustomError::SourceInactiveError unless source.working?
+    raise CustomError::NotEnoughWorkersError unless source.check_for_available_workers
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
 
@@ -63,6 +65,12 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                  :message => "SourceJob timeout error for #{source.display_name}",
                  :status => 408,
                  :source_id => source.id)
+    return false
+  rescue *SourceJobExceptions
+    return false
+  rescue StandardError => e
+    Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
+    return false
   end
 
   def perform_get_data(rs)
@@ -178,16 +186,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
     source = Source.find(source_id)
     source.stop_working unless source.get_queued_job_count > 1
-  end
-
-  def error(job, e)
-    # simply retry for these errors, raise an alert otherwise
-    if e.kind_of?(CustomError::SourceInactiveError) || e.kind_of?(CustomError::NotEnoughWorkersError)
-      return if job.attempts < Delayed::Worker.max_attempts
-    end
-
-    source = Source.find(source_id)
-    Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
   end
 
   def failure(job)
