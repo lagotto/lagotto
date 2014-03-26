@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Delayed::Worker.destroy_failed_jobs = true
+Delayed::Worker.destroy_failed_jobs = false
 Delayed::Worker.sleep_delay = 5
 Delayed::Worker.max_attempts = 25
 Delayed::Worker.default_priority = 3
