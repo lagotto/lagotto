@@ -13,7 +13,7 @@ end
   directory "/var/www/#{dir}" do
     owner node[:alm][:user]
     group node[:alm][:group]
-    mode 0744
+    mode 0755
     recursive true
   end
 end
@@ -77,12 +77,6 @@ template "/var/www/alm/shared/db/seeds/_custom_sources.rb" do
   group node[:alm][:group]
   mode 0644
 end
-
-# Install MySQL gem
-# gem_package "mysql2" do
-#   gem_binary "/usr/bin/gem"
-#   version "0.3.13"
-# end
 
 # Create default MySQL database
 mysql_database "#{node[:alm][:name]}_#{node[:alm][:environment]}" do
