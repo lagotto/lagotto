@@ -172,11 +172,14 @@ module SourceHelper
     if !body_url && body.at('meta[property="og:url"]')
       body_url = body.at('meta[property="og:url"]')['content']
     end
-    # remove percent encoding
-    body_url = CGI.unescape(body_url) if body_url
 
-    # remove parameter used by IEEE
-    body_url = body_url.sub("reload=true&", "")
+    if body_url
+      # remove percent encoding
+      body_url = CGI.unescape(body_url)
+
+      # remove parameter used by IEEE
+      body_url = body_url.sub("reload=true&", "")
+    end
 
     url = response.env[:url].to_s
     if url
