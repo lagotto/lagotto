@@ -16,6 +16,7 @@ capybara-*.html
 .librarian
 /.bundle
 /vendor/bundle/*
+/bin/*
 /log/*
 /data/*
 /tmp/*

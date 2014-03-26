@@ -4,7 +4,7 @@ set :deploy_user, 'vagrant'
 set :rails_env, :development
 
 set :bundle_without, nil
-set :bundle_flags, nil
+set :bundle_flags, '--quiet'
 
 role :app, %w{33.33.33.44}
 role :web, %w{33.33.33.44}

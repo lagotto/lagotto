@@ -34,6 +34,9 @@ set :linked_dirs, %w{ bin log tmp/pids tmp/cache tmp/sockets vendor/bundle publi
 # Default value for keep_releases is 5
 set :keep_releases, 5
 
+# Install gems into shared/vendor/bundle
+set :bundle_path, -> { shared_path.join('vendor/bundle') }
+
 namespace :deploy do
 
   desc 'Restart application'
