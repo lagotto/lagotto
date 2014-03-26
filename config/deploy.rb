@@ -26,7 +26,7 @@ set :log_level, :info
 set :linked_files, %w{ config/database.yml config/settings.yml db/seeds/_custom_sources.rb }
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{ bin log tmp/pids tmp/sockets vendor/bundle public/system public/files }
+set :linked_dirs, %w{ bin log tmp/pids tmp/sockets vendor/bundle public/files }
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
