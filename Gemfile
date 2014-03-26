@@ -24,6 +24,7 @@ gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.5.4"
 gem 'rubyzip',  "~> 1.1", require: 'zip'
+gem 'sshkit', '~> 1.3.0', :require => false
 
 gem "devise", "~> 3.2.2"
 gem "omniauth-persona"
