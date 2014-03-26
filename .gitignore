@@ -30,7 +30,7 @@ capybara-*.html
 /config/settings.yml
 /config/deploy/production.rb
 /config/data_bags/*
-/db/_custom_sources.rb.erb
+/db/seeds/_custom_sources.rb
 /vendor/cookbooks/*/.git
 **.orig
 rerun.txt
@@ -40,9 +40,5 @@ pickle-email-*.html
 config.json
 /public/assets
 .idea/*
-db/seeds-test.rb
-db/seeds-production.rb
-
 erl_crash.dump
-
 optimise-db.txt
