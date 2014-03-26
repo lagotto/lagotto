@@ -24,6 +24,7 @@ defaults: &defaults
   rest_auth_digest_stretches: 10
   secret_token: c436de247c988eb5d0908407e700098fc3992040629bb8f98223cd221e94ee4d15626aae5d815f153f3dbbce2724ccb8569c4e26a0f6f663375f6f2697f1f3cf #'run `rake secret` again to generate a second key to insert here'
   workers: 1
+  persona: true
   couchdb_url: http://localhost:5984/alm/
   doi_prefix:
   uid: doi
