@@ -1,27 +1,32 @@
-case node['platform']
-when "ubuntu"
-  # Install required packages
-  %w{ruby1.9.3 curl}.each do |pkg|
-    package pkg do
-      action :install
-    end
+# Install required packages
+%w{ruby1.9.3 curl}.each do |pkg|
+  package pkg do
+    action :install
   end
-  gem_package "bundler" do
-    gem_binary "/usr/bin/gem"
+end
+gem_package "bundler" do
+  gem_binary "/usr/bin/gem"
+end
+
+# Create shared folders and set permissions
+%w{ alm alm/current alm/shared alm/releases }.each do |dir|
+  directory "/var/www/#{dir}" do
+    owner node[:alm][:user]
+    group node[:alm][:group]
+    mode 0744
+    recursive true
   end
-when "centos"
-  yum_package "urw-fonts"
 end
 
 require 'securerandom'
 # Create new settings.yml unless it exists already
 # Set these passwords in config.json to keep them persistent
-unless File.exists?("/vagrant/config/settings.yml")
+unless File.exists?("/var/www/alm/shared/config/settings.yml")
   node.set['alm']['key'] = SecureRandom.hex(30) unless node['alm']['key']
   node.set['alm']['secret'] = SecureRandom.hex(30) unless node['alm']['secret']
   node.set['alm']['api_key'] = SecureRandom.hex(30) unless node['alm']['api_key']
 else
-  settings = YAML::load(IO.read("/vagrant/config/settings.yml"))
+  settings = YAML::load(IO.read("/var/www/alm/shared/config/settings.yml"))
   rest_auth_site_key = settings["#{node[:alm][:environment]}"]["rest_auth_site_key"]
   secret_token = settings["#{node[:alm][:environment]}"]["secret_token"]
   api_key = settings["#{node[:alm][:environment]}"]["api_key"]
@@ -31,22 +36,22 @@ else
   node.set_unless['alm']['api_key'] = api_key
 end
 
-template "/vagrant/config/settings.yml" do
+template "/var/www/alm/shared/config/settings.yml" do
   source 'settings.yml.erb'
-  owner 'root'
-  group 'root'
+  owner node[:alm][:user]
+  group node[:alm][:group]
   mode 0644
 end
 
 # Create new database.yml unless it exists already
 # Set these passwords in config.json to keep them persistent
-unless File.exists?("/vagrant/config/database.yml")
+unless File.exists?("/var/www/alm/shared/config/database.yml")
   node.set_unless['mysql']['server_root_password'] = SecureRandom.hex(8)
   node.set_unless['mysql']['server_repl_password'] = SecureRandom.hex(8)
   node.set_unless['mysql']['server_debian_password'] = SecureRandom.hex(8)
   database_exists = false
 else
-  database = YAML::load(IO.read("/vagrant/config/database.yml"))
+  database = YAML::load(IO.read("/var/www/alm/shared/config/database.yml"))
   server_root_password = database["#{node[:alm][:environment]}"]["password"]
 
   node.set_unless['mysql']['server_root_password'] = server_root_password
@@ -55,66 +60,38 @@ else
   database_exists = true
 end
 
-template "/vagrant/config/database.yml" do
+template "/var/www/alm/shared/config/database.yml" do
   source 'database.yml.erb'
-  owner 'root'
-  group 'root'
+  owner node[:alm][:user]
+  group node[:alm][:group]
   mode 0644
 end
 
 include_recipe "mysql::server"
+include_recipe "database::mysql"
 
 # Add configuration settings to database seed files
-template "/vagrant/db/seeds/sources_with_keys.rb" do
-  source 'sources_with_keys.rb.erb'
-  owner 'root'
-  group 'root'
+template "/var/www/alm/shared/db/seeds/_custom_sources.rb" do
+  source '_custom_sources.rb.erb'
+  owner node[:alm][:user]
+  group node[:alm][:group]
   mode 0644
 end
 
-# Only add private sources if configuration is available
-if node[:alm][:counter]
-  template "/vagrant/db/seeds/private_sources.rb" do
-    source 'private_sources.rb.erb'
-    owner 'root'
-    group 'root'
-    mode 0644
-  end
-end
+# Install MySQL gem
+# gem_package "mysql2" do
+#   gem_binary "/usr/bin/gem"
+#   version "0.3.13"
+# end
 
-# Install required gems via bundler
-script "bundle" do
-  interpreter "bash"
-  cwd "/vagrant"
-  code "bundle install"
-end
-
-case node['platform']
-when "centos"
-  # required by Cucumber tests
-  gem_package "faye-websocket" do
-    version "0.4.7"
-  end
-end
-
-# Create default databases if they don't exist yet and run migrations otherwise
-if database_exists
-  script "RAILS_ENV=#{node[:alm][:environment]} rake db:migrations" do
-    interpreter "bash"
-    cwd "/vagrant"
-    code "RAILS_ENV=#{node[:alm][:environment]} rake db:migrations"
-    code "RAILS_ENV=#{node[:alm][:environment]} rake db:seed"
-  end
-else
-  script "RAILS_ENV=#{node[:alm][:environment]} rake db:setup" do
-    interpreter "bash"
-    cwd "/vagrant"
-    if node[:alm][:seed_sample_articles]
-      code "RAILS_ENV=#{node[:alm][:environment]} rake db:setup ARTICLES='1'"
-    else
-      code "RAILS_ENV=#{node[:alm][:environment]} rake db:setup"
-    end
-  end
+# Create default MySQL database
+mysql_database "#{node[:alm][:name]}_#{node[:alm][:environment]}" do
+  connection(
+    :host     => 'localhost',
+    :username => 'root',
+    :password => node['mysql']['server_root_password']
+  )
+  action :create
 end
 
 # Create default CouchDB database
@@ -124,84 +101,15 @@ script "create CouchDB database #{node[:alm][:name]}" do
   ignore_failure true
 end
 
-# Generate new Procfile and associated .env file
-template "/vagrant/Procfile" do
-  source 'Procfile.erb'
-  owner 'root'
-  group 'root'
-  mode 0644
+node.set_unless['passenger']['root_path'] = "/var/lib/gems/1.9.1/gems/passenger-#{node['passenger']['version']}"
+node.set_unless['passenger']['module_path'] = "/var/lib/gems/1.9.1/gems/passenger-#{node['passenger']['version']}/ext/apache2/mod_passenger.so"
+include_recipe "passenger_apache2::mod_rails"
+
+execute "disable-default-site" do
+  command "sudo a2dissite default"
 end
 
-template "/vagrant/.env" do
-  source 'env.erb'
-  owner 'root'
-  group 'root'
-  mode 0644
-end
-
-# Precompile assets in production and install upstart scripts for workers
-if node[:alm][:environment] == "production"
-  script "RAILS_ENV=#{node[:alm][:environment]} rake assets:precompile" do
-    interpreter "bash"
-    cwd "/vagrant"
-    code "RAILS_ENV=#{node[:alm][:environment]} rake assets:precompile"
-  end
-
-  script "sudo start alm" do
-    interpreter "bash"
-    cwd "/vagrant"
-    code "sudo foreman export upstart /etc/init -a alm -l /vagrant/log -u #{node[:alm][:user]} -c worker=#{node[:alm][:concurrency]}"
-  end
-
-  service "alm" do
-    provider Chef::Provider::Service::Upstart
-    supports :status => true, :restart => true, :reload => true
-    action [:restart]
-  end
-end
-
-case node['platform']
-when "ubuntu"
-  node.set_unless['passenger']['root_path'] = "/var/lib/gems/1.9.1/gems/passenger-#{node['passenger']['version']}"
-  node.set_unless['passenger']['module_path'] = "/var/lib/gems/1.9.1/gems/passenger-#{node['passenger']['version']}/ext/apache2/mod_passenger.so"
-  include_recipe "passenger_apache2::mod_rails"
-
-  execute "disable-default-site" do
-    command "sudo a2dissite default"
-  end
-
-  web_app "alm" do
-    template "alm.conf.erb"
-    notifies :restart, resources(:service => "apache2"), :delayed
-  end
-when "centos"
-  template "/etc/httpd/conf.d/alm.conf" do
-    source 'alm.conf.erb'
-    owner 'root'
-    group 'root'
-    mode 0644
-  end
-
-  # Allow all traffic on the loopback device
-  simple_iptables_rule "system" do
-    rule "--in-interface lo"
-    jump "ACCEPT"
-  end
-
-  # Allow HTTP
-  simple_iptables_rule "http" do
-    rule "--proto tcp --dport 80"
-    jump "ACCEPT"
-  end
-
-  # Allow CouchDB
-  simple_iptables_rule "couchdb" do
-    rule "--proto tcp --dport 5984"
-    jump "ACCEPT"
-  end
-
-  script "start httpd" do
-    interpreter "bash"
-    code "sudo /sbin/service httpd start"
-  end
+web_app "alm" do
+  template "alm.conf.erb"
+  notifies :restart, resources(:service => "apache2"), :delayed
 end
