@@ -9,21 +9,26 @@ ALM is a typical Ruby on Rails web application with one unusual feature: it requ
 [Cucumber]: http://cukes.info/
 
 #### Ruby 1.9
-ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies, making them sometimes not the best choices in a production environment. The ALM application has not been tested with Ruby 2.0, but migration to Ruby 2.0 is planned in 2014.
+ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies, making them sometimes not the best choices in a production environment. The ALM application has not been tested with Ruby 2.x, but migration to Ruby 2.1.x is planned in 2014.
 
 [RVM]: http://rvm.io/
 [Rbenv]: https://github.com/sstephenson/rbenv
 
 #### Installation Options
-There are many installation options, but the following two should cover most scenarios:
 
-* on a development machine: installation in a virtual machine via Vagrant is strongly recommended
-* on a server: installation in a virtual machine via Vagrant or manual installation is recommended, with code updates via Capistrano
+* automated installation via Vagrant (recommended)
+* manual installation
 
 Hosting the ALM application at a Platform as a Service (PaaS) provider such as Heroku or OpenShift is possible, but has not been tested.
 
-## Automatic Installation using Vagrant
-This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox], [Vagrant] and the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo). You can also use [VMware Fusion or Workstation](https://www.vagrantup.com/vmware) instead of [Virtualbox], but the VMware Vagrant plugin requires a commercial license.
+## Automated Installation
+This is the recommended way to install the ALM application. The application will automatically be installed in a self-contained virtual machine, using [Vagrant] and [Chef Solo]. Download and install [Vagrant] and then install the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo):
+
+```sh
+vagrant plugin install vagrant-omnibus
+```
+
+DeveloperYou can also use [VMware Fusion or Workstation](https://www.vagrantup.com/vmware) instead of [Virtualbox], but the VMware Vagrant plugin requires a commercial license.
 
 ### Custom settings (passwords, API keys)
 This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
