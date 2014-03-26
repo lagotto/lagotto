@@ -175,6 +175,9 @@ module SourceHelper
     # remove percent encoding
     body_url = CGI.unescape(body_url) if body_url
 
+    # remove parameter used by IEEE
+    body_url = body_url.sub("reload=true&", "")
+
     url = response.env[:url].to_s
     if url
       # remove percent encoding
