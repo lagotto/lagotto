@@ -1,16 +1,16 @@
 module CustomError
   # source is either inactive or disabled
-  class SourceInactiveError < StandardError; end
+  class SourceInactiveError < Exception; end
 
   # we have received too many errors (and will disable the source)
-  class TooManyErrorsBySourceError < StandardError; end
+  class TooManyErrorsBySourceError < Exception; end
 
   # we don't have enough available workers for this source
-  class NotEnoughWorkersError < StandardError; end
+  class NotEnoughWorkersError < Exception; end
 
   # something went wrong with Delayed Job
-  class DelayedJobError < StandardError; end
+  class DelayedJobError < Exception; end
 
   # Default filter error
-  class ApiResponseError < StandardError; end
+  class ApiResponseError < Exception; end
 end
