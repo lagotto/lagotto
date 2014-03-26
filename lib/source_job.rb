@@ -36,8 +36,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
     # Check that source is working and we have workers for this source
     # Otherwise raise an error and reschedule the job
-    raise CustomError::SourceInactiveError unless source.working?
-    raise CustomError::NotEnoughWorkersError unless source.check_for_available_workers
+    raise CustomError::SourceInactiveError, "Source not working." unless source.working?
+    raise CustomError::NotEnoughWorkersError, "No workers available." unless source.check_for_available_workers
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
 
