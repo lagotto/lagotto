@@ -5,7 +5,7 @@ namespace :deploy do
     task :start do
       on roles(:app) do
         within release_path do
-          execute :rake, 'workers:start'
+          rake 'workers:start'
         end
       end
     end
@@ -14,7 +14,7 @@ namespace :deploy do
     task :stop do
       on roles(:app) do
         within release_path do
-          execute :rake, 'workers:stop'
+          rake 'workers:stop'
         end
       end
     end

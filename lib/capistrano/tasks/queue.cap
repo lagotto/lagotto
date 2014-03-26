@@ -4,7 +4,7 @@ namespace :queue do
   task :all do
     on roles(:app) do
       within release_path do
-        execute :rake, 'queue:all'
+        rake 'queue:all'
       end
     end
   end
