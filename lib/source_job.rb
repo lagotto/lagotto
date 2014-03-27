@@ -23,6 +23,7 @@ require 'timeout'
 
 class SourceJob < Struct.new(:rs_ids, :source_id)
   include SourceHelper
+  include CustomError
 
   SourceJobExceptions = [CustomError::SourceInactiveError, CustomError::NotEnoughWorkersError].freeze
 
