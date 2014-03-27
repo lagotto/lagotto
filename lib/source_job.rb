@@ -71,7 +71,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   rescue *SourceJobExceptions
     return false
   rescue StandardError => e
-    Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
+    Alert.create(:exception => e, :message => e.message, :source_id => source.id)
     return false
   end
 
