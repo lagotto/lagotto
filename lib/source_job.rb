@@ -25,7 +25,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   include SourceHelper
   include CustomError
 
-  SourceJobExceptions = [CustomError::SourceInactiveError, CustomError::NotEnoughWorkersError].freeze
+  SourceJobExceptions = [SourceInactiveError, NotEnoughWorkersError].freeze
 
   def enqueue(job)
     # keep track of when the article was queued up
@@ -39,8 +39,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
     # Check that source is working and we have workers for this source
     # Otherwise raise an error and reschedule the job
-    raise CustomError::SourceInactiveError unless source.working?
-    raise CustomError::NotEnoughWorkersError unless source.check_for_available_workers
+    raise SourceInactiveError unless source.working?
+    raise NotEnoughWorkersError unless source.check_for_available_workers
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
 
