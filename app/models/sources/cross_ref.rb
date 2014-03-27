@@ -27,9 +27,6 @@ class CrossRef < Source
     # Check that article has DOI and is at least one day old
     return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
 
-    # Raise error if article DOI doesn't resolve to a URL that we can store
-    return nil unless article.get_url
-
     # Check whether we have published the DOI, otherwise use different API
     if article.is_publisher?
 

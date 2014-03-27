@@ -3,7 +3,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2014 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -180,6 +180,10 @@ class Article < ActiveRecord::Base
     urls << doi_as_url if doi.present?
     urls << canonical_url if canonical_url.present?
     urls
+  end
+
+  def canonical_url_escaped
+    CGI.escape(canonical_url)
   end
 
   def title_escaped

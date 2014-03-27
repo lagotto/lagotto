@@ -1,5 +1,6 @@
 {
   "alm": { "environment": "development",
+           "workers": 1,
            "seed_sample_articles": false,
            "admin": { "username": "EXAMPLE", "email": "admin@example.org", "password": "EXAMPLE" },
            "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },

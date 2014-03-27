@@ -20,11 +20,22 @@
 
 <div class="content">
   <div class="page-header">
-    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>">Status</h1>
+    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>">Status <small id="update_date"></small></h1>
   </div>
 
-  <div id="status">
-    <%= render :partial => 'index' %>
+  <ul class="nav nav-tabs" id="nav_index">
+    <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
+    <li><a href="#workers" data-toggle="tab" title="Workers">Workers</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="summary">
+      <%= render :partial => 'summary' %>
+    </div>
+
+    <div class="tab-pane" id="workers">
+      <%= render :partial => 'workers' %>
+    </div>
   </div>
 
   <%= javascript_tag do -%>

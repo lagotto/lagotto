@@ -27,6 +27,12 @@ describe SourceHelper do
         subject.get_xml(url) { |response| Hash.from_xml(response.to_s)["hash"].should eq(data) }
       end
 
+      it "get_html" do
+        stub = stub_request(:get, url).to_return(:body => data.to_s, :status => 200, :headers => { "Content-Type" => "text/html" })
+        response = subject.get_html(url)
+        response.should eq(data.to_s)
+      end
+
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => data.to_xml, :content_type => 'application/xml', :status => 200)
         subject.post_xml(url, data: post_data.to_xml) { |response| Hash.from_xml(response.to_s)["hash"].should eq(data) }
@@ -43,6 +49,12 @@ describe SourceHelper do
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => nil, :status => 200, :headers => { "Content-Type" => "application/xml" })
         subject.get_xml(url) { |response| response.should be_nil }
+      end
+
+      it "get_html" do
+        stub = stub_request(:get, url).to_return(:body => nil, :status => 200, :headers => { "Content-Type" => "text/html" })
+        response = subject.get_html(url)
+        response.should be_blank
       end
 
       it "post_xml" do
@@ -63,6 +75,12 @@ describe SourceHelper do
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:body => error.to_xml, :status => [404], :headers => { "Content-Type" => "application/xml" })
         subject.get_xml(url) { |response| Hash.from_xml(response.to_s)["hash"].should eq(error) }
+        Alert.count.should == 0
+      end
+
+      it "get_html" do
+        stub = stub_request(:get, url).to_return(:body => error.to_s, :status => [404], :headers => { "Content-Type" => "application/json" })
+        subject.get_html(url).should eq(error.to_s)
         Alert.count.should == 0
       end
 
@@ -87,6 +105,16 @@ describe SourceHelper do
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:status => [408])
         subject.get_xml(url) { |response| response.should be_nil }
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPRequestTimeOut")
+        alert.status.should == 408
+      end
+
+
+      it "get_html" do
+        stub = stub_request(:get, url).to_return(:status => [408])
+        subject.get_html(url).should be_nil
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -125,6 +153,16 @@ describe SourceHelper do
         alert.status.should == 408
       end
 
+      it "get_html" do
+        stub = stub_request(:get, url).to_timeout
+        subject.get_html(url).should be_nil
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPRequestTimeOut")
+        alert.message.should include("request timed out")
+        alert.status.should == 408
+      end
+
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_timeout
         subject.post_xml(url, data: post_data.to_xml) { |response| response.should be_nil }
@@ -150,6 +188,15 @@ describe SourceHelper do
       it "get_xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
         subject.get_xml(url) { |response| response.should be_nil }
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPClientError")
+        alert.status.should == 429
+      end
+
+      it "get_html" do
+        stub = stub_request(:get, url).to_return(:status => [429])
+        subject.get_html(url).should be_nil
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -187,6 +234,16 @@ describe SourceHelper do
         alert.source_id.should == 1
       end
 
+      it "get_html" do
+        stub = stub_request(:get, url).to_return(:status => [429])
+        subject.get_html(url, source_id: 1).should be_nil
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Net::HTTPClientError")
+        alert.status.should == 429
+        alert.source_id.should == 1
+      end
+
       it "post_xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [429])
         subject.post_xml(url, data: post_data.to_xml, source_id: 1) { |response| response.should be_nil }
@@ -201,7 +258,7 @@ describe SourceHelper do
 
       it "get_canonical_url" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
+        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(article.doi_as_url)
@@ -213,7 +270,7 @@ describe SourceHelper do
       it "get_canonical_url with jsessionid" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030;jsessionid=5362E4D61F1953ADA2CB3F746E58AAC2.f01t03"
-        clean_url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
+        clean_url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(article.doi_as_url)
@@ -235,7 +292,7 @@ describe SourceHelper do
 
       it "get_canonical_url with <link rel='canonical'/>" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
+        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'article_canonical.html'))
         response = subject.get_canonical_url(article.doi_as_url)
@@ -246,7 +303,7 @@ describe SourceHelper do
 
       it "get_canonical_url with <meta property='og:url'/>" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
+        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'article_opengraph.html'))
         response = subject.get_canonical_url(article.doi_as_url)
@@ -257,7 +314,7 @@ describe SourceHelper do
 
       it "get_canonical_url with <link rel='canonical'/> mismatch" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
+        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'article.html'))
         response = subject.get_canonical_url(article.doi_as_url)
@@ -272,10 +329,13 @@ describe SourceHelper do
 
       it "get_canonical_url with not found error" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
-        stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 404)
+        stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 404, :body => File.read(fixture_path + 'doi_not_found.html'))
         response = subject.get_canonical_url(article.doi_as_url)
         response.should be_blank
-        Alert.count.should == 0
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Faraday::Error::ResourceNotFound")
+        alert.status.should == 404
         stub.should have_been_requested
       end
 
@@ -358,6 +418,10 @@ describe SourceHelper do
     let(:data) { { "name" => "Fred"} }
     let(:error) { {"error"=>"not_found", "reason"=>"missing"} }
 
+    it "put filter views" do
+      #data = subject.get_alm_data("_design/filter/_view/html_ratio")
+    end
+
     it "get database info" do
       rev = subject.put_alm_data(url, data: data)
 
@@ -365,7 +429,7 @@ describe SourceHelper do
       db_name = Addressable::URI.parse(CONFIG[:couchdb_url]).path[1..-2]
       get_info["db_name"].should eq(db_name)
       get_info["disk_size"].should be > 0
-      get_info["doc_count"].should eq(1)
+      get_info["doc_count"].should eq(2)
     end
 
     it "put, get and delete data" do

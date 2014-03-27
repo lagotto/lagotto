@@ -9,14 +9,14 @@ Feature: See jobs
     And the source "Citeulike" exists
     And that we have 5 articles
 
-    @not-teamcity
+    @not_teamcity
     Scenario: Jobs in dashboard
       When I go to the "Sources" admin page
       Then the table "JobsTable" should be:
         | Source    | Status   | Pending | Working | Stale Articles |
         | CiteULike | queueing |         |         | 5              |
 
-    @not-teamcity
+    @not_teamcity
     Scenario: Jobs in source view
       When I go to the "Summary" tab of source "CiteULike"
       Then the table "SummaryTable" should be:

@@ -18,10 +18,10 @@ Feature: Edit sources
       And I should see the "Update interval" settings
       And I should see the "Failed queries" settings
 
-    Scenario: Source overview should display source image
+    Scenario: Source overview should display source name
       When I go to the "Sources" page
-      Then I should see the image "citeulike.png"
+      Then I should see the subtitle "CiteULike"
 
-    Scenario: Source should display source image
+    Scenario: Source should display source name
       When I go to the admin page of source "Citeulike"
-      Then I should see the image "citeulike.png"
+      Then I should see the title "CiteULike"

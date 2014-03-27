@@ -12,7 +12,7 @@ describe RetrievalStatus do
     retrieval_status.stale_at.to_date.should eq(retrieval_status.article.published_on)
   end
 
-  context "use stale_at" do
+  describe "use stale_at" do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
 
     it "stale_at should be a datetime" do
@@ -28,7 +28,7 @@ describe RetrievalStatus do
     end
   end
 
-  context "staleness intervals" do
+  describe "staleness intervals", :not_teamcity => true do
 
     it "published a day ago" do
       date = Time.zone.today - 1.day
@@ -63,7 +63,7 @@ describe RetrievalStatus do
     end
   end
 
-  context "CouchDB" do
+  describe "CouchDB" do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
     let(:citeulike) { FactoryGirl.create(:citeulike) }
     let(:rs_id) { "#{retrieval_status.source.name}:#{retrieval_status.article.doi_escaped}" }
@@ -101,4 +101,3 @@ describe RetrievalStatus do
     end
   end
 end
-

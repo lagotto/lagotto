@@ -19,5 +19,6 @@ else
 end
 
 default['yum']['epel-testing-source']['failovermethod'] = 'priority'
-default['yum']['epel-testing-source']['enabled'] = false
 default['yum']['epel-testing-source']['gpgcheck'] = true
+default['yum']['epel-testing-source']['enabled'] = false
+default['yum']['epel-testing-source']['managed'] = false

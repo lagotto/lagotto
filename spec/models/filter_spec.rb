@@ -209,6 +209,7 @@ describe Filter do
     before do
       @citeulike = FactoryGirl.create(:citeulike)
       @mendeley = FactoryGirl.create(:mendeley)
+      @report = FactoryGirl.create(:stale_source_report_with_admin_user)
     end
 
     let(:api_response) { FactoryGirl.create(:api_response, source_id: @citeulike.id) }

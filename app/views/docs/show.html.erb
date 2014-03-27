@@ -20,7 +20,10 @@
 
 <div class="content">
   <div class="page-header">
-    <h1><%= @doc[:title] == "Home" ? "Getting Started" : @doc[:title].tr('-', ' ') %></h1>
+    <h1><%= @doc.title %></h1>
   </div>
-  <%= render :partial => 'show' %>
+
+  <div class="markdown">
+    <%= markdown @doc.content %>
+  </div>
 </div>

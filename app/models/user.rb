@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:persona]
+         :omniauthable, :omniauth_providers => [:persona, :cas]
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token, :report_ids
@@ -37,6 +37,31 @@ class User < ActiveRecord::Base
   default_scope order("sign_in_count DESC, updated_at DESC")
 
   scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
+
+  def self.find_for_cas_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    unless user
+      unless Rails.env.test?
+        # We obtain the email address from a second call to the CAS server
+        url = "#{CONFIG[:cas_url]}/cas/email?guid=#{auth.uid}"
+        response = get_html(url)
+        email = response.blank? ? "" : response
+      else
+        email = auth.info.email
+      end
+      name = email.present? ? email : auth.uid
+      username = email.present? ? email : auth.uid
+
+      user = User.create!(:username => username,
+                          :name => name,
+                          :authentication_token => auth.token,
+                          :provider => auth.provider,
+                          :uid => auth.uid,
+                          :email => email)
+    end
+
+    user
+  end
 
   def self.find_for_persona_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first

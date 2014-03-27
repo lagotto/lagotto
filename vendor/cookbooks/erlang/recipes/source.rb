@@ -41,8 +41,9 @@ bash 'install-erlang' do
   cwd Chef::Config[:file_cache_path]
   code <<-EOH
     tar -xzf otp_src_#{node['erlang']['source']['version']}.tar.gz
-    (cd otp_src_#{node['erlang']['source']['version']} && ./configure && make && make install)
+    (cd otp_src_#{node['erlang']['source']['version']} && ./configure #{node['erlang']['source']['build_flags']} && make && make install)
   EOH
+  environment({"CFLAGS" => node['erlang']['source']['cflags']})
   action :nothing
   not_if "erl -eval 'erlang:display(erlang:system_info(otp_release)), halt().' -noshell | grep #{node['erlang']['source']['version']}"
 end

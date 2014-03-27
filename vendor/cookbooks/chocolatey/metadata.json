@@ -1,5 +1,6 @@
 {
   "name": "chocolatey",
+  "version": "0.1.0",
   "description": "Install chocolatey and packages on Windows",
   "long_description": "Description\n===========\n\nInstall Chocolatey with the default recipe and manage package with LWRP\n\nRequirements\n============\n\nWork on Windows\n\nResource/Provider\n=================\n\nThis cookbook includes LWRPs for managing:\n* chocolatey\n\nhtpasswd\n--------\n\n# Actions\n\n- :install: Install a chocolatey package (default)\n- :upgrade: Update a chocolatey package\n- :remove: Uninstall a chocolatey package\n\n# Attribute Parameters\n\n- package_name: string or package to manage\n- package: package to manage (default package_name)\n- version\n- source\n- args: arguments to the installation\n\n\n# Example\n\n    include_recipe \"chocolatey\"\n    \n    %w{ sysinternals 7zip notepadplusplus GoogleChrome Console2}.each do |pack|\n      chocolatey pack\n    end\n    \n    %w{ bash openssh grep}.each do |pack|\n      chocolatey pack do\n        source \"cygwin\"\n      end\n    end\n\n\n    chocolatey \"DotNet4.5\"\n\n    chocolatey \"PowerShell\"\n",
   "maintainer": "Guilhem Lettron",
@@ -26,6 +27,5 @@
   "groupings": {
   },
   "recipes": {
-  },
-  "version": "0.0.5"
+  }
 }

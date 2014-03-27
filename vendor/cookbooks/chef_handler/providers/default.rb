@@ -88,6 +88,10 @@ end
 
 def klass
   @klass ||= begin
-    @new_resource.class_name.split('::').inject(Kernel) { |scope, const_name| scope.const_get(const_name) }
+    # we need to search the ancestors only for the
+    # first/uppermost namespace of the class, so we need
+    # to enable the #const_get inherit paramenter only when
+    # we are searching in Kernel scope (see COOK-4117).
+    @new_resource.class_name.split('::').inject(Kernel) { |scope, const_name| scope.const_get(const_name, scope === Kernel) }
   end
 end

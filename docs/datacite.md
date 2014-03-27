@@ -1,3 +1,8 @@
+---
+layout: page
+title: "DataCite"
+---
+
 [DataCite](http://www.datacite.org) is a DOI registration agency for datasets.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">

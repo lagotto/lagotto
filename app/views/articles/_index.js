@@ -95,7 +95,11 @@ d3.json(query, function(error, json) {
     if (article["cited"] > 0) b.push("Cited: " + formatFixed(article["cited"]));
     if (article["saved"] > 0) b.push("Saved: " + formatFixed(article["saved"]));
     if (article["discussed"] > 0) b.push("Discussed: " + formatFixed(article["discussed"]));
-    a.push(b.join(" • "));
-    return a.join(" | ");
+    if (b.length > 0) {
+      a.push(b.join(" • "));
+      return a.join(" | ");
+    } else {
+      return a;
+    }
   }
 });

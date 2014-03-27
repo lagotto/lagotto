@@ -1,9 +1,9 @@
 <VirtualHost *:80>
     LogLevel warn
-    ErrorLog /vagrant/log/apache_error.log
-    CustomLog /vagrant/log/apache_access.log combined
-    DocumentRoot /vagrant/public
-	  RailsEnv <%= node[:alm][:environment] %>
+    ErrorLog /var/www/alm/shared/log/apache_error.log
+    CustomLog /var/www/alm/shared/log/apache_access.log combined
+    DocumentRoot /var/www/alm/current/public
+	RailsEnv <%= node[:alm][:environment] %>
     ServerName <%= node[:alm][:host] %>
     ServerAdmin <%= node[:alm][:admin][:email] %>
 
@@ -11,15 +11,13 @@
       Options FollowSymLinks
       AllowOverride None
     </Directory>
-	
-    <Directory /vagrant/public >
-      Options Indexes FollowSymLinks MultiViews
-      AllowOverride All
-      Order allow,deny
-      allow from all
+
+    <Directory /var/www/alm/current/public >
+       AllowOverride all
+       Options -MultiViews
     </Directory>
 
-    # Important for ALM: keeps Apache from messing up encoded 
+    # Important for ALM: keeps Apache from messing up encoded
     # embedded slashes in DOIs
     AllowEncodedSlashes On
 

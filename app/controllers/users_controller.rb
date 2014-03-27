@@ -4,11 +4,11 @@ class UsersController < ApplicationController
 
   def show
     load_user
-    @doc = { :title => "API Documentation", :text => IO.read(Rails.root.join("docs/API.md")) }
+    @doc = Doc.find("api")
   end
 
   def index
-    redirect_to "/docs/Home"
+    redirect_to "/docs/"
   end
 
   def edit

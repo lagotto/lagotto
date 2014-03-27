@@ -13,24 +13,6 @@ describe CrossRef do
     cross_ref.get_data(article).should eq({ :events => [], :event_count => nil })
   end
 
-  context "lookup canonical URL" do
-    it "should look up canonical URL if there is no article url" do
-      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => nil)
-      lookup_stub = stub_request(:get, article.doi_as_url).to_return(:status => 404)
-      response = cross_ref.get_data(article)
-      lookup_stub.should have_been_requested
-    end
-
-    it "should not look up canonical URL if there is article url" do
-      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
-      lookup_stub = stub_request(:get, article.canonical_url).to_return(:status => 200, :headers => { 'Location' => article.canonical_url })
-      stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'), :status => 200)
-      response = cross_ref.get_data(article)
-      lookup_stub.should_not have_been_requested
-      stub.should have_been_requested
-    end
-  end
-
   context "use the CrossRef API" do
     let(:article) { FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007") }
 

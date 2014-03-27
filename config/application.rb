@@ -46,6 +46,9 @@ module Alm
     #TODO do I need to add salt here?
     config.filter_parameters += [:password]
 
+    # Use a different cache store
+    config.cache_store = :dalli_store, { :namespace => "alm" }
+
     # Enable the asset pipeline
     config.assets.enabled = true
 

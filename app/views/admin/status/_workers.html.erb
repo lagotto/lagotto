@@ -1,0 +1,30 @@
+<% unless @workers.empty? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Identifier</th>
+        <th>PID</th>
+        <th>Memory</th>
+        <th>Start Worker</th>
+        <th>State</th>
+        <th>Queue</th>
+        <th>Start Queue</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @workers.each do |worker| %>
+      <tr>
+        <td><%= worker.id %></td>
+        <td><%= worker.pid %></td>
+        <td><%= worker.memory %></td>
+        <td><%= worker.created_at.to_s(:short) + " UTC" %></td>
+        <td><%= worker.state %></td>
+        <td><%= worker.queue %></td>
+        <td><%= worker.locked_at ? worker.locked_at.to_s(:short) + " UTC" : "" %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info">No active workers found</div>
+<% end %>

@@ -30,14 +30,10 @@ class SourceDecorator < Draper::Decorator
     model.group.name
   end
 
-  def working_count
-    model.delayed_jobs.count(:locked_at)
-  end
-
   def jobs
-    { "queueing" => model.get_queueing_job_count,
+    { "queueing" => queueing_count,
       "working" => working_count,
-      "pending" => model.delayed_jobs.count - working_count }
+      "pending" => pending_count }
   end
 
   def average_count

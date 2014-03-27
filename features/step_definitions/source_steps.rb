@@ -13,6 +13,7 @@ Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
   elsif status == "working"
     @source = FactoryGirl.create(:source, state_event: "start_working")
   elsif status == "disabled"
+    @report = FactoryGirl.create(:disabled_source_report_with_admin_user)
     @source = FactoryGirl.create(:source, state_event: "disable")
   elsif status == "waiting"
     @source = FactoryGirl.create(:source, state_event: "start_waiting")
@@ -20,7 +21,7 @@ Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
 end
 
 Given /^the screen size is "(.*?)" x "(.*?)"$/ do |width, height|
-  page.driver.resize(width.to_i, height.to_i)
+  page.driver.resize(width.to_i, height.to_i) if @wip
 end
 
 ### WHEN ###
@@ -29,16 +30,20 @@ When /^I go to the "(.*?)" menu$/ do |menu|
   click_link menu
 end
 
+When(/^I go to the "(.*?)" URL$/) do |url|
+  visit url
+end
+
 When /^I go to the submenu "(.*?)" of menu "(.*?)"$/ do |label, menu|
   click_link menu
   click_link label
-  page.driver.render("tmp/capybara/#{label}.png")
+  page.driver.render("tmp/capybara/#{label}.png") if @wip
 end
 
 When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
-  page.driver.render("tmp/capybara/#{tab_title}.png")
+  page.driver.render("tmp/capybara/#{tab_title}.png") if @wip
   within ("ul.nav-tabs") do
     click_link tab_title
   end
@@ -65,7 +70,7 @@ When /^I go to the menu "(.*?)" of source "(.*?)"$/ do |menu, display_name|
   source = Source.find_by_display_name(display_name)
   visit admin_source_path(source)
   click_link menu
-  page.driver.render("tmp/capybara/#{menu}.png")
+  page.driver.render("tmp/capybara/#{menu}.png") if @wip
 end
 
 When /^I edit the source "(\w+)"$/ do |display_name|
@@ -88,6 +93,8 @@ When /^I go to the "(.*?)" page$/ do |page_title|
     visit articles_path
   elsif page_title == "Sources"
     visit sources_path
+  elsif page_title == "Home"
+    visit root_path
   end
 end
 
@@ -102,44 +109,52 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
     title = page_title.downcase
   end
   visit "/admin/#{title}"
-  page.driver.render("tmp/capybara/#{title}.png")
+  page.driver.render("tmp/capybara/#{title}.png") if @wip
 end
 
 When /^I go to "(.*?)"$/ do |path|
   visit path
-  page.driver.render("tmp/capybara/#{path}.png")
+  page.driver.render("tmp/capybara/#{path}.png") if @wip
 end
 
 When /^click on the "(.*?)" tab$/ do |tab_name|
   within ("ul.nav-tabs") do
     click_link tab_name
   end
-  page.driver.render("tmp/capybara/#{tab_name}.png")
+  page.driver.render("tmp/capybara/#{tab_name}.png") if @wip
 end
 
 When /^I hover over the donut "(.*?)"$/ do |title|
   page.find(:xpath, "//div[@id='chart_#{title}']/*[name()='svg']").click
-  page.driver.render("tmp/capybara/chart_#{title}.png")
+  page.driver.render("tmp/capybara/chart_#{title}.png") if @wip
 end
 
 ### THEN ###
 Then /^I should see the "(.*?)" menu item$/ do |menu_item|
-  page.driver.render("tmp/capybara/#{menu_item}.png")
+  page.driver.render("tmp/capybara/#{menu_item}.png") if @wip
   page.has_css?('.dropdown-menu li', :text => menu_item, :visible => true).should be_true
 end
 
 Then /^I should see the "(.*?)" tab$/ do |tab_title|
-  page.driver.render("tmp/capybara/#{tab_title}.png")
+  page.driver.render("tmp/capybara/#{tab_title}.png") if @wip
   page.has_css?('li', :text => tab_title, :visible => true).should be_true
 end
 
 Then /^I should not see the "(.*?)" tab$/ do |tab_title|
-  page.driver.render("tmp/capybara/#{tab_title}.png")
+  page.driver.render("tmp/capybara/#{tab_title}.png") if @wip
   page.has_css?('li', :text => tab_title, :visible => true).should_not be_true
 end
 
+Then /^I should see the title "(.*?)"$/ do |title|
+  page.has_css?('h1', :text => title, :visible => true).should be_true
+end
+
+Then /^I should see the subtitle "(.*?)"$/ do |title|
+  page.has_css?('h4', :text => title, :visible => true).should be_true
+end
+
 Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, source_name|
-  page.driver.render("tmp/capybara/#{number}.png")
+  page.driver.render("tmp/capybara/#{number}.png") if @wip
   page.has_content?(number).should be_true
   page.has_content?(source_name).should be_true
 end
@@ -173,8 +188,8 @@ Then /^I should see the "(.*?)" settings$/ do |parameter|
 end
 
 Then /^I should see that the source is "(.*?)"$/ do |status|
+  page.driver.render("tmp/capybara/#{status}.png") if @wip
   page.should have_content status
-  page.driver.render("tmp/capybara/#{status}.png")
 end
 
 Then /^I should not see the "(.*?)" link in the menu bar$/ do |link_text|
@@ -182,7 +197,7 @@ Then /^I should not see the "(.*?)" link in the menu bar$/ do |link_text|
     page.has_css?('a', :text => CONFIG[:useragent], :visible => true).should_not be_true
   else
     page.has_css?('div.collapse ul li a', :visible => true).should_not be_true
-    page.driver.render("tmp/capybara/#{link_text}_link.png")
+    page.driver.render("tmp/capybara/#{link_text}_link.png") if @wip
   end
 end
 
@@ -191,7 +206,7 @@ Then /^I should see the image "(.+)"$/ do |image|
 end
 
 Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|
-  page.driver.render("tmp/capybara/#{table_name}.png")
+  page.driver.render("tmp/capybara/#{table_name}.png") if @wip
   rows = find("table##{table_name}").all('tr')
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
   expected_table.diff!(table)
@@ -202,6 +217,6 @@ Then /^I should see a row of "(.*?)"$/ do |chart|
 end
 
 Then(/^I should see (\d+) bookmarks$/) do |number|
-  page.driver.render("tmp/capybara/#{number}_bookmarks.png")
+  page.driver.render("tmp/capybara/#{number}_bookmarks.png") if @wip
   page.has_css?('#alm-count-citeulike-saved', :text => number).should be_true
 end

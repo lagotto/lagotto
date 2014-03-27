@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/articlemetrics/alm.png?branch=develop)](https://travis-ci.org/articlemetrics/alm)
+[![Code Climate](https://codeclimate.com/github/articlemetrics/alm.png)](https://codeclimate.com/github/articlemetrics/alm)
+
 The Ruby on Rails application Article-Level Metrics (ALM) was started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). It allows a user to aggregate relevant performance data on research articles, including how often an article has been vited, cited, saved, discussed and recommended. We’re continuing to expand the Article-Level Metrics application because we believe that articles should be considered on their own merits, and that the impact of an individual article should not be determined by the journal in which it happened to be published. As a result, we hope that new ways of measuring and evaluating research quality (or ‘impact’) can and will evolve. To learn more about Article-Level Metrics, see the [SPARC ALM primer](http://www.sparc.arl.org/resource/sparc-article-level-metrics-primer).
 
 ## More Documentation
