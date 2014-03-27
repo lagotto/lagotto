@@ -1,5 +1,5 @@
 # Install required packages
-%w{ruby1.9.3 curl}.each do |pkg|
+%w{ruby1.9.3 curl make}.each do |pkg|
   package pkg do
     action :install
   end
