@@ -39,6 +39,8 @@ set :bundle_path, -> { shared_path.join('vendor/bundle') }
 
 namespace :deploy do
 
+  before :starting, "delayed_job:stop"
+
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
@@ -58,5 +60,5 @@ namespace :deploy do
   end
 
   after :finishing, "deploy:cleanup"
-
+  after :finishing, "delayed_job:start"
 end
