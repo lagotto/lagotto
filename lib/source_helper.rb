@@ -154,7 +154,7 @@ module SourceHelper
     delete_alm_data(couchdb_url)
   end
 
-  def get_canonical_url(url, options = { timeout: DEFAULT_TIMEOUT })
+  def get_canonical_url(url, options = { timeout: 120 })
     conn = conn_html
     # disable ssl verification
     conn.options[:ssl] = { verify: false }
@@ -172,19 +172,36 @@ module SourceHelper
     if !body_url && body.at('meta[property="og:url"]')
       body_url = body.at('meta[property="og:url"]')['content']
     end
-    # remove percent encoding
-    body_url = CGI.unescape(body_url) if body_url
+
+    if body_url
+      # remove percent encoding
+      body_url = CGI.unescape(body_url)
+
+      # make URL lowercase
+      body_url = body_url.downcase
+
+      # remove parameter used by IEEE
+      body_url = body_url.sub("reload=true&", "")
+    end
 
     url = response.env[:url].to_s
     if url
       # remove percent encoding
       url = CGI.unescape(url)
 
+      # make URL lowercase
+      url = url.downcase
+
       # remove jsessionid used by J2EE servers
       url = url.gsub(/(.*);jsessionid=.*/,'\1')
+
       # remove parameter used by IEEE
       url = url.sub("reload=true&", "")
+
+      # remove parameter used by ScienceDirect
+      url = url.sub("?via=ihub", "")
     end
+
     # get relative URL
     path = URI.split(url)[5]
 
