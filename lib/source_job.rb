@@ -19,10 +19,14 @@
 # limitations under the License.
 
 require 'source_helper'
+require 'custom_error'
 require 'timeout'
 
 class SourceJob < Struct.new(:rs_ids, :source_id)
   include SourceHelper
+  include CustomError
+
+  SourceJobExceptions = [SourceInactiveError, NotEnoughWorkersError].freeze
 
   def enqueue(job)
     # keep track of when the article was queued up
@@ -34,10 +38,10 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     source = Source.find(source_id)
     source.start_jobs_with_check
 
-    return 0 unless source.working?
-
-    # Check maximal number of workers we can use
-    return 0 unless source.check_for_available_workers
+    # Check that source is working and we have workers for this source
+    # Otherwise raise an error and reschedule the job
+    raise SourceInactiveError unless source.working?
+    raise NotEnoughWorkersError unless source.check_for_available_workers
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
 
@@ -60,9 +64,15 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   rescue Timeout::Error
     Alert.create(:exception => "",
                  :class_name => "Timeout::Error",
-                 :message => "DelayedJob timeout error for #{source.display_name}",
+                 :message => "SourceJob timeout error for #{source.display_name}",
                  :status => 408,
                  :source_id => source.id)
+    return false
+  rescue *SourceJobExceptions
+    return false
+  rescue StandardError => e
+    Alert.create(:exception => e, :message => e.message, :source_id => source.id)
+    return false
   end
 
   def perform_get_data(rs)
@@ -172,19 +182,34 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def success(job)
-    #reset the queued_at value, but not if we only postponed processing the job
+    # reset the queued_at value
+    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
+
     source = Source.find(source_id)
-
-    if source.working? && source.check_for_available_workers
-      RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
-    end
-
     source.stop_working unless source.get_queued_job_count > 1
   end
 
-  def error(job, e)
+  def failure(job)
     source = Source.find(source_id)
-    Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
+    Alert.create(:exception => "", :class_name => "DelayedJobError", :message => "Failure in #{job.queue}: #{job.last_error}", :source_id => source.id)
   end
 
+  # override the default settings which are:
+  # On failure, the job is scheduled again in 5 seconds + N ** 4, where N is the number of retries.
+  # with the settings below we try for 23 hours. Max_attempts is 25
+  def reschedule_at(attempts, time)
+    case attempts
+    when (0..5)
+      interval = 1.minute
+    when (6..10)
+      interval = 5.minutes
+    when (11..15)
+      interval = 30.minutes
+    when (16..20)
+      interval = 1.hour
+    else
+      interval = 3.hours
+    end
+    self.class.db_time_now + interval
+  end
 end

@@ -38,7 +38,8 @@ Vagrant.configure("2") do |config|
     aws.tags = { Name: 'Vagrant alm' }
 
     override.ssh.username = "ubuntu"
-    override.ssh.private_key_path = "EXAMPLE"
+    override.ssh.private_key_path = "~/.ssh/id_rsa"
+    override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
   end
 
   config.vm.provider :digital_ocean do |provider, override|
@@ -76,7 +77,8 @@ Vagrant.configure("2") do |config|
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
-  # config.vm.share_folder "v-data", "/vagrant_data", "../data"
+  config.vm.synced_folder ".", "/vagrant", :disabled => true
+  config.vm.synced_folder ".", "/var/www/alm/shared"
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding

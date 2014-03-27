@@ -26,7 +26,7 @@ namespace :workers do
     status = Worker.start
     puts status[:message] if status[:message]
     if status[:running] < status[:expected]
-      puts "Not all workers could not be started."
+      puts "Not all workers could be started."
     else
       puts "All #{status[:running]} workers started."
     end
@@ -39,7 +39,7 @@ namespace :workers do
     status = Worker.stop
     puts status[:message] if status[:message]
     if status[:running] > 0
-      puts "Not all workers could not be stopped."
+      puts "Not all workers could be stopped."
     else
       puts "All workers stopped."
     end

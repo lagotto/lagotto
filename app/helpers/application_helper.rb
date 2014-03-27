@@ -21,12 +21,16 @@ require 'rouge'
 
 module ApplicationHelper
   def login_link
-    s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
-      p = hidden_field_tag('assertion')
-      p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link persona')
-      p
+    if CONFIG[:persona]
+      s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
+        p = hidden_field_tag('assertion')
+        p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link persona')
+        p
+      end
+      s.html_safe
+    elsif CONFIG[:cas_url]
+      link_to "Sign In", user_omniauth_authorize_path(:cas), :id => "sign_in"
     end
-    s.html_safe
   end
 
   def markdown(text)
@@ -63,8 +67,12 @@ module ApplicationHelper
     (number > 0 ? number : "")
   end
 
+  def sources
+    Source.order("group_id, display_name")
+  end
+
   def alerts
-    %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
+    %w(Net::HTTPUnauthorized ActionDispatch::RemoteIp::IpSpoofAttackError Net::HTTPRequestTimeOut Delayed::WorkerTimeout DelayedJobError Net::HTTPConflict Net::HTTPServiceUnavailable TooManyErrorsBySourceError SourceInactiveError TooManyWorkersError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end
 
   def article_statistics_report_path
@@ -95,11 +103,11 @@ module ApplicationHelper
   end
 
   def article_alerts
-    %w(EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError ArticleNotUpdatedError CitationMilestoneAlert)
+    %w(EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError CitationMilestoneAlert)
   end
 
   def documents
-    %w(Home Installation Setup Sources API Rake Alerts FAQ Roadmap Contributors)
+    %w(Home Installation Setup Sources API Rake Alerts FAQ Releases Roadmap Contributors)
   end
 
   def roles

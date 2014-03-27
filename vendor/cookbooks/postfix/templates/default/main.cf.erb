@@ -5,14 +5,7 @@
 
 <% @settings.sort.map do |key, value| -%>
 <%  if value.kind_of? Array -%>
-<%=   "#{key} = " -%>
-<%    value.each do |item| -%>
-<%      if value.last == item -%>
-<%=       item %>
-<%      else -%>
-<%=       "#{item}, " -%>
-<%      end -%>
-<%    end -%>
+<%=   "#{key} = #{value.join(', ')}"%>
 <%  else -%>
 <%=   "#{key} = #{value}"%>
 <%  end -%>

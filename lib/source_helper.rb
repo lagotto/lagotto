@@ -27,7 +27,10 @@ require 'uri'
 
 module SourceHelper
   DEFAULT_TIMEOUT = 60
-  SourceHelperExceptions = [Faraday::Error::ClientError, Delayed::WorkerTimeout].freeze
+  SourceHelperExceptions = [Faraday::Error::ClientError,
+                            Delayed::WorkerTimeout,
+                            Encoding::UndefinedConversionError,
+                            ArgumentError].freeze
   # Errno::EPIPE, Errno::ECONNRESET
 
   def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
@@ -77,7 +80,7 @@ module SourceHelper
     conn = conn_html
     conn.basic_auth(options[:username], options[:password]) if options[:username]
     conn.options[:timeout] = options[:timeout]
-    response = conn.get url
+    response = conn.get url, {}, options[:headers]
     response.body
   rescue *SourceHelperExceptions => e
     rescue_faraday_error(url, e, options.merge(html: true))
@@ -151,13 +154,13 @@ module SourceHelper
     delete_alm_data(couchdb_url)
   end
 
-  def get_canonical_url(url, options = { timeout: DEFAULT_TIMEOUT })
+  def get_canonical_url(url, options = { timeout: 120 })
     conn = conn_html
     # disable ssl verification
     conn.options[:ssl] = { verify: false }
 
     conn.options[:timeout] = options[:timeout]
-    response = conn.get url
+    response = conn.get url, {}, options[:headers]
 
     # Priority to find URL:
     # 1. <link rel=canonical />
@@ -169,19 +172,36 @@ module SourceHelper
     if !body_url && body.at('meta[property="og:url"]')
       body_url = body.at('meta[property="og:url"]')['content']
     end
-    # remove percent encoding
-    body_url = CGI.unescape(body_url) if body_url
+
+    if body_url
+      # remove percent encoding
+      body_url = CGI.unescape(body_url)
+
+      # make URL lowercase
+      body_url = body_url.downcase
+
+      # remove parameter used by IEEE
+      body_url = body_url.sub("reload=true&", "")
+    end
 
     url = response.env[:url].to_s
     if url
       # remove percent encoding
       url = CGI.unescape(url)
 
+      # make URL lowercase
+      url = url.downcase
+
       # remove jsessionid used by J2EE servers
       url = url.gsub(/(.*);jsessionid=.*/,'\1')
+
       # remove parameter used by IEEE
       url = url.sub("reload=true&", "")
+
+      # remove parameter used by ScienceDirect
+      url = url.sub("?via=ihub", "")
     end
+
     # get relative URL
     path = URI.split(url)[5]
 
@@ -288,7 +308,7 @@ module SourceHelper
         status = 408
       elsif error.respond_to?('status')
         status = error[:status]
-      elsif error.response
+      elsif error.respond_to?('response') && error.response.present?
         status = error.response[:status]
         details = error.response[:body]
       else
