@@ -78,6 +78,8 @@ class RetrievalStatusDecorator < Draper::Decorator
         { :pdf => nil, :html => nil, :shares => (events.blank? ? nil : events['stats']['readers']), :groups => (events.blank? or events['groups'].nil? ? nil : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "copernicus"
         { :pdf => (events.blank? ? nil : events['counter']['PdfDownloads'].to_i), :html => (events.blank? ? nil : events['counter']['AbstractViews'].to_i), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+      when "pmc"
+        { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       else
       # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia, pmceurope, pmceuropedata, wordpress, openedition
         { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
@@ -126,6 +128,12 @@ class RetrievalStatusDecorator < Draper::Decorator
 
   def by_month
     case name
+    when "pmc"
+      if events.blank?
+        nil
+      else
+        events.map { |event| { :year => event["year"].to_i, :month => event["month"].to_i, :pdf => event["pdf"].to_i, :html => event["full-text"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf"].to_i + event["full-text"].to_i } }
+      end
     when "citeulike"
       if events.blank?
         nil
@@ -170,6 +178,12 @@ class RetrievalStatusDecorator < Draper::Decorator
 
   def by_year
     case name
+    when "pmc"
+      if events.blank?
+        nil
+      else
+        events.group_by {|event| event["year"] }.sort.map {|k,v| { :year => k.to_i, :pdf => v.inject(0) { |sum, hash| sum + hash["pdf"].to_i }, :html => v.inject(0) { |sum, hash| sum + hash["full-text"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.inject(0) { |sum, hash| sum + hash["full-text"].to_i + hash["pdf"].to_i } }}
+      end
     when "citeulike"
       if events.blank?
         nil
