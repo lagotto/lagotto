@@ -19,6 +19,7 @@
 # limitations under the License.
 
 require 'source_helper'
+require 'custom_error'
 require 'timeout'
 
 class SourceJob < Struct.new(:rs_ids, :source_id)
