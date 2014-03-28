@@ -259,7 +259,7 @@ class Article < ActiveRecord::Base
   end
 
   def sanitize_title
-    ActionController::Base.helpers.sanitize(title)
+    self.title = ActionController::Base.helpers.sanitize(self.title)
   end
 
   def create_retrievals
