@@ -47,6 +47,10 @@ class QueueJob < Struct.new(:source_id)
                  :source_id => source.id)
     return false
   rescue *QueueJobExceptions
+    Alert.create(:exception => "",
+                 :class_name => "SourceInactiveError",
+                 :message => "Source #{source.display_name} could not transition to queueing state",
+                 :source_id => source.id)
     return false
   rescue StandardError => e
     Alert.create(:exception => e, :message => e.message, :source_id => source.id)
