@@ -240,7 +240,7 @@ describe Source do
         Delayed::Job.stub(:enqueue).with(QueueJob.new(source.id), { queue: "#{source.name}-queue", run_at: Time.zone.now, priority: 0 })
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
         source.queue_stale_articles.should == 10
-        source.should be_working
+        source.should be_waiting
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
@@ -249,7 +249,7 @@ describe Source do
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
         retrieval_status = FactoryGirl.create(:retrieval_status, source_id: source.id, scheduled_at: nil)
         source.queue_stale_articles.should == 10
-        source.should be_working
+        source.should be_waiting
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
@@ -258,7 +258,7 @@ describe Source do
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
         retrieval_status = FactoryGirl.create(:retrieval_status, source_id: source.id, queued_at: Time.zone.now)
         source.queue_stale_articles.should == 10
-        source.should be_working
+        source.should be_waiting
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
@@ -268,7 +268,7 @@ describe Source do
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[0...rate_limiting], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
         source.rate_limiting = rate_limiting
         source.queue_stale_articles.should == 5
-        source.should be_working
+        source.should be_waiting
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...rate_limiting], source.id))
       end
 
@@ -279,7 +279,7 @@ describe Source do
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[job_batch_size..10], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
         source.job_batch_size = job_batch_size
         source.queue_stale_articles.should == 10
-        source.should be_working
+        source.should be_waiting
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...job_batch_size], source.id))
       end
 
@@ -296,8 +296,8 @@ describe Source do
         source.disable
         Delayed::Job.stub(:enqueue).with(QueueJob.new(source.id), { queue: "#{source.name}-queue", run_at: Time.zone.now, priority: 0 })
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
-        source.queue_stale_articles.should == 10
-        source.should be_working
+        source.queue_stale_articles.should == 0
+        source.should be_disabled
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
@@ -306,7 +306,7 @@ describe Source do
         Delayed::Job.stub(:enqueue).with(QueueJob.new(source.id), { queue: "#{source.name}-queue", run_at: Time.zone.now, priority: 2 })
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
         source.queue_stale_articles.should == 10
-        source.should be_working
+        source.should be_waiting
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
@@ -315,16 +315,20 @@ describe Source do
 
         FactoryGirl.create_list(:alert, 10, { source_id: source.id, updated_at: Time.zone.now - 10.minutes })
         source.max_failed_queries = 5
-        source.queue_stale_articles.should == 0
-        source.should be_disabled
-        source.run_at.should eq(Time.zone.now + source.disable_delay)
+         Delayed::Job.stub(:enqueue).with(QueueJob.new(source.id), { queue: "#{source.name}-queue", run_at: Time.zone.now, priority: 2 })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        source.queue_stale_articles.should == 10
+        source.should be_waiting
+        source.run_at.should eq(Time.zone.now + source.batch_time_interval)
       end
 
       it "with queued jobs" do
         Delayed::Job.stub(:count).and_return(1)
-        source.queue_stale_articles.should == 0
+        Delayed::Job.stub(:enqueue).with(QueueJob.new(source.id), { queue: "#{source.name}-queue", run_at: Time.zone.now, priority: 2 })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        source.queue_stale_articles.should == 10
         source.should be_waiting
-        source.run_at.should eq(Time.zone.now + source.wait_time)
+        source.run_at.should eq(Time.zone.now + source.batch_time_interval)
       end
     end
 
