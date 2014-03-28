@@ -31,7 +31,7 @@ class QueueJob < Struct.new(:source_id)
 
     # Check that source is queueing
     # Otherwise raise an error and reschedule the job
-    raise SourceInactiveError unless source.queueing?
+    raise SourceInactiveError, "Source is not in queueing state" unless source.queueing?
 
     Timeout.timeout(5.minutes) do
       source.queue_stale_articles
