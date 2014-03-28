@@ -53,14 +53,14 @@ class QueueJob < Struct.new(:source_id)
     return false
   end
 
-  def success(job)
-    source = Source.find(source_id)
-    source.stop_queueing
-  end
-
   def failure(job)
     source = Source.find(source_id)
     Alert.create(:exception => "", :class_name => "DelayedJobError", :message => "Failure in #{job.queue}: #{job.last_error}", :source_id => source.id)
+  end
+
+  def after(job)
+    source = Source.find(source_id)
+    source.stop_queueing
   end
 
   # override the default settings which are:
