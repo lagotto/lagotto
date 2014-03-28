@@ -47,7 +47,7 @@ class QueueJob < Struct.new(:source_id)
 
   def error(job, exception)
     # don't create alert for this error
-    return if exception.kind_of?(SourceInactiveError)
+    # return if exception.kind_of?(SourceInactiveError)
 
     source = Source.find(source_id)
     Alert.create(:exception => exception, :message => exception.message, :source_id => source.id)

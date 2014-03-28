@@ -176,7 +176,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   def error(job, exception)
     # don't create alert for these errors
-    return if exception.kind_of?(SourceInactiveError) || exception.kind_of?(NotEnoughWorkersError)
+    # return if exception.kind_of?(SourceInactiveError) || exception.kind_of?(NotEnoughWorkersError)
 
     source = Source.find(source_id)
     Alert.create(:exception => exception, :message => exception.message, :source_id => source.id)
