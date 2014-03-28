@@ -25,8 +25,6 @@ class QueueJob < Struct.new(:source_id)
 
   include CustomError
 
-  QueueJobExceptions = [SourceInactiveError].freeze
-
   def perform
     source = Source.find(source_id)
     source.start_queueing
@@ -45,16 +43,14 @@ class QueueJob < Struct.new(:source_id)
                  :message => "DelayedJob timeout error for #{source.display_name}",
                  :status => 408,
                  :source_id => source.id)
-    return false
-  rescue *QueueJobExceptions
-    Alert.create(:exception => "",
-                 :class_name => "SourceInactiveError",
-                 :message => "Source #{source.display_name} could not transition to queueing state",
-                 :source_id => source.id)
-    return false
-  rescue StandardError => e
-    Alert.create(:exception => e, :message => e.message, :source_id => source.id)
-    return false
+  end
+
+  def error(job, exception)
+    # don't create alert for this error
+    return if exception.kind_of?(SourceInactiveError)
+
+    source = Source.find(source_id)
+    Alert.create(:exception => exception, :message => exception.message, :source_id => source.id)
   end
 
   def failure(job)

@@ -26,8 +26,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   include SourceHelper
   include CustomError
 
-  SourceJobExceptions = [SourceInactiveError, NotEnoughWorkersError].freeze
-
   def enqueue(job)
     # keep track of when the article was queued up
     RetrievalStatus.update_all(["queued_at = ?", Time.zone.now], ["id in (?)", rs_ids] )
@@ -67,12 +65,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                  :message => "SourceJob timeout error for #{source.display_name}",
                  :status => 408,
                  :source_id => source.id)
-    return false
-  rescue *SourceJobExceptions
-    return false
-  rescue StandardError => e
-    Alert.create(:exception => e, :message => e.message, :source_id => source.id)
-    return false
   end
 
   def perform_get_data(rs)
@@ -180,6 +172,14 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
       { event_count: event_count, previous_count: previous_count, retrieval_history_id: rh.id, update_interval: update_interval }
     end
+  end
+
+  def error(job, exception)
+    # don't create alert for these errors
+    return if exception.kind_of?(SourceInactiveError) || exception.kind_of?(NotEnoughWorkersError)
+
+    source = Source.find(source_id)
+    Alert.create(:exception => exception, :message => exception.message, :source_id => source.id)
   end
 
   def success(job)
