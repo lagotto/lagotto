@@ -31,18 +31,18 @@ class QueueJob < Struct.new(:source_id)
 
     # Check that source is queueing
     # Otherwise raise an error and reschedule the job
-    raise SourceInactiveError, "Source is not in queueing state" unless source.queueing?
+    raise SourceInactiveError, "Source #{source.display_name} is not in queueing state" unless source.queueing?
 
     Timeout.timeout(5.minutes) do
       source.queue_stale_articles
     end
-  rescue Timeout::Error
-    source = Source.find(source_id)
-    Alert.create(:exception => "",
-                 :class_name => "Timeout::Error",
-                 :message => "DelayedJob timeout error for #{source.display_name}",
-                 :status => 408,
-                 :source_id => source.id)
+  # rescue Timeout::Error
+  #   source = Source.find(source_id)
+  #   Alert.create(:exception => "",
+  #                :class_name => "Timeout::Error",
+  #                :message => "DelayedJob timeout error for #{source.display_name}",
+  #                :status => 408,
+  #                :source_id => source.id)
   end
 
   def error(job, exception)

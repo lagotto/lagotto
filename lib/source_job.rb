@@ -38,8 +38,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
     # Check that source is working and we have workers for this source
     # Otherwise raise an error and reschedule the job
-    raise SourceInactiveError, "Source is not in working state" unless source.working?
-    raise NotEnoughWorkersError, "Not enough workers available" unless source.check_for_available_workers
+    raise SourceInactiveError, "Source #{source.display_name} is not in working state" unless source.working?
+    raise NotEnoughWorkersError, "Not enough workers available for source #{source.display_name}" unless source.check_for_available_workers
 
     Timeout.timeout(Delayed::Worker.max_run_time) do
 
@@ -59,12 +59,12 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         sleep(sleep_interval) if sleep_interval > 0
       end
     end
-  rescue Timeout::Error
-    Alert.create(:exception => "",
-                 :class_name => "Timeout::Error",
-                 :message => "SourceJob timeout error for #{source.display_name}",
-                 :status => 408,
-                 :source_id => source.id)
+  # rescue Timeout::Error
+  #   Alert.create(:exception => "",
+  #                :class_name => "Timeout::Error",
+  #                :message => "SourceJob timeout error for #{source.display_name}",
+  #                :status => 408,
+  #                :source_id => source.id)
   end
 
   def perform_get_data(rs)
