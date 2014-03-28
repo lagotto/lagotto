@@ -255,7 +255,11 @@ class Source < ActiveRecord::Base
     end
 
     rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
-    queue_article_jobs(rs, { priority: 2 })
+    count = queue_article_jobs(rs, { priority: 2 })
+
+    stop_working
+
+    count
   end
 
   def queue_stale_articles
@@ -265,7 +269,11 @@ class Source < ActiveRecord::Base
 
     # find articles that need to be updated. Not queued currently, scheduled_at in the past
     rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
-    queue_article_jobs(rs)
+    count = queue_article_jobs(rs)
+
+    stop_queueing
+
+    count
   end
 
   def queue_article_jobs(rs, options = {})
@@ -302,6 +310,7 @@ class Source < ActiveRecord::Base
       # Some fields can be blank
       next if name == "crossref" && field == :password
       next if name == "mendeley" && field == :access_token
+      next if name == "twitter_search" && field == :access_token
 
       errors.add(field, "can't be blank") if send(field).blank?
     end
@@ -369,12 +378,8 @@ class Source < ActiveRecord::Base
     failed_queries > max_failed_queries
   end
 
-  def get_queued_job_count
-    Delayed::Job.count('id', :conditions => ["queue = ?", name])
-  end
-
-  def check_for_queued_jobs
-    get_queued_job_count > 0
+  def get_active_job_count
+    Delayed::Job.count('id', :conditions => ["queue = ? AND locked_by IS NOT NULL", name])
   end
 
   def queueing_count
@@ -581,12 +586,4 @@ class Source < ActiveRecord::Base
     status_url = "http://localhost/api/v5/status?api_key=#{CONFIG[:api_key]}"
     get_json(status_url, { :timeout => cache_timeout })
   end
-end
-
-module Exceptions
-  # source is either inactive or disabled
-  class SourceInactiveError < StandardError; end
-
-  # we have received too many errors (and will disable the source)
-  class TooManyErrorsBySourceError < StandardError; end
 end
