@@ -143,7 +143,7 @@ class Source < ActiveRecord::Base
     end
 
     after_transition :to => :waiting do |source|
-      source.add_queue(Time.zone.now + source.wait_time) if source.check_for_queued_jobs
+      source.add_queue(source.run_at + source.batch_time_interval)
     end
 
     event :install do
@@ -173,6 +173,7 @@ class Source < ActiveRecord::Base
 
     event :start_queueing do
       transition [:working, :waiting] => :queueing, :if => :queueable
+      transition any => same
     end
 
     event :stop_queueing do
@@ -258,10 +259,9 @@ class Source < ActiveRecord::Base
   end
 
   def queue_stale_articles
-    # check to see if source is disabled, has too many failures or jobs are already queued
-    start_working_with_check
+    start_queueing
 
-    return 0 unless working?
+    return 0 unless queueing?
 
     # find articles that need to be updated. Not queued currently, scheduled_at in the past
     rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")

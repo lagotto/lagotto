@@ -18,13 +18,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'custom_error'
 require 'timeout'
 
 class QueueJob < Struct.new(:source_id)
 
+  include CustomError
+
+  QueueJobExceptions = [SourceInactiveError].freeze
+
   def perform
     source = Source.find(source_id)
-    return 0 if source.inactive?
+    source.start_queueing
+
+    # Check that source is queueing
+    # Otherwise raise an error and reschedule the job
+    raise SourceInactiveError unless source.queueing?
 
     Timeout.timeout(5.minutes) do
       source.queue_stale_articles
@@ -36,16 +45,40 @@ class QueueJob < Struct.new(:source_id)
                  :message => "DelayedJob timeout error for #{source.display_name}",
                  :status => 408,
                  :source_id => source.id)
+    return false
+  rescue *QueueJobExceptions
+    return false
+  rescue StandardError => e
+    Alert.create(:exception => e, :message => e.message, :source_id => source.id)
+    return false
   end
 
-  def error(job, e)
+  def success(job)
     source = Source.find(source_id)
-    Alert.create(:exception => e, :message => "#{e.message} in #{job.queue}", :source_id => source.id)
+    source.stop_queueing
   end
 
-  def after(job)
+  def failure(job)
     source = Source.find(source_id)
-    source.add_queue(source.run_at + source.batch_time_interval)
+    Alert.create(:exception => "", :class_name => "DelayedJobError", :message => "Failure in #{job.queue}: #{job.last_error}", :source_id => source.id)
   end
 
+  # override the default settings which are:
+  # On failure, the job is scheduled again in 5 seconds + N ** 4, where N is the number of retries.
+  # with the settings below we try for 23 hours. Max_attempts is 25
+  def reschedule_at(attempts, time)
+    case attempts
+    when (0..5)
+      interval = 1.minute
+    when (6..10)
+      interval = 5.minutes
+    when (11..15)
+      interval = 30.minutes
+    when (16..20)
+      interval = 1.hour
+    else
+      interval = 3.hours
+    end
+    self.class.db_time_now + interval
+  end
 end
