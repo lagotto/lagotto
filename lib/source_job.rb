@@ -185,14 +185,16 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def success(job)
     # reset the queued_at value
     RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
-
-    source = Source.find(source_id)
-    source.stop_working unless source.get_active_job_count > 1
   end
 
   def failure(job)
     source = Source.find(source_id)
     Alert.create(:exception => "", :class_name => "DelayedJobError", :message => "Failure in #{job.queue}: #{job.last_error}", :source_id => source.id)
+  end
+
+  def after(job)
+    source = Source.find(source_id)
+    source.stop_working unless source.get_active_job_count > 1
   end
 
   # override the default settings which are:
