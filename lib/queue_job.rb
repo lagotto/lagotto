@@ -70,6 +70,6 @@ class QueueJob < Struct.new(:source_id)
     else
       interval = 3.hours
     end
-    self.class.db_time_now + interval
+    Time.zone.now + interval
   end
 end

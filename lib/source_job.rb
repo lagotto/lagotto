@@ -204,6 +204,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     else
       interval = 3.hours
     end
-    self.class.db_time_now + interval
+    Time.zone.now + interval
   end
 end
