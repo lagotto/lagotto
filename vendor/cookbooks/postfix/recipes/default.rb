@@ -1,4 +1,4 @@
-#
+# encoding: utf-8
 # Author:: Joshua Timberman(<joshua@opscode.com>)
 # Cookbook Name:: postfix
 # Recipe:: default
@@ -18,43 +18,86 @@
 # limitations under the License.
 #
 
-package "postfix"
+package 'postfix'
 
 if node['postfix']['use_procmail']
-  package "procmail"
-end
-
-service "postfix" do
-  supports :status => true, :restart => true, :reload => true
-  action :enable
+  package 'procmail'
 end
 
 case node['platform_family']
-when "rhel", "fedora"
-  service "sendmail" do
+when 'rhel', 'fedora'
+  service 'sendmail' do
     action :nothing
   end
 
-  execute "switch_mailer_to_postfix" do
-    command "/usr/sbin/alternatives --set mta /usr/sbin/sendmail.postfix"
-    notifies :stop, "service[sendmail]"
-    notifies :start, "service[postfix]"
-    not_if "/usr/bin/test /etc/alternatives/mta -ef /usr/sbin/sendmail.postfix"
+  execute 'switch_mailer_to_postfix' do
+    command '/usr/sbin/alternatives --set mta /usr/sbin/sendmail.postfix'
+    notifies :stop, 'service[sendmail]'
+    notifies :start, 'service[postfix]'
+    not_if '/usr/bin/test /etc/alternatives/mta -ef /usr/sbin/sendmail.postfix'
+  end
+when 'omnios'
+  manifest_path = ::File.join(Chef::Config[:file_cache_path], "manifest-postfix.xml")
+
+  # we need to manage the postfix group and user
+  # and then subscribe to the package install because it creates a
+  # postdrop group and adds postfix user to it.
+  group 'postfix' do
+    append true
+  end
+
+  user 'postfix' do
+    uid node['postfix']['uid']
+    gid 'postfix'
+    home '/var/spool/postfix'
+    subscribes :manage, 'package[postfix]'
+    notifies :run, 'execute[/opt/omni/sbin/postfix set-permissions]', :immediately
+  end
+
+  # we don't guard this because if the user creation was successful (or happened out of band), then this won't get executed when the action is :nothing.
+  execute '/opt/omni/sbin/postfix set-permissions'
+
+  template manifest_path  do
+    source 'manifest-postfix.xml.erb'
+    owner 'root'
+    group 'root'
+    mode 00644
+    notifies :run, "execute[load postfix manifest]", :immediately
+  end
+
+  execute "load postfix manifest" do
+    action :nothing
+    command "svccfg import #{manifest_path}"
+    notifies :restart, "service[postfix]"
+  end
+end
+
+if !node['postfix']['sender_canonical_map_entries'].empty?
+  template "#{node['postfix']['conf_dir']}/sender_canonical" do
+    owner 'root'
+    group 0
+    mode  '0644'
+    notifies :restart, 'service[postfix]'
+  end
+
+  if !node['postfix']['main'].key?('sender_canonical_maps')
+    node.set['postfix']['main']['sender_canonical_maps'] = "hash:#{node['postfix']['conf_dir']}/sender_canonical"
   end
 end
 
 %w{main master}.each do |cfg|
-  template "/etc/postfix/#{cfg}.cf" do
+  template "#{node['postfix']['conf_dir']}/#{cfg}.cf" do
     source "#{cfg}.cf.erb"
-    owner "root"
+    owner 'root'
     group 0
     mode 00644
-    notifies :restart, "service[postfix]"
-    variables(:settings => node['postfix'][cfg])
+    notifies :restart, 'service[postfix]'
+    variables(settings: node['postfix'][cfg])
     cookbook node['postfix']["#{cfg}_template_source"]
   end
 end
 
-service "postfix" do
-  action :start
+service 'postfix' do
+  supports status: true, restart: true, reload: true
+  action [:enable, :start]
 end

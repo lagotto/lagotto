@@ -143,7 +143,7 @@ class Source < ActiveRecord::Base
     end
 
     after_transition :to => :waiting do |source|
-      source.add_queue(Time.zone.now + source.wait_time) if source.check_for_queued_jobs
+      source.add_queue(source.run_at + source.batch_time_interval)
     end
 
     event :install do
@@ -173,6 +173,7 @@ class Source < ActiveRecord::Base
 
     event :start_queueing do
       transition [:working, :waiting] => :queueing, :if => :queueable
+      transition any => same
     end
 
     event :stop_queueing do
@@ -188,6 +189,7 @@ class Source < ActiveRecord::Base
     event :start_working_with_check do
       transition [:inactive] => same
       transition any => :disabled, :if => :check_for_failures
+      transition any => :waiting, :if => :check_for_queued_jobs
       transition any => :working
     end
 
@@ -253,18 +255,25 @@ class Source < ActiveRecord::Base
     end
 
     rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
-    queue_article_jobs(rs, { priority: 2 })
+    count = queue_article_jobs(rs, { priority: 2 })
+
+    stop_working
+
+    count
   end
 
   def queue_stale_articles
-    # check to see if source is disabled or has too many failures
-    start_working_with_check
+    start_queueing
 
-    return 0 unless working?
+    return 0 unless queueing?
 
     # find articles that need to be updated. Not queued currently, scheduled_at in the past
     rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
-    queue_article_jobs(rs)
+    count = queue_article_jobs(rs)
+
+    stop_queueing
+
+    count
   end
 
   def queue_article_jobs(rs, options = {})
@@ -369,12 +378,8 @@ class Source < ActiveRecord::Base
     failed_queries > max_failed_queries
   end
 
-  def get_queued_job_count
-    Delayed::Job.count('id', :conditions => ["queue = ?", name])
-  end
-
-  def check_for_queued_jobs
-    get_queued_job_count > 0
+  def get_active_job_count
+    Delayed::Job.count('id', :conditions => ["queue = ? AND locked_by IS NOT NULL", name])
   end
 
   def queueing_count
@@ -398,7 +403,7 @@ class Source < ActiveRecord::Base
     last_job = DelayedJob.where(queue: name).maximum(:run_at)
     return Time.zone.now if last_job.nil?
 
-    last_job + batch_interval + rand(batch_interval/5)
+    last_job + batch_interval
   end
 
   def workers

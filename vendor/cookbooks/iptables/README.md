@@ -59,7 +59,7 @@ template:
     -A FWR -p tcp -m tcp --dport 80 -j ACCEPT
 
 This would go in the cookbook,
-`httpd/templates/default/port_http.erb`. Then to use it in
+`httpd/templates/default/http.erb`. Then to use it in
 `recipe[httpd]`:
 
     iptables_rule "http"

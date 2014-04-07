@@ -20,7 +20,7 @@
 
 class TwitterSearch < Source
 
-  def put_pmc_database
+  def put_twitter_database
     put_alm_data(url)
   end
 

@@ -37,6 +37,7 @@ Attributes
 * `node['erlang']['source']['url']` - URL of Erlang/OTP source tarball.
 * `node['erlang']['source']['checksum']` - Checksum of the Erlang/OTP source tarball.
 * `node['erlang']['source']['build_flags']` - Build flags for compiling Erlang/OTP.
+* `node['erlang']['source']['cflags']` - CFLAGS for configuring Erlang/OTP.
 * `node['erlang']['esl']['version']` - version specifier for Erlang
   Solutions packages.
 * `node['erlang']['esl']['lsb_codename']` - override the code name

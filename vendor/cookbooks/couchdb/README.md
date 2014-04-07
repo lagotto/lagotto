@@ -142,8 +142,9 @@ License and Author
 
 * Author: Joshua Timberman (<joshua@opscode.com>)
 * Author: Matthieu Vachon (<matthieu.o.vachon@gmail.com>)
+* Author: Joan Touzet (<wohali@apache.org>)
 
-Copyright 2009-2013, Opscode, Inc.
+Copyright 2009-2014, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

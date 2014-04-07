@@ -3,89 +3,59 @@ layout: page
 title: "Installation"
 ---
 
-ALM is a typical Ruby on Rails web application with one unusual feature: it requires the CouchDB database. CouchDB is used to store the responses from external API calls, MySQL is used for everything else (or PostgreSQL, see below). The application has been tested with Apache/Passenger, but should also run in other deployment environments, e.g. Nginx/Unicorn or WEBrick. ALM uses Ruby on Rails 3.2.x. The application has extensive test coverage using [Rspec] and [Cucumber].
+ALM is a typical Ruby on Rails web application with one unusual feature: it requires the CouchDB database. CouchDB is used to store the responses from external API calls, MySQL (or PostgreSQL, see below) is used for everything else. The application has been tested with Apache/Passenger, but should also run in other deployment environments, e.g. Nginx/Unicorn or WEBrick. ALM uses Ruby on Rails 3.2.x, migration to Rails 4.x is planned for 2014. The application has extensive test coverage using [Rspec] and [Cucumber].
 
 [Rspec]: http://rspec.info/
 [Cucumber]: http://cukes.info/
 
+The ALM application is available as Open Source software using a [Apache license](http://www.apache.org/licenses/LICENSE-2.0.html), all dependencies (software and libraries) are also Open Source.
+
+Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of articles. As a rule of thumb you need one worker per 5,000 - 20,000 articles, and 1 Gb of RAM per 10 workers - the exact numbers depend on how often you plan to update articles, e.g. you need more workers if you plan on update your usage stats every day.
+
 #### Ruby 1.9
-ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies, making them sometimes not the best choices in a production environment. The ALM application has not been tested with Ruby 2.0, but migration to Ruby 2.0 is planned in 2014.
+ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies, making them sometimes not the best choices in a production environment. The ALM application has not been tested with Ruby 2.x, but migration to Ruby 2.1.x is planned for 2014.
 
 [RVM]: http://rvm.io/
 [Rbenv]: https://github.com/sstephenson/rbenv
 
 #### Installation Options
-There are many installation options, but the following two should cover most scenarios:
 
-* on a development machine: installation in a virtual machine via Vagrant is strongly recommended
-* on a server: installation in a virtual machine via Vagrant or manual installation is recommended, with code updates via Capistrano
+* automated installation via Vagrant and Capistrano (recommended)
+* manual installation
 
 Hosting the ALM application at a Platform as a Service (PaaS) provider such as Heroku or OpenShift is possible, but has not been tested.
 
-## Automatic Installation using Vagrant
-This is the preferred way to install the ALM application on a development machine. The application will automatically be installed in a self-contained virtual machine, using [Virtualbox], [Vagrant] and [Chef Solo]. Download and install [Virtualbox], [Vagrant] and the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo). You can also use [VMware Fusion or Workstation](https://www.vagrantup.com/vmware) instead of [Virtualbox], but the VMware Vagrant plugin requires a commercial license.
+## Automated Installation
+This is the recommended way to install the ALM application. The required applications and libraries will automatically be installed in a self-contained virtual machine, using [Vagrant] and [Chef Solo]. We use the [Capistrano](http://capistranorb.com/) deployment tool to install the latest ALM code, run database migrations and restart the server.
 
-### Custom settings (passwords, API keys)
-This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
-
-Then install the application with:
-
-```sh
-git clone git://github.com/articlemetrics/alm.git
-cd alm
-vagrant up
-```
-
-[Virtualbox]: https://www.virtualbox.org/wiki/Downloads
-[Vagrant]: http://downloads.vagrantup.com/
-[Omnibus]: https://github.com/schisamo/vagrant-omnibus
-[Chef Solo]: http://docs.opscode.com/chef_solo.html
-
-This installs the ALM server on a Ubuntu 12.04 virtual machine. After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at
-
-```sh
-http://localhost:8080
-```
-
-or
-
-```sh
-http://33.33.33.44
-```
-
-The username and password for the web interface are `articlemetrics`. The code for the ALM application is in a shared folder and can be reached both from the host and virtual machine. To get to the application root directory in the virtual machine, do
-
-```sh
-vagrant ssh
-cd /vagrant
-```
-
-The `vagrant` user on the virtual machine has the password `vagrant`, and has sudo privileges. The Rails application runs in Development mode. The MySQL password is stored at `config/database.yml`, and is auto-generated during the installation. CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
-
-## Automatic Installation on AWS using Vagrant
-This is the preferred way to install the ALM application on Amazon Web Services (AWS). machine. Download and install  [Vagrant][vagrant]. Install the vagrant-aws plugin:
-
-```sh
-vagrant plugin install vagrant-aws
-```
-
-So that we can use any Amazon Machine Image ([AMI](https://aws.amazon.com/amis)) - the ALM application has been tested with Ubuntu 12.04 - we want to install the [vagrant-omnibus] plugin that adds Chef solo to any VM:
+Start by downloading and installing [Vagrant], and then install the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo):
 
 ```sh
 vagrant plugin install vagrant-omnibus
 ```
 
-Install a dummy AWS box and name it `opscode-ubuntu-12.04`:
+The following providers have been tested with the ALM application:
+
+* Virtualbox
+* VMware Fusion or Workstation
+* Amazon AWS
+* Digital Ocean
+* Rackspace
+
+Virtualbox and VMware are for local installations, e.g. on a developer machine, whereas the other options are for cloud installations. With the exception of Virtualbox you need to install the appropriate [Vagrant plugin](https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins) with these providers, e.g. for AWS:
 
 ```sh
-vagrant box add opscode-ubuntu-12.04 https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+vagrant plugin install vagrant-aws
 ```
 
-Add your AWS settings (access_key, secret_access_key, private_key_path, keypair_name, security_groups) to Vagrantfile. We recommend to use at least a small EC2 instance, the ami `ami-e7582d8e` contains Ubuntu 12.04. We also install the latest Chef version using omnibus.
+The VMware plugin requires a commercial license, all other plugins are freely available as Open Source software.
+
+### Custom settings (passwords, API keys)
+This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
+
+Some custom settings for the virtual machine are stored in the `Vagrantfile`, and that includes your cloud provider access keys, the ID base virtual machine with Ubuntu 12.04 from by your cloud provider, RAM for the virtual machine, and networking settings for a local installation. A sample configuration for AWS would look like:
 
 ```ruby
-config.omnibus.chef_version = :latest
-
 config.vm.hostname = "alm"
 
 config.vm.provider :aws do |aws, override|
@@ -102,53 +72,105 @@ config.vm.provider :aws do |aws, override|
 end
 ```
 
-#### Custom settings (passwords, API keys)
-This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
+The sample configuration for AWS and Digital Ocean is included in the `Vagrantfile`.
 
-Then install the application with:
+Then install all the required software for the ALM application with:
 
 ```sh
 git clone git://github.com/articlemetrics/alm.git
 cd alm
-vagrant up --provider aws
+vagrant up
 ```
 
-After installation is finished (this can take up to 15 min on the first run) you can access the ALM application with your web browser at the web address of your EC2 instance (the use of Elastic IPs and a DNS server is recommended).
+[Virtualbox]: https://www.virtualbox.org/wiki/Downloads
+[Vagrant]: http://downloads.vagrantup.com/
+[Omnibus]: https://github.com/schisamo/vagrant-omnibus
+[Chef Solo]: http://docs.opscode.com/chef_solo.html
 
-After installation you first have to create a default user using the `Sign Up` button. The code for the ALM application is in the `/vagrant` folder and is rsynced from the host. To get to the application root directory in the virtual machine, do (using the `private_key_path` and `host_name`):
+This installs the ALM server on a Ubuntu 12.04 virtual machine and can take up to 15 min. To get into in the virtual machine, use user `vagrant` with password `vagrant` or do:
 
 ```sh
 vagrant ssh
 cd /vagrant
 ```
 
-The Rails application runs in Production mode. The MySQL password is stored at `config/database.yml`, CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding.
+This uses the private SSH key provided by you in the `Vagrantfile` (the default key for local installations using Virtualbox is `~/.vagrant.d/insecure_private_key`). The `vagrant` user has sudo privileges. The MySQL password is stored at `config/database.yml`, and is auto-generated during the installation. CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding (configured in `Vagrantfile`). Vagrant syncs the folder on the host containing the checked out ALM git repo with the folder `/var/www/alm/shared` on the guest.
 
-The ALM application can also be installed with [DigitalOcean] or [Rackspace] using Vagrant and the respective plugins ([vagrant-digitalocean] and [vagrant-rackspace]) in a process similar to the AWS installation. The settings for DigitalOcean are as follows:
+## Deployment via Capistrano
+Using the deployment automation tool [Capistrano](http://capistranorb.com) is the recommended strategy for code updates via git, database migrations and server restarts. Capistrano assumes that the server has been provisioned using Vagrant or Chef (or via manual installation, see below).
 
-```ruby
-config.vm.provider :digital_ocean do |provider, override|
-  override.ssh.private_key_path = '~/.ssh/id_rsa'
-  override.vm.box = 'digital_ocean'
-  override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-  override.ssh.username = "ubuntu"
+To use Capistrano you need Ruby (at least 1.9.3) installed on your local machine. If you haven't done so, install [Bundler](http://bundler.io/) to manage the dependencies for the ALM application:
 
-  provider.client_id = 'EXAMPLE'
-  provider.api_key = 'EXAMPLE'
-  provider.size = '1GB'
-end
+```sh
+gem install bundler
 ```
 
-[vagrant]: http://downloads.vagrantup.com/
-[vagrant-aws]: https://github.com/mitchellh/vagrant-aws
-[vagrant-omnibus]: https://github.com/schisamo/vagrant-omnibus
-[Rackspace]: http://www.rackspace.com
-[DigitalOcean]: https://www.digitalocean.com
-[vagrant-rackspace]: https://github.com/mitchellh/vagrant-rackspace
-[vagrant-digitalocean]: https://github.com/smdahlen/vagrant-digitalocean
+Then go to the ALM git repo that you probably have already cloned in the installation step and install all required dependencies.
+
+```sh
+git clone git://github.com/articlemetrics/alm.git
+cd alm
+bundle install
+```
+
+#### Edit deployment configuration
+The deployment settings for the development environment and the Virtualbox VM created by Vagrant is already configured:
+
+```ruby
+set :stage, :development
+set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "develop"
+set :deploy_user, 'vagrant'
+set :rails_env, :development
+
+# install all gems into system
+set :bundle_without, nil
+set :bundle_binstubs, nil
+set :bundle_path, nil
+set :bundle_flags, '--system'
+
+# don't precompile assets
+set :assets_roles, []
+
+role :app, %w{33.33.33.44}
+role :web, %w{33.33.33.44}
+role :db,  %w{33.33.33.44}
+
+set :ssh_options, {
+  user: "vagrant",
+  keys: %w(~/.vagrant.d/insecure_private_key),
+  auth_methods: %w(publickey)
+}
+
+# Set number of delayed_job workers
+set :delayed_job_args, "-n 3"
+```
+
+For a different setup (e.g. a production server) edit the deployment configuration for Capistrano by renaming the file `config/deploy/production.rb.example` to `config/deploy/production.rb` and fill in the following information:
+
+* server for roles :app, :web, :db (name or IP address, could all be the same server)
+* :deploy_user
+* number of background workers, e.g. three workers: :delayed_job_args, "-n 3"
+* SSH keys via :ssh_options
+
+#### Deploy
+We deploy the ALM application with
+
+```sh
+bundle exec cap production deploy
+```
+
+Replace `production` with `staging` or `development` for other environments. You can pass in environment variables, e.g. to deploy a different branch: `cap production deploy BRANCH_NAME=develop`.
+
+The first time this command is run it creates the folder structure required by Capistrano, by default in `/var/www/alm`. To make sure the expected folder structure is created successfully you can run:
+
+```sh
+bundle exec cap production deploy:check
+```
+
+On subsequent runs the command will pull the latest code from the Github repo, run database migrations, install the dependencies via Bundler, stop and start the background workers, and in production mode precompiles assets (CSS, Javascripts, images).
 
 ## Manual installation
-These instructions assume a fresh installation of Ubuntu 12.04. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9. The instructions assume a user with sudo privileges, and this can also be a new user created just for running the ALM application.
+These instructions assume a fresh installation of Ubuntu 12.04 and a user with sudo privileges. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9.
 
 #### Update package lists
 
@@ -177,7 +199,7 @@ sudo apt-get install couchdb mysql-server
 ```
 
 #### Install Memcached
-Memcached is used to cache requests (in particular API requests) in production, and the default configuration can be used. If you want to run memcached on a different host, change `config.cache_store = :dalli_store, { :namespace => "alm" }` in `config/environments/production.rb` to `config.cache_store = :dalli_store, 'cache.example.com', { :namespace => "alm" }`.
+Memcached is used to cache requests (in particular API requests), and the default configuration can be used. If you want to run memcached on a different host, change `config.cache_store = :dalli_store, { :namespace => "alm" }` in `config/environments/production.rb` to `config.cache_store = :dalli_store, 'cache.example.com', { :namespace => "alm" }`.
 
 ```sh
 sudo apt-get install memcached
@@ -228,13 +250,13 @@ sudo a2enmod passenger
 ```
 
 #### Set up virtual host
-Please set `ServerName` if you have set up more than one virtual host. Also don't forget to add`AllowEncodedSlashes On` to the Apache virtual host file in order to keep Apache from messing up encoded embedded slashes in DOIs. Use `RailsEnv production` to use the Rails production environment (and use `rake db:setup RAILS_ENV=production` when you set up the MySQL databases).
+Please set `ServerName` if you have set up more than one virtual host. Also don't forget to add`AllowEncodedSlashes On` to the Apache virtual host file in order to keep Apache from messing up encoded embedded slashes in DOIs. Use `RailsEnv development` to use the Rails development environment.
 
 ```apache
 # /etc/apache2/sites-available/alm
 <VirtualHost *:80>
   ServerName localhost
-  RailsEnv development
+  RailsEnv production
   DocumentRoot /var/www/alm/public
 
   <Directory /var/www/alm/public>
@@ -298,147 +320,6 @@ sudo service apache2 reload
 ```
 
 You can now access the ALM application with your web browser at the name or IP address (if it is the only virtual host) of your Ubuntu installation.
-
-## Remote Installation via Capistrano
-This is the recommended strategy for production servers that use [Capistrano](http://capistranorb.com), a deployment automation tool. Capistrano takes care of code updates via git, database migrations and server restarts, but you still have to do the initial server setup of Ruby, MySQL, CouchDB, Apache and Passenger. And Capistrano requires a second local ALM installation, done either via Vagrant or manually (see above).
-
-#### Install Ruby, MySQL, CouchDB, Apache and Passenger
-Unless you already have installed Ruby, MySQL, CouchDB, Apache and Passenger, please follow the steps for manual installation until _Install and configure Passenger_. We again assume Ubuntu 12.04.
-
-#### Set up virtual host
-You probably have to provide a `ServerName`, we need to change `RailsEnv` to `production` and `DocumentRoot` to `/var/www/alm/current/public`.
-
-```apache
-# /etc/apache2/sites-available/alm
-<VirtualHost *:80>
-  ServerName EXAMPLE.ORG
-  RailsEnv development
-  DocumentRoot /var/www/alm/current/public
-
-  <Directory /var/www/alm/current/public>
-    Options FollowSymLinks
-    AllowOverride None
-    Order allow,deny
-    Allow from all
-  </Directory>
-
-  # Important for ALM: keeps Apache from messing up encoded embedded slashes in DOIs
-  AllowEncodedSlashes On
-
-</VirtualHost>
-```
-
-#### Install Bundler
-Bundler is a tool to manage dependencies of Ruby applications: http://gembundler.com. We have to install `therubyracer` gem as sudo because of a permission problem (make sure the version matches the version in `Gemfile` in the ALM root directory).
-
-```sh
-sudo gem install bundler
-sudo gem install therubyracer -v '0.11.3'
-```
-
-#### Create CouchDB database
-
-```sh
-curl -X PUT http://localhost:5984/alm/
-```
-
-#### Install Capistrano
-The next steps are done on the local development machine.
-
-```sh
-sudo gem install capistrano
-cd /var/www/alm
-capify .
-```
-
-#### Edit deployment configuration
-Edit the deployment configuration file that was just created by Capistrano. Add the name or IP address of your production server as `server`, and pick a `:user` and `:group` from the production server. We can either set `:password` or use SSH keys.
-
-```ruby
-# /var/www/alm/config/deploy.rb
-require "bundler/capistrano"
-load 'deploy/assets'
-
-server "EXAMPLE.ORG", :app, :web, :db, :primary => true
-
-set :application, "alm"
-set :user, "deploy"
-set :group, "deploy"
-set :password, "EXAMPLE"
-set :deploy_to, "/var/www/#{application}"
-set :deploy_via, :remote_cache
-
-set :scm, "git"
-set :repository, "git://github.com/articlemetrics/alm.git"
-set :branch, "master"
-
-set :bundle_without, [:development, :test]
-
-set :ruby_vm_type,      :mri        # :ree, :mri
-set :web_server_type,   :apache     # :apache, :nginx
-set :app_server_type,   :passenger  # :passenger, :mongrel
-set :db_server_type,    :mysql      # :mysql, :postgresql, :sqlite
-
-set :keep_releases, 5
-
-namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-  end
-end
-
-before "deploy:assets:precompile" do
-  run ["ln -nfs #{shared_path}/settings.yml #{release_path}/config/settings.yml",
-   "ln -nfs #{shared_path}/database.yml #{release_path}/config/database.yml",
-   ].join(" && ")
-end
-```
-
-#### Setup remote server
-This will create the required directories (`/var/www/alm/current`, `/var/www/alm/releases` and `/var/www/alm/shared`) on the production server (it is safe to run this command if one of the directories already exists). `deploy:update` will fetch the application via git. `rake db:setup` will not create user accounts or sample articles in the production environment.
-
-```sh
-cd /var/www/alm
-cap deploy:setup
-cap deploy:update
-```
-
-#### Set ALM configuration settings
-Back to the production server, finish the setup.
-
-```sh
-cd /var/www/alm/current
-cp config/database.yml.example /var/www/alm/shared/database.yml
-cp config/settings.yml.example /var/www/alm/shared/config/settings.yml
-rake db:setup RAILS_ENV=production
-sudo a2dissite default
-sudo a2ensite alm
-```
-
-### Start the remote ALM server
-You can now start the production server from your development machine.
-
-```sh
-cap deploy:start
-```
-
-#### Update your application
-Deploy the application with the current code from Github without or with database migrations. You can rollback to the last deployed version if there is a problem.
-
-```sh
-cap deploy
-cap deploy:migrations
-cap deploy:rollback
-```
-
-### Precompile assets
-Assets (CSS, Javascripts, images) need to be precompiled when running Rails in the `production` environment (but not in `development`). Run the following rake task, then restart the server:
-
-```sh
-bundle exec rake assets:precompile RAILS_ENV=production
-```
 
 ## Using PostgreSQL instead of MySQL
 The instructions above are for using MySQL, but the ALM application can also be installed with PostgreSQL with two small changes:

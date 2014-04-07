@@ -153,11 +153,12 @@ override_attributes(
     "mail_type" => "master",
     "main" => {
       "mynetworks" => "10.3.3.0/24",
-      "mail_type" => "master",
       "mydomain" => "example.com",
       "myorigin" => "example.com",
       "relayhost" => "[smtp.comcast.net]:587",
-      "smtp_sasl_auth_enable" => "yes",
+      "smtp_sasl_auth_enable" => "yes"
+    },
+    "sasl" => {
       "smtp_sasl_passwd" => "your_password",
       "smtp_sasl_user_name" => "your_username"
     }

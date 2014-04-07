@@ -79,7 +79,7 @@ start_couchdb () {
     mkdir -p "$RUN_DIR"
     if test -n "$COUCHDB_USER"; then
         chown $COUCHDB_USER "$RUN_DIR"
-        if su $COUCHDB_USER -c "$command" > /dev/null; then
+        if nohup su $COUCHDB_USER -c "$command" > /dev/null; then
             return $SCRIPT_OK
         else
             return $SCRIPT_ERROR

@@ -3,7 +3,7 @@ maintainer        'Opscode, Inc.'
 maintainer_email  'cookbooks@opscode.com'
 license           'Apache 2.0'
 description       'Installs erlang, optionally install GUI tools.'
-version           '1.5.0'
+version           '1.5.2'
 
 depends           'apt', '>= 1.7.0'
 depends           'yum', '~> 3.0'

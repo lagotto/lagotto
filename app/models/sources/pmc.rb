@@ -150,7 +150,11 @@ class Pmc < Source
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    return nil if result.nil? || !result['views']
+    # an error occured
+    return nil if result.nil?
+
+    # no data for this article
+    return { :events => [], :event_count => nil } if !result['views']
 
     events = result["views"]
 

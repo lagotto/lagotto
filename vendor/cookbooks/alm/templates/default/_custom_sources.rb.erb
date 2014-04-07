@@ -1,0 +1,133 @@
+# encoding: UTF-8
+
+# This file should contain all the record creation needed to seed the database with its default values.
+# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
+
+<% if node[:alm][:admin][:password] %>
+# Load default admin user
+unless Rails.env.production?
+  User.create(:username => "<%= node[:alm][:admin][:username] %>", :name => "<%= node[:alm][:admin][:name] %>", :email => "<%= node[:alm][:admin][:email] %>", :password => "<%= node[:alm][:admin][:password] %>", :password_confirmation => "<%= node[:alm][:admin][:password] %>") if User.count == 0
+end
+<% end %>
+
+# Load sources
+viewed = Group.find_or_create_by_name(name: "viewed", display_name: "Viewed")
+saved = Group.find_or_create_by_name(name: "saved", display_name: "Saved")
+discussed = Group.find_or_create_by_name(name: "discussed", display_name: "Discussed")
+cited = Group.find_or_create_by_name(name: "cited", display_name: "Cited")
+recommended = Group.find_or_create_by_name(name: "recommended", display_name: "Recommended")
+other = Group.find_or_create_by_name(name: "other", display_name: "Other")
+
+# The following sources require passwords, API keys and/or contracts
+pmc = Pmc.find_or_create_by_name(
+  :name => "pmc",
+  :display_name => "PubMed Central Usage Stats",
+  :description => "PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.",
+  :queueable => false,
+  :group_id => viewed.id,
+  :url => "<%= node[:alm][:pmc][:url] %>",
+  :journals => "<%= node[:alm][:pmc][:journals] %>",
+  :username => "<%= node[:alm][:pmc][:username] %>",
+  :password => "<%= node[:alm][:pmc][:password] %>")
+copernicus = Copernicus.find_or_create_by_name(
+  :name => "copernicus",
+  :display_name => "Copernicus",
+  :description => "Usage stats for Copernicus articles.",
+  :group_id => viewed.id,
+  :url => "<%= node[:alm][:copernicus][:url] %>",
+  :username => "<%= node[:alm][:copernicus][:username] %>",
+  :password => "<%= node[:alm][:copernicus][:password] %>")
+crossref = CrossRef.find_or_create_by_name(
+  :name => "crossref",
+  :display_name => "CrossRef",
+  :description => "CrossRef is a non-profit organization that enables cross-publisher citation linking.",
+  :group_id => cited.id,
+  :username => "<%= node[:alm][:crossref][:username] %>",
+  :password => "<%= node[:alm][:crossref][:password] %>")
+scopus = Scopus.find_or_create_by_name(
+  :name => "scopus",
+  :display_name => "Scopus",
+  :description => "Scopus is an abstract and citation database of peer-reviewed literature.",
+  :group_id => cited.id,
+  :api_key => "<%= node[:alm][:scopus][:api_key] %>",
+  :insttoken => "<%= node[:alm][:scopus][:insttoken] %>")
+facebook = Facebook.find_or_create_by_name(
+  :name => "facebook",
+  :display_name => "Facebook",
+  :description => "Facebook is the largest social network.",
+  :group_id => discussed.id,
+  :access_token => "<%= node[:alm][:facebook][:access_token] %>")
+mendeley = Mendeley.find_or_create_by_name(
+  :name => "mendeley",
+  :display_name => "Mendeley",
+  :description => "Mendeley is a reference manager and social bookmarking tool.",
+  :group_id => saved.id,
+  :client_id => "<%= node[:alm][:mendeley][:client_id] %>",
+  :secret => "<%= node[:alm][:mendeley][:secret] %>")
+researchblogging = Researchblogging.find_or_create_by_name(
+  :name => "researchblogging",
+  :display_name => "Research Blogging",
+  :description => "Research Blogging is a science blog aggregator.",
+  :group_id => discussed.id,
+  :username => "<%= node[:alm][:researchblogging][:username] %>",
+  :password => "<%= node[:alm][:researchblogging][:password] %>")
+twitter_search = TwitterSearch.find_or_create_by_name(
+  :name => "twitter_search",
+  :display_name => "Twitter",
+  :description => "Twitter is a social networking and microblogging service.",
+  :group_id => discussed.id,
+  :access_token => "<%= node[:alm][:twitter_search][:access_token] %>")
+
+# PLOS-specific sources that require passwords, API keys and/or contracts
+<% if node[:alm][:counter][:url] %>
+  counter = Counter.find_or_create_by_name(
+    :name => "counter",
+    :display_name => "Counter",
+    :description => "Usage stats from the PLOS website",
+    :queueable => false,
+    :url => "<%= node[:alm][:counter][:url] %>",
+    :group_id => viewed.id)
+  wos = Wos.find_or_create_by_name(
+    :name => "wos",
+    :display_name => "Web of Science",
+    :description => "Web of Science is an online academic citation index.",
+    :private => 1,
+    :group_id => cited.id)
+  f1000 = F1000.find_or_create_by_name(
+    :name => "f1000",
+    :display_name => "F1000Prime",
+    :description => "Post-publication peer review of the biomedical literature.",
+    :group_id => recommended.id)
+  figshare = Figshare.find_or_create_by_name(
+    :name => "figshare",
+    :display_name => "Figshare",
+    :description => "Figures, tables and supplementary files hosted by figshare",
+    :group_id => viewed.id)
+  articleconverage = ArticleCoverage.find_or_create_by_name(
+    :name => "articlecoverage",
+    :display_name => "Article Coverage",
+    :description => "Article Coverage",
+    :group_id => discussed.id)
+  articlecoveragecurated = ArticleCoverageCurated.find_or_create_by_name(
+    :name => "articlecoveragecurated",
+    :display_name => "Article Coverage Curated",
+    :description => "Article Coverage Curated",
+    :group_id => discussed.id)
+  plos_comments = PlosComments.find_or_create_by_name(
+    :name => "plos_comments",
+    :display_name => "Journal Comments",
+    :description => "Comments from the PLOS website.",
+    :group_id => discussed.id)
+
+  # These sources are retired, but we need to keep them around for the data we collected
+  connotea = Connotea.find_or_create_by_name(
+    :name => "connotea",
+    :display_name => "Connotea",
+    :description => "A free online reference management service for scientists, researchers, and clinicians (discontinued March 2013)",
+    :group_id => discussed.id)
+  postgenomic = Postgenomic.find_or_create_by_name(
+    :name => "postgenomic",
+    :display_name => "Postgenomic",
+    :description => "A science blog aggregator (discontinued)",
+    :group_id => discussed.id)
+<% end -%>

@@ -69,6 +69,7 @@ sub snat {
     while (<SNAT>) {
       $data = $data . $_;
     }
+    $data = $data . "\n";
     close(SNAT);
   }
   return $data;
