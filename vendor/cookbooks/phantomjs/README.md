@@ -60,7 +60,7 @@ All attributes are namespaced under `node['phantomjs']`.
       <td>version</td>
       <td>The version to install</td>
       <td><tt>1.0.0</tt></td>
-      <td><tt>1.9.0</tt></td>
+      <td><tt>1.9.2</tt></td>
     </tr>
     <tr>
       <td>packages</td>

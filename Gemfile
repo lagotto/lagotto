@@ -53,6 +53,11 @@ gem "dotiw", "~> 1.1.1"
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.3.1"
 
+group :development do
+  gem 'capistrano-rails', '~> 1.1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1.2', require: false
+end
+
 group :test do
   gem "factory_girl_rails", "~> 4.3.0", :require => false
   gem "cucumber-rails", "~> 1.4.0", :require => false

@@ -1,9 +1,9 @@
 <VirtualHost *:80>
     LogLevel warn
-    ErrorLog /vagrant/log/apache_error.log
-    CustomLog /vagrant/log/apache_access.log combined
-    DocumentRoot /vagrant/public
-	  RailsEnv <%= node[:alm][:environment] %>
+    ErrorLog /var/www/alm/shared/log/apache_error.log
+    CustomLog /var/www/alm/shared/log/apache_access.log combined
+    DocumentRoot /var/www/alm/current/public
+	RailsEnv <%= node[:alm][:environment] %>
     ServerName <%= node[:alm][:host] %>
     ServerAdmin <%= node[:alm][:admin][:email] %>
 
@@ -12,7 +12,7 @@
       AllowOverride None
     </Directory>
 
-    <Directory /vagrant/public >
+    <Directory /var/www/alm/current/public >
        AllowOverride all
        Options -MultiViews
     </Directory>

@@ -3,6 +3,12 @@ memcached Cookbook CHANGELOG
 This file is used to list changes made in each version of the memcached cookbook.
 
 
+v1.7.2 (2014-03-12)
+-------------------
+- [COOK-4308] - Enable memcache on RHEL, Fedora, and Suse
+- [COOK-4212] - Support max_object_size rhel and fedora
+
+
 v1.7.0
 ------
 Updating for yum ~> 3.0. 

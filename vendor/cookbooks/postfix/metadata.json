@@ -1,6 +1,6 @@
 {
   "name": "postfix",
-  "version": "3.0.0",
+  "version": "3.1.6",
   "description": "Installs and configures postfix for client or outbound relayhost, or to do SASL auth",
   "long_description": "",
   "maintainer": "Opscode, Inc.",
@@ -12,7 +12,8 @@
     "redhat": ">= 0.0.0",
     "centos": ">= 0.0.0",
     "amazon": ">= 0.0.0",
-    "scientific": ">= 0.0.0"
+    "scientific": ">= 0.0.0",
+    "smartos": ">= 0.0.0"
   },
   "dependencies": {
   },
