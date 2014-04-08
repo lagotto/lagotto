@@ -23,7 +23,7 @@ actions :create, :delete, :add, :remove
 default_action :create
 
 # http://linux.die.net/man/5/yum.conf
-attribute :baseurl, :kind_of => String, :regex => /.*/ , :default => nil
+attribute :baseurl, :kind_of => String, :regex => /.*/, :default => nil
 attribute :cost, :kind_of => String, :regex => /^\d+$/, :default => nil
 attribute :description, :kind_of => String, :regex => /.*/, :default => 'Ye Ole Rpm Repo'
 attribute :enabled, :kind_of => [TrueClass, FalseClass], :default => true
@@ -32,7 +32,7 @@ attribute :exclude, :kind_of => String, :regex => /.*/, :default => nil
 attribute :failovermethod, :kind_of => String, :equal_to => %w{ priority roundrobin }, :default => nil
 attribute :fastestmirror_enabled, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :gpgcheck, :kind_of => [TrueClass, FalseClass], :default => true
-attribute :gpgkey, :kind_of => String, :regex => /.*/, :default => nil
+attribute :gpgkey, :kind_of => [String, Array], :regex => /.*/, :default => nil
 attribute :http_caching, :kind_of => String, :equal_to => %w{ packages all none }, :default => nil
 attribute :include_config, :kind_of => String, :regex => /.*/, :default => nil
 attribute :includepkgs, :kind_of => String, :regex => /.*/, :default => nil

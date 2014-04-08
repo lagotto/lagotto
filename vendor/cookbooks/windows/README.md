@@ -21,13 +21,6 @@ The `windows_task` LWRP requires Windows Server 2008 due to its API usage.
 The following cookbooks provided by Opscode are required as noted:
 
 * chef_handler (`windows::reboot_handler` leverages the chef_handler LWRP)
-* powershell - The Printer and Printer Port LWRP require Powershell.
-
-**NOTE** We cannot specifically depend on Opscode's powershell,
-  because powershell depends on this cookbook. Ensure that
-  `recipe[powershell]` exists in the node's expanded run list so it
-  gets downloaded where the printer LWRPs are used.
-
 
 Attributes
 ----------
@@ -254,9 +247,6 @@ end
 ```
 
 ### windows_printer_port
-**Note** Include `recipe[powershell]` on the node's expanded run list
-  to ensure the powershell cookbook is downloaded to avoid circular
-  dependency.
 
 Create and delete TCP/IPv4 printer ports.
 
@@ -305,9 +295,6 @@ end
 ```
 
 ### windows_printer
-**Note** Include `recipe[powershell]` on the node's expanded run list
-  to ensure the powershell cookbook is downloaded to avoid circular
-  dependency.
 
 Create Windows printer. Note that this doesn't currently install a printer
 driver. You must already have the driver installed on the system.
@@ -328,6 +315,7 @@ The Windows Printer LWRP will automatically create a TCP/IP printer port for you
 - :share_name: Printer share name.
 - :ipv4_address: Printer IPv4 address, e.g. '10.4.64.23'. You don't have to be able to ping the IP addresss to set it. Required.
 
+An error of "Set-WmiInstance : Generic failure" is most likely due to the printer driver name not matching or not being installed.
 
 #### Examples
 
@@ -567,6 +555,44 @@ Required reboots are a necessary evil of configuring and managing Windows nodes.
 - `allow_pending_reboots`: indicator on whether the handler should act on a the Window's 'pending reboot' state. default is true
 - `timeout`: timeout delay in seconds to wait before proceeding with the reboot. default is 60 seconds
 - `reason`:  comment on the reason for the reboot. default is 'Opscode Chef initiated reboot'
+
+
+Windows ChefSpec Matchers
+-------------------------
+The Windows cookbook includes custom [ChefSpec](https://github.com/sethvargo/chefspec) matchers you can use to test your own cookbooks that consume Windows cookbook LWRPs.
+
+###Example Matcher Usage
+```ruby
+expect(chef_run).to install_windows_package('Node.js').with(
+  source: 'http://nodejs.org/dist/v0.10.26/x64/node-v0.10.26-x64.msi')
+```
+
+###Windows Cookbook Matchers
+* install_windows_package
+* remove_windows_package
+* install_windows_feature
+* remove_windows_feature
+* delete_windows_feature
+* create_windows_task
+* delete_windows_task
+* run_windows_task
+* change_windows_task
+* add_windows_path
+* remove_windows_path
+* run_windows_batch
+* set_windows_pagefile
+* unzip_windows_zipfile_to
+* zip_windows_zipfile_to
+* create_windows_shortcut
+* create_windows_auto_run
+* remove_windows_auto_run
+* create_windows_printer
+* delete_windows_printer
+* create_windows_printer_port
+* delete_windows_printer_port
+* request_windows_reboot
+* cancel_windows_reboot
+* create_windows_shortcut
 
 
 Usage

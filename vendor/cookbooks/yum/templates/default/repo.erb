@@ -32,8 +32,13 @@ gpgcheck=1
 gpgcheck=0
 <% end %>
 <% if @config.gpgkey %>
-gpgkey=<%= @config.gpgkey %>
-<% end %>
+gpgkey=<%= case @config.gpgkey
+     when Array
+       @config.gpgkey.join("\n       ")
+     else
+       @config.gpgkey
+     end %>
+<% end -%>
 <% if @config.http_caching %>
 http_caching=<%= @config.http_caching %>
 <% end %>
