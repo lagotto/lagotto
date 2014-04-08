@@ -1,0 +1,26 @@
+namespace :deploy do
+  namespace :workers do
+
+    desc 'Start workers'
+    task :start do
+      on roles(:app) do
+        within release_path do
+          rake 'workers:start'
+        end
+      end
+    end
+
+    desc 'Stop workers'
+    task :stop do
+      on roles(:app) do
+        within release_path do
+          rake 'workers:stop'
+        end
+      end
+    end
+
+  end
+
+  # before :starting, "deploy:workers:stop"
+  # after :finishing, "deploy:workers:start"
+end

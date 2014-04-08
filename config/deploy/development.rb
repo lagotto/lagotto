@@ -12,9 +12,9 @@ set :bundle_flags, '--system'
 # don't precompile assets
 set :assets_roles, []
 
-role :app, %w{33.33.33.55}
-role :web, %w{33.33.33.55}
-role :db,  %w{33.33.33.55}
+role :app, %w{33.33.33.44}
+role :web, %w{33.33.33.44}
+role :db,  %w{33.33.33.44}
 
 set :ssh_options, {
   user: "vagrant",

@@ -7,8 +7,7 @@ gem 'mysql2', '0.3.13'
 gem "delayed_job", "~> 4.0.0"
 gem "delayed_job_active_record", "~> 4.0.0"
 gem "daemons", "~> 1.1.9"
-gem "foreman", "~> 0.63.0"
-gem "rake", "~> 10.1.1"
+gem "rake", "~> 10.2.1"
 gem "whenever", "~> 0.9.0", :require => false
 gem "mail", "~> 2.5.4"
 gem "state_machine", "~> 1.2.0"
@@ -25,9 +24,10 @@ gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.5.4"
 gem 'rubyzip',  "~> 1.1", require: 'zip'
+gem 'sshkit', '~> 1.3.0', :require => false
 
 gem "devise", "~> 3.2.2"
-#gem "omniauth-persona"
+gem "omniauth-persona"
 gem "omniauth-cas", "~> 1.0.4"
 gem "cancan", "~> 1.6.10"
 gem "validates_timeliness", "~> 3.0.14"
@@ -67,13 +67,13 @@ group :test do
   gem "email_spec", "~> 1.5.0"
   gem "rack-test", "~> 0.6.2", :require => "rack/test"
   gem "simplecov", "~> 0.7.1", :require => false
+  gem 'codeclimate-test-reporter', '~> 0.3.0'
   gem "shoulda-matchers", "~> 2.5.0", :require => false
   gem "webmock", "~> 1.17.2"
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1", :require => false
   gem "poltergeist", "~> 1.5.0"
   gem "minitest", "~> 4.4.0"
-  gem "faye-websocket", "~> 0.4.7"
   gem "mocha", "~> 0.13.3", :require => false
 end
 

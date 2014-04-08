@@ -16,6 +16,7 @@ capybara-*.html
 .librarian
 /.bundle
 /vendor/bundle/*
+/bin/*
 /log/*
 /data/*
 /tmp/*
@@ -28,8 +29,9 @@ capybara-*.html
 /spec/tmp/*
 /config/database.yml
 /config/settings.yml
-/config/deploy.rb
+/config/deploy/production.rb
 /config/data_bags/*
+/db/seeds/_custom_sources.rb
 /vendor/cookbooks/*/.git
 **.orig
 rerun.txt
@@ -37,12 +39,7 @@ pickle-email-*.html
 .librarian
 .vagrant*
 config.json
-Capfile
 /public/assets
 .idea/*
-db/seeds-test.rb
-db/seeds-production.rb
-
 erl_crash.dump
-
 optimise-db.txt

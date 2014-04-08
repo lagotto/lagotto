@@ -265,7 +265,14 @@ class Source < ActiveRecord::Base
   def queue_stale_articles
     start_queueing
 
-    return 0 unless queueing?
+
+    unless queueing?
+      Alert.create(:exception => "",
+                   :class_name => "SourceInactiveError",
+                   :message => "Source #{display_name} could not transition to queueing state",
+                   :source_id => id)
+      return 0
+    end
 
     # find articles that need to be updated. Not queued currently, scheduled_at in the past
     rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")

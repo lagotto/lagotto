@@ -61,7 +61,7 @@ namespace :db do
                                      title: title)
             created << doi
           else
-            if [existing.year, existing.month, existing.day].join("-") != [year, month, day].join("-") || existing.title != title
+            if [existing.year, existing.month, existing.day].join("-") != [year, month, day].join("-") || existing.title != title
               existing.year = year
               existing.month = month
               existing.day = day
