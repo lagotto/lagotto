@@ -67,7 +67,7 @@ group :test do
   gem "email_spec", "~> 1.5.0"
   gem "rack-test", "~> 0.6.2", :require => "rack/test"
   gem "simplecov", "~> 0.7.1", :require => false
-  gem 'codeclimate-test-reporter', '~> 0.3.0'
+  gem 'codeclimate-test-reporter', '~> 0.3.0', require: nil
   gem "shoulda-matchers", "~> 2.5.0", :require => false
   gem "webmock", "~> 1.17.2"
   gem "rest-client", "~> 1.6.7"
