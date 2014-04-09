@@ -13,13 +13,12 @@ end
 
 def sign_up
   delete_user
-  visit '/users/auth/persona'
-  find_user
+  visit '/users/auth/cas'
 end
 
 def sign_in
-  visit '/users/auth/persona'
   find_user
+  visit '/users/auth/cas'
 end
 
 ### GIVEN ###
@@ -45,7 +44,7 @@ end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
   @user = FactoryGirl.create(:user, role: role, authentication_token: "12345")
-  visit '/users/auth/persona'
+  visit '/users/auth/cas'
 end
 
 Given /^I exist as a user$/ do
@@ -59,6 +58,10 @@ end
 ### WHEN ###
 When /^I sign in$/ do
   sign_in
+end
+
+When /^I sign in as a new user$/ do
+  sign_up
 end
 
 When /^I sign out$/ do
@@ -96,7 +99,7 @@ end
 
 ### THEN ###
 Then /^I should see (\d+) user[s]?$/ do |number|
-  page.driver.render("tmp/capybara/users.png") if @wip
+  page.driver.render("tmp/capybara/users.png")
   page.should have_css('div.panel', :visible => true, :count => number.to_i)
 end
 
@@ -143,5 +146,5 @@ Then /^I should see the "(.*?)" role for user "(.*?)"$/ do |role, username|
   within("#user_#{user.id}") do
     page.should have_content role
   end
-  page.driver.render("tmp/capybara/#{role}_#{username}.png") if @wip
+  page.driver.render("tmp/capybara/#{role}_#{username}.png")
 end

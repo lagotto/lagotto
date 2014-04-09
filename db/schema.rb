@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
     t.string   "display_name",                                    :null => false
     t.datetime "run_at",       :default => '1970-01-01 00:00:00', :null => false
     t.text     "config"
+    t.integer  "group_id",                                        :null => false
     t.boolean  "private",      :default => false
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
@@ -206,7 +207,6 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
     t.string   "queue"
     t.string   "state_event"
     t.datetime "cached_at",    :default => '1970-01-01 00:00:00', :null => false
-    t.integer  "group_id"
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true

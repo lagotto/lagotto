@@ -68,10 +68,10 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 Before('@javascript') do
   OmniAuth.config.test_mode = true
-  omni_hash = { :provider => "persona",
+  omni_hash = { :provider => "cas",
                 :uid => "12345",
-                :info => { "email" => "joe@example.com", "name" => "joe@example.com" }}
-  OmniAuth.config.mock_auth[:persona] = OmniAuth::AuthHash.new(omni_hash)
+                :info => { "email" => "joe@example.com", "name" => "Joe Boxer" }}
+  OmniAuth.config.mock_auth[:cas] = OmniAuth::AuthHash.new(omni_hash)
 end
 
 After('@javascript') do
@@ -84,12 +84,4 @@ end
 
 After('@couchdb') do
   delete_alm_database
-end
-
-Before('@wip') do
-  @wip = true
-end
-
-After('@wip') do
-  @wip = false
 end

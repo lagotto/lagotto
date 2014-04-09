@@ -117,18 +117,138 @@ FactoryGirl.define do
     initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
   end
 
+  factory :counter, class: Counter do
+    type "Counter"
+    name "counter"
+    display_name "Counter"
+    state_event "activate"
+    url "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
+
+    group
+
+    initialize_with { Counter.find_or_create_by_name(name) }
+  end
+
+  factory :f1000, class: F1000 do
+    type "F1000"
+    name "f1000"
+    display_name "F1000Prime"
+    state_event "activate"
+    url "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml"
+    filename "PLOS-intermediate.xml"
+
+    group
+
+    initialize_with { F1000.find_or_create_by_name(name) }
+  end
+
+  factory :figshare, class: Figshare do
+    type "Figshare"
+    name "figshare"
+    display_name "Figshare"
+    state_event "activate"
+    url "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}"
+
+    group
+
+    initialize_with { Figshare.find_or_create_by_name(name) }
+  end
+
+  factory :plos_comments, class: PlosComments do
+    type "PlosComments"
+    name "plos_comments"
+    display_name "PLOS Comments"
+    state_event "activate"
+    url "http://api.plosjournals.org/v1/articles/%{doi}?comments"
+
+    group
+
+    initialize_with { PlosComments.find_or_create_by_name(name) }
+  end
+
+  factory :twitter, class: Twitter do
+    type "Twitter"
+    name "twitter"
+    display_name "Twitter"
+    state_event "activate"
+    url "http://rwc-couch01.int.plos.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key=%{doi}"
+
+    group
+
+    initialize_with { Twitter.find_or_create_by_name(name) }
+  end
+
+  factory :wos, class: Wos do
+    type "Wos"
+    name "wos"
+    display_name "Web of Science"
+    state_event "activate"
+    private true
+    url "https://ws.isiknowledge.com:80/cps/xrpc"
+
+    group
+
+    initialize_with { Wos.find_or_create_by_name(name) }
+  end
+
+  factory :relative_metric, class: RelativeMetric do
+    type "RelativeMetric"
+    name "relativemetric"
+    display_name "Relative Metric"
+    state_event "activate"
+    url "http://rwc-couch01.int.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key=\"%{doi}\""
+
+    group
+
+    initialize_with { RelativeMetric.find_or_create_by_name(name) }
+  end
+
+  factory :article_coverage, class: ArticleCoverage do
+    type "ArticleCoverage"
+    name "articlecoverage"
+    display_name "Article Coverage"
+    state_event "activate"
+    url "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all"
+
+    group
+
+    initialize_with { ArticleCoverage.find_or_create_by_name(name) }
+  end
+
+  factory :article_coverage_curated, class: ArticleCoverageCurated do
+    type "ArticleCoverageCurated"
+    name "articlecoveragecurated"
+    display_name "Article Coverage Curated"
+    state_event "activate"
+    url "http://mediacuration.plos.org/api/v1?doi=%{doi}"
+
+    group
+
+    initialize_with { ArticleCoverageCurated.find_or_create_by_name(name) }
+  end
+
   factory :user do
     sequence(:username) {|n| "joesmith#{n}" }
     sequence(:name) {|n| "Joe Smith#{n}" }
     sequence(:email) {|n| "joe#{n}@example.com" }
     password "joesmith"
     sequence(:authentication_token) {|n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
-    provider "persona"
+    role "admin"
+    provider "cas"
     uid "12345"
 
     factory :admin_user do
       role "admin"
       authentication_token "12345"
     end
+  end
+
+  factory :html_ratio_too_high_error, class: HtmlRatioTooHighError do
+    type "HtmlRatioTooHighError"
+    name "HtmlRatioTooHighError"
+    display_name "html ratio too high error"
+    active true
+
+    initialize_with { HtmlRatioTooHighError.find_or_create_by_name(name) }
   end
 end

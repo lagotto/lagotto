@@ -198,6 +198,10 @@ class Article < ActiveRecord::Base
     retrieval_statuses.by_name("pmc").first
   end
 
+  def counter
+    retrieval_statuses.by_name("counter").first
+  end
+
   def mendeley
     retrieval_statuses.by_name("mendeley").first
   end
@@ -210,16 +214,20 @@ class Article < ActiveRecord::Base
     retrieval_statuses.by_name("facebook").first
   end
 
-  def crossref
-    retrieval_statuses.by_name("crossref").first
+  def twitter
+    retrieval_statuses.by_name("twitter").first
+  end
+
+  def scopus
+    retrieval_statuses.by_name("scopus").first
   end
 
   def views
-    (pmc.nil? ? 0 : pmc.event_count)
+    (pmc.nil? ? 0 : pmc.event_count) + (counter.nil? ? 0 : counter.event_count)
   end
 
   def shares
-    (facebook.nil? ? 0 : facebook.event_count)
+    (facebook.nil? ? 0 : facebook.event_count) + (twitter.nil? ? 0 : twitter.event_count)
   end
 
   def bookmarks
@@ -227,7 +235,7 @@ class Article < ActiveRecord::Base
   end
 
   def citations
-    (crossref.nil? ? 0 : crossref.event_count)
+    (scopus.nil? ? 0 : scopus.event_count)
   end
 
   alias_method :viewed, :views

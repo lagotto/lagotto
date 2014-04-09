@@ -23,4 +23,13 @@ class ApiResponse < ActiveRecord::Base
     end
   }
 
+  def get_html_ratio
+    filter_path = "_design/filter/_view/html_ratio?startkey=\"#{created_at.utc.iso8601}\""
+    data = get_alm_data(filter_path)
+    if data && data["rows"]
+      data["rows"]
+    else
+      []
+    end
+  end
 end

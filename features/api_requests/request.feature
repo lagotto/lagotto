@@ -1,4 +1,4 @@
-@javascript
+@javascript @not_teamcity
 Feature: Show API requests
   In order to make sure that we collect metrics correctly
   An admin user

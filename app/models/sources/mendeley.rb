@@ -36,7 +36,7 @@ class Mendeley < Source
 
   def get_data(article, options={})
 
-    # First check that we have a valid access token
+    # First check that we have a valid OAuth2 access token
     return nil unless get_access_token
 
     # We then need to have the Mendeley uuid for this article.
@@ -145,6 +145,7 @@ class Mendeley < Source
     result = post_json(authentication_url, options.merge(:username => client_id,
                                                          :password => secret,
                                                          :data => "grant_type=client_credentials",
+                                                         :source_id => id,
                                                          :headers => { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
 
     if result.present? && result["access_token"] && result["expires_in"]

@@ -73,7 +73,7 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing :skip => :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth]
+  # config.skip_session_storage = [:token_auth]
 
   # ==> Configuration for :database_authenticatable
   # For bcrypt, this is the cost for hashing the password and defaults to 10. If
@@ -213,9 +213,12 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :persona
-
-  OmniAuth.config.logger = Rails.logger
+  config.omniauth :cas, url: CONFIG[:cas_url],
+                        login_url: CONFIG[:cas_login_url],
+                        logout_url: CONFIG[:cas_logout_url],
+                        service_validate_url: CONFIG[:cas_service_validate_url],
+                        ssl: true
+  # config.omniauth :persona
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

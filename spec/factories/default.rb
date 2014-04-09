@@ -248,7 +248,9 @@ FactoryGirl.define do
     name "twitter_search"
     display_name "Twitter"
     state_event "activate"
-    access_token "TOKEN"
+    api_key "EXAMPLE"
+    api_secret "EXAMPLE"
+    access_token "EXAMPLE"
 
     group
 
