@@ -1,0 +1,31 @@
+language: ruby
+
+rvm:
+  - 1.9.3
+  - 2.1.0
+
+env:
+  - DB=mysql
+
+services:
+  - couchdb
+  - memcached
+
+before_script:
+  - cp config/settings.yml.example config/settings.yml
+  - cp config/database.yml.example config/database.yml
+  - mkdir -p tmp/cache
+  - mysql -e 'create database alm_test'
+
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate
+  - bundle exec rspec --tag ~@not_teamcity
+  - bundle exec cucumber --tags ~@not_teamcity
+
+env:
+  global:
+    secure: "I7KspoNlLUt6d/EuxHixFzeEmmyS7C8oABXvSshwivrolPeylGJn3yRyzkTsk86pCBeAssDD/ozAVde2XrPDDpmcXZPvBZz7S1YZj4Wt7MHdOlHMT8zujx/+HQaz07Yy7efjoTF7MJNegn0nbh9+pNhx/o/GF+FIDEGX3bLEY58="
+
+ addons:
+  code_climate:
+    repo_token: aac1cb82a2f90e108527e1e3f498113a1f41cf8cdab5cdda60d6bb7f1fd47342

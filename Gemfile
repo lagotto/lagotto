@@ -23,7 +23,7 @@ gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.5.4"
-gem 'rubyzip',  "~> 1.1", require: 'zip'
+gem 'rubyzip',  "~> 1.1", :require => 'zip'
 gem 'sshkit', '~> 1.3.0', :require => false
 
 gem "devise", "~> 3.2.2"
@@ -54,8 +54,8 @@ gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.3.1"
 
 group :development do
-  gem 'capistrano-rails', '~> 1.1.1', require: false
-  gem 'capistrano-bundler', '~> 1.1.2', require: false
+  gem 'capistrano-rails', '~> 1.1.1', :require => false
+  gem 'capistrano-bundler', '~> 1.1.2', :require => false
 end
 
 group :test do
@@ -67,7 +67,7 @@ group :test do
   gem "email_spec", "~> 1.5.0"
   gem "rack-test", "~> 0.6.2", :require => "rack/test"
   gem "simplecov", "~> 0.7.1", :require => false
-  gem 'codeclimate-test-reporter', '~> 0.3.0', require: nil
+  gem 'codeclimate-test-reporter', '~> 0.3.0', :require => nil
   gem "shoulda-matchers", "~> 2.5.0", :require => false
   gem "webmock", "~> 1.17.2"
   gem "rest-client", "~> 1.6.7"
