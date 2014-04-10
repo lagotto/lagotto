@@ -1,36 +1,38 @@
 language: ruby
 
 rvm:
-  - 1.9.3
-  - 2.1.0
-
-env:
-  - DB=mysql
-  - DB=postgres
+- 1.9.3
+- 2.1.0
 
 services:
-  - couchdb
-  - memcached
+- couchdb
+- memcached
 
 before_script:
-  - cp config/settings.yml.example config/settings.yml
-  - cp config/database.yml.example config/database.yml
-  - mkdir -p tmp/cache
-  - mysql -e 'create database alm_test'
-  - psql -c 'create database alm_test;' -U postgres
+- cp config/settings.yml.example config/settings.yml
+- cp config/database.yml.example config/database.yml
+- mkdir -p tmp/cache
+- mysql -e 'create database alm_test'
 
 script:
-  - RAILS_ENV=test bundle exec rake db:setup
-  - bundle exec rspec --tag ~@not_teamcity
-  - bundle exec cucumber --tags ~@not_teamcity
+- RAILS_ENV=test bundle exec rake db:migrate
+- bundle exec rspec --tag ~@not_teamcity
+- bundle exec cucumber --tags ~@not_teamcity
 
 env:
   global:
-    secure: "I7KspoNlLUt6d/EuxHixFzeEmmyS7C8oABXvSshwivrolPeylGJn3yRyzkTsk86pCBeAssDD/ozAVde2XrPDDpmcXZPvBZz7S1YZj4Wt7MHdOlHMT8zujx/+HQaz07Yy7efjoTF7MJNegn0nbh9+pNhx/o/GF+FIDEGX3bLEY58="
+    secure: I7KspoNlLUt6d/EuxHixFzeEmmyS7C8oABXvSshwivrolPeylGJn3yRyzkTsk86pCBeAssDD/ozAVde2XrPDDpmcXZPvBZz7S1YZj4Wt7MHdOlHMT8zujx/+HQaz07Yy7efjoTF7MJNegn0nbh9+pNhx/o/GF+FIDEGX3bLEY58=
 
 addons:
   code_climate:
     repo_token: aac1cb82a2f90e108527e1e3f498113a1f41cf8cdab5cdda60d6bb7f1fd47342
 
 notifications:
-  hipchat: aff7ea27f6120805aee5aacc2dc36b@alm
+  hipchat:
+    matrix:
+    - aff7ea27f6120805aee5aacc2dc36b@alm
+    rooms:
+      secure: Cl8g3DaeJgO17tl+1dHGQIn/Ra2h3bYWhZsZcWVxsCAUFeD8HgXlqpAYVCvTUai1nUyy5BO5k6AJL8frwoYnT2IZUkh3w7/WcuIpGEXmCwTOJyDs+82QhK3chP8COqPzEEy3x1wyF8KC7zYvLjH3wQi4mhhFxFjp4vPu2+Xj4aY=
+    template:
+      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} (<a href="%{build_url}">Details</a>/<a href="%{compare_url}">Change view</a>)'
+    format: html
