@@ -23,6 +23,8 @@ gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.5.4"
+gem 'psych', '~> 2.0.5'
+gem 'safe_yaml', '~> 1.0.2'
 gem 'rubyzip',  "~> 1.1", :require => 'zip'
 gem 'sshkit', '~> 1.3.0', :require => false
 
