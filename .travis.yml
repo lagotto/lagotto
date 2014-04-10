@@ -20,7 +20,7 @@ before_script:
   - psql -c 'create database alm_test;' -U postgres
 
 script:
-  - RAILS_ENV=test bundle exec rake db:migrate
+  - RAILS_ENV=test bundle exec rake db:setup
   - bundle exec rspec --tag ~@not_teamcity
   - bundle exec cucumber --tags ~@not_teamcity
 
