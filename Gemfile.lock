@@ -197,6 +197,7 @@ GEM
       multi_json
       omniauth (~> 1.0)
     orm_adapter (0.5.0)
+    pg (0.17.1)
     poltergeist (1.5.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -377,6 +378,7 @@ DEPENDENCIES
   oj (~> 2.5.4)
   omniauth-cas (~> 1.0.4)
   omniauth-persona
+  pg (~> 0.17.1)
   poltergeist (~> 1.5.0)
   rabl (~> 0.9.0)
   rack-test (~> 0.6.2)

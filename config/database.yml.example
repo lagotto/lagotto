@@ -2,19 +2,18 @@ mysql: &mysql
   adapter: mysql2
   username: root
   password:
-  database: alm_<%= Rails.env %>
 
-postgresql: &postgresql
+postgresql: &postgres
   adapter: postgresql
   username: postgres
   password:
-  database: alm_<%= Rails.env %>
   pool: 10
   min_messages: ERROR
 
 defaults: &defaults
   pool: 5
   timeout: 5000
+  database: alm_<%= Rails.env %>
   host: localhost
   <<: *<%= ENV['DB'] || "mysql" %>
 
