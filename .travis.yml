@@ -31,4 +31,4 @@ addons:
     repo_token: aac1cb82a2f90e108527e1e3f498113a1f41cf8cdab5cdda60d6bb7f1fd47342
 
 notifications:
-  hipchat: 516592@alm
+  hipchat: aff7ea27f6120805aee5aacc2dc36b@alm
