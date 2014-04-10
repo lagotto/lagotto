@@ -18,7 +18,7 @@ World(SourceHelper)
 World(FactoryGirl::Syntax::Methods)
 
 # Allow connections to localhost, required for Selenium
-WebMock.disable_net_connect!(:allow => [couchdb_url.host, "codeclimate.com"], :allow_localhost => true)
+WebMock.disable_net_connect!(:allow => [couchdb_url.host, /codeclimate.com/, /localhost/])
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd

@@ -17,7 +17,7 @@ require 'draper/test/rspec_integration'
 
 include WebMock::API
 couchdb_url = Addressable::URI.parse(CONFIG[:couchdb_url])
-WebMock.disable_net_connect!(:allow => [couchdb_url.host, "codeclimate.com"], :allow_localhost => true)
+WebMock.disable_net_connect!(:allow => [couchdb_url.host, /codeclimate.com/, /localhost/])
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 

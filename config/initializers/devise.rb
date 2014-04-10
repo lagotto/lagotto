@@ -214,7 +214,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.omniauth :persona
-  config.omniauth :cas, url: CONFIG[:cas_url] || "EXAMPLE",
+  config.omniauth :cas, url: (CONFIG[:cas_url] ? CONFIG[:cas_url] : "http://example.org"),
                         login_url: CONFIG[:cas_login_url],
                         logout_url: CONFIG[:cas_logout_url],
                         service_validate_url: CONFIG[:cas_service_validate_url],
