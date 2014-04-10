@@ -6,6 +6,7 @@ rvm:
 
 env:
   - DB=mysql
+  - DB=postgresql
 
 services:
   - couchdb
@@ -16,6 +17,7 @@ before_script:
   - cp config/database.yml.example config/database.yml
   - mkdir -p tmp/cache
   - mysql -e 'create database alm_test'
+  - psql -c 'create database alm_test;' -U postgres
 
 script:
   - RAILS_ENV=test bundle exec rake db:migrate
