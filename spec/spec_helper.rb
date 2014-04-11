@@ -1,6 +1,9 @@
 ENV["RAILS_ENV"] = 'test'
 
 require "codeclimate-test-reporter"
+CodeClimate::TestReporter.configure do |config|
+  config.logger.level = Logger::WARN
+end
 CodeClimate::TestReporter.start
 
 require File.expand_path("../../config/environment", __FILE__)
@@ -16,8 +19,7 @@ require "rack/test"
 require 'draper/test/rspec_integration'
 
 include WebMock::API
-couchdb_url = Addressable::URI.parse(CONFIG[:couchdb_url])
-WebMock.disable_net_connect!(:allow => [couchdb_url.host, /codeclimate.com/, /localhost/])
+WebMock.disable_net_connect!(:allow => [/localhost/, /127.0.0.1/, /codeclimate.com/])
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 

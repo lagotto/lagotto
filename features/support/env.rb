@@ -7,6 +7,9 @@
 ENV["RAILS_ENV"] = 'test'
 
 require "codeclimate-test-reporter"
+CodeClimate::TestReporter.configure do |config|
+  config.logger.level = Logger::WARN
+end
 CodeClimate::TestReporter.start
 
 require 'cucumber/rails'
@@ -17,8 +20,8 @@ require 'webmock/cucumber'
 World(SourceHelper)
 World(FactoryGirl::Syntax::Methods)
 
-# Allow connections to localhost, required for Selenium
-WebMock.disable_net_connect!(:allow => [couchdb_url.host, /codeclimate.com/, /localhost/])
+# Allow connections to localhost and code climate code coverage tool
+WebMock.disable_net_connect!(:allow => [/localhost/, /127.0.0.1/, /codeclimate.com/])
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd
