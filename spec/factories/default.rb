@@ -26,6 +26,14 @@ FactoryGirl.define do
       alerts { |article| [article.association(:alert)] }
     end
 
+    factory :stale_articles do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :stale)] }
+    end
+
+    factory :refreshed_articles do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :refreshed)] }
+    end
+
     factory :article_for_feed do
       year { Time.zone.now.year }
       day { Time.zone.now.day - 1 }
@@ -90,6 +98,8 @@ FactoryGirl.define do
       association :article, :missing_mendeley, factory: :article
       association :source, factory: :mendeley
     end
+    trait(:stale) { scheduled_at 1.month.ago }
+    trait(:refreshed) { scheduled_at 1.month.from_now }
     trait(:staleness) { association :source, factory: :citeulike }
     trait(:with_errors) { event_count 0 }
     trait(:with_private) { association :source, private: true }

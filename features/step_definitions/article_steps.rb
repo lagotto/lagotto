@@ -19,6 +19,14 @@ Given /^that we have (\d+) recent articles$/ do |number|
   FactoryGirl.create_list(:article_for_feed, number.to_i)
 end
 
+Given /^we have (\d+) stale articles$/ do |arg1|
+  FactoryGirl.create_list(:stale_articles, number.to_i)
+end
+
+Given /^we have (\d+) refreshed articles$/ do |arg1|
+  FactoryGirl.create_list(:refreshed_articles, number.to_i)
+end
+
 ### WHEN ###
 When /^I add an article with DOI "(.*?)", year "(.*?)", month "(.*?)", day "(.*?)" and title "(.*?)"$/ do |doi, year, month, day, title|
   article = FactoryGirl.build(:article,
