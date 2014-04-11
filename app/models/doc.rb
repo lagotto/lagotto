@@ -31,7 +31,7 @@ class Doc
     if name.present?
       self.new(name)
     else
-      OpenStruct.new({ title: param, content: "No documentation found." })
+      OpenStruct.new({ title: "No title", content: "" })
     end
   end
 
@@ -44,7 +44,7 @@ class Doc
       title = metadata["title"]
     end
 
-    @content = content || "No content"
+    @content = content || ""
     @title = title || "No title"
   end
 end
