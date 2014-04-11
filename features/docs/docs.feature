@@ -47,6 +47,13 @@ Feature: View documentation
       When I go to the "Documentation" tab of source "CiteULike"
       Then I should see the documentation
 
+    @wip
+    Scenario: Missing documentation on source admin page
+      Given I am logged in as "admin"
+      And the source "Biod" exists
+      When I go to the "Documentation" tab of source "Biod"
+      Then I should see the documentation
+
     Scenario: Documentation on sources admin page
       Given I am logged in as "admin"
       When I go to the "Documentation" tab of the Sources admin page
