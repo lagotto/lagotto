@@ -24,4 +24,4 @@ set :ssh_options, {
 }
 
 # Set number of delayed_job workers
-set :delayed_job_args, "-n 3"
+set :delayed_job_args, "-n 1"
