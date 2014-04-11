@@ -29,7 +29,7 @@ attribute :bandwidth, :kind_of => String, :regex => /^\d+/, :default => nil
 attribute :bugtracker_url, :kind_of => String, :regex => /.*/, :default => nil
 attribute :clean_requirements_on_remove, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :cachedir, :kind_of => String, :regex => /.*/, :default => '/var/cache/yum/$basearch/$releasever'
-attribute :color, :kind_of => String, :equal_to => %w{ always never }, :default => nil
+attribute :color, :kind_of => String, :equal_to => %w(always never), :default => nil
 attribute :color_list_available_downgrade, :kind_of => String, :regex => /.*/, :default => nil
 attribute :color_list_available_install, :kind_of => String, :regex => /.*/, :default => nil
 attribute :color_list_available_reinstall, :kind_of => String, :regex => /.*/, :default => nil
@@ -53,7 +53,7 @@ attribute :exclude, :kind_of => String, :regex => /.*/, :default => nil
 attribute :gpgcheck, :kind_of => [TrueClass, FalseClass], :default => true
 attribute :group_package_types, :kind_of => String, :regex => /.*/, :default => nil
 attribute :groupremove_leaf_only, :kind_of => [TrueClass, FalseClass], :default => nil
-attribute :history_list_view, :kind_of => String, :equal_to => %w{ users commands single-user-commands }, :default => nil
+attribute :history_list_view, :kind_of => String, :equal_to => %w(users commands single-user-commands), :default => nil
 attribute :history_record, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :history_record_packages, :kind_of => String, :regex => /.*/, :default => nil
 attribute :http_caching, :kind_of => [TrueClass, FalseClass], :default => nil
@@ -66,10 +66,10 @@ attribute :kernelpkgnames, :kind_of => String, :regex => /.*/, :default => nil
 attribute :localpkg_gpgcheck, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :logfile, :kind_of => String, :regex => /.*/, :default => '/var/log/yum.log'
 attribute :max_retries, :kind_of => String, :regex => /^\d+$/, :default => nil
-attribute :mdpolicy, :kind_of => String, :equal_to => %w{ instant group:primary group:small group:main group:all }, :default => nil
+attribute :mdpolicy, :kind_of => String, :equal_to => %w(instant group:primary group:small group:main group:all), :default => nil
 attribute :metadata_expire, :kind_of => String, :regex => [/^\d+$/, /^\d+[mhd]$/, /never/], :default => nil
 attribute :mirrorlist_expire, :kind_of => String, :regex => /^\d+$/, :default => nil
-attribute :multilib_policy, :kind_of => String, :equal_to => %w{ all best }, :default => nil
+attribute :multilib_policy, :kind_of => String, :equal_to => %w(all best), :default => nil
 attribute :obsoletes, :kind_of => [TrueClass, FalseClass], :default => '1'
 attribute :overwrite_groups, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :password, :kind_of => String, :regex => /.*/, :default => nil
@@ -86,7 +86,7 @@ attribute :proxy_username, :kind_of => String, :regex => /.*/, :default => nil
 attribute :recent, :kind_of => String, :regex => /^\d+$/, :default => nil
 attribute :repo_gpgcheck, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :reset_nice, :kind_of => [TrueClass, FalseClass], :default => nil
-attribute :rpmverbosity, :kind_of => String, :equal_to => %w{ info critical emergency error warn debug }, :default => nil
+attribute :rpmverbosity, :kind_of => String, :equal_to => %w(info critical emergency error warn debug), :default => nil
 attribute :showdupesfromrepos, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :skip_broken, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :ssl_check_cert_permissions, :kind_of => [TrueClass, FalseClass], :default => nil

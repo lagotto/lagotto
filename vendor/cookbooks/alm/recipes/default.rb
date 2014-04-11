@@ -1,5 +1,5 @@
 # Install required packages
-%w{ruby1.9.3 curl make}.each do |pkg|
+%w{libxml2-dev libxslt-dev ruby1.9.3 curl}.each do |pkg|
   package pkg do
     action :install
   end

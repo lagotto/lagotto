@@ -3,6 +3,12 @@ yum Cookbook CHANGELOG
 This file is used to list changes made in each version of the yum cookbook.
 
 
+v3.2.0 (2014-04-09)
+-------------------
+- [COOK-4510] - Adding username and password parameters to node attributes
+- [COOK-4518] - Fix Scientific Linux distroverpkg
+
+
 v3.1.6 (2014-03-27)
 -------------------
 - [COOK-4463] - support multiple GPG keys

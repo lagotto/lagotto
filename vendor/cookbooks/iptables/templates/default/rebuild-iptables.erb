@@ -122,6 +122,8 @@ if File.exists?("/etc/debian_version")
   install_debian(iptables_rules)
 elsif File.exists?("/etc/redhat-release")
   install_redhat(iptables_rules)
+elsif File.exists?("/etc/system-release") # Amazon Linux
+  install_redhat(iptables_rules)
 else
   raise "#{$0}: cannot figure out whether this is Red Hat or Debian\n";
 end

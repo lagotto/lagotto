@@ -29,11 +29,11 @@ attribute :description, :kind_of => String, :regex => /.*/, :default => 'Ye Ole 
 attribute :enabled, :kind_of => [TrueClass, FalseClass], :default => true
 attribute :enablegroups, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :exclude, :kind_of => String, :regex => /.*/, :default => nil
-attribute :failovermethod, :kind_of => String, :equal_to => %w{ priority roundrobin }, :default => nil
+attribute :failovermethod, :kind_of => String, :equal_to => %w(priority roundrobin), :default => nil
 attribute :fastestmirror_enabled, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :gpgcheck, :kind_of => [TrueClass, FalseClass], :default => true
 attribute :gpgkey, :kind_of => [String, Array], :regex => /.*/, :default => nil
-attribute :http_caching, :kind_of => String, :equal_to => %w{ packages all none }, :default => nil
+attribute :http_caching, :kind_of => String, :equal_to => %w(packages all none), :default => nil
 attribute :include_config, :kind_of => String, :regex => /.*/, :default => nil
 attribute :includepkgs, :kind_of => String, :regex => /.*/, :default => nil
 attribute :keepalive, :kind_of => [TrueClass, FalseClass], :default => nil
@@ -47,6 +47,8 @@ attribute :priority, :kind_of => String, :regex => /^(\d?[0-9]|[0-9][0-9])$/, :d
 attribute :proxy, :kind_of => String, :regex => /.*/, :default => nil
 attribute :proxy_username, :kind_of => String, :regex => /.*/, :default => nil
 attribute :proxy_password, :kind_of => String, :regex => /.*/, :default => nil
+attribute :username, :kind_of => String, :regex => /.*/, :default => nil
+attribute :password, :kind_of => String, :regex => /.*/, :default => nil
 attribute :report_instanceid, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :repositoryid, :kind_of => String, :regex => /.*/, :name_attribute => true
 attribute :skip_if_unavailable, :kind_of => [TrueClass, FalseClass], :default => nil

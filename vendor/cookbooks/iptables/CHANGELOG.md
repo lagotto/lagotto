@@ -1,6 +1,11 @@
 iptables CHANGELOG
 ==================
 
+v0.13.2 (2014-04-09)
+--------------------
+- [COOK-4496] Added Amazon Linux support
+
+
 v0.13.0 (2014-03-19)
 --------------------
 - [COOK-3927] Substitute Perl version of rebuild-iptables with Ruby version

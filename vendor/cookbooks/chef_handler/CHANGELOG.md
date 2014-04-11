@@ -1,6 +1,11 @@
 chef_handler cookbook CHANGELOG
 ===============================
 
+v1.1.6 (2014-04-09)
+-------------------
+[COOK-4494] - Add ChefSpec matchers
+
+
 v1.1.5 (2014-02-25)
 -------------------
 - [COOK-4117] - use the correct scope when searching the children class name

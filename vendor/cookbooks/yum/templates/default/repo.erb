@@ -75,6 +75,12 @@ proxy_username=<%= @config.proxy_username %>
 <% if @config.proxy_password %>
 proxy_password=<%= @config.proxy_password %>
 <% end %>
+<% if @config.username %>
+username=<%= @config.username %>
+<% end %>
+<% if @config.password %>
+password=<%= @config.password %>
+<% end %>
 <% if @config.max_retries %>
 retries=<%= @config.max_retries %>
 <% end %>
