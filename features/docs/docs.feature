@@ -21,6 +21,7 @@ Feature: View documentation
         | Rake              |
         | Alerts            |
         | FAQ               |
+        | Releases          |
         | Roadmap           |
         | Contributors      |
 
@@ -72,10 +73,10 @@ Feature: View documentation
         | Twitter                       |
         | TwitterSearch                 |
         | Wikipedia                     |
-        | Wordpress                     |
+        | Wordpress                     |
         | PlosComments                  |
         | Nature                        |
-        | OpenEdition                   |
+        | Openedition                   |
         | Counter                       |
         | Figshare                      |
         | Copernicus                    |

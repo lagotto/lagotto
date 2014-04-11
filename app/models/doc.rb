@@ -27,8 +27,12 @@ class Doc
   end
 
   def self.find(param)
-    name = all.detect { |doc| doc.downcase == "#{param.downcase}.md" } || raise(ActiveRecord::RecordNotFound)
-    self.new(name)
+    name = all.detect { |doc| doc.downcase == "#{param.downcase}.md" }
+    if name.present?
+      self.new(name)
+    else
+      OpenStruct.new({ title: param, content: "No documentation found." })
+    end
   end
 
   def initialize(name)

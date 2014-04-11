@@ -44,9 +44,8 @@ When /^I go to the submenu "(.*?)" of menu "(.*?)"$/ do |label, menu|
   page.driver.render("tmp/capybara/#{label}.png") if @wip
 end
 
-When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, display_name|
-  source = Source.find_by_display_name(display_name)
-  visit admin_source_path(source)
+When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, name|
+  visit admin_source_path(name)
   page.driver.render("tmp/capybara/#{tab_title}.png") if @wip
   within ("ul.nav-tabs") do
     click_link tab_title
