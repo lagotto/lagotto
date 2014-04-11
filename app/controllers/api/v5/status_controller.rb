@@ -32,7 +32,7 @@ class Api::V5::StatusController < Api::V5::BaseController
                                users_count: User.count,
                                version: Rails.application.config.version,
                                couchdb_size: RetrievalStatus.new.get_alm_database["disk_size"] || 0,
-                               mysql_size: RetrievalHistory.table_status["data_length"] || 0,
+                               mysql_size: RetrievalStatus.table_status["data_length"] || 0,
                                update_date: Status.update_date,
                                cache_key: Status.update_date })
   end

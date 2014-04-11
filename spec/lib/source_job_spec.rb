@@ -5,11 +5,13 @@ describe SourceJob do
   let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
   let(:citeulike) { FactoryGirl.create(:citeulike) }
   let(:rs_id) { "#{retrieval_status.source.name}:#{retrieval_status.article.doi_escaped}" }
+  let(:error) {{ "error" => "not_found", "reason" => "missing" }}
 
   subject { SourceJob.new([retrieval_status.id], citeulike.id) }
 
   before(:each) do
     subject.put_alm_database
+    Time.stub(:now).and_return(Time.mktime(2013,9,5))
   end
 
   after(:each) do
@@ -32,61 +34,46 @@ describe SourceJob do
     stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
     result = subject.perform_get_data(retrieval_status)
     result[:event_count].should eq(25)
-    rh_id = result[:retrieval_history_id]
 
     rs_result = subject.get_alm_data(rs_id)
     rs_result.should include("source" => retrieval_status.source.name,
                              "doi" => retrieval_status.article.doi,
+                             "history" => [{ "id"=>"citeulike:10.1371%2Fjournal.pone.000002:#{Time.zone.now.utc.iso8601}", "event_count"=>25 }],
+                             "retrieved_at" => Time.zone.now.utc.iso8601,
                              "doc_type" => "current",
                              "_id" =>  "#{retrieval_status.source.name}:#{retrieval_status.article.doi}")
-    rh_result = subject.get_alm_data(rh_id)
-    rh_result.should include("source" => retrieval_status.source.name,
-                             "doi" => retrieval_status.article.doi,
-                             "doc_type" => "history",
-                             "_id" => "#{rh_id}")
   end
 
   it "should perform and update CouchDB" do
     stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
     result = subject.perform_get_data(retrieval_status)
-    rh_id = result[:retrieval_history_id]
 
     rs_result = subject.get_alm_data(rs_id)
     rs_result.should include("source" => retrieval_status.source.name,
                              "doi" => retrieval_status.article.doi,
+                             "history" => [{ "id"=>"citeulike:10.1371%2Fjournal.pone.000003:#{Time.zone.now.utc.iso8601}", "event_count"=>25 }],
+                             "retrieved_at" => Time.zone.now.utc.iso8601,
                              "doc_type" => "current",
                              "_id" => "#{retrieval_status.source.name}:#{retrieval_status.article.doi}")
-    rh_result = subject.get_alm_data(rh_id)
-    rh_result.should include("source" => retrieval_status.source.name,
-                             "doi" => retrieval_status.article.doi,
-                             "doc_type" => "history",
-                             "_id" => "#{rh_id}")
 
     new_result = subject.perform_get_data(retrieval_status)
-    new_rh_id = new_result[:retrieval_history_id]
-    new_rh_id.should_not eq(rh_id)
 
     new_rs_result = subject.get_alm_data(rs_id)
     new_rs_result.should include("source" => retrieval_status.source.name,
                                  "doi" => retrieval_status.article.doi,
+                                 "history" => [{"id"=>"citeulike:10.1371%2Fjournal.pone.000003:#{Time.zone.now.utc.iso8601}", "event_count"=>25},
+                                               {"id"=>"citeulike:10.1371%2Fjournal.pone.000003:#{Time.zone.now.utc.iso8601}", "event_count"=>25}],
                                  "doc_type" => "current",
                                  "_id" => "#{retrieval_status.source.name}:#{retrieval_status.article.doi}")
     new_rs_result["_rev"].should_not be_nil
     new_rs_result["_rev"].should_not eq(rs_result["_rev"])
-
-    new_rh_result = subject.get_alm_data(new_rh_id)
-    new_rh_result.should include("source" => retrieval_status.source.name,
-                                 "doi" => retrieval_status.article.doi,
-                                 "doc_type" => "history",
-                                 "_id" => "#{new_rh_id}")
-    new_rh_result["_rev"].should_not be_nil
-    new_rh_result["_id"].should_not eq(rh_result["_id"])
   end
 
   it "should perform and get no data" do
     stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:body => File.read(fixture_path + 'citeulike_nil.xml'), :status => 200)
     result = subject.perform_get_data(retrieval_status)
     result[:event_count].should eq(0)
+    JSON.parse(subject.get_alm_data(rs_id)).should eq(error)
   end
 
   it "should perform and get skipped" do
@@ -97,7 +84,7 @@ describe SourceJob do
     stub_title = stub_request(:get, retrieval_status.source.get_query_url(retrieval_status.article, "title")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
     result = subject.perform_get_data(retrieval_status)
     result[:event_count].should eq(0)
-    result[:retrieval_history_id].should be_nil
+    JSON.parse(subject.get_alm_data(rs_id)).should eq(error)
   end
 
   it "should perform and get error" do
@@ -105,7 +92,7 @@ describe SourceJob do
     stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:status => [408])
     result = subject.perform_get_data(retrieval_status)
     result[:event_count].should be_nil
-    result[:retrieval_history_id].should be_nil
+    JSON.parse(subject.get_alm_data(rs_id)).should eq(error)
 
     Alert.count.should == 1
     alert = Alert.first

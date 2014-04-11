@@ -39,8 +39,8 @@ describe "/api/v5/articles" do
         response = JSON.parse(last_response.body)
         response["total"].should == 1
         item = response["data"].first
-        item["doi"].should eql(article.doi)
-        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
+        item["doi"].should eq(article.doi)
+        item["issued"]["date_parts"].should eq([article.year, article.month, article.day])
         item["sources"].should be_nil
       end
     end
@@ -56,8 +56,8 @@ describe "/api/v5/articles" do
         response = JSON.parse(last_response.body)
         response["total"].should == 1
         item = response["data"].first
-        item["doi"].should eql(article.doi)
-        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
+        item["doi"].should eq(article.doi)
+        item["issued"]["date_parts"].should eq([article.year, article.month, article.day])
 
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)

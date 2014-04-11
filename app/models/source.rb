@@ -23,7 +23,6 @@ require 'cgi'
 class Source < ActiveRecord::Base
 
   has_many :retrieval_statuses, :dependent => :destroy
-  has_many :retrieval_histories, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses
   has_many :alerts
   has_many :api_responses

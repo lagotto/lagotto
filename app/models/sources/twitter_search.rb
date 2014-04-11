@@ -137,12 +137,12 @@ class TwitterSearch < Source
 
   def get_since_id(article)
     rs = retrieval_statuses.where(article_id: article.id).first
-    rs.data_rev.to_i # will be 0 the first time
+    rs.since_id.to_i # will be 0 the first time
   end
 
   def set_since_id(article, options={})
     rs = retrieval_statuses.where(article_id: article.id).first
-    rs.update_attributes(data_rev: options[:since_id])
+    rs.update_attributes(since_id: options[:since_id])
   end
 
   def url

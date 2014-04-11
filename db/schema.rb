@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140216130343) do
+ActiveRecord::Schema.define(:version => 20140317135852) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -54,13 +54,13 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
     t.integer  "article_id"
     t.integer  "source_id"
     t.integer  "retrieval_status_id"
-    t.integer  "retrieval_history_id"
     t.integer  "event_count"
     t.integer  "previous_count"
     t.float    "duration"
     t.datetime "created_at"
     t.integer  "update_interval"
-    t.boolean  "unresolved",           :default => true
+    t.boolean  "unresolved",          :default => true
+    t.boolean  "skipped",             :default => false
   end
 
   add_index "api_responses", ["created_at"], :name => "index_api_responses_created_at"
@@ -162,12 +162,12 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
     t.datetime "queued_at"
     t.datetime "retrieved_at",  :default => '1970-01-01 00:00:00', :null => false
     t.integer  "event_count",   :default => 0,                     :null => false
-    t.string   "data_rev"
     t.datetime "created_at",                                       :null => false
     t.datetime "updated_at",                                       :null => false
     t.datetime "scheduled_at"
     t.string   "events_url"
     t.string   "event_metrics"
+    t.text     "other"
   end
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true

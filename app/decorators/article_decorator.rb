@@ -32,10 +32,7 @@ class ArticleDecorator < Draper::Decorator
     { :article_id => id,
       :timestamp => updated_at.to_s(:number),
       :source => context[:source],
-      :info => context[:info],
-      :days => context[:days],
-      :months => context[:months],
-      :year => context[:year] }
+      :info => context[:info] }
   end
 
   def version

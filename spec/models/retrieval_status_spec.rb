@@ -4,7 +4,6 @@ describe RetrievalStatus do
 
   it { should belong_to(:article) }
   it { should belong_to(:source) }
-  it { should have_many(:retrieval_histories).dependent(:destroy) }
 
   it "stale_at should be publication date for unpublished articles" do
     article = FactoryGirl.create(:article, year: Time.zone.now.year, day: Time.zone.now.day + 1)
@@ -82,22 +81,15 @@ describe RetrievalStatus do
     it "should perform and get data" do
       stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
       result = subject.perform_get_data(retrieval_status)
-      rh_id = result[:retrieval_history_id]
 
       rs_result = subject.get_alm_data(rs_id)
       rs_result.should include("source" => retrieval_status.source.name,
                                "doi" => retrieval_status.article.doi,
                                "doc_type" => "current",
                                "_id" =>  "#{retrieval_status.source.name}:#{retrieval_status.article.doi}")
-      rh_result = subject.get_alm_data(rh_id)
-      rh_result.should include("source" => retrieval_status.source.name,
-                               "doi" => retrieval_status.article.doi,
-                               "doc_type" => "history",
-                               "_id" => "#{rh_id}")
 
       retrieval_status.article.destroy
       subject.get_alm_data(rs_id).strip.should eq(error.to_json)
-      subject.get_alm_data(rh_id).strip.should eq(error.to_json)
     end
   end
 end
