@@ -6,18 +6,19 @@
 
 ENV["RAILS_ENV"] = 'test'
 
-SafeYAML::OPTIONS[:default_mode] = :safe
-
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.configure do |config|
   config.logger.level = Logger::WARN
 end
 CodeClimate::TestReporter.start
 
+require 'psych'
 require 'cucumber/rails'
 require 'factory_girl_rails'
 require 'capybara/poltergeist'
 require 'webmock/cucumber'
+
+SafeYAML::OPTIONS[:default_mode] = :safe
 
 World(SourceHelper)
 World(FactoryGirl::Syntax::Methods)

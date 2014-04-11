@@ -1,7 +1,5 @@
 ENV["RAILS_ENV"] = 'test'
 
-SafeYAML::OPTIONS[:default_mode] = :safe
-
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.configure do |config|
   config.logger.level = Logger::WARN
@@ -19,6 +17,8 @@ require 'database_cleaner'
 require 'webmock/rspec'
 require "rack/test"
 require 'draper/test/rspec_integration'
+
+SafeYAML::OPTIONS[:default_mode] = :safe
 
 include WebMock::API
 WebMock.disable_net_connect!(:allow => [/localhost/, /127.0.0.1/, /codeclimate.com/])
