@@ -38,17 +38,16 @@ Feature: View documentation
     Scenario: Documentation on source page
       Given we have a user with role "admin"
       And the source "Citeulike" exists
-      When I go to the source "CiteULike"
+      When I go to the source "Citeulike"
       And click on the "Documentation" tab
       Then I should see the documentation
 
     Scenario: Documentation on source admin page
       Given I am logged in as "admin"
       And the source "Citeulike" exists
-      When I go to the "Documentation" tab of source "CiteULike"
+      When I go to the "Documentation" tab of source "Citeulike"
       Then I should see the documentation
 
-    @wip
     Scenario Outline: Documentation on source admin page
       Given I am logged in as "admin"
       And the source "<Name>" exists

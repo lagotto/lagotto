@@ -1,4 +1,7 @@
 ### GIVEN ###
+Given /^we have (\d+) worker$/ do |number|
+  pending # express the regexp above with the code you wish you had
+end
 
 ### WHEN ###
 

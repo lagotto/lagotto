@@ -5,7 +5,7 @@ Feature: Use without signing in
 
     Scenario: Anonymous user can see articles
       Given we have a user with role "admin"
-      And that we have 5 articles
+      And we have 5 articles
       When I go to the "Articles" page
       Then I should see a list of 5 articles
 
@@ -24,7 +24,7 @@ Feature: Use without signing in
     Scenario: Anonymous user can go to source
       Given we have a user with role "admin"
       And the source "Citeulike" exists
-      When I go to the source "CiteULike"
+      When I go to the source "Citeulike"
       Then I should see the title "CiteULike"
 
    @allow-rescue

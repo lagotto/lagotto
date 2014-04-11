@@ -55,6 +55,7 @@ class Source < ActiveRecord::Base
   scope :available, where("state = ?", 0).order("group_id, sources.display_name")
   scope :installed, where("state > ?", 0).order("group_id, sources.display_name")
   scope :retired, where("state = ?", 1).order("group_id, sources.display_name")
+  scope :visible, where("state > ?", 1).order("group_id, sources.display_name")
   scope :inactive, where("state = ?", 2).order("group_id, sources.display_name")
   scope :active, where("state > ?", 2).order("group_id, sources.display_name")
   scope :for_events, where("state > ?", 2).where("name != ?",'relativemetric').order("group_id, sources.display_name")

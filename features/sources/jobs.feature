@@ -18,7 +18,7 @@ Feature: See jobs
 
     @not_teamcity
     Scenario: Jobs in source view
-      When I go to the "Summary" tab of source "CiteULike"
+      When I go to the "Summary" tab of source "Citeulike"
       Then the table "SummaryTable" should be:
         |                                             | Pending              | Working    |
         | Jobs                                        |                      |            |

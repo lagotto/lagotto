@@ -12,15 +12,15 @@ Feature: See events
 
     Scenario: Events for articles in dashboard
       When I go to the "Articles" tab of the Sources admin page
-      Then the chart should show 5 events for "CiteULike"
+      Then the chart should show 5 events for "Citeulike"
 
     Scenario: Events in dashboard
       When I go to the "Events" tab of the Sources admin page
-      Then the chart should show 250 events for "CiteULike"
+      Then the chart should show 250 events for "Citeulike"
 
     @not_teamcity
     Scenario: Events in source view
-      When I go to the "Summary" tab of source "CiteULike"
+      When I go to the "Summary" tab of source "Citeulike"
       Then the table "SummaryTable" should be:
         |                                             | Pending              | Working    |
         | Jobs                                        |                      |            |

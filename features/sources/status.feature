@@ -9,7 +9,7 @@ Feature: Status of sources
     And the source "Citeulike" exists
 
     Scenario Outline: I should see the status of a source
-      Given that the status of source "CiteULike" is "<Status>"
+      Given the status of source "Citeulike" is "<Status>"
       When I go to the admin page of source "Citeulike"
       Then I should see that the source is "<Status>"
 

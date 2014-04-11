@@ -93,3 +93,11 @@ end
 After('@couchdb') do
   delete_alm_database
 end
+
+Before('@delayed') do
+  Delayed::Worker.delay_jobs = true
+end
+
+After('@delayed') do
+  Delayed::Worker.delay_jobs = false
+end

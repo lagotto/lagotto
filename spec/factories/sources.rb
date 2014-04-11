@@ -48,7 +48,7 @@ FactoryGirl.define do
 
   factory :cross_ref, class: CrossRef do
     type "CrossRef"
-    name "crossref"
+    name "cross_ref"
     display_name "CrossRef"
     state_event "activate"
     username "EXAMPLE"
@@ -98,7 +98,7 @@ FactoryGirl.define do
 
   factory :pub_med, class: PubMed do
     type "PubMed"
-    name "pubmed"
+    name "pub_med"
     display_name "PubMed"
     state_event "activate"
 
@@ -109,7 +109,7 @@ FactoryGirl.define do
 
   factory :pmc_europe, class: PmcEurope do
     type "PmcEurope"
-    name "pmceurope"
+    name "pmc_europe"
     display_name "PMC Europe Citations"
     state_event "activate"
 
@@ -120,7 +120,7 @@ FactoryGirl.define do
 
     factory :pmc_europe_data, class: PmcEuropeData do
     type "PmcEuropeData"
-    name "pmceuropedata"
+    name "pmc_europe_data"
     display_name "PMC Europe Database Citations"
     state_event "activate"
 
@@ -339,7 +339,7 @@ FactoryGirl.define do
 
   factory :relative_metric, class: RelativeMetric do
     type "RelativeMetric"
-    name "relativemetric"
+    name "relative_metric"
     display_name "Relative Metric"
     state_event "activate"
     url "http://example.org?doi=%{doi}"
@@ -351,7 +351,7 @@ FactoryGirl.define do
 
   factory :article_coverage, class: ArticleCoverage do
     type "ArticleCoverage"
-    name "articlecoverage"
+    name "article_coverage"
     display_name "Article Coverage"
     state_event "activate"
     url "http://example.org?doi=%{doi}"
@@ -363,7 +363,7 @@ FactoryGirl.define do
 
   factory :article_coverage_curated, class: ArticleCoverageCurated do
     type "ArticleCoverageCurated"
-    name "articlecoveragecurated"
+    name "article_coverage_curated"
     display_name "Article Coverage Curated"
     state_event "activate"
     url "http://example.org?doi=%{doi}"

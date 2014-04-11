@@ -9,11 +9,11 @@ Feature: Edit sources
     And the source "Citeulike" exists
 
     Scenario: Group must be selected
-      When I edit the source "CiteULike"
+      When I edit the source "Citeulike"
       Then "24 hours" should be one option for "Batch job interval"
 
     Scenario: Configuration options should be displayed
-      When I go to the "Configuration" tab of source "CiteULike"
+      When I go to the "Configuration" tab of source "Citeulike"
       Then I should see the "Job queue" settings
       And I should see the "Update interval" settings
       And I should see the "Failed queries" settings

@@ -30,6 +30,10 @@ FactoryGirl.define do
       retrieval_statuses { |article| [article.association(:retrieval_status, :stale)] }
     end
 
+    factory :queued_articles do
+      retrieval_statuses { |article| [article.association(:retrieval_status, :queued)] }
+    end
+
     factory :refreshed_articles do
       retrieval_statuses { |article| [article.association(:retrieval_status, :refreshed)] }
     end
@@ -99,6 +103,7 @@ FactoryGirl.define do
       association :source, factory: :mendeley
     end
     trait(:stale) { scheduled_at 1.month.ago }
+    trait(:queued) { queued_at 1.hour.ago }
     trait(:refreshed) { scheduled_at 1.month.from_now }
     trait(:staleness) { association :source, factory: :citeulike }
     trait(:with_errors) { event_count 0 }
