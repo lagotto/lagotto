@@ -11,20 +11,20 @@ Feature: Background workers
 
     Scenario: See queued articles
       When I go to the "Sources" admin page
-      Then I should see 20 queued articles
+      Then I should see 20 queued articles for "CiteULike"
 
     Scenario: Working off all articles
       Given we have 1 worker
       When I go to the "Sources" admin page
-      Then I should see 20 queued articles
-      And I should see 1 active job
-      And I should see 0 pending jobs
+      Then I should see 20 queued articles for "CiteULike"
+      And I should see 1 working job for "CiteULike"
+      And I should see 0 pending jobs for "CiteULike"
 
     Scenario: Working off all articles with not enough workers
       Given we have 1 worker
       And the source "Citeulike" exists with 1 worker and a job batch size of 10
       And we have 20 queued articles
       When I go to the "Sources" admin page
-      Then I should see 20 queued articles
-      And I should see 1 active job
-      And I should see 2 pending jobs
+      Then I should see 20 queued articles for "CiteULike"
+      And I should see 1 active job for "CiteULike"
+      And I should see 2 pending jobs for "CiteULike"

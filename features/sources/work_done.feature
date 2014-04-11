@@ -12,19 +12,19 @@ Feature: Work done in background
 
     Scenario: Don't see stale articles
       When I go to the "Sources" admin page
-      Then I should see 0 stale articles
+      Then I should see 0 stale articles for "CiteULike"
 
     Scenario: Don't see queued articles
       When I go to the "Sources" admin page
-      Then I should see 0 queued articles
+      Then I should see 0 queued articles for "CiteULike"
 
     Scenario: Don't see jobs
       When I go to the "Sources" admin page
-      Then I should see 0 active jobs
-      And I should see 0 pending jobs
+      Then I should see 0 working jobs for "CiteULike"
+      And I should see 0 pending jobs for "CiteULike"
 
     Scenario: Don't see jobs with not enough workers
       Given the source "Citeulike" exists with 1 worker and a job batch size of 10
       When I go to the "Sources" admin page
-      Then I should see 0 active jobs
-      And I should see 0 pending jobs
+      Then I should see 0 working jobs for "CiteULike"
+      And I should see 0 pending jobs for "CiteULike"

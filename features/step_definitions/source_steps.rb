@@ -7,6 +7,10 @@ Given /^the source "(.*?)" exists$/ do |name|
   FactoryGirl.create(name.underscore.downcase.to_sym)
 end
 
+Given /^the source "(.*?)" exists with (\d+) workers? and a job batch size of (\d+)$/ do |name, workers, job_batch_size|
+  FactoryGirl.create(name.underscore.downcase.to_sym, workers: workers, job_batch_size: job_batch_size)
+end
+
 Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
   if status == "inactive"
     @source = FactoryGirl.create(:source, state_event: "inactivate")
@@ -219,4 +223,16 @@ end
 Then(/^I should see (\d+) bookmarks$/) do |number|
   page.driver.render("tmp/capybara/#{number}_bookmarks.png") if @wip
   page.has_css?('#alm-count-citeulike-saved', :text => number).should be_true
+end
+
+Then /^I should see (\d+) stale articles? for "(.*?)"$/ do |number, display_name|
+  source = Source.find_by_display_name(display_name)
+  page.driver.render("tmp/capybara/stale_articles_for_#{source.name}.png") if @wip
+  page.has_css?("#stale_count_#{source.name}", :visible => true, :count => number.to_i).should be_true
+end
+
+Then /^I should see (\d+) queued articles? for "(.*?)"$/ do |number, display_name|
+  source = Source.find_by_display_name(display_name)
+  page.driver.render("tmp/capybara/queued_articles_for_#{source.name}.png") if @wip
+  page.has_css?("#stale_count_#{source.name}", :visible => true, :count => number.to_i).should be_true
 end

@@ -27,6 +27,16 @@ Given /^we have (\d+) refreshed articles$/ do |arg1|
   FactoryGirl.create_list(:refreshed_articles, number.to_i)
 end
 
+Given /^we have queued all articles for "(.*?)"$/ do |display_name|
+  source = Source.find_by_display_name(display_name)
+  source.queue_all_articles
+end
+
+Given /^we have queued all stale articles for "(.*?)"$/ do |display_name|
+  source = Source.find_by_display_name(display_name)
+  source.queue_stale_articles
+end
+
 ### WHEN ###
 When /^I add an article with DOI "(.*?)", year "(.*?)", month "(.*?)", day "(.*?)" and title "(.*?)"$/ do |doi, year, month, day, title|
   article = FactoryGirl.build(:article,
@@ -96,9 +106,8 @@ Then /^I should see a list of articles$/ do
   page.has_css?('h4.article').should be_true
 end
 
-Then /^I should see a list of (\d+) article[s]?$/ do |number|
-  page.driver.render("tmp/capybara/#{number}.png") if @wip
-  page.has_css?('h4.article', :visible => true, :count => number.to_i).should be_true
+Then /^I should see a list of (\d+) stale articles?$/) do |number|
+  pending # express the regexp above with the code you wish you had
 end
 
 Then /^I should see the DOI "(.*?)" as a link$/ do |doi|
