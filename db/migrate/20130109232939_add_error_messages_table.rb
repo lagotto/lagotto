@@ -1,6 +1,6 @@
 class AddErrorMessagesTable < ActiveRecord::Migration
   def self.up
-    create_table :alerts do |t|
+    create_table :error_messages do |t|
       t.integer :source_id
       t.string :class_name
       t.text :message
@@ -15,12 +15,12 @@ class AddErrorMessagesTable < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :alerts, [:source_id, :unresolved, :updated_at]
-    add_index :alerts, [:unresolved, :updated_at]
-    add_index :alerts, :updated_at
+    add_index :error_messages, [:source_id, :unresolved, :updated_at]
+    add_index :error_messages, [:unresolved, :updated_at]
+    add_index :error_messages, :updated_at
   end
 
   def self.down
-    drop_table :alerts
+    drop_table :error_messages
   end
 end
