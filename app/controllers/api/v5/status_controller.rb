@@ -30,7 +30,7 @@ class Api::V5::StatusController < Api::V5::BaseController
                                responses_count: ApiResponse.total(1).count,
                                requests_count: ApiRequest.where("created_at > ?", Time.zone.now - 1.day).count,
                                users_count: User.count,
-                               version: VERSION,
+                               version: Rails.application.config.version,
                                couchdb_size: RetrievalStatus.new.get_alm_database["disk_size"] || 0,
                                mysql_size: RetrievalHistory.table_status["data_length"] || 0,
                                update_date: Status.update_date,

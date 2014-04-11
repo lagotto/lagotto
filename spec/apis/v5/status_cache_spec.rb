@@ -31,7 +31,7 @@ describe "/api/v5/status", :not_teamcity => true do
 
         response = JSON.parse(Rails.cache.read("#{key}//json"))
         data = response["data"]
-        data["version"].should eq(VERSION)
+        data["version"].should eq(Rails.application.config.version)
         data["users_count"].should == 1
         data["responses_count"].should == 5
         data["update_date"].should eql(Status.update_date)
@@ -62,7 +62,7 @@ describe "/api/v5/status", :not_teamcity => true do
         Rails.cache.exist?("#{key}//json").should be_true
         response = JSON.parse(Rails.cache.read("#{key}//json"))
         data = response["data"]
-        data["version"].should eq(VERSION)
+        data["version"].should eq(Rails.application.config.version)
         data["users_count"].should == 1
         data["responses_count"].should == 5
         data["update_date"].should eql(Status.update_date)

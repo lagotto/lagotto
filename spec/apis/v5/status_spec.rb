@@ -21,7 +21,7 @@ describe "/api/v5/status" do
         data["articles_count"].should == 5
         data["responses_count"].should == 10
         data["users_count"].should == 1
-        data["version"].should == VERSION
+        data["version"].should == Rails.application.config.version
       end
     end
   end

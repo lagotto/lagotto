@@ -11,7 +11,7 @@
 <%= number_with_delimiter(@requests_count) %> API requests in the last 24 hours<br/>
 <br/>
 <%= number_with_delimiter(@users_count) %> Users<br/>
-ALM Version <%= VERSION %><br/>
+ALM Version <%= Rails.application.config.version %><br/>
 MySQL retrieval_history size <%= number_to_human_size(@sql_info["data_length"]) %><br/>
 CouchDB database size <%= number_to_human_size(@couchdb_info["disk_size"]) %><br/></p>
 
