@@ -48,11 +48,40 @@ Feature: View documentation
       Then I should see the documentation
 
     @wip
-    Scenario: Missing documentation on source admin page
+    Scenario Outline: Documentation on source admin page
       Given I am logged in as "admin"
-      And the source "Biod" exists
-      When I go to the "Documentation" tab of source "Biod"
+      And the source "<Name>" exists
+      When I go to the "Documentation" tab of source "<Name>"
       Then I should see the documentation
+
+      Examples:
+        | Name                          |
+        | CiteULike                     |
+        | Mendeley                      |
+        | CrossRef                      |
+        | DataCite                      |
+        | PMC Europe Citations          |
+        | PMC Europe Database Citations |
+        | PubMed Central                |
+        | Scopus                        |
+        | Web of Science®               |
+        | Article Coverage              |
+        | Article Coverage Curated      |
+        | Facebook                      |
+        | Reddit                        |
+        | Twitter                       |
+        | Twitter (Search API)          |
+        | Wikipedia                     |
+        | Wordpress.com                 |
+        | Journal Comments              |
+        | Nature                        |
+        | OpenEdition                   |
+        | Counter                       |
+        | Figshare                      |
+        | Copernicus                    |
+        | PubMed Central Usage Stats    |
+        | Relative Metric               |
+        | F1000Prime                    |
 
     Scenario: Documentation on sources admin page
       Given I am logged in as "admin"
