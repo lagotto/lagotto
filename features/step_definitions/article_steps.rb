@@ -106,7 +106,7 @@ Then /^I should see a list of articles$/ do
   page.has_css?('h4.article').should be_true
 end
 
-Then /^I should see a list of (\d+) stale articles?$/) do |number|
+Then /^I should see a list of (\d+) stale articles?$/ do |number|
   pending # express the regexp above with the code you wish you had
 end
 

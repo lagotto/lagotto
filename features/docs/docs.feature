@@ -56,32 +56,32 @@ Feature: View documentation
 
       Examples:
         | Name                          |
-        | CiteULike                     |
+        | Citeulike                     |
         | Mendeley                      |
         | CrossRef                      |
-        | DataCite                      |
-        | PMC Europe Citations          |
-        | PMC Europe Database Citations |
-        | PubMed Central                |
+        | Datacite                      |
+        | PmcEurope                     |
+        | PmcEuropeData                 |
+        | PubMed                        |
         | Scopus                        |
-        | Web of Science®               |
-        | Article Coverage              |
-        | Article Coverage Curated      |
+        | Wos                           |
+        | ArticleCoverage               |
+        | ArticleCoverageCurated        |
         | Facebook                      |
         | Reddit                        |
         | Twitter                       |
-        | Twitter (Search API)          |
+        | TwitterSearch                 |
         | Wikipedia                     |
-        | Wordpress.com                 |
-        | Journal Comments              |
+        | Wordpress                     |
+        | PlosComments                  |
         | Nature                        |
         | OpenEdition                   |
         | Counter                       |
         | Figshare                      |
         | Copernicus                    |
-        | PubMed Central Usage Stats    |
-        | Relative Metric               |
-        | F1000Prime                    |
+        | Pmc                           |
+        | RelativeMetric                |
+        | F1000                         |
 
     Scenario: Documentation on sources admin page
       Given I am logged in as "admin"
