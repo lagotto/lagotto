@@ -1,5 +1,7 @@
 ENV["RAILS_ENV"] = 'test'
 
+SafeYAML::OPTIONS[:default_mode] = :safe
+
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.configure do |config|
   config.logger.level = Logger::WARN
