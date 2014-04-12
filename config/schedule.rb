@@ -4,7 +4,7 @@
 # http://en.wikipedia.org/wiki/Cron
 
 #env :PATH, ENV['PATH']
-#set :environment, ENV['RAILS_ENV']
+set :environment, ENV['RAILS_ENV']
 
 set :output, "#{path}/log/cron.log"
 
