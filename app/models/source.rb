@@ -307,7 +307,8 @@ class Source < ActiveRecord::Base
   # Custom validation for cron_line field
   def validate_cron_line_format
     CronParser.new(cron_line)
-  rescue
+    cron_parser.next(Time.zone.now)
+  rescue ArgumentError
     errors.add(:cron_line, "is not a valid crontab entry")
   end
 
