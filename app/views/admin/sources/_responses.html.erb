@@ -25,7 +25,7 @@
           <% end %>
         </tr>
         <% if group.sources.visible.size > 1 %>
-          <% group.sources.active[1..-1].each do |source| %>
+          <% group.sources.visible[1..-1].each do |source| %>
             <tr>
               <td><%= link_to source.display_name, admin_source_path(source) %></td>
               <td><%= state_label(source.human_state_name).html_safe %></td>
