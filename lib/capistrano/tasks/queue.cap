@@ -1,10 +1,10 @@
 namespace :queue do
 
-  desc 'Queue all articles'
-  task :all do
+  desc 'Queue articles'
+  task :work do
     on roles(:app) do
       within release_path do
-        rake 'queue:all'
+        rake 'queue:work'
       end
     end
   end
