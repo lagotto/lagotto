@@ -233,10 +233,8 @@ namespace :db do
 
       sources.each do |source|
         source.activate
-        if source.queueing?
-          puts "Source #{source.display_name} has been activated and is now queueing."
-        elsif source.idle?
-          puts "Source #{source.display_name} has been activated and is now idle."
+        if source.working
+          puts "Source #{source.display_name} has been activated and is now working."
         else
           puts "Source #{source.display_name} could not be activated."
         end

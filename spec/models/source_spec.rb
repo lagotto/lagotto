@@ -108,10 +108,10 @@ describe Source do
     describe ':inactive' do
       let(:source) { FactoryGirl.create(:source, state_event: 'install' ) }
 
-      it 'should change to :queuing on :activate' do
+      it 'should change to :working on :activate' do
         source.should be_inactive
         source.activate
-        source.should be_queueing
+        source.should be_working
         source.run_at.should eq(Time.zone.now)
       end
 
@@ -205,7 +205,7 @@ describe Source do
 
     context "queue articles" do
       it "queue" do
-        source.should be_queueing
+        source.should be_working
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
         source.queue_stale_articles.should == 10
         source.should be_waiting
