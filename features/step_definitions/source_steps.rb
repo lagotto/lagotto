@@ -228,8 +228,20 @@ Then /^I should see (\d+) stale articles? for "(.*?)"$/ do |number, name|
   page.has_css?("#stale_count_#{name.underscore.downcase}", :text => number).should be_true
 end
 
+Then /^I should not see stale articles? for "(.*?)"$/ do |name|
+  source = Source.find_by_name(name.underscore.downcase)
+  page.driver.render("tmp/capybara/stale_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png")
+  page.has_no_content?("#stale_count_#{name.underscore.downcase}").should be_true
+end
+
 Then /^I should see (\d+) queued articles? for "(.*?)"$/ do |number, name|
   source = Source.find_by_name(name.underscore.downcase)
   page.driver.render("tmp/capybara/queued_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png")
   page.has_css?("#queued_count_#{name.underscore.downcase}", :text => number).should be_true
+end
+
+Then /^I should not see queued articles? for "(.*?)"$/ do |name|
+  source = Source.find_by_name(name.underscore.downcase)
+  page.driver.render("tmp/capybara/queued_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png")
+  page.has_no_content?("#queued_count_#{name.underscore.downcase}").should be_true
 end

@@ -88,13 +88,13 @@ class Source < ActiveRecord::Base
     state :waiting, value: 5   # source active, waiting for next job
     state :working, value: 6   # processing jobs
 
-    state all - [:available, :retired, :inactive, :disabled] do
+    state all - [:available, :retired, :inactive] do
       def active?
         true
       end
     end
 
-    state all - [:working, :waiting] do
+    state all - [:working, :waiting, :disabled] do
       def active?
         false
       end
@@ -216,9 +216,7 @@ class Source < ActiveRecord::Base
   end
 
   def queue_all_articles(options = {})
-    start_working
-
-    return 0 unless working?
+    return 0 unless active?
 
     # find articles that are not queued currently, scheduled_at doesn't matter
     rs = retrieval_statuses
@@ -230,10 +228,6 @@ class Source < ActiveRecord::Base
 
     rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
     count = queue_article_jobs(rs, { priority: 2 })
-
-    stop_working
-
-    count
   end
 
   def queue_stale_articles(options = {})

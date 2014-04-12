@@ -22,8 +22,8 @@
             <td><%= state_label(group.sources.visible.first.human_state_name).html_safe %></td>
             <td class="number" id="pending_count_<%= group.sources.visible.first.name %>"><%= number_hiding_zero(group.sources.visible.first.pending_count) %></td>
             <td class="number" id="working_count_<%= group.sources.visible.first.name %>"><%= number_hiding_zero(group.sources.visible.first.working_count) %></td>
-            <td class="number" id="queued_count_<%= group.sources.visible.first.name %>">&nbsp;</td>
-            <td class="number" id="stale_count_<%= group.sources.visible.first.name %>">&nbsp;</td>
+            <td class="number" id="queued_count_<%= group.sources.visible.first.name %>"></td>
+            <td class="number" id="stale_count_<%= group.sources.visible.first.name %>"></td>
           <% end %>
         </tr>
         <% if group.sources.visible.size > 1 %>
@@ -33,8 +33,8 @@
               <td><%= state_label(source.human_state_name).html_safe %></td>
               <td class="number" id="pending_count_<%= source.name %>"><%= number_hiding_zero(source.pending_count) %></td>
               <td class="number" id="working_count_<%= source.name %>"><%= number_hiding_zero(source.working_count) %></td>
-              <td class="number" id="queued_count_<%= source.name %>">&nbsp;</td>
-              <td class="number" id="stale_count_<%= source.name %>">&nbsp;</td>
+              <td class="number" id="queued_count_<%= source.name %>"></td>
+              <td class="number" id="stale_count_<%= source.name %>"></td>
             </tr>
           <% end %>
         <% end %>

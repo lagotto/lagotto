@@ -17,26 +17,34 @@ Feature: Background queueing
       Then I should see 20 stale articles for "Citeulike"
 
     @wip
-    Scenario Outline: Queue all articles by source status
+    Scenario Outline: Queue all articles if the source is active
       Given the status of source "Citeulike" is "<Status>"
       And we have queued all articles for "Citeulike"
       When I go to the "Sources" admin page
       Then I should see 25 queued articles for "Citeulike"
-      And I should see 0 stale articles for "Citeulike"
+      And I should not see stale articles for "Citeulike"
       And I should see 1 pending job for "Citeulike"
 
       Examples:
       | Status      |
-      | inactive    |
       | disabled    |
       | working     |
       | waiting     |
+
+    @wip
+    Scenario: Don't queue articles if the source is inactive
+      Given the status of source "Citeulike" is "inactive"
+      And we have queued all articles for "Citeulike"
+      When I go to the "Sources" admin page
+      Then I should not see queued articles for "Citeulike"
+      And I should see 20 stale articles for "Citeulike"
+      And I should not see pending jobs for "Citeulike"
 
     Scenario: Queue all stale articles
       Given we have queued all stale articles for "Citeulike"
       When I go to the "Sources" admin page
       Then I should see 20 queued articles for "Citeulike"
-      And I should see 0 stale articles for "Citeulike"
+      And I should not see stale articles for "Citeulike"
       And I should see 1 pending job for "Citeulike"
 
     Scenario: Queue all stale articles with job batch size
@@ -44,7 +52,7 @@ Feature: Background queueing
       And we have queued all articles for "Citeulike"
       When I go to the "Sources" admin page
       Then I should see 25 queued articles for "Citeulike"
-      And I should see 0 stale articles for "Citeulike"
+      And I should not see stale articles for "Citeulike"
       And I should see 3 pending jobs for "Citeulike"
 
     Scenario: Queue one article
