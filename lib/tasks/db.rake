@@ -233,7 +233,7 @@ namespace :db do
 
       sources.each do |source|
         source.activate
-        if source.working
+        if source.working?
           puts "Source #{source.display_name} has been activated and is now working."
         else
           puts "Source #{source.display_name} could not be activated."

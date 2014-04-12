@@ -230,9 +230,9 @@ describe Source do
 
       it "with rate-limiting" do
         rate_limiting = 5
-        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids[0...rate_limiting], source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
+        Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, run_at: Time.zone.now, priority: 3 })
         source.rate_limiting = rate_limiting
-        source.queue_stale_articles.should == 5
+        source.queue_stale_articles.should == 10
         source.should be_waiting
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...rate_limiting], source.id))
       end

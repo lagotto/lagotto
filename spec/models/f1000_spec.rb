@@ -32,7 +32,7 @@ describe F1000 do
       filename = "#{Rails.root}/data/#{f1000.filename}"
       body = File.open(filename, 'r') { |f| f.read }
       File.delete filename
-      stub = stub_request(:get, "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml").to_return(:status => 200, :body => body)
+      stub = stub_request(:get, "http://example.org/example.xml").to_return(:status => 200, :body => body)
 
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pgen.0020051")
       response = f1000.get_data(article)
@@ -46,7 +46,7 @@ describe F1000 do
     it "should catch an error when the F1000 feed can't be fetched" do
       filename = "#{Rails.root}/data/#{f1000.filename}"
       File.delete filename
-      stub = stub_request(:get, "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml").to_return(:status => [408])
+      stub = stub_request(:get, "http://example.org/example.xml").to_return(:status => [408])
 
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
       f1000.get_data(article).should be_nil
@@ -62,7 +62,7 @@ describe F1000 do
       filename = "#{Rails.root}/data/#{f1000.filename}"
       body = File.open(filename, 'r') { |f| f.read }
       f1000.filename = ""
-      stub = stub_request(:get, "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml").to_return(:status => 200, :body => body)
+      stub = stub_request(:get, "http://example.org/example.xml").to_return(:status => 200, :body => body)
 
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pgen.0020051")
       f1000.get_data(article, options = { :source_id => f1000.id }).should be_nil
