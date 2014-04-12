@@ -40,6 +40,9 @@ set :bundle_path, -> { shared_path.join('vendor/bundle') }
 # Use system libraries for Nokogiri
 set :bundle_env_variables, { 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1 }
 
+# Run whenever via bundler
+set :whenever_command, "RAILS_ENV=#{rails_env} bundle exec whenever"
+
 namespace :deploy do
 
   before :starting, "delayed_job:stop"
