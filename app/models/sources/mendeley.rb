@@ -170,11 +170,11 @@ class Mendeley < Source
   end
 
   def url
-    config.url || "http://api-oauth2.mendeley.com/oapi/documents/details/%{id}"
+    config.url || "https://api-oauth2.mendeley.com/oapi/documents/details/%{id}"
   end
 
   def url_with_type
-    config.url_with_type || "http://api-oauth2.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}"
+    config.url_with_type || "https://api-oauth2.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}"
   end
 
   def url_with_type=(value)
@@ -182,7 +182,7 @@ class Mendeley < Source
   end
 
   def url_with_title
-    config.url_with_title || "http://api-oauth2.mendeley.com/oapi/documents/search/title:%{title}/?items=10"
+    config.url_with_title || "https://api-oauth2.mendeley.com/oapi/documents/search/title:%{title}/?items=10"
   end
 
   def url_with_title=(value)
@@ -190,7 +190,7 @@ class Mendeley < Source
   end
 
   def related_articles_url
-    config.related_articles_url || "http://api-oauth2.mendeley.com/oapi/documents/related/%{id}"
+    config.related_articles_url || "https://api-oauth2.mendeley.com/oapi/documents/related/%{id}"
   end
 
   def related_articles_url=(value)
