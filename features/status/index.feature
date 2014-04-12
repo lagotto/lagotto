@@ -27,13 +27,11 @@ Feature: View admin dashboard
       When I go to the "Home" admin page
       Then I should see that the CouchDB size is "2.6 kB"
 
-    @wip
     Scenario: Worker info
       Given we have 1 worker
       When I go to the "Home" admin page
       Then I should see that we have 1 worker
 
-    @wip
     Scenario: Worker tab
       Given we have 1 worker
       When I go to the "Home" admin page

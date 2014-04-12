@@ -16,6 +16,7 @@ Feature: Background queueing
       When I go to the "Sources" admin page
       Then I should see 20 stale articles for "Citeulike"
 
+    @wip
     Scenario Outline: Queue all articles by source status
       Given the status of source "Citeulike" is "<Status>"
       And we have queued all articles for "Citeulike"

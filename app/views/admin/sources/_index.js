@@ -113,7 +113,7 @@ d3.json("/api/v5/sources?api_key=" + api_key, function(error, json) {
     if(number !== 0) {
       return formatFixed(number);
     } else {
-      return null;
+      return "";
     }
   }
 });
