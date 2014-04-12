@@ -3,9 +3,8 @@
 # It's helpful, but not entirely necessary to understand cron before proceeding.
 # http://en.wikipedia.org/wiki/Cron
 
-#env :PATH, ENV['PATH']
+set :path, ENV['PATH']
 set :environment, ENV['RAILS_ENV']
-
 set :output, "#{path}/log/cron.log"
 
 # Schedule jobs
