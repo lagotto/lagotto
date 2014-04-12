@@ -38,13 +38,13 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :description => "Wikipedia is a free encyclopedia that everyone can edit.",
   :state_event => "activate",
   :group_id => discussed.id)
-
-# These sources are not installed by default
 datacite = Datacite.find_or_create_by_name(
   :name => "datacite",
   :display_name => "DataCite",
   :description => "Helping you to find, access, and reuse research data.",
   :group_id => cited.id)
+
+# These sources are not installed by default
 pmc_europe = PmcEurope.find_or_create_by_name(
   :name => "pmceurope",
   :display_name => "PMC Europe Citations",

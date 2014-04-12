@@ -303,6 +303,11 @@ class Source < ActiveRecord::Base
     end
   end
 
+  # Custom validation for cron_line field
+  def validate_cron_line
+
+  end
+
   def url
     config.url
   end
