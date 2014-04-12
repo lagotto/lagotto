@@ -61,6 +61,7 @@ class Admin::SourcesController < Admin::ApplicationController
                                    :staleness_month,
                                    :staleness_year,
                                    :staleness_all,
+                                   :cron_line,
                                    :timeout,
                                    :max_failed_queries,
                                    :max_failed_query_time_interval,
