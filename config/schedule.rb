@@ -14,7 +14,7 @@ set :output, "#{path}/log/cron.log"
 
 # every hour at the hour
 every '00 00-23 * * *' do
-  rake "queue"
+  rake "queue:work"
 end
 
 # every day at 4 AM

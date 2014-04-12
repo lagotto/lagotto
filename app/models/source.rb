@@ -210,11 +210,8 @@ class Source < ActiveRecord::Base
   end
 
   def queue_articles
-    if queueable
-      queue_stale_articles
-    else
-      queue_all_articles
-    end
+    status = Worker.monitor
+    count = queue_stale_articles
   end
 
   def queue_all_articles(options = {})

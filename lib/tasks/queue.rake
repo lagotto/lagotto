@@ -21,7 +21,7 @@
 namespace :queue do
 
   desc "Queue articles"
-  task :default => :environment do |t, args|
+  task :work => :environment do |t, args|
     if args.extras.empty?
       sources = Source.active
     else
@@ -133,4 +133,7 @@ namespace :queue do
       puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
     end
   end
+
+  task :default => :work
+
 end
