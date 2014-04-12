@@ -49,6 +49,35 @@ namespace :queue do
     end
   end
 
+  desc "Queue stale articles"
+  task :stale => :environment do |t, args|
+    if args.extras.empty?
+      sources = Source.active
+    else
+      sources = Source.active.where("name in (?)", args.extras)
+    end
+
+    if sources.empty?
+      puts "No active source found."
+      exit
+    end
+
+    begin
+      start_date = Date.parse(ENV['START_DATE']) if ENV['START_DATE']
+      end_date = Date.parse(ENV['END_DATE']) if ENV['END_DATE']
+    rescue => e
+      # raises error if invalid date supplied
+      puts "Error: #{e.message}"
+      exit
+    end
+    puts "Queueing stale articles published from #{start_date} to #{end_date}." if start_date && end_date
+
+    sources.each do |source|
+      count = source.queue_stale_articles({ start_date: start_date, end_date: end_date })
+      puts "#{count} stale articles for source #{source.display_name} have been queued."
+    end
+  end
+
   desc "Queue article with given DOI"
   task :one, [:doi] => :environment do |t, args|
     if args.doi.nil?

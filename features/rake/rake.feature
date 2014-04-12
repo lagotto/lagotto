@@ -16,7 +16,9 @@ Feature: Run rake tasks
       | workers:start                    | Start all the workers                                           |
       | workers:stop                     | Stop all the workers                                            |
       | workers:monitor                  | Monitor workers                                                 |
+      | queue:all                        | Queue all articles                                              |
       | queue:one[doi]                   | Queue article with given DOI                                    |
+      | queue:stale                      | Queue stale articles                                            |
       | db:alerts:delete                 | Delete all resolved alerts                                      |
       | db:api_requests:delete           | Delete API requests, keeping last 1,000 requests                |
       | db:articles:seed                 | Seed sample articles                                            |
