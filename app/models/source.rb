@@ -134,6 +134,11 @@ class Source < ActiveRecord::Base
       source.update_attributes(run_at: Time.zone.now)
     end
 
+    after_transition :working => [:idle] do |source|
+      cron_parser = CronParser.new(source.cron_line)
+      source.update_attributes(run_at: cron_parser.next(Time.zone.now))
+    end
+
     after_transition any - [:disabled] => :disabled do |source|
       Alert.create(:exception => "", :class_name => "TooManyErrorsBySourceError",
                    :message => "#{source.display_name} has exceeded maximum failed queries. Disabling the source.",
@@ -242,6 +247,14 @@ class Source < ActiveRecord::Base
     RetrievalStatus.update_all(["queued_at = ?", nil], ["source_id = ?", id])
   end
 
+  def queue_articles
+    if queueable
+      queue_stale_articles
+    else
+      queue_all_articles
+    end
+  end
+
   def queue_all_articles(options = {})
     start_working
 
@@ -263,9 +276,8 @@ class Source < ActiveRecord::Base
     count
   end
 
-  def queue_stale_articles
+  def queue_stale_articles(options = {})
     start_queueing
-
 
     unless queueing?
       Alert.create(:exception => "",
@@ -276,7 +288,15 @@ class Source < ActiveRecord::Base
     end
 
     # find articles that need to be updated. Not queued currently, scheduled_at in the past
-    rs = retrieval_statuses.stale.limit(max_job_batch_size).pluck("retrieval_statuses.id")
+    # observe rate-limiting
+    rs = retrieval_statuses.stale
+
+    # optionally limit by publication date
+    if options[:start_date] && options[:end_date]
+      rs = rs.joins(:article).where("articles.published_on" => options[:start_date]..options[:end_date])
+    end
+
+    rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
     count = queue_article_jobs(rs)
 
     stop_queueing
@@ -407,13 +427,6 @@ class Source < ActiveRecord::Base
     delayed_jobs.count - working_count
   end
 
-  def schedule_at
-    last_job = DelayedJob.where(queue: name).maximum(:run_at)
-    return Time.zone.now if last_job.nil?
-
-    last_job + batch_interval
-  end
-
   def workers
     config.workers || 1
   end
@@ -482,6 +495,13 @@ class Source < ActiveRecord::Base
     config.rate_limiting = value.to_i
   end
 
+  def schedule_at
+    last_job = DelayedJob.where(queue: name).maximum(:run_at)
+    return Time.zone.now if last_job.nil?
+
+    last_job + batch_interval
+  end
+
   def job_interval
     3600 / rate_limiting
   end
@@ -541,6 +561,14 @@ class Source < ActiveRecord::Base
 
   def staleness_with_limits
     ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
+  end
+
+  def cron_line
+    config.cron_line || "* 05 * * *"
+  end
+
+  def cron_line=(value)
+    config.cron_line = value
   end
 
   # is this source no longer accepting new data?

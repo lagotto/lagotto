@@ -8,7 +8,6 @@
       <%= f.input :display_name %>
       <%= f.input :state_event, :as => :boolean, label: "Active", :checked_value => 'activate', :unchecked_value => 'inactivate', input_html: { checked: @source.active? }, hint: "Source is talking to external APIs" %>
       <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
-      <%= f.input :queueable, :as => :boolean, hint: "Articles for this source can be queued" %>
       <%= f.input :description, :input_html => { :rows => 3 } %>
 
       <% if not @source.get_config_fields.empty? %>
@@ -39,23 +38,27 @@
 
       <%= f.input :wait_time, label: false,
                               hint: "Time interval before more jobs can be added to the job queue (seconds)" %>
-
-      <%= f.input :staleness_week,  collection: Source::INTERVAL_OPTIONS,
-                                    label: "Update interval",
-                                    include_blank: false,
-                                    hint: "First 7 days after publication" %>
-      <%= f.input :staleness_month, collection: Source::INTERVAL_OPTIONS,
-                                    label: false,
-                                    include_blank: false,
-                                    hint: "First 31 days after publication" %>
-      <%= f.input :staleness_year,  collection: Source::INTERVAL_OPTIONS,
-                                    label: false,
-                                    include_blank: false,
-                                    hint: "First year after publication" %>
-      <%= f.input :staleness_all,   collection: Source::INTERVAL_OPTIONS,
-                                    label: false,
-                                    include_blank: false,
-                                    hint: "More than one year after publication" %>
+      <% if @source.queueable %>
+        <%= f.input :staleness_week,  collection: Source::INTERVAL_OPTIONS,
+                                      label: "Update interval",
+                                      include_blank: false,
+                                      hint: "First 7 days after publication" %>
+        <%= f.input :staleness_month, collection: Source::INTERVAL_OPTIONS,
+                                      label: false,
+                                      include_blank: false,
+                                      hint: "First 31 days after publication" %>
+        <%= f.input :staleness_year,  collection: Source::INTERVAL_OPTIONS,
+                                      label: false,
+                                      include_blank: false,
+                                      hint: "First year after publication" %>
+        <%= f.input :staleness_all,   collection: Source::INTERVAL_OPTIONS,
+                                      label: false,
+                                      include_blank: false,
+                                      hint: "More than one year after publication" %>
+      <% else %>
+        <%= f.input :cron_line, label: "Update interval",
+                                hint: "Time in crontab format before more jobs can be added to the job queue" %>
+      <% end %>
 
       <%= f.input :timeout, hint: "Time to wait for response from the source (seconds)"  %>
 
@@ -105,17 +108,17 @@
           <%= pluralize(@source.workers, "worker") %></br>
           <%= @source.job_batch_size %> articles per job</br>
           <%= @source.wait_time %> seconds before more jobs can be added</br>
-          <% if @source.queueable && @source.run_at > Time.zone.now %>
+          <% if @source.run_at > Time.zone.now %>
             </br>Batch jobs will again be queued at <%= @source.run_at.to_s(:friendly) %>
-          <% elsif !@source.queueable %>
-            </br>Batch jobs need to be queued by rake task
           <% end %>
         </td>
       </tr>
-      <tr>
-        <th>Update interval</th>
-        <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " for articles published #{i}" }.join("</br>").html_safe %></td>
-      </tr>
+      <% if @source.queueable %>
+        <tr>
+          <th>Update interval</th>
+          <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " for articles published #{i}" }.join("</br>").html_safe %></td>
+        </tr>
+      <% end %>
       <tr>
         <th>Timeout</th>
         <td><%=h @source.timeout %> seconds wait time for response from the source</td>

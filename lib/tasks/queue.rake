@@ -20,6 +20,25 @@
 
 namespace :queue do
 
+  desc "Queue articles"
+  task :default => :environment do |t, args|
+    if args.extras.empty?
+      sources = Source.active
+    else
+      sources = Source.active.where("name in (?)", args.extras)
+    end
+
+    if sources.empty?
+      Rails.logger.warn "No active source found."
+      exit
+    end
+
+    sources.each do |source|
+      count = source.queue_articles
+      Rails.logger.info "#{count} articles for source #{source.display_name} have been queued."
+    end
+  end
+
   desc "Queue all articles"
   task :all => :environment do |t, args|
     if args.extras.empty?

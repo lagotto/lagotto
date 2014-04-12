@@ -81,8 +81,14 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   # calculate datetime when retrieval_status should be updated, adding random interval
+  # sources that are not queueable use a fixed date
   def stale_at
-    unless article.published_on.nil?
+    if !source.queueable
+      cron_parser = CronParser.new(source.cron_line)
+      return cron_parser.next(Time.zone.now)
+    end
+
+    if article.published_on.present?
       age_in_days = Date.today - article.published_on
     else
       age_in_days = 366
