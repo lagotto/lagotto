@@ -31,8 +31,7 @@ class SourceDecorator < Draper::Decorator
   end
 
   def jobs
-    { "queueing" => queueing_count,
-      "working" => working_count,
+    { "working" => working_count,
       "pending" => pending_count }
   end
 

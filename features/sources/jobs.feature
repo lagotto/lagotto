@@ -14,7 +14,7 @@ Feature: See jobs
       When I go to the "Sources" admin page
       Then the table "JobsTable" should be:
         | Source    | Status   | Pending | Working | Stale Articles |
-        | CiteULike | queueing |         |         | 5              |
+        | CiteULike | working  |         |         | 5              |
 
     @not_teamcity
     Scenario: Jobs in source view

@@ -84,10 +84,8 @@ class Source < ActiveRecord::Base
     state :retired, value: 1   # source installed, but no longer accepting new data
     state :inactive, value: 2  # source disabled by admin
     state :disabled, value: 3  # can't queue or process jobs, generates alert
-    state :idle, value: 4      # source active
-    state :waiting, value: 5   # source active, waiting for next queueing job
+    state :waiting, value: 5   # source active, waiting for next job
     state :working, value: 6   # processing jobs
-    state :queueing, value: 7  # queueing and processing jobs
 
     state all - [:available, :retired, :inactive, :disabled] do
       def active?
@@ -95,7 +93,7 @@ class Source < ActiveRecord::Base
       end
     end
 
-    state all - [:working, :queueing, :waiting, :idle] do
+    state all - [:working, :waiting] do
       def active?
         false
       end
@@ -117,10 +115,6 @@ class Source < ActiveRecord::Base
       end
     end
 
-    after_transition any => :queueing do |source|
-      source.add_queue
-    end
-
     after_transition :available => any - [:available, :retired] do |source|
       source.create_retrievals
     end
@@ -130,26 +124,26 @@ class Source < ActiveRecord::Base
       source.update_attributes(run_at: Time.zone.now + 5.years)
     end
 
-    after_transition :inactive => [:queueing, :idle] do |source|
+    after_transition :inactive => [:working] do |source|
       source.update_attributes(run_at: Time.zone.now)
-    end
-
-    after_transition :working => [:idle] do |source|
-      cron_parser = CronParser.new(source.cron_line)
-      source.update_attributes(run_at: cron_parser.next(Time.zone.now))
     end
 
     after_transition any - [:disabled] => :disabled do |source|
       Alert.create(:exception => "", :class_name => "TooManyErrorsBySourceError",
                    :message => "#{source.display_name} has exceeded maximum failed queries. Disabling the source.",
                    :source_id => source.id)
-      source.add_queue(Time.zone.now + source.disable_delay)
+      source.update_attributes(run_at: Time.zone.now + source.disable_delay)
       report = Report.find_by_name("disabled_source_report")
       report.send_disabled_source_report(source.id)
     end
 
     after_transition :to => :waiting do |source|
-      source.add_queue(source.run_at + source.batch_time_interval)
+      if source.queueable
+        source.update_attributes(run_at: source.run_at + source.batch_time_interval)
+      else
+        cron_parser = CronParser.new(source.cron_line)
+        source.update_attributes(run_at: cron_parser.next(Time.zone.now))
+      end
     end
 
     event :install do
@@ -164,8 +158,7 @@ class Source < ActiveRecord::Base
 
     event :activate do
       transition [:available] => :retired, :if => :obsolete?
-      transition [:available, :inactive] => :idle, :unless => :queueable
-      transition [:available, :inactive] => :queueing
+      transition [:available, :inactive] => :working
       transition any => same
     end
 
@@ -175,16 +168,6 @@ class Source < ActiveRecord::Base
 
     event :disable do
       transition any => :disabled
-    end
-
-    event :start_queueing do
-      transition [:working, :waiting] => :queueing, :if => :queueable
-      transition any => same
-    end
-
-    event :stop_queueing do
-      transition any - [:waiting, :inactive, :disabled] => :waiting, :if => :queueable
-      transition any => same
     end
 
     event :start_jobs_with_check do
@@ -200,18 +183,16 @@ class Source < ActiveRecord::Base
     end
 
     event :start_working do
-      transition [:idle, :waiting, :queueing] => :working
+      transition [:waiting] => :working
       transition any => same
     end
 
     event :stop_working do
-      transition [:queueing, :working] => :waiting, :if => :queueable
-      transition [:working] => :idle
+      transition [:working] => :waiting
     end
 
     event :start_waiting do
-      transition any => :waiting, :if => :queueable
-      transition any => :idle
+      transition any => :waiting
     end
   end
 
@@ -223,26 +204,7 @@ class Source < ActiveRecord::Base
     raise NotImplementedError, 'Children classes should override get_data method'
   end
 
-  def add_queue(queue_at = Time.zone.now)
-    # create queue job for this source if it doesn't exist already
-    # Some sources can't have a job queue, return false for them
-    # Only create queue if delayed_job is enabled, i.e. not in testing
-    return false unless queueable
-
-    if Delayed::Worker.delay_jobs
-      DelayedJob.delete_all(queue: "#{name}-queue")
-      Delayed::Job.enqueue QueueJob.new(id), queue: "#{name}-queue", run_at: queue_at, priority: 1
-    end
-
-    self.update_attributes(run_at: queue_at)
-  end
-
-  def get_queue
-    DelayedJob.where(queue: "#{name}-queue").first
-  end
-
   def remove_queues
-    DelayedJob.delete_all(queue: "#{name}-queue")
     DelayedJob.delete_all(queue: name)
     RetrievalStatus.update_all(["queued_at = ?", nil], ["source_id = ?", id])
   end
@@ -277,12 +239,12 @@ class Source < ActiveRecord::Base
   end
 
   def queue_stale_articles(options = {})
-    start_queueing
+    start_working
 
-    unless queueing?
+    unless working?
       Alert.create(:exception => "",
                    :class_name => "SourceInactiveError",
-                   :message => "Source #{display_name} could not transition to queueing state",
+                   :message => "Source #{display_name} could not transition to working state",
                    :source_id => id)
       return 0
     end
@@ -299,7 +261,7 @@ class Source < ActiveRecord::Base
     rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
     count = queue_article_jobs(rs)
 
-    stop_queueing
+    stop_working
 
     count
   end
@@ -408,10 +370,6 @@ class Source < ActiveRecord::Base
 
   def get_active_job_count
     Delayed::Job.count('id', :conditions => ["queue = ? AND locked_by IS NOT NULL", name])
-  end
-
-  def queueing_count
-    Delayed::Job.count('id', :conditions => ["queue = ?", "#{name}-queue"])
   end
 
   def working_count

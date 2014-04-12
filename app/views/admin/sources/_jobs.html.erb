@@ -7,7 +7,6 @@
         <th class="group">Group</th>
         <th class="name">Source</th>
         <th>Status</th>
-        <th class="number">Queuing</th>
         <th class="number">Pending</th>
         <th class="number">Working</th>
         <th class="number">Queued&nbsp;Articles</th>
@@ -21,7 +20,6 @@
             <td <%= group.sources.visible.empty? ? "rowspan=1" : "rowspan=#{group.sources.visible.count}" %>><h4><%= h(group.display_name) %></h4></td>
             <td class="name"><%= link_to group.sources.visible.first.display_name, admin_source_path(group.sources.visible.first.name) %></td>
             <td><%= state_label(group.sources.visible.first.human_state_name).html_safe %></td>
-            <td class="number" id="queueing_count_<%= group.sources.visible.first.name %>"><%= number_hiding_zero(group.sources.visible.first.queueing_count) %></td>
             <td class="number" id="pending_count_<%= group.sources.visible.first.name %>"><%= number_hiding_zero(group.sources.visible.first.pending_count) %></td>
             <td class="number" id="working_count_<%= group.sources.visible.first.name %>"><%= number_hiding_zero(group.sources.visible.first.working_count) %></td>
             <td class="number" id="queued_count_<%= group.sources.visible.first.name %>">&nbsp;</td>
@@ -33,7 +31,6 @@
             <tr>
               <td><%= link_to source.display_name, admin_source_path(source) %></td>
               <td><%= state_label(source.human_state_name).html_safe %></td>
-              <td class="number" id="queueing_count_<%= source.name %>"><%= number_hiding_zero(source.queueing_count) %></td>
               <td class="number" id="pending_count_<%= source.name %>"><%= number_hiding_zero(source.pending_count) %></td>
               <td class="number" id="working_count_<%= source.name %>"><%= number_hiding_zero(source.working_count) %></td>
               <td class="number" id="queued_count_<%= source.name %>">&nbsp;</td>

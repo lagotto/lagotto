@@ -18,8 +18,6 @@ Given /^the status of source "(.*?)" is "(.*?)"$/ do |name, status|
     @source = FactoryGirl.create(sym_name, state_event: "inactivate")
   elsif status == "working"
     @source = FactoryGirl.create(sym_name, state_event: "start_working")
-  elsif status == "queueing"
-    @source = FactoryGirl.create(sym_name, state_event: "start_queueing")
   elsif status == "disabled"
     @report = FactoryGirl.create(:disabled_source_report_with_admin_user)
     @source = FactoryGirl.create(sym_name, state_event: "disable")

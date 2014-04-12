@@ -89,7 +89,7 @@ describe "db:sources:activate" do
     FactoryGirl.create(:source, state_event: 'install')
   end
 
-  let(:output) { "Source CiteULike has been activated and is now queueing.\n" }
+  let(:output) { "Source CiteULike has been activated and is now working.\n" }
 
   it "should run" do
     capture_stdout { subject.invoke }.should eq(output)

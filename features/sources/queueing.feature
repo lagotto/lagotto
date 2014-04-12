@@ -29,7 +29,6 @@ Feature: Background queueing
       | inactive    |
       | disabled    |
       | working     |
-      | queueing    |
       | waiting     |
 
     Scenario: Queue all stale articles
