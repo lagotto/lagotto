@@ -34,7 +34,7 @@ namespace :queue do
     end
 
     sources.each do |source|
-      count = source.queue_articles
+      count = source.queue_all_articles
       Rails.logger.info "#{count} articles for source #{source.display_name} have been queued."
     end
   end
@@ -63,7 +63,7 @@ namespace :queue do
     puts "Queueing articles published from #{start_date} to #{end_date}." if start_date && end_date
 
     sources.each do |source|
-      count = source.queue_all_articles({ start_date: start_date, end_date: end_date })
+      count = source.queue_all_articles({ stale: false, start_date: start_date, end_date: end_date })
       puts "#{count} articles for source #{source.display_name} have been queued."
     end
   end
@@ -92,7 +92,7 @@ namespace :queue do
     puts "Queueing stale articles published from #{start_date} to #{end_date}." if start_date && end_date
 
     sources.each do |source|
-      count = source.queue_stale_articles({ start_date: start_date, end_date: end_date })
+      count = source.queue_all_articles({ start_date: start_date, end_date: end_date })
       puts "#{count} stale articles for source #{source.display_name} have been queued."
     end
   end

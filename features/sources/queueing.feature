@@ -16,7 +16,6 @@ Feature: Background queueing
       When I go to the "Sources" admin page
       Then I should see 20 stale articles for "Citeulike"
 
-    @wip
     Scenario Outline: Queue all articles if the source is active
       Given the status of source "Citeulike" is "<Status>"
       And we have queued all articles for "Citeulike"
@@ -31,13 +30,12 @@ Feature: Background queueing
       | working     |
       | waiting     |
 
-    @wip
     Scenario: Don't queue articles if the source is inactive
       Given the status of source "Citeulike" is "inactive"
       And we have queued all articles for "Citeulike"
       When I go to the "Sources" admin page
       Then I should not see queued articles for "Citeulike"
-      And I should see 20 stale articles for "Citeulike"
+      And I should not see stale articles for "Citeulike"
       And I should not see pending jobs for "Citeulike"
 
     Scenario: Queue all stale articles

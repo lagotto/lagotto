@@ -33,17 +33,18 @@ end
 
 Given /^we have queued all articles for "(.*?)"$/ do |name|
   source = Source.find_by_name(name.underscore.downcase)
-  source.queue_all_articles
+  source.queue_all_articles({ stale: false })
 end
 
 Given /^we have queued all stale articles for "(.*?)"$/ do |name|
   source = Source.find_by_name(name.underscore.downcase)
-  source.queue_stale_articles
+  source.queue_all_articles
 end
 
 Given /^we have queued one article for "(.*?)"$/ do |name|
-  #source = Source.find_by_name(name.underscore.downcase)
-  #source.queue_article_jobs([rs.id], { priority: 2 })
+  source = Source.find_by_name(name.underscore.downcase)
+  rs = RetrievalStatus.where(source_id: source.id).first
+  source.queue_article_jobs([rs.id], { priority: 2 })
 end
 
 ### WHEN ###
