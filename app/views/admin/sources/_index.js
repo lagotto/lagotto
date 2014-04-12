@@ -4,7 +4,7 @@ var api_key = d3.select("h1#api_key").attr('data-api_key');
 
 var l = 200; // left margin
 var r = 120; // right margin
-var w = 600; // width of drawing area
+var w = 580; // width of drawing area
 var h = 36;  // bar height
 var s = 2;   // spacing between bars
 

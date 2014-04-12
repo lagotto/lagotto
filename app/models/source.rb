@@ -51,6 +51,7 @@ class Source < ActiveRecord::Base
   validates :staleness_month, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_all, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
+  validates :cron_line, :format => { with: /^(?:[1-9]?\d|\*)(?:(?:[\/-][1-9]?\d)|(?:,[1-9]?\d)+)?$/, :allow_blank => true, :message => "should be a valid crontab entry" }
 
   scope :available, where("state = ?", 0).order("group_id, sources.display_name")
   scope :installed, where("state > ?", 0).order("group_id, sources.display_name")
