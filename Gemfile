@@ -59,6 +59,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.1.1', :require => false
   gem 'capistrano-bundler', '~> 1.1.2', :require => false
   gem 'sshkit', :require => false, :github => 'capistrano/sshkit'
+  gem 'copyright-header', '~> 1.0.12'
   gem 'license_finder', '~> 1.0.0.0'
   gem 'spring', '~> 1.1.2'
 end
