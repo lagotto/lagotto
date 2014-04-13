@@ -22,7 +22,7 @@ describe Mendeley do
     let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(mendeley.client_id, mendeley.secret) }
 
     it "should make the right API call" do
-      Time.stub(:now).and_return(Time.mktime(2013,9,5))
+      Time.stub(:now).and_return(Time.mktime(2013, 9, 5))
       mendeley.access_token = nil
       mendeley.expires_at = Time.now
       stub = stub_request(:post, mendeley.authentication_url).with(:body => "grant_type=client_credentials", :headers => { :authorization => auth }).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
@@ -74,7 +74,7 @@ describe Mendeley do
 
   it "should report that there are no events if the doi, pmid, mendeley uuid and title are missing" do
     article_without_ids = FactoryGirl.build(:article, :doi => "", :pmid => "", :mendeley_uuid => "", :title => "")
-    mendeley.get_data(article_without_ids).should eq({ :events => [], :event_count => nil })
+    mendeley.get_data(article_without_ids).should eq(events: [], event_count: nil)
   end
 
   context "use the Mendeley API for uuid lookup" do
@@ -138,7 +138,7 @@ describe Mendeley do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       stub_uuid = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
-      mendeley.get_data(article).should eq({:events=>[], :event_count=>nil})
+      mendeley.get_data(article).should eq(events: [], event_count: nil)
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -147,7 +147,7 @@ describe Mendeley do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       stub_uuid = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 404)
-      mendeley.get_data(article).should eq({:events=>[], :event_count=>nil})
+      mendeley.get_data(article).should eq(events: [], event_count: nil)
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -156,7 +156,7 @@ describe Mendeley do
       article = FactoryGirl.build(:article)
       stub_uuid = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_error.json'), :status => 404)
-      mendeley.get_data(article).should eq({:events=>[], :event_count=>nil})
+      mendeley.get_data(article).should eq(events: [], event_count: nil)
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -179,7 +179,7 @@ describe Mendeley do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub_uuid = stub_request(:get, mendeley.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, mendeley.get_query_url(article)).to_return(:status => [408])
-      mendeley.get_data(article, options = { :source_id => mendeley.id }).should be_nil
+      mendeley.get_data(article, source_id: mendeley.id).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

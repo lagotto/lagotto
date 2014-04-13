@@ -23,7 +23,7 @@ class Facebook < Source
   def get_data(article, options={})
 
     # Store an empty response if article DOI doesn't resolve to a URL that we can store
-    return  { :events => [], :event_count => nil } unless article.get_url
+    return  events: [], event_count: nil unless article.get_url
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)

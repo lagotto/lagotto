@@ -3,8 +3,8 @@
 FactoryGirl.define do
 
   factory :article do
-    sequence(:doi) {|n| "10.1371/journal.pone.00000#{n}" }
-    sequence(:pmid) {|n| "1897483#{n}" }
+    sequence(:doi) { |n| "10.1371/journal.pone.00000#{n}" }
+    sequence(:pmid) { |n| "1897483#{n}" }
     pmcid 2568856
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
@@ -93,7 +93,7 @@ FactoryGirl.define do
   factory :retrieval_status do
     event_count 50
     retrieved_at { Time.zone.now - 1.month }
-    sequence(:scheduled_at) {|n| Time.zone.now - 1.day + n.minutes }
+    sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
 
     association :article
     association :source, factory: :citeulike
@@ -121,12 +121,11 @@ FactoryGirl.define do
     trait(:with_article_published_today) { association :article, factory: :article_published_today }
 
     before(:create) do |retrieval_status|
-      FactoryGirl.create(:retrieval_history,
-                          retrieved_at: Time.zone.today - 2.years + 1.day,
-                          event_count: 50,
-                          retrieval_status: retrieval_status,
-                          article: retrieval_status.article,
-                          source: retrieval_status.source)
+      FactoryGirl.create(:retrieval_history, retrieved_at: Time.zone.today - 2.years + 1.day,
+                                             event_count: 50,
+                                             retrieval_status: retrieval_status,
+                                             article: retrieval_status.article,
+                                             source: retrieval_status.source)
     end
 
     initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
@@ -231,11 +230,11 @@ FactoryGirl.define do
   end
 
   factory :user do
-    sequence(:username) {|n| "joesmith#{n}" }
-    sequence(:name) {|n| "Joe Smith#{n}" }
-    sequence(:email) {|n| "joe#{n}@example.com" }
+    sequence(:username) { |n| "joesmith#{n}" }
+    sequence(:name) { |n| "Joe Smith#{n}" }
+    sequence(:email) { |n| "joe#{n}@example.com" }
     password "joesmith"
-    sequence(:authentication_token) {|n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
+    sequence(:authentication_token) { |n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
     role "admin"
     provider "cas"
     uid "12345"

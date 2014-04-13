@@ -7,14 +7,14 @@ describe Reddit do
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    reddit.get_data(article).should eq({ :events => [], :event_count => nil })
+    reddit.get_data(article).should eq(events: [], event_count: nil)
   end
 
   context "use the Reddit API" do
     it "should report if there are no events and event_count returned by the Reddit API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       stub = stub_request(:get, reddit.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'reddit_nil.json', encoding: 'UTF-8'), :status => 200)
-      reddit.get_data(article).should eq({:events=>[], :event_count=>0, :events_url=>"http://www.reddit.com/search?q=\"#{CGI.escape(article.doi_escaped)}\"", :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>0, :citations=>nil, :total=>0}})
+      reddit.get_data(article).should eq(events: [], event_count: 0, events_url: "http://www.reddit.com/search?q=\"#{CGI.escape(article.doi_escaped)}\"", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: 0, citations: nil, total: 0 })
       stub.should have_been_requested
     end
 

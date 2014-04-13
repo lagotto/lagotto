@@ -5,12 +5,12 @@ describe CrossRef do
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    cross_ref.get_data(article).should eq({ :events => [], :event_count => nil })
+    cross_ref.get_data(article).should eq(events: [], event_count: nil)
   end
 
   it "should report that there are no events if article was published on the same day" do
     article = FactoryGirl.build(:article, :published_on => Time.zone.today)
-    cross_ref.get_data(article).should eq({ :events => [], :event_count => nil })
+    cross_ref.get_data(article).should eq(events: [], event_count: nil)
   end
 
   context "use the CrossRef API" do
@@ -18,7 +18,7 @@ describe CrossRef do
 
     it "should report if there are no events and event_count returned by the CrossRef API" do
       stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'), :status => 200)
-      cross_ref.get_data(article).should eq({ :events => [], :event_count => 0, :event_metrics => { :pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, :attachment => nil })
+      cross_ref.get_data(article).should eq(events: [], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, attachment: nil)
       stub.should have_been_requested
     end
 
@@ -35,7 +35,7 @@ describe CrossRef do
 
     it "should catch errors with the CrossRef API" do
       stub = stub_request(:get, cross_ref.get_query_url(article)).to_return(:status => [408])
-      cross_ref.get_data(article, options = { :source_id => cross_ref.id }).should be_nil
+      cross_ref.get_data(article, source_id: cross_ref.id).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -50,7 +50,7 @@ describe CrossRef do
 
     it "should report if there is an event_count of zero returned by the CrossRef OpenURL API" do
       stub = stub_request(:get, cross_ref.get_default_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_openurl_nil.xml'), :status => 200)
-      cross_ref.get_data(article).should eq({ :events => [], :event_count => 0 })
+      cross_ref.get_data(article).should eq(events: [], event_count: 0)
       stub.should have_been_requested
     end
 
@@ -63,7 +63,7 @@ describe CrossRef do
 
     it "should catch errors with the CrossRef OpenURL API" do
       stub = stub_request(:get, cross_ref.get_default_query_url(article)).to_return(:status => [408])
-      cross_ref.get_data(article, options = { :source_id => cross_ref.id }).should be_nil
+      cross_ref.get_data(article, source_id: cross_ref.id).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

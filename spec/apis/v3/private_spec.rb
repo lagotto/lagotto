@@ -6,10 +6,10 @@ describe "/api/v3/articles" do
     context "as admin user" do
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:article) { FactoryGirl.create(:article_with_private_citations) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
@@ -29,7 +29,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         response = Hash.from_xml(last_response.body)
@@ -52,10 +52,10 @@ describe "/api/v3/articles" do
     context "as staff user" do
       let(:user) { FactoryGirl.create(:user, :role => "staff") }
       let(:article) { FactoryGirl.create(:article_with_private_citations) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}"}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
@@ -75,7 +75,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         response = Hash.from_xml(last_response.body)
@@ -98,11 +98,11 @@ describe "/api/v3/articles" do
     context "as regular user" do
       let(:user) { FactoryGirl.create(:user, :role => "user") }
       let(:article) { FactoryGirl.create(:article_with_private_citations) }
-      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}"}
-      let(:error) {{"error"=>"Article not found."}}
+      let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{user.api_key}" }
+      let(:error) { { "error"=>"Article not found." } }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(404)
 
         response = JSON.parse(last_response.body)
@@ -110,7 +110,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(404)
 
         response = Hash.from_xml(last_response.body)["hash"]

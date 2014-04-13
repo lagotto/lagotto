@@ -33,7 +33,7 @@ end
 
 Given /^that we have queued all articles for "(.*?)"$/ do |name|
   source = Source.find_by_name(name.underscore.downcase)
-  source.queue_all_articles({ all: true })
+  source.queue_all_articles(all: true)
 end
 
 Given /^that we have queued all stale articles for "(.*?)"$/ do |name|
@@ -44,7 +44,7 @@ end
 Given /^that we have queued one article for "(.*?)"$/ do |name|
   source = Source.find_by_name(name.underscore.downcase)
   rs = RetrievalStatus.where(source_id: source.id).first
-  source.queue_article_jobs([rs.id], { priority: 2 })
+  source.queue_article_jobs([rs.id], priority: 2)
 end
 
 ### WHEN ###
@@ -152,7 +152,7 @@ Then /^I should not see the "(.*?)" for the article$/ do |label|
 end
 
 Then /^I should see the "(.*?)" chart$/ do |title|
-   page.find(:xpath, "//div[@id='#{title}']/*[name()='svg']").should be_true
+  page.find(:xpath, "//div[@id='#{title}']/*[name()='svg']").should be_true
 end
 
 Then /^I should see the "(.*?)" menu$/ do |id|

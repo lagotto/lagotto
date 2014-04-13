@@ -5,14 +5,14 @@ describe Datacite do
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    datacite.get_data(article).should eq({ :events => [], :event_count => nil })
+    datacite.get_data(article).should eq(events: [], event_count: nil)
   end
 
   context "use the Datacite API" do
     it "should report if there are no events and event_count returned by the Datacite API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
       stub = stub_request(:get, datacite.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'datacite_nil.json'), :status => 200)
-      datacite.get_data(article).should eq({:events=>[], :events_url=>"http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}})
+      datacite.get_data(article).should eq(events: [], events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
       stub.should have_been_requested
     end
 

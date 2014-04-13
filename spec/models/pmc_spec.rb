@@ -11,7 +11,7 @@ describe Pmc do
       end_date = 1.month.ago.to_date
       response = subject.date_range(month: start_date.month, year: start_date.year)
       response.count.should == 10
-      response.last.should eq({ month: end_date.month, year: end_date.year })
+      response.last.should eq(month: end_date.month, year: end_date.year)
     end
 
     it "should format the CouchDB report as csv" do
@@ -24,7 +24,7 @@ describe Pmc do
     end
 
     it "should format the CouchDB HTML report as csv" do
-      start_date = Date.new(2013,11,1)
+      start_date = Date.new(2013, 11, 1)
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["10.1371/journal.ppat.1000446", "5", "4"]
       row.fill("0", 3..(dates.length))
@@ -37,7 +37,7 @@ describe Pmc do
     end
 
     it "should format the CouchDB PDF report as csv" do
-      start_date = Date.new(2013,11,1)
+      start_date = Date.new(2013, 11, 1)
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["10.1371/journal.pbio.0030137", "0", "0"]
       row.fill("0", 3..(dates.length))
@@ -50,7 +50,7 @@ describe Pmc do
     end
 
     it "should format the CouchDB combined report as csv" do
-      start_date = Date.new(2013,11,1)
+      start_date = Date.new(2013, 11, 1)
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["10.1371/journal.pbio.0040015", "9", "10"]
       row.fill("0", 3..(dates.length))
@@ -67,13 +67,13 @@ describe Pmc do
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    pmc.get_data(article).should eq({ :events => [], :event_count => nil })
+    pmc.get_data(article).should eq(events: [], event_count: nil)
   end
 
   it "should report that there are no events if article was published on the same day" do
     date = Time.zone.today
     article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
-    pmc.get_data(article).should eq({ :events => [], :event_count => nil })
+    pmc.get_data(article).should eq(events: [], event_count: nil)
   end
 
   context "save PMC data" do
@@ -127,7 +127,7 @@ describe Pmc do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'pmc_nil.json')
       stub = stub_request(:get, pmc.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      pmc.get_data(article).should eq({ :events => [{"unique-ip"=>"0", "full-text"=>"0", "pdf"=>"0", "abstract"=>"0", "scanned-summary"=>"0", "scanned-page-browse"=>"0", "figure"=>"0", "supp-data"=>"0", "cited-by"=>"0", "year"=>"2013", "month"=>"10"}], :event_count => 0, :event_metrics => { :pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 }})
+      pmc.get_data(article).should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
       stub.should have_been_requested
     end
 
@@ -138,7 +138,7 @@ describe Pmc do
       response = pmc.get_data(article)
       response[:events].length.should eq(2)
       response[:event_count].should eq(13)
-      response[:event_metrics].should eq({ :pdf=>4, :html=>9, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>13 })
+      response[:event_metrics].should eq(pdf: 4, html: 9, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 13)
       stub.should have_been_requested
     end
 

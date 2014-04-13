@@ -6,7 +6,7 @@ describe Wikipedia do
 
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
-    wikipedia.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
+    wikipedia.get_data(article_without_doi).should eq(events: [], event_count: nil)
   end
 
   context "use the Wikipedia API" do
@@ -50,5 +50,5 @@ describe Wikipedia do
       response[:event_count].should eq(8 + 12)
     end
 
-   end
+  end
 end

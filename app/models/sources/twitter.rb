@@ -21,7 +21,7 @@ class Twitter < Source
 
   def get_data(article, options={})
 
-    return  { :events => [], :event_count => nil } if article.doi.blank?
+    return { events: [], event_count: nil } if article.doi.blank?
 
     events = []
     execute_search(events, article, options)
@@ -29,7 +29,7 @@ class Twitter < Source
     if events.nil?
       nil
     elsif events.empty?
-      { :events => [], :event_count => nil }
+      { events: [], event_count: nil }
     else
       { :events => events,
         :event_count => events.length }

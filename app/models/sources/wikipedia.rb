@@ -23,7 +23,7 @@ class Wikipedia < Source
   def get_data(article, options={})
 
     # Check that article has DOI
-    return  { :events => [], :event_count => nil } if article.doi.blank?
+    return  events: [], event_count: nil if article.doi.blank?
 
     events = {}
 

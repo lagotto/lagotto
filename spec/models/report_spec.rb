@@ -118,13 +118,13 @@ describe Report do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
       mail.body.parts.length.should == 2
-      mail.body.parts.collect(&:content_type).should == ["text/plain; charset=UTF-8","text/html; charset=UTF-8"]
+      mail.body.parts.collect(&:content_type).should == ["text/plain; charset=UTF-8", "text/html; charset=UTF-8"]
     end
 
     it "generates proper links to the admin dashboard" do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
-      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should include("<a href=\"http://#{CONFIG[:hostname]}/admin/alerts\">Go to admin dashboard</a>")
     end
   end
@@ -145,13 +145,13 @@ describe Report do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
       mail.body.parts.length.should == 2
-      mail.body.parts.collect(&:content_type).should == ["text/plain; charset=UTF-8","text/html; charset=UTF-8"]
+      mail.body.parts.collect(&:content_type).should == ["text/plain; charset=UTF-8", "text/html; charset=UTF-8"]
     end
 
     it "generates proper links to the admin dashboard" do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
-      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should include("<a href=\"http://#{CONFIG[:hostname]}/admin/alerts?class=SourceNotUpdatedError\">Go to admin dashboard</a>")
     end
   end

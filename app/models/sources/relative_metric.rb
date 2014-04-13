@@ -19,7 +19,7 @@ class RelativeMetric < Source
   def get_data(article, options={})
 
     # Check that article has DOI
-    return { :events => [], :event_count => nil } if article.doi.blank?
+    return { events: [], event_count: nil } if article.doi.blank?
 
     if article.is_publisher?
 
@@ -47,7 +47,7 @@ class RelativeMetric < Source
           :event_metrics => event_metrics }
       end
     else
-      { :events => [], :event_count => nil }
+      { events: [], event_count: nil }
     end
   end
 

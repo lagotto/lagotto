@@ -22,7 +22,7 @@ class Copernicus < Source
 
   def get_data(article, options={})
 
-    return  { :events => [], :event_count => nil } unless article.doi =~ /^10.5194/
+    return  events: [], event_count: nil unless article.doi =~ /^10.5194/
 
     query_url = get_query_url(article)
     result = get_json(query_url, options.merge(:username => username, :password => password))
@@ -30,7 +30,7 @@ class Copernicus < Source
     if result.nil?
       nil
     elsif result.empty? || !result["counter"]
-      { :events => [], :event_count => nil }
+      { events: [], event_count: nil }
     else
       if result["counter"].values.all? { |x| x.nil? }
         event_count = nil

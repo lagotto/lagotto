@@ -7,7 +7,7 @@ describe TwitterSearch do
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    twitter_search.get_data(article).should eq({ :events => [], :event_count => nil })
+    twitter_search.get_data(article).should eq(events: [], event_count: nil)
   end
 
   it "should set the since_id for an article" do
@@ -48,7 +48,7 @@ describe TwitterSearch do
     it "should report if there are no events and event_count returned by the twitter_search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000000")
       stub = stub_request(:get, twitter_search.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8'), :status => 200)
-      twitter_search.get_data(article).should eq({:events=>[], :event_count=>0, :events_url=>"https://twitter.com/search?q=#{article.doi_escaped}", :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0}})
+      twitter_search.get_data(article).should eq(events: [], event_count: 0, events_url: "https://twitter.com/search?q=#{article.doi_escaped}", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 })
       stub.should have_been_requested
     end
 

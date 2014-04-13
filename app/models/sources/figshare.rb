@@ -22,7 +22,7 @@ class Figshare < Source
 
   def get_data(article, options={})
 
-    return  { :events => [], :event_count => nil } unless article.doi[0..6] == CONFIG[:doi_prefix].to_s
+    return  events: [], event_count: nil unless article.doi[0..6] == CONFIG[:doi_prefix].to_s
 
     query_url = get_query_url(article)
     options[:source_id] = id
@@ -31,7 +31,7 @@ class Figshare < Source
     if result.nil?
       nil
     elsif result.empty? || result["items"].empty?
-      { :events => [], :event_count => nil }
+      { events: [], event_count: nil }
     else
       views = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["page_views"].to_i }
       downloads = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["downloads"].to_i }

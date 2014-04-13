@@ -58,7 +58,7 @@ class Counter < Source
   def get_data(article, options={})
 
     # Check that article has DOI
-    return { :events => [], :event_count => nil } if article.doi.blank?
+    return events: [], event_count: nil if article.doi.blank?
 
     query_url = get_query_url(article)
     result = get_xml(query_url, options)

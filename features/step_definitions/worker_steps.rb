@@ -4,7 +4,7 @@ Given /^jobs are being dispatched$/ do
 end
 
 Given /^we have (\d+) workers?$/ do |number|
-  # TODO take number argument
+  # TODO: take number argument
   Delayed::Worker.new.work_off
 end
 

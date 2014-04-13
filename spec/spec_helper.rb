@@ -23,7 +23,7 @@ SafeYAML::OPTIONS[:default_mode] = :safe
 include WebMock::API
 WebMock.disable_net_connect!(:allow => [/localhost/, /127.0.0.1/, /codeclimate.com/])
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 def app
   Rails.application

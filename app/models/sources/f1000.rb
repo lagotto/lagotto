@@ -29,7 +29,7 @@ class F1000 < Source
   def get_data(article, options={})
 
     # Check that article has DOI
-    return  { :events => [], :event_count => nil } if article.doi.blank?
+    return  events: [], event_count: nil if article.doi.blank?
 
     # Check that XML from f1000 feed exists and isn't older than a day, otherwise an error must have occured
     return nil unless check_file

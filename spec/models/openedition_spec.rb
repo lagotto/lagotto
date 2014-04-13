@@ -5,14 +5,14 @@ describe Openedition do
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    openedition.get_data(article).should eq({ :events => [], :event_count => nil })
+    openedition.get_data(article).should eq(events: [], event_count: nil)
   end
 
   context "use the Openedition API" do
     it "should report if there are no events and event_count returned by the Openedition API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, openedition.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'openedition_nil.xml'), :status => 200)
-      openedition.get_data(article).should eq({:events=>[], :events_url=>"http://search.openedition.org/index.php?op%5B%5D=AND&q%5B%5D=#{article.doi_escaped}&field%5B%5D=All&pf=Hypotheses.org", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, :attachment=>nil})
+      openedition.get_data(article).should eq(events: [], events_url: "http://search.openedition.org/index.php?op%5B%5D=AND&q%5B%5D=#{article.doi_escaped}&field%5B%5D=All&pf=Hypotheses.org", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0}, attachment: nil)
       stub.should have_been_requested
     end
 

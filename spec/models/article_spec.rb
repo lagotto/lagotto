@@ -70,31 +70,20 @@ describe Article do
 
   it "events count" do
     Article.all.each do |article|
-      total = 0
-      article.retrieval_statuses.each do |rs|
-        total += rs.event_count
-      end
-      assert(total == article.events_count)
+      total = article.retrieval_statuses.inject(0) { |sum, rs| sum += rs.event_count }
+      total.should == article.events_count
     end
   end
 
   it "cited_retrievals_count" do
     Article.all.each do |article|
-      total = 0
-      article.retrieval_statuses.each do |rs|
-        if rs.event_count > 0
-          total += 1
-        end
-      end
-      assert(total == article.cited_retrievals_count)
+      total = article.retrieval_statuses.inject(0) { |sum, rs| sum += 1 if rs.event_count > 0 }
+      total.should == article.cited_retrievals_count
     end
   end
 
   it "is cited" do
-    articles = Article.is_cited
-    articles.each do |article|
-      assert(article.events_count > 0)
-    end
+    Article.is_cited.all? { |article| article.events_count > 0 }.should be_true
   end
 
   it "order by published_on" do
@@ -106,9 +95,9 @@ describe Article do
     end
   end
 
-  it "should get the all_urls" do
+  it "should get all_urls" do
     article = FactoryGirl.build(:article, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
-    article.all_urls.should eq([article.doi_as_url,article.canonical_url])
+    article.all_urls.should eq([article.doi_as_url, article.canonical_url])
   end
 
   context "associations" do
@@ -121,7 +110,7 @@ describe Article do
     it "should delete associated retrieval_statuses" do
       @articles = FactoryGirl.create_list(:article_with_events, 2)
       RetrievalStatus.count.should == 2
-      @articles.each {|article| article.destroy }
+      @articles.each { |article| article.destroy }
       RetrievalStatus.count.should == 0
     end
 
@@ -134,7 +123,7 @@ describe Article do
     it "should delete associated retrieval_histories" do
       @articles = FactoryGirl.create_list(:article_with_events, 2)
       RetrievalHistory.count.should == 2
-      @articles.each {|article| article.destroy }
+      @articles.each { |article| article.destroy }
       RetrievalHistory.count.should == 0
     end
   end

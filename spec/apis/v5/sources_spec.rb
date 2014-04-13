@@ -13,7 +13,7 @@ describe "/api/v5/sources" do
       end
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -30,7 +30,7 @@ describe "/api/v5/sources" do
       end
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -49,7 +49,7 @@ describe "/api/v5/sources" do
       end
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -74,7 +74,7 @@ describe "/api/v5/sources" do
       let(:uri) { "/api/v5/sources/#{source.name}?api_key=#{user.authentication_token}" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)

@@ -33,9 +33,9 @@ class PubMed < Source
     # Get it if we don't have it, and proceed only if we do.
     # We need a DOI to fetch the PMID
     if article.pmid.blank?
-      return  { :events => [], :event_count => nil } if article.doi.blank?
+      return  events: [], event_count: nil if article.doi.blank?
       article.pmid = get_pmid_from_doi(article.doi, options)
-      return  { :events => [], :event_count => nil } if article.pmid.blank?
+      return  events: [], event_count: nil if article.pmid.blank?
     end
 
     # Also get the PMCID, but wait until one month after publication

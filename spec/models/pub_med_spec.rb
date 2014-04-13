@@ -5,7 +5,7 @@ describe PubMed do
 
   it "should report that there are no events if the doi and pmid are missing" do
     article = FactoryGirl.build(:article, :doi => "", :pmid => "")
-    pub_med.get_data(article).should eq({ :events => [], :event_count => nil })
+    pub_med.get_data(article).should eq(events: [], event_count: nil)
   end
 
   context "use the PubMed API" do
@@ -16,7 +16,7 @@ describe PubMed do
         stub_pmid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article.doi}&field=DOI&db=pubmed&tool=#{PubMed::TOOL_ID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmid_nil.xml'), :status => 200)
         stub_pmcid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article.doi}&field=DOI&db=pmc&tool=#{PubMed::TOOL_ID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmcid_nil.xml'), :status => 200)
         stub = stub_request(:get, pub_med.get_query_url(article)).to_return(:body => File.read(fixture_path + 'pub_med_nil.xml'), :status => 200)
-        pub_med.get_data(article).should eq({ :events => [], :event_count => 0, :events_url=>"http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631", :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, :attachment=>nil })
+        pub_med.get_data(article).should eq(events: [], event_count: 0, events_url: "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0}, attachment: nil)
         stub.should have_been_requested
         stub_pmcid_lookup.should_not have_been_requested
       end
@@ -26,7 +26,7 @@ describe PubMed do
         stub_pmid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article_without_events.doi}&field=DOI&db=pubmed&tool=#{PubMed::TOOL_ID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmid_nil.xml'), :status => 200)
         stub_pmcid_lookup = stub_request(:get, PubMed::EUTILS_URL + "term=#{article_without_events.doi}&field=DOI&db=pmc&tool=#{PubMed::TOOL_ID}").to_return(:body => File.read(fixture_path + 'pub_med_esearch_pmcid_nil.xml'), :status => 200)
         stub = stub_request(:get, pub_med.get_query_url(article_without_events)).to_return(:body => File.read(fixture_path + 'pub_med_nil.xml'), :status => 200)
-        pub_med.get_data(article_without_events).should eq({ :events => [], :event_count => 0, :events_url=>"http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=1897483599", :event_metrics => {:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, :attachment=>nil })
+        pub_med.get_data(article_without_events).should eq(events: [], event_count: 0, events_url: "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=1897483599", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0}, attachment: nil)
         stub.should have_been_requested
       end
     end

@@ -5,7 +5,7 @@ describe Facebook do
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    facebook.get_data(article).should eq({ :events => [], :event_count => nil })
+    facebook.get_data(article).should eq(events: [], event_count: nil)
   end
 
   context "lookup canonical URL" do

@@ -67,7 +67,7 @@ describe RetrievalStatus do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
     let(:citeulike) { FactoryGirl.create(:citeulike) }
     let(:rs_id) { "#{retrieval_status.source.name}:#{retrieval_status.article.doi_escaped}" }
-    let(:error) {{ "error" => "not_found", "reason" => "deleted" }}
+    let(:error) { { "error" => "not_found", "reason" => "deleted" } }
 
     subject { SourceJob.new([retrieval_status.id], citeulike.id) }
 

@@ -11,7 +11,7 @@ describe SourceHelper do
 
   context "HTTP" do
     let(:article) { FactoryGirl.create(:article_with_events) }
-    let(:url) { "http://127.0.0.1/api/v3/articles/info:doi/#{article.doi}"}
+    let(:url) { "http://127.0.0.1/api/v3/articles/info:doi/#{article.doi}" }
     let(:data) { { "name" => "Fred" } }
     let(:post_data) { { "name" => "Jack" } }
 

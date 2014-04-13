@@ -5,7 +5,7 @@ describe ArticleCoverage do
 
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
-    article_coverage.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
+    article_coverage.get_data(article_without_doi).should eq(events: [], event_count: nil)
   end
 
   context "use the Article Coverage API" do
@@ -15,7 +15,7 @@ describe ArticleCoverage do
         article_without_events = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
         stub = stub_request(:get, article_coverage.get_query_url(article_without_events))
         .to_return(:headers => {"Content-Type" => "application/json"}, :body => {"error" => "Article not found"}.to_json, :status => 404)
-        article_coverage.get_data(article_without_events).should eq({ :events => [], :event_count => 0 })
+        article_coverage.get_data(article_without_events).should eq(events: [], event_count: 0)
         stub.should have_been_requested
       end
 
@@ -23,7 +23,7 @@ describe ArticleCoverage do
         article_without_events = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008775")
         stub = stub_request(:get, article_coverage.get_query_url(article_without_events))
           .to_return(:headers => {"Content-Type" => "application/json"}, :body => File.read(fixture_path + 'article_coverage_curated_nil.json'), :status => 200)
-        article_coverage.get_data(article_without_events).should eq({ :events => [], :event_count => 0 })
+        article_coverage.get_data(article_without_events).should eq(events: [], event_count: 0)
         stub.should have_been_requested
       end
     end

@@ -5,7 +5,7 @@ describe F1000 do
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    f1000.get_data(article).should eq({ :events => [], :event_count => nil })
+    f1000.get_data(article).should eq(events: [], event_count: nil)
   end
 
   context "use the F1000 feed" do
@@ -16,7 +16,7 @@ describe F1000 do
 
     it "should report if there are no events and event_count returned by the F1000 feed" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
-      f1000.get_data(article).should eq({ :events => [], :event_count => 0 })
+      f1000.get_data(article).should eq(events: [], event_count: 0)
     end
 
     it "should report if there are events and event_count returned by the F1000 feed" do

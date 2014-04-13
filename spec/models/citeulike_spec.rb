@@ -5,7 +5,7 @@ describe Citeulike do
 
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
-    citeulike.get_data(article_without_doi).should eq({ :events => [], :event_count => nil })
+    citeulike.get_data(article_without_doi).should eq(events: [], event_count: nil)
   end
 
   context "use the CiteULike API" do
@@ -13,7 +13,7 @@ describe Citeulike do
       article_without_events = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'citeulike_nil.xml')
       stub = stub_request(:get, citeulike.get_query_url(article_without_events)).to_return(:body => body, :status => 404)
-      citeulike.get_data(article_without_events).should eq({ :events => [], :events_url => citeulike.get_events_url(article_without_events), :event_count => 0, :event_metrics => { :pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 }, :attachment => nil })
+      citeulike.get_data(article_without_events).should eq(events: [], events_url: citeulike.get_events_url(article_without_events), event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 }, attachment: nil)
       stub.should have_been_requested
     end
 
@@ -35,7 +35,7 @@ describe Citeulike do
     it "should catch errors with the CiteULike API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, citeulike.get_query_url(article)).to_return(:status => [408])
-      citeulike.get_data(article, options = { :source_id => citeulike.id }).should be_nil
+      citeulike.get_data(article, source_id: citeulike.id).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

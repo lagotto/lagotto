@@ -8,14 +8,11 @@ describe "/api/v5/articles" do
 
     context "more than 50 articles in query" do
       let(:articles) { FactoryGirl.create_list(:article_with_events, 55) }
-
-      before(:each) do
-        article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
-        @uri = "/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}"
-      end
+      let(:article_list) { articles.collect { |article| "#{article.doi_escaped}" }.join(",") }
+      let(:uri) { "/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}" }
 
       it "JSON" do
-        get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -30,10 +27,10 @@ describe "/api/v5/articles" do
 
     context "summary information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&type=doi&info=summary&api_key=#{api_key}"}
+      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&type=doi&info=summary&api_key=#{api_key}" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -47,10 +44,10 @@ describe "/api/v5/articles" do
 
     context "detail information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&info=detail&api_key=#{api_key}"}
+      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&info=detail&api_key=#{api_key}" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)

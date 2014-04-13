@@ -23,7 +23,7 @@ class Datacite < Source
   def get_data(article, options={})
 
     # Check that article has DOI
-    return  { :events => [], :event_count => nil } if article.doi.blank?
+    return  events: [], event_count: nil if article.doi.blank?
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
@@ -31,7 +31,7 @@ class Datacite < Source
     if result.nil?
       nil
     elsif result.empty? || !result["response"]
-      { :events => [], :event_count => nil }
+      { events: [], event_count: nil }
     else
       event_count = result["response"]["numFound"]
       events = result["response"]["docs"].nil? ? [] : result["response"]["docs"].map { |event| { event: event, event_url: "http://doi.org/#{event['doi']}" } }

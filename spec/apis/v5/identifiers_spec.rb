@@ -7,11 +7,11 @@ describe "/api/v5/articles" do
 
   context "missing api_key" do
     let(:article) { FactoryGirl.create(:article_with_events) }
-    let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}"}
-    let(:missing_key) {{ "total" => 0, "total_pages" => 0, "page" => 0, "error" => "Missing or wrong API key.", "data" => [] }}
+    let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}" }
+    let(:missing_key) { { "total" => 0, "total_pages" => 0, "page" => 0, "error" => "Missing or wrong API key.", "data" => [] } }
 
     it "JSON" do
-      get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+      get uri, nil, 'HTTP_ACCEPT' => 'application/json'
       last_response.status.should eql(401)
       last_response.body.should eq(missing_key.to_json)
       Alert.count.should == 1
@@ -46,7 +46,7 @@ describe "/api/v5/articles" do
       end
 
       it "JSON" do
-        get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -67,7 +67,7 @@ describe "/api/v5/articles" do
 
 
       it "JSON" do
-        get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -87,7 +87,7 @@ describe "/api/v5/articles" do
 
 
       it "JSON" do
-        get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -107,7 +107,7 @@ describe "/api/v5/articles" do
 
 
       it "JSON" do
-        get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -126,7 +126,7 @@ describe "/api/v5/articles" do
       end
 
       it "JSON" do
-        get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
         response = JSON.parse(last_response.body)
         last_response.status.should == 200
 
@@ -140,11 +140,11 @@ describe "/api/v5/articles" do
     end
 
     context "no records found" do
-      let(:uri) { "/api/v5/articles?ids=xxx&info=summary&api_key=#{api_key}"}
-      let(:nothing_found) {{ "total" => 0, "total_pages" => 0, "page" => 0, "error" => nil, "data" => [] }}
+      let(:uri) { "/api/v5/articles?ids=xxx&info=summary&api_key=#{api_key}" }
+      let(:nothing_found) { { "total" => 0, "total_pages" => 0, "page" => 0, "error" => nil, "data" => [] } }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
         last_response.body.should eq(nothing_found.to_json)
       end

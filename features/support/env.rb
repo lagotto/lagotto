@@ -32,12 +32,10 @@ WebMock.disable_net_connect!(:allow => [/localhost/, /127.0.0.1/, /codeclimate.c
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, {
-    :timeout => 120,
-    :js_errors => true,
-    :debug => false,
-    :inspector => true
-  })
+  Capybara::Poltergeist::Driver.new(app, :timeout => 120,
+                                         :js_errors => true,
+                                         :debug => false,
+                                         :inspector => true)
 end
 Capybara.javascript_driver = :poltergeist
 
