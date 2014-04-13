@@ -23,6 +23,9 @@ require 'zip'
 
 class Report < ActiveRecord::Base
 
+  # include HTTP request helpers
+  include Networkable
+
   has_and_belongs_to_many :users
 
   serialize :config, OpenStruct

@@ -20,7 +20,6 @@ require 'webmock/cucumber'
 
 SafeYAML::OPTIONS[:default_mode] = :safe
 
-World(SourceHelper)
 World(FactoryGirl::Syntax::Methods)
 
 # Allow connections to localhost and code climate code coverage tool

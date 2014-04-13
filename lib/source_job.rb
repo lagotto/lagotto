@@ -18,12 +18,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'source_helper'
 require 'custom_error'
 require 'timeout'
 
 class SourceJob < Struct.new(:rs_ids, :source_id)
-  include SourceHelper
+  # include HTTP request helpers
+  include Networkable
+
+  # include CouchDB helpers
+  include Couchable
+
   include CustomError
 
   def enqueue(job)

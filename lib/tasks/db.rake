@@ -40,7 +40,7 @@ namespace :db do
           year, month, day = date_parts[0], date_parts[1], date_parts[2]
         end
         title = raw_title.strip if raw_title
-        if (doi =~ Article::FORMAT) and !year.nil? and !title.nil?
+        if (doi =~ DOI_FORMAT) and !year.nil? and !title.nil?
           valid << [doi, year, month, day, title]
         else
           puts "Ignoring DOI: #{raw_doi}, #{raw_published_on}, #{raw_title}"
@@ -100,7 +100,7 @@ namespace :db do
         raw_doi, raw_other = line.strip.split(" ", 2)
 
         doi = Article.from_uri(raw_doi.strip).values.first
-        if (doi =~ Article::FORMAT)
+        if (doi =~ DOI_FORMAT)
           valid << [doi]
         else
           puts "Ignoring DOI: #{raw_doi}"

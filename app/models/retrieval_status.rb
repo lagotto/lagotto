@@ -18,6 +18,12 @@
 
 class RetrievalStatus < ActiveRecord::Base
 
+  # include HTTP request helpers
+  include Networkable
+
+  # include CouchDB helpers
+  include Couchable
+
   belongs_to :article, :touch => true
   belongs_to :source
   has_many :retrieval_histories, :dependent => :destroy

@@ -25,9 +25,11 @@ require "builder"
 class Article < ActiveRecord::Base
   strip_attributes
 
-  # Format used for DOI validation - we want to store DOIs without
-  # the leading "info:doi/"
-  FORMAT = %r(^\d+\.[^/]+/[^/]+)
+  # include HTTP request helpers
+  include Networkable
+
+  # include helper module for DOI resolution
+  include Resolvable
 
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
@@ -36,7 +38,7 @@ class Article < ActiveRecord::Base
   has_many :api_responses
 
   validates :uid, :title, :year, :presence => true
-  validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true
+  validates :doi, :uniqueness => true , :format => { :with => DOI_FORMAT }, :allow_nil => true
   validates :year, :numericality => { :only_integer => true }, :inclusion => { :in => 1660..(Time.zone.now.year + 1), :message => "should be between 1660 and #{Time.zone.now.year + 1}" }
   validate :validate_published_on
 

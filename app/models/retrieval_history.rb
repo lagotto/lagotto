@@ -20,6 +20,12 @@
 
 class RetrievalHistory < ActiveRecord::Base
 
+  # include HTTP request helpers
+  include Networkable
+
+  # include CouchDB helpers
+  include Couchable
+
   belongs_to :retrieval_status
   belongs_to :article
   belongs_to :source

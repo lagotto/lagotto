@@ -31,6 +31,12 @@ class Source < ActiveRecord::Base
   # include methods for calculating metrics
   include Measurable
 
+  # include HTTP request helpers
+  include Networkable
+
+  # include CouchDB helpers
+  include Couchable
+
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses

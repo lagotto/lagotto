@@ -17,7 +17,9 @@
 # limitations under the License.
 
 require 'mysql2'
-require 'source_helper'
+
+# include HTTP request helpers
+include Networkable
 
 task :migrate_data, [:old_db] => :environment do |t, args|
 
@@ -185,7 +187,6 @@ task :migrate_data, [:old_db] => :environment do |t, args|
 end
 
 task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, args|
-  include SourceHelper
 
   # get database connection information
   db_config = YAML.load_file("#{Rails.root}/config/database.yml")[Rails.env]
@@ -387,7 +388,6 @@ task :migrate_retrieval_data, [:source_name, :old_db] => :environment do |t, arg
 end
 
 task :migrate_retrieval_data_with_count, [:source_name, :old_db] => :environment do |t, args|
-  include SourceHelper
 
   # get database connection information
   db_config = YAML.load_file("#{Rails.root}/config/database.yml")[Rails.env]

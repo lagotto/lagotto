@@ -18,6 +18,9 @@
 
 class User < ActiveRecord::Base
 
+  # include HTTP request helpers
+  include Networkable
+
   has_and_belongs_to_many :reports
 
   before_save :ensure_authentication_token
