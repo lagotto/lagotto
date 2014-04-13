@@ -22,34 +22,31 @@ class Copernicus < Source
 
   def get_data(article, options={})
 
-    return  events: [], event_count: nil unless article.doi =~ /^10.5194/
+    return { events: [], event_count: nil } unless article.doi =~ /^10.5194/
 
     query_url = get_query_url(article)
     result = get_json(query_url, options.merge(:username => username, :password => password))
 
-    if result.nil?
-      nil
-    elsif result.empty? || !result["counter"]
-      { events: [], event_count: nil }
-    else
-      if result["counter"].values.all? { |x| x.nil? }
-        event_count = nil
-      else
-        event_count = result["counter"].values.inject(0) { |sum, x| sum + (x ? x : 0) }
-      end
-      event_metrics = { :pdf => result["counter"]["PdfDownloads"],
-                        :html => result["counter"]["AbstractViews"],
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => nil,
-                        :total => event_count }
+    return nil if result.nil?
+    return { events: [], event_count: nil } if result.empty? || !result["counter"]
 
-      { :events => result,
-        :event_count => event_count,
-        :event_metrics => event_metrics }
+    if result["counter"].values.all? { |x| x.nil? }
+      event_count = nil
+    else
+      event_count = result["counter"].values.inject(0) { |sum, x| sum + (x ? x : 0) }
     end
+    event_metrics = { :pdf => result["counter"]["PdfDownloads"],
+                      :html => result["counter"]["AbstractViews"],
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => nil,
+                      :total => event_count }
+
+    { :events => result,
+      :event_count => event_count,
+      :event_metrics => event_metrics }
   end
 
   def get_query_url(article)

@@ -23,41 +23,40 @@ class Facebook < Source
   def get_data(article, options={})
 
     # Store an empty response if article DOI doesn't resolve to a URL that we can store
-    return  events: [], event_count: nil unless article.get_url
+    return { events: [], event_count: nil } unless article.get_url
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    if result.nil? || result["data"].nil?
-      nil
-    else
-      events = result["data"]
-      # don't trust results if event count is above preset limit
-      # workaround for Facebook getting confused about the canonical URL
-      if events[0]["total_count"] > count_limit.to_i
-        shares = 0
-        comments = 0
-        likes = 0
-        total = 0
-      else
-        shares = events[0]["share_count"]
-        comments = events[0]["comment_count"]
-        likes = events[0]["like_count"]
-        total = events[0]["total_count"]
-      end
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => shares,
-                        :groups => nil,
-                        :comments => comments,
-                        :likes => likes,
-                        :citations => nil,
-                        :total => total }
+    return nil if result.nil? || result["data"].nil?
 
-      { :events => events,
-        :event_count => total,
-        :event_metrics => event_metrics }
+    events = result["data"]
+
+    # don't trust results if event count is above preset limit
+    # workaround for Facebook getting confused about the canonical URL
+    if events[0]["total_count"] > count_limit.to_i
+      shares = 0
+      comments = 0
+      likes = 0
+      total = 0
+    else
+      shares = events[0]["share_count"]
+      comments = events[0]["comment_count"]
+      likes = events[0]["like_count"]
+      total = events[0]["total_count"]
     end
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => shares,
+                      :groups => nil,
+                      :comments => comments,
+                      :likes => likes,
+                      :citations => nil,
+                      :total => total }
+
+    { :events => events,
+      :event_count => total,
+      :event_metrics => event_metrics }
   end
 
   def get_query_url(article, options={})

@@ -22,35 +22,32 @@ class Figshare < Source
 
   def get_data(article, options={})
 
-    return  events: [], event_count: nil unless article.doi[0..6] == CONFIG[:doi_prefix].to_s
+    return { events: [], event_count: nil } unless article.is_publisher?
 
     query_url = get_query_url(article)
     options[:source_id] = id
     result = get_json(query_url, options)
 
-    if result.nil?
-      nil
-    elsif result.empty? || result["items"].empty?
-      { events: [], event_count: nil }
-    else
-      views = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["page_views"].to_i }
-      downloads = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["downloads"].to_i }
-      likes = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["likes"].to_i }
-      total = views + downloads + likes
+    return nil if result.nil?
+    return { events: [], event_count: nil } if result.empty? || result["items"].empty?
 
-      event_metrics = { :pdf => downloads,
-                        :html => views,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => likes,
-                        :citations => nil,
-                        :total => total }
+    views = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["page_views"].to_i }
+    downloads = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["downloads"].to_i }
+    likes = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["likes"].to_i }
+    total = views + downloads + likes
 
-      { :events => result,
-        :event_count => total,
-        :event_metrics => event_metrics }
-    end
+    event_metrics = { :pdf => downloads,
+                      :html => views,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => likes,
+                      :citations => nil,
+                      :total => total }
+
+    { :events => result,
+      :event_count => total,
+      :event_metrics => event_metrics }
   end
 
   def get_query_url(article)

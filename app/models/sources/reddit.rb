@@ -28,28 +28,26 @@ class Reddit < Source
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    if result.nil?
-      nil
-    else
-      events = result["data"]["children"].map { |item| { event: item["data"], event_url: item["data"]['url'] } }
-      events_url = get_events_url(article)
-      like_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["score"] }
-      comment_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["num_comments"] }
-      event_count = like_count + comment_count
-      event_metrics = { pdf: nil,
-                        html: nil,
-                        shares: nil,
-                        groups: nil,
-                        comments: comment_count,
-                        likes: like_count,
-                        citations: nil,
-                        total: event_count }
+    return nil if result.nil?
 
-      { events: events,
-        event_count: event_count,
-        events_url: events_url,
-        event_metrics: event_metrics }
-    end
+    events = result["data"]["children"].map { |item| { event: item["data"], event_url: item["data"]['url'] } }
+    events_url = get_events_url(article)
+    like_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["score"] }
+    comment_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["num_comments"] }
+    event_count = like_count + comment_count
+    event_metrics = { pdf: nil,
+                      html: nil,
+                      shares: nil,
+                      groups: nil,
+                      comments: comment_count,
+                      likes: like_count,
+                      citations: nil,
+                      total: event_count }
+
+    { events: events,
+      event_count: event_count,
+      events_url: events_url,
+      event_metrics: event_metrics }
   end
 
   def get_query_url(article)

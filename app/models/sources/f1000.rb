@@ -29,7 +29,7 @@ class F1000 < Source
   def get_data(article, options={})
 
     # Check that article has DOI
-    return  events: [], event_count: nil if article.doi.blank?
+    return { events: [], event_count: nil } if article.doi.blank?
 
     # Check that XML from f1000 feed exists and isn't older than a day, otherwise an error must have occured
     return nil unless check_file
@@ -37,29 +37,27 @@ class F1000 < Source
     document = Nokogiri::XML(File.open("#{Rails.root}/data/#{filename}"))
     result = document.at_xpath("//Article[Doi='#{article.doi}']")
 
-    if result.nil?
-      # F1000 doesn't know about the article
-      return  { :events => [], :event_count => 0 }
-    else
-      event = result.to_s
-      event = Hash.from_xml(event)
-      event = event["Article"]
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => event["TotalScore"].to_i,
-                        :total => event["TotalScore"].to_i }
+    # F1000 doesn't know about the article
+    return  { :events => [], :event_count => 0 } if result.nil?
 
-      { :events => event,
-        :events_url => event["Url"],
-        :event_count => event["TotalScore"].to_i,
-        :event_metrics => event_metrics,
-        :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }
-      }
-    end
+    event = result.to_s
+    event = Hash.from_xml(event)
+    event = event["Article"]
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => event["TotalScore"].to_i,
+                      :total => event["TotalScore"].to_i }
+
+    { :events => event,
+      :events_url => event["Url"],
+      :event_count => event["TotalScore"].to_i,
+      :event_metrics => event_metrics,
+      :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }
+    }
   end
 
   # Check that f1000 XML feed exists and isn't older than a day, otherwise download feed and save as file

@@ -23,32 +23,29 @@ class Datacite < Source
   def get_data(article, options={})
 
     # Check that article has DOI
-    return  events: [], event_count: nil if article.doi.blank?
+    return { events: [], event_count: nil } if article.doi.blank?
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    if result.nil?
-      nil
-    elsif result.empty? || !result["response"]
-      { events: [], event_count: nil }
-    else
-      event_count = result["response"]["numFound"]
-      events = result["response"]["docs"].nil? ? [] : result["response"]["docs"].map { |event| { event: event, event_url: "http://doi.org/#{event['doi']}" } }
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => event_count,
-                        :total => event_count }
+    return nil if result.nil?
+    return { events: [], event_count: nil } if result.empty? || !result["response"]
 
-      { events: events,
-        events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}",
-        event_count: event_count,
-        event_metrics: event_metrics }
-    end
+    event_count = result["response"]["numFound"]
+    events = result["response"]["docs"].nil? ? [] : result["response"]["docs"].map { |event| { event: event, event_url: "http://doi.org/#{event['doi']}" } }
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => event_count,
+                      :total => event_count }
+
+    { events: events,
+      events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}",
+      event_count: event_count,
+      event_metrics: event_metrics }
   end
 
   def get_config_fields

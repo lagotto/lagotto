@@ -23,7 +23,7 @@ class PmcEurope < Source
   def get_data(article, options={})
 
     # We need to have the PMID for this article, and we let the pub_med source fetch it
-    return  events: [], event_count: nil if article.pmid.blank?
+    return { events: [], event_count: nil } if article.pmid.blank?
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)

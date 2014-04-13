@@ -18,39 +18,31 @@ class RelativeMetric < Source
 
   def get_data(article, options={})
 
-    # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
+    # Check that article has publisher DOI
+    return { events: [], event_count: nil } unless article.is_publisher?
 
-    if article.is_publisher?
+    events = get_relative_metric_data(article)
 
-      events = get_relative_metric_data(article)
+    return nil if events.blank?
 
-      if events.blank?
-        return nil
-      else
-        total = 0
-        events[:subject_areas].each do | subject_area |
-          total += subject_area[:average_usage].reduce(:+)
-        end
-
-        event_metrics = { :pdf => nil,
-                          :html => nil,
-                          :shares => nil,
-                          :groups => nil,
-                          :comments => nil,
-                          :likes => nil,
-                          :citations => nil,
-                          :total => total }
-
-        { :events => events,
-          :event_count => total,
-          :event_metrics => event_metrics }
-      end
-    else
-      { events: [], event_count: nil }
+    total = 0
+    events[:subject_areas].each do | subject_area |
+      total += subject_area[:average_usage].reduce(:+)
     end
-  end
 
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => nil,
+                      :total => total }
+
+    { :events => events,
+      :event_count => total,
+      :event_metrics => event_metrics }
+  end
 
   def get_relative_metric_data(article)
     events = {}

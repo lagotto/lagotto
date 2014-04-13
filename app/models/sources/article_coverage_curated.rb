@@ -22,37 +22,28 @@ class ArticleCoverageCurated < Source
 
   def get_data(article, options={})
 
-    return  events: [], event_count: nil if article.doi.blank?
+    return { events: [], event_count: nil } if article.doi.blank?
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    if result.nil?
-      { events: [], event_count: 0 }
-    else
-      # look for the referrals
-      referrals = result['referrals']
+    return { events: [], event_count: 0 } if result.nil? || result['referrals'].blank?
 
-      if (referrals.blank?)
-        { events: [], event_count: 0 }
-      else
-        events = referrals.map { |item| { event: item, event_url: item['referral'] } }
+    refers = result['referrals']
+    events = referrals.map { |item| { event: item, event_url: item['referral'] } }
 
-        event_metrics = { pdf: nil,
-                          html: nil,
-                          shares: nil,
-                          groups: nil,
-                          comments: events.length,
-                          likes: nil,
-                          citations: nil,
-                          total: events.length }
+    event_metrics = { pdf: nil,
+                      html: nil,
+                      shares: nil,
+                      groups: nil,
+                      comments: events.length,
+                      likes: nil,
+                      citations: nil,
+                      total: events.length }
 
-        { events: events,
-          event_count: events.length,
-          event_metrics: event_metrics }
-      end
-    end
-
+    { events: events,
+      event_count: events.length,
+      event_metrics: event_metrics }
   end
 
   def get_config_fields

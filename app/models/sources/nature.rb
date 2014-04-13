@@ -23,34 +23,32 @@ class Nature < Source
   def get_data(article, options={})
 
     # Check that article has DOI
-    return  events: [], event_count: nil if article.doi.blank?
+    return { events: [], event_count: nil } if article.doi.blank?
 
     query_url = get_query_url(article)
     results = get_json(query_url, options)
 
-    if results.nil?
-      nil
-    else
-      events = results.map do |result|
-        url = result['post']['url']
-        url = "http://#{url}" unless url.start_with?("http://")
+    return nil if results.nil?
 
-        { :event => result['post'], :event_url => url }
-      end
+    events = results.map do |result|
+      url = result['post']['url']
+      url = "http://#{url}" unless url.start_with?("http://")
 
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => events.length,
-                        :total => events.length }
-
-      { :events => events,
-        :event_count => events.length,
-        :event_metrics => event_metrics }
+      { :event => result['post'], :event_url => url }
     end
+
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => nil,
+                      :likes => nil,
+                      :citations => events.length,
+                      :total => events.length }
+
+    { :events => events,
+      :event_count => events.length,
+      :event_metrics => event_metrics }
   end
 
   def get_config_fields

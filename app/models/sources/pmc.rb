@@ -143,7 +143,7 @@ class Pmc < Source
     return nil if result.nil?
 
     # no data for this article
-    return events: [], event_count: nil if !result['views']
+    return { events: [], event_count: nil } if !result['views']
 
     events = result["views"]
 

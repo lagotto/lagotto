@@ -23,7 +23,7 @@ class Wos < Source
   def get_data(article, options = {})
 
     # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
+    return { events: [], event_count: nil } unless article.is_publisher?
 
     data = get_xml_request(article)
 

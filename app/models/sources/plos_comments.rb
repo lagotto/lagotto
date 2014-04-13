@@ -22,33 +22,30 @@ class PlosComments < Source
 
   def get_data(article, options={})
 
-    return  events: [], event_count: nil unless article.doi[0..6] == CONFIG[:doi_prefix].to_s
+    return { events: [], event_count: nil } unless article.is_publisher?
 
     query_url = get_query_url(article)
     options[:source_id] = id
     result = get_json(query_url, options)
 
-    if result.nil?
-      nil
-    elsif !result.kind_of?(Array) || result.empty?
-      { events: [], event_count: nil }
-    else
-      events = result
-      replies = events.inject(0) { |sum, hash| sum + hash["totalNumReplies"].to_i }
-      total = events.length + replies
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => events.length,
-                        :likes => nil,
-                        :citations => nil,
-                        :total => total }
+    return nil if result.nil?
+    return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?
 
-      { :events => events,
-        :event_count => total,
-        :event_metrics => event_metrics }
-    end
+    events = result
+    replies = events.inject(0) { |sum, hash| sum + hash["totalNumReplies"].to_i }
+    total = events.length + replies
+    event_metrics = { :pdf => nil,
+                      :html => nil,
+                      :shares => nil,
+                      :groups => nil,
+                      :comments => events.length,
+                      :likes => nil,
+                      :citations => nil,
+                      :total => total }
+
+    { :events => events,
+      :event_count => total,
+      :event_metrics => event_metrics }
   end
 
   def get_query_url(article)
@@ -60,7 +57,7 @@ class PlosComments < Source
   end
 
   def url
-    config.url || "http://api.plosjournals.org/v1/articles/%{doi}?comments"
+    config.url
   end
 
   def rate_limiting

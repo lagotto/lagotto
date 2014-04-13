@@ -48,47 +48,45 @@ class TwitterSearch < Source
       end
     end while response && max_id
 
-    if response.nil?
-      nil
-    else
-      events = result.map do |event|
-        if event.key?("from_user")
-          user = event["from_user"]
-          user_name = event["from_user_name"]
-          user_profile_image = event["profile_image_url"]
-        else
-          user = event["user"]["screen_name"]
-          user_name = event["user"]["name"]
-          user_profile_image = event["user"]["profile_image_url"]
-        end
+    return nil if response.nil?
 
-        event_data = { id: event["id_str"],
-                       text: event["text"],
-                       created_at: event["created_at"],
-                       user: user,
-                       user_name: user_name,
-                       user_profile_image: user_profile_image }
-
-        { :event => event_data,
-          :event_url => "http://twitter.com/#{user}/status/#{event["id_str"]}" }
+    events = result.map do |event|
+      if event.key?("from_user")
+        user = event["from_user"]
+        user_name = event["from_user_name"]
+        user_profile_image = event["profile_image_url"]
+      else
+        user = event["user"]["screen_name"]
+        user_name = event["user"]["name"]
+        user_profile_image = event["user"]["profile_image_url"]
       end
-      events_url = get_events_url(article)
-      event_metrics = { pdf: nil,
-                        html: nil,
-                        shares: nil,
-                        groups: nil,
-                        comments: events.length,
-                        likes: nil,
-                        citations: nil,
-                        total: events.length }
 
-      set_since_id(article, since_id: since_id)
+      event_data = { id: event["id_str"],
+                     text: event["text"],
+                     created_at: event["created_at"],
+                     user: user,
+                     user_name: user_name,
+                     user_profile_image: user_profile_image }
 
-      { events: events,
-        event_count: events.length,
-        events_url: events_url,
-        event_metrics: event_metrics }
+      { :event => event_data,
+        :event_url => "http://twitter.com/#{user}/status/#{event["id_str"]}" }
     end
+    events_url = get_events_url(article)
+    event_metrics = { pdf: nil,
+                      html: nil,
+                      shares: nil,
+                      groups: nil,
+                      comments: events.length,
+                      likes: nil,
+                      citations: nil,
+                      total: events.length }
+
+    set_since_id(article, since_id: since_id)
+
+    { events: events,
+      event_count: events.length,
+      events_url: events_url,
+      event_metrics: event_metrics }
   end
 
   def get_query_url(article, options={})

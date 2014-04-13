@@ -42,7 +42,7 @@ class Mendeley < Source
     # We then need to have the Mendeley uuid for this article.
     # The Mendeley uuid is not persistent, so we need to get it every time
     mendeley_uuid = get_mendeley_uuid(article, options)
-    return  events: [], event_count: nil if mendeley_uuid.blank?
+    return { events: [], event_count: nil } if mendeley_uuid.blank?
 
     article.update_attributes(:mendeley_uuid => mendeley_uuid)
 
@@ -59,7 +59,7 @@ class Mendeley < Source
     return nil if result.blank?
 
     # empty array or incomplete hash
-    return  events: [], event_count: nil if !result['mendeley_url']
+    return { events: [], event_count: nil } if !result['mendeley_url']
 
     # remove "mendeley_authors" key, as it is not needed and creates problems in XML: "mendeley_authors" => {"4712245473"=>5860673}
     result.except!("mendeley_authors")

@@ -23,7 +23,7 @@ class Scopus < Source
   def get_data(article, options={})
 
     # Check that article has DOI
-    return events: [], event_count: nil if article.doi.blank?
+    return { events: [], event_count: nil } unless article.is_publisher?
 
     query_url = get_query_url(article)
     result = get_json(query_url, options.merge(:headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken }))
