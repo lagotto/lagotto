@@ -27,11 +27,13 @@ Feature: View admin dashboard
       When I go to the "Home" admin page
       Then I should see that the CouchDB size is "2.6 kB"
 
+    @not_teamcity
     Scenario: Worker info
       Given we have 1 worker
       When I go to the "Home" admin page
       Then I should see that we have 1 worker
 
+    @not_teamcity
     Scenario: Worker tab
       Given we have 1 worker
       When I go to the "Home" admin page

@@ -1,4 +1,4 @@
-@javascript @delayed
+@javascript @delayed @not_teamcity
 Feature: Background workers
   In order to understand the status of the application
   An admin user
