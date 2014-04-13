@@ -75,7 +75,7 @@ class RetrievalStatusDecorator < Draper::Decorator
           { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
         end
       when "mendeley"
-        { :pdf => nil, :html => nil, :shares => (events.blank? ? nil : events['stats']['readers']), :groups => (events.blank? or events['groups'].nil? ? nil : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+        { :pdf => nil, :html => nil, :shares => (events.blank? ? nil : events['stats']['readers']), :groups => (events.blank? || events['groups'].nil? ? nil : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "counter"
         { :pdf => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i }), :html => (events.blank? ? nil : events.inject(0) { |sum, hash| sum + hash[:html_views].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
       when "biod"

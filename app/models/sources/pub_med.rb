@@ -96,7 +96,7 @@ class PubMed < Source
     return nil if result.blank?
 
     id_element = result.at_xpath("//eSearchResult/IdList/Id")
-    id_element and id_element.content.strip
+    id_element && id_element.content.strip
   end
 
   def get_pmcid_from_doi(doi, options={})
@@ -113,7 +113,7 @@ class PubMed < Source
     return nil if result.blank?
 
     id_element = result.at_xpath("//eSearchResult/IdList/Id")
-    id_element and id_element.content.strip
+    id_element && id_element.content.strip
   end
 
   def get_summary_from_pubmed(pubmed_ids, options={})

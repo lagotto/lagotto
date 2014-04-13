@@ -66,7 +66,7 @@ class F1000 < Source
   # Returns nil if an error occured
   def check_file
     file = "#{Rails.root}/data/#{filename}"
-    if File.exists?(file) and File.file?(file) and File.mtime(file) > 1.day.ago
+    if File.exists?(file) && File.file?(file) && File.mtime(file) > 1.day.ago
       return filename
     else
       return get_feed

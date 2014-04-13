@@ -116,7 +116,7 @@ class CrossrefImport
               created_count += 1
               Rails.logger.debug "CrossRef-API created #{doi}"
             else
-              if (!issued_on.nil? && existing.published_on != issued_on) or (!title.blank? && existing.title != title)
+              if (!issued_on.nil? && existing.published_on != issued_on) || (!title.blank? && existing.title != title)
                 existing.published_on = issued_on unless issued_on.nil?
                 existing.title = title unless title.blank?
                 existing.save!
@@ -327,7 +327,7 @@ class CrossrefImport
               created_count += 1
               output_file.write("created\t" + line)
             else
-              if existing.published_on != published_on or existing.title != title
+              if existing.published_on != published_on || existing.title != title
                 existing.published_on = published_on
                 existing.title = title
                 existing.save!

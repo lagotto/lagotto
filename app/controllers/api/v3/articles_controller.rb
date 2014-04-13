@@ -53,7 +53,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
 
   # Filter by source parameter, filter out private sources unless admin
   def get_source_ids(source_names)
-    if source_names and current_user.try(:admin_or_staff?)
+    if source_names && current_user.try(:admin_or_staff?)
       source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
     elsif source_names
       source_ids = Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)

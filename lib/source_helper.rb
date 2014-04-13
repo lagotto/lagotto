@@ -206,7 +206,7 @@ module SourceHelper
     path = URI.split(url)[5]
 
     # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
-    if body_url.present? and ![url, path].include?(body_url)
+    if body_url.present? && ![url, path].include?(body_url)
       raise Faraday::Error::ClientError, "Canonical URL mismatch: #{body_url}"
     end
 

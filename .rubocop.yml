@@ -8,7 +8,7 @@ AccessorMethodName:
 
 Alias:
   Description: 'Use alias_method instead of alias.'
-  Enabled: false
+  Enabled: true
 
 AlignArray:
   Description: >-
@@ -30,7 +30,7 @@ AlignParameters:
 
 AndOr:
   Description: 'Use &&/|| instead of and/or.'
-  Enabled: false
+  Enabled: true
 
 ArrayJoin:
   Description: 'Use Array#join instead of Array#*.'
@@ -664,18 +664,6 @@ SpaceBeforeFirstArg:
 
 StringConversionInInterpolation:
   Description: 'Checks for Object#to_s usage in string interpolation.'
-  Enabled: false
-
-UnderscorePrefixedVariableName:
-  Description: 'Do not use prefix `_` for a variable that is used.'
-  Enabled: false
-
-UnusedBlockArgument:
-  Description: 'Checks for unused block arguments.'
-  Enabled: false
-
-UnusedMethodArgument:
-  Description: 'Checks for unused method arguments.'
   Enabled: false
 
 UnreachableCode:

@@ -48,4 +48,3 @@ class SourcesController < ApplicationController
   end
 
 end
-

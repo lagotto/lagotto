@@ -38,7 +38,7 @@ class Wikipedia < Source
       # if server doesn't return a result
       if results.nil?
         return nil
-      elsif !results.empty? and results['query'] and results['query']['searchinfo'] and results['query']['searchinfo']['totalhits']
+      elsif !results.empty? && results['query'] && results['query']['searchinfo'] && results['query']['searchinfo']['totalhits']
         lang_count = results['query']['searchinfo']['totalhits']
       else
         # Not Found

@@ -30,7 +30,7 @@ class Datacite < Source
 
     if result.nil?
       nil
-    elsif result.empty? or !result["response"]
+    elsif result.empty? || !result["response"]
       { :events => [], :event_count => nil }
     else
       event_count = result["response"]["numFound"]

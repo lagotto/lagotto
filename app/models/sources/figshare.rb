@@ -30,7 +30,7 @@ class Figshare < Source
 
     if result.nil?
       nil
-    elsif result.empty? or result["items"].empty?
+    elsif result.empty? || result["items"].empty?
       { :events => [], :event_count => nil }
     else
       views = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["page_views"].to_i }

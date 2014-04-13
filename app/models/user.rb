@@ -111,7 +111,7 @@ class User < ActiveRecord::Base
   def set_first_user
     # The first user we create has an admin role and uses the configuration API key
     # unless it is in the test environment
-    if (User.count == 1 and !Rails.env.test?)
+    if (User.count == 1 && !Rails.env.test?)
       self.update_attributes(role: "admin", authentication_token: CONFIG[:api_key])
     end
   end

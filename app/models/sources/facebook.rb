@@ -28,7 +28,7 @@ class Facebook < Source
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    if result.nil? or result["data"].nil?
+    if result.nil? || result["data"].nil?
       nil
     else
       events = result["data"]

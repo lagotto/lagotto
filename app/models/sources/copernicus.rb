@@ -29,7 +29,7 @@ class Copernicus < Source
 
     if result.nil?
       nil
-    elsif result.empty? or !result["counter"]
+    elsif result.empty? || !result["counter"]
       { :events => [], :event_count => nil }
     else
       if result["counter"].values.all? { |x| x.nil? }
