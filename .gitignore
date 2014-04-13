@@ -43,3 +43,4 @@ config.json
 .idea/*
 erl_crash.dump
 optimise-db.txt
+doc/dependencies*
