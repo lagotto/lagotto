@@ -11,37 +11,37 @@ Given /^there is an article with the DOI "(.*?)"$/ do |doi|
   FactoryGirl.create(:article_with_events, :doi => doi)
 end
 
-Given /^we have (\d+) articles$/ do |number|
+Given /^that we have (\d+) articles$/ do |number|
   FactoryGirl.create_list(:article_with_events, number.to_i)
 end
 
-Given /^we have (\d+) recent articles$/ do |number|
+Given /^that we have (\d+) recent articles$/ do |number|
   FactoryGirl.create_list(:article_for_feed, number.to_i)
 end
 
-Given /^we have (\d+) stale articles? for "(.*?)"$/ do |number, name|
+Given /^that we have (\d+) stale articles? for "(.*?)"$/ do |number, name|
   FactoryGirl.create_list(:stale_articles, number.to_i)
 end
 
-Given /^we have (\d+) queued articles? for "(.*?)"$/ do |number, name|
+Given /^that we have (\d+) queued articles? for "(.*?)"$/ do |number, name|
   FactoryGirl.create_list(:queued_articles, number.to_i)
 end
 
-Given /^we have (\d+) refreshed articles? for "(.*?)"$/ do |number, name|
+Given /^that we have (\d+) refreshed articles? for "(.*?)"$/ do |number, name|
   FactoryGirl.create_list(:refreshed_articles, number.to_i)
 end
 
-Given /^we have queued all articles for "(.*?)"$/ do |name|
+Given /^that we have queued all articles for "(.*?)"$/ do |name|
   source = Source.find_by_name(name.underscore.downcase)
-  source.queue_all_articles({ stale: false })
+  source.queue_all_articles({ all: true })
 end
 
-Given /^we have queued all stale articles for "(.*?)"$/ do |name|
+Given /^that we have queued all stale articles for "(.*?)"$/ do |name|
   source = Source.find_by_name(name.underscore.downcase)
   source.queue_all_articles
 end
 
-Given /^we have queued one article for "(.*?)"$/ do |name|
+Given /^that we have queued one article for "(.*?)"$/ do |name|
   source = Source.find_by_name(name.underscore.downcase)
   rs = RetrievalStatus.where(source_id: source.id).first
   source.queue_article_jobs([rs.id], { priority: 2 })

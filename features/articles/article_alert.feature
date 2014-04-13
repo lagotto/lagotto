@@ -19,6 +19,6 @@ Feature: View article alert
 
     Scenario: Deleting alert
       When I go to the article
-      And click on the "Alerts" tab
+      And I click on the "Alerts" tab
       And I click on the "by Message" menu item of the Delete button of the first alert and confirm
       Then I should see 0 alerts

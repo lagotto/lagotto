@@ -8,18 +8,21 @@ set :environment, ENV['RAILS_ENV']
 set :output, "#{path}/log/cron.log"
 
 # Schedule jobs
+# Send report when workers are not running
 # Create alerts by filtering API responses and mail them
 # Delete resolved alerts
 # Delete API request information, keeping the last 1,000 requests
 # Delete API response information, keeping responses from the last 24 hours
 # Generate a monthly report
 
-# every 5 min
-every '*/5 * * * *' do
-  rake "queue:work"
+every 10.minutes do
+  rake "queue:stale"
 end
 
-# every day at 4 AM
+every 4.hours do
+  rake "workers:monitor"
+end
+
 every 1.day, at: "4:00 AM" do
   rake "filter:all"
   rake "mailer:error_report"

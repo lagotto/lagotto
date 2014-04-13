@@ -7,7 +7,7 @@ Feature: See responses from sources
   Background:
     Given I am logged in as "admin"
     And the source "Citeulike" exists
-    And we have 5 articles
+    And that we have 5 articles
 
     @not_teamcity
     Scenario: Responses from last 24 hours in source view

@@ -35,5 +35,5 @@ Feature: View admin dashboard
     Scenario: Worker tab
       Given we have 1 worker
       When I go to the "Home" admin page
-      And I click on the tab "Workers"
+      And I click on the "Workers" tab
       Then I should see a table with 1 worker

@@ -12,11 +12,11 @@ Feature: See events
 
     Scenario: Events for articles in dashboard
       When I go to the "Articles" tab of the Sources admin page
-      Then the chart should show 5 events for "Citeulike"
+      Then the chart should show 5 events for "CiteULike"
 
     Scenario: Events in dashboard
       When I go to the "Events" tab of the Sources admin page
-      Then the chart should show 250 events for "Citeulike"
+      Then the chart should show 250 events for "CiteULike"
 
     @not_teamcity
     Scenario: Events in source view

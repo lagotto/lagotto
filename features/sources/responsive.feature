@@ -7,7 +7,7 @@ Feature: Responsive design of sources
     Given I am logged in as "admin"
     And the screen size is "480" x "640"
     And the source "Citeulike" exists
-    And we have 10 articles
+    And that we have 10 articles
 
   Scenario: I should see the responses tab
     When I go to the "Responses" tab of the Sources admin page

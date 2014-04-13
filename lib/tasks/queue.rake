@@ -20,27 +20,8 @@
 
 namespace :queue do
 
-  desc "Queue articles"
-  task :work => :environment do |t, args|
-    if args.extras.empty?
-      sources = Source.active
-    else
-      sources = Source.active.where("name in (?)", args.extras)
-    end
-
-    if sources.empty?
-      Rails.logger.warn "No active source found."
-      exit
-    end
-
-    sources.each do |source|
-      count = source.queue_all_articles
-      Rails.logger.info "#{count} articles for source #{source.display_name} have been queued."
-    end
-  end
-
-  desc "Queue all articles"
-  task :all => :environment do |t, args|
+  desc "Queue stale articles"
+  task :stale => :environment do |t, args|
     if args.extras.empty?
       sources = Source.active
     else
@@ -63,38 +44,16 @@ namespace :queue do
     puts "Queueing articles published from #{start_date} to #{end_date}." if start_date && end_date
 
     sources.each do |source|
-      count = source.queue_all_articles({ stale: false, start_date: start_date, end_date: end_date })
+      count = source.queue_all_articles({ all: ENV['ALL'], start_date: start_date, end_date: end_date })
       puts "#{count} articles for source #{source.display_name} have been queued."
     end
   end
 
-  desc "Queue stale articles"
-  task :stale => :environment do |t, args|
-    if args.extras.empty?
-      sources = Source.active
-    else
-      sources = Source.active.where("name in (?)", args.extras)
-    end
-
-    if sources.empty?
-      puts "No active source found."
-      exit
-    end
-
-    begin
-      start_date = Date.parse(ENV['START_DATE']) if ENV['START_DATE']
-      end_date = Date.parse(ENV['END_DATE']) if ENV['END_DATE']
-    rescue => e
-      # raises error if invalid date supplied
-      puts "Error: #{e.message}"
-      exit
-    end
-    puts "Queueing stale articles published from #{start_date} to #{end_date}." if start_date && end_date
-
-    sources.each do |source|
-      count = source.queue_all_articles({ start_date: start_date, end_date: end_date })
-      puts "#{count} stale articles for source #{source.display_name} have been queued."
-    end
+  desc "Queue all articles"
+  task :all => :environment do |t, args|
+    ENV['ALL'] = true
+    Rake::Task["queue:stale"].invoke
+    Rake::Task["queue:stale"].reenable
   end
 
   desc "Queue article with given DOI"
@@ -134,6 +93,6 @@ namespace :queue do
     end
   end
 
-  task :default => :work
+  task :default => :stale
 
 end

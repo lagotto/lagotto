@@ -96,14 +96,16 @@ class Source < ActiveRecord::Base
     RetrievalStatus.update_all(["queued_at = ?", nil], ["source_id = ?", id])
   end
 
-  def queue_all_articles(options = { stale: true })
+  def queue_all_articles(options = {})
     return 0 unless active?
+
+    priority = options[:priority] || Delayed::Worker.default_priority
 
     # find articles that need to be updated. Not queued currently, scheduled_at doesn't matter
     rs = retrieval_statuses
 
     # optionally limit to articles scheduled_at in the past
-    rs = rs.stale if options[:stale]
+    rs = rs.stale unless options[:all]
 
     # optionally limit by publication date
     if options[:start_date] && options[:end_date]
@@ -111,7 +113,7 @@ class Source < ActiveRecord::Base
     end
 
     rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
-    count = queue_article_jobs(rs, { priority: 2 })
+    count = queue_article_jobs(rs, { priority: priority })
   end
 
   def queue_article_jobs(rs, options = {})

@@ -32,14 +32,14 @@ Feature: View documentation
     Scenario: Documentation on user page
       Given I am logged in as "user"
       When I go to my account page
-      And click on the "Documentation" tab
+      And I click on the "Documentation" tab
       Then I should see the documentation
 
     Scenario: Documentation on source page
       Given we have a user with role "admin"
       And the source "Citeulike" exists
       When I go to the source "Citeulike"
-      And click on the "Documentation" tab
+      And I click on the "Documentation" tab
       Then I should see the documentation
 
     Scenario: Documentation on source admin page

@@ -69,12 +69,6 @@ When /^I go to the source "(.*?)"$/ do |name|
   visit source_path(name.underscore.downcase)
 end
 
-When /^I go to the menu "(.*?)" of source "(.*?)"$/ do |menu, name|
-  visit admin_source_path(name.underscore.downcase)
-  click_link menu
-  page.driver.render("tmp/capybara/#{menu}.png") if @wip
-end
-
 When /^I edit the source "(\w+)"$/ do |name|
   visit admin_source_path(name.underscore.downcase)
   click_link "Configuration"
@@ -118,7 +112,7 @@ When /^I go to "(.*?)"$/ do |path|
   page.driver.render("tmp/capybara/#{path}.png") if @wip
 end
 
-When /^click on the "(.*?)" tab$/ do |tab_name|
+When /^I click on the "(.*?)" tab$/ do |tab_name|
   within ("ul.nav-tabs") do
     click_link tab_name
   end
@@ -154,10 +148,10 @@ Then /^I should see the subtitle "(.*?)"$/ do |title|
   page.has_css?('h4', :text => title, :visible => true).should be_true
 end
 
-Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, name|
-  page.driver.render("tmp/capybara/#{number}.png") if @wip
+Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, display_name|
+  #page.driver.render("tmp/capybara/#{number}.png")
   page.has_content?(number).should be_true
-  page.has_content?(name.underscore.downcase).should be_true
+  page.has_content?(display_name).should be_true
 end
 
 Then /^I should not see a blog count$/ do
@@ -224,7 +218,7 @@ end
 
 Then /^I should see (\d+) stale articles? for "(.*?)"$/ do |number, name|
   source = Source.find_by_name(name.underscore.downcase)
-  page.driver.render("tmp/capybara/stale_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png")
+  page.driver.render("tmp/capybara/stale_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png") if @wip
   page.has_css?("#stale_count_#{name.underscore.downcase}", :text => number).should be_true
 end
 
