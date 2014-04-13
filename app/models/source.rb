@@ -129,8 +129,8 @@ class Source < ActiveRecord::Base
     rs.length
   end
 
+  # condition for not adding more jobs and disabling the source
   def check_for_failures
-    # condition for not adding more jobs and disabling the source
     failed_queries = Alert.where("source_id = ? and updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count
     failed_queries > max_failed_queries
   end
@@ -192,21 +192,20 @@ class Source < ActiveRecord::Base
     end
   end
 
+  # Remove all retrieval records for this source that have never been updated,
+  # return true if all records are removed
   def remove_all_retrievals
-    # Remove all retrieval records for this source that have never been updated,
-    # return true if all records are removed
     rs = retrieval_statuses.where(:retrieved_at == '1970-01-01').delete_all
     retrieval_statuses.count == 0
   end
 
+  # Create an empty retrieval record for every article for the new source
   def create_retrievals
-    # Create an empty retrieval record for every article for the new source
     article_ids = RetrievalStatus.where(:source_id => id).pluck(:article_id)
-    if article_ids.empty?
-      sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles"
-    else
-      sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles where articles.id not in (#{article_ids.join(",")})"
-    end
+
+    sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles"
+    sql += " where articles.id not in (#{article_ids.join(",")})" if article_ids.any?
+
     ActiveRecord::Base.connection.execute sql
   end
 

@@ -64,7 +64,7 @@ class Article < ActiveRecord::Base
 
   # simplify admin dashboard when we have more than 150,000 articles
   def self.has_many?
-    Article.count > 150000
+    self.class.count > 150000
   end
 
   def self.from_uri(id)
@@ -113,7 +113,7 @@ class Article < ActiveRecord::Base
   end
 
   def uid
-    send(Article.uid)
+    send(self.class.uid)
   end
 
   def uid_escaped
@@ -121,7 +121,7 @@ class Article < ActiveRecord::Base
   end
 
   def to_param
-    Article.to_uri(uid)
+    self.class.to_uri(uid)
   end
 
   def self.per_page

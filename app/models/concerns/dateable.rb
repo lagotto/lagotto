@@ -28,13 +28,11 @@ module Dateable
     def self.date_range(options = {})
       end_date = Date.today
 
-      if options[:month] && options[:year]
-        Date.new(options[:year].to_i, options[:month].to_i, 1)
-        start_date = end_date if start_date > end_date
-        (start_date..end_date).map { |date| { month: date.month, year: date.year } }.uniq
-      else
-        [{ month: end_date.month, year: end_date.year }]
-      end
+      return [{ month: end_date.month, year: end_date.year }] unless options[:month] && options[:year]
+
+      start_date = Date.new(options[:year].to_i, options[:month].to_i, 1)
+      start_date = end_date if start_date > end_date
+      (start_date..end_date).map { |date| { month: date.month, year: date.year } }.uniq
     rescue ArgumentError
       [{ month: end_date.month, year: end_date.year }]
     end
