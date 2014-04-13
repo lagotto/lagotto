@@ -24,10 +24,12 @@ class CitationMilestoneAlert < Filter
     responses = ApiResponse.filter(state[:id]).citation_milestone(limit, source_ids)
 
     if responses.count > 0
-      responses = responses.all.map { |response| { source_id: response.source_id,
-                                                   article_id: response.article_id,
-                                                   error: 0,
-                                                   message: "Article has been cited #{response.event_count} times" }}
+      responses = responses.all.map do |response|
+        { source_id: response.source_id,
+          article_id: response.article_id,
+          error: 0,
+          message: "Article has been cited #{response.event_count} times" }
+      end
       raise_alerts(responses)
     end
 
@@ -44,6 +46,6 @@ class CitationMilestoneAlert < Filter
   end
 
   def source_ids
-    config.source_ids || Source.active.joins(:group).where("groups.name" =>['cited','saved']).pluck(:id)
+    config.source_ids || Source.active.joins(:group).where("groups.name" =>['cited', 'saved']).pluck(:id)
   end
 end

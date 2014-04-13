@@ -32,7 +32,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   scope :most_cited, lambda { where("event_count > ?", 0).order("event_count desc").limit(25) }
   scope :most_cited_last_x_days, lambda { |duration| joins(:article).where("event_count > ?", 0).where("articles.published_on >= ?", Date.today - duration.days).order("event_count desc").limit(25) }
-  scope :most_cited_last_x_months, lambda { |duration| joins(:article).where("event_count > ?",0).where("articles.published_on >= ?", Date.today - duration.months).order("event_count desc").limit(25) }
+  scope :most_cited_last_x_months, lambda { |duration| joins(:article).where("event_count > ?", 0).where("articles.published_on >= ?", Date.today - duration.months).order("event_count desc").limit(25) }
 
   scope :queued, where("queued_at is NOT NULL")
   scope :not_queued, where("queued_at is NULL")
@@ -96,11 +96,11 @@ class RetrievalStatus < ActiveRecord::Base
 
     if age_in_days < 0
       article.published_on
-    elsif (0..7) === age_in_days
+    elsif (0..7).include?(age_in_days)
       random_time(source.staleness[0])
-    elsif (8..31) === age_in_days
+    elsif (8..31).include?(age_in_days)
       random_time(source.staleness[1])
-    elsif (32..365) === age_in_days
+    elsif (32..365).include?(age_in_days)
       random_time(source.staleness[2])
     else
       random_time(source.staleness.last)

@@ -24,10 +24,12 @@ class EventCountDecreasingError < Filter
     responses = ApiResponse.filter(state[:id]).decreasing(source_ids)
 
     if responses.count > 0
-      responses = responses.all.map { |response| { source_id: response.source_id,
-                                                   article_id: response.article_id,
-                                                   error: 0,
-                                                   message: "Event count decreased from #{response.previous_count} to #{response.event_count}" }}
+      responses = responses.all.map do |response|
+        { source_id: response.source_id,
+          article_id: response.article_id,
+          error: 0,
+          message: "Event count decreased from #{response.previous_count} to #{response.event_count}" }
+      end
       raise_alerts(responses)
     end
 
@@ -39,7 +41,7 @@ class EventCountDecreasingError < Filter
   end
 
   def source_ids
-    config.source_ids || Source.active.joins(:group).where("groups.name" => ['cited','saved','recommended','viewed']).pluck(:id)
+    config.source_ids || Source.active.joins(:group).where("groups.name" => ['cited', 'saved', 'recommended', 'viewed']).pluck(:id)
   end
 end
 

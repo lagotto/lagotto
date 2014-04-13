@@ -8,12 +8,12 @@ class Api::V4::ArticlesController < Api::V4::BaseController
     # Translate type query parameter into column name
     # Paginate query results (50 per page)
     source_ids = get_source_ids(params[:source])
-    collection = ArticleDecorator.includes(:retrieval_statuses).where({ :retrieval_statuses => { :source_id => source_ids }})
+    collection = ArticleDecorator.includes(:retrieval_statuses).where(:retrieval_statuses => { :source_id => source_ids })
 
     if params[:ids]
-      type = ["doi","pmid","pmcid","mendeley_uuid"].detect { |t| t == params[:type] } || Article.uid
+      type = ["doi", "pmid", "pmcid", "mendeley_uuid"].detect { |t| t == params[:type] } || Article.uid
       ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Article.clean_id(id) }
-      collection = collection.where({ :articles => { type.to_sym => ids }})
+      collection = collection.where(:articles => { type.to_sym => ids })
     elsif params[:q]
       collection = collection.query(params[:q])
     end

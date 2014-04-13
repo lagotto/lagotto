@@ -8,10 +8,10 @@ class Review < ActiveRecord::Base
   validates :name, :uniqueness => { :scope => :state_id }
 
   def resolve
-    self.update_all(unresolved: false)
+    update_all(unresolved: false)
   end
 
   def unresolve
-    self.unscoped.update_all(unresolved: true)
+    unscoped.update_all(unresolved: true)
   end
 end

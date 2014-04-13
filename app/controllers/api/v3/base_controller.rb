@@ -23,13 +23,14 @@ class Api::V3::BaseController < ActionController::Base
       sign_in user, store: false
     else
       @error = "Missing or wrong API key."
-      Alert.create(:exception => "", :class_name => "Net::HTTPUnauthorized",
-                          :message => @error,
-                          :target_url => request.original_url,
-                          :remote_ip => request.remote_ip,
-                          :user_agent => request.user_agent,
-                          :content_type => request.formats.first.to_s,
-                          :status => 401)
+      Alert.create(:exception => "",
+                   :class_name => "Net::HTTPUnauthorized",
+                   :message => @error,
+                   :target_url => request.original_url,
+                   :remote_ip => request.remote_ip,
+                   :user_agent => request.user_agent,
+                   :content_type => request.formats.first.to_s,
+                   :status => 401)
       render "error", :status => 401
     end
   end

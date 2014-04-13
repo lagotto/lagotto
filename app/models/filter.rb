@@ -56,7 +56,7 @@ class Filter < ActiveRecord::Base
 
         options[:name] = filter.name
         options[:display_name] = filter.display_name
-        options[:time] = Benchmark.realtime {options[:output] = filter.run_filter(options) }
+        options[:time] = Benchmark.realtime { options[:output] = filter.run_filter(options) }
         options[:message] = formatted_message(options)
         options[:review_messages] << create_review(options)
       end
@@ -83,7 +83,7 @@ class Filter < ActiveRecord::Base
     end
 
     def resolve(options)
-      options[:time] = Benchmark.realtime {options[:output] = ApiResponse.filter(options[:id]).update_all(unresolved: false) }
+      options[:time] = Benchmark.realtime { options[:output] = ApiResponse.filter(options[:id]).update_all(unresolved: false) }
       options[:message] = "Resolved #{pluralize(number_with_delimiter(options[:output]), 'API response')} in #{number_with_precision(options[:time] * 1000)} ms"
       options
     end
@@ -134,7 +134,7 @@ class Filter < ActiveRecord::Base
   end
 
   def run_filter(options = {})
-    raise NotImplementedError, 'Children classes should override run_filter method'
+    fail NotImplementedError, 'Children classes should override run_filter method'
   end
 
   def raise_alerts(responses)

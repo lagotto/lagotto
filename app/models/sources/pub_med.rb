@@ -25,7 +25,7 @@ class PubMed < Source
   PMCLINKS_URL = "http://www.ncbi.nlm.nih.gov/sites/entrez?"
   PMC_URL = "http://www.ncbi.nlm.nih.gov/pmc/articles/"
 
-  ToolID = 'ArticleLevelMetrics'
+  TOOL_ID = 'ArticleLevelMetrics'
 
   def get_data(article, options={})
 
@@ -88,7 +88,7 @@ class PubMed < Source
         'term' => doi,
         'field' => 'DOI',
         'db' => 'pubmed',
-        'tool' => PubMed::ToolID }
+        'tool' => PubMed::TOOL_ID }
 
     query_url = EUTILS_URL + params.to_query
     result = get_xml(query_url, options)
@@ -104,7 +104,7 @@ class PubMed < Source
         'term' => doi,
         'field' => 'DOI',
         'db' => 'pmc',
-        'tool' => PubMed::ToolID }
+        'tool' => PubMed::TOOL_ID }
 
     query_url = EUTILS_URL + params.to_query
 
@@ -123,7 +123,7 @@ class PubMed < Source
         'id' => [*pubmed_ids].join(","),
         'db' => db,
         'version' => '2.0',
-        'tool' => PubMed::ToolID }
+        'tool' => PubMed::TOOL_ID }
 
     query_url = ESUMMARY_URL + params.to_query
     result = get_xml(query_url, options)
@@ -134,9 +134,9 @@ class PubMed < Source
       result.each do |document_summary|
         ids = document_summary["ArticleIds"]["ArticleId"].map { |article_id| { article_id["IdType"] => article_id["Value"] }.symbolize_keys }
         ids = ids.inject { | a, h | a.merge h }
-        publication_date = parse_date([document_summary["EPubDate"],document_summary["PubDate"],document_summary["SortDate"],document_summary["SortPubDate"]]).to_time.utc.iso8601
-        references << ids.merge({ :title => document_summary["Title"],
-                                  :publication_date => publication_date })
+        publication_date = parse_date([document_summary["EPubDate"], document_summary["PubDate"], document_summary["SortDate"], document_summary["SortPubDate"]]).to_time.utc.iso8601
+        references << ids.merge(:title => document_summary["Title"],
+                                :publication_date => publication_date)
       end
       references
   end

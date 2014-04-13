@@ -20,13 +20,16 @@
 
 class Pmc < Source
 
+  # include date methods concern
+  include Dateable
+
   # Format Pmc events for all articles as csv
   # Show historical data if options[:format] is used
   # options[:format] can be "html", "pdf" or "combined"
   # options[:month] and options[:year] are the starting month and year, default to last month
   def self.to_csv(options = {})
 
-    if ["html","pdf","combined"].include? options[:format]
+    if ["html", "pdf", "combined"].include? options[:format]
       view = "pmc_#{options[:format]}_views"
     else
       view = "pmc"
@@ -43,28 +46,13 @@ class Pmc < Source
         result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
       end
     else
-      dates = self.date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
+      dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
 
       CSV.generate do |csv|
         csv << ["doi"] + dates
-        result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 }}
+        result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 } }
       end
     end
-  end
-
-  # Array of hashes in format [{ month: 12, year: 2013 },{ month: 1, year: 2014 }]
-  # Provide starting month and year as input, otherwise defaults to last month
-  def self.date_range(options = {})
-    end_date = 1.month.ago.to_date
-
-    if options[:month] && options[:year]
-      start_date = Date.new(options[:year].to_i, options[:month].to_i, 1) rescue end_date
-      start_date = end_date if start_date > end_date
-    else
-      start_date = end_date
-    end
-
-    dates = (start_date..end_date).map { |date| { month: date.month, year: date.year } }.uniq
   end
 
   def put_pmc_database
@@ -82,10 +70,11 @@ class Pmc < Source
       filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
 
       if save_to_file(feed_url, filename, options).nil?
-        Alert.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
-             :message => "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved",
-             :status => 500,
-             :source_id => id)
+        Alert.create(:exception => "",
+                     :class_name => "Net::HTTPInternalServerError",
+                     :message => "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved",
+                     :status => 500,
+                     :source_id => id)
         journals_with_errors << journal
       end
     end
@@ -135,7 +124,7 @@ class Pmc < Source
             data['views'] << view
           end
 
-          put_alm_data("#{url}#{CGI.escape(doi)}", { :data => data })
+          put_alm_data("#{url}#{CGI.escape(doi)}", data: data)
         end
       end
     end
@@ -145,7 +134,7 @@ class Pmc < Source
   def get_data(article, options={})
 
     # Check that article has DOI and is at least one day old
-    return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
+    return { events: [], event_count: nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)

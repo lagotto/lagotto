@@ -52,7 +52,7 @@ class TwitterSearch < Source
       nil
     else
       events = result.map do |event|
-        if event.has_key?("from_user")
+        if event.key?("from_user")
           user = event["from_user"]
           user_name = event["from_user_name"]
           user_profile_image = event["profile_image_url"]

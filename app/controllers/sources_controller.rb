@@ -24,7 +24,7 @@ class SourcesController < ApplicationController
     @source = Source.find_by_name(params[:id])
 
     # raise error if source wasn't found
-    raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
+    fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
 
     @doc = Doc.find(@source.name)
 

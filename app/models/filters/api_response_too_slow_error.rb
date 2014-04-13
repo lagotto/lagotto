@@ -24,10 +24,12 @@ class ApiResponseTooSlowError < Filter
     responses = ApiResponse.filter(state[:id]).slow(limit)
 
     if responses.count > 0
-      responses = responses.all.map { |response| { source_id: response.source_id,
-                                                   article_id: response.article_id,
-                                                   error: 0,
-                                                   message: "API response took #{response.duration} ms" }}
+      responses = responses.all.map do |response|
+        { source_id: response.source_id,
+          article_id: response.article_id,
+          error: 0,
+          message: "API response took #{response.duration} ms" }
+      end
       raise_alerts(responses)
     end
 

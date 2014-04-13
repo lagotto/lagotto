@@ -40,7 +40,7 @@ class Worker
   end
 
   def self.find(param)
-    all.detect { |f| f.id == param } || raise(ActiveRecord::RecordNotFound)
+    all.detect { |f| f.id == param } || fail(ActiveRecord::RecordNotFound)
   end
 
   def self.start
@@ -114,7 +114,7 @@ class Worker
   end
 
   def <=> other
-    self.id <=> other.id
+    id <=> other.id
   end
 
   def each &block
@@ -129,8 +129,11 @@ class Worker
 
   def proc
     proc = IO.read("/proc/#{pid}/status")
-    proc = CSV.parse(proc, { :col_sep => ":\t" })
-    proc = proc.inject({}) { |h, nvp| h[nvp[0]] = nvp[1]; h }
+    proc = CSV.parse(proc, :col_sep => ":\t")
+    proc = proc.inject({}) do |h, nvp|
+      h[nvp[0]] = nvp[1]
+      h
+    end
   rescue
     {}
   end

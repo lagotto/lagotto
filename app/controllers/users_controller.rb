@@ -33,7 +33,7 @@ class UsersController < ApplicationController
       @user = current_user
       @reports = Report.available(@user.role)
     else
-      raise CanCan::AccessDenied.new("Please sign in first.", :read, User)
+      fail CanCan::AccessDenied, "Please sign in first.", :read, User
     end
   end
 

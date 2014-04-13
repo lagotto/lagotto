@@ -28,7 +28,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   def enqueue(job)
     # keep track of when the article was queued up
-    RetrievalStatus.update_all(["queued_at = ?", Time.zone.now], ["id in (?)", rs_ids] )
+    RetrievalStatus.update_all(["queued_at = ?", Time.zone.now], ["id in (?)", rs_ids])
   end
 
   def perform
@@ -38,8 +38,8 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
     # Check that source is working and we have workers for this source
     # Otherwise raise an error and reschedule the job
-    raise SourceInactiveError, "#{source.display_name} is not in working state" unless source.working?
-    raise NotEnoughWorkersError, "Not enough workers available for #{source.display_name}" unless source.check_for_available_workers
+    fail SourceInactiveError, "#{source.display_name} is not in working state" unless source.working?
+    fail NotEnoughWorkersError, "Not enough workers available for #{source.display_name}" unless source.check_for_available_workers
 
     rs_ids.each do | rs_id |
       rs = RetrievalStatus.find(rs_id)
@@ -93,7 +93,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       update_interval = (Date.today - rs.retrieved_at.to_date).to_i
     end
 
-    data_from_source = rs.source.get_data(rs.article, { :retrieval_status => rs, :timeout => rs.source.timeout, :source_id => rs.source_id })
+    data_from_source = rs.source.get_data(rs.article, retrieval_status: rs, timeout: rs.source.timeout, source_id: rs.source_id)
     if data_from_source.is_a?(Hash)
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]
@@ -175,7 +175,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   def success(job)
     # reset the queued_at value
-    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids] )
+    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids])
   end
 
   def failure(job)

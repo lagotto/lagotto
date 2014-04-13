@@ -53,7 +53,7 @@ class Twitter < Source
 
         data = result["value"]
 
-        if data.has_key?("from_user")
+        if data.key?("from_user")
           user = data["from_user"]
           user_name = data["from_user_name"]
           user_profile_image = data["profile_image_url"]

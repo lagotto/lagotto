@@ -64,7 +64,7 @@ class Admin::ArticlesController < Admin::ApplicationController
     @article = Article.where(id_hash).first
 
     # raise error if article wasn't found
-    raise ActiveRecord::RecordNotFound.new if @article.blank?
+    fail ActiveRecord::RecordNotFound if @article.blank?
   end
 
   def new_article

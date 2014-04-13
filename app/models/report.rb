@@ -48,7 +48,7 @@ class Report < ActiveRecord::Base
     sources.each do |source|
       sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.event_count END) AS #{source.name}"
     end
-    sql = sql + " FROM articles a LEFT JOIN retrieval_statuses rs ON a.id = rs.article_id GROUP BY a.id"
+    sql += " FROM articles a LEFT JOIN retrieval_statuses rs ON a.id = rs.article_id GROUP BY a.id"
 
     results = ActiveRecord::Base.connection.exec_query(sql)
 
@@ -77,22 +77,22 @@ class Report < ActiveRecord::Base
     date = options[:date] || Date.today.iso8601
     filename = "#{stat[:name]}.csv"
     filepath = "#{Rails.root}/data/report_#{date}/#{filename}"
-    csv = File.exist?(filepath) ? CSV.read(filepath, { headers: stat[:headers] ? stat[:headers] : :first_row, return_headers: true }) : nil
+    csv = File.exist?(filepath) ? CSV.read(filepath, headers: stat[:headers] ? stat[:headers] : :first_row, return_headers: true) : nil
   end
 
   def self.merge_stats(options = {})
     if options[:include_private_sources]
-      alm_stats = self.read_stats({ name: "alm_private_stats" })
+      alm_stats = read_stats(name: "alm_private_stats")
     else
-      alm_stats = self.read_stats({ name: "alm_stats" })
+      alm_stats = read_stats(name: "alm_stats")
     end
     return nil if alm_stats.blank?
 
-    stats = [{ name: "mendeley_stats", headers: ["doi","mendeley_readers","mendeley_groups","mendeley"] },
-             { name: "pmc_stats", headers: ["doi","pmc_html","pmc_pdf","pmc"] },
-             { name: "counter_stats", headers: ["doi","counter_html","counter_pdf","counter"] }]
+    stats = [{ name: "mendeley_stats", headers: ["doi", "mendeley_readers", "mendeley_groups", "mendeley"] },
+             { name: "pmc_stats", headers: ["doi", "pmc_html", "pmc_pdf", "pmc"] },
+             { name: "counter_stats", headers: ["doi", "counter_html", "counter_pdf", "counter"] }]
     stats.each do |stat|
-      stat[:csv] = self.read_stats(stat, options).to_a
+      stat[:csv] = read_stats(stat, options).to_a
       alm_stats.delete(stat[:name]) unless stat[:csv].blank?
     end
 
@@ -105,7 +105,7 @@ class Report < ActiveRecord::Base
         stats.each do |stat|
           # find row based on DOI, and discard the first item (the doi). Otherwise pad with zeros
           match = stat[:csv].assoc(row.field("doi"))
-          match = match.present? ? match[1..-1] : [0,0,0]
+          match = match.present? ? match[1..-1] : [0, 0, 0]
           row.push(*match)
         end
         csv << row

@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
 
   # Helper method to check for admin or staff user
   def admin_or_staff?
-    ["admin","staff"].include?(role)
+    ["admin", "staff"].include?(role)
   end
 
   def api_key
@@ -112,7 +112,7 @@ class User < ActiveRecord::Base
     # The first user we create has an admin role and uses the configuration API key
     # unless it is in the test environment
     if (User.count == 1 && !Rails.env.test?)
-      self.update_attributes(role: "admin", authentication_token: CONFIG[:api_key])
+      update_attributes(role: "admin", authentication_token: CONFIG[:api_key])
     end
   end
 

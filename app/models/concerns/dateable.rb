@@ -18,33 +18,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class Doc
+module Dateable
+  extend ActiveSupport::Concern
 
-  attr_reader :title, :content
+  included do
 
-  def self.all
-    Dir.entries(Rails.root.join("docs"))
-  end
+    # Array of hashes in format [{ month: 12, year: 2013 },{ month: 1, year: 2014 }]
+    # Provide starting month and year as input, otherwise defaults to this month
+    def self.date_range(options = {})
+      end_date = Date.today
 
-  def self.find(param)
-    name = all.detect { |doc| doc.downcase == "#{param.downcase}.md" }
-    if name.present?
-      new(name)
-    else
-      OpenStruct.new(title: "No title", content: "")
-    end
-  end
-
-  def initialize(name)
-    file = IO.read(Rails.root.join("docs/#{name}"))
-
-    if (md = file.match(/^(?<metadata>---\s*\n.*?\n?)^(---\s*$\n?)/m))
-      content = md.post_match
-      metadata = YAML.load(md[:metadata])
-      title = metadata["title"]
+      if options[:month] && options[:year]
+        Date.new(options[:year].to_i, options[:month].to_i, 1)
+        start_date = end_date if start_date > end_date
+        (start_date..end_date).map { |date| { month: date.month, year: date.year } }.uniq
+      else
+        [{ month: end_date.month, year: end_date.year }]
+      end
+    rescue ArgumentError
+      [{ month: end_date.month, year: end_date.year }]
     end
 
-    @content = content || ""
-    @title = title || "No title"
   end
 end

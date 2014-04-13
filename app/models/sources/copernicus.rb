@@ -35,7 +35,7 @@ class Copernicus < Source
       if result["counter"].values.all? { |x| x.nil? }
         event_count = nil
       else
-        event_count = result["counter"].values.inject(0) { |sum,x| sum + (x ? x : 0) }
+        event_count = result["counter"].values.inject(0) { |sum, x| sum + (x ? x : 0) }
       end
       event_metrics = { :pdf => result["counter"]["PdfDownloads"],
                         :html => result["counter"]["AbstractViews"],

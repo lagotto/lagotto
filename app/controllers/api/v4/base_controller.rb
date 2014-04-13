@@ -17,7 +17,7 @@ class Api::V4::BaseController < ActionController::Base
   end
 
   rescue_from ActionController::UnpermittedParameters do |exception|
-    @error = Hash[exception.params.map {|v| [v,['unpermitted parameter']]}]
+    @error = Hash[exception.params.map { |v| [v, ['unpermitted parameter']] }]
     @article = nil
     render "error", :status => 422
   end
@@ -33,7 +33,7 @@ class Api::V4::BaseController < ActionController::Base
   end
 
   def check_basic_authentication
-    authenticate_or_request_with_http_basic do |username,password|
+    authenticate_or_request_with_http_basic do |username, password|
       resource = User.find_by_username(username)
       if resource && resource.valid_password?(password)
         sign_in :user, resource

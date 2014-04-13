@@ -1,6 +1,6 @@
 AccessModifierIndentation:
   Description: Check indentation of private/protected visibility modifiers.
-  Enabled: false
+  Enabled: true
 
 AccessorMethodName:
   Description: Check the naming of accessor methods for get_/set_.
@@ -14,19 +14,19 @@ AlignArray:
   Description: >-
                  Align the elements of an array literal if they span more than
                  one line.
-  Enabled: false
+  Enabled: true
 
 AlignHash:
   Description: >-
                  Align the elements of a hash literal if they span more than
                  one line.
-  Enabled: false
+  Enabled: true
 
 AlignParameters:
   Description: >-
                  Align the parameters of a method call if they span more
                  than one line.
-  Enabled: false
+  Enabled: true
 
 AndOr:
   Description: 'Use &&/|| instead of and/or.'
@@ -34,7 +34,7 @@ AndOr:
 
 ArrayJoin:
   Description: 'Use Array#join instead of Array#*.'
-  Enabled: false
+  Enabled: true
 
 AsciiComments:
   Description: 'Use only ascii symbols in comments.'
@@ -42,15 +42,15 @@ AsciiComments:
 
 AsciiIdentifiers:
   Description: 'Use only ascii symbols in identifiers.'
-  Enabled: false
+  Enabled: true
 
 Attr:
   Description: 'Checks for uses of Module#attr.'
-  Enabled: false
+  Enabled: true
 
 BeginBlock:
   Description: 'Avoid the use of BEGIN blocks.'
-  Enabled: false
+  Enabled: true
 
 BlockComments:
   Description: 'Do not use block comments.'
@@ -65,19 +65,19 @@ Blocks:
                 Avoid using {...} for multi-line blocks (multiline chaining is
                 always ugly).
                 Prefer {...} over do...end for single-line blocks.
-  Enabled: false
+  Enabled: true
 
 BracesAroundHashParameters:
   Description: 'Enforce braces style inside hash parameters.'
-  Enabled: false
+  Enabled: true
 
 CaseEquality:
   Description: 'Avoid explicit use of the case equality operator(===).'
-  Enabled: false
+  Enabled: true
 
 CaseIndentation:
   Description: 'Indentation of when in a case/when/[else/]end.'
-  Enabled: false
+  Enabled: true
 
 CharacterLiteral:
   Description: 'Checks for uses of character literals.'
@@ -85,7 +85,7 @@ CharacterLiteral:
 
 ClassAndModuleCamelCase:
   Description: 'Use CamelCase for classes and modules.'
-  Enabled: false
+  Enabled: true
 
 ClassAndModuleChildren:
   Description: 'Checks style of children classes and modules.'
@@ -97,11 +97,11 @@ ClassLength:
 
 ClassMethods:
   Description: 'Use self when defining module/class methods.'
-  Enabled: false
+  Enabled: true
 
 ClassVars:
   Description: 'Avoid the use of class variables.'
-  Enabled: false
+  Enabled: true
 
 CollectionMethods:
   Description: 'Preferred collection methods.'
@@ -109,17 +109,17 @@ CollectionMethods:
 
 ColonMethodCall:
   Description: 'Do not use :: for method call.'
-  Enabled: false
+  Enabled: true
 
 CommentAnnotation:
   Description: >-
                  Checks formatting of special comments
                  (TODO, FIXME, OPTIMIZE, HACK, REVIEW).
-  Enabled: false
+  Enabled: true
 
 ConstantName:
   Description: 'Constants should use SCREAMING_SNAKE_CASE.'
-  Enabled: false
+  Enabled: true
 
 CyclomaticComplexity:
   Description: 'Avoid complex methods.'
@@ -127,11 +127,11 @@ CyclomaticComplexity:
 
 DefWithParentheses:
   Description: 'Use def with parentheses when there are arguments.'
-  Enabled: false
+  Enabled: true
 
 DeprecatedHashMethods:
   Description: 'Checks for use of deprecated Hash methods.'
-  Enabled: false
+  Enabled: true
 
 Documentation:
   Description: 'Document classes and non-namespace modules.'
@@ -167,7 +167,7 @@ EmptyLiteral:
 
 Encoding:
   Description: 'Use UTF-8 as the source file encoding.'
-  Enabled: false
+  Enabled: true
 
 EndBlock:
   Description: 'Avoid the use of END blocks.'
@@ -175,7 +175,7 @@ EndBlock:
 
 EndOfLine:
   Description: 'Use Unix-style line endings.'
-  Enabled: false
+  Enabled: true
 
 EvenOdd:
   Description: 'Favor the use of Fixnum#even? && Fixnum#odd?'
@@ -183,7 +183,7 @@ EvenOdd:
 
 FileName:
   Description: 'Use snake_case for source file names.'
-  Enabled: false
+  Enabled: true
 
 FlipFlop:
   Description: 'Checks for flip flops'
@@ -199,7 +199,7 @@ FormatString:
 
 GlobalVars:
   Description: 'Do not introduce global variables.'
-  Enabled: false
+  Enabled: true
 
 HashSyntax:
   Description: >-
@@ -211,11 +211,11 @@ IfUnlessModifier:
   Description: >-
                  Favor modifier if/unless usage when you have a
                  single-line body.
-  Enabled: false
+  Enabled: true
 
 IfWithSemicolon:
   Description: 'Never use if x; .... Use the ternary operator instead.'
-  Enabled: false
+  Enabled: true
 
 IndentationConsistency:
   Description: 'Keep indentation straight.'
@@ -223,7 +223,7 @@ IndentationConsistency:
 
 IndentationWidth:
   Description: 'Use 2 spaces for indentation.'
-  Enabled: false
+  Enabled: true
 
 IndentArray:
   Description: >-
@@ -359,27 +359,27 @@ PredicateName:
 
 Proc:
   Description: 'Use proc instead of Proc.new.'
-  Enabled: false
+  Enabled: true
 
 RaiseArgs:
   Description: 'Checks the arguments passed to raise/fail.'
-  Enabled: false
+  Enabled: true
 
 RedundantBegin:
   Description: "Don't use begin blocks when they are not needed."
-  Enabled: false
+  Enabled: true
 
 RedundantException:
   Description: "Checks for an obsolete RuntimeException argument in raise/fail."
-  Enabled: false
+  Enabled: true
 
 RedundantReturn:
   Description: "Don't use return where it's not required."
-  Enabled: false
+  Enabled: true
 
 RedundantSelf:
   Description: "Don't use self where it's not needed."
-  Enabled: false
+  Enabled: true
 
 RegexpLiteral:
   Description: >-
@@ -391,19 +391,19 @@ RegexpLiteral:
 
 RescueModifier:
   Description: 'Avoid using rescue in its modifier form.'
-  Enabled: false
+  Enabled: true
 
 SelfAssignment:
   Description: 'Checks for places where self-assignment shorthand should have been used.'
-  Enabled: false
+  Enabled: true
 
 Semicolon:
   Description: "Don't use semicolons to terminate expressions."
-  Enabled: false
+  Enabled: true
 
 SignalException:
   Description: 'Checks for proper usage of fail and raise.'
-  Enabled: false
+  Enabled: true
 
 SingleLineBlockParams:
   Description: 'Enforces the names of some block params.'
@@ -421,21 +421,21 @@ SingleSpaceBeforeFirstArg:
 
 SpaceAfterColon:
   Description: 'Use spaces after colons.'
-  Enabled: false
+  Enabled: true
 
 SpaceAfterComma:
   Description: 'Use spaces after commas.'
-  Enabled: false
+  Enabled: true
 
 SpaceAfterControlKeyword:
   Description: 'Use spaces after if/elsif/unless/while/until/case/when.'
-  Enabled: false
+  Enabled: true
 
 SpaceAfterMethodName:
   Description: >-
                  Never put a space between a method name and the opening
                  parenthesis in a method definition.
-  Enabled: false
+  Enabled: true
 
 SpaceAfterNot:
   Description: Tracks redundant space after the ! operator.
@@ -443,7 +443,7 @@ SpaceAfterNot:
 
 SpaceAfterSemicolon:
   Description: 'Use spaces after semicolons.'
-  Enabled: false
+  Enabled: true
 
 SpaceBeforeBlockBraces:
   Description: >-
@@ -456,7 +456,7 @@ SpaceInsideBlockBraces:
                  Checks that block braces have or don't have surrounding space.
                  For blocks taking parameters, checks that the left brace has
                  or doesn't have trailing space.
-  Enabled: false
+  Enabled: true
 
 SpaceAroundEqualsInParameterDefault:
   Description: >-
@@ -471,7 +471,7 @@ SpaceAroundOperators:
 
 SpaceBeforeModifierKeyword:
   Description: 'Put a space before the modifier keyword.'
-  Enabled: false
+  Enabled: true
 
 SpaceInsideBrackets:
   Description: 'No spaces after [ or before ].'
@@ -483,11 +483,11 @@ SpaceInsideHashLiteralBraces:
 
 SpaceInsideParens:
   Description: 'No spaces after ( or before ).'
-  Enabled: false
+  Enabled: true
 
 SpecialGlobalVars:
   Description: 'Avoid Perl-style global variables.'
-  Enabled: false
+  Enabled: true
 
 StringLiterals:
   Description: 'Checks if uses of quotes match the configured preference.'
@@ -648,7 +648,7 @@ RequireParentheses:
 
 RescueException:
   Description: 'Avoid rescuing the Exception class.'
-  Enabled: false
+  Enabled: true
 
 ShadowingOuterLocalVariable:
   Description: >-
@@ -684,7 +684,7 @@ UselessComparison:
 
 UselessElseWithoutRescue:
   Description: 'Checks for useless `else` in `begin..end` without `rescue`.'
-  Enabled: false
+  Enabled: true
 
 UselessSetterCall:
   Description: 'Checks for useless setter call to a local variable.'

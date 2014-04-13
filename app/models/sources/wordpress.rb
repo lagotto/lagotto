@@ -31,7 +31,7 @@ class Wordpress < Source
     if result.nil?
       { events: [], event_count: 0 }
     else
-      events = result.map { |item| { event: item, event_url: item['link'] }}
+      events = result.map { |item| { event: item, event_url: item['link'] } }
 
       event_metrics = { pdf: nil,
                         html: nil,

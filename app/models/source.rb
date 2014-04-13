@@ -22,8 +22,11 @@ require 'cgi'
 
 class Source < ActiveRecord::Base
 
-  # include state machine concern
+  # include state machine
   include Statable
+
+  # include default methods for subclasses
+  include Configurable
 
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
@@ -35,10 +38,7 @@ class Source < ActiveRecord::Base
 
   serialize :config, OpenStruct
 
-  after_update :check_cache, :if => Proc.new { |source| source.state_changed? ||
-                                                        source.name_changed? ||
-                                                        source.display_name_changed? ||
-                                                        source.group_id_changed? }
+  after_update :check_cache, :if => proc { |source| source.state_changed? || source.display_name_changed? }
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
@@ -62,7 +62,7 @@ class Source < ActiveRecord::Base
   scope :visible, where("state > ?", 1).order("group_id, sources.display_name")
   scope :inactive, where("state = ?", 2).order("group_id, sources.display_name")
   scope :active, where("state > ?", 2).order("group_id, sources.display_name")
-  scope :for_events, where("state > ?", 2).where("name != ?",'relativemetric').order("group_id, sources.display_name")
+  scope :for_events, where("state > ?", 2).where("name != ?", 'relativemetric').order("group_id, sources.display_name")
   scope :queueable, where("state > ?", 2).where("queueable = ?", true).order("group_id, sources.display_name")
 
   # some sources cannot be redistributed
@@ -87,10 +87,6 @@ class Source < ActiveRecord::Base
     name
   end
 
-  def get_data(article, options={})
-    raise NotImplementedError, 'Children classes should override get_data method'
-  end
-
   def remove_queues
     DelayedJob.delete_all(queue: name)
     RetrievalStatus.update_all(["queued_at = ?", nil], ["source_id = ?", id])
@@ -113,7 +109,7 @@ class Source < ActiveRecord::Base
     end
 
     rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
-    count = queue_article_jobs(rs, { priority: priority })
+    count = queue_article_jobs(rs, priority: priority)
   end
 
   def queue_article_jobs(rs, options = {})
@@ -131,93 +127,6 @@ class Source < ActiveRecord::Base
     end
 
     rs.length
-  end
-
-  # Array of hashes for forms, defined in subclassed sources
-  def get_config_fields
-    []
-  end
-
-  # List of field names for strong_parameters and validations
-  def config_fields
-    get_config_fields.map { |f| f[:field_name].to_sym }
-  end
-
-  # Custom validations that are triggered in state machine
-  def validate_config_fields
-    config_fields.each do |field|
-
-      # Some fields can be blank
-      next if name == "crossref" && field == :password
-      next if name == "mendeley" && field == :access_token
-      next if name == "twitter_search" && field == :access_token
-
-      errors.add(field, "can't be blank") if send(field).blank?
-    end
-  end
-
-  # Custom validation for cron_line field
-  def validate_cron_line_format
-    cron_parser = CronParser.new(cron_line)
-    cron_parser.next(Time.zone.now)
-  rescue ArgumentError
-    errors.add(:cron_line, "is not a valid crontab entry")
-  end
-
-  def url
-    config.url
-  end
-
-  def url=(value)
-    config.url = value
-  end
-
-  def events_url
-    config.events_url
-  end
-
-  def events_url=(value)
-    config.events_url = value
-  end
-
-  def username
-    config.username
-  end
-
-  def username=(value)
-    config.username = value
-  end
-
-  def password
-    config.password
-  end
-
-  def password=(value)
-    config.password = value
-  end
-
-  def api_key
-    config.api_key
-  end
-
-  def api_key=(value)
-    config.api_key = value
-  end
-
-  def access_token
-    config.access_token
-  end
-
-  def access_token=(value)
-    config.access_token = value
-  end
-
-  def get_query_url(article)
-    url % { :doi => article.doi_escaped }
-  end
-
-  def get_events_url(article)
-    events_url % { :doi => article.doi_escaped }
   end
 
   def check_for_failures
@@ -243,165 +152,43 @@ class Source < ActiveRecord::Base
     delayed_jobs.count - working_count
   end
 
-  def workers
-    config.workers || 1
+  def get_data(article, options={})
+    fail NotImplementedError, 'Children classes should override get_data method'
   end
 
-  def workers=(value)
-    config.workers = value.to_i
+  def get_query_url(article)
+    url % { :doi => article.doi_escaped }
   end
 
-  def disable_delay
-    config.disable_delay || 10
+  def get_events_url(article)
+    events_url % { :doi => article.doi_escaped }
   end
 
-  def disable_delay=(value)
-    config.disable_delay = value.to_i
+  # Custom validations that are triggered in state machine
+  def validate_config_fields
+    config_fields.each do |field|
+
+      # Some fields can be blank
+      next if name == "crossref" && field == :password
+      next if name == "mendeley" && field == :access_token
+      next if name == "twitter_search" && field == :access_token
+
+      errors.add(field, "can't be blank") if send(field).blank?
+    end
   end
 
-  def timeout
-    config.timeout || 30
+  # Custom validation for cron_line field
+  def validate_cron_line_format
+    cron_parser = CronParser.new(cron_line)
+    cron_parser.next(Time.zone.now)
+  rescue ArgumentError
+    errors.add(:cron_line, "is not a valid crontab entry")
   end
-
-  def timeout=(value)
-    config.timeout = value.to_i
-  end
-
-  def wait_time
-    config.wait_time || 300
-  end
-
-  def wait_time=(value)
-    config.wait_time = value.to_i
-  end
-
-  def max_failed_queries
-    config.max_failed_queries || 200
-  end
-
-  def max_failed_queries=(value)
-    config.max_failed_queries = value.to_i
-  end
-
-  def max_failed_query_time_interval
-    config.max_failed_query_time_interval || 86400
-  end
-
-  def max_failed_query_time_interval=(value)
-    config.max_failed_query_time_interval = value.to_i
-  end
-
-  def job_batch_size
-    config.job_batch_size || 200
-  end
-
-  def job_batch_size=(value)
-    config.job_batch_size = value.to_i
-  end
-
-  def max_job_batch_size
-    (rate_limiting * batch_time_interval / 3600).round
-  end
-
-  def rate_limiting
-    config.rate_limiting || 10000
-  end
-
-  def rate_limiting=(value)
-    config.rate_limiting = value.to_i
-  end
-
-  def schedule_at
-    last_job = DelayedJob.where(queue: name).maximum(:run_at)
-    return Time.zone.now if last_job.nil?
-
-    last_job + batch_interval
-  end
-
-  def job_interval
-    3600 / rate_limiting
-  end
-
-  def batch_interval
-    job_interval * job_batch_size
-  end
-
-  def batch_time_interval
-    config.batch_time_interval || 1.hour
-  end
-
-  def batch_time_interval=(value)
-    config.batch_time_interval = value.to_i
-  end
-
-  # The update interval for articles depends on article age. We use 4 different intervals that have default settings, but can also be configured individually per source:
-  # * first week: update daily
-  # * first month: update daily
-  # * first year: update every ¼ month
-  # * after one year: update monthly
-  def staleness_week
-    config.staleness_week || 1.day
-  end
-
-  def staleness_week=(value)
-    config.staleness_week = value.to_i
-  end
-
-  def staleness_month
-    config.staleness_month || 1.day
-  end
-
-  def staleness_month=(value)
-    config.staleness_month = value.to_i
-  end
-
-  def staleness_year
-    config.staleness_year || (1.month * 0.25).to_i
-  end
-
-  def staleness_year=(value)
-    config.staleness_year = value.to_i
-  end
-
-  def staleness_all
-    config.staleness_all || 1.month
-  end
-
-  def staleness_all=(value)
-    config.staleness_all = value.to_i
-  end
-
-  def staleness
-    [staleness_week, staleness_month, staleness_year, staleness_all]
-  end
-
-  def staleness_with_limits
-    ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
-  end
-
-  def cron_line
-    config.cron_line || "* 05 * * *"
-  end
-
-  def cron_line=(value)
-    config.cron_line = value
-  end
-
-  # is this source no longer accepting new data?
-  def obsolete
-    config.obsolete || false
-  end
-
-  def obsolete=(value)
-    config.obsolete = value
-  end
-
-  alias_method :obsolete?, :obsolete
 
   def check_cache
     if ActionController::Base.perform_caching
       DelayedJob.delete_all(queue: "#{name}-cache-queue")
-      self.delay(priority: 0, queue: "#{name}-cache-queue").expire_cache
+      delay(priority: 0, queue: "#{name}-cache-queue").expire_cache
     end
   end
 
@@ -430,12 +217,12 @@ class Source < ActiveRecord::Base
   private
 
   def expire_cache
-    self.update_column(:cached_at, Time.zone.now)
+    update_column(:cached_at, Time.zone.now)
     source_url = "http://localhost/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
-    get_json(source_url, { :timeout => cache_timeout })
+    get_json(source_url, timeout: cache_timeout)
 
     Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
     status_url = "http://localhost/api/v5/status?api_key=#{CONFIG[:api_key]}"
-    get_json(status_url, { :timeout => cache_timeout })
+    get_json(status_url, timeout: cache_timeout)
   end
 end

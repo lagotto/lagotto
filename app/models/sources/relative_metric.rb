@@ -64,12 +64,11 @@ class RelativeMetric < Source
     data = get_json(query_url)
 
     if data.nil?
-      return nil
+      nil
     else
       events[:subject_areas] = data["rows"].map { |row| { :subject_area => row["value"]["subject_area"], :average_usage => row["value"]["data"] } }
+      events
     end
-
-    return events
   end
 
   def get_config_fields

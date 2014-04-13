@@ -35,7 +35,7 @@ class ArticleCoverage < Source
       if (refers.blank?)
         { events: [], event_count: 0 }
       else
-        events = refers.map { |item| { event: item, event_url: item['referral'] }}
+        events = refers.map { |item| { event: item, event_url: item['referral'] } }
 
         event_metrics = { pdf: nil,
                           html: nil,

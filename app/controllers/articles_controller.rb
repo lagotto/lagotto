@@ -43,12 +43,12 @@ class ArticlesController < ApplicationController
 
   protected
 
-  def load_article()
+  def load_article
     # Load one article given query params
     id_hash = Article.from_uri(params[:id])
     @article = Article.where(id_hash).first
 
     # raise error if article wasn't found
-    raise ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @article.blank?
+    fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @article.blank?
   end
 end

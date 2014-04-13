@@ -26,9 +26,11 @@ class HtmlRatioTooHighError < Filter
     responses = first_response.get_html_ratio
 
     if responses.count > 0
-      responses = responses.map { |response| { source_id: source.id,
-                                               article_id: Article.find_by_doi(response['id'][8..-1]).id,
-                                               message: "HTML/PDF ratio is #{response['value']['ratio']} with #{response['value']['html']} HTML views this month" }}
+      responses = responses.map do |response|
+        { source_id: source.id,
+          article_id: Article.find_by_doi(response['id'][8..-1]).id,
+          message: "HTML/PDF ratio is #{response['value']['ratio']} with #{response['value']['html']} HTML views this month" }
+      end
       raise_alerts(responses)
     end
 

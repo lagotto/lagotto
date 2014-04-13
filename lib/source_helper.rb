@@ -147,7 +147,7 @@ module SourceHelper
   def put_alm_database
     put_alm_data(couchdb_url)
     filter = Faraday::UploadIO.new('design_doc/filter.json', 'application/json')
-    put_alm_data("#{couchdb_url}_design/filter", { data: filter })
+    put_alm_data("#{couchdb_url}_design/filter", data: filter)
   end
 
   def delete_alm_database
@@ -193,7 +193,7 @@ module SourceHelper
       url = url.downcase
 
       # remove jsessionid used by J2EE servers
-      url = url.gsub(/(.*);jsessionid=.*/,'\1')
+      url = url.gsub(/(.*);jsessionid=.*/, '\1')
 
       # remove parameter used by IEEE
       url = url.sub("reload=true&", "")
@@ -207,7 +207,7 @@ module SourceHelper
 
     # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
     if body_url.present? && ![url, path].include?(body_url)
-      raise Faraday::Error::ClientError, "Canonical URL mismatch: #{body_url}"
+      fail Faraday::Error::ClientError, "Canonical URL mismatch: #{body_url}"
     end
 
     url
@@ -226,10 +226,11 @@ module SourceHelper
   rescue *SourceHelperExceptions => e
     rescue_faraday_error(url, e, options.merge(:xml => true))
   rescue => exception
-    Alert.create(:exception => exception, :class_name => exception.class.to_s,
-                        :message => exception.message,
-                        :status => 500,
-                        :source_id => options[:source_id])
+    Alert.create(:exception => exception,
+                 :class_name => exception.class.to_s,
+                 :message => exception.message,
+                 :status => 500,
+                 :source_id => options[:source_id])
     nil
   end
 

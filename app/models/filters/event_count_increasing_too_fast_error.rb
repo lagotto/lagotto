@@ -24,10 +24,12 @@ class EventCountIncreasingTooFastError < Filter
     responses = ApiResponse.filter(state[:id]).increasing(limit, source_ids)
 
     if responses.count > 0
-      responses = responses.all.map { |response| { source_id: response.source_id,
-                                                   article_id: response.article_id,
-                                                   error: 0,
-                                                   message: "Event count increased by #{response.event_count - response.previous_count} in #{response.update_interval} day(s)" }}
+      responses = responses.all.map do |response|
+        { source_id: response.source_id,
+          article_id: response.article_id,
+          error: 0,
+          message: "Event count increased by #{response.event_count - response.previous_count} in #{response.update_interval} day(s)" }
+      end
       raise_alerts(responses)
     end
 
@@ -44,7 +46,7 @@ class EventCountIncreasingTooFastError < Filter
   end
 
   def source_ids
-    config.source_ids || Source.active.joins(:group).where("groups.name" => ['viewed','discussed']).pluck(:id)
+    config.source_ids || Source.active.joins(:group).where("groups.name" => ['viewed', 'discussed']).pluck(:id)
   end
 end
 

@@ -1,5 +1,6 @@
 require 'json'
 require 'net/http'
+require 'English'
 
 class CrossrefImport
   # This method reads the given JSON file, parses DOIs, Dates and Title,
@@ -31,7 +32,7 @@ class CrossrefImport
     until_date = until_date_str.nil? ? Date.today : Date.parse(until_date_str)
 
     while continue do
-      result = self.pull_crossref_api_page(from_date, until_date, CROSSREF_PAGESIZE, offset)
+      result = pull_crossref_api_page(from_date, until_date, CROSSREF_PAGESIZE, offset)
       if result[:success] == true
         offset += CROSSREF_PAGESIZE
         continue = offset < result[:total_results]
@@ -55,7 +56,7 @@ class CrossrefImport
       Rails.logger.warn "CrossRef-API finished. from_date: #{from_date}, until_date: #{until_date}, invalid_record_counter: #{invalid_record_counter}, valid_record_counter: #{valid_record_counter}, created_count: #{created_count}, updated_count: #{updated_count}, duplicate_count: #{duplicate_count}"
     end
 
-    return !error
+    !error
 
   end
 
@@ -88,7 +89,7 @@ class CrossrefImport
 
           doi= item["DOI"] ? Article.from_uri(item["DOI"].strip).values.first : nil
           title=item["title"] ? item["title"].first : nil
-          issued_on=  item["issued"] && item["issued"]["date-parts"] ? self.parse_date_parts(item["issued"]["date-parts"]) : nil
+          issued_on=  item["issued"] && item["issued"]["date-parts"] ? parse_date_parts(item["issued"]["date-parts"]) : nil
         rescue => e
           error = true
           error_msg = e.message
@@ -148,13 +149,9 @@ class CrossrefImport
 
     start_time = Time.new
 
-    unless File.exists?(json_file)
-      raise ArgumentError.new("File #{json_file} does not exist")
-    end
+    fail ArgumentError, "File #{json_file} does not exist" unless File.exists?(json_file)
 
-    unless Dir.exists?(output_dir)
-      FileUtils.mkdir_p(output_dir)
-    end
+    FileUtils.mkdir_p(output_dir) unless Dir.exists?(output_dir)
 
     existing_files = Dir.glob(File.absolute_path("*.crossref.*", output_dir))
 
@@ -181,7 +178,7 @@ class CrossrefImport
     file_counter = 1 #start at one!
     line_counter = 0 #start at zero!
 
-    output_file = self.get_incremental_file(output_dir, File.basename(json_file), file_counter, file_counter_precision)
+    output_file = get_incremental_file(output_dir, File.basename(json_file), file_counter, file_counter_precision)
     #output_file = get_output_file(file_counter, file_counter_precision, output_dir, json_file)
     error_file = nil
     invalid_record_counter = 0
@@ -198,11 +195,11 @@ class CrossrefImport
 
         doi = Article.from_uri(data["doi"].strip).values.first
         title = data["title"].blank? ? nil : data["title"].strip
-        published_on = self.parse_date(data["published"])
+        published_on = parse_date(data["published"])
 
       rescue
         error = true
-        error_msg = $!
+        error_msg = $ERROR_INFO
 
       ensure
 
@@ -217,7 +214,7 @@ class CrossrefImport
             error_msg = "published_on missing" if published_on.nil?
           end
 
-          error_file ||= self.open_file(output_dir, File.basename(json_file), ".crossref.errors")
+          error_file ||= open_file(output_dir, File.basename(json_file), ".crossref.errors")
           error_file.write("#{error_msg}\t" + line)
         else
           output_file.write "#{data["doi"]}\t#{published_on}\t#{title}\n"
@@ -231,7 +228,7 @@ class CrossrefImport
         output_file.close()
         file_counter += 1
         line_counter = 0
-        output_file = self.get_incremental_file(output_dir, File.basename(json_file), file_counter, file_counter_precision)
+        output_file = get_incremental_file(output_dir, File.basename(json_file), file_counter, file_counter_precision)
       end
 
 
@@ -271,22 +268,18 @@ class CrossrefImport
     created_count = 0
     updated_count = 0
 
-
     # Process in reverse sorted order to do latest articles first
     tab_files_list = Dir.glob(File.absolute_path("*.crossref.[0-9]*.tab", tab_dir)).sort.reverse
     tab_files_list.each do |tab_file|
       file_count += 1
       error_file = nil
-      output_file = self.open_file(tab_dir, File.basename(tab_file), ".processed")
-
+      output_file = open_file(tab_dir, File.basename(tab_file), ".processed")
 
       puts "Processing #{tab_file}"
-      file = File.open( tab_file )
+      file = File.open(tab_file)
 
       file.each_line do |line|
         line_count += 1
-
-
 
         begin
           error = false
@@ -300,7 +293,7 @@ class CrossrefImport
 
         rescue
           error = true
-          error_msg = $!
+          error_msg = $ERROR_INFO
 
         ensure
 
@@ -315,7 +308,7 @@ class CrossrefImport
               error_msg = "published_on missing" if published_on.nil?
             end
 
-            error_file ||= self.open_file(tab_dir, File.basename(tab_file), ".errors")
+            error_file ||= open_file(tab_dir, File.basename(tab_file), ".errors")
             error_file.write("#{error_msg}\t" + line)
           else
 
@@ -387,7 +380,7 @@ class CrossrefImport
   # Private methods -----------------
   private
   def self.get_incremental_file(output_dir, base_filename, file_counter, file_counter_precision)
-    self.open_file(output_dir, base_filename, ".crossref.#{"%.#{file_counter_precision}i" % file_counter}.tab")
+    open_file(output_dir, base_filename, ".crossref.#{"%.#{file_counter_precision}i" % file_counter}.tab")
   end
 
   def self.open_file(output_dir, base_filename, extension)
@@ -405,7 +398,7 @@ class CrossrefImport
       year = date_parts.flatten[0]        #no default for year
       month = date_parts.flatten[1] || 1  #default to January if month not specified
       day = date_parts.flatten[2] || 1    #default to 1st of the month if day not specified
-      return Date.new(year,month,day)
+      return Date.new(year, month, day)
     else
       return nil
     end
@@ -421,32 +414,32 @@ class CrossrefImport
           month = date_object["month"].to_i
 
           case month
-            when 1..12
-              #do nothing
-              nil
+          when 1..12
+            #do nothing
+            nil
 
 
-            when 21 #spring, assume this means northern hemisphere, March 20 - June 20, choose March
-              month = 3
-            when 22 #summer, assume this means northern hemisphere, June 21 - September 21, choose June
-              month = 6
-            when 23 #autumn, assume this means northern hemisphere, September 22 - December 20, choose September
-              month = 9
-            when 24 #winter, assume this means northern hemisphere, December 21 - March 19, choose December
-              month = 12
+          when 21 #spring, assume this means northern hemisphere, March 20 - June 20, choose March
+            month = 3
+          when 22 #summer, assume this means northern hemisphere, June 21 - September 21, choose June
+            month = 6
+          when 23 #autumn, assume this means northern hemisphere, September 22 - December 20, choose September
+            month = 9
+          when 24 #winter, assume this means northern hemisphere, December 21 - March 19, choose December
+            month = 12
 
-            when 31 #quarter 1, assume this means January
-              month = 1
-            when 32 #quarter 2, assume this means April
-              month = 4
-            when 33 #quarter 3, assume this means July
-              month = 7
-            when 34 #quarter 4, assume this means October
-              month = 10
+          when 31 #quarter 1, assume this means January
+            month = 1
+          when 32 #quarter 2, assume this means April
+            month = 4
+          when 33 #quarter 3, assume this means July
+            month = 7
+          when 34 #quarter 4, assume this means October
+            month = 10
 
-            else
-              #Unknown month, throw an error
-              raise ArgumentError, "Month #{month} is unknown"
+          else
+            #Unknown month, throw an error
+            fail ArgumentError, "Month #{month} is unknown"
           end
 
           if !date_object["day"].nil?
@@ -468,12 +461,12 @@ class CrossrefImport
 
       else
         #Unknown year, throw an error
-        raise ArgumentError, "Year #{year} is unknown"
+        fail ArgumentError, "Year #{year} is unknown"
       end
     else
       #No data provided
-      raise ArgumentError, "date_object is nil" if date_object.nil?
-      raise ArgumentError, "date_object[\"year\"] is nil" if date_object["year"].nil?
+      fail ArgumentError, "date_object is nil" if date_object.nil?
+      fail ArgumentError, "date_object[\"year\"] is nil" if date_object["year"].nil?
     end
   end
 

@@ -48,12 +48,12 @@ class RetrievalHistory < ActiveRecord::Base
   # This is needed to calculate and display the table size
   def self.table_status
     if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
-     sql = "SHOW TABLE STATUS LIKE 'retrieval_histories'"
+      sql = "SHOW TABLE STATUS LIKE 'retrieval_histories'"
     else
       sql = "SELECT * FROM pg_class WHERE oid = 'public.retrieval_histories'::regclass"
     end
     table_status = ActiveRecord::Base.connection.select_all(sql).first
-    Hash[table_status.map {|k, v| [k.to_s.underscore, v] }]
+    Hash[table_status.map { |k, v| [k.to_s.underscore, v] }]
   end
 
   def data

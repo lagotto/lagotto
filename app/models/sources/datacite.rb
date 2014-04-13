@@ -34,7 +34,7 @@ class Datacite < Source
       { :events => [], :event_count => nil }
     else
       event_count = result["response"]["numFound"]
-      events = result["response"]["docs"].nil? ? [] : result["response"]["docs"].map { |event| { event: event, event_url: "http://doi.org/#{event['doi']}" }}
+      events = result["response"]["docs"].nil? ? [] : result["response"]["docs"].map { |event| { event: event, event_url: "http://doi.org/#{event['doi']}" } }
       event_metrics = { :pdf => nil,
                         :html => nil,
                         :shares => nil,

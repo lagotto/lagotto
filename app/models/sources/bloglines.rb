@@ -28,13 +28,11 @@ class Bloglines < Source
       event = {}
       %w[site/name site/url site/feedurl title author abstract url].each do |a|
         first = cite.at_xpath("#{a}")
-        if first
-          event[a.gsub('/','_').intern] = first.content
-        end
+        event[a.gsub('/', '_').intern] = first.content if first
       end
       # Ignore citations of the dx.doi.org URI itself
       events << event \
-        unless Article::from_uri(event[:url]) == article.doi
+        unless Article.from_uri(event[:url]) == article.doi
     end
 
     {:events => events,

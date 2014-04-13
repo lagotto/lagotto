@@ -69,28 +69,24 @@ class Article < ActiveRecord::Base
 
   def self.from_uri(id)
     return nil if id.nil?
+
     id = id.gsub("%2F", "/")
-    if id.starts_with? "http://dx.doi.org/"
-      { :doi => id[18..-1] }
-    elsif id.starts_with? "info:doi/"
-      { :doi => CGI.unescape(id[9..-1]) }
-    elsif id.starts_with? "info:pmid/"
-      { :pmid => id[10..-1] }
-    elsif id.starts_with? "info:pmcid/"
-      # Strip PMC prefix
-      id = id[3..-1] if id[11..13] == "PMC"
-      { :pmcid => id[11..-1] }
-    elsif id.starts_with? "info:mendeley/"
-      { :mendeley_uuid => id[14..-1] }
-    else
-      { self.uid.to_sym => id }
+
+    case
+    when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
+    when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]) }
+    when id.starts_with?("info:pmid/")         then { pmid: id[10..-1] }
+    when id.starts_with?("info:pmcid/PMC")     then { pmcid: id[14..-1] }
+    when id.starts_with?("info:pmcid/")        then { pmcid: id[11..-1] }
+    when id.starts_with?("info:mendeley/")     then { mendeley_uuid: id[14..-1] }
+    else { uid.to_sym => id }
     end
   end
 
   def self.to_uri(id, escaped=true)
     return nil if id.nil?
     unless id.starts_with? "info:"
-      id = "info:#{self.uid}/" + from_uri(id).values.first
+      id = "info:#{uid}/" + from_uri(id).values.first
     end
     id
   end
@@ -117,7 +113,7 @@ class Article < ActiveRecord::Base
   end
 
   def uid
-    self.send(Article.uid)
+    send(Article.uid)
   end
 
   def uid_escaped
@@ -137,16 +133,16 @@ class Article < ActiveRecord::Base
   end
 
   def cited_retrievals_count
-    retrieval_statuses.select {|r| r.event_count > 0}.size
+    retrieval_statuses.select { |r| r.event_count > 0 }.size
   end
 
   # Filter retrieval_statuses by source
   def retrieval_statuses_by_source(options={})
     if options[:source]
       source_ids = Source.where("lower(name) in (?)", options[:source].split(",")).order("name").pluck(:id)
-      self.retrieval_statuses.by_source(source_ids)
+      retrieval_statuses.by_source(source_ids)
     else
-      self.retrieval_statuses
+      retrieval_statuses
     end
   end
 
@@ -258,8 +254,10 @@ class Article < ActiveRecord::Base
   # Uses nil if invalid date
   def update_published_on
     date_parts = [year, month, day].reject(&:blank?)
-    published_on = Date.new(*date_parts) rescue nil
+    published_on = Date.new(*date_parts)
     write_attribute(:published_on, published_on)
+  rescue ArgumentError
+    nil
   end
 
   def validate_published_on
@@ -267,7 +265,7 @@ class Article < ActiveRecord::Base
   end
 
   def sanitize_title
-    self.title = ActionController::Base.helpers.sanitize(self.title)
+    title = ActionController::Base.helpers.sanitize(title)
   end
 
   def create_retrievals
