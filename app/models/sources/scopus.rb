@@ -31,31 +31,16 @@ class Scopus < Source
     if result.nil? || result["search-results"].nil? || result["search-results"]["entry"][0].nil?
       nil
     elsif result["search-results"]["entry"][0]["citedby-count"].nil?
-      { events: [], event_count: 0, event_metrics: { pdf: nil,
-                                                     html: nil,
-                                                     shares: nil,
-                                                     groups: nil,
-                                                     comments: nil,
-                                                     likes: nil,
-                                                     citations: 0,
-                                                     total: 0 }}
+      { events: [], event_count: 0, event_metrics: event_metrics(0) }
     else
       events = result["search-results"]["entry"][0]
       event_count = events["citedby-count"].to_i
       link = events["link"].find { |link| link["@ref"] == "scopus-citedby" }
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => event_count,
-                        :total => event_count }
 
       { events: events,
         events_url: link["@href"],
         event_count: event_count,
-        event_metrics: event_metrics }
+        event_metrics: event_metrics(citations: event_count) }
     end
   end
 

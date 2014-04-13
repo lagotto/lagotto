@@ -9,7 +9,7 @@ describe Pmc do
       # array of hashes for the 10 last months, excluding the current month
       start_date = 10.months.ago.to_date
       end_date = 1.month.ago.to_date
-      response = subject.date_range(month: start_date.month, year: start_date.year)
+      response = subject.date_range(month: start_date.month, year: start_date.year, source: "pmc")
       response.count.should == 10
       response.last.should eq(month: end_date.month, year: end_date.year)
     end
@@ -25,7 +25,7 @@ describe Pmc do
 
     it "should format the CouchDB HTML report as csv" do
       start_date = Date.new(2013, 11, 1)
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
+      dates = subject.date_range(month: start_date.month, year: start_date.year, source: "pmc").map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["10.1371/journal.ppat.1000446", "5", "4"]
       row.fill("0", 3..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_html_views"
@@ -38,7 +38,7 @@ describe Pmc do
 
     it "should format the CouchDB PDF report as csv" do
       start_date = Date.new(2013, 11, 1)
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
+      dates = subject.date_range(month: start_date.month, year: start_date.year, source: "pmc").map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["10.1371/journal.pbio.0030137", "0", "0"]
       row.fill("0", 3..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_pdf_views"
@@ -51,7 +51,7 @@ describe Pmc do
 
     it "should format the CouchDB combined report as csv" do
       start_date = Date.new(2013, 11, 1)
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
+      dates = subject.date_range(month: start_date.month, year: start_date.year, source: "pmc").map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["10.1371/journal.pbio.0040015", "9", "10"]
       row.fill("0", 3..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_combined_views"

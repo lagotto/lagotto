@@ -25,8 +25,13 @@ module Dateable
 
     # Array of hashes in format [{ month: 12, year: 2013 },{ month: 1, year: 2014 }]
     # Provide starting month and year as input, otherwise defaults to this month
+    # PMC is only providing stats until the previous month
     def self.date_range(options = {})
-      end_date = Date.today
+      if options[:source] == "pmc"
+        end_date = 1.month.ago.to_date
+      else
+        end_date = Date.today
+      end
 
       return [{ month: end_date.month, year: end_date.year }] unless options[:month] && options[:year]
 

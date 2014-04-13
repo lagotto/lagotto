@@ -35,19 +35,11 @@ class Reddit < Source
     like_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["score"] }
     comment_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["num_comments"] }
     event_count = like_count + comment_count
-    event_metrics = { pdf: nil,
-                      html: nil,
-                      shares: nil,
-                      groups: nil,
-                      comments: comment_count,
-                      likes: like_count,
-                      citations: nil,
-                      total: event_count }
 
     { events: events,
       event_count: event_count,
       events_url: events_url,
-      event_metrics: event_metrics }
+      event_metrics: event_metrics(comments: comment_count, likes: like_count, total: event_count) }
   end
 
   def get_query_url(article)

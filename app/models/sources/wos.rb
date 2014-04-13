@@ -56,28 +56,21 @@ class Wos < Source
       return { events: [], event_count: nil }
     end
 
-    cite_count = result.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="timesCited"]')
-    cite_count = cite_count.nil? ? 0 : cite_count.content.to_i
-    event_metrics = { pdf: nil,
-                      html: nil,
-                      shares: nil,
-                      groups: nil,
-                      comments: nil,
-                      likes: nil,
-                      citations: cite_count,
-                      total: cite_count }
+    event_count = result.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="timesCited"]')
+    event_count = event_count.nil? ? 0 : event_count.content.to_i
 
-    if cite_count > 0
+    if event_count > 0
       events_url = result.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="citingArticlesURL"]')
       events_url = events_url.content unless events_url.nil?
 
-      { events: cite_count,
+      { events: event_count,
         events_url: events_url,
-        event_count: cite_count,
+        event_count: event_count,
+        event_metrics: event_metrics(citations: event_count),
         attachment: { filename: 'events.xml', content_type: 'text/xml', data: result.to_s }
       }
     else
-      { events: 0, event_count: 0, event_metrics: event_metrics, events_url: nil, attachment: nil }
+      { events: 0, event_count: 0, event_metrics: event_metrics(citations: event_count), events_url: nil, attachment: nil }
     end
   end
 

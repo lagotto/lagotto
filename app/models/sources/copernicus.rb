@@ -28,25 +28,21 @@ class Copernicus < Source
     result = get_json(query_url, options.merge(:username => username, :password => password))
 
     return nil if result.nil?
-    return { events: [], event_count: nil } if result.empty? || !result["counter"]
+    return { events: [], event_count: nil } if result.empty? || !result["counter"]
 
     if result["counter"].values.all? { |x| x.nil? }
-      event_count = nil
+      event_count = 0
+      pdf = 0
+      html = 0
     else
       event_count = result["counter"].values.inject(0) { |sum, x| sum + (x ? x : 0) }
+      pdf = result["counter"]["PdfDownloads"],
+      html = result["counter"]["AbstractViews"]
     end
-    event_metrics = { :pdf => result["counter"]["PdfDownloads"],
-                      :html => result["counter"]["AbstractViews"],
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => nil,
-                      :total => event_count }
 
     { :events => result,
       :event_count => event_count,
-      :event_metrics => event_metrics }
+      :event_metrics => event_metrics(pdf: pdf, html: html, total: event_count) }
   end
 
   def get_query_url(article)

@@ -43,19 +43,12 @@ class F1000 < Source
     event = result.to_s
     event = Hash.from_xml(event)
     event = event["Article"]
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => event["TotalScore"].to_i,
-                      :total => event["TotalScore"].to_i }
+    event_count = event["TotalScore"].to_i
 
     { :events => event,
       :events_url => event["Url"],
-      :event_count => event["TotalScore"].to_i,
-      :event_metrics => event_metrics,
+      :event_count => event_count,
+      :event_metrics => event_metrics(citations: event_count),
       :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }
     }
   end
@@ -72,8 +65,8 @@ class F1000 < Source
   end
 
   def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "filename", :field_type => "text_field", :size => 90}]
+    [{ :field_name => "url", :field_type => "text_area", :size => "90x2" },
+     { :field_name => "filename", :field_type => "text_field", :size => 90 }]
   end
 
   def filename

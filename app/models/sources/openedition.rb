@@ -39,19 +39,11 @@ class Openedition < Source
     end
 
     events_url = "http://search.openedition.org/index.php?op%5B%5D=AND&q%5B%5D=#{article.doi_escaped}&field%5B%5D=All&pf=Hypotheses.org"
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => events.length,
-                      :total => events.length }
 
     { :events => events,
       :events_url => events_url,
       :event_count => events.length,
-      :event_metrics => event_metrics,
+      :event_metrics => event_metrics(citations: events.length),
       :attachment => events.empty? ? nil : { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 

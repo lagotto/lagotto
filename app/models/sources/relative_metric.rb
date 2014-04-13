@@ -30,18 +30,9 @@ class RelativeMetric < Source
       total += subject_area[:average_usage].reduce(:+)
     end
 
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => nil,
-                      :total => total }
-
     { :events => events,
       :event_count => total,
-      :event_metrics => event_metrics }
+      :event_metrics => event_metrics(total: total) }
   end
 
   def get_relative_metric_data(article)

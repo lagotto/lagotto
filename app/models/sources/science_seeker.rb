@@ -40,19 +40,11 @@ class ScienceSeeker < Source
     end
 
     events_url = "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}"
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => events.length,
-                      :total => events.length }
 
     { :events => events,
       :events_url => events_url,
       :event_count => events.length,
-      :event_metrics => event_metrics,
+      :event_metrics => event_metrics(citations: events.length),
       :attachment => events.empty? ? nil : { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 

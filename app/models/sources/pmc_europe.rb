@@ -28,23 +28,13 @@ class PmcEurope < Source
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    if result.nil?
-      nil
-    else
-      event_count = result["hitCount"]
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => event_count,
-                        :total => event_count }
+    return nil if result.nil?
 
-      { events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-citations",
-        event_count: event_count,
-        event_metrics: event_metrics }
-    end
+    event_count = result["hitCount"]
+
+    { events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-citations",
+      event_count: event_count,
+      event_metrics: event_metrics(citations: event_count) }
   end
 
   def get_query_url(article)

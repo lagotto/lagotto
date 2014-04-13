@@ -32,19 +32,10 @@ class Wordpress < Source
 
     events = result.map { |item| { event: item, event_url: item['link'] } }
 
-    event_metrics = { pdf: nil,
-                      html: nil,
-                      shares: nil,
-                      groups: nil,
-                      comments: nil,
-                      likes: nil,
-                      citations: events.length,
-                      total: events.length }
-
     { events: events,
       event_count: events.length,
       events_url: "http://en.search.wordpress.com/?q=\"#{article.doi}\"&t=post",
-      event_metrics: event_metrics }
+      event_metrics: event_metrics(citations: events.length) }
   end
 
   def get_config_fields

@@ -32,29 +32,21 @@ class Researchblogging < Source
 
     events = []
 
-    total_count = result.at_xpath("//blogposts/@total_records_found")
+    event_count = result.at_xpath("//blogposts/@total_records_found").value.to_i
 
     result.xpath("//blogposts/post").each do |post|
       event = Hash.from_xml(post.to_s)
       event = event['post']
 
-      events << {:event => event, :event_url => event['post_URL']}
+      events << { :event => event, :event_url => event['post_URL'] }
     end
 
     events_url = get_events_url(article)
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => total_count.value.to_i,
-                      :total => total_count.value.to_i }
 
     { :events => events,
       :events_url => events_url,
-      :event_count => total_count.value.to_i,
-      :event_metrics => event_metrics,
+      :event_count => event_count,
+      :event_metrics => event_metrics(citations: event_count),
       :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 

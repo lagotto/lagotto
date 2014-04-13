@@ -36,7 +36,7 @@ namespace :pmc do
       exit
     end
 
-    dates = Pmc.date_range(month: args.month, year: args.year)
+    dates = Pmc.date_range(month: args.month, year: args.year, source: "pmc")
 
     dates.each do |date|
       journals_with_errors = source.get_feed(date[:month], date[:year])

@@ -67,20 +67,13 @@ class Mendeley < Source
     events_url = result['mendeley_url']
 
     # event count is the reader and group numbers combined
-    total = 0
-    readers = result['stats']['readers'] unless result['stats'].nil?
-    total += readers unless readers.nil?
+    readers = result['stats'].nil? ? 0 : result['stats']['readers']
+    readers = readers.nil? ? 0 : readers
 
     groups = result['groups']
-    total += groups.length unless groups.nil?
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => readers.nil? ? 0 : readers,
-                      :groups => groups.nil? ? 0 : groups.length,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => nil,
-                      :total => total }
+    groups = groups.nil? ? 0 : groups.length
+
+    total = readers + groups
 
     related_articles = get_json(get_related_url(result['uuid']), options.merge(bearer: access_token))
     result[:related] = related_articles['documents'] if related_articles
@@ -88,7 +81,7 @@ class Mendeley < Source
     { :events => result,
       :events_url => events_url,
       :event_count => total,
-      :event_metrics => event_metrics }
+      :event_metrics => event_metrics(shares: readers, groups: groups, total: total) }
   end
 
   def get_mendeley_uuid(article, options={})

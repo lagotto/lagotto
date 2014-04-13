@@ -33,19 +33,11 @@ class Datacite < Source
 
     event_count = result["response"]["numFound"]
     events = result["response"]["docs"].nil? ? [] : result["response"]["docs"].map { |event| { event: event, event_url: "http://doi.org/#{event['doi']}" } }
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => event_count,
-                      :total => event_count }
 
     { events: events,
       events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}",
       event_count: event_count,
-      event_metrics: event_metrics }
+      event_metrics: event_metrics(citations: event_count) }
   end
 
   def get_config_fields

@@ -45,18 +45,10 @@ class Facebook < Source
       likes = events[0]["like_count"]
       total = events[0]["total_count"]
     end
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => shares,
-                      :groups => nil,
-                      :comments => comments,
-                      :likes => likes,
-                      :citations => nil,
-                      :total => total }
 
     { :events => events,
       :event_count => total,
-      :event_metrics => event_metrics }
+      :event_metrics => event_metrics(shares: shares. comments: comments, likes: likes, total: total) }
   end
 
   def get_query_url(article, options={})

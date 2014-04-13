@@ -31,8 +31,9 @@ class Twitter < Source
     elsif events.empty?
       { events: [], event_count: nil }
     else
-      { :events => events,
-        :event_count => events.length }
+      { events: events,
+        event_count: events.length,
+        event_metrics: event_metrics(comments: events.length) }
     end
   end
 

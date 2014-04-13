@@ -151,18 +151,9 @@ class Pmc < Source
     html = events.nil? ? 0 : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }
     event_count = pdf + html
 
-    event_metrics = { :pdf => pdf,
-                      :html => html,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => nil,
-                      :total => event_count }
-
     { :events => events,
       :event_count => event_count,
-      :event_metrics => event_metrics }
+      :event_metrics => event_metrics(pdf: pdf, html: html, total: event_count) }
   end
 
   def get_query_url(article)

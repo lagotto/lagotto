@@ -72,21 +72,13 @@ class TwitterSearch < Source
         :event_url => "http://twitter.com/#{user}/status/#{event["id_str"]}" }
     end
     events_url = get_events_url(article)
-    event_metrics = { pdf: nil,
-                      html: nil,
-                      shares: nil,
-                      groups: nil,
-                      comments: events.length,
-                      likes: nil,
-                      citations: nil,
-                      total: events.length }
 
     set_since_id(article, since_id: since_id)
 
     { events: events,
       event_count: events.length,
       events_url: events_url,
-      event_metrics: event_metrics }
+      event_metrics: event_metrics(comments: events.length) }
   end
 
   def get_query_url(article, options={})

@@ -27,23 +27,14 @@ class ArticleCoverage < Source
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    return { events: [], event_count: 0 } if result.nil? || result['referrals'].blank?
+    return { events: [], event_count: 0 } if result.nil? || result['referrals'].blank?
 
     refers = result['referrals']
     events = refers.map { |item| { event: item, event_url: item['referral'] } }
 
-    event_metrics = { pdf: nil,
-                      html: nil,
-                      shares: nil,
-                      groups: nil,
-                      comments: events.length,
-                      likes: nil,
-                      citations: nil,
-                      total: events.length }
-
     { events: events,
       event_count: events.length,
-      event_metrics: event_metrics }
+      event_metrics: event_metrics(comments: events.length) }
   end
 
   def get_config_fields

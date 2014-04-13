@@ -29,25 +29,16 @@ class Figshare < Source
     result = get_json(query_url, options)
 
     return nil if result.nil?
-    return { events: [], event_count: nil } if result.empty? || result["items"].empty?
+    return { events: [], event_count: nil } if result.empty? || result["items"].empty?
 
     views = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["page_views"].to_i }
     downloads = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["downloads"].to_i }
     likes = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["likes"].to_i }
     total = views + downloads + likes
 
-    event_metrics = { :pdf => downloads,
-                      :html => views,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => likes,
-                      :citations => nil,
-                      :total => total }
-
     { :events => result,
       :event_count => total,
-      :event_metrics => event_metrics }
+      :event_metrics => event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
   end
 
   def get_query_url(article)

@@ -29,7 +29,7 @@ class PlosComments < Source
     result = get_json(query_url, options)
 
     return nil if result.nil?
-    return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?
+    return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?
 
     events = result
     replies = events.inject(0) { |sum, hash| sum + hash["totalNumReplies"].to_i }
@@ -45,7 +45,7 @@ class PlosComments < Source
 
     { :events => events,
       :event_count => total,
-      :event_metrics => event_metrics }
+      :event_metrics => event_metrics(comments: events.length, total: total) }
   end
 
   def get_query_url(article)

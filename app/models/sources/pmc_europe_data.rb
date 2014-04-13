@@ -28,31 +28,20 @@ class PmcEuropeData < Source
     query_url = get_query_url(article)
     result = get_json(query_url, options)
 
-    if result.nil?
-      nil
+    return nil if result.nil?
+
+    event_count = result["hitCount"]
+
+    if result["dbCountList"]
+      events = result["dbCountList"]["db"].inject({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
     else
-      event_count = result["hitCount"]
-
-      if result["dbCountList"]
-        events = result["dbCountList"]["db"].inject({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
-      else
-        events = nil
-      end
-
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => event_count,
-                        :total => event_count }
-
-      { events: events,
-        events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-bioentities",
-        event_count: event_count,
-        event_metrics: event_metrics }
+      events = nil
     end
+
+    { events: events,
+      events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-bioentities",
+      event_count: event_count,
+      event_metrics: event_metrics(citations: event_count) }
   end
 
   def get_query_url(article)

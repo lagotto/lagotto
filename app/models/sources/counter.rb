@@ -104,25 +104,18 @@ class Counter < Source
       views << curMonth
     end
 
-    event_metrics = { :pdf => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i },
-                      :html => views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:html_views].to_i },
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => nil,
-                      :total => event_count }
+    pdf = views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i }
+    html = views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:html_views].to_i }
 
-    {:events => views,
-     :events_url => query_url,
-     :event_count => event_count,
-     :event_metrics => event_metrics,
-     :attachment => views.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
-
+    { :events => views,
+      :events_url => query_url,
+      :event_count => event_count,
+      :event_metrics => event_metrics(pdf: pdf, html: html, total: event_count),
+      :attachment => views.empty? ? nil : { filename: "events.xml", content_type: "text\/xml", data: result.to_s } }
   end
 
   def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+    [{ :field_name => "url", :field_type => "text_area", :size => "90x2" }]
   end
 
   def workers

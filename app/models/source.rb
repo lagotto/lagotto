@@ -28,6 +28,9 @@ class Source < ActiveRecord::Base
   # include default methods for subclasses
   include Configurable
 
+  # include methods for calculating metrics
+  include Measurable
+
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses

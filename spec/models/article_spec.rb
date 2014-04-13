@@ -70,14 +70,14 @@ describe Article do
 
   it "events count" do
     Article.all.each do |article|
-      total = article.retrieval_statuses.inject(0) { |sum, rs| sum += rs.event_count }
+      total = article.retrieval_statuses.inject(0) { |sum, rs| sum + rs.event_count }
       total.should == article.events_count
     end
   end
 
   it "cited_retrievals_count" do
     Article.all.each do |article|
-      total = article.retrieval_statuses.inject(0) { |sum, rs| sum += 1 if rs.event_count > 0 }
+      total = article.retrieval_statuses.inject(0) { |sum, rs| sum + 1 if rs.event_count > 0 }
       total.should == article.cited_retrievals_count
     end
   end

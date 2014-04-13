@@ -33,10 +33,10 @@ class Connotea < Source
     end
     events
 
-    {:events => events,
-     :events_url => events_url,
-     :event_count => events.length,
-     :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
+    { :events => events,
+      :events_url => events_url,
+      :event_count => events.length,
+      :attachment => { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s } }
   end
 
   def get_query_url(article)
@@ -44,9 +44,9 @@ class Connotea < Source
   end
 
   def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "username", :field_type => "text_field"},
-     {:field_name => "password", :field_type => "password_field"}]
+    [{ :field_name => "url", :field_type => "text_area", :size => "90x2" },
+     { :field_name => "username", :field_type => "text_field" },
+     { :field_name => "password", :field_type => "password_field" }]
   end
 
   def obsolete?

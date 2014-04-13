@@ -39,19 +39,10 @@ class Citeulike < Source
 
     events_url = get_events_url(article)
 
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => events.length,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => nil,
-                      :total => events.length }
-
     { :events => events,
       :events_url => events_url,
       :event_count => events.length,
-      :event_metrics => event_metrics,
+      :event_metrics => event_metrics(shares: events.length),
       :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 
