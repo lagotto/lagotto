@@ -29,10 +29,6 @@
                                                     hint: "Max. number of workers" %>
       <%= f.input :job_batch_size, :as => :numeric, label: "Job queue",
                                                     hint: "Number of articles queued per job" %>
-      <%= f.input :batch_time_interval, collection: Source::INTERVAL_OPTIONS,
-                                                    label: false,
-                                                    include_blank: false,
-                                                    hint: "Batch job interval" %>
       <%= f.input :rate_limiting, :as => :numeric, label: false,
                                                     hint: "Max. requests per hour" %>
 
@@ -104,21 +100,19 @@
         <th>Job queue</th>
         <td>
           <%= @source.rate_limiting %> per hour rate-limiting</br>
-          <%= distance_of_time(@source.batch_time_interval) %> between batch jobs</br>
           <%= pluralize(@source.workers, "worker") %></br>
           <%= @source.job_batch_size %> articles per job</br>
           <%= @source.wait_time %> seconds before more jobs can be added</br>
-          <% if @source.run_at > Time.zone.now %>
-            </br>Batch jobs will again be queued at <%= @source.run_at.to_s(:friendly) %>
-          <% end %>
         </td>
       </tr>
-      <% if @source.queueable %>
-        <tr>
-          <th>Update interval</th>
+      <tr>
+        <th>Update interval</th>
+        <% if @source.queueable %>
           <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " for articles published #{i}" }.join("</br>").html_safe %></td>
-        </tr>
-      <% end %>
+        <% else %>
+          <td>Next update <%= @source.cron_line ? CronParser.new(@source.cron_line).next(Time.zone.now).to_s(:short) : "N/A" %></td>
+        <% end %>
+      </tr>
       <tr>
         <th>Timeout</th>
         <td><%=h @source.timeout %> seconds wait time for response from the source</td>

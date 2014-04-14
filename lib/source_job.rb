@@ -187,7 +187,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   def after(job)
     source = Source.find(source_id)
-    source.wait unless source.get_active_job_count > 1
+    source.wait unless source.working_count > 1
   end
 
   # override the default settings which are:

@@ -159,7 +159,7 @@ Then /^I should not see a blog count$/ do
 end
 
 Then /^"(.*?)" should be one option for "(.*?)"$/ do |value, field|
-  page.has_select?('source_batch_time_interval', :with_options => [value]).should be_true
+  page.has_select?('source_rate_limiting', :with_options => [value]).should be_true
 end
 
 Then /^I should see the "(.*?)" column$/ do |column_title|

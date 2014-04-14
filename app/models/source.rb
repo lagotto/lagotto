@@ -57,7 +57,6 @@ class Source < ActiveRecord::Base
   validates :max_failed_query_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 1..864000, :message => "should be between 1 and 864000" }
   validates :job_batch_size, :numericality => { :only_integer => true }, :inclusion => { :in => 1..1000, :message => "should be between 1 and 1000" }
   validates :rate_limiting, :numericality => { :only_integer => true }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
-  validates :batch_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 1..86400, :message => "should be between 1 and 86400" }
   validates :staleness_week, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_month, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
   validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
@@ -96,8 +95,8 @@ class Source < ActiveRecord::Base
   end
 
   def remove_queues
-    DelayedJob.delete_all(queue: name)
-    RetrievalStatus.update_all(["queued_at = ?", nil], ["source_id = ?", id])
+    delayed_jobs.delete_all
+    retrieval_statuses.update_all(["queued_at = ?", nil])
   end
 
   def queue_all_articles(options = {})
@@ -143,17 +142,14 @@ class Source < ActiveRecord::Base
     failed_queries > max_failed_queries
   end
 
-  def get_active_job_count
-    Delayed::Job.count('id', :conditions => ["queue = ? AND locked_by IS NOT NULL", name])
+  # limit the number of workers per source
+  def check_for_available_workers
+    workers >= working_count
   end
 
   def working_count
     delayed_jobs.count(:locked_at)
-  end
-
-  def check_for_available_workers
-    # limit the number of workers per source
-    workers >= working_count
+    #Delayed::Job.count('id', :conditions => ["queue = ? AND locked_by IS NOT NULL", name])
   end
 
   def pending_count

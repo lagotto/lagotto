@@ -39,8 +39,6 @@ describe Source do
   it { should ensure_inclusion_of(:max_failed_query_time_interval).in_range(1..864000).with_message("should be between 1 and 864000") }
   it { should validate_numericality_of(:job_batch_size).only_integer.with_message("should be between 1 and 1000") }
   it { should ensure_inclusion_of(:job_batch_size).in_range(1..1000).with_message("should be between 1 and 1000") }
-  it { should validate_numericality_of(:batch_time_interval).only_integer.with_message("should be between 1 and 86400") }
-  it { should ensure_inclusion_of(:batch_time_interval).in_range(1..86400).with_message("should be between 1 and 86400") }
   it { should ensure_inclusion_of(:rate_limiting).in_range(1..2678400).with_message("should be between 1 and 2678400") }
   it { should validate_numericality_of(:staleness_week).with_message("should be between 1 and 2678400") }
   it { should ensure_inclusion_of(:staleness_week).in_range(1..2678400).with_message("should be between 1 and 2678400") }

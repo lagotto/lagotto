@@ -64,29 +64,14 @@ module Statable
 
       after_transition :to => :inactive do |source|
         source.remove_queues
-        source.update_attributes(run_at: Time.zone.now + 5.years)
-      end
-
-      after_transition :inactive => [:working] do |source|
-        source.update_attributes(run_at: Time.zone.now)
       end
 
       after_transition any - [:disabled] => :disabled do |source|
         Alert.create(:exception => "", :class_name => "TooManyErrorsBySourceError",
                      :message => "#{source.display_name} has exceeded maximum failed queries. Disabling the source.",
                      :source_id => source.id)
-        source.update_attributes(run_at: Time.zone.now + source.disable_delay)
         report = Report.find_by_name("disabled_source_report")
         report.send_disabled_source_report(source.id)
-      end
-
-      after_transition :to => :waiting do |source|
-        if source.queueable
-          source.update_attributes(run_at: source.run_at + source.batch_time_interval)
-        else
-          cron_parser = CronParser.new(source.cron_line)
-          source.update_attributes(run_at: cron_parser.next(Time.zone.now))
-        end
       end
 
       event :install do

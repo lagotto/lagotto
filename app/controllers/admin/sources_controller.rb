@@ -55,7 +55,6 @@ class Admin::SourcesController < Admin::ApplicationController
                                    :description,
                                    :job_batch_size,
                                    :workers,
-                                   :batch_time_interval,
                                    :rate_limiting,
                                    :wait_time,
                                    :staleness_week,

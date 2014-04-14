@@ -64,9 +64,8 @@ A background job could not be processed in `max_run_time`. This typically happen
 
 - job_batch_size: number of articles per job (default 200)
 - timeout (default 30 sec)
-- batch_time_interval (default 1 hour)
 
-If all 200 jobs take close to 3000 sec, and they will not be done within an hour, and before we process the next batch. Decrease `job_batch_size` and/or `timeout`, or increase `batch_time_interval` if you see to many of these errors for a source.
+If all 200 jobs take close to 3000 sec, and they will not be done within an hour, and before we process the next batch. Decrease `job_batch_size` or increase `timeout` if you see to many of these errors for a source.
 
 #### [401] Missing API key.
 

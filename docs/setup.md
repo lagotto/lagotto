@@ -44,7 +44,6 @@ The following addiotional configuration options are available via the web interf
 * whether the results can be shared via the API (default true)
 * number of max. workers for the job queue (default 1)
 * job_batch_size: number of articles per job (default 200)
-* batch_time_interval (default 1 hour)
 * staleness: update interval depending on article publication date (default daily the first 31 days, then 4 times a month up until one year, then monthly)
 * rate-limiting (default 10,000)
 * timeout (default 30 sec)
