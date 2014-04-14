@@ -8,6 +8,10 @@ services:
 - couchdb
 - memcached
 
+before_install:
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq libicu-dev
+
 before_script:
 - cp config/settings.yml.example config/settings.yml
 - cp config/database.yml.example config/database.yml
