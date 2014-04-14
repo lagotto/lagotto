@@ -30,13 +30,14 @@ namespace :pmc do
     source = Source.find_by_name("pmc")
     if source.nil?
       message = "Source \"pmc\" is missing"
-      Alert.create(:exception => "", :class_name => "NoMethodError",
+      Alert.create(:exception => "",
+                   :class_name => "NoMethodError",
                    :message => message)
       puts "Error: #{message}"
       exit
     end
 
-    dates = Pmc.date_range(month: args.month, year: args.year, source: "pmc")
+    dates = source.date_range(month: args.month, year: args.year)
 
     dates.each do |date|
       journals_with_errors = source.get_feed(date[:month], date[:year])

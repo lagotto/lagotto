@@ -1,6 +1,6 @@
 class RetrievalStatusDecorator < Draper::Decorator
 
-  # include metrics by day, month, year concern
+  # include metrics by day, month and year
   include Visualizable
 
   delegate_all
