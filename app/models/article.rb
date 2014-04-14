@@ -66,7 +66,7 @@ class Article < ActiveRecord::Base
 
   # simplify admin dashboard when we have more than 150,000 articles
   def self.has_many?
-    self.class.count > 150000
+    Article.count > 150000
   end
 
   def self.from_uri(id)
