@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class SourceNotUpdatedError < Filter
-
   def run_filter(state)
     responses_by_source = ApiResponse.filter(state[:id]).group(:source_id).count
     responses = source_ids.select { |source_id| !responses_by_source.key?(source_id) }

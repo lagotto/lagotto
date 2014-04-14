@@ -1,6 +1,6 @@
 class Api::V3::ArticlesController < Api::V3::BaseController
   before_filter :load_article, :only => [ :update, :destroy ]
-  #load_and_authorize_resource :except => [ :show, :index ]
+  # load_and_authorize_resource :except => [ :show, :index ]
 
   def index
     # Filter by source parameter, filter out private sources unless admin
@@ -45,6 +45,7 @@ class Api::V3::ArticlesController < Api::V3::BaseController
   end
 
   protected
+
   def load_article
     # Load one article given query params
     @id_hash = Article.from_uri(params[:id])

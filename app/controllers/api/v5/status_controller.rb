@@ -17,7 +17,6 @@
 # limitations under the License.
 
 class Api::V5::StatusController < Api::V5::BaseController
-
   load_and_authorize_resource :alert, :parent => false
 
   def index

@@ -19,9 +19,7 @@
 # limitations under the License.
 
 class PlosComments < Source
-
   def get_data(article, options={})
-
     return { events: [], event_count: nil } unless article.is_publisher?
 
     query_url = get_query_url(article)
@@ -32,16 +30,8 @@ class PlosComments < Source
     return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?
 
     events = result
-    replies = events.inject(0) { |sum, hash| sum + hash["totalNumReplies"].to_i }
+    replies = events.reduce(0) { |sum, hash| sum + hash["totalNumReplies"].to_i }
     total = events.length + replies
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => events.length,
-                      :likes => nil,
-                      :citations => nil,
-                      :total => total }
 
     { :events => events,
       :event_count => total,

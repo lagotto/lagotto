@@ -11,8 +11,6 @@ class CrossrefImport
   CROSSREF_BASEURL = "http://api.crossref.org/"
   CROSSREF_PAGESIZE = 250
 
-
-
   # Call via a daily cron job to import the latest works from yesterday until today:
   #   bundle exec rails runner "CrossrefImport.pull_crossref_api"
   # or call with specific dates, e.g.
@@ -49,21 +47,17 @@ class CrossrefImport
       end
     end
 
-    if (error)
+    if error
       Rails.logger.error "CrossRef-API halted with errors. from_date: #{from_date}, until_date: #{until_date}, invalid_record_counter: #{invalid_record_counter}, valid_record_counter: #{valid_record_counter}, created_count: #{created_count}, updated_count: #{updated_count}, duplicate_count: #{duplicate_count}"
     else
-      #Use warn as info level does not appear in production logs
+      # Use warn as info level does not appear in production logs
       Rails.logger.warn "CrossRef-API finished. from_date: #{from_date}, until_date: #{until_date}, invalid_record_counter: #{invalid_record_counter}, valid_record_counter: #{valid_record_counter}, created_count: #{created_count}, updated_count: #{updated_count}, duplicate_count: #{duplicate_count}"
     end
 
     !error
-
   end
 
-
-
   def self.pull_crossref_api_page(from_date, until_date, page_size, offset)
-
     result = nil
     begin
       url = "#{CROSSREF_BASEURL}works?filter=from-update-date:#{from_date.to_s(:db)},until-update-date:#{until_date.to_s(:db)}&rows=#{page_size}&offset=#{offset}"
@@ -73,7 +67,6 @@ class CrossrefImport
       Rails.logger.error "CrossRef-API #{e}"
       return {:success=>false, :error=>e.message}
     end
-
 
     if result && result["status"] == "ok"
       invalid_record_counter = 0
@@ -95,13 +88,13 @@ class CrossrefImport
           error_msg = e.message
         ensure
 
-          #Is there an error processing this line?
-          if (error || !(doi =~ DOI_FORMAT) || title.blank? || issued_on.nil?)
+          # Is there an error processing this line?
+          if error || !(doi =~ DOI_FORMAT) || title.blank? || issued_on.nil?
             invalid_record_counter += 1
 
-            #Construct an appropriate error message if an exception was NOT thrown
-            if !error
-              error_msg = "doi invalid" unless (doi =~ DOI_FORMAT)
+            # Construct an appropriate error message if an exception was NOT thrown
+            unless error
+              error_msg = "doi invalid" unless doi =~ DOI_FORMAT
               error_msg = "title missing" if title.blank?
               error_msg = "issued_on missing" if issued_on.nil?
             end
@@ -110,7 +103,7 @@ class CrossrefImport
             Rails.logger.error "CrossRef-API #{item}"
           else
 
-            #Now load DOI
+            # Now load DOI
             existing = Article.find_by_doi(doi)
             unless existing
               Article.create(:doi => doi, :published_on => issued_on, :title => title)
@@ -131,9 +124,9 @@ class CrossrefImport
 
             valid_record_counter += 1
           end
-        end #begin
+        end # begin
 
-      end #each item
+      end # each item
 
       return {:success=>true, :invalid_record_counter=> invalid_record_counter, :valid_record_counter=>valid_record_counter,
               :created_count=>created_count, :updated_count=>updated_count, :duplicate_count=>duplicate_count,
@@ -146,7 +139,6 @@ class CrossrefImport
   end
 
   def self.parse_json(json_file, output_dir, block_size)
-
     start_time = Time.new
 
     fail ArgumentError, "File #{json_file} does not exist" unless File.exists?(json_file)
@@ -163,7 +155,6 @@ class CrossrefImport
       end
     end
 
-
     # Calculate some useful numbers
     line_count = %x{wc -l #{json_file}}.split.first.to_i
     if line_count <  block_size
@@ -175,11 +166,11 @@ class CrossrefImport
     end
     file_counter_precision = (Math.log10(file_count)).to_i + 1
 
-    file_counter = 1 #start at one!
-    line_counter = 0 #start at zero!
+    file_counter = 1 # start at one!
+    line_counter = 0 # start at zero!
 
     output_file = get_incremental_file(output_dir, File.basename(json_file), file_counter, file_counter_precision)
-    #output_file = get_output_file(file_counter, file_counter_precision, output_dir, json_file)
+    # output_file = get_output_file(file_counter, file_counter_precision, output_dir, json_file)
     error_file = nil
     invalid_record_counter = 0
     valid_record_counter = 0
@@ -203,13 +194,13 @@ class CrossrefImport
 
       ensure
 
-        #Is there an error processing this line?
-        if (error || !(doi =~ DOI_FORMAT) || title.blank? || published_on.nil?)
+        # Is there an error processing this line?
+        if error || !(doi =~ DOI_FORMAT) || title.blank? || published_on.nil?
           invalid_record_counter += 1
 
-          #Construct an appropriate error message if an exception was not thrown
-          if !error
-            error_msg = "doi invalid" unless (doi =~ DOI_FORMAT)
+          # Construct an appropriate error message if an exception was not thrown
+          unless error
+            error_msg = "doi invalid" unless doi =~ DOI_FORMAT
             error_msg = "title missing" if title.blank?
             error_msg = "published_on missing" if published_on.nil?
           end
@@ -223,22 +214,20 @@ class CrossrefImport
         end
       end
 
-      if (file.lineno < line_count && line_counter > 0 && line_counter % block_size == 0)
+      if file.lineno < line_count && line_counter > 0 && line_counter % block_size == 0
         # Close the current output file and create a new one
-        output_file.close()
+        output_file.close
         file_counter += 1
         line_counter = 0
         output_file = get_incremental_file(output_dir, File.basename(json_file), file_counter, file_counter_precision)
       end
 
-
     end
-    output_file.close()
-    error_file.close() unless error_file.nil?
+    output_file.close
+    error_file.close unless error_file.nil?
     file.close
 
     stop_time = Time.new
-
 
     puts ""
     puts "PROCESSING STATISTICS"
@@ -246,7 +235,7 @@ class CrossrefImport
     puts "Invalid lines skipped:\t" << invalid_record_counter.to_s
     puts "Source file line count:\t" << line_count.to_s
     puts "Output file count:\t" << file_counter.to_s
-    puts "PROCESSING ERROR: Unaccounted for lines:\t" << (line_count - (valid_record_counter + invalid_record_counter)).to_s if (line_count != (valid_record_counter + invalid_record_counter))
+    puts "PROCESSING ERROR: Unaccounted for lines:\t" << (line_count - (valid_record_counter + invalid_record_counter)).to_s if line_count != (valid_record_counter + invalid_record_counter)
     puts "Total time elapsed (seconds):\t" << (stop_time - start_time).to_s
     puts "Processing rate (lines/second):\t%.1f" % (line_count.to_f / (stop_time - start_time).to_f)
     puts "Error rate:\t%.3f%" % (100.0 * invalid_record_counter.to_f / line_count.to_f) if line_count > 0
@@ -254,7 +243,6 @@ class CrossrefImport
     puts ""
     puts "All done"
   end
-
 
   def self.import_tabs(tab_dir, delay)
     start_time = Time.new
@@ -297,13 +285,13 @@ class CrossrefImport
 
         ensure
 
-          #Is there an error processing this line?
-          if (error || !(doi =~ DOI_FORMAT) || title.blank? || published_on.nil?)
+          # Is there an error processing this line?
+          if error || !(doi =~ DOI_FORMAT) || title.blank? || published_on.nil?
             invalid_record_counter += 1
 
-            #Construct an appropriate error message if an exception was not thrown
-            if !error
-              error_msg = "doi invalid" unless (doi =~ DOI_FORMAT)
+            # Construct an appropriate error message if an exception was not thrown
+            unless error
+              error_msg = "doi invalid" unless doi =~ DOI_FORMAT
               error_msg = "title missing" if title.blank?
               error_msg = "published_on missing" if published_on.nil?
             end
@@ -312,8 +300,7 @@ class CrossrefImport
             error_file.write("#{error_msg}\t" + line)
           else
 
-
-            #Now load DOI
+            # Now load DOI
             existing = Article.find_by_doi(doi)
             unless existing
               article = Article.create(:doi => doi, :published_on => published_on, :title => title)
@@ -334,25 +321,23 @@ class CrossrefImport
 
             valid_record_counter += 1
           end
-        end #begin
-      end #each_line
+        end # begin
+      end # each_line
 
+      error_file.close unless error_file.nil?
+      output_file.close
+      file.close
 
+      File.delete(tab_file) # delete the old input file (in its place will be a .processed file)
 
-      error_file.close() unless error_file.nil?
-      output_file.close()
-      file.close()
-
-      File.delete(tab_file) #delete the old input file (in its place will be a .processed file)
-
-      if (!delay.nil?)
+      unless delay.nil?
         puts "Now sleeping for #{delay} seconds"
         sleep(delay)
       end
 
-      #break #Temporary
+      # break #Temporary
 
-    end #each tab_file
+    end # each tab_file
 
     stop_time = Time.new
 
@@ -372,13 +357,10 @@ class CrossrefImport
 
     puts ""
     puts "All done"
-
   end
 
-
-
-  # Private methods -----------------
   private
+
   def self.get_incremental_file(output_dir, base_filename, file_counter, file_counter_precision)
     open_file(output_dir, base_filename, ".crossref.#{"%.#{file_counter_precision}i" % file_counter}.tab")
   end
@@ -395,9 +377,9 @@ class CrossrefImport
 
   def self.parse_date_parts(date_parts)
     if date_parts.flatten.length > 0 && !date_parts.flatten[0].nil?
-      year = date_parts.flatten[0]        #no default for year
-      month = date_parts.flatten[1] || 1  #default to January if month not specified
-      day = date_parts.flatten[2] || 1    #default to 1st of the month if day not specified
+      year = date_parts.flatten[0]        # no default for year
+      month = date_parts.flatten[1] || 1  # default to January if month not specified
+      day = date_parts.flatten[2] || 1    # default to 1st of the month if day not specified
       return Date.new(year, month, day)
     else
       return nil
@@ -405,7 +387,7 @@ class CrossrefImport
   end
 
   def self.parse_date(date_object)
-    #Year must exist and must be between 2000 - current year
+    # Year must exist and must be between 2000 - current year
     if !date_object.nil? && !date_object["year"].nil?
       year = date_object["year"].to_i
       if year >= 2000 && year <= CURRENT_YEAR
@@ -415,30 +397,29 @@ class CrossrefImport
 
           case month
           when 1..12
-            #do nothing
+            # do nothing
             nil
 
-
-          when 21 #spring, assume this means northern hemisphere, March 20 - June 20, choose March
+          when 21 # spring, assume this means northern hemisphere, March 20 - June 20, choose March
             month = 3
-          when 22 #summer, assume this means northern hemisphere, June 21 - September 21, choose June
+          when 22 # summer, assume this means northern hemisphere, June 21 - September 21, choose June
             month = 6
-          when 23 #autumn, assume this means northern hemisphere, September 22 - December 20, choose September
+          when 23 # autumn, assume this means northern hemisphere, September 22 - December 20, choose September
             month = 9
-          when 24 #winter, assume this means northern hemisphere, December 21 - March 19, choose December
+          when 24 # winter, assume this means northern hemisphere, December 21 - March 19, choose December
             month = 12
 
-          when 31 #quarter 1, assume this means January
+          when 31 # quarter 1, assume this means January
             month = 1
-          when 32 #quarter 2, assume this means April
+          when 32 # quarter 2, assume this means April
             month = 4
-          when 33 #quarter 3, assume this means July
+          when 33 # quarter 3, assume this means July
             month = 7
-          when 34 #quarter 4, assume this means October
+          when 34 # quarter 4, assume this means October
             month = 10
 
           else
-            #Unknown month, throw an error
+            # Unknown month, throw an error
             fail ArgumentError, "Month #{month} is unknown"
           end
 
@@ -448,27 +429,23 @@ class CrossrefImport
             day = 1
           end
         else
-          #If no month provided, assume January
+          # If no month provided, assume January
           month = 1
 
-          #If no month is provided, assume day is 1st (rather than use day value when provided)
+          # If no month is provided, assume day is 1st (rather than use day value when provided)
           day = 1
         end
 
-
         return Date.new(year, month, day)
 
-
       else
-        #Unknown year, throw an error
+        # Unknown year, throw an error
         fail ArgumentError, "Year #{year} is unknown"
       end
     else
-      #No data provided
+      # No data provided
       fail ArgumentError, "date_object is nil" if date_object.nil?
       fail ArgumentError, "date_object[\"year\"] is nil" if date_object["year"].nil?
     end
   end
-
-
 end

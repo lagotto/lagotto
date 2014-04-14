@@ -19,9 +19,7 @@
 # limitations under the License.
 
 class Datacite < Source
-
   def get_data(article, options={})
-
     # Check that article has DOI
     return { events: [], event_count: nil } if article.doi.blank?
 
@@ -47,5 +45,4 @@ class Datacite < Source
   def url
     config.url || "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&rows=100&wt=json"
   end
-
 end

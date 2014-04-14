@@ -17,7 +17,6 @@
 # limitations under the License.
 
 class OembedController < ApplicationController
-
   respond_to :json, :xml
 
   def show
@@ -27,5 +26,4 @@ class OembedController < ApplicationController
     # Return 404 HTTP status code and error message if article wasn't found
     render "404", :status => 404 if @article.blank?
   end
-
 end

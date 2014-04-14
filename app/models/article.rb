@@ -131,7 +131,7 @@ class Article < ActiveRecord::Base
   end
 
   def events_count
-    retrieval_statuses.inject(0) { |sum, r| sum + r.event_count }
+    retrieval_statuses.reduce(0) { |sum, r| sum + r.event_count }
   end
 
   def cited_retrievals_count

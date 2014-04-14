@@ -56,6 +56,7 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   protected
+
   def load_user
     @user = User.find(params[:id])
     @reports = Report.available(@user.role)

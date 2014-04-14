@@ -42,7 +42,7 @@ describe Filter do
         @api_response = FactoryGirl.create(:api_response, unresolved: false)
       end
 
-       it "should get nil from all method" do
+      it "should get nil from all method" do
         subject.all.should be_nil
       end
     end
@@ -171,7 +171,7 @@ describe Filter do
     subject { FactoryGirl.create(:html_ratio_too_high_error) }
 
     before(:each) do
-      #subject.put_alm_database
+      # subject.put_alm_database
     end
 
     after(:each) do

@@ -17,9 +17,7 @@
 # limitations under the License.
 
 class Connotea < Source
-
   def get_data(article, options={})
-
     events_url = nil
 
     query_url = get_query_url(article)

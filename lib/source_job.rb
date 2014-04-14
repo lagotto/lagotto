@@ -36,7 +36,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def perform
-
     source = Source.find(source_id)
     source.work_after_check
 
@@ -63,7 +62,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   end
 
   def perform_get_data(rs)
-
     # we can get data_from_source in 4 different formats
     # - hash with event_count nil: SKIPPED
     # - hash with event_count = 0: SUCCESS NO DATA
@@ -87,7 +85,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     # We don't update retrieval status and don't create a retrieval_histories document,
     # so that the request is repeated later. We could get stuck, but we see this in alerts
     #
-    # This mnethod returns a hash in the format { event_count: 12, previous_count: 8, retrieval_history_id: 3736, update_interval: 31 }
+    # This method returns a hash in the format event_count: 12, previous_count: 8, retrieval_history_id: 3736, update_interval: 31
     # This hash can be used to track API responses, e.g. when event counts go down
 
     previous_count = rs.event_count

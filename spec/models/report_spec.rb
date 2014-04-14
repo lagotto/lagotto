@@ -25,7 +25,7 @@ describe Report do
 
     it "should format the ALM data as csv" do
       response = CSV.parse(subject.to_csv)
-      #response.length.should == 2
+      # response.length.should == 2
       response.first.should eq(["doi", "publication_date", "title", "citeulike"])
       response.last.should eq([article.doi, article.published_on.iso8601, article.title, "50"])
     end
@@ -69,7 +69,7 @@ describe Report do
         subject.write(filename, csv)
 
         response = CSV.parse(subject.merge_stats)
-        #response.length.should == 2
+        # response.length.should == 2
         response.first.should eq(["doi", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups", "mendeley"])
         response.last.should eq([article.doi, article.published_on.iso8601, article.title, "50", "1663", "0", "1663"])
         File.delete filepath
@@ -116,7 +116,7 @@ describe Report do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
       mail.body.parts.length.should == 2
-      mail.body.parts.collect(&:content_type).should == ["text/plain; charset=UTF-8", "text/html; charset=UTF-8"]
+      mail.body.parts.map(&:content_type).should == ["text/plain; charset=UTF-8", "text/html; charset=UTF-8"]
     end
 
     it "generates proper links to the admin dashboard" do
@@ -143,7 +143,7 @@ describe Report do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
       mail.body.parts.length.should == 2
-      mail.body.parts.collect(&:content_type).should == ["text/plain; charset=UTF-8", "text/html; charset=UTF-8"]
+      mail.body.parts.map(&:content_type).should == ["text/plain; charset=UTF-8", "text/html; charset=UTF-8"]
     end
 
     it "generates proper links to the admin dashboard" do

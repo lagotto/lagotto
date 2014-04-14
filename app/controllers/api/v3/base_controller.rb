@@ -1,5 +1,4 @@
 class Api::V3::BaseController < ActionController::Base
-
   respond_to :json, :xml
 
   before_filter :default_format_json, :authenticate_user_from_token!, :cors_preflight_check

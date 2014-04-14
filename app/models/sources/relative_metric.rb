@@ -15,9 +15,7 @@
 # limitations under the License.
 
 class RelativeMetric < Source
-
   def get_data(article, options={})
-
     # Check that article has publisher DOI
     return { events: [], event_count: nil } unless article.is_publisher?
 

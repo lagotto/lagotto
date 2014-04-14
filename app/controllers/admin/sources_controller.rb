@@ -39,6 +39,7 @@ class Admin::SourcesController < Admin::ApplicationController
   end
 
   protected
+
   def load_source
     @source = Source.find_by_name(params[:id])
   end

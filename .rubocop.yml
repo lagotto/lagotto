@@ -54,7 +54,7 @@ BeginBlock:
 
 BlockComments:
   Description: 'Do not use block comments.'
-  Enabled: false
+  Enabled: true
 
 BlockNesting:
   Description: 'Avoid excessive block nesting'
@@ -81,7 +81,7 @@ CaseIndentation:
 
 CharacterLiteral:
   Description: 'Checks for uses of character literals.'
-  Enabled: false
+  Enabled: true
 
 ClassAndModuleCamelCase:
   Description: 'Use CamelCase for classes and modules.'
@@ -105,7 +105,7 @@ ClassVars:
 
 CollectionMethods:
   Description: 'Preferred collection methods.'
-  Enabled: false
+  Enabled: true
 
 ColonMethodCall:
   Description: 'Do not use :: for method call.'
@@ -139,31 +139,31 @@ Documentation:
 
 DotPosition:
   Description: 'Checks the position of the dot in multi-line method calls.'
-  Enabled: false
+  Enabled: true
 
 DoubleNegation:
   Description: 'Checks for uses of double negation (!!).'
-  Enabled: false
+  Enabled: true
 
 EmptyLineBetweenDefs:
   Description: 'Use empty lines between defs.'
-  Enabled: false
+  Enabled: true
 
 EmptyLines:
   Description: "Don't use several empty lines in a row."
-  Enabled: false
+  Enabled: true
 
 EmptyLinesAroundAccessModifier:
   Description: "Keep blank lines around access modifiers."
-  Enabled: false
+  Enabled: true
 
 EmptyLinesAroundBody:
   Description: "Keeps track of empty lines around expression bodies."
-  Enabled: false
+  Enabled: true
 
 EmptyLiteral:
   Description: 'Prefer literals to Array.new/Hash.new/String.new.'
-  Enabled: false
+  Enabled: true
 
 Encoding:
   Description: 'Use UTF-8 as the source file encoding.'
@@ -171,7 +171,7 @@ Encoding:
 
 EndBlock:
   Description: 'Avoid the use of END blocks.'
-  Enabled: false
+  Enabled: true
 
 EndOfLine:
   Description: 'Use Unix-style line endings.'
@@ -179,7 +179,7 @@ EndOfLine:
 
 EvenOdd:
   Description: 'Favor the use of Fixnum#even? && Fixnum#odd?'
-  Enabled: false
+  Enabled: true
 
 FileName:
   Description: 'Use snake_case for source file names.'
@@ -187,11 +187,11 @@ FileName:
 
 FlipFlop:
   Description: 'Checks for flip flops'
-  Enabled: false
+  Enabled: true
 
 For:
   Description: 'Checks use of for or each in multiline loops.'
-  Enabled: false
+  Enabled: true
 
 FormatString:
   Description: 'Enforce the use of Kernel#sprintf, Kernel#format or String#%.'
@@ -219,7 +219,7 @@ IfWithSemicolon:
 
 IndentationConsistency:
   Description: 'Keep indentation straight.'
-  Enabled: false
+  Enabled: true
 
 IndentationWidth:
   Description: 'Use 2 spaces for indentation.'
@@ -229,11 +229,11 @@ IndentArray:
   Description: >-
                  Checks the indentation of the first element in an array
                  literal.
-  Enabled: false
+  Enabled: true
 
 IndentHash:
   Description: 'Checks the indentation of the first key in a hash literal.'
-  Enabled: false
+  Enabled: true
 
 Lambda:
   Description: 'Use the new lambda literal syntax for single-line blocks.'
@@ -241,17 +241,17 @@ Lambda:
 
 LambdaCall:
   Description: 'Use lambda.call(...) instead of lambda.(...).'
-  Enabled: false
+  Enabled: true
 
 LeadingCommentSpace:
   Description: 'Comments should start with a space.'
-  Enabled: false
+  Enabled: true
 
 LineEndConcatenation:
   Description: >-
                  Use \ instead of + or << to concatenate two string literals at
                  line end.
-  Enabled: false
+  Enabled: true
 
 LineLength:
   Description: 'Limit lines to 79 characters.'
@@ -259,13 +259,13 @@ LineLength:
 
 MethodCallParentheses:
   Description: 'Do not use parentheses for method calls with no arguments.'
-  Enabled: false
+  Enabled: true
 
 MethodDefParentheses:
   Description: >-
                  Checks if the method definitions have or don't have
                  parentheses.
-  Enabled: false
+  Enabled: true
 
 MethodLength:
   Description: 'Avoid methods longer than 10 lines of code.'
@@ -277,7 +277,7 @@ MethodName:
 
 ModuleFunction:
   Description: 'Checks for usage of `extend self` in modules.'
-  Enabled: false
+  Enabled: true
 
 MultilineBlockChain:
   Description: 'Avoid multi-line chains of blocks.'
@@ -285,31 +285,31 @@ MultilineBlockChain:
 
 MultilineIfThen:
   Description: 'Never use then for multi-line if/unless.'
-  Enabled: false
+  Enabled: true
 
 MultilineTernaryOperator:
   Description: >-
                  Avoid multi-line ?: (the ternary operator);
                  use if/unless instead.
-  Enabled: false
+  Enabled: true
 
 NegatedIf:
   Description: >-
                  Favor unless over if for negative conditions
                  (or control flow or).
-  Enabled: false
+  Enabled: true
 
 NegatedWhile:
   Description: 'Favor until over while for negative conditions.'
-  Enabled: false
+  Enabled: true
 
 NestedTernaryOperator:
   Description: 'Use one expression per branch in a ternary operator.'
-  Enabled: false
+  Enabled: true
 
 NilComparison:
   Description: 'Prefer x.nil? to x == nil.'
-  Enabled: false
+  Enabled: true
 
 NonNilCheck:
   Description: 'Checks for redundant nil checks.'
@@ -317,7 +317,7 @@ NonNilCheck:
 
 Not:
   Description: 'Use ! instead of not.'
-  Enabled: false
+  Enabled: true
 
 NumericLiterals:
   Description: >-
@@ -329,11 +329,11 @@ OneLineConditional:
   Description: >-
                  Favor the ternary operator(?:) over
                  if/then/else/end constructs.
-  Enabled: false
+  Enabled: true
 
 OpMethod:
   Description: 'When defining binary operators, name the argument other.'
-  Enabled: false
+  Enabled: true
 
 ParameterLists:
   Description: 'Avoid parameter lists longer than three or four parameters.'
@@ -343,7 +343,7 @@ ParenthesesAroundCondition:
   Description: >-
                  Don't use parentheses around the condition of an
                  if/unless/while.
-  Enabled: false
+  Enabled: true
 
 PercentLiteralDelimiters:
   Description: 'Use `%`-literal delimiters consistently'

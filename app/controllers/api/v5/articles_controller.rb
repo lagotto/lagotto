@@ -1,5 +1,4 @@
 class Api::V5::ArticlesController < Api::V5::BaseController
-
   def index
     # Filter by source parameter, filter out private sources unless admin
     # Load articles from ids listed in query string, use type parameter if present
@@ -9,7 +8,7 @@ class Api::V5::ArticlesController < Api::V5::BaseController
     collection = ArticleDecorator.includes(:retrieval_statuses).where(:retrieval_statuses => { :source_id => source_ids })
 
     if params[:ids]
-      type = ["doi", "pmid", "pmcid", "mendeley_uuid"].detect { |t| t == params[:type] } || Article.uid
+      type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
       ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Article.clean_id(id) }
       collection = collection.where(:articles => { type.to_sym => ids })
     elsif params[:q]

@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class ArticleNotUpdatedError < Filter
-
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).article_not_updated(limit)
 

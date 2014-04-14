@@ -114,5 +114,4 @@ class SourceDecorator < Draper::Decorator
   def update_date
     cached_at.utc.iso8601
   end
-
 end

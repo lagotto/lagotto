@@ -19,9 +19,7 @@
 # limitations under the License.
 
 class PmcEuropeData < Source
-
   def get_data(article, options={})
-
     # We need to have the PMID for this article, and we let the pub_med source fetch it
     return { events: [], event_count: nil } if article.pmid.blank?
 
@@ -33,7 +31,7 @@ class PmcEuropeData < Source
     event_count = result["hitCount"]
 
     if result["dbCountList"]
-      events = result["dbCountList"]["db"].inject({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
+      events = result["dbCountList"]["db"].reduce({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
     else
       events = nil
     end
@@ -55,5 +53,4 @@ class PmcEuropeData < Source
   def url
     config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pmid}/databaseLinks//1/json"
   end
-
 end

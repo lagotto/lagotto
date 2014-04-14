@@ -19,9 +19,7 @@
 # limitations under the License.
 
 class Copernicus < Source
-
   def get_data(article, options={})
-
     return { events: [], event_count: nil } unless article.doi =~ /^10.5194/
 
     query_url = get_query_url(article)
@@ -35,7 +33,7 @@ class Copernicus < Source
       pdf = 0
       html = 0
     else
-      event_count = result["counter"].values.inject(0) { |sum, x| sum + (x ? x : 0) }
+      event_count = result["counter"].values.reduce(0) { |sum, x| sum + (x ? x : 0) }
       pdf = result["counter"]["PdfDownloads"]
       html = result["counter"]["AbstractViews"]
     end
@@ -54,5 +52,4 @@ class Copernicus < Source
      {:field_name => "username", :field_type => "text_field"},
      {:field_name => "password", :field_type => "password_field"}]
   end
-
 end

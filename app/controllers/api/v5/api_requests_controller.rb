@@ -1,5 +1,4 @@
 class Api::V5::ApiRequestsController < Api::V5::BaseController
-
   load_and_authorize_resource
 
   def index

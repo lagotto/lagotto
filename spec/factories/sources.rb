@@ -118,7 +118,7 @@ FactoryGirl.define do
     initialize_with { PmcEurope.find_or_create_by_name(name) }
   end
 
-    factory :pmc_europe_data, class: PmcEuropeData do
+  factory :pmc_europe_data, class: PmcEuropeData do
     type "PmcEuropeData"
     name "pmc_europe_data"
     display_name "PMC Europe Database Citations"

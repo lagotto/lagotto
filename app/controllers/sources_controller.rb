@@ -17,7 +17,6 @@
 # limitations under the License.
 
 class SourcesController < ApplicationController
-
   respond_to :html, :rss
 
   def show
@@ -46,5 +45,4 @@ class SourcesController < ApplicationController
     @groups = Group.order("id")
     respond_with @groups
   end
-
 end

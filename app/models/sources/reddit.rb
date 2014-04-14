@@ -19,9 +19,7 @@
 # limitations under the License.
 
 class Reddit < Source
-
   def get_data(article, options={})
-
     # Check that article has DOI
     return  { events: [], event_count: nil } if article.doi.blank?
 
@@ -32,8 +30,8 @@ class Reddit < Source
 
     events = result["data"]["children"].map { |item| { event: item["data"], event_url: item["data"]['url'] } }
     events_url = get_events_url(article)
-    like_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["score"] }
-    comment_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["num_comments"] }
+    like_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].reduce(0) { |sum, hash| sum + hash["data"]["score"] }
+    comment_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].reduce(0) { |sum, hash| sum + hash["data"]["num_comments"] }
     event_count = like_count + comment_count
 
     { events: events,

@@ -19,9 +19,7 @@
 # limitations under the License.
 
 class Citeulike < Source
-
   def get_data(article, options={})
-
     # Check that article has DOI
     return { events: [], event_count: nil } if article.doi.blank?
 
@@ -65,5 +63,4 @@ class Citeulike < Source
   def rate_limiting
     config.rate_limiting || 2000
   end
-
 end

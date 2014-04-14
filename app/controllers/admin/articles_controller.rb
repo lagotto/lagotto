@@ -58,6 +58,7 @@ class Admin::ArticlesController < Admin::ApplicationController
   end
 
   protected
+
   def load_article
     # Load one article given query params
     id_hash = Article.from_uri(params[:id])

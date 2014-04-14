@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class Counter < Source
-
   # include date methods concern
   include Dateable
 
@@ -28,7 +27,6 @@ class Counter < Source
   # options[:format] can be "html", "pdf" or "combined"
   # options[:month] and options[:year] are the starting month and year, default to last month
   def to_csv(options = {})
-
     if ["html", "pdf", "xml", "combined"].include? options[:format]
       view = "counter_#{options[:format]}_views"
     else
@@ -56,7 +54,6 @@ class Counter < Source
   end
 
   def get_data(article, options={})
-
     # Check that article has DOI
     return { events: [], event_count: nil } unless article.doi =~ /^10.1371/
 
@@ -104,8 +101,8 @@ class Counter < Source
       views << curMonth
     end
 
-    pdf = views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:pdf_views].to_i }
-    html = views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash[:html_views].to_i }
+    pdf = views.nil? ? nil : views.reduce(0) { |sum, hash| sum + hash[:pdf_views].to_i }
+    html = views.nil? ? nil : views.reduce(0) { |sum, hash| sum + hash[:html_views].to_i }
 
     { :events => views,
       :events_url => query_url,

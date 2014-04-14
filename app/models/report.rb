@@ -22,7 +22,6 @@ require 'csv'
 require 'zip'
 
 class Report < ActiveRecord::Base
-
   # include HTTP request helpers
   include Networkable
 
@@ -40,7 +39,6 @@ class Report < ActiveRecord::Base
 
   # Generate CSV with event counts for all articles and installed sources
   def self.to_csv(options = {})
-
     if options[:include_private_sources]
       sources = Source.installed
     else
@@ -80,7 +78,11 @@ class Report < ActiveRecord::Base
     date = options[:date] || Date.today.iso8601
     filename = "#{stat[:name]}.csv"
     filepath = "#{Rails.root}/data/report_#{date}/#{filename}"
-    csv = File.exist?(filepath) ? CSV.read(filepath, headers: stat[:headers] ? stat[:headers] : :first_row, return_headers: true) : nil
+    if File.exist?(filepath)
+      CSV.read(filepath, headers: stat[:headers] ? stat[:headers] : :first_row, return_headers: true)
+    else
+      nil
+    end
   end
 
   def self.merge_stats(options = {})

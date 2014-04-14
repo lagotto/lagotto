@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class RetrievalHistory < ActiveRecord::Base
-
   # include HTTP request helpers
   include Networkable
 

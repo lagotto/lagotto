@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class EventCountIncreasingTooFastError < Filter
-
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).increasing(limit, source_ids)
 

@@ -19,13 +19,11 @@
 # limitations under the License.
 
 class CrossRef < Source
-
   validates :url, :password, presence: true, if: "CONFIG[:doi_prefix]"
 
   def get_data(article, options={})
-
     # Check that article has DOI and is at least one day old
-    return { events: [], event_count: nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
+    return { events: [], event_count: nil } if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
 
     # Check whether we have published the DOI, otherwise use different API
     if article.is_publisher?
@@ -54,7 +52,6 @@ class CrossRef < Source
   end
 
   def get_default_data(article, options={})
-
     query_url = get_default_query_url(article)
     result = get_xml(query_url, options.merge(:source_id => id))
 
@@ -95,5 +92,4 @@ class CrossRef < Source
   def default_url=(value)
     config.default_url = value
   end
-
 end

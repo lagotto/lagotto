@@ -15,5 +15,4 @@ class AddApiRequestsTable < ActiveRecord::Migration
   def self.down
     drop_table :api_requests
   end
-
 end

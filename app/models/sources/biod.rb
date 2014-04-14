@@ -17,9 +17,7 @@
 # limitations under the License.
 
 class Biod < Source
-
   def get_data(article, options={})
-
     query_url = get_query_url(article)
     result = get_xml(query_url, options)
 
@@ -61,8 +59,8 @@ class Biod < Source
       views << curMonth
     end
 
-    pdf = views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }
-    html =  views.nil? ? nil : views.inject(0) { |sum, hash| sum + hash["html_views"].to_i }
+    pdf = views.nil? ? nil : views.reduce(0) { |sum, hash| sum + hash["pdf_views"].to_i }
+    html =  views.nil? ? nil : views.reduce(0) { |sum, hash| sum + hash["html_views"].to_i }
 
     {:events => views,
      :events_url => query_url,

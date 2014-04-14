@@ -17,7 +17,6 @@
 # limitations under the License.
 
 class User < ActiveRecord::Base
-
   # include HTTP request helpers
   include Networkable
 
@@ -114,7 +113,7 @@ class User < ActiveRecord::Base
   def set_first_user
     # The first user we create has an admin role and uses the configuration API key
     # unless it is in the test environment
-    if (User.count == 1 && !Rails.env.test?)
+    if User.count == 1 && !Rails.env.test?
       update_attributes(role: "admin", authentication_token: CONFIG[:api_key])
     end
   end

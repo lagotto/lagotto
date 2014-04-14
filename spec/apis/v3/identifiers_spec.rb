@@ -10,7 +10,6 @@ describe "/api/v3/articles" do
     let(:uri) { "/api/v3/articles/info:doi/#{article.doi}" }
     let(:missing_key) { { "error" => "Missing or wrong API key."} }
 
-
     it "JSON" do
       get uri, nil, 'HTTP_ACCEPT' => 'application/json'
       last_response.status.should eql(401)
@@ -40,7 +39,7 @@ describe "/api/v3/articles" do
     let(:articles) { FactoryGirl.create_list(:article_with_events, 50) }
 
     context "articles found via DOI" do
-      let(:article_list) { articles.collect { |article| "#{article.doi_escaped}" }.join(",") }
+      let(:article_list) { articles.map { |article| "#{article.doi_escaped}" }.join(",") }
       let(:uri) { "/api/v3/articles?ids=#{article_list}&type=doi&api_key=#{api_key}" }
 
       it "no format" do
@@ -82,7 +81,7 @@ describe "/api/v3/articles" do
     end
 
     context "articles found via PMID" do
-      let(:article_list) { articles.collect { |article| "#{article.pmid}" }.join(",") }
+      let(:article_list) { articles.map { |article| "#{article.pmid}" }.join(",") }
       let(:uri) { "/api/v3/articles?ids=#{article_list}&type=pmid&api_key=#{api_key}" }
 
       it "JSON" do
@@ -254,7 +253,6 @@ describe "/api/v3/articles" do
     context "wrong DOI" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:uri) { "/api/v3/articles/info:doi/#{article.doi}xx?api_key=#{api_key}" }
-
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'

@@ -19,9 +19,7 @@
 # limitations under the License.
 
 class Wikipedia < Source
-
   def get_data(article, options={})
-
     # Check that article has DOI
     return { events: [], event_count: nil } if article.doi.blank?
 
@@ -48,7 +46,7 @@ class Wikipedia < Source
       events[lang] = lang_count
     end
 
-    event_count = events.values.inject(0) { |sum, x| sum + x }
+    event_count = events.values.reduce(0) { |sum, x| sum + x }
     events["total"] = event_count
     events_url = get_events_url(article)
 

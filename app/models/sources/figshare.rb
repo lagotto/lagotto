@@ -19,9 +19,7 @@
 # limitations under the License.
 
 class Figshare < Source
-
   def get_data(article, options={})
-
     return { events: [], event_count: nil } unless article.is_publisher?
 
     query_url = get_query_url(article)
@@ -31,9 +29,9 @@ class Figshare < Source
     return nil if result.nil?
     return { events: [], event_count: nil } if result.empty? || result["items"].empty?
 
-    views = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["page_views"].to_i }
-    downloads = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["downloads"].to_i }
-    likes = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["likes"].to_i }
+    views = result["items"].reduce(0) { |sum, hash| sum + hash["stats"]["page_views"].to_i }
+    downloads = result["items"].reduce(0) { |sum, hash| sum + hash["stats"]["downloads"].to_i }
+    likes = result["items"].reduce(0) { |sum, hash| sum + hash["stats"]["likes"].to_i }
     total = views + downloads + likes
 
     { :events => result,

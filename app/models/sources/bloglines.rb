@@ -17,9 +17,7 @@
 # limitations under the License.
 
 class Bloglines < Source
-
   def get_data(article, options={})
-
     query_url = get_query_url(article)
     result = get_xml(query_url, options)
 

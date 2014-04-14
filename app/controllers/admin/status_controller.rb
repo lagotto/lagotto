@@ -17,7 +17,6 @@
 # limitations under the License.
 
 class Admin::StatusController < Admin::ApplicationController
-
   load_and_authorize_resource :alert, :parent => false
 
   def index

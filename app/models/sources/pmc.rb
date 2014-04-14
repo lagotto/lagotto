@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class Pmc < Source
-
   # include date methods concern
   include Dateable
 
@@ -28,7 +27,6 @@ class Pmc < Source
   # options[:format] can be "html", "pdf" or "combined"
   # options[:month] and options[:year] are the starting month and year, default to last month
   def to_csv(options = {})
-
     if ["html", "pdf", "combined"].include? options[:format]
       view = "pmc_#{options[:format]}_views"
     else
@@ -83,7 +81,6 @@ class Pmc < Source
 
   # Parse usage stats and store in CouchDB. Returns an empty array if no error occured
   def parse_feed(month, year, options={})
-
     journals_array = journals.split(" ")
     journals_with_errors = []
     journals_array.each do |journal|
@@ -92,7 +89,7 @@ class Pmc < Source
       document = Nokogiri::XML(file)
 
       status = document.at_xpath("//pmc-web-stat/response/@status").value
-      if (status != "0")
+      if status != "0"
         error_message = document.at_xpath("//pmc-web-stat/response/error").content
         Alert.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
                      :message => "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: #{error_message}",
@@ -116,7 +113,7 @@ class Pmc < Source
           # try to get the existing information about the given article
           data = get_json("#{url}#{CGI.escape(doi)}")
 
-          if (data['views'].nil?)
+          if data['views'].nil?
             data = { 'views' => [view] }
           else
             # update existing entry
@@ -132,9 +129,8 @@ class Pmc < Source
   end
 
   def get_data(article, options={})
-
     # Check that article has DOI and is at least one day old
-    return { events: [], event_count: nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
+    return { events: [], event_count: nil } if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
@@ -143,12 +139,12 @@ class Pmc < Source
     return nil if result.nil?
 
     # no data for this article
-    return { events: [], event_count: nil } if !result['views']
+    return { events: [], event_count: nil } unless result['views']
 
     events = result["views"]
 
-    pdf = events.nil? ? 0 : events.inject(0) { |sum, hash| sum + hash["pdf"].to_i }
-    html = events.nil? ? 0 : events.inject(0) { |sum, hash| sum + hash["full-text"].to_i }
+    pdf = events.nil? ? 0 : events.reduce(0) { |sum, hash| sum + hash["pdf"].to_i }
+    html = events.nil? ? 0 : events.reduce(0) { |sum, hash| sum + hash["full-text"].to_i }
     event_count = pdf + html
 
     { :events => events,

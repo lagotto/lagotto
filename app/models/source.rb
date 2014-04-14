@@ -21,7 +21,6 @@
 require 'cgi'
 
 class Source < ActiveRecord::Base
-
   # include state machine
   include Statable
 

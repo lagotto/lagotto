@@ -1,5 +1,4 @@
 class Review < ActiveRecord::Base
-
   belongs_to :filter, :primary_key => "name", :foreign_key => "name", :touch => true
 
   default_scope where(:unresolved => true).order("reviews.created_at")

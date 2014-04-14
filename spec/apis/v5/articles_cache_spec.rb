@@ -8,7 +8,7 @@ describe "/api/v5/articles", :not_teamcity => true do
 
     context "index" do
       let(:articles) { FactoryGirl.create_list(:article_with_events, 2) }
-      let(:article_list) { articles.collect { |article| "#{article.doi_escaped}" }.join(",") }
+      let(:article_list) { articles.map { |article| "#{article.doi_escaped}" }.join(",") }
       let(:uri) { "/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}" }
 
       it "can cache articles in JSON" do

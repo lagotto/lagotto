@@ -19,9 +19,7 @@
 # limitations under the License.
 
 class Openedition < Source
-
   def get_data(article, options={})
-
     return { events: [], event_count: nil } if article.doi.blank?
 
     query_url = get_query_url(article)
@@ -66,5 +64,4 @@ class Openedition < Source
   def rate_limiting
     config.rate_limiting || 1000
   end
-
 end

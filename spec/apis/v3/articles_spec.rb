@@ -8,7 +8,7 @@ describe "/api/v3/articles" do
     let(:articles) { FactoryGirl.create_list(:article_with_events, 55) }
 
     context "more than 50 articles in query" do
-      let(:article_list) { articles.collect { |article| "#{article.doi_escaped}" }.join(",") }
+      let(:article_list) { articles.map { |article| "#{article.doi_escaped}" }.join(",") }
       let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article_list}&type=doi" }
 
       it "JSON" do

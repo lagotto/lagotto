@@ -112,9 +112,9 @@ module Visualizable
 
       case name
       when "counter"
-        events.group_by { |event| event["year"] }.sort.map { |k, v| { :year => k.to_i, :pdf => v.inject(0) { |sum, hash| sum + hash["pdf_views"].to_i }, :html => v.inject(0) { |sum, hash| sum + hash["html_views"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.inject(0) { |sum, hash| sum + hash["html_views"].to_i + hash["pdf_views"].to_i + hash["xml_views"].to_i } } }
+        events.group_by { |event| event["year"] }.sort.map { |k, v| { :year => k.to_i, :pdf => v.reduce(0) { |sum, hash| sum + hash["pdf_views"].to_i }, :html => v.reduce(0) { |sum, hash| sum + hash["html_views"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.reduce(0) { |sum, hash| sum + hash["html_views"].to_i + hash["pdf_views"].to_i + hash["xml_views"].to_i } } }
       when "pmc"
-        events.group_by { |event| event["year"] }.sort.map { |k, v| { :year => k.to_i, :pdf => v.inject(0) { |sum, hash| sum + hash["pdf"].to_i }, :html => v.inject(0) { |sum, hash| sum + hash["full-text"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.inject(0) { |sum, hash| sum + hash["full-text"].to_i + hash["pdf"].to_i } } }
+        events.group_by { |event| event["year"] }.sort.map { |k, v| { :year => k.to_i, :pdf => v.reduce(0) { |sum, hash| sum + hash["pdf"].to_i }, :html => v.reduce(0) { |sum, hash| sum + hash["full-text"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.reduce(0) { |sum, hash| sum + hash["full-text"].to_i + hash["pdf"].to_i } } }
       when "citeulike"
         events.group_by { |event| event["event"]["post_time"].to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length } }
       when "crossref"

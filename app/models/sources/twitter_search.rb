@@ -19,13 +19,11 @@
 # limitations under the License.
 
 class TwitterSearch < Source
-
   def put_twitter_database
     put_alm_data(url)
   end
 
   def get_data(article, options={})
-
     # First check that we have a valid OAuth2 access token
     return nil unless get_access_token
 
@@ -91,7 +89,6 @@ class TwitterSearch < Source
   end
 
   def get_access_token(options={})
-
     # Check whether we already have access token
     return true if access_token.present?
 

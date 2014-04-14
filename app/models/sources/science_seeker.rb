@@ -19,9 +19,7 @@
 # limitations under the License.
 
 class ScienceSeeker < Source
-
   def get_data(article, options={})
-
     # Check that article has DOI
     return { events: [], event_count: nil } if article.doi.blank?
 
@@ -63,5 +61,4 @@ class ScienceSeeker < Source
   def rate_limiting
     config.rate_limiting || 1000
   end
-
 end

@@ -149,7 +149,7 @@ Then /^I should see the subtitle "(.*?)"$/ do |title|
 end
 
 Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, display_name|
-  #page.driver.render("tmp/capybara/#{number}.png")
+  # page.driver.render("tmp/capybara/#{number}.png")
   page.has_content?(number).should be_true
   page.has_content?(display_name).should be_true
 end

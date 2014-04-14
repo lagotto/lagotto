@@ -17,9 +17,7 @@
 # limitations under the License.
 
 class Status < ActiveRecord::Base
-
   class << self
-
     def update_date
       Rails.cache.fetch('status:timestamp') { Time.zone.now.utc.iso8601 }
     end

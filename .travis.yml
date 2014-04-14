@@ -22,6 +22,7 @@ script:
 - RAILS_ENV=test bundle exec rake db:migrate
 - bundle exec rspec --tag ~@not_teamcity
 - bundle exec cucumber --tags ~@not_teamcity
+- bundle exec rubocop -R app config db features lib spec
 
 env:
   global:

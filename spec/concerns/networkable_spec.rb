@@ -104,7 +104,6 @@ describe Source do
         alert.status.should == 408
       end
 
-
       it "get_html" do
         stub = stub_request(:get, url).to_return(:status => [408])
         subject.get_html(url).should be_nil

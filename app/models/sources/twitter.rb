@@ -18,9 +18,7 @@
 #
 
 class Twitter < Source
-
   def get_data(article, options={})
-
     return { events: [], event_count: nil } unless article.is_publisher?
 
     events = []
@@ -38,7 +36,6 @@ class Twitter < Source
   end
 
   def execute_search(events, article, options={})
-
     query_url = get_query_url(article)
     options[:source_id] = id
 
@@ -72,8 +69,8 @@ class Twitter < Source
         event_data[:user_profile_image] = user_profile_image
 
         event = {
-            :event => event_data,
-            :event_url => "http://twitter.com/#{user}/status/#{data["id_str"]}"
+          :event => event_data,
+          :event_url => "http://twitter.com/#{user}/status/#{data["id_str"]}"
         }
 
         events << event

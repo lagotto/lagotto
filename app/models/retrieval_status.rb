@@ -17,7 +17,6 @@
 # limitations under the License.
 
 class RetrievalStatus < ActiveRecord::Base
-
   # include HTTP request helpers
   include Networkable
 
@@ -89,7 +88,7 @@ class RetrievalStatus < ActiveRecord::Base
   # calculate datetime when retrieval_status should be updated, adding random interval
   # sources that are not queueable use a fixed date
   def stale_at
-    if !source.queueable
+    unless source.queueable
       cron_parser = CronParser.new(source.cron_line)
       return cron_parser.next(Time.zone.now)
     end
@@ -124,5 +123,4 @@ class RetrievalStatus < ActiveRecord::Base
     data_rev = get_alm_rev(couchdb_id)
     remove_alm_data(couchdb_id, data_rev)
   end
-
 end

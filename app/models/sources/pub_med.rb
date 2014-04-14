@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class PubMed < Source
-
   EUTILS_URL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?"
   ESUMMARY_URL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?"
   PMCLINKS_URL = "http://www.ncbi.nlm.nih.gov/sites/entrez?"
@@ -28,7 +27,6 @@ class PubMed < Source
   TOOL_ID = 'ArticleLevelMetrics'
 
   def get_data(article, options={})
-
     # First, we need to have the PMID for this article.
     # Get it if we don't have it, and proceed only if we do.
     # We need a DOI to fetch the PMID
@@ -71,15 +69,15 @@ class PubMed < Source
       :events_url => events_url,
       :event_count => events.length,
       :event_metrics => event_metrics(citations: events.length),
-      :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
+      :attachment => events.empty? ? nil : { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s } }
   end
 
   def get_pmid_from_doi(doi, options={})
     params = {
-        'term' => doi,
-        'field' => 'DOI',
-        'db' => 'pubmed',
-        'tool' => PubMed::TOOL_ID }
+      'term' => doi,
+      'field' => 'DOI',
+      'db' => 'pubmed',
+      'tool' => PubMed::TOOL_ID }
 
     query_url = EUTILS_URL + params.to_query
     result = get_xml(query_url, options)
@@ -92,10 +90,10 @@ class PubMed < Source
 
   def get_pmcid_from_doi(doi, options={})
     params = {
-        'term' => doi,
-        'field' => 'DOI',
-        'db' => 'pmc',
-        'tool' => PubMed::TOOL_ID }
+      'term' => doi,
+      'field' => 'DOI',
+      'db' => 'pmc',
+      'tool' => PubMed::TOOL_ID }
 
     query_url = EUTILS_URL + params.to_query
 
@@ -111,25 +109,24 @@ class PubMed < Source
     db = options[:db] || "pmc"
 
     params = {
-        'id' => [*pubmed_ids].join(","),
-        'db' => db,
-        'version' => '2.0',
-        'tool' => PubMed::TOOL_ID }
+      'id' => [*pubmed_ids].join(","),
+      'db' => db,
+      'version' => '2.0',
+      'tool' => PubMed::TOOL_ID }
 
     query_url = ESUMMARY_URL + params.to_query
     result = get_xml(query_url, options)
-      references = []
-      result = Hash.from_xml(result.to_s)
-      result = result["eSummaryResult"]["DocumentSummarySet"]["DocumentSummary"]
-      result = [result] unless result.is_a?(Array)
-      result.each do |document_summary|
-        ids = document_summary["ArticleIds"]["ArticleId"].map { |article_id| { article_id["IdType"] => article_id["Value"] }.symbolize_keys }
-        ids = ids.inject { | a, h | a.merge h }
-        publication_date = parse_date([document_summary["EPubDate"], document_summary["PubDate"], document_summary["SortDate"], document_summary["SortPubDate"]]).to_time.utc.iso8601
-        references << ids.merge(:title => document_summary["Title"],
-                                :publication_date => publication_date)
-      end
-      references
+    references = []
+    result = Hash.from_xml(result.to_s)
+    result = result["eSummaryResult"]["DocumentSummarySet"]["DocumentSummary"]
+    result = [result] unless result.is_a?(Array)
+    result.each do |document_summary|
+      ids = document_summary["ArticleIds"]["ArticleId"].map { |article_id| { article_id["IdType"] => article_id["Value"] }.symbolize_keys }
+      ids = ids.reduce { | a, h | a.merge h }
+      publication_date = parse_date([document_summary["EPubDate"], document_summary["PubDate"], document_summary["SortDate"], document_summary["SortPubDate"]]).to_time.utc.iso8601
+      references << ids.merge(:title => document_summary["Title"], :publication_date => publication_date)
+    end
+    references
   end
 
   def parse_date(dates)

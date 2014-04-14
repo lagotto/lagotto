@@ -10,7 +10,7 @@ describe "/api/v3/articles", :not_teamcity => true do
       let(:articles) { FactoryGirl.create_list(:article_with_events, 2) }
 
       before(:each) do
-        article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
+        article_list = articles.map { |article| "#{article.doi_escaped}" }.join(",")
         @uri = "/api/v3/articles?ids=#{article_list}&type=doi&api_key=#{api_key}"
       end
 

@@ -21,5 +21,4 @@ class AlertsController < ActionController::Base
       format.rss { render :show, status: @alert.status, layout: false }
     end
   end
-
 end

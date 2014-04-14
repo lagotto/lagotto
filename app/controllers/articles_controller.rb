@@ -17,7 +17,6 @@
 # limitations under the License.
 
 class ArticlesController < ApplicationController
-
   respond_to :html
 
   def index

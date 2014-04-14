@@ -17,7 +17,7 @@ describe Source do
     let(:error) { {"error"=>"not_found", "reason"=>"missing"} }
 
     it "put filter views" do
-      #data = subject.get_alm_data("_design/filter/_view/html_ratio")
+      # data = subject.get_alm_data("_design/filter/_view/html_ratio")
     end
 
     it "get database info" do

@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class HtmlRatioTooHighError < Filter
-
   def run_filter(state)
     source = Source.find_by_name("counter")
     first_response = ApiResponse.filter(state[:id]).first

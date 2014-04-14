@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class F1000 < Source
-
   # Retrieve PLOS-specific XML feed and store in <filename>. Returns nil if an error occured.
   def get_feed(options={})
     options[:source_id] = id
@@ -27,7 +26,6 @@ class F1000 < Source
   end
 
   def get_data(article, options={})
-
     # Check that article has DOI
     return { events: [], event_count: nil } if article.doi.blank?
 

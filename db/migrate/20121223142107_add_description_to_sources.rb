@@ -6,5 +6,4 @@ class AddDescriptionToSources < ActiveRecord::Migration
   def down
     remove_column :sources, :description
   end
-
 end

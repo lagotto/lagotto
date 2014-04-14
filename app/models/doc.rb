@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class Doc
-
   attr_reader :title, :content
 
   def self.all
@@ -27,7 +26,7 @@ class Doc
   end
 
   def self.find(param)
-    name = all.detect { |doc| doc.downcase == "#{param.downcase}.md" }
+    name = all.find { |doc| doc.downcase == "#{param.downcase}.md" }
     if name.present?
       new(name)
     else

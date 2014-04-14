@@ -19,10 +19,8 @@
 # limitations under the License.
 
 class Mendeley < Source
-
   # Format Mendeley events for all articles as csv
   def to_csv(options = {})
-
     service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
 
     result = get_json(service_url, options)
@@ -35,7 +33,6 @@ class Mendeley < Source
   end
 
   def get_data(article, options={})
-
     # First check that we have a valid OAuth2 access token
     return nil unless get_access_token
 
@@ -59,7 +56,7 @@ class Mendeley < Source
     return nil if result.blank?
 
     # empty array or incomplete hash
-    return { events: [], event_count: nil } if !result['mendeley_url']
+    return { events: [], event_count: nil } unless result['mendeley_url']
 
     # remove "mendeley_authors" key, as it is not needed and creates problems in XML: "mendeley_authors" => {"4712245473"=>5860673}
     result.except!("mendeley_authors")
@@ -130,7 +127,6 @@ class Mendeley < Source
   end
 
   def get_access_token(options={})
-
     # Check whether access token is valid for at least another 5 minutes
     return true if access_token.present? && (Time.zone.now + 5.minutes < expires_at.to_time.utc)
 
@@ -221,5 +217,4 @@ class Mendeley < Source
   def expires_at=(value)
     config.expires_at = value
   end
-
 end

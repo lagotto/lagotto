@@ -28,7 +28,7 @@ describe "/api/v5/articles" do
 
     context "articles found via DOI" do
       before(:each) do
-        article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
+        article_list = articles.map { |article| "#{article.doi_escaped}" }.join(",")
         @uri = "/api/v5/articles?ids=#{article_list}&type=doi&info=summary&api_key=#{api_key}"
       end
 
@@ -61,10 +61,9 @@ describe "/api/v5/articles" do
 
     context "articles found via PMID" do
       before(:each) do
-        article_list = articles.collect { |article| "#{article.pmid}" }.join(",")
+        article_list = articles.map { |article| "#{article.pmid}" }.join(",")
         @uri = "/api/v5/articles?ids=#{article_list}&type=pmid&info=summary&api_key=#{api_key}"
       end
-
 
       it "JSON" do
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -81,10 +80,9 @@ describe "/api/v5/articles" do
 
     context "articles found via PMCID" do
       before(:each) do
-        article_list = articles.collect { |article| "#{article.pmcid}" }.join(",")
+        article_list = articles.map { |article| "#{article.pmcid}" }.join(",")
         @uri = "/api/v5/articles?ids=#{article_list}&type=pmcid&info=summary&api_key=#{api_key}"
       end
-
 
       it "JSON" do
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -94,17 +92,16 @@ describe "/api/v5/articles" do
         data = response["data"]
         data.length.should == 50
         data.any? do |article|
-          article["pmcid"] == "2568856" #articles[0].pmcid
+          article["pmcid"] == "2568856" # articles[0].pmcid
         end.should be_true
       end
     end
 
     context "articles found via Mendeley" do
       before(:each) do
-        article_list = articles.collect { |article| "#{article.mendeley_uuid}" }.join(",")
+        article_list = articles.map { |article| "#{article.mendeley_uuid}" }.join(",")
         @uri = "/api/v5/articles?ids=#{article_list}&type=mendeley_uuid&info=summary&api_key=#{api_key}"
       end
-
 
       it "JSON" do
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -121,7 +118,7 @@ describe "/api/v5/articles" do
 
     context "no identifiers" do
       before(:each) do
-        article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
+        article_list = articles.map { |article| "#{article.doi_escaped}" }.join(",")
         @uri = "/api/v5/articles?info=summary&api_key=#{api_key}"
       end
 
