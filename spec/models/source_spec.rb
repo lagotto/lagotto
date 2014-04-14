@@ -26,7 +26,6 @@ describe Source do
   it { should have_many(:retrieval_statuses).dependent(:destroy) }
 
   it { should validate_presence_of(:name) }
-  it { should validate_uniqueness_of(:name) }
   it { should validate_presence_of(:display_name) }
   it { should validate_numericality_of(:workers).only_integer.with_message("should be between 1 and 20") }
   it { should ensure_inclusion_of(:workers).in_range(1..20).with_message("should be between 1 and 20") }

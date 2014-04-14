@@ -21,7 +21,7 @@
 class Mendeley < Source
 
   # Format Mendeley events for all articles as csv
-  def self.to_csv(options = {})
+  def to_csv(options = {})
 
     service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
 

@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe Counter do
 
-  context "class methods" do
-    subject { Counter }
+  subject { FactoryGirl.create(:counter) }
 
+  context "CSV report" do
     it "should provide a date range" do
       # array of hashes for the 10 last months, including the current month
       start_date = 10.months.ago.to_date
@@ -76,30 +76,28 @@ describe Counter do
     end
   end
 
-  context "use the PMC API" do
-    let(:counter) { FactoryGirl.create(:counter) }
-
+  context "use the Counter API" do
     it "should report that there are no events if the doi is missing" do
       article_without_doi = FactoryGirl.build(:article, :doi => "")
-      counter.get_data(article_without_doi).should eq(events: [], event_count: nil)
+      subject.get_data(article_without_doi).should eq(events: [], event_count: nil)
     end
 
     context "use the Counter API" do
       it "should report if there are no events and event_count returned by the Counter API" do
         article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
         body = File.read(fixture_path + 'counter_nil.xml')
-        stub = stub_request(:get, counter.get_query_url(article)).to_return(:body => body, :status => 404)
-        counter.get_data(article).should eq(events: [], event_count: 0, events_url: counter.get_query_url(article), event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 }, attachment: nil)
+        stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 404)
+        subject.get_data(article).should eq(events: [], event_count: 0, events_url: subject.get_query_url(article), event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 }, attachment: nil)
         stub.should have_been_requested
       end
 
       it "should report if there are events and event_count returned by the Counter API" do
         article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
         body = File.read(fixture_path + 'counter.xml')
-        stub = stub_request(:get, counter.get_query_url(article)).to_return(:body => body, :status => 200)
-        response = counter.get_data(article)
+        stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+        response = subject.get_data(article)
         response[:events].length.should eq(37)
-        response[:events_url].should eq(counter.get_query_url(article))
+        response[:events_url].should eq(subject.get_query_url(article))
         response[:event_count].should eq(3387)
         response[:attachment][:data].should eq(body)
         response[:event_metrics].should eq(pdf: 447, html: 2919, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 3387)
@@ -108,14 +106,14 @@ describe Counter do
 
       it "should catch errors with the Counter API" do
         article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
-        stub = stub_request(:get, counter.get_query_url(article)).to_return(:status => [408])
-        counter.get_data(article, source_id: counter.id).should be_nil
+        stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
+        subject.get_data(article, source_id: subject.id).should be_nil
         stub.should have_been_requested
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
         alert.status.should == 408
-        alert.source_id.should == counter.id
+        alert.source_id.should == subject.id
       end
     end
   end

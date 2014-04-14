@@ -27,7 +27,7 @@ class Pmc < Source
   # Show historical data if options[:format] is used
   # options[:format] can be "html", "pdf" or "combined"
   # options[:month] and options[:year] are the starting month and year, default to last month
-  def self.to_csv(options = {})
+  def to_csv(options = {})
 
     if ["html", "pdf", "combined"].include? options[:format]
       view = "pmc_#{options[:format]}_views"

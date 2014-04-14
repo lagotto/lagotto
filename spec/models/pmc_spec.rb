@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe Pmc do
 
-  context "class methods" do
-    subject { Pmc }
+  subject { FactoryGirl.create(:pmc) }
 
+  context "CSV report" do
     it "should provide a date range" do
       # array of hashes for the 10 last months, excluding the current month
       start_date = 10.months.ago.to_date
@@ -63,17 +63,15 @@ describe Pmc do
     end
   end
 
-  let(:pmc) { FactoryGirl.create(:pmc) }
-
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    pmc.get_data(article).should eq(events: [], event_count: nil)
+    subject.get_data(article).should eq(events: [], event_count: nil)
   end
 
   it "should report that there are no events if article was published on the same day" do
     date = Time.zone.today
     article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
-    pmc.get_data(article).should eq(events: [], event_count: nil)
+    subject.get_data(article).should eq(events: [], event_count: nil)
   end
 
   context "save PMC data" do
@@ -82,8 +80,8 @@ describe Pmc do
     let(:journal) { "ajrccm" }
 
     it "should fetch and save PMC data" do
-      stub = stub_request(:get, pmc.get_feed_url(month, year, journal)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'pmc_alt.xml'), :status => 200)
-      pmc.get_feed(month, year).should be_empty
+      stub = stub_request(:get, subject.get_feed_url(month, year, journal)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'pmc_alt.xml'), :status => 200)
+      subject.get_feed(month, year).should be_empty
       file = "#{Rails.root}/data/pmcstat_#{journal}_#{month}_#{year}.xml"
       File.exist?(file).should be_true
       stub.should have_been_requested
@@ -97,45 +95,44 @@ describe Pmc do
     let(:journal) { "ajrccm" }
 
     before(:each) do
-      pmc.put_alm_data(pmc.url)
+      subject.put_alm_data(subject.url)
     end
 
     after(:each) do
-      pmc.delete_alm_data(pmc.url)
+      subject.delete_alm_data(subject.url)
     end
 
     it "should parse PMC data" do
-      stub = stub_request(:get, pmc.get_feed_url(month, year, journal)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'pmc_alt.xml'), :status => 200)
-      pmc.get_feed(month, year).should be_empty
-      pmc.parse_feed(month, year).should be_empty
+      stub = stub_request(:get, subject.get_feed_url(month, year, journal)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'pmc_alt.xml'), :status => 200)
+      subject.get_feed(month, year).should be_empty
+      subject.parse_feed(month, year).should be_empty
       stub.should have_been_requested
       Alert.count.should == 0
     end
   end
 
   context "use the PMC API" do
-
     before(:each) do
-      pmc.put_alm_data(pmc.url)
+      subject.put_alm_data(subject.url)
     end
 
     after(:each) do
-      pmc.delete_alm_data(pmc.url)
+      subject.delete_alm_data(subject.url)
     end
 
     it "should report if there are no events and event_count returned by the PMC API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'pmc_nil.json')
-      stub = stub_request(:get, pmc.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      pmc.get_data(article).should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      subject.get_data(article).should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
       stub.should have_been_requested
     end
 
     it "should report if there are events and event_count returned by the PMC API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pbio.1001420")
       body = File.read(fixture_path + 'pmc.json')
-      stub = stub_request(:get, pmc.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      response = pmc.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      response = subject.get_data(article)
       response[:events].length.should eq(2)
       response[:event_count].should eq(13)
       response[:event_metrics].should eq(pdf: 4, html: 9, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 13)
@@ -144,14 +141,14 @@ describe Pmc do
 
     it "should catch errors with the PMC API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, pmc.get_query_url(article)).to_return(:status => [408])
-      pmc.get_data(article, options = { :source_id => pmc.id }).should be_nil
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
+      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("Net::HTTPRequestTimeOut")
       alert.status.should == 408
-      alert.source_id.should == pmc.id
+      alert.source_id.should == subject.id
     end
   end
 end
