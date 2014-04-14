@@ -36,8 +36,8 @@ describe Source do
         alert.source_id.should == source.id
       end
 
-      it 'should change to :waiting on :stop_working' do
-        source.stop_working
+      it 'should change to :waiting on :wait' do
+        source.wait
         source.should be_waiting
       end
     end
@@ -46,7 +46,7 @@ describe Source do
       let(:source) { FactoryGirl.create(:source) }
 
       before(:each) do
-        source.stop_working
+        source.wait
       end
 
       it 'should change to :working on :work' do

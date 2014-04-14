@@ -125,7 +125,7 @@ class Source < ActiveRecord::Base
     return 0 unless active?
 
     if rs.length == 0
-      stop_working
+      wait
       return 0
     end
 
