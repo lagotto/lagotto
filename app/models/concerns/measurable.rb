@@ -26,7 +26,7 @@ module Measurable
     # create a hash with the different metrics categories
     # total is sum of all categories if no total value is provided
     def event_metrics(options = {})
-      options[:total] ||= options.values.inject(0) { |sum, v| sum + v.as_i }
+      options[:total] ||= options.values.inject(0) { |sum, v| sum + v.to_i }
 
       { :pdf => options[:pdf],
         :html => options[:html],

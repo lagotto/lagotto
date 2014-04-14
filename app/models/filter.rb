@@ -22,6 +22,12 @@ class Filter < ActiveRecord::Base
   extend ActionView::Helpers::NumberHelper
   extend ActionView::Helpers::TextHelper
 
+  # include HTTP request helpers
+  include Networkable
+
+  # include CouchDB helpers
+  include Couchable
+
   has_many :reviews, :primary_key => "name", :foreign_key => "name"
 
   serialize :config, OpenStruct

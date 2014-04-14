@@ -36,7 +36,7 @@ class Copernicus < Source
       html = 0
     else
       event_count = result["counter"].values.inject(0) { |sum, x| sum + (x ? x : 0) }
-      pdf = result["counter"]["PdfDownloads"],
+      pdf = result["counter"]["PdfDownloads"]
       html = result["counter"]["AbstractViews"]
     end
 

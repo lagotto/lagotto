@@ -31,7 +31,7 @@ class Scopus < Source
     if result.nil? || result["search-results"].nil? || result["search-results"]["entry"][0].nil?
       nil
     elsif result["search-results"]["entry"][0]["citedby-count"].nil?
-      { events: [], event_count: 0, event_metrics: event_metrics(0) }
+      { events: [], event_count: 0, event_metrics: event_metrics(citations: 0) }
     else
       events = result["search-results"]["entry"][0]
       event_count = events["citedby-count"].to_i

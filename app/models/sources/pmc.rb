@@ -46,7 +46,7 @@ class Pmc < Source
         result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
       end
     else
-      dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
+      dates = date_range(options.merge(source: "pmc")).map { |date| "#{date[:year]}-#{date[:month]}" }
 
       CSV.generate do |csv|
         csv << ["doi"] + dates
