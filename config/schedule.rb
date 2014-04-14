@@ -5,7 +5,7 @@
 
 set :path, ENV['PATH']
 set :environment, ENV['RAILS_ENV']
-set :output, "#{path}/log/cron.log"
+set :output, "log/cron.log"
 
 # Schedule jobs
 # Send report when workers are not running
