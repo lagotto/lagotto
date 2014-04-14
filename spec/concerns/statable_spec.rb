@@ -20,7 +20,6 @@ describe Source do
         source.should receive(:remove_queues)
         source.inactivate
         source.should be_inactive
-        source.run_at.should eq(Time.zone.now + 5.years)
       end
 
       it 'should change to :disabled on :disable' do
@@ -28,7 +27,6 @@ describe Source do
 
         source.disable
         source.should be_disabled
-        source.run_at.should eq(Time.zone.now + source.disable_delay)
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("TooManyErrorsBySourceError")
@@ -58,7 +56,6 @@ describe Source do
         source.should receive(:remove_queues)
         source.inactivate
         source.should be_inactive
-        source.run_at.should eq(Time.zone.now + 5.years)
       end
 
       it 'should change to :disabled on :disable' do
@@ -66,7 +63,6 @@ describe Source do
 
         source.disable
         source.should be_disabled
-        source.run_at.should eq(Time.zone.now + source.disable_delay)
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("TooManyErrorsBySourceError")
@@ -82,7 +78,6 @@ describe Source do
         source.should be_inactive
         source.activate
         source.should be_working
-        source.run_at.should eq(Time.zone.now)
       end
 
       describe 'invalid source' do
@@ -104,7 +99,6 @@ describe Source do
       it 'should change to :inactive on :install' do
         source.install
         source.should be_inactive
-        source.run_at.should eq(Time.zone.now + 5.years)
       end
     end
 

@@ -123,7 +123,6 @@ describe DelayedJob do
         source.inactivate
         source.queue_all_articles.should == 0
         source.should be_inactive
-        source.run_at.should eq(Time.zone.now + 5.years)
       end
 
       it "with disabled source" do
