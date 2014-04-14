@@ -38,7 +38,7 @@ set :keep_releases, 5
 set :bundle_path, -> { shared_path.join('vendor/bundle') }
 
 # Use system libraries for Nokogiri
-set :bundle_env_variables, { 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1 }
+set :bundle_env_variables, 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1
 
 namespace :deploy do
 

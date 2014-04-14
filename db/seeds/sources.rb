@@ -9,11 +9,11 @@ other = Group.find_or_create_by_name(name: "other", display_name: "Other")
 
 # These sources are installed and activated by default
 citeulike = Citeulike.find_or_create_by_name(
-	:name => "citeulike",
-	:display_name => "CiteULike",
+  :name => "citeulike",
+  :display_name => "CiteULike",
   :description => "CiteULike is a free social bookmarking service for scholarly content.",
-	:state_event => "activate",
-	:group_id => saved.id)
+  :state_event => "activate",
+  :group_id => saved.id)
 pubmed = PubMed.find_or_create_by_name(
   :name => "pubmed",
   :display_name => "PubMed",

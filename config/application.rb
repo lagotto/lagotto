@@ -43,7 +43,7 @@ module Alm
     config.active_record.whitelist_attributes = false
 
     # Configure sensitive parameters which will be filtered from the log file.
-    #TODO do I need to add salt here?
+    #TODO: do I need to add salt here?
     config.filter_parameters += [:password]
 
     # Use a different cache store

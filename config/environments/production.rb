@@ -59,6 +59,6 @@ Alm::Application.configure do
   config.active_support.deprecation = :notify
 
   # for devise
-  # TODO Must set it with correct value!!
+  # TODO: Must set it with correct value!!
   config.action_mailer.default_url_options = { :host => "#{CONFIG[:mail]["address"]}#{CONFIG[:mail]["port"]}" }
 end

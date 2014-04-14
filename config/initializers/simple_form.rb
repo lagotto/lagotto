@@ -27,19 +27,19 @@ end
 
 class DayInput < SimpleForm::Inputs::Base
   def input
-    @builder.template.select_day(object.day, { include_blank: true }, { name: "article[day]", id: "article_day" })
+    @builder.template.select_day(object.day, { include_blank: true }, name: "article[day]", id: "article_day")
   end
 end
 
 class MonthInput < SimpleForm::Inputs::Base
   def input
-    @builder.template.select_month(object.month, { include_blank: true }, { name: "article[month]", id: "article_month" })
+    @builder.template.select_month(object.month, { include_blank: true }, name: "article[month]", id: "article_month")
   end
 end
 
 class YearInput < SimpleForm::Inputs::Base
   def input
-    @builder.template.select_year(object.year, { start_year: 1660, end_year: Date.today.year + 1 }, { name: "article[year]", id: "article_year" })
+    @builder.template.select_year(object.year, { start_year: 1660, end_year: Date.today.year + 1 }, name: "article[year]", id: "article_year")
   end
 end
 
@@ -50,8 +50,7 @@ SimpleForm.setup do |config|
   # wrapper, change the order or even add your own to the
   # stack. The options given below are used to wrap the
   # whole input.
-  config.wrappers :default, :tag => 'div', :class => 'form-group',
-    :error_class => 'has-error' do |b|
+  config.wrappers :default, :tag => 'div', :class => 'form-group', :error_class => 'has-error' do |b|
     ## Extensions enabled by default
     # Any of these extensions can be disabled for a
     # given input by passing: `f.input EXTENSION_NAME => false`.
