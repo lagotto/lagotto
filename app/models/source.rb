@@ -76,20 +76,6 @@ class Source < ActiveRecord::Base
   scope :public_sources, lambda { where("private = ?", false) }
   scope :private_sources, lambda { where("private = ?", true) }
 
-  INTERVAL_OPTIONS = [['½ hour', 30.minutes],
-                      ['1 hour', 1.hour],
-                      ['2 hours', 2.hours],
-                      ['3 hours', 3.hours],
-                      ['6 hours', 6.hours],
-                      ['12 hours', 12.hours],
-                      ['24 hours', 24.hours],
-                      ['¼ month', (1.month * 0.25).to_i],
-                      ['½ month', (1.month * 0.5).to_i],
-                      ['1 month', 1.month],
-                      ['3 months', 3.months],
-                      ['6 months', 6.months],
-                      ['12 months', 12.months]]
-
   def to_param  # overridden, use name instead of id
     name
   end

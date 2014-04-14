@@ -35,19 +35,19 @@
       <%= f.input :wait_time, label: false,
                               hint: "Time interval before more jobs can be added to the job queue (seconds)" %>
       <% if @source.queueable %>
-        <%= f.input :staleness_week,  collection: Source::INTERVAL_OPTIONS,
+        <%= f.input :staleness_week,  collection: INTERVAL_OPTIONS,
                                       label: "Update interval",
                                       include_blank: false,
                                       hint: "First 7 days after publication" %>
-        <%= f.input :staleness_month, collection: Source::INTERVAL_OPTIONS,
+        <%= f.input :staleness_month, collection: INTERVAL_OPTIONS,
                                       label: false,
                                       include_blank: false,
                                       hint: "First 31 days after publication" %>
-        <%= f.input :staleness_year,  collection: Source::INTERVAL_OPTIONS,
+        <%= f.input :staleness_year,  collection: INTERVAL_OPTIONS,
                                       label: false,
                                       include_blank: false,
                                       hint: "First year after publication" %>
-        <%= f.input :staleness_all,   collection: Source::INTERVAL_OPTIONS,
+        <%= f.input :staleness_all,   collection: INTERVAL_OPTIONS,
                                       label: false,
                                       include_blank: false,
                                       hint: "More than one year after publication" %>
@@ -60,7 +60,7 @@
 
       <%= f.input :max_failed_queries, label: "Failed queries",
                                        hint: "Maximum number of failed queries allowed before being disabled" %>
-      <%= f.input :max_failed_query_time_interval, collection: Source::INTERVAL_OPTIONS,
+      <%= f.input :max_failed_query_time_interval, collection: INTERVAL_OPTIONS,
                                                    label: false,
                                                    include_blank: false,
                                                    hint: "Time interval for maximum number of failed queries" %>
@@ -110,7 +110,7 @@
         <% if @source.queueable %>
           <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " for articles published #{i}" }.join("</br>").html_safe %></td>
         <% else %>
-          <td>Next update <%= @source.cron_line ? CronParser.new(@source.cron_line).next(Time.zone.now).to_s(:short) : "N/A" %></td>
+          <td>Next update <%= @source.cron_line ? CronParser.new(@source.cron_line).next(Time.zone.now).to_s(:short) + " UTC" : "N/A" %></td>
         <% end %>
       </tr>
       <tr>
