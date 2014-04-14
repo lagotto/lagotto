@@ -18,16 +18,13 @@
 
 require 'date'
 
-# include HTTP request helpers
-include Networkable
-
 namespace :f1000 do
 
   desc "Bulk-import F1000Prime data"
   task :update => :environment do
     source = Source.find_by_name("f1000")
     if source.nil?
-      message = "Source \"f1000\" is missing"
+      message = "Source \"F1000\" is missing"
       Alert.create(:exception => "", :class_name => "NoMethodError",
                                      :message => message)
       puts "Error: #{message}"
@@ -35,11 +32,11 @@ namespace :f1000 do
     end
 
     if source.get_feed.nil?
-      message "An error occured while getting the f1000 feed"
-      Rails.logger.info message
+      message "An error occured while getting the F1000 feed"
+      Rails.logger.error message
       puts message
     else
-      message = "The f1000 feed was successfully updated."
+      message = "The F1000 feed was successfully updated."
       Rails.logger.info message
       puts message
     end

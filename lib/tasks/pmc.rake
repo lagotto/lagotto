@@ -19,9 +19,6 @@
 require 'date'
 require 'addressable/uri'
 
-# include HTTP request helpers
-include Networkable
-
 namespace :pmc do
 
   desc "Bulk-import PMC usage stats by month and journal"

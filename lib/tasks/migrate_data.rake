@@ -18,9 +18,6 @@
 
 require 'mysql2'
 
-# include HTTP request helpers
-include Networkable
-
 task :migrate_data, [:old_db] => :environment do |t, args|
 
   puts "Start: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
