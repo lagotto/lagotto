@@ -1,6 +1,6 @@
 set :stage, :development
 set :repo_url, 'file:///var/www/alm/shared/'
-set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "develop"
+set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "feature/ALM-657"
 set :deploy_user, 'vagrant'
 set :rails_env, :development
 
