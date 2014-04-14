@@ -22,10 +22,9 @@ gem "typhoeus", "~> 0.6.7"
 gem 'addressable', "~> 2.3.5"
 gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"
+gem 'safe_yaml', '= 1.0.1'
 gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.5.4"
-gem 'psych', '~> 2.0.5'
-gem 'safe_yaml', '~> 1.0.2'
 gem 'rubyzip',  "~> 1.1", :require => 'zip'
 
 gem "devise", "~> 3.2.2"
@@ -59,8 +58,6 @@ group :development do
   gem 'capistrano-rails', '~> 1.1.1', :require => false
   gem 'capistrano-bundler', '~> 1.1.2', :require => false
   gem 'sshkit', :require => false, :github => 'capistrano/sshkit'
-  gem 'copyright-header', '~> 1.0.12'
-  gem 'license_finder', '~> 1.0.0.0'
   gem 'spring', '~> 1.1.2'
 end
 

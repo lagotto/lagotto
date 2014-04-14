@@ -12,13 +12,10 @@ CodeClimate::TestReporter.configure do |config|
 end
 CodeClimate::TestReporter.start
 
-require 'psych'
 require 'cucumber/rails'
 require 'factory_girl_rails'
 require 'capybara/poltergeist'
 require 'webmock/cucumber'
-
-SafeYAML::OPTIONS[:default_mode] = :safe
 
 # include required concerns
 include Networkable

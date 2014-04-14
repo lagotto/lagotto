@@ -1,6 +1,11 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'safe_yaml'
+
+SafeYAML::OPTIONS[:default_mode] = :safe
+SafeYAML::OPTIONS[:deserialize_symbols] = true
+SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/object:OpenStruct"]
 
 CONFIG = YAML.load(ERB.new(File.read(File.expand_path('../settings.yml', __FILE__))).result)[Rails.env]
 CONFIG.symbolize_keys!

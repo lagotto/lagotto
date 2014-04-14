@@ -18,8 +18,6 @@ require 'webmock/rspec'
 require "rack/test"
 require 'draper/test/rspec_integration'
 
-SafeYAML::OPTIONS[:default_mode] = :safe
-
 include WebMock::API
 WebMock.disable_net_connect!(:allow => [/localhost/, /127.0.0.1/, /codeclimate.com/])
 
