@@ -51,7 +51,7 @@ namespace :queue do
 
   desc "Queue all articles"
   task :all => :environment do |t, args|
-    ENV['ALL'] = 1
+    ENV['ALL'] = "true"
     Rake::Task["queue:stale"].invoke
     Rake::Task["queue:stale"].reenable
   end
