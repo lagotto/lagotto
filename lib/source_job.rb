@@ -38,7 +38,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def perform
 
     source = Source.find(source_id)
-    source.start_jobs_with_check
+    source.work_after_check
 
     # Check that source is working and we have workers for this source
     # Otherwise raise an error and reschedule the job

@@ -17,12 +17,12 @@ Given /^the status of source "(.*?)" is "(.*?)"$/ do |name, status|
   if status == "inactive"
     @source = FactoryGirl.create(sym_name, state_event: "inactivate")
   elsif status == "working"
-    @source = FactoryGirl.create(sym_name, state_event: "start_working")
+    @source = FactoryGirl.create(sym_name, state_event: "work")
   elsif status == "disabled"
     @report = FactoryGirl.create(:disabled_source_report_with_admin_user)
     @source = FactoryGirl.create(sym_name, state_event: "disable")
   elsif status == "waiting"
-    @source = FactoryGirl.create(sym_name, state_event: "start_waiting")
+    @source = FactoryGirl.create(sym_name, state_event: "wait")
   end
 end
 

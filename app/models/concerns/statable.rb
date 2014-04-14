@@ -113,28 +113,18 @@ module Statable
         transition any => :disabled
       end
 
-      event :start_jobs_with_check do
+      event :work_after_check do
+        transition [:available, :inactive] => same
         transition any => :disabled, :if => :check_for_failures
         transition any => :working
       end
 
-      event :start_working_with_check do
-        transition [:inactive] => same
-        transition any => :disabled, :if => :check_for_failures
-        transition any => :waiting, :if => :check_for_queued_jobs
-        transition any => :working
-      end
-
-      event :start_working do
+      event :work do
         transition [:waiting] => :working
         transition any => same
       end
 
-      event :stop_working do
-        transition [:working] => :waiting
-      end
-
-      event :start_waiting do
+      event :wait do
         transition any => :waiting
       end
     end

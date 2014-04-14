@@ -49,8 +49,8 @@ describe Source do
         source.stop_working
       end
 
-      it 'should change to :working on :start_working' do
-        source.start_working
+      it 'should change to :working on :work' do
+        source.work
         source.should be_working
       end
 
