@@ -175,11 +175,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     end
   end
 
-  def success(job)
-    # reset the queued_at value
-    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids])
-  end
-
   def failure(job)
     source = Source.find(source_id)
     Alert.create(:exception => "", :class_name => "DelayedJobError", :message => "Failure in #{job.queue}: #{job.last_error}", :source_id => source.id)
@@ -187,6 +182,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   def after(job)
     source = Source.find(source_id)
+    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids])
     source.wait unless source.working_count > 1
   end
 
