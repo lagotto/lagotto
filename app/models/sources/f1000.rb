@@ -19,20 +19,15 @@
 # limitations under the License.
 
 class F1000 < Source
-  # Retrieve PLOS-specific XML feed and store in <filename>. Returns nil if an error occured.
-  def get_feed(options={})
-    options[:source_id] = id
-    save_to_file(url, filename, options)
-  end
-
   def get_data(article, options={})
     # Check that article has DOI
     return { events: [], event_count: nil } if article.doi.blank?
 
-    # Check that XML from f1000 feed exists and isn't older than a day, otherwise an error must have occured
-    return nil unless check_file
+    # Check that most recent F1000 XML exists, otherwise download it
+    document = get_feed(options)
 
-    document = Nokogiri::XML(File.open("#{Rails.root}/data/#{filename}"))
+    return nil if document.nil?
+
     result = document.at_xpath("//Article[Doi='#{article.doi}']")
 
     # F1000 doesn't know about the article
@@ -47,19 +42,31 @@ class F1000 < Source
       :events_url => event["Url"],
       :event_count => event_count,
       :event_metrics => event_metrics(citations: event_count),
-      :attachment => {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }
+      :attachment => { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }
     }
   end
 
-  # Check that f1000 XML feed exists and isn't older than a day, otherwise download feed and save as file
-  # Returns nil if an error occured
-  def check_file
+  def get_feed(options={})
+    # Check that most recent F1000 XML exists, otherwise download it
     file = "#{Rails.root}/data/#{filename}"
-    if File.exists?(file) && File.file?(file) && File.mtime(file) > 1.day.ago
-      return filename
+    last_time = CronParser.new(cron_line).last(Time.now)
+
+    if File.exists?(file) && File.mtime(file) >= last_time && File.file?(file)
+      Nokogiri::XML(File.open(file))
     else
-      return get_feed
+      options[:source_id] = id
+      feed_url = get_feed_url
+      document = get_xml(feed_url, options)
+
+      return nil if document.nil?
+
+      File.open(file, 'w') { |file| file.write(document.to_s) }
+      document
     end
+  end
+
+  def get_feed_url
+    url
   end
 
   def get_config_fields
@@ -76,10 +83,14 @@ class F1000 < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 50000
+    config.rate_limiting || 100000
   end
 
   def workers
-    config.workers || 5
+    config.workers || 20
+  end
+
+  def cron_line
+    config.cron_line || "* 03 * * 3"
   end
 end

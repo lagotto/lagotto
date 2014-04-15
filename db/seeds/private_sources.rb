@@ -24,6 +24,7 @@ f1000 = F1000.find_or_create_by_name(
   :name => "f1000",
   :display_name => "F1000Prime",
   :description => "Post-publication peer review of the biomedical literature.",
+  :queueable => false,
   :group_id => recommended.id)
 figshare = Figshare.find_or_create_by_name(
   :name => "figshare",
