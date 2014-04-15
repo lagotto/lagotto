@@ -1,10 +1,10 @@
 GIT
   remote: git://github.com/capistrano/sshkit.git
-  revision: 79583c59d90d66cf17249e16906ee3789279edde
+  revision: cf42a10db464a70266afb3b73c548b34a44a5b22
   specs:
     sshkit (1.4.0)
       net-scp (>= 1.1.2)
-      net-ssh
+      net-ssh (>= 2.8.0)
       term-ansicolor
 
 GEM
@@ -63,7 +63,7 @@ GEM
       actionpack (>= 3.2)
       thread_safe
     cancan (1.6.10)
-    capistrano (3.1.0)
+    capistrano (3.2.0)
       i18n
       rake (>= 10.0.0)
       sshkit (~> 1.3)
@@ -147,8 +147,6 @@ GEM
       railties (>= 3.0.0)
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
-    faraday-conductivity (0.3.0)
-      faraday (~> 0.8)
     faraday-cookie_jar (0.0.6)
       faraday (>= 0.7.4)
       http-cookie (~> 1.0.0)
@@ -382,7 +380,6 @@ DEPENDENCIES
   email_spec (~> 1.5.0)
   factory_girl_rails (~> 4.3.0)
   faraday (~> 0.8.9)
-  faraday-conductivity (~> 0.3.0)
   faraday-cookie_jar
   faraday_middleware (~> 0.9.0)
   github-markdown (~> 0.6.3)

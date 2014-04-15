@@ -172,7 +172,7 @@ module Networkable
           status = error[:status]
         elsif error.respond_to?('response') && error.response.present?
           status = error.response[:status]
-          details = error.response[:headers].to_s + '\n\n' + error.response[:body]
+          details = error.response[:body]
         else
           status = 400
         end
