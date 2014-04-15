@@ -56,7 +56,7 @@ gem "rouge", "~> 1.3.1"
 group :development do
   gem 'capistrano-rails', '~> 1.1.1', :require => false
   gem 'capistrano-bundler', '~> 1.1.2', :require => false
-  gem 'sshkit', :require => false, :github => 'capistrano/sshkit'
+  gem 'sshkit', '~> 1.4.0'
   gem 'spring', '~> 1.1.2'
 end
 
