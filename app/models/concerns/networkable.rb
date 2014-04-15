@@ -105,8 +105,7 @@ module Networkable
     def conn_json
       Faraday.new do |c|
         c.headers['Accept'] = 'application/json'
-        c.headers['User-Agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
-        c.use      Faraday::HttpCache, store: Rails.cache
+        c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10
         c.request  :multipart
         c.request  :json
@@ -119,8 +118,7 @@ module Networkable
     def conn_xml
       Faraday.new do |c|
         c.headers['Accept'] = 'application/xml'
-        c.headers['User-Agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
-        c.use      Faraday::HttpCache, store: Rails.cache
+        c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10
         c.use      Faraday::Response::RaiseError
         c.adapter  Faraday.default_adapter
@@ -129,10 +127,9 @@ module Networkable
 
     def conn_html
       Faraday.new do |c|
-        c.headers['Accept'] = 'text/html;charset=UTF-8'
-        c.headers['Accept-Charset'] = 'UTF-8'
-        c.headers['User-Agent'] = "#{CONFIG[:useragent]} - http://#{CONFIG[:hostname]}"
-        c.use      Faraday::HttpCache, store: Rails.cache
+        c.headers['Accept'] = 'text/html;charset=utf-8'
+        c.headers['Accept-Charset'] = 'utf-8'
+        c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10
         c.use      :cookie_jar
         c.use      Faraday::Response::RaiseError
@@ -175,7 +172,7 @@ module Networkable
           status = error[:status]
         elsif error.respond_to?('response') && error.response.present?
           status = error.response[:status]
-          details = error.response[:body]
+          details = error.response[:headers].to_s + '\n\n' + error.response[:body]
         else
           status = 400
         end
