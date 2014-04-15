@@ -86,7 +86,7 @@ module Statable
 
       event :activate do
         transition [:available] => :retired, :if => :obsolete?
-        transition [:available, :inactive] => :working
+        transition [:available, :inactive] => :waiting
         transition any => same
       end
 

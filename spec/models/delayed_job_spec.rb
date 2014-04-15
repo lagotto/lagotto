@@ -22,9 +22,7 @@ require 'spec_helper'
 
 describe DelayedJob do
 
-  before(:each) do
-    Time.stub(:now).and_return(Time.mktime(2013, 9, 5))
-  end
+  before(:each) { Time.stub(:now).and_return(Time.mktime(2013, 9, 5)) }
 
   let(:source) { FactoryGirl.create(:source, run_at: Time.zone.now) }
 

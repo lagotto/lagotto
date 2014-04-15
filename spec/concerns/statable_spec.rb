@@ -2,116 +2,104 @@ require 'spec_helper'
 
 describe Source do
 
-  before(:each) do
-    Time.stub(:now).and_return(Time.mktime(2013, 9, 5))
-  end
-
-  let(:source) { FactoryGirl.create(:source, run_at: Time.zone.now) }
-
-  subject { source }
+  subject { FactoryGirl.create(:source) }
 
   describe 'states' do
-    describe ':working' do
-      it 'should be an initial state' do
-        source.should be_working
-      end
-
-      it 'should change to :inactive on :inactivate' do
-        source.should receive(:remove_queues)
-        source.inactivate
-        source.should be_inactive
-      end
-
-      it 'should change to :disabled on :disable' do
-        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
-
-        source.disable
-        source.should be_disabled
-        Alert.count.should == 1
-        alert = Alert.first
-        alert.class_name.should eq("TooManyErrorsBySourceError")
-        alert.message.should eq("#{source.display_name} has exceeded maximum failed queries. Disabling the source.")
-        alert.source_id.should == source.id
-      end
-
-      it 'should change to :waiting on :wait' do
-        source.wait
-        source.should be_waiting
-      end
-    end
-
     describe ':waiting' do
-      let(:source) { FactoryGirl.create(:source) }
-
-      before(:each) do
-        source.wait
+      it 'should be an initial state' do
+        subject.should be_waiting
       end
 
       it 'should change to :working on :work' do
-        source.work
-        source.should be_working
+        subject.work
+        subject.should be_working
       end
 
       it 'should change to :inactive on :inactivate' do
-        source.should receive(:remove_queues)
-        source.inactivate
-        source.should be_inactive
+        subject.should receive(:remove_queues)
+        subject.inactivate
+        subject.should be_inactive
       end
 
       it 'should change to :disabled on :disable' do
         report = FactoryGirl.create(:disabled_source_report_with_admin_user)
 
-        source.disable
-        source.should be_disabled
+        subject.disable
+        subject.should be_disabled
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("TooManyErrorsBySourceError")
-        alert.message.should eq("#{source.display_name} has exceeded maximum failed queries. Disabling the source.")
-        alert.source_id.should == source.id
+        alert.message.should eq("#{subject.display_name} has exceeded maximum failed queries. Disabling the source.")
+        alert.source_id.should == subject.id
+      end
+    end
+
+    describe ':working' do
+      before(:each) { subject.work }
+
+      it 'should change to :inactive on :inactivate' do
+        subject.should receive(:remove_queues)
+        subject.inactivate
+        subject.should be_inactive
+      end
+
+      it 'should change to :disabled on :disable' do
+        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+
+        subject.disable
+        subject.should be_disabled
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("TooManyErrorsBySourceError")
+        alert.message.should eq("#{subject.display_name} has exceeded maximum failed queries. Disabling the source.")
+        alert.source_id.should == subject.id
+      end
+
+      it 'should change to :waiting on :wait' do
+        subject.wait
+        subject.should be_waiting
       end
     end
 
     describe ':inactive' do
-      let(:source) { FactoryGirl.create(:source, state_event: 'install') }
+      subject { FactoryGirl.create(:source, state_event: 'install') }
 
-      it 'should change to :working on :activate' do
-        source.should be_inactive
-        source.activate
-        source.should be_working
+      it 'should change to :waiting on :activate' do
+        subject.should be_inactive
+        subject.activate
+        subject.should be_waiting
       end
 
       describe 'invalid source' do
-        let(:source) { FactoryGirl.create(:source, state_event: 'install', url: '') }
+        subject { FactoryGirl.create(:source, state_event: 'install', url: '') }
 
-        it 'should not change to :working on :activate' do
-          source.activate
-          source.should be_inactive
-          source.errors.full_messages.first.should eq("Url can't be blank")
+        it 'should not change to :waiting on :activate' do
+          subject.activate
+          subject.should be_inactive
+          subject.errors.full_messages.first.should eq("Url can't be blank")
         end
       end
     end
 
     describe ':available' do
-      before(:each) do
-        source.uninstall
-      end
+      before(:each) { subject.uninstall }
 
       it 'should change to :inactive on :install' do
-        source.install
-        source.should be_inactive
+        subject.install
+        subject.should be_inactive
       end
     end
 
     describe ':retired' do
-      let(:source) { FactoryGirl.create(:source, obsolete: true) }
+      subject { FactoryGirl.create(:source, obsolete: true) }
 
       before(:each) do
-        source.uninstall
+        subject.uninstall
       end
 
       it 'should change to :retired on :install' do
-        source.install
-        source.should be_retired
+        subject.install
+        subject.should be_retired
       end
     end
   end

@@ -3,13 +3,12 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
-<% if node[:alm][:admin][:password] %>
+<% if node[:alm][:admin][:password] -%>
 # Load default admin user
 unless Rails.env.production?
   User.create(:username => "<%= node[:alm][:admin][:username] %>", :name => "<%= node[:alm][:admin][:name] %>", :email => "<%= node[:alm][:admin][:email] %>", :password => "<%= node[:alm][:admin][:password] %>", :password_confirmation => "<%= node[:alm][:admin][:password] %>") if User.count == 0
 end
-<% end %>
-
+<% end -%>
 # Load sources
 viewed = Group.find_or_create_by_name(name: "viewed", display_name: "Viewed")
 saved = Group.find_or_create_by_name(name: "saved", display_name: "Saved")

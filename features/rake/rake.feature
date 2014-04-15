@@ -29,7 +29,7 @@ Feature: Run rake tasks
       | mailer:article_statistics_report | Send article statistics report                                  |
       | mailer:error_report              | Send error report                                               |
       | mailer:status_report             | Send status report                                              |
-      | pmc:update[month,year]           | Bulk-import PMC usage stats by month and journal                |
+      | pmc:update                       | Bulk-import PMC usage stats by month and journal                |
       | report:all_stats                 | Generate all article stats reports                              |
       | report:alm_private_stats         | Generate CSV file with ALM stats for private and public sources |
       | report:alm_stats                 | Generate CSV file with ALM stats for public sources             |

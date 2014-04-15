@@ -81,7 +81,7 @@ namespace :db do
     desc "Seed sample articles"
     task :seed => :environment do
       before = Article.count
-      ENV['ARTICLES'] = "1"
+      ENV['ARTICLES'] = "true"
       Rake::Task['db:seed'].invoke
       after = Article.count
       puts "Seeded #{after - before} articles"
@@ -233,8 +233,8 @@ namespace :db do
 
       sources.each do |source|
         source.activate
-        if source.working?
-          puts "Source #{source.display_name} has been activated and is now working."
+        if source.waiting?
+          puts "Source #{source.display_name} has been activated and is now waiting."
         else
           puts "Source #{source.display_name} could not be activated."
         end
