@@ -47,7 +47,7 @@ SITE
       windows (>= 0.0.0)
     ms_dotnet45 (1.1.2)
       windows (>= 0.0.0)
-    mysql (5.0.2)
+    mysql (5.1.8)
     mysql-chef_gem (0.0.2)
       build-essential (>= 0.0.0)
       mysql (>= 0.0.0)
@@ -82,9 +82,9 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: e68c395ef7ea4d739040209f34220cbee02f0935
+  sha: df858d30584687777d12dec078b0fdcebaa349a5
   specs:
-    alm (1.6.6)
+    alm (1.6.10)
       couchdb (>= 0.0.0)
       database (>= 0.0.0)
       git (>= 0.0.0)
@@ -109,7 +109,7 @@ DEPENDENCIES
   database (= 2.1.2)
   git (= 4.0.0)
   memcached (= 1.7.2)
-  mysql (= 5.0.2)
+  mysql (= 5.1.8)
   passenger_apache2 (>= 0)
   phantomjs (= 1.0.3)
   postfix (= 3.1.6)

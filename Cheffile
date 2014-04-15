@@ -8,7 +8,7 @@ cookbook "build-essential", "2.0.0"
 cookbook "git", "4.0.0"
 
 cookbook "passenger_apache2", :git => "https://github.com/articlemetrics/passenger_apache2.git", :ref => "articlemetrics"
-cookbook "mysql", "5.0.2"
+cookbook "mysql", "5.1.8"
 cookbook "database", "2.1.2"
 cookbook "couchdb", "2.5.1"
 cookbook "phantomjs", "1.0.3"

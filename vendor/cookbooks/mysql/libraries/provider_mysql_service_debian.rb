@@ -1,4 +1,5 @@
 require 'chef/provider/lwrp_base'
+require 'shellwords'
 
 class Chef
   class Provider
@@ -14,8 +15,8 @@ class Chef
           converge_by 'debian pattern' do
             ##################
             prefix_dir = '/usr'
-            run_dir = '/var/run/mysql'
-            pid_file = '/var/run/mysql/mysql.pid'
+            run_dir = '/var/run/mysqld'
+            pid_file = '/var/run/mysqld/mysql.pid'
             socket_file = '/var/run/mysqld/mysqld.sock'
             include_dir = '/etc/mysql/conf.d'
             ##################
@@ -44,7 +45,7 @@ class Chef
 
             execute 'preseed mysql-server' do
               command '/usr/bin/debconf-set-selections /var/cache/local/preseeding/mysql-server.seed'
-              action  :nothing
+              action :nothing
             end
 
             # package automatically initializes database and starts service.
@@ -63,7 +64,7 @@ class Chef
             execute 'assign-root-password' do
               cmd = "#{prefix_dir}/bin/mysqladmin"
               cmd << ' -u root password '
-              cmd << node['mysql']['server_root_password']
+              cmd << Shellwords.escape(node['mysql']['server_root_password'])
               command cmd
               action :run
               only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
@@ -72,9 +73,9 @@ class Chef
             template '/etc/mysql_grants.sql' do
               cookbook 'mysql'
               source 'grants/grants.sql.erb'
-              owner  'root'
-              group  'root'
-              mode   '0600'
+              owner 'root'
+              group 'root'
+              mode '0600'
               action :create
               notifies :run, 'execute[install-grants]'
             end
@@ -82,7 +83,7 @@ class Chef
             if node['mysql']['server_root_password'].empty?
               pass_string = ''
             else
-              pass_string = "-p#{node['mysql']['server_root_password']}"
+              pass_string = '-p' + Shellwords.escape(node['mysql']['server_root_password'])
             end
 
             execute 'install-grants' do
@@ -169,6 +170,15 @@ class Chef
               provider Chef::Provider::Service::Init::Debian
               supports :restart => true
               action :restart
+            end
+          end
+        end
+
+        action :reload do
+          converge_by 'debian pattern' do
+            service 'mysql' do
+              provider Chef::Provider::Service::Init::Debian
+              action :reload
             end
           end
         end

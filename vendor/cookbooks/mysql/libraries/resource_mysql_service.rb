@@ -13,7 +13,7 @@ class Chef
         @resource_name = :mysql_service
         @service_name = name
 
-        @allowed_actions = [:create, :restart]
+        @allowed_actions = [:create, :restart, :reload]
         @action = :create
 
         # set default values
@@ -113,8 +113,6 @@ class Chef
           :kind_of => String
           )
       end
-
-      private
 
       def self.validate_port(port)
         port.to_i > 1024 && port.to_i < 65_535

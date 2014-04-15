@@ -53,7 +53,7 @@ Vagrant.configure("2") do |config|
     provider.size = '1GB'
   end
 
-  config.vm.hostname = "alm"
+  config.vm.hostname = "alm.local"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui

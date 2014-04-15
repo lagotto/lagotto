@@ -1,4 +1,8 @@
 require 'chef/provider/lwrp_base'
+require 'shellwords'
+require_relative 'helpers'
+
+extend Opscode::Mysql::Helpers
 
 class Chef
   class Provider
@@ -139,9 +143,9 @@ class Chef
             template '/etc/mysql_grants.sql' do
               cookbook 'mysql'
               source 'grants/grants.sql.erb'
-              owner  'root'
-              group  'root'
-              mode   '0600'
+              owner 'root'
+              group 'root'
+              mode '0600'
               action :create
               notifies :run, 'execute[install-grants]'
             end
@@ -149,7 +153,7 @@ class Chef
             if node['mysql']['server_root_password'].empty?
               pass_string = ''
             else
-              pass_string = "-p#{node['mysql']['server_root_password']}"
+              pass_string = '-p' + Shellwords.escape(node['mysql']['server_root_password'])
             end
 
             execute 'install-grants' do
@@ -199,7 +203,7 @@ class Chef
             execute 'assign-root-password' do
               cmd = "#{prefix_dir}/bin/mysqladmin"
               cmd << ' -u root password '
-              cmd << node['mysql']['server_root_password']
+              cmd << Shellwords.escape(node['mysql']['server_root_password'])
               command cmd
               action :run
               only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
@@ -208,40 +212,32 @@ class Chef
         end
 
         action :restart do
-          # FIXME: Find a way to DRY this
-          case node['platform_version'].to_i.to_s
-          when '2013'
-            case new_resource.version
-            when '5.1'
-              service_name = 'mysqld'
-            end
-          when '2014'
-            case new_resource.version
-            when '5.1'
-              service_name = 'mysqld'
-            when '5.5'
-              service_name = 'mysqld'
-            end
-          when '6'
-            case new_resource.version
-            when '5.1'
-              service_name = 'mysqld'
-            end
-          when '5'
-            case new_resource.version
-            when '5.0'
-              service_name = 'mysqld'
-            when '5.1'
-              service_name = 'mysql51-mysqld'
-            when '5.5'
-              service_name = 'mysql55-mysqld'
-            end
-          end
+          service_name = service_name_for(
+            node['platform'],
+            node['platform_family'],
+            node['platform_version'],
+            new_resource.version
+            )
 
           converge_by 'rhel pattern' do
             service service_name do
               supports :restart => true
               action :restart
+            end
+          end
+        end
+
+        action :reload do
+          service_name = service_name_for(
+            node['platform'],
+            node['platform_family'],
+            node['platform_version'],
+            new_resource.version
+            )
+
+          converge_by 'rhel pattern' do
+            service service_name do
+              action :reload
             end
           end
         end
