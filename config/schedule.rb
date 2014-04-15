@@ -15,7 +15,7 @@ set :output, "log/cron.log"
 # Delete API response information, keeping responses from the last 24 hours
 # Generate a monthly report
 
-every 10.minutes do
+every 60.minutes do
   rake "queue:stale"
 end
 

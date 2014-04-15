@@ -135,7 +135,7 @@ class Source < ActiveRecord::Base
 
   def working_count
     delayed_jobs.count(:locked_at)
-    #Delayed::Job.count('id', :conditions => ["queue = ? AND locked_by IS NOT NULL", name])
+    # Delayed::Job.count('id', :conditions => ["queue = ? AND locked_by IS NOT NULL", name])
   end
 
   def pending_count
