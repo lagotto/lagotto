@@ -19,19 +19,6 @@
 # limitations under the License.
 
 class Mendeley < Source
-  # Format Mendeley events for all articles as csv
-  def to_csv(options = {})
-    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
-
-    result = get_json(service_url, options)
-    return nil if result.blank? || result["rows"].blank?
-
-    CSV.generate do |csv|
-      csv << ["doi", "readers", "groups", "total"]
-      result["rows"].each { |row| csv << [row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
-    end
-  end
-
   def get_data(article, options={})
     # First check that we have a valid OAuth2 access token
     return nil unless get_access_token
@@ -143,6 +130,19 @@ class Mendeley < Source
       save
     else
       false
+    end
+  end
+
+  # Format Mendeley events for all articles as csv
+  def to_csv(options = {})
+    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
+
+    result = get_json(service_url, options)
+    return nil if result.blank? || result["rows"].blank?
+
+    CSV.generate do |csv|
+      csv << ["doi", "readers", "groups", "total"]
+      result["rows"].each { |row| csv << [row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
     end
   end
 

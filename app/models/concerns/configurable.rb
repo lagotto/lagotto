@@ -218,7 +218,7 @@ module Configurable
     end
 
     def cron_line
-      config.cron_line || "* 05 * * *"
+      config.cron_line || "* 4 * * *"
     end
 
     def cron_line=(value)

@@ -23,7 +23,7 @@ every 4.hours do
   rake "workers:monitor"
 end
 
-every 1.day, at: "4:00 AM" do
+every 1.day, at: "1:00 AM" do
   rake "filter:all"
   rake "mailer:error_report"
   rake "mailer:stale_source_report"
@@ -33,8 +33,13 @@ every 1.day, at: "4:00 AM" do
   rake "db:alerts:delete"
 end
 
-every :monday, at: "4:30 AM" do
+every :monday, at: "1:30 AM" do
   rake "mailer:status_report"
+end
+
+# every 9th of the month at 2 AM
+every '0 2 9 * *' do
+  rake "pmc:update"
 end
 
 # every 10th of the month at 5 AM

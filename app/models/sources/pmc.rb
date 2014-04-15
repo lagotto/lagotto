@@ -22,39 +22,28 @@ class Pmc < Source
   # include date methods concern
   include Dateable
 
-  # Format Pmc events for all articles as csv
-  # Show historical data if options[:format] is used
-  # options[:format] can be "html", "pdf" or "combined"
-  # options[:month] and options[:year] are the starting month and year, default to last month
-  def to_csv(options = {})
-    if ["html", "pdf", "combined"].include? options[:format]
-      view = "pmc_#{options[:format]}_views"
-    else
-      view = "pmc"
-    end
+  def get_data(article, options={})
+    # Check that article has DOI and is at least one day old
+    return { events: [], event_count: nil } if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
 
-    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
+    query_url = get_query_url(article)
+    result = get_json(query_url, options)
 
-    result = get_json(service_url, options)
-    return nil if result.blank? || result["rows"].blank?
+    # an error occured
+    return nil if result.nil?
 
-    if view == "pmc"
-      CSV.generate do |csv|
-        csv << ["doi", "html", "pdf", "total"]
-        result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
-      end
-    else
-      dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
+    # no data for this article
+    return { events: [], event_count: nil } unless result['views']
 
-      CSV.generate do |csv|
-        csv << ["doi"] + dates
-        result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 } }
-      end
-    end
-  end
+    events = result["views"]
 
-  def put_pmc_database
-    put_alm_data(url)
+    pdf = events.nil? ? 0 : events.reduce(0) { |sum, hash| sum + hash["pdf"].to_i }
+    html = events.nil? ? 0 : events.reduce(0) { |sum, hash| sum + hash["full-text"].to_i }
+    event_count = pdf + html
+
+    { :events => events,
+      :event_count => event_count,
+      :event_metrics => event_metrics(pdf: pdf, html: html, total: event_count) }
   end
 
   # Retrieve usage stats in XML and store in /data directory. Returns an empty array if no error occured
@@ -128,28 +117,8 @@ class Pmc < Source
     journals_with_errors
   end
 
-  def get_data(article, options={})
-    # Check that article has DOI and is at least one day old
-    return { events: [], event_count: nil } if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
-
-    query_url = get_query_url(article)
-    result = get_json(query_url, options)
-
-    # an error occured
-    return nil if result.nil?
-
-    # no data for this article
-    return { events: [], event_count: nil } unless result['views']
-
-    events = result["views"]
-
-    pdf = events.nil? ? 0 : events.reduce(0) { |sum, hash| sum + hash["pdf"].to_i }
-    html = events.nil? ? 0 : events.reduce(0) { |sum, hash| sum + hash["full-text"].to_i }
-    event_count = pdf + html
-
-    { :events => events,
-      :event_count => event_count,
-      :event_metrics => event_metrics(pdf: pdf, html: html, total: event_count) }
+  def put_pmc_database
+    put_alm_data(url)
   end
 
   def get_query_url(article)
@@ -158,6 +127,37 @@ class Pmc < Source
 
   def get_feed_url(month, year, journal)
     "http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=#{year}&month=#{month}&jrid=#{journal}&user=#{username}&password=#{password}"
+  end
+
+  # Format Pmc events for all articles as csv
+  # Show historical data if options[:format] is used
+  # options[:format] can be "html", "pdf" or "combined"
+  # options[:month] and options[:year] are the starting month and year, default to last month
+  def to_csv(options = {})
+    if ["html", "pdf", "combined"].include? options[:format]
+      view = "pmc_#{options[:format]}_views"
+    else
+      view = "pmc"
+    end
+
+    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
+
+    result = get_json(service_url, options)
+    return nil if result.blank? || result["rows"].blank?
+
+    if view == "pmc"
+      CSV.generate do |csv|
+        csv << ["doi", "html", "pdf", "total"]
+        result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
+      end
+    else
+      dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
+
+      CSV.generate do |csv|
+        csv << ["doi"] + dates
+        result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 } }
+      end
+    end
   end
 
   def get_config_fields
@@ -185,10 +185,14 @@ class Pmc < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 50000
+    config.rate_limiting || 100000
   end
 
   def workers
-    config.workers || 5
+    config.workers || 20
+  end
+
+  def cron_line
+    config.cron_line || "0 5 9 * *"
   end
 end

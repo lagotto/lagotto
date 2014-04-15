@@ -22,37 +22,6 @@ class Counter < Source
   # include date methods concern
   include Dateable
 
-  # Format Counter events for all articles as csv
-  # Show historical data if options[:format] is used
-  # options[:format] can be "html", "pdf" or "combined"
-  # options[:month] and options[:year] are the starting month and year, default to last month
-  def to_csv(options = {})
-    if ["html", "pdf", "xml", "combined"].include? options[:format]
-      view = "counter_#{options[:format]}_views"
-    else
-      view = "counter"
-    end
-
-    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
-
-    result = get_json(service_url, options)
-    return nil if result.blank? || result["rows"].blank?
-
-    if view == "counter"
-      CSV.generate do |csv|
-        csv << ["doi", "html", "pdf", "total"]
-        result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
-      end
-    else
-      dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
-
-      CSV.generate do |csv|
-        csv << ["doi"] + dates
-        result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 } }
-      end
-    end
-  end
-
   def get_data(article, options={})
     # Check that article has DOI
     return { events: [], event_count: nil } unless article.doi =~ /^10.1371/
@@ -111,6 +80,37 @@ class Counter < Source
       :attachment => views.empty? ? nil : { filename: "events.xml", content_type: "text\/xml", data: result.to_s } }
   end
 
+  # Format Counter events for all articles as csv
+  # Show historical data if options[:format] is used
+  # options[:format] can be "html", "pdf" or "combined"
+  # options[:month] and options[:year] are the starting month and year, default to last month
+  def to_csv(options = {})
+    if ["html", "pdf", "xml", "combined"].include? options[:format]
+      view = "counter_#{options[:format]}_views"
+    else
+      view = "counter"
+    end
+
+    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
+
+    result = get_json(service_url, options)
+    return nil if result.blank? || result["rows"].blank?
+
+    if view == "counter"
+      CSV.generate do |csv|
+        csv << ["doi", "html", "pdf", "total"]
+        result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
+      end
+    else
+      dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
+
+      CSV.generate do |csv|
+        csv << ["doi"] + dates
+        result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 } }
+      end
+    end
+  end
+
   def get_config_fields
     [{ :field_name => "url", :field_type => "text_area", :size => "90x2" }]
   end
@@ -121,5 +121,9 @@ class Counter < Source
 
   def workers
     config.workers || 20
+  end
+
+  def cron_line
+    config.cron_line || "* 4 * * *"
   end
 end

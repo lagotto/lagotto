@@ -54,19 +54,13 @@ class F1000 < Source
     if File.exists?(file) && File.mtime(file) >= last_time && File.file?(file)
       Nokogiri::XML(File.open(file))
     else
-      options[:source_id] = id
-      feed_url = get_feed_url
-      document = get_xml(feed_url, options)
+      document = get_xml(url, options.merge(source_id: id))
 
       return nil if document.nil?
 
       File.open(file, 'w') { |file| file.write(document.to_s) }
       document
     end
-  end
-
-  def get_feed_url
-    url
   end
 
   def get_config_fields
