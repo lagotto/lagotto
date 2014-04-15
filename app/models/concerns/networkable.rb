@@ -130,6 +130,7 @@ module Networkable
         c.headers['Accept'] = 'text/html;charset=utf-8'
         c.headers['Accept-Charset'] = 'utf-8'
         c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
+        c.headers['Range'] = 'bytes=0-4096'
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10
         c.use      :cookie_jar
         c.use      Faraday::Response::RaiseError
