@@ -10,7 +10,7 @@ Feature: Edit sources
 
     Scenario: Group must be selected
       When I edit the source "Citeulike"
-      Then "24 hours" should be one option for "Batch job interval"
+      Then "24 hours" should be one option for "Update interval"
 
     Scenario: Configuration options should be displayed
       When I go to the "Configuration" tab of source "Citeulike"

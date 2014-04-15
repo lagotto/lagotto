@@ -115,6 +115,10 @@ class Counter < Source
     [{ :field_name => "url", :field_type => "text_area", :size => "90x2" }]
   end
 
+  def rate_limiting
+    config.rate_limiting || 100000
+  end
+
   def workers
     config.workers || 20
   end

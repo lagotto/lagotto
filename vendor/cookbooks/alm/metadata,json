@@ -15,5 +15,5 @@
     "phantomjs": ">= 0.0.0",
     "passenger_apache2": ">= 0.0.0"
   },
-  "version": "1.6.2"
+  "version": "1.6.6"
 }
