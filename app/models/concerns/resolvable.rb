@@ -76,7 +76,9 @@ module Resolvable
 
       # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
       if body_url.present? && ![url, path].include?(body_url)
-        fail Faraday::Error::ClientError, "Canonical URL mismatch: #{body_url}"
+        options[:doi_mismatch] = true
+        response.env[:message] = "Canonical URL mismatch: #{body_url} for #{url}"
+        fail Faraday::Error::ResourceNotFound, response.env
       end
 
       url

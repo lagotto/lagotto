@@ -142,9 +142,17 @@ module Networkable
       if error.kind_of?(Faraday::Error::ResourceNotFound)
         if error.response.blank? && error.response[:body].blank?
           nil
+        # we raise an error if we find a canonical URL mismatch
+        elsif options[:doi_mismatch]
+          Alert.create(exception: error.exception,
+                       class_name: error.class.to_s,
+                       message: error.response[:message],
+                       details: error.response[:body],
+                       status: 404,
+                       target_url: url)
+          nil
+        # we raise an error if a DOI can't be resolved
         elsif options[:doi_lookup]
-          # we raise an error if a DOI can't be resolved
-          # This is different from other 404 errors
           Alert.create(exception: error.exception,
                        class_name: error.class.to_s,
                        message: "DOI could not be resolved",
@@ -152,12 +160,8 @@ module Networkable
                        status: error.response[:status],
                        target_url: url)
           nil
-        elsif options[:json]
-          error.response[:body]
         elsif options[:xml]
           Nokogiri::XML(error.response[:body])
-        elsif options[:html]
-          error.response[:body]
         else
           error.response[:body]
         end
