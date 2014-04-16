@@ -170,14 +170,12 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def error(job, exception)
     # don't create alert for these errors
     unless exception.kind_of?(SourceInactiveError) || exception.kind_of?(NotEnoughWorkersError)
-      source = Source.find(source_id)
-      Alert.create(:exception => exception, :message => exception.message, :source_id => source.id)
+      Alert.create(:exception => "", :class_name => exception.class.to_s, :message => exception.message, :source_id => source_id)
     end
   end
 
   def failure(job)
-    source = Source.find(source_id)
-    Alert.create(:exception => "", :class_name => "DelayedJobError", :message => "Failure in #{job.queue}: #{job.last_error}", :source_id => source.id)
+    Alert.create(:exception => "", :class_name => "DelayedJobError", :message => "Failure in #{job.queue}: #{job.last_error}", :source_id => source_id)
   end
 
   def after(job)
@@ -202,6 +200,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     else
       interval = 3.hours
     end
-    Time.zone.now + interval
+    time + interval
   end
 end
