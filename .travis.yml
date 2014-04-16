@@ -11,6 +11,7 @@ services:
 before_script:
 - cp config/settings.yml.example config/settings.yml
 - cp config/database.yml.example config/database.yml
+- mkdir -p tmp/pids
 
 script:
 - bundle exec rake db:setup RAILS_ENV=test
