@@ -11,8 +11,6 @@ services:
 before_script:
 - cp config/settings.yml.example config/settings.yml
 - cp config/database.yml.example config/database.yml
-- mkdir -p tmp/cache
-- mysql -e 'create database alm_test'
 
 script:
 - bundle exec rake db:setup RAILS_ENV=test
