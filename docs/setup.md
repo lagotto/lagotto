@@ -79,7 +79,7 @@ We can use a rake command line task to automate the import of a large number of 
 DOI Date(YYYY-MM-DD) Title
 ```
 
-The rake taks loads all these articles at once, ignoring (but counting) invalid ones and those that already exist in the database:
+The date can also be incomplete, i.e. `YYYY-MMM` or `YYYY`. The rake taks loads all these articles at once, ignoring (but counting) invalid ones and those that already exist in the database:
 
 ```sh
 bundle exec rake db:articles:load <IMPORT.TXT
@@ -128,36 +128,19 @@ bundle exec rake queue:all[pubmed,mendeley] START_DATE=2013-02-01 END_DATE=2014-
 You can then start the workers with:
 
 ```sh
-foreman start -c worker=3
+script/delayed_job -n 3 start
 ```
 
-`-c` tells you the number of workers you want to run in parallel (or use `foreman start` to run one worker). To stop the workers, kill foreman with `ctrl-c`.
+You might have to run this command with `sudo`. `-n` tells you the number of workers you want to run in parallel. To stop the workers:
+
+```sh
+script/delayed_job stop
+```
 
 ### Background workers
-In a continously updating production system we want to run the workers in the background. This can be done in several ways, the recommended approach is to use the [Upstart](http://upstart.ubuntu.com/) system utility that is used by many Linux distributions. The scripts needed by Upstart can be created using the [foreman](https://github.com/ddollar/foreman) utility that is installed with the ALM application. To have foreman detect the production environment, make sure the file `.env` in the root folder of your application has the following content:
+In a continously updating production system we want to run the workers in the background with the above command. You can monitor the status of your workers in the admin dashboard (`/admin`).
 
 When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We need to run at least one delayed_job to do this.
-
-```sh
-RAILS_ENV=production
-```
-
-This file is created automatically if you use Vagrant. Use the path to the Rails log folder and the username of the user running the application:
-
-```sh
-sudo foreman export upstart -a alm /etc/init -l /PATH_TO_LOG_FOLDER/log -u USER -c worker=3
-```
-
-This command creates three upstart scripts that will run in parallel. The number of workers you will need depends on the number of articles (and sources) and the available RAM on your server, a rough estimate is one worker per 5,000-10,000 articles and 5 workers for a 2 Gb server.
-
-Once the upstart scripts have been created, the background processes can then be started or stopped using Upstart:
-
-```sh
-sudo start alm
-sudo stop alm
-```
-
-Foreman also supports bluepill, inittab and runit, read the [man page](http://ddollar.github.io/foreman/) for more information.
 
 ## Configuring Maintenance Tasks
 The ALM application uses a number of maintenance tasks in production mode - they are not necessary for a development instance.
@@ -172,26 +155,43 @@ bundle exec rake db:articles:load <IMPORT.TXT RAILS_ENV=production
 The ALM application uses the [Whenever](https://github.com/javan/whenever) gem to make it easy to generate cron jobs. The configuration is stored in `config/schedule.rb`:
 
 ```ruby
-set :output, "#{path}/log/cron.log"
+env :PATH, ENV['PATH']
+set :environment, ENV['RAILS_ENV']
+set :output, "log/cron.log"
 
+# Schedule jobs
+# Send report when workers are not running
 # Create alerts by filtering API responses and mail them
-# Restart worker queues in case they got stuck
 # Delete resolved alerts
 # Delete API request information, keeping the last 1,000 requests
 # Delete API response information, keeping responses from the last 24 hours
 # Generate a monthly report
-every 1.day, at: "4:00 AM" do
+
+every 60.minutes do
+  rake "queue:stale"
+end
+
+every 4.hours do
+  rake "workers:monitor"
+end
+
+every 1.day, at: "1:00 AM" do
   rake "filter:all"
   rake "mailer:error_report"
-  rake "queue:start"
+  rake "mailer:stale_source_report"
 
   rake "db:api_requests:delete"
   rake "db:api_responses:delete"
+  rake "db:alerts:delete"
 end
 
-every :monday, at: "4:30 AM" do
+every :monday, at: "1:30 AM" do
   rake "mailer:status_report"
-  rake "db:alerts:delete"
+end
+
+# every 9th of the month at 2 AM
+every '0 2 9 * *' do
+  rake "pmc:update"
 end
 
 # every 10th of the month at 5 AM
@@ -211,6 +211,8 @@ To write this information to your crontab file, use
 ```sh
 bundle exec whenever --update-crontab alm
 ```
+
+The crontab is automatically updated when you run capistrano (see [Installation](/docs/installation)).
 
 ### Filters
 Filters check all API responses of the last 24 hours for errors and potential anti-gaming activity, and they are typically run as cron job. They can be activated and configured (e.g. to set limits) individually in the admin panel:
