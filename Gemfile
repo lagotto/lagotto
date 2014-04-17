@@ -53,6 +53,10 @@ gem "dotiw", "~> 1.1.1"
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.3.1"
 
+group :assets do
+  gem 'turbo-sprockets-rails3', '~> 0.3.11'
+end
+
 group :development do
   gem 'capistrano-rails', '~> 1.1.1', :require => false
   gem 'capistrano-bundler', '~> 1.1.2', :require => false

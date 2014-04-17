@@ -318,6 +318,9 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    turbo-sprockets-rails3 (0.3.11)
+      railties (> 3.2.8, < 4.0.0)
+      sprockets (>= 2.2.0)
     turbolinks (2.2.2)
       coffee-rails
     typhoeus (0.6.8)
@@ -412,6 +415,7 @@ DEPENDENCIES
   strip_attributes (~> 1.2)
   strong_parameters (~> 0.2.1)
   therubyracer (~> 0.12.0)
+  turbo-sprockets-rails3 (~> 0.3.11)
   turbolinks (~> 2.2.1)
   typhoeus (~> 0.6.7)
   uglifier (~> 2.4.0)
