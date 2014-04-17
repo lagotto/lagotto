@@ -140,11 +140,19 @@ describe SourceJob do
 
   context "failure" do
     it "should create an alert on failure" do
+      error = File.read(fixture_path + 'delayed_job_failure.txt')
+      job.last_error = error
+      error = error.split("\n")
+      # we are filtering the backtrace
+      trace = "/var/www/alm/releases/20140416153936/lib/source_job.rb:45:in `perform'\nscript/delayed_job:5:in `<main>'"
+
       subject.failure(job)
 
       Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("DelayedJobError")
+      alert.message.should eq("Failure in #{job.queue}: #{error.shift}")
+      alert.trace.should eq(trace)
       alert.source_id.should == source.id
     end
   end
@@ -163,23 +171,11 @@ describe SourceJob do
     let(:time) { Time.now - 30.minutes }
 
     it "should reschedule a job after 0 attempts" do
-      subject.reschedule_at(time, 0).should eq(time + 1.minute)
+      subject.reschedule_at(time, 0).should eq(time + 5.minutes)
     end
 
-    it "should reschedule a job after 6 attempts" do
-      subject.reschedule_at(time, 6).should eq(time + 5.minutes)
-    end
-
-    it "should reschedule a job after 11 attempts" do
-      subject.reschedule_at(time, 11).should eq(time + 30.minutes)
-    end
-
-    it "should reschedule a job after 16 attempts" do
-      subject.reschedule_at(time, 16).should eq(time + 1.hour)
-    end
-
-    it "should reschedule a job after 21 attempts" do
-      subject.reschedule_at(time, 21).should eq(time + 3.hours)
+    it "should reschedule a job after 3 attempts" do
+      subject.reschedule_at(time, 3).should eq(time + 10.minutes)
     end
   end
 end
