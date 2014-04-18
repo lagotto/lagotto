@@ -14,6 +14,21 @@ if (order != "") {
   query += "&info=summary";
 }
 
+// Construct date object from date parts and format acccordingly
+// We are using "1" for missing day and month, but don't display them
+function datePartsToDate(date_parts) {
+  len = date_parts.length;
+  while (date_parts.length < 3) date_parts.push(1);
+  date = new Date(date_parts);
+  if (len == 3) {
+    return formatDate(date);
+  } else if (len == 2) {
+    return formatMonthYear(date);
+  } else {
+    return formatYear(date);
+  }
+}
+
 d3.json(query, function(error, json) {
   data = json["data"];
 
@@ -67,20 +82,7 @@ d3.json(query, function(error, json) {
       });
   }
 
-  // Construct date object from date parts and format acccordingly
-  // We are using "1" for missing day and month, but don't display them
-  function datePartsToDate(date_parts) {
-    len = date_parts.length;
-    while (date_parts.length < 3) date_parts.push(1);
-    date = new Date(date_parts);
-    if (len == 3) {
-      return formatDate(date);
-    } else if (len == 2) {
-      return formatMonthYear(date);
-    } else {
-      return formatYear(date);
-    }
-  }
+
 
   function signpostsToString(article) {
 
