@@ -16,3 +16,6 @@
 //
 // Load the Crossfilter library
 //= require crossfilter
+//
+// Load page-specific javascript
+//= require ./articles/_index

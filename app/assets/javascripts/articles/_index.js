@@ -14,21 +14,6 @@ if (order != "") {
   query += "&info=summary";
 }
 
-// Construct date object from date parts and format acccordingly
-// We are using "1" for missing day and month, but don't display them
-function datePartsToDate(date_parts) {
-  len = date_parts.length;
-  while (date_parts.length < 3) date_parts.push(1);
-  date = new Date(date_parts);
-  if (len == 3) {
-    return formatDate(date);
-  } else if (len == 2) {
-    return formatMonthYear(date);
-  } else {
-    return formatYear(date);
-  }
-}
-
 d3.json(query, function(error, json) {
   data = json["data"];
 
@@ -81,27 +66,39 @@ d3.json(query, function(error, json) {
         href: json["href"]
       });
   }
-
-
-
-  function signpostsToString(article) {
-
-    if (order != "") {
-      source = article["sources"].filter(function(d) { return d.name == order })[0];
-      a = [source.display_name + ": " + formatFixed(source.metrics.total)];
-    } else {
-      a = [];
-    }
-    var b = []
-    if (article["viewed"] > 0) b.push("Viewed: " + formatFixed(article["viewed"]));
-    if (article["cited"] > 0) b.push("Cited: " + formatFixed(article["cited"]));
-    if (article["saved"] > 0) b.push("Saved: " + formatFixed(article["saved"]));
-    if (article["discussed"] > 0) b.push("Discussed: " + formatFixed(article["discussed"]));
-    if (b.length > 0) {
-      a.push(b.join(" • "));
-      return a.join(" | ");
-    } else {
-      return a;
-    }
-  }
 });
+
+// Construct date object from date parts and format acccordingly
+// We are using "1" for missing day and month, but don't display them
+function datePartsToDate(date_parts) {
+  len = date_parts.length;
+  while (date_parts.length < 3) date_parts.push(1);
+  date = new Date(date_parts);
+  if (len == 3) {
+    return formatDate(date);
+  } else if (len == 2) {
+    return formatMonthYear(date);
+  } else {
+    return formatYear(date);
+  }
+}
+
+function signpostsToString(article) {
+  if (order != "") {
+    source = article["sources"].filter(function(d) { return d.name == order })[0];
+    a = [source.display_name + ": " + formatFixed(source.metrics.total)];
+  } else {
+    a = [];
+  }
+  var b = []
+  if (article["viewed"] > 0) b.push("Viewed: " + formatFixed(article["viewed"]));
+  if (article["cited"] > 0) b.push("Cited: " + formatFixed(article["cited"]));
+  if (article["saved"] > 0) b.push("Saved: " + formatFixed(article["saved"]));
+  if (article["discussed"] > 0) b.push("Discussed: " + formatFixed(article["discussed"]));
+  if (b.length > 0) {
+    a.push(b.join(" • "));
+    return a.join(" | ");
+  } else {
+    return a;
+  }
+}
