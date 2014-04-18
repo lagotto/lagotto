@@ -29,7 +29,7 @@ Alm::Application.configure do
 
   config.serve_static_assets = false
 
-  config.assets.prefix = "/dev-assets"
+  # config.assets.prefix = "/dev-assets"
 
   # See everything in the log (default is :info)
   config.log_level = :debug
