@@ -1,0 +1,5 @@
+spec_files:
+  - "**/*[Ss]pec.{js,coffee}"
+
+src_files:
+  - app/views/articles/_index.js
