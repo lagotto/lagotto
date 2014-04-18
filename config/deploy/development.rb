@@ -12,7 +12,6 @@ set :bundle_flags, '--system'
 
 # precompile assets in development
 set :assets_roles, [:web, :app]
-set :assets_prefix, '/assets'
 
 role :app, %w{33.33.33.44}
 role :web, %w{33.33.33.44}
