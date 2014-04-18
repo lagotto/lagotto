@@ -4,10 +4,20 @@
 //   });
 // });
 
-require(["app/assets/javascripts/articles/index"], function (index) {
-  describe("returns titles", function() {
-    it("contains spec with an expectation", function() {
-      expect(index.api_key).toEqual("12345");
-    });
+//= require d3
+//= require helpers/jasmine-jquery
+//= require articles/index
+
+// beforeEach(function() {
+//   loadFixtures('articles.html');
+// });
+
+describe("returns titles", function() {
+  it("contains spec with an expectation", function() {
+    expect("1").toEqual("1");
   });
 });
+
+// setFixtures(sandbox({class: 'my-class'}))
+// $('#sandbox').myTestedClassRemoverPlugin()
+// expect($('#sandbox')).not.toHaveClass('my-class')
