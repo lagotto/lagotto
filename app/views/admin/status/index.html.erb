@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <%= javascript_tag do -%>
-    <%= render :partial => 'index', formats: :js %>
+  <% content_for :include_scripts do %>
+    <%= javascript_include_tag 'admin/status/index' %>
   <% end %>
 </div>

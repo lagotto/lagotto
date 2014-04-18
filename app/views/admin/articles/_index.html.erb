@@ -81,7 +81,7 @@
 
   <div id="results"></div>
 
-  <%= javascript_tag do -%>
-    <%= render :partial => 'articles/index', formats: :js %>
+  <% content_for :include_scripts do %>
+    <%= javascript_include_tag 'articles/index' %>
   <% end %>
 <% end %>
