@@ -571,7 +571,7 @@ options = {
              { name: "saved", display_name: "Saved" },
              { name: "discussed", display_name: "Discussed" },
              { name: "recommended", display_name: "Recommended" }]
-  };
+};
 
 var doi = d3.select(".doi").attr('data-doi');
 var api_key = d3.select(".doi").attr('data-api_key');
