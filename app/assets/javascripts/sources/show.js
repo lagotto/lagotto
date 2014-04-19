@@ -14,8 +14,8 @@ if (!params.empty()) {
 d3.json(query, function(error, json) {
     if (error) return console.warn(error);
 
-    SourceViz(json);
-    StatusDonutViz(json);
+    sourceViz(json);
+    statusDonutViz(json);
     dayDonutViz(json);
     monthDonutViz(json);
 });
