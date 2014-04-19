@@ -14,8 +14,8 @@ gem "mail", "~> 2.5.4"
 gem "state_machine", "~> 1.2.0"
 gem 'strong_parameters', "~> 0.2.1"
 
-gem "faraday", "~> 0.8.9"
-gem "faraday_middleware", "~> 0.9.0"
+gem "faraday", "~> 0.9.0"
+gem "faraday_middleware", "~> 0.9.1"
 gem 'faraday-cookie_jar'
 gem "typhoeus", "~> 0.6.7"
 gem 'addressable', "~> 2.3.5"
