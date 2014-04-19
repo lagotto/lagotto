@@ -26,6 +26,7 @@ d3.json(query, function(error, json) {
 
 // add data to page
 function articlesViz(json) {
+    data = json["data"];
 
     json["href"] = "?page={{number}}";
     if (q != "") json["href"] += "&q=" + q;
