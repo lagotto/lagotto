@@ -1,7 +1,15 @@
 var data;
-var api_key = d3.select("h1#api_key").attr('data-api_key');
+var params = d3.select("h1#api_key");
+if (!params.empty()) {
+  var api_key = params.attr('data-api_key');
+  var query = "/api/v5/status?api_key=" + api_key;
+} else {
+  console.warn("No API key found");
+  var query = null;
+}
 
-d3.json("/api/v5/status?api_key=" + api_key, function(error, json) {
+d3.json(query, function(error, json) {
+  if (error) return console.warn(error);
   data = json["data"];
 
   var formatFixed = d3.format(",.0f");

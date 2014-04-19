@@ -1,13 +1,21 @@
 var data;
-var name = d3.select("h1").attr('data-name');
-var api_key = d3.select("h1").attr('data-api_key');
 var color = d3.scale.ordinal()
     .range(["#1abc9c","#ecf0f1","#95a5a6"]);
 var w = 300,
     h = 200,
     radius = Math.min(w, h) / 2;
 
-d3.json("/api/v5/sources/" + name + "?api_key=" + api_key, function(error, json) {
+var params = d3.select("h1");
+if (!params.empty()) {
+  var api_key = params.attr('data-api_key');
+  var name = params.attr('data-name');
+  var query = "/api/v5/sources/" + name + "?api_key=" + api_key;
+} else {
+  console.warn("No API key found");
+  var query = null;
+}
+
+d3.json(query, function(error, json) {
   data = json["data"];
 
   var formatFixed = d3.format(",.0f");

@@ -1,6 +1,5 @@
 var data;
 var colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e","#95a6a6"];
-var api_key = d3.select("h1#api_key").attr('data-api_key');
 
 var l = 200; // left margin
 var r = 150; // right margin
@@ -8,7 +7,16 @@ var w = 600; // width of drawing area
 var h = 36;  // bar height
 var s = 2;   // spacing between bars
 
-d3.json("/api/v5/sources?api_key=" + api_key, function(error, json) {
+var params = d3.select("h1#api_key");
+if (!params.empty()) {
+  var api_key = params.attr('data-api_key');
+  var query = encodeURI("/api/v5/sources?api_key=" + api_key);
+} else {
+  console.warn("No API key found");
+  var query = null;
+}
+
+d3.json(query, function(error, json) {
   data = json["data"];
 
   var formatFixed = d3.format(",.0f");

@@ -5,6 +5,44 @@
  *
  * @brief Article level metrics visualization controller.
  */
+
+var data;
+var params = d3.select(".doi");
+if (!params.empty()) {
+  var api_key = params.attr('data-api_key');
+  var doi = params.attr('data-doi');
+  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + doi + "&info=history");
+} else {
+  console.warn("No API key found");
+  var query = null;
+}
+
+d3.json(query, function(error, json) {
+    if (error) return console.warn(error);
+    options['almStatsJson'] = json["data"];
+    var almviz = new AlmViz(options);
+    almviz.initViz();
+});
+
+options = {
+    baseUrl: '',
+    minItemsToShowGraph: {
+        minEventsForYearly: 3,
+        minEventsForMonthly: 3,
+        minEventsForDaily: 3,
+        minYearsForYearly: 1,
+        minMonthsForMonthly: 1,
+        minDaysForDaily: 1
+    },
+    vizDiv: "#metrics",
+    showTitle: false,
+    groups: [{ name: "viewed", display_name: "Viewed" },
+             { name: "cited", display_name: "Cited" },
+             { name: "saved", display_name: "Saved" },
+             { name: "discussed", display_name: "Discussed" },
+             { name: "recommended", display_name: "Recommended" }]
+};
+
 function AlmViz(options) {
     // allow jQuery object to be passed in
     // in case a different version of jQuery is needed from the one globally defined
@@ -553,33 +591,3 @@ function AlmViz(options) {
         );
     }
 }
-
-options = {
-    baseUrl: '',
-    minItemsToShowGraph: {
-        minEventsForYearly: 3,
-        minEventsForMonthly: 3,
-        minEventsForDaily: 3,
-        minYearsForYearly: 1,
-        minMonthsForMonthly: 1,
-        minDaysForDaily: 1
-    },
-    vizDiv: "#metrics",
-    showTitle: false,
-    groups: [{ name: "viewed", display_name: "Viewed" },
-             { name: "cited", display_name: "Cited" },
-             { name: "saved", display_name: "Saved" },
-             { name: "discussed", display_name: "Discussed" },
-             { name: "recommended", display_name: "Recommended" }]
-};
-
-var doi = d3.select(".doi").attr('data-doi');
-var api_key = d3.select(".doi").attr('data-api_key');
-var data;
-
-d3.json(encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + doi + "&info=history"), function(error, json) {
-    if (error) return console.warn(error);
-    options['almStatsJson'] = json["data"];
-    var almviz = new AlmViz(options);
-    almviz.initViz();
-});

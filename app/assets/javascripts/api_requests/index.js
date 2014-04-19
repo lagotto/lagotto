@@ -1,10 +1,17 @@
 var data;
-var api_key = d3.select("h1#api_key").attr('data-api_key');
-var key = d3.select("h1#api_key").attr('data-key');
-var query = "/api/v5/api_requests?api_key=" + api_key
-if (key != "") query += "&key=" + key;
+var params = d3.select("h1#api_key");
+if (!params.empty()) {
+  var api_key = params.attr('data-api_key');
+  var key = params.attr('data-key');
+  var query = encodeURI("/api/v5/api_requests?api_key=" + api_key);
+  if (key != "") query += "&key=" + key;
+} else {
+  console.warn("No API key found");
+  var query = null;
+}
 
 d3.json(query, function(error, json) {
+  if (error) return console.warn(error);
   data = json["data"];
 
   if (data.length == 0) {
