@@ -374,7 +374,7 @@ function crossfilterViz(data) {
 
         return d3.rebind(chart, brush, "on");
     }
-});
+};
 
 // d3 helper functions
 var formatNumber = d3.format(",d"),

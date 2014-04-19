@@ -107,6 +107,12 @@ function eventsViz(data) {
     var x = d3.scale.log()
         .domain([0.1, d3.max(data, function(d) { return d.event_count; })])
         .range([1, w]);
+    var y = d3.scale.ordinal()
+        .domain(data.map(function(d) { return d.display_name; }))
+        .rangeBands([0, (h + 2 * s) * data.length]);
+    var z = d3.scale.ordinal()
+        .domain(data.map(function(d) { return d.group; }))
+        .range(colors);
 
     chart.selectAll("text.labels")
         .data(data)
