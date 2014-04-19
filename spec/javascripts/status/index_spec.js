@@ -11,9 +11,4 @@ describe("status index", function() {
     expect(query).toBeNull();
   });
 
-  it("builds correct query string", function(done) {
-    spyOn(d3, 'json');
-    expect(d3.json).toHaveBeenCalledWith(query);
-  });
-
 });
