@@ -1,9 +1,8 @@
-var color = d3.scale.ordinal()
-    .range(["#1abc9c","#ecf0f1","#95a5a6"]);
 var w = 300,
     h = 200,
     radius = Math.min(w, h) / 2;
 
+// construct query string
 var params = d3.select("h1");
 if (!params.empty()) {
     var api_key = params.attr('data-api_key');
@@ -11,6 +10,7 @@ if (!params.empty()) {
     var query = encodeURI("/api/v5/sources/" + name + "?api_key=" + api_key);
 }
 
+// load the data from the ALM API
 d3.json(query, function(error, json) {
     if (error) return console.warn(error);
 
@@ -182,6 +182,12 @@ function monthDonutViz(json) {
     return chart;
 };
 
+// d3 helper functions
+var color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#95a5a6"]),
+    formatFixed = d3.format(",.0f"),
+    inputTime = d3.time.format.iso,
+    formatTime = d3.time.format.utc("%d %b %H:%M UTC");
+
 // add delimiters for large numbers
 function numberWithDelimiter(number) {
     if(number !== 0) {
@@ -190,7 +196,3 @@ function numberWithDelimiter(number) {
         return null;
     }
 };
-
-var formatFixed = d3.format(",.0f");
-var inputTime = d3.time.format.iso;
-var formatTime = d3.time.format.utc("%d %b %H:%M UTC");
