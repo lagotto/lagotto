@@ -13,16 +13,17 @@ if (!params.empty()) {
 
 d3.json(query, function(error, json) {
     if (error) return console.warn(error);
-    data = json['data'];
 
-    SourceViz(data);
-    StatusDonutViz(data);
-    dayDonutViz(data);
-    monthDonutViz(data);
+    SourceViz(json);
+    StatusDonutViz(json);
+    dayDonutViz(json);
+    monthDonutViz(json);
 });
 
 // add data to page
-function sourceViz(data) {
+function sourceViz(json) {
+    data = json['data'];
+
     d3.select("#update_date").html(formatTime(inputTime.parse(data["update_date"])));
 
     // Summary table
@@ -36,7 +37,7 @@ function sourceViz(data) {
 };
 
 // Status donut chart
-function statusDonutViz(data) {
+function statusDonutViz(json) {
     data = d3.entries(json["data"]["status"]);
 
     var chart = d3.select("div#chart_status").append("svg")
@@ -81,12 +82,10 @@ function statusDonutViz(data) {
         .attr("class", "subtitle")
         .text("of articles");
 
-    // return chart object
-    return chart;
 };
 
 // Events today donut chart
-function dayDonutViz(data) {
+function dayDonutViz(json) {
     data = d3.entries(json["data"]["by_day"]);
 
     var chart = d3.select("div#chart_day").append("svg")
@@ -135,7 +134,7 @@ function dayDonutViz(data) {
 };
 
 // Events this month donut chart
-function monthDonutViz(data) {
+function monthDonutViz(json) {
     data = d3.entries(json["data"]["by_month"]);
 
     var chart = d3.select("div#chart_month").append("svg")
