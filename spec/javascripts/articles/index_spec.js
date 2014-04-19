@@ -1,18 +1,18 @@
-//= require articles/index
+// require articles/index
 
-describe("articles index", function() {
+// describe("articles index", function() {
 
-  beforeEach(function() {
-    var html = setFixtures('<h1 id="api_key" data-api_key="12345">Test</h1>');
-    var data = {"property1":"value1", "array1":[1,2,3]};
-  });
+//   beforeEach(function() {
+//     var html = setFixtures('<h1 id="api_key" data-api_key="12345">Test</h1>');
+//     var data = {"property1":"value1", "array1":[1,2,3]};
+//   });
 
-  describe("data attributes", function() {
-    it("builds correct query string", function() {
-      expect(query).toBeNull();
-    });
-  });
-});
+//   describe("data attributes", function() {
+//     it("builds correct query string", function() {
+//       expect(query).toBeNull();
+//     });
+//   });
+// });
 
 // describe("datePartsToDate", function() {
 //   it("contains spec with an expectation", function() {

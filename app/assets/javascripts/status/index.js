@@ -1,9 +1,9 @@
 // construct query string
 var params = d3.select("h1#api_key");
-if (params.empty()) throw "Missing id #api_key";
-
-var api_key = params.attr('data-api_key');
-var query = encodeURI("/api/v5/status?api_key=" + api_key);
+if (!params.empty()) {
+    var api_key = params.attr('data-api_key');
+    var query = encodeURI("/api/v5/status?api_key=" + api_key);
+}
 
 // load the data from the ALM API
 d3.json(query, function(error, json) {
@@ -18,7 +18,7 @@ function statusViz(data) {
         if(item.substr(item.length - 5) == "count") {
             d3.select("#" + item).html(formatFixed(data[item]));
         } else if(item.substr(item.length - 4) == "size") {
-            d3.select("#" + item).html(number_to_human_size(data[item]));
+            d3.select("#" + item).html(numberToHumanSize(data[item]));
         } else if(item == "update_date") {
             d3.select("#" + item).html(formatTime(inputTime.parse(data[item])));
         } else {
@@ -33,7 +33,7 @@ var inputTime = d3.time.format.iso;
 var formatTime = d3.time.format.utc("%d %b %H:%M UTC");
 
 // Format file size into human-readable format
-function number_to_human_size(bytes) {
+function numberToHumanSize(bytes) {
     var thresh = 1000;
     if (bytes < thresh) return bytes + ' B';
     var units = ['kB','MB','GB','TB','PB'];

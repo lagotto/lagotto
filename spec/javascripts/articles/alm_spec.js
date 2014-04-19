@@ -1,28 +1,28 @@
-//= require articles/alm
+// require articles/alm
 
-describe("articles alm", function() {
+// describe("articles alm", function() {
 
-  beforeEach(function() {
-    var html = setFixtures('<h1 id="api_key" data-api_key="12345">Test</h1>');
-    var data = {"property1":"value1", "array1":[1,2,3]};
-  });
+//   beforeEach(function() {
+//     var html = setFixtures('<h1 id="api_key" data-api_key="12345">Test</h1>');
+//     var data = {"property1":"value1", "array1":[1,2,3]};
+//   });
 
-  it("should work for objects", function() {
-    var foo = {
-      a: 12,
-      b: 34
-    };
-    var bar = {
-      a: 12,
-      b: 34
-    };
-    expect(foo).toEqual(bar);
-  });
+//   it("should work for objects", function() {
+//     var foo = {
+//       a: 12,
+//       b: 34
+//     };
+//     var bar = {
+//       a: 12,
+//       b: 34
+//     };
+//     expect(foo).toEqual(bar);
+//   });
 
-  it("builds correct query string", function() {
-    expect(query).toBeNull();
-  });
-});
+//   it("builds correct query string", function() {
+//     expect(query).toBeNull();
+//   });
+// });
 
 // describe('AlmViz', function () {
 //     var div,
