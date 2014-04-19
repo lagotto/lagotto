@@ -75,7 +75,7 @@ describe Article do
         response.should be_nil
         Alert.count.should == 1
         alert = Alert.first
-        alert.class_name.should eq("Faraday::Error::ResourceNotFound")
+        alert.class_name.should eq("Faraday::ResourceNotFound")
         alert.status.should == 404
         alert.message.should eq("Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for #{url}")
         stub.should have_been_requested
@@ -88,7 +88,7 @@ describe Article do
         response.should be_blank
         Alert.count.should == 1
         alert = Alert.first
-        alert.class_name.should eq("Faraday::Error::ResourceNotFound")
+        alert.class_name.should eq("Faraday::ResourceNotFound")
         alert.status.should == 404
         stub.should have_been_requested
       end

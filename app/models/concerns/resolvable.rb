@@ -25,8 +25,6 @@ module Resolvable
 
     def get_canonical_url(url, options = { timeout: 120 })
       conn = conn_html
-      # disable ssl verification
-      conn.options[:ssl] = { verify: false }
 
       conn.options[:timeout] = options[:timeout]
       response = conn.get url, {}, options[:headers]
