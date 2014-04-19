@@ -22,6 +22,7 @@ if (order != "") {
 d3.json(query, function(error, json) {
     if (error) return console.warn(error);
     articlesViz(json);
+    paginate(json);
 });
 
 // add data to page
@@ -59,17 +60,19 @@ function articlesViz(json) {
         d3.select("#results").append("p")
             .text(signpostsToString(article));
     };
+};
 
-    // Pagination
+// pagination
+function paginate(json) {
     if ((page != "") & json["total_pages"] > 1) {
-      d3.select("#results").append("div")
-        .attr("id", "paginator");
+        d3.select("#results").append("div")
+            .attr("id", "paginator");
 
-      $('#paginator').bootpag({
-          total: json["total_pages"],
-          page: json["page"],
-          maxVisible: 10,
-          href: json["href"]
+        $('#paginator').bootpag({
+            total: json["total_pages"],
+            page: json["page"],
+            maxVisible: 10,
+            href: json["href"]
         });
     }
 };
