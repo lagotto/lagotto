@@ -6,14 +6,11 @@ var w = 300,
     radius = Math.min(w, h) / 2;
 
 var params = d3.select("h1");
-if (!params.empty()) {
-  var api_key = params.attr('data-api_key');
-  var name = params.attr('data-name');
-  var query = "/api/v5/sources/" + name + "?api_key=" + api_key;
-} else {
-  console.warn("No API key found");
-  var query = null;
-}
+if (params.empty()) throw "Missing h1";
+
+var api_key = params.attr('data-api_key');
+var name = params.attr('data-name');
+var query = encodeURI("/api/v5/sources/" + name + "?api_key=" + api_key);
 
 d3.json(query, function(error, json) {
   data = json["data"];

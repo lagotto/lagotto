@@ -8,13 +8,10 @@ var h = 36;  // bar height
 var s = 2;   // spacing between bars
 
 var params = d3.select("h1#api_key");
-if (!params.empty()) {
-  var api_key = params.attr('data-api_key');
-  var query = encodeURI("/api/v5/sources?api_key=" + api_key);
-} else {
-  console.warn("No API key found");
-  var query = null;
-}
+if (params.empty()) throw "Missing id #api_key";
+
+var api_key = params.attr('data-api_key');
+var query = encodeURI("/api/v5/sources?api_key=" + api_key);
 
 d3.json(query, function(error, json) {
   data = json["data"];

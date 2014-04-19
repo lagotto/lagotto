@@ -1,6 +1,3 @@
-//= require d3
-//= require jquery
-//= require helpers/jasmine-fixture
 //= require sources/index
 
 describe("sources index", function() {

@@ -1,24 +1,21 @@
 var data;
 var params = d3.select("h1#api_key");
-if (!params.empty()) {
-  var api_key = params.attr('data-api_key');
-  var page = params.attr('data-page');
-  var q = params.attr('data-q');
-  var class_name = params.attr('data-class_name');
-  var order = params.attr('data-order');
+if (params.empty()) throw "Missing id #api_key";
 
-  var query = encodeURI("/api/v5/articles?api_key=" + api_key);
-  if (page != "") query += "&page=" + page;
-  if (q != "") query += "&q=" + q;
-  if (class_name != "") query += "&class_name=" + class_name;
-  if (order != "") {
-    query += "&source=" + order + "&order=" + order;
-  } else {
-    query += "&info=summary";
-  }
-} else {
-  console.warn("No API key found");
-  var query = null;
+var api_key = params.attr('data-api_key');
+var page = params.attr('data-page');
+var q = params.attr('data-q');
+var class_name = params.attr('data-class_name');
+var order = params.attr('data-order');
+
+var query = encodeURI("/api/v5/articles?api_key=" + api_key);
+if (page != "") query += "&page=" + page;
+if (q != "") query += "&q=" + q;
+if (class_name != "") query += "&class_name=" + class_name;
+if (order != "") {
+  query += "&source=" + order + "&order=" + order;
+} else {
+  query += "&info=summary";
 }
 
 d3.json(query, function(error, json) {

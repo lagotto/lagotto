@@ -1,12 +1,10 @@
-//= require jquery
-//= require helpers/jasmine-fixture
-//= require d3
 //= require articles/index
 
 describe("articles index", function() {
 
   beforeEach(function() {
-    affix('h1#api_key[data-api_key="12345"]')
+    var html = setFixtures('<h1 id="api_key" data-api_key="12345">Test</h1>');
+    var data = {"property1":"value1", "array1":[1,2,3]};
   });
 
   describe("data attributes", function() {

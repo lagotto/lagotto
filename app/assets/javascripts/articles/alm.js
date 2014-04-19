@@ -8,14 +8,11 @@
 
 var data;
 var params = d3.select(".doi");
-if (!params.empty()) {
-  var api_key = params.attr('data-api_key');
-  var doi = params.attr('data-doi');
-  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + doi + "&info=history");
-} else {
-  console.warn("No API key found");
-  var query = null;
-}
+if (params.empty()) throw "Missing class .doi";
+
+var api_key = params.attr('data-api_key');
+var doi = params.attr('data-doi');
+var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + doi + "&info=history");
 
 d3.json(query, function(error, json) {
     if (error) return console.warn(error);

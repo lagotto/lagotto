@@ -1,18 +1,17 @@
-var data;
-var params = d3.select("h1#api_key");
-if (!params.empty()) {
-  var api_key = params.attr('data-api_key');
-  var key = params.attr('data-key');
-  var query = encodeURI("/api/v5/api_requests?api_key=" + api_key);
-  if (key != "") query += "&key=" + key;
-} else {
-  console.warn("No API key found");
-  var query = null;
+
+function query() {
+    var params = d3.select("h1#api_key");
+    if (params.empty()) throw "Missing id #api_key";
+    var api_key = params.attr('data-api_key');
+    var key = params.attr('data-key');
+    var str = encodeURI("/api/v5/api_requests?api_key=" + api_key);
+    if (key != "") str += "&key=" +
+    return str
 }
 
 d3.json(query, function(error, json) {
   if (error) return console.warn(error);
-  data = json["data"];
+  var data = json["data"];
 
   if (data.length == 0) {
     d3.select("#description").text("")
