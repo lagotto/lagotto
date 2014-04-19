@@ -79,6 +79,7 @@ group :test do
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1", :require => false
   gem "poltergeist", "~> 1.5.0"
+  gem 'phantomjs', '~> 1.9.7.0', :require => 'phantomjs/poltergeist'
   gem "minitest", "~> 4.4.0"
   gem "mocha", "~> 0.13.3", :require => false
 end

@@ -141,8 +141,8 @@ GEM
     faraday-cookie_jar (0.0.6)
       faraday (>= 0.7.4)
       http-cookie (~> 1.0.0)
-    faraday_middleware (0.9.0)
-      faraday (>= 0.7.4, < 0.9)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
     fastercsv (1.5.5)
     ffi (1.9.3)
     gherkin (2.12.2)
@@ -404,6 +404,7 @@ DEPENDENCIES
   omniauth-cas (~> 1.0.4)
   omniauth-persona
   parse-cron (~> 0.1.4)
+  phantomjs (~> 1.9.7.0)
   poltergeist (~> 1.5.0)
   rabl (~> 0.9.0)
   rack-test (~> 0.6.2)

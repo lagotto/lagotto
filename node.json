@@ -11,5 +11,5 @@
     "recipe[alm]"
   ],
   "passenger": { "version": "3.0.19" },
-  "phantomjs": { "version": "1.8.1" }
+  "phantomjs": { "version": "1.9.7" }
 }
