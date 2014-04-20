@@ -60,11 +60,22 @@ function AlmViz(options) {
     var formatNumber_ = d3.format(",d");
 
     // extract publication date
+
     // Construct date object from date parts, using "1" for missing day and month
     var date_parts = data[0]["issued"]["date_parts"];
     var len = date_parts.length;
     while (date_parts.length < 3) date_parts.push(1);
-    var pub_date = new Date(date_parts);
+
+    // turn numbers to strings and pad with 0
+    for (i = 0; i < date_parts.length; ++i) {
+       if (date_parts[i] < 10) {
+            date_parts[i] = "0" + date_parts[i];
+        } else {
+            date_parts[i] = "" + date_parts[i];
+        }
+    }
+    var timestamp = Date.parse(date_parts.join('-'));
+    var pub_date  = new Date(timestamp);
 
     var vizDiv;
     // Get the Div where the viz should go (default to one with ID "alm')

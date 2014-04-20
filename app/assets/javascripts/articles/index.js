@@ -84,7 +84,7 @@ function paginate(json) {
 
 // Construct date object from date parts and format acccordingly
 function datePartsToDate(date_parts) {
-    len = date_parts.length;
+    var len = date_parts.length;
 
     // not in expected format
     if (len == 0 || len > 3) return null;
@@ -101,11 +101,10 @@ function datePartsToDate(date_parts) {
     // year only, no formatting needed
     if (len == 1) return date_parts[0];
 
-    // convert to date
-    timestamp = Date.parse(date_parts.join('-'));
-    date = new Date(timestamp);
+    // convert to date, then format
+    var timestamp = Date.parse(date_parts.join('-'));
+    var date = new Date(timestamp);
 
-    // format date
     if (len == 3) {
         return formatDate(date);
     } else {
