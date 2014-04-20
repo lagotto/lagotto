@@ -1,22 +1,22 @@
 // construct query string
 var params = d3.select("h1#api_key");
-if (params.empty()) throw "Missing id #api_key";
+if (!params.empty()) {
+    var api_key = params.attr('data-api_key');
+    var page = params.attr('data-page');
+    var q = params.attr('data-q');
+    var class_name = params.attr('data-class_name');
+    var order = params.attr('data-order');
 
-var api_key = params.attr('data-api_key');
-var page = params.attr('data-page');
-var q = params.attr('data-q');
-var class_name = params.attr('data-class_name');
-var order = params.attr('data-order');
-
-var query = encodeURI("/api/v5/articles?api_key=" + api_key);
-if (page != "") query += "&page=" + page;
-if (q != "") query += "&q=" + q;
-if (class_name != "") query += "&class_name=" + class_name;
-if (order != "") {
-    query += "&source=" + order + "&order=" + order;
-} else {
-    query += "&info=summary";
-}
+    var query = encodeURI("/api/v5/articles?api_key=" + api_key);
+    if (page != "") query += "&page=" + page;
+    if (q != "") query += "&q=" + q;
+    if (class_name != "") query += "&class_name=" + class_name;
+    if (order != "") {
+        query += "&source=" + order + "&order=" + order;
+    } else {
+        query += "&info=summary";
+    }
+};
 
 // load the data from the ALM API
 d3.json(query, function(error, json) {
@@ -78,23 +78,38 @@ function paginate(json) {
 };
 
 // d3 helper functions
-var formatDate = d3.time.format("%B %d, %Y"),
-    formatMonthYear = d3.time.format("%B %Y"),
-    formatYear = d3.time.format("%Y"),
-    formatFixed = d3.format(",.0f");
+ var formatDate = d3.time.format("%B %d, %Y"),
+     formatMonthYear = d3.time.format("%B %Y"),
+     formatFixed = d3.format(",.0f");
 
 // Construct date object from date parts and format acccordingly
-// We are using "1" for missing day and month, but don't display them
 function datePartsToDate(date_parts) {
     len = date_parts.length;
-    while (date_parts.length < 3) date_parts.push(1);
-        date = new Date(date_parts);
-        if (len == 3) {
+
+    // not in expected format
+    if (len == 0 || len > 3) return null;
+
+    // turn numbers to strings and pad with 0
+    for (i = 0; i < date_parts.length; ++i) {
+       if (date_parts[i] < 10) {
+            date_parts[i] = "0" + date_parts[i];
+        } else {
+            date_parts[i] = "" + date_parts[i];
+        }
+    }
+
+    // year only, no formatting needed
+    if (len == 1) return date_parts[0];
+
+    // convert to date
+    timestamp = Date.parse(date_parts.join('-'));
+    date = new Date(timestamp);
+
+    // format date
+    if (len == 3) {
         return formatDate(date);
-    } else if (len == 2) {
-        return formatMonthYear(date);
     } else {
-        return formatYear(date);
+        return formatMonthYear(date);
     }
 };
 
