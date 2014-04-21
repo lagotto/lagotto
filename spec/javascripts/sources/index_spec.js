@@ -1,4 +1,4 @@
-// require sources/index
+//= require sources/index
 
 // describe("sources index", function() {
 //   it("should work for objects", function() {

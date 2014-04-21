@@ -1,4 +1,4 @@
-// require api_requests/index
+//= require api_requests/index
 
 // describe("api_requests index", function() {
 

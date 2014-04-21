@@ -1,4 +1,4 @@
-// require articles/alm
+//= require articles/alm
 
 // describe("articles alm", function() {
 

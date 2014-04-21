@@ -4,15 +4,17 @@ if (!params.empty()) {
     var api_key = params.attr('data-api_key');
     var key = params.attr('data-key');
     var query = encodeURI("/api/v5/api_requests?api_key=" + api_key);
-    if (key != "") query += "&key=" +
+    if (key != "") query += "&key=" + key
 };
 
 // load the data from the ALM API
-d3.json(query, function(error, json) {
+if (query) {
+  d3.json(query, function(error, json) {
     if (error) return console.warn(error);
     var data = json["data"];
     crossfilterViz(data);
-});
+  });
+}
 
 // crossfilter visualization
 function crossfilterViz(data) {

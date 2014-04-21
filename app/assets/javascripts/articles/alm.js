@@ -8,18 +8,20 @@
 
 var params = d3.select(".doi");
 if (!params.empty()) {
-    var api_key = params.attr('data-api_key');
-    var doi = params.attr('data-doi');
-    var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + doi + "&info=history");
-};
+  var api_key = params.attr('data-api_key');
+  var doi = params.attr('data-doi');
+  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + doi + "&info=history");
+}
 
 // load the data from the ALM API
-d3.json(query, function(error, json) {
+if (query) {
+  d3.json(query, function(error, json) {
     if (error) return console.warn(error);
     options['almStatsJson'] = json["data"];
     var almviz = new AlmViz(options);
     almviz.initViz();
-});
+  });
+}
 
 options = {
     baseUrl: '',
