@@ -116,11 +116,11 @@ class Counter < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 100000
+    config.rate_limiting || 1000000
   end
 
   def workers
-    config.workers || 20
+    config.workers || 1000
   end
 
   def cron_line

@@ -27,26 +27,17 @@ describe Source do
 
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:display_name) }
-  it { should validate_numericality_of(:workers).only_integer.with_message("should be between 1 and 20") }
-  it { should ensure_inclusion_of(:workers).in_range(1..20).with_message("should be between 1 and 20") }
-  it { should validate_numericality_of(:timeout).only_integer.with_message("should be between 1 and 3600") }
-  it { should ensure_inclusion_of(:timeout).in_range(1..3600).with_message("should be between 1 and 3600") }
-  it { should validate_numericality_of(:wait_time).only_integer.with_message("should be between 1 and 3600") }
-  it { should ensure_inclusion_of(:wait_time).in_range(1..3600).with_message("should be between 1 and 3600") }
-  it { should validate_numericality_of(:max_failed_queries).only_integer.with_message("should be between 1 and 1000") }
-  it { should ensure_inclusion_of(:max_failed_queries).in_range(1..1000).with_message("should be between 1 and 1000") }
-  it { should validate_numericality_of(:max_failed_query_time_interval).only_integer.with_message("should be between 1 and 864000") }
-  it { should ensure_inclusion_of(:max_failed_query_time_interval).in_range(1..864000).with_message("should be between 1 and 864000") }
+  it { should validate_numericality_of(:workers).is_greater_than(0).only_integer.with_message("must be greater than 0") }
+  it { should validate_numericality_of(:timeout).is_greater_than(0).only_integer.with_message("must be greater than 0") }
+  it { should validate_numericality_of(:wait_time).is_greater_than(0).only_integer.with_message("must be greater than 0") }
+  it { should validate_numericality_of(:max_failed_queries).is_greater_than(0).only_integer.with_message("must be greater than 0") }
+  it { should validate_numericality_of(:max_failed_query_time_interval).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { should validate_numericality_of(:job_batch_size).only_integer.with_message("should be between 1 and 1000") }
   it { should ensure_inclusion_of(:job_batch_size).in_range(1..1000).with_message("should be between 1 and 1000") }
-  it { should ensure_inclusion_of(:rate_limiting).in_range(1..2678400).with_message("should be between 1 and 2678400") }
-  it { should validate_numericality_of(:staleness_week).with_message("should be between 1 and 2678400") }
-  it { should ensure_inclusion_of(:staleness_week).in_range(1..2678400).with_message("should be between 1 and 2678400") }
-  it { should validate_numericality_of(:staleness_month).with_message("should be between 1 and 2678400") }
-  it { should ensure_inclusion_of(:staleness_month).in_range(1..2678400).with_message("should be between 1 and 2678400") }
-  it { should validate_numericality_of(:staleness_year).with_message("should be between 1 and 2678400") }
-  it { should ensure_inclusion_of(:staleness_year).in_range(1..2678400).with_message("should be between 1 and 2678400") }
-  it { should validate_numericality_of(:staleness_all).with_message("should be between 1 and 2678400") }
-  it { should ensure_inclusion_of(:staleness_all).in_range(1..2678400).with_message("should be between 1 and 2678400") }
+  it { should validate_numericality_of(:rate_limiting).is_greater_than(0).only_integer.with_message("must be greater than 0") }
+  it { should validate_numericality_of(:staleness_week).is_greater_than(0).only_integer.with_message("must be greater than 0") }
+  it { should validate_numericality_of(:staleness_month).is_greater_than(0).only_integer.with_message("must be greater than 0") }
+  it { should validate_numericality_of(:staleness_year).is_greater_than(0).only_integer.with_message("must be greater than 0") }
+  it { should validate_numericality_of(:staleness_all).is_greater_than(0).only_integer.with_message("must be greater than 0") }
 
 end

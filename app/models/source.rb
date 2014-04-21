@@ -50,17 +50,17 @@ class Source < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
-  validates :workers, :numericality => { :only_integer => true }, :inclusion => { :in => 1..20, :message => "should be between 1 and 20" }
-  validates :timeout, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
-  validates :wait_time, :numericality => { :only_integer => true }, :inclusion => { :in => 1..3600, :message => "should be between 1 and 3600" }
-  validates :max_failed_queries, :numericality => { :only_integer => true }, :inclusion => { :in => 1..1000, :message => "should be between 1 and 1000" }
-  validates :max_failed_query_time_interval, :numericality => { :only_integer => true }, :inclusion => { :in => 1..864000, :message => "should be between 1 and 864000" }
+  validates :workers, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :timeout, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :wait_time, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :max_failed_queries, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :max_failed_query_time_interval, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :job_batch_size, :numericality => { :only_integer => true }, :inclusion => { :in => 1..1000, :message => "should be between 1 and 1000" }
-  validates :rate_limiting, :numericality => { :only_integer => true }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
-  validates :staleness_week, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
-  validates :staleness_month, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
-  validates :staleness_year, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
-  validates :staleness_all, :numericality => { :greater_than => 0 }, :inclusion => { :in => 1..2678400, :message => "should be between 1 and 2678400" }
+  validates :rate_limiting, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :staleness_week, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :staleness_month, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :staleness_year, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :staleness_all, :numericality => { :only_integer => true, :greater_than => 0 }
   validate :validate_cron_line_format, :allow_blank => true
 
   scope :available, where("state = ?", 0).order("group_id, sources.display_name")
