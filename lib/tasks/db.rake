@@ -193,7 +193,7 @@ namespace :db do
 
   namespace :api_requests do
 
-    desc "Delete API requests, keeping last 1,000 requests"
+    desc "Delete API requests, keeping last 10,000 requests"
     task :delete => :environment do
       before = ApiRequest.count
       request = ApiRequest.order("created_at DESC").offset(10000).first

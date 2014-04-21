@@ -20,7 +20,7 @@ Feature: Run rake tasks
       | queue:one[doi]                   | Queue article with given DOI                                    |
       | queue:stale                      | Queue stale articles                                            |
       | db:alerts:delete                 | Delete all resolved alerts                                      |
-      | db:api_requests:delete           | Delete API requests, keeping last 1,000 requests                |
+      | db:api_requests:delete           | Delete API requests, keeping last 10,000 requests                |
       | db:articles:seed                 | Seed sample articles                                            |
       | db:articles:load                 | Bulk-load articles from standard input                          |
       | db:articles:delete               | Delete all articles                                             |
