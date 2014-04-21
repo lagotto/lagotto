@@ -3,7 +3,7 @@ var params = d3.select("h1#api_key");
 if (!params.empty()) {
     var api_key = params.attr('data-api_key');
     var key = params.attr('data-key');
-    var query = encodeURI("/api/v5/api_requests?api_key=" + api_key);
+    var query = encodeURI("/api/v5/api_requests?api_key=x" + api_key);
     if (key != "") query += "&key=" + key;
 };
 
