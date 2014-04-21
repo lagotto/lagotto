@@ -129,7 +129,7 @@ function crossfilterViz(data) {
   };
 
   function requestList(div) {
-  var requestsByDate = nestByDate.entries(date.top(40));
+  var requestsByDate = nestByDate.entries(date.top(50));
 
   div.each(function() {
     var date = d3.select(this).selectAll(".date")
@@ -385,4 +385,4 @@ function crossfilterViz(data) {
 var formatNumber = d3.format(",d"),
     formatFixed = d3.format(",.0f"),
     formatDate = d3.time.format("%B %d, %Y"),
-    formatTime = d3.time.format("%H:%M UTC");
+    formatTime = d3.time.format("%b %d %H:%M UTC");
