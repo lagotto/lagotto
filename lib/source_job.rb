@@ -191,10 +191,12 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   # override the default settings which are:
   # On failure, the job is scheduled again in 5 seconds + N ** 4, where N is the number of retries.
-  # with the settings below we try 5 times within one hour, because we then queue jobs again anyway.
+  # with the settings below we try 10 times within one hour, because we then queue jobs again anyway.
   def reschedule_at(time, attempts)
     case attempts
-    when (0..1)
+    when (0..4)
+      interval = 1.minute
+    when (5..6)
       interval = 5.minutes
     else
       interval = 10.minutes

@@ -171,11 +171,15 @@ describe SourceJob do
     let(:time) { Time.now - 30.minutes }
 
     it "should reschedule a job after 0 attempts" do
-      subject.reschedule_at(time, 0).should eq(time + 5.minutes)
+      subject.reschedule_at(time, 0).should eq(time + 1.minute)
     end
 
-    it "should reschedule a job after 3 attempts" do
-      subject.reschedule_at(time, 3).should eq(time + 10.minutes)
+    it "should reschedule a job after 5 attempts" do
+      subject.reschedule_at(time, 5).should eq(time + 5.minutes)
+    end
+
+    it "should reschedule a job after 8 attempts" do
+      subject.reschedule_at(time, 8).should eq(time + 10.minutes)
     end
   end
 end
