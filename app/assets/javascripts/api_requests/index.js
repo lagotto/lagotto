@@ -33,8 +33,7 @@ function crossfilterViz(data) {
 
   // A nest operator, for grouping the request list.
   var nestByDate = d3.nest()
-    .key(function(d) { return d3.time.day(d.date); })
-    .sortKeys(d3.descending);
+    .key(function(d) { return d3.time.day(d.date); });
 
   // A little coercion, since the JSON is untyped.
   data.forEach(function(d, i) {
@@ -134,14 +133,6 @@ function crossfilterViz(data) {
   div.each(function() {
     var date = d3.select(this).selectAll(".date")
       .data(requestsByDate, function(d) { return d.key; });
-
-    date.enter().append("div")
-      .attr("class", "date")
-      .append("div")
-      .attr("class", "day")
-      .text(function(d) { return formatDate(d.values[0].date); });
-
-    date.exit().remove();
 
     var request = date.order().selectAll(".request")
       .data(function(d) { return d.values; }, function(d) { return d.index; });
@@ -385,4 +376,4 @@ function crossfilterViz(data) {
 var formatNumber = d3.format(",d"),
     formatFixed = d3.format(",.0f"),
     formatDate = d3.time.format("%B %d, %Y"),
-    formatTime = d3.time.format("%b %d %H:%M UTC");
+    formatTime = d3.time.format("%d %b %H:%M UTC");
