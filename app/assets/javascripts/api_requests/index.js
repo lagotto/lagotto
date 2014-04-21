@@ -41,8 +41,6 @@ function crossfilterViz(data) {
     d.date = parseDate(d.date);
   });
 
-  console.log(data[1]);
-
   // Create the crossfilter for the relevant dimensions and groups.
   var request = crossfilter(data),
       all = request.groupAll(),
@@ -156,13 +154,13 @@ function crossfilterViz(data) {
 
     requestEnter.append("div")
       .attr("class", "duration")
-      .text(function(d) { return formatFixed(d.db_duration) + " ms"; });
+      .text(function(d) { return formatNumber(d.db_duration) + " ms"; });
 
     requestEnter.append("div")
       .attr("class", "duration")
       .classed("fast", function(d) { return d.view_duration < 100; })
       .classed("slow", function(d) { return d.view_duration >= 1000; })
-      .text(function(d) { return formatFixed(d.view_duration) + " ms"; });
+      .text(function(d) { return formatNumber(d.view_duration) + " ms"; });
 
     requestEnter.append("div")
       .attr("class", "source")
@@ -384,6 +382,5 @@ function crossfilterViz(data) {
 
 // d3 helper functions
 var formatNumber = d3.format(",d"),
-    formatFixed = d3.format(",.1f"),
     formatDate = d3.time.format("%B %d, %Y"),
-    formatTime = d3.time.format("%I:%M %p");
+    formatTime = d3.time.format("%H:%M UTC");

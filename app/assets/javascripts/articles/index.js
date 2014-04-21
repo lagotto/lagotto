@@ -81,8 +81,8 @@ function paginate(json) {
 
 // d3 helper functions
  var formatDate = d3.time.format("%B %d, %Y"),
-   formatMonthYear = d3.time.format("%B %Y"),
-   formatFixed = d3.format(",.0f");
+     formatMonthYear = d3.time.format("%B %Y"),
+     formatFixed = d3.format(",.0f");
 
 // Construct date object from date parts and format acccordingly
 function datePartsToDate(date_parts) {
