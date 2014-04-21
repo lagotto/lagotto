@@ -33,7 +33,8 @@ function crossfilterViz(data) {
 
   // A nest operator, for grouping the request list.
   var nestByDate = d3.nest()
-    .key(function(d) { return d3.time.day(d.date); });
+    .key(function(d) { return d3.time.day(d.date); })
+    .sortKeys(d3.descending);
 
   // A little coercion, since the JSON is untyped.
   data.forEach(function(d, i) {
@@ -166,7 +167,7 @@ function crossfilterViz(data) {
       .attr("class", "source")
       .append("a")
       .attr("href", function(d) { return "/admin/users?query=" + d.api_key; })
-      .text(function(d) { return d.api_key; });
+      .text(function(d) { return d.api_key.substr(0,20); });
 
     requestEnter.append("div")
       .attr("class", "info")

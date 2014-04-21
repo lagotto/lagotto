@@ -4,6 +4,6 @@ class ApiRequest < ActiveRecord::Base
   end
 
   def self.per_page
-    1000
+    10000
   end
 end
