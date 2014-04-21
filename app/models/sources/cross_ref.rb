@@ -92,4 +92,8 @@ class CrossRef < Source
   def default_url=(value)
     config.default_url = value
   end
+
+  def timeout
+    config.timeout || 60
+  end
 end
