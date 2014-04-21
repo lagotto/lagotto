@@ -134,6 +134,14 @@ function crossfilterViz(data) {
     var date = d3.select(this).selectAll(".date")
       .data(requestsByDate, function(d) { return d.key; });
 
+    date.enter().append("div")
+      .attr("class", "date")
+      .append("div")
+      .attr("class", "day")
+      .text(function(d) { return formatDate(d.values[0].date); });
+
+    date.exit().remove();
+
     var request = date.order().selectAll(".request")
       .data(function(d) { return d.values; }, function(d) { return d.index; });
 
@@ -376,4 +384,4 @@ function crossfilterViz(data) {
 var formatNumber = d3.format(",d"),
     formatFixed = d3.format(",.0f"),
     formatDate = d3.time.format("%B %d, %Y"),
-    formatTime = d3.time.format("%d %b %H:%M UTC");
+    formatTime = d3.time.format("%H:%M UTC");
