@@ -108,11 +108,12 @@ function crossfilterViz(data) {
 
   // Like d3.time.format, but faster.
   function parseDate(d) {
-    return new Date(2013,
-      d.substring(0, 2) - 1,
-      d.substring(2, 4),
-      d.substring(4, 6),
-      d.substring(6, 8));
+    return new Date(
+      d.substring(0, 3),
+      d.substring(5, 6) - 1,
+      d.substring(8, 9),
+      d.substring(11, 12),
+      d.substring(14, 15));
   }
 
   window.filter = function(filters) {
