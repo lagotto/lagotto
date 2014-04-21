@@ -31,6 +31,8 @@ function crossfilterViz(data) {
 
   var today = new Date();
 
+  console.log(data[1].date);
+
   // A nest operator, for grouping the request list.
   var nestByDate = d3.nest()
     .key(function(d) { return d3.time.day(d.date); });
@@ -40,6 +42,8 @@ function crossfilterViz(data) {
     d.index = i;
     d.date = parseDate(d.date);
   });
+
+  console.log(data[1].date);
 
   // Create the crossfilter for the relevant dimensions and groups.
   var request = crossfilter(data),
@@ -107,7 +111,7 @@ function crossfilterViz(data) {
   }
 
   // Like d3.time.format, but faster.
-  // expects time in iso8601
+  // expects time in iso8601, e.g. 2014-04-15T20:11:23Z
   function parseDate(d) {
     return new Date(
       d.substring(0, 3),
