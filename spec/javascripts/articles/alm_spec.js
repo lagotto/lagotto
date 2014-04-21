@@ -1,11 +1,28 @@
 //= require articles/alm
 
-// describe("articles alm", function() {
+describe("articles alm", function() {
 
-//   beforeEach(function() {
-//     var html = setFixtures('<h1 id="api_key" data-api_key="12345">Test</h1>');
-//     var data = {"property1":"value1", "array1":[1,2,3]};
-//   });
+  beforeEach(function() {
+    var options = {
+      baseUrl: '',
+      minItemsToShowGraph: {
+          minEventsForYearly: 3,
+          minEventsForMonthly: 3,
+          minEventsForDaily: 3,
+          minYearsForYearly: 1,
+          minMonthsForMonthly: 1,
+          minDaysForDaily: 1
+      },
+      vizDiv: "#metrics",
+      showTitle: false,
+      groups: [{ name: "viewed", display_name: "Viewed" },
+               { name: "cited", display_name: "Cited" },
+               { name: "saved", display_name: "Saved" },
+               { name: "discussed", display_name: "Discussed" },
+               { name: "recommended", display_name: "Recommended" }]
+    };
+    var data = {"property1":"value1", "array1":[1,2,3]};
+  });
 
 //   it("should work for objects", function() {
 //     var foo = {
@@ -47,4 +64,4 @@
 //             expect(chart.data(data).data()).toBe(data);
 //         });
 // });
-// });
+});
