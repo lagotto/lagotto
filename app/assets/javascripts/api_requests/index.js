@@ -46,6 +46,8 @@ function crossfilterViz(data) {
   // Create the crossfilter for the relevant dimensions and groups.
   var request = crossfilter(data),
       all = request.groupAll(),
+      date = request.dimension(function(d) { return d3.time.day(d.date); }),
+      dates = date.group(),
       hour = request.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; }),
       hours = hour.group(Math.floor),
       db_duration = request.dimension(function(d) { return Math.max(-60, Math.min(149, d.db_duration)); }),
@@ -107,6 +109,7 @@ function crossfilterViz(data) {
   }
 
   // Like d3.time.format, but faster.
+  // expects time in iso8601
   function parseDate(d) {
     return new Date(
       d.substring(0, 3),
