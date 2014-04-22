@@ -52,7 +52,7 @@ function articlesViz(json) {
     d3.select("#results").append("h4")
       .attr("class", "article")
       .append("a")
-      .attr("href", function(d) { return "/articles/info:" + uid + "/" + article[uid]; })
+      .attr("href", function(d) { return "/articles/info:" + uid_type + "/" + article[uid_type]; })
       .text(article["title"]);
     d3.select("#results").append("p")
       .text(datePartsToDate(article["issued"]["date_parts"]) + ". ")

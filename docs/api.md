@@ -455,7 +455,7 @@ The v4 API is only available to users with admin prileges and uses basic authent
 </tbody>
 </table>
 
-The API response to get a list of articles or a single article is the same as for the v3 API. You can also use one of the other supported identifiers (pmid, pmcid, mendeley_uuid) instead of the DOI.
+The API response to get a list of articles or a single article is the same as for the v3 API. You can also use one of the other supported identifiers (pmid or pmcid) instead of the DOI.
 
 ### Create article
 A sample curl API call to create a new article would look like this:

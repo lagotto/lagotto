@@ -5,9 +5,9 @@
       <legend>Edit Article</legend>
 
       <%= f.input :title, :input_html => { :rows => 2 } %>
-      <%= f.input :doi, :label => 'DOI', :disabled => true %>
-      <%= f.input :pmid, :label => 'PubMed ID' %>
-      <%= f.input :pmcid, :label => 'PubMed Central ID' %>
+      <%= f.input :doi, :label => 'DOI', :disabled => CONFIG[:uid] == "doi" %>
+      <%= f.input :pmid, :label => 'PubMed ID', :disabled => CONFIG[:uid] == "pmid" %>
+      <%= f.input :pmcid, :label => 'PubMed Central ID', :disabled => CONFIG[:uid] == "pmcid" %>
       <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
       <%= f.input :canonical_url, :label => 'Canonical URL' %>
       <%= f.input :published_on, label: "Publication Date" do %>
