@@ -56,7 +56,7 @@ namespace :db do
 
       if valid.size > 0
         valid.each do |uid, year, month, day, title|
-          existing = Article.find_by_uid(uid)
+          existing = Article.where(CONFIG[:uid].to_sym => uid).first
           unless existing
             article = Article.create(uid: uid,
                                      year: year,
@@ -116,7 +116,7 @@ namespace :db do
 
       if valid.size > 0
         valid.each do |uid|
-          existing = Article.find_by_uid(uid)
+          existing = Article.where(CONFIG[:uid].to_sym => uid).first
           if existing
             existing.destroy
             deleted << uid
