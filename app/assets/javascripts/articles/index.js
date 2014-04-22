@@ -52,18 +52,29 @@ function articlesViz(json) {
     d3.select("#results").append("h4")
       .attr("class", "article")
       .append("a")
-      .attr("href", function(d) { return "/articles/info:doi/" + article["doi"]; })
+      .attr("href", function(d) { return "/articles/info:" + uid + "/" + article[uid]; })
       .text(article["title"]);
     d3.select("#results").append("p")
       .text(datePartsToDate(article["issued"]["date_parts"]) + ". ")
       .append("a")
-      .attr("href", function(d) { return "http://dx.doi.org/" + article["doi"]; })
+      .attr("href", function(d) { return url_for(article); })
       .append("text")
-      .text("http://dx.doi.org/" + article["doi"]);
+      .text(url_for(article));
     d3.select("#results").append("p")
       .text(signpostsToString(article));
   };
 };
+
+// link to individual article
+function url_for(article) {
+  switch (uid) {
+  case 'doi':
+    return "http://dx.doi.org/" + article["doi"];
+  case 'pmid':
+    return "http://www.ncbi.nlm.nih.gov/pubmed/" + article["pmid"];
+  case 'pmcid':
+    return "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC" + article["pmcid"];
+}
 
 // pagination
 function paginate(json) {

@@ -33,11 +33,7 @@ class ArticlesController < ApplicationController
 
     @groups = Group.order("id")
 
-    if params[:id].starts_with? "info:doi/"
-      respond_with(@article)
-    else
-      redirect_to article_path(@article)
-    end
+    respond_with(@article)
   end
 
   protected
