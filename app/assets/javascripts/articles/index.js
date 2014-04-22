@@ -2,7 +2,7 @@
 var params = d3.select("h1#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
-  var uid = params.attr('data-uid');
+  var uid_type = params.attr('data-uid_type');
   var page = params.attr('data-page');
   var q = params.attr('data-q');
   var class_name = params.attr('data-class_name');
@@ -67,7 +67,7 @@ function articlesViz(json) {
 
 // link to individual article
 function url_for(article) {
-  switch (uid) {
+  switch (uid_type) {
   case 'doi':
     return "http://dx.doi.org/" + article["doi"];
   case 'pmid':

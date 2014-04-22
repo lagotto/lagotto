@@ -25,7 +25,7 @@
 
 <% else %>
   <div class="page-header">
-    <h1>
+    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-uid_type="<%= CONFIG[:uid] %>" data-uid="<%= @article.uid %>">
       <% if can?(:manage, Article) %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group btn-group-sm">
