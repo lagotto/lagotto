@@ -14,20 +14,20 @@ describe ArticlesController do
 
     it "GET pmid" do
       get "/articles/info:pmid/#{article.pmid}"
-      last_response.status.should == 302
-      last_response.body.should include("redirected")
+      last_response.status.should == 200
+      last_response.body.should include(article.pmid)
     end
 
     it "GET pmcid" do
       get "/articles/info:pmcid/PMC#{article.pmcid}"
-      last_response.status.should == 302
-      last_response.body.should include("redirected")
+      last_response.status.should == 200
+      last_response.body.should include(article.pmcid.to_s)
     end
 
     it "GET mendeley" do
       get "/articles/info:mendeley/#{article.mendeley_uuid}"
-      last_response.status.should == 302
-      last_response.body.should include("redirected")
+      last_response.status.should == 200
+      last_response.body.should include(article.mendeley_uuid)
     end
   end
 
