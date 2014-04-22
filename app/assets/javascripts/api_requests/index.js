@@ -47,7 +47,7 @@ function crossfilterViz(data) {
       all = request.groupAll(),
       date = request.dimension(function(d) { return d3.time.day.utc(d.date); }),
       dates = date.group(),
-      hour = request.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; }),
+      hour = request.dimension(function(d) { return d.date.getUTCHours() + d.date.getMinutes() / 60; }),
       hours = hour.group(Math.floor),
       db_duration = request.dimension(function(d) { return Math.max(-60, Math.min(149, d.db_duration)); }),
       db_durations = db_duration.group(function(d) { return Math.floor(d / 10) * 10; }),
