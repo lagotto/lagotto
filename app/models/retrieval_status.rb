@@ -54,7 +54,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   def data
     if event_count > 0
-      data = get_alm_data("#{source.name}:#{article.doi_escaped}")
+      data = get_alm_data("#{source.name}:#{article.uid_escaped}")
     else
       nil
     end
@@ -119,7 +119,7 @@ class RetrievalStatus < ActiveRecord::Base
   private
 
   def delete_couchdb_document
-    couchdb_id = "#{source.name}:#{article.doi_escaped}"
+    couchdb_id = "#{source.name}:#{article.uid_escaped}"
     data_rev = get_alm_rev(couchdb_id)
     remove_alm_data(couchdb_id, data_rev)
   end
