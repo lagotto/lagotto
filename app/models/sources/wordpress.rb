@@ -45,6 +45,6 @@ class Wordpress < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 5000
+    config.rate_limiting || 2500
   end
 end
