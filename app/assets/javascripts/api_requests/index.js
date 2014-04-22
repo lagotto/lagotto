@@ -31,24 +31,21 @@ function crossfilterViz(data) {
 
   var today = new Date();
 
-  console.log(data[1].date);
-
   // A nest operator, for grouping the request list.
   var nestByDate = d3.nest()
     .key(function(d) { return d3.time.day.utc(d.date); });
 
   // A little coercion, since the JSON is untyped.
+  // expects date in iso8601 format, e.g. 2014-04-15T20:11:23Z
   data.forEach(function(d, i) {
     d.index = i;
-    d.date = parseDate(d.date);
+    d.date = new Date(d.date);
   });
-
-  console.log(data[1].date);
 
   // Create the crossfilter for the relevant dimensions and groups.
   var request = crossfilter(data),
       all = request.groupAll(),
-      date = request.dimension(function(d) { return d3.time.day(d.date); }),
+      date = request.dimension(function(d) { return d3.time.day.utc(d.date); }),
       dates = date.group(),
       hour = request.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; }),
       hours = hour.group(Math.floor),
@@ -109,9 +106,6 @@ function crossfilterViz(data) {
     list.each(render);
     d3.select("#active").text(formatNumber(all.value()));
   }
-
-  // expects time in iso8601 format, e.g. 2014-04-15T20:11:23Z
-  function parseDate(d) { return new Date(d); }
 
   window.filter = function(filters) {
     filters.forEach(function(d, i) { charts[i].filter(d); });
