@@ -110,16 +110,8 @@ function crossfilterViz(data) {
     d3.select("#active").text(formatNumber(all.value()));
   }
 
-  // Like d3.time.format, but faster.
-  // expects time in iso8601, e.g. 2014-04-15T20:11:23Z
-  function parseDate(d) {
-    return new Date(
-      d.substring(0, 3),
-      d.substring(5, 6) - 1,
-      d.substring(8, 9),
-      d.substring(11, 12),
-      d.substring(14, 15));
-  }
+  // expects time in iso8601 format, e.g. 2014-04-15T20:11:23Z
+  function parseDate(d) { return new Date(d); }
 
   window.filter = function(filters) {
     filters.forEach(function(d, i) { charts[i].filter(d); });
@@ -132,61 +124,61 @@ function crossfilterViz(data) {
   };
 
   function requestList(div) {
-  var requestsByDate = nestByDate.entries(date.top(50));
+    var requestsByDate = nestByDate.entries(date.top(50));
 
-  div.each(function() {
-    var date = d3.select(this).selectAll(".date")
-      .data(requestsByDate, function(d) { return d.key; });
+    div.each(function() {
+      var date = d3.select(this).selectAll(".date")
+        .data(requestsByDate, function(d) { return d.key; });
 
-    date.enter().append("div")
-      .attr("class", "date")
-      .append("div")
-      .attr("class", "day")
-      .text(function(d) { return formatDate(d.values[0].date); });
+      date.enter().append("div")
+        .attr("class", "date")
+        .append("div")
+        .attr("class", "day")
+        .text(function(d) { return formatDate(d.values[0].date); });
 
-    date.exit().remove();
+      date.exit().remove();
 
-    var request = date.order().selectAll(".request")
-      .data(function(d) { return d.values; }, function(d) { return d.index; });
+      var request = date.order().selectAll(".request")
+        .data(function(d) { return d.values; }, function(d) { return d.index; });
 
-    var requestEnter = request.enter().append("div")
-      .attr("class", "request");
+      var requestEnter = request.enter().append("div")
+        .attr("class", "request");
 
-    requestEnter.append("div")
-      .attr("class", "time")
-      .text(function(d) { return formatTime(d.date); });
+      requestEnter.append("div")
+        .attr("class", "time")
+        .text(function(d) { return formatTime(d.date); });
 
-    requestEnter.append("div")
-      .attr("class", "duration")
-      .text(function(d) { return formatFixed(d.db_duration) + " ms"; });
+      requestEnter.append("div")
+        .attr("class", "duration")
+        .text(function(d) { return formatFixed(d.db_duration) + " ms"; });
 
-    requestEnter.append("div")
-      .attr("class", "duration")
-      .classed("fast", function(d) { return d.view_duration < 100; })
-      .classed("slow", function(d) { return d.view_duration >= 1000; })
-      .text(function(d) { return formatFixed(d.view_duration) + " ms"; });
+      requestEnter.append("div")
+        .attr("class", "duration")
+        .classed("fast", function(d) { return d.view_duration < 100; })
+        .classed("slow", function(d) { return d.view_duration >= 1000; })
+        .text(function(d) { return formatFixed(d.view_duration) + " ms"; });
 
-    requestEnter.append("div")
-      .attr("class", "source")
-      .append("a")
-      .attr("href", function(d) { return "/admin/users?query=" + d.api_key; })
-      .text(function(d) { return d.api_key.substr(0,20); });
+      requestEnter.append("div")
+        .attr("class", "source")
+        .append("a")
+        .attr("href", function(d) { return "/admin/users?query=" + d.api_key; })
+        .text(function(d) { return d.api_key.substr(0,20); });
 
-    requestEnter.append("div")
-      .attr("class", "info")
-      .text(function(d) { return d.info; });
+      requestEnter.append("div")
+        .attr("class", "info")
+        .text(function(d) { return d.info; });
 
-    requestEnter.append("div")
-      .attr("class", "source")
-      .text(function(d) { return d.source; });
+      requestEnter.append("div")
+        .attr("class", "source")
+        .text(function(d) { return d.source; });
 
-    requestEnter.append("div")
-      .attr("class", "ids")
-      .text(function(d) { return d.ids; });
+      requestEnter.append("div")
+        .attr("class", "ids")
+        .text(function(d) { return d.ids; });
 
-    request.exit().remove();
+      request.exit().remove();
 
-    request.order();
+      request.order();
     });
   }
 
