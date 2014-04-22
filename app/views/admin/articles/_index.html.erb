@@ -60,7 +60,7 @@
         </ul>
       </div>
     </div>
-     <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-page="<%= @page %>" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-order="<%= @order %>">Articles
+     <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-uid="<%= CONFIG[:uid] %>" data-page="<%= @page %>" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-order="<%= @order %>">Articles
     <% unless params[:q].blank? %>
       <small>with <em><%= params[:q] %></em> in the DOI<%= Article.has_many? ? "" : " or Title" %></small>
     <% end %>

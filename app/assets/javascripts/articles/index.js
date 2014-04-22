@@ -1,7 +1,8 @@
 // construct query string
 var params = d3.select("h1#api_key");
 if (!params.empty()) {
-  var api_key = params.attr('data-api_key');
+  var api_key = params.attr('data-uid');
+  var uid = params.attr('data-api_key');
   var page = params.attr('data-page');
   var q = params.attr('data-q');
   var class_name = params.attr('data-class_name');
