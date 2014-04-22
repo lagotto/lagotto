@@ -379,5 +379,5 @@ function crossfilterViz(data) {
 // d3 helper functions
 var formatNumber = d3.format(",d"),
     formatFixed = d3.format(",.0f"),
-    formatDate = d3.time.format("%B %d, %Y"),
-    formatTime = d3.time.format("%H:%M UTC");
+    formatDate = d3.time.format.utc("%B %d, %Y"),
+    formatTime = d3.time.format.utc("%H:%M UTC");
