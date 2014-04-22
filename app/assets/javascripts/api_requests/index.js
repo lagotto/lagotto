@@ -35,7 +35,7 @@ function crossfilterViz(data) {
 
   // A nest operator, for grouping the request list.
   var nestByDate = d3.nest()
-    .key(function(d) { return d3.time.day(d.date); });
+    .key(function(d) { return d3.time.day.utc(d.date); });
 
   // A little coercion, since the JSON is untyped.
   data.forEach(function(d, i) {
