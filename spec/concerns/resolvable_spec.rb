@@ -117,5 +117,28 @@ describe Article do
         stub.should have_been_requested
       end
     end
+
+    context "persistent identifiers" do
+      let(:article) { FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030") }
+      let(:pubmed_url) { "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{article.doi_escaped}&idtype=doi&format=json" }
+
+      it "get_persistent_identifiers" do
+        ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030" }
+        stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers.json'), :status => 200)
+        response = subject.get_persistent_identifiers(article.doi)
+        response.should include(ids)
+        response.should_not include("errmsg")
+        stub.should have_been_requested
+      end
+
+      it "get_persistent_identifiers with not found error" do
+        ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030" }
+        stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers_nil.json'), :status => 200)
+        response = subject.get_persistent_identifiers(article.doi)
+        response.should_not include(ids)
+        response.should include("errmsg")
+        stub.should have_been_requested
+      end
+    end
   end
 end

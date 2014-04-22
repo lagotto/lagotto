@@ -79,15 +79,15 @@ namespace :queue do
   end
 
   desc "Queue article with given DOI"
-  task :one, [:doi] => :environment do |t, args|
-    if args.doi.nil?
-      puts "DOI is required"
+  task :one, [:uid] => :environment do |t, args|
+    if args.uid.nil?
+      puts "#{CONFIG[:uid]} is required"
       exit
     end
 
-    article = Article.find_by_doi(args.doi)
+    article = Article.find_by_uid(args.uid)
     if article.nil?
-      puts "Article with doi #{args.doi} does not exist"
+      puts "Article with #{CONFIG[:uid]} #{args.uid} does not exist"
       exit
     end
 
@@ -106,12 +106,12 @@ namespace :queue do
       rs = RetrievalStatus.find_by_article_id_and_source_id(article.id, source.id)
 
       if rs.nil?
-        puts "Retrieval Status for article with doi #{args.doi} and source with name #{args.source} does not exist"
+        puts "Retrieval Status for article with #{CONFIG[:uid]} #{args.uid} and source with name #{args.source} does not exist"
         exit
       end
 
       source.queue_article_jobs([rs.id], { priority: 2 })
-      puts "Job for doi #{article.doi} and source #{source.display_name} has been queued."
+      puts "Job for #{CONFIG[:uid]} #{article.uid} and source #{source.display_name} has been queued."
     end
   end
 

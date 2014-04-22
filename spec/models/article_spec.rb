@@ -95,6 +95,24 @@ describe Article do
     end
   end
 
+  it 'should get_url' do
+    article = FactoryGirl.create(:article, canonical_url: nil)
+    url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
+    stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+    stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
+    article.get_url.should be_true
+    article.canonical_url.should eq(url)
+  end
+
+  it 'should get_ids' do
+    article = FactoryGirl.create(:article, pmid: nil)
+    pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{article.doi_escaped}&idtype=doi&format=json"
+    stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers.json'), :status => 200)
+    article.get_ids.should be_true
+    article.pmid.should eq("17183658")
+    stub.should have_been_requested
+  end
+
   it "should get all_urls" do
     article = FactoryGirl.build(:article, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
     article.all_urls.should eq([article.doi_as_url, article.canonical_url])

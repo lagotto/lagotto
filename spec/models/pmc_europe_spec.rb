@@ -7,6 +7,8 @@ describe PmcEurope do
 
   it "should report that there are no events if the pmid is missing" do
     article = FactoryGirl.build(:article, :pmid => "")
+    pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{article.doi_escaped}&idtype=doi&format=json"
+    stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers_nil.json'), :status => 200)
     subject.get_data(article).should eq(events: [], event_count: nil)
   end
 

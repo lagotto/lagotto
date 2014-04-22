@@ -114,6 +114,15 @@ class Article < ActiveRecord::Base
     CONFIG[:uid] || "doi"
   end
 
+  def self.validate_format(id)
+    case CONFIG[:uid]
+    when "doi"
+      id =~ DOI_FORMAT
+    else
+      true
+    end
+  end
+
   def uid
     send(self.class.uid)
   end
@@ -171,6 +180,29 @@ class Article < ActiveRecord::Base
     else
       false
     end
+  end
+
+  # call Pubmed API to get missing identifiers
+  # update article if we find a new identifier
+  def get_ids
+    ids = { doi: doi, pmid: pmid, pmcid: pmcid }
+    missing_ids = ids.reject { |k, v| v.present? }
+    return true if missing_ids.empty?
+
+    result = get_persistent_identifiers(uid)
+    return true if result.blank?
+
+    # remove PMC prefix
+    result['pmcid'] = result['pmcid'][3..-1] if result['pmcid']
+
+    new_ids = missing_ids.reduce({}) do |hash, (k, v)|
+      val = result[k.to_s]
+      hash[k] = val if val.present? && val != "0"
+      hash
+    end
+    return true if new_ids.empty?
+
+    update_attributes(new_ids)
   end
 
   def all_urls

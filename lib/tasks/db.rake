@@ -19,11 +19,15 @@
 # limitations under the License.
 
 namespace :db do
+
+  def validate_uid
+
+  end
   namespace :articles do
 
     desc "Bulk-load articles from standard input"
     task :load => :environment do
-      puts "Reading DOIs from standard input..."
+      puts "Reading #{CONFIG[:uid]}s from standard input..."
       valid = []
       invalid = []
       duplicate = []
@@ -32,34 +36,34 @@ namespace :db do
 
       while (line = STDIN.gets)
         line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
-        raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
+        raw_uid, raw_published_on, raw_title = line.strip.split(" ", 3)
 
-        doi = Article.from_uri(raw_doi.strip).values.first
+        uid = Article.from_uri(raw_uid.strip).values.first
         if raw_published_on
           date_parts = raw_published_on.split("-")
           year, month, day = date_parts[0], date_parts[1], date_parts[2]
         end
         title = raw_title.strip if raw_title
-        if (doi =~ DOI_FORMAT) and !year.nil? and !title.nil?
-          valid << [doi, year, month, day, title]
+        if Article.validate_format(uid) && year && title
+          valid << [uid, year, month, day, title]
         else
-          puts "Ignoring DOI: #{raw_doi}, #{raw_published_on}, #{raw_title}"
-          invalid << [raw_doi, raw_published_on, raw_title]
+          puts "Ignoring #{CONFIG[:uid]}: #{raw_uid}, #{raw_published_on}, #{raw_title}"
+          invalid << [raw_uid, raw_published_on, raw_title]
         end
       end
 
       puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
 
       if valid.size > 0
-        valid.each do |doi, year, month, day, title|
-          existing = Article.find_by_doi(doi)
+        valid.each do |uid, year, month, day, title|
+          existing = Article.find_by_uid(uid)
           unless existing
-            article = Article.create(doi: doi,
+            article = Article.create(uid: uid,
                                      year: year,
                                      month: month,
                                      day: day,
                                      title: title)
-            created << doi
+            created << uid
           else
             if [existing.year, existing.month, existing.day].join("-") != [year, month, day].join("-") || existing.title != title
               existing.year = year
@@ -67,9 +71,9 @@ namespace :db do
               existing.day = day
               existing.title = title
               existing.save!
-              updated << doi
+              updated << uid
             else
-              duplicate << doi
+              duplicate << uid
             end
           end
         end
@@ -87,9 +91,9 @@ namespace :db do
       puts "Seeded #{after - before} articles"
     end
 
-    desc "Delete articles with DOI from standard input"
+    desc "Delete articles provided via standard input"
     task :delete => :environment do
-      puts "Reading DOIs from standard input..."
+      puts "Reading #{CONFIG[:uid]}s from standard input..."
       valid = []
       invalid = []
       missing = []
@@ -97,27 +101,27 @@ namespace :db do
 
       while (line = STDIN.gets)
         line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
-        raw_doi, raw_other = line.strip.split(" ", 2)
+        raw_uid, raw_other = line.strip.split(" ", 2)
 
-        doi = Article.from_uri(raw_doi.strip).values.first
-        if (doi =~ DOI_FORMAT)
-          valid << [doi]
+        uid = Article.from_uri(raw_uid.strip).values.first
+        if Article.validate_format(uid)
+          valid << [uid]
         else
-          puts "Ignoring DOI: #{raw_doi}"
-          invalid << [raw_doi]
+          puts "Ignoring #{CONFIG[:uid]}: #{raw_uid}"
+          invalid << [raw_uid]
         end
       end
 
       puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
 
       if valid.size > 0
-        valid.each do |doi|
-          existing = Article.find_by_doi(doi)
+        valid.each do |uid|
+          existing = Article.find_by_uid(uid)
           if existing
             existing.destroy
-            deleted << doi
+            deleted << uid
           else
-            missing << doi
+            missing << uid
           end
         end
       end

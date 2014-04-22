@@ -1,0 +1,18 @@
+{
+ "status": "ok",
+ "responseDate": "2014-04-22 15:16:50",
+ "request": "ids=10.1371%2Fjournal.pone.0000030;idtype=doi;format=json",
+ "records": [
+   {
+    "pmcid": "PMC1762313",
+    "pmid": "17183658",
+    "doi": "10.1371/journal.pone.0000030",
+    "versions": [
+      {
+       "pmcid": "PMC1762313.1",
+       "current": "true"
+      }
+    ]
+   }
+ ]
+}

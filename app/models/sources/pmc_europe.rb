@@ -20,8 +20,9 @@
 
 class PmcEurope < Source
   def get_data(article, options={})
-    # We need to have the PMID for this article, and we let the pub_med source fetch it
-    return { events: [], event_count: nil } if article.pmid.blank?
+    # First, we need to have the pmid for this article.
+    # Get it if we don't have it, and proceed only if we do.
+    return { events: [], event_count: nil } unless article.get_ids && article.pmid.present?
 
     query_url = get_query_url(article)
     result = get_json(query_url, options)
@@ -36,7 +37,7 @@ class PmcEurope < Source
   end
 
   def get_query_url(article)
-    url % { :pmid => article.pmid } unless article.pmid.blank?
+    url % { :pmid => article.pmid }
   end
 
   def get_config_fields

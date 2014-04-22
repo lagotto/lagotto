@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140216130343) do
+ActiveRecord::Schema.define(:version => 20140422221618) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
   add_index "api_responses", ["unresolved", "id"], :name => "index_api_responses_unresolved_id"
 
   create_table "articles", :force => true do |t|
-    t.string   "doi",                             :null => false
+    t.string   "doi"
     t.text     "title"
     t.date     "published_on"
     t.string   "pmid"
@@ -85,7 +85,6 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
 
   add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
-  add_index "articles", ["published_on"], :name => "index_articles_published_on_desc"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -147,13 +146,12 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
     t.datetime "retrieved_at"
     t.string   "status"
     t.string   "msg"
-    t.integer  "event_count",         :default => 0, :null => false
+    t.integer  "event_count",         :default => 0
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
   end
 
   add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
-  add_index "retrieval_histories", ["source_id", "event_count"], :name => "index_retrieval_histories_on_source_id_and_event_count"
   add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
 
   create_table "retrieval_statuses", :force => true do |t|
@@ -161,7 +159,7 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
     t.integer  "source_id",                                        :null => false
     t.datetime "queued_at"
     t.datetime "retrieved_at",  :default => '1970-01-01 00:00:00', :null => false
-    t.integer  "event_count",   :default => 0,                     :null => false
+    t.integer  "event_count",   :default => 0
     t.string   "data_rev"
     t.datetime "created_at",                                       :null => false
     t.datetime "updated_at",                                       :null => false
@@ -171,9 +169,8 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
   end
 
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
-  add_index "retrieval_statuses", ["id", "event_count"], :name => "index_retrieval_statuses_on_id_and_event_count"
   add_index "retrieval_statuses", ["source_id", "article_id", "event_count"], :name => "index_retrieval_statuses_source_id_article_id_event_count_desc"
-  add_index "retrieval_statuses", ["source_id", "event_count", "retrieved_at"], :name => "index_retrieval_statuses_source_id_event_count_retrieved_at_desc"
+  add_index "retrieval_statuses", ["source_id", "event_count", "retrieved_at"], :name => "index_retrieval_statuses_source_id_event_count_retr_at_desc"
   add_index "retrieval_statuses", ["source_id", "event_count"], :name => "index_retrieval_statuses_source_id_event_count_desc"
 
   create_table "reviews", :force => true do |t|
@@ -204,7 +201,6 @@ ActiveRecord::Schema.define(:version => 20140216130343) do
     t.text     "description"
     t.integer  "state"
     t.boolean  "queueable",    :default => true
-    t.string   "queue"
     t.string   "state_event"
     t.datetime "cached_at",    :default => '1970-01-01 00:00:00', :null => false
   end
