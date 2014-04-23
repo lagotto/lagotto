@@ -158,7 +158,11 @@ class Article < ActiveRecord::Base
   end
 
   def doi_escaped
-    CGI.escape(doi)
+    if doi
+      CGI.escape(doi)
+    else
+      nil
+    end
   end
 
   def doi_as_url

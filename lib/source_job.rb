@@ -121,7 +121,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                                    :source_id => rs.source_id)
       # SUCCESS
       if event_count > 0
-        data = { :doi => rs.article.doi,
+        data = { :uid => rs.article.uid,
                  :retrieved_at => retrieved_at,
                  :source => rs.source.name,
                  :events => events,
@@ -142,7 +142,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         rh.event_count = event_count
 
         # save the data to couchdb
-        rs_rev = save_alm_data("#{rs.source.name}:#{rs.article.doi_escaped}", data: data.clone, source_id: rs.source_id)
+        rs_rev = save_alm_data("#{rs.source.name}:#{rs.article.uid_escaped}", data: data.clone, source_id: rs.source_id)
 
         data.delete(:_attachments)
         data[:doc_type] = "history"
