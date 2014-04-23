@@ -1,28 +1,28 @@
 language: ruby
 
 rvm:
-- 1.9.3
-- 2.1.0
+  - 1.9.3
+  - 2.1.0
 
 env:
-- DB=mysql
-- DB=postgresql
+  - DB=mysql
+  - DB=postgres
 
 services:
 - couchdb
 - memcached
 
 before_script:
-- cp config/settings.yml.example config/settings.yml
-- cp config/database.yml.example config/database.yml
-- mkdir -p tmp/pids
+  - cp config/settings.yml.example config/settings.yml
+  - cp config/database.yml.example config/database.yml
+  - mkdir -p tmp/pids
 
 script:
-- bundle exec rake db:setup RAILS_ENV=test
-- bundle exec rspec --tag ~@not_teamcity
-- bundle exec cucumber --tags ~@not_teamcity
-- bundle exec rake spec:javascript
-- bundle exec rubocop -R app config db features lib spec
+  - bundle exec rake db:setup RAILS_ENV=test
+  - bundle exec rspec --tag ~@not_teamcity
+  - bundle exec cucumber --tags ~@not_teamcity
+  - bundle exec rake spec:javascript
+  - bundle exec rubocop -R app config db features lib spec
 
 env:
   global:
