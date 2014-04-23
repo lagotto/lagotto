@@ -29,9 +29,6 @@ class Researchblogging < Source
     return nil if result.nil?
 
     events = []
-
-    event_count = result.at_xpath("//blogposts/@total_records_found").value.to_i
-
     result.xpath("//blogposts/post").each do |post|
       event = Hash.from_xml(post.to_s)
       event = event['post']
@@ -43,7 +40,7 @@ class Researchblogging < Source
 
     { :events => events,
       :events_url => events_url,
-      :event_count => event_count,
+      :event_count => events.length,
       :event_metrics => event_metrics(citations: event_count),
       :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
