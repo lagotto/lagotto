@@ -121,7 +121,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                                    :source_id => rs.source_id)
       # SUCCESS
       if event_count > 0
-        data = { :uid => rs.article.uid,
+        data = { CONFIG[:uid].to_sym => rs.article.uid,
                  :retrieved_at => retrieved_at,
                  :source => rs.source.name,
                  :events => events,
