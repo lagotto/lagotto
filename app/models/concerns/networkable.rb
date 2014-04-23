@@ -63,8 +63,7 @@ module Networkable
       else
         response = conn.get url, {}, options[:headers]
       end
-      # We have issues with the Faraday XML parsing
-      Nokogiri::XML(response.body)
+      response.body
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options.merge(xml: true))
     end
@@ -76,8 +75,15 @@ module Networkable
     def get_html(url, options = { timeout: DEFAULT_TIMEOUT })
       conn = conn_html
       conn.basic_auth(options[:username], options[:password]) if options[:username]
+      conn.authorization :Bearer, options[:bearer] if options[:bearer]
       conn.options[:timeout] = options[:timeout]
-      response = conn.get url, {}, options[:headers]
+      if options[:data]
+        response = conn.post url, {}, options[:headers] do |request|
+          request.body = options[:data]
+        end
+      else
+        response = conn.get url, {}, options[:headers]
+      end
       response.body
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options.merge(html: true))
@@ -120,6 +126,8 @@ module Networkable
         c.headers['Accept'] = 'application/xml'
         c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10
+        c.request  :xml
+        c.response :xml, :content_type => /\bxml$/
         c.use      Faraday::Response::RaiseError
         c.adapter  Faraday.default_adapter
       end
@@ -127,13 +135,9 @@ module Networkable
 
     def conn_html
       Faraday.new do |c|
-        c.headers['Accept'] = 'text/html;charset=utf-8'
-        c.headers['Accept-Charset'] = 'utf-8'
+        c.headers['Accept'] = 'text/html'
         c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
-        # only get the first 1 kB of the body, as we are only interested in the <head> tag and some metadata
-        c.headers['Range'] = 'bytes=0-1024'
-        c.use      FaradayMiddleware::FollowRedirects, :limit => 10
-        c.use      :cookie_jar
+        c.use      FaradayMiddleware::FollowRedirects, :limit => 10, :cookie => :all
         c.use      Faraday::Response::RaiseError
         c.adapter  Faraday.default_adapter
       end
@@ -189,34 +193,10 @@ module Networkable
           exception = ""
         end
 
-        class_name = error.class
-        message = "#{error.message} for #{url}"
+        class_name = class_by_status(error.class)
 
-        case status
-        when 400
-          class_name = Net::HTTPBadRequest
-        when 401
-          class_name = Net::HTTPUnauthorized
-        when 403
-          class_name = Net::HTTPForbidden
-        when 406
-          class_name = Net::HTTPNotAcceptable
-        when 408
-          class_name = Net::HTTPRequestTimeOut
-        when 409
-          class_name = Net::HTTPConflict
-          message = "#{error.message} with rev #{options[:data][:rev]}"
-        when 417
-          class_name = Net::HTTPExpectationFailed
-        when 429
-          class_name = Net::HTTPClientError
-        when 500
-          class_name = Net::HTTPInternalServerError
-        when 502
-          class_name = Net::HTTPBadGateway
-        when 503
-          class_name = Net::HTTPServiceUnavailable
-        end
+        message = "#{error.message} for #{url}"
+        message = "#{error.message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
 
         Alert.create(exception: exception,
                      class_name: class_name.to_s,
@@ -226,6 +206,22 @@ module Networkable
                      target_url: url,
                      source_id: options[:source_id])
         nil
+      end
+    end
+
+    def class_by_status(status)
+      case status
+      when 400 then Net::HTTPBadRequest
+      when 401 then Net::HTTPUnauthorized
+      when 403 then Net::HTTPForbidden
+      when 406 then Net::HTTPNotAcceptable
+      when 408 then Net::HTTPRequestTimeOut
+      when 409 then Net::HTTPConflict
+      when 417 then Net::HTTPExpectationFailed
+      when 429 then Net::HTTPClientError
+      when 500 then Net::HTTPInternalServerError
+      when 502 then Net::HTTPBadGateway
+      when 503 then Net::HTTPServiceUnavailable
       end
     end
   end
