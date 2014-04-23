@@ -23,7 +23,7 @@ class Copernicus < Source
     return { events: [], event_count: nil } unless article.doi =~ /^10.5194/
 
     query_url = get_query_url(article)
-    result = get_json(query_url, options.merge(:username => username, :password => password))
+    result = get_result(query_url, options.merge(username: username, password: password))
 
     return nil if result.nil?
     return { events: [], event_count: nil } if result.empty? || !result["counter"]

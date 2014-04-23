@@ -46,8 +46,8 @@ class User < ActiveRecord::Base
       unless Rails.env.test?
         # We obtain the email address from a second call to the CAS server
         url = "#{CONFIG[:cas_url]}/cas/email?guid=#{auth.uid}"
-        response = get_html(url)
-        email = response.blank? ? "" : response
+        result = get_result(url, content_type: html)
+        email = result.blank? ? "" : result
       else
         email = auth.info.email
       end

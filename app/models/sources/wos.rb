@@ -26,7 +26,7 @@ class Wos < Source
     data = get_xml_request(article)
 
     query_url = get_query_url(article)
-    result = post_xml(query_url, options.merge(data: data))
+    result = get_result(query_url, options.merge(content_type: 'xml', data: data))
 
     return { events: [], event_count: nil } if result.nil?
 

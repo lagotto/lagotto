@@ -23,20 +23,25 @@ class Figshare < Source
     return { events: [], event_count: nil } unless article.is_publisher?
 
     query_url = get_query_url(article)
-    options[:source_id] = id
-    result = get_json(query_url, options)
+    result = get_result(query_url, options)
 
     return nil if result.nil?
+
     return { events: [], event_count: nil } if result.empty? || result["items"].empty?
 
-    views = result["items"].reduce(0) { |sum, hash| sum + hash["stats"]["page_views"].to_i }
-    downloads = result["items"].reduce(0) { |sum, hash| sum + hash["stats"]["downloads"].to_i }
-    likes = result["items"].reduce(0) { |sum, hash| sum + hash["stats"]["likes"].to_i }
+    views = get_sum(result["items"], 'page_views')
+    downloads = get_sum(result["items"], 'downloads')
+    likes = get_sum(result["items"], 'likes')
+
     total = views + downloads + likes
 
     { :events => result,
       :event_count => total,
       :event_metrics => event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
+  end
+
+  def get_sum(items, key)
+    items.reduce(0) { |sum, hash| sum + hash["stats"][key].to_i }
   end
 
   def get_query_url(article)

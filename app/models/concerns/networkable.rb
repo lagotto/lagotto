@@ -20,7 +20,6 @@
 
 require 'faraday'
 require 'faraday_middleware'
-require 'faraday-cookie_jar'
 require 'typhoeus'
 require 'typhoeus/adapters/faraday'
 require 'uri'
@@ -30,11 +29,11 @@ module Networkable
 
   included do
 
-    def get_json(url, options = { timeout: DEFAULT_TIMEOUT })
-      conn = conn_json
+    def get_result(url, options = { content_type: 'json' })
+      conn = faraday_conn(options[:content_type])
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.authorization :Bearer, options[:bearer] if options[:bearer]
-      conn.options[:timeout] = options[:timeout]
+      conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
       if options[:data]
         response = conn.post url, {}, options[:headers] do |request|
           request.body = options[:data]
@@ -42,63 +41,26 @@ module Networkable
       else
         response = conn.get url, {}, options[:headers]
       end
-      response.body
-    rescue *NETWORKABLE_EXCEPTIONS => e
-      rescue_faraday_error(url, e, options.merge(json: true))
-    end
-
-    def post_json(url, options = { data: nil, timeout: DEFAULT_TIMEOUT })
-      get_json(url, options)
-    end
-
-    def get_xml(url, options = { timeout: DEFAULT_TIMEOUT })
-      conn = conn_xml
-      conn.basic_auth(options[:username], options[:password]) if options[:username]
-      conn.authorization :Bearer, options[:bearer] if options[:bearer]
-      conn.options[:timeout] = options[:timeout]
-      if options[:data]
-        response = conn.post url, {}, options[:headers] do |request|
-          request.body = options[:data]
-        end
+      # We had issues with the Faraday XML parsing
+      if options[:content_type] == 'xml'
+        Nokogiri::XML(response.body)
       else
-        response = conn.get url, {}, options[:headers]
+        response.body
       end
-      response.body
     rescue *NETWORKABLE_EXCEPTIONS => e
-      rescue_faraday_error(url, e, options.merge(xml: true))
+      rescue_faraday_error(url, e, options)
     end
 
-    def post_xml(url, options = { data: nil, timeout: DEFAULT_TIMEOUT })
-      get_xml(url, options)
-    end
-
-    def get_html(url, options = { timeout: DEFAULT_TIMEOUT })
-      conn = conn_html
+    def save_to_file(url, filename = "tmpdata", options = { content_type: 'xml' })
+      conn = faraday_conn(options[:content_type])
       conn.basic_auth(options[:username], options[:password]) if options[:username]
-      conn.authorization :Bearer, options[:bearer] if options[:bearer]
-      conn.options[:timeout] = options[:timeout]
-      if options[:data]
-        response = conn.post url, {}, options[:headers] do |request|
-          request.body = options[:data]
-        end
-      else
-        response = conn.get url, {}, options[:headers]
-      end
-      response.body
-    rescue *NETWORKABLE_EXCEPTIONS => e
-      rescue_faraday_error(url, e, options.merge(html: true))
-    end
-
-    def save_to_file(url, filename = "tmpdata", options = { timeout: DEFAULT_TIMEOUT })
-      conn = conn_xml
-      conn.basic_auth(options[:username], options[:password]) if options[:username]
-      conn.options[:timeout] = options[:timeout]
+      conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
       response = conn.get url
 
       File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(response.body) }
       filename
     rescue *NETWORKABLE_EXCEPTIONS => e
-      rescue_faraday_error(url, e, options.merge(:xml => true))
+      rescue_faraday_error(url, e, options)
     rescue => exception
       Alert.create(:exception => exception,
                    :class_name => exception.class.to_s,
@@ -108,35 +70,21 @@ module Networkable
       nil
     end
 
-    def conn_json
-      Faraday.new do |c|
-        c.headers['Accept'] = 'application/json'
-        c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
-        c.use      FaradayMiddleware::FollowRedirects, :limit => 10
-        c.request  :multipart
-        c.request  :json
-        c.response :json, :content_type => /\bjson$/
-        c.use      Faraday::Response::RaiseError
-        c.adapter  Faraday.default_adapter
-      end
-    end
+    def faraday_conn(content_type = 'json')
+      accept_header =
+        case content_type
+        when 'html' then 'text/html'
+        when 'xml' then 'application/xml'
+        else 'application/json'
+        end
 
-    def conn_xml
       Faraday.new do |c|
-        c.headers['Accept'] = 'application/xml'
-        c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
-        c.use      FaradayMiddleware::FollowRedirects, :limit => 10
-        c.response :xml, :content_type => /\bxml$/
-        c.use      Faraday::Response::RaiseError
-        c.adapter  Faraday.default_adapter
-      end
-    end
-
-    def conn_html
-      Faraday.new do |c|
-        c.headers['Accept'] = 'text/html'
+        c.headers['Accept'] = accept_header
         c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10, :cookie => :all
+        c.request  :multipart
+        c.request  :json if accept_header == 'application/json'
+        c.response :json, :content_type => /\bjson$/
         c.use      Faraday::Response::RaiseError
         c.adapter  Faraday.default_adapter
       end
@@ -164,7 +112,7 @@ module Networkable
                        status: error.response[:status],
                        target_url: url)
           nil
-        elsif options[:xml]
+        elsif options[:content_type] == 'xml'
           Nokogiri::XML(error.response[:body])
         else
           error.response[:body]
@@ -192,7 +140,7 @@ module Networkable
           exception = ""
         end
 
-        class_name = class_by_status(error.class)
+        class_name = class_by_status(status) || error.class
 
         message = "#{error.message} for #{url}"
         message = "#{error.message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
@@ -209,19 +157,21 @@ module Networkable
     end
 
     def class_by_status(status)
-      case status
-      when 400 then Net::HTTPBadRequest
-      when 401 then Net::HTTPUnauthorized
-      when 403 then Net::HTTPForbidden
-      when 406 then Net::HTTPNotAcceptable
-      when 408 then Net::HTTPRequestTimeOut
-      when 409 then Net::HTTPConflict
-      when 417 then Net::HTTPExpectationFailed
-      when 429 then Net::HTTPClientError
-      when 500 then Net::HTTPInternalServerError
-      when 502 then Net::HTTPBadGateway
-      when 503 then Net::HTTPServiceUnavailable
-      end
+      class_name =
+        case status
+        when 400 then Net::HTTPBadRequest
+        when 401 then Net::HTTPUnauthorized
+        when 403 then Net::HTTPForbidden
+        when 406 then Net::HTTPNotAcceptable
+        when 408 then Net::HTTPRequestTimeOut
+        when 409 then Net::HTTPConflict
+        when 417 then Net::HTTPExpectationFailed
+        when 429 then Net::HTTPClientError
+        when 500 then Net::HTTPInternalServerError
+        when 502 then Net::HTTPBadGateway
+        when 503 then Net::HTTPServiceUnavailable
+        else nil
+        end
     end
   end
 end

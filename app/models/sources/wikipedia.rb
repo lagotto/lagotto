@@ -31,7 +31,7 @@ class Wikipedia < Source
       host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
       namespace = (lang == "commons") ? "6" : "0"
       query_url = get_query_url(article, host: host, namespace: namespace)
-      results = get_json(query_url, options)
+      results = get_result(query_url, options)
 
       # if server doesn't return a result
       if results.nil?

@@ -24,7 +24,7 @@ class Researchblogging < Source
     return { events: [], event_count: nil } if article.doi.blank?
 
     query_url = get_query_url(article)
-    result = get_xml(query_url, options.merge(:username => username, :password => password))
+    result = get_result(query_url, options.merge(content_type: 'xml', username: username, password: password))
 
     return nil if result.nil?
 
@@ -41,7 +41,7 @@ class Researchblogging < Source
     { :events => events,
       :events_url => events_url,
       :event_count => events.length,
-      :event_metrics => event_metrics(citations: event_count),
+      :event_metrics => event_metrics(citations: events.length),
       :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 

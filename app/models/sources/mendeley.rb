@@ -31,7 +31,7 @@ class Mendeley < Source
     article.update_attributes(:mendeley_uuid => mendeley_uuid)
 
     query_url = get_query_url(article)
-    result = get_json(query_url, options.merge(bearer: access_token))
+    result = get_result(query_url, options.merge(bearer: access_token))
 
     # When Mendeley doesn't return a proper API response it can return
     # - a 404 status and error hash
@@ -59,7 +59,7 @@ class Mendeley < Source
 
     total = readers + groups
 
-    related_articles = get_json(get_related_url(result['uuid']), options.merge(bearer: access_token))
+    related_articles = get_result(get_related_url(result['uuid']), options.merge(bearer: access_token))
     result[:related] = related_articles['documents'] if related_articles
 
     { :events => result,
@@ -74,18 +74,18 @@ class Mendeley < Source
     # Only use uuid if we also get mendeley_url, otherwise the uuid is broken and we return nil
 
     unless article.pmid.blank?
-      result = get_json(get_query_url(article, "pmid"), options.merge(bearer: access_token))
+      result = get_result(get_query_url(article, "pmid"), options.merge(bearer: access_token))
       return result['uuid'] if result.is_a?(Hash) && result['mendeley_url']
     end
 
     unless article.doi.blank?
-      result = get_json(get_query_url(article, "doi"), options.merge(bearer: access_token))
+      result = get_result(get_query_url(article, "doi"), options.merge(bearer: access_token))
       return result['uuid'] if result.is_a?(Hash) && result['mendeley_url']
     end
 
     # search by title if we can't get the uuid using the pmid or doi
     unless article.title.blank?
-      results = get_json(get_query_url(article, "title"), options.merge(bearer: access_token))
+      results = get_result(get_query_url(article, "title"), options.merge(bearer: access_token))
       if results.is_a?(Hash) && results['documents']
         documents = results["documents"].select { |document| document["doi"] == article.doi }
         return documents[0]['uuid'] if documents && documents.length == 1 && documents[0]['mendeley_url']
@@ -118,11 +118,13 @@ class Mendeley < Source
     return true if access_token.present? && (Time.zone.now + 5.minutes < expires_at.to_time.utc)
 
     # Otherwise get new access token
-    result = post_json(authentication_url, options.merge(:username => client_id,
-                                                         :password => secret,
-                                                         :data => "grant_type=client_credentials",
-                                                         :source_id => id,
-                                                         :headers => { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
+    result = get_result(authentication_url, options.merge(
+      content_type: 'json',
+      username: client_id,
+      password: secret,
+      data: "grant_type=client_credentials",
+      source_id: id,
+      headers: { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
 
     if result.present? && result["access_token"] && result["expires_in"]
       config.expires_at = Time.zone.now + result["expires_in"].seconds
@@ -137,7 +139,7 @@ class Mendeley < Source
   def to_csv(options = {})
     service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
 
-    result = get_json(service_url, options)
+    result = get_result(service_url, options)
     return nil if result.blank? || result["rows"].blank?
 
     CSV.generate do |csv|

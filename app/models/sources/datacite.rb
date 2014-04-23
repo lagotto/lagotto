@@ -24,7 +24,7 @@ class Datacite < Source
     return { events: [], event_count: nil } if article.doi.blank?
 
     query_url = get_query_url(article)
-    result = get_json(query_url, options)
+    result = get_result(query_url, options)
 
     return nil if result.nil?
     return { events: [], event_count: nil } if result.empty? || !result["response"]

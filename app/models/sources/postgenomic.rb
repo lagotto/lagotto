@@ -20,13 +20,25 @@ class Postgenomic < Source
   def get_data(article, options={})
     query_url = get_query_url(article)
 
-    events = get_json(query_url, options).map do |result|
-      {:event => result, :event_url => result["url"]}
+    result = get_result(query_url, options)
+
+    events = result.map do |item|
+      { :event => item, :event_url => item["url"] }
     end
 
-    {:events => events,
-     :events_url => "http://postgenomic.com/paper.php?doi=#{Addressable::URI.encode(article.doi)}",
-     :event_count => events.length}
+    events_url = get_events_url(article)
+
+    { :events => events,
+      :events_url => events_url,
+      :event_count => events.length }
+  end
+
+  def get_events_url(article)
+    unless article.doi.blank?
+      "http://postgenomic.com/paper.php?doi=#{Addressable::URI.encode(article.doi)}"
+    else
+      nil
+    end
   end
 
   def get_config_fields

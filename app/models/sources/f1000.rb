@@ -54,7 +54,7 @@ class F1000 < Source
     if File.exists?(file) && File.mtime(file) >= last_time && File.file?(file)
       Nokogiri::XML(File.open(file))
     else
-      document = get_xml(url, options.merge(source_id: id))
+      document = get_result(url, options.merge(content_type: 'xml', source_id: id))
 
       return nil if document.nil?
 

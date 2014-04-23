@@ -24,7 +24,7 @@ module Resolvable
   included do
 
     def get_canonical_url(url, options = { timeout: 120 })
-      conn = conn_html
+      conn = faraday_conn('html')
 
       conn.options[:timeout] = options[:timeout]
       response = conn.get url, {}, options[:headers]
@@ -85,7 +85,7 @@ module Resolvable
     end
 
     def get_persistent_identifiers(uid, options = { timeout: 120 })
-      conn = conn_json
+      conn = faraday_conn('json')
 
       params = { 'ids' => uid,
                  'idtype' => CONFIG[:uid],
@@ -96,7 +96,7 @@ module Resolvable
       response = conn.get url, {}, options[:headers]
       response.body['records'] ? response.body['records'][0] : { 'errmsg' => 'not found' }
     rescue *NETWORKABLE_EXCEPTIONS => e
-      rescue_faraday_error(url, e, options.merge(json: true))
+      rescue_faraday_error(url, e, options)
     end
 
   end

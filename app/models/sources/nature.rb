@@ -24,15 +24,15 @@ class Nature < Source
     return { events: [], event_count: nil } if article.doi.blank?
 
     query_url = get_query_url(article)
-    results = get_json(query_url, options)
+    result = get_result(query_url, options)
 
-    return nil if results.nil?
+    return nil if result.nil?
 
-    events = results.map do |result|
-      url = result['post']['url']
+    events = result.map do |item|
+      url = item['post']['url']
       url = "http://#{url}" unless url.start_with?("http://")
 
-      { :event => result['post'], :event_url => url }
+      { :event => item['post'], :event_url => url }
     end
 
     { :events => events,

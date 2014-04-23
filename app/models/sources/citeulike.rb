@@ -19,18 +19,17 @@
 # limitations under the License.
 
 class Citeulike < Source
-  def get_data(article, options={})
-    # Check that article has DOI
+  def get_data(article, options = {})
     return { events: [], event_count: nil } if article.doi.blank?
 
     query_url = get_query_url(article)
-    result = get_xml(query_url, options)
+    result = get_result(query_url, options.merge(content_type: 'xml'))
 
     return nil if result.nil?
 
     events = []
-    result.xpath("//post").each do |post|
-      event = Hash.from_xml(post.to_s)
+    result.xpath("//post").each do |item|
+      event = Hash.from_xml(item.to_s)
       event = event['post']
       events << {:event => event, :event_url => event['link']['url']}
     end

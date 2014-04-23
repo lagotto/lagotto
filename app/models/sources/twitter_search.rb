@@ -39,7 +39,7 @@ class TwitterSearch < Source
 
     begin
       query_url = get_query_url(article, max_id: max_id)
-      response = get_json(query_url, options.merge(bearer: access_token))
+      response = get_result(query_url, options.merge(bearer: access_token))
       if response
         max_id = get_max_id(response["search_metadata"]["next_results"])
         result += response["statuses"]
@@ -93,11 +93,13 @@ class TwitterSearch < Source
     return true if access_token.present?
 
     # Otherwise get new access token
-    result = post_json(authentication_url, options.merge(:username => api_key,
-                                                         :password => api_secret,
-                                                         :data => "grant_type=client_credentials",
-                                                         :source_id => id,
-                                                         :headers => { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
+    result = get_result(authentication_url, options.merge(
+      content_type: 'json',
+      username: api_key,
+      password: api_secret,
+      data: "grant_type=client_credentials",
+      source_id: id,
+      headers: { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
 
     if result.present? && result["access_token"]
       config.access_token = result["access_token"]

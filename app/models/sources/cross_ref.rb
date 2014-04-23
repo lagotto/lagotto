@@ -29,13 +29,13 @@ class CrossRef < Source
     if article.is_publisher?
 
       query_url = get_query_url(article)
-      result = get_xml(query_url, options)
+      result = get_result(query_url, options.merge(content_type: 'xml'))
 
       return nil if result.nil?
 
       events = []
-      result.xpath("//xmlns:journal_cite").each do |cite|
-        event = Hash.from_xml(cite.to_s)
+      result.xpath("//xmlns:journal_cite").each do |item|
+        event = Hash.from_xml(item.to_s)
         event = event["journal_cite"]
         event_url = Article.to_url(event["doi"])
 
@@ -53,7 +53,7 @@ class CrossRef < Source
 
   def get_default_data(article, options={})
     query_url = get_default_query_url(article)
-    result = get_xml(query_url, options.merge(:source_id => id))
+    result = get_result(query_url, options.merge(content_type: 'xml', source_id: id))
 
     return nil if result.blank?
 

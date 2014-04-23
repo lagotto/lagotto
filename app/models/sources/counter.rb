@@ -27,7 +27,7 @@ class Counter < Source
     return { events: [], event_count: nil } unless article.doi =~ /^10.1371/
 
     query_url = get_query_url(article)
-    result = get_xml(query_url, options)
+    result = get_result(query_url, options.merge(content_type: 'xml'))
 
     return nil if result.nil?
 
@@ -93,7 +93,7 @@ class Counter < Source
 
     service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
 
-    result = get_json(service_url, options)
+    result = get_result(service_url, options)
     return nil if result.blank? || result["rows"].blank?
 
     if view == "counter"

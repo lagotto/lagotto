@@ -43,7 +43,7 @@ namespace :db do
           date_parts = raw_published_on.split("-")
           year, month, day = date_parts[0], date_parts[1], date_parts[2]
         end
-        title = raw_title.strip if raw_title
+        title = raw_title.strip.chomp('.') if raw_title
         if Article.validate_format(uid) && year && title
           valid << [uid, year, month, day, title]
         else

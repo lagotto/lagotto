@@ -21,11 +21,11 @@ class Connotea < Source
     events_url = nil
 
     query_url = get_query_url(article)
-    result = get_xml(query_url, options.merge(:username => username, :password => password))
+    result = get_result(query_url, options.merge(content_type: 'xml', username: username, password: password))
 
     events = []
-    result.xpath("//default:Post").each do |cite|
-      uri = cite.at_xpath("@rdf:about").value
+    result.xpath("//default:Post").each do |item|
+      uri = item.at_xpath("@rdf:about").value
       events << {:event => uri, :event_url => uri}
       events_url = "http://www.connotea.org/uri/" + uri[uri.rindex('/')+1..-1]
     end

@@ -24,13 +24,14 @@ class ScienceSeeker < Source
     return { events: [], event_count: nil } if article.doi.blank?
 
     query_url = get_query_url(article)
-    result = get_xml(query_url, options)
+    result = get_result(query_url, options.merge(content_type: 'xml'))
 
     # Check that ScienceSeeker has returned something, otherwise an error must have occured
     return nil if result.nil?
 
-    events = []
     result.remove_namespaces!
+
+    events = []
     result.xpath("//entry").each do |entry|
       event = Hash.from_xml(entry.to_s)
       event = event['entry']

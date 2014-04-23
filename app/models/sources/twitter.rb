@@ -39,7 +39,7 @@ class Twitter < Source
     query_url = get_query_url(article)
     options[:source_id] = id
 
-    json_data = get_json(query_url, options)
+    json_data = get_result(query_url, options)
 
     if json_data.blank?
       events = nil

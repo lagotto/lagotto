@@ -23,8 +23,7 @@ class PlosComments < Source
     return { events: [], event_count: nil } unless article.is_publisher?
 
     query_url = get_query_url(article)
-    options[:source_id] = id
-    result = get_json(query_url, options)
+    result = get_result(query_url, options)
 
     return nil if result.nil?
     return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?

@@ -19,7 +19,7 @@
 class Bloglines < Source
   def get_data(article, options={})
     query_url = get_query_url(article)
-    result = get_xml(query_url, options)
+    result = get_result(query_url, options.merge(content_type: 'xml'))
 
     events = []
     result.xpath("//resultset/result").each do |cite|

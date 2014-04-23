@@ -27,7 +27,7 @@ class Pmc < Source
     return { events: [], event_count: nil } if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
 
     query_url = get_query_url(article)
-    result = get_json(query_url, options)
+    result = get_result(query_url, options)
 
     # an error occured
     return nil if result.nil?
@@ -100,7 +100,7 @@ class Pmc < Source
           view['month'] = month.to_s
 
           # try to get the existing information about the given article
-          data = get_json("#{url}#{CGI.escape(doi)}")
+          data = get_result("#{url}#{CGI.escape(doi)}")
 
           if data['views'].nil?
             data = { 'views' => [view] }
@@ -142,7 +142,7 @@ class Pmc < Source
 
     service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
 
-    result = get_json(service_url, options)
+    result = get_result(service_url, options)
     return nil if result.blank? || result["rows"].blank?
 
     if view == "pmc"

@@ -28,7 +28,7 @@ module Couchable
     end
 
     def get_alm_data(id = "")
-      get_json("#{couchdb_url}#{id}")
+      get_result("#{couchdb_url}#{id}")
     end
 
     def get_alm_rev(id, options={})
@@ -36,7 +36,7 @@ module Couchable
     end
 
     def head_alm_data(url, options = { timeout: DEFAULT_TIMEOUT })
-      conn = conn_json
+      conn = faraday_conn('json')
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.options[:timeout] = options[:timeout]
       response = conn.head url
@@ -58,7 +58,7 @@ module Couchable
 
     def put_alm_data(url, options = { data: nil })
       return nil unless options[:data] || Rails.env.test?
-      conn = conn_json
+      conn = faraday_conn('json')
       conn.options[:timeout] = DEFAULT_TIMEOUT
       response = conn.put url do |request|
         request.body = options[:data]
@@ -75,7 +75,8 @@ module Couchable
 
     def delete_alm_data(url, options={})
       return nil unless url != couchdb_url || Rails.env.test?
-      response = conn_json.delete url
+      conn = faraday_conn('json')
+      response = conn.delete url
       (response.body["ok"] ? response.body["rev"] : nil)
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)

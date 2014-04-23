@@ -24,24 +24,15 @@ class PubMed < Source
     # Get it if we don't have it, and proceed only if we do.
     return { events: [], event_count: nil } unless article.get_ids && article.pmid.present?
 
-    # OK, we've got the IDs. Get the citations using the PubMed ID.
-    events = []
     query_url = get_query_url(article)
-    result = get_xml(query_url, options)
+    result = get_result(query_url, options.merge(content_type: 'xml'))
 
-    # Check that PubMed has returned something, otherwise an error must have occured
     return nil if result.nil?
 
-    result.xpath("//PMCID").each do |cite|
-      pmc = cite.content
-      if pmc
-        event = {
-          :event => pmc,
-          :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + pmc
-        }
-
-        events << event
-      end
+    events = []
+    result.xpath("//PMCID").each do |item|
+      pmc = item.content
+      events << { :event => pmc, :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + pmc } if pmc
     end
 
     events_url = get_events_url(article)

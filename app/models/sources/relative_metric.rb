@@ -23,10 +23,7 @@ class RelativeMetric < Source
 
     return nil if events.blank?
 
-    total = 0
-    events[:subject_areas].each do | subject_area |
-      total += subject_area[:average_usage].reduce(:+)
-    end
+    total = events[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }
 
     { :events => events,
       :event_count => total,
@@ -42,7 +39,7 @@ class RelativeMetric < Source
     events[:end_date] = Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z")
 
     query_url = get_query_url(article)
-    data = get_json(query_url)
+    data = get_result(query_url)
 
     if data.nil?
       nil

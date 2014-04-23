@@ -23,7 +23,7 @@ class Openedition < Source
     return { events: [], event_count: nil } if article.doi.blank?
 
     query_url = get_query_url(article)
-    result = get_xml(query_url, options)
+    result = get_result(query_url, options.merge(content_type: 'xml'))
 
     # Check that Openedition has returned something, otherwise an error must have occured
     return nil if result.nil?

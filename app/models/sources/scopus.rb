@@ -24,7 +24,7 @@ class Scopus < Source
     return { events: [], event_count: nil } unless article.is_publisher?
 
     query_url = get_query_url(article)
-    result = get_json(query_url, options.merge(:headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken }))
+    result = get_result(query_url, options.merge(:headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken }))
 
     if result.nil? || result["search-results"].nil? || result["search-results"]["entry"][0].nil?
       nil
