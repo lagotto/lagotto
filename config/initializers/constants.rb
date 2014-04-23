@@ -22,9 +22,9 @@
 DEFAULT_TIMEOUT = 60
 NETWORKABLE_EXCEPTIONS = [Faraday::Error::ClientError,
                           Delayed::WorkerTimeout,
+                          URI::InvalidURIError,
                           Encoding::UndefinedConversionError,
                           ArgumentError]
-                          # Errno::EPIPE, Errno::ECONNRESET
 
 # Format used for DOI validation - we want to store DOIs without
 # the leading "info:doi/"
