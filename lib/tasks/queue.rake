@@ -78,7 +78,7 @@ namespace :queue do
     end
   end
 
-  desc "Queue article with given DOI"
+  desc "Queue article with given uid"
   task :one, [:uid] => :environment do |t, args|
     if args.uid.nil?
       puts "#{CONFIG[:uid]} is required"
