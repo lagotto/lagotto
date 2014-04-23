@@ -45,7 +45,7 @@ class Report < ActiveRecord::Base
       sources = Source.installed.where(:private => false)
     end
 
-    sql = "SELECT a.doi, a.published_on, a.title"
+    sql = "SELECT a.#{CONFIG[:uid]}, a.published_on, a.title"
     sources.each do |source|
       sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.event_count END) AS #{source.name}"
     end
@@ -54,7 +54,7 @@ class Report < ActiveRecord::Base
     results = ActiveRecord::Base.connection.exec_query(sql)
 
     CSV.generate do |csv|
-      csv << ["doi", "publication_date", "title"] + sources.map(&:name)
+      csv << [CONFIG[:uid], "publication_date", "title"] + sources.map(&:name)
       results.each { |row| csv << row.values }
     end
   end
@@ -93,9 +93,9 @@ class Report < ActiveRecord::Base
     end
     return nil if alm_stats.blank?
 
-    stats = [{ name: "mendeley_stats", headers: ["doi", "mendeley_readers", "mendeley_groups", "mendeley"] },
-             { name: "pmc_stats", headers: ["doi", "pmc_html", "pmc_pdf", "pmc"] },
-             { name: "counter_stats", headers: ["doi", "counter_html", "counter_pdf", "counter"] }]
+    stats = [{ name: "mendeley_stats", headers: [CONFIG[:uid], "mendeley_readers", "mendeley_groups", "mendeley"] },
+             { name: "pmc_stats", headers: [CONFIG[:uid], "pmc_html", "pmc_pdf", "pmc"] },
+             { name: "counter_stats", headers: [CONFIG[:uid], "counter_html", "counter_pdf", "counter"] }]
     stats.each do |stat|
       stat[:csv] = read_stats(stat, options).to_a
       alm_stats.delete(stat[:name]) unless stat[:csv].blank?
@@ -108,8 +108,8 @@ class Report < ActiveRecord::Base
     CSV.generate do |csv|
       alm_stats.each do |row|
         stats.each do |stat|
-          # find row based on DOI, and discard the first item (the doi). Otherwise pad with zeros
-          match = stat[:csv].assoc(row.field("doi"))
+          # find row based on uid, and discard the first item (the uid). Otherwise pad with zeros
+          match = stat[:csv].assoc(row.field(CONFIG[:uid]))
           match = match.present? ? match[1..-1] : [0, 0, 0]
           row.push(*match)
         end

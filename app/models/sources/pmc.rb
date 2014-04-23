@@ -147,14 +147,14 @@ class Pmc < Source
 
     if view == "pmc"
       CSV.generate do |csv|
-        csv << ["doi", "html", "pdf", "total"]
+        csv << [CONFIG[:uid], "html", "pdf", "total"]
         result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
       end
     else
       dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
 
       CSV.generate do |csv|
-        csv << ["doi"] + dates
+        csv << [CONFIG[:uid]] + dates
         result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 } }
       end
     end

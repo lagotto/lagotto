@@ -141,7 +141,7 @@ class Mendeley < Source
     return nil if result.blank? || result["rows"].blank?
 
     CSV.generate do |csv|
-      csv << ["doi", "readers", "groups", "total"]
+      csv << [CONFIG[:uid], "readers", "groups", "total"]
       result["rows"].each { |row| csv << [row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
     end
   end
