@@ -58,11 +58,11 @@ namespace :db do
         valid.each do |uid, year, month, day, title|
           existing = Article.where(CONFIG[:uid].to_sym => uid).first
           unless existing
-            article = Article.create(uid: uid,
-                                     year: year,
-                                     month: month,
-                                     day: day,
-                                     title: title)
+            article = Article.create(CONFIG[:uid].to_sym => uid,
+                                     :year => year,
+                                     :month => month,
+                                     :day => day,
+                                     :title => title)
             created << uid
           else
             if [existing.year, existing.month, existing.day].join("-") != [year, month, day].join("-") || existing.title != title
