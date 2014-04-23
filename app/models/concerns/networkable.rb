@@ -126,7 +126,6 @@ module Networkable
         c.headers['Accept'] = 'application/xml'
         c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10
-        c.request  :xml
         c.response :xml, :content_type => /\bxml$/
         c.use      Faraday::Response::RaiseError
         c.adapter  Faraday.default_adapter
