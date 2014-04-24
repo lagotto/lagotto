@@ -20,6 +20,8 @@ services:
 before_script:
   - cp config/settings.yml.example config/settings.yml
   - cp config/database.yml.example config/database.yml
+  - mysql -e 'create database alm_test'
+  - psql -c 'create database alm_test;' -U postgres
   - mkdir -p tmp/pids
 
 script:
