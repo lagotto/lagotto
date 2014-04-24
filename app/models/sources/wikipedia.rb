@@ -98,8 +98,4 @@ class Wikipedia < Source
   def languages=(value)
     config.languages = value
   end
-
-  def workers
-    config.workers || 5
-  end
 end

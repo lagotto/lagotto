@@ -94,6 +94,10 @@ class CrossRef < Source
   end
 
   def timeout
-    config.timeout || 60
+    config.timeout || 120
+  end
+
+  def workers
+    config.workers || 10
   end
 end

@@ -173,8 +173,4 @@ class TwitterSearch < Source
   def staleness_year
     config.staleness_year || (1.month * 0.25).to_i
   end
-
-  def rate_limiting
-    config.rate_limiting || 1600
-  end
 end

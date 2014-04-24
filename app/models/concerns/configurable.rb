@@ -82,7 +82,7 @@ module Configurable
     end
 
     def workers
-      config.workers || 1
+      config.workers || 1000
     end
 
     def workers=(value)
@@ -142,7 +142,7 @@ module Configurable
     end
 
     def rate_limiting
-      config.rate_limiting || 10000
+      config.rate_limiting || 100000
     end
 
     def rate_limiting=(value)

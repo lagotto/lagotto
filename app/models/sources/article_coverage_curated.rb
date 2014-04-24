@@ -42,12 +42,4 @@ class ArticleCoverageCurated < Source
   def url
     config.url || "http://mediacuration.plos.org/api/v1?doi=%{doi}"
   end
-
-  def rate_limiting
-    config.rate_limiting || 1000000
-  end
-
-  def workers
-    config.workers || 1000
-  end
 end

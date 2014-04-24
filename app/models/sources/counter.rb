@@ -115,14 +115,6 @@ class Counter < Source
     [{ :field_name => "url", :field_type => "text_area", :size => "90x2" }]
   end
 
-  def rate_limiting
-    config.rate_limiting || 1000000
-  end
-
-  def workers
-    config.workers || 1000
-  end
-
   def cron_line
     config.cron_line || "* 4 * * *"
   end

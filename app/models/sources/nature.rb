@@ -53,6 +53,6 @@ class Nature < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 200
+    config.rate_limiting || 5000
   end
 end

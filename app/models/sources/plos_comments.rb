@@ -48,12 +48,4 @@ class PlosComments < Source
   def url
     config.url
   end
-
-  def rate_limiting
-    config.rate_limiting || 1000000
-  end
-
-  def workers
-    config.workers || 1000
-  end
 end

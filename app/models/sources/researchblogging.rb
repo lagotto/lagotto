@@ -68,6 +68,10 @@ class Researchblogging < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 1000
+    config.rate_limiting || 2000
+  end
+
+  def workers
+    config.workers || 3
   end
 end
