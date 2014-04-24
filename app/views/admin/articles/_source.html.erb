@@ -4,7 +4,7 @@
 <div id="<%= status.source.name %>-inner" class="panel-collapse collapse">
   <div class="panel-body article-inner">
     <h4>
-      <%= link_to status.source.display_name, source_path(status.source) %>
+      <%= link_to status.source.display_name, admin_source_path(status.source) %>
       <% unless status.events_url.nil? %>| <%= link_to "Further Information", status.events_url, :target => "_blank" %><% end %>
     </h4>
     <% unless status.events.blank? %>

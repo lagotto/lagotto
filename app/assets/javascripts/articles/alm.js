@@ -7,7 +7,7 @@
  */
 
 var options = {
-  baseUrl: '',
+  baseUrl: '/admin',
   minItemsToShowGraph: {
     minEventsForYearly: 3,
     minEventsForMonthly: 3,
