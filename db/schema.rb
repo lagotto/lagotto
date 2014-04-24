@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140422221618) do
+ActiveRecord::Schema.define(:version => 20140424172758) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(:version => 20140422221618) do
   add_index "delayed_jobs", ["locked_at", "locked_by", "failed_at"], :name => "index_delayed_jobs_locked_at_locked_by_failed_at"
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
   add_index "delayed_jobs", ["queue"], :name => "index_delayed_jobs_queue"
-  add_index "delayed_jobs", ["run_at", "locked_at", "locked_by", "failed_at", "priority"], :name => "index_delayed_jobs_run_at_locked_at_locked_by_failed_at_priority"
+  add_index "delayed_jobs", ["run_at", "locked_at", "locked_by", "failed_at", "priority"], :name => "index_delayed_jobs_run_at_locked_at_failed_at_priority"
 
   create_table "filters", :force => true do |t|
     t.string  "type",                           :null => false
