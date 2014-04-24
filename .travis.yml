@@ -4,11 +4,21 @@ rvm:
   - 1.9.3
 
 env:
+  - DB=mysql
   - DB=postgres
 
 gemfile:
   - Gemfile
-  - Gemfile.postgres
+  - gemfiles/Gemfile.postgres
+
+matrix:
+  exclude:
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.postgres
+      env: DB=mysql
+    - rvm: 1.9.3
+      gemfile: Gemfile
+      env: DB=postgres
 
 services:
   - couchdb
