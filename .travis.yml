@@ -12,13 +12,19 @@ gemfile:
   - gemfiles/Gemfile.postgres
 
 matrix:
-  include:
+  exclude:
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.postgres
+      env: DB=postgresql
     - rvm: 1.9.3
       gemfile: Gemfile
       env: DB=mysql
     - rvm: 1.9.3
+      gemfile: Gemfile
+      env:
+    - rvm: 1.9.3
       gemfile: gemfiles/Gemfile.postgres
-      env: DB=postgresql
+      env:
 
 services:
   - couchdb
