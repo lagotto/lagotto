@@ -186,7 +186,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def after(job)
     source = Source.find(source_id)
     RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids])
-    source.wait unless source.working_count > 1
+    source.wait_after_check
   end
 
   # override the default settings which are:

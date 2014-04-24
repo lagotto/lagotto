@@ -109,6 +109,12 @@ module Statable
         transition any => same
       end
 
+      event :wait_after_check do
+        transition :working => same, :if => :check_for_active_workers
+        transition :disabled => same
+        transition any => :waiting
+      end
+
       event :wait do
         transition any => :waiting
       end
