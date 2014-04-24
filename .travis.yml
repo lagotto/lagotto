@@ -2,7 +2,6 @@ language: ruby
 
 rvm:
   - 1.9.3
-  - 2.1.0
 
 env:
   - DB=postgres
@@ -12,20 +11,12 @@ gemfile:
   - Gemfile.postgres
 
 matrix:
-  exclude:
+  include:
     - rvm: 1.9.3
       gemfile: Gemfile
-      env: DB=postgres
-    - rvm: 2.1.0
-      gemfile: Gemfile
-      env: DB=postgres
-    - rvm: 2.1.0
-      gemfile: Gemfile.postgres
-      env: DB=postgres
     - rvm: 1.9.3
       gemfile: Gemfile.postgres
-    - rvm: 2.1.0
-      gemfile: Gemfile.postgres
+      env: DB=postgres
 
 services:
   - couchdb
