@@ -10,6 +10,14 @@ env:
 gemfile:
   - Gemfile.travis
 
+include:
+  - rvm: 1.9.3
+    gemfile: Gemfile.travis
+    env: DB=mysql
+  - rvm: 1.9.3
+    gemfile: Gemfile.travis
+    env: DB=postgresql
+
 services:
   - couchdb
   - memcached
