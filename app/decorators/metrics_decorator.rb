@@ -13,7 +13,7 @@ class MetricsDecorator < RetrievalStatusDecorator
     when "facebook" then get_event_metrics(shares: events["share_count"], comments: events["comment_count"], likes: events["like_count"], total: event_count)
     when "twitter" then get_event_metrics(comments: event_count)
 
-    when "counter", "biod"
+    when "counter", "biod"
       pdf = events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash[:pdf_views].to_i }
       html = events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash[:html_views].to_i }
       get_event_metrics(pdf: pdf, html: html, total: event_count)
