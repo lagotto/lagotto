@@ -237,6 +237,12 @@ The ALM application installs the **Postfix** mailer and the default settings sho
     domain: localhost
 ```
 
+We need to process CouchDB data for some sources (Mendeley, Pmc, Counter) in the **Article Statistics Report**, please install the CouchDB design document for this report:
+
+```sh
+curl -X PUT -d @design_doc/reports.json 'http://localhost:5984/alm/_design/reports'
+```
+
 The reports are generated via the cron jobs mentioned above. Make sure you have correct write permissions for the Article Statistics Report, it is recommended to run the rake task at least once to test for this:
 
 ```sh
