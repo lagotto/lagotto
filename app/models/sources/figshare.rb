@@ -37,7 +37,7 @@ class Figshare < Source
 
     { :events => result,
       :event_count => total,
-      :event_metrics => event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
+      :event_metrics => get_event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
   end
 
   def get_sum(items, key)

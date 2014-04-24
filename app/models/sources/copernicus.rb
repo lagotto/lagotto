@@ -40,7 +40,7 @@ class Copernicus < Source
 
     { :events => result,
       :event_count => event_count,
-      :event_metrics => event_metrics(pdf: pdf, html: html, total: event_count) }
+      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: event_count) }
   end
 
   def get_query_url(article)

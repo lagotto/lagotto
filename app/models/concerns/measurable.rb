@@ -26,7 +26,7 @@ module Measurable
     # create a hash with the different metrics categories
     # total is sum of all categories if no total value is provided
     # make sure all values are either integers or nil
-    def event_metrics(options = {})
+    def get_event_metrics(options = {})
       options = Hash[ options.map { |key, value| [key.to_sym, value.nil? ? nil : value.to_i] } ]
       options[:total] ||= options.values.sum
 

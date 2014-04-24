@@ -35,7 +35,7 @@ class Datacite < Source
     { events: events,
       events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}",
       event_count: event_count,
-      event_metrics: event_metrics(citations: event_count) }
+      event_metrics: get_event_metrics(citations: event_count) }
   end
 
   def get_config_fields

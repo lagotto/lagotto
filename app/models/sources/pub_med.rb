@@ -40,7 +40,7 @@ class PubMed < Source
     { :events => events,
       :events_url => events_url,
       :event_count => events.length,
-      :event_metrics => event_metrics(citations: events.length),
+      :event_metrics => get_event_metrics(citations: events.length),
       :attachment => events.empty? ? nil : { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s } }
   end
 

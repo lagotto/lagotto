@@ -37,7 +37,7 @@ class Nature < Source
 
     { :events => events,
       :event_count => events.length,
-      :event_metrics => event_metrics(citations: events.length) }
+      :event_metrics => get_event_metrics(citations: events.length) }
   end
 
   def get_config_fields

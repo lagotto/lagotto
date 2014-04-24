@@ -32,7 +32,7 @@ class ArticleCoverageCurated < Source
 
     { events: events,
       event_count: events.length,
-      event_metrics: event_metrics(comments: events.length) }
+      event_metrics: get_event_metrics(comments: events.length) }
   end
 
   def get_config_fields

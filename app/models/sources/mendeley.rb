@@ -65,7 +65,7 @@ class Mendeley < Source
     { :events => result,
       :events_url => events_url,
       :event_count => total,
-      :event_metrics => event_metrics(shares: readers, groups: groups, total: total) }
+      :event_metrics => get_event_metrics(shares: readers, groups: groups, total: total) }
   end
 
   def get_mendeley_uuid(article, options={})

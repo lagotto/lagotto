@@ -39,7 +39,7 @@ class Citeulike < Source
     { :events => events,
       :events_url => events_url,
       :event_count => events.length,
-      :event_metrics => event_metrics(shares: events.length),
+      :event_metrics => get_event_metrics(shares: events.length),
       :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 

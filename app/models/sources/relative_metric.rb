@@ -27,7 +27,7 @@ class RelativeMetric < Source
 
     { :events => events,
       :event_count => total,
-      :event_metrics => event_metrics(total: total) }
+      :event_metrics => get_event_metrics(total: total) }
   end
 
   def get_relative_metric_data(article)

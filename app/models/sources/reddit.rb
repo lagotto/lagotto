@@ -37,7 +37,7 @@ class Reddit < Source
     { events: events,
       event_count: event_count,
       events_url: events_url,
-      event_metrics: event_metrics(comments: comment_count, likes: like_count, total: event_count) }
+      event_metrics: get_event_metrics(comments: comment_count, likes: like_count, total: event_count) }
   end
 
   def get_query_url(article)

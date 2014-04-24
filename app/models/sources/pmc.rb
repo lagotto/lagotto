@@ -43,7 +43,7 @@ class Pmc < Source
 
     { :events => events,
       :event_count => event_count,
-      :event_metrics => event_metrics(pdf: pdf, html: html, total: event_count) }
+      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: event_count) }
   end
 
   # Retrieve usage stats in XML and store in /data directory. Returns an empty array if no error occured

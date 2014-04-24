@@ -64,11 +64,11 @@ class Wos < Source
       { events: event_count,
         events_url: events_url,
         event_count: event_count,
-        event_metrics: event_metrics(citations: event_count),
+        event_metrics: get_event_metrics(citations: event_count),
         attachment: { filename: 'events.xml', content_type: 'text/xml', data: result.to_s }
       }
     else
-      { events: 0, event_count: 0, event_metrics: event_metrics(citations: event_count), events_url: nil, attachment: nil }
+      { events: 0, event_count: 0, event_metrics: get_event_metrics(citations: event_count), events_url: nil, attachment: nil }
     end
   end
 

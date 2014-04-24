@@ -76,7 +76,7 @@ class Counter < Source
     { :events => views,
       :events_url => query_url,
       :event_count => event_count,
-      :event_metrics => event_metrics(pdf: pdf, html: html, total: event_count),
+      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: event_count),
       :attachment => views.empty? ? nil : { filename: "events.xml", content_type: "text\/xml", data: result.to_s } }
   end
 

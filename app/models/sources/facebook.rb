@@ -46,7 +46,7 @@ class Facebook < Source
 
     { :events => events,
       :event_count => total,
-      :event_metrics => event_metrics(shares: shares, comments: comments, likes: likes, total: total) }
+      :event_metrics => get_event_metrics(shares: shares, comments: comments, likes: likes, total: total) }
   end
 
   def get_query_url(article, options={})

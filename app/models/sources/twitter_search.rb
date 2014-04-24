@@ -76,7 +76,7 @@ class TwitterSearch < Source
     { events: events,
       event_count: events.length,
       events_url: events_url,
-      event_metrics: event_metrics(comments: events.length) }
+      event_metrics: get_event_metrics(comments: events.length) }
   end
 
   def get_query_url(article, options={})

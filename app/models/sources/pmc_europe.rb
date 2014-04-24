@@ -33,7 +33,7 @@ class PmcEurope < Source
 
     { events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-citations",
       event_count: event_count,
-      event_metrics: event_metrics(citations: event_count) }
+      event_metrics: get_event_metrics(citations: event_count) }
   end
 
   def get_query_url(article)

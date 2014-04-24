@@ -34,7 +34,7 @@ class PlosComments < Source
 
     { :events => events,
       :event_count => total,
-      :event_metrics => event_metrics(comments: events.length, total: total) }
+      :event_metrics => get_event_metrics(comments: events.length, total: total) }
   end
 
   def get_query_url(article)

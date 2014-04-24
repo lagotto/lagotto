@@ -45,7 +45,7 @@
     <dd><%= l @article.published_on, format: date_format(@article) %></dd>
     <% if @article.doi %>
       <dt>DOI</dt>
-      <dd class="doi" data-doi="<%= @article.doi %>" data-api_key="<%= CONFIG[:api_key] %>"><%= link_to h(@article.doi), @article.doi_as_url %></dd>
+      <dd class="doi" %>"><%= link_to h(@article.doi), @article.doi_as_url %></dd>
     <% end %>
     <% if @article.pmid %>
       <dt>PubMed ID</dt>

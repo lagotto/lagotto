@@ -31,7 +31,7 @@ class Twitter < Source
     else
       { events: events,
         event_count: events.length,
-        event_metrics: event_metrics(comments: events.length) }
+        event_metrics: get_event_metrics(comments: events.length) }
     end
   end
 

@@ -33,7 +33,7 @@ class Wordpress < Source
     { events: events,
       event_count: events.length,
       events_url: "http://en.search.wordpress.com/?q=\"#{article.doi}\"&t=post",
-      event_metrics: event_metrics(citations: events.length) }
+      event_metrics: get_event_metrics(citations: events.length) }
   end
 
   def get_config_fields

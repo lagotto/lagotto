@@ -41,7 +41,7 @@ class F1000 < Source
     { :events => event,
       :events_url => event["Url"],
       :event_count => event_count,
-      :event_metrics => event_metrics(citations: event_count),
+      :event_metrics => get_event_metrics(citations: event_count),
       :attachment => { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }
     }
   end

@@ -30,46 +30,48 @@ module Visualizable
       when "citeulike"
         events_30 = events.select { |event| event["event"]["post_time"].to_date - article.published_on < 30 }
         return nil if events_30.blank?
-        events_30.group_by { |event| event["event"]["post_time"].to_datetime.strftime("%Y-%m-%d") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length } }
+        groups = group_by_day(events_30, "post_time")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length } }
       when "researchblogging"
         events_30 = events.select { |event| event["event"]["published_date"].to_date - article.published_on < 30 }
         return nil if events_30.blank?
-        events_30.group_by { |event| event["event"]["published_date"].to_datetime.strftime("%Y-%m-%d") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+        groups = group_by_day(events_30, "published_date")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
       when "scienceseeker"
         events_30 = events.select { |event| event["event"]["updated"].to_date - article.published_on < 30 }
         return nil if events_30.blank?
-        events_30.group_by { |event| event["event"]["updated"].to_datetime.strftime("%Y-%m-%d") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+        groups = group_by_day(events_30, "updated")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
       when "wordpress"
         events_30 = events.select { |event| Time.at(event["event"]["epoch_time"].to_i).to_date - article.published_on < 30 }
         return nil if events_30.blank?
-        events_30.group_by { |event| Time.at(event["event"]["epoch_time"].to_i).to_datetime.strftime("%Y-%m-%d") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+        groups = events_30.group_by { |event| Time.at(event["event"]["epoch_time"].to_i).to_datetime.strftime("%Y-%m-%d") }
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
       when "openedition"
         events_30 = events.select { |event| Time.at(event["event"]["epoch_time"].to_i).to_date - article.published_on < 30 }
         return nil if events_30.blank?
-        events_30.group_by { |event| event["event"]["date"].to_datetime.strftime("%Y-%m-%d") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
-      when "twitter"
+        groups = events_30.group_by { |event| event["event"]["date"].to_datetime.strftime("%Y-%m-%d") }
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+      when "twitter", "twitter_search"
         events_30 = events.select { |event| event["event"]["created_at"].to_date - article.published_on < 30 }
         return nil if events_30.blank?
-        events_30.group_by { |event| event["event"]["created_at"].to_datetime.strftime("%Y-%m-%d") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
-      when "twitter_search"
-        events_30 = events.select { |event| event["event"]["created_at"].to_date - article.published_on < 30 }
-        return nil if events_30.blank?
-        events_30.group_by { |event| event["event"]["created_at"].to_datetime.strftime("%Y-%m-%d") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
+        groups = group_by_day(events_30, "created_at")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       when "articlecoveragecurated"
         events_30 = events.select { |event| event["event"]["published_on"].to_date - article.published_on < 30 }
         return nil if events_30.blank?
-        events_30.group_by { |event| event["event"]["published_on"].to_datetime.strftime("%Y-%m-%d") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
+        groups = group_by_day(events_30, "published_on")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       when "reddit"
         events_30 = events.select { |event| Time.at(event["event"]["created_utc"]).to_date - article.published_on < 30 }
         return nil if events_30.blank?
-        events_30.group_by { |event| event["event"]["created_at"].to_datetime.strftime("%Y-%m-%d") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
+        groups = group_by_day(events_30, "created_at")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       # when "plos_comments"
       #   events_30 = events.select { |event| event["event"]["created"].to_date - article.published_on < 30 }
       #   return nil if events_30.blank?
       #   events_30.group_by { |event| event["event"]["created"].to_datetime.strftime("%Y-%m-%d") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :day => k[8..9].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
-      else
-        # crossref, facebook, mendeley, pubmed, nature, scienceseeker, copernicus, wikipedia
-        nil
+      else nil
       end
     end
 
@@ -82,28 +84,32 @@ module Visualizable
       when "pmc"
         events.map { |event| { :year => event["year"].to_i, :month => event["month"].to_i, :pdf => event["pdf"].to_i, :html => event["full-text"].to_i, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event["pdf"].to_i + event["full-text"].to_i } }
       when "citeulike"
-        events.group_by { |event| event["event"]["post_time"].to_datetime.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length } }
-      when "twitter"
-        events.group_by { |event| event["event"]["created_at"].to_datetime.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
-      when "twitter_search"
-        events.group_by { |event| event["event"]["created_at"].to_datetime.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
+        groups = group_by_month(events, "post_time")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length } }
+      when "twitter", "twitter_search"
+        groups = group_by_month(events, "created_at")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       when "articlecoveragecurated"
-        events.group_by { |event| event["event"]["published_on"].to_datetime.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
+        groups = group_by_month(events, "published_on")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       when "reddit"
-        events.group_by { |event| Time.at(event["event"]["created_utc"]).to_datetime.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
+        groups = events.group_by { |event| Time.at(event["event"]["created_utc"]).to_datetime.strftime("%Y-%m") }
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       # when "plos_comments"
       #     events.group_by { |event| event["event"]["created_at"].to_datetime.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       when "researchblogging"
-        events.group_by { |event| event["event"]["published_date"].to_datetime.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+        groups = group_by_month(events, "published_date")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
       when "scienceseeker"
-        events.group_by { |event| event["event"]["updated"].to_datetime.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+        groups = group_by_month(events, "updated")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
       when "wordpress"
-        events.group_by { |event| Time.at(event["event"]["epoch_time"].to_i).to_datetime.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+        groups = events.group_by { |event| Time.at(event["event"]["epoch_time"].to_i).to_datetime.strftime("%Y-%m") }
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
       when "openedition"
-        events.group_by { |event| event["event"]["date"].to_datetime.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
-      else
-      # crossref, facebook, mendeley, pubmed, nature, copernicus, wikipedia
-        nil
+        groups = group_by_month(events, "date")
+        groups.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+      else nil
       end
     end
 
@@ -116,31 +122,48 @@ module Visualizable
       when "pmc"
         events.group_by { |event| event["year"] }.sort.map { |k, v| { :year => k.to_i, :pdf => v.reduce(0) { |sum, hash| sum + hash["pdf"].to_i }, :html => v.reduce(0) { |sum, hash| sum + hash["full-text"].to_i }, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.reduce(0) { |sum, hash| sum + hash["full-text"].to_i + hash["pdf"].to_i } } }
       when "citeulike"
-        events.group_by { |event| event["event"]["post_time"].to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length } }
+        groups = group_by_year(events, "post_time")
+        groups.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => v.length, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => v.length } }
       when "crossref"
-        events.group_by { |event| event["event"]["year"] }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
-      when "twitter"
-        events.group_by { |event| event["event"]["created_at"].to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
-      when "twitter_search"
-        events.group_by { |event| event["event"]["created_at"].to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
+        groups = events.group_by { |event| event["event"]["year"] }
+        groups.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+      when "twitter", "twitter_search"
+        groups = group_by_year(events, "created_at")
+        groups.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       # when "plos_comments"
         #   events.group_by { |event| event["event"]["created_at"].to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       when "articlecoveragecurated"
-        events.group_by { |event| event["event"]["published_on"].to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
+        groups = group_by_year(events, "published_on")
+        groups.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       when "reddit"
-        events.group_by { |event| Time.at(event["event"]["created_utc"]).to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
+        groups = events.group_by { |event| Time.at(event["event"]["created_utc"]).to_datetime.year }
+        groups.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => v.length, :likes => nil, :citations => nil, :total => v.length } }
       when "researchblogging"
-        events.group_by { |event| event["event"]["published_date"].to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+        groups = group_by_year(events, "published_date")
+        groups.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
       when "scienceseeker"
-        events.group_by { |event| event["event"]["updated"].to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+        groups = group_by_year(events, "updated")
+        groups.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
       when "wordpress"
-        events.group_by { |event| Time.at(event["event"]["epoch_time"].to_i).to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+        groups = events.group_by { |event| Time.at(event["event"]["epoch_time"].to_i).to_datetime.year }
+        groups.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
       when "openedition"
-        events.group_by { |event| event["event"]["date"].to_datetime.year }.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
-      else
-        # facebook, mendeley, pubmed, nature, copernicus, wikipedia
-        nil
+        groups = group_by_year(events, "date")
+        groups.sort.map { |k, v| { :year => k.to_i, :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => v.length, :total => v.length } }
+      else nil
       end
+    end
+
+    def group_by_day(events, key)
+      events.group_by { |event| event["event"][key].to_datetime.strftime("%Y-%m-%d") }
+    end
+
+    def group_by_month(events, key)
+      events.group_by { |event| event["event"][key].to_datetime.strftime("%Y-%m") }
+    end
+
+    def group_by_year(events, key)
+      events.group_by { |event| event["event"][key].to_datetime.year }
     end
 
   end
