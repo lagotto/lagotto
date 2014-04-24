@@ -8,21 +8,7 @@ env:
   - DB=postgresql
 
 gemfile:
-  - Gemfile
-  - gemfiles/Gemfile.postgres
-
-matrix:
-  exclude:
-    - rvm: 1.9.3
-      gemfile: gemfiles/Gemfile.postgres
-      env: DB=postgresql
-    - rvm: 1.9.3
-      gemfile: Gemfile
-      env: DB=mysql
-    - rvm: 1.9.3
-      gemfile: Gemfile
-    - rvm: 1.9.3
-      gemfile: gemfiles/Gemfile.postgres
+  - Gemfile.travis
 
 services:
   - couchdb
