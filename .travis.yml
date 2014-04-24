@@ -4,8 +4,8 @@ rvm:
   - 1.9.3
 
 env:
-  - DATABASE_URL=mysql://localhost/alm_test?pool=5
-  - DATABASE_URL=postgresql://localhost/alm_test?pool=5
+  - DB=mysql
+  - DB=postgresql
 
 gemfile:
   - Gemfile
@@ -15,10 +15,10 @@ matrix:
   include:
     - rvm: 1.9.3
       gemfile: Gemfile
-      env: DATABASE_URL=mysql://localhost/alm_test?pool=5
+      env: DB=mysql
     - rvm: 1.9.3
       gemfile: gemfiles/Gemfile.postgres
-      DATABASE_URL=postgresql://localhost/alm_test?pool=5
+      env: DB=postgresql
 
 services:
   - couchdb
