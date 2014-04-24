@@ -3,7 +3,7 @@ mysql: &mysql
   username: root
   password:
 
-postgresql: &postgres
+postgresql: &postgresql
   adapter: postgresql
   username: postgres
   password:

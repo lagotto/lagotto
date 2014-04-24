@@ -4,8 +4,8 @@ rvm:
   - 1.9.3
 
 env:
-  - DB=mysql
-  - DB=postgres
+  - DATABASE_URL=mysql://localhost/alm_test?pool=5
+  - DATABASE_URL=postgresql://localhost/alm_test?pool=5
 
 gemfile:
   - Gemfile
@@ -15,10 +15,10 @@ matrix:
   include:
     - rvm: 1.9.3
       gemfile: Gemfile
-      env: DB=mysql
+      env: DATABASE_URL=mysql://localhost/alm_test?pool=5
     - rvm: 1.9.3
       gemfile: gemfiles/Gemfile.postgres
-      env: DB=postgres
+      DATABASE_URL=postgresql://localhost/alm_test?pool=5
 
 services:
   - couchdb
@@ -26,7 +26,7 @@ services:
 
 before_script:
   - cp config/settings.yml.example config/settings.yml
-  - cp config/database.yml.example config/database.yml
+  - cp config/database.yml.travis config/database.yml
   - mkdir -p tmp/pids
 
 script:
