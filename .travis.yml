@@ -12,10 +12,12 @@ gemfile:
   - gemfiles/Gemfile.postgres
 
 matrix:
-  exclude:
-    - gemfile: gemfiles/Gemfile.postgres
+  include:
+    - rvm: 1.9.3
+      gemfile: Gemfile
       env: DB=mysql
-    - gemfile: Gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.postgres
       env: DB=postgres
 
 services:
