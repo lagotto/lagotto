@@ -140,6 +140,10 @@ class Source < ActiveRecord::Base
     workers >= working_count
   end
 
+  def check_for_active_workers
+    working_count > 1
+  end
+
   def working_count
     delayed_jobs.count(:locked_at)
     # Delayed::Job.count('id', :conditions => ["queue = ? AND locked_by IS NOT NULL", name])
