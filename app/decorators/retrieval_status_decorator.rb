@@ -24,29 +24,31 @@ class RetrievalStatusDecorator < Draper::Decorator
     return event_metrics unless event_metrics.nil?
 
     case name
-    when "citeulike" then get_event_metrics(shares: event_count)
+    when "citeulike"
+      { :pdf => nil, :html => nil, :shares => event_count, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+    when "facebook"
+      if events.kind_of? Hash
+        { :pdf => nil, :html => nil, :shares => events["share_count"], :groups => nil, :comments => events["comment_count"], :likes => events["like_count"], :citations => nil, :total => event_count }
+      elsif events.kind_of? Array
+        { :pdf => nil, :html => nil, :shares => events.reduce(0) { |sum, hash| sum + hash["share_count"] }, :groups => nil, :comments => events.reduce(0) { |sum, hash| sum + hash["comment_count"] }, :likes => events.reduce(0) { |sum, hash| sum + hash["like_count"] }, :citations => nil, :total => event_count }
+      else
+        { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+      end
     when "mendeley"
-      shares = events.blank? ? nil : events['stats']['readers']
-      groups = events.blank? || events['groups'].nil? ? nil : events['groups'].length
-      get_event_metrics(shares: shares, groups: groups, total: event_count)
-
-    when "facebook" then get_event_metrics(shares: events["share_count"], comments: events["comment_count"], likes: events["like_count"], total: event_count)
-    when "twitter" then get_event_metrics(comments: event_count)
-
-    when "counter", "biod"
-      pdf = events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash[:pdf_views].to_i }
-      html = events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash[:html_views].to_i }
-      get_event_metrics(pdf: pdf, html: html, total: event_count)
+      { :pdf => nil, :html => nil, :shares => (events.blank? ? nil : events['stats']['readers']), :groups => (events.blank? || events['groups'].nil? ? nil : events['groups'].length), :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+    when "counter"
+      { :pdf => (events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash[:pdf_views].to_i }), :html => (events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash[:html_views].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+    when "biod"
+      { :pdf => (events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash[:pdf_views].to_i }), :html => (events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash[:html_views].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
     when "pmc"
-      pdf = events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash["pdf"].to_i }
-      html = events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash["full-text"].to_i }
-      get_event_metrics(pdf: pdf, html: html, total: event_count)
+      { :pdf => (events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash["pdf"].to_i }), :html => (events.blank? ? nil : events.reduce(0) { |sum, hash| sum + hash["full-text"].to_i }), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
     when "copernicus"
-      pdf = events.blank? ? nil : events['counter']['PdfDownloads'].to_i
-      html = events.blank? ? nil : events['counter']['AbstractViews'].to_i
-      get_event_metrics(pdf: pdf, html: html, total: event_count)
-
-    else get_event_metrics(citations: event_count)
+      { :pdf => (events.blank? ? nil : events['counter']['PdfDownloads'].to_i), :html => (events.blank? ? nil : events['counter']['AbstractViews'].to_i), :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => nil, :total => event_count }
+    when "twitter"
+      { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => event_count, :likes => nil, :citations => nil, :total => event_count }
+    else
+    # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia, pmceurope, pmceuropedata, wordpress, openedition
+      { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
     end
   end
 
