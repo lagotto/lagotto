@@ -13,11 +13,9 @@ gemfile:
 
 matrix:
   exclude:
-    - rvm: 1.9.3
-      gemfile: gemfiles/Gemfile.postgres
+    - gemfile: gemfiles/Gemfile.postgres
       env: DB=mysql
-    - rvm: 1.9.3
-      gemfile: Gemfile
+    - gemfile: Gemfile
       env: DB=postgres
 
 services:
@@ -27,8 +25,6 @@ services:
 before_script:
   - cp config/settings.yml.example config/settings.yml
   - cp config/database.yml.example config/database.yml
-  - mysql -e 'create database alm_test'
-  - psql -c 'create database alm_test;' -U postgres
   - mkdir -p tmp/pids
 
 script:
