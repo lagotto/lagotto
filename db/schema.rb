@@ -152,7 +152,7 @@ ActiveRecord::Schema.define(:version => 20140424172758) do
   end
 
   add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], :name => "index_rh_on_id_and_retrieved_at"
-  add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated_at"
+  add_index "retrieval_histories", ["source_id", "status", "updated_at"], :name => "index_retrieval_histories_on_source_id_and_status_and_updated"
 
   create_table "retrieval_statuses", :force => true do |t|
     t.integer  "article_id",                                       :null => false
