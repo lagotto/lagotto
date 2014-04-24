@@ -149,13 +149,6 @@ module Configurable
       config.rate_limiting = value.to_i
     end
 
-    def schedule_at
-      last_job = DelayedJob.where(queue: name).maximum(:run_at)
-      return Time.zone.now if last_job.nil?
-
-      last_job + batch_interval
-    end
-
     def job_interval
       3600 / rate_limiting
     end

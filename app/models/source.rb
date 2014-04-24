@@ -122,6 +122,13 @@ class Source < ActiveRecord::Base
     rs.length
   end
 
+  def schedule_at
+    last_job = DelayedJob.where(queue: name).maximum(:run_at)
+    return Time.zone.now if last_job.nil?
+
+    last_job + batch_interval
+  end
+
   # condition for not adding more jobs and disabling the source
   def check_for_failures
     failed_queries = Alert.where("source_id = ? and updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count

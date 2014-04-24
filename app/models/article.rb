@@ -256,6 +256,10 @@ class Article < ActiveRecord::Base
     retrieval_statuses.by_name("scopus").first
   end
 
+  def crossref
+    retrieval_statuses.by_name("crossref").first
+  end
+
   def views
     (pmc.nil? ? 0 : pmc.event_count) + (counter.nil? ? 0 : counter.event_count)
   end
@@ -269,7 +273,11 @@ class Article < ActiveRecord::Base
   end
 
   def citations
-    (scopus.nil? ? 0 : scopus.event_count)
+    if CONFIG[:doi_prefix] == "10.1371"
+      (scopus.nil? ? 0 : scopus.event_count)
+    else
+      (crossref.nil? ? 0 : crossref.event_count)
+    end
   end
 
   alias_method :viewed, :views
