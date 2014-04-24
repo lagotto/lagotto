@@ -36,7 +36,9 @@ class ReportMailer < ActionMailer::Base
 
     @articles_count = Article.count
 
-    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Article Statistics Report")
+    mail(to: CONFIG[:notification_email],
+         bcc: report.users.map(&:email).join(","),
+         subject: "[ALM] Article Statistics Report")
   end
 
   def send_disabled_source_report(report, source_id)

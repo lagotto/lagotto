@@ -51,7 +51,8 @@ describe ReportMailer do
 
     it "sends email" do
       mail.subject.should eq("[ALM] Article Statistics Report")
-      mail.to.should eq([report.users.map(&:email).join(",")])
+      mail.bcc.should eq([report.users.map(&:email).join(",")])
+      mail.to.should eq([CONFIG[:notification_email]])
       mail.from.should eq([CONFIG[:notification_email]])
     end
 
