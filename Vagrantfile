@@ -85,6 +85,9 @@ Vagrant.configure("2") do |config|
   # some recipes and/or roles.
   #
   config.vm.provision :chef_solo do |chef|
+    # the next line is added
+    chef.custom_config_path = "Vagrantfile.chef"
+
     chef.cookbooks_path = "vendor/cookbooks"
     dna = JSON.parse(File.read("node.json"))
     dna.delete("run_list").each do |recipe|
