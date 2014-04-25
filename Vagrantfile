@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
     aws.access_key_id = ENV['AWS_KEY_ID']
     aws.secret_access_key = ENV['AWS_SECRET_KEY']
     aws.keypair_name = ENV['AWS_KEYPAIR_NAME']
-    aws.security_groups = [ "default-vpn" ]
+    aws.security_groups = ENV['AWS_SECURITY_GROUP']
     aws.instance_type = "m1.small"
     aws.ami = "ami-e7582d8e"
     aws.tags = { Name: 'Vagrant alm' }
