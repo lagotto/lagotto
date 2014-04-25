@@ -3,6 +3,16 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 2.14](https://github.com/articlemetrics/alm/releases/tag/v.2.14)
+
+ALM 2.14 was released on April 24, 2014 with the following new features:
+
+* extensive refactoring of background workers for sources
+* fixed some open issues with displaying information using the d3.js library (and included Jasmine Javascript unit tests)
+* full support for using the pmid or pmcid instead of the doi as required persistent identifier for every article
+* improved support for Capistrano 3
+* many bug fixes
+
 ## [ALM 2.13.2](https://github.com/articlemetrics/alm/releases/tag/v.2.13.2)
 
 ALM 2.13.2 was released on March 27, 2014 with a focus on bug fixes:
