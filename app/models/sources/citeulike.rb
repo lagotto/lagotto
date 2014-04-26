@@ -19,19 +19,13 @@
 # limitations under the License.
 
 class Citeulike < Source
-  def get_data(article, options = {})
-    return { events: [], event_count: nil } if article.doi.blank?
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml'))
+    return result if result.nil? || result == { events: [], event_count: nil }
 
-    return nil if result.nil?
-
-    events = []
-    result.xpath("//post").each do |item|
-      event = Hash.from_xml(item.to_s)
-      event = event['post']
-      events << {:event => event, :event_url => event['link']['url']}
+    events = Array(result['posts']['post']).map do |item|
+      { :event => item, :event_url => item['link']['url'] }
     end
 
     events_url = get_events_url(article)
@@ -39,8 +33,11 @@ class Citeulike < Source
     { :events => events,
       :events_url => events_url,
       :event_count => events.length,
-      :event_metrics => get_event_metrics(shares: events.length),
-      :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
+      :event_metrics => get_event_metrics(shares: events.length) }
+  end
+
+  def request_options
+    { content_type: 'xml' }
   end
 
   def get_events_url(article)

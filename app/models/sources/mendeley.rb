@@ -19,7 +19,7 @@
 # limitations under the License.
 
 class Mendeley < Source
-  def get_data(article, options={})
+  def parse_data(article, options={})
     # First check that we have a valid OAuth2 access token
     return nil unless get_access_token
 
@@ -30,8 +30,9 @@ class Mendeley < Source
 
     article.update_attributes(:mendeley_uuid => mendeley_uuid)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(bearer: access_token))
+    result = get_data(article, options)
+
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     # When Mendeley doesn't return a proper API response it can return
     # - a 404 status and error hash
@@ -133,6 +134,10 @@ class Mendeley < Source
     else
       false
     end
+  end
+
+  def request_options
+    { bearer: access_token }
   end
 
   # Format Mendeley events for all articles as csv

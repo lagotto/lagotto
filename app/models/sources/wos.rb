@@ -19,16 +19,10 @@
 # limitations under the License.
 
 class Wos < Source
-  def get_data(article, options = {})
-    # Check that article has DOI
-    return { events: [], event_count: nil } unless article.is_publisher?
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    data = get_xml_request(article)
-
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml', data: data))
-
-    return { events: [], event_count: nil } if result.nil?
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     # Check that WOS has returned the correct status message,
     # otherwise report an error
@@ -72,8 +66,17 @@ class Wos < Source
     end
   end
 
+  def request_options
+    { content_type: 'xml', data: get_xml_request(article) }
+
+  end
+
   def get_query_url(article)
-    config.url
+    if article.doi.present?
+      url
+    else
+      nil
+    end
   end
 
   def get_xml_request(article)

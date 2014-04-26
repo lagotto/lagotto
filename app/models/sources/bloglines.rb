@@ -17,9 +17,10 @@
 # limitations under the License.
 
 class Bloglines < Source
-  def get_data(article, options={})
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml'))
+  def parse_data(article, options={})
+    result = get_data(article, options)
+
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     events = []
     result.xpath("//resultset/result").each do |cite|
@@ -41,6 +42,10 @@ class Bloglines < Source
   def get_query_url(article)
     title = article.title.gsub(/<\/?[^>]*>/, "")
     config.url % { :username => config.username, :password => config.password, :title => Addressable::URI.encode(title) }
+  end
+
+  def request_options
+    { content_type: 'xml' }
   end
 
   def get_config_fields

@@ -22,15 +22,10 @@ class Pmc < Source
   # include date methods concern
   include Dateable
 
-  def get_data(article, options={})
-    # Check that article has DOI and is at least one day old
-    return { events: [], event_count: nil } if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
-
-    # an error occured
-    return nil if result.nil?
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     # no data for this article
     return { events: [], event_count: nil } unless result['views']
@@ -122,7 +117,11 @@ class Pmc < Source
   end
 
   def get_query_url(article)
-    "#{url}#{article.doi_escaped}"
+    unless article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
+      "#{url}#{article.doi_escaped}"
+    else
+      nil
+    end
   end
 
   def get_feed_url(month, year, journal)

@@ -19,14 +19,10 @@
 # limitations under the License.
 
 class Reddit < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return  { events: [], event_count: nil } if article.doi.blank?
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
-
-    return nil if result.nil?
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     events = result["data"]["children"].map { |item| { event: item["data"], event_url: item["data"]['url'] } }
     events_url = get_events_url(article)
@@ -41,7 +37,11 @@ class Reddit < Source
   end
 
   def get_query_url(article)
-    url % { :id => CGI.escape(article.doi_escaped) }
+    if article.doi.present?
+      url % { :id => CGI.escape(article.doi_escaped) }
+    else
+      nil
+    end
   end
 
   def get_events_url(article)

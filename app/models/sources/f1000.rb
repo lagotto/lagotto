@@ -19,7 +19,7 @@
 # limitations under the License.
 
 class F1000 < Source
-  def get_data(article, options={})
+  def parse_data(article, options={})
     # Check that article has DOI
     return { events: [], event_count: nil } if article.doi.blank?
 

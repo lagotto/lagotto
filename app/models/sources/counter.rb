@@ -22,14 +22,10 @@ class Counter < Source
   # include date methods concern
   include Dateable
 
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } unless article.doi =~ /^10.1371/
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml'))
-
-    return nil if result.nil?
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     views = []
     event_count = 0
@@ -109,6 +105,18 @@ class Counter < Source
         result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 } }
       end
     end
+  end
+
+  def get_query_url(article)
+    if article.doi =~ /^10.1371/
+      url % { :doi => article.doi_escaped }
+    else
+      nil
+    end
+  end
+
+  def request_options
+    { content_type: "xml"}
   end
 
   def get_config_fields

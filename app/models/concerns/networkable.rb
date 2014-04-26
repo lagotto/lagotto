@@ -43,7 +43,7 @@ module Networkable
       end
       # We had issues with the Faraday XML parsing
       if options[:content_type] == 'xml'
-        Nokogiri::XML(response.body)
+        MultiXml.parse(response.body)
       else
         response.body
       end

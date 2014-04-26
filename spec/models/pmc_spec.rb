@@ -65,13 +65,13 @@ describe Pmc do
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    subject.get_data(article).should eq(events: [], event_count: nil)
+    subject.parse_data(article).should eq(events: [], event_count: nil)
   end
 
   it "should report that there are no events if article was published on the same day" do
     date = Time.zone.today
     article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
-    subject.get_data(article).should eq(events: [], event_count: nil)
+    subject.parse_data(article).should eq(events: [], event_count: nil)
   end
 
   context "save PMC data" do
@@ -124,7 +124,7 @@ describe Pmc do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'pmc_nil.json')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      subject.get_data(article).should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      subject.parse_data(article).should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
       stub.should have_been_requested
     end
 
@@ -132,7 +132,7 @@ describe Pmc do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pbio.1001420")
       body = File.read(fixture_path + 'pmc.json')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      response = subject.get_data(article)
+      response = subject.parse_data(article)
       response[:events].length.should eq(2)
       response[:event_count].should eq(13)
       response[:event_metrics].should eq(pdf: 4, html: 9, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 13)
@@ -142,7 +142,7 @@ describe Pmc do
     it "should catch errors with the PMC API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      subject.parse_data(article, options = { :source_id => subject.id }).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

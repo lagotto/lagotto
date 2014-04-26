@@ -5,7 +5,7 @@ describe Wos do
 
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
-    subject.get_data(article_without_doi).should eq(events: [], event_count: nil)
+    subject.parse_data(article_without_doi).should eq(events: [], event_count: nil)
   end
 
   it "should generate a proper XMl request" do
@@ -19,13 +19,13 @@ describe Wos do
 
     it "should report if there are no events and event_count returned by the Wos API" do
       stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => File.read(fixture_path + 'wos_nil.xml'), :status => 200, :headers => { "Content-Type" => "application/xml" })
-      subject.get_data(article).should eq(:events => 0, :event_count => 0, :events_url => nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, :attachment => nil)
+      subject.parse_data(article).should eq(:events => 0, :event_count => 0, :events_url => nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, :attachment => nil)
       stub.should have_been_requested
     end
 
     it "should report if there are events and event_count returned by the Wos API" do
       stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => File.read(fixture_path + 'wos.xml'), :status => 200, :headers => { "Content-Type" => "application/xml" })
-      response = subject.get_data(article)
+      response = subject.parse_data(article)
       response[:event_count].should eq(1005)
       response[:events_url].should include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
       response[:attachment][:data].should be_true
@@ -34,7 +34,7 @@ describe Wos do
 
     it "should catch IP address errors with the Wos API" do
       stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => File.read(fixture_path + 'wos_unauthorized.xml'), :status => 200, :headers => { "Content-Type" => "application/xml" })
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      subject.parse_data(article).should eq(events: [], event_count: nil)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -46,7 +46,7 @@ describe Wos do
 
     it "should catch errors with the Wos API" do
       stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should eq(events: [], event_count: nil)
+      subject.parse_data(article, options = { :source_id => subject.id }).should eq(events: [], event_count: nil)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

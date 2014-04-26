@@ -5,7 +5,7 @@ describe F1000 do
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    subject.get_data(article).should eq(events: [], event_count: nil)
+    subject.parse_data(article).should eq(events: [], event_count: nil)
   end
 
   context "use the F1000 feed" do
@@ -16,12 +16,12 @@ describe F1000 do
 
     it "should report if there are no events and event_count returned by the F1000 feed" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
-      subject.get_data(article).should eq(events: [], event_count: 0)
+      subject.parse_data(article).should eq(events: [], event_count: 0)
     end
 
     it "should report if there are events and event_count returned by the F1000 feed" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pgen.0020051")
-      response = subject.get_data(article)
+      response = subject.parse_data(article)
       response[:event_count].should eq(2)
       response[:events_url].should eq("http://f1000.com/prime/13421")
       response[:events]["Classifications"].should eq("NEW_FINDING")
@@ -35,7 +35,7 @@ describe F1000 do
       stub = stub_request(:get, "http://example.org/example.xml").to_return(:status => 200, :body => body)
 
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pgen.0020051")
-      response = subject.get_data(article)
+      response = subject.parse_data(article)
       response[:event_count].should eq(2)
       response[:events_url].should eq("http://f1000.com/prime/13421")
       response[:events]["Classifications"].should eq("NEW_FINDING")
@@ -49,7 +49,7 @@ describe F1000 do
       stub = stub_request(:get, "http://example.org/example.xml").to_return(:status => [408])
 
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
-      subject.get_data(article).should be_nil
+      subject.parse_data(article).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

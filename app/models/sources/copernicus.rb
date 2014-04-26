@@ -19,13 +19,11 @@
 # limitations under the License.
 
 class Copernicus < Source
-  def get_data(article, options={})
-    return { events: [], event_count: nil } unless article.doi =~ /^10.5194/
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(username: username, password: password))
+    return result if result.nil? || result == { events: [], event_count: nil }
 
-    return nil if result.nil?
     return { events: [], event_count: nil } if result.empty? || !result["counter"]
 
     if result["counter"].values.all? { |x| x.nil? }
@@ -44,7 +42,15 @@ class Copernicus < Source
   end
 
   def get_query_url(article)
-    url % { :doi => article.doi }
+    if article.doi =~ /^10.5194/
+      url % { :doi => article.doi }
+    else
+      nil
+    end
+  end
+
+  def request_options
+    { username: username, password: password }
   end
 
   def get_config_fields

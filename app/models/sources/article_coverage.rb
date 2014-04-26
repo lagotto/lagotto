@@ -19,13 +19,12 @@
 # limitations under the License.
 
 class ArticleCoverage < Source
-  def get_data(article, options={})
-    return { events: [], event_count: nil } if article.doi.blank?
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
+    return result if result.nil? || result == { events: [], event_count: nil }
 
-    return { events: [], event_count: 0 } if result.nil? || result['referrals'].blank?
+    return { events: [], event_count: 0 } if result['referrals'].blank?
 
     refers = result['referrals']
     events = refers.map { |item| { event: item, event_url: item['referral'] } }
@@ -35,11 +34,15 @@ class ArticleCoverage < Source
       event_metrics: get_event_metrics(comments: events.length) }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def get_query_url(article)
+    if article.doi =~ /^10.1371/
+      url % { :doi => article.doi_escaped }
+    else
+      nil
+    end
   end
 
-  def url
-    config.url || "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all"
+  def get_config_fields
+    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
   end
 end

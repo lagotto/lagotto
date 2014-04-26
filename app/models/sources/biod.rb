@@ -17,9 +17,10 @@
 # limitations under the License.
 
 class Biod < Source
-  def get_data(article, options={})
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml'))
+  def parse_data(article, options={})
+    result = get_data(article, options)
+
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     views = []
     event_count = 0
@@ -67,6 +68,10 @@ class Biod < Source
      :event_count => event_count,
      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: event_count),
      :attachment => views.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
+  end
+
+  def request_options
+    { content_type: 'xml' }
   end
 
   def get_config_fields

@@ -19,14 +19,11 @@
 # limitations under the License.
 
 class Datacite < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
+    return result if result.nil? || result == { events: [], event_count: nil }
 
-    return nil if result.nil?
     return { events: [], event_count: nil } if result.empty? || !result["response"]
 
     event_count = result["response"]["numFound"]

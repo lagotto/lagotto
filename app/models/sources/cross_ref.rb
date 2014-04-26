@@ -21,62 +21,47 @@
 class CrossRef < Source
   validates :url, :password, presence: true, if: "CONFIG[:doi_prefix]"
 
-  def get_data(article, options={})
-    # Check that article has DOI and is at least one day old
-    return { events: [], event_count: nil } if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
+  def parse_data(article, options={})
 
-    # Check whether we have published the DOI, otherwise use different API
-    if article.is_publisher?
+    result = get_data(article, options)
 
-      query_url = get_query_url(article)
-      result = get_result(query_url, options.merge(content_type: 'xml'))
+    return result if result.nil? || result == { events: [], event_count: nil }
 
-      return nil if result.nil?
+    p result
 
-      events = []
-      result.xpath("//xmlns:journal_cite").each do |item|
-        event = Hash.from_xml(item.to_s)
-        event = event["journal_cite"]
-        event_url = Article.to_url(event["doi"])
-
-        events << { :event => event, :event_url => event_url }
-      end
-
-      { :events => events,
-        :event_count => events.length,
-        :event_metrics => get_event_metrics(citations: events.length),
-        :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
-    else
-      get_default_data(article, options={})
+    events = Array(result['crossref_result']['query_result']['body']['forward_link']).map do |item|
+      { :event => item['journal_cite'], :event_url => Article.to_url(item['journal_cite']['doi']['__content__']) }
     end
-  end
 
-  def get_default_data(article, options={})
-    query_url = get_default_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml', source_id: id))
+    if article.is_publisher?
+      event_count = events.length
+    else
+      event_count = result['crossref_result']['query_result']['body']['query']['@fl_count'] || 0
+    end
 
-    return nil if result.blank?
-
-    total = result.at_xpath("//@fl_count").value.to_i ||= 0
-
-    {:events => [],
-     :event_count => total }
+    { :events => events,
+      :event_count => event_count,
+      :event_metrics => get_event_metrics(citations: event_count) }
   end
 
   def get_query_url(article)
-    url % { :username => username, :password => password, :doi => article.doi_escaped } unless article.doi.blank?
+    if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
+      nil
+    elsif article.is_publisher?
+      url % { :username => username, :password => password, :doi => article.doi_escaped }
+    else
+      pid = password.blank? ? username : username + ":" + password
+      openurl % { :pid => pid, :doi => article.doi_escaped }
+    end
   end
 
-  def get_default_query_url(article)
-    unless article.doi.blank?
-      pid = password.blank? ? username : username + ":" + password
-      default_url % { :pid => pid, :doi => article.doi_escaped }
-    end
+  def request_options
+    { content_type: 'xml' }
   end
 
   def get_config_fields
     [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "default_url", :field_type => "text_area", :size => "90x2"},
+     {:field_name => "openurl", :field_type => "text_area", :size => "90x2"},
      {:field_name => "username", :field_type => "text_field"},
      {:field_name => "password", :field_type => "password_field"}]
   end
@@ -85,12 +70,12 @@ class CrossRef < Source
     config.url || "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
   end
 
-  def default_url
-    config.default_url || "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
+  def openurl
+    config.openurl || "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
   end
 
-  def default_url=(value)
-    config.default_url = value
+  def openurl=(value)
+    config.openurl = value
   end
 
   def timeout

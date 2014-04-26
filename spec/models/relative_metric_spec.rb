@@ -5,12 +5,12 @@ describe RelativeMetric do
 
   it "should report that there are no events if the doi is missing" do
     article_without_doi = FactoryGirl.build(:article, :doi => "")
-    relative_metric.get_data(article_without_doi).should eq(events: [], event_count: nil)
+    relative_metric.parse_data(article_without_doi).should eq(events: [], event_count: nil)
   end
 
   it "should report that there are no events if the doi is not is_publisher" do
     article_not_processed = FactoryGirl.build(:article, :doi => "10.4084/MJHID.2013.016")
-    relative_metric.get_data(article_not_processed).should eq(events: [], event_count: nil)
+    relative_metric.parse_data(article_not_processed).should eq(events: [], event_count: nil)
   end
 
   it "should get relative metric average usage data" do
@@ -19,7 +19,7 @@ describe RelativeMetric do
     url = relative_metric.get_query_url(article)
     stub_request(:get, "#{url}").to_return(:headers => {"Content-Type" => "application/json"}, :body => File.read("#{fixture_path}relative_metric.json"), :status => 200)
 
-    data = relative_metric.get_data(article)
+    data = relative_metric.parse_data(article)
 
     events = {
       :start_date => "2009-01-01T00:00:00Z",
@@ -55,7 +55,7 @@ describe RelativeMetric do
     url = relative_metric.get_query_url(article)
     stub_request(:get, "#{url}").to_return(:headers => {"Content-Type" => "application/json"}, :body => File.read("#{fixture_path}relative_metric_nodata.json"), :status => 200)
 
-    data = relative_metric.get_data(article)
+    data = relative_metric.parse_data(article)
 
     events = {
       :start_date => "2009-01-01T00:00:00Z",

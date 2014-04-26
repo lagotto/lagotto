@@ -19,9 +19,10 @@
 # limitations under the License.
 
 class Wikipedia < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
+  def parse_data(article, options={})
+    result = get_data(article, options)
+
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     events = {}
 
@@ -65,11 +66,15 @@ class Wikipedia < Source
     #
     # API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
 
-    host = options[:host] || "en.wikipedia.org"
-    namespace = options[:namespace] || "0"
+    if article.doi.present?
+      host = options[:host] || "en.wikipedia.org"
+      namespace = options[:namespace] || "0"
 
-    # We search for the DOI in parentheses to only get exact matches
-    url % { host: host, namespace: namespace, doi: CGI.escape("\"#{article.doi}\"") }
+      # We search for the DOI in parentheses to only get exact matches
+      url % { host: host, namespace: namespace, doi: CGI.escape("\"#{article.doi}\"") }
+    else
+      nil
+    end
   end
 
   def get_events_url(article)

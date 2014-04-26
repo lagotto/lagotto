@@ -19,14 +19,12 @@
 # limitations under the License.
 
 class Facebook < Source
-  def get_data(article, options={})
-    # Store an empty response if article DOI doesn't resolve to a URL that we can store
-    return { events: [], event_count: nil } unless article.get_url
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
+    return result if result.nil? || result == { events: [], event_count: nil }
 
-    return nil if result.nil? || result["data"].nil?
+    return nil if result["data"].nil?
 
     events = result["data"]
 
@@ -50,7 +48,11 @@ class Facebook < Source
   end
 
   def get_query_url(article, options={})
-    URI.escape(url % { access_token: access_token, query_url: article.canonical_url_escaped })
+    if article.get_url
+      URI.escape(url % { access_token: access_token, query_url: article.canonical_url_escaped })
+    else
+      nil
+    end
   end
 
   def get_config_fields

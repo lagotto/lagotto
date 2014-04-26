@@ -19,14 +19,12 @@
 # limitations under the License.
 
 class Scopus < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } unless article.is_publisher?
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(:headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken }))
+    return result if result.nil? || result == { events: [], event_count: nil }
 
-    if result.nil? || result["search-results"].nil? || result["search-results"]["entry"][0].nil?
+    if result["search-results"].nil? || result["search-results"]["entry"][0].nil?
       nil
     elsif result["search-results"]["entry"][0]["citedby-count"].nil?
       { events: [], event_count: 0, event_metrics: get_event_metrics(citations: 0) }
@@ -40,6 +38,10 @@ class Scopus < Source
         event_count: event_count,
         event_metrics: get_event_metrics(citations: event_count) }
     end
+  end
+
+  def request_options
+    { :headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken } }
   end
 
   def get_config_fields

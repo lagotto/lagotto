@@ -23,11 +23,12 @@ class TwitterSearch < Source
     put_alm_data(url)
   end
 
-  def get_data(article, options={})
-    # First check that we have a valid OAuth2 access token
+  def parse_data(article, options={})
     return nil unless get_access_token
 
-    return  { events: [], event_count: nil } if article.doi.blank?
+    result = get_data(article, options)
+
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     # Twitter returns 15 results per query
     # They don't use pagination, but the tweet id to loop through results

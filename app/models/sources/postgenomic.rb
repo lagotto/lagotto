@@ -17,14 +17,12 @@
 # limitations under the License.
 
 class Postgenomic < Source
-  def get_data(article, options={})
-    query_url = get_query_url(article)
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    result = get_result(query_url, options)
+    return result if result.nil? || result == { events: [], event_count: nil }
 
-    events = result.map do |item|
-      { :event => item, :event_url => item["url"] }
-    end
+    events = result.map { |item| { :event => item, :event_url => item["url"] } }
 
     events_url = get_events_url(article)
 

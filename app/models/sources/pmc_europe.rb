@@ -19,15 +19,10 @@
 # limitations under the License.
 
 class PmcEurope < Source
-  def get_data(article, options={})
-    # First, we need to have the pmid for this article.
-    # Get it if we don't have it, and proceed only if we do.
-    return { events: [], event_count: nil } unless article.get_ids && article.pmid.present?
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
-
-    return nil if result.nil?
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     event_count = result["hitCount"]
 
@@ -37,7 +32,11 @@ class PmcEurope < Source
   end
 
   def get_query_url(article)
-    url % { :pmid => article.pmid }
+    if article.get_ids && article.pmid.present?
+      url % { :pmid => article.pmid }
+    else
+      nil
+    end
   end
 
   def get_config_fields

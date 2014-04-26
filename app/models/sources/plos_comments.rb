@@ -19,13 +19,11 @@
 # limitations under the License.
 
 class PlosComments < Source
-  def get_data(article, options={})
-    return { events: [], event_count: nil } unless article.is_publisher?
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
+    return result if result.nil? || result == { events: [], event_count: nil }
 
-    return nil if result.nil?
     return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?
 
     events = result
@@ -38,7 +36,11 @@ class PlosComments < Source
   end
 
   def get_query_url(article)
-    url % { :doi => article.doi }
+    if article.doi =~ /^10.1371/
+      url % { :doi => article.doi }
+    else
+      nil
+    end
   end
 
   def get_config_fields

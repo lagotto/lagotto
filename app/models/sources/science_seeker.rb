@@ -19,23 +19,14 @@
 # limitations under the License.
 
 class ScienceSeeker < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml'))
+    return result if result.nil? || result == { events: [], event_count: nil }
+    return { events: [], event_count: 0 } if result.empty? || !result["feed"]
 
-    # Check that ScienceSeeker has returned something, otherwise an error must have occured
-    return nil if result.nil?
-
-    result.remove_namespaces!
-
-    events = []
-    result.xpath("//entry").each do |entry|
-      event = Hash.from_xml(entry.to_s)
-      event = event['entry']
-      events << { :event => event, :event_url => event['link']['href'] }
+    events = Array(result['feed']['entry']).map do |item|
+      { :event => item, :event_url => item['link']['href'] }
     end
 
     events_url = "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}"
@@ -43,8 +34,11 @@ class ScienceSeeker < Source
     { :events => events,
       :events_url => events_url,
       :event_count => events.length,
-      :event_metrics => get_event_metrics(citations: events.length),
-      :attachment => events.empty? ? nil : { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
+      :event_metrics => get_event_metrics(citations: events.length) }
+  end
+
+  def request_options
+    { content_type: 'xml' }
   end
 
   def get_config_fields

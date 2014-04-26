@@ -154,11 +154,24 @@ class Source < ActiveRecord::Base
   end
 
   def get_data(article, options={})
-    fail NotImplementedError, 'Children classes should override get_data method'
+    query_url = get_query_url(article)
+    if query_url.nil?
+      { events: [], event_count: nil }
+    else
+      get_result(query_url, options.merge(request_options))
+    end
+  end
+
+  def request_options
+    {}
   end
 
   def get_query_url(article)
-    url % { :doi => article.doi_escaped }
+    if article.doi.present?
+      url % { :doi => article.doi_escaped }
+    else
+      nil
+    end
   end
 
   def get_events_url(article)

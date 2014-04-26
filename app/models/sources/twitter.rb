@@ -18,8 +18,10 @@
 #
 
 class Twitter < Source
-  def get_data(article, options={})
-    return { events: [], event_count: nil } unless article.is_publisher?
+  def parse_data(article, options={})
+    result = get_data(article, options)
+
+    return result if result.nil? || result == { events: [], event_count: nil }
 
     events = []
     execute_search(events, article, options)
@@ -91,8 +93,11 @@ class Twitter < Source
   end
 
   def get_query_url(article)
-    doi = Addressable::URI.encode("\"#{article.doi}\"")
-    config.url % { :doi => doi }
+    if article.doi =~ /^10.1371/
+      url % { :doi => article.doi_escaped }
+    else
+      nil
+    end
   end
 
   def get_config_fields

@@ -19,21 +19,13 @@
 # limitations under the License.
 
 class Researchblogging < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
+  def parse_data(article, options={})
+    result = get_data(article, options)
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml', username: username, password: password))
+    return result if result.nil? || result == { events: [], event_count: nil }
 
-    return nil if result.nil?
-
-    events = []
-    result.xpath("//blogposts/post").each do |post|
-      event = Hash.from_xml(post.to_s)
-      event = event['post']
-
-      events << { :event => event, :event_url => event['post_URL'] }
+    events = Array(result['blogposts']['post']).map do |item|
+      { :event => item, :event_url => item['post_URL'] }
     end
 
     events_url = get_events_url(article)
@@ -41,8 +33,7 @@ class Researchblogging < Source
     { :events => events,
       :events_url => events_url,
       :event_count => events.length,
-      :event_metrics => get_event_metrics(citations: events.length),
-      :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
+      :event_metrics => get_event_metrics(citations: events.length) }
   end
 
   def get_events_url(article)
@@ -51,6 +42,10 @@ class Researchblogging < Source
     else
       nil
     end
+  end
+
+  def request_options
+    { content_type: 'xml', username: username, password: password }
   end
 
   def get_config_fields
