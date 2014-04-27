@@ -45,22 +45,38 @@ class F1000 < Source
     return nil if document['ObjectList']['Article'].empty?
 
     Array(document['ObjectList']['Article']).each do |article|
+      doi = article['Doi']
       # sometimes doi metadata are missing
-      break unless article['Doi']
+      break unless doi
 
       # turn classifications into array with lowercase letters
       classifications = article['Classifications'] ? article['Classifications'].downcase.split(", ") : []
 
-      data = { 'year' => Time.zone.now.year,
-               'month' => Time.zone.now.month,
-               'doi' => article['Doi'],
-               'id' => article['Id'],
-               'url' => article['Url'],
-               'score' => article['TotalScore'],
-               'classifications' => classifications }
+      year = Time.zone.now.year
+      month = Time.zone.now.month
 
-      # store information in CouchDB
-      put_alm_data("#{url}#{CGI.escape(data['doi'])}", data: data)
+      recommendation = { 'year' => year,
+                         'month' => month,
+                         'doi' => doi,
+                         'f1000_id' => article['Id'],
+                         'url' => article['Url'],
+                         'score' => article['TotalScore'].to_i,
+                         'classifications' => classifications,
+                         'updated_at' => Time.now.utc.iso8601 }
+
+      # try to get the existing information about the given article
+      data = get_result("#{url}#{CGI.escape(doi)}")
+
+      if data['recommendations'].nil?
+        data = { 'recommendations' => [recommendation] }
+      else
+        # update existing entry
+        data['recommendations'].delete_if { |recommendation| recommendation['month'] == month && recommendation['year'] == year }
+        data['recommendations'] << recommendation
+      end
+
+      # store updated information in CouchDB
+      put_alm_data("#{url}#{CGI.escape(doi)}", data: data)
     end
   end
 
@@ -99,7 +115,8 @@ class F1000 < Source
   end
 
   def url
-    config.url || "http://127.0.0.1:5984/f1000/"
+    # make sure we have trailing slash
+    config.url = value ? value.chomp("/") + "/" : nil
   end
 
   def url=(value)
