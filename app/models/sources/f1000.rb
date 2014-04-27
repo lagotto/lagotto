@@ -57,7 +57,7 @@ class F1000 < Source
                'id' => article['Id'],
                'url' => article['Url'],
                'score' => article['TotalScore'],
-               'classifications' => classification }
+               'classifications' => classifications }
 
       # store information in CouchDB
       put_alm_data("#{url}#{CGI.escape(data['doi'])}", data: data)
