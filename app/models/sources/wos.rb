@@ -29,7 +29,7 @@ class Wos < Source
     # otherwise report an error
     return nil unless check_status_ok(result, article)
 
-    values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
+    values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
     event_count = values[0].to_i
     events_url = values[2]
 

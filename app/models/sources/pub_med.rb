@@ -39,6 +39,7 @@ class PubMed < Source
   def request_options
     { content_type: 'xml' }
   end
+
   def get_query_url(article)
     if article.get_ids && article.pmid.present?
       url % { :pmid => article.pmid }

@@ -58,14 +58,14 @@ describe F1000 do
       response[:events_url].should eq("http://f1000.com/prime/718293874")
 
       event = response[:events].last
-      event[:event]['classifications'].should eq(["confirmation","good_for_teaching"])
+      event[:event]['classifications'].should eq(["confirmation", "good_for_teaching"])
       stub.should have_been_requested
     end
 
     it "should catch errors with f1000" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.parse_data(article, options = { :source_id => subject.id }).should eq({:events=>[], :event_count=>0})
+      subject.parse_data(article, options = { :source_id => subject.id }).should eq(:events=>[], :event_count=>0)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

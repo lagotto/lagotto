@@ -50,13 +50,13 @@ class RelativeMetric < Source
     end
   end
 
-def get_query_url(article)
-  if article.doi =~ /^10.1371/
-    url % { :doi => article.doi_escaped }
-  else
-    nil
+  def get_query_url(article)
+    if article.doi =~ /^10.1371/
+      url % { :doi => article.doi_escaped }
+    else
+      nil
+    end
   end
-end
 
   def get_config_fields
     [{ :field_name => "url", :field_type => "text_area", :size => "90x2"}]

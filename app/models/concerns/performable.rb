@@ -73,8 +73,8 @@ module Performable
       # SKIPPED
       if event_count.nil?
         update_attributes(:retrieved_at => retrieved_at,
-                             :scheduled_at => stale_at,
-                             :event_count => 0)
+                          :scheduled_at => stale_at,
+                          :event_count => 0)
         { event_count: 0, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
       else
         rh = RetrievalHistory.create(:retrieval_status_id => id,

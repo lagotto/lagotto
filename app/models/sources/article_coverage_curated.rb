@@ -19,7 +19,7 @@
 # limitations under the License.
 
 class ArticleCoverageCurated < Source
-    def parse_data(article, options={})
+  def parse_data(article, options={})
     result = get_data(article, options)
 
     return result if result.nil? || result == { events: [], event_count: nil }

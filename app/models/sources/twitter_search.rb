@@ -38,11 +38,11 @@ class TwitterSearch < Source
       end
 
       { :event => { id: item["id_str"],
-                     text: item["text"],
-                     created_at: Time.parse(item["created_at"]).utc.iso8601,
-                     user: user,
-                     user_name: user_name,
-                     user_profile_image: user_profile_image },
+                    text: item["text"],
+                    created_at: Time.parse(item["created_at"]).utc.iso8601,
+                    user: user,
+                    user_name: user_name,
+                    user_profile_image: user_profile_image },
         :event_url => "http://twitter.com/#{user}/status/#{item["id_str"]}" }
     end
     events_url = get_events_url(article)

@@ -41,9 +41,11 @@ class Openedition < Source
     { content_type: 'xml' }
   end
 
-   def get_query_url(article)
+  def get_query_url(article)
     if article.doi.present?
       url % { :doi => article.doi_escaped }
+    else
+      nil
     end
   end
 
