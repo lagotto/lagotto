@@ -47,7 +47,6 @@ class F1000 < Source
     # go through all the articles in the xml document
     document.xpath("//Article").each do |article|
       article = article.to_hash
-      article = article["article"]
 
       p article
 

@@ -1,5 +1,5 @@
 # config valid only for Capistrano 3.2
-lock '3.2.0'
+lock '3.2.1'
 
 set :application, 'alm'
 set :repo_url, 'https://github.com/articlemetrics/alm.git'
