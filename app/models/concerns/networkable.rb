@@ -71,6 +71,20 @@ module Networkable
       nil
     end
 
+    def read_from_file(filename = "tmpdata", options = { content_type: 'xml' })
+      file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
+      Hash.from_xml(file)
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
+    rescue => exception
+      Alert.create(:exception => exception,
+                   :class_name => exception.class.to_s,
+                   :message => exception.message,
+                   :status => 500,
+                   :source_id => options[:source_id])
+      nil
+    end
+
     def faraday_conn(content_type = 'json')
       accept_header =
         case content_type

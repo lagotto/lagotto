@@ -41,21 +41,13 @@ class F1000 < Source
 
   # Parse f1000 feed and store in CouchDB. Returns an empty array if no error occured
   def parse_feed(options={})
-    file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
-    document = Nokogiri::XML(file)
-
-    # go through all the articles in the xml document
-    document.xpath("//Article").each do |article|
-      article = article.to_hash
-
-      p article
-
-      doi = article["Doi"]
+    document = read_from_file(filename)
+    Array(document['ObjectList']['Article']).each do |article|
       # sometimes doi metadata are missing
-      break unless doi
+      break unless article['Doi']
 
       # store information in CouchDB
-      put_alm_data("#{url}#{CGI.escape(doi)}", data: article)
+      put_alm_data("#{url}#{CGI.escape(article['Doi'])}", data: article)
     end
   end
 

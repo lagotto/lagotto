@@ -50,7 +50,7 @@ describe F1000 do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'f1000_nil.json')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      subject.parse_data(article).should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      subject.parse_data(article).should eq({:events=>[], :event_count=>0})
       stub.should have_been_requested
     end
 
