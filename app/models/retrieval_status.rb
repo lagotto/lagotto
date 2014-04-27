@@ -23,6 +23,9 @@ class RetrievalStatus < ActiveRecord::Base
   # include CouchDB helpers
   include Couchable
 
+  # include Job helpers
+  include Performable
+
   belongs_to :article, :touch => true
   belongs_to :source
   has_many :retrieval_histories, :dependent => :destroy

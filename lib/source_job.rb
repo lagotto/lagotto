@@ -95,7 +95,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       update_interval = (Date.today - rs.retrieved_at.to_date).to_i
     end
 
-    data_from_source = rs.source.get_data(rs.article, retrieval_status: rs, timeout: rs.source.timeout, source_id: rs.source_id)
+    data_from_source = rs.source.parse_data(rs.article, retrieval_status: rs, timeout: rs.source.timeout, source_id: rs.source_id)
     if data_from_source.is_a?(Hash)
       events = data_from_source[:events]
       events_url = data_from_source[:events_url]

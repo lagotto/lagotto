@@ -127,6 +127,8 @@ module Networkable
                        status: error.response[:status],
                        target_url: url)
           nil
+        elsif options[:content_type] == 'json'
+          error.response[:body]
         elsif options[:content_type] == 'xml'
           Hash.from_xml(error.response[:body])
         else

@@ -25,10 +25,21 @@ class F1000 < Source
     return { events: [], event_count: 0 } if result.nil?
     return result if result == { events: [], event_count: nil }
 
-    event_count = result["TotalScore"].to_i
-    events_url = result["Url"]
+    result['recommendations'] ||= {}
+    events = Array(result['recommendations']).map do |item|
+      { :event => item, :event_url => item['url'] }
+    end
 
-    { :events => result,
+    if events.empty?
+      event_count = 0
+      events_url = nil
+    else
+      event = events.last[:event]
+      event_count = event['score']
+      events_url = event['url']
+    end
+
+    { :events => events,
       :events_url => events_url,
       :event_count => event_count,
       :event_metrics => get_event_metrics(citations: event_count) }
@@ -82,10 +93,6 @@ class F1000 < Source
 
   def put_database
     put_alm_data(url)
-  end
-
-  def request_options
-    { content_type: 'xml', source_id: id }
   end
 
   def get_query_url(article)

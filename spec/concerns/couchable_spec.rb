@@ -27,7 +27,7 @@ describe Source do
       db_name = Addressable::URI.parse(CONFIG[:couchdb_url]).path[1..-2]
       get_info["db_name"].should eq(db_name)
       get_info["disk_size"].should be > 0
-      get_info["doc_count"].should eq(2)
+      get_info["doc_count"].should be > 1
     end
 
     it "put, get and delete data" do

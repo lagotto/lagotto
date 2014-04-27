@@ -3,23 +3,23 @@
 require 'spec_helper'
 
 describe TwitterSearch do
-  let(:twitter_search) { FactoryGirl.create(:twitter_search) }
+  subject { FactoryGirl.create(:twitter_search) }
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
-    twitter_search.parse_data(article).should eq(events: [], event_count: nil)
+    subject.parse_data(article).should eq(events: [], event_count: nil)
   end
 
   it "should set the since_id for an article" do
     article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0043007")
     since_id = 8
-    twitter_search.set_since_id(article, since_id: since_id)
-    twitter_search.get_since_id(article).should eq(since_id)
+    subject.set_since_id(article, since_id: since_id)
+    subject.get_since_id(article).should eq(since_id)
   end
 
   it "should get the next max_id from a response" do
     response = JSON.parse(File.read(fixture_path + 'twitter_search_paged.json', encoding: 'UTF-8'))
-    max_id = twitter_search.get_max_id(response["search_metadata"]["next_results"])
+    max_id = subject.get_max_id(response["search_metadata"]["next_results"])
     max_id.should eq("422081966914428927")
   end
 
@@ -47,15 +47,15 @@ describe TwitterSearch do
   context "use the twitter_search API" do
     it "should report if there are no events and event_count returned by the twitter_search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000000")
-      stub = stub_request(:get, twitter_search.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8'), :status => 200)
-      twitter_search.parse_data(article).should eq(events: [], event_count: 0, events_url: "https://twitter.com/search?q=#{article.doi_escaped}", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 })
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8'), :status => 200)
+      subject.parse_data(article).should eq(events: [], event_count: 0, events_url: "https://twitter.com/search?q=#{article.doi_escaped}", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 })
       stub.should have_been_requested
     end
 
     it "should report if there are events and event_count returned by the twitter_search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pmed.0020124")
-      stub = stub_request(:get, twitter_search.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8'), :status => 200)
-      response = twitter_search.parse_data(article)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8'), :status => 200)
+      response = subject.parse_data(article)
       response[:events].length.should eq(8)
       response[:event_count].should eq(8)
       response[:event_metrics][:comments].should eq(8)
@@ -65,31 +65,16 @@ describe TwitterSearch do
       stub.should have_been_requested
     end
 
-    it "should report if there are paged events and event_count returned by the twitter_search API" do
-      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0061981")
-      stub = stub_request(:get, twitter_search.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'twitter_search_paged.json', encoding: 'UTF-8'), :status => 200)
-      next_stub = stub_request(:get, twitter_search.get_query_url(article, max_id: "422081966914428927")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8'), :status => 200)
-      response = twitter_search.parse_data(article)
-      response[:events].length.should eq(15)
-      response[:event_count].should eq(15)
-      response[:event_metrics][:comments].should eq(15)
-      response[:events_url].should eq("https://twitter.com/search?q=#{article.doi_escaped}")
-      event = response[:events].first
-      event[:event_url].should eq("http://twitter.com/i486DX2WB/status/422133526704979968")
-      stub.should have_been_requested
-      next_stub.should have_been_requested
-    end
-
     it "should catch errors with the twitter_search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, twitter_search.get_query_url(article)).to_return(:status => [408])
-      twitter_search.parse_data(article, options = { :source_id => twitter_search.id }).should be_nil
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
+      subject.parse_data(article, options = { :source_id => subject.id }).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("Net::HTTPRequestTimeOut")
       alert.status.should == 408
-      alert.source_id.should == twitter_search.id
+      alert.source_id.should == subject.id
     end
   end
 end

@@ -26,25 +26,6 @@ class TwitterSearch < Source
 
     return result if result.nil? || result == { events: [], event_count: nil }
 
-    # Twitter returns 15 results per query
-    # They don't use pagination, but the tweet id to loop through results
-    # See https://dev.twitter.com/docs/working-with-timelines
-    # response = {}
-    # since_id = get_since_id(article)
-    # max_id = nil
-    # result = []
-
-    # begin
-    #   query_url = get_query_url(article, max_id: max_id)
-    #   response = get_result(query_url, options.merge(bearer: access_token))
-    #   if response
-    #     max_id = get_max_id(response["search_metadata"]["next_results"])
-    #     result += response["statuses"]
-    #   end
-    # end while response && max_id
-
-    # return nil if response.nil?
-
     events = Array(result['statuses']).map do |item|
       if item.key?("from_user")
         user = item["from_user"]
@@ -66,8 +47,6 @@ class TwitterSearch < Source
     end
     events_url = get_events_url(article)
 
-    #set_since_id(article, since_id: since_id)
-
     { events: events,
       event_count: events.length,
       events_url: events_url,
@@ -75,13 +54,12 @@ class TwitterSearch < Source
   end
 
   def request_options
-    { bearer: access_token, max_id: max_id }
+    { bearer: access_token }
   end
 
   def get_query_url(article, options={})
     if article.doi.present?
       params = { q: article.doi_escaped,
-                 max_id: options[:max_id],
                  count: 100,
                  include_entities: 1,
                  result_type: "mixed" }
@@ -180,4 +158,23 @@ class TwitterSearch < Source
   def staleness_year
     config.staleness_year || (1.month * 0.25).to_i
   end
+
+  # Twitter returns 15 results per query
+  # They don't use pagination, but the tweet id to loop through results
+  # See https://dev.twitter.com/docs/working-with-timelines
+  # response = {}
+  # since_id = get_since_id(article)
+  # max_id = nil
+  # result = []
+
+  # begin
+  #   query_url = get_query_url(article, max_id: max_id)
+  #   response = get_result(query_url, options.merge(bearer: access_token))
+  #   if response
+  #     max_id = get_max_id(response["search_metadata"]["next_results"])
+  #     result += response["statuses"]
+  #   end
+  # end while response && max_id
+
+  # return nil if response.nil?
 end
