@@ -115,12 +115,12 @@ class F1000 < Source
   end
 
   def url
-    # make sure we have trailing slash
-    config.url = value ? value.chomp("/") + "/" : nil
+    config.url || "http://127.0.0.1:5984/f1000/"
   end
 
   def url=(value)
-    config.url = value
+    # make sure we have trailing slash
+    config.url = value ? value.chomp("/") + "/" : nil
   end
 
   def cron_line
