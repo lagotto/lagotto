@@ -42,12 +42,25 @@ class F1000 < Source
   # Parse f1000 feed and store in CouchDB. Returns an empty array if no error occured
   def parse_feed(options={})
     document = read_from_file(filename)
+    return nil if document['ObjectList']['Article'].empty?
+
     Array(document['ObjectList']['Article']).each do |article|
       # sometimes doi metadata are missing
       break unless article['Doi']
 
+      # turn classifications into array with lowercase letters
+      classifications = article['Classifications'] ? article['Classifications'].downcase.split(", ") : []
+
+      data = { 'year' => Time.zone.now.year,
+               'month' => Time.zone.now.month,
+               'doi' => article['Doi'],
+               'id' => article['Id'],
+               'url' => article['Url'],
+               'score' => article['TotalScore'],
+               'classifications' => classification }
+
       # store information in CouchDB
-      put_alm_data("#{url}#{CGI.escape(article['Doi'])}", data: article)
+      put_alm_data("#{url}#{CGI.escape(data[:doi])}", data: data)
     end
   end
 
