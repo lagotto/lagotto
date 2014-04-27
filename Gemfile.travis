@@ -20,9 +20,10 @@ gem "typhoeus", "~> 0.6.7"
 gem 'addressable', "~> 2.3.5"
 gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"
-gem 'safe_yaml', '= 1.0.1'
 gem "multi_json", "~> 1.8.2"
 gem "oj", "~> 2.5.4"
+gem 'safe_yaml', '= 1.0.1'
+gem 'hashie', '~> 2.1.1'
 gem 'rubyzip',  "~> 1.1", :require => 'zip'
 
 gem "devise", "~> 3.2.2"
