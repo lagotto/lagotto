@@ -115,7 +115,7 @@ class F1000 < Source
   end
 
   def url
-    config.url || "http://127.0.0.1:5984/f1000/"
+    config.url || "http://127.0.0.1:5984/f1000/"
   end
 
   def url=(value)
