@@ -60,7 +60,7 @@ class F1000 < Source
                'classifications' => classification }
 
       # store information in CouchDB
-      put_alm_data("#{url}#{CGI.escape(data[:doi])}", data: data)
+      put_alm_data("#{url}#{CGI.escape(data['doi'])}", data: data)
     end
   end
 
