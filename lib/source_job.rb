@@ -101,7 +101,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       events_url = data_from_source[:events_url]
       event_count = data_from_source[:event_count]
       event_metrics = data_from_source[:event_metrics]
-      attachment = data_from_source[:attachment]
     else
       # ERROR
       return { event_count: nil, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
@@ -129,11 +128,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
                  :event_metrics => event_metrics,
                  :doc_type => "current" }
 
-        if attachment.present? && attachment[:filename].present? && attachment[:content_type].present? && attachment[:data].present?
-          data[:_attachments] = {attachment[:filename] => {"content_type" => attachment[:content_type],
-                                                           "data" => Base64.encode64(attachment[:data]).gsub(/\n/, '')}}
-        end
-
         # save the data to mysql
         rs.event_count = event_count
         rs.event_metrics = event_metrics
@@ -144,7 +138,6 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
         # save the data to couchdb
         rs_rev = save_alm_data("#{rs.source.name}:#{rs.article.uid_escaped}", data: data.clone, source_id: rs.source_id)
 
-        data.delete(:_attachments)
         data[:doc_type] = "history"
         rh_rev = save_alm_data(rh.id, data: data, source_id: rs.source_id)
 

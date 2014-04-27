@@ -90,6 +90,9 @@ module Couchable
       put_alm_data(couchdb_url)
       filter = Faraday::UploadIO.new('design_doc/filter.json', 'application/json')
       put_alm_data("#{couchdb_url}_design/filter", data: filter)
+
+      reports = Faraday::UploadIO.new('design_doc/reports.json', 'application/json')
+      put_alm_data("#{couchdb_url}_design/reports", data: reports)
     end
 
     def delete_alm_database

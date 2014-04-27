@@ -24,6 +24,7 @@ class Citeulike < Source
 
     return result if result.nil? || result == { events: [], event_count: nil }
 
+    result['posts'] ||= {}
     events = Array(result['posts']['post']).map do |item|
       { :event => item, :event_url => item['link']['url'] }
     end

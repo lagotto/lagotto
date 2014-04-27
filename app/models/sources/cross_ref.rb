@@ -22,25 +22,26 @@ class CrossRef < Source
   validates :url, :password, presence: true, if: "CONFIG[:doi_prefix]"
 
   def parse_data(article, options={})
-
     result = get_data(article, options)
 
     return result if result.nil? || result == { events: [], event_count: nil }
 
-    p result
-
-    events = Array(result['crossref_result']['query_result']['body']['forward_link']).map do |item|
-      { :event => item['journal_cite'], :event_url => Article.to_url(item['journal_cite']['doi']['__content__']) }
+    if result['crossref_result']['query_result']['body']['forward_link'].is_a?(Array)
+      events = result['crossref_result']['query_result']['body']['forward_link'].map do |item|
+        { :event => item['journal_cite'], :event_url => Article.to_url(item['journal_cite']['doi']) }
+      end
+    else
+      events = []
     end
 
     if article.is_publisher?
       event_count = events.length
     else
-      event_count = result['crossref_result']['query_result']['body']['query']['@fl_count'] || 0
+      event_count = result.deep_fetch('crossref_result', 'query_result', 'body', 'query', 'fl_count') { 0 }
     end
 
     { :events => events,
-      :event_count => event_count,
+      :event_count => event_count.to_i,
       :event_metrics => get_event_metrics(citations: event_count) }
   end
 

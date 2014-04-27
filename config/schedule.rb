@@ -35,6 +35,7 @@ end
 
 every :monday, at: "1:30 AM" do
   rake "mailer:status_report"
+  rake "f1000:update"
 end
 
 # every 9th of the month at 2 AM

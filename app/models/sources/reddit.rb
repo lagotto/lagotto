@@ -24,7 +24,7 @@ class Reddit < Source
 
     return result if result.nil? || result == { events: [], event_count: nil }
 
-    events = result["data"]["children"].map { |item| { event: item["data"], event_url: item["data"]['url'] } }
+    events = Array(result["data"]["children"]).map { |item| { event: item["data"], event_url: item["data"]['url'] } }
     events_url = get_events_url(article)
     like_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].reduce(0) { |sum, hash| sum + hash["data"]["score"] }
     comment_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].reduce(0) { |sum, hash| sum + hash["data"]["num_comments"] }

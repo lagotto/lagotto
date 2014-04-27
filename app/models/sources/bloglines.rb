@@ -35,8 +35,7 @@ class Bloglines < Source
     end
 
     {:events => events,
-     :event_count => events.length,
-     :attachment => { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s } }
+     :event_count => events.length }
   end
 
   def get_query_url(article)

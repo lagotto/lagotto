@@ -24,7 +24,7 @@ namespace :pmc do
   desc "Bulk-import PMC usage stats by month and journal"
   task :update => :environment do |t, args|
 
-    # silently exit if Pmc source is not available
+    # silently exit if pmc source is not available
     source = Source.active.find_by_name("pmc")
     exit if source.nil?
 

@@ -23,73 +23,30 @@ class Twitter < Source
 
     return result if result.nil? || result == { events: [], event_count: nil }
 
-    events = []
-    execute_search(events, article, options)
-
-    if events.nil?
-      nil
-    elsif events.empty?
-      { events: [], event_count: nil }
-    else
-      { events: events,
-        event_count: events.length,
-        event_metrics: get_event_metrics(comments: events.length) }
-    end
-  end
-
-  def execute_search(events, article, options={})
-    query_url = get_query_url(article)
-    options[:source_id] = id
-
-    json_data = get_result(query_url, options)
-
-    if json_data.blank?
-      events = nil
-    else
-      results = json_data["rows"]
-
-      results.each do | result |
-        event_data = {}
-
-        data = result["value"]
-
-        if data.key?("from_user")
-          user = data["from_user"]
-          user_name = data["from_user_name"]
-          user_profile_image = data["profile_image_url"]
-        else
-          user = data["user"]["screen_name"]
-          user_name = data["user"]["name"]
-          user_profile_image = data["user"]["profile_image_url"]
-        end
-
-        event_data[:id] = data["id_str"]
-        event_data[:text] = data["text"]
-        event_data[:created_at] = data["created_at"]
-        event_data[:user] = user
-        event_data[:user_name] = user_name
-        event_data[:user_profile_image] = user_profile_image
-
-        event = {
-          :event => event_data,
-          :event_url => "http://twitter.com/#{user}/status/#{data["id_str"]}"
-        }
-
-        events << event
-        event_metrics = { :pdf => nil,
-                          :html => nil,
-                          :shares => nil,
-                          :groups => nil,
-                          :comments => events.length,
-                          :likes => nil,
-                          :citations => nil,
-                          :total => events.length }
-
-        { :events => events,
-          :event_count => events.length,
-          :event_metrics => event_metrics }
+    events = Array(result['rows']).map do |item|
+      data = item['value']
+      if data.key?("from_user")
+        user = data["from_user"]
+        user_name = data["from_user_name"]
+        user_profile_image = data["profile_image_url"]
+      else
+        user = data["user"]["screen_name"]
+        user_name = data["user"]["name"]
+        user_profile_image = data["user"]["profile_image_url"]
       end
+
+      { event: { id: data["id_str"],
+                 text: data["text"],
+                 created_at: Time.parse(data["created_at"]).utc.iso8601,
+                 user: user,
+                 user_name: user_name,
+                 user_profile_image: user_profile_image },
+        event_url: "http://twitter.com/#{user}/status/#{data["id_str"]}" }
     end
+
+    { events: events,
+      event_count: events.length,
+      event_metrics: get_event_metrics(comments: events.length) }
   end
 
   def get_query_url(article)

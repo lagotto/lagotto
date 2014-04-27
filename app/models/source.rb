@@ -36,6 +36,9 @@ class Source < ActiveRecord::Base
   # include CouchDB helpers
   include Couchable
 
+  # include helper for searching in a hash
+  include Hashie::Extensions::DeepFetch
+
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses
@@ -158,7 +161,8 @@ class Source < ActiveRecord::Base
     if query_url.nil?
       { events: [], event_count: nil }
     else
-      get_result(query_url, options.merge(request_options))
+      result = get_result(query_url, options.merge(request_options))
+      result.extend Hashie::Extensions::DeepFetch
     end
   end
 

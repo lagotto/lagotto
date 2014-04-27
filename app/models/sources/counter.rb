@@ -27,53 +27,22 @@ class Counter < Source
 
     return result if result.nil? || result == { events: [], event_count: nil }
 
-    views = []
-    event_count = 0
-    result.xpath("//rest/response/results/item").each do | view |
-
-      month = view.at_xpath("month")
-      year = view.at_xpath("year")
-      month = view.at_xpath("month")
-      html = view.at_xpath("get-document")
-      xml = view.at_xpath("get-xml")
-      pdf = view.at_xpath("get-pdf")
-
-      curMonth = {}
-      curMonth[:month] = month.content
-      curMonth[:year] = year.content
-
-      if pdf
-        curMonth[:pdf_views] = pdf.content
-        event_count += pdf.content.to_i
-      else
-        curMonth[:pdf_views] = 0
-      end
-
-      if xml
-        curMonth[:xml_views] = xml.content
-        event_count += xml.content.to_i
-      else
-        curMonth[:xml_views] = 0
-      end
-
-      if html
-        curMonth[:html_views] = html.content
-        event_count += html.content.to_i
-      else
-        curMonth[:html_views] = 0
-      end
-
-      views << curMonth
+    events = Array(result.deep_fetch('rest', 'response', 'results', 'item') { [] }).map do |item|
+      { month: item['month'],
+        year: item['year'],
+        pdf_views: item['get_pdf'] || 0,
+        xml_views: item['get_xml'] || 0,
+        html_views: item['get_document'] || 0 }
     end
 
-    pdf = views.nil? ? nil : views.reduce(0) { |sum, hash| sum + hash[:pdf_views].to_i }
-    html = views.nil? ? nil : views.reduce(0) { |sum, hash| sum + hash[:html_views].to_i }
+    pdf = events.reduce(0) { |sum, hash| sum + hash[:pdf_views].to_i }
+    html = events.reduce(0) { |sum, hash| sum + hash[:html_views].to_i }
+    xml = events.reduce(0) { |sum, hash| sum + hash[:xml_views].to_i }
+    total = pdf + html + xml
 
-    { :events => views,
-      :events_url => query_url,
-      :event_count => event_count,
-      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: event_count),
-      :attachment => views.empty? ? nil : { filename: "events.xml", content_type: "text\/xml", data: result.to_s } }
+    { :events => events,
+      :event_count => total,
+      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: total) }
   end
 
   # Format Counter events for all articles as csv

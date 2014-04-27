@@ -22,23 +22,21 @@ namespace :f1000 do
 
   desc "Bulk-import F1000Prime data"
   task :update => :environment do
-    source = Source.find_by_name("f1000")
-    if source.nil?
-      message = "Source \"F1000\" is missing"
-      Alert.create(:exception => "", :class_name => "NoMethodError",
-                                     :message => message)
-      puts "Error: #{message}"
-      exit
-    end
+    # silently exit if f1000 source is not available
+    source = Source.active.find_by_name("f1000")
+    exit if source.nil?
 
-    if source.get_feed.nil?
-      message "An error occured while getting the F1000 feed"
-      Rails.logger.error message
-      puts message
+    unless source.get_feed
+      puts "An error occured while saving the F1000 feed"
+      exit
     else
-      message = "The F1000 feed was successfully updated."
-      Rails.logger.info message
-      puts message
+      puts "The F1000 feed has been saved."
+    end
+    unless source.parse_feed
+      puts "An error occured while parsing the F1000 feed"
+      exit
+    else
+      puts "The F1000 feed has been parsed."
     end
   end
 end

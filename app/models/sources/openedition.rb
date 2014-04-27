@@ -24,6 +24,7 @@ class Openedition < Source
 
     return result if result.nil? || result == { events: [], event_count: nil }
 
+    result['RDF']['item'] = [result['RDF']['item']] if result['RDF']['item'].is_a?(Hash)
     events = Array(result['RDF']['item']).map do |item|
       { :event => item, :event_url => item['link'] }
     end

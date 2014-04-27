@@ -20,55 +20,27 @@
 
 class Wos < Source
   def parse_data(article, options={})
-    result = get_data(article, options)
+    data = get_xml_request(article)
+    result = get_data(article, options.merge(data: data))
 
     return result if result.nil? || result == { events: [], event_count: nil }
 
     # Check that WOS has returned the correct status message,
     # otherwise report an error
-    status = result.at_xpath('//xmlns:fn[@name="LinksAMR.retrieve"]')
-    status = status.nil? ? '' : status['rc']
+    return nil unless check_status_ok(result, article)
 
-    if status.casecmp('OK') != 0
-      if status == 'Server.authentication'
-        class_name = 'Net::HTTPUnauthorized'
-        status_code = 401
-      else
-        class_name = 'Net::HTTPNotFound'
-        status_code = 404
-      end
-      error = result.at_xpath('//xmlns:error')
-      error = error.nil? ? 'an error occured' : error.content
-      message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
-      Alert.create(exception: '',
-                   message: message,
-                   class_name: class_name,
-                   status: status_code,
-                   source_id: id)
-      return { events: [], event_count: nil }
-    end
+    values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
+    event_count = values[0].to_i
+    events_url = values[2]
 
-    event_count = result.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="timesCited"]')
-    event_count = event_count.nil? ? 0 : event_count.content.to_i
-
-    if event_count > 0
-      events_url = result.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="citingArticlesURL"]')
-      events_url = events_url.content unless events_url.nil?
-
-      { events: event_count,
-        events_url: events_url,
-        event_count: event_count,
-        event_metrics: get_event_metrics(citations: event_count),
-        attachment: { filename: 'events.xml', content_type: 'text/xml', data: result.to_s }
-      }
-    else
-      { events: 0, event_count: 0, event_metrics: get_event_metrics(citations: event_count), events_url: nil, attachment: nil }
-    end
+    { events: event_count,
+      events_url: events_url,
+      event_count: event_count,
+      event_metrics: get_event_metrics(citations: event_count) }
   end
 
   def request_options
-    { content_type: 'xml', data: get_xml_request(article) }
-
+    { content_type: 'xml' }
   end
 
   def get_query_url(article)
@@ -76,6 +48,30 @@ class Wos < Source
       url
     else
       nil
+    end
+  end
+
+  def check_status_ok(result, article)
+    status = result.deep_fetch 'response', 'fn', 'rc'
+
+    if status.casecmp('OK') == 0
+      return true
+    else
+      if status == 'Server.authentication'
+        class_name = 'Net::HTTPUnauthorized'
+        status_code = 401
+      else
+        class_name = 'Net::HTTPNotFound'
+        status_code = 404
+      end
+      error = result.deep_fetch('response', 'fn', 'error') { 'an error occured' }
+      message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
+      Alert.create(exception: '',
+                   message: message,
+                   class_name: class_name,
+                   status: status_code,
+                   source_id: id)
+      return false
     end
   end
 

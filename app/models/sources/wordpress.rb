@@ -22,7 +22,8 @@ class Wordpress < Source
   def parse_data(article, options={})
     result = get_data(article, options)
 
-    return result if result.nil? || result == { events: [], event_count: nil }
+    return { events: [], event_count: 0 } if result.nil?
+    return result if result == { events: [], event_count: nil }
 
     events = result.map { |item| { event: item, event_url: item['link'] } }
 

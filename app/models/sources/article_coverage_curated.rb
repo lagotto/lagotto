@@ -26,8 +26,7 @@ class ArticleCoverageCurated < Source
 
     return { events: [], event_count: 0 } if result['referrals'].blank?
 
-    referrals = result['referrals']
-    events = referrals.map { |item| { event: item, event_url: item['referral'] } }
+    events = Array(result['referrals']).map { |item| { event: item, event_url: item['referral'] } }
 
     { events: events,
       event_count: events.length,

@@ -49,6 +49,14 @@ module Configurable
       config.events_url = value
     end
 
+    def feed_url
+      config.feed_url
+    end
+
+    def feed_url=(value)
+      config.feed_url = value
+    end
+
     def username
       config.username
     end

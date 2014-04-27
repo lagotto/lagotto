@@ -41,9 +41,10 @@ module Networkable
       else
         response = conn.get url, {}, options[:headers]
       end
-      # We had issues with the Faraday XML parsing
+      # We had issues with the Faraday XML parsing via multi_xml
+      # we use ActiveSupport XML parsing instead
       if options[:content_type] == 'xml'
-        MultiXml.parse(response.body)
+        Hash.from_xml(response.body)
       else
         response.body
       end
@@ -113,7 +114,7 @@ module Networkable
                        target_url: url)
           nil
         elsif options[:content_type] == 'xml'
-          Nokogiri::XML(error.response[:body])
+          Hash.from_xml(error.response[:body])
         else
           error.response[:body]
         end

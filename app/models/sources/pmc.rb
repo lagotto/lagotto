@@ -112,7 +112,7 @@ class Pmc < Source
     journals_with_errors
   end
 
-  def put_pmc_database
+  def put_database
     put_alm_data(url)
   end
 
@@ -125,7 +125,7 @@ class Pmc < Source
   end
 
   def get_feed_url(month, year, journal)
-    "http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=#{year}&month=#{month}&jrid=#{journal}&user=#{username}&password=#{password}"
+    feed_url % { year: year, month: month, journal: journal, username: username, password: password }
   end
 
   # Format Pmc events for all articles as csv
@@ -160,10 +160,11 @@ class Pmc < Source
   end
 
   def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "journals", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "username", :field_type => "text_field"},
-     {:field_name => "password", :field_type => "password_field"}]
+    [ {:field_name => "url", :field_type => "text_area", :size => "90x2" },
+      {:field_name => "feed_url", :field_type => "text_area", :size => "90x2" },
+      {:field_name => "journals", :field_type => "text_area", :size => "90x2" },
+      {:field_name => "username", :field_type => "text_field" },
+      {:field_name => "password", :field_type => "password_field" }]
   end
 
   def url
@@ -173,6 +174,10 @@ class Pmc < Source
   def url=(value)
     # make sure we have trailing slash
     config.url = value ? value.chomp("/") + "/" : nil
+  end
+
+  def feed_url
+    config.feed_url || "http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=%{year}&month=%{month}&jrid=%{journal}&user=%{username}&password=%{password}"
   end
 
   def journals

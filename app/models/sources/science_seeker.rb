@@ -23,13 +23,13 @@ class ScienceSeeker < Source
     result = get_data(article, options)
 
     return result if result.nil? || result == { events: [], event_count: nil }
-    return { events: [], event_count: 0 } if result.empty? || !result["feed"]
+    return { events: [], event_count: 0 } if result.empty?
 
-    events = Array(result['feed']['entry']).map do |item|
-      { :event => item, :event_url => item['link']['href'] }
-    end
+    # to handle incomplete API responses
+    result["feed"] ||= {}
 
-    events_url = "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}"
+    events = Array(result['feed']['entry']).map { |item| { :event => item, :event_url => item['link']['href'] } }
+    events_url = get_events_url(article)
 
     { :events => events,
       :events_url => events_url,
@@ -39,6 +39,10 @@ class ScienceSeeker < Source
 
   def request_options
     { content_type: 'xml' }
+  end
+
+  def get_events_url(article)
+    "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}"
   end
 
   def get_config_fields
