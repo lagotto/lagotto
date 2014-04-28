@@ -40,5 +40,9 @@ module Measurable
         :total => options[:total] }
     end
 
+    def get_sum(items, key)
+      items.empty? ? 0 : items.reduce(0) { |sum, hash| sum + hash[key].to_i }
+    end
+
   end
 end

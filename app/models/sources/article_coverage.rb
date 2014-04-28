@@ -19,20 +19,6 @@
 # limitations under the License.
 
 class ArticleCoverage < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    return { events: [], event_count: 0 } if result['referrals'].blank?
-
-    events = Array(result['referrals']).map { |item| { event: item, event_url: item['referral'] } }
-
-    { events: events,
-      event_count: events.length,
-      event_metrics: get_event_metrics(comments: events.length) }
-  end
-
   def get_query_url(article)
     if article.doi =~ /^10.1371/
       url % { :doi => article.doi_escaped }
@@ -41,7 +27,17 @@ class ArticleCoverage < Source
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def response_options
+    { metrics: :comments }
+  end
+
+  def get_events(result)
+    Array(result['referrals']).map { |item| { event: item, event_url: item['referral'] } }
+  end
+
+  protected
+
+  def config_fields
+    [:url]
   end
 end

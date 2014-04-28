@@ -166,7 +166,23 @@ class Source < ActiveRecord::Base
     end
   end
 
+  def parse_data(result, options = { metrics: :citations })
+    options.merge!(response_options)
+
+    events = get_events(result)
+    events_url = options[:article].present? ? get_events_url(options[:article]) : nil
+
+    { events: events,
+      events_url: events_url,
+      event_count: events.length,
+      event_metrics: get_event_metrics(options[:metrics] => events.length) }
+  end
+
   def request_options
+    {}
+  end
+
+  def response_options
     {}
   end
 
@@ -179,7 +195,11 @@ class Source < ActiveRecord::Base
   end
 
   def get_events_url(article)
-    events_url % { :doi => article.doi_escaped }
+    if article.doi.present?
+      events_url % { :doi => article.doi_escaped }
+    else
+      nil
+    end
   end
 
   # Custom validations that are triggered in state machine

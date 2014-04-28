@@ -17,34 +17,7 @@
 # limitations under the License.
 
 class Connotea < Source
-  def get_data(article, options={})
-    events_url = nil
-
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml', username: username, password: password))
-
-    events = []
-    result.xpath("//default:Post").each do |item|
-      uri = item.at_xpath("@rdf:about").value
-      events << {:event => uri, :event_url => uri}
-      events_url = "http://www.connotea.org/uri/" + uri[uri.rindex('/')+1..-1]
-    end
-    events
-
-    { :events => events,
-      :events_url => events_url,
-      :event_count => events.length }
-  end
-
-  def get_query_url(article)
-    url % { :doi_url => article.doi_as_url }
-  end
-
-  def get_config_fields
-    [{ :field_name => "url", :field_type => "text_area", :size => "90x2" },
-     { :field_name => "username", :field_type => "text_field" },
-     { :field_name => "password", :field_type => "password_field" }]
-  end
+  protected
 
   def obsolete?
     true

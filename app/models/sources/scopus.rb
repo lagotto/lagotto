@@ -19,11 +19,11 @@
 # limitations under the License.
 
 class Scopus < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
+  def request_options
+    { :headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken } }
+  end
 
-    return result if result.nil? || result == { events: [], event_count: nil }
-
+  def parse_data(result, options={})
     if result["search-results"].nil? || result["search-results"]["entry"][0].nil?
       nil
     elsif result["search-results"]["entry"][0]["citedby-count"].nil?
@@ -40,14 +40,10 @@ class Scopus < Source
     end
   end
 
-  def request_options
-    { :headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken } }
-  end
+  protected
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     { field_name: "api_key", field_type:  "text_field" },
-     { field_name: "insttoken", field_type: "text_field" }]
+  def config_fields
+    [:url, :api_key, :insttoken]
   end
 
   def url

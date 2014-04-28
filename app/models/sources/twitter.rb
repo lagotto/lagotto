@@ -18,12 +18,20 @@
 #
 
 class Twitter < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
+  def get_query_url(article)
+    if article.doi =~ /^10.1371/
+      url % { :doi => article.doi_escaped }
+    else
+      nil
+    end
+  end
 
-    return result if result.nil? || result == { events: [], event_count: nil }
+  def response_options
+    { :metrics => :comments }
+  end
 
-    events = Array(result['rows']).map do |item|
+  def get_events(result)
+    Array(result['rows']).map do |item|
       data = item['value']
       if data.key?("from_user")
         user = data["from_user"]
@@ -43,21 +51,11 @@ class Twitter < Source
                  user_profile_image: user_profile_image },
         event_url: "http://twitter.com/#{user}/status/#{data["id_str"]}" }
     end
-
-    { events: events,
-      event_count: events.length,
-      event_metrics: get_event_metrics(comments: events.length) }
   end
 
-  def get_query_url(article)
-    if article.doi =~ /^10.1371/
-      url % { :doi => article.doi_escaped }
-    else
-      nil
-    end
-  end
+  protected
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url]
   end
 end

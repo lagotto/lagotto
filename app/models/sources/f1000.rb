@@ -19,16 +19,8 @@
 # limitations under the License.
 
 class F1000 < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return { events: [], event_count: 0 } if result.nil?
-    return result if result == { events: [], event_count: nil }
-
-    result['recommendations'] ||= {}
-    events = Array(result['recommendations']).map do |item|
-      { :event => item, :event_url => item['url'] }
-    end
+  def parse_data(result, options={})
+    events = get_events(result)
 
     if events.empty?
       event_count = 0
@@ -39,10 +31,15 @@ class F1000 < Source
       events_url = event['url']
     end
 
-    { :events => events,
-      :events_url => events_url,
-      :event_count => event_count,
-      :event_metrics => get_event_metrics(citations: event_count) }
+    { events: events,
+      events_url: events_url,
+      event_count: event_count,
+      event_metrics: get_event_metrics(citations: event_count) }
+  end
+
+  def get_events(result)
+    result['recommendations'] ||= {}
+    Array(result['recommendations']).map { |item| { :event => item, :event_url => item['url'] } }
   end
 
   # Retrieve f1000 XML feed and store in /data directory.
@@ -107,10 +104,10 @@ class F1000 < Source
     feed_url
   end
 
-  def get_config_fields
-    [{ :field_name => "url", :field_type => "text_area", :size => "90x2" },
-     { field_name: "feed_url", field_type: "text_area", size: "90x2" },
-     { :field_name => "filename", :field_type => "text_field", :size => 90 }]
+  protected
+
+  def config_fields
+    [:url, :feed_url, :filename]
   end
 
   def filename

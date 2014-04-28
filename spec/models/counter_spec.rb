@@ -76,43 +76,63 @@ describe Counter do
     end
   end
 
-  context "use the Counter API" do
+  context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article_without_doi = FactoryGirl.build(:article, :doi => "")
-      subject.parse_data(article_without_doi).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => "")
+      subject.get_data(article).should eq(events: [], event_count: nil)
     end
 
-    context "use the Counter API" do
-      it "should report if there are no events and event_count returned by the Counter API" do
-        article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
-        body = File.read(fixture_path + 'counter_nil.xml')
-        stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 404)
-        subject.parse_data(article).should eq(events: [], event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
-        stub.should have_been_requested
-      end
+    it "should report if there are no events and event_count returned by the Counter API" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
+      body = File.read(fixture_path + 'counter_nil.xml')
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 404)
+      response = subject.get_data(article)
+      response.should eq(Hash.from_xml(body))
+      response['rest']['response']['results']['item'].should be_nil
+      stub.should have_been_requested
+    end
 
-      it "should report if there are events and event_count returned by the Counter API" do
-        article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
-        body = File.read(fixture_path + 'counter.xml')
-        stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
-        response = subject.parse_data(article)
-        response[:events].length.should eq(37)
-        response[:event_count].should eq(3387)
-        response[:event_metrics].should eq(pdf: 447, html: 2919, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 3387)
-        stub.should have_been_requested
-      end
+    it "should report if there are events and event_count returned by the Counter API" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
+      body = File.read(fixture_path + 'counter.xml')
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      response = subject.get_data(article)
+      response.should eq(Hash.from_xml(body))
+      response['rest']['response']['results']['item'].length.should eq(37)
+      stub.should have_been_requested
+    end
 
-      it "should catch errors with the Counter API" do
-        article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
-        stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-        subject.parse_data(article, source_id: subject.id).should be_nil
-        stub.should have_been_requested
-        Alert.count.should == 1
-        alert = Alert.first
-        alert.class_name.should eq("Net::HTTPRequestTimeOut")
-        alert.status.should == 408
-        alert.source_id.should == subject.id
-      end
+    it "should catch errors with the Counter API" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
+      subject.get_data(article, source_id: subject.id).should be_nil
+      stub.should have_been_requested
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPRequestTimeOut")
+      alert.status.should == 408
+      alert.source_id.should == subject.id
+    end
+  end
+
+  context "parse_data" do
+    it "should report if there are no events and event_count returned by the Counter API" do
+      body = File.read(fixture_path + 'counter_nil.xml')
+      result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
+      response = subject.parse_data(result)
+      response.should eq(events: [], events_url: nil, event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+    end
+
+    it "should report if there are events and event_count returned by the Counter API" do
+      body = File.read(fixture_path + 'counter.xml')
+      result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
+      response = subject.parse_data(result)
+      response[:events].length.should eq(37)
+      response[:events_url].should be_nil
+      response[:event_count].should eq(3387)
+      response[:event_metrics].should eq(pdf: 447, html: 2919, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 3387)
     end
   end
 end

@@ -21,30 +21,6 @@
 class CrossRef < Source
   validates :url, :password, presence: true, if: "CONFIG[:doi_prefix]"
 
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    if result['crossref_result']['query_result']['body']['forward_link'].is_a?(Array)
-      events = result['crossref_result']['query_result']['body']['forward_link'].map do |item|
-        { :event => item['journal_cite'], :event_url => Article.to_url(item['journal_cite']['doi']) }
-      end
-    else
-      events = []
-    end
-
-    if article.is_publisher?
-      event_count = events.length
-    else
-      event_count = result.deep_fetch('crossref_result', 'query_result', 'body', 'query', 'fl_count') { 0 }
-    end
-
-    { :events => events,
-      :event_count => event_count.to_i,
-      :event_metrics => get_event_metrics(citations: event_count) }
-  end
-
   def get_query_url(article)
     if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
       nil
@@ -60,11 +36,35 @@ class CrossRef < Source
     { content_type: 'xml' }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "openurl", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "username", :field_type => "text_field"},
-     {:field_name => "password", :field_type => "password_field"}]
+  def parse_data(result, options={})
+    events = get_events(result)
+
+    if article.is_publisher?
+      event_count = events.length
+    else
+      event_count = result.deep_fetch('crossref_result', 'query_result', 'body', 'query', 'fl_count') { 0 }
+    end
+
+    { events: events,
+      events_url: nil,
+      event_count: event_count.to_i,
+      event_metrics: get_event_metrics(citations: event_count) }
+  end
+
+  def get_events(result)
+    if result['crossref_result']['query_result']['body']['forward_link'].is_a?(Array)
+      result['crossref_result']['query_result']['body']['forward_link'].map do |item|
+        { :event => item['journal_cite'], :event_url => Article.to_url(item['journal_cite']['doi']) }
+      end
+    else
+      []
+    end
+  end
+
+  protected
+
+  def config_fields
+    [:url, :openurl, :username, :password]
   end
 
   def url

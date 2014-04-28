@@ -19,26 +19,22 @@
 # limitations under the License.
 
 class Wordpress < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return { events: [], event_count: 0 } if result.nil?
-    return result if result == { events: [], event_count: nil }
-
-    events = result.map { |item| { event: item, event_url: item['link'] } }
-
-    { events: events,
-      event_count: events.length,
-      events_url: "http://en.search.wordpress.com/?q=\"#{article.doi}\"&t=post",
-      event_metrics: get_event_metrics(citations: events.length) }
+  def get_events(result)
+    result.map { |item| { event: item, event_url: item['link'] } }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  protected
+
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
     config.url || "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json&size=20"
+  end
+
+  def events_url
+    config.events_url || "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post"
   end
 
   def rate_limiting

@@ -22,23 +22,20 @@ class Pmc < Source
   # include date methods concern
   include Dateable
 
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
+  def parse_data(result, options={})
     # no data for this article
     return { events: [], event_count: nil } unless result['views']
 
     events = result["views"]
 
-    pdf = events.nil? ? 0 : events.reduce(0) { |sum, hash| sum + hash["pdf"].to_i }
-    html = events.nil? ? 0 : events.reduce(0) { |sum, hash| sum + hash["full-text"].to_i }
-    event_count = pdf + html
+    pdf = get_sum(events, 'pdf')
+    html = get_sum(events, 'full-text')
+    total = pdf + html
 
-    { :events => events,
-      :event_count => event_count,
-      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: event_count) }
+    { events: events,
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
   end
 
   # Retrieve usage stats in XML and store in /data directory. Returns an empty array if no error occured
@@ -116,14 +113,6 @@ class Pmc < Source
     put_alm_data(url)
   end
 
-  def get_query_url(article)
-    unless article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
-      "#{url}#{article.doi_escaped}"
-    else
-      nil
-    end
-  end
-
   def get_feed_url(month, year, journal)
     feed_url % { year: year, month: month, journal: journal, username: username, password: password }
   end
@@ -159,12 +148,10 @@ class Pmc < Source
     end
   end
 
-  def get_config_fields
-    [ {:field_name => "url", :field_type => "text_area", :size => "90x2" },
-      {:field_name => "feed_url", :field_type => "text_area", :size => "90x2" },
-      {:field_name => "journals", :field_type => "text_area", :size => "90x2" },
-      {:field_name => "username", :field_type => "text_field" },
-      {:field_name => "password", :field_type => "password_field" }]
+  protected
+
+  def config_fields
+    [:url, :feed_url, :journals, :username, :password]
   end
 
   def url

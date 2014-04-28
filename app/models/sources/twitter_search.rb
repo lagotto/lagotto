@@ -19,14 +19,28 @@
 # limitations under the License.
 
 class TwitterSearch < Source
-  def parse_data(article, options={})
-    return nil unless get_access_token
+  def get_query_url(article, options={})
+    if get_access_token && article.doi.present?
+      params = { q: article.doi_escaped,
+                 count: 100,
+                 include_entities: 1,
+                 result_type: "mixed" }
+      query_url = url + params.to_query
+    else
+      nil
+    end
+  end
 
-    result = get_data(article, options)
+  def request_options
+    { bearer: access_token }
+  end
 
-    return result if result.nil? || result == { events: [], event_count: nil }
+  def response_options
+    { :metrics => :comments }
+  end
 
-    events = Array(result['statuses']).map do |item|
+  def get_events(result)
+    Array(result['statuses']).map do |item|
       if item.key?("from_user")
         user = item["from_user"]
         user_name = item["from_user_name"]
@@ -44,28 +58,6 @@ class TwitterSearch < Source
                     user_name: user_name,
                     user_profile_image: user_profile_image },
         :event_url => "http://twitter.com/#{user}/status/#{item["id_str"]}" }
-    end
-    events_url = get_events_url(article)
-
-    { events: events,
-      event_count: events.length,
-      events_url: events_url,
-      event_metrics: get_event_metrics(comments: events.length) }
-  end
-
-  def request_options
-    { bearer: access_token }
-  end
-
-  def get_query_url(article, options={})
-    if article.doi.present?
-      params = { q: article.doi_escaped,
-                 count: 100,
-                 include_entities: 1,
-                 result_type: "mixed" }
-      query_url = url + params.to_query
-    else
-      nil
     end
   end
 
@@ -94,16 +86,6 @@ class TwitterSearch < Source
     put_alm_data(data_url)
   end
 
-  def get_config_fields
-    [{ field_name: "url", field_type: "text_area", size: "90x2" },
-     { field_name: "events_url", field_type: "text_area", size: "90x2" },
-     { field_name: "data_url", field_type: "text_area", size: "90x2" },
-     { :field_name => "authentication_url", :field_type => "text_area", :size => "90x2" },
-     { :field_name => "api_key", :field_type => "text_field" },
-     { :field_name => "api_secret", :field_type => "text_field" },
-     { :field_name => "access_token", :field_type => "text_field" }]
-  end
-
   def get_max_id(next_results)
     query = Rack::Utils.parse_query(next_results)
     query["?max_id"]
@@ -117,6 +99,12 @@ class TwitterSearch < Source
   def set_since_id(article, options={})
     rs = retrieval_statuses.where(article_id: article.id).first
     rs.update_attributes(data_rev: options[:since_id])
+  end
+
+  protected
+
+  def config_fields
+    [:url, :events_url, :data_url, :authentication_url, :api_key, :api_secret, :access_token]
   end
 
   def url

@@ -19,25 +19,19 @@
 # limitations under the License.
 
 class Nature < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    events = result.map do |item|
+  def get_events(result)
+    result.map do |item|
       url = item['post']['url']
       url = "http://#{url}" unless url.start_with?("http://")
 
       { :event => item['post'], :event_url => url }
     end
-
-    { :events => events,
-      :event_count => events.length,
-      :event_metrics => get_event_metrics(citations: events.length) }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  protected
+
+  def config_fields
+    [:url]
   end
 
   def url

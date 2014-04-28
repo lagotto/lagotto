@@ -19,11 +19,15 @@
 # limitations under the License.
 
 class Facebook < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
+  def get_query_url(article, options={})
+    if article.get_url
+      URI.escape(url % { access_token: access_token, query_url: article.canonical_url_escaped })
+    else
+      nil
+    end
+  end
 
-    return result if result.nil? || result == { events: [], event_count: nil }
-
+  def parse_data(result, options={})
     return nil if result["data"].nil?
 
     events = result["data"]
@@ -42,31 +46,20 @@ class Facebook < Source
       total = events[0]["total_count"]
     end
 
-    { :events => events,
-      :event_count => total,
-      :event_metrics => get_event_metrics(shares: shares, comments: comments, likes: likes, total: total) }
+    { events: events,
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(shares: shares, comments: comments, likes: likes, total: total) }
   end
 
-  def get_query_url(article, options={})
-    if article.get_url
-      URI.escape(url % { access_token: access_token, query_url: article.canonical_url_escaped })
-    else
-      nil
-    end
-  end
+  protected
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "access_token", :field_type => "text_field"},
-     {:field_name => "count_limit", :field_type => "text_field"}]
+  def config_fields
+    [:url, :access_token, :count_limit]
   end
 
   def url
     config.url || "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'"
-  end
-
-  def access_token
-    config.access_token
   end
 
   def count_limit

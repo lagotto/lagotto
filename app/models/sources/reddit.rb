@@ -19,45 +19,35 @@
 # limitations under the License.
 
 class Reddit < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
+  def parse_data(result, options={})
+    events = get_events(result)
 
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    events = Array(result["data"]["children"]).map { |item| { event: item["data"], event_url: item["data"]['url'] } }
-    events_url = get_events_url(article)
-    like_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].reduce(0) { |sum, hash| sum + hash["data"]["score"] }
-    comment_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].reduce(0) { |sum, hash| sum + hash["data"]["num_comments"] }
-    event_count = like_count + comment_count
+    likes = result["data"]["children"].empty? ? 0 : result["data"]["children"].reduce(0) { |sum, hash| sum + hash["data"]["score"] }
+    comments = result["data"]["children"].empty? ? 0 : result["data"]["children"].reduce(0) { |sum, hash| sum + hash["data"]["num_comments"] }
+    total = likes + comments
 
     { events: events,
-      event_count: event_count,
-      events_url: events_url,
-      event_metrics: get_event_metrics(comments: comment_count, likes: like_count, total: event_count) }
+      events_url: get_events_url(article),
+      event_count: total,
+      event_metrics: get_event_metrics(comments: comments, likes: likes, total: total) }
   end
 
-  def get_query_url(article)
-    if article.doi.present?
-      url % { :id => CGI.escape(article.doi_escaped) }
-    else
-      nil
-    end
+  def get_events(result)
+    Array(result["data"]["children"]).map { |item| { event: item["data"], event_url: item["data"]['url'] } }
   end
 
-  def get_events_url(article)
-    events_url % { :id => CGI.escape(article.doi_escaped) }
-  end
+    protected
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
-    config.url || "http://www.reddit.com/search.json?q=\"%{id}\""
+    config.url || "http://www.reddit.com/search.json?q=\"%{doi}\""
   end
 
   def events_url
-    config.events_url || "http://www.reddit.com/search?q=\"%{id}\""
+    config.events_url || "http://www.reddit.com/search?q=\"%{doi}\""
   end
 
   def rate_limiting

@@ -19,22 +19,6 @@
 # limitations under the License.
 
 class PlosComments < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?
-
-    events = result
-    replies = events.reduce(0) { |sum, hash| sum + hash["totalNumReplies"].to_i }
-    total = events.length + replies
-
-    { :events => events,
-      :event_count => total,
-      :event_metrics => get_event_metrics(comments: events.length, total: total) }
-  end
-
   def get_query_url(article)
     if article.doi =~ /^10.1371/
       url % { :doi => article.doi }
@@ -43,11 +27,22 @@ class PlosComments < Source
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def parse_data(result, options={})
+    return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?
+
+    events = result
+    replies = get_sum(events, 'totalNumReplies')
+    total = events.length + replies
+
+    { events: events,
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(comments: events.length, total: total) }
   end
 
-  def url
-    config.url
+  protected
+
+  def config_fields
+    [:url]
   end
 end

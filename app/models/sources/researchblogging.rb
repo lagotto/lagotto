@@ -19,43 +19,28 @@
 # limitations under the License.
 
 class Researchblogging < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    events = Array(result['blogposts']['post']).map do |item|
-      { :event => item, :event_url => item['post_URL'] }
-    end
-
-    events_url = get_events_url(article)
-
-    { :events => events,
-      :events_url => events_url,
-      :event_count => events.length,
-      :event_metrics => get_event_metrics(citations: events.length) }
-  end
-
-  def get_events_url(article)
-    unless article.doi.blank?
-      "http://researchblogging.org/post-search/list?article=#{article.doi_escaped}"
-    else
-      nil
-    end
-  end
-
   def request_options
     { content_type: 'xml', username: username, password: password }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "username", :field_type => "text_field"},
-     {:field_name => "password", :field_type => "password_field"}]
+  def get_events(result)
+    Array(result['blogposts']['post']).map do |item|
+      { :event => item, :event_url => item['post_URL'] }
+    end
+  end
+
+  protected
+
+  def config_fields
+    [:url, :events_url, :username, :password]
   end
 
   def url
     config.url || "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
+  end
+
+  def events_url
+    config.events_url || "http://researchblogging.org/post-search/list?article=%{doi}"
   end
 
   def staleness_year

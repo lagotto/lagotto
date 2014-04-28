@@ -19,6 +19,18 @@
 # limitations under the License.
 
 class Wos < Source
+  def get_query_url(article)
+    if article.doi.present?
+      url
+    else
+      nil
+    end
+  end
+
+  def request_options
+    { content_type: 'xml' }
+  end
+
   def parse_data(article, options={})
     data = get_xml_request(article)
     result = get_data(article, options.merge(data: data))
@@ -37,18 +49,6 @@ class Wos < Source
       events_url: events_url,
       event_count: event_count,
       event_metrics: get_event_metrics(citations: event_count) }
-  end
-
-  def request_options
-    { content_type: 'xml' }
-  end
-
-  def get_query_url(article)
-    if article.doi.present?
-      url
-    else
-      nil
-    end
   end
 
   def check_status_ok(result, article)
@@ -100,7 +100,9 @@ class Wos < Source
     end
   end
 
-  def get_config_fields
-    [{ field_name: 'url', field_type: 'text_area', size: '90x2' }]
+  protected
+
+  def config_fields
+    [:url]
   end
 end

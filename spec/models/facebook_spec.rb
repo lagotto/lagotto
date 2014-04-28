@@ -3,11 +3,6 @@ require 'spec_helper'
 describe Facebook do
   subject { FactoryGirl.create(:facebook) }
 
-  it "should report that there are no events if the doi is missing" do
-    article = FactoryGirl.build(:article, :doi => "")
-    subject.parse_data(article).should eq(events: [], event_count: nil)
-  end
-
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no article url" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => nil)
@@ -26,22 +21,27 @@ describe Facebook do
     end
   end
 
-  context "use the Facebook API" do
+  context "get_data" do
+    it "should report that there are no events if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => "")
+      subject.get_data(article).should eq(events: [], event_count: nil)
+    end
+
     it "should report if there are no events and event_count returned by the Facebook API" do
       article = FactoryGirl.build(:article, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'facebook_nil.json'), :status => 200)
-      response = subject.parse_data(article)
-      response[:events].should be_true
-      response[:event_count].should eq(0)
+      body = File.read(fixture_path + 'facebook_nil.json')
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      response = subject.get_data(article)
+      response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
     it "should report if there are events and event_count returned by the Facebook API" do
       article = FactoryGirl.build(:article, :canonical_url => "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124")
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'facebook.json'), :status => 200)
-      response = subject.parse_data(article)
-      response[:events].should be_true
-      response[:event_count].should eq(6745)
+      body = File.read(fixture_path + 'facebook.json')
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      response = subject.get_data(article)
+      response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
@@ -55,6 +55,24 @@ describe Facebook do
       alert.class_name.should eq("Net::HTTPUnauthorized")
       alert.status.should == 401
       alert.source_id.should == subject.id
+    end
+  end
+
+  context "parse_data" do
+    it "should report if there are no events and event_count returned by the Facebook API" do
+      body = File.read(fixture_path + 'facebook_nil.json')
+      result = JSON.parse(body)
+      response = subject.parse_data(result)
+      response[:events].should be_true
+      response[:event_count].should eq(0)
+    end
+
+    it "should report if there are events and event_count returned by the Facebook API" do
+      body = File.read(fixture_path + 'facebook.json')
+      result = JSON.parse(body)
+      response = subject.parse_data(result)
+      response[:events].should be_true
+      response[:event_count].should eq(6745)
     end
   end
 end

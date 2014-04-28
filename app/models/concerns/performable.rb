@@ -57,7 +57,8 @@ module Performable
         update_interval = (Date.today - retrieved_at.to_date).to_i
       end
 
-      data_from_source = source.parse_data(article, timeout: source.timeout, source_id: source_id)
+      result = source.get_data(article, timeout: source.timeout, source_id: source_id)
+      data_from_source = source.parse_data(result, article: article, source_id: source_id)
       if data_from_source.is_a?(Hash)
         events = data_from_source[:events]
         events_url = data_from_source[:events_url]

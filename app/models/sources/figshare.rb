@@ -19,11 +19,15 @@
 # limitations under the License.
 
 class Figshare < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
+  def get_query_url(article)
+    if article.doi =~ /^10.1371/
+      url % { :doi => article.doi }
+    else
+      nil
+    end
+  end
 
-    return result if result.nil? || result == { events: [], event_count: nil }
-
+  def parse_data(result, options={})
     return { events: [], event_count: nil } if result.empty? || result["items"].empty?
 
     views = get_sum(result["items"], 'page_views')
@@ -32,24 +36,15 @@ class Figshare < Source
 
     total = views + downloads + likes
 
-    { :events => result,
-      :event_count => total,
-      :event_metrics => get_event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
+    { events: result,
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
   end
 
-  def get_sum(items, key)
-    items.reduce(0) { |sum, hash| sum + hash["stats"][key].to_i }
-  end
+  protected
 
-  def get_query_url(article)
-    if article.doi =~ /^10.1371/
-      config.url % { :doi => article.doi }
-    else
-      nil
-    end
-  end
-
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url]
   end
 end

@@ -19,11 +19,18 @@
 # limitations under the License.
 
 class Wikipedia < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
+  # MediaWiki API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
+  def get_query_url(article, options={})
+    if article.doi.present?
+      host = options[:host] || "en.wikipedia.org"
+      namespace = options[:namespace] || "0"
+      url % { host: host, namespace: namespace, doi: CGI.escape("\"#{article.doi}\"") }
+    else
+      nil
+    end
+  end
 
-    return result if result.nil? || result == { events: [], event_count: nil }
-
+  def get_data(article, options={})
     events = {}
 
     # Loop through the languages
@@ -39,59 +46,38 @@ class Wikipedia < Source
         return nil
       elsif !results.empty? && results['query'] && results['query']['searchinfo'] && results['query']['searchinfo']['totalhits']
         lang_count = results['query']['searchinfo']['totalhits']
-      else
-        # Not Found
+      else # not found
         lang_count = 0
       end
 
       events[lang] = lang_count
     end
 
-    event_count = events.values.reduce(0) { |sum, x| sum + x }
-    events["total"] = event_count
-    events_url = get_events_url(article)
-
-    { :events => events,
-      :event_count => event_count,
-      :event_metrics => get_event_metrics(citations: event_count),
-      :events_url => events_url }
+    events.extend Hashie::Extensions::DeepFetch
   end
 
-  def get_query_url(article, options={})
-    # Build URL for calling the MediaWiki API, using the following parameters:
-    #
-    # host - the Mediawiki to search, default en.wikipedia.org (English Wikipedia)
-    # namespace - the namespace to search: 0 = pages, 6 = files
-    # doi - the DOI to search for, uses article.doi
-    #
-    # API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
+  def parse_data(result, options={})
+    event_count = result.values.reduce(0) { |sum, x| sum + x }
+    result["total"] = event_count
 
-    if article.doi.present?
-      host = options[:host] || "en.wikipedia.org"
-      namespace = options[:namespace] || "0"
-
-      # We search for the DOI in parentheses to only get exact matches
-      url % { host: host, namespace: namespace, doi: CGI.escape("\"#{article.doi}\"") }
-    else
-      nil
-    end
+    { events: result,
+      events_url: get_events_url(article),
+      event_count: event_count,
+      event_metrics: get_event_metrics(citations: event_count) }
   end
 
-  def get_events_url(article)
-    unless article.doi.blank?
-      "http://en.wikipedia.org/w/index.php?search=\"#{article.doi_escaped}\""
-    else
-      nil
-    end
-  end
+  protected
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "languages", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url, :events_url, :languages]
   end
 
   def url
     config.url || "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
+  end
+
+  def events_url
+    config.events_url || "http://en.wikipedia.org/w/index.php?search=\"%{doi}\""
   end
 
   def languages

@@ -17,31 +17,7 @@
 # limitations under the License.
 
 class Postgenomic < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    events = result.map { |item| { :event => item, :event_url => item["url"] } }
-
-    events_url = get_events_url(article)
-
-    { :events => events,
-      :events_url => events_url,
-      :event_count => events.length }
-  end
-
-  def get_events_url(article)
-    unless article.doi.blank?
-      "http://postgenomic.com/paper.php?doi=#{Addressable::URI.encode(article.doi)}"
-    else
-      nil
-    end
-  end
-
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
-  end
+  protected
 
   def obsolete?
     true

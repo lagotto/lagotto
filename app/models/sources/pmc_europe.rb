@@ -19,18 +19,6 @@
 # limitations under the License.
 
 class PmcEurope < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    event_count = result["hitCount"]
-
-    { events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-citations",
-      event_count: event_count,
-      event_metrics: get_event_metrics(citations: event_count) }
-  end
-
   def get_query_url(article)
     if article.get_ids && article.pmid.present?
       url % { :pmid => article.pmid }
@@ -39,8 +27,27 @@ class PmcEurope < Source
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def parse_data(result, options={})
+    event_count = result["hitCount"]
+
+    { events: event_count,
+      events_url: get_events_url(article),
+      event_count: event_count,
+      event_metrics: get_event_metrics(citations: event_count) }
+  end
+
+  def get_events_url(article)
+    if article.pmid.present?
+      "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-citations"
+    else
+      nil
+    end
+  end
+
+  protected
+
+  def config_fields
+    [:url]
   end
 
   def url

@@ -19,38 +19,27 @@
 # limitations under the License.
 
 class ScienceSeeker < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-    return { events: [], event_count: 0 } if result.empty?
-
-    # to handle incomplete API responses
-    result["feed"] ||= {}
-
-    events = Array(result['feed']['entry']).map { |item| { :event => item, :event_url => item['link']['href'] } }
-    events_url = get_events_url(article)
-
-    { :events => events,
-      :events_url => events_url,
-      :event_count => events.length,
-      :event_metrics => get_event_metrics(citations: events.length) }
-  end
-
   def request_options
     { content_type: 'xml' }
   end
 
-  def get_events_url(article)
-    "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}"
+  def get_events(result)
+    result["feed"] ||= {}
+    Array(result['feed']['entry']).map { |item| { :event => item, :event_url => item['link']['href'] } }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  protected
+
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
     config.url || "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
+  end
+
+  def events_url
+    config.events_url || "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=%{doi}"
   end
 
   def staleness_year

@@ -15,41 +15,6 @@
 # limitations under the License.
 
 class RelativeMetric < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    events = get_relative_metric_data(article)
-
-    return nil if events.blank?
-
-    total = events[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }
-
-    { :events => events,
-      :event_count => total,
-      :event_metrics => get_event_metrics(total: total) }
-  end
-
-  def get_relative_metric_data(article)
-    events = {}
-
-    year = article.published_on.year
-
-    events[:start_date] = "#{year}-01-01T00:00:00Z"
-    events[:end_date] = Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z")
-
-    query_url = get_query_url(article)
-    data = get_result(query_url)
-
-    if data.nil?
-      nil
-    else
-      events[:subject_areas] = data["rows"].map { |row| { :subject_area => row["value"]["subject_area"], :average_usage => row["value"]["data"] } }
-      events
-    end
-  end
-
   def get_query_url(article)
     if article.doi =~ /^10.1371/
       url % { :doi => article.doi_escaped }
@@ -58,7 +23,28 @@ class RelativeMetric < Source
     end
   end
 
-  def get_config_fields
-    [{ :field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def parse_data(result, options={})
+    events = get_events(result, article.published_on.year)
+
+    total = events[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }
+
+    { events: events,
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(total: total) }
+  end
+
+  def get_events(result, year)
+    { start_date: "#{year}-01-01T00:00:00Z",
+      end_date: Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z"),
+      subject_areas: result["rows"].map do |row|
+        { :subject_area => row["value"]["subject_area"], :average_usage => row["value"]["data"] }
+      end }
+  end
+
+  protected
+
+  def config_fields
+    [:url]
   end
 end

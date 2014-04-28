@@ -19,7 +19,7 @@
 # limitations under the License.
 
 class Mendeley < Source
-  def parse_data(article, options={})
+  def parse_data(result, options={})
     # First check that we have a valid OAuth2 access token
     return nil unless get_access_token
 
@@ -63,10 +63,10 @@ class Mendeley < Source
     related_articles = get_result(get_related_url(result['uuid']), options.merge(bearer: access_token))
     result[:related] = related_articles['documents'] if related_articles
 
-    { :events => result,
-      :events_url => events_url,
-      :event_count => total,
-      :event_metrics => get_event_metrics(shares: readers, groups: groups, total: total) }
+    { events: result,
+      events_url: events_url,
+      event_count: total,
+      event_metrics: get_event_metrics(shares: readers, groups: groups, total: total) }
   end
 
   def get_mendeley_uuid(article, options={})
@@ -153,16 +153,10 @@ class Mendeley < Source
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "url_with_type", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "url_with_title", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "authentication_url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "related_articles_url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "client_id", :field_type => "text_field"},
-     {:field_name => "secret", :field_type => "text_field"},
-     {:field_name => "access_token", :field_type => "text_field"},
-     {:field_name => "expires_at", :field_type => "hidden_field"}]
+  protected
+
+  def config_fields
+    [:url, :url_with_type, :url_with_title, :authentication_url, :related_articles_url, :client_id, :secret, :access_token, :expires_at]
   end
 
   def url

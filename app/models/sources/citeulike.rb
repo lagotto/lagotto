@@ -19,42 +19,33 @@
 # limitations under the License.
 
 class Citeulike < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    result['posts'] ||= {}
-    events = Array(result['posts']['post']).map do |item|
-      { :event => item, :event_url => item['link']['url'] }
-    end
-
-    events_url = get_events_url(article)
-
-    { :events => events,
-      :events_url => events_url,
-      :event_count => events.length,
-      :event_metrics => get_event_metrics(shares: events.length) }
-  end
-
   def request_options
     { content_type: 'xml' }
   end
 
-  def get_events_url(article)
-    unless article.doi.blank?
-      "http://www.citeulike.org/doi/#{article.doi}"
-    else
-      nil
+  def response_options
+    { metrics: :shares }
+  end
+
+  def get_events(result)
+    result['posts'] ||= {}
+    Array(result['posts']['post']).map do |item|
+      { :event => item, :event_url => item['link']['url'] }
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  protected
+
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
     config.url  || "http://www.citeulike.org/api/posts/for/doi/%{doi}"
+  end
+
+  def events_url
+    config.events_url  || "http://www.citeulike.org/doi/%{doi}"
   end
 
   def rate_limiting

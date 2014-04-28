@@ -22,27 +22,30 @@ class Counter < Source
   # include date methods concern
   include Dateable
 
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    events = Array(result.deep_fetch('rest', 'response', 'results', 'item') { [] }).map do |item|
-      { month: item['month'],
-        year: item['year'],
-        pdf_views: item['get_pdf'] || 0,
-        xml_views: item['get_xml'] || 0,
-        html_views: item['get_document'] || 0 }
+  def get_query_url(article)
+    if article.doi =~ /^10.1371/
+      url % { :doi => article.doi_escaped }
+    else
+      nil
     end
+  end
 
-    pdf = events.reduce(0) { |sum, hash| sum + hash[:pdf_views].to_i }
-    html = events.reduce(0) { |sum, hash| sum + hash[:html_views].to_i }
-    xml = events.reduce(0) { |sum, hash| sum + hash[:xml_views].to_i }
+  def request_options
+    { content_type: "xml"}
+  end
+
+  def parse_data(result, options={})
+    events = get_events(result)
+
+    pdf = get_sum(events, :pdf_views)
+    html = get_sum(events, :html_views)
+    xml = get_sum(events, :xml_views)
     total = pdf + html + xml
 
-    { :events => events,
-      :event_count => total,
-      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: total) }
+    { events: events,
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
   end
 
   # Format Counter events for all articles as csv
@@ -76,20 +79,20 @@ class Counter < Source
     end
   end
 
-  def get_query_url(article)
-    if article.doi =~ /^10.1371/
-      url % { :doi => article.doi_escaped }
-    else
-      nil
+  def get_events(result)
+    Array(result.deep_fetch('rest', 'response', 'results', 'item') { [] }).map do |item|
+      { month: item['month'],
+        year: item['year'],
+        pdf_views: item['get_pdf'] || 0,
+        xml_views: item['get_xml'] || 0,
+        html_views: item['get_document'] || 0 }
     end
   end
 
-  def request_options
-    { content_type: "xml"}
-  end
+  protected
 
-  def get_config_fields
-    [{ :field_name => "url", :field_type => "text_area", :size => "90x2" }]
+  def config_fields
+    [:url]
   end
 
   def cron_line

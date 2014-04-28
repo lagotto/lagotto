@@ -19,28 +19,6 @@
 # limitations under the License.
 
 class Copernicus < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    return { events: [], event_count: nil } if result.empty? || !result["counter"]
-
-    if result["counter"].values.all? { |x| x.nil? }
-      event_count = 0
-      pdf = 0
-      html = 0
-    else
-      event_count = result["counter"].values.reduce(0) { |sum, x| sum + (x ? x : 0) }
-      pdf = result["counter"]["PdfDownloads"]
-      html = result["counter"]["AbstractViews"]
-    end
-
-    { :events => result,
-      :event_count => event_count,
-      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: event_count) }
-  end
-
   def get_query_url(article)
     if article.doi =~ /^10.5194/
       url % { :doi => article.doi }
@@ -53,9 +31,28 @@ class Copernicus < Source
     { username: username, password: password }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "username", :field_type => "text_field"},
-     {:field_name => "password", :field_type => "password_field"}]
+  def parse_data(result, options={})
+    return { events: [], event_count: nil } if result.empty? || !result["counter"]
+
+    if result["counter"].values.all? { |x| x.nil? }
+      event_count = 0
+      pdf = 0
+      html = 0
+    else
+      event_count = result["counter"].values.reduce(0) { |sum, x| sum + (x ? x : 0) }
+      pdf = result["counter"]["PdfDownloads"]
+      html = result["counter"]["AbstractViews"]
+    end
+
+    { events: result,
+      events_url: nil,
+      event_count: event_count,
+      event_metrics: get_event_metrics(pdf: pdf, html: html, total: event_count) }
+  end
+
+  protected
+
+  def config_fields
+    [:url, :username, :password]
   end
 end

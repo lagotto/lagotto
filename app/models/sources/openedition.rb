@@ -19,46 +19,29 @@
 # limitations under the License.
 
 class Openedition < Source
-  def parse_data(article, options={})
-    result = get_data(article, options)
-
-    return result if result.nil? || result == { events: [], event_count: nil }
-
-    result['RDF']['item'] = [result['RDF']['item']] if result['RDF']['item'].is_a?(Hash)
-    events = Array(result['RDF']['item']).map do |item|
-      { :event => item, :event_url => item['link'] }
-    end
-
-    events_url = get_events_url(article)
-
-    { :events => events,
-      :events_url => events_url,
-      :event_count => events.length,
-      :event_metrics => get_event_metrics(citations: events.length) }
-  end
-
   def request_options
     { content_type: 'xml' }
   end
 
-  def get_query_url(article)
-    if article.doi.present?
-      url % { :doi => article.doi_escaped }
-    else
-      nil
+  def get_events(result)
+    result['RDF']['item'] = [result['RDF']['item']] if result['RDF']['item'].is_a?(Hash)
+    Array(result['RDF']['item']).map do |item|
+      { :event => item, :event_url => item['link'] }
     end
   end
 
-  def get_events_url(article)
-    "http://search.openedition.org/index.php?op%5B%5D=AND&q%5B%5D=#{article.doi_escaped}&field%5B%5D=All&pf=Hypotheses.org"
-  end
+  protected
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
     config.url || "http://search.openedition.org/feed.php?op[]=AND&q[]=%{doi}&field[]=All&pf=Hypotheses.org"
+  end
+
+  def events_url
+    config.events_url || "http://search.openedition.org/index.php?op%5B%5D=AND&q%5B%5D=%{doi}&field%5B%5D=All&pf=Hypotheses.org"
   end
 
   def staleness_year
