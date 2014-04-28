@@ -23,8 +23,6 @@ class Wordpress < Source
     result.map { |item| { event: item, event_url: item['link'] } }
   end
 
-  protected
-
   def config_fields
     [:url, :events_url]
   end

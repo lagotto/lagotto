@@ -53,8 +53,6 @@ class Twitter < Source
     end
   end
 
-  protected
-
   def config_fields
     [:url]
   end

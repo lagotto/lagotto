@@ -40,8 +40,6 @@ class PlosComments < Source
       event_metrics: get_event_metrics(comments: events.length, total: total) }
   end
 
-  protected
-
   def config_fields
     [:url]
   end

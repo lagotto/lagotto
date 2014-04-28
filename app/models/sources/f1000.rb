@@ -104,8 +104,6 @@ class F1000 < Source
     feed_url
   end
 
-  protected
-
   def config_fields
     [:url, :feed_url, :filename]
   end

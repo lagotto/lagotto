@@ -61,8 +61,6 @@ class CrossRef < Source
     end
   end
 
-  protected
-
   def config_fields
     [:url, :openurl, :username, :password]
   end

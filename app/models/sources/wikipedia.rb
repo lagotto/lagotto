@@ -66,8 +66,6 @@ class Wikipedia < Source
       event_metrics: get_event_metrics(citations: event_count) }
   end
 
-  protected
-
   def config_fields
     [:url, :events_url, :languages]
   end

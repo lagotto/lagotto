@@ -17,8 +17,6 @@
 # limitations under the License.
 
 class Biod < Source
-  protected
-
   def obsolete?
     true
   end

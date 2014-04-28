@@ -25,12 +25,8 @@ class Openedition < Source
 
   def get_events(result)
     result['RDF']['item'] = [result['RDF']['item']] if result['RDF']['item'].is_a?(Hash)
-    Array(result['RDF']['item']).map do |item|
-      { :event => item, :event_url => item['link'] }
-    end
+    Array(result['RDF']['item']).map { |item| { :event => item, :event_url => item['link'] } }
   end
-
-  protected
 
   def config_fields
     [:url, :events_url]

@@ -153,8 +153,6 @@ class Mendeley < Source
     end
   end
 
-  protected
-
   def config_fields
     [:url, :url_with_type, :url_with_title, :authentication_url, :related_articles_url, :client_id, :secret, :access_token, :expires_at]
   end

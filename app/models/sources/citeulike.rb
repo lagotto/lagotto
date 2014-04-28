@@ -29,12 +29,8 @@ class Citeulike < Source
 
   def get_events(result)
     result['posts'] ||= {}
-    Array(result['posts']['post']).map do |item|
-      { :event => item, :event_url => item['link']['url'] }
-    end
+    Array(result['posts']['post']).map { |item| { :event => item, :event_url => item['link']['url'] } }
   end
-
-  protected
 
   def config_fields
     [:url, :events_url]

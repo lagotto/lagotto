@@ -35,8 +35,6 @@ class ArticleCoverageCurated < Source
     Array(result['referrals']).map { |item| { event: item, event_url: item['referral'] } }
   end
 
-  protected
-
   def config_fields
     [:url]
   end

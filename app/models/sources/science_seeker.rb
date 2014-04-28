@@ -28,8 +28,6 @@ class ScienceSeeker < Source
     Array(result['feed']['entry']).map { |item| { :event => item, :event_url => item['link']['href'] } }
   end
 
-  protected
-
   def config_fields
     [:url, :events_url]
   end

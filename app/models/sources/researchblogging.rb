@@ -24,12 +24,8 @@ class Researchblogging < Source
   end
 
   def get_events(result)
-    Array(result['blogposts']['post']).map do |item|
-      { :event => item, :event_url => item['post_URL'] }
-    end
+    Array(result['blogposts']['post']).map { |item| { :event => item, :event_url => item['post_URL'] } }
   end
-
-  protected
 
   def config_fields
     [:url, :events_url, :username, :password]

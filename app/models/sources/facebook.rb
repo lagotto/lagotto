@@ -52,8 +52,6 @@ class Facebook < Source
       event_metrics: get_event_metrics(shares: shares, comments: comments, likes: likes, total: total) }
   end
 
-  protected
-
   def config_fields
     [:url, :access_token, :count_limit]
   end

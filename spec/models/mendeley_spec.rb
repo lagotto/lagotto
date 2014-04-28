@@ -72,7 +72,7 @@ describe Mendeley do
 
   it "should report that there are no events if the doi, pmid, mendeley uuid and title are missing" do
     article_without_ids = FactoryGirl.build(:article, :doi => "", :pmid => "", :mendeley_uuid => "", :title => "")
-    subject.parse_data(article_without_ids).should eq(events: [], event_count: nil)
+    subject.get_data(article_without_ids).should eq(events: [], event_count: nil)
   end
 
   context "use the Mendeley API for uuid lookup" do
@@ -118,17 +118,15 @@ describe Mendeley do
     end
   end
 
-  context "use the Mendeley API for metrics" do
+  context "get_data for metrics" do
     it "should report if there are events and event_count returned by the Mendeley API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2")
       body = File.read(fixture_path + 'mendeley.json')
       stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       stub_related = stub_request(:get, subject.get_related_url(article.mendeley_uuid)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
-      response = subject.parse_data(article)
-      response[:events].should be_true
-      response[:events_url].should be_true
-      response[:event_count].should eq(4)
+      response = subject.get_data(article)
+      response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
@@ -136,7 +134,7 @@ describe Mendeley do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
-      subject.parse_data(article).should eq(events: [], event_count: nil)
+      subject.get_data(article).should eq(events: [], event_count: nil)
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -145,7 +143,7 @@ describe Mendeley do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 404)
-      subject.parse_data(article).should eq(events: [], event_count: nil)
+      subject.get_data(article).should eq(events: [], event_count: nil)
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -154,7 +152,7 @@ describe Mendeley do
       article = FactoryGirl.build(:article)
       stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_error.json'), :status => 404)
-      subject.parse_data(article).should eq(events: [], event_count: nil)
+      subject.get_data(article).should eq(events: [], event_count: nil)
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -165,11 +163,8 @@ describe Mendeley do
       stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_authors_tag.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       stub_related = stub_request(:get, subject.get_related_url(article.mendeley_uuid)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
-      response = subject.parse_data(article)
-      response[:events].should be_true
-      response[:events]["mendeley_authors"].should be_nil
-      response[:events_url].should be_true
-      response[:event_count].should eq(29)
+      response = subject.get_data(article)
+      response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
@@ -177,13 +172,60 @@ describe Mendeley do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.parse_data(article, source_id: subject.id).should be_nil
+      subject.get_data(article, source_id: subject.id).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("Net::HTTPRequestTimeOut")
       alert.status.should == 408
       alert.source_id.should == subject.id
+    end
+  end
+
+  context "parse_data for metrics" do
+    it "should report if there are events and event_count returned by the Mendeley API" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2")
+      body = File.read(fixture_path + 'mendeley.json')
+      result = JSON.parse(body)
+      response = subject.parse_data(result, article: article)
+      response[:events].should be_true
+      response[:events_url].should be_true
+      response[:event_count].should eq(4)
+    end
+
+    it "should report no events and event_count if the Mendeley API returns incomplete response" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
+      body = File.read(fixture_path + 'mendeley_incomplete.json')
+      result = JSON.parse(body)
+      subject.parse_data(result, article: article).should eq(events: [], event_count: nil)
+      Alert.count.should == 0
+    end
+
+    it "should report no events and event_count if the Mendeley API returns malformed response" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
+      body = File.read(fixture_path + 'mendeley_nil.json')
+      result = JSON.parse(body)
+      subject.parse_data(result, article: article).should eq(events: [], event_count: nil)
+      Alert.count.should == 0
+    end
+
+    it "should report no events and event_count if the Mendeley API returns not found error" do
+      article = FactoryGirl.build(:article)
+      body = File.read(fixture_path + 'mendeley_error.json')
+      result = JSON.parse(body)
+      subject.parse_data(result, article: article).should eq(events: [], event_count: nil)
+      Alert.count.should == 0
+    end
+
+    it "should filter out the mendeley_authors attribute" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pbio.0020002", :mendeley_uuid => "83e9b290-6d01-11df-936c-0026b95e484c")
+      body = File.read(fixture_path + 'mendeley_authors_tag.json')
+      result = JSON.parse(body)
+      response = subject.parse_data(result, article: article)
+      response[:events].should be_true
+      response[:events]["mendeley_authors"].should be_nil
+      response[:events_url].should be_true
+      response[:event_count].should eq(29)
     end
   end
 end

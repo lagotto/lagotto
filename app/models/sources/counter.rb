@@ -89,8 +89,6 @@ class Counter < Source
     end
   end
 
-  protected
-
   def config_fields
     [:url]
   end

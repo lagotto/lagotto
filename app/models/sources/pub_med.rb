@@ -45,8 +45,6 @@ class PubMed < Source
     end
   end
 
-  protected
-
   def config_fields
     [:url, :events_url]
   end

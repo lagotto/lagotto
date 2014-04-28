@@ -40,8 +40,6 @@ class Scopus < Source
     end
   end
 
-  protected
-
   def config_fields
     [:url, :api_key, :insttoken]
   end

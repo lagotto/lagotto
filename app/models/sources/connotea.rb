@@ -17,8 +17,6 @@
 # limitations under the License.
 
 class Connotea < Source
-  protected
-
   def obsolete?
     true
   end

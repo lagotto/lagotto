@@ -17,8 +17,6 @@
 # limitations under the License.
 
 class Postgenomic < Source
-  protected
-
   def obsolete?
     true
   end

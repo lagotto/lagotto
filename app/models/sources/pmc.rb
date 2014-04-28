@@ -27,13 +27,14 @@ class Pmc < Source
     return { events: [], event_count: nil } unless result['views']
 
     events = result["views"]
+    events_url = options[:article].present? ? get_events_url(options[:article]) : nil
 
     pdf = get_sum(events, 'pdf')
     html = get_sum(events, 'full-text')
     total = pdf + html
 
     { events: events,
-      events_url: nil,
+      events_url: events_url,
       event_count: total,
       event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
   end
@@ -117,6 +118,14 @@ class Pmc < Source
     feed_url % { year: year, month: month, journal: journal, username: username, password: password }
   end
 
+  def get_events_url(article)
+    if article.pmcid.present?
+      events_url % { :pmcid => article.pmcid }
+    else
+      nil
+    end
+  end
+
   # Format Pmc events for all articles as csv
   # Show historical data if options[:format] is used
   # options[:format] can be "html", "pdf" or "combined"
@@ -148,10 +157,8 @@ class Pmc < Source
     end
   end
 
-  protected
-
   def config_fields
-    [:url, :feed_url, :journals, :username, :password]
+    [:url, :feed_url, :events_url, :journals, :username, :password]
   end
 
   def url
@@ -165,6 +172,10 @@ class Pmc < Source
 
   def feed_url
     config.feed_url || "http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=%{year}&month=%{month}&jrid=%{journal}&user=%{username}&password=%{password}"
+  end
+
+  def events_url
+    config.events_url  || "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC%{pmcid}"
   end
 
   def journals

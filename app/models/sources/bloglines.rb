@@ -17,8 +17,6 @@
 # limitations under the License.
 
 class Bloglines < Source
-  protected
-
   def obsolete?
     true
   end

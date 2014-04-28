@@ -42,8 +42,6 @@ class Figshare < Source
       event_metrics: get_event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
   end
 
-  protected
-
   def config_fields
     [:url]
   end

@@ -50,8 +50,6 @@ class Copernicus < Source
       event_metrics: get_event_metrics(pdf: pdf, html: html, total: event_count) }
   end
 
-  protected
-
   def config_fields
     [:url, :username, :password]
   end

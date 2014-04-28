@@ -101,8 +101,6 @@ class TwitterSearch < Source
     rs.update_attributes(data_rev: options[:since_id])
   end
 
-  protected
-
   def config_fields
     [:url, :events_url, :data_url, :authentication_url, :api_key, :api_secret, :access_token]
   end

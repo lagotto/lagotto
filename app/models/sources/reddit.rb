@@ -22,12 +22,14 @@ class Reddit < Source
   def parse_data(result, options={})
     events = get_events(result)
 
-    likes = result["data"]["children"].empty? ? 0 : result["data"]["children"].reduce(0) { |sum, hash| sum + hash["data"]["score"] }
-    comments = result["data"]["children"].empty? ? 0 : result["data"]["children"].reduce(0) { |sum, hash| sum + hash["data"]["num_comments"] }
+    likes = get_sum(result["data"]["children"], 'data', 'score')
+    comments = get_sum(result["data"]["children"], 'data', 'num_comments')
     total = likes + comments
 
+    events_url = options[:article].present? ? get_events_url(options[:article]) : nil
+
     { events: events,
-      events_url: get_events_url(article),
+      events_url: events_url,
       event_count: total,
       event_metrics: get_event_metrics(comments: comments, likes: likes, total: total) }
   end
@@ -35,8 +37,6 @@ class Reddit < Source
   def get_events(result)
     Array(result["data"]["children"]).map { |item| { event: item["data"], event_url: item["data"]['url'] } }
   end
-
-    protected
 
   def config_fields
     [:url, :events_url]

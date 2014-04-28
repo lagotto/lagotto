@@ -100,8 +100,6 @@ class Wos < Source
     end
   end
 
-  protected
-
   def config_fields
     [:url]
   end
