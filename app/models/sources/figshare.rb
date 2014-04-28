@@ -30,9 +30,9 @@ class Figshare < Source
   def parse_data(result, options={})
     return { events: [], event_count: nil } if result.empty? || result["items"].empty?
 
-    views = get_sum(result["items"], 'page_views')
-    downloads = get_sum(result["items"], 'downloads')
-    likes = get_sum(result["items"], 'likes')
+    views = get_sum(result["items"], 'stats', 'page_views')
+    downloads = get_sum(result["items"], 'stats', 'downloads')
+    likes = get_sum(result["items"], 'stats', 'likes')
 
     total = views + downloads + likes
 

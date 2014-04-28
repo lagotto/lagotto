@@ -16,7 +16,6 @@ describe Citeulike do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
-      response['posts'].should be_nil
       stub.should have_been_requested
     end
 
@@ -25,7 +24,6 @@ describe Citeulike do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
-      response['posts']['post'].length.should eq(25)
       stub.should have_been_requested
     end
 
