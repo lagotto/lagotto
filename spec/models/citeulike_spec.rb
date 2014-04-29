@@ -41,7 +41,7 @@ describe Citeulike do
 
   context "parse_data" do
     it "should report if there are no events and event_count returned by the CiteULike API" do
-      result = { "posts"=>nil }
+      result = { "posts" => nil }
       subject.parse_data(result, article).should eq(events: [], events_url: subject.get_events_url(article), event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
     end
 

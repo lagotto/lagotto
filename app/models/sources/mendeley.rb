@@ -86,7 +86,7 @@ class Mendeley < Source
     nil
   end
 
-  def get_query_url(article, id_type = nil)
+  def get_query_url(article)
     # First check that we have a valid OAuth2 access token, and a refreshed uuid
     if get_access_token && get_mendeley_uuid(article)
       url % { :id => article.mendeley_uuid, :api_key => api_key }

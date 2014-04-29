@@ -33,13 +33,15 @@ describe Mendeley do
     it "should look up access token if blank" do
       subject.access_token = nil
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
-      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials").to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
-      stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+        .to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
+      stub_uuid = stub_request(:get, subject.get_lookup_url(article))
+        .to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
 
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      subject.get_data(article, source_id: subject.id).should be_nil
       stub_auth.should have_been_requested
-      stub_uuid.should have_been_requested
+      stub_uuid.should have_been_requested.times(2)
       stub.should have_been_requested
     end
 
@@ -47,16 +49,14 @@ describe Mendeley do
       subject.expires_at = Time.zone.now
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
       stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
-        #.to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
-        .to_raise(StandardError)
+        .to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
       stub_uuid = stub_request(:get, subject.get_lookup_url(article))
         .to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
-        .to_raise(StandardError)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
 
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      subject.get_data(article, source_id: subject.id).should be_nil
       stub_auth.should have_been_requested
-      stub_uuid.should have_been_requested
+      stub_uuid.should have_been_requested.times(2)
       stub.should have_been_requested
     end
 

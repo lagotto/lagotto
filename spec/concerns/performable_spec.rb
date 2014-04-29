@@ -84,17 +84,18 @@ describe RetrievalStatus do
 
     it "should perform and get skipped" do
       subject = FactoryGirl.create(:retrieval_status, :missing_mendeley)
+      auth = ActionController::HttpAuthentication::Basic.encode_credentials(subject.source.client_id, subject.source.secret)
       scheduled_at = subject.scheduled_at
-      stub = stub_request(:get, subject.source.get_query_url(subject.article, "doi")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_pubmed = stub_request(:get, subject.source.get_query_url(subject.article, "pmid")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_title = stub_request(:get, subject.source.get_query_url(subject.article, "title")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
+      stub_auth = stub_request(:post, subject.source.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials").to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
+      stub = stub_request(:get, subject.source.get_lookup_url(subject.article, "doi")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
+      stub_pmid = stub_request(:get, subject.source.get_lookup_url(subject.article)).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
+      stub_title = stub_request(:get, subject.source.get_lookup_url(subject.article, "title")).to_return(:body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
       result = subject.perform_get_data
       result[:event_count].should eq(0)
       result[:retrieval_history_id].should be_nil
     end
 
     it "should perform and get error" do
-      scheduled_at = subject.scheduled_at
       stub = stub_request(:get, subject.source.get_query_url(subject.article)).to_return(:status => [408])
       result = subject.perform_get_data
       result[:event_count].should be_nil

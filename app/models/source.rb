@@ -166,6 +166,8 @@ class Source < ActiveRecord::Base
   end
 
   def parse_data(result, article, options = {})
+    return nil if result.nil?
+
     options.merge!(response_options)
     metrics = options[:metrics] || :citations
 
