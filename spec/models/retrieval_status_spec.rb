@@ -65,11 +65,8 @@ describe RetrievalStatus do
 
   describe "CouchDB" do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
-    let(:citeulike) { FactoryGirl.create(:citeulike) }
     let(:rs_id) { "#{retrieval_status.source.name}:#{retrieval_status.article.doi_escaped}" }
     let(:error) { { "error" => "not_found", "reason" => "deleted" } }
-
-    subject { SourceJob.new([retrieval_status.id], citeulike.id) }
 
     before(:each) do
       subject.put_alm_database
@@ -80,16 +77,17 @@ describe RetrievalStatus do
     end
 
     it "should perform and get data" do
-      stub = stub_request(:get, citeulike.get_query_url(retrieval_status.article)).to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
-      result = subject.perform_get_data(retrieval_status)
+      stub = stub_request(:get, retrieval_status.source.get_query_url(retrieval_status.article))
+        .to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
+      result = retrieval_status.perform_get_data
       rh_id = result[:retrieval_history_id]
 
-      rs_result = subject.get_alm_data(rs_id)
+      rs_result = retrieval_status.get_alm_data(rs_id)
       rs_result.should include("source" => retrieval_status.source.name,
                                "doi" => retrieval_status.article.doi,
                                "doc_type" => "current",
                                "_id" =>  "#{retrieval_status.source.name}:#{retrieval_status.article.doi}")
-      rh_result = subject.get_alm_data(rh_id)
+      rh_result = retrieval_status.get_alm_data(rh_id)
       rh_result.should include("source" => retrieval_status.source.name,
                                "doi" => retrieval_status.article.doi,
                                "doc_type" => "history",

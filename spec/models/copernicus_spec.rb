@@ -3,8 +3,9 @@ require 'spec_helper'
 describe Copernicus do
   subject { FactoryGirl.create(:copernicus) }
 
+  let(:article) { FactoryGirl.build(:article, :doi => "10.5194/ms-2-175-2011") }
+
   context "get_data" do
-    let(:article) { FactoryGirl.build(:article, :doi => "10.5194/ms-2-175-2011") }
     let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(subject.username, subject.password) }
 
     it "should report that there are no events if the doi is missing" do
@@ -61,13 +62,13 @@ describe Copernicus do
     it "should report if there are no events and event_count returned by the Copernicus API" do
       body = File.read(fixture_path + 'copernicus_nil.json')
       result = JSON.parse(body)
-      subject.parse_data(result).should eq(events: [], event_count: nil)
+      subject.parse_data(result, article).should eq(events: [], event_count: nil)
     end
 
     it "should report if there are events and event_count returned by the Copernicus API" do
       body = File.read(fixture_path + 'copernicus.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result)
+      response = subject.parse_data(result, article)
       response[:event_count].should == 83
       events = response[:events]
       events["counter"].should_not be_nil

@@ -42,14 +42,14 @@ describe Citeulike do
   context "parse_data" do
     it "should report if there are no events and event_count returned by the CiteULike API" do
       result = { "posts"=>nil }
-      subject.parse_data(result, article: article).should eq(events: [], events_url: subject.get_events_url(article), event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      subject.parse_data(result, article).should eq(events: [], events_url: subject.get_events_url(article), event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the CiteULike API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
       result = subject.get_data(article)
 
-      response = subject.parse_data(result, article: article)
+      response = subject.parse_data(result, article)
       response[:events].length.should eq(25)
       response[:events_url].should eq(subject.get_events_url(article))
       response[:event_count].should eq(25)

@@ -27,13 +27,12 @@ class PmcEuropeData < Source
     end
   end
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     event_count = result["hitCount"]
     events = get_events(result)
-    events_url = options[:article].present? ? get_events_url(options[:article]) : nil
 
     { events: events,
-      events_url: events_url,
+      events_url: get_events_url(article),
       event_count: event_count,
       event_metrics: get_event_metrics(citations: event_count) }
   end

@@ -47,7 +47,7 @@ describe Scopus do
         body = File.read(fixture_path + 'scopus_nil.json')
         result = JSON.parse(body)
         article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.000001")
-        response = subject.parse_data(result, article: article)
+        response = subject.parse_data(result, article)
         response.should eq(events: [], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
       end
 
@@ -55,7 +55,7 @@ describe Scopus do
         body = File.read(fixture_path + 'scopus.json')
         result = JSON.parse(body)
         events = JSON.parse(body)["search-results"]["entry"][0]
-        response = subject.parse_data(result, article: article)
+        response = subject.parse_data(result, article)
         response.should eq(events: events, event_count: 1814, events_url: "http://www.scopus.com/inward/citedby.url?partnerID=HzOxMe3b&scp=33845338724", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 1814, total: 1814 })
       end
     end

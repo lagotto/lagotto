@@ -21,16 +21,14 @@
 class Wikipedia < Source
   # MediaWiki API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
   def get_query_url(article, options={})
-    if article.doi.present?
-      host = options[:host] || "en.wikipedia.org"
-      namespace = options[:namespace] || "0"
-      url % { host: host, namespace: namespace, doi: CGI.escape("\"#{article.doi}\"") }
-    else
-      nil
-    end
+    host = options[:host] || "en.wikipedia.org"
+    namespace = options[:namespace] || "0"
+    url % { host: host, namespace: namespace, doi: CGI.escape("\"#{article.doi}\"") }
   end
 
   def get_data(article, options={})
+    return {:events=>[], :event_count=>nil} unless article.doi.present?
+
     events = {}
 
     # Loop through the languages
@@ -39,13 +37,13 @@ class Wikipedia < Source
       host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
       namespace = (lang == "commons") ? "6" : "0"
       query_url = get_query_url(article, host: host, namespace: namespace)
-      results = get_result(query_url, options)
+      result = get_result(query_url, options)
 
       # if server doesn't return a result
-      if results.nil?
+      if result.nil?
         return nil
-      elsif !results.empty? && results['query'] && results['query']['searchinfo'] && results['query']['searchinfo']['totalhits']
-        lang_count = results['query']['searchinfo']['totalhits']
+      elsif !result.empty? && result['query'] && result['query']['searchinfo'] && result['query']['searchinfo']['totalhits']
+        lang_count = result['query']['searchinfo']['totalhits']
       else # not found
         lang_count = 0
       end
@@ -56,7 +54,7 @@ class Wikipedia < Source
     events.extend Hashie::Extensions::DeepFetch
   end
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     event_count = result.values.reduce(0) { |sum, x| sum + x }
     result["total"] = event_count
 

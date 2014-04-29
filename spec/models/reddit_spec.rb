@@ -47,7 +47,7 @@ describe Reddit do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'reddit_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      response = subject.parse_data(result, article: article)
+      response = subject.parse_data(result, article)
       response.should eq(events: [], event_count: 0, events_url: "http://www.reddit.com/search?q=\"#{article.doi_escaped}\"", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: 0, citations: nil, total: 0 })
     end
 
@@ -55,7 +55,7 @@ describe Reddit do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
       body = File.read(fixture_path + 'reddit.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      response = subject.parse_data(result, article: article)
+      response = subject.parse_data(result, article)
       response[:events].length.should eq(3)
       response[:event_count].should eq(1171)
       response[:event_metrics][:likes].should eq(1013)

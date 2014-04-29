@@ -27,7 +27,7 @@ class Figshare < Source
     end
   end
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     return { events: [], event_count: nil } if result.empty? || result["items"].empty?
 
     views = get_sum(result["items"], 'stats', 'page_views')

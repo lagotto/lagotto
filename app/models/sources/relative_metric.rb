@@ -23,7 +23,7 @@ class RelativeMetric < Source
     end
   end
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     events = get_events(result, article.published_on.year)
 
     total = events[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }
@@ -37,7 +37,7 @@ class RelativeMetric < Source
   def get_events(result, year)
     { start_date: "#{year}-01-01T00:00:00Z",
       end_date: Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z"),
-      subject_areas: result["rows"].map do |row|
+      subject_areas: Array(result["rows"]).map do |row|
         { :subject_area => row["value"]["subject_area"], :average_usage => row["value"]["data"] }
       end }
   end

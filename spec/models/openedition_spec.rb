@@ -45,17 +45,17 @@ describe Openedition do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       body = File.read(fixture_path + 'openedition_nil.xml')
       result = Hash.from_xml(body)
-      response = subject.parse_data(result, article: article)
-      response.should eq(events: [], events_url: "http://search.openedition.org/index.php?op%5B%5D=AND&q%5B%5D=#{article.doi_escaped}&field%5B%5D=All&pf=Hypotheses.org", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0})
+      response = subject.parse_data(result, article)
+      response.should eq(events: [], events_url: "http://search.openedition.org/index.php?op[]=AND&q[]=#{article.doi_escaped}&field[]=All&pf=Hypotheses.org", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0})
     end
 
     it "should report if there are events and event_count returned by the Openedition API" do
       article = FactoryGirl.build(:article, :doi => "10.2307/683422")
       body = File.read(fixture_path + 'openedition.xml')
       result = Hash.from_xml(body)
-      response = subject.parse_data(result, article: article)
+      response = subject.parse_data(result, article)
       response[:event_count].should eq(1)
-      response[:events_url].should eq("http://search.openedition.org/index.php?op%5B%5D=AND&q%5B%5D=#{article.doi_escaped}&field%5B%5D=All&pf=Hypotheses.org")
+      response[:events_url].should eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{article.doi_escaped}&field[]=All&pf=Hypotheses.org")
       event = response[:events].first
       event[:event_url].should_not be_nil
       event[:event_url].should eq(event[:event]['link'])

@@ -20,7 +20,7 @@
 
 class Wordpress < Source
   def get_events(result)
-    result.map { |item| { event: item, event_url: item['link'] } }
+    Array(result).map { |item| { event: item, event_url: item['link'] } }
   end
 
   def config_fields

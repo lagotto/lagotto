@@ -22,19 +22,18 @@ class Pmc < Source
   # include date methods concern
   include Dateable
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     # no data for this article
     return { events: [], event_count: nil } unless result['views']
 
     events = result["views"]
-    events_url = options[:article].present? ? get_events_url(options[:article]) : nil
 
     pdf = get_sum(events, 'pdf')
     html = get_sum(events, 'full-text')
     total = pdf + html
 
     { events: events,
-      events_url: events_url,
+      events_url: get_events_url(article),
       event_count: total,
       event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
   end

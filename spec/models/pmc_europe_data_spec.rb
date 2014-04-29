@@ -49,14 +49,14 @@ describe PmcEuropeData do
       article = FactoryGirl.build(:article, :pmid => "20098740")
       body = File.read(fixture_path + 'pmc_europe_data_nil.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, article: article)
+      response = subject.parse_data(result, article)
       response.should eq(events: [], event_count: 0, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-bioentities", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       body = File.read(fixture_path + 'pmc_europe_data.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, article: article)
+      response = subject.parse_data(result, article)
       response.should eq(events: { "EMBL" => 10, "UNIPROT" => 21700 }, event_count: 21710, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-bioentities", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 21710, total: 21710 })
     end
   end

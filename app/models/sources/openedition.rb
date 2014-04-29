@@ -37,7 +37,7 @@ class Openedition < Source
   end
 
   def events_url
-    config.events_url || "http://search.openedition.org/index.php?op%5B%5D=AND&q%5B%5D=%{doi}&field%5B%5D=All&pf=Hypotheses.org"
+    config.events_url || "http://search.openedition.org/index.php?op[]=AND&q[]=%{doi}&field[]=All&pf=Hypotheses.org"
   end
 
   def staleness_year

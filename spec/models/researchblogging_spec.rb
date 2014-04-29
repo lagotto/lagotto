@@ -47,7 +47,7 @@ describe Researchblogging do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'researchblogging_nil.xml')
       result = Hash.from_xml(body)
-      response = subject.parse_data(result, article: article)
+      response = subject.parse_data(result, article)
       response.should eq(events: [], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: subject.get_events_url(article))
     end
 
@@ -55,7 +55,7 @@ describe Researchblogging do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0035869")
       body = File.read(fixture_path + 'researchblogging.xml')
       result = Hash.from_xml(body)
-      response = subject.parse_data(result, article: article)
+      response = subject.parse_data(result, article)
       response[:event_count].should eq(8)
       response[:events].length.should eq(8)
       response[:events_url].should eq(subject.get_events_url(article))

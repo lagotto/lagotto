@@ -58,7 +58,7 @@ module Performable
       end
 
       result = source.get_data(article, timeout: source.timeout, source_id: source_id)
-      data_from_source = source.parse_data(result, article: article, source_id: source_id)
+      data_from_source = source.parse_data(result, article, source_id: source_id)
       if data_from_source.is_a?(Hash)
         events = data_from_source[:events]
         events_url = data_from_source[:events_url]

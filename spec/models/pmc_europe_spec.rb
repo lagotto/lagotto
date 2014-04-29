@@ -49,13 +49,13 @@ describe PmcEurope do
       article = FactoryGirl.build(:article, :pmid => "20098740")
       body = File.read(fixture_path + 'pmc_europe_nil.json')
       result = JSON.parse(body)
-      subject.parse_data(result, article: article).should eq(events: 0, event_count: 0, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-citations", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      subject.parse_data(result, article).should eq(events: 0, event_count: 0, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-citations", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       body = File.read(fixture_path + 'pmc_europe.json')
       result = JSON.parse(body)
-      subject.parse_data(result, article: article).should eq(events: 23, event_count: 23, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-citations", event_metrics: {pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 23, total: 23 })
+      subject.parse_data(result, article).should eq(events: 23, event_count: 23, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-citations", event_metrics: {pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 23, total: 23 })
     end
   end
 end

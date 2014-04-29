@@ -21,7 +21,7 @@
 class Datacite < Source
   def get_events(result)
     result["response"] ||= {}
-    Array(result["response"]["docs"]).map { |item| { event: event, event_url: "http://doi.org/#{event['doi']}" } }
+    Array(result["response"]["docs"]).map { |item| { event: item, event_url: "http://doi.org/#{item['doi']}" } }
   end
 
   def config_fields

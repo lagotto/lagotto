@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Datacite do
   subject { FactoryGirl.create(:datacite) }
 
+  let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.ppat.1000446") }
+
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       article = FactoryGirl.build(:article, :doi => "")
@@ -19,18 +21,16 @@ describe Datacite do
     end
 
     it "should report if there are events and event_count returned by the Datacite API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.ppat.1000446")
       body = File.read(fixture_path + 'datacite.json')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      response = subject.parse_data(article)
+      response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
     it "should catch timeout errors with the datacite API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.ppat.1000446")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.parse_data(article, options = { :source_id => subject.id }).should be_nil
+      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -42,16 +42,16 @@ describe Datacite do
 
   context "parse_data" do
     it "should report if there are no events and event_count returned by the Datacite API" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
       body = File.read(fixture_path + 'datacite_nil.json')
       result = JSON.parse(body)
-      subject.parse_data(result).should eq(events: [], events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      subject.parse_data(result, article).should eq(events: [], events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Datacite API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.ppat.1000446")
       body = File.read(fixture_path + 'datacite.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result)
+      response = subject.parse_data(result, article)
       response[:event_count].should == 1
       response[:events_url].should eq("http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}")
       event = response[:events].first

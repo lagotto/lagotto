@@ -27,15 +27,18 @@ class Wos < Source
     end
   end
 
-  def request_options
-    { content_type: 'xml' }
+  def get_data(article, options={})
+    query_url = get_query_url(article)
+    if query_url.nil?
+      { events: [], event_count: nil }
+    else
+      data = get_xml_request(article)
+      result = get_result(query_url, options.merge(content_type: 'xml', data: data))
+      result.extend Hashie::Extensions::DeepFetch
+    end
   end
 
-  def parse_data(article, options={})
-    data = get_xml_request(article)
-    result = get_data(article, options.merge(data: data))
-
-    return result if result.nil? || result == { events: [], event_count: nil }
+  def parse_data(result, article, options={})
 
     # Check that WOS has returned the correct status message,
     # otherwise report an error

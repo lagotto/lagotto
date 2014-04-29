@@ -31,7 +31,7 @@ class Copernicus < Source
     { username: username, password: password }
   end
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     return { events: [], event_count: nil } if result.empty? || !result["counter"]
 
     if result["counter"].values.all? { |x| x.nil? }

@@ -47,14 +47,14 @@ describe PubMed do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0008776", :pmid => "1897483599", :pmcid => "2808249")
       body = File.read(fixture_path + 'pub_med_nil.xml')
       result = Hash.from_xml(body)
-      response = subject.parse_data(result, article: article)
+      response = subject.parse_data(result, article)
       response.should eq(events: [], event_count: 0, events_url: "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=1897483599", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0})
     end
 
     it "should report if there are events and event_count returned by the PubMed API" do
       body = File.read(fixture_path + 'pub_med.xml')
       result = Hash.from_xml(body)
-      response = subject.parse_data(result, article: article)
+      response = subject.parse_data(result, article)
       response[:events].length.should eq(13)
       response[:event_count].should eq(13)
       event = response[:events].first

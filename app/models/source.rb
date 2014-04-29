@@ -149,7 +149,6 @@ class Source < ActiveRecord::Base
 
   def working_count
     delayed_jobs.count(:locked_at)
-    # Delayed::Job.count('id', :conditions => ["queue = ? AND locked_by IS NOT NULL", name])
   end
 
   def pending_count
@@ -166,16 +165,16 @@ class Source < ActiveRecord::Base
     end
   end
 
-  def parse_data(result, options = { metrics: :citations })
+  def parse_data(result, article, options = {})
     options.merge!(response_options)
+    metrics = options[:metrics] || :citations
 
     events = get_events(result)
-    events_url = options[:article].present? ? get_events_url(options[:article]) : nil
 
     { events: events,
-      events_url: events_url,
+      events_url: get_events_url(article),
       event_count: events.length,
-      event_metrics: get_event_metrics(options[:metrics] => events.length) }
+      event_metrics: get_event_metrics(metrics => events.length) }
   end
 
   def request_options
@@ -187,7 +186,7 @@ class Source < ActiveRecord::Base
   end
 
   def get_query_url(article)
-    if article.doi.present?
+    if url.present? && article.doi.present?
       url % { :doi => article.doi_escaped }
     else
       nil
@@ -195,7 +194,7 @@ class Source < ActiveRecord::Base
   end
 
   def get_events_url(article)
-    if article.doi.present?
+    if events_url.present? && article.doi.present?
       events_url % { :doi => article.doi_escaped }
     else
       nil

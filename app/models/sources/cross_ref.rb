@@ -36,7 +36,7 @@ class CrossRef < Source
     { content_type: 'xml' }
   end
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     events = get_events(result)
 
     if article.is_publisher?

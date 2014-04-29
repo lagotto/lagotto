@@ -34,7 +34,7 @@ class Counter < Source
     { content_type: "xml"}
   end
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     events = get_events(result)
 
     pdf = get_sum(events, :pdf_views)

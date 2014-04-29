@@ -27,7 +27,7 @@ class Facebook < Source
     end
   end
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     return nil if result["data"].nil?
 
     events = result["data"]

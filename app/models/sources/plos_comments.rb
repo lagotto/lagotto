@@ -27,7 +27,7 @@ class PlosComments < Source
     end
   end
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?
 
     events = result

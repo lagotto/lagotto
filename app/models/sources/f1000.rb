@@ -19,7 +19,7 @@
 # limitations under the License.
 
 class F1000 < Source
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     events = get_events(result)
 
     if events.empty?

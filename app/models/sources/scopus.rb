@@ -23,7 +23,7 @@ class Scopus < Source
     { :headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken } }
   end
 
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     if result["search-results"].nil? || result["search-results"]["entry"][0].nil?
       nil
     elsif result["search-results"]["entry"][0]["citedby-count"].nil?

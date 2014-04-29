@@ -19,17 +19,15 @@
 # limitations under the License.
 
 class Reddit < Source
-  def parse_data(result, options={})
+  def parse_data(result, article, options={})
     events = get_events(result)
 
     likes = get_sum(result["data"]["children"], 'data', 'score')
     comments = get_sum(result["data"]["children"], 'data', 'num_comments')
     total = likes + comments
 
-    events_url = options[:article].present? ? get_events_url(options[:article]) : nil
-
     { events: events,
-      events_url: events_url,
+      events_url: get_events_url(article),
       event_count: total,
       event_metrics: get_event_metrics(comments: comments, likes: likes, total: total) }
   end
