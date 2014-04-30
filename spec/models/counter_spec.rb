@@ -103,9 +103,10 @@ describe Counter do
       stub.should have_been_requested
     end
 
-    it "should catch errors with the Counter API" do
+    it "should catch timeout errors with the Counter API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, source_id: subject.id).should be_nil
+      response = subject.get_data(article, source_id: subject.id)
+      response.should eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -133,6 +134,12 @@ describe Counter do
       response[:events_url].should be_nil
       response[:event_count].should eq(3387)
       response[:event_metrics].should eq(pdf: 447, html: 2919, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 3387)
+    end
+
+    it "should catch timeout errors with the Counter API" do
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

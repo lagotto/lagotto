@@ -37,7 +37,8 @@ describe Copernicus do
 
     it "should catch authentication errors with the Copernicus API" do
       stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").with(:headers => { :authorization => auth }).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'copernicus_unauthorized.json'), :status => [401, "Unauthorized: You are not authorized to access this resource."])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 401 for http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -48,7 +49,8 @@ describe Copernicus do
 
     it "should catch timeout errors with the Copernicus API" do
       stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").with(:headers => { :authorization => auth }).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 408 for http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -73,6 +75,12 @@ describe Copernicus do
       events = response[:events]
       events["counter"].should_not be_nil
       events["counter"]["AbstractViews"].to_i.should == 72
+    end
+
+    it "should catch timeout errors with the Copernicus API" do
+      result = { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{article.doi}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

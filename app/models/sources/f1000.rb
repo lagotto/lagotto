@@ -20,6 +20,8 @@
 
 class F1000 < Source
   def parse_data(result, article, options={})
+    return result if result[:error]
+
     events = get_events(result)
 
     if events.empty?
@@ -90,14 +92,6 @@ class F1000 < Source
 
   def put_database
     put_alm_data(url)
-  end
-
-  def get_query_url(article)
-    if article.doi.present?
-      url % { :doi => article.doi_escaped }
-    else
-      nil
-    end
   end
 
   def get_feed_url

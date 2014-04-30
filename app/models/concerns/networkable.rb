@@ -108,7 +108,7 @@ module Networkable
     def rescue_faraday_error(url, error, options={})
       if error.kind_of?(Faraday::Error::ResourceNotFound)
         if error.response.blank? && error.response[:body].blank?
-          nil
+          { error: nil }
         # we raise an error if we find a canonical URL mismatch
         elsif options[:doi_mismatch]
           Alert.create(exception: error.exception,
@@ -117,7 +117,7 @@ module Networkable
                        details: error.response[:body],
                        status: 404,
                        target_url: url)
-          nil
+          { error: error.response[:message] }
         # we raise an error if a DOI can't be resolved
         elsif options[:doi_lookup]
           Alert.create(exception: error.exception,
@@ -126,17 +126,15 @@ module Networkable
                        details: error.response[:body],
                        status: error.response[:status],
                        target_url: url)
-          nil
-        elsif options[:content_type] == 'json'
-          error.response[:body]
+          { error: "DOI could not be resolved" }
         elsif options[:content_type] == 'xml'
           Hash.from_xml(error.response[:body])
         else
-          error.response[:body]
+          { error: error.response[:body] }
         end
       # malformed JSON is treated as ResourceNotFound
       elsif error.message.include?("unexpected token")
-        nil
+        { error: "unexpected token for JSON" }
       else
         details = nil
 
@@ -169,7 +167,7 @@ module Networkable
                      status: status,
                      target_url: url,
                      source_id: options[:source_id])
-        nil
+        { error: message }
       end
     end
 

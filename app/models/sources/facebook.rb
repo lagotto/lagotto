@@ -20,15 +20,13 @@
 
 class Facebook < Source
   def get_query_url(article, options={})
-    if article.get_url
-      URI.escape(url % { access_token: access_token, query_url: article.canonical_url_escaped })
-    else
-      nil
-    end
+    return nil unless article.get_url
+
+    URI.escape(url % { access_token: access_token, query_url: article.canonical_url_escaped })
   end
 
   def parse_data(result, article, options={})
-    return nil if result["data"].nil?
+    return result if result[:error]
 
     events = result["data"]
 

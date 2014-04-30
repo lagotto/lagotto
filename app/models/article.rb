@@ -179,7 +179,7 @@ class Article < ActiveRecord::Base
 
     url = get_canonical_url(doi_as_url)
 
-    if url.present?
+    if url.present? && url.is_a?(String)
       update_attributes(:canonical_url => url)
     else
       false

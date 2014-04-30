@@ -19,11 +19,9 @@
 
 class Twitter < Source
   def get_query_url(article)
-    if article.doi =~ /^10.1371/
-      url % { :doi => article.doi_escaped }
-    else
-      nil
-    end
+    return nil unless article.doi =~ /^10.1371/
+
+    url % { :doi => article.doi_escaped }
   end
 
   def response_options

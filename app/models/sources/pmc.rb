@@ -23,8 +23,7 @@ class Pmc < Source
   include Dateable
 
   def parse_data(result, article, options={})
-    # no data for this article
-    return { events: [], event_count: nil } unless result['views']
+    return result if result[:error]
 
     events = result["views"]
 

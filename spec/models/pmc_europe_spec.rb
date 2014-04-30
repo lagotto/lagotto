@@ -34,7 +34,8 @@ describe PmcEurope do
 
     it "should catch errors with the PMC Europe API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, source_id: subject.id).should be_nil
+      response = subject.get_data(article, source_id: subject.id)
+      response.should eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{article.pmid}/citations/1/json")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -56,6 +57,13 @@ describe PmcEurope do
       body = File.read(fixture_path + 'pmc_europe.json')
       result = JSON.parse(body)
       subject.parse_data(result, article).should eq(events: 23, event_count: 23, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-citations", event_metrics: {pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 23, total: 23 })
+    end
+
+    it "should catch timeout errors with the PMC Europe API" do
+      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{article.pmid}/citations/1/json" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

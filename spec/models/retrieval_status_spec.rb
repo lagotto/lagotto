@@ -7,7 +7,7 @@ describe RetrievalStatus do
   it { should have_many(:retrieval_histories).dependent(:destroy) }
 
   it "stale_at should be publication date for unpublished articles" do
-    article = FactoryGirl.create(:article, year: Time.zone.now.year, day: Time.zone.now.day + 1)
+    article = FactoryGirl.create(:article, year: Time.zone.now.year + 1)
     retrieval_status = FactoryGirl.create(:retrieval_status, article: article)
     retrieval_status.stale_at.to_date.should eq(retrieval_status.article.published_on)
   end

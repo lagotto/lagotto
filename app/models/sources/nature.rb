@@ -20,7 +20,7 @@
 
 class Nature < Source
   def get_events(result)
-    result.map do |item|
+    Array(result['data']).map do |item|
       url = item['post']['url']
       url = "http://#{url}" unless url.start_with?("http://")
 

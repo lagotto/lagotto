@@ -20,11 +20,9 @@
 
 class Wos < Source
   def get_query_url(article)
-    if article.doi.present?
-      url
-    else
-      nil
-    end
+    return nil unless article.doi.present?
+
+    url
   end
 
   def get_data(article, options={})
@@ -39,7 +37,6 @@ class Wos < Source
   end
 
   def parse_data(result, article, options={})
-
     # Check that WOS has returned the correct status message,
     # otherwise report an error
     return nil unless check_status_ok(result, article)

@@ -32,9 +32,10 @@ describe CrossRef do
       stub.should have_been_requested
     end
 
-    it "should catch errors with the CrossRef API" do
+    it "should catch timeout errors with the CrossRef API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, source_id: subject.id).should be_nil
+      response = subject.get_data(article, source_id: subject.id)
+      response.should eq(error: "the server responded with status 408 for http://doi.crossref.org/servlet/getForwardLinks?usr=EXAMPLE&pwd=EXAMPLE&doi=#{article.doi_escaped}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -65,7 +66,8 @@ describe CrossRef do
 
     it "should catch errors with the CrossRef OpenURL API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, source_id: subject.id).should be_nil
+      response = subject.get_data(article, source_id: subject.id)
+      response.should eq(error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -92,6 +94,12 @@ describe CrossRef do
       event = response[:events].first
       event[:event_url].should eq("http://dx.doi.org/#{event[:event]['doi']}")
     end
+
+    it "should catch timeout errors with the CrossRef API" do
+      result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
+    end
   end
 
   context "parse_data from the CrossRef OpenURL API" do
@@ -111,6 +119,12 @@ describe CrossRef do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
       response[:event_count].should eq(13)
+    end
+
+    it "should catch timeout errors with the CrossRef OpenURL API" do
+      result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

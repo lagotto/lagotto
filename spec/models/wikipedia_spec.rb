@@ -31,7 +31,9 @@ describe Wikipedia do
     it "should catch errors with the Wikipedia API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, /en.wikipedia.org/).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'wikipedia_error.json'), :status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      p response
+      response['error'].should_not be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

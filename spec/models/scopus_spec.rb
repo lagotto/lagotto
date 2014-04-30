@@ -33,7 +33,8 @@ describe Scopus do
 
     it "should catch errors with the Scopus API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response['error'].should_not be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

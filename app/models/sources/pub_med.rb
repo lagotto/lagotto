@@ -20,11 +20,9 @@
 
 class PubMed < Source
   def get_query_url(article)
-    if article.get_ids && article.pmid.present?
-      url % { :pmid => article.pmid }
-    else
-      nil
-    end
+    return nil unless article.get_ids && article.pmid.present?
+
+    url % { :pmid => article.pmid }
   end
 
   def request_options

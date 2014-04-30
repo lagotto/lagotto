@@ -37,6 +37,8 @@ class CrossRef < Source
   end
 
   def parse_data(result, article, options={})
+    return result if result[:error]
+
     events = get_events(result)
 
     if article.is_publisher?

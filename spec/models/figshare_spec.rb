@@ -34,7 +34,8 @@ describe Figshare do
 
     it "should catch timeout errors with the figshare API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 408 for http://api.figshare.com/v1/publishers/search_for?doi=#{article.doi}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -49,7 +50,7 @@ describe Figshare do
       body = File.read(fixture_path + 'figshare_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: [], event_count: nil)
+      response.should eq(:events=>{"count"=>0, "items"=>[]}, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the figshare API" do
@@ -60,6 +61,13 @@ describe Figshare do
       response[:event_metrics].should eq(pdf: 1, html: 13, shares: nil, groups: nil, comments: nil, likes: 0, citations: nil, total: 14)
       events = response[:events]
       events["items"].should_not be_nil
+    end
+
+    it "should catch timeout errors with the figshare API" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
+      result = { error: "the server responded with status 408 for http://api.figshare.com/v1/publishers/search_for?doi=#{article.doi}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

@@ -20,14 +20,13 @@
 
 class Mendeley < Source
   def parse_data(result, article, options={})
+    return result if result[:error]
+
     # When Mendeley doesn't return a proper API response it can return
     # - a 404 status and error hash
     # - an empty array
     # - an incomplete hash with just the Mendeley uuid
     # We should handle all 3 cases without errors and ignore the result
-
-    # an error has occured
-    return nil if result.nil?
 
     # empty array or incomplete hash
     return { events: [], event_count: nil } if result.empty? || !result['mendeley_url']
@@ -88,11 +87,9 @@ class Mendeley < Source
 
   def get_query_url(article)
     # First check that we have a valid OAuth2 access token, and a refreshed uuid
-    if get_access_token && get_mendeley_uuid(article)
-      url % { :id => article.mendeley_uuid, :api_key => api_key }
-    else
-      nil
-    end
+    return nil unless get_access_token && get_mendeley_uuid(article)
+
+    url % { :id => article.mendeley_uuid, :api_key => api_key }
   end
 
   def get_lookup_url(article, id_type = 'pmid')

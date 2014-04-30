@@ -35,7 +35,8 @@ describe RelativeMetric do
     it "should catch timeout errors with the relative metric API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0047712")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -85,6 +86,13 @@ describe RelativeMetric do
                                          :likes => nil,
                                          :citations => nil,
                                          :total => 0)
+    end
+
+    it "should catch timeout errors with the relative metric API" do
+      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

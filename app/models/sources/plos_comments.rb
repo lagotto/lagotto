@@ -20,17 +20,17 @@
 
 class PlosComments < Source
   def get_query_url(article)
-    if article.doi =~ /^10.1371/
-      url % { :doi => article.doi }
-    else
-      nil
-    end
+    return nil unless article.doi =~ /^10.1371/
+
+    url % { :doi => article.doi }
   end
 
   def parse_data(result, article, options={})
-    return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?
+    result = { 'data' => result } unless result.is_a?(Hash)
 
-    events = result
+    return result if result[:error]
+
+    events = result['data']
     replies = get_sum(events, 'totalNumReplies')
     total = events.length + replies
 

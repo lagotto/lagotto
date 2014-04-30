@@ -20,15 +20,13 @@
 
 class Figshare < Source
   def get_query_url(article)
-    if article.doi =~ /^10.1371/
-      url % { :doi => article.doi }
-    else
-      nil
-    end
+    return nil unless article.doi =~ /^10.1371/
+
+    url % { :doi => article.doi }
   end
 
   def parse_data(result, article, options={})
-    return { events: [], event_count: nil } if result.empty? || result["items"].empty?
+    return result if result[:error]
 
     views = get_sum(result["items"], 'stats', 'page_views')
     downloads = get_sum(result["items"], 'stats', 'downloads')

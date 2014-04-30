@@ -59,14 +59,13 @@ module Performable
 
       result = source.get_data(article, timeout: source.timeout, source_id: source_id)
       data_from_source = source.parse_data(result, article, source_id: source_id)
-      if data_from_source.is_a?(Hash)
+      if data_from_source[:error]
+        return { event_count: nil, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
+      else
         events = data_from_source[:events]
         events_url = data_from_source[:events_url]
         event_count = data_from_source[:event_count]
         event_metrics = data_from_source[:event_metrics]
-      else
-        # ERROR
-        return { event_count: nil, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
       end
 
       retrieved_at = Time.zone.now

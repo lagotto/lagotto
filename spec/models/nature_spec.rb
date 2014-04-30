@@ -28,10 +28,11 @@ describe Nature do
       stub.should have_been_requested
     end
 
-    it "should catch errors with the Nature Blogs API" do
+    it "should catch timeout errors with the Nature Blogs API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 408 for http://blogs.nature.com/posts.json?doi=#{article.doi_escaped}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -54,6 +55,13 @@ describe Nature do
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
       response[:event_count].should eq(10)
+    end
+
+    it "should catch timeout errors with the Nature Blogs APi" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
+      result = { error: "the server responded with status 408 for http://blogs.nature.com/posts.json?doi=#{article.doi_escaped}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

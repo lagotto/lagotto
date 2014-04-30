@@ -49,9 +49,10 @@ describe Facebook do
       stub.should have_been_requested
     end
 
-    it "should catch errors with the Facebook API" do
+    it "should catch authorization errors with the Facebook API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'facebook_error.json'), :status => [401])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 401 for https://graph.facebook.com/fql?access_token=EXAMPLE&q=select%20url,%20share_count,%20like_count,%20comment_count,%20click_count,%20total_count%20from%20link_stat%20where%20url%20=%20'http%253A%252F%252Fwww.plosmedicine.org%252Farticle%252Finfo%253Adoi%252F#{CGI.escape(article.doi_escaped)}'")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -76,6 +77,12 @@ describe Facebook do
       response = subject.parse_data(result, article)
       response[:events].should be_true
       response[:event_count].should eq(6745)
+    end
+
+    it "should catch errors with the Facebook API" do
+      result = { error: "the server responded with status 401 for https://graph.facebook.com/fql?access_token=EXAMPLE&q=select%20url,%20share_count,%20like_count,%20comment_count,%20click_count,%20total_count%20from%20link_stat%20where%20url%20=%20'http%253A%252F%252Fwww.plosmedicine.org%252Farticle%252Finfo%253Adoi%252F#{CGI.escape(article.doi_escaped)}'" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

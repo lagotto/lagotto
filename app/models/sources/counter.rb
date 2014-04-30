@@ -23,11 +23,9 @@ class Counter < Source
   include Dateable
 
   def get_query_url(article)
-    if article.doi =~ /^10.1371/
-      url % { :doi => article.doi_escaped }
-    else
-      nil
-    end
+    return nil unless article.doi =~ /^10.1371/
+
+    url % { :doi => article.doi_escaped }
   end
 
   def request_options
@@ -35,6 +33,8 @@ class Counter < Source
   end
 
   def parse_data(result, article, options={})
+    return result if result[:error]
+
     events = get_events(result)
 
     pdf = get_sum(events, :pdf_views)
@@ -46,6 +46,16 @@ class Counter < Source
       events_url: nil,
       event_count: total,
       event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
+  end
+
+  def get_events(result)
+    Array(result.deep_fetch('rest', 'response', 'results', 'item') { [] }).map do |item|
+      { month: item['month'],
+        year: item['year'],
+        pdf_views: item['get_pdf'] || 0,
+        xml_views: item['get_xml'] || 0,
+        html_views: item['get_document'] || 0 }
+    end
   end
 
   # Format Counter events for all articles as csv
@@ -76,16 +86,6 @@ class Counter < Source
         csv << [CONFIG[:uid]] + dates
         result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 } }
       end
-    end
-  end
-
-  def get_events(result)
-    Array(result.deep_fetch('rest', 'response', 'results', 'item') { [] }).map do |item|
-      { month: item['month'],
-        year: item['year'],
-        pdf_views: item['get_pdf'] || 0,
-        xml_views: item['get_xml'] || 0,
-        html_views: item['get_document'] || 0 }
     end
   end
 

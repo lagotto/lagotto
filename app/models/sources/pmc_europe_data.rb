@@ -20,14 +20,14 @@
 
 class PmcEuropeData < Source
   def get_query_url(article)
-    if article.get_ids && article.pmid.present?
-      url % { :pmid => article.pmid }
-    else
-      nil
-    end
+    return nil unless article.get_ids && article.pmid.present?
+
+    url % { :pmid => article.pmid }
   end
 
   def parse_data(result, article, options={})
+    return result if result[:error]
+
     event_count = result["hitCount"]
     events = get_events(result)
 

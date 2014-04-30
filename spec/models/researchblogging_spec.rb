@@ -32,7 +32,8 @@ describe Researchblogging do
     it "should catch errors with the ResearchBlogging API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{article.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 408 for http://researchbloggingconnect.com/blogposts?count=100&article=doi:#{article.doi_escaped}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -61,6 +62,13 @@ describe Researchblogging do
       response[:events_url].should eq(subject.get_events_url(article))
       event = response[:events].first
       event[:event_url].should eq(event[:event]["post_URL"])
+    end
+
+    it "should catch timeout errors with the ResearchBlogging API" do
+      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for http://researchbloggingconnect.com/blogposts?count=100&article=doi:#{article.doi_escaped}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

@@ -29,7 +29,8 @@ describe Citeulike do
 
     it "should catch errors with the CiteULike API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, source_id: subject.id).should be_nil
+      response = subject.get_data(article, source_id: subject.id)
+      response.should eq(error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{article.doi_escaped}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -55,6 +56,12 @@ describe Citeulike do
       response[:event_count].should eq(25)
       event = response[:events].first
       event[:event_url].should eq(event[:event]['link']['url'])
+    end
+
+    it "should catch timeout errors with the CiteULike API" do
+      result = { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{article.doi_escaped}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

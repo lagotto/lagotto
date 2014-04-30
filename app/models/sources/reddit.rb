@@ -20,6 +20,8 @@
 
 class Reddit < Source
   def parse_data(result, article, options={})
+    return result if result[:error]
+
     events = get_events(result)
 
     likes = get_sum(result["data"]["children"], 'data', 'score')

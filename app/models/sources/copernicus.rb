@@ -20,11 +20,9 @@
 
 class Copernicus < Source
   def get_query_url(article)
-    if article.doi =~ /^10.5194/
-      url % { :doi => article.doi }
-    else
-      nil
-    end
+    return nil unless article.doi =~ /^10.5194/
+
+    url % { :doi => article.doi }
   end
 
   def request_options
@@ -32,7 +30,8 @@ class Copernicus < Source
   end
 
   def parse_data(result, article, options={})
-    return { events: [], event_count: nil } if result.empty? || !result["counter"]
+    return result if result[:error]
+    #return { events: [], event_count: nil } if result.empty? || !result["counter"]
 
     if result["counter"].values.all? { |x| x.nil? }
       event_count = 0

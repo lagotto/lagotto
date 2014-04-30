@@ -20,7 +20,7 @@ describe PlosComments do
       body = File.read(fixture_path + 'plos_comments_error.txt')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 404)
       response = subject.get_data(article)
-      response.should eq(body)
+      response.should eq(error: body)
       stub.should have_been_requested
     end
 
@@ -43,7 +43,8 @@ describe PlosComments do
 
     it "should catch timeout errors with the PLOS comments API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 408 for http://example.org?doi={doi}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -55,16 +56,16 @@ describe PlosComments do
 
   context "parse_data" do
     it "should report if the article was not found by the PLOS comments API" do
-      body = File.read(fixture_path + 'plos_comments_error.txt')
-      response = subject.parse_data(body, article)
-      response.should eq(events: [], event_count: nil)
+      result = { error: File.read(fixture_path + 'plos_comments_error.txt') }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
 
     it "should report if there are no events and event_count returned by the PLOS comments API" do
       body = File.read(fixture_path + 'plos_comments_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: [], event_count: nil)
+      response.should eq(:events=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the PLOS comments API" do
@@ -77,6 +78,13 @@ describe PlosComments do
       event = response[:events].last
       event["originalTitle"].should eq("A small group research.")
       event["totalNumReplies"].should == 0
+    end
+
+    it "should catch timeout errors with the PLOS comments API" do
+      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for http://example.org?doi={doi}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

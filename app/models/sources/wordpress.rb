@@ -20,13 +20,21 @@
 
 class Wordpress < Source
   def parse_data(result, article, options = {})
+    # workaround as wordpress doesn't properly handle not found errors
+    if result.is_a?(Hash) && result['error']
+      return result unless result['error'] == "unexpected token for JSON"
+      result = []
+    end
+
+    options.merge!(response_options)
+    metrics = options[:metrics] || :citations
 
     events = get_events(result)
 
     { events: events,
       events_url: get_events_url(article),
       event_count: events.length,
-      event_metrics: get_event_metrics(citations: events.length) }
+      event_metrics: get_event_metrics(metrics => events.length) }
   end
 
   def get_events(result)

@@ -28,9 +28,10 @@ describe Datacite do
       stub.should have_been_requested
     end
 
-    it "should catch timeout errors with the datacite API" do
+    it "should catch timeout errors with the Datacite API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 408 for http://search.datacite.org/api?q=relatedIdentifier:#{article.doi_escaped}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&rows=100&wt=json")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -56,6 +57,12 @@ describe Datacite do
       response[:events_url].should eq("http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}")
       event = response[:events].first
       event[:event_url].should eq("http://doi.org/10.5061/DRYAD.8515")
+    end
+
+    it "should catch timeout errors with the Datacite API" do
+      result = { error: "the server responded with status 408 for http://search.datacite.org/api?q=relatedIdentifier:#{article.doi_escaped}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&rows=100&wt=json" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

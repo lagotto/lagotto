@@ -20,7 +20,7 @@ describe ArticleCoverage do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
       stub = stub_request(:get, subject.get_query_url(article))
       .to_return(:headers => {"Content-Type" => "application/json"}, :body => {"error" => "Article not found"}.to_json, :status => 404)
-      subject.get_data(article).should eq("{\"error\":\"Article not found\"}")
+      subject.get_data(article).should eq(error: "{\"error\":\"Article not found\"}")
       stub.should have_been_requested
     end
 
@@ -45,7 +45,8 @@ describe ArticleCoverage do
 
     it "should catch timeout errors with the Article Coverage API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -56,6 +57,12 @@ describe ArticleCoverage do
   end
 
   context "parse_data from the Article Coverage API" do
+    it "should report if article doesn't exist in Article Coverage source" do
+      result = { error: "{\"error\":\"Article not found\"}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
+    end
+
     it "should report if there are no events and event_count returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
@@ -80,6 +87,12 @@ describe ArticleCoverage do
       event_data['link_state'].should eq("APPROVED")
 
       event[:event_url].should eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
+    end
+
+    it "should catch timeout errors with the Article Coverage API" do
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

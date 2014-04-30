@@ -36,7 +36,7 @@ class Source < ActiveRecord::Base
   # include CouchDB helpers
   include Couchable
 
-  # include helper for searching in a hash
+  # include hash helper
   include Hashie::Extensions::DeepFetch
 
   has_many :retrieval_statuses, :dependent => :destroy
@@ -161,12 +161,18 @@ class Source < ActiveRecord::Base
       { events: [], event_count: nil }
     else
       result = get_result(query_url, options.merge(request_options))
+
+      # extend hash fetch method to nested hashes
       result.extend Hashie::Extensions::DeepFetch
     end
   end
 
   def parse_data(result, article, options = {})
-    return nil if result.nil?
+    # turn result into a hash for easier parsing later
+    result = { 'data' => result } unless result.is_a?(Hash)
+
+    # return early if an error occured
+    return result if result[:error]
 
     options.merge!(response_options)
     metrics = options[:metrics] || :citations
@@ -188,18 +194,14 @@ class Source < ActiveRecord::Base
   end
 
   def get_query_url(article)
-    if url.present? && article.doi.present?
-      url % { :doi => article.doi_escaped }
-    else
-      nil
-    end
+    return nil unless url.present? && article.doi.present?
+
+    url % { :doi => article.doi_escaped }
   end
 
   def get_events_url(article)
     if events_url.present? && article.doi.present?
       events_url % { :doi => article.doi_escaped }
-    else
-      nil
     end
   end
 

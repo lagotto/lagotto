@@ -66,7 +66,8 @@ describe TwitterSearch do
     it "should catch errors with the twitter_search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response['error'].should_not be_nil
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

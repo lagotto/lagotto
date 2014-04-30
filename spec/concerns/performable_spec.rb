@@ -44,7 +44,6 @@ describe RetrievalStatus do
 
       rs_result = subject.get_alm_data(rs_id)
 
-
       rs_result.should include("source" => subject.source.name,
                                "doi" => subject.article.doi,
                                "doc_type" => "current",
