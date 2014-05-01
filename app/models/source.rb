@@ -173,6 +173,7 @@ class Source < ActiveRecord::Base
       next if name == "crossref" && field == :password
       next if name == "mendeley" && field == :access_token
       next if name == "twitter_search" && field == :access_token
+      next if name == "scopus" && field == :insttoken
 
       errors.add(field, "can't be blank") if send(field).blank?
     end
