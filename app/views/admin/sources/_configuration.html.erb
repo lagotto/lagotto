@@ -81,7 +81,7 @@
       <% unless @source.config_fields.empty? %>
         <% @source.config_fields.each do |field| %>
           <tr>
-            <th><%= field.gsub(/_/, " ").capitalize %></th>
+            <th><%= field.to_s.gsub(/_/, " ").capitalize %></th>
             <td><%= @source.send(field) %></td>
           </tr>
         <% end %>
