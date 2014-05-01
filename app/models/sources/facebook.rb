@@ -37,8 +37,8 @@ class Facebook < Source
       shares, comments, likes, total = 0, 0, 0, 0
     else
       shares = result.deep_fetch('data', 0, 'share_count') { 0 }
-      comments = result.deep_fetch('data', 0, 'comment_count') { 0 }
-      likes = result.deep_fetch('data', 0, 'like_count') { 0 }
+      comments = result.deep_fetch('data', 0, 'comment_count') { 0 }
+      likes = result.deep_fetch('data', 0, 'like_count') { 0 }
     end
 
     { events: result['data'],

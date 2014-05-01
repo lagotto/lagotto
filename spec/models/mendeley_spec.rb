@@ -152,7 +152,7 @@ describe Mendeley do
       stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 404)
       response = subject.get_data(article)
-      response.should eq(error: body)
+      response.should eq(error: JSON.parse(body))
       Alert.count.should == 0
     end
 
@@ -162,7 +162,7 @@ describe Mendeley do
       stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 404)
       response = subject.get_data(article)
-      response.should eq(error: body)
+      response.should eq(error: JSON.parse(body)['error'])
       stub.should have_been_requested
       Alert.count.should == 0
     end

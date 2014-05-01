@@ -85,7 +85,7 @@ describe Source do
 
     it "handle missing data" do
       get_response = subject.get_alm_data(id)
-      ActiveSupport::JSON.decode(get_response).should eq(error)
+      get_response.should eq(error: "not_found")
       Alert.count.should == 0
     end
   end

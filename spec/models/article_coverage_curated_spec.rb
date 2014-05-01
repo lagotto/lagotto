@@ -20,7 +20,7 @@ describe ArticleCoverageCurated do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
       stub = stub_request(:get, subject.get_query_url(article))
       .to_return(:headers => {"Content-Type" => "application/json"}, :body => {"error" => "Article not found"}.to_json, :status => 404)
-      subject.get_data(article).should eq(error: "{\"error\":\"Article not found\"}")
+      subject.get_data(article).should eq(error: "Article not found")
       stub.should have_been_requested
     end
 

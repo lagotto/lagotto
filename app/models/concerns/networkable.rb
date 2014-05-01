@@ -108,7 +108,7 @@ module Networkable
     def rescue_faraday_error(url, error, options={})
       if error.kind_of?(Faraday::Error::ResourceNotFound)
         if error.response.blank? && error.response[:body].blank?
-          { error: nil }
+          { error: "resource not found" }
         # we raise an error if we find a canonical URL mismatch
         elsif options[:doi_mismatch]
           Alert.create(exception: error.exception,
@@ -127,10 +127,9 @@ module Networkable
                        status: error.response[:status],
                        target_url: url)
           { error: "DOI could not be resolved" }
-        elsif options[:content_type] == 'xml'
-          Hash.from_xml(error.response[:body])
         else
-          { error: error.response[:body] }
+          error = parse_error_response(error.response[:body])
+          { error: error }
         end
       # malformed JSON is treated as ResourceNotFound
       elsif error.message.include?("unexpected token")
@@ -157,8 +156,9 @@ module Networkable
 
         class_name = class_by_status(status) || error.class
 
-        message = "#{error.message} for #{url}"
-        message = "#{error.message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
+        message = parse_error_response(error.message)
+        message = "#{message} for #{url}"
+        message = "#{message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
 
         Alert.create(exception: exception,
                      class_name: class_name.to_s,
@@ -187,6 +187,26 @@ module Networkable
         when 503 then Net::HTTPServiceUnavailable
         else nil
         end
+    end
+
+    def parse_error_response(string)
+      if is_json?(string)
+        string = JSON.parse(string)
+      elsif is_xml?(string)
+        string = Hash.from_xml(string)
+      end
+      string = string['error'] if string.is_a?(Hash) && string['error']
+      string
+    end
+
+    def is_xml?(string)
+      Nokogiri::XML(string).errors.empty?
+    end
+
+    def is_json?(string)
+      JSON.parse(string)
+    rescue JSON::ParserError
+      false
     end
   end
 end

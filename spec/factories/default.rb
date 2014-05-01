@@ -39,9 +39,11 @@ FactoryGirl.define do
     end
 
     factory :article_for_feed do
-      year { Time.zone.now.year }
-      day { Time.zone.now.day - 1 }
-      retrieval_statuses { |article| [article.association(:retrieval_status, retrieved_at: Time.zone.today - 1.day)] }
+      date = Date.today - 1.day
+      year { date.year }
+      month { date.month }
+      day { date.day }
+      retrieval_statuses { |article| [article.association(:retrieval_status, retrieved_at: date)] }
     end
 
     factory :article_published_today do

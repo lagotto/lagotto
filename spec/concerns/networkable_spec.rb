@@ -17,7 +17,8 @@ describe Source do
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:body => data.to_xml, :status => 200, :headers => { "Content-Type" => "application/xml" })
-        subject.get_result(url, content_type: 'xml') { |response| Hash.from_xml(response.to_s)["hash"].should eq(data) }
+        response = subject.get_result(url, content_type: 'xml')
+        response.should eq('hash' => data)
       end
 
       it "get html" do
@@ -41,7 +42,8 @@ describe Source do
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:body => nil, :status => 200, :headers => { "Content-Type" => "application/xml" })
-        subject.get_result(url, content_type: 'xml') { |response| response.should be_nil }
+        response = subject.get_result(url, content_type: 'xml')
+        response.should be_blank
       end
 
       it "get html" do
@@ -61,19 +63,19 @@ describe Source do
 
       it "get json" do
         stub = stub_request(:get, url).to_return(:body => error.to_json, :status => [404], :headers => { "Content-Type" => "application/json" })
-        ActiveSupport::JSON.decode(subject.get_result(url)).should eq(error)
+        subject.get_result(url).should eq(error: error['error'])
         Alert.count.should == 0
       end
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:body => error.to_xml, :status => [404], :headers => { "Content-Type" => "application/xml" })
-        subject.get_result(url, content_type: 'xml') { |response| Hash.from_xml(response.to_s)["hash"].should eq(error) }
+        subject.get_result(url, content_type: 'xml').should eq(error: { 'hash' => error })
         Alert.count.should == 0
       end
 
       it "get html" do
-        stub = stub_request(:get, url).to_return(:body => error.to_s, :status => [404], :headers => { "Content-Type" => "application/json" })
-        subject.get_result(url, content_type: 'html').should eq(error.to_s)
+        stub = stub_request(:get, url).to_return(:body => error.to_s, :status => [404], :headers => { "Content-Type" => "text/html" })
+        subject.get_result(url, content_type: 'html').should eq(error: error.to_s)
         Alert.count.should == 0
       end
 
@@ -87,7 +89,8 @@ describe Source do
     context "request timeout" do
       it "get json" do
         stub = stub_request(:get, url).to_return(:status => [408])
-        subject.get_result(url).should be_nil
+        response = subject.get_result(url)
+        response.should eq(error: "the server responded with status 408 for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -96,7 +99,8 @@ describe Source do
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:status => [408])
-        subject.get_result(url, content_type: 'xml') { |response| response.should be_nil }
+        response = subject.get_result(url, content_type: 'xml')
+        response.should eq(error: "the server responded with status 408 for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -105,7 +109,8 @@ describe Source do
 
       it "get html" do
         stub = stub_request(:get, url).to_return(:status => [408])
-        subject.get_result(url, content_type: 'html').should be_nil
+        response = subject.get_result(url, content_type: 'html')
+        response.should eq(error: "the server responded with status 408 for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -125,7 +130,8 @@ describe Source do
     context "request timeout internal" do
       it "get json" do
         stub = stub_request(:get, url).to_timeout
-        subject.get_result(url).should be_nil
+        response = subject.get_result(url)
+        response.should eq(error: "request timed out for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -135,7 +141,8 @@ describe Source do
 
       it "get xml" do
         stub = stub_request(:get, url).to_timeout
-        subject.get_result(url, content_type: 'xml') { |response| response.should be_nil }
+        response = subject.get_result(url, content_type: 'xml')
+        response.should eq(error: "request timed out for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -145,7 +152,8 @@ describe Source do
 
       it "get html" do
         stub = stub_request(:get, url).to_timeout
-        subject.get_result(url, content_type: 'html').should be_nil
+        response = subject.get_result(url, content_type: 'html')
+        response.should eq(error: "request timed out for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")
@@ -167,7 +175,8 @@ describe Source do
     context "too many requests" do
       it "get json" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        subject.get_result(url).should be_nil
+        response = subject.get_result(url)
+        response.should eq(error: "the server responded with status 429 for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -176,7 +185,8 @@ describe Source do
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        subject.get_result(url, content_type: 'xml') { |response| response.should be_nil }
+        response = subject.get_result(url, content_type: 'xml')
+        response.should eq(error: "the server responded with status 429 for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -185,7 +195,8 @@ describe Source do
 
       it "get html" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        subject.get_result(url, content_type: 'html').should be_nil
+        response = subject.get_result(url, content_type: 'html')
+        response.should eq(error: "the server responded with status 429 for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -205,7 +216,8 @@ describe Source do
     context "store source_id with error" do
       it "get json" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        subject.get_result(url, source_id: 1).should be_nil
+        response = subject.get_result(url, source_id: 1)
+        response.should eq(error: "the server responded with status 429 for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -215,7 +227,8 @@ describe Source do
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        subject.get_result(url, content_type: 'xml', source_id: 1) { |response| response.should be_nil }
+        response = subject.get_result(url, content_type: 'xml', source_id: 1)
+        response.should eq(error: "the server responded with status 429 for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -224,7 +237,8 @@ describe Source do
 
       it "get html" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        subject.get_result(url, content_type: 'html', source_id: 1).should be_nil
+        response = subject.get_result(url, content_type: 'html', source_id: 1)
+        response.should eq(error: "the server responded with status 429 for #{url}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPClientError")
@@ -257,7 +271,7 @@ describe Source do
         filename = "test"
         stub = stub_request(:get, url).to_return(:status => [408])
         response = subject.save_to_file(url, filename)
-        response.should be_nil
+        response.should eq(error: "the server responded with status 408 for #{url}")
         stub.should have_been_requested
         Alert.count.should == 1
         alert = Alert.first

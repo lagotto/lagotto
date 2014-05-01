@@ -112,7 +112,7 @@ module Performable
                             event_count: 0,
                             event_metrics: event_metrics,
                             events_url: events_url)
-          rh.update_attributes(retrieved_at: retrieved_at, event_count: 0, )
+          rh.update_attributes(retrieved_at: retrieved_at, event_count: 0)
         end
 
         { event_count: event_count, previous_count: previous_count, retrieval_history_id: rh.id, update_interval: update_interval }

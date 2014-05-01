@@ -87,7 +87,7 @@ describe Counter do
     it "should report if there are no events and event_count returned by the Counter API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'counter_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 404)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       response['rest']['response']['results']['item'].should be_nil
