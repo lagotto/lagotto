@@ -264,7 +264,7 @@ describe "/api/v4/articles" do
         last_response.status.should == 400
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({ "title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1660 and 2015"] })
+        response["error"].should eq({"title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1660 and 2015"], "published_on"=>["is not a valid date"]})
         response["success"].should be_nil
         response["data"]["doi"].should eq (params["article"]["doi"])
         response["data"]["title"].should be_nil
