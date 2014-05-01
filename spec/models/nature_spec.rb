@@ -16,7 +16,7 @@ describe Nature do
       body = File.read(fixture_path + 'nature_nil.json')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       response = subject.get_data(article)
-      response.should eq(JSON.parse(body))
+      response.should eq('data' => JSON.parse(body))
       stub.should have_been_requested
     end
 
@@ -24,7 +24,7 @@ describe Nature do
       body = File.read(fixture_path + 'nature.json')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       response = subject.get_data(article)
-      response.should eq(JSON.parse(body))
+      response.should eq('data' => JSON.parse(body))
       stub.should have_been_requested
     end
 
@@ -45,14 +45,14 @@ describe Nature do
   context "parse_data" do
     it "should report if there are no events and event_count returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature_nil.json')
-      result = JSON.parse(body)
+      result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, article)
       response.should eq(events: [], :events_url=>nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature.json')
-      result = JSON.parse(body)
+      result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, article)
       response[:event_count].should eq(10)
     end

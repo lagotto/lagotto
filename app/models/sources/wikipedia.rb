@@ -27,41 +27,30 @@ class Wikipedia < Source
   end
 
   def get_data(article, options={})
-    return {:events=>[], :event_count=>nil} unless article.doi.present?
+    return { events: [], event_count: nil } unless article.doi.present?
 
-    events = {}
-
-    # Loop through the languages
-    languages.split(" ").each do |lang|
-
+    # Loop through the languages, create hash with languages as keys and counts as values
+    languages.split(" ").reduce({}) do |sum, lang|
       host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
       namespace = (lang == "commons") ? "6" : "0"
       query_url = get_query_url(article, host: host, namespace: namespace)
+
       result = get_result(query_url, options)
+      result.extend Hashie::Extensions::DeepFetch
 
-      # if server doesn't return a result
-      if result.nil?
-        return nil
-      elsif !result.empty? && result['query'] && result['query']['searchinfo'] && result['query']['searchinfo']['totalhits']
-        lang_count = result['query']['searchinfo']['totalhits']
-      else # not found
-        lang_count = 0
-      end
-
-      events[lang] = lang_count
+      sum[lang] = result.deep_fetch('query', 'searchinfo', 'totalhits') { nil }
+      sum
     end
-
-    events.extend Hashie::Extensions::DeepFetch
   end
 
   def parse_data(result, article, options={})
-    event_count = result.values.reduce(0) { |sum, x| sum + x }
-    result["total"] = event_count
+    events = result
+    events['total'] = events.values.reduce(0) { |sum, x| x.nil? ? sum : sum + x }
 
-    { events: result,
+    { events: events,
       events_url: get_events_url(article),
-      event_count: event_count,
-      event_metrics: get_event_metrics(citations: event_count) }
+      event_count: events['total'],
+      event_metrics: get_event_metrics(citations: events['total']) }
   end
 
   def config_fields

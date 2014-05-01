@@ -28,7 +28,7 @@ describe PlosComments do
       body = File.read(fixture_path + 'plos_comments_nil.json')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       response = subject.get_data(article)
-      response.should eq (JSON.parse(body))
+      response.should eq('data' => JSON.parse(body))
       stub.should have_been_requested
     end
 
@@ -37,7 +37,7 @@ describe PlosComments do
       body = File.read(fixture_path + 'plos_comments.json')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       response = subject.get_data(article)
-      response.should eq (JSON.parse(body))
+      response.should eq('data' => JSON.parse(body))
       stub.should have_been_requested
     end
 
@@ -63,7 +63,7 @@ describe PlosComments do
 
     it "should report if there are no events and event_count returned by the PLOS comments API" do
       body = File.read(fixture_path + 'plos_comments_nil.json')
-      result = JSON.parse(body)
+      result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, article)
       response.should eq(:events=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
     end
@@ -71,7 +71,7 @@ describe PlosComments do
     it "should report if there are events and event_count returned by the PLOS comments API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'plos_comments.json')
-      result = JSON.parse(body)
+      result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, article)
       response[:event_count].should == 36
       response[:event_metrics].should eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: 31, likes: nil, citations: nil, total: 36)

@@ -31,10 +31,10 @@ describe Scopus do
       stub.should have_been_requested
     end
 
-    it "should catch errors with the Scopus API" do
+    it "should catch timeout errors with the Scopus API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response['error'].should_not be_nil
+      response.should eq(error: "the server responded with status 408 for https://api.elsevier.com/content/search/index:SCOPUS?query=DOI(#{article.doi_escaped})")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -47,17 +47,26 @@ describe Scopus do
       it "should report if there are no events and event_count returned by the Scopus API" do
         body = File.read(fixture_path + 'scopus_nil.json')
         result = JSON.parse(body)
+        result.extend Hashie::Extensions::DeepFetch
         article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.000001")
         response = subject.parse_data(result, article)
-        response.should eq(events: [], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+        response.should eq(:events=>{"@force-array"=>"true", "error"=>"Result set was empty"}, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
       end
 
       it "should report if there are events and event_count returned by the Scopus API" do
         body = File.read(fixture_path + 'scopus.json')
         result = JSON.parse(body)
+        result.extend Hashie::Extensions::DeepFetch
         events = JSON.parse(body)["search-results"]["entry"][0]
         response = subject.parse_data(result, article)
         response.should eq(events: events, event_count: 1814, events_url: "http://www.scopus.com/inward/citedby.url?partnerID=HzOxMe3b&scp=33845338724", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 1814, total: 1814 })
+      end
+
+      it "should catch timeout errors with the Scopus API" do
+        article = FactoryGirl.create(:article, :doi => "10.2307/683422")
+        result = { error: "the server responded with status 408 for https://api.elsevier.com/content/search/index:SCOPUS?query=DOI(#{article.doi_escaped})" }
+        response = subject.parse_data(result, article)
+        response.should eq(result)
       end
     end
   end

@@ -20,29 +20,19 @@
 
 class Mendeley < Source
   def parse_data(result, article, options={})
-    return result if result[:error]
-
     # When Mendeley doesn't return a proper API response it can return
     # - a 404 status and error hash
     # - an empty array
     # - an incomplete hash with just the Mendeley uuid
-    # We should handle all 3 cases without errors and ignore the result
-
-    # empty array or incomplete hash
-    return { events: [], event_count: nil } if result.empty? || !result['mendeley_url']
-
-    # remove "mendeley_authors" key, as it is not needed and creates problems in XML:
-    # "mendeley_authors" => {"4712245473"=>5860673}
-    result.except!("mendeley_authors")
+    # We should handle all 3 cases, but return an error otherwise
+    return result if result[:error].is_a?(String)
 
     readers = result.deep_fetch('stats', 'readers') { 0 }
     groups = Array(result['groups']).length
     total = readers + groups
 
-    events_url = result['mendeley_url']
-
-    { events: result,
-      events_url: events_url,
+    { events: result['stats'],
+      events_url: result['mendeley_url'],
       event_count: total,
       event_metrics: get_event_metrics(shares: readers, groups: groups, total: total) }
   end

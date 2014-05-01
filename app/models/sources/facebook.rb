@@ -28,23 +28,20 @@ class Facebook < Source
   def parse_data(result, article, options={})
     return result if result[:error]
 
-    events = result["data"]
+    result.extend Hashie::Extensions::DeepFetch
 
     # don't trust results if event count is above preset limit
     # workaround for Facebook getting confused about the canonical URL
-    if events[0]["total_count"] > count_limit.to_i
-      shares = 0
-      comments = 0
-      likes = 0
-      total = 0
+    total = result.deep_fetch('data', 0, 'total_count') { 0 }
+    if total > count_limit.to_i
+      shares, comments, likes, total = 0, 0, 0, 0
     else
-      shares = events[0]["share_count"]
-      comments = events[0]["comment_count"]
-      likes = events[0]["like_count"]
-      total = events[0]["total_count"]
+      shares = result.deep_fetch('data', 0, 'share_count') { 0 }
+      comments = result.deep_fetch('data', 0, 'comment_count') { 0 }
+      likes = result.deep_fetch('data', 0, 'like_count') { 0 }
     end
 
-    { events: events,
+    { events: result['data'],
       events_url: nil,
       event_count: total,
       event_metrics: get_event_metrics(shares: shares, comments: comments, likes: likes, total: total) }

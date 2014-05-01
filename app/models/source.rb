@@ -162,6 +162,9 @@ class Source < ActiveRecord::Base
     else
       result = get_result(query_url, options.merge(request_options))
 
+      # make sure we return a hash
+      result = { 'data' => result } unless result.is_a?(Hash)
+
       # extend hash fetch method to nested hashes
       result.extend Hashie::Extensions::DeepFetch
     end

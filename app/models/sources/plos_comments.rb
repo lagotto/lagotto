@@ -26,8 +26,6 @@ class PlosComments < Source
   end
 
   def parse_data(result, article, options={})
-    result = { 'data' => result } unless result.is_a?(Hash)
-
     return result if result[:error]
 
     events = result['data']

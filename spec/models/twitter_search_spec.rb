@@ -45,7 +45,7 @@ describe TwitterSearch do
       subject.get_data(article).should eq(events: [], event_count: nil)
     end
 
-    it "should report if there are no events and event_count returned by the twitter_search API" do
+    it "should report if there are no events and event_count returned by the Twitter Search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
@@ -54,7 +54,7 @@ describe TwitterSearch do
       stub.should have_been_requested
     end
 
-    it "should report if there are events and event_count returned by the twitter_search API" do
+    it "should report if there are events and event_count returned by the Twitter Search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
@@ -63,11 +63,11 @@ describe TwitterSearch do
       stub.should have_been_requested
     end
 
-    it "should catch errors with the twitter_search API" do
+    it "should catch errors with the Twitter Search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response['error'].should_not be_nil
+      response.should eq(error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=#{CGI.escape(article.doi_escaped)}&result_type=mixed")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -78,14 +78,14 @@ describe TwitterSearch do
   end
 
   context "parse_data" do
-    it "should report if there are no events and event_count returned by the twitter_search API" do
+    it "should report if there are no events and event_count returned by the Twitter Search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       subject.parse_data(result, article).should eq(events: [], event_count: 0, events_url: "https://twitter.com/search?q=#{article.doi_escaped}", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 })
     end
 
-    it "should report if there are events and event_count returned by the twitter_search API" do
+    it "should report if there are events and event_count returned by the Twitter Search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
       result = JSON.parse(body)
@@ -96,6 +96,13 @@ describe TwitterSearch do
       response[:events_url].should eq("https://twitter.com/search?q=#{article.doi_escaped}")
       event = response[:events].first
       event[:event_url].should eq("http://twitter.com/ChampsEvrywhere/status/422039629882089472")
+    end
+
+    it "should catch timeout errors with the Twitter Search API" do
+      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=#{CGI.escape(article.doi_escaped)}&result_type=mixed" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

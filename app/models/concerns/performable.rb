@@ -28,7 +28,7 @@ module Performable
       # - hash with event_count nil: SKIPPED
       # - hash with event_count = 0: SUCCESS NO DATA
       # - hash with event_count > 0: SUCCESS
-      # - nil                      : ERROR
+      # - hash with error not nil  : ERROR
       #
       # SKIPPED
       # The source doesn't know about the article identifier, and we never call the API.
@@ -72,9 +72,9 @@ module Performable
 
       # SKIPPED
       if event_count.nil?
-        update_attributes(:retrieved_at => retrieved_at,
-                          :scheduled_at => stale_at,
-                          :event_count => 0)
+        update_attributes(retrieved_at: retrieved_at,
+                          scheduled_at: stale_at,
+                          event_count: 0)
         { event_count: 0, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
       else
         rh = RetrievalHistory.create(:retrieval_status_id => id,
@@ -91,11 +91,12 @@ module Performable
                    :doc_type => "current" }
 
           # save the data to mysql
-          event_count = event_count
-          event_metrics = event_metrics
-          events_url = events_url
-
-          rh.event_count = event_count
+          update_attributes(retrieved_at: retrieved_at,
+                            scheduled_at: stale_at,
+                            event_count: event_count,
+                            event_metrics: event_metrics,
+                            events_url: events_url)
+          rh.update_attributes(event_count: event_count, retrieved_at: retrieved_at)
 
           # save the data to couchdb
           rs_rev = save_alm_data("#{source.name}:#{article.uid_escaped}", data: data.clone, source_id: source_id)
@@ -105,18 +106,14 @@ module Performable
 
         # SUCCESS NO DATA
         else
-          # save the data to mysql
-          # don't save any data to couchdb
-          event_count = 0
-          rh.event_count = 0
+          # save the data to mysql, don't save any data to couchdb
+          update_attributes(retrieved_at: retrieved_at,
+                            scheduled_at: stale_at,
+                            event_count: 0,
+                            event_metrics: event_metrics,
+                            events_url: events_url)
+          rh.update_attributes(retrieved_at: retrieved_at, event_count: 0, )
         end
-
-        retrieved_at = retrieved_at
-        scheduled_at = stale_at
-        save
-
-        rh.retrieved_at = retrieved_at
-        rh.save
 
         { event_count: event_count, previous_count: previous_count, retrieval_history_id: rh.id, update_interval: update_interval }
       end

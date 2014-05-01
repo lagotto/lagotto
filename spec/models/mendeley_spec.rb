@@ -40,7 +40,7 @@ describe Mendeley do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
 
       response = subject.get_data(article, source_id: subject.id)
-      response['error'].should_not be_nil
+      response[:error].should_not be_nil
       stub_auth.should have_been_requested
       stub_uuid.should have_been_requested.times(2)
       stub.should have_been_requested
@@ -56,7 +56,7 @@ describe Mendeley do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
 
       response = subject.get_data(article, source_id: subject.id)
-      response['error'].should_not be_nil
+      response[:error].should_not be_nil
       stub_auth.should have_been_requested
       stub_uuid.should have_been_requested.times(2)
       stub.should have_been_requested
@@ -152,7 +152,7 @@ describe Mendeley do
       stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 404)
       response = subject.get_data(article)
-      response.should eq("error"=> body)
+      response.should eq(error: body)
       Alert.count.should == 0
     end
 
@@ -162,7 +162,7 @@ describe Mendeley do
       stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 404)
       response = subject.get_data(article)
-      response.should eq("error"=> body)
+      response.should eq(error: body)
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -182,7 +182,7 @@ describe Mendeley do
       stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://api.figshare.com/v1/publishers/search_for?doi=#{article.doi}")
+      response.should eq(error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{article.mendeley_uuid}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -209,23 +209,23 @@ describe Mendeley do
       body = File.read(fixture_path + 'mendeley_incomplete.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should eq(events: [], event_count: nil)
+      subject.parse_data(result, article).should eq(:events=>nil, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
       Alert.count.should == 0
     end
 
     it "should report no events and event_count if the Mendeley API returns malformed response" do
       body = File.read(fixture_path + 'mendeley_nil.json')
-      result = JSON.parse(body)
+      result = { 'data' => body }
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should eq(events: [], event_count: nil)
+      subject.parse_data(result, article).should eq(:events=>nil, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
       Alert.count.should == 0
     end
 
     it "should report no events and event_count if the Mendeley API returns not found error" do
       body = File.read(fixture_path + 'mendeley_error.json')
-      result = JSON.parse(body)
+      result = { error: JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should eq(events: [], event_count: nil)
+      subject.parse_data(result, article).should eq(:events=>nil, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
       Alert.count.should == 0
     end
 
@@ -242,7 +242,8 @@ describe Mendeley do
 
     it "should catch timeout errors with the Mendeley API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
-      result = { error: "the server responded with status 408 for http://api.figshare.com/v1/publishers/search_for?doi=#{article.doi}" }
+      result = { error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{article.mendeley_uuid}" }
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
       response.should eq(result)
     end

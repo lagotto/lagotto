@@ -41,10 +41,10 @@ describe Wos do
       stub.should have_been_requested
     end
 
-    it "should catch errors with the Wos API" do
+    it "should catch timeout errors with the Wos API" do
       stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response['error'].should_not be_nil
+      response.should eq(error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -76,13 +76,21 @@ describe Wos do
       body = File.read(fixture_path + 'wos_unauthorized.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should be_nil
+      response = subject.parse_data(result, article)
+      response.should eq(error: "Web of Science error Server.authentication: 'No matches returned for IP Address' for article #{article.doi}")
       Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("Net::HTTPUnauthorized")
       alert.message.should include("Web of Science error Server.authentication")
       alert.status.should == 401
       alert.source_id.should == subject.id
+    end
+
+    it "should catch timeout errors with the Wos API" do
+      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

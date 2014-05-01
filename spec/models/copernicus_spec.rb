@@ -23,7 +23,7 @@ describe Copernicus do
       body = File.read(fixture_path + 'copernicus_nil.json')
       stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").with(:headers => { :authorization => auth }).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       response = subject.get_data(article)
-      response.should eq(JSON.parse(body))
+      response.should eq('data' => JSON.parse(body))
       stub.should have_been_requested
     end
 
@@ -63,8 +63,8 @@ describe Copernicus do
   context "parse_data" do
     it "should report if there are no events and event_count returned by the Copernicus API" do
       body = File.read(fixture_path + 'copernicus_nil.json')
-      result = JSON.parse(body)
-      subject.parse_data(result, article).should eq(events: [], event_count: nil)
+      result = { 'data' => JSON.parse(body) }
+      subject.parse_data(result, article).should eq(:events=>{"data"=>[]}, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the Copernicus API" do

@@ -20,7 +20,7 @@
 
 class ArticleCoverageCurated < Source
   def get_query_url(article)
-    return nil unless url.present? && article.doi =~ /^10.1371/
+    return nil unless article.doi =~ /^10.1371/
 
     url % { :doi => article.doi_escaped }
   end

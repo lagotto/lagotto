@@ -31,22 +31,17 @@ class Copernicus < Source
 
   def parse_data(result, article, options={})
     return result if result[:error]
-    #return { events: [], event_count: nil } if result.empty? || !result["counter"]
 
-    if result["counter"].values.all? { |x| x.nil? }
-      event_count = 0
-      pdf = 0
-      html = 0
-    else
-      event_count = result["counter"].values.reduce(0) { |sum, x| sum + (x ? x : 0) }
-      pdf = result["counter"]["PdfDownloads"]
-      html = result["counter"]["AbstractViews"]
-    end
+    events = result.fetch('counter') { {} }
+
+    pdf = events.fetch('counter') { 0 }
+    html = events.fetch('counter') { 0 }
+    total = events.values.reduce(0) { |sum, x| x.nil? ? sum : sum + x }
 
     { events: result,
       events_url: nil,
-      event_count: event_count,
-      event_metrics: get_event_metrics(pdf: pdf, html: html, total: event_count) }
+      event_count: total,
+      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
   end
 
   def config_fields

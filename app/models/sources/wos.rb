@@ -37,9 +37,11 @@ class Wos < Source
   end
 
   def parse_data(result, article, options={})
-    # Check that WOS has returned the correct status message,
-    # otherwise report an error
-    return nil unless check_status_ok(result, article)
+    return result if result[:error]
+
+    # Check whether WOS has returned an error status message
+    error_status = check_error_status(result, article)
+    return { error: error_status } if error_status
 
     values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
     event_count = values[0].to_i
@@ -51,11 +53,11 @@ class Wos < Source
       event_metrics: get_event_metrics(citations: event_count) }
   end
 
-  def check_status_ok(result, article)
+  def check_error_status(result, article)
     status = result.deep_fetch 'response', 'fn', 'rc'
 
     if status.casecmp('OK') == 0
-      return true
+      return false
     else
       if status == 'Server.authentication'
         class_name = 'Net::HTTPUnauthorized'
@@ -71,7 +73,7 @@ class Wos < Source
                    class_name: class_name,
                    status: status_code,
                    source_id: id)
-      return false
+      return message
     end
   end
 

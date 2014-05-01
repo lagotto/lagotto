@@ -24,20 +24,22 @@ class Scopus < Source
   end
 
   def parse_data(result, article, options={})
-    if result["search-results"].nil? || result["search-results"]["entry"][0].nil?
-      nil
-    elsif result["search-results"]["entry"][0]["citedby-count"].nil?
-      { events: [], event_count: 0, event_metrics: get_event_metrics(citations: 0) }
-    else
-      events = result["search-results"]["entry"][0]
-      event_count = events["citedby-count"].to_i
-      link = events["link"].find { |link| link["@ref"] == "scopus-citedby" }
+    return result if result[:error]
 
-      { events: events,
-        events_url: link["@href"],
-        event_count: event_count,
-        event_metrics: get_event_metrics(citations: event_count) }
+    events = result.deep_fetch('search-results', 'entry', 0)
+    event_count = (events.fetch('citedby-count') { 0 }).to_i
+
+    if event_count > 0
+      link = events["link"].find { |link| link["@ref"] == "scopus-citedby" }
+      events_url = link["@href"]
+    else
+      events_url = nil
     end
+
+    { events: events,
+      events_url: events_url,
+      event_count: event_count,
+      event_metrics: get_event_metrics(citations: event_count) }
   end
 
   def config_fields

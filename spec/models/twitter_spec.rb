@@ -31,7 +31,7 @@ describe Twitter do
     it "should catch errors with the Twitter API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response['error'].should_not be_nil
+      response.should eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -66,6 +66,13 @@ describe Twitter do
       event_data[:user].should eq("regrum")
       event_data[:user_name].should eq("regrum")
       event_data[:user_profile_image].should eq("http://a0.twimg.com/profile_images/61215276/regmanic2_normal.JPG")
+    end
+
+    it "should catch timeout errors with the Twitter API" do
+      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end
