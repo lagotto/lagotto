@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
   # Override settings for specific providers
   config.vm.provider :virtualbox do |vb, override|
     vb.name = "alm"
+    # vb.gui = true
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
@@ -56,7 +57,6 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "alm.local"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
-  # config.vm.boot_mode = :gui
 
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as
