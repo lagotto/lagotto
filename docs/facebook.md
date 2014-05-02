@@ -11,6 +11,10 @@ Since January 2013 Facebook aggregates the stats from DOIs (e.g. http://dx.doi.o
 
 Facebook has problems with DOIs that require cookies during DOI resolution. We talk to Facebook via the [Graph API](https://developers.facebook.com/docs/reference/api/), the old REST API will return the same results via http://api.facebook.com/restserver.php?method=links.getStats&urls=URL, but has been depreciated.
 
+## Required configuration fields
+
+* **access token**: can be obtained via http://developers.facebook.com/docs/howtos/login/login-as-app/
+
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>

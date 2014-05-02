@@ -5,9 +5,11 @@ title: "CrossRef"
 
 [CrossRef](http://www.crossref.org) is a non-profit organization that enables cross-publisher citation linking of the scholarly literature via Digital Object Identifiers (DOIs). CrossRef member organizations can use the **Cited-by** Linking service that provides basic information about the scholarly literature citing a particular DOI. All other users can use the CrossRef **OpenURL** service which provides citation counts (the `fl_count' attribute), but no information about the citing literature. The ALM application handles both scenarios.
 
+## Required configuration fields
+
 ### Cited-by
 
-Add your DOI prefix as `doi_prefix` in `config/settings.yml`, then add username and password in the CrossRef configuration settings.
+Add your DOI prefix as `doi_prefix` in `config/settings.yml`, then add username and password provided by CrossRef in the CrossRef configuration settings.
 
 ### OpenURL
 

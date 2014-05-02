@@ -5,6 +5,10 @@ title: "Research Blogging"
 
 Research Blogging is a science blog aggregator.
 
+## Required configuration fields
+
+* **username** and **password**: plesae contact Research Blogging.
+
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
