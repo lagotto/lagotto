@@ -127,6 +127,8 @@ execute "disable-default-site" do
 end
 
 web_app "alm" do
-  template "alm.conf.erb"
-  notifies :restart, resources(:service => "apache2"), :delayed
+  docroot "/var/www/alm/current/public"
+  server_name node[:alm][:host]
+  server_aliases [ node[:alm][:host] ]
+  rails_env node[:alm][:environment]
 end
