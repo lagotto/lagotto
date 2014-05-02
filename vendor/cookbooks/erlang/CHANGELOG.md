@@ -2,6 +2,11 @@ erlang Cookbook CHANGELOG
 =========================
 This file is used to list changes made in each version of the erlang cookbook.
 
+v1.5.4 (2014-04-30)
+-------------------
+- [COOK-4610] - New APT repository for ESL
+
+
 v1.5.2 (2014-03-18)
 -------------------
 - [COOK-4296] Add an attribute for passing CFLAGS prior to compilation

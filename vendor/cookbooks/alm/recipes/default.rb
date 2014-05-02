@@ -1,3 +1,12 @@
+# Add PPA for recent CouchDB binary
+apt_repository 'couchdb' do
+  uri          'http://ppa.launchpad.net/couchdb/stable/ubuntu'
+  distribution node['lsb']['codename']
+  components   ['main']
+  keyserver    'keyserver.ubuntu.com'
+  key          'C300EE8C'
+end
+
 # Upgrade openssl to latest version
 package 'openssl' do
   action :upgrade
@@ -92,6 +101,8 @@ mysql_database "#{node[:alm][:name]}_#{node[:alm][:environment]}" do
   )
   action :create
 end
+
+include_recipe "couchdb::default"
 
 # Create default CouchDB database
 script "create CouchDB database #{node[:alm][:name]}" do

@@ -3,7 +3,6 @@
     "recipe[apt]",
     "recipe[build-essential]",
     "recipe[git]",
-    "recipe[couchdb]",
     "recipe[phantomjs]",
     "recipe[memcached]",
     "recipe[postfix]",
