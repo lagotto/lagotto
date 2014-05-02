@@ -3,10 +3,13 @@ layout: page
 title: "API"
 ---
 
-Version 3 of the API was released October 30, 2012 (ALM 2.3). Version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11).
+Version 3 of the API was released October 30, 2012 (ALM 2.3).
+Version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11). It extends v3.
+Version 5 of the API (simplify, drop xml, queries) was released April 24, 2014 (ALM 2.14).
 
 ## Base URL
-All API calls to the version 3 API start with ``/api/v3/articles``.
+API calls to the version 3 APIs start with ``/api/v3/articles`` and
+API calls to the version 4 APIs start with ``/api/v4/articles``.
 
 ## Supported Media Types
 * JSON
@@ -14,7 +17,9 @@ All API calls to the version 3 API start with ``/api/v3/articles``.
 The media type is set in the header, e.g. "Accept: application/json". Media type negotiation via file extension (e.g. ".json") is not supported. The API defaults to JSON if no media type is given, e.g. to test the API with a browser. Support for XML has been depreciated.
 
 ## API Key
-All API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
+All v3 API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
+
+The v4 API uses a username/password pair and HTTP Basic authentication for article create, update, and delete. You can GET article information from the v4 endpoint using an API key as for API v3.
 
 ## Query for one or several Articles
 Specify one or more articles by a comma-separated list of DOIs in the `ids` parameter. These DOIs have to be URL-escaped, e.g. `%2F` for `/`:
