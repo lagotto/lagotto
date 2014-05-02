@@ -120,8 +120,6 @@ script "create CouchDB database #{node[:alm][:name]}" do
   ignore_failure true
 end
 
-node.set_unless['passenger']['root_path'] = "/var/lib/gems/1.9.1/gems/passenger-#{node['passenger']['version']}"
-node.set_unless['passenger']['module_path'] = "/var/lib/gems/1.9.1/gems/passenger-#{node['passenger']['version']}/ext/apache2/mod_passenger.so"
 include_recipe "passenger_apache2::mod_rails"
 
 execute "disable-default-site" do

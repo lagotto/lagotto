@@ -53,6 +53,9 @@ SITE
       mysql (>= 0.0.0)
     openssl (1.1.0)
     pacman (1.1.1)
+    passenger_apache2 (2.2.0)
+      apache2 (>= 1.0.4)
+      build-essential (>= 0.0.0)
     phantomjs (1.0.3)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
@@ -82,23 +85,14 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 9641dd2da38fac7f0981dd6358295554bb756181
+  sha: ecb4900a0819894e6b9e51778d68e539bc8779de
   specs:
-    alm (1.8.2)
+    alm (1.8.4)
       couchdb (>= 0.0.0)
       database (>= 0.0.0)
       git (>= 0.0.0)
       mysql (>= 0.0.0)
       passenger_apache2 (>= 0.0.0)
-
-GIT
-  remote: https://github.com/articlemetrics/passenger_apache2.git
-  ref: articlemetrics
-  sha: d768a9edbf2a1965428af0b9f06c1dfe62baf83c
-  specs:
-    passenger_apache2 (1.2.0)
-      apache2 (>= 1.0.4)
-      build-essential (>= 0.0.0)
 
 DEPENDENCIES
   alm (>= 0)
@@ -109,7 +103,7 @@ DEPENDENCIES
   git (= 4.0.0)
   memcached (= 1.7.2)
   mysql (= 5.1.8)
-  passenger_apache2 (>= 0)
+  passenger_apache2 (= 2.2.0)
   phantomjs (= 1.0.3)
   postfix (= 3.1.6)
 
