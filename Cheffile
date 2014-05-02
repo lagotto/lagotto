@@ -15,4 +15,4 @@ cookbook "phantomjs", "1.0.3"
 cookbook "memcached", "1.7.2"
 cookbook "postfix", "3.1.6"
 
-cookbook "alm", :git => "https://github.com/articlemetrics/alm-cookbook.git"
+cookbook "alm", :git => "https://github.com/articlemetrics/alm-cookbook.git", :ref => "v.1.7.0"

@@ -1,12 +1,12 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    apache2 (1.10.2)
+    apache2 (1.10.4)
       iptables (>= 0.0.0)
       logrotate (>= 0.0.0)
       pacman (>= 0.0.0)
     apt (2.3.8)
-    aws (2.1.1)
+    aws (2.2.0)
     build-essential (2.0.0)
     chef_handler (1.1.6)
     chocolatey (0.1.0)
@@ -22,7 +22,7 @@ SITE
       postgresql (>= 1.0.0)
       xfs (>= 0.0.0)
     dmg (2.2.0)
-    erlang (1.5.2)
+    erlang (1.5.4)
       apt (>= 1.7.0)
       build-essential (>= 0.0.0)
       yum (~> 3.0)
@@ -57,11 +57,11 @@ SITE
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
     postfix (3.1.6)
-    postgresql (3.3.4)
-      apt (>= 0.0.0)
+    postgresql (3.4.0)
+      apt (>= 1.9.0)
       build-essential (>= 0.0.0)
       openssl (>= 0.0.0)
-    powershell (3.0.0)
+    powershell (3.0.2)
       ms_dotnet2 (>= 0.0.0)
       ms_dotnet4 (>= 0.0.0)
       ms_dotnet45 (>= 0.0.0)
@@ -81,23 +81,22 @@ SITE
 
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
-  ref: master
-  sha: a255659ad7a4baa6c0896e29af12bb826b408d71
+  ref: v.1.7.0
+  sha: 8f13e82c0a5f701aa2f8d67c918174cd038e3d71
   specs:
-    alm (1.6.11)
+    alm (1.7.0)
       couchdb (>= 0.0.0)
       database (>= 0.0.0)
       git (>= 0.0.0)
       mysql (>= 0.0.0)
       passenger_apache2 (>= 0.0.0)
-      phantomjs (>= 0.0.0)
 
 GIT
   remote: https://github.com/articlemetrics/passenger_apache2.git
   ref: articlemetrics
-  sha: 28f0d174e1e55e6df2366a7c4169ffc56604091f
+  sha: 2b98f042de04680b04b5dd0b829edf7e48d4d7d9
   specs:
-    passenger_apache2 (1.1.0)
+    passenger_apache2 (1.2.2)
       apache2 (>= 1.0.4)
       build-essential (>= 0.0.0)
 

@@ -2,7 +2,10 @@ apache2 Cookbook Changelog
 ==========================
 This file is used to list changes made in each version of the apache2 cookbook.
 
-As of 2014-04-04 and per [Community Cookbook Diversification](https://wiki.opscode.com/display/chef/Community+Cookbook+Diversification) this cookbook now maintained by OneHealth Solutions. Please be patient as we get into the swing of things.
+v1.10.4 (2014-04-23)
+--------------------
+- [COOK-4249] mod_proxy_http requires mod_proxy
+
 
 v1.10.2 (2014-04-09)
 --------------------
@@ -11,6 +14,7 @@ v1.10.2 (2014-04-09)
 - [COOK-4492] - Fix service[apache2] CHEF-3694 duplication
 - [COOK-4493] - Fix template[ports.conf] CHEF-3694 duplication
 
+As of 2014-04-04 and per [Community Cookbook Diversification](https://wiki.opscode.com/display/chef/Community+Cookbook+Diversification) this cookbook now maintained by OneHealth Solutions. Please be patient as we get into the swing of things.
 
 v1.10.0 (2014-03-28)
 --------------------
