@@ -13,6 +13,10 @@
     Allow from all
   </Directory>
 
+  # Important for ALM: keeps Apache from messing up encoded
+  # embedded slashes in DOIs
+  AllowEncodedSlashes On
+
   LogLevel info
   ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-error.log
   CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-access.log combined
