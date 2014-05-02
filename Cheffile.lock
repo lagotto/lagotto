@@ -82,9 +82,9 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: f71d929e57a48341b19e32828340a2f19dfd3ef1
+  sha: 9641dd2da38fac7f0981dd6358295554bb756181
   specs:
-    alm (1.8.0)
+    alm (1.8.2)
       couchdb (>= 0.0.0)
       database (>= 0.0.0)
       git (>= 0.0.0)
@@ -94,9 +94,9 @@ GIT
 GIT
   remote: https://github.com/articlemetrics/passenger_apache2.git
   ref: articlemetrics
-  sha: 28f0d174e1e55e6df2366a7c4169ffc56604091f
+  sha: d768a9edbf2a1965428af0b9f06c1dfe62baf83c
   specs:
-    passenger_apache2 (1.1.0)
+    passenger_apache2 (1.2.0)
       apache2 (>= 1.0.4)
       build-essential (>= 0.0.0)
 

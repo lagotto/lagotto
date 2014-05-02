@@ -1,10 +1,19 @@
+# Add PPA for Ruby 2.x
+apt_repository 'brightbox-ruby-ng' do
+  uri          'http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu'
+  distribution 'precise'
+  components   ['main']
+  keyserver    'keyserver.ubuntu.com'
+  key          'C3173AA6'
+end
+
 # Add PPA for recent CouchDB binary
 apt_repository 'couchdb' do
   uri          'http://ppa.launchpad.net/couchdb/stable/ubuntu'
-  distribution node['lsb']['codename']
+  distribution 'precise'
   components   ['main']
   keyserver    'keyserver.ubuntu.com'
-  key          'C300EE8C'
+  key          'C17EAB57'
 end
 
 # Upgrade openssl to latest version
@@ -13,7 +22,7 @@ package 'openssl' do
 end
 
 # Install required packages
-%w{libxml2-dev libxslt-dev ruby1.9.3 curl}.each do |pkg|
+%w{libxml2-dev libxslt-dev ruby2.1 ruby2.1-dev curl}.each do |pkg|
   package pkg do
     action :install
   end
