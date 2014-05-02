@@ -9,6 +9,8 @@
     "recipe[apache2]",
     "recipe[alm]"
   ],
-  "passenger": { "version": "4.0.41", "ruby_bin": "/usr/bin/ruby" },
+  "passenger": { "version": "4.0.41",
+                 "ruby_bin": "/usr/bin/ruby",
+                 "root_path": "/var/lib/gems/2.1.0/gems/passenger-4.0.41" },
   "phantomjs": { "version": "1.9.7", "base_url": "https://bitbucket.org/ariya/phantomjs/downloads" }
 }
