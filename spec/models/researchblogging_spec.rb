@@ -49,18 +49,25 @@ describe Researchblogging do
       body = File.read(fixture_path + 'researchblogging_nil.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: [], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: subject.get_events_url(article))
+      response.should eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: subject.get_events_url(article))
     end
 
     it "should report if there are events and event_count returned by the ResearchBlogging API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0035869")
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0035869", published_on: "2009-07-01")
       body = File.read(fixture_path + 'researchblogging.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, article)
       response[:event_count].should eq(8)
       response[:events].length.should eq(8)
       response[:events_url].should eq(subject.get_events_url(article))
+
+      response[:events_by_day].length.should eq(1)
+      response[:events_by_day].first.should eq(year: 2009, month: 7, day: 6, total: 1)
+      response[:events_by_month].length.should eq(8)
+      response[:events_by_month].first.should eq(year: 2009, month: 7, total: 1)
+
       event = response[:events].first
+      event[:event_time].should eq("2012-10-27T11:32:09Z")
       event[:event_url].should eq(event[:event]["post_URL"])
     end
 

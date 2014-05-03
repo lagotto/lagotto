@@ -49,13 +49,16 @@ class TwitterSearch < Source
         user_profile_image = item["user"]["profile_image_url"]
       end
 
-      { :event => { id: item["id_str"],
-                    text: item["text"],
-                    created_at: Time.parse(item["created_at"]).utc.iso8601,
-                    user: user,
-                    user_name: user_name,
-                    user_profile_image: user_profile_image },
-        :event_url => "http://twitter.com/#{user}/status/#{item["id_str"]}" }
+      event_time = get_iso8601_from_time(item['created_at'])
+
+      { event: { id: item["id_str"],
+                 text: item["text"],
+                 created_at: event_time,
+                 user: user,
+                 user_name: user_name,
+                 user_profile_image: user_profile_image },
+        event_time: event_time,
+        event_url: "http://twitter.com/#{user}/status/#{item["id_str"]}" }
     end
   end
 

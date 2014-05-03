@@ -49,11 +49,11 @@ describe Reddit do
       body = File.read(fixture_path + 'reddit_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: [], event_count: 0, events_url: "http://www.reddit.com/search?q=\"#{article.doi_escaped}\"", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: 0, citations: nil, total: 0 })
+      response.should eq(events: [], event_count: 0, :events_by_day=>[], :events_by_month=>[], events_url: "http://www.reddit.com/search?q=\"#{article.doi_escaped}\"", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: 0, citations: nil, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Reddit API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", published_on: "2012-05-03")
       body = File.read(fixture_path + 'reddit.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
@@ -62,8 +62,14 @@ describe Reddit do
       response[:event_metrics][:likes].should eq(1013)
       response[:event_metrics][:comments].should eq(158)
       response[:events_url].should eq("http://www.reddit.com/search?q=\"#{article.doi_escaped}\"")
+
+      response[:events_by_day].length.should eq(3)
+      response[:events_by_day].first.should eq(year: 2012, month: 5, day: 11, total: 1)
+      response[:events_by_month].length.should eq(3)
+      response[:events_by_month].first.should eq(year: 2012, month: 5, total: 1)
+
       event = response[:events].first
-      event[:event_url].should_not be_nil
+      event[:event_time].should eq("2013-05-15T17:06:24Z")
       event[:event_url].should eq(event[:event]['url'])
     end
 

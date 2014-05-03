@@ -122,7 +122,7 @@ describe Counter do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(events: [], events_url: nil, event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      response.should eq(events: [], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Counter API" do
@@ -131,6 +131,8 @@ describe Counter do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
       response[:events].length.should eq(37)
+      response[:events_by_month].length.should eq(37)
+      response[:events_by_month].first.should eq(month: 1, year: 2010, html: 299, pdf: 90)
       response[:events_url].should be_nil
       response[:event_count].should eq(3387)
       response[:event_metrics].should eq(pdf: 447, html: 2919, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 3387)

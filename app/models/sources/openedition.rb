@@ -25,7 +25,11 @@ class Openedition < Source
 
   def get_events(result)
     result['RDF']['item'] = [result['RDF']['item']] if result['RDF']['item'].is_a?(Hash)
-    Array(result['RDF']['item']).map { |item| { :event => item, :event_url => item['link'] } }
+    Array(result['RDF']['item']).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item["date"]),
+        event_url: item['link'] }
+    end
   end
 
   def config_fields

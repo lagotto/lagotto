@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ArticleCoverageCurated do
   subject { FactoryGirl.create(:article_coverage_curated) }
 
-  let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0047712") }
+  let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0047712", published_on: "2013-11-01") }
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => "")
@@ -67,7 +67,7 @@ describe ArticleCoverageCurated do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(:events=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
+      response.should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the Article Coverage API" do
@@ -75,6 +75,12 @@ describe ArticleCoverageCurated do
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
       response[:events].length.should eq(15)
+
+      response[:events_by_day].length.should eq(1)
+      response[:events_by_day].first.should eq(year: 2013, month: 11, day: 20, total: 2)
+      response[:events_by_month].length.should eq(1)
+      response[:events_by_month].first.should eq(year: 2013, month: 11, total: 2)
+
       response[:event_count].should eq(15)
       event = response[:events].first
       event_data = event[:event]
@@ -86,6 +92,7 @@ describe ArticleCoverageCurated do
       event_data['published_on'].should eq("")
       event_data['link_state'].should eq("")
 
+      event[:event_time].should be_nil
       event[:event_url].should eq("http://www.wildlifeofyourbody.org/?page_id=1348")
     end
 

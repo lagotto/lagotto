@@ -41,12 +41,15 @@ class Twitter < Source
         user_profile_image = data["user"]["profile_image_url"]
       end
 
+      event_time = get_iso8601_from_time(data['created_at'])
+
       { event: { id: data["id_str"],
                  text: data["text"],
-                 created_at: Time.parse(data["created_at"]).utc.iso8601,
+                 created_at: event_time,
                  user: user,
                  user_name: user_name,
                  user_profile_image: user_profile_image },
+        event_time: event_time,
         event_url: "http://twitter.com/#{user}/status/#{data["id_str"]}" }
     end
   end

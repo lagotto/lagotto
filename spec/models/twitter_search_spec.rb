@@ -82,11 +82,11 @@ describe TwitterSearch do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      subject.parse_data(result, article).should eq(events: [], event_count: 0, events_url: "https://twitter.com/search?q=#{article.doi_escaped}", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 })
+      subject.parse_data(result, article).should eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: "https://twitter.com/search?q=#{article.doi_escaped}", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Twitter Search API" do
-      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pmed.0020124")
+      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pmed.0020124", published_on: "2014-01-01")
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
@@ -94,8 +94,15 @@ describe TwitterSearch do
       response[:event_count].should eq(8)
       response[:event_metrics][:comments].should eq(8)
       response[:events_url].should eq("https://twitter.com/search?q=#{article.doi_escaped}")
+
+      #response[:events_by_day].length.should eq(2)
+      #response[:events_by_day].first.should eq(year: 2012, month: 5, day: 20, total: 1)
+      response[:events_by_month].should eq(2)
+      response[:events_by_month].first.should eq(year: 2012, month: 5, total: 2)
+
       event = response[:events].first
       event[:event_url].should eq("http://twitter.com/ChampsEvrywhere/status/422039629882089472")
+      event[:event_time].should eq("2014-01-11T16:17:43Z")
     end
 
     it "should catch timeout errors with the Twitter Search API" do

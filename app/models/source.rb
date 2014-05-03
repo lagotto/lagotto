@@ -183,9 +183,32 @@ class Source < ActiveRecord::Base
     events = get_events(result)
 
     { events: events,
+      events_by_day: get_events_by_day(events, article),
+      events_by_month: get_events_by_month(events),
       events_url: get_events_url(article),
       event_count: events.length,
       event_metrics: get_event_metrics(metrics => events.length) }
+  end
+
+  def get_events_by_day(events, article)
+    events = events.reject { |event| event[:event_time].nil? || Date.iso8601(event[:event_time]) - article.published_on > 30 }
+
+    events.group_by { |event| event[:event_time] }.sort.map do |k, v|
+      { year: k[0..3].to_i,
+        month: k[5..6].to_i,
+        day: k[8..9].to_i,
+        total: v.length }
+    end
+  end
+
+  def get_events_by_month(events)
+    events = events.reject { |event| event[:event_time].nil? }
+
+    events.group_by { |event| event[:event_time] }.sort.map do |k, v|
+      { year: k[0..3].to_i,
+        month: k[5..6].to_i,
+        total: v.length }
+    end
   end
 
   def request_options

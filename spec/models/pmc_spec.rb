@@ -152,7 +152,7 @@ describe Pmc do
       body = File.read(fixture_path + 'pmc_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2568856", event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      response.should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], events_by_month: [{ month: 10, year: 2013, html: 0, pdf: 0 }], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2568856", event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the PMC API" do

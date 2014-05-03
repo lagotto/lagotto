@@ -28,14 +28,22 @@ class PlosComments < Source
   def parse_data(result, article, options={})
     return result if result[:error]
 
-    events = result['data']
-    replies = get_sum(events, 'totalNumReplies')
+    events = get_events(result)
+    replies = get_sum(events, :event, 'totalNumReplies')
     total = events.length + replies
 
     { events: events,
       events_url: nil,
       event_count: total,
       event_metrics: get_event_metrics(comments: events.length, total: total) }
+  end
+
+  def get_events(result)
+    Array(result['data']).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item['created']),
+        event_url: nil }
+    end
   end
 
   def config_fields

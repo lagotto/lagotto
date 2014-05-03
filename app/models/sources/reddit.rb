@@ -24,18 +24,24 @@ class Reddit < Source
 
     events = get_events(result)
 
-    likes = get_sum(result["data"]["children"], 'data', 'score')
-    comments = get_sum(result["data"]["children"], 'data', 'num_comments')
+    likes = get_sum(result['data']['children'], 'data', 'score')
+    comments = get_sum(result['data']['children'], 'data', 'num_comments')
     total = likes + comments
 
     { events: events,
+      events_by_day: get_events_by_day(events, article),
+      events_by_month: get_events_by_month(events),
       events_url: get_events_url(article),
       event_count: total,
       event_metrics: get_event_metrics(comments: comments, likes: likes, total: total) }
   end
 
   def get_events(result)
-    Array(result["data"]["children"]).map { |item| { event: item["data"], event_url: item["data"]['url'] } }
+    Array(result['data']['children']).map do |item|
+      { event: item['data'],
+        event_time: get_iso8601_from_epoch(item['data']['created_utc']),
+        event_url: item['data']['url'] }
+    end
   end
 
   def config_fields

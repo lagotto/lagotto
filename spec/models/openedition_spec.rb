@@ -47,18 +47,24 @@ describe Openedition do
       body = File.read(fixture_path + 'openedition_nil.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: [], events_url: "http://search.openedition.org/index.php?op[]=AND&q[]=#{article.doi_escaped}&field[]=All&pf=Hypotheses.org", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0})
+      response.should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: "http://search.openedition.org/index.php?op[]=AND&q[]=#{article.doi_escaped}&field[]=All&pf=Hypotheses.org", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0})
     end
 
     it "should report if there are events and event_count returned by the Openedition API" do
-      article = FactoryGirl.build(:article, :doi => "10.2307/683422")
+      article = FactoryGirl.build(:article, :doi => "10.2307/683422", published_on: "2013-05-03")
       body = File.read(fixture_path + 'openedition.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, article)
       response[:event_count].should eq(1)
       response[:events_url].should eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{article.doi_escaped}&field[]=All&pf=Hypotheses.org")
+
+      response[:events_by_day].length.should eq(1)
+      response[:events_by_day].first.should eq(year: 2013, month: 5, day: 27, total: 1)
+      response[:events_by_month].length.should eq(1)
+      response[:events_by_month].first.should eq(year: 2013, month: 5, total: 1)
+
       event = response[:events].first
-      event[:event_url].should_not be_nil
+      event[:event_time].should eq("2013-05-27T00:00:00Z")
       event[:event_url].should eq(event[:event]['link'])
     end
 

@@ -32,9 +32,19 @@ class Pmc < Source
     total = pdf + html
 
     { events: events,
+      events_by_month: get_events_by_month(events),
       events_url: get_events_url(article),
       event_count: total,
       event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
+  end
+
+  def get_events_by_month(events)
+    events.map do |event|
+      { month: event['month'].to_i,
+        year: event['year'].to_i,
+        html: event['full-text'].to_i,
+        pdf: event['pdf'].to_i }
+    end
   end
 
   # Retrieve usage stats in XML and store in /data directory. Returns an empty array if no error occured

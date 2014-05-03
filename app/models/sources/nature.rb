@@ -24,7 +24,9 @@ class Nature < Source
       url = item['post']['url']
       url = "http://#{url}" unless url.start_with?("http://")
 
-      { :event => item['post'], :event_url => url }
+      { event: item['post'],
+        event_time: get_iso8601_from_time(item['post']['created_at']),
+        event_url: url }
     end
   end
 

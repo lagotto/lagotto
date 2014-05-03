@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Nature do
   subject { FactoryGirl.create(:nature) }
 
-  let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776") }
+  let(:article) { FactoryGirl.build(:article, doi: "10.1371/journal.pone.0008776", published_on: "2009-09-01") }
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
@@ -47,7 +47,7 @@ describe Nature do
       body = File.read(fixture_path + 'nature_nil.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, article)
-      response.should eq(events: [], :events_url=>nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      response.should eq(events: [], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Nature Blogs API" do
@@ -55,6 +55,15 @@ describe Nature do
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, article)
       response[:event_count].should eq(10)
+
+      response[:events_by_day].length.should eq(1)
+      response[:events_by_day].first.should eq(year: 2009, month: 9, day: 18, total: 1)
+      response[:events_by_month].length.should eq(10)
+      response[:events_by_month].first.should eq(year: 2009, month: 9, total: 1)
+
+      event = response[:events].first
+      event[:event_time].should eq("2012-06-19T16:40:23Z")
+      event[:event_url].should_not be_nil
     end
 
     it "should catch timeout errors with the Nature Blogs APi" do

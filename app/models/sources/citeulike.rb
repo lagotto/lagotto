@@ -29,7 +29,11 @@ class Citeulike < Source
 
   def get_events(result)
     result['posts'] ||= {}
-    Array(result['posts']['post']).map { |item| { :event => item, :event_url => item['link']['url'] } }
+    Array(result['posts']['post']).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item["post_time"]),
+        event_url: item['link']['url'] }
+    end
   end
 
   def config_fields

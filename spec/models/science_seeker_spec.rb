@@ -56,7 +56,7 @@ describe ScienceSeeker do
       body = File.read(fixture_path + 'science_seeker_nil.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: [], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi_escaped}")
+      response.should eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi_escaped}")
     end
 
     it "should report if there is an incomplete response returned by the ScienceSeeker API" do
@@ -64,18 +64,24 @@ describe ScienceSeeker do
       body = File.read(fixture_path + 'science_seeker_incomplete.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: [], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi_escaped}")
+      response.should eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi_escaped}")
     end
 
     it "should report if there are events and event_count returned by the ScienceSeeker API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0035869")
+      article = FactoryGirl.build(:article, doi: "10.1371/journal.pone.0035869", published_on: "2012-05-03")
       body = File.read(fixture_path + 'science_seeker.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, article)
       response[:event_count].should eq(3)
       response[:events_url].should eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi_escaped}")
+
+      response[:events_by_day].length.should eq(3)
+      response[:events_by_day].first.should eq(year: 2012, month: 5, day: 11, total: 1)
+      response[:events_by_month].length.should eq(3)
+      response[:events_by_month].first.should eq(year: 2012, month: 5, total: 1)
+
       event = response[:events].first
-      event[:event_url].should_not be_nil
+      event[:event_time].should eq("2012-05-18T07:58:34Z")
       event[:event_url].should eq(event[:event]['link']['href'])
     end
 

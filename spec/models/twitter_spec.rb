@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Twitter do
   subject { FactoryGirl.create(:twitter) }
 
-  let(:article) { FactoryGirl.build(:article, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124") }
+  let(:article) { FactoryGirl.build(:article, canonical_url: "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124", published_on: "2012-05-03") }
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
@@ -46,7 +46,7 @@ describe Twitter do
       body = File.read(fixture_path + 'twitter_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(:events=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
+      response.should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the Twitter API" do
@@ -55,9 +55,14 @@ describe Twitter do
       response = subject.parse_data(result, article)
       response[:event_count].should == 2
 
+      response[:events_by_day].length.should eq(2)
+      response[:events_by_day].first.should eq(year: 2012, month: 5, day: 20, total: 1)
+      response[:events_by_month].should eq(2)
+      response[:events_by_month].first.should eq(year: 2012, month: 5, total: 2)
+
       event = response[:events].first
       event[:event_url].should eq("http://twitter.com/regrum/status/204270013081849857")
-
+      event[:event_time].should eq("2012-05-20T17:59:00Z")
       event_data = event[:event]
 
       event_data[:id].should eq("204270013081849857")

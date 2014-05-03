@@ -28,13 +28,19 @@ class Wordpress < Source
     events = get_events(result)
 
     { events: events,
+      events_by_day: get_events_by_day(events, article),
+      events_by_month: get_events_by_month(events),
       events_url: get_events_url(article),
       event_count: events.length,
       event_metrics: get_event_metrics(:citations => events.length) }
   end
 
   def get_events(result)
-    Array(result['data']).map { |item| { event: item, event_url: item['link'] } }
+    Array(result['data']).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_epoch(item["epoch_time"]),
+        event_url: item['link'] }
+    end
   end
 
   def config_fields

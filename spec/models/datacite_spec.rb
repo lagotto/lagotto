@@ -46,7 +46,7 @@ describe Datacite do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
       body = File.read(fixture_path + 'datacite_nil.json')
       result = JSON.parse(body)
-      subject.parse_data(result, article).should eq(events: [], events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      subject.parse_data(result, article).should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Datacite API" do

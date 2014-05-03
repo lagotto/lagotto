@@ -24,7 +24,11 @@ class Researchblogging < Source
   end
 
   def get_events(result)
-    Array(result['blogposts']['post']).map { |item| { :event => item, :event_url => item['post_URL'] } }
+    Array(result['blogposts']['post']).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item["published_date"]),
+        event_url: item['post_URL'] }
+    end
   end
 
   def config_fields

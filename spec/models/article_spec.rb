@@ -126,6 +126,8 @@ describe Article do
     end
 
     it "should delete associated retrieval_statuses" do
+      stub_request(:head, "#{CONFIG[:couchdb_url]}1").with(:headers => {'Accept'=>'application/json' }).
+         to_return(:status => 200)
       @articles = FactoryGirl.create_list(:article_with_events, 2)
       RetrievalStatus.count.should == 2
       @articles.each { |article| article.destroy }
@@ -139,6 +141,8 @@ describe Article do
     end
 
     it "should delete associated retrieval_histories" do
+      stub_request(:head, "#{CONFIG[:couchdb_url]}1").with(:headers => {'Accept'=>'application/json' }).
+         to_return(:status => 200)
       @articles = FactoryGirl.create_list(:article_with_events, 2)
       RetrievalHistory.count.should == 2
       @articles.each { |article| article.destroy }

@@ -25,7 +25,11 @@ class ScienceSeeker < Source
 
   def get_events(result)
     result["feed"] ||= {}
-    Array(result['feed']['entry']).map { |item| { :event => item, :event_url => item['link']['href'] } }
+    Array(result['feed']['entry']).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item["updated"]),
+        event_url: item['link']['href'] }
+    end
   end
 
   def config_fields

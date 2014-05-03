@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Wordpress do
   subject { FactoryGirl.create(:wordpress) }
 
-  let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776") }
+  let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", published_on: "2007-07-01") }
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
@@ -49,7 +49,7 @@ describe Wordpress do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       result = { error: "unexpected token for JSON" }
       response = subject.parse_data(result, article)
-      response.should eq(:events=>[], :events_url=>"http://en.search.wordpress.com/?q=\"#{article.doi_escaped}\"&t=post", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      response.should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>"http://en.search.wordpress.com/?q=\"#{article.doi_escaped}\"&t=post", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the Wordpress API" do
@@ -57,8 +57,14 @@ describe Wordpress do
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, article)
       response[:events_url].should eq("http://en.search.wordpress.com/?q=\"#{article.doi_escaped}\"&t=post")
+
+      response[:events_by_day].length.should eq(1)
+      response[:events_by_day].first.should eq(year: 2007, month: 7, day: 12, total: 1)
+      response[:events_by_month].length.should eq(6)
+      response[:events_by_month].first.should eq(year: 2007, month: 7, total: 1)
+
       event = response[:events].first
-      event[:event_url].should_not be_nil
+      event[:event_time].should eq("2007-07-12T15:36:38Z")
       event[:event_url].should eq(event[:event]['link'])
     end
 

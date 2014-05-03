@@ -30,7 +30,11 @@ class ArticleCoverageCurated < Source
   end
 
   def get_events(result)
-    Array(result['referrals']).map { |item| { event: item, event_url: item['referral'] } }
+    Array(result['referrals']).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item['published_on']),
+        event_url: item['referral'] }
+    end
   end
 
   def config_fields
