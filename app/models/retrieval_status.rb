@@ -56,7 +56,7 @@ class RetrievalStatus < ActiveRecord::Base
     result = source.get_data(article, timeout: source.timeout, source_id: source_id)
     data = source.parse_data(result, article, source_id: source_id)
     history = History.new(id, data)
-    history
+    history.to_hash
   end
 
   def data
