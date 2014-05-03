@@ -90,15 +90,15 @@ describe TwitterSearch do
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response[:events].length.should eq(8)
-      response[:event_count].should eq(8)
-      response[:event_metrics][:comments].should eq(8)
+      response[:events].length.should == 8
+      response[:event_count].should == 8
+      response[:event_metrics][:comments].should == 8
       response[:events_url].should eq("https://twitter.com/search?q=#{article.doi_escaped}")
 
-      #response[:events_by_day].length.should eq(2)
-      #response[:events_by_day].first.should eq(year: 2012, month: 5, day: 20, total: 1)
-      response[:events_by_month].should eq(2)
-      response[:events_by_month].first.should eq(year: 2012, month: 5, total: 2)
+      response[:events_by_day].length.should == 1
+      response[:events_by_day].first.should eq(year: 2014, month: 1, day: 20, total: 1)
+      response[:events_by_month].length.should == 1
+      response[:events_by_month].first.should eq(year: 2014, month: 1, total: 8)
 
       event = response[:events].first
       event[:event_url].should eq("http://twitter.com/ChampsEvrywhere/status/422039629882089472")

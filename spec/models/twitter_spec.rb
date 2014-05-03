@@ -57,7 +57,7 @@ describe Twitter do
 
       response[:events_by_day].length.should eq(2)
       response[:events_by_day].first.should eq(year: 2012, month: 5, day: 20, total: 1)
-      response[:events_by_month].should eq(2)
+      response[:events_by_month].length.should eq(1)
       response[:events_by_month].first.should eq(year: 2012, month: 5, total: 2)
 
       event = response[:events].first

@@ -293,5 +293,28 @@ describe Source do
         alert.status.should == 500
       end
     end
+
+    context "read from file" do
+      let(:filename) { 'test.xml'}
+      let(:content) { [{ 'a' => 1 }, { 'b' => 2 }, { 'c' => 3 }] }
+
+      before(:each) { File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(content.to_xml) } }
+
+      it "read XML file" do
+        response = subject.read_from_file(filename)
+        response.should eq('objects' => content)
+        Alert.count.should == 0
+      end
+
+      it "should catch errors reading a missing file" do
+        File.delete("#{Rails.root}/data/#{filename}")
+        response = subject.read_from_file(filename)
+        response.should be_nil
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Errno::ENOENT")
+        alert.message.should start_with "No such file or directory"
+      end
+    end
   end
 end

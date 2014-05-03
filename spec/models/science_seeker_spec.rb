@@ -77,8 +77,8 @@ describe ScienceSeeker do
 
       response[:events_by_day].length.should eq(3)
       response[:events_by_day].first.should eq(year: 2012, month: 5, day: 11, total: 1)
-      response[:events_by_month].length.should eq(3)
-      response[:events_by_month].first.should eq(year: 2012, month: 5, total: 1)
+      response[:events_by_month].length.should eq(1)
+      response[:events_by_month].first.should eq(year: 2012, month: 5, total: 3)
 
       event = response[:events].first
       event[:event_time].should eq("2012-05-18T07:58:34Z")

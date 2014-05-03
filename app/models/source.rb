@@ -193,7 +193,7 @@ class Source < ActiveRecord::Base
   def get_events_by_day(events, article)
     events = events.reject { |event| event[:event_time].nil? || Date.iso8601(event[:event_time]) - article.published_on > 30 }
 
-    events.group_by { |event| event[:event_time] }.sort.map do |k, v|
+    events.group_by { |event| event[:event_time][0..9] }.sort.map do |k, v|
       { year: k[0..3].to_i,
         month: k[5..6].to_i,
         day: k[8..9].to_i,
@@ -204,7 +204,7 @@ class Source < ActiveRecord::Base
   def get_events_by_month(events)
     events = events.reject { |event| event[:event_time].nil? }
 
-    events.group_by { |event| event[:event_time] }.sort.map do |k, v|
+    events.group_by { |event| event[:event_time][0..6] }.sort.map do |k, v|
       { year: k[0..3].to_i,
         month: k[5..6].to_i,
         total: v.length }
