@@ -23,9 +23,6 @@ class RetrievalStatus < ActiveRecord::Base
   # include CouchDB helpers
   include Couchable
 
-  # include Job helpers
-  include Performable
-
   belongs_to :article, :touch => true
   belongs_to :source
   has_many :retrieval_histories, :dependent => :destroy
@@ -54,6 +51,13 @@ class RetrievalStatus < ActiveRecord::Base
 
   scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
   scope :by_name, lambda { |source| includes(:source).where("sources.name = ?", source) }
+
+  def perform_get_data
+    result = source.get_data(article, timeout: source.timeout, source_id: source_id)
+    data = source.parse_data(result, article, source_id: source_id)
+    history = History.new(id, data)
+    history
+  end
 
   def data
     if event_count > 0
