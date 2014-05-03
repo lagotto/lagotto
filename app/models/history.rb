@@ -34,7 +34,7 @@ class History
   # include metrics helpers
   include Measurable
 
-  attr_accessor :retrieval_status, :retrieval_history, :event_count, :previous_count, :previous_retrieved_at, :event_metrics, :events_url, :status, :couchdb_id, :rs_rev, :rh_rev, :data
+  attr_accessor :retrieval_status, :retrieval_history, :event_count, :previous_count, :previous_retrieved_at, :event_metrics, :events_by_day, :events_by_month, :events_url, :status, :couchdb_id, :rs_rev, :rh_rev, :data
 
   def initialize(rs_id, data = {})
     @retrieval_status = RetrievalStatus.find(rs_id)
@@ -74,6 +74,9 @@ class History
 
     if success?
       # save the data to couchdb
+      @events_by_day = data[:events_by_day]
+      @events_by_month = data[:events_by_month]
+
       @rs_rev = save_alm_data(couchdb_id, data: data.clone, source_id: retrieval_status.source_id)
 
       data[:doc_type] = "history"
@@ -120,6 +123,8 @@ class History
       events: events,
       events_url: events_url,
       event_metrics: event_metrics,
+      events_by_day: events_by_day,
+      events_by_month: events_by_month,
       doc_type: "current" }
   end
 
@@ -130,70 +135,3 @@ class History
       update_interval: update_interval }
   end
 end
-
-# previous_count = event_count
-#       if [Date.new(1970, 1, 1), Date.today].include?(retrieved_at.to_date)
-#         update_interval = 1
-#       else
-#         update_interval = (Date.today - retrieved_at.to_date).to_i
-#       end
-
-#       result = source.get_data(article, timeout: source.timeout, source_id: source_id)
-#       data_from_source = source.parse_data(result, article, source_id: source_id)
-#       if data_from_source[:error]
-#         return { event_count: nil, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
-#       else
-#         events = data_from_source[:events]
-#         events_url = data_from_source[:events_url]
-#         event_count = data_from_source[:event_count]
-#         event_metrics = data_from_source[:event_metrics]
-#       end
-
-#       retrieved_at = Time.zone.now
-
-#       # SKIPPED
-#       if event_count.nil?
-#         update_attributes(retrieved_at: retrieved_at,
-#                           scheduled_at: stale_at,
-#                           event_count: 0)
-#         { event_count: 0, previous_count: previous_count, retrieval_history_id: nil, update_interval: update_interval }
-#       else
-#         rh = RetrievalHistory.create(:retrieval_status_id => id,
-#                                      :article_id => article_id,
-#                                      :source_id => source_id)
-#         # SUCCESS
-#         if event_count > 0
-#           data = { CONFIG[:uid].to_sym => article.uid,
-#                    :retrieved_at => retrieved_at,
-#                    :source => source.name,
-#                    :events => events,
-#                    :events_url => events_url,
-#                    :event_metrics => event_metrics,
-#                    :doc_type => "current" }
-
-#           # save the data to mysql
-#           update_attributes(retrieved_at: retrieved_at,
-#                             scheduled_at: stale_at,
-#                             event_count: event_count,
-#                             event_metrics: event_metrics,
-#                             events_url: events_url)
-#           rh.update_attributes(event_count: event_count, retrieved_at: retrieved_at)
-
-#           # save the data to couchdb
-#           rs_rev = save_alm_data("#{source.name}:#{article.uid_escaped}", data: data.clone, source_id: source_id)
-
-#           data[:doc_type] = "history"
-#           rh_rev = save_alm_data(rh.id, data: data, source_id: source_id)
-
-#         # SUCCESS NO DATA
-#         else
-#           # save the data to mysql, don't save any data to couchdb
-#           update_attributes(retrieved_at: retrieved_at,
-#                             scheduled_at: stale_at,
-#                             event_count: 0,
-#                             event_metrics: event_metrics,
-#                             events_url: events_url)
-#           rh.update_attributes(retrieved_at: retrieved_at, event_count: 0)
-#         end
-
-#         { event_count: event_count, previous_count: previous_count, retrieval_history_id: rh.id, update_interval: update_interval }
