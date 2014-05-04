@@ -3,7 +3,7 @@ layout: page
 title: "Sources"
 ---
 
-The ALM application provides a number of public sources. Most sources require a user account with the service (see table below). The private ALM sources not made available here either use an internal application that is not available via public API (PLOS Usage Stats, PubMed Central Usage Stats, PLOS Biodiversity Hub, Twitter, figshare) or require a contract with the provider (Scopus, Web of Science, F1000).
+The ALM application provides a number of public sources. Most sources require a user account with the service (see table below). The private ALM sources not made available here either use an internal application that is not available via public API (PLOS Usage Stats, PLOS Comments, Figshare) or require a contract with the provider (Web of Science, F1000).
 
 ### Viewed
 * [PubMed Central Usage Stats](/docs/pmc)
@@ -11,7 +11,7 @@ The ALM application provides a number of public sources. Most sources require a 
 
 ### Discussed
 * [Facebook](/docs/facebook)
-* [Twitter](/docs/twittersearch)
+* [Twitter](/docs/twitter_search)
 * [Nature Blogs](/docs/nature)
 * [Research Blogging](/docs/researchblogging)
 * [ScienceSeeker](/docs/scienceseeker)
@@ -35,11 +35,13 @@ The ALM application provides a number of public sources. Most sources require a 
 ### Private Sources
 * [PLOS Usage Stats](/docs/counter)
 * [PLOS Figshare Usage Stats](/docs/figshare)
+* [PLOS Comments](/docs/plos_comments)
 * [Web of Science](/docs/wos)
 * [F1000Prime](/docs/f1000)
 
 ### Retired Sources
 * [Biod](/docs/biod)
+* [Bloglines](/docs/bloglines)
 * [Connotea](/docs/connotea)
 * [Postgenomic](/docs/postgenomic)
 
