@@ -21,24 +21,6 @@ describe History do
     end
   end
 
-  describe "skipped" do
-    let(:data) { { events: [], event_count: nil } }
-    subject { History.new(retrieval_status.id, data) }
-
-    it "should have status skipped" do
-      subject.status.should eq(:skipped)
-    end
-
-    it "should not create a retrieval_history record" do
-      subject.retrieval_history.should be_nil
-    end
-
-    it "should respond to a skipped request" do
-      subject.to_hash.should eq(event_count: 0, previous_count: 50, retrieval_history_id: nil, update_interval: 30)
-      subject.retrieval_history.should be_nil
-    end
-  end
-
   describe "success no data" do
     let(:data) { { event_count: 0 } }
     subject { History.new(retrieval_status.id, data) }

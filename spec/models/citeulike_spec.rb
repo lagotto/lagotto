@@ -7,8 +7,8 @@ describe Citeulike do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the CiteULike API" do
@@ -41,9 +41,17 @@ describe Citeulike do
   end
 
   context "parse_data" do
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: subject.get_events_url(article), event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 } } }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      subject.parse_data(result, article).should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+    end
+
     it "should report if there are no events and event_count returned by the CiteULike API" do
       result = { "posts" => nil }
-      subject.parse_data(result, article).should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: subject.get_events_url(article), event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      subject.parse_data(result, article).should eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the CiteULike API" do
@@ -52,8 +60,8 @@ describe Citeulike do
 
       response = subject.parse_data(result, article)
       response[:events].length.should eq(25)
-      response[:events_by_month].length.should eq(25)
-      response[:events_by_month].first.should eq(year: 2006, month: 6, total: 1)
+      response[:events_by_month].length.should eq(21)
+      response[:events_by_month].first.should eq(year: 2006, month: 6, total: 2)
       response[:events_url].should eq(subject.get_events_url(article))
       response[:event_count].should eq(25)
       event = response[:events].first

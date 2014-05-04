@@ -10,7 +10,7 @@ describe Scopus do
   context "get_data" do
     it "should report that there are no events if the DOI is missing" do
       article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the Scopus API" do
@@ -44,13 +44,19 @@ describe Scopus do
     end
 
     context "parse_data" do
+      it "should report if the doi is missing" do
+        result = {}
+        result.extend Hashie::Extensions::DeepFetch
+        subject.parse_data(result, article).should eq(events: {}, :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      end
+
       it "should report if there are no events and event_count returned by the Scopus API" do
         body = File.read(fixture_path + 'scopus_nil.json')
         result = JSON.parse(body)
         result.extend Hashie::Extensions::DeepFetch
         article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.000001")
         response = subject.parse_data(result, article)
-        response.should eq(:events=>{"@force-array"=>"true", "error"=>"Result set was empty"}, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+        response.should eq(:events=>{"@force-array"=>"true", "error"=>"Result set was empty"}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
       end
 
       it "should report if there are events and event_count returned by the Scopus API" do
@@ -59,7 +65,7 @@ describe Scopus do
         result.extend Hashie::Extensions::DeepFetch
         events = JSON.parse(body)["search-results"]["entry"][0]
         response = subject.parse_data(result, article)
-        response.should eq(events: events, event_count: 1814, events_url: "http://www.scopus.com/inward/citedby.url?partnerID=HzOxMe3b&scp=33845338724", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 1814, total: 1814 })
+        response.should eq(events: events, :events_by_day=>[], :events_by_month=>[], event_count: 1814, events_url: "http://www.scopus.com/inward/citedby.url?partnerID=HzOxMe3b&scp=33845338724", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 1814, total: 1814 })
       end
 
       it "should catch timeout errors with the Scopus API" do

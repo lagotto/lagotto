@@ -43,6 +43,7 @@ class Counter < Source
     total = pdf + html + xml
 
     { events: events,
+      events_by_day: [],
       events_by_month: get_events_by_month(events),
       events_url: nil,
       event_count: total,

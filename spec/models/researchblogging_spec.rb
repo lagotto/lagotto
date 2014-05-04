@@ -8,7 +8,7 @@ describe Researchblogging do
 
     it "should report that there are no events if the doi is missing" do
       article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the ResearchBlogging API" do
@@ -44,10 +44,19 @@ describe Researchblogging do
   end
 
   context "parse_data" do
+    let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124") }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => "")
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+    end
+
     it "should report if there are no events and event_count returned by the ResearchBlogging API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'researchblogging_nil.xml')
       result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
       response.should eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: subject.get_events_url(article))
     end
@@ -56,6 +65,7 @@ describe Researchblogging do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0035869", published_on: "2009-07-01")
       body = File.read(fixture_path + 'researchblogging.xml')
       result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
       response[:event_count].should eq(8)
       response[:events].length.should eq(8)
@@ -63,7 +73,7 @@ describe Researchblogging do
 
       response[:events_by_day].length.should eq(1)
       response[:events_by_day].first.should eq(year: 2009, month: 7, day: 6, total: 1)
-      response[:events_by_month].length.should eq(8)
+      response[:events_by_month].length.should eq(7)
       response[:events_by_month].first.should eq(year: 2009, month: 7, total: 1)
 
       event = response[:events].first
@@ -72,7 +82,6 @@ describe Researchblogging do
     end
 
     it "should catch timeout errors with the ResearchBlogging API" do
-      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://researchbloggingconnect.com/blogposts?count=100&article=doi:#{article.doi_escaped}" }
       response = subject.parse_data(result, article)
       response.should eq(result)

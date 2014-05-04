@@ -33,6 +33,8 @@ class PlosComments < Source
     total = events.length + replies
 
     { events: events,
+      events_by_day: [],
+      events_by_month: [],
       events_url: nil,
       event_count: total,
       event_metrics: get_event_metrics(comments: events.length, total: total) }

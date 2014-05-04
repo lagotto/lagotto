@@ -5,8 +5,8 @@ describe Openedition do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the Openedition API" do
@@ -42,18 +42,29 @@ describe Openedition do
   end
 
   context "parse_data" do
+    let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001") }
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: "http://search.openedition.org/index.php?op[]=AND&q[]=#{article.doi_escaped}&field[]=All&pf=Hypotheses.org", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 } } }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+    end
+
     it "should report if there are no events and event_count returned by the Openedition API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       body = File.read(fixture_path + 'openedition_nil.xml')
       result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: "http://search.openedition.org/index.php?op[]=AND&q[]=#{article.doi_escaped}&field[]=All&pf=Hypotheses.org", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0})
+      response.should eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the Openedition API" do
       article = FactoryGirl.build(:article, :doi => "10.2307/683422", published_on: "2013-05-03")
       body = File.read(fixture_path + 'openedition.xml')
       result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
       response[:event_count].should eq(1)
       response[:events_url].should eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{article.doi_escaped}&field[]=All&pf=Hypotheses.org")

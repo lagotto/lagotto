@@ -66,7 +66,7 @@ describe Mendeley do
       subject.access_token = nil
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
       stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials").to_return(:headers => { "Content-Type" => "application/json" }, :body => "Credentials are required to access this resource.", :status => 401)
-      subject.get_data(article, options = { :source_id => subject.id }).should eq(:events=>[], :event_count=>nil)
+      subject.get_data(article, options = { :source_id => subject.id }).should eq({})
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -77,8 +77,8 @@ describe Mendeley do
   end
 
   it "should report that there are no events if the doi, pmid, mendeley uuid and title are missing" do
-    article_without_ids = FactoryGirl.build(:article, :doi => "", :pmid => "", :mendeley_uuid => "", :title => "")
-    subject.get_data(article_without_ids).should eq(events: [], event_count: nil)
+    article_without_ids = FactoryGirl.build(:article, :doi => nil, :pmid => "", :mendeley_uuid => "", :title => "")
+    subject.get_data(article_without_ids).should eq({})
   end
 
   context "use the Mendeley API for uuid lookup" do
@@ -194,6 +194,13 @@ describe Mendeley do
 
   context "parse_data for metrics" do
     let(:article) { FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2") }
+    let(:null_response) { { :events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 } } }
+
+    it "should report if the doi, pmid, mendeley uuid and title are missing" do
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(null_response)
+    end
 
     it "should report if there are events and event_count returned by the Mendeley API" do
       body = File.read(fixture_path + 'mendeley.json')
@@ -209,7 +216,7 @@ describe Mendeley do
       body = File.read(fixture_path + 'mendeley_incomplete.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should eq(:events=>nil, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
+      subject.parse_data(result, article).should eq(null_response)
       Alert.count.should == 0
     end
 
@@ -217,7 +224,7 @@ describe Mendeley do
       body = File.read(fixture_path + 'mendeley_nil.json')
       result = { 'data' => body }
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should eq(:events=>nil, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
+      subject.parse_data(result, article).should eq(null_response)
       Alert.count.should == 0
     end
 
@@ -225,19 +232,8 @@ describe Mendeley do
       body = File.read(fixture_path + 'mendeley_error.json')
       result = { error: JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should eq(:events=>nil, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
+      subject.parse_data(result, article).should eq(null_response)
       Alert.count.should == 0
-    end
-
-    it "should filter out the mendeley_authors attribute" do
-      body = File.read(fixture_path + 'mendeley_authors_tag.json')
-      result = JSON.parse(body)
-      result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, article)
-      response[:events].should be_true
-      response[:events]["mendeley_authors"].should be_nil
-      response[:events_url].should be_true
-      response[:event_count].should eq(29)
     end
 
     it "should catch timeout errors with the Mendeley API" do

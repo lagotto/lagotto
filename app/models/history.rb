@@ -1,14 +1,8 @@
 class History
-  # we can get data_from_source in 4 different formats
-  # - hash with event_count nil: SKIPPED
+  # we can get data_from_source in 3 different formats
   # - hash with event_count = 0: SUCCESS NO DATA
   # - hash with event_count > 0: SUCCESS
-  # - nil                      : ERROR
-  #
-  # SKIPPED
-  # The source doesn't know about the article identifier, and we never call the API.
-  # Examples: mendeley, pub_med, counter, copernicus
-  # We don't want to create a retrieval_history record, but should update retrieval_status
+  # - hash with error          : ERROR
   #
   # SUCCESS NO DATA
   # The source knows about the article identifier, but returns an event_count of 0
@@ -43,14 +37,11 @@ class History
 
     @status = case
       when data[:error] then :error
-      when data[:event_count].nil? then :skipped
       when data[:event_count] > 0 then :success
       when data[:event_count] == 0 then :success_no_data
       end
 
-    # data[:event_count] is nil on skipped articles, but we want to store 0
     @event_count = data[:event_count]
-    @event_count = 0 if status == :skipped
 
     if not_error?
       # save data to retrieval_status table
@@ -62,9 +53,7 @@ class History
                                          event_count: event_count,
                                          event_metrics: event_metrics,
                                          events_url: events_url)
-    end
 
-    if ok?
       # save data to retrieval_history table
       @retrieval_history = retrieval_status.retrieval_histories.create(article_id: retrieval_status.article_id,
                                                                        source_id: retrieval_status.source_id,
@@ -86,10 +75,6 @@ class History
 
   def not_error?
     status != :error
-  end
-
-  def ok?
-    status == :success || status == :success_no_data
   end
 
   def success?

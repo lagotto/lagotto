@@ -34,6 +34,8 @@ class F1000 < Source
     end
 
     { events: events,
+      events_by_day: [],
+      events_by_month: [],
       events_url: events_url,
       event_count: event_count,
       event_metrics: get_event_metrics(citations: event_count) }

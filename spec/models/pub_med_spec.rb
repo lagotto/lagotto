@@ -10,7 +10,7 @@ describe PubMed do
       article = FactoryGirl.build(:article, :pmid => "")
       pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{article.doi_escaped}&idtype=doi&format=json"
       stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers_nil.json'), :status => 200)
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the PubMed API" do
@@ -44,10 +44,18 @@ describe PubMed do
   end
 
   context "parse_data" do
+    it "should report that there are no events if the pmid is missing" do
+      article = FactoryGirl.build(:article, :pmid => "")
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+    end
+
     it "should report if there are no events and event_count returned by the PubMed API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0008776", :pmid => "1897483599", :pmcid => "2808249")
       body = File.read(fixture_path + 'pub_med_nil.xml')
       result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
       response.should eq(events: [], event_count: 0, :events_by_day=>[], :events_by_month=>[], events_url: "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=1897483599", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0})
     end
@@ -55,6 +63,7 @@ describe PubMed do
     it "should report if there are events and event_count returned by the PubMed API" do
       body = File.read(fixture_path + 'pub_med.xml')
       result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
       response[:events].length.should eq(13)
       response[:event_count].should eq(13)

@@ -26,17 +26,20 @@ class Scopus < Source
   def parse_data(result, article, options={})
     return result if result[:error]
 
-    events = result.deep_fetch('search-results', 'entry', 0)
-    event_count = (events.fetch('citedby-count') { 0 }).to_i
+    events = result.deep_fetch('search-results', 'entry', 0) { {} }
 
-    if event_count > 0
+    if events["link"]
+      event_count = events['citedby-count'].to_i
       link = events["link"].find { |link| link["@ref"] == "scopus-citedby" }
       events_url = link["@href"]
     else
+      event_count = 0
       events_url = nil
     end
 
     { events: events,
+      events_by_day: [],
+      events_by_month: [],
       events_url: events_url,
       event_count: event_count,
       event_metrics: get_event_metrics(citations: event_count) }

@@ -7,8 +7,8 @@ describe Nature do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the Nature Blogs API" do
@@ -43,11 +43,19 @@ describe Nature do
   end
 
   context "parse_data" do
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 } } }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
     it "should report if there are no events and event_count returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature_nil.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, article)
-      response.should eq(events: [], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      response.should eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the Nature Blogs API" do
@@ -58,7 +66,7 @@ describe Nature do
 
       response[:events_by_day].length.should eq(1)
       response[:events_by_day].first.should eq(year: 2009, month: 9, day: 18, total: 1)
-      response[:events_by_month].length.should eq(10)
+      response[:events_by_month].length.should eq(9)
       response[:events_by_month].first.should eq(year: 2009, month: 9, total: 1)
 
       event = response[:events].first

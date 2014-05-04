@@ -64,8 +64,8 @@ describe Pmc do
   end
 
   it "should report that there are no events if the doi is missing" do
-    article = FactoryGirl.build(:article, :doi => "")
-    subject.get_data(article).should eq(events: [], event_count: nil)
+    article = FactoryGirl.build(:article, :doi => nil)
+    subject.get_data(article).should eq({})
   end
 
   context "save PMC data" do
@@ -114,6 +114,11 @@ describe Pmc do
       subject.delete_alm_data(subject.url)
     end
 
+    it "should report that there are no events if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
+    end
+
     it "should report if there are no events and event_count returned by the PMC API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'pmc_nil.json')
@@ -147,12 +152,18 @@ describe Pmc do
   end
 
   context "parse_data" do
+    it "should report that there are no events if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      subject.parse_data(result, article).should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2568856", :event_count=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
+    end
+
     it "should report if there are no events and event_count returned by the PMC API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'pmc_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], events_by_month: [{ month: 10, year: 2013, html: 0, pdf: 0 }], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2568856", event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      response.should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], :events_by_day=>[], events_by_month: [{ month: 10, year: 2013, html: 0, pdf: 0 }], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2568856", event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the PMC API" do

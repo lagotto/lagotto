@@ -27,11 +27,15 @@ class Mendeley < Source
     # We should handle all 3 cases, but return an error otherwise
     return result if result[:error].is_a?(String)
 
+    events = result.fetch('stats') { {} }
+
     readers = result.deep_fetch('stats', 'readers') { 0 }
     groups = Array(result['groups']).length
     total = readers + groups
 
-    { events: result['stats'],
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
       events_url: result['mendeley_url'],
       event_count: total,
       event_metrics: get_event_metrics(shares: readers, groups: groups, total: total) }
@@ -51,7 +55,7 @@ class Mendeley < Source
       end
     end
 
-    unless article.doi.blank?
+    unless article.doi.nil?
       result = get_result(get_lookup_url(article, "doi"), options.merge(bearer: access_token))
       if result.is_a?(Hash) && result['mendeley_url']
         article.update_attributes(:mendeley_uuid => result['uuid'])

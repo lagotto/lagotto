@@ -41,7 +41,11 @@ class Facebook < Source
       likes = result.deep_fetch('data', 0, 'like_count') { 0 }
     end
 
-    { events: result['data'],
+    events = result['data'] || {}
+
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
       events_url: nil,
       event_count: total,
       event_metrics: get_event_metrics(shares: shares, comments: comments, likes: likes, total: total) }

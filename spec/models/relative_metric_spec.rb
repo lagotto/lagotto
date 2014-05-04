@@ -5,13 +5,13 @@ describe RelativeMetric do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       article = FactoryGirl.build(:article, :doi => "10.4084/MJHID.2013.016")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should get relative metric average usage data" do
@@ -47,6 +47,20 @@ describe RelativeMetric do
   end
 
   context "parse_data" do
+    let(:null_response) { { :events=>{:start_date=>"2009-01-01T00:00:00Z", :end_date=>"2009-12-31T00:00:00Z", :subject_areas=>[]}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0} } }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil, :published_on => Date.new(2009, 5, 19))
+      result = {}
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
+    it "should report that there are no events if the doi has the wrong prefix" do
+      article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012", :published_on => Date.new(2009, 5, 19))
+      result = {}
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
     it "should get relative metric average usage data" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
       body = File.read(fixture_path + "relative_metric.json")

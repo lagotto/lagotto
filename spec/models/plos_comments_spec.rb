@@ -7,13 +7,13 @@ describe PlosComments do
 
   context "use the PLOS comments API" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if the article was not found by the PLOS comments API" do
@@ -55,6 +55,20 @@ describe PlosComments do
   end
 
   context "parse_data" do
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0 } } }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
+    it "should report that there are no events if the doi has the wrong prefix" do
+      article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
+      result = {}
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
     it "should report if the article was not found by the PLOS comments API" do
       result = { error: File.read(fixture_path + 'plos_comments_error.txt') }
       response = subject.parse_data(result, article)
@@ -64,8 +78,7 @@ describe PlosComments do
     it "should report if there are no events and event_count returned by the PLOS comments API" do
       body = File.read(fixture_path + 'plos_comments_nil.json')
       result = { 'data' => JSON.parse(body) }
-      response = subject.parse_data(result, article)
-      response.should eq(:events=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
+      subject.parse_data(result, article).should eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the PLOS comments API" do

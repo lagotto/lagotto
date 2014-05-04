@@ -80,8 +80,13 @@ describe Counter do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
+    end
+
+    it "should report that there are no events if the doi has the wrong prefix" do
+      article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the Counter API" do
@@ -117,12 +122,28 @@ describe Counter do
   end
 
   context "parse_data" do
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 } } }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
+    it "should report that there are no events if the doi has the wrong prefix" do
+      article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
     it "should report if there are no events and event_count returned by the Counter API" do
       body = File.read(fixture_path + 'counter_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(events: [], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      response.should eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the Counter API" do

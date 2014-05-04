@@ -34,11 +34,15 @@ class Copernicus < Source
 
     events = result.fetch('counter') { {} }
 
-    pdf = events.fetch('counter') { 0 }
-    html = events.fetch('counter') { 0 }
+    pdf = events.fetch('PdfDownloads') { 0 }
+    html = events.fetch('AbstractViews') { 0 }
     total = events.values.reduce(0) { |sum, x| x.nil? ? sum : sum + x }
 
-    { events: result,
+    events = result['data'] ? {} : result
+
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
       events_url: nil,
       event_count: total,
       event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }

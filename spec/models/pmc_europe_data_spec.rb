@@ -12,7 +12,7 @@ describe PmcEuropeData do
       article = FactoryGirl.build(:article, :pmid => "")
       pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{article.doi_escaped}&idtype=doi&format=json"
       stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers_nil.json'), :status => 200)
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
@@ -46,19 +46,25 @@ describe PmcEuropeData do
   end
 
   context "parse_data" do
+    it "should report that there are no events if the pmid is missing" do
+      article = FactoryGirl.build(:article, :pmid => "")
+      result = {}
+      subject.parse_data(result, article).should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+    end
+
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       article = FactoryGirl.build(:article, :pmid => "20098740")
       body = File.read(fixture_path + 'pmc_europe_data_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: [], event_count: 0, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-bioentities", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      response.should eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-bioentities", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       body = File.read(fixture_path + 'pmc_europe_data.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(events: { "EMBL" => 10, "UNIPROT" => 21700 }, event_count: 21710, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-bioentities", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 21710, total: 21710 })
+      response.should eq(events: { "EMBL" => 10, "UNIPROT" => 21700 }, :events_by_day=>[], :events_by_month=>[], event_count: 21710, events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-bioentities", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 21710, total: 21710 })
     end
 
     it "should catch timeout errors with the PMC Europe API" do

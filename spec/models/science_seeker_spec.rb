@@ -6,7 +6,7 @@ describe ScienceSeeker do
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       article_without_doi = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article_without_doi).should eq(events: [], event_count: nil)
+      subject.get_data(article_without_doi).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the ScienceSeeker API" do
@@ -51,8 +51,15 @@ describe ScienceSeeker do
   end
 
   context "parse_data" do
+    let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124") }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => "")
+      result = {}
+      subject.parse_data(result, article).should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+    end
+
     it "should report if there are no events and event_count returned by the ScienceSeeker API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'science_seeker_nil.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, article)
@@ -60,7 +67,6 @@ describe ScienceSeeker do
     end
 
     it "should report if there is an incomplete response returned by the ScienceSeeker API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'science_seeker_incomplete.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, article)

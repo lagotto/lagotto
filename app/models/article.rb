@@ -225,7 +225,7 @@ class Article < ActiveRecord::Base
   end
 
   def is_publisher?
-    CONFIG[:doi_prefix].to_s == doi[0..6]
+    doi =~ /^#{CONFIG[:doi_prefix].to_s}/
   end
 
   def pmc

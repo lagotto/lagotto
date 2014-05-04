@@ -26,9 +26,9 @@ describe Facebook do
   end
 
   context "get_data" do
-    it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+    it "should report that there are no events if the doi and canonical URL are missing" do
+      article = FactoryGirl.build(:article, doi: nil, canonical_url: nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the Facebook API" do
@@ -63,6 +63,13 @@ describe Facebook do
   end
 
   context "parse_data" do
+    it "should report if the doi and canonical URL are missing" do
+      article = FactoryGirl.build(:article, doi: nil, canonical_url: nil)
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(:events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>0, :likes=>0, :citations=>nil, :total=>0})
+    end
+
     it "should report if there are no events and event_count returned by the Facebook API" do
       body = File.read(fixture_path + 'facebook_nil.json')
       result = JSON.parse(body)

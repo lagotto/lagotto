@@ -28,12 +28,12 @@ class Wos < Source
   def get_data(article, options={})
     query_url = get_query_url(article)
     if query_url.nil?
-      { events: [], event_count: nil }
+      result = {}
     else
       data = get_xml_request(article)
       result = get_result(query_url, options.merge(content_type: 'xml', data: data))
-      result.extend Hashie::Extensions::DeepFetch
     end
+    result.extend Hashie::Extensions::DeepFetch
   end
 
   def parse_data(result, article, options={})
@@ -47,14 +47,16 @@ class Wos < Source
     event_count = values[0].to_i
     events_url = values[2]
 
-    { events: event_count,
+    { events: {},
+      events_by_day: [],
+      events_by_month: [],
       events_url: events_url,
       event_count: event_count,
       event_metrics: get_event_metrics(citations: event_count) }
   end
 
   def check_error_status(result, article)
-    status = result.deep_fetch 'response', 'fn', 'rc'
+    status = result.deep_fetch('response', 'fn', 'rc') { 'OK' }
 
     if status.casecmp('OK') == 0
       return false

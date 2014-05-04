@@ -9,8 +9,8 @@ describe Wordpress do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the Wordpress API" do
@@ -45,6 +45,13 @@ describe Wordpress do
   end
 
   context "parse_data" do
+    it "should report that there are no events if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      response = subject.parse_data(result, article)
+      response.should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+    end
+
     it "should report if there are no events and event_count returned by the Wordpress API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       result = { error: "unexpected token for JSON" }

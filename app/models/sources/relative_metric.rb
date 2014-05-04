@@ -29,6 +29,8 @@ class RelativeMetric < Source
     total = events[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }
 
     { events: events,
+      events_by_day: [],
+      events_by_month: [],
       events_url: nil,
       event_count: total,
       event_metrics: get_event_metrics(total: total) }

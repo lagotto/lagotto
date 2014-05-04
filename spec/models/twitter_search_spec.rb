@@ -41,8 +41,8 @@ describe TwitterSearch do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the Twitter Search API" do
@@ -86,7 +86,7 @@ describe TwitterSearch do
     end
 
     it "should report if there are events and event_count returned by the Twitter Search API" do
-      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pmed.0020124", published_on: "2014-01-01")
+      article = FactoryGirl.build(:article_with_tweets, :doi => "10.1371/journal.pmed.0020124", published_on: "2014-01-01")
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
@@ -95,8 +95,8 @@ describe TwitterSearch do
       response[:event_metrics][:comments].should == 8
       response[:events_url].should eq("https://twitter.com/search?q=#{article.doi_escaped}")
 
-      response[:events_by_day].length.should == 1
-      response[:events_by_day].first.should eq(year: 2014, month: 1, day: 20, total: 1)
+      response[:events_by_day].length.should == 6
+      response[:events_by_day].first.should eq(year: 2014, month: 1, day: 6, total: 1)
       response[:events_by_month].length.should == 1
       response[:events_by_month].first.should eq(year: 2014, month: 1, total: 8)
 

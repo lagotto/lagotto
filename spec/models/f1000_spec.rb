@@ -4,8 +4,8 @@ describe F1000 do
   subject { FactoryGirl.create(:f1000) }
 
   it "should report that there are no events if the doi is missing" do
-    article = FactoryGirl.build(:article, :doi => "")
-    subject.get_data(article).should eq(events: [], event_count: nil)
+    article = FactoryGirl.build(:article, :doi => nil)
+    subject.get_data(article).should eq({})
   end
 
   context "save f1000 data" do
@@ -81,7 +81,7 @@ describe F1000 do
       body = File.read(fixture_path + 'f1000_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(:events=>[], :event_count=>0, :events_url=>nil, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      response.should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :event_count=>0, :events_url=>nil, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
     end
 
     it "should report if there are events and event_count returned by f1000" do

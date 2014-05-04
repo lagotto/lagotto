@@ -158,16 +158,16 @@ class Source < ActiveRecord::Base
   def get_data(article, options={})
     query_url = get_query_url(article)
     if query_url.nil?
-      { events: [], event_count: nil }
+      result = {}
     else
       result = get_result(query_url, options.merge(request_options))
 
       # make sure we return a hash
       result = { 'data' => result } unless result.is_a?(Hash)
-
-      # extend hash fetch method to nested hashes
-      result.extend Hashie::Extensions::DeepFetch
     end
+
+    # extend hash fetch method to nested hashes
+    result.extend Hashie::Extensions::DeepFetch
   end
 
   def parse_data(result, article, options = {})

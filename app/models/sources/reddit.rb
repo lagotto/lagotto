@@ -22,11 +22,13 @@ class Reddit < Source
   def parse_data(result, article, options={})
     return result if result[:error]
 
-    events = get_events(result)
+    events = result.deep_fetch('data', 'children') { [] }
 
-    likes = get_sum(result['data']['children'], 'data', 'score')
-    comments = get_sum(result['data']['children'], 'data', 'num_comments')
+    likes = get_sum(events, 'data', 'score')
+    comments = get_sum(events, 'data', 'num_comments')
     total = likes + comments
+
+    events = get_events(events)
 
     { events: events,
       events_by_day: get_events_by_day(events, article),
@@ -37,7 +39,7 @@ class Reddit < Source
   end
 
   def get_events(result)
-    Array(result['data']['children']).map do |item|
+    result.map do |item|
       { event: item['data'],
         event_time: get_iso8601_from_epoch(item['data']['created_utc']),
         event_url: item['data']['url'] }

@@ -24,8 +24,9 @@ class Openedition < Source
   end
 
   def get_events(result)
-    result['RDF']['item'] = [result['RDF']['item']] if result['RDF']['item'].is_a?(Hash)
-    Array(result['RDF']['item']).map do |item|
+    events = result.deep_fetch('RDF', 'item') { nil }
+    events = [events] if events.is_a?(Hash)
+    Array(events).map do |item|
       { event: item,
         event_time: get_iso8601_from_time(item["date"]),
         event_url: item['link'] }

@@ -30,7 +30,8 @@ class PubMed < Source
   end
 
   def get_events(result)
-    Array(result['PubMedToPMCcitingformSET']['REFORM']['PMCID']).map do |item|
+    events = result.deep_fetch('PubMedToPMCcitingformSET', 'REFORM', 'PMCID') { [] }
+    events.map do |item|
       { :event => item, :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + item }
     end
   end

@@ -4,14 +4,15 @@ describe Wikipedia do
 
   subject { FactoryGirl.create(:wikipedia) }
 
+  let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294") }
+
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the Wikipedia API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'wikipedia_nil.json')
       stub = stub_request(:get, /en.wikipedia.org/).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       response = subject.get_data(article)
@@ -71,11 +72,15 @@ describe Wikipedia do
   end
 
   context "parse_data" do
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      subject.parse_data(result, article).should eq(events: {}, :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+    end
+
     it "should report if there are no events and event_count returned by the Wikipedia API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       result = { "en"=>0 }
-      response = subject.parse_data(result, article)
-      response[:event_count].should == 0
+      subject.parse_data(result, article).should eq(events: {"en"=>0, "total"=>0}, :events_by_day=>[], :events_by_month=>[], events_url: "http://en.wikipedia.org/w/index.php?search=\"#{article.doi_escaped}\"", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Wikipedia API" do
@@ -98,7 +103,7 @@ describe Wikipedia do
       article = FactoryGirl.create(:article, :doi => "10.2307/683422")
       result = { "en"=>nil }
       response = subject.parse_data(result, article)
-      response.should eq(:events=>{"en"=>nil, "total"=>0}, :events_url=>"http://en.wikipedia.org/w/index.php?search=\"#{article.doi_escaped}\"", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      response.should eq(:events=>{"en"=>nil, "total"=>0}, :events_by_day=>[], :events_by_month=>[], :events_url=>"http://en.wikipedia.org/w/index.php?search=\"#{article.doi_escaped}\"", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
     end
   end
 end

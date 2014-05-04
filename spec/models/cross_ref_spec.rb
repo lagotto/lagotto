@@ -6,13 +6,13 @@ describe CrossRef do
   let(:article) { FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007") }
 
   it "should report that there are no events if the doi is missing" do
-    article = FactoryGirl.build(:article, :doi => "")
-    subject.get_data(article).should eq(events: [], event_count: nil)
+    article = FactoryGirl.build(:article, :doi => nil)
+    subject.get_data(article).should eq({})
   end
 
   it "should report that there are no events if article was published on the same day" do
     article = FactoryGirl.build(:article, :published_on => Time.zone.today)
-    subject.get_data(article).should eq(events: [], event_count: nil)
+    subject.get_data(article).should eq({})
   end
 
   context "get_data from the CrossRef API" do
@@ -78,16 +78,27 @@ describe CrossRef do
   end
 
   context "parse_data from the CrossRef API" do
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
     it "should report if there are no events and event_count returned by the CrossRef API" do
       body = File.read(fixture_path + 'cross_ref_nil.xml')
       result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(:events=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      response.should eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the CrossRef API" do
       body = File.read(fixture_path + 'cross_ref.xml')
       result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
       response[:events].length.should eq(31)
       response[:event_count].should eq(31)
@@ -104,13 +115,20 @@ describe CrossRef do
 
   context "parse_data from the CrossRef OpenURL API" do
     let(:article) { FactoryGirl.create(:article, :doi => "10.1007/s00248-010-9734-2", :canonical_url => "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1") }
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
+
+    it "should report if the doi is missing" do
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(null_response)
+    end
 
     it "should report if there is an event_count of zero returned by the CrossRef OpenURL API" do
       body = File.read(fixture_path + 'cross_ref_openurl_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(:events=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      response.should eq(null_response)
     end
 
     it "should report if there is an event_count greater than zero returned by the CrossRef OpenURL API" do

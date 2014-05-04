@@ -13,8 +13,8 @@ describe Wos do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article_without_doi = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article_without_doi).should eq(events: [], event_count: nil)
+      article_without_doi = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article_without_doi).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the Wos API" do
@@ -55,12 +55,20 @@ describe Wos do
   end
 
   context "parse_data" do
+    it "should report that there are no events if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      response = subject.parse_data(result, article)
+      response.should eq(:events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+    end
+
     it "should report if there are no events and event_count returned by the Wos API" do
       body = File.read(fixture_path + 'wos_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(:events => 0, :event_count => 0, :events_url => nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      response.should eq(:events => {}, :events_by_day=>[], :events_by_month=>[], :event_count => 0, :events_url => nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Wos API" do

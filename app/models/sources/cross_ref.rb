@@ -22,7 +22,7 @@ class CrossRef < Source
   validates :url, :password, presence: true, if: "CONFIG[:doi_prefix]"
 
   def get_query_url(article)
-    if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
+    if article.doi.nil? || Time.zone.now - article.published_on.to_time < 1.day
       nil
     elsif article.is_publisher?
       url % { :username => username, :password => password, :doi => article.doi_escaped }
@@ -48,18 +48,19 @@ class CrossRef < Source
     end
 
     { events: events,
+      events_by_day: [],
+      events_by_month: [],
       events_url: nil,
       event_count: event_count.to_i,
       event_metrics: get_event_metrics(citations: event_count) }
   end
 
   def get_events(result)
-    if result['crossref_result']['query_result']['body']['forward_link'].is_a?(Array)
-      result['crossref_result']['query_result']['body']['forward_link'].map do |item|
-        { :event => item['journal_cite'], :event_url => Article.to_url(item['journal_cite']['doi']) }
-      end
-    else
-      []
+    events = result.deep_fetch('crossref_result', 'query_result', 'body', 'forward_link') { nil }
+    events = [] unless events.is_a?(Array)
+
+    events.map do |item|
+      { :event => item['journal_cite'], :event_url => Article.to_url(item['journal_cite']['doi']) }
     end
   end
 

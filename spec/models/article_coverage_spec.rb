@@ -6,13 +6,13 @@ describe ArticleCoverage do
   let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0047712", published_on: "2013-11-01") }
 
   it "should report that there are no events if the doi is missing" do
-    article = FactoryGirl.build(:article, :doi => "")
-    subject.get_data(article).should eq(events: [], event_count: nil)
+    article = FactoryGirl.build(:article, :doi => nil)
+    subject.get_data(article).should eq({})
   end
 
   it "should report that there are no events if the doi has the wrong prefix" do
     article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
-    subject.get_data(article).should eq(events: [], event_count: nil)
+    subject.get_data(article).should eq({})
   end
 
   context "get_data from the Article Coverage API" do
@@ -57,6 +57,12 @@ describe ArticleCoverage do
   end
 
   context "parse_data from the Article Coverage API" do
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      subject.parse_data(result, article).should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
+    end
+
     it "should report if article doesn't exist in Article Coverage source" do
       result = { error: "{\"error\":\"Article not found\"}" }
       response = subject.parse_data(result, article)

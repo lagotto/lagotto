@@ -7,13 +7,13 @@ describe Figshare do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the figshare API" do
@@ -46,11 +46,25 @@ describe Figshare do
   end
 
   context "parse_data" do
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0} } }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
+    it "should report that there are no events if the doi has the wrong prefix" do
+      article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
+      result = {}
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
     it "should report if there are no events and event_count returned by the figshare API" do
       body = File.read(fixture_path + 'figshare_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
-      response.should eq(:events=>{"count"=>0, "items"=>[]}, :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0})
+      response.should eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the figshare API" do
@@ -58,9 +72,8 @@ describe Figshare do
       result = JSON.parse(body)
       response = subject.parse_data(result, article)
       response[:event_count].should == 14
+      response[:events].length.should == 6
       response[:event_metrics].should eq(pdf: 1, html: 13, shares: nil, groups: nil, comments: nil, likes: 0, citations: nil, total: 14)
-      events = response[:events]
-      events["items"].should_not be_nil
     end
 
     it "should catch timeout errors with the figshare API" do

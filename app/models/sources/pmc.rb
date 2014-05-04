@@ -25,13 +25,14 @@ class Pmc < Source
   def parse_data(result, article, options={})
     return result if result[:error]
 
-    events = result["views"]
+    events = Array(result["views"])
 
     pdf = get_sum(events, 'pdf')
     html = get_sum(events, 'full-text')
     total = pdf + html
 
     { events: events,
+      events_by_day: [],
       events_by_month: get_events_by_month(events),
       events_url: get_events_url(article),
       event_count: total,

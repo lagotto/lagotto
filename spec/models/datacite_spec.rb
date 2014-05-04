@@ -7,8 +7,8 @@ describe Datacite do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the Datacite API" do
@@ -42,11 +42,18 @@ describe Datacite do
   end
 
   context "parse_data" do
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 } } }
+
+    it "should report if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      subject.parse_data(result, article).should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+    end
+
     it "should report if there are no events and event_count returned by the Datacite API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
       body = File.read(fixture_path + 'datacite_nil.json')
       result = JSON.parse(body)
-      subject.parse_data(result, article).should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      subject.parse_data(result, article).should eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the Datacite API" do

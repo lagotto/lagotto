@@ -20,7 +20,7 @@
 
 class TwitterSearch < Source
   def get_query_url(article, options={})
-    return nil unless get_access_token && article.doi.present?
+    return nil unless get_access_token && !article.doi.nil?
 
     params = { q: article.doi_escaped,
                count: 100,
