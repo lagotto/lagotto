@@ -11,6 +11,12 @@ The Mendeley API returns incomplete API responses for articles where they don't 
     { uuid: "182cf980-6d0c-11df-a2b2-0026b95e3eb7" }
 ```
 
+Mendeley uses OAuth2 authentification, we automatically obtain the access token using the **client_id** and **secret**.
+
+## Required configuration fields
+
+* **client_id** and **secret**: register your OAuth2 application at https://mix.mendeley.com/portal#/register
+
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>

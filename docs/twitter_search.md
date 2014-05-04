@@ -10,6 +10,10 @@ title: "Twitter"
 
 Please enter `API key` and `API secret` in the ALM configuration settings. The application will automatically fetch and store an OAuth2 `access token` the first time we use the source.
 
+## Required configuration fields
+
+* **api_key** and **api_secret**: available via https://dev.twitter.com/apps.
+
 ## Rate-Limiting
 The rate-limits for application-only authentication and search are 450 requests per 15 min or 1,800 requests per hour. Depending on the number of articles we might have to adjust how often we contact Twitter, the default settings are every 12 hours the first 7 days after publication, then daily for the first month, and then weekly.
 
