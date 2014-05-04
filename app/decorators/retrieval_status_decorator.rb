@@ -55,11 +55,11 @@ class RetrievalStatusDecorator < Draper::Decorator
     by_month.group_by { |event| event["year"] }.sort.map do |k, v|
       if ['counter', 'pmc'].include?(name)
         { year: k.to_i,
-          pdf: v.reduce(0) { |sum, hash| sum + hash[:pdf].to_i },
-          html: v.reduce(0) { |sum, hash| sum + hash[:html].to_i } }
+          pdf: v.reduce(0) { |sum, hash| sum + hash['pdf'].to_i },
+          html: v.reduce(0) { |sum, hash| sum + hash['html'].to_i } }
       else
         { year: k.to_i,
-          total: v.reduce(0) { |sum, hash| sum + hash[:total].to_i } }
+          total: v.reduce(0) { |sum, hash| sum + hash['total'].to_i } }
       end
     end
   end
