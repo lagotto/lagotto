@@ -60,7 +60,7 @@ class CrossRef < Source
     events = [] unless events.is_a?(Array)
 
     events.map do |item|
-      item = item.fetch('journal_cite') { {} }
+      item = item.fetch('journal_cite') { {} }
       item.extend Hashie::Extensions::DeepFetch
       url = Article.to_url(item['doi'])
       { event: item,
