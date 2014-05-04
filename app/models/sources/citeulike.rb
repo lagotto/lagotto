@@ -28,8 +28,9 @@ class Citeulike < Source
   end
 
   def get_events(result)
-    result['posts'] ||= {}
-    Array(result['posts']['post']).map do |item|
+    events = result['posts'] && result.deep_fetch('posts', 'post') { [] }
+    events = [events] if events.is_a?(Hash)
+    Array(events).map do |item|
       { event: item,
         event_time: get_iso8601_from_time(item["post_time"]),
         event_url: item['link']['url'] }

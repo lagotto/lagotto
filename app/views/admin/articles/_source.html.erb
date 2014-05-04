@@ -21,7 +21,7 @@
           <% end %>
           </ul>
       <% elsif status.events.is_a?(Hash) %>
-        <ul><li><%= status.events %></li></ul>
+        <%= status.events %>
       <% end %>
     <% end %>
   </div>

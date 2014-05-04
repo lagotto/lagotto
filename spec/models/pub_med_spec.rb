@@ -71,6 +71,17 @@ describe PubMed do
       event[:event_url].should eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + event[:event])
     end
 
+    it "should report if there is a single event returned by the PubMed API" do
+      body = File.read(fixture_path + 'pub_med_one.xml')
+      result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
+      response = subject.parse_data(result, article)
+      response[:events].length.should eq(1)
+      response[:event_count].should eq(1)
+      event = response[:events].first
+      event[:event_url].should eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + event[:event])
+    end
+
     it "should catch timeout errors with the PubMed API" do
       article = FactoryGirl.create(:article, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=#{article.pmid}" }

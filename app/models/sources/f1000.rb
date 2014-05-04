@@ -54,6 +54,8 @@ class F1000 < Source
   # Parse f1000 feed and store in CouchDB. Returns an empty array if no error occured
   def parse_feed(options={})
     document = read_from_file(filename)
+    document.extend Hashie::Extensions::DeepFetch
+
     return nil if document['ObjectList']['Article'].empty?
 
     Array(document['ObjectList']['Article']).each do |article|

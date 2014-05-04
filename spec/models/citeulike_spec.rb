@@ -46,17 +46,20 @@ describe Citeulike do
     it "should report if the doi is missing" do
       article = FactoryGirl.build(:article, :doi => nil)
       result = {}
+      result.extend Hashie::Extensions::DeepFetch
       subject.parse_data(result, article).should eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
     end
 
     it "should report if there are no events and event_count returned by the CiteULike API" do
       result = { "posts" => nil }
+      result.extend Hashie::Extensions::DeepFetch
       subject.parse_data(result, article).should eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike.xml')
       result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
 
       response = subject.parse_data(result, article)
       response[:events].length.should eq(25)
@@ -64,6 +67,22 @@ describe Citeulike do
       response[:events_by_month].first.should eq(year: 2006, month: 6, total: 2)
       response[:events_url].should eq(subject.get_events_url(article))
       response[:event_count].should eq(25)
+      event = response[:events].first
+      event[:event_time].should eq("2006-06-13T16:14:19Z")
+      event[:event_url].should eq(event[:event]['link']['url'])
+    end
+
+    it "should report if there is one event returned by the CiteULike API" do
+      body = File.read(fixture_path + 'citeulike_one.xml')
+      result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
+
+      response = subject.parse_data(result, article)
+      response[:events].length.should eq(1)
+      response[:events_by_month].length.should eq(1)
+      response[:events_by_month].first.should eq(year: 2006, month: 6, total: 1)
+      response[:events_url].should eq(subject.get_events_url(article))
+      response[:event_count].should eq(1)
       event = response[:events].first
       event[:event_time].should eq("2006-06-13T16:14:19Z")
       event[:event_url].should eq(event[:event]['link']['url'])

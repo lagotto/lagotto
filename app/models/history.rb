@@ -36,10 +36,10 @@ class History
     @previous_retrieved_at = retrieval_status.retrieved_at
 
     @status = case
-      when data[:error] then :error
-      when data[:event_count] > 0 then :success
-      when data[:event_count] == 0 then :success_no_data
-      end
+              when data[:error] then :error
+              when data[:event_count] > 0 then :success
+              when data[:event_count] == 0 then :success_no_data
+              end
 
     @event_count = data[:event_count]
 

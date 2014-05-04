@@ -295,7 +295,7 @@ describe Source do
     end
 
     context "read from file" do
-      let(:filename) { 'test.xml'}
+      let(:filename) { 'test.xml' }
       let(:content) { [{ 'a' => 1 }, { 'b' => 2 }, { 'c' => 3 }] }
 
       before(:each) { File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(content.to_xml) } }

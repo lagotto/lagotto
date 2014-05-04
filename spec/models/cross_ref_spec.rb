@@ -112,6 +112,23 @@ describe CrossRef do
       event[:event_csl]['type'].should eq("article-journal")
     end
 
+    it "should report if there is one event returned by the CrossRef API" do
+      body = File.read(fixture_path + 'cross_ref_one.xml')
+      result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
+      response = subject.parse_data(result, article)
+      response[:events].length.should eq(1)
+      response[:event_count].should eq(1)
+      event = response[:events].first
+      event[:event_url].should eq("http://dx.doi.org/#{event[:event]['doi']}")
+
+      event[:event_csl]['author'].should eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
+      event[:event_csl]['title'].should eq("Audiotactile interactions in temporal perception")
+      event[:event_csl]['container-title'].should eq("Psychonomic Bulletin & Review")
+      event[:event_csl]['issued'].should eq("date_parts"=>["2011"])
+      event[:event_csl]['type'].should eq("article-journal")
+    end
+
     it "should catch timeout errors with the CrossRef API" do
       result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true" }
       response = subject.parse_data(result, article)
