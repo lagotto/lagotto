@@ -82,7 +82,11 @@
         <% @source.config_fields.each do |field| %>
           <tr>
             <th><%= field.to_s.gsub(/_/, " ").capitalize %></th>
-            <td><%= @source.send(field) %></td>
+            <% if ["username", "password", "client_id", "secret", "access_token", "api_key"].include?(field) %>
+              <td><em>hidden</em></td>
+            <% else %>
+              <td><%= @source.send(field) %></td>
+            <% end %>
           </tr>
         <% end %>
       <% end %>
