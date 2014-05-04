@@ -76,10 +76,26 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def metrics
-    unless data.blank?
-      data["event_metrics"]
-    else
+    if data.blank? || data["error"]
       []
+    else
+      data["event_metrics"]
+    end
+  end
+
+  def by_day
+    if data.blank? || data["error"]
+      []
+    else
+      data["events_by_day"]
+    end
+  end
+
+  def by_month
+    if data.blank? || data["error"]
+      []
+    else
+      data["events_by_month"]
     end
   end
 

@@ -1,7 +1,4 @@
 class RetrievalStatusDecorator < Draper::Decorator
-  # include metrics by day, month and year
-  include Visualizable
-
   # helper methods
   include Measurable
 
