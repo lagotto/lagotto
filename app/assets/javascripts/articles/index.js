@@ -14,7 +14,7 @@ if (!params.empty()) {
   if (class_name != "") query += "&class_name=" + class_name;
   if (order != "") {
     query += "&source=" + order + "&order=" + order;
-  } else {
+  } else {
     query += "&info=summary";
   }
 };
@@ -32,7 +32,7 @@ if (query) {
 function articlesViz(json) {
   data = json["data"];
 
-  json["href"] = "?page={{number}}";
+  json["href"] = "?page={{number}}";
   if (q != "") json["href"] += "&q=" + q;
   if (class_name != "") json["href"] += "&class_name=" + class_name;
   if (order != "") json["href"] += "&order=" + order;
@@ -129,7 +129,7 @@ function datePartsToDate(date_parts) {
 
 function signpostsToString(article) {
   if (order != "") {
-    source = article["sources"].filter(function(d) { return d.name == order })[0];
+    source = article["sources"].filter(function(d) { return d.name == order })[0];
     a = [source.display_name + ": " + formatFixed(source.metrics.total)];
   } else {
     a = [];

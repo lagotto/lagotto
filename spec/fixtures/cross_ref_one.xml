@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<crossref_result version="2.0" xmlns="http://www.crossref.org/qrschema/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.crossref.org/qrschema/2.0 http://www.crossref.org/qrschema/crossref_query_output2.0.xsd">
+  <query_result>
+    <head>
+      <doi_batch_id>none</doi_batch_id>
+    </head>
+    <body>
+      <forward_link doi="10.1371/journal.pone.0000001">
+        <journal_cite fl_count="2">
+          <issn type="print">1069-9384</issn>
+          <issn type="electronic">1531-5320</issn>
+          <journal_title>Psychonomic Bulletin &amp; Review</journal_title>
+          <journal_abbreviation>Psychon Bull Rev</journal_abbreviation>
+          <article_title>Audiotactile interactions in temporal perception</article_title>
+          <contributors>
+            <contributor first-author="true">
+              <given_name>Valeria</given_name>
+              <surname>Occelli</surname>
+            </contributor>
+            <contributor first-author="false">
+              <given_name>Charles</given_name>
+              <surname>Spence</surname>
+            </contributor>
+            <contributor first-author="false">
+              <given_name>Massimiliano</given_name>
+              <surname>Zampini</surname>
+            </contributor>
+          </contributors>
+          <volume>18</volume>
+          <issue>3</issue>
+          <first_page>429</first_page>
+          <year>2011</year>
+          <publication_type>full_text</publication_type>
+          <doi type="journal_article">10.3758/s13423-011-0070-4</doi>
+        </journal_cite>
+      </forward_link>
+    </body>
+  </query_result>
+</crossref_result>

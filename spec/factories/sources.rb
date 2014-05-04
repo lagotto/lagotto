@@ -280,7 +280,8 @@ FactoryGirl.define do
     name "f1000"
     display_name "F1000Prime"
     state_event "activate"
-    url "http://example.org/example.xml"
+    url "http://127.0.0.1:5984/f1000_test/"
+    feed_url "http://example.org/example.xml"
     filename "example.xml"
 
     group

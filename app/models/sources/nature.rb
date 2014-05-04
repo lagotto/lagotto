@@ -19,29 +19,32 @@
 # limitations under the License.
 
 class Nature < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
-
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
-
-    return nil if result.nil?
-
-    events = result.map do |item|
+  def get_events(result)
+    Array(result['data']).map do |item|
+      item.extend Hashie::Extensions::DeepFetch
+      event_time = get_iso8601_from_time(item['post']['created_at'])
       url = item['post']['url']
       url = "http://#{url}" unless url.start_with?("http://")
 
-      { :event => item['post'], :event_url => url }
-    end
+      { event: item['post'],
+        event_time: event_time,
+        event_url: url,
 
-    { :events => events,
-      :event_count => events.length,
-      :event_metrics => get_event_metrics(citations: events.length) }
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => '',
+          'title' => item.deep_fetch('post', 'title') { '' },
+          'container-title' => item.deep_fetch('post', 'blog', 'title') { '' },
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'post'
+        }
+      }
+    end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url]
   end
 
   def url

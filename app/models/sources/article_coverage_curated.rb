@@ -19,27 +19,49 @@
 # limitations under the License.
 
 class ArticleCoverageCurated < Source
-  def get_data(article, options={})
-    return { events: [], event_count: nil } if article.doi.blank?
+  def get_query_url(article)
+    return nil unless article.doi =~ /^10.1371/
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
-
-    return { events: [], event_count: 0 } if result.nil? || result['referrals'].blank?
-
-    referrals = result['referrals']
-    events = referrals.map { |item| { event: item, event_url: item['referral'] } }
-
-    { events: events,
-      event_count: events.length,
-      event_metrics: get_event_metrics(comments: events.length) }
+    url % { :doi => article.doi_escaped }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def response_options
+    { metrics: :comments }
   end
 
-  def url
-    config.url || "http://mediacuration.plos.org/api/v1?doi=%{doi}"
+  def get_events(result)
+    Array(result['referrals']).map do |item|
+      event_time = get_iso8601_from_time(item['published_on'])
+      url = item['referral']
+
+      { event: item,
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => '',
+          'title' => item.fetch('title') { '' },
+          'container-title' => item.fetch('publication') { '' },
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => get_csl_type(item['type']) }
+        }
+    end
+  end
+
+  def get_csl_type(type)
+    return nil if type.blank?
+
+    types = { 'Blog' => 'post',
+              'News' => 'article-newspaper',
+              'Podcast/Video' => 'broadcast',
+              'Lab website/homepage' => 'webpage',
+              'University page' => 'webpage' }
+    types[type]
+  end
+
+  def config_fields
+    [:url]
   end
 end

@@ -19,37 +19,36 @@
 # limitations under the License.
 
 class Copernicus < Source
-  def get_data(article, options={})
-    return { events: [], event_count: nil } unless article.doi =~ /^10.5194/
-
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(username: username, password: password))
-
-    return nil if result.nil?
-    return { events: [], event_count: nil } if result.empty? || !result["counter"]
-
-    if result["counter"].values.all? { |x| x.nil? }
-      event_count = 0
-      pdf = 0
-      html = 0
-    else
-      event_count = result["counter"].values.reduce(0) { |sum, x| sum + (x ? x : 0) }
-      pdf = result["counter"]["PdfDownloads"]
-      html = result["counter"]["AbstractViews"]
-    end
-
-    { :events => result,
-      :event_count => event_count,
-      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: event_count) }
-  end
-
   def get_query_url(article)
+    return nil unless article.doi =~ /^10.5194/
+
     url % { :doi => article.doi }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "username", :field_type => "text_field"},
-     {:field_name => "password", :field_type => "password_field"}]
+  def request_options
+    { username: username, password: password }
+  end
+
+  def parse_data(result, article, options={})
+    return result if result[:error]
+
+    events = result.fetch('counter') { {} }
+
+    pdf = events.fetch('PdfDownloads') { 0 }
+    html = events.fetch('AbstractViews') { 0 }
+    total = events.values.reduce(0) { |sum, x| x.nil? ? sum : sum + x }
+
+    events = result['data'] ? {} : result
+
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
+  end
+
+  def config_fields
+    [:url, :username, :password]
   end
 end

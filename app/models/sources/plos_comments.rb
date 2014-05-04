@@ -19,33 +19,49 @@
 # limitations under the License.
 
 class PlosComments < Source
-  def get_data(article, options={})
-    return { events: [], event_count: nil } unless article.is_publisher?
-
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
-
-    return nil if result.nil?
-    return { events: [], event_count: nil } if !result.kind_of?(Array) || result.empty?
-
-    events = result
-    replies = events.reduce(0) { |sum, hash| sum + hash["totalNumReplies"].to_i }
-    total = events.length + replies
-
-    { :events => events,
-      :event_count => total,
-      :event_metrics => get_event_metrics(comments: events.length, total: total) }
-  end
-
   def get_query_url(article)
+    return nil unless article.doi =~ /^10.1371/
+
     url % { :doi => article.doi }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def parse_data(result, article, options={})
+    return result if result[:error]
+
+    events = get_events(result)
+    replies = get_sum(events, :event, 'totalNumReplies')
+    total = events.length + replies
+
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(comments: events.length, total: total) }
   end
 
-  def url
-    config.url
+  def get_events(result)
+    Array(result['data']).map do |item|
+      event_time = get_iso8601_from_time(item['created'])
+
+      { event: item,
+        event_time: event_time,
+        event_url: nil,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(item['creatorFormattedName']),
+          'title' => item.fetch('title') { '' },
+          'container-title' => 'PLOS Comments',
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'personal_communication'
+        }
+      }
+    end
+  end
+
+  def config_fields
+    [:url]
   end
 end

@@ -19,30 +19,20 @@
 # limitations under the License.
 
 class Datacite < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
-
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
-
-    return nil if result.nil?
-    return { events: [], event_count: nil } if result.empty? || !result["response"]
-
-    event_count = result["response"]["numFound"]
-    events = result["response"]["docs"].nil? ? [] : result["response"]["docs"].map { |event| { event: event, event_url: "http://doi.org/#{event['doi']}" } }
-
-    { events: events,
-      events_url: "http://search.datacite.org/ui?q=relatedIdentifier:#{article.doi_escaped}",
-      event_count: event_count,
-      event_metrics: get_event_metrics(citations: event_count) }
+  def get_events(result)
+    result["response"] ||= {}
+    Array(result["response"]["docs"]).map { |item| { event: item, event_url: "http://doi.org/#{item['doi']}" } }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
     config.url || "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&rows=100&wt=json"
+  end
+
+  def events_url
+    config.events_url || "http://search.datacite.org/ui?q=relatedIdentifier:%{doi}"
   end
 end

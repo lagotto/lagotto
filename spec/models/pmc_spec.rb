@@ -64,14 +64,8 @@ describe Pmc do
   end
 
   it "should report that there are no events if the doi is missing" do
-    article = FactoryGirl.build(:article, :doi => "")
-    subject.get_data(article).should eq(events: [], event_count: nil)
-  end
-
-  it "should report that there are no events if article was published on the same day" do
-    date = Time.zone.today
-    article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
-    subject.get_data(article).should eq(events: [], event_count: nil)
+    article = FactoryGirl.build(:article, :doi => nil)
+    subject.get_data(article).should eq({})
   end
 
   context "save PMC data" do
@@ -111,7 +105,7 @@ describe Pmc do
     end
   end
 
-  context "use the PMC API" do
+  context "get_data" do
     before(:each) do
       subject.put_alm_data(subject.url)
     end
@@ -120,11 +114,17 @@ describe Pmc do
       subject.delete_alm_data(subject.url)
     end
 
+    it "should report that there are no events if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      subject.get_data(article).should eq({})
+    end
+
     it "should report if there are no events and event_count returned by the PMC API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'pmc_nil.json')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      subject.get_data(article).should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      response = subject.get_data(article)
+      response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
@@ -133,22 +133,54 @@ describe Pmc do
       body = File.read(fixture_path + 'pmc.json')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       response = subject.get_data(article)
-      response[:events].length.should eq(2)
-      response[:event_count].should eq(13)
-      response[:event_metrics].should eq(pdf: 4, html: 9, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 13)
+      response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
     it "should catch errors with the PMC API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 408 for http://127.0.0.1:5984/pmc_usage_stats_test/")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("Net::HTTPRequestTimeOut")
       alert.status.should == 408
       alert.source_id.should == subject.id
+    end
+  end
+
+  context "parse_data" do
+    it "should report that there are no events if the doi is missing" do
+      article = FactoryGirl.build(:article, :doi => nil)
+      result = {}
+      subject.parse_data(result, article).should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2568856", :event_count=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
+    end
+
+    it "should report if there are no events and event_count returned by the PMC API" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
+      body = File.read(fixture_path + 'pmc_nil.json')
+      result = JSON.parse(body)
+      response = subject.parse_data(result, article)
+      response.should eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], :events_by_day=>[], events_by_month: [{ month: 10, year: 2013, html: 0, pdf: 0 }], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2568856", event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+    end
+
+    it "should report if there are events and event_count returned by the PMC API" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pbio.1001420")
+      body = File.read(fixture_path + 'pmc.json')
+      result = JSON.parse(body)
+      response = subject.parse_data(result, article)
+      response[:events].length.should eq(2)
+      response[:event_count].should eq(13)
+      response[:event_metrics].should eq(pdf: 4, html: 9, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 13)
+    end
+
+    it "should catch timeout errors with the PMC API" do
+      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for http://127.0.0.1:5984/pmc_usage_stats_test/" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

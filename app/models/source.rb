@@ -36,6 +36,9 @@ class Source < ActiveRecord::Base
   # include CouchDB helpers
   include Couchable
 
+  # include hash helper
+  include Hashie::Extensions::DeepFetch
+
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :retrieval_histories, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses
@@ -146,7 +149,6 @@ class Source < ActiveRecord::Base
 
   def working_count
     delayed_jobs.count(:locked_at)
-    # Delayed::Job.count('id', :conditions => ["queue = ? AND locked_by IS NOT NULL", name])
   end
 
   def pending_count
@@ -154,15 +156,103 @@ class Source < ActiveRecord::Base
   end
 
   def get_data(article, options={})
-    fail NotImplementedError, 'Children classes should override get_data method'
+    query_url = get_query_url(article)
+    if query_url.nil?
+      result = {}
+    else
+      result = get_result(query_url, options.merge(request_options))
+
+      # make sure we return a hash
+      result = { 'data' => result } unless result.is_a?(Hash)
+    end
+
+    # extend hash fetch method to nested hashes
+    result.extend Hashie::Extensions::DeepFetch
+  end
+
+  def parse_data(result, article, options = {})
+    # turn result into a hash for easier parsing later
+    result = { 'data' => result } unless result.is_a?(Hash)
+
+    # return early if an error occured
+    return result if result[:error]
+
+    options.merge!(response_options)
+    metrics = options[:metrics] || :citations
+
+    events = get_events(result)
+
+    { events: events,
+      events_by_day: get_events_by_day(events, article),
+      events_by_month: get_events_by_month(events),
+      events_url: get_events_url(article),
+      event_count: events.length,
+      event_metrics: get_event_metrics(metrics => events.length) }
+  end
+
+  def get_events_by_day(events, article)
+    events = events.reject { |event| event[:event_time].nil? || Date.iso8601(event[:event_time]) - article.published_on > 30 }
+
+    events.group_by { |event| event[:event_time][0..9] }.sort.map do |k, v|
+      { year: k[0..3].to_i,
+        month: k[5..6].to_i,
+        day: k[8..9].to_i,
+        total: v.length }
+    end
+  end
+
+  def get_events_by_month(events)
+    events = events.reject { |event| event[:event_time].nil? }
+
+    events.group_by { |event| event[:event_time][0..6] }.sort.map do |k, v|
+      { year: k[0..3].to_i,
+        month: k[5..6].to_i,
+        total: v.length }
+    end
+  end
+
+  def request_options
+    {}
+  end
+
+  def response_options
+    {}
   end
 
   def get_query_url(article)
+    return nil unless url.present? && article.doi.present?
+
     url % { :doi => article.doi_escaped }
   end
 
   def get_events_url(article)
-    events_url % { :doi => article.doi_escaped }
+    if events_url.present? && article.doi.present?
+      events_url % { :doi => article.doi_escaped }
+    end
+  end
+
+  def get_date_parts(iso8601_time)
+    return nil if iso8601_time.nil?
+
+    year = iso8601_time[0..3].to_i
+    month = iso8601_time[5..6].to_i
+    day = iso8601_time[8..9].to_i
+    { 'date_parts' => [year, month, day] }
+  end
+
+  def get_date_parts_from_parts(year, month = nil, day = nil)
+    { 'date_parts' => [year, month, day].reject(&:blank?) }
+  end
+
+  def get_author(author)
+    return '' if author.blank?
+
+    name_parts = author.split(' ')
+    family = name_parts.last
+    given = name_parts.length > 1 ? name_parts[0..-2].join(' ') : ''
+
+    [{ 'family' => family,
+       'given' => given }]
   end
 
   # Custom validations that are triggered in state machine

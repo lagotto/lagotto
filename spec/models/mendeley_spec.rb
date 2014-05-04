@@ -33,26 +33,32 @@ describe Mendeley do
     it "should look up access token if blank" do
       subject.access_token = nil
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
-      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials").to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
-      stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+        .to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
+      stub_uuid = stub_request(:get, subject.get_lookup_url(article))
+        .to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
 
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, source_id: subject.id)
+      response[:error].should_not be_nil
       stub_auth.should have_been_requested
-      stub_uuid.should have_been_requested
+      stub_uuid.should have_been_requested.times(2)
       stub.should have_been_requested
     end
 
     it "should look up access token if expired" do
       subject.expires_at = Time.zone.now
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
-      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials").to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
-      stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+        .to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_auth.json'), :status => 200)
+      stub_uuid = stub_request(:get, subject.get_lookup_url(article))
+        .to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
 
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      response = subject.get_data(article, source_id: subject.id)
+      response[:error].should_not be_nil
       stub_auth.should have_been_requested
-      stub_uuid.should have_been_requested
+      stub_uuid.should have_been_requested.times(2)
       stub.should have_been_requested
     end
 
@@ -60,7 +66,7 @@ describe Mendeley do
       subject.access_token = nil
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
       stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials").to_return(:headers => { "Content-Type" => "application/json" }, :body => "Credentials are required to access this resource.", :status => 401)
-      subject.get_data(article, options = { :source_id => subject.id }).should be_nil
+      subject.get_data(article, options = { :source_id => subject.id }).should eq({})
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -71,24 +77,24 @@ describe Mendeley do
   end
 
   it "should report that there are no events if the doi, pmid, mendeley uuid and title are missing" do
-    article_without_ids = FactoryGirl.build(:article, :doi => "", :pmid => "", :mendeley_uuid => "", :title => "")
-    subject.get_data(article_without_ids).should eq(events: [], event_count: nil)
+    article_without_ids = FactoryGirl.build(:article, :doi => nil, :pmid => "", :mendeley_uuid => "", :title => "")
+    subject.get_data(article_without_ids).should eq({})
   end
 
   context "use the Mendeley API for uuid lookup" do
     let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "") }
 
     it "should return the Mendeley uuid by the Mendeley API" do
-      stub = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       subject.get_mendeley_uuid(article).should eq("46cb51a0-6d08-11df-afb8-0026b95d30b2")
       stub.should have_been_requested
     end
 
     it "should return the Mendeley uuid by searching the Mendeley API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001", :mendeley_uuid => "")
-      stub = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_doi = stub_request(:get, subject.get_query_url(article, "doi")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_title = stub_request(:get, subject.get_query_url(article, "title")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
+      stub = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
+      stub_doi = stub_request(:get, subject.get_lookup_url(article, "doi")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
+      stub_title = stub_request(:get, subject.get_lookup_url(article, "title")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
       subject.get_mendeley_uuid(article).should eq("1779af10-6d0c-11df-a2b2-0026b95e3eb7")
       stub.should have_been_requested
       stub_doi.should have_been_requested
@@ -96,9 +102,9 @@ describe Mendeley do
     end
 
     it "should return nil for the Mendeley uuid if the Mendeley API returns malformed response" do
-      stub = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_doi = stub_request(:get, subject.get_query_url(article, "doi")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
-      stub_title = stub_request(:get, subject.get_query_url(article, "title")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
+      stub = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
+      stub_doi = stub_request(:get, subject.get_lookup_url(article, "doi")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 200)
+      stub_title = stub_request(:get, subject.get_lookup_url(article, "title")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
       subject.get_mendeley_uuid(article).should be_nil
       stub.should have_been_requested
       stub_doi.should have_been_requested
@@ -107,9 +113,9 @@ describe Mendeley do
     end
 
     it "should return nil for the Mendeley uuid if the Mendeley API returns incomplete response" do
-      stub = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
-      stub_doi = stub_request(:get, subject.get_query_url(article, "doi")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
-      stub_title = stub_request(:get, subject.get_query_url(article, "title")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
+      stub = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
+      stub_doi = stub_request(:get, subject.get_lookup_url(article, "doi")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
+      stub_title = stub_request(:get, subject.get_lookup_url(article, "title")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_search.json'), :status => 200)
       subject.get_mendeley_uuid(article).should be_nil
       stub.should have_been_requested
       stub_doi.should have_been_requested
@@ -118,43 +124,45 @@ describe Mendeley do
     end
   end
 
-  context "use the Mendeley API for metrics" do
+  context "get_data for metrics" do
     it "should report if there are events and event_count returned by the Mendeley API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2")
       body = File.read(fixture_path + 'mendeley.json')
-      stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      stub_related = stub_request(:get, subject.get_related_url(article.mendeley_uuid)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
       response = subject.get_data(article)
-      response[:events].should be_true
-      response[:events_url].should be_true
-      response[:event_count].should eq(4)
+      response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
     it "should report no events and event_count if the Mendeley API returns incomplete response" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
-      stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_incomplete.json'), :status => 200)
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      body = File.read(fixture_path + 'mendeley_incomplete.json')
+      stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      response = subject.get_data(article)
+      response.should eq(JSON.parse(body))
       stub.should have_been_requested
       Alert.count.should == 0
     end
 
     it "should report no events and event_count if the Mendeley API returns malformed response" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
-      stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_nil.json'), :status => 404)
-      subject.get_data(article).should eq(events: [], event_count: nil)
-      stub.should have_been_requested
+      body = File.read(fixture_path + 'mendeley_nil.json')
+      stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 404)
+      response = subject.get_data(article)
+      response.should eq(error: JSON.parse(body))
       Alert.count.should == 0
     end
 
     it "should report no events and event_count if the Mendeley API returns not found error" do
       article = FactoryGirl.build(:article)
-      stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_error.json'), :status => 404)
-      subject.get_data(article).should eq(events: [], event_count: nil)
+      body = File.read(fixture_path + 'mendeley_error.json')
+      stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 404)
+      response = subject.get_data(article)
+      response.should eq(error: JSON.parse(body)['error'])
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -162,28 +170,78 @@ describe Mendeley do
     it "should filter out the mendeley_authors attribute" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pbio.0020002", :mendeley_uuid => "83e9b290-6d01-11df-936c-0026b95e484c")
       body = File.read(fixture_path + 'mendeley_authors_tag.json')
-      stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_authors_tag.json'), :status => 200)
+      stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_authors_tag.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
-      stub_related = stub_request(:get, subject.get_related_url(article.mendeley_uuid)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley_related.json'), :status => 200)
       response = subject.get_data(article)
-      response[:events].should be_true
-      response[:events]["mendeley_authors"].should be_nil
-      response[:events_url].should be_true
-      response[:event_count].should eq(29)
+      response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
-    it "should catch errors with the Mendeley API" do
+    it "should catch timeout errors with the Mendeley API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
-      stub_uuid = stub_request(:get, subject.get_query_url(article, "pmid")).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
+      stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'mendeley.json'), :status => 200)
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      subject.get_data(article, source_id: subject.id).should be_nil
+      response = subject.get_data(article, source_id: subject.id)
+      response.should eq(error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{article.mendeley_uuid}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("Net::HTTPRequestTimeOut")
       alert.status.should == 408
       alert.source_id.should == subject.id
+    end
+  end
+
+  context "parse_data for metrics" do
+    let(:article) { FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2") }
+    let(:null_response) { { :events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 } } }
+
+    it "should report if the doi, pmid, mendeley uuid and title are missing" do
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
+    it "should report if there are events and event_count returned by the Mendeley API" do
+      body = File.read(fixture_path + 'mendeley.json')
+      result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
+      response = subject.parse_data(result, article)
+      response[:events].should be_true
+      response[:events_url].should be_true
+      response[:event_count].should eq(4)
+    end
+
+    it "should report no events and event_count if the Mendeley API returns incomplete response" do
+      body = File.read(fixture_path + 'mendeley_incomplete.json')
+      result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(null_response)
+      Alert.count.should == 0
+    end
+
+    it "should report no events and event_count if the Mendeley API returns malformed response" do
+      body = File.read(fixture_path + 'mendeley_nil.json')
+      result = { 'data' => body }
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(null_response)
+      Alert.count.should == 0
+    end
+
+    it "should report no events and event_count if the Mendeley API returns not found error" do
+      body = File.read(fixture_path + 'mendeley_error.json')
+      result = { error: JSON.parse(body) }
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(null_response)
+      Alert.count.should == 0
+    end
+
+    it "should catch timeout errors with the Mendeley API" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
+      result = { error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{article.mendeley_uuid}" }
+      result.extend Hashie::Extensions::DeepFetch
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

@@ -19,52 +19,44 @@
 # limitations under the License.
 
 class Facebook < Source
-  def get_data(article, options={})
-    # Store an empty response if article DOI doesn't resolve to a URL that we can store
-    return { events: [], event_count: nil } unless article.get_url
-
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
-
-    return nil if result.nil? || result["data"].nil?
-
-    events = result["data"]
-
-    # don't trust results if event count is above preset limit
-    # workaround for Facebook getting confused about the canonical URL
-    if events[0]["total_count"] > count_limit.to_i
-      shares = 0
-      comments = 0
-      likes = 0
-      total = 0
-    else
-      shares = events[0]["share_count"]
-      comments = events[0]["comment_count"]
-      likes = events[0]["like_count"]
-      total = events[0]["total_count"]
-    end
-
-    { :events => events,
-      :event_count => total,
-      :event_metrics => get_event_metrics(shares: shares, comments: comments, likes: likes, total: total) }
-  end
-
   def get_query_url(article, options={})
+    return nil unless article.get_url
+
     URI.escape(url % { access_token: access_token, query_url: article.canonical_url_escaped })
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "access_token", :field_type => "text_field"},
-     {:field_name => "count_limit", :field_type => "text_field"}]
+  def parse_data(result, article, options={})
+    return result if result[:error]
+
+    result.extend Hashie::Extensions::DeepFetch
+
+    # don't trust results if event count is above preset limit
+    # workaround for Facebook getting confused about the canonical URL
+    total = result.deep_fetch('data', 0, 'total_count') { 0 }
+    if total > count_limit.to_i
+      shares, comments, likes, total = 0, 0, 0, 0
+    else
+      shares = result.deep_fetch('data', 0, 'share_count') { 0 }
+      comments = result.deep_fetch('data', 0, 'comment_count') { 0 }
+      likes = result.deep_fetch('data', 0, 'like_count') { 0 }
+    end
+
+    events = result['data'] || {}
+
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(shares: shares, comments: comments, likes: likes, total: total) }
+  end
+
+  def config_fields
+    [:url, :access_token, :count_limit]
   end
 
   def url
     config.url || "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'"
-  end
-
-  def access_token
-    config.access_token
   end
 
   def count_limit

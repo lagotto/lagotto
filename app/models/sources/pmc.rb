@@ -22,28 +22,30 @@ class Pmc < Source
   # include date methods concern
   include Dateable
 
-  def get_data(article, options={})
-    # Check that article has DOI and is at least one day old
-    return { events: [], event_count: nil } if article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day
+  def parse_data(result, article, options={})
+    return result if result[:error]
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
+    events = Array(result["views"])
 
-    # an error occured
-    return nil if result.nil?
+    pdf = get_sum(events, 'pdf')
+    html = get_sum(events, 'full-text')
+    total = pdf + html
 
-    # no data for this article
-    return { events: [], event_count: nil } unless result['views']
+    { events: events,
+      events_by_day: [],
+      events_by_month: get_events_by_month(events),
+      events_url: get_events_url(article),
+      event_count: total,
+      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
+  end
 
-    events = result["views"]
-
-    pdf = events.nil? ? 0 : events.reduce(0) { |sum, hash| sum + hash["pdf"].to_i }
-    html = events.nil? ? 0 : events.reduce(0) { |sum, hash| sum + hash["full-text"].to_i }
-    event_count = pdf + html
-
-    { :events => events,
-      :event_count => event_count,
-      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: event_count) }
+  def get_events_by_month(events)
+    events.map do |event|
+      { month: event['month'].to_i,
+        year: event['year'].to_i,
+        html: event['full-text'].to_i,
+        pdf: event['pdf'].to_i }
+    end
   end
 
   # Retrieve usage stats in XML and store in /data directory. Returns an empty array if no error occured
@@ -117,16 +119,20 @@ class Pmc < Source
     journals_with_errors
   end
 
-  def put_pmc_database
+  def put_database
     put_alm_data(url)
   end
 
-  def get_query_url(article)
-    "#{url}#{article.doi_escaped}"
+  def get_feed_url(month, year, journal)
+    feed_url % { year: year, month: month, journal: journal, username: username, password: password }
   end
 
-  def get_feed_url(month, year, journal)
-    "http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=#{year}&month=#{month}&jrid=#{journal}&user=#{username}&password=#{password}"
+  def get_events_url(article)
+    if article.pmcid.present?
+      events_url % { :pmcid => article.pmcid }
+    else
+      nil
+    end
   end
 
   # Format Pmc events for all articles as csv
@@ -160,11 +166,8 @@ class Pmc < Source
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "journals", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "username", :field_type => "text_field"},
-     {:field_name => "password", :field_type => "password_field"}]
+  def config_fields
+    [:url, :feed_url, :events_url, :journals, :username, :password]
   end
 
   def url
@@ -174,6 +177,14 @@ class Pmc < Source
   def url=(value)
     # make sure we have trailing slash
     config.url = value ? value.chomp("/") + "/" : nil
+  end
+
+  def feed_url
+    config.feed_url || "http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=%{year}&month=%{month}&jrid=%{journal}&user=%{username}&password=%{password}"
+  end
+
+  def events_url
+    config.events_url  || "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC%{pmcid}"
   end
 
   def journals

@@ -32,7 +32,7 @@ module Couchable
     end
 
     def get_alm_rev(id, options={})
-      head_alm_data("#{couchdb_url}#{id}", options)
+      head_alm_data("#{couchdb_url}#{id}", options)[:rev]
     end
 
     def head_alm_data(url, options = { timeout: DEFAULT_TIMEOUT })
@@ -41,14 +41,14 @@ module Couchable
       conn.options[:timeout] = options[:timeout]
       response = conn.head url
       # CouchDB revision is in etag header. We need to remove extra double quotes
-      rev = response.env[:response_headers][:etag][1..-2]
+      { rev: response.env[:response_headers][:etag][1..-2] }
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options.merge(head: true))
     end
 
     def save_alm_data(id, options = { data: nil })
       data_rev = get_alm_rev(id)
-      unless data_rev.blank?
+      if data_rev.present?
         options[:data][:_id] = "#{id}"
         options[:data][:_rev] = data_rev
       end
@@ -90,6 +90,9 @@ module Couchable
       put_alm_data(couchdb_url)
       filter = Faraday::UploadIO.new('design_doc/filter.json', 'application/json')
       put_alm_data("#{couchdb_url}_design/filter", data: filter)
+
+      reports = Faraday::UploadIO.new('design_doc/reports.json', 'application/json')
+      put_alm_data("#{couchdb_url}_design/reports", data: reports)
     end
 
     def delete_alm_database

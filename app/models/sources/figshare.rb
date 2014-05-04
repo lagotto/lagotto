@@ -19,36 +19,32 @@
 # limitations under the License.
 
 class Figshare < Source
-  def get_data(article, options={})
-    return { events: [], event_count: nil } unless article.is_publisher?
+  def get_query_url(article)
+    return nil unless article.doi =~ /^10.1371/
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
+    url % { :doi => article.doi }
+  end
 
-    return nil if result.nil?
+  def parse_data(result, article, options={})
+    return result if result[:error]
 
-    return { events: [], event_count: nil } if result.empty? || result["items"].empty?
+    events = Array(result["items"])
 
-    views = get_sum(result["items"], 'page_views')
-    downloads = get_sum(result["items"], 'downloads')
-    likes = get_sum(result["items"], 'likes')
+    views = get_sum(events, 'stats', 'page_views')
+    downloads = get_sum(events, 'stats', 'downloads')
+    likes = get_sum(events, 'stats', 'likes')
 
     total = views + downloads + likes
 
-    { :events => result,
-      :event_count => total,
-      :event_metrics => get_event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
   end
 
-  def get_sum(items, key)
-    items.reduce(0) { |sum, hash| sum + hash["stats"][key].to_i }
-  end
-
-  def get_query_url(article)
-    config.url % { :doi => article.doi }
-  end
-
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url]
   end
 end

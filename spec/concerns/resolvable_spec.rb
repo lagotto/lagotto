@@ -72,7 +72,7 @@ describe Article do
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'article.html'))
         response = subject.get_canonical_url(article.doi_as_url)
-        response.should be_nil
+        response.should eq(error: "Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for http://www.plosone.org/article/info:doi/#{article.doi}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Faraday::ResourceNotFound")
@@ -85,7 +85,7 @@ describe Article do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 404, :body => File.read(fixture_path + 'doi_not_found.html'))
         response = subject.get_canonical_url(article.doi_as_url)
-        response.should be_blank
+        response.should eq(error: "DOI could not be resolved")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Faraday::ResourceNotFound")
@@ -97,7 +97,7 @@ describe Article do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 401)
         response = subject.get_canonical_url(article.doi_as_url)
-        response.should be_nil
+        response.should eq(error: "the server responded with status 401 for http://dx.doi.org/#{article.doi}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPUnauthorized")
@@ -109,7 +109,7 @@ describe Article do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => [408])
         response = subject.get_canonical_url(article.doi_as_url)
-        response.should be_nil
+        response.should eq(error: "the server responded with status 408 for http://dx.doi.org/#{article.doi}")
         Alert.count.should == 1
         alert = Alert.first
         alert.class_name.should eq("Net::HTTPRequestTimeOut")

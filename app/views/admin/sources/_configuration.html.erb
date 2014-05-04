@@ -10,18 +10,14 @@
       <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
       <%= f.input :description, :input_html => { :rows => 3 } %>
 
-      <% if not @source.get_config_fields.empty? %>
-        <% @source.get_config_fields.each do |field| %>
-          <% if field[:field_type] == "check_box" %>
-            <%= f.input field[:field_name], :as => :boolean, :label => field[:field_name].gsub(/_/, " ").capitalize %>
-          <% elsif field[:field_type] == "text_field" %>
-            <%= f.input field[:field_name] %>
-          <% elsif field[:field_type] == "text_area" %>
-            <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2) } %>
-          <% elsif field[:field_type] == "password_field" %>
-            <%= f.input field[:field_name], :as => :string %>
-          <% elsif field[:field_type] == "hidden_field" %>
-            <%= f.input field[:field_name], :as => :hidden %>
+      <% if not @source.config_fields.empty? %>
+        <% @source.config_fields.each do |field| %>
+          <% if field == "password" %>
+            <%= f.input field, :as => :string %>
+          <% elsif field == "expires_at" %>
+            <%= f.input field, :as => :hidden %>
+          <% else %>
+            <%= f.input field %>
           <% end %>
         <% end %>
       <% end %>
@@ -82,15 +78,11 @@
     <thead>
     </thead>
     <tbody>
-      <% unless @source.get_config_fields.empty? %>
-        <% @source.get_config_fields.each do |field| %>
+      <% unless @source.config_fields.empty? %>
+        <% @source.config_fields.each do |field| %>
           <tr>
-            <th><%= field[:field_name].gsub(/_/, " ").capitalize %></th>
-            <% if ["username", "password", "client_id", "secret", "access_token", "api_key"].include?(field[:field_name]) %>
-              <td><em>hidden</em></td>
-            <% else %>
-              <td><%= @source.send(field[:field_name]) %></td>
-            <% end %>
+            <th><%= field.to_s.gsub(/_/, " ").capitalize %></th>
+            <td><%= @source.send(field) %></td>
           </tr>
         <% end %>
       <% end %>

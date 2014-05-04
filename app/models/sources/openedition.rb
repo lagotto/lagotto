@@ -19,42 +19,30 @@
 # limitations under the License.
 
 class Openedition < Source
-  def get_data(article, options={})
-    return { events: [], event_count: nil } if article.doi.blank?
+  def request_options
+    { content_type: 'xml' }
+  end
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml'))
-
-    # Check that Openedition has returned something, otherwise an error must have occured
-    return nil if result.nil?
-
-    events = []
-    result.remove_namespaces!
-    result.xpath("//item").each do |item|
-      event = Hash.from_xml(item.to_s)
-      event = event['item']
-      events << { :event => event, :event_url => event['link'] }
+  def get_events(result)
+    events = result.deep_fetch('RDF', 'item') { nil }
+    events = [events] if events.is_a?(Hash)
+    Array(events).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item["date"]),
+        event_url: item['link'] }
     end
-
-    events_url = "http://search.openedition.org/index.php?op%5B%5D=AND&q%5B%5D=#{article.doi_escaped}&field%5B%5D=All&pf=Hypotheses.org"
-
-    { :events => events,
-      :events_url => events_url,
-      :event_count => events.length,
-      :event_metrics => get_event_metrics(citations: events.length),
-      :attachment => events.empty? ? nil : { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
   end
 
-  def get_query_url(article)
-    url % { :query_url => article.doi_escaped }
-  end
-
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
-    config.url || "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_url}&field[]=All&pf=Hypotheses.org"
+    config.url || "http://search.openedition.org/feed.php?op[]=AND&q[]=%{doi}&field[]=All&pf=Hypotheses.org"
+  end
+
+  def events_url
+    config.events_url || "http://search.openedition.org/index.php?op[]=AND&q[]=%{doi}&field[]=All&pf=Hypotheses.org"
   end
 
   def staleness_year

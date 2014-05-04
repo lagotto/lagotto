@@ -41,9 +41,10 @@ module Networkable
       else
         response = conn.get url, {}, options[:headers]
       end
-      # We had issues with the Faraday XML parsing
+      # We had issues with the Faraday XML parsing via multi_xml
+      # we use ActiveSupport XML parsing instead
       if options[:content_type] == 'xml'
-        Nokogiri::XML(response.body)
+        Hash.from_xml(response.body)
       else
         response.body
       end
@@ -59,6 +60,20 @@ module Networkable
 
       File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(response.body) }
       filename
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
+    rescue => exception
+      Alert.create(:exception => exception,
+                   :class_name => exception.class.to_s,
+                   :message => exception.message,
+                   :status => 500,
+                   :source_id => options[:source_id])
+      nil
+    end
+
+    def read_from_file(filename = "tmpdata", options = { content_type: 'xml' })
+      file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
+      Hash.from_xml(file)
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     rescue => exception
@@ -93,7 +108,7 @@ module Networkable
     def rescue_faraday_error(url, error, options={})
       if error.kind_of?(Faraday::Error::ResourceNotFound)
         if error.response.blank? && error.response[:body].blank?
-          nil
+          { error: "resource not found" }
         # we raise an error if we find a canonical URL mismatch
         elsif options[:doi_mismatch]
           Alert.create(exception: error.exception,
@@ -102,7 +117,7 @@ module Networkable
                        details: error.response[:body],
                        status: 404,
                        target_url: url)
-          nil
+          { error: error.response[:message] }
         # we raise an error if a DOI can't be resolved
         elsif options[:doi_lookup]
           Alert.create(exception: error.exception,
@@ -111,15 +126,14 @@ module Networkable
                        details: error.response[:body],
                        status: error.response[:status],
                        target_url: url)
-          nil
-        elsif options[:content_type] == 'xml'
-          Nokogiri::XML(error.response[:body])
+          { error: "DOI could not be resolved" }
         else
-          error.response[:body]
+          error = parse_error_response(error.response[:body])
+          { error: error }
         end
       # malformed JSON is treated as ResourceNotFound
       elsif error.message.include?("unexpected token")
-        nil
+        { error: "unexpected token for JSON" }
       else
         details = nil
 
@@ -142,8 +156,9 @@ module Networkable
 
         class_name = class_by_status(status) || error.class
 
-        message = "#{error.message} for #{url}"
-        message = "#{error.message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
+        message = parse_error_response(error.message)
+        message = "#{message} for #{url}"
+        message = "#{message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
 
         Alert.create(exception: exception,
                      class_name: class_name.to_s,
@@ -152,7 +167,7 @@ module Networkable
                      status: status,
                      target_url: url,
                      source_id: options[:source_id])
-        nil
+        { error: message }
       end
     end
 
@@ -172,6 +187,26 @@ module Networkable
         when 503 then Net::HTTPServiceUnavailable
         else nil
         end
+    end
+
+    def parse_error_response(string)
+      if is_json?(string)
+        string = JSON.parse(string)
+      elsif is_xml?(string)
+        string = Hash.from_xml(string)
+      end
+      string = string['error'] if string.is_a?(Hash) && string['error']
+      string
+    end
+
+    def is_xml?(string)
+      Nokogiri::XML(string).errors.empty?
+    end
+
+    def is_json?(string)
+      JSON.parse(string)
+    rescue JSON::ParserError
+      false
     end
   end
 end

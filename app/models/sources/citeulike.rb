@@ -19,44 +19,34 @@
 # limitations under the License.
 
 class Citeulike < Source
-  def get_data(article, options = {})
-    return { events: [], event_count: nil } if article.doi.blank?
-
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml'))
-
-    return nil if result.nil?
-
-    events = []
-    result.xpath("//post").each do |item|
-      event = Hash.from_xml(item.to_s)
-      event = event['post']
-      events << {:event => event, :event_url => event['link']['url']}
-    end
-
-    events_url = get_events_url(article)
-
-    { :events => events,
-      :events_url => events_url,
-      :event_count => events.length,
-      :event_metrics => get_event_metrics(shares: events.length),
-      :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
+  def request_options
+    { content_type: 'xml' }
   end
 
-  def get_events_url(article)
-    unless article.doi.blank?
-      "http://www.citeulike.org/doi/#{article.doi}"
-    else
-      nil
+  def response_options
+    { metrics: :shares }
+  end
+
+  def get_events(result)
+    events = result['posts'] && result.deep_fetch('posts', 'post') { [] }
+    events = [events] if events.is_a?(Hash)
+    Array(events).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item["post_time"]),
+        event_url: item['link']['url'] }
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
     config.url  || "http://www.citeulike.org/api/posts/for/doi/%{doi}"
+  end
+
+  def events_url
+    config.events_url  || "http://www.citeulike.org/doi/%{doi}"
   end
 
   def rate_limiting

@@ -1,7 +1,4 @@
 class RetrievalStatusDecorator < Draper::Decorator
-  # include metrics by day, month and year
-  include Visualizable
-
   # helper methods
   include Measurable
 
@@ -49,6 +46,21 @@ class RetrievalStatusDecorator < Draper::Decorator
     else
     # crossref, pubmed, researchblogging, nature, scienceseeker, wikipedia, pmceurope, pmceuropedata, wordpress, openedition
       { :pdf => nil, :html => nil, :shares => nil, :groups => nil, :comments => nil, :likes => nil, :citations => event_count, :total => event_count }
+    end
+  end
+
+  def by_year
+    return [] if by_month.blank?
+
+    by_month.group_by { |event| event["year"] }.sort.map do |k, v|
+      if ['counter', 'pmc'].include?(name)
+        { year: k.to_i,
+          pdf: v.reduce(0) { |sum, hash| sum + hash['pdf'].to_i },
+          html: v.reduce(0) { |sum, hash| sum + hash['html'].to_i } }
+      else
+        { year: k.to_i,
+          total: v.reduce(0) { |sum, hash| sum + hash['total'].to_i } }
+      end
     end
   end
 

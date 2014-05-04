@@ -19,53 +19,99 @@
 # limitations under the License.
 
 class F1000 < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
+  def parse_data(result, article, options={})
+    return result if result[:error]
 
-    # Check that most recent F1000 XML exists, otherwise download it
-    document = get_feed(options)
+    events = get_events(result)
 
-    return nil if document.nil?
+    if events.empty?
+      event_count = 0
+      events_url = nil
+    else
+      event = events.last[:event]
+      event_count = event['score']
+      events_url = event['url']
+    end
 
-    result = document.at_xpath("//Article[Doi='#{article.doi}']")
-
-    # F1000 doesn't know about the article
-    return  { :events => [], :event_count => 0 } if result.nil?
-
-    event = result.to_s
-    event = Hash.from_xml(event)
-    event = event["Article"]
-    event_count = event["TotalScore"].to_i
-
-    { :events => event,
-      :events_url => event["Url"],
-      :event_count => event_count,
-      :event_metrics => get_event_metrics(citations: event_count),
-      :attachment => { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }
-    }
+    { events: events,
+      events_by_day: [],
+      events_by_month: get_events_by_month(events),
+      events_url: events_url,
+      event_count: event_count,
+      event_metrics: get_event_metrics(citations: event_count) }
   end
 
+  def get_events(result)
+    result['recommendations'] ||= {}
+    Array(result['recommendations']).map { |item| { :event => item, :event_url => item['url'] } }
+  end
+
+  # Retrieve f1000 XML feed and store in /data directory.
   def get_feed(options={})
-    # Check that most recent F1000 XML exists, otherwise download it
-    file = "#{Rails.root}/data/#{filename}"
-    last_time = CronParser.new(cron_line).last(Time.now)
+    save_to_file(feed_url, filename, options.merge(source_id: id))
+  end
 
-    if File.exists?(file) && File.mtime(file) >= last_time && File.file?(file)
-      Nokogiri::XML(File.open(file))
-    else
-      document = get_result(url, options.merge(content_type: 'xml', source_id: id))
-
-      return nil if document.nil?
-
-      File.open(file, 'w') { |file| file.write(document.to_s) }
-      document
+  def get_events_by_month(events)
+    events.map do |event|
+      { month: event['month'],
+        year: event['year'],
+        total: event['score'] }
     end
   end
 
-  def get_config_fields
-    [{ :field_name => "url", :field_type => "text_area", :size => "90x2" },
-     { :field_name => "filename", :field_type => "text_field", :size => 90 }]
+  # Parse f1000 feed and store in CouchDB. Returns an empty array if no error occured
+  def parse_feed(options={})
+    document = read_from_file(filename)
+    document.extend Hashie::Extensions::DeepFetch
+
+    return nil if document['ObjectList']['Article'].empty?
+
+    Array(document['ObjectList']['Article']).each do |article|
+      doi = article['Doi']
+      # sometimes doi metadata are missing
+      break unless doi
+
+      # turn classifications into array with lowercase letters
+      classifications = article['Classifications'] ? article['Classifications'].downcase.split(", ") : []
+
+      year = Time.zone.now.year
+      month = Time.zone.now.month
+
+      recommendation = { 'year' => year,
+                         'month' => month,
+                         'doi' => doi,
+                         'f1000_id' => article['Id'],
+                         'url' => article['Url'],
+                         'score' => article['TotalScore'].to_i,
+                         'classifications' => classifications,
+                         'updated_at' => Time.now.utc.iso8601 }
+
+      # try to get the existing information about the given article
+      data = get_result("#{url}#{CGI.escape(doi)}")
+
+      if data['recommendations'].nil?
+        data = { 'recommendations' => [recommendation] }
+      else
+        # update existing entry
+        data['recommendations'].delete_if { |recommendation| recommendation['month'] == month && recommendation['year'] == year }
+        data['recommendations'] << recommendation
+      end
+
+      # store updated information in CouchDB
+      put_alm_data("#{url}#{CGI.escape(doi)}", data: data)
+    end
+  end
+
+  def put_database
+    put_alm_data(url)
+  end
+
+  def get_feed_url
+    feed_url
+  end
+
+  def config_fields
+    [:url, :feed_url, :filename]
   end
 
   def filename
@@ -76,7 +122,16 @@ class F1000 < Source
     config.filename = value
   end
 
+  def url
+    config.url || "http://127.0.0.1:5984/f1000/"
+  end
+
+  def url=(value)
+    # make sure we have trailing slash
+    config.url = value ? value.chomp("/") + "/" : nil
+  end
+
   def cron_line
-    config.cron_line || "* 03 * * 3"
+    config.cron_line || "* 02 * * 1"
   end
 end

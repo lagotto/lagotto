@@ -22,62 +22,51 @@ class Counter < Source
   # include date methods concern
   include Dateable
 
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } unless article.doi =~ /^10.1371/
+  def get_query_url(article)
+    return nil unless article.doi =~ /^10.1371/
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml'))
+    url % { :doi => article.doi_escaped }
+  end
 
-    return nil if result.nil?
+  def request_options
+    { content_type: "xml"}
+  end
 
-    views = []
-    event_count = 0
-    result.xpath("//rest/response/results/item").each do | view |
+  def parse_data(result, article, options={})
+    return result if result[:error]
 
-      month = view.at_xpath("month")
-      year = view.at_xpath("year")
-      month = view.at_xpath("month")
-      html = view.at_xpath("get-document")
-      xml = view.at_xpath("get-xml")
-      pdf = view.at_xpath("get-pdf")
+    events = get_events(result)
 
-      curMonth = {}
-      curMonth[:month] = month.content
-      curMonth[:year] = year.content
+    pdf = get_sum(events, :pdf_views)
+    html = get_sum(events, :html_views)
+    xml = get_sum(events, :xml_views)
+    total = pdf + html + xml
 
-      if pdf
-        curMonth[:pdf_views] = pdf.content
-        event_count += pdf.content.to_i
-      else
-        curMonth[:pdf_views] = 0
-      end
+    { events: events,
+      events_by_day: [],
+      events_by_month: get_events_by_month(events),
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
+  end
 
-      if xml
-        curMonth[:xml_views] = xml.content
-        event_count += xml.content.to_i
-      else
-        curMonth[:xml_views] = 0
-      end
-
-      if html
-        curMonth[:html_views] = html.content
-        event_count += html.content.to_i
-      else
-        curMonth[:html_views] = 0
-      end
-
-      views << curMonth
+  def get_events(result)
+    Array(result.deep_fetch('rest', 'response', 'results', 'item') { [] }).map do |item|
+      { month: item['month'],
+        year: item['year'],
+        pdf_views: item.fetch('get_pdf') { 0 },
+        xml_views: item.fetch('get_xml') { 0 },
+        html_views: item.fetch('get_document') { 0 } }
     end
+  end
 
-    pdf = views.nil? ? nil : views.reduce(0) { |sum, hash| sum + hash[:pdf_views].to_i }
-    html = views.nil? ? nil : views.reduce(0) { |sum, hash| sum + hash[:html_views].to_i }
-
-    { :events => views,
-      :events_url => query_url,
-      :event_count => event_count,
-      :event_metrics => get_event_metrics(pdf: pdf, html: html, total: event_count),
-      :attachment => views.empty? ? nil : { filename: "events.xml", content_type: "text\/xml", data: result.to_s } }
+  def get_events_by_month(events)
+    events.map do |event|
+      { month: event[:month].to_i,
+        year: event[:year].to_i,
+        html: event[:html_views].to_i,
+        pdf: event[:pdf_views].to_i }
+    end
   end
 
   # Format Counter events for all articles as csv
@@ -111,8 +100,8 @@ class Counter < Source
     end
   end
 
-  def get_config_fields
-    [{ :field_name => "url", :field_type => "text_area", :size => "90x2" }]
+  def config_fields
+    [:url]
   end
 
   def cron_line

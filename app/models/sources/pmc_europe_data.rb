@@ -19,39 +19,51 @@
 # limitations under the License.
 
 class PmcEuropeData < Source
-  def get_data(article, options={})
-    # First, we need to have the pmid for this article.
-    # Get it if we don't have it, and proceed only if we do.
-    return { events: [], event_count: nil } unless article.get_ids && article.pmid.present?
+  def get_query_url(article)
+    return nil unless article.get_ids && article.pmid.present?
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
+    url % { :pmid => article.pmid }
+  end
 
-    return nil if result.nil?
+  def parse_data(result, article, options={})
+    return result if result[:error]
 
-    event_count = result["hitCount"]
-
-    if result["dbCountList"]
-      events = result["dbCountList"]["db"].reduce({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
-    else
-      events = nil
-    end
+    event_count = result["hitCount"] || 0
+    events = get_events(result)
 
     { events: events,
-      events_url: "http://europepmc.org/abstract/MED/#{article.pmid}#fragment-related-bioentities",
+      events_by_day: [],
+      events_by_month: [],
+      events_url: get_events_url(article),
       event_count: event_count,
       event_metrics: get_event_metrics(citations: event_count) }
   end
 
-  def get_query_url(article)
-    url % { :pmid => article.pmid }
+  def get_events(result)
+    if result["dbCountList"]
+      result["dbCountList"]["db"].reduce({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
+    else
+      []
+    end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def get_events_url(article)
+    if article.pmid.present?
+      events_url % { :pmid => article.pmid }
+    else
+      nil
+    end
+  end
+
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
     config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pmid}/databaseLinks//1/json"
+  end
+
+  def events_url
+    config.events_url || "http://europepmc.org/abstract/MED/%{pmid}#fragment-related-bioentities"
   end
 end

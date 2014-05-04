@@ -22,15 +22,10 @@ module Configurable
   extend ActiveSupport::Concern
 
   included do
-
-    # Array of hashes for forms, defined in subclassed sources
-    def get_config_fields
-      []
-    end
-
-    # List of field names for strong_parameters and validations
+    # List of field names for forms, strong_parameters and validations,
+    # defined in subclassed sources
     def config_fields
-      get_config_fields.map { |f| f[:field_name].to_sym }
+      []
     end
 
     def url
@@ -47,6 +42,14 @@ module Configurable
 
     def events_url=(value)
       config.events_url = value
+    end
+
+    def feed_url
+      config.feed_url
+    end
+
+    def feed_url=(value)
+      config.feed_url = value
     end
 
     def username

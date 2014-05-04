@@ -19,40 +19,44 @@
 # limitations under the License.
 
 class ScienceSeeker < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
-
-    query_url = get_query_url(article)
-    result = get_result(query_url, options.merge(content_type: 'xml'))
-
-    # Check that ScienceSeeker has returned something, otherwise an error must have occured
-    return nil if result.nil?
-
-    result.remove_namespaces!
-
-    events = []
-    result.xpath("//entry").each do |entry|
-      event = Hash.from_xml(entry.to_s)
-      event = event['entry']
-      events << { :event => event, :event_url => event['link']['href'] }
-    end
-
-    events_url = "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi}"
-
-    { :events => events,
-      :events_url => events_url,
-      :event_count => events.length,
-      :event_metrics => get_event_metrics(citations: events.length),
-      :attachment => events.empty? ? nil : { :filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
+  def request_options
+    { content_type: 'xml' }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def get_events(result)
+    result["feed"] ||= {}
+    Array(result['feed']['entry']).map do |item|
+      item.extend Hashie::Extensions::DeepFetch
+      event_time = get_iso8601_from_time(item["updated"])
+      url = item['link']['href']
+
+      { event: item,
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(item.deep_fetch('author', 'name') { '' }),
+          'title' => item.fetch('title') { '' },
+          'container-title' => item.deep_fetch('source', 'title') { '' },
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'post'
+        }
+      }
+    end
+  end
+
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
     config.url || "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
+  end
+
+  def events_url
+    config.events_url || "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=%{doi}"
   end
 
   def staleness_year

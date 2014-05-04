@@ -19,29 +19,54 @@
 # limitations under the License.
 
 class Wordpress < Source
-  def get_data(article, options={})
-    # Check that article has DOI
-    return  { events: [], event_count: nil } if article.doi.blank?
+  def parse_data(result, article, options = {})
+    # workaround as wordpress doesn't properly handle not found errors
+    result = { 'data' => [] } if result[:error] == "unexpected token for JSON"
 
-    query_url = get_query_url(article)
-    result = get_result(query_url, options)
+    return result if result[:error]
 
-    return { events: [], event_count: 0 } if result.nil?
-
-    events = result.map { |item| { event: item, event_url: item['link'] } }
+    events = get_events(result)
 
     { events: events,
+      events_by_day: get_events_by_day(events, article),
+      events_by_month: get_events_by_month(events),
+      events_url: get_events_url(article),
       event_count: events.length,
-      events_url: "http://en.search.wordpress.com/?q=\"#{article.doi}\"&t=post",
-      event_metrics: get_event_metrics(citations: events.length) }
+      event_metrics: get_event_metrics(:citations => events.length) }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def get_events(result)
+    Array(result['data']).map do |item|
+      event_time = get_iso8601_from_epoch(item["epoch_time"])
+      url = item['link']
+
+      { event: item,
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(item['author']),
+          'title' => item.fetch('title') { '' },
+          'container-title' => '',
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'post'
+        }
+      }
+    end
+  end
+
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
     config.url || "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json&size=20"
+  end
+
+  def events_url
+    config.events_url || "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post"
   end
 
   def rate_limiting

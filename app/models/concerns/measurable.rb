@@ -40,5 +40,25 @@ module Measurable
         :total => options[:total] }
     end
 
+    def get_sum(items, key, nested_key = nil)
+      items.empty? ? 0 : items.reduce(0) do |sum, hash|
+        value = hash[key]
+        value = value[nested_key] if nested_key
+        sum + value.to_i
+      end
+    end
+
+    def get_iso8601_from_time(time)
+      return nil if time.blank?
+
+      Time.parse(time).utc.iso8601
+    end
+
+    def get_iso8601_from_epoch(epoch)
+      return nil if epoch.blank?
+
+      Time.at(epoch.to_i).utc.iso8601
+    end
+
   end
 end

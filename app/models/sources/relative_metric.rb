@@ -15,41 +15,36 @@
 # limitations under the License.
 
 class RelativeMetric < Source
-  def get_data(article, options={})
-    # Check that article has publisher DOI
-    return { events: [], event_count: nil } unless article.is_publisher?
+  def get_query_url(article)
+    return nil unless article.doi =~ /^10.1371/
 
-    events = get_relative_metric_data(article)
+    url % { :doi => article.doi_escaped }
+  end
 
-    return nil if events.blank?
+  def parse_data(result, article, options={})
+    return result if result[:error]
+
+    events = get_events(result, article.published_on.year)
 
     total = events[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }
 
-    { :events => events,
-      :event_count => total,
-      :event_metrics => get_event_metrics(total: total) }
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(total: total) }
   end
 
-  def get_relative_metric_data(article)
-    events = {}
-
-    year = article.published_on.year
-
-    events[:start_date] = "#{year}-01-01T00:00:00Z"
-    events[:end_date] = Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z")
-
-    query_url = get_query_url(article)
-    data = get_result(query_url)
-
-    if data.nil?
-      nil
-    else
-      events[:subject_areas] = data["rows"].map { |row| { :subject_area => row["value"]["subject_area"], :average_usage => row["value"]["data"] } }
-      events
-    end
+  def get_events(result, year)
+    { start_date: "#{year}-01-01T00:00:00Z",
+      end_date: Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z"),
+      subject_areas: Array(result["rows"]).map do |row|
+        { :subject_area => row["value"]["subject_area"], :average_usage => row["value"]["data"] }
+      end }
   end
 
-  def get_config_fields
-    [{ :field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url]
   end
 end

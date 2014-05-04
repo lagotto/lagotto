@@ -52,6 +52,13 @@ class RetrievalStatus < ActiveRecord::Base
   scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
   scope :by_name, lambda { |source| includes(:source).where("sources.name = ?", source) }
 
+  def perform_get_data
+    result = source.get_data(article, timeout: source.timeout, source_id: source_id)
+    data = source.parse_data(result, article, source_id: source_id)
+    history = History.new(id, data)
+    history.to_hash
+  end
+
   def data
     if event_count > 0
       data = get_alm_data("#{source.name}:#{article.uid_escaped}")
@@ -69,10 +76,26 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def metrics
-    unless data.blank?
-      data["event_metrics"]
-    else
+    if data.blank? || data["error"]
       []
+    else
+      data["event_metrics"]
+    end
+  end
+
+  def by_day
+    if data.blank? || data["error"]
+      []
+    else
+      data["events_by_day"]
+    end
+  end
+
+  def by_month
+    if data.blank? || data["error"]
+      []
+    else
+      data["events_by_month"]
     end
   end
 
