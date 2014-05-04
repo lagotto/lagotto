@@ -35,7 +35,7 @@ class F1000 < Source
 
     { events: events,
       events_by_day: [],
-      events_by_month: [],
+      events_by_month: get_events_by_month(events),
       events_url: events_url,
       event_count: event_count,
       event_metrics: get_event_metrics(citations: event_count) }
@@ -49,6 +49,14 @@ class F1000 < Source
   # Retrieve f1000 XML feed and store in /data directory.
   def get_feed(options={})
     save_to_file(feed_url, filename, options.merge(source_id: id))
+  end
+
+  def get_events_by_month(events)
+    events.map do |event|
+      { month: event['month'],
+        year: event['year'],
+        total: event['score'] }
+    end
   end
 
   # Parse f1000 feed and store in CouchDB. Returns an empty array if no error occured
