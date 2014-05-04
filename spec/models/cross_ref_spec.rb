@@ -104,6 +104,12 @@ describe CrossRef do
       response[:event_count].should eq(31)
       event = response[:events].first
       event[:event_url].should eq("http://dx.doi.org/#{event[:event]['doi']}")
+
+      event[:event_csl]['author'].should eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
+      event[:event_csl]['title'].should eq("Audiotactile interactions in temporal perception")
+      event[:event_csl]['container-title'].should eq("Psychonomic Bulletin & Review")
+      event[:event_csl]['issued'].should eq("date_parts"=>["2011"])
+      event[:event_csl]['type'].should eq("article-journal")
     end
 
     it "should catch timeout errors with the CrossRef API" do

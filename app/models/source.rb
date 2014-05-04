@@ -231,6 +231,30 @@ class Source < ActiveRecord::Base
     end
   end
 
+  def get_date_parts(iso8601_time)
+    return nil if iso8601_time.nil?
+
+    year = iso8601_time[0..3].to_i
+    month = iso8601_time[5..6].to_i
+    day = iso8601_time[8..9].to_i
+    { 'date_parts' => [year, month, day] }
+  end
+
+  def get_date_parts_from_parts(year, month = nil, day = nil)
+    { 'date_parts' => [year, month, day].reject(&:blank?) }
+  end
+
+  def get_author(author)
+    return '' if author.blank?
+
+    name_parts = author.split(' ')
+    family = name_parts.last
+    given = name_parts.length > 1 ? name_parts[0..-2].join(' ') : ''
+
+    [{ 'family' => family,
+       'given' => given }]
+  end
+
   # Custom validations that are triggered in state machine
   def validate_config_fields
     config_fields.each do |field|

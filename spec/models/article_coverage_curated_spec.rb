@@ -89,6 +89,13 @@ describe ArticleCoverageCurated do
 
       response[:event_count].should eq(15)
       event = response[:events].first
+
+      event[:event_csl]['author'].should eq("")
+      event[:event_csl]['title'].should eq("Project Description @ Belly Button Biodiversity")
+      event[:event_csl]['container-title'].should eq("")
+      event[:event_csl]['issued'].should be_nil
+      event[:event_csl]['type'].should eq("post")
+
       event_data = event[:event]
       event_data['referral'].should eq("http://www.wildlifeofyourbody.org/?page_id=1348")
       event_data['language'].should eq("English")

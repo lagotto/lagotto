@@ -71,6 +71,13 @@ describe Wordpress do
       response[:events_by_month].first.should eq(year: 2007, month: 7, total: 1)
 
       event = response[:events].first
+
+      event[:event_csl]['author'].should eq([{"family"=>"Piwowar", "given"=>"Heather"}])
+      event[:event_csl]['title'].should eq("Presentation on Citation Rate for Shared Data")
+      event[:event_csl]['container-title'].should eq("")
+      event[:event_csl]['issued'].should eq("date_parts"=>[2007, 7, 12])
+      event[:event_csl]['type'].should eq("post")
+
       event[:event_time].should eq("2007-07-12T15:36:38Z")
       event[:event_url].should eq(event[:event]['link'])
     end

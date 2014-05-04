@@ -61,6 +61,13 @@ describe Twitter do
       response[:events_by_month].first.should eq(year: 2012, month: 5, total: 2)
 
       event = response[:events].first
+
+      event[:event_csl]['author'].should eq([{"family"=>"regrum", "given"=>""}])
+      event[:event_csl]['title'].should eq("Don't be blinded by science http://t.co/YOWRhsXb")
+      event[:event_csl]['container-title'].should eq("Twitter")
+      event[:event_csl]['issued'].should eq("date_parts"=>[2012, 5, 20])
+      event[:event_csl]['type'].should eq("personal_communication")
+
       event[:event_url].should eq("http://twitter.com/regrum/status/204270013081849857")
       event[:event_time].should eq("2012-05-20T17:59:00Z")
       event_data = event[:event]

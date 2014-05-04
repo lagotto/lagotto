@@ -26,9 +26,24 @@ class ScienceSeeker < Source
   def get_events(result)
     result["feed"] ||= {}
     Array(result['feed']['entry']).map do |item|
+      item.extend Hashie::Extensions::DeepFetch
+      event_time = get_iso8601_from_time(item["updated"])
+      url = item['link']['href']
+
       { event: item,
-        event_time: get_iso8601_from_time(item["updated"]),
-        event_url: item['link']['href'] }
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(item.deep_fetch('author', 'name') { '' }),
+          'title' => item.fetch('title') { '' },
+          'container-title' => item.deep_fetch('source', 'title') { '' },
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'post'
+        }
+      }
     end
   end
 

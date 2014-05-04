@@ -26,9 +26,23 @@ class Researchblogging < Source
   def get_events(result)
     events = result.deep_fetch('blogposts', 'post') { [] }
     events.map do |item|
+      event_time = get_iso8601_from_time(item["published_date"])
+      url = item['post_URL']
+
       { event: item,
-        event_time: get_iso8601_from_time(item["published_date"]),
-        event_url: item['post_URL'] }
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(item['blogger_name']),
+          'title' => item.fetch('post_title') { '' },
+          'container-title' => item.fetch('blog_name') { '' },
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'post'
+        }
+      }
     end
   end
 

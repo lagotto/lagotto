@@ -78,6 +78,13 @@ describe Reddit do
       response[:events_by_month].first.should eq(year: 2013, month: 5, total: 2)
 
       event = response[:events].first
+
+      event[:event_csl]['author'].should eq([{"family"=>"jjberg2", "given"=>""}])
+      event[:event_csl]['title'].should eq("AskScience AMA: We are the authors of a recent paper on genetic genealogy and relatedness among the people of Europe. Ask us anything about our paper!")
+      event[:event_csl]['container-title'].should eq("Reddit")
+      event[:event_csl]['issued'].should eq("date_parts"=>[2013, 5, 15])
+      event[:event_csl]['type'].should eq("personal_communication")
+
       event[:event_time].should eq("2013-05-15T17:06:24Z")
       event[:event_url].should eq(event[:event]['url'])
     end

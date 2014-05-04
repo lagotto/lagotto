@@ -60,7 +60,29 @@ class CrossRef < Source
     events = [] unless events.is_a?(Array)
 
     events.map do |item|
-      { :event => item['journal_cite'], :event_url => Article.to_url(item['journal_cite']['doi']) }
+      item = item.fetch('journal_cite') { {} }
+      item.extend Hashie::Extensions::DeepFetch
+      url = Article.to_url(item['doi'])
+      { event: item,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(item.deep_fetch('contributors', 'contributor') { [] }),
+          'title' => item.fetch('article_title') { '' },
+          'container-title' => item.fetch('journal_title') { '' },
+          'issued' => get_date_parts_from_parts(item['year']),
+          'url' => url,
+          'type' => 'article-journal' }
+        }
+    end
+  end
+
+  def get_author(contributors)
+    contributors = [contributors] if contributors.is_a?(Hash)
+    contributors.map do |contributor|
+      { 'family' => contributor['surname'],
+        'given' => contributor['given_name'] }
     end
   end
 

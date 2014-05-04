@@ -89,8 +89,14 @@ describe PlosComments do
       response[:event_count].should == 36
       response[:event_metrics].should eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: 31, likes: nil, citations: nil, total: 36)
       event = response[:events].last
+
+      event[:event_csl]['author'].should eq([{"family"=>"Samigulina", "given"=>"Gulnara"}])
+      event[:event_csl]['title'].should eq("A small group research.")
+      event[:event_csl]['container-title'].should eq("PLOS Comments")
+      event[:event_csl]['issued'].should eq("date_parts"=>[2013, 10, 27])
+      event[:event_csl]['type'].should eq("personal_communication")
+
       event[:event_time].should eq("2013-10-27T22:03:35Z")
-      event[:event]["originalTitle"].should eq("A small group research.")
       event[:event]["totalNumReplies"].should == 0
     end
 

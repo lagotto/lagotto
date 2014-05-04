@@ -40,9 +40,24 @@ class Reddit < Source
 
   def get_events(result)
     result.map do |item|
-      { event: item['data'],
-        event_time: get_iso8601_from_epoch(item['data']['created_utc']),
-        event_url: item['data']['url'] }
+      data = item['data']
+      event_time = get_iso8601_from_epoch(data['created_utc'])
+      url = data['url']
+
+      { event: data,
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(data['author']),
+          'title' => data.fetch('title') { '' },
+          'container-title' => 'Reddit',
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'personal_communication'
+        }
+      }
     end
   end
 

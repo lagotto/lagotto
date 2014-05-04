@@ -42,9 +42,22 @@ class PlosComments < Source
 
   def get_events(result)
     Array(result['data']).map do |item|
+      event_time = get_iso8601_from_time(item['created'])
+
       { event: item,
-        event_time: get_iso8601_from_time(item['created']),
-        event_url: nil }
+        event_time: event_time,
+        event_url: nil,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(item['creatorFormattedName']),
+          'title' => item.fetch('title') { '' },
+          'container-title' => 'PLOS Comments',
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'personal_communication'
+        }
+      }
     end
   end
 
