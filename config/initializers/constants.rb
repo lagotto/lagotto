@@ -24,7 +24,9 @@ NETWORKABLE_EXCEPTIONS = [Faraday::Error::ClientError,
                           Delayed::WorkerTimeout,
                           URI::InvalidURIError,
                           Encoding::UndefinedConversionError,
-                          ArgumentError]
+                          ArgumentError,
+                          NoMethodError,
+                          TypeError]
 
 # Format used for DOI validation - we want to store DOIs without
 # the leading "info:doi/"

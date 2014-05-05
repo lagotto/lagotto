@@ -220,13 +220,13 @@ class Source < ActiveRecord::Base
   end
 
   def get_query_url(article)
-    return nil unless url.present? && article.doi.present?
+    return nil unless article.doi.present?
 
     url % { :doi => article.doi_escaped }
   end
 
   def get_events_url(article)
-    if events_url.present? && article.doi.present?
+    if article.doi.present?
       events_url % { :doi => article.doi_escaped }
     end
   end
