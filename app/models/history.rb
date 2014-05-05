@@ -121,7 +121,7 @@ class History
     # update today's entry for recent articles
     event_arr.delete_if { |item| item['day'] == today.day && item['month'] == today.month && item['year'] == today.year }
 
-    if ['counter', 'pmc'].include?(retrieval_status.source.name)
+    if ['counter', 'pmc', 'copernicus', 'figshare'].include?(retrieval_status.source.name)
       previous_html_count = previous_entries.empty? ? 0 : previous_entries.last['html']
       previous_pdf_count = previous_entries.empty? ? 0 : previous_entries.last['pdf']
       html = event_metrics[:html] - previous_html_count
@@ -152,13 +152,29 @@ class History
 
     # only count events that we know were added since the last entry
     previous_entries = event_arr.reject { |item| item['month'] == today.month && item['year'] == today.year }
-    previous_count = previous_entries.empty? ? 0 : previous_entries.last['total']
 
     # update this month's entry
     event_arr.delete_if { |item| item['month'] == today.month && item['year'] == today.year }
-    event_arr << { 'year' => today.year,
-                   'month' => today.month,
-                   'total' => event_count - previous_count }
+
+    if ['copernicus', 'figshare'].include?(retrieval_status.source.name)
+      previous_html_count = previous_entries.empty? ? 0 : previous_entries.last['html']
+      previous_pdf_count = previous_entries.empty? ? 0 : previous_entries.last['pdf']
+      html = event_metrics[:html] - previous_html_count
+      pdf = event_metrics[:pdf] - previous_pdf_count
+
+      item = { 'year' => today.year,
+               'month' => today.month,
+               'html' => html,
+               'pdf' => pdf }
+    else
+      previous_count = previous_entries.empty? ? 0 : previous_entries.last['total']
+
+      item = { 'year' => today.year,
+               'month' => today.month,
+               'total' => event_count - previous_count }
+    end
+
+    event_arr << item
   end
 
   def not_error?
