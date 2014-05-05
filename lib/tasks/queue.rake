@@ -85,7 +85,7 @@ namespace :queue do
       exit
     end
 
-    article = Article.where(CONFIG[:uid].to_sym => uid).first
+    article = Article.where(CONFIG[:uid].to_sym => args.uid).first
     if article.nil?
       puts "Article with #{CONFIG[:uid]} #{args.uid} does not exist"
       exit
