@@ -20,7 +20,7 @@ if (query) {
 function eventViz(json) {
   data = json['data'];
 
-  d3.select.select("#loading-events").remove();
+  d3.select("#loading-events").remove();
 
   // keep only sources with events
   data = data.filter(function(d) { return d.events.length > 0 && d.name == 'crossref'; });
