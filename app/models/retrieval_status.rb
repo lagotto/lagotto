@@ -99,14 +99,6 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
 
-  def events_csl
-    if data.blank? || data["error"]
-      []
-    else
-      data["event_csl"]
-    end
-  end
-
   def delete_document
     unless data_rev.nil
       document_id = "#{source.name}:#{article.uid_escaped}"

@@ -20,6 +20,15 @@ if (query) {
 function eventViz(json) {
   data = json['data'];
 
+  d3.select.select("#loading").remove();
+
+  // keep only sources with events
+  data = data.filter(function(d) { return d.events.length > 0; });
+
+  for (var i=0; i<data.length; i++) {
+    item = data[i];
+  }
+
   // d3.select("#update_date").html(formatTime(inputTime.parse(data["update_date"])));
 
   // // Summary table
