@@ -66,6 +66,10 @@ class Researchblogging < Source
     config.rate_limiting || 2000
   end
 
+  def job_batch_size
+    config.job_batch_size || 50
+  end
+
   def workers
     config.workers || 3
   end

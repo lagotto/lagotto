@@ -80,4 +80,8 @@ class Wikipedia < Source
   def languages=(value)
     config.languages = value
   end
+
+  def job_batch_size
+    config.job_batch_size || 50
+  end
 end
