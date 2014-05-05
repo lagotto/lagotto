@@ -121,6 +121,10 @@ FactoryGirl.define do
     trait(:with_counter) { association :source, factory: :counter }
     trait(:with_twitter_search) { association :source, factory: :twitter_search }
     trait(:with_article_published_today) { association :article, factory: :article_published_today }
+    trait(:with_counter_and_article_published_today) do
+      association :article, factory: :article_published_today
+      association :source, factory: :counter
+    end
 
     before(:create) do |retrieval_status|
       FactoryGirl.create(:retrieval_history, retrieved_at: Time.zone.today - 2.years + 1.day,
