@@ -63,10 +63,9 @@ class F1000 < Source
   def parse_feed(options={})
     document = read_from_file(filename)
     document.extend Hashie::Extensions::DeepFetch
+    recommendations = document.deep_fetch('ObjectList', 'Article') { nil }
 
-    return nil if document['ObjectList']['Article'].empty?
-
-    Array(document['ObjectList']['Article']).each do |article|
+    Array(recommendations).each do |article|
       doi = article['Doi']
       # sometimes doi metadata are missing
       break unless doi

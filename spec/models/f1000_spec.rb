@@ -22,6 +22,8 @@ describe F1000 do
   context "parse f1000 data" do
     before(:each) do
       subject.put_alm_data(subject.url)
+      body = File.read(fixture_path + 'f1000.xml')
+      File.open("#{Rails.root}/data/#{subject.filename}", 'w') { |file| file.write(body) }
     end
 
     after(:each) do
@@ -29,7 +31,7 @@ describe F1000 do
     end
 
     it "should parse f1000 data" do
-      subject.parse_feed.should be_true
+      subject.parse_feed.should_not be_blank
       Alert.count.should == 0
     end
   end
