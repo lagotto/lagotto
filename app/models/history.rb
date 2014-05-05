@@ -115,19 +115,30 @@ class History
     # return entry for older articles
     return event_arr if today - retrieval_status.article.published_on > 30
 
+    # only count events that we know were added since the last entry
+    previous_entries = event_arr.reject { |item| item['day'] == today.day && item['month'] == today.month && item['year'] == today.year }
+
     # update today's entry for recent articles
     event_arr.delete_if { |item| item['day'] == today.day && item['month'] == today.month && item['year'] == today.year }
+
     if ['counter', 'pmc'].include?(retrieval_status.source.name)
+      previous_html_count = previous_entries.empty? ? 0 : previous_entries.last['html']
+      previous_pdf_count = previous_entries.empty? ? 0 : previous_entries.last['pdf']
+      html = event_metrics[:html] - previous_html_count
+      pdf = event_metrics[:pdf] - previous_pdf_count
+
       item = { 'year' => today.year,
                'month' => today.month,
                'day' => today.day,
-               'html' => event_metrics[:html],
-               'pdf' => event_metrics[:pdf] }
+               'html' => html,
+               'pdf' => pdf }
     else
+      previous_count = previous_entries.empty? ? 0 : previous_entries.last['total']
+
       item = { 'year' => today.year,
                'month' => today.month,
                'day' => today.day,
-               'total' => event_count }
+               'total' => event_count - previous_count }
     end
 
     event_arr << item
@@ -139,11 +150,15 @@ class History
     # dates via utc time are more accurate than Date.today
     today = Time.zone.now.to_date
 
+    # only count events that we know were added since the last entry
+    previous_entries = event_arr.reject { |item| item['month'] == today.month && item['year'] == today.year }
+    previous_count = previous_entries.empty? ? 0 : previous_entries.last['total']
+
     # update this month's entry
     event_arr.delete_if { |item| item['month'] == today.month && item['year'] == today.year }
     event_arr << { 'year' => today.year,
                    'month' => today.month,
-                   'total' => event_count }
+                   'total' => event_count - previous_count }
   end
 
   def not_error?
