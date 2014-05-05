@@ -85,7 +85,7 @@ describe History do
       it "should add to events by day for recent articles" do
         events_by_day = [{ 'year' => yesterday.year, 'month' => yesterday.month, 'day' => yesterday.day, 'total' => 3 }]
         subject.get_events_by_day(events_by_day).should eq([events_by_day[0],
-                                                           { 'year' => today.year, 'month' => today.month, 'day' => today.day, 'total' => data[:event_count] - 3 }])
+                                                            { 'year' => today.year, 'month' => today.month, 'day' => today.day, 'total' => data[:event_count] - 3 }])
       end
 
       it "should update events by day for recent articles" do
@@ -160,13 +160,13 @@ describe History do
       it "should add to events by month" do
         events_by_month = [{ 'year' => last_month.year, 'month' => last_month.month, 'total' => 3 }]
         subject.get_events_by_month(events_by_month).should eq([events_by_month[0],
-                                                               { 'year' => today.year, 'month' => today.month, 'total' => data[:event_count] - 3 }])
+                                                                { 'year' => today.year, 'month' => today.month, 'total' => data[:event_count] - 3 }])
       end
 
       it "should update events by month" do
         events_by_month = [{ 'year' => last_month.year, 'month' => last_month.month, 'total' => 3 }, { 'year' => today.year, 'month' => today.month, 'total' => 10 }]
         subject.get_events_by_month(events_by_month).should eq([events_by_month[0],
-                                                               { 'year' => today.year, 'month' => today.month, 'total' => data[:event_count] - 3 }])
+                                                                { 'year' => today.year, 'month' => today.month, 'total' => data[:event_count] - 3 }])
       end
 
       it "should update events by month without previous month" do
