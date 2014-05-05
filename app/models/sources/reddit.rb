@@ -66,7 +66,7 @@ class Reddit < Source
   end
 
   def url
-    config.url || "http://www.reddit.com/search.json?q=\"%{doi}\""
+    config.url || "http://www.reddit.com/search.json?q=\"%{doi}\"&limit=100"
   end
 
   def events_url
