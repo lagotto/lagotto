@@ -27,6 +27,7 @@ function eventViz(json) {
 
   for (var i=0; i<data.length; i++) {
     item = data[i];
+    console.log(item.events[0]);
   }
 
   // d3.select("#update_date").html(formatTime(inputTime.parse(data["update_date"])));
