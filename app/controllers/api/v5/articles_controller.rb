@@ -26,7 +26,7 @@ class Api::V5::ArticlesController < Api::V5::BaseController
     end
 
     collection = collection.order_articles(params[:order])
-    collection = collection.paginate(:page => params[:page].to_i)
+    collection = collection.paginate(:page => params[:page])
     @articles = collection.decorate(:context => { :info => params[:info], :source => params[:source] })
   end
 

@@ -24,6 +24,6 @@ class Api::V5::ApiRequestsController < Api::V5::BaseController
       end
     end
 
-    @api_requests = collection.order("created_at DESC").paginate(:page => params[:page].to_i)
+    @api_requests = collection.order("created_at DESC").paginate(:page => params[:page])
   end
 end

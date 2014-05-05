@@ -13,7 +13,7 @@ class Admin::AlertsController < Admin::ApplicationController
     end
     collection = collection.query(params[:q]) if params[:q]
 
-    @alerts = collection.paginate(:page => params[:page].to_i)
+    @alerts = collection.paginate(:page => params[:page])
     respond_with @alerts
   end
 
@@ -40,7 +40,7 @@ class Admin::AlertsController < Admin::ApplicationController
     end
     collection = collection.query(params[:q]) if params[:q]
 
-    @alerts = collection.paginate(:page => params[:page].to_i)
+    @alerts = collection.paginate(:page => params[:page])
     respond_with(@alerts) do |format|
       if params[:article_id]
         id_hash = Article.from_uri(params[:article_id])
