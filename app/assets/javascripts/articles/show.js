@@ -23,11 +23,11 @@ function eventViz(json) {
   d3.select("#loading-events").remove();
 
   // keep only sources with events
-  data = data.filter(function(d) { return d.events.length > 0 && d.name == 'crossref'; });
+  data = data.filter(function(d) { return d.name == 'crossref'; });
 
   for (var i=0; i<data.length; i++) {
     item = data[i];
-    console.log(item.events[0]);
+    console.log(item);
   }
 
   // d3.select("#update_date").html(formatTime(inputTime.parse(data["update_date"])));
