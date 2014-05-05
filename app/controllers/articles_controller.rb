@@ -20,7 +20,7 @@ class ArticlesController < ApplicationController
   respond_to :html
 
   def index
-    @page = params[:page] || 1
+    @page = params[:page].to_i
     @q = params[:q]
     @class_name = params[:class_name]
     @order = params[:order]

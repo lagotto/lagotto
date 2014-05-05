@@ -71,7 +71,7 @@ class Admin::UsersController < Admin::ApplicationController
     end
     collection = collection.query(params[:query]) if params[:query]
 
-    @users = collection.paginate(:page => params[:page])
+    @users = collection.paginate(:page => params[:page].to_i)
   end
 
   private
