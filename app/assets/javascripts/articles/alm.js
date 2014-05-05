@@ -9,9 +9,9 @@
 var options = {
   baseUrl: '',
   minItemsToShowGraph: {
-    minEventsForYearly: 3,
-    minEventsForMonthly: 3,
-    minEventsForDaily: 3,
+    minEventsForYearly: 1,
+    minEventsForMonthly: 1,
+    minEventsForDaily: 1,
     minYearsForYearly: 1,
     minMonthsForMonthly: 1,
     minDaysForDaily: 1
