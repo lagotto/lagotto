@@ -226,7 +226,7 @@ class Source < ActiveRecord::Base
   end
 
   def get_events_url(article)
-    if article.doi.present?
+    if events_url.present? && article.doi.present?
       events_url % { :doi => article.doi_escaped }
     end
   end
