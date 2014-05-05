@@ -51,7 +51,7 @@ module Measurable
     def get_iso8601_from_time(time)
       return nil if time.blank?
 
-      Time.parse(time).utc.iso8601
+      Time.zone.parse(time).utc.iso8601
     end
 
     def get_iso8601_from_epoch(epoch)
