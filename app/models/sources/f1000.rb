@@ -43,7 +43,10 @@ class F1000 < Source
 
   def get_events(result)
     result['recommendations'] ||= {}
-    Array(result['recommendations']).map { |item| { :event => item, :event_url => item['url'] } }
+    Array(result['recommendations']).map do |item|
+      { :event => item,
+        :event_url => item['url'] }
+    end
   end
 
   # Retrieve f1000 XML feed and store in /data directory.
@@ -53,9 +56,9 @@ class F1000 < Source
 
   def get_events_by_month(events)
     events.map do |event|
-      { month: event['month'],
-        year: event['year'],
-        total: event['score'] }
+      { month: event[:event]['month'],
+        year: event[:event]['year'],
+        total: event[:event]['score'] }
     end
   end
 

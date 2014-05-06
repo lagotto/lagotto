@@ -94,6 +94,10 @@ describe F1000 do
       response[:event_count].should == 2
       response[:events_url].should eq("http://f1000.com/prime/718293874")
 
+      response[:events_by_month].length.should eq(1)
+      response[:events_by_month].first.should eq(month: 4, year: 2014, total: 2)
+      response[:event_metrics].should eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 2, total: 2)
+
       event = response[:events].last
       event[:event]['classifications'].should eq(["confirmation", "good_for_teaching"])
     end
