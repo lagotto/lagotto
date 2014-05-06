@@ -35,7 +35,7 @@ Alm::Application.routes.draw do
     end
 
     namespace :v4 do
-      root :to => "articles#index"
+      root :to => Api::V5::ArticlesController.action(:index)
       resources :articles, :constraints => { :id => /.+?/, :format=> false }
     end
 
