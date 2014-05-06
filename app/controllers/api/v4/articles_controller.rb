@@ -1,37 +1,9 @@
 class Api::V4::ArticlesController < Api::V4::BaseController
+  # include article controller methods
+  include Articable
+
   before_filter :load_article, :only => [ :update, :destroy ]
   # load_and_authorize_resource :except => [ :show, :index ]
-
-  def index
-    # Filter by source parameter, filter out private sources unless admin
-    # Load articles from ids listed in query string, use type parameter if present
-    # Translate type query parameter into column name
-    # Paginate query results (50 per page)
-    source_ids = get_source_ids(params[:source])
-    collection = ArticleDecorator.includes(:retrieval_statuses).where(:retrieval_statuses => { :source_id => source_ids })
-
-    if params[:ids]
-      type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
-      ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Article.clean_id(id) }
-      collection = collection.where(:articles => { type.to_sym => ids })
-    elsif params[:q]
-      collection = collection.query(params[:q])
-    end
-
-    if params[:class_name]
-      @class_name = params[:class_name]
-      collection = collection.includes(:alerts)
-      if @class_name == "All Alerts"
-        collection = collection.where("alerts.unresolved = ?", true)
-      else
-        collection = collection.where("alerts.unresolved = ?", true).where("alerts.class_name = ?", @class_name)
-      end
-    end
-
-    collection = collection.order_articles(params[:order])
-    collection = collection.paginate(:page => params[:page])
-    @articles = collection.decorate(:context => { :info => params[:info], :source => params[:source] })
-  end
 
   def show
     # Load one article given query params
