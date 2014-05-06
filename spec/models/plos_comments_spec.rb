@@ -82,12 +82,18 @@ describe PlosComments do
     end
 
     it "should report if there are events and event_count returned by the PLOS comments API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124", published_on: "2009-03-15")
       body = File.read(fixture_path + 'plos_comments.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, article)
       response[:event_count].should == 36
       response[:event_metrics].should eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: 31, likes: nil, citations: nil, total: 36)
+
+      response[:events_by_day].length.should eq(2)
+      response[:events_by_day].first.should eq(year: 2009, month: 3, day: 30, total: 7)
+      response[:events_by_month].length.should eq(9)
+      response[:events_by_month].first.should eq(year: 2009, month: 3, total: 21)
+
       event = response[:events].last
 
       event[:event_csl]['author'].should eq([{"family"=>"Samigulina", "given"=>"Gulnara"}])
