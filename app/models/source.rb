@@ -19,6 +19,7 @@
 # limitations under the License.
 
 require 'cgi'
+require "addressable/uri"
 
 class Source < ActiveRecord::Base
   # include state machine

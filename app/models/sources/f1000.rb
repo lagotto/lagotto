@@ -86,7 +86,7 @@ class F1000 < Source
                          'updated_at' => Time.now.utc.iso8601 }
 
       # try to get the existing information about the given article
-      data = get_result(url + CGI.escape(doi))
+      data = get_result(db_url + CGI.escape(doi))
 
       if data['recommendations'].nil?
         data = { 'recommendations' => [recommendation] }
@@ -97,43 +97,28 @@ class F1000 < Source
       end
 
       # store updated information in CouchDB
-      put_alm_data(url + CGI.escape(doi), data: data)
+      put_alm_data(db_url + CGI.escape(doi), data: data)
     end
   end
 
   def put_database
-    put_alm_data(url)
-  end
-
-  def get_query_url(article)
-    return nil unless article.doi.present?
-
-    url + article.doi_escaped
+    put_alm_data(db_url)
   end
 
   def get_feed_url
     feed_url
   end
 
-  def config_fields
-    [:url, :feed_url, :filename]
-  end
-
   def filename
-    config.filename
-  end
-
-  def filename=(value)
-    config.filename = value
+    String(feed_url).split("/").last
   end
 
   def url
-    config.url || "http://127.0.0.1:5984/f1000/"
+    db_url + "%{doi}"
   end
 
-  def url=(value)
-    # make sure we have trailing slash
-    config.url = value ? value.chomp("/") + "/" : nil
+  def config_fields
+    [:db_url, :feed_url]
   end
 
   def cron_line

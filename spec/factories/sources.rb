@@ -86,7 +86,7 @@ FactoryGirl.define do
     name "pmc"
     display_name "PubMed Central Usage Stats"
     state_event "activate"
-    url "http://127.0.0.1:5984/pmc_usage_stats_test/"
+    db_url "http://127.0.0.1:5984/pmc_usage_stats_test/"
     journals "ajrccm"
     username "EXAMPLE"
     password "EXAMPLE"
@@ -280,9 +280,8 @@ FactoryGirl.define do
     name "f1000"
     display_name "F1000Prime"
     state_event "activate"
-    url "http://127.0.0.1:5984/f1000_test/"
+    db_url "http://127.0.0.1:5984/f1000_test/"
     feed_url "http://example.org/example.xml"
-    filename "example.xml"
 
     group
 

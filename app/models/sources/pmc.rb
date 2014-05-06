@@ -102,7 +102,7 @@ class Pmc < Source
           view['month'] = month.to_s
 
           # try to get the existing information about the given article
-          data = get_result(url + CGI.escape(doi))
+          data = get_result(db_url + CGI.escape(doi))
 
           if data['views'].nil?
             data = { 'views' => [view] }
@@ -112,7 +112,7 @@ class Pmc < Source
             data['views'] << view
           end
 
-          put_alm_data(url + CGI.escape(doi), data: data)
+          put_alm_data(db_url + CGI.escape(doi), data: data)
         end
       end
     end
@@ -120,13 +120,7 @@ class Pmc < Source
   end
 
   def put_database
-    put_alm_data(url)
-  end
-
-  def get_query_url(article)
-    return nil unless article.doi.present?
-
-    url + article.doi_escaped
+    put_alm_data(db_url)
   end
 
   def get_feed_url(month, year, journal)
@@ -172,17 +166,12 @@ class Pmc < Source
     end
   end
 
-  def config_fields
-    [:url, :feed_url, :events_url, :journals, :username, :password]
-  end
-
   def url
-    config.url || "http://127.0.0.1:5984/pmc/"
+    db_url + "%{doi}"
   end
 
-  def url=(value)
-    # make sure we have trailing slash
-    config.url = value ? value.chomp("/") + "/" : nil
+  def config_fields
+    [:db_url, :feed_url, :events_url, :journals, :username, :password]
   end
 
   def feed_url

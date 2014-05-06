@@ -21,13 +21,13 @@ describe F1000 do
 
   context "parse f1000 data" do
     before(:each) do
-      subject.put_alm_data(subject.url)
+      subject.put_alm_data(subject.db_url)
       body = File.read(fixture_path + 'f1000.xml')
       File.open("#{Rails.root}/data/#{subject.filename}", 'w') { |file| file.write(body) }
     end
 
     after(:each) do
-      subject.delete_alm_data(subject.url)
+      subject.delete_alm_data(subject.db_url)
     end
 
     it "should parse f1000 data" do
@@ -38,11 +38,11 @@ describe F1000 do
 
   context "get_data from the f1000 internal database" do
     before(:each) do
-      subject.put_alm_data(subject.url)
+      subject.put_alm_data(subject.db_url)
     end
 
     after(:each) do
-      subject.delete_alm_data(subject.url)
+      subject.delete_alm_data(subject.db_url)
     end
 
     it "should report if there are no events and event_count returned by f1000" do

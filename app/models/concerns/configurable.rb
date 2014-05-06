@@ -84,6 +84,15 @@ module Configurable
       config.access_token = value
     end
 
+    def db_url
+      config.db_url || "http://127.0.0.1:5984/#{name}/"
+    end
+
+    def db_url=(value)
+      # make sure we have trailing slash
+      config.db_url = value ? value.chomp("/") + "/" : nil
+    end
+
     def workers
       config.workers || 1000
     end
