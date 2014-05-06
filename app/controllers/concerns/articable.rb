@@ -52,5 +52,32 @@ module Articable
       collection = collection.paginate(:page => params[:page])
       @articles = collection.decorate(:context => { :info => params[:info], :source => params[:source] })
     end
+
+    protected
+
+    def load_article
+      # Load one article given query params
+      id_hash = Article.from_uri(params[:id])
+      @article = Article.where(id_hash).first
+    end
+
+    # Filter by source parameter, filter out private sources unless staff or admin
+    def get_source_ids(source_names)
+      if source_names && current_user.try(:admin_or_staff?)
+        source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
+      elsif source_names
+        source_ids = Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
+      elsif current_user.try(:admin_or_staff?)
+        source_ids = Source.order("group_id, sources.display_name").pluck(:id)
+      else
+        source_ids = Source.where("private = ?", false).order("group_id, sources.display_name").pluck(:id)
+      end
+    end
+
+    private
+
+    def safe_params
+      params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day)
+    end
   end
 end

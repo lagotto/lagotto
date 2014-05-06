@@ -67,27 +67,4 @@ class Api::V4::ArticlesController < Api::V4::BaseController
       render "error", :status => :bad_request
     end
   end
-
-  protected
-
-  def load_article
-    # Load one article given query params
-    id_hash = Article.from_uri(params[:id])
-    @article = Article.where(id_hash).first
-  end
-
-  # Filter by source parameter
-  def get_source_ids(source_names)
-    if source_names
-      source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
-    else
-      source_ids = Source.order("name").pluck(:id)
-    end
-  end
-
-  private
-
-  def safe_params
-    params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day)
-  end
 end
