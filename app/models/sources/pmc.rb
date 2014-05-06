@@ -102,7 +102,7 @@ class Pmc < Source
           view['month'] = month.to_s
 
           # try to get the existing information about the given article
-          data = get_result("#{url}#{CGI.escape(doi)}")
+          data = get_result(url + CGI.escape(doi))
 
           if data['views'].nil?
             data = { 'views' => [view] }
@@ -112,7 +112,7 @@ class Pmc < Source
             data['views'] << view
           end
 
-          put_alm_data("#{url}#{CGI.escape(doi)}", data: data)
+          put_alm_data(url + CGI.escape(doi), data: data)
         end
       end
     end
@@ -121,6 +121,12 @@ class Pmc < Source
 
   def put_database
     put_alm_data(url)
+  end
+
+  def get_query_url(article)
+    return nil unless article.doi.present?
+
+    url + article.doi_escaped
   end
 
   def get_feed_url(month, year, journal)
@@ -171,7 +177,7 @@ class Pmc < Source
   end
 
   def url
-    config.url
+    config.url || "http://127.0.0.1:5984/pmc/"
   end
 
   def url=(value)

@@ -65,13 +65,13 @@ class F1000 < Source
     document.extend Hashie::Extensions::DeepFetch
     recommendations = document.deep_fetch('ObjectList', 'Article') { nil }
 
-    Array(recommendations).each do |article|
-      doi = article['Doi']
+    Array(recommendations).each do |item|
+      doi = item['Doi']
       # sometimes doi metadata are missing
       break unless doi
 
       # turn classifications into array with lowercase letters
-      classifications = article['Classifications'] ? article['Classifications'].downcase.split(", ") : []
+      classifications = item['Classifications'] ? item['Classifications'].downcase.split(", ") : []
 
       year = Time.zone.now.year
       month = Time.zone.now.month
@@ -79,14 +79,14 @@ class F1000 < Source
       recommendation = { 'year' => year,
                          'month' => month,
                          'doi' => doi,
-                         'f1000_id' => article['Id'],
-                         'url' => article['Url'],
-                         'score' => article['TotalScore'].to_i,
+                         'f1000_id' => item['Id'],
+                         'url' => item['Url'],
+                         'score' => item['TotalScore'].to_i,
                          'classifications' => classifications,
                          'updated_at' => Time.now.utc.iso8601 }
 
       # try to get the existing information about the given article
-      data = get_result("#{url}#{CGI.escape(doi)}")
+      data = get_result(url + CGI.escape(doi))
 
       if data['recommendations'].nil?
         data = { 'recommendations' => [recommendation] }
@@ -97,12 +97,18 @@ class F1000 < Source
       end
 
       # store updated information in CouchDB
-      put_alm_data("#{url}#{CGI.escape(doi)}", data: data)
+      put_alm_data(url + CGI.escape(doi), data: data)
     end
   end
 
   def put_database
     put_alm_data(url)
+  end
+
+  def get_query_url(article)
+    return nil unless article.doi.present?
+
+    url + article.doi_escaped
   end
 
   def get_feed_url
