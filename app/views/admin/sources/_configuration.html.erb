@@ -82,7 +82,7 @@
         <% @source.config_fields.each do |field| %>
           <tr>
             <th><%= field.to_s.gsub(/_/, " ").capitalize %></th>
-            <% if [:username, :password, :client_id, :secret, :access_token, :api_key].include?(field) %>
+            <% if [:username, :password, :client_id, :secret, :access_token, :api_key].include?(field) && cannot?(:manage, Alert) %>
               <td><em>hidden</em></td>
             <% else %>
               <td><%= @source.send(field) %></td>
