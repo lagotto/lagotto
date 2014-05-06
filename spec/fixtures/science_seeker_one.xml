@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"
+			xmlns:ss="http://scienceseeker.org/ns/1">
+	<title type="text">ScienceSeeker</title>
+	<subtitle type="text">Recent Posts</subtitle>
+	<link href="http://scienceseeker.org/scripts/feed.php" rel="self"
+		type="application/atom+xml" />
+	<link href="http://scienceseeker.org" rel="alternate" type="text/html" />
+	<id>http://scienceseeker.org/scripts/feed.php</id>
+	<updated>2012-12-23T05:01:28-05:00</updated>
+	<rights>No copyright asserted over individual posts; see original
+		posts for copyright and/or licensing.</rights>
+	<generator>ScienceSeeker Atom serializer</generator>
+	<entry xml:lang="en">
+		<title type="html">Web analytics: Numbers speak louder than words</title>
+		<id>http://scienceseeker.org/post/125861</id>
+		<link href="http://duncan.hull.name/2012/05/18/two-ton/" rel="alternate" />
+		<updated>2012-05-18T03:58:34-04:00</updated>
+		<author>
+			<name>Duncan</name>
+		</author>
+		<summary type="html">According to the software which runs this site, this is the 200th post here at O&amp;#8217;Really?  To mark the occasion, here are some stats via WordPress with thoughts and general navel-gazing analysis paralysis [1] on web analytics. It all started just over six years ago at nodalpoint with help from Greg Tyrelle, the last four years have been WordPressed with help from Matt [...]&lt;br /&gt;&lt;br /&gt;&lt;span class=&quot;Z3988&quot; title=&quot;ctx_ver=Z39.88-2004&amp;amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;amp;rft.jtitle=PLoS+ONE&amp;amp;rfr_id=info%3Asid%2Fresearchblogging.org&amp;amp;rft.atitle=Research+Blogs+and+the+Discussion+of+Scholarly+Information&amp;amp;rft.issn=1932-6203&amp;amp;rft.date=2012&amp;amp;rft.volume=7&amp;amp;rft.issue=5&amp;amp;rft.spage=0&amp;amp;rft.epage=&amp;amp;rft.artnum=http%3A%2F%2Fdx.plos.org%2F10.1371%2Fjournal.pone.0035869&amp;amp;rft_id=info%3Adoi%2F10.1371%2Fjournal.pone.0035869&amp;amp;rft.au=Shema%2C+H.&amp;amp;rft.au=Bar-Ilan%2C+J.&amp;amp;rft.au=Thelwall%2C+M.&amp;amp;rfs_dat=ss.included=1&amp;amp;rfe_dat=bpr3.included=1&quot;&gt;Shema, H., Bar-Ilan, J. &amp; Thelwall, M. (2012). Research Blogs and the Discussion of Scholarly Information, &lt;span style=&quot;font-style:italic;&quot;&gt;PLoS ONE, 7&lt;/span&gt; (5)  DOI: &lt;a rel=&quot;author&quot; href=&quot;http://dx.doi.org/10.1371%2Fjournal.pone.0035869&quot;&gt;10.1371/journal.pone.0035869&lt;/a&gt;&lt;/span&gt;</summary>
+		<ss:citations>
+			<ss:citation>
+				<ss:citationId type="ScienceSeeker">1086</ss:citationId>
+				<ss:citationId type="doi">10.1371/journal.pone.0035869</ss:citationId>
+				<ss:citationText>&lt;span class=&quot;Z3988&quot; title=&quot;ctx_ver=Z39.88-2004&amp;amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;amp;rft.jtitle=PLoS+ONE&amp;amp;rfr_id=info%3Asid%2Fresearchblogging.org&amp;amp;rft.atitle=Research+Blogs+and+the+Discussion+of+Scholarly+Information&amp;amp;rft.issn=1932-6203&amp;amp;rft.date=2012&amp;amp;rft.volume=7&amp;amp;rft.issue=5&amp;amp;rft.spage=0&amp;amp;rft.epage=&amp;amp;rft.artnum=http%3A%2F%2Fdx.plos.org%2F10.1371%2Fjournal.pone.0035869&amp;amp;rft_id=info%3Adoi%2F10.1371%2Fjournal.pone.0035869&amp;amp;rft.au=Shema%2C+H.&amp;amp;rft.au=Bar-Ilan%2C+J.&amp;amp;rft.au=Thelwall%2C+M.&amp;amp;rfs_dat=ss.included=1&amp;amp;rfe_dat=bpr3.included=1&quot;&gt;Shema, H., Bar-Ilan, J. &amp; Thelwall, M. (2012). Research Blogs and the Discussion of Scholarly Information, &lt;span style=&quot;font-style:italic;&quot;&gt;PLoS ONE, 7&lt;/span&gt; (5)  DOI: &lt;a rel=&quot;author&quot; href=&quot;http://dx.doi.org/10.1371%2Fjournal.pone.0035869&quot;&gt;10.1371/journal.pone.0035869&lt;/a&gt;&lt;/span&gt;</ss:citationText>
+			</ss:citation>
+		</ss:citations>
+		<ss:community>
+			<ss:recommendations userlevel="user" count="0"/>
+			<ss:recommendations userlevel="editor" count="0"/>
+			<ss:comments count="0" />
+		</ss:community>
+		<category term="Mathematics" />
+		<category term="Publishing" />
+		<category term="200" />
+		<category term="akismet" />
+		<category term="analysis paralysis" />
+		<category term="friendfeed" />
+		<category term="greg tyrelle" />
+		<category term="impact factor" />
+		<category term="impact factor boxing" />
+		<category term="jawohl" />
+		<category term="journal citation reports" />
+		<category term="matt mullenweg" />
+		<category term="mike thelwall" />
+		<category term="navel gazing" />
+		<category term="nodalpoint" />
+		<category term="performance metrics" />
+		<category term="plos biology" />
+		<category term="researchblogging" />
+		<category term="social media" />
+		<category term="solo" />
+		<category term="statistics" />
+		<category term="thomson-reuters" />
+		<category term="traffic" />
+		<category term="underworld" />
+		<category term="wall street journal" />
+		<category term="web analytics" />
+		<category term="wordpress" />
+		<category term="wsj" />
+		<category term="research" />
+		<category term="scholarship" />
+		<category term="blogging" />
+		<source>
+			<title type="text">O'Really?</title>
+			<link href="http://feeds.feedburner.com/oreally" rel="self" />
+			<link href="http://duncan.hull.name" rel="alternate" type="text/html" />
+			<category term="Biology" />
+			<category term="Computer Science" />
+		</source>
+	</entry>
+</feed>

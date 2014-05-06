@@ -12,7 +12,7 @@ describe Openedition do
     it "should report if there are no events and event_count returned by the Openedition API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       body = File.read(fixture_path + 'openedition_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -21,7 +21,7 @@ describe Openedition do
     it "should report if there are events and event_count returned by the Openedition API" do
       article = FactoryGirl.build(:article, :doi => "10.2307/683422")
       body = File.read(fixture_path + 'openedition.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested

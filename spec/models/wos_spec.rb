@@ -19,7 +19,7 @@ describe Wos do
 
     it "should report if there are no events and event_count returned by the Wos API" do
       body = File.read(fixture_path + 'wos_nil.xml')
-      stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body, :status => 200, :headers => { "Content-Type" => "application/xml" })
+      stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -27,7 +27,7 @@ describe Wos do
 
     it "should report if there are events and event_count returned by the Wos API" do
       body = File.read(fixture_path + 'wos.xml')
-      stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body, :status => 200, :headers => { "Content-Type" => "application/xml" })
+      stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -35,7 +35,7 @@ describe Wos do
 
     it "should catch IP address errors with the Wos API" do
       body = File.read(fixture_path + 'wos_unauthorized.xml')
-      stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body, :status => 200, :headers => { "Content-Type" => "application/xml" })
+      stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested

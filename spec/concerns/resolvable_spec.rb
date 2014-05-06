@@ -124,7 +124,7 @@ describe Article do
 
       it "get_persistent_identifiers" do
         ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030" }
-        stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers.json'), :status => 200)
+        stub = stub_request(:get, pubmed_url).to_return(:body => File.read(fixture_path + 'persistent_identifiers.json'))
         response = subject.get_persistent_identifiers(article.doi)
         response.should include(ids)
         response.should_not include("errmsg")
@@ -133,7 +133,7 @@ describe Article do
 
       it "get_persistent_identifiers with not found error" do
         ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030" }
-        stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers_nil.json'), :status => 200)
+        stub = stub_request(:get, pubmed_url).to_return(:body => File.read(fixture_path + 'persistent_identifiers_nil.json'))
         response = subject.get_persistent_identifiers(article.doi)
         response.should_not include(ids)
         response.should include("errmsg")

@@ -28,7 +28,7 @@ class Citeulike < Source
   end
 
   def get_events(result)
-    events = result['posts'] && result.deep_fetch('posts', 'post') { [] }
+    events = result['posts'] && result.deep_fetch('posts', 'post') { nil }
     events = [events] if events.is_a?(Hash)
     Array(events).map do |item|
       { event: item,

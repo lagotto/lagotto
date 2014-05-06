@@ -18,8 +18,7 @@ describe ArticleCoverageCurated do
   context "get_data from the Article Coverage API" do
     it "should report if article doesn't exist in Article Coverage source" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
-      stub = stub_request(:get, subject.get_query_url(article))
-      .to_return(:headers => {"Content-Type" => "application/json"}, :body => {"error" => "Article not found"}.to_json, :status => 404)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => {"error" => "Article not found"}.to_json, :status => 404)
       subject.get_data(article).should eq(error: "Article not found")
       stub.should have_been_requested
     end
@@ -27,8 +26,7 @@ describe ArticleCoverageCurated do
     it "should report if there are no events and event_count returned by the Article Coverage API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008775")
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
-      stub = stub_request(:get, subject.get_query_url(article))
-        .to_return(:headers => {"Content-Type" => "application/json"}, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested
@@ -36,8 +34,7 @@ describe ArticleCoverageCurated do
 
     it "should report if there are events and event_count returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage_curated.json')
-      stub = stub_request(:get, subject.get_query_url(article))
-        .to_return(:headers => {"Content-Type" => "application/json"}, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested

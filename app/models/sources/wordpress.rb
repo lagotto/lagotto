@@ -19,23 +19,8 @@
 # limitations under the License.
 
 class Wordpress < Source
-  def parse_data(result, article, options = {})
-    # workaround as wordpress doesn't properly handle not found errors
-    result = { 'data' => [] } if result[:error] == "unexpected token for JSON"
-
-    return result if result[:error]
-
-    events = get_events(result)
-
-    { events: events,
-      events_by_day: get_events_by_day(events, article),
-      events_by_month: get_events_by_month(events),
-      events_url: get_events_url(article),
-      event_count: events.length,
-      event_metrics: get_event_metrics(:citations => events.length) }
-  end
-
   def get_events(result)
+    result['data'] = nil if result['data'].is_a?(String)
     Array(result['data']).map do |item|
       event_time = get_iso8601_from_epoch(item["epoch_time"])
       url = item['link']

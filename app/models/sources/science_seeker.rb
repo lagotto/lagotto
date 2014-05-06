@@ -24,8 +24,9 @@ class ScienceSeeker < Source
   end
 
   def get_events(result)
-    result["feed"] ||= {}
-    Array(result['feed']['entry']).map do |item|
+    events = result['feed'] && result.deep_fetch('feed', 'entry') { nil }
+    events = [events] if events.is_a?(Hash)
+    Array(events).map do |item|
       item.extend Hashie::Extensions::DeepFetch
       event_time = get_iso8601_from_time(item["updated"])
       url = item['link']['href']

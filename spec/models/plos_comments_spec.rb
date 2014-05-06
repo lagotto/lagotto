@@ -18,7 +18,7 @@ describe PlosComments do
 
     it "should report if the article was not found by the PLOS comments API" do
       body = File.read(fixture_path + 'plos_comments_error.txt')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 404)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 404)
       response = subject.get_data(article)
       response.should eq(error: body)
       stub.should have_been_requested
@@ -26,7 +26,7 @@ describe PlosComments do
 
     it "should report if there are no events and event_count returned by the PLOS comments API" do
       body = File.read(fixture_path + 'plos_comments_nil.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq('data' => JSON.parse(body))
       stub.should have_been_requested
@@ -35,7 +35,7 @@ describe PlosComments do
     it "should report if there are events and event_count returned by the PLOS comments API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'plos_comments.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq('data' => JSON.parse(body))
       stub.should have_been_requested

@@ -18,7 +18,7 @@ describe Counter do
 
     it "should format the CouchDB report as csv" do
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/counter"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_report.json'))
       response = CSV.parse(subject.to_csv)
       response.count.should == 27
       response.first.should eq(["doi", "html", "pdf", "total"])
@@ -31,7 +31,7 @@ describe Counter do
       row = ["10.1371/journal.ppat.1000446", "112", "95", "45"]
       row.fill("0", 4..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/counter_html_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_html_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_html_report.json'))
       response = CSV.parse(subject.to_csv(format: "html", month: 11, year: 2013))
       response.count.should == 27
       response.first.should eq(["doi"] + dates)
@@ -44,7 +44,7 @@ describe Counter do
       row = ["10.1371/journal.pbio.0020413", "0", "0", "1"]
       row.fill("0", 4..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/counter_pdf_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_pdf_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_pdf_report.json'))
       response = CSV.parse(subject.to_csv(format: "pdf", month: 11, year: 2013))
       response.count.should == 27
       response.first.should eq(["doi"] + dates)
@@ -57,7 +57,7 @@ describe Counter do
       row = ["10.1371/journal.pbio.0020413", "0", "0", "0"]
       row.fill("0", 4..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/counter_xml_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_xml_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_xml_report.json'))
       response = CSV.parse(subject.to_csv(format: "xml", month: 11, year: 2013))
       response.count.should == 27
       response.first.should eq(["doi"] + dates)
@@ -70,7 +70,7 @@ describe Counter do
       row = ["10.1371/journal.pbio.0030137", "165", "149", "61"]
       row.fill("0", 4..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/counter_combined_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_combined_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_combined_report.json'))
       response = CSV.parse(subject.to_csv(format: "combined", month: 11, year: 2013))
       response.count.should == 27
       response.first.should eq(["doi"] + dates)
@@ -92,7 +92,7 @@ describe Counter do
     it "should report if there are no events and event_count returned by the Counter API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'counter_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       response['rest']['response']['results']['item'].should be_nil
@@ -101,7 +101,7 @@ describe Counter do
 
     it "should report if there are events and event_count returned by the Counter API" do
       body = File.read(fixture_path + 'counter.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       response['rest']['response']['results']['item'].length.should eq(37)

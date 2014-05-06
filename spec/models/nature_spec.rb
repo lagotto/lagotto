@@ -14,7 +14,7 @@ describe Nature do
     it "should report if there are no events and event_count returned by the Nature Blogs API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'nature_nil.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq('data' => JSON.parse(body))
       stub.should have_been_requested
@@ -22,7 +22,7 @@ describe Nature do
 
     it "should report if there are events and event_count returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq('data' => JSON.parse(body))
       stub.should have_been_requested

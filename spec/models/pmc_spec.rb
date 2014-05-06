@@ -16,7 +16,7 @@ describe Pmc do
 
     it "should format the CouchDB report as csv" do
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_report.json'))
       response = CSV.parse(subject.to_csv)
       response.count.should == 25
       response.first.should eq(["doi", "html", "pdf", "total"])
@@ -29,7 +29,7 @@ describe Pmc do
       row = ["10.1371/journal.ppat.1000446", "5", "4"]
       row.fill("0", 3..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_html_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_html_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_html_report.json'))
       response = CSV.parse(subject.to_csv(format: "html", month: 11, year: 2013))
       response.count.should == 25
       response.first.should eq(["doi"] + dates)
@@ -42,7 +42,7 @@ describe Pmc do
       row = ["10.1371/journal.pbio.0030137", "0", "0"]
       row.fill("0", 3..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_pdf_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_pdf_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_pdf_report.json'))
       response = CSV.parse(subject.to_csv(format: "pdf", month: 11, year: 2013))
       response.count.should == 25
       response.first.should eq(["doi"] + dates)
@@ -55,7 +55,7 @@ describe Pmc do
       row = ["10.1371/journal.pbio.0040015", "9", "10"]
       row.fill("0", 3..(dates.length))
       url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_combined_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_combined_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
+      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_combined_report.json'))
       response = CSV.parse(subject.to_csv(format: "combined", month: 11, year: 2013))
       response.count.should == 25
       response.first.should eq(["doi"] + dates)
@@ -74,7 +74,7 @@ describe Pmc do
     let(:journal) { "ajrccm" }
 
     it "should fetch and save PMC data" do
-      stub = stub_request(:get, subject.get_feed_url(month, year, journal)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'pmc_alt.xml'), :status => 200)
+      stub = stub_request(:get, subject.get_feed_url(month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
       subject.get_feed(month, year).should be_empty
       file = "#{Rails.root}/data/pmcstat_#{journal}_#{month}_#{year}.xml"
       File.exist?(file).should be_true
@@ -97,7 +97,7 @@ describe Pmc do
     end
 
     it "should parse PMC data" do
-      stub = stub_request(:get, subject.get_feed_url(month, year, journal)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'pmc_alt.xml'), :status => 200)
+      stub = stub_request(:get, subject.get_feed_url(month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
       subject.get_feed(month, year).should be_empty
       subject.parse_feed(month, year).should be_empty
       stub.should have_been_requested
@@ -122,7 +122,7 @@ describe Pmc do
     it "should report if there are no events and event_count returned by the PMC API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'pmc_nil.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested
@@ -131,7 +131,7 @@ describe Pmc do
     it "should report if there are events and event_count returned by the PMC API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pbio.1001420")
       body = File.read(fixture_path + 'pmc.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested

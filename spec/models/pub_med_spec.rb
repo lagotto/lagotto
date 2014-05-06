@@ -9,14 +9,14 @@ describe PubMed do
     it "should report that there are no events if the pmid is missing" do
       article = FactoryGirl.build(:article, :pmid => "")
       pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{article.doi_escaped}&idtype=doi&format=json"
-      stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers_nil.json'), :status => 200)
+      stub = stub_request(:get, pubmed_url).to_return(:body => File.read(fixture_path + 'persistent_identifiers_nil.json'))
       subject.get_data(article).should eq({})
     end
 
     it "should report if there are no events and event_count returned by the PubMed API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0008776", :pmid => "1897483599", :pmcid => "2808249")
       body = File.read(fixture_path + 'pub_med_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -24,7 +24,7 @@ describe PubMed do
 
     it "should report if there are events and event_count returned by the PubMed API" do
       body = File.read(fixture_path + 'pub_med.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested

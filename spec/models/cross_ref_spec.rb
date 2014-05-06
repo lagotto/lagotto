@@ -18,7 +18,7 @@ describe CrossRef do
   context "get_data from the CrossRef API" do
     it "should report if there are no events and event_count returned by the CrossRef API" do
       body = File.read(fixture_path + 'cross_ref_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -26,7 +26,7 @@ describe CrossRef do
 
     it "should report if there are events and event_count returned by the CrossRef API" do
       body = File.read(fixture_path + 'cross_ref.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -50,7 +50,7 @@ describe CrossRef do
 
     it "should report if there is an event_count of zero returned by the CrossRef OpenURL API" do
       body = File.read(fixture_path + 'cross_ref_openurl_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -58,7 +58,7 @@ describe CrossRef do
 
     it "should report if there is an event_count greater than zero returned by the CrossRef OpenURL API" do
       body = File.read(fixture_path + 'cross_ref_openurl.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested

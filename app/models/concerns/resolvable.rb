@@ -86,7 +86,6 @@ module Resolvable
 
     def get_persistent_identifiers(uid, options = { timeout: 120 })
       conn = faraday_conn('json')
-
       params = { 'ids' => uid,
                  'idtype' => CONFIG[:uid],
                  'format' => 'json' }
@@ -94,7 +93,14 @@ module Resolvable
 
       conn.options[:timeout] = options[:timeout]
       response = conn.get url, {}, options[:headers]
-      response.body['records'] ? response.body['records'][0] : { 'errmsg' => 'not found' }
+
+      if is_json?(response.body)
+        json = JSON.parse(response.body)
+        json.extend Hashie::Extensions::DeepFetch
+        json.deep_fetch('records', 0) { { error: 'not found' } }
+      else
+        { error: 'not found' }
+      end
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     end

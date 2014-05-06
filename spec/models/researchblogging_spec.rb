@@ -14,7 +14,7 @@ describe Researchblogging do
     it "should report if there are no events and event_count returned by the ResearchBlogging API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'researchblogging_nil.xml')
-      stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{article.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{article.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -23,7 +23,7 @@ describe Researchblogging do
     it "should report if there are events and event_count returned by the ResearchBlogging API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0035869")
       body = File.read(fixture_path + 'researchblogging.xml')
-      stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{article.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{article.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -75,6 +75,33 @@ describe Researchblogging do
       response[:events_by_day].first.should eq(year: 2009, month: 7, day: 6, total: 1)
       response[:events_by_month].length.should eq(7)
       response[:events_by_month].first.should eq(year: 2009, month: 7, total: 1)
+
+      event = response[:events].first
+
+      event[:event_csl]['author'].should eq([{"family"=>"Spoetnik", "given"=>"Laika"}])
+      event[:event_csl]['title'].should eq("Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan")
+      event[:event_csl]['container-title'].should eq("Laika's Medliblog")
+      event[:event_csl]['issued'].should eq("date_parts"=>[2012, 10, 27])
+      event[:event_csl]['type'].should eq("post")
+
+      event[:event_time].should eq("2012-10-27T11:32:09Z")
+      event[:event_url].should eq(event[:event]["post_URL"])
+    end
+
+    it "should report if there is one event returned by the ResearchBlogging API" do
+      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0035869", published_on: "2012-10-01")
+      body = File.read(fixture_path + 'researchblogging_one.xml')
+      result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
+      response = subject.parse_data(result, article)
+      response[:event_count].should eq(1)
+      response[:events].length.should eq(1)
+      response[:events_url].should eq(subject.get_events_url(article))
+
+      response[:events_by_day].length.should eq(1)
+      response[:events_by_day].first.should eq(year: 2012, month: 10, day: 27, total: 1)
+      response[:events_by_month].length.should eq(1)
+      response[:events_by_month].first.should eq(year: 2012, month: 10, total: 1)
 
       event = response[:events].first
 

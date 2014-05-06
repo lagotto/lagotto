@@ -48,7 +48,7 @@ describe TwitterSearch do
     it "should report if there are no events and event_count returned by the Twitter Search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested
@@ -57,7 +57,7 @@ describe TwitterSearch do
     it "should report if there are events and event_count returned by the Twitter Search API" do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested

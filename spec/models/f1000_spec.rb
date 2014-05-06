@@ -48,7 +48,7 @@ describe F1000 do
     it "should report if there are no events and event_count returned by f1000" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'f1000_nil.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested
@@ -57,7 +57,7 @@ describe F1000 do
     it "should report if there are events and event_count returned by f1000" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pbio.1001420")
       body = File.read(fixture_path + 'f1000.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested

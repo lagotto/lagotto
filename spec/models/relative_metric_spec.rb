@@ -17,7 +17,7 @@ describe RelativeMetric do
     it "should get relative metric average usage data" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
       body = File.read(fixture_path + "relative_metric.json")
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => {"Content-Type" => "application/json"}, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested
@@ -26,7 +26,7 @@ describe RelativeMetric do
     it "should get empty relative metric average usage data" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000000", :published_on => Date.new(2009, 5, 19))
       body = File.read(fixture_path + "relative_metric_nodata.json")
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => {"Content-Type" => "application/json"}, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested

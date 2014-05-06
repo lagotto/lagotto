@@ -41,9 +41,10 @@ module Networkable
       else
         response = conn.get url, {}, options[:headers]
       end
-      # We had issues with the Faraday XML parsing via multi_xml
-      # we use ActiveSupport XML parsing instead
-      if options[:content_type] == 'xml'
+      # parsing by content type is not reliable, so we check the response format
+      if is_json?(response.body)
+        JSON.parse(response.body)
+      elsif is_xml?(response.body)
         Hash.from_xml(response.body)
       else
         response.body
@@ -99,7 +100,6 @@ module Networkable
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10, :cookie => :all
         c.request  :multipart
         c.request  :json if accept_header == 'application/json'
-        c.response :json, :content_type => /\bjson$/
         c.use      Faraday::Response::RaiseError
         c.adapter  Faraday.default_adapter
       end
@@ -131,9 +131,6 @@ module Networkable
           error = parse_error_response(error.response[:body])
           { error: error }
         end
-      # malformed JSON is treated as ResourceNotFound
-      elsif error.message.include?("unexpected token")
-        { error: "unexpected token for JSON" }
       else
         details = nil
 

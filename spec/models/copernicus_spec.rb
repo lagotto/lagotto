@@ -21,7 +21,7 @@ describe Copernicus do
     it "should report if there are no events and event_count returned by the Copernicus API" do
       article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
       body = File.read(fixture_path + 'copernicus_nil.json')
-      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").with(:headers => { :authorization => auth }).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").with(:headers => { :authorization => auth }).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq('data' => JSON.parse(body))
       stub.should have_been_requested
@@ -29,7 +29,7 @@ describe Copernicus do
 
     it "should report if there are events and event_count returned by the Copernicus API" do
       body = File.read(fixture_path + 'copernicus.json')
-      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").with(:headers => { :authorization => auth }).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{article.doi}").with(:headers => { :authorization => auth }).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested

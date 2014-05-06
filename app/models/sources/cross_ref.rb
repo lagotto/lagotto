@@ -56,14 +56,14 @@ class CrossRef < Source
   end
 
   def get_events(result)
-    events = result.deep_fetch('crossref_result', 'query_result', 'body', 'forward_link') { [] }
+    events = result.deep_fetch('crossref_result', 'query_result', 'body', 'forward_link') { nil }
     if events.is_a?(Hash) && events['journal_cite']
       events = [events]
     elsif events.is_a?(Hash)
-      events = []
+      events = nil
     end
 
-    events.map do |item|
+    Array(events).map do |item|
 
       item = item.fetch('journal_cite') { {} }
       item.extend Hashie::Extensions::DeepFetch

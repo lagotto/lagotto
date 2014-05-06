@@ -27,8 +27,8 @@ module Couchable
       CONFIG[:couchdb_url]
     end
 
-    def get_alm_data(id = "")
-      get_result("#{couchdb_url}#{id}")
+    def get_alm_data(id = "", options={})
+      get_result("#{couchdb_url}#{id}", options)
     end
 
     def get_alm_rev(id, options={})
@@ -63,7 +63,12 @@ module Couchable
       response = conn.put url do |request|
         request.body = options[:data]
       end
-      (response.body["ok"] ? response.body["rev"] : nil)
+      if is_json?(response.body)
+        json = JSON.parse(response.body)
+        json['ok'] ? json['rev'] : nil
+      else
+        { error: 'malformed JSON response' }
+      end
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     end
@@ -77,7 +82,12 @@ module Couchable
       return nil unless url != couchdb_url || Rails.env.test?
       conn = faraday_conn('json')
       response = conn.delete url
-      (response.body["ok"] ? response.body["rev"] : nil)
+      if is_json?(response.body)
+        json = JSON.parse(response.body)
+        json['ok'] ? json['rev'] : nil
+      else
+        { error: 'malformed JSON response' }
+      end
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     end

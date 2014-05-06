@@ -30,9 +30,11 @@ class PubMed < Source
   end
 
   def get_events(result)
-    events = result.deep_fetch('PubMedToPMCcitingformSET', 'REFORM', 'PMCID') { [] }
+    events = result.deep_fetch('PubMedToPMCcitingformSET', 'REFORM', 'PMCID') { nil }
+    events = [events] if events.is_a?(Hash)
     Array(events).map do |item|
-      { :event => item, :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + item }
+      { :event => item,
+        :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + item }
     end
   end
 

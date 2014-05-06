@@ -14,7 +14,7 @@ describe Wikipedia do
 
     it "should report if there are no events and event_count returned by the Wikipedia API" do
       body = File.read(fixture_path + 'wikipedia_nil.json')
-      stub = stub_request(:get, /en.wikipedia.org/).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, /en.wikipedia.org/).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq("en"=>0)
       stub.should have_been_requested
@@ -23,7 +23,7 @@ describe Wikipedia do
     it "should report if there are events and event_count returned by the Wikipedia API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pcbi.1002445")
       body = File.read(fixture_path + 'wikipedia.json')
-      stub = stub_request(:get, /en.wikipedia.org/).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, /en.wikipedia.org/).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq("en"=>12)
       stub.should have_been_requested
@@ -31,7 +31,7 @@ describe Wikipedia do
 
     it "should catch errors with the Wikipedia API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, /en.wikipedia.org/).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'wikipedia_error.json'), :status => [400])
+      stub = stub_request(:get, /en.wikipedia.org/).to_return(:body => File.read(fixture_path + 'wikipedia_error.json'), :status => [400])
       response = subject.get_data(article, options = { :source_id => subject.id })
       response.should eq("en"=>nil)
       stub.should have_been_requested

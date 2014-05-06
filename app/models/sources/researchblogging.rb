@@ -24,8 +24,9 @@ class Researchblogging < Source
   end
 
   def get_events(result)
-    events = result.deep_fetch('blogposts', 'post') { [] }
-    events.map do |item|
+    events = result.deep_fetch('blogposts', 'post') { nil }
+    events = [events] if events.is_a?(Hash)
+    Array(events).map do |item|
       event_time = get_iso8601_from_time(item["published_date"])
       url = item['post_URL']
 

@@ -14,7 +14,7 @@ describe Twitter do
     it "should report if there are no events and event_count returned by the Twitter API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'twitter_nil.json', encoding: 'UTF-8')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested
@@ -22,7 +22,7 @@ describe Twitter do
 
     it "should report if there are events and event_count returned by the Twitter API" do
       body = File.read(fixture_path + 'twitter.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:headers => {"Content-Type" => "application/json"}, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested

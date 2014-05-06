@@ -13,15 +13,23 @@ describe Citeulike do
 
     it "should report if there are no events and event_count returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
     end
 
+    it "should report if there is an incomplete response returned by the CiteULike API" do
+      body = File.read(fixture_path + 'citeulike_incomplete.xml')
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
+      response = subject.get_data(article)
+      response.should eq('data' => body)
+      stub.should have_been_requested
+    end
+
     it "should report if there are events and event_count returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -52,6 +60,12 @@ describe Citeulike do
 
     it "should report if there are no events and event_count returned by the CiteULike API" do
       result = { "posts" => nil }
+      result.extend Hashie::Extensions::DeepFetch
+      subject.parse_data(result, article).should eq(null_response)
+    end
+
+    it "should report if there is an incomplete response returned by the CiteULike API" do
+      result = { 'data' => "\n" }
       result.extend Hashie::Extensions::DeepFetch
       subject.parse_data(result, article).should eq(null_response)
     end
