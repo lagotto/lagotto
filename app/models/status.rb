@@ -16,10 +16,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class Status < ActiveRecord::Base
-  class << self
-    def update_date
-      Rails.cache.fetch('status:timestamp') { Time.zone.now.utc.iso8601 }
-    end
+class Status
+  attr_reader :articles_count, :events_count, :sources_disabled_count, :alerts_last_day_count, :workers_count, :delayed_jobs_active_count, :responses_count, :users_count, :version, :couchdb_size, :mysql_size, :update_date, :cache_key
+
+  def articles_count
+    Article.count
   end
+
+  def events_count
+    RetrievalStatus.joins(:source).where("state > ?", 0).where("name != ?", "relativemetric").sum(:event_count)
+  end
+
+  def sources_disabled_count
+    Source.where("state = ?", 1).count
+  end
+
+  def alerts_last_day_count
+    Alert.total_errors(1).count
+  end
+
+  def workers_count
+    Worker.count
+  end
+
+  def delayed_jobs_active_count
+    DelayedJob.count
+  end
+
+  def responses_count
+    ApiResponse.total(1).count
+  end
+
+  def users_count
+    User.count
+  end
+
+  def version
+    Rails.application.config.version
+  end
+
+  def couchdb_size
+    RetrievalStatus.new.get_alm_database["disk_size"] || 0
+  end
+
+  def mysql_size
+    RetrievalHistory.table_status["data_length"] || 0
+  end
+
+  def update_date
+    Rails.cache.fetch('status:timestamp') { Time.zone.now.utc.iso8601 }
+  end
+
+  alias_method :cache_key, :update_date
 end
