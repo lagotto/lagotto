@@ -30,6 +30,7 @@ class Citeulike < Source
   def get_events(result)
     events = result['posts'] && result['posts']['post'].respond_to?("map") && result['posts']['post']
     events = [events] if events.is_a?(Hash)
+    events ||= nil
     Array(events).map do |item|
       { event: item,
         event_time: get_iso8601_from_time(item["post_time"]),
