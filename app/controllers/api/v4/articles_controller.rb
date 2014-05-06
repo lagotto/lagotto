@@ -10,7 +10,7 @@ class Api::V4::ArticlesController < Api::V4::BaseController
     source_ids = get_source_ids(params[:source])
 
     id_hash = { :articles => Article.from_uri(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
-    @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash).decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
+    @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash).decorate(context: { info: params[:info], source: params[:source] })
 
     # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
     if @article.blank?
