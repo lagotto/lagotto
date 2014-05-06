@@ -117,7 +117,8 @@ function datePartsToDate(date_parts) {
   if (len == 1) return date_parts[0];
 
   // convert to date, then format
-  var timestamp = Date.parse(date_parts.join('-'));
+  // workaround for different time zones
+  var timestamp = Date.parse(date_parts.join('-') + 'T12:00');
   var date = new Date(timestamp);
 
   if (len == 3) {
