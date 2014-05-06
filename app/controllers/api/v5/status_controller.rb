@@ -19,7 +19,9 @@
 class Api::V5::StatusController < Api::V5::BaseController
   load_and_authorize_resource :alert, :parent => false
 
-  def index; end
+  def index
+    @status = StatusDecorator.new
+  end
 
   # def index
   #   @status = OpenStruct.new(articles_count: Article.count,
