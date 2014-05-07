@@ -245,7 +245,7 @@ class Article < ActiveRecord::Base
   end
 
   def mendeley_url
-    mendeley.events_url.present? ? mendeley.events_url : nil
+    mendeley.present? && mendeley.events_url.present? ? mendeley.events_url : nil
   end
 
   def citeulike
@@ -253,7 +253,7 @@ class Article < ActiveRecord::Base
   end
 
   def citeulike_url
-    citeulike.events_url.present? ? citeulike.events_url : nil
+    citeulike.present? && citeulike.events_url.present? ? citeulike.events_url : nil
   end
 
   def facebook

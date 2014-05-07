@@ -92,7 +92,7 @@ class TwitterSearch < Source
     data = HashWithIndifferentAccess.new(get_result(db_url + article.doi_escaped))
 
     merged_events = Array(data['events']) | events
-    merged_events.group_by { |event| event[:event][:id] }.map { |k,v| v.first }
+    merged_events.group_by { |event| event[:event][:id] }.map { |k, v| v.first }
   end
 
   def get_access_token(options={})
