@@ -115,7 +115,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.uid_as_sym
-    self.uid.to_sym
+    uid.to_sym
   end
 
   def self.validate_format(id)
