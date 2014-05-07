@@ -96,7 +96,7 @@ class TwitterSearch < Source
   end
 
   def put_database
-    put_alm_data(data_url)
+    put_alm_data(db_url)
   end
 
   def get_max_id(next_results)
@@ -115,7 +115,7 @@ class TwitterSearch < Source
   end
 
   def config_fields
-    [:url, :events_url, :data_url, :authentication_url, :api_key, :api_secret, :access_token]
+    [:url, :events_url, :db_url, :authentication_url, :api_key, :api_secret, :access_token]
   end
 
   def url
@@ -124,14 +124,6 @@ class TwitterSearch < Source
 
   def events_url
     config.events_url || "https://twitter.com/search?q=%{doi}"
-  end
-
-  def data_url
-    config.data_url || "http://127.0.0.1:5984/twitter/"
-  end
-
-  def data_url=(value)
-    config.data_url = value
   end
 
   def authentication_url
