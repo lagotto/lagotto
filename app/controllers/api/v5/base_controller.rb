@@ -1,6 +1,7 @@
 class Api::V5::BaseController < ActionController::Base
   # include base controller methods
-  include Baseable
+  include Authenticable
+  include Restable
 
   respond_to :json
 

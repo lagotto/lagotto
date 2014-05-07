@@ -61,17 +61,17 @@
     <% end %>
     <dt>URLs</dt>
     <dd>
-      <% if !@article.canonical_url.blank? %>
+      <% if @article.canonical_url.present? %>
         <%= link_to h(@article.canonical_url), @article.canonical_url %><br/>
       <% end %>
-      <% if @article.pmid %>
+      <% if @article.present? %>
         <%= link_to "http://europepmc.org/abstract/MED/#{@article.pmid}", "http://europepmc.org/abstract/MED/#{@article.pmid}" %><br/>
       <% end %>
-      <% if @article.mendeley && @article.mendeley.events_url %>
-        <%= link_to h(@article.mendeley.events_url), @article.mendeley.events_url %><br/>
+      <% if @article.mendeley_url.present? %>
+        <%= link_to h(@article.mendeley_url), @article.mendeley_url %><br/>
       <% end %>
-      <% if @article.citeulike && @article.citeulike.events_url %>
-        <%= link_to h(@article.citeulike.events_url), @article.citeulike.events_url %><br/>
+      <% if @article.citeulike_url.present? %>
+        <%= link_to h(@article.citeulike_url), @article.citeulike_url %><br/>
       <% end %>
     </dd>
   </dl>

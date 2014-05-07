@@ -114,6 +114,10 @@ class Article < ActiveRecord::Base
     CONFIG[:uid] || "doi"
   end
 
+  def self.uid_as_sym
+    self.uid.to_sym
+  end
+
   def self.validate_format(id)
     case CONFIG[:uid]
     when "doi"
@@ -240,8 +244,16 @@ class Article < ActiveRecord::Base
     retrieval_statuses.by_name("mendeley").first
   end
 
+  def mendeley_url
+    mendeley ? mendeley.events_url : nil
+  end
+
   def citeulike
     retrieval_statuses.by_name("citeulike").first
+  end
+
+  def citeulike_url
+    citeulike ? citeulike.events_url : nil
   end
 
   def facebook

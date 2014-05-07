@@ -58,7 +58,12 @@ module Articable
     def load_article
       # Load one article given query params
       id_hash = Article.from_uri(params[:id])
-      @article = Article.where(id_hash).first
+      if id_hash.respond_to?("key")
+        key, value = id_hash.first
+        @article = Article.where(key => value).first
+      else
+        @article = nil
+      end
     end
 
     # Filter by source parameter, filter out private sources unless staff or admin

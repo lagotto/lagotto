@@ -50,8 +50,8 @@ class Report < ActiveRecord::Base
       sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.event_count END) AS #{source.name}"
     end
     sql += " FROM articles a LEFT JOIN retrieval_statuses rs ON a.id = rs.article_id GROUP BY a.id"
-
-    results = ActiveRecord::Base.connection.exec_query(sql)
+    sanitized_sql = sanitize_sql_for_conditions(sql)
+    results = ActiveRecord::Base.connection.exec_query(sanitized_sql)
 
     CSV.generate do |csv|
       csv << [CONFIG[:uid], "publication_date", "title"] + sources.map(&:name)
