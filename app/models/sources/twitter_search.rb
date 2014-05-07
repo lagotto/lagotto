@@ -33,8 +33,19 @@ class TwitterSearch < Source
     { bearer: access_token }
   end
 
-  def response_options
-    { :metrics => :comments }
+  def parse_data(result, article, options = {})
+    # return early if an error occured
+    return result if result[:error]
+
+    events = get_events(result)
+    events = update_events(article, events)
+
+    { events: events,
+      events_by_day: get_events_by_day(events, article),
+      events_by_month: get_events_by_month(events),
+      events_url: get_events_url(article),
+      event_count: events.length,
+      event_metrics: get_event_metrics(:comments => events.length) }
   end
 
   def get_events(result)
@@ -74,6 +85,16 @@ class TwitterSearch < Source
     end
   end
 
+  # check whether we have stored additional tweets in the past
+  # merge with new tweets, using tweet URL as unique key
+  # we need hash with indifferent access to compare string and symbol keys
+  def update_events(article, events)
+    data = HashWithIndifferentAccess.new(get_result(db_url + article.doi_escaped))
+
+    merged_events = Array(data['events']) | events
+    merged_events.group_by { |event| event[:event][:id] }.map { |k,v| v.first }
+  end
+
   def get_access_token(options={})
     # Check whether we already have an access token
     return true if access_token.present?
@@ -97,21 +118,6 @@ class TwitterSearch < Source
 
   def put_database
     put_alm_data(db_url)
-  end
-
-  def get_max_id(next_results)
-    query = Rack::Utils.parse_query(next_results)
-    query["?max_id"]
-  end
-
-  def get_since_id(article)
-    rs = retrieval_statuses.where(article_id: article.id).first
-    rs.data_rev.to_i # will be 0 the first time
-  end
-
-  def set_since_id(article, options={})
-    rs = retrieval_statuses.where(article_id: article.id).first
-    rs.update_attributes(data_rev: options[:since_id])
   end
 
   def config_fields
@@ -142,30 +148,23 @@ class TwitterSearch < Source
     config.api_secret = value
   end
 
+  def rate_limiting
+    config.rate_limiting || 1800
+  end
+
   def staleness_week
-    config.staleness_year || 12.hours
+    config.staleness_week || 1.day
+  end
+
+  def staleness_month
+    config.staleness_month || 1.day
   end
 
   def staleness_year
     config.staleness_year || (1.month * 0.25).to_i
   end
 
-  # Twitter returns 15 results per query
-  # They don't use pagination, but the tweet id to loop through results
-  # See https://dev.twitter.com/docs/working-with-timelines
-  # response = {}
-  # since_id = get_since_id(article)
-  # max_id = nil
-  # result = []
-
-  # begin
-  #   query_url = get_query_url(article, max_id: max_id)
-  #   response = get_result(query_url, options.merge(bearer: access_token))
-  #   if response
-  #     max_id = get_max_id(response["search_metadata"]["next_results"])
-  #     result += response["statuses"]
-  #   end
-  # end while response && max_id
-
-  # return nil if response.nil?
+  def staleness_all
+    config.staleness_all || (1.month * 0.25).to_i
+  end
 end
