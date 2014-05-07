@@ -28,7 +28,7 @@ class History
   # include metrics helpers
   include Measurable
 
-  attr_accessor :retrieval_status, :retrieval_history, :events, :event_count, :previous_count, :previous_retrieved_at, :previous_events_by_day, :previous_events_by_month, :event_metrics, :events_by_day, :events_by_month, :events_url, :status, :couchdb_id, :rs_rev, :rh_rev, :data
+  attr_accessor :retrieval_status, :retrieval_history, :events, :event_count, :previous_count, :previous_retrieved_at, :event_metrics, :events_by_day, :events_by_month, :events_url, :status, :couchdb_id, :rs_rev, :rh_rev, :data
 
   def initialize(rs_id, data = {})
     @retrieval_status = RetrievalStatus.find(rs_id)
@@ -108,21 +108,15 @@ class History
     event_arr = Array(event_arr)
 
     # track daily events only the first 30 days after publication
-
     # return entry for older articles
     return event_arr if today - retrieval_status.article.published_on > 30
 
-    # only count events that we know were added since the last entry
-    previous_entries = event_arr.reject { |item| item['day'] == today.day && item['month'] == today.month && item['year'] == today.year }
-
-    # update today's entry for recent articles
+    # count entries not including the current day
     event_arr.delete_if { |item| item['day'] == today.day && item['month'] == today.month && item['year'] == today.year }
 
     if ['counter', 'pmc', 'copernicus', 'figshare'].include?(retrieval_status.source.name)
-      previous_html_count = previous_entries.empty? ? 0 : previous_entries.last['html']
-      previous_pdf_count = previous_entries.empty? ? 0 : previous_entries.last['pdf']
-      html = event_metrics[:html] - previous_html_count
-      pdf = event_metrics[:pdf] - previous_pdf_count
+      html = event_metrics[:html] - event_arr.reduce(0) { |sum, item| sum + item['html'] }
+      pdf = event_metrics[:pdf] - event_arr.reduce(0) { |sum, item| sum + item['pdf'] }
 
       item = { 'year' => today.year,
                'month' => today.month,
@@ -130,12 +124,11 @@ class History
                'html' => html,
                'pdf' => pdf }
     else
-      previous_count = previous_entries.empty? ? 0 : previous_entries.last['total']
-
+      total = event_count - event_arr.reduce(0) { |sum, item| sum + item['total'] }
       item = { 'year' => today.year,
                'month' => today.month,
                'day' => today.day,
-               'total' => event_count - previous_count }
+               'total' => total }
     end
 
     event_arr << item
@@ -144,28 +137,23 @@ class History
   def get_events_by_month(event_arr = nil)
     event_arr = Array(event_arr)
 
-    # only count events that we know were added since the last entry
-    previous_entries = event_arr.reject { |item| item['month'] == today.month && item['year'] == today.year }
-
-    # update this month's entry
+    # count entries not including the current month
     event_arr.delete_if { |item| item['month'] == today.month && item['year'] == today.year }
 
     if ['copernicus', 'figshare'].include?(retrieval_status.source.name)
-      previous_html_count = previous_entries.empty? ? 0 : previous_entries.last['html']
-      previous_pdf_count = previous_entries.empty? ? 0 : previous_entries.last['pdf']
-      html = event_metrics[:html] - previous_html_count
-      pdf = event_metrics[:pdf] - previous_pdf_count
+      html = event_metrics[:html] - event_arr.reduce(0) { |sum, item| sum + item['html'] }
+      pdf = event_metrics[:pdf] - event_arr.reduce(0) { |sum, item| sum + item['pdf'] }
 
       item = { 'year' => today.year,
                'month' => today.month,
                'html' => html,
                'pdf' => pdf }
     else
-      previous_count = previous_entries.empty? ? 0 : previous_entries.last['total']
+      total = event_count - event_arr.reduce(0) { |sum, item| sum + item['total'] }
 
       item = { 'year' => today.year,
                'month' => today.month,
-               'total' => event_count - previous_count }
+               'total' => total }
     end
 
     event_arr << item
