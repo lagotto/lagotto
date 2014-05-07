@@ -193,10 +193,10 @@ class History
   end
 
   def update_interval
-    if [Date.new(1970, 1, 1), Date.today].include?(previous_retrieved_at.to_date)
+    if [Date.new(1970, 1, 1), Time.zone.now.to_date].include?(previous_retrieved_at.to_date)
       1
     else
-      (Date.today - previous_retrieved_at.to_date).to_i
+      (Time.zone.now.to_date - previous_retrieved_at.to_date).to_i
     end
   end
 
