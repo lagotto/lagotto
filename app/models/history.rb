@@ -108,8 +108,6 @@ class History
     event_arr = Array(event_arr)
 
     # track daily events only the first 30 days after publication
-    # dates via utc time are more accurate than Date.today
-    today = Time.zone.now.to_date
 
     # return entry for older articles
     return event_arr if today - retrieval_status.article.published_on > 30
@@ -145,9 +143,6 @@ class History
 
   def get_events_by_month(event_arr = nil)
     event_arr = Array(event_arr)
-
-    # dates via utc time are more accurate than Date.today
-    today = Time.zone.now.to_date
 
     # only count events that we know were added since the last entry
     previous_entries = event_arr.reject { |item| item['month'] == today.month && item['year'] == today.year }
@@ -192,11 +187,16 @@ class History
     retrieval_history ? retrieval_history.id : nil
   end
 
+  # dates via utc time are more accurate than Date.today
+  def today
+    Time.zone.now.to_date
+  end
+
   def update_interval
-    if [Date.new(1970, 1, 1), Time.zone.now.to_date].include?(previous_retrieved_at.to_date)
+    if [Date.new(1970, 1, 1), today].include?(previous_retrieved_at.to_date)
       1
     else
-      (Time.zone.now.to_date - previous_retrieved_at.to_date).to_i
+      (today - previous_retrieved_at.to_date).to_i
     end
   end
 
