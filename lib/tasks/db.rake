@@ -174,11 +174,26 @@ namespace :db do
 
     desc "Add publication year, month and day"
     task :date_parts => :environment do
-      Article.all.each do |article|
+      begin
+        start_date = Date.parse(ENV['START_DATE']) if ENV['START_DATE']
+      rescue => e
+        # raises error if invalid date supplied
+        puts "Error: #{e.message}"
+        exit
+      end
+
+      if start_date
+        puts "Adding date parts for all articles published since #{start_date}."
+        articles = Article.where("published_on >= ?", start_date)
+      else
+        articles = Article.all
+      end
+
+      articles.each do |article|
         article.update_date_parts
         article.save
       end
-      puts "Date parts for #{Article.count} articles added"
+      puts "Date parts for #{articles.count} articles added"
     end
   end
 
