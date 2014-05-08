@@ -51,7 +51,9 @@ class Counter < Source
   end
 
   def get_events(result)
-    Array(result.deep_fetch('rest', 'response', 'results', 'item') { [] }).map do |item|
+    events = result.deep_fetch('rest', 'response', 'results', 'item') { nil }
+    events = [events] if events.is_a?(Hash)
+    Array(events).map do |item|
       { month: item['month'],
         year: item['year'],
         pdf_views: item.fetch('get_pdf') { 0 },

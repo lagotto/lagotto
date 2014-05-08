@@ -108,7 +108,6 @@ class Mendeley < Source
 
     # Otherwise get new access token
     result = get_result(authentication_url, options.merge(
-      content_type: 'json',
       username: client_id,
       password: secret,
       data: "grant_type=client_credentials",

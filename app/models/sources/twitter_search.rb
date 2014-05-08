@@ -101,7 +101,6 @@ class TwitterSearch < Source
 
     # Otherwise get new access token
     result = get_result(authentication_url, options.merge(
-      content_type: 'json',
       username: api_key,
       password: api_secret,
       data: "grant_type=client_credentials",
