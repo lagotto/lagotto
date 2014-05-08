@@ -25,7 +25,7 @@ class TwitterSearch < Source
     params = { q: article.doi_escaped,
                count: 100,
                include_entities: 1,
-               result_type: "mixed" }
+               result_type: "recent" }
     query_url = url + params.to_query
   end
 
