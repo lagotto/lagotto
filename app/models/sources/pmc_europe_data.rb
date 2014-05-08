@@ -20,15 +20,22 @@
 
 class PmcEuropeData < Source
   def get_query_url(article)
-    return nil unless article.get_ids && article.pmid.present?
+    if url.starts_with?("http://www.ebi.ac.uk/europepmc/webservices/rest/MED/")
+      return nil unless article.get_ids && article.pmid.present?
 
-    url % { :pmid => article.pmid }
+      url % { :pmid => article.pmid }
+    elsif url.starts_with?("http://www.ebi.ac.uk/europepmc/webservices/rest/search/query")
+      return nil unless article.doi.present?
+
+      url % { :doi => article.doi }
+    end
   end
 
   def parse_data(result, article, options={})
     return result if result[:error]
+    result = result["responseWrapper"] || result
 
-    event_count = result["hitCount"] || 0
+    event_count = (result["hitCount"]).to_i
     events = get_events(result)
 
     { events: events,
@@ -42,6 +49,25 @@ class PmcEuropeData < Source
   def get_events(result)
     if result["dbCountList"]
       result["dbCountList"]["db"].reduce({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
+    elsif result["resultList"]
+      result.extend Hashie::Extensions::DeepFetch
+      events = result.deep_fetch('resultList', 'result') { nil }
+      events = [events] if events.is_a?(Hash)
+      Array(events).map do |item|
+        url = item['pmid'] ? "http://europepmc.org/abstract/MED/#{item['pmid']}" : nil
+        { event: item,
+          event_url: url,
+
+          # the rest is CSL (citation style language)
+          event_csl: {
+            'author' => get_author(item['authorString']),
+            'title' => item.fetch('title') { '' },
+            'container-title' => item.fetch('journalTitle') { '' },
+            'issued' => get_date_parts_from_parts((item['pubYear']).to_i),
+            'url' => url,
+            'type' => 'article-journal' }
+        }
+      end
     else
       []
     end
