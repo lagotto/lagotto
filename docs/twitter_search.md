@@ -11,7 +11,7 @@ title: "Twitter"
 Please enter `API key` and `API secret` in the ALM configuration settings. The application will automatically fetch and store an OAuth2 `access token` the first time we use the source. To obtain the `access token` yourself, issue the following command:
 
 ```sh
-curl -u API_KEY:API:SECRET -d grant_type=client_credentials https://api.twitter.com/oauth2/token
+curl -u API_KEY:API_SECRET -d grant_type=client_credentials https://api.twitter.com/oauth2/token
 ```
 
 ## Required configuration fields

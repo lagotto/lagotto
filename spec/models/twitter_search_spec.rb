@@ -5,6 +5,32 @@ require 'spec_helper'
 describe TwitterSearch do
   subject { FactoryGirl.create(:twitter_search) }
 
+  context "lookup access token" do
+    let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(subject.api_key, subject.api_secret) }
+
+    it "should make the right API call" do
+      subject.access_token = nil
+      stub = stub_request(:post, subject.authentication_url).with(:body => "grant_type=client_credentials", :headers => { :authorization => auth })
+        .to_return(:body => File.read(fixture_path + 'twitter_auth.json'))
+      subject.get_access_token.should be_true
+      stub.should have_been_requested
+      subject.access_token.should eq("AAAAAAAAAAAAAAAAAAAAACS6XQAAAAAAc7aBSzqxeYuzho78VPeXw4md79A%3DuWsDmuGGhl0tOQJuNZAl37MN6tiTiar7U8tHQkBGbkk1rvlNqk")
+    end
+
+    it "should look up access token if blank" do
+      subject.access_token = nil
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
+      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+        .to_return(:body => File.read(fixture_path + 'twitter_auth.json'))
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
+
+      response = subject.get_data(article, source_id: subject.id)
+      response[:error].should_not be_nil
+      stub_auth.should have_been_requested
+      stub.should have_been_requested
+    end
+  end
+
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       article = FactoryGirl.build(:article, :doi => nil)
