@@ -12,8 +12,8 @@ The ALM application is available as Open Source software using a [Apache license
 
 Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of articles. As a rule of thumb you need one worker per 5,000 - 20,000 articles, and 1 Gb of RAM per 10 workers - the exact numbers depend on how often you plan to update articles, e.g. you need more workers if you plan on update your usage stats every day.
 
-#### Ruby 1.9
-ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies, making them sometimes not the best choices in a production environment. The ALM application has not been tested with Ruby 2.x, but migration to Ruby 2.1.x is planned for 2014.
+#### Ruby
+ALM requires Ruby 1.9.3 or greater, and has been tested with Ruby 1.9.3, 2.0 and 2.1. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies, making them sometimes not the best choices in a production environment. The Chef script below installs Ruby 2.1.
 
 [RVM]: http://rvm.io/
 [Rbenv]: https://github.com/sstephenson/rbenv
@@ -274,14 +274,14 @@ sudo apt-get install apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev lib
 Passenger is a Rails application server: http://www.modrails.com. Update `passenger.load` and `passenger.conf` when you install a new version of the passenger gem.
 
 ```sh
-sudo gem install passenger -v 3.0.19
+sudo gem install passenger -v 4.0.41
 sudo passenger-install-apache2-module --auto
 
 # /etc/apache2/mods-available/passenger.load
-LoadModule passenger_module /var/lib/gems/1.9.1/gems/passenger-3.0.19/ext/apache2/mod_passenger.so
+LoadModule passenger_module /var/lib/gems/1.9.1/gems/passenger-4.0.41/ext/apache2/mod_passenger.so
 
 # /etc/apache2/mods-available/passenger.conf
-PassengerRoot /var/lib/gems/1.9.1/gems/passenger-3.0.19
+PassengerRoot /var/lib/gems/1.9.1/gems/passenger-4.0.41
 PassengerRuby /usr/bin/ruby1.9.1
 
 sudo a2enmod passenger
