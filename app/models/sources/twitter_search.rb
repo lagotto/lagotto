@@ -89,7 +89,7 @@ class TwitterSearch < Source
   # merge with new tweets, using tweet URL as unique key
   # we need hash with indifferent access to compare string and symbol keys
   def update_events(article, events)
-    data = HashWithIndifferentAccess.new(get_result(db_url + article.doi_escaped))
+    data = HashWithIndifferentAccess.new(get_alm_data("twitter_search:#{article.doi_escaped}"))
 
     merged_events = Array(data['events']) | events
     merged_events.group_by { |event| event[:event][:id] }.map { |k, v| v.first }
@@ -116,12 +116,8 @@ class TwitterSearch < Source
     end
   end
 
-  def put_database
-    put_alm_data(db_url)
-  end
-
   def config_fields
-    [:url, :events_url, :db_url, :authentication_url, :api_key, :api_secret, :access_token]
+    [:url, :events_url, :authentication_url, :api_key, :api_secret, :access_token]
   end
 
   def url
@@ -149,7 +145,7 @@ class TwitterSearch < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 1800
+    config.rate_limiting || 1600
   end
 
   def staleness_week
