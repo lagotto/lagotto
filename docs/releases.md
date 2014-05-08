@@ -3,6 +3,16 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 3.0](https://github.com/articlemetrics/alm/releases/tag/v.3.0)
+
+ALM 3.0 was released on May 8, 2014 with the following features:
+
+* rewrite of all sources
+* rewrite of backend processing of source API responses
+* daily and monthly visualizations for all sources
+* standardized events in CSL format
+* Rails 3.2.18
+
 ## [ALM 2.14](https://github.com/articlemetrics/alm/releases/tag/v.2.14)
 
 ALM 2.14 was released on April 24, 2014 with the following new features:
