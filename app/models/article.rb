@@ -264,6 +264,10 @@ class Article < ActiveRecord::Base
     retrieval_statuses.by_name("twitter").first
   end
 
+  def twitter_search
+    retrieval_statuses.by_name("twitter_search").first
+  end
+
   def scopus
     retrieval_statuses.by_name("scopus").first
   end
@@ -277,7 +281,7 @@ class Article < ActiveRecord::Base
   end
 
   def shares
-    (facebook.nil? ? 0 : facebook.event_count) + (twitter.nil? ? 0 : twitter.event_count)
+    (facebook.nil? ? 0 : facebook.event_count) + (twitter.nil? ? 0 : twitter.event_count) + (twitter_search.nil? ? 0 : twitter_search.event_count)
   end
 
   def bookmarks
