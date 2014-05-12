@@ -4,7 +4,7 @@ if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var uid_type = params.attr('data-uid_type');
   var uid = params.attr('data-uid');
-  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + uid + "&type=" + uid_type + "&format=detail");
+  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + uid + "&type=" + uid_type + "&info=detail");
 }
 
 // load the data from the ALM API
