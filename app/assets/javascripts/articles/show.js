@@ -18,13 +18,12 @@ if (query) {
 
 // add data to page
 function eventViz(json) {
-  data = json['data'];
+  data = json['data']['sources'];
 
   d3.select("#loading-events").remove();
 
-  console.log(data);
-
-  // for (var i=0; i<data.length; i++) {
-  //   item = data[i];
-  // }
+  for (var i=0; i<data.length; i++) {
+    item = data[i];
+    console.log(item);
+  }
 };
