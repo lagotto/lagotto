@@ -105,6 +105,12 @@ class RetrievalStatusDecorator < Draper::Decorator
     end
   end
 
+  def events_csl
+    return [] unless model.events.is_a?(Array)
+
+    model.events.map { |event| event['event_csl'] if event['event_csl'].present? }
+  end
+
   def histories
     retrieval_histories.blank? ? [] : retrieval_histories.map { |rh| { :update_date => rh.updated_at.utc.iso8601, :total => rh.event_count } }
   end
