@@ -55,8 +55,7 @@ class Reddit < Source
           'container-title' => 'Reddit',
           'issued' => get_date_parts(event_time),
           'url' => url,
-          'type' => 'personal_communication'
-        }
+          'type' => 'personal_communication' }
       }
     end
   end

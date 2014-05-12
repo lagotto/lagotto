@@ -55,8 +55,7 @@ class PlosComments < Source
           'container-title' => 'PLOS Comments',
           'issued' => get_date_parts(event_time),
           'url' => url,
-          'type' => 'personal_communication'
-        }
+          'type' => 'personal_communication' }
       }
     end
   end

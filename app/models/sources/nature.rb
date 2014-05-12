@@ -37,8 +37,7 @@ class Nature < Source
           'container-title' => item.deep_fetch('post', 'blog', 'title') { '' },
           'issued' => get_date_parts(event_time),
           'url' => url,
-          'type' => 'post'
-        }
+          'type' => 'post' }
       }
     end
   end
