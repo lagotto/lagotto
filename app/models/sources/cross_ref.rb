@@ -71,13 +71,13 @@ class CrossRef < Source
         event_url: url,
 
         # the rest is CSL (citation style language)
-        event_csl: {
+        event_csl: item.blank? ? nil : {
           'author' => get_author(item.deep_fetch('contributors', 'contributor') { [] }),
           'title' => item.fetch('article_title') { '' },
           'container-title' => item.fetch('journal_title') { '' },
           'issued' => get_date_parts_from_parts(item['year']),
           'url' => url,
-          'type' => 'article-journal' } unless item.blank?
+          'type' => 'article-journal' }
         }
     end
   end
