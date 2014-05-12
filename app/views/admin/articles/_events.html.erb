@@ -1,7 +1,4 @@
-<% if @article.retrieval_statuses.sum(:event_count) > 0 %>
-  <p>The 50 most recentevents for this article.</p>
+<p>The 50 most recent events for this article.</p>
+<div class="text-muted" id="loading-events">Loading page … <%= image_tag "spinner.gif" %></div>
 
-  <div class="text-muted" id="loading-events">Loading page … <%= image_tag "spinner.gif" %></div>
-<% else %>
-  <div class="alert alert-info">No sources have cited this article</div>
-<% end %>
+<%= javascript_include_tag 'articles/show' %>

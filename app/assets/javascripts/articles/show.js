@@ -4,7 +4,7 @@ if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var uid_type = params.attr('data-uid_type');
   var uid = params.attr('data-uid');
-  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + uid + "&type=" + uid_type);
+  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + uid + "&type=" + uid_type + "&format=detail");
 }
 
 // load the data from the ALM API
@@ -22,10 +22,9 @@ function eventViz(json) {
 
   d3.select("#loading-events").remove();
 
-  // keep only sources with events
-  data = data.filter(function(d) { return d.name == 'crossref'; });
+  console.log(data);
 
-  for (var i=0; i<data.length; i++) {
-    item = data[i];
-  }
+  // for (var i=0; i<data.length; i++) {
+  //   item = data[i];
+  // }
 };
