@@ -108,7 +108,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   def events_csl
     return [] unless model.events.is_a?(Array)
 
-    model.events.map { |event| event['event_csl'] if event['event_csl'].present? }
+    model.events.reduce([]) { |sum, event| sum << event['event_csl'] if event['event_csl'] }
   end
 
   def histories
