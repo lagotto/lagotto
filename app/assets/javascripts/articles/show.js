@@ -18,12 +18,149 @@ if (query) {
 
 // add data to page
 function eventViz(json) {
-  data = json['data']['sources'];
-
   d3.select("#loading-events").remove();
 
-  for (var i=0; i<data.length; i++) {
-    item = data[i];
-    console.log(item);
+  var data = json['data'][0]['sources'];
+  data = data.map( function(d) { return d.events_csl });
+  data = d3.merge(data);
+
+  if (data.length == 0) {
+    d3.select("#results").text("")
+      .insert("div")
+      .attr("class", "alert alert-info")
+      .text("No events found");
+    return;
   }
+
+  json["href"] = "#events?page={{number}}";
+
+  // generate iso8601 datetime for sorting
+  data = data.map(function(d) {
+    d["date"] = datePartsToDate(d["issued"]["date_parts"]);
+    return d;
+  });
+
+  data = data.sort(function(a, b) { return d3.descending(a.date, b.date); });
+  var page = 1;
+  showEvents(data, page);
+};
+
+function showEvents(data, page) {
+  var per_page = 50;
+  var start = (page - 1) * per_page;
+  var end = start + per_page;
+  var paged_data = data.slice(start, end);
+
+  d3.select("#results").html("");
+
+  for (var i=0; i<paged_data.length; i++) {
+    event = paged_data[i];
+    var event_text =
+      (event["author"].length > 0 ? formattedAuthor(event["author"]) + ". " : "") +
+      (event["container-title"].length > 0 ? "<em>" + event["container-title"] + "</em>. " : "") +
+      formattedType(event["type"]) + ". " +
+      formattedDate(event["date"], event["issued"]["date_parts"].length)  + ". ";
+
+    d3.select("#results").append("h4")
+      .attr("class", "article")
+      .append("text")
+      .html(event["title"]);
+    d3.select("#results").append("p")
+      .html(event_text)
+      .append("a")
+      .attr("href", function(d) { return event["url"]; })
+      .append("text")
+      .text(event["url"]);
+  };
+
+  paginate(data, page);
+};
+
+// pagination
+function paginate(data, page) {
+  if (data.length > 50) {
+    var total = data.length;
+    var max_visible = Math.ceil(total/50);
+    var href = "#events?page={{number}}";
+    var prev = (page > 1) ? "«" : null;
+    var next = (page < max_visible) ? "»" : null;
+
+    d3.select("#results").append("div")
+      .attr("id", "paginator");
+
+    $('#paginator').bootpag({
+      total: total,
+      page: page,
+      maxVisible: max_visible,
+      href: href,
+      leaps: false,
+      prev: prev,
+      next: next
+    }).on("page", function(event, num) {
+      showEvents(data, num);
+    });
+  }
+};
+
+// d3 helper functions
+ var formatDate = d3.time.format("%B %d, %Y"),
+     formatMonthYear = d3.time.format("%B %Y"),
+     formatYear = d3.time.format("%Y");
+
+// construct date object from date parts
+function datePartsToDate(date_parts) {
+  var len = date_parts.length;
+
+  // not in expected format
+  if (len == 0 || len > 3) return null;
+
+  // turn numbers to strings and pad with 0
+  for (i = 0; i < len; ++i) {
+   if (date_parts[i] < 10) {
+      date_parts[i] = "0" + date_parts[i];
+    } else {
+      date_parts[i] = "" + date_parts[i];
+    }
+  }
+
+  // year only
+  if (len == 1) date_parts[1] = "01";
+
+  // convert to date, then format
+  // workaround for different time zones
+  var timestamp = Date.parse(date_parts.join('-') + 'T12:00');
+  return new Date(timestamp);
+};
+
+// format date
+function formattedDate(date, len) {
+  switch (len) {
+    case 1:
+      return formatYear(date);
+    case 2:
+      return formatMonthYear(date);
+    case 3:
+      return formatDate(date);
+  }
+};
+
+// construct author object from author parts
+function formattedAuthor(author) {
+  author = author.map(function(d) { return d.given + " " + d.family; });
+  if (author.length > 3) {
+    return author.slice(0,3).join(", ") + ", <em>et al</em>";
+  } else {
+    return author.join(", ");
+  }
+};
+
+// format event type
+function formattedType(type) {
+  var types = { "article-journal": "Journal article",
+                "article-newspaper": "News",
+                "post": "Blog post",
+                "webpage": "Web page",
+                "broadcast": "Podcast/Video",
+                "personal_communication": "Personal communication" }
+  return types[type];
 };
