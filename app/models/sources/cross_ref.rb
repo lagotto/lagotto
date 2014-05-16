@@ -77,8 +77,8 @@ class CrossRef < Source
           # the rest is CSL (citation style language)
           event_csl: {
             'author' => get_author(item.deep_fetch('contributors', 'contributor') { [] }),
-            'title' => item.fetch('article_title') { '' },
-            'container-title' => item.fetch('journal_title') { '' },
+            'title' => String(item.fetch('article_title') { '' }).titleize,
+            'container-title' => String(item.fetch('journal_title') { '' }).titleize,
             'issued' => get_date_parts_from_parts(item['year']),
             'url' => url,
             'type' => 'article-journal' } }
