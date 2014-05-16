@@ -90,7 +90,7 @@ function showEvents(data, page) {
 };
 
 // pagination
-function paginate(data, order, page) {
+function paginate(data, page) {
   if (data.length > 50) {
     var total = data.length;
     var max_visible = Math.ceil(total/50);
@@ -110,7 +110,7 @@ function paginate(data, order, page) {
       prev: prev,
       next: next
     }).on("page", function(event, num) {
-      showEvents(data, order, num);
+      showEvents(data, num);
     });
   }
 };
