@@ -32,20 +32,20 @@ function eventViz(json) {
     return;
   }
 
-  json["href"] = "#events?page={{number}}";
-
-  // generate iso8601 datetime for sorting
+  // generate iso8601 datetime for sorting, year for nesting
   data = data.map(function(d) {
     d["date"] = datePartsToDate(d["issued"]["date_parts"]);
+    d["year"] = (d["date"]) ? d["date"].getUTCFullYear() : null;
     return d;
   });
 
-  data = data.sort(function(a, b) { return d3.descending(a.date, b.date); });
   var page = 1;
   showEvents(data, page);
 };
 
 function showEvents(data, page) {
+  data = data.sort(function(a, b) { return d3.descending(a.date, b.date); });
+
   var per_page = 50;
   var start = (page - 1) * per_page;
   var end = start + per_page;
@@ -53,31 +53,44 @@ function showEvents(data, page) {
 
   d3.select("#results").html("");
 
-  for (var i=0; i<paged_data.length; i++) {
-    event = paged_data[i];
-    var event_text =
-      (event["author"].length > 0 ? formattedAuthor(event["author"]) + ". " : "") +
-      (event["container-title"].length > 0 ? "<em>" + event["container-title"] + "</em>. " : "") +
-      formattedType(event["type"]) + ". " +
-      formattedDate(event["date"], event["issued"]["date_parts"].length)  + ". ";
+  var nest_by_year = d3.nest()
+    .key(function(d) { return d.year; })
+    .sortKeys(d3.descending)
+    .sortValues(function(a, b) { return d3.descending(a.date, b.date); })
+    .entries(paged_data);
 
-    d3.select("#results").append("h4")
-      .attr("class", "article")
+  for (var i=0; i<nest_by_year.length; i++) {
+    year = nest_by_year[i];
+    d3.select("#results").append("h2")
       .append("text")
-      .html(event["title"]);
-    d3.select("#results").append("p")
-      .html(event_text)
-      .append("a")
-      .attr("href", function(d) { return event["url"]; })
-      .append("text")
-      .text(event["url"]);
+      .text(year.key);
+
+    for (var j=0; j<year.values.length; j++) {
+      event = year.values[j];
+      var event_text =
+        (event["author"].length > 0 ? formattedAuthor(event["author"]) + ". " : "") +
+        (event["container-title"].length > 0 ? "<em>" + event["container-title"] + "</em>. " : "") +
+        formattedType(event["type"]) + ". " +
+        formattedDate(event["date"], event["issued"]["date_parts"].length)  + ". ";
+
+      d3.select("#results").append("h4")
+        .attr("class", "article")
+        .append("text")
+        .html(event["title"]);
+      d3.select("#results").append("p")
+        .html(event_text)
+        .append("a")
+        .attr("href", function(d) { return event["url"]; })
+        .append("text")
+        .text(event["url"]);
+    };
   };
 
   paginate(data, page);
 };
 
 // pagination
-function paginate(data, page) {
+function paginate(data, order, page) {
   if (data.length > 50) {
     var total = data.length;
     var max_visible = Math.ceil(total/50);
@@ -97,7 +110,7 @@ function paginate(data, page) {
       prev: prev,
       next: next
     }).on("page", function(event, num) {
-      showEvents(data, num);
+      showEvents(data, order, num);
     });
   }
 };
