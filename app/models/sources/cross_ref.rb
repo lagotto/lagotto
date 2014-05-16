@@ -65,28 +65,32 @@ class CrossRef < Source
 
     Array(events).map do |item|
       item = item.fetch('journal_cite') { {} }
-      item.extend Hashie::Extensions::DeepFetch
-      url = Article.to_url(item['doi'])
-      { event: item,
-        event_url: url,
+      if item.empty?
+        nil
+      else
+        item.extend Hashie::Extensions::DeepFetch
+        url = Article.to_url(item['doi'])
 
-        # the rest is CSL (citation style language)
-        event_csl: item.blank? ? nil : {
-          'author' => get_author(item.deep_fetch('contributors', 'contributor') { [] }),
-          'title' => item.fetch('article_title') { '' },
-          'container-title' => item.fetch('journal_title') { '' },
-          'issued' => get_date_parts_from_parts(item['year']),
-          'url' => url,
-          'type' => 'article-journal' }
-        }
+        { event: item,
+          event_url: url,
+
+          # the rest is CSL (citation style language)
+          event_csl: {
+            'author' => get_author(item.deep_fetch('contributors', 'contributor') { [] }),
+            'title' => item.fetch('article_title') { '' },
+            'container-title' => item.fetch('journal_title') { '' },
+            'issued' => get_date_parts_from_parts(item['year']),
+            'url' => url,
+            'type' => 'article-journal' } }
+      end.compact
     end
   end
 
   def get_author(contributors)
     contributors = [contributors] if contributors.is_a?(Hash)
     contributors.map do |contributor|
-      { 'family' => contributor['surname'],
-        'given' => contributor['given_name'] }
+      { 'family' => String(contributor['surname']).titleize,
+        'given' => String(contributor['given_name']).titleize }
     end
   end
 
