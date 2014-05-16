@@ -61,6 +61,10 @@ function showEvents(data, page) {
 
   for (var i=0; i<nest_by_year.length; i++) {
     year = nest_by_year[i];
+
+    // skip if date is missing
+    if (year.key === null) continue;
+
     d3.select("#results").append("h2")
       .append("text")
       .text(year.key);
