@@ -160,7 +160,7 @@ function formattedDate(date, len) {
 // construct author object from author parts
 function formattedAuthor(author) {
   author = author.map(function(d) { return d.given + " " + d.family; });
-  if (author.length > 3) {
+  if (author.length > 4) {
     return author.slice(0,3).join(", ") + ", <em>et al</em>";
   } else {
     return author.join(", ");
