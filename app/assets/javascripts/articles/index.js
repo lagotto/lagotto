@@ -57,7 +57,7 @@ function articlesViz(json) {
       .attr("href", function(d) { return "/articles/info:" + uid_type + "/" + article[uid_type]; })
       .text(article["title"]);
     d3.select("#results").append("p")
-      .text(formattedDate(date, date_parts.length)) + ". ")
+      .text(formattedDate(date, date_parts.length) + ". ")
       .append("a")
       .attr("href", function(d) { return url_for(article); })
       .append("text")
