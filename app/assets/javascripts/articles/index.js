@@ -47,7 +47,9 @@ function articlesViz(json) {
   }
 
   for (var i=0; i<data.length; i++) {
-    article = data[i];
+    var article = data[i];
+    var date_parts = article["issued"]["date_parts"];
+    var date = datePartsToDate(date_parts);
 
     d3.select("#results").append("h4")
       .attr("class", "article")
@@ -55,7 +57,7 @@ function articlesViz(json) {
       .attr("href", function(d) { return "/articles/info:" + uid_type + "/" + article[uid_type]; })
       .text(article["title"]);
     d3.select("#results").append("p")
-      .text(datePartsToDate(article["issued"]["date_parts"]) + ". ")
+      .text(formattedDate(date, date_parts.length)) + ". ")
       .append("a")
       .attr("href", function(d) { return url_for(article); })
       .append("text")
@@ -95,9 +97,10 @@ function paginate(json) {
 // d3 helper functions
  var formatDate = d3.time.format("%B %d, %Y"),
      formatMonthYear = d3.time.format("%B %Y"),
+     formatYear = d3.time.format("%Y"),
      formatFixed = d3.format(",.0f");
 
-// Construct date object from date parts and format acccordingly
+// construct date object from date parts
 function datePartsToDate(date_parts) {
   var len = date_parts.length;
 
@@ -105,26 +108,28 @@ function datePartsToDate(date_parts) {
   if (len == 0 || len > 3) return null;
 
   // turn numbers to strings and pad with 0
-  for (i = 0; i < date_parts.length; ++i) {
-   if (date_parts[i] < 10) {
+  for (i = 0; i < len; ++i) {
+    if (date_parts[i] < 10) {
       date_parts[i] = "0" + date_parts[i];
     } else {
       date_parts[i] = "" + date_parts[i];
     }
   }
 
-  // year only, no formatting needed
-  if (len == 1) return date_parts[0];
-
-  // convert to date, then format
-  // workaround for different time zones
+  // convert to date, workaround for different time zones
   var timestamp = Date.parse(date_parts.join('-') + 'T12:00');
-  var date = new Date(timestamp);
+  return new Date(timestamp);
+};
 
-  if (len == 3) {
-    return formatDate(date);
-  } else {
-    return formatMonthYear(date);
+// format date
+function formattedDate(date, len) {
+  switch (len) {
+    case 1:
+      return formatYear(date);
+    case 2:
+      return formatMonthYear(date);
+    case 3:
+      return formatDate(date);
   }
 };
 

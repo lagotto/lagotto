@@ -39,6 +39,8 @@ function eventViz(json) {
     return d;
   });
 
+  data = data.filter(function(d) { return d.year !== null });
+
   var page = 1;
   showEvents(data, page);
 };
@@ -61,9 +63,6 @@ function showEvents(data, page) {
 
   for (var i=0; i<nest_by_year.length; i++) {
     year = nest_by_year[i];
-
-    // skip if date is missing
-    if (year.key === null) continue;
 
     d3.select("#results").append("h2")
       .append("text")
@@ -133,18 +132,14 @@ function datePartsToDate(date_parts) {
 
   // turn numbers to strings and pad with 0
   for (i = 0; i < len; ++i) {
-   if (date_parts[i] < 10) {
+    if (date_parts[i] < 10) {
       date_parts[i] = "0" + date_parts[i];
     } else {
       date_parts[i] = "" + date_parts[i];
     }
   }
 
-  // year only
-  if (len == 1) date_parts[1] = "01";
-
-  // convert to date, then format
-  // workaround for different time zones
+  // convert to date, workaround for different time zones
   var timestamp = Date.parse(date_parts.join('-') + 'T12:00');
   return new Date(timestamp);
 };
@@ -166,8 +161,12 @@ function formattedAuthor(author) {
   author = author.map(function(d) { return d.given + " " + d.family; });
   if (author.length > 4) {
     return author.slice(0,3).join(", ") + ", <em>et al</em>";
+  } else if (author.length > 2) {
+    return author.slice(0,-2).join(", ") + " & " + author[author.length - 1];
+  } else if (author.length > 1) {
+    return author[0] + " & " + author[author.length - 1];
   } else {
-    return author.join(", ");
+    return author;
   }
 };
 
