@@ -82,8 +82,8 @@ class CrossRef < Source
             'issued' => get_date_parts_from_parts(item['year']),
             'url' => url,
             'type' => 'article-journal' } }
-      end.compact
-    end
+      end
+    end.compact
   end
 
   def get_author(contributors)
