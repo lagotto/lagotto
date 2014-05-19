@@ -82,6 +82,9 @@ function url_for(article) {
 // pagination
 function paginate(json) {
   if ((page != "") & json["total_pages"] > 1) {
+    var prev = (json["page"] > 1) ? "«" : null;
+    var next = (json["page"] < json["total_pages"]) ? "»" : null;
+
     d3.select("#results").append("div")
       .attr("id", "paginator");
 
@@ -89,7 +92,10 @@ function paginate(json) {
       total: json["total_pages"],
       page: json["page"],
       maxVisible: 10,
-      href: json["href"]
+      href: json["href"],
+      leaps: false,
+      prev: prev,
+      next: next
     });
   }
 };

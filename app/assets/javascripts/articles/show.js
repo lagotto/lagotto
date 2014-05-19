@@ -95,11 +95,11 @@ function showEvents(data, page) {
 // pagination
 function paginate(data, page) {
   if (data.length > 50) {
-    var total = data.length;
-    var max_visible = Math.ceil(total/50);
+    var total = Math.ceil(data.length/50);
+    var max_visible = 10;
     var href = "#events?page={{number}}";
     var prev = (page > 1) ? "«" : null;
-    var next = (page < max_visible) ? "»" : null;
+    var next = (page < total) ? "»" : null;
 
     d3.select("#results").append("div")
       .attr("id", "paginator");
