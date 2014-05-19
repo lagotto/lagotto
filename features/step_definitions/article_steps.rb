@@ -103,6 +103,11 @@ When /^I go to the article with "(.*?)" for "(.*?)"$/ do |value, identifier|
   visit article_path(article.doi)
 end
 
+When /^click on the "(.*?)" tab$/ do |name|
+  page.driver.render("tmp/capybara/#{name}")
+  click_link name
+end
+
 ### THEN ###
 Then /^I should see the article$/ do
   page.should have_content @article.title
@@ -113,6 +118,10 @@ Then /^I should see an article with title "(.*?)"$/ do |title|
 end
 
 Then /^I should see a list of (\d+) articles?$/ do |number|
+  page.has_css?('h4.article', :count => number).should be_true
+end
+
+Then /^I should see a list of (\d+) events$/ do |number|
   page.has_css?('h4.article', :count => number).should be_true
 end
 

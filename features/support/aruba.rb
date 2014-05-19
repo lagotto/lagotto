@@ -1,7 +1,8 @@
 require 'aruba/cucumber'
 require 'webmock/cucumber'
 
-WebMock.disable_net_connect!(:allow => [/localhost/, /127.0.0.1/, /codeclimate.com/])
+# Allow connections to localhost and code climate code coverage tool
+WebMock.disable_net_connect!(allow: [/codeclimate.com/], allow_localhost: true)
 
 # PROJECT_ROOT = File.join(File.dirname(__FILE__),'..','..')
 # ENV['PATH'] = "#{File.join(PROJECT_ROOT,'bin')}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
