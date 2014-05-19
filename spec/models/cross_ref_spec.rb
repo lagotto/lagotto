@@ -106,7 +106,7 @@ describe CrossRef do
       event[:event_url].should eq("http://dx.doi.org/#{event[:event]['doi']}")
 
       event[:event_csl]['author'].should eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      event[:event_csl]['title'].should eq("Audiotactile interactions in temporal perception")
+      event[:event_csl]['title'].should eq("Audiotactile Interactions In Temporal Perception")
       event[:event_csl]['container-title'].should eq("Psychonomic Bulletin & Review")
       event[:event_csl]['issued'].should eq("date_parts"=>["2011"])
       event[:event_csl]['type'].should eq("article-journal")
@@ -123,7 +123,7 @@ describe CrossRef do
       event[:event_url].should eq("http://dx.doi.org/#{event[:event]['doi']}")
 
       event[:event_csl]['author'].should eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      event[:event_csl]['title'].should eq("Audiotactile interactions in temporal perception")
+      event[:event_csl]['title'].should eq("Audiotactile Interactions In Temporal Perception")
       event[:event_csl]['container-title'].should eq("Psychonomic Bulletin & Review")
       event[:event_csl]['issued'].should eq("date_parts"=>["2011"])
       event[:event_csl]['type'].should eq("article-journal")
