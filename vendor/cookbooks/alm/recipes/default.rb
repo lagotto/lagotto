@@ -21,6 +21,23 @@ package 'openssl' do
   action :upgrade
 end
 
+# Upgrade openssh to latest version
+package 'openssh-server' do
+  action :upgrade
+end
+
+file '/etc/hostname' do
+  content "#{node[:alm][:hostname]}\n"
+end
+
+file '/etc/hosts' do
+  content "127.0.0.1  localhost #{node[:alm][:hostname]}\n::1 ip6-localhost ip6-loopback #{node[:alm][:hostname]}\nfe00::0 ip6-localnet\nff00::0 ip6-mcastprefix\nff02::1 ip6-allnodes\nff02::2 ip6-allrouters\nff02::3 ip6-allhosts\n"
+end
+
+service 'hostname' do
+  action :restart
+end
+
 # Install required packages
 %w{libxml2-dev libxslt-dev ruby2.1 ruby2.1-dev curl}.each do |pkg|
   package pkg do
