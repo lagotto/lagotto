@@ -159,14 +159,16 @@ function formattedDate(date, len) {
 // construct author object from author parts
 function formattedAuthor(author) {
   author = author.map(function(d) { return d.given + " " + d.family; });
-  if (author.length > 4) {
-    return author.slice(0,3).join(", ") + ", <em>et al</em>";
-  } else if (author.length > 2) {
-    return author.slice(0,-2).join(", ") + " & " + author[author.length - 1];
-  } else if (author.length > 1) {
-    return author[0] + " & " + author[author.length - 1];
-  } else {
-    return author;
+  switch (author.length) {
+    case 0:
+    case 1:
+    case 2:
+      return author.join(" & ");
+    case 3:
+    case 4:
+      return author.slice(0,-1).join(", ") + " & " + author[author.length - 1];
+    default:
+      return author.slice(0,3).join(", ") + ", <em>et al</em>";
   }
 };
 
@@ -178,5 +180,5 @@ function formattedType(type) {
                 "webpage": "Web page",
                 "broadcast": "Podcast/Video",
                 "personal_communication": "Personal communication" }
-  return types[type];
+  return types[type] || "Other";
 };
