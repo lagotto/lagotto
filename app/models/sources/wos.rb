@@ -45,7 +45,7 @@ class Wos < Source
 
     values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
     event_count = values[0].to_i
-    # temporary fix for parsing error
+    # fix for parsing error
     event_count = 0 if event_count > 100000
     events_url = values[2]
 

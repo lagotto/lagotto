@@ -64,7 +64,7 @@ describe Wos do
     end
 
     it "should report if there are no events and event_count returned by the Wos API" do
-      body = File.read(fixture_path + 'wos_nil.xml')
+      body = File.read(fixture_path + 'wos_nil_alt.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
