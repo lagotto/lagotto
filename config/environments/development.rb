@@ -27,8 +27,6 @@ Alm::Application.configure do
   # Do not compress assets
   config.assets.compress = false
 
-  config.assets.compile = true
-
   config.serve_static_assets = false
 
   # config.assets.prefix = "/dev-assets"
@@ -37,7 +35,7 @@ Alm::Application.configure do
   config.log_level = :debug
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  config.assets.debug = false
 
   # for devise
   config.action_mailer.default_url_options = { :host => "#{CONFIG[:mail]["address"]}#{CONFIG[:mail]["port"]}" }
