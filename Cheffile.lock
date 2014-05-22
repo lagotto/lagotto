@@ -6,7 +6,7 @@ SITE
       logrotate (>= 0.0.0)
       pacman (>= 0.0.0)
     apt (2.3.8)
-    aws (2.2.0)
+    aws (2.2.2)
     build-essential (2.0.0)
     chef_handler (1.1.6)
     chocolatey (0.1.0)
@@ -64,7 +64,7 @@ SITE
       apt (>= 1.9.0)
       build-essential (>= 0.0.0)
       openssl (>= 0.0.0)
-    powershell (3.0.2)
+    powershell (3.0.4)
       ms_dotnet2 (>= 0.0.0)
       ms_dotnet4 (>= 0.0.0)
       ms_dotnet45 (>= 0.0.0)
@@ -73,7 +73,7 @@ SITE
       build-essential (>= 0.0.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
-    windows (1.30.2)
+    windows (1.31.0)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
     yum (3.2.0)
@@ -85,9 +85,9 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 3b4fd71b9342c65dcc82a573b87019cf847c1db9
+  sha: c5fa01dae6406769056dc4db7bb4f439091ba739
   specs:
-    alm (1.8.5)
+    alm (1.8.7)
       couchdb (>= 0.0.0)
       database (>= 0.0.0)
       git (>= 0.0.0)

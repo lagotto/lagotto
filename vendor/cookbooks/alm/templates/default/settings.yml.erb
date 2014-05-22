@@ -30,7 +30,7 @@ test:
   notification_email: alm@alm.example.org
   cas_url: https://example.org
   workers: 1
-  couchdb_url: http://<%= node[:alm][:host] %>:<%= node[:couch_db][:config][:httpd][:port] %>/<%= node[:alm][:name] %>_test/
+  couchdb_url: http://localhost:<%= node[:couch_db][:config][:httpd][:port] %>/<%= node[:alm][:name] %>_test/
   doi_prefix: <%= node[:alm][:doi_prefix] %>
 
 production:
