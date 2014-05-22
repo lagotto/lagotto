@@ -42,7 +42,7 @@ gem "crossfilter-rails", "~> 1.3.5"
 gem "uglifier", "~> 2.4.0"
 gem "jquery-rails", "~> 3.1.0"
 gem "therubyracer", "~> 0.12.0"
-gem 'sass-rails', '~> 3.2.5'
+gem 'sass-rails', '~> 3.2.6'
 gem "bootstrap-sass", '~> 3.1.0.2'
 gem 'coffee-rails', '~> 3.2.2'
 gem "turbolinks", "~> 2.2.1"
@@ -55,6 +55,7 @@ gem "rouge", "~> 1.3.1"
 
 group :assets do
   gem 'turbo-sprockets-rails3', '~> 0.3.11'
+  gem 'sprockets', '~> 2.2.1'
 end
 
 group :development do
