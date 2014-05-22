@@ -27,6 +27,8 @@ Alm::Application.configure do
   # Do not compress assets
   config.assets.compress = false
 
+  config.assets.compile = true
+
   config.serve_static_assets = false
 
   # config.assets.prefix = "/dev-assets"
