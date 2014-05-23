@@ -19,7 +19,8 @@ class Api::V4::ArticlesController < Api::V4::BaseController
       else
         @error = "Source not found."
       end
-      render "error", :status => :not_found
+      render :status => :not_found
+      render "error"
     else
       @success = "Article found."
     end
@@ -31,10 +32,12 @@ class Api::V4::ArticlesController < Api::V4::BaseController
 
     if @article.save
       @success = "Article created."
-      render "success", :status => :created
+      render :status => :created
+      render "success"
     else
       @error = @article.errors
-      render "error", :status => :bad_request
+      render :status => :bad_request
+      render "error"
     end
   end
 
@@ -43,13 +46,16 @@ class Api::V4::ArticlesController < Api::V4::BaseController
 
     if @article.blank?
       @error = "No article found."
-      render "error", :status => :not_found
+      render :status => :not_found
+      render "error"
     elsif @article.update_attributes(safe_params)
       @success = "Article updated."
-      render "success", :status => :ok
+      render :status => :ok
+      render "success"
     else
       @error = @article.errors
-      render "error", :status => :bad_request
+      render :status => :bad_request
+      render "error"
     end
   end
 
@@ -58,13 +64,16 @@ class Api::V4::ArticlesController < Api::V4::BaseController
 
     if @article.blank?
       @error = "No article found."
-      render "error", :status => :not_found
+      render :status => :not_found
+      render "error"
     elsif @article.destroy
       @success = "Article deleted."
-      render "success", :status => :ok
+      render :status => :ok
+      render "success"
     else
       @error = "An error occured."
-      render "error", :status => :bad_request
+      render :status => :bad_request
+      render "error"
     end
   end
 end
