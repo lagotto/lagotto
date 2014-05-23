@@ -101,6 +101,7 @@ describe PlosComments do
       event[:event_csl]['container-title'].should eq("PLOS Comments")
       event[:event_csl]['issued'].should eq("date_parts"=>[2013, 10, 27])
       event[:event_csl]['type'].should eq("personal_communication")
+      event[:event_csl]['url'].should eq("http://dx.doi.org/#{article.doi}")
 
       event[:event_time].should eq("2013-10-27T22:03:35Z")
       event[:event]["totalNumReplies"].should == 0

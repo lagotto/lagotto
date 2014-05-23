@@ -252,8 +252,8 @@ class Source < ActiveRecord::Base
     family = name_parts.last
     given = name_parts.length > 1 ? name_parts[0..-2].join(' ') : ''
 
-    [{ 'family' => family,
-       'given' => given }]
+    [{ 'family' => String(family).titleize,
+       'given' => String(given).titleize }]
   end
 
   # Custom validations that are triggered in state machine
