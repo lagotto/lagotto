@@ -3,6 +3,13 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 3.1](https://github.com/articlemetrics/alm/releases/tag/v.3.1)
+
+ALM 3.1 was released on May 23, 2014 with the following features:
+
+* display of all events for an article by date
+* many bug fixes
+
 ## [ALM 3.0](https://github.com/articlemetrics/alm/releases/tag/v.3.0)
 
 ALM 3.0 was released on May 8, 2014 with the following features:
