@@ -141,7 +141,7 @@ describe PmcEuropeData do
 
       event = response[:events].first
 
-      event[:event_csl]['author'].should eq([{"family"=>"HA.", "given"=>"Piwowar"}])
+      event[:event_csl]['author'].should eq([{"family"=>"Ha.", "given"=>"Piwowar"}])
       event[:event_csl]['title'].should eq("Who shares? Who doesn't? Factors associated with openly archiving raw research data.")
       event[:event_csl]['container-title'].should eq("PLoS One")
       event[:event_csl]['issued'].should eq("date_parts"=>[2011])

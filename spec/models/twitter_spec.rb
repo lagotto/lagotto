@@ -62,7 +62,7 @@ describe Twitter do
 
       event = response[:events].first
 
-      event[:event_csl]['author'].should eq([{"family"=>"regrum", "given"=>""}])
+      event[:event_csl]['author'].should eq([{"family"=>"Regrum", "given"=>""}])
       event[:event_csl]['title'].should eq("Don't be blinded by science http://t.co/YOWRhsXb")
       event[:event_csl]['container-title'].should eq("Twitter")
       event[:event_csl]['issued'].should eq("date_parts"=>[2012, 5, 20])

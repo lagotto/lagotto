@@ -94,7 +94,7 @@ describe TwitterSearch do
 
       event = response[:events].first
 
-      event[:event_csl]['author'].should eq([{"family"=>"ChampionsEverywhere", "given"=>""}])
+      event[:event_csl]['author'].should eq([{"family"=>"Champions Everywhere", "given"=>""}])
       event[:event_csl]['title'].should eq("A bit technical but worth a read: randomised medical control studies may be almost entirely false:... http://t.co/ohldzDxNiq")
       event[:event_csl]['container-title'].should eq("Twitter")
       event[:event_csl]['issued'].should eq("date_parts"=>[2014, 1, 11])

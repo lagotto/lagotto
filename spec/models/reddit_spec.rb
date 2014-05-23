@@ -79,7 +79,7 @@ describe Reddit do
 
       event = response[:events].first
 
-      event[:event_csl]['author'].should eq([{"family"=>"jjberg2", "given"=>""}])
+      event[:event_csl]['author'].should eq([{"family"=>"Jjberg2", "given"=>""}])
       event[:event_csl]['title'].should eq("AskScience AMA: We are the authors of a recent paper on genetic genealogy and relatedness among the people of Europe. Ask us anything about our paper!")
       event[:event_csl]['container-title'].should eq("Reddit")
       event[:event_csl]['issued'].should eq("date_parts"=>[2013, 5, 15])
