@@ -17,8 +17,10 @@ apt_repository 'couchdb' do
 end
 
 # Upgrade openssl to latest version
-package 'openssl' do
-  action :upgrade
+%w{openssl openssl-server}.each do |pkg|
+  package pkg do
+    action :upgrade
+  end
 end
 
 # Install required packages
@@ -27,8 +29,21 @@ end
     action :install
   end
 end
+
 gem_package "bundler" do
   gem_binary "/usr/bin/gem"
+end
+
+file '/etc/hostname' do
+  content "#{node[:alm][:hostname]}\n"
+end
+
+file '/etc/hosts' do
+  content "127.0.0.1  localhost #{node[:alm][:hostname]}\n::1 ip6-localhost ip6-loopback #{node[:alm][:hostname]}\nfe00::0 ip6-localnet\nff00::0 ip6-mcastprefix\nff02::1 ip6-allnodes\nff02::2 ip6-allrouters\nff02::3 ip6-allhosts\n"
+end
+
+service 'hostname' do
+  action :restart
 end
 
 # Create shared folders and set permissions
