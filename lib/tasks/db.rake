@@ -226,12 +226,12 @@ namespace :db do
 
   namespace :api_responses do
 
-    desc "Delete all resolved API responses older than 24 hours"
+    desc "Delete all API responses older than 24 hours"
     task :delete => :environment do
       before = ApiResponse.count
       ApiResponse.where("created_at < ?", Time.zone.now - 1.day).destroy_all
       after = ApiResponse.count
-      puts "Deleted #{before - after} resolved API responses, #{after} unresolved API responses remaining"
+      puts "Deleted #{before - after} API responses, #{after} API responses remaining"
     end
   end
 
