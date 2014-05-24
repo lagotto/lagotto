@@ -97,8 +97,9 @@ class Report < ActiveRecord::Base
              { name: "pmc_stats", headers: [CONFIG[:uid], "pmc_html", "pmc_pdf", "pmc"] },
              { name: "counter_stats", headers: [CONFIG[:uid], "counter_html", "counter_pdf", "counter"] }]
     stats.each do |stat|
+      name =
       stat[:csv] = read_stats(stat, options).to_a
-      alm_stats.delete(stat[:name]) unless stat[:csv].blank?
+      alm_stats.delete(name) unless stat[:csv].blank?
     end
 
     # return alm_stats if no additional stats are found
