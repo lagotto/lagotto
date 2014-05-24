@@ -70,8 +70,8 @@ describe Report do
 
         response = CSV.parse(subject.merge_stats)
         response.length.should == 3
-        response.first.should eq(["doi", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups", "mendeley"])
-        response.last.should eq([article.doi, article.published_on.iso8601, article.title, "50", "1663", "0", "1663"])
+        response.first.should eq(["doi", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups"])
+        response.last.should eq([article.doi, article.published_on.iso8601, article.title, "50", "1663", "0"])
         File.delete filepath
       end
 
