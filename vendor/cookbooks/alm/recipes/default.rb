@@ -17,10 +17,8 @@ apt_repository 'couchdb' do
 end
 
 # Upgrade openssl to latest version
-%w{openssl openssl-server}.each do |pkg|
-  package pkg do
-    action :upgrade
-  end
+package "openssl" do
+  action :upgrade
 end
 
 # Install required packages
