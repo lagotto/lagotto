@@ -233,7 +233,6 @@ describe "/api/v3/articles", :not_teamcity => true do
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
         response_source["events"].should be_nil
-        response_source["histories"].should_not be_nil
 
         summary_uri = "#{uri}&info=summary"
         get summary_uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -244,73 +243,6 @@ describe "/api/v3/articles", :not_teamcity => true do
         response["doi"].should eql(article.doi)
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
       end
-
-      it "does not use a stale cache when the days query parameter changes" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
-
-        sleep 1
-
-        Rails.cache.exist?("#{key}//json").should be_true
-
-        days_uri = "#{uri}&days=30"
-        get days_uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
-
-        response_article = JSON.parse(last_response.body)[0]
-        response_source = response_article["sources"][0]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_days(30).last.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should be_nil
-      end
-
-      it "does not use a stale cache when the months query parameter changes" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
-
-        sleep 1
-
-        Rails.cache.exist?("#{key}//json").should be_true
-
-        months_uri = "#{uri}&months=6"
-        get months_uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
-
-        response_article = JSON.parse(last_response.body)[0]
-        response_source = response_article["sources"][0]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_months(6).last.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should be_nil
-      end
-
-      it "does not use a stale cache when the year query parameter changes" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
-
-        sleep 1
-
-        Rails.cache.exist?("#{key}//json").should be_true
-
-        year_uri = "#{uri}&year=2013"
-        get year_uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
-
-        response_article = JSON.parse(last_response.body)[0]
-        response_source = response_article["sources"][0]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2013).first.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should be_nil
-      end
-
     end
   end
 end

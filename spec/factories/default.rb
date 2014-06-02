@@ -130,14 +130,6 @@ FactoryGirl.define do
       association :source, factory: :cross_ref
     end
 
-    before(:create) do |retrieval_status|
-      FactoryGirl.create(:retrieval_history, retrieved_at: Time.zone.today - 2.years + 1.day,
-                                             event_count: 50,
-                                             retrieval_status: retrieval_status,
-                                             article: retrieval_status.article,
-                                             source: retrieval_status.source)
-    end
-
     initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
   end
 
@@ -229,7 +221,6 @@ FactoryGirl.define do
     update_interval 7
     unresolved 1
     source_id 1
-    retrieval_history_id 1
   end
 
   factory :review do

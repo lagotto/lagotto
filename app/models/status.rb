@@ -64,7 +64,7 @@ class Status
   end
 
   def mysql_size
-    RetrievalHistory.table_status["data_length"] || 0
+    RetrievalStatus.table_status["data_length"] || 0
   end
 
   def update_date

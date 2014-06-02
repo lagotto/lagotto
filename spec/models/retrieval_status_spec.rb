@@ -4,7 +4,6 @@ describe RetrievalStatus do
 
   it { should belong_to(:article) }
   it { should belong_to(:source) }
-  it { should have_many(:retrieval_histories).dependent(:destroy) }
 
   it "stale_at should be publication date for unpublished articles" do
     article = FactoryGirl.create(:article, year: Time.zone.now.year + 1)
