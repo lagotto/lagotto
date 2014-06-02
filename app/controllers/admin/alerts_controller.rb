@@ -1,5 +1,4 @@
 class Admin::AlertsController < Admin::ApplicationController
-
   load_and_authorize_resource
 
   def index
@@ -45,12 +44,12 @@ class Admin::AlertsController < Admin::ApplicationController
     respond_with(@alerts) do |format|
       if params[:article_id]
         id_hash = Article.from_uri(params[:article_id])
-        @article = Article.where(id_hash).first
+        key, value = id_hash.first
+        @article = Article.where(key => value).first
         format.js { render :alert }
       else
         format.js { render :index }
       end
     end
   end
-
 end

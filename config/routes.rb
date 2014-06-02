@@ -1,4 +1,6 @@
 Alm::Application.routes.draw do
+  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
 
   root :to => "docs#index"
@@ -25,7 +27,6 @@ Alm::Application.routes.draw do
 
   namespace :api do
     namespace :v3 do
-      root :to => "articles#index"
       resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index, :show]
       resources :sources, :constraints => { :format=> false }, only: [:index, :show]
       resources :status, :constraints => { :format=> false }, only: [:index]
@@ -33,12 +34,10 @@ Alm::Application.routes.draw do
     end
 
     namespace :v4 do
-      root :to => "articles#index"
       resources :articles, :constraints => { :id => /.+?/, :format=> false }
     end
 
     namespace :v5 do
-      root :to => "articles#index"
       resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index]
       resources :sources, :constraints => { :format=> false }, only: [:index, :show]
       resources :status, :constraints => { :format=> false }, only: [:index]

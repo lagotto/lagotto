@@ -19,90 +19,102 @@
 # limitations under the License.
 
 class CrossRef < Source
-
   validates :url, :password, presence: true, if: "CONFIG[:doi_prefix]"
 
-  def get_data(article, options={})
-
-    # Check that article has DOI and is at least one day old
-    return { :events => [], :event_count => nil } if (article.doi.blank? || Time.zone.now - article.published_on.to_time < 1.day)
-
-    # Check whether we have published the DOI, otherwise use different API
-    if article.is_publisher?
-
-      query_url = get_query_url(article)
-      result = get_xml(query_url, options)
-
-      return nil if result.nil?
-
-      events = []
-      result.xpath("//xmlns:journal_cite").each do |cite|
-        event = Hash.from_xml(cite.to_s)
-        event = event["journal_cite"]
-        event_url = Article.to_url(event["doi"])
-
-        events << { :event => event, :event_url => event_url }
-      end
-
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => events.length,
-                        :total => events.length }
-
-      { :events => events,
-        :event_count => events.length,
-        :event_metrics => event_metrics,
-        :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
-    else
-      get_default_data(article, options={})
-    end
-  end
-
-  def get_default_data(article, options={})
-
-    query_url = get_default_query_url(article)
-    result = get_xml(query_url, options.merge(:source_id => id))
-
-    return nil if result.blank?
-
-    total = result.at_xpath("//@fl_count").value.to_i ||= 0
-
-    {:events => [],
-     :event_count => total }
-  end
-
   def get_query_url(article)
-    url % { :username => username, :password => password, :doi => article.doi_escaped } unless article.doi.blank?
-  end
-
-  def get_default_query_url(article)
-    unless article.doi.blank?
+    if article.doi.nil? || Time.zone.now - article.published_on.to_time < 1.day
+      nil
+    elsif article.is_publisher?
+      url % { :username => username, :password => password, :doi => article.doi_escaped }
+    else
       pid = password.blank? ? username : username + ":" + password
-      default_url % { :pid => pid, :doi => article.doi_escaped }
+      openurl % { :pid => pid, :doi => article.doi_escaped }
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "default_url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "username", :field_type => "text_field"},
-     {:field_name => "password", :field_type => "password_field"}]
+  def request_options
+    { content_type: 'xml' }
+  end
+
+  def parse_data(result, article, options={})
+    return result if result[:error]
+
+    events = get_events(result)
+
+    if article.is_publisher?
+      event_count = events.length
+    else
+      event_count = result.deep_fetch('crossref_result', 'query_result', 'body', 'query', 'fl_count') { 0 }
+    end
+
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
+      events_url: nil,
+      event_count: event_count.to_i,
+      event_metrics: get_event_metrics(citations: event_count) }
+  end
+
+  def get_events(result)
+    events = result.deep_fetch('crossref_result', 'query_result', 'body', 'forward_link') { nil }
+    if events.is_a?(Hash) && events['journal_cite']
+      events = [events]
+    elsif events.is_a?(Hash)
+      events = nil
+    end
+
+    Array(events).map do |item|
+      item = item.fetch('journal_cite') { {} }
+      if item.empty?
+        nil
+      else
+        item.extend Hashie::Extensions::DeepFetch
+        url = Article.to_url(item['doi'])
+
+        { event: item,
+          event_url: url,
+
+          # the rest is CSL (citation style language)
+          event_csl: {
+            'author' => get_author(item.deep_fetch('contributors', 'contributor') { [] }),
+            'title' => String(item.fetch('article_title') { '' }).titleize,
+            'container-title' => item.fetch('journal_title') { '' },
+            'issued' => get_date_parts_from_parts(item['year']),
+            'url' => url,
+            'type' => 'article-journal' } }
+      end
+    end.compact
+  end
+
+  def get_author(contributors)
+    contributors = [contributors] if contributors.is_a?(Hash)
+    contributors.map do |contributor|
+      { 'family' => String(contributor['surname']).titleize,
+        'given' => String(contributor['given_name']).titleize }
+    end
+  end
+
+  def config_fields
+    [:url, :openurl, :username, :password]
   end
 
   def url
     config.url || "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
   end
 
-  def default_url
-    config.default_url || "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
+  def openurl
+    config.openurl || "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
   end
 
-  def default_url=(value)
-    config.default_url = value
+  def openurl=(value)
+    config.openurl = value
   end
 
+  def timeout
+    config.timeout || 120
+  end
+
+  def workers
+    config.workers || 10
+  end
 end

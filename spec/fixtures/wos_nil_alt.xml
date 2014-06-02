@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<response xmlns="http://www.isinet.com/xrpc42" src="app.id=Article-Level Metrics,env.id=test,partner.email=alm@alm.example.org">
+<fn name="LinksAMR.retrieve" rc="OK">
+<map>
+<map name="cite_id">
+<map name="WOS">
+<val name="ut">000308063700032</val>
+</map>
+</map>
+</map>
+</fn>
+</response>

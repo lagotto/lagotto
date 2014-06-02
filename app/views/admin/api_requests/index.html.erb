@@ -27,7 +27,5 @@
     </div>
   </div>
 
-  <%= javascript_tag do -%>
-    <%= render :partial => 'index', formats: :js %>
-  <% end %>
+  <%= javascript_include_tag 'api_requests/index' %>
 </div>

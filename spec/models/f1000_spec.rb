@@ -1,78 +1,112 @@
 require 'spec_helper'
 
 describe F1000 do
-  let(:f1000) { FactoryGirl.create(:f1000) }
+  subject { FactoryGirl.create(:f1000) }
 
   it "should report that there are no events if the doi is missing" do
-    article = FactoryGirl.build(:article, :doi => "")
-    f1000.get_data(article).should eq({ :events => [], :event_count => nil })
+    article = FactoryGirl.build(:article, :doi => nil)
+    subject.get_data(article).should eq({})
   end
 
-  context "use the F1000 feed" do
+  context "save f1000 data" do
+    it "should fetch and save f1000 data" do
+      # stub = stub_request(:get, subject.get_feed_url).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'f1000.xml'), :status => 200)
+      # subject.get_feed.should be_true
+      # file = "#{Rails.root}/data/#{subject.filename}.xml"
+      # File.exist?(file).should be_true
+      # stub.should have_been_requested
+      # Alert.count.should == 0
+    end
+  end
+
+  context "parse f1000 data" do
     before(:each) do
-      filename = "#{Rails.root}/data/#{f1000.filename}"
-      FileUtils.copy (fixture_path + 'f1000.xml'), filename unless File.exist?(filename)
+      subject.put_alm_data(subject.db_url)
+      body = File.read(fixture_path + 'f1000.xml')
+      File.open("#{Rails.root}/data/#{subject.filename}", 'w') { |file| file.write(body) }
     end
 
-    it "should report if there are no events and event_count returned by the F1000 feed" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
-      f1000.get_data(article).should eq({ :events => [], :event_count => 0 })
+    after(:each) do
+      subject.delete_alm_data(subject.db_url)
     end
 
-    it "should report if there are events and event_count returned by the F1000 feed" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pgen.0020051")
-      response = f1000.get_data(article)
-      response[:event_count].should eq(2)
-      response[:events_url].should eq("http://f1000.com/prime/13421")
-      response[:events]["Classifications"].should eq("NEW_FINDING")
-      response[:attachment][:data].should be_true
+    it "should parse f1000 data" do
+      subject.parse_feed.should_not be_blank
+      Alert.count.should == 0
+    end
+  end
+
+  context "get_data from the f1000 internal database" do
+    before(:each) do
+      subject.put_alm_data(subject.db_url)
     end
 
-    it "should fetch the F1000 feed if the file is missing" do
-      filename = "#{Rails.root}/data/#{f1000.filename}"
-      body = File.open(filename, 'r') { |f| f.read }
-      File.delete filename
-      stub = stub_request(:get, "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml").to_return(:status => 200, :body => body)
+    after(:each) do
+      subject.delete_alm_data(subject.db_url)
+    end
 
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pgen.0020051")
-      response = f1000.get_data(article)
-      response[:event_count].should eq(2)
-      response[:events_url].should eq("http://f1000.com/prime/13421")
-      response[:events]["Classifications"].should eq("NEW_FINDING")
-      response[:attachment][:data].should be_true
+    it "should report if there are no events and event_count returned by f1000" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
+      body = File.read(fixture_path + 'f1000_nil.json')
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
+      response = subject.get_data(article)
+      response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
-    it "should catch an error when the F1000 feed can't be fetched" do
-      filename = "#{Rails.root}/data/#{f1000.filename}"
-      File.delete filename
-      stub = stub_request(:get, "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml").to_return(:status => [408])
+    it "should report if there are events and event_count returned by f1000" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pbio.1001420")
+      body = File.read(fixture_path + 'f1000.json')
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
+      response = subject.get_data(article)
+      response.should eq(JSON.parse(body))
+      stub.should have_been_requested
+    end
 
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
-      f1000.get_data(article).should be_nil
+    it "should catch timeout errors with f1000" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
+      response = subject.get_data(article, options = { :source_id => subject.id })
+      response.should eq(error: "the server responded with status 408 for http://127.0.0.1:5984/f1000_test/#{article.doi_escaped}")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
       alert.class_name.should eq("Net::HTTPRequestTimeOut")
       alert.status.should == 408
-      alert.source_id.should == f1000.id
+      alert.source_id.should == subject.id
+    end
+  end
+
+  context "parse_data from the f1000 internal database" do
+    it "should report if there are no events and event_count returned by f1000" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0044294")
+      body = File.read(fixture_path + 'f1000_nil.json')
+      result = JSON.parse(body)
+      response = subject.parse_data(result, article)
+      response.should eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :event_count=>0, :events_url=>nil, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
     end
 
-    it "should catch an error when the F1000 feed can't be saved" do
-      filename = "#{Rails.root}/data/#{f1000.filename}"
-      body = File.open(filename, 'r') { |f| f.read }
-      f1000.filename = ""
-      stub = stub_request(:get, "http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml").to_return(:status => 200, :body => body)
+    it "should report if there are events and event_count returned by f1000" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pbio.1001420")
+      body = File.read(fixture_path + 'f1000.json')
+      result = JSON.parse(body)
+      response = subject.parse_data(result, article)
+      response[:event_count].should == 2
+      response[:events_url].should eq("http://f1000.com/prime/718293874")
 
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pgen.0020051")
-      f1000.get_data(article, options = { :source_id => f1000.id }).should be_nil
-      stub.should have_been_requested
-      Alert.count.should == 1
-      alert = Alert.first
-      alert.class_name.should eq("Errno::EISDIR")
-      alert.message.should include("Is a directory")
-      alert.status.should == 500
-      alert.source_id.should == f1000.id
+      response[:events_by_month].length.should eq(1)
+      response[:events_by_month].first.should eq(month: 4, year: 2014, total: 2)
+      response[:event_metrics].should eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 2, total: 2)
+
+      event = response[:events].last
+      event[:event]['classifications'].should eq(["confirmation", "good_for_teaching"])
+    end
+
+    it "should catch timeout errors with f1000" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
+      result = { error: "the server responded with status 408 for http://127.0.0.1:5984/f1000_test/" }
+      response = subject.parse_data(result, article)
+      response.should eq(result)
     end
   end
 end

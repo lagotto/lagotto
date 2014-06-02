@@ -10,7 +10,7 @@ Feature: Sign in as staff
     Scenario: Staff can see jobs in source view
       Given the source "Citeulike" exists
       And that we have 5 articles
-      When I go to the "Summary" tab of source "CiteULike"
+      When I go to the "Summary" tab of source "Citeulike"
       Then the table "SummaryTable" should be:
         |                                             | Pending              | Working    |
         | Jobs                                        |                      |            |
@@ -23,14 +23,14 @@ Feature: Sign in as staff
 
     Scenario: Configuration should be displayed
       Given the source "Citeulike" exists
-      When I go to the "Configuration" tab of source "CiteULike"
+      When I go to the "Configuration" tab of source "Citeulike"
       Then I should see the "Job queue" settings
       And I should see the "Update interval" settings
       And I should see the "Failed queries" settings
 
     Scenario: Staff cannot edited sources
       Given the source "Citeulike" exists
-      When I go to the "Configuration" tab of source "CiteULike"
+      When I go to the "Configuration" tab of source "Citeulike"
       Then I should not see the "Edit" button
 
     Scenario: Staff cannot edited users

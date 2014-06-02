@@ -2,7 +2,7 @@
 Given /^that we have added (\d+) documents to CouchDB$/ do |number|
   number.to_i.times do |i|
     put_alm_data("#{CONFIG[:couchdb_url]}#{i}", data: { "name" => "Fred" })
- end
+  end
 end
 
 ### THEN ###

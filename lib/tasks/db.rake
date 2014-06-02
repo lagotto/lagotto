@@ -19,11 +19,15 @@
 # limitations under the License.
 
 namespace :db do
+
+  def validate_uid
+
+  end
   namespace :articles do
 
     desc "Bulk-load articles from standard input"
     task :load => :environment do
-      puts "Reading DOIs from standard input..."
+      puts "Reading #{CONFIG[:uid]}s from standard input..."
       valid = []
       invalid = []
       duplicate = []
@@ -32,34 +36,34 @@ namespace :db do
 
       while (line = STDIN.gets)
         line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
-        raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
+        raw_uid, raw_published_on, raw_title = line.strip.split(" ", 3)
 
-        doi = Article.from_uri(raw_doi.strip).values.first
+        uid = Article.from_uri(raw_uid.strip).values.first
         if raw_published_on
           date_parts = raw_published_on.split("-")
           year, month, day = date_parts[0], date_parts[1], date_parts[2]
         end
-        title = raw_title.strip if raw_title
-        if (doi =~ Article::FORMAT) and !year.nil? and !title.nil?
-          valid << [doi, year, month, day, title]
+        title = raw_title.strip.chomp('.') if raw_title
+        if Article.validate_format(uid) && year && title
+          valid << [uid, year, month, day, title]
         else
-          puts "Ignoring DOI: #{raw_doi}, #{raw_published_on}, #{raw_title}"
-          invalid << [raw_doi, raw_published_on, raw_title]
+          puts "Ignoring #{CONFIG[:uid]}: #{raw_uid}, #{raw_published_on}, #{raw_title}"
+          invalid << [raw_uid, raw_published_on, raw_title]
         end
       end
 
       puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
 
       if valid.size > 0
-        valid.each do |doi, year, month, day, title|
-          existing = Article.find_by_doi(doi)
+        valid.each do |uid, year, month, day, title|
+          existing = Article.where(CONFIG[:uid].to_sym => uid).first
           unless existing
-            article = Article.create(doi: doi,
-                                     year: year,
-                                     month: month,
-                                     day: day,
-                                     title: title)
-            created << doi
+            article = Article.create(CONFIG[:uid].to_sym => uid,
+                                     :year => year,
+                                     :month => month,
+                                     :day => day,
+                                     :title => title)
+            created << uid
           else
             if [existing.year, existing.month, existing.day].join("-") != [year, month, day].join("-") || existing.title != title
               existing.year = year
@@ -67,9 +71,9 @@ namespace :db do
               existing.day = day
               existing.title = title
               existing.save!
-              updated << doi
+              updated << uid
             else
-              duplicate << doi
+              duplicate << uid
             end
           end
         end
@@ -81,15 +85,15 @@ namespace :db do
     desc "Seed sample articles"
     task :seed => :environment do
       before = Article.count
-      ENV['ARTICLES'] = "1"
+      ENV['ARTICLES'] = "true"
       Rake::Task['db:seed'].invoke
       after = Article.count
       puts "Seeded #{after - before} articles"
     end
 
-    desc "Delete articles with DOI from standard input"
+    desc "Delete articles provided via standard input"
     task :delete => :environment do
-      puts "Reading DOIs from standard input..."
+      puts "Reading #{CONFIG[:uid]}s from standard input..."
       valid = []
       invalid = []
       missing = []
@@ -97,27 +101,27 @@ namespace :db do
 
       while (line = STDIN.gets)
         line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
-        raw_doi, raw_other = line.strip.split(" ", 2)
+        raw_uid, raw_other = line.strip.split(" ", 2)
 
-        doi = Article.from_uri(raw_doi.strip).values.first
-        if (doi =~ Article::FORMAT)
-          valid << [doi]
+        uid = Article.from_uri(raw_uid.strip).values.first
+        if Article.validate_format(uid)
+          valid << [uid]
         else
-          puts "Ignoring DOI: #{raw_doi}"
-          invalid << [raw_doi]
+          puts "Ignoring #{CONFIG[:uid]}: #{raw_uid}"
+          invalid << [raw_uid]
         end
       end
 
       puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
 
       if valid.size > 0
-        valid.each do |doi|
-          existing = Article.find_by_doi(doi)
+        valid.each do |uid|
+          existing = Article.where(CONFIG[:uid].to_sym => uid).first
           if existing
             existing.destroy
-            deleted << doi
+            deleted << uid
           else
-            missing << doi
+            missing << uid
           end
         end
       end
@@ -170,11 +174,26 @@ namespace :db do
 
     desc "Add publication year, month and day"
     task :date_parts => :environment do
-      Article.all.each do |article|
+      begin
+        start_date = Date.parse(ENV['START_DATE']) if ENV['START_DATE']
+      rescue => e
+        # raises error if invalid date supplied
+        puts "Error: #{e.message}"
+        exit
+      end
+
+      if start_date
+        puts "Adding date parts for all articles published since #{start_date}."
+        articles = Article.where("published_on >= ?", start_date)
+      else
+        articles = Article.all
+      end
+
+      articles.each do |article|
         article.update_date_parts
         article.save
       end
-      puts "Date parts for #{Article.count} articles added"
+      puts "Date parts for #{articles.count} articles added"
     end
   end
 
@@ -193,10 +212,10 @@ namespace :db do
 
   namespace :api_requests do
 
-    desc "Delete API requests, keeping last 1,000 requests"
+    desc "Delete API requests, keeping last 10,000 requests"
     task :delete => :environment do
       before = ApiRequest.count
-      request = ApiRequest.order("created_at DESC").offset(1000).first
+      request = ApiRequest.order("created_at DESC").offset(10000).first
       unless request.nil?
         ApiRequest.where("created_at <= ?", request.created_at).delete_all
       end
@@ -207,12 +226,12 @@ namespace :db do
 
   namespace :api_responses do
 
-    desc "Delete all resolved API responses older than 24 hours"
+    desc "Delete all API responses older than 24 hours"
     task :delete => :environment do
       before = ApiResponse.count
-      ApiResponse.where(unresolved: false).where("created_at < ?", Time.zone.now - 1.day).destroy_all
+      ApiResponse.where("created_at < ?", Time.zone.now - 1.day).destroy_all
       after = ApiResponse.count
-      puts "Deleted #{before - after} resolved API responses, #{after} unresolved API responses remaining"
+      puts "Deleted #{before - after} API responses, #{after} API responses remaining"
     end
   end
 
@@ -233,10 +252,8 @@ namespace :db do
 
       sources.each do |source|
         source.activate
-        if source.queueing?
-          puts "Source #{source.display_name} has been activated and is now queueing."
-        elsif source.idle?
-          puts "Source #{source.display_name} has been activated and is now idle."
+        if source.waiting?
+          puts "Source #{source.display_name} has been activated and is now waiting."
         else
           puts "Source #{source.display_name} could not be activated."
         end

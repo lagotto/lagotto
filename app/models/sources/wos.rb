@@ -19,25 +19,50 @@
 # limitations under the License.
 
 class Wos < Source
+  def get_query_url(article)
+    return nil unless article.doi.present?
 
-  def get_data(article, options = {})
+    url
+  end
 
-    # Check that article has DOI
-    return { events: [], event_count: nil } if article.doi.blank?
-
-    data = get_xml_request(article)
-
+  def get_data(article, options={})
     query_url = get_query_url(article)
-    result = post_xml(query_url, options.merge(data: data))
+    if query_url.nil?
+      result = {}
+    else
+      data = get_xml_request(article)
+      result = get_result(query_url, options.merge(content_type: 'xml', data: data))
+    end
+    result.extend Hashie::Extensions::DeepFetch
+  end
 
-    return { events: [], event_count: nil } if result.nil?
+  def parse_data(result, article, options={})
+    return result if result[:error]
 
-    # Check that WOS has returned the correct status message,
-    # otherwise report an error
-    status = result.at_xpath('//xmlns:fn[@name="LinksAMR.retrieve"]')
-    status = status.nil? ? '' : status['rc']
+    # Check whether WOS has returned an error status message
+    error_status = check_error_status(result, article)
+    return { error: error_status } if error_status
 
-    if status.casecmp('OK') != 0
+    values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
+    event_count = values[0].to_i
+    # fix for parsing error
+    event_count = 0 if event_count > 100000
+    events_url = values[2]
+
+    { events: {},
+      events_by_day: [],
+      events_by_month: [],
+      events_url: events_url,
+      event_count: event_count,
+      event_metrics: get_event_metrics(citations: event_count) }
+  end
+
+  def check_error_status(result, article)
+    status = result.deep_fetch('response', 'fn', 'rc') { 'OK' }
+
+    if status.casecmp('OK') == 0
+      return false
+    else
       if status == 'Server.authentication'
         class_name = 'Net::HTTPUnauthorized'
         status_code = 401
@@ -45,44 +70,15 @@ class Wos < Source
         class_name = 'Net::HTTPNotFound'
         status_code = 404
       end
-      error = result.at_xpath('//xmlns:error')
-      error = error.nil? ? 'an error occured' : error.content
+      error = result.deep_fetch('response', 'fn', 'error') { 'an error occured' }
       message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
       Alert.create(exception: '',
                    message: message,
                    class_name: class_name,
                    status: status_code,
                    source_id: id)
-      return { events: [], event_count: nil }
+      return message
     end
-
-    cite_count = result.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="timesCited"]')
-    cite_count = cite_count.nil? ? 0 : cite_count.content.to_i
-    event_metrics = { pdf: nil,
-                      html: nil,
-                      shares: nil,
-                      groups: nil,
-                      comments: nil,
-                      likes: nil,
-                      citations: cite_count,
-                      total: cite_count }
-
-    if cite_count > 0
-      events_url = result.at_xpath('//xmlns:map[@name="WOS"]/xmlns:val[@name="citingArticlesURL"]')
-      events_url = events_url.content unless events_url.nil?
-
-      { events: cite_count,
-        events_url: events_url,
-        event_count: cite_count,
-        attachment: { filename: 'events.xml', content_type: 'text/xml', data: result.to_s }
-      }
-    else
-      { events: 0, event_count: 0, event_metrics: event_metrics, events_url: nil, attachment: nil }
-    end
-  end
-
-  def get_query_url(article)
-    config.url
   end
 
   def get_xml_request(article)
@@ -110,7 +106,7 @@ class Wos < Source
     end
   end
 
-  def get_config_fields
-    [{ field_name: 'url', field_type: 'text_area', size: '90x2' }]
+  def config_fields
+    [:url]
   end
 end

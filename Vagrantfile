@@ -19,6 +19,10 @@ Vagrant.configure("2") do |config|
   # Override settings for specific providers
   config.vm.provider :virtualbox do |vb, override|
     vb.name = "alm"
+
+    # Boot with a GUI so you can see the screen. (Default is headless)
+    # vb.gui = true
+    
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
@@ -29,16 +33,16 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider :aws do |aws, override|
-    aws.access_key_id = "EXAMPLE"
-    aws.secret_access_key = "EXAMPLE"
-    aws.keypair_name = "EXAMPLE"
-    aws.security_groups = ["EXAMPLE"]
+    aws.access_key_id = ENV['AWS_KEY_ID']
+    aws.secret_access_key = ENV['AWS_SECRET_KEY']
+    aws.keypair_name = ENV['AWS_KEYPAIR_NAME']
+    aws.security_groups = ENV['AWS_SECURITY_GROUP']
     aws.instance_type = "m1.small"
     aws.ami = "ami-e7582d8e"
     aws.tags = { Name: 'Vagrant alm' }
 
     override.ssh.username = "ubuntu"
-    override.ssh.private_key_path = "~/.ssh/id_rsa"
+    override.ssh.private_key_path = ENV['AWS_KEY_PATH']
     override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
   end
 
@@ -53,10 +57,7 @@ Vagrant.configure("2") do |config|
     provider.size = '1GB'
   end
 
-  config.vm.hostname = "alm"
-
-  # Boot with a GUI so you can see the screen. (Default is headless)
-  # config.vm.boot_mode = :gui
+  config.vm.hostname = "alm.local"
 
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as

@@ -4,8 +4,8 @@ attributes :doi, :title, :canonical_url, :mendeley_uuid, :pmid, :pmcid, :issued,
 
 unless params[:info] == "summary"
   child :retrieval_statuses => :sources do
-    attributes :name, :display_name, :group_name, :events_url, :metrics, :update_date
+    attributes :name, :display_name, :group_name, :events_url, :metrics, :by_day, :by_month, :by_year, :update_date
 
-    attributes :events, :by_day, :by_month, :by_year if params[:info] == "detail"
+    attributes :events, :events_csl if params[:info] == "detail"
   end
 end

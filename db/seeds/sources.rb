@@ -9,11 +9,11 @@ other = Group.find_or_create_by_name(name: "other", display_name: "Other")
 
 # These sources are installed and activated by default
 citeulike = Citeulike.find_or_create_by_name(
-	:name => "citeulike",
-	:display_name => "CiteULike",
+  :name => "citeulike",
+  :display_name => "CiteULike",
   :description => "CiteULike is a free social bookmarking service for scholarly content.",
-	:state_event => "activate",
-	:group_id => saved.id)
+  :state_event => "activate",
+  :group_id => saved.id)
 pubmed = PubMed.find_or_create_by_name(
   :name => "pubmed",
   :display_name => "PubMed",
@@ -38,13 +38,13 @@ wikipedia = Wikipedia.find_or_create_by_name(
   :description => "Wikipedia is a free encyclopedia that everyone can edit.",
   :state_event => "activate",
   :group_id => discussed.id)
-
-# These sources are not installed by default
 datacite = Datacite.find_or_create_by_name(
   :name => "datacite",
   :display_name => "DataCite",
   :description => "Helping you to find, access, and reuse research data.",
   :group_id => cited.id)
+
+# These sources are not installed by default
 pmc_europe = PmcEurope.find_or_create_by_name(
   :name => "pmceurope",
   :display_name => "PMC Europe Citations",

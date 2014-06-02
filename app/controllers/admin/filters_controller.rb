@@ -38,6 +38,6 @@ class Admin::FiltersController < Admin::ApplicationController
   private
 
   def safe_params
-    params.require(:filter).permit(:active, *@filter.config_fields, { source_ids: []})
+    params.require(:filter).permit(:active, *@filter.config_fields, source_ids: [])
   end
 end

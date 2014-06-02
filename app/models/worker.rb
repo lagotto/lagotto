@@ -21,7 +21,6 @@
 require 'csv'
 
 class Worker
-
   include Comparable
   include Enumerable
 
@@ -40,7 +39,7 @@ class Worker
   end
 
   def self.find(param)
-    all.detect { |f| f.id == param } || raise(ActiveRecord::RecordNotFound)
+    all.find { |f| f.id == param } || fail(ActiveRecord::RecordNotFound)
   end
 
   def self.start
@@ -113,11 +112,11 @@ class Worker
     @created_at = File.ctime(file).utc
   end
 
-  def <=> other
-    self.id <=> other.id
+  def <=>(other)
+    id <=> other.id
   end
 
-  def each &block
+  def each(&block)
     @workers.each do |worker|
       if block_given?
         block.call worker
@@ -129,8 +128,11 @@ class Worker
 
   def proc
     proc = IO.read("/proc/#{pid}/status")
-    proc = CSV.parse(proc, { :col_sep => ":\t" })
-    proc = proc.inject({}) { |h, nvp| h[nvp[0]] = nvp[1]; h }
+    proc = CSV.parse(proc, :col_sep => ":\t")
+    proc = proc.reduce({}) do |h, nvp|
+      h[nvp[0]] = nvp[1]
+      h
+    end
   rescue
     {}
   end

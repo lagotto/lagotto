@@ -3,6 +3,33 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 3.1](https://github.com/articlemetrics/alm/releases/tag/v.3.1)
+
+ALM 3.1 was released on May 23, 2014 with the following features:
+
+* display of all events for an article by date
+* many bug fixes
+
+## [ALM 3.0](https://github.com/articlemetrics/alm/releases/tag/v.3.0)
+
+ALM 3.0 was released on May 8, 2014 with the following features:
+
+* rewrite of all sources
+* rewrite of backend processing of source API responses
+* daily and monthly visualizations for all sources
+* standardized events in CSL format
+* Rails 3.2.18
+
+## [ALM 2.14](https://github.com/articlemetrics/alm/releases/tag/v.2.14)
+
+ALM 2.14 was released on April 24, 2014 with the following new features:
+
+* extensive refactoring of background workers for sources
+* fixed some open issues with displaying information using the d3.js library (and included Jasmine Javascript unit tests)
+* full support for using the pmid or pmcid instead of the doi as required persistent identifier for every article
+* improved support for Capistrano 3
+* many bug fixes
+
 ## [ALM 2.13.2](https://github.com/articlemetrics/alm/releases/tag/v.2.13.2)
 
 ALM 2.13.2 was released on March 27, 2014 with a focus on bug fixes:

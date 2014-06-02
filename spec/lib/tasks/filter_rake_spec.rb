@@ -111,9 +111,9 @@ describe "filter:unresolve" do
 
   its(:prerequisites) { should include("environment") }
 
-    before do
-      FactoryGirl.create(:api_response, unresolved: false)
-    end
+  before do
+    FactoryGirl.create(:api_response, unresolved: false)
+  end
 
   let(:output) { "Unresolved 1 API response" }
 

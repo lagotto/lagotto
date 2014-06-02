@@ -19,18 +19,19 @@
 # limitations under the License.
 
 class SourceNotUpdatedError < Filter
-
   def run_filter(state)
     responses_by_source = ApiResponse.filter(state[:id]).group(:source_id).count
-    responses = source_ids.select { |source_id| !responses_by_source.has_key?(source_id) }
+    responses = source_ids.select { |source_id| !responses_by_source.key?(source_id) }
 
     if responses.count > 0
       # send additional report, listing all stale sources by name
       report = Report.find_by_name("stale_source_report")
       report.send_stale_source_report(responses)
 
-      responses = responses.map { |response| { source_id: response,
-                                               message: "Source not updated for 24 hours" }}
+      responses = responses.map do |response|
+        { source_id: response,
+          message: "Source not updated for 24 hours" }
+      end
       raise_alerts(responses)
     end
 

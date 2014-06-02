@@ -21,28 +21,26 @@ describe Report do
   end
 
   context "generate csv" do
-
-    before(:each) do
-      @article = FactoryGirl.create(:article_with_events)
-    end
+    let!(:article) { FactoryGirl.create(:article_with_events) }
 
     it "should format the ALM data as csv" do
       response = CSV.parse(subject.to_csv)
-      #response.length.should == 2
+      response.length.should == 3
       response.first.should eq(["doi", "publication_date", "title", "citeulike"])
-      response.last.should eq([@article.doi, @article.published_on.iso8601, @article.title, "50"])
+      response.last.should eq([article.doi, article.published_on.iso8601, article.title, "50"])
     end
   end
 
   context "write csv to file" do
 
     before(:each) do
-      @article = FactoryGirl.create(:article_with_events, doi: "10.1371/journal.pcbi.1000204")
       FileUtils.rm_rf("#{Rails.root}/data/report_#{Date.today.iso8601}")
     end
 
+    let!(:article) { FactoryGirl.create(:article_with_events, doi: "10.1371/journal.pcbi.1000204") }
     let(:csv) { subject.to_csv }
     let(:filename) { "alm_stats.csv" }
+    let(:mendeley) { FactoryGirl.create(:mendeley) }
 
     it "should write report file" do
       filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}/#{filename}"
@@ -67,13 +65,13 @@ describe Report do
         stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
         filename = "mendeley_stats.csv"
         filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}/#{filename}"
-        csv = Mendeley.to_csv
+        csv = mendeley.to_csv
         subject.write(filename, csv)
 
         response = CSV.parse(subject.merge_stats)
-        #response.length.should == 2
-        response.first.should eq(["doi", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups", "mendeley"])
-        response.last.should eq([@article.doi, @article.published_on.iso8601, @article.title, "50", "1663", "0", "1663"])
+        response.length.should == 3
+        response.first.should eq(["doi", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups"])
+        response.last.should eq([article.doi, article.published_on.iso8601, article.title, "50", "1663", "0"])
         File.delete filepath
       end
 
@@ -118,13 +116,13 @@ describe Report do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
       mail.body.parts.length.should == 2
-      mail.body.parts.collect(&:content_type).should == ["text/plain; charset=UTF-8","text/html; charset=UTF-8"]
+      mail.body.parts.map(&:content_type).should == ["text/plain; charset=UTF-8", "text/html; charset=UTF-8"]
     end
 
     it "generates proper links to the admin dashboard" do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
-      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should include("<a href=\"http://#{CONFIG[:hostname]}/admin/alerts\">Go to admin dashboard</a>")
     end
   end
@@ -145,13 +143,13 @@ describe Report do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
       mail.body.parts.length.should == 2
-      mail.body.parts.collect(&:content_type).should == ["text/plain; charset=UTF-8","text/html; charset=UTF-8"]
+      mail.body.parts.map(&:content_type).should == ["text/plain; charset=UTF-8", "text/html; charset=UTF-8"]
     end
 
     it "generates proper links to the admin dashboard" do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
-      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should include("<a href=\"http://#{CONFIG[:hostname]}/admin/alerts?class=SourceNotUpdatedError\">Go to admin dashboard</a>")
     end
   end

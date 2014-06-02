@@ -14,11 +14,11 @@ Feature: See jobs
       When I go to the "Sources" admin page
       Then the table "JobsTable" should be:
         | Source    | Status   | Pending | Working | Stale Articles |
-        | CiteULike | queueing |         |         | 5              |
+        | CiteULike | waiting  |         |         | 5              |
 
     @not_teamcity
     Scenario: Jobs in source view
-      When I go to the "Summary" tab of source "CiteULike"
+      When I go to the "Summary" tab of source "Citeulike"
       Then the table "SummaryTable" should be:
         |                                             | Pending              | Working    |
         | Jobs                                        |                      |            |

@@ -8,9 +8,9 @@ CodeClimate::TestReporter.start
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'shoulda-matchers'
 require 'rspec/autorun'
 require 'email_spec'
-require 'shoulda-matchers'
 require 'factory_girl_rails'
 require 'capybara/rspec'
 require 'database_cleaner'
@@ -18,12 +18,10 @@ require 'webmock/rspec'
 require "rack/test"
 require 'draper/test/rspec_integration'
 
-SafeYAML::OPTIONS[:default_mode] = :safe
-
 include WebMock::API
-WebMock.disable_net_connect!(:allow => [/localhost/, /127.0.0.1/, /codeclimate.com/])
+WebMock.disable_net_connect!(allow: [/codeclimate.com/], allow_localhost: true)
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 def app
   Rails.application

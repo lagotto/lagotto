@@ -19,45 +19,32 @@
 # limitations under the License.
 
 class Figshare < Source
-
-  def get_data(article, options={})
-
-    return  { :events => [], :event_count => nil } unless article.doi[0..6] == CONFIG[:doi_prefix].to_s
-
-    query_url = get_query_url(article)
-    options[:source_id] = id
-    result = get_json(query_url, options)
-
-    if result.nil?
-      nil
-    elsif result.empty? or result["items"].empty?
-      { :events => [], :event_count => nil }
-    else
-      views = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["page_views"].to_i }
-      downloads = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["downloads"].to_i }
-      likes = result["items"].inject(0) { |sum, hash| sum + hash["stats"]["likes"].to_i }
-      total = views + downloads + likes
-
-      event_metrics = { :pdf => downloads,
-                        :html => views,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => likes,
-                        :citations => nil,
-                        :total => total }
-
-      { :events => result,
-        :event_count => total,
-        :event_metrics => event_metrics }
-    end
-  end
-
   def get_query_url(article)
-    config.url % { :doi => article.doi }
+    return nil unless article.doi =~ /^10.1371/
+
+    url % { :doi => article.doi }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def parse_data(result, article, options={})
+    return result if result[:error]
+
+    events = Array(result["items"])
+
+    views = get_sum(events, 'stats', 'page_views')
+    downloads = get_sum(events, 'stats', 'downloads')
+    likes = get_sum(events, 'stats', 'likes')
+
+    total = views + downloads + likes
+
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
+  end
+
+  def config_fields
+    [:url]
   end
 end

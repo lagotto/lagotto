@@ -1,7 +1,7 @@
 class AddApiResponsesIndexes < ActiveRecord::Migration
   def change
-    #Renaming "index_retrieval_statuses_source_id_event_count_retrieved_at_desc" to "index_retrieval_statuses_source_id_event_count_retr_at_desc"
-    #Because it shouldn't be more than 63 characters
+    # Renaming "index_retrieval_statuses_source_id_event_count_retrieved_at_desc" to "index_retrieval_statuses_source_id_event_count_retr_at_desc"
+    # Because it shouldn't be more than 63 characters
     add_index :retrieval_statuses, [:source_id, :event_count, :retrieved_at], :order=>{:source_id=>:asc, :event_count=>:desc, :retrieved_at=>:desc}, :name => 'index_retrieval_statuses_source_id_event_count_retr_at_desc'
 
     add_index :api_responses, [:unresolved, :id], :name => 'index_api_responses_unresolved_id'

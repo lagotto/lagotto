@@ -52,7 +52,8 @@ namespace :report do
   desc 'Generate CSV file with Mendeley stats'
   task :mendeley_stats => :environment do |t, args|
     filename = "mendeley_stats.csv"
-    csv = Mendeley.to_csv
+    source = Source.find_by_name("mendeley")
+    csv = source.to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
@@ -71,7 +72,8 @@ namespace :report do
       filename = "pmc_stats.csv"
     end
 
-    csv = Pmc.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    source = Source.find_by_name("pmc")
+    csv = source.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
@@ -129,7 +131,8 @@ namespace :report do
       filename = "counter_stats.csv"
     end
 
-    csv = Counter.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    source = Source.find_by_name("counter")
+    csv = source.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."

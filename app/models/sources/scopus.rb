@@ -19,50 +19,34 @@
 # limitations under the License.
 
 class Scopus < Source
-
-  def get_data(article, options={})
-
-    # Check that article has DOI
-    return { :events => [], :event_count => nil } if article.doi.blank?
-
-    query_url = get_query_url(article)
-    result = get_json(query_url, options.merge(:headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken }))
-
-    if result.nil? || result["search-results"].nil? || result["search-results"]["entry"][0].nil?
-      nil
-    elsif result["search-results"]["entry"][0]["citedby-count"].nil?
-      { events: [], event_count: 0, event_metrics: { pdf: nil,
-                                                     html: nil,
-                                                     shares: nil,
-                                                     groups: nil,
-                                                     comments: nil,
-                                                     likes: nil,
-                                                     citations: 0,
-                                                     total: 0 }}
-    else
-      events = result["search-results"]["entry"][0]
-      event_count = events["citedby-count"].to_i
-      link = events["link"].find { |link| link["@ref"] == "scopus-citedby" }
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => event_count,
-                        :total => event_count }
-
-      { events: events,
-        events_url: link["@href"],
-        event_count: event_count,
-        event_metrics: event_metrics }
-    end
+  def request_options
+    { :headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken } }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     { field_name: "api_key", field_type:  "text_field" },
-     { field_name: "insttoken", field_type: "text_field" }]
+  def parse_data(result, article, options={})
+    return result if result[:error]
+
+    events = result.deep_fetch('search-results', 'entry', 0) { {} }
+
+    if events["link"]
+      event_count = events['citedby-count'].to_i
+      link = events["link"].find { |link| link["@ref"] == "scopus-citedby" }
+      events_url = link["@href"]
+    else
+      event_count = 0
+      events_url = nil
+    end
+
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
+      events_url: events_url,
+      event_count: event_count,
+      event_metrics: get_event_metrics(citations: event_count) }
+  end
+
+  def config_fields
+    [:url, :api_key, :insttoken]
   end
 
   def url

@@ -12,19 +12,19 @@ CodeClimate::TestReporter.configure do |config|
 end
 CodeClimate::TestReporter.start
 
-require 'psych'
 require 'cucumber/rails'
 require 'factory_girl_rails'
 require 'capybara/poltergeist'
 require 'webmock/cucumber'
 
-SafeYAML::OPTIONS[:default_mode] = :safe
+# include required concerns
+include Networkable
+include Couchable
 
-World(SourceHelper)
 World(FactoryGirl::Syntax::Methods)
 
 # Allow connections to localhost and code climate code coverage tool
-WebMock.disable_net_connect!(:allow => [/localhost/, /127.0.0.1/, /codeclimate.com/])
+WebMock.disable_net_connect!(allow: [/codeclimate.com/], allow_localhost: true)
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd
@@ -32,12 +32,10 @@ WebMock.disable_net_connect!(:allow => [/localhost/, /127.0.0.1/, /codeclimate.c
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, {
-    :timeout => 120,
-    :js_errors => true,
-    :debug => false,
-    :inspector => true
-  })
+  Capybara::Poltergeist::Driver.new(app, :timeout => 120,
+                                         :js_errors => true,
+                                         :debug => false,
+                                         :inspector => true)
 end
 Capybara.javascript_driver = :poltergeist
 
@@ -92,4 +90,12 @@ end
 
 After('@couchdb') do
   delete_alm_database
+end
+
+Before('@delayed') do
+  Delayed::Worker.delay_jobs = true
+end
+
+After('@delayed') do
+  Delayed::Worker.delay_jobs = false
 end

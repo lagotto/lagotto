@@ -39,6 +39,7 @@ class Admin::SourcesController < Admin::ApplicationController
   end
 
   protected
+
   def load_source
     @source = Source.find_by_name(params[:id])
   end
@@ -54,13 +55,13 @@ class Admin::SourcesController < Admin::ApplicationController
                                    :description,
                                    :job_batch_size,
                                    :workers,
-                                   :batch_time_interval,
                                    :rate_limiting,
                                    :wait_time,
                                    :staleness_week,
                                    :staleness_month,
                                    :staleness_year,
                                    :staleness_all,
+                                   :cron_line,
                                    :timeout,
                                    :max_failed_queries,
                                    :max_failed_query_time_interval,

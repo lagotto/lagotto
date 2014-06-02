@@ -13,7 +13,7 @@ describe "/api/v5/status" do
       end
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => "application/json"
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)

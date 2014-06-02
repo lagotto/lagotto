@@ -10,7 +10,7 @@ Feature: See donut visualizations for source
     And that we have 5 articles
 
     Scenario Outline: See donut
-    When I go to the "Summary" tab of source "CiteULike"
+    When I go to the "Summary" tab of source "Citeulike"
     Then I should see the donut "<Name>"
 
     Examples:
@@ -21,7 +21,7 @@ Feature: See donut visualizations for source
 
     # @javascript
     # Scenario Outline: See tooltip
-    # When I go to the "Summary" tab of source "CiteULike"
+    # When I go to the "Summary" tab of source "Citeulike"
     # And I hover over the donut "<Name>"
     # Then I should see the tooltip
     #

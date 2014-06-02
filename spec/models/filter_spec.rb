@@ -42,14 +42,14 @@ describe Filter do
         @api_response = FactoryGirl.create(:api_response, unresolved: false)
       end
 
-       it "should get nil from all method" do
+      it "should get nil from all method" do
         subject.all.should be_nil
       end
     end
 
     context "resolve" do
       let(:api_response) { FactoryGirl.create(:api_response) }
-      let(:options) {{ id: api_response.id }}
+      let(:options) { { id: api_response.id } }
 
       it "should resolve API responses" do
         subject.resolve(options)[:output].should == 1
@@ -80,7 +80,7 @@ describe Filter do
 
     context "real decrease" do
       let(:api_response) { FactoryGirl.create(:api_response, previous_count: 12) }
-      let(:options) {{ id: api_response.id }}
+      let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
         subject.run_filter(options).should == 1
@@ -95,7 +95,7 @@ describe Filter do
 
     context "decrease to zero" do
       let(:api_response) { FactoryGirl.create(:api_response, event_count: 0) }
-      let(:options) {{ id: api_response.id }}
+      let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
         subject.run_filter(options).should == 1
@@ -105,7 +105,7 @@ describe Filter do
 
     context "success no data" do
       let(:api_response) { FactoryGirl.create(:api_response, event_count: 0) }
-      let(:options) {{ id: api_response.id }}
+      let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
         subject.run_filter(options).should == 1
@@ -114,8 +114,8 @@ describe Filter do
     end
 
     context "skipped" do
-      let(:api_response) { FactoryGirl.create(:api_response, event_count: 0, skipped: true) }
-      let(:options) {{ id: api_response.id }}
+      let(:api_response) { FactoryGirl.create(:api_response, event_count: 0, retrieval_history_id: nil) }
+      let(:options) { { id: api_response.id } }
 
       it "should not raise errors" do
         subject.run_filter(options).should == 0
@@ -125,7 +125,7 @@ describe Filter do
 
     context "API errors" do
       let(:api_response) { FactoryGirl.create(:api_response, event_count: nil) }
-      let(:options) {{ id: api_response.id }}
+      let(:options) { { id: api_response.id } }
 
       it "should not raise errors" do
         subject.run_filter(options).should == 0
@@ -139,7 +139,7 @@ describe Filter do
 
     context "real increase" do
       let(:api_response) { FactoryGirl.create(:api_response, event_count: 3600) }
-      let(:options) {{ id: api_response.id }}
+      let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
         subject.run_filter(options).should == 1
@@ -154,7 +154,7 @@ describe Filter do
 
     context "same day" do
       let(:api_response) { FactoryGirl.create(:api_response, event_count: 3600, update_interval: 1) }
-      let(:options) {{ id: api_response.id }}
+      let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
         subject.run_filter(options).should == 1
@@ -171,7 +171,7 @@ describe Filter do
     subject { FactoryGirl.create(:html_ratio_too_high_error) }
 
     before(:each) do
-      #subject.put_alm_database
+      # subject.put_alm_database
     end
 
     after(:each) do
@@ -182,7 +182,7 @@ describe Filter do
       let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776") }
       let(:counter) { FactoryGirl.create(:counter) }
       let(:api_response) { FactoryGirl.create(:api_response) }
-      let(:options) {{ id: api_response.id }}
+      let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
         # body = File.read(fixture_path + 'counter_too_many_html.xml')
@@ -204,7 +204,7 @@ describe Filter do
 
     let(:duration) { 31000.0 }
     let(:api_response) { FactoryGirl.create(:api_response, duration: duration) }
-    let(:options) {{ id: api_response.id }}
+    let(:options) { { id: api_response.id } }
 
     it "should raise errors" do
       subject.run_filter(options).should == 1
@@ -222,7 +222,7 @@ describe Filter do
 
     let(:days) { 42 }
     let(:api_response) { FactoryGirl.create(:api_response, event_count: nil, update_interval: days) }
-    let(:options) {{ id: api_response.id }}
+    let(:options) { { id: api_response.id } }
 
     it "should raise errors" do
       subject.run_filter(options).should == 1
@@ -245,7 +245,7 @@ describe Filter do
     end
 
     let(:api_response) { FactoryGirl.create(:api_response, source_id: @citeulike.id) }
-    let(:options) {{ id: api_response.id }}
+    let(:options) { { id: api_response.id } }
 
     it "should raise errors" do
       subject.run_filter(options).should == 1

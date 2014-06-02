@@ -27,7 +27,7 @@ describe "/api/v5/sources", :not_teamcity => true do
           Rails.cache.exist?("rabl/#{SourceDecorator.decorate(source).cache_key}//json")
         end.should_not be_true
 
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
@@ -44,10 +44,10 @@ describe "/api/v5/sources", :not_teamcity => true do
       end
 
       it "can make API requests 0.9x faster" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
         ApiRequest.count.should eql(2)
         ApiRequest.last.view_duration.should be < 0.9 * ApiRequest.first.view_duration
@@ -62,7 +62,7 @@ describe "/api/v5/sources", :not_teamcity => true do
 
       it "can cache a source in JSON" do
         Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
@@ -77,14 +77,14 @@ describe "/api/v5/sources", :not_teamcity => true do
 
       it "can make API requests 2x faster" do
         Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
         Rails.cache.exist?("#{key}//json").should be_true
 
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
         ApiRequest.count.should eql(2)
         ApiRequest.last.view_duration.should be < 0.5 * ApiRequest.first.view_duration
@@ -92,7 +92,7 @@ describe "/api/v5/sources", :not_teamcity => true do
 
       it "updates the cached_at column when a source is updated" do
         Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
@@ -106,9 +106,9 @@ describe "/api/v5/sources", :not_teamcity => true do
         # wait a second so that the timestamp for cache_key is different
         sleep 1
         cached_at = source.cached_at.utc.iso8601
-        source.update_attributes!({ :display_name => display_name })
+        source.update_attributes!(display_name: display_name)
 
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
         cache_key = "rabl/#{SourceDecorator.decorate(source).cache_key}"
         cache_key.should_not eql(key)
@@ -122,7 +122,7 @@ describe "/api/v5/sources", :not_teamcity => true do
 
       it "does not use a stale cache when a source is updated" do
         Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
@@ -135,9 +135,9 @@ describe "/api/v5/sources", :not_teamcity => true do
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        source.update_attributes!({ :display_name => display_name })
+        source.update_attributes!(display_name: display_name)
 
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
         cache_key = "rabl/#{SourceDecorator.decorate(source).cache_key}"
         cache_key.should_not eql(key)

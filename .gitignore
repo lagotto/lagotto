@@ -30,6 +30,7 @@ capybara-*.html
 /config/database.yml
 /config/settings.yml
 /config/deploy/production.rb
+/config/deploy/staging.rb
 /config/data_bags/*
 /db/seeds/_custom_sources.rb
 /vendor/cookbooks/*/.git
@@ -43,3 +44,4 @@ config.json
 .idea/*
 erl_crash.dump
 optimise-db.txt
+doc/dependencies*

@@ -21,6 +21,7 @@ Feature: View documentation
         | Rake              |
         | Alerts            |
         | FAQ               |
+        | Releases          |
         | Roadmap           |
         | Contributors      |
 
@@ -31,28 +32,56 @@ Feature: View documentation
     Scenario: Documentation on user page
       Given I am logged in as "user"
       When I go to my account page
-      And click on the "Documentation" tab
+      And I click on the "Documentation" tab
       Then I should see the documentation
 
     Scenario: Documentation on source page
       Given we have a user with role "admin"
       And the source "Citeulike" exists
-      When I go to the source "CiteULike"
-      And click on the "Documentation" tab
+      When I go to the source "Citeulike"
+      And I click on the "Documentation" tab
       Then I should see the documentation
 
     Scenario: Documentation on source admin page
       Given I am logged in as "admin"
       And the source "Citeulike" exists
-      When I go to the "Documentation" tab of source "CiteULike"
+      When I go to the "Documentation" tab of source "Citeulike"
       Then I should see the documentation
 
-    @wip
-    Scenario: Missing documentation on source admin page
+    Scenario Outline: Documentation on source admin page
       Given I am logged in as "admin"
-      And the source "Biod" exists
-      When I go to the "Documentation" tab of source "Biod"
+      And the source "<Name>" exists
+      When I go to the "Documentation" tab of source "<Name>"
       Then I should see the documentation
+
+      Examples:
+        | Name                          |
+        | Citeulike                     |
+        | Mendeley                      |
+        | CrossRef                      |
+        | Datacite                      |
+        | PmcEurope                     |
+        | PmcEuropeData                 |
+        | PubMed                        |
+        | Scopus                        |
+        | Wos                           |
+        | ArticleCoverage               |
+        | ArticleCoverageCurated        |
+        | Facebook                      |
+        | Reddit                        |
+        | Twitter                       |
+        | TwitterSearch                 |
+        | Wikipedia                     |
+        | Wordpress                     |
+        | PlosComments                  |
+        | Nature                        |
+        | Openedition                   |
+        | Counter                       |
+        | Figshare                      |
+        | Copernicus                    |
+        | Pmc                           |
+        | RelativeMetric                |
+        | F1000                         |
 
     Scenario: Documentation on sources admin page
       Given I am logged in as "admin"

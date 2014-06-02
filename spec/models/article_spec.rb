@@ -70,31 +70,20 @@ describe Article do
 
   it "events count" do
     Article.all.each do |article|
-      total = 0
-      article.retrieval_statuses.each do |rs|
-        total += rs.event_count
-      end
-      assert(total == article.events_count)
+      total = article.retrieval_statuses.reduce(0) { |sum, rs| sum + rs.event_count }
+      total.should == article.events_count
     end
   end
 
   it "cited_retrievals_count" do
     Article.all.each do |article|
-      total = 0
-      article.retrieval_statuses.each do |rs|
-        if rs.event_count > 0
-          total += 1
-        end
-      end
-      assert(total == article.cited_retrievals_count)
+      total = article.retrieval_statuses.reduce(0) { |sum, rs| sum + 1 if rs.event_count > 0 }
+      total.should == article.cited_retrievals_count
     end
   end
 
   it "is cited" do
-    articles = Article.is_cited
-    articles.each do |article|
-      assert(article.events_count > 0)
-    end
+    Article.is_cited.all? { |article| article.events_count > 0 }.should be_true
   end
 
   it "order by published_on" do
@@ -106,9 +95,27 @@ describe Article do
     end
   end
 
-  it "should get the all_urls" do
+  it 'should get_url' do
+    article = FactoryGirl.create(:article, canonical_url: nil)
+    url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
+    stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+    stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
+    article.get_url.should be_true
+    article.canonical_url.should eq(url)
+  end
+
+  it 'should get_ids' do
+    article = FactoryGirl.create(:article, pmid: nil)
+    pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{article.doi_escaped}&idtype=doi&format=json"
+    stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers.json'), :status => 200)
+    article.get_ids.should be_true
+    article.pmid.should eq("17183658")
+    stub.should have_been_requested
+  end
+
+  it "should get all_urls" do
     article = FactoryGirl.build(:article, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
-    article.all_urls.should eq([article.doi_as_url,article.canonical_url])
+    article.all_urls.should eq([article.doi_as_url, article.canonical_url])
   end
 
   context "associations" do
@@ -121,8 +128,21 @@ describe Article do
     it "should delete associated retrieval_statuses" do
       @articles = FactoryGirl.create_list(:article_with_events, 2)
       RetrievalStatus.count.should == 2
-      @articles.each {|article| article.destroy }
+      @articles.each { |article| article.destroy }
       RetrievalStatus.count.should == 0
+    end
+
+    it "should create associated retrieval_histories" do
+      RetrievalStatus.count.should == 0
+      @articles = FactoryGirl.create_list(:article_with_events, 2)
+      RetrievalHistory.count.should == 2
+    end
+
+    it "should delete associated retrieval_histories" do
+      @articles = FactoryGirl.create_list(:article_with_events, 2)
+      RetrievalHistory.count.should == 2
+      @articles.each { |article| article.destroy }
+      RetrievalHistory.count.should == 0
     end
   end
 

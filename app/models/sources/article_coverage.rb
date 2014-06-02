@@ -19,54 +19,25 @@
 # limitations under the License.
 
 class ArticleCoverage < Source
+  def get_query_url(article)
+    return nil unless article.doi =~ /^10.1371/
 
-  def get_data(article, options={})
+    url % { :doi => article.doi_escaped }
+  end
 
-    return  { :events => [], :event_count => nil } if article.doi.blank?
+  def response_options
+    { metrics: :comments }
+  end
 
-    query_url = get_query_url(article)
-    result = get_json(query_url, options)
-
-    if result.nil?
-      { events: [], event_count: 0 }
-    else
-      refers = result['referrals']
-
-      if (refers.blank?)
-        { events: [], event_count: 0 }
-      else
-        events = refers.map { |item| { event: item, event_url: item['referral'] }}
-
-        event_metrics = { pdf: nil,
-                          html: nil,
-                          shares: nil,
-                          groups: nil,
-                          comments: events.length,
-                          likes: nil,
-                          citations: nil,
-                          total: events.length }
-
-        { events: events,
-          event_count: events.length,
-          event_metrics: event_metrics }
-      end
+  def get_events(result)
+    Array(result['referrals']).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item['published_on']),
+        event_url: item['referral'] }
     end
-
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
-  end
-
-  def url
-    config.url || "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all"
-  end
-
-  def rate_limiting
-    config.rate_limiting || 50000
-  end
-
-  def workers
-    config.workers || 5
+  def config_fields
+    [:url]
   end
 end

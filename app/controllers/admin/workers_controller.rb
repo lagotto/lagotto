@@ -17,7 +17,6 @@
 # limitations under the License.
 
 class WorkersController < ApplicationController
-
   respond_to :html
 
   def index

@@ -1,16 +1,47 @@
+# Add PPA for Ruby 2.x
+apt_repository 'brightbox-ruby-ng' do
+  uri          'http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu'
+  distribution 'precise'
+  components   ['main']
+  keyserver    'keyserver.ubuntu.com'
+  key          'C3173AA6'
+end
+
+# Add PPA for recent CouchDB binary
+apt_repository 'couchdb' do
+  uri          'http://ppa.launchpad.net/couchdb/stable/ubuntu'
+  distribution 'precise'
+  components   ['main']
+  keyserver    'keyserver.ubuntu.com'
+  key          'C17EAB57'
+end
+
 # Upgrade openssl to latest version
-package 'openssl' do
+package "openssl" do
   action :upgrade
 end
 
 # Install required packages
-%w{libxml2-dev libxslt-dev ruby1.9.3 curl}.each do |pkg|
+%w{libxml2-dev libxslt-dev ruby2.1 ruby2.1-dev curl}.each do |pkg|
   package pkg do
     action :install
   end
 end
+
 gem_package "bundler" do
   gem_binary "/usr/bin/gem"
+end
+
+file '/etc/hostname' do
+  content "#{node[:alm][:hostname]}\n"
+end
+
+file '/etc/hosts' do
+  content "127.0.0.1  localhost #{node[:alm][:hostname]}\n::1 ip6-localhost ip6-loopback #{node[:alm][:hostname]}\nfe00::0 ip6-localnet\nff00::0 ip6-mcastprefix\nff02::1 ip6-allnodes\nff02::2 ip6-allrouters\nff02::3 ip6-allhosts\n"
+end
+
+service 'hostname' do
+  action :restart
 end
 
 # Create shared folders and set permissions
@@ -93,6 +124,8 @@ mysql_database "#{node[:alm][:name]}_#{node[:alm][:environment]}" do
   action :create
 end
 
+include_recipe "couchdb::default"
+
 # Create default CouchDB database
 script "create CouchDB database #{node[:alm][:name]}" do
   interpreter "bash"
@@ -100,8 +133,6 @@ script "create CouchDB database #{node[:alm][:name]}" do
   ignore_failure true
 end
 
-node.set_unless['passenger']['root_path'] = "/var/lib/gems/1.9.1/gems/passenger-#{node['passenger']['version']}"
-node.set_unless['passenger']['module_path'] = "/var/lib/gems/1.9.1/gems/passenger-#{node['passenger']['version']}/ext/apache2/mod_passenger.so"
 include_recipe "passenger_apache2::mod_rails"
 
 execute "disable-default-site" do
@@ -109,6 +140,8 @@ execute "disable-default-site" do
 end
 
 web_app "alm" do
-  template "alm.conf.erb"
-  notifies :restart, resources(:service => "apache2"), :delayed
+  docroot "/var/www/alm/current/public"
+  server_name node[:alm][:host]
+  server_aliases [ node[:alm][:host] ]
+  rails_env node[:alm][:environment]
 end

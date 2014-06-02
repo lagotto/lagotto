@@ -1,6 +1,6 @@
 set :stage, :development
 set :repo_url, 'file:///var/www/alm/shared/'
-set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "develop"
+set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
 set :deploy_user, 'vagrant'
 set :rails_env, :development
 
@@ -10,18 +10,14 @@ set :bundle_binstubs, nil
 set :bundle_path, nil
 set :bundle_flags, '--system'
 
-# don't precompile assets
-set :assets_roles, []
+# precompile assets in development
+set :assets_roles, [:web, :app]
 
 role :app, %w{33.33.33.44}
 role :web, %w{33.33.33.44}
 role :db,  %w{33.33.33.44}
 
-set :ssh_options, {
-  user: "vagrant",
-  keys: %w(~/.vagrant.d/insecure_private_key),
-  auth_methods: %w(publickey)
-}
+set :ssh_options, user: "vagrant", keys: %w(~/.vagrant.d/insecure_private_key), auth_methods: %w(publickey)
 
 # Set number of delayed_job workers
-set :delayed_job_args, "-n 1"
+set :delayed_job_args, "-n 3"

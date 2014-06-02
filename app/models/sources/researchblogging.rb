@@ -19,61 +19,44 @@
 # limitations under the License.
 
 class Researchblogging < Source
-
-  def get_data(article, options={})
-
-    # Check that article has DOI
-    return  { :events => [], :event_count => nil } if article.doi.blank?
-
-    query_url = get_query_url(article)
-    result = get_xml(query_url, options.merge(:username => username, :password => password))
-
-    return nil if result.nil?
-
-    events = []
-
-    total_count = result.at_xpath("//blogposts/@total_records_found")
-
-    result.xpath("//blogposts/post").each do |post|
-      event = Hash.from_xml(post.to_s)
-      event = event['post']
-
-      events << {:event => event, :event_url => event['post_URL']}
-    end
-
-    events_url = get_events_url(article)
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => total_count.value.to_i,
-                      :total => total_count.value.to_i }
-
-    { :events => events,
-      :events_url => events_url,
-      :event_count => total_count.value.to_i,
-      :event_metrics => event_metrics,
-      :attachment => events.empty? ? nil : {:filename => "events.xml", :content_type => "text\/xml", :data => result.to_s }}
+  def request_options
+    { content_type: 'xml', username: username, password: password }
   end
 
-  def get_events_url(article)
-    unless article.doi.blank?
-      "http://researchblogging.org/post-search/list?article=#{article.doi_escaped}"
-    else
-      nil
+  def get_events(result)
+    events = result.deep_fetch('blogposts', 'post') { nil }
+    events = [events] if events.is_a?(Hash)
+    Array(events).map do |item|
+      event_time = get_iso8601_from_time(item["published_date"])
+      url = item['post_URL']
+
+      { event: item,
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(item['blogger_name']),
+          'title' => item.fetch('post_title') { '' },
+          'container-title' => item.fetch('blog_name') { '' },
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'post'
+        }
+      }
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "username", :field_type => "text_field"},
-     {:field_name => "password", :field_type => "password_field"}]
+  def config_fields
+    [:url, :events_url, :username, :password]
   end
 
   def url
     config.url || "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
+  end
+
+  def events_url
+    config.events_url || "http://researchblogging.org/post-search/list?article=%{doi}"
   end
 
   def staleness_year
@@ -81,6 +64,14 @@ class Researchblogging < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 1000
+    config.rate_limiting || 2000
+  end
+
+  def job_batch_size
+    config.job_batch_size || 50
+  end
+
+  def workers
+    config.workers || 3
   end
 end

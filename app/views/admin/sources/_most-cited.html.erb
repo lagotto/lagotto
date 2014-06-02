@@ -4,6 +4,4 @@
 
 <div id="results"></div>
 
-<%= javascript_tag do -%>
-  <%= render :partial => 'articles/index', formats: :js %>
-<% end %>
+<%= javascript_include_tag 'articles/index' %>

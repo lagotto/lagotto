@@ -18,94 +18,55 @@
 #
 
 class Twitter < Source
-
-  def get_data(article, options={})
-
-    return  { :events => [], :event_count => nil } if article.doi.blank?
-
-    events = []
-    execute_search(events, article, options)
-
-    if events.nil?
-      nil
-    elsif events.empty?
-      { :events => [], :event_count => nil }
-    else
-      { :events => events,
-        :event_count => events.length }
-    end
-  end
-
-  def execute_search(events, article, options={})
-
-    query_url = get_query_url(article)
-    options[:source_id] = id
-
-    json_data = get_json(query_url, options)
-
-    if json_data.blank?
-      events = nil
-    else
-      results = json_data["rows"]
-
-      results.each do | result |
-        event_data = {}
-
-        data = result["value"]
-
-        if data.has_key?("from_user")
-          user = data["from_user"]
-          user_name = data["from_user_name"]
-          user_profile_image = data["profile_image_url"]
-        else
-          user = data["user"]["screen_name"]
-          user_name = data["user"]["name"]
-          user_profile_image = data["user"]["profile_image_url"]
-        end
-
-        event_data[:id] = data["id_str"]
-        event_data[:text] = data["text"]
-        event_data[:created_at] = data["created_at"]
-        event_data[:user] = user
-        event_data[:user_name] = user_name
-        event_data[:user_profile_image] = user_profile_image
-
-        event = {
-            :event => event_data,
-            :event_url => "http://twitter.com/#{user}/status/#{data["id_str"]}"
-        }
-
-        events << event
-        event_metrics = { :pdf => nil,
-                          :html => nil,
-                          :shares => nil,
-                          :groups => nil,
-                          :comments => events.length,
-                          :likes => nil,
-                          :citations => nil,
-                          :total => events.length }
-
-        { :events => events,
-          :event_count => events.length,
-          :event_metrics => event_metrics }
-      end
-    end
-  end
-
   def get_query_url(article)
-    doi = Addressable::URI.encode("\"#{article.doi}\"")
-    config.url % { :doi => doi }
+    return nil unless article.doi =~ /^10.1371/
+
+    url % { :doi => article.doi_escaped }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def response_options
+    { :metrics => :comments }
   end
 
-  def rate_limiting
-    config.rate_limiting || 50000
+  def get_events(result)
+    Array(result['rows']).map do |item|
+      data = item['value']
+      if data.key?("from_user")
+        user = data["from_user"]
+        user_name = data["from_user_name"]
+        user_profile_image = data["profile_image_url"]
+      else
+        user = data["user"]["screen_name"]
+        user_name = data["user"]["name"]
+        user_profile_image = data["user"]["profile_image_url"]
+      end
+
+      event_time = get_iso8601_from_time(data['created_at'])
+      url = "http://twitter.com/#{user}/status/#{data["id_str"]}"
+
+      { event: { id: data["id_str"],
+                 text: data["text"],
+                 created_at: event_time,
+                 user: user,
+                 user_name: user_name,
+                 user_profile_image: user_profile_image },
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(user_name),
+          'title' => data.fetch('text') { '' },
+          'container-title' => 'Twitter',
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'personal_communication'
+        }
+      }
+    end
   end
 
-  def workers
-    config.workers || 5
+  def config_fields
+    [:url]
   end
 end

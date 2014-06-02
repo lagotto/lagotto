@@ -11,7 +11,7 @@ Feature: See responses from sources
 
     @not_teamcity
     Scenario: Responses from last 24 hours in source view
-      When I go to the "Summary" tab of source "CiteULike"
+      When I go to the "Summary" tab of source "Citeulike"
       Then the table "SummaryTable" should be:
         |                                             | Pending              | Working    |
         | Jobs                                        |                      |            |
@@ -23,7 +23,7 @@ Feature: See responses from sources
         | Events                                      | 5                    | 250        |
 
     Scenario Outline: I should see the charts in the summary view
-      When I go to the "Summary" tab of source "CiteULike"
+      When I go to the "Summary" tab of source "Citeulike"
       Then I should see a row of "<Charts>"
 
       Examples:

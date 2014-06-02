@@ -17,6 +17,11 @@
 # limitations under the License.
 
 class RetrievalStatus < ActiveRecord::Base
+  # include HTTP request helpers
+  include Networkable
+
+  # include CouchDB helpers
+  include Couchable
 
   belongs_to :article, :touch => true
   belongs_to :source
@@ -32,7 +37,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   scope :most_cited, lambda { where("event_count > ?", 0).order("event_count desc").limit(25) }
   scope :most_cited_last_x_days, lambda { |duration| joins(:article).where("event_count > ?", 0).where("articles.published_on >= ?", Date.today - duration.days).order("event_count desc").limit(25) }
-  scope :most_cited_last_x_months, lambda { |duration| joins(:article).where("event_count > ?",0).where("articles.published_on >= ?", Date.today - duration.months).order("event_count desc").limit(25) }
+  scope :most_cited_last_x_months, lambda { |duration| joins(:article).where("event_count > ?", 0).where("articles.published_on >= ?", Date.today - duration.months).order("event_count desc").limit(25) }
 
   scope :queued, where("queued_at is NOT NULL")
   scope :not_queued, where("queued_at is NULL")
@@ -56,11 +61,17 @@ class RetrievalStatus < ActiveRecord::Base
     end
     table_status = ActiveRecord::Base.connection.select_all(sql).first
     Hash[table_status.map {|k, v| [k.to_s.underscore, v] }]
+
+  def perform_get_data
+    result = source.get_data(article, timeout: source.timeout, source_id: source_id)
+    data = source.parse_data(result, article, source_id: source_id)
+    history = History.new(id, data)
+    history.to_hash
   end
 
   def data
     if event_count > 0
-      data = get_alm_data("#{source.name}:#{article.doi_escaped}")
+      data = get_alm_data("#{source.name}:#{article.uid_escaped}")
     else
       nil
     end
@@ -75,10 +86,26 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def metrics
-    unless data.blank?
-      data["event_metrics"]
-    else
+    if data.blank? || data["error"]
       []
+    else
+      data["event_metrics"]
+    end
+  end
+
+  def by_day
+    if data.blank? || data["error"]
+      []
+    else
+      data["events_by_day"]
+    end
+  end
+
+  def by_month
+    if data.blank? || data["error"]
+      []
+    else
+      data["events_by_month"]
     end
   end
 
@@ -92,8 +119,14 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   # calculate datetime when retrieval_status should be updated, adding random interval
+  # sources that are not queueable use a fixed date
   def stale_at
-    unless article.published_on.nil?
+    unless source.queueable
+      cron_parser = CronParser.new(source.cron_line)
+      return cron_parser.next(Time.zone.now)
+    end
+
+    if article.published_on.present?
       age_in_days = Date.today - article.published_on
     else
       age_in_days = 366
@@ -101,11 +134,11 @@ class RetrievalStatus < ActiveRecord::Base
 
     if age_in_days < 0
       article.published_on
-    elsif (0..7) === age_in_days
+    elsif (0..7).include?(age_in_days)
       random_time(source.staleness[0])
-    elsif (8..31) === age_in_days
+    elsif (8..31).include?(age_in_days)
       random_time(source.staleness[1])
-    elsif (32..365) === age_in_days
+    elsif (32..365).include?(age_in_days)
       random_time(source.staleness[2])
     else
       random_time(source.staleness.last)
@@ -127,9 +160,8 @@ class RetrievalStatus < ActiveRecord::Base
   private
 
   def delete_couchdb_document
-    couchdb_id = "#{source.name}:#{article.doi_escaped}"
+    couchdb_id = "#{source.name}:#{article.uid_escaped}"
     data_rev = get_alm_rev(couchdb_id)
     remove_alm_data(couchdb_id, data_rev)
   end
-
 end

@@ -13,14 +13,13 @@ describe "/api/v5/sources" do
       end
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
         data = response["data"]
         item = data.first
         item["name"].should eq(@source.name)
-        item["jobs"]["queueing"].should == 1
         item["status"]["stale"].should == 10
       end
     end
@@ -31,7 +30,7 @@ describe "/api/v5/sources" do
       end
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -50,7 +49,7 @@ describe "/api/v5/sources" do
       end
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -75,7 +74,7 @@ describe "/api/v5/sources" do
       let(:uri) { "/api/v5/sources/#{source.name}?api_key=#{user.authentication_token}" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -85,7 +84,6 @@ describe "/api/v5/sources" do
         data["event_count"].should == 250
         data["responses"]["count"].should == 5
         data["responses"]["average"].should == 200
-        data["jobs"]["queueing"].should == 1
         data["status"]["stale"].should == 5
       end
     end

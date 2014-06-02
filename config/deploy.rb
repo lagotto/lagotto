@@ -1,5 +1,5 @@
-# config valid only for Capistrano 3.1
-lock '3.1.0'
+# config valid only for Capistrano 3.2
+lock '3.2.1'
 
 set :application, 'alm'
 set :repo_url, 'https://github.com/articlemetrics/alm.git'
@@ -26,7 +26,7 @@ set :log_level, :info
 set :linked_files, %w{ config/database.yml config/settings.yml db/seeds/_custom_sources.rb }
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{ bin log tmp/pids tmp/sockets vendor/bundle public/files }
+set :linked_dirs, %w{ bin log data tmp/pids tmp/sockets vendor/bundle public/files }
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -38,7 +38,7 @@ set :keep_releases, 5
 set :bundle_path, -> { shared_path.join('vendor/bundle') }
 
 # Use system libraries for Nokogiri
-set :bundle_env_variables, { 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1 }
+set :bundle_env_variables, 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1
 
 namespace :deploy do
 
@@ -52,15 +52,6 @@ namespace :deploy do
   end
 
   after :publishing, :restart
-
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
-  end
 
   after :finishing, "deploy:cleanup"
   after :finishing, "delayed_job:start"

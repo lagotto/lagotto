@@ -17,6 +17,8 @@
 # limitations under the License.
 
 class User < ActiveRecord::Base
+  # include HTTP request helpers
+  include Networkable
 
   has_and_belongs_to_many :reports
 
@@ -28,7 +30,7 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:persona, :cas]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token, :report_ids
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token
 
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
@@ -44,8 +46,8 @@ class User < ActiveRecord::Base
       unless Rails.env.test?
         # We obtain the email address from a second call to the CAS server
         url = "#{CONFIG[:cas_url]}/cas/email?guid=#{auth.uid}"
-        response = get_html(url)
-        email = response.blank? ? "" : response
+        result = User.new.get_result(url, content_type: 'html')
+        email = result.blank? ? "" : result
       else
         email = auth.info.email
       end
@@ -91,7 +93,7 @@ class User < ActiveRecord::Base
 
   # Helper method to check for admin or staff user
   def admin_or_staff?
-    ["admin","staff"].include?(role)
+    ["admin", "staff"].include?(role)
   end
 
   def api_key
@@ -111,8 +113,8 @@ class User < ActiveRecord::Base
   def set_first_user
     # The first user we create has an admin role and uses the configuration API key
     # unless it is in the test environment
-    if (User.count == 1 and !Rails.env.test?)
-      self.update_attributes(role: "admin", authentication_token: CONFIG[:api_key])
+    if User.count == 1 && !Rails.env.test?
+      update_attributes(role: "admin", authentication_token: CONFIG[:api_key])
     end
   end
 

@@ -1,6 +1,11 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'safe_yaml'
+
+SafeYAML::OPTIONS[:default_mode] = :safe
+SafeYAML::OPTIONS[:deserialize_symbols] = true
+SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/object:OpenStruct"]
 
 CONFIG = YAML.load(ERB.new(File.read(File.expand_path('../settings.yml', __FILE__))).result)[Rails.env]
 CONFIG.symbolize_keys!
@@ -19,7 +24,7 @@ module Alm
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    config.autoload_paths += Dir["#{config.root}/app/models/**/"]
+    config.autoload_paths += Dir["#{config.root}/app/models/**/", "#{config.root}/app/controllers/**/"]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -43,7 +48,7 @@ module Alm
     config.active_record.whitelist_attributes = false
 
     # Configure sensitive parameters which will be filtered from the log file.
-    #TODO do I need to add salt here?
+    # TODO: do I need to add salt here?
     config.filter_parameters += [:password]
 
     # Use a different cache store
@@ -51,6 +56,8 @@ module Alm
 
     # Enable the asset pipeline
     config.assets.enabled = true
+
+    config.assets.initialize_on_precompile = false
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
@@ -63,5 +70,8 @@ module Alm
 
     # Disable IP spoofing check
     config.action_dispatch.ip_spoofing_check = false
+
+    # Catch JSON parse errors
+    config.middleware.insert_before ActionDispatch::ParamsParser, "CatchJsonParseErrors"
   end
 end

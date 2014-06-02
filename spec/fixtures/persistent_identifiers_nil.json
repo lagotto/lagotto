@@ -1,0 +1,13 @@
+{
+ "status": "ok",
+ "responseDate": "2014-04-22 15:33:14",
+ "request": "ids=10.1371%2Fjournal.pone.0000000;idtype=doi;format=json",
+ "records": [
+   {
+    "doi": "10.1371/journal.pone.0000000",
+    "live": "false",
+    "status": "error",
+    "errmsg": "invalid article id"
+   }
+ ]
+}

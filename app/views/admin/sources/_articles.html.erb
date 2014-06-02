@@ -4,6 +4,4 @@
   <div class="alert alert-info">No events found</div>
 <% end %>
 
-<%= javascript_tag do -%>
-  <%= render :partial => 'index', formats: :js %>
-<% end %>
+<%= javascript_include_tag 'sources/index' %>

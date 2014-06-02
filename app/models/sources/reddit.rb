@@ -19,57 +19,57 @@
 # limitations under the License.
 
 class Reddit < Source
+  def parse_data(result, article, options={})
+    return result if result[:error]
 
-  def get_data(article, options={})
+    events = result.deep_fetch('data', 'children') { [] }
 
-    # Check that article has DOI
-    return  { events: [], event_count: nil } if article.doi.blank?
+    likes = get_sum(events, 'data', 'score')
+    comments = get_sum(events, 'data', 'num_comments')
+    total = likes + comments
 
-    query_url = get_query_url(article)
-    result = get_json(query_url, options)
+    events = get_events(events)
 
-    if result.nil?
-      nil
-    else
-      events = result["data"]["children"].map { |item| { event: item["data"], event_url: item["data"]['url'] }}
-      events_url = get_events_url(article)
-      like_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["score"] }
-      comment_count = result["data"]["children"].empty? ? 0 : result["data"]["children"].inject(0) { |sum, hash| sum + hash["data"]["num_comments"] }
-      event_count = like_count + comment_count
-      event_metrics = { pdf: nil,
-                        html: nil,
-                        shares: nil,
-                        groups: nil,
-                        comments: comment_count,
-                        likes: like_count,
-                        citations: nil,
-                        total: event_count }
+    { events: events,
+      events_by_day: get_events_by_day(events, article),
+      events_by_month: get_events_by_month(events),
+      events_url: get_events_url(article),
+      event_count: total,
+      event_metrics: get_event_metrics(comments: comments, likes: likes, total: total) }
+  end
 
-      { events: events,
-        event_count: event_count,
-        events_url: events_url,
-        event_metrics: event_metrics }
+  def get_events(result)
+    result.map do |item|
+      data = item['data']
+      event_time = get_iso8601_from_epoch(data['created_utc'])
+      url = data['url']
+
+      { event: data,
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(data['author']),
+          'title' => data.fetch('title') { '' },
+          'container-title' => 'Reddit',
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'personal_communication' }
+      }
     end
   end
 
-  def get_query_url(article)
-    url % { :id => CGI.escape(article.doi_escaped) }
-  end
-
-  def get_events_url(article)
-    events_url % { :id => CGI.escape(article.doi_escaped) }
-  end
-
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
-    config.url || "http://www.reddit.com/search.json?q=\"%{id}\""
+    config.url || "http://www.reddit.com/search.json?q=\"%{doi}\"&limit=100"
   end
 
   def events_url
-    config.events_url || "http://www.reddit.com/search?q=\"%{id}\""
+    config.events_url || "http://www.reddit.com/search?q=\"%{doi}\""
   end
 
   def rate_limiting

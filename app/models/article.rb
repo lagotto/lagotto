@@ -25,9 +25,11 @@ require "builder"
 class Article < ActiveRecord::Base
   strip_attributes
 
-  # Format used for DOI validation - we want to store DOIs without
-  # the leading "info:doi/"
-  FORMAT = %r(^\d+\.[^/]+/[^/]+)
+  # include HTTP request helpers
+  include Networkable
+
+  # include helper module for DOI resolution
+  include Resolvable
 
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :sources, :through => :retrieval_statuses
@@ -35,7 +37,7 @@ class Article < ActiveRecord::Base
   has_many :api_responses
 
   validates :uid, :title, :year, :presence => true
-  validates :doi, :uniqueness => true , :format => { :with => FORMAT }, :allow_nil => true
+  validates :doi, :uniqueness => true , :format => { :with => DOI_FORMAT }, :allow_nil => true
   validates :year, :numericality => { :only_integer => true }, :inclusion => { :in => 1660..(Time.zone.now.year + 1), :message => "should be between 1660 and #{Time.zone.now.year + 1}" }
   validate :validate_published_on
 
@@ -68,28 +70,24 @@ class Article < ActiveRecord::Base
 
   def self.from_uri(id)
     return nil if id.nil?
+
     id = id.gsub("%2F", "/")
-    if id.starts_with? "http://dx.doi.org/"
-      { :doi => id[18..-1] }
-    elsif id.starts_with? "info:doi/"
-      { :doi => CGI.unescape(id[9..-1]) }
-    elsif id.starts_with? "info:pmid/"
-      { :pmid => id[10..-1] }
-    elsif id.starts_with? "info:pmcid/"
-      # Strip PMC prefix
-      id = id[3..-1] if id[11..13] == "PMC"
-      { :pmcid => id[11..-1] }
-    elsif id.starts_with? "info:mendeley/"
-      { :mendeley_uuid => id[14..-1] }
-    else
-      { self.uid.to_sym => id }
+
+    case
+    when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
+    when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]) }
+    when id.starts_with?("info:pmid/")         then { pmid: id[10..-1] }
+    when id.starts_with?("info:pmcid/PMC")     then { pmcid: id[14..-1] }
+    when id.starts_with?("info:pmcid/")        then { pmcid: id[11..-1] }
+    when id.starts_with?("info:mendeley/")     then { mendeley_uuid: id[14..-1] }
+    else { uid.to_sym => id }
     end
   end
 
   def self.to_uri(id, escaped=true)
     return nil if id.nil?
     unless id.starts_with? "info:"
-      id = "info:#{self.uid}/" + from_uri(id).values.first
+      id = "info:#{uid}/" + from_uri(id).values.first
     end
     id
   end
@@ -115,8 +113,21 @@ class Article < ActiveRecord::Base
     CONFIG[:uid] || "doi"
   end
 
+  def self.uid_as_sym
+    uid.to_sym
+  end
+
+  def self.validate_format(id)
+    case CONFIG[:uid]
+    when "doi"
+      id =~ DOI_FORMAT
+    else
+      true
+    end
+  end
+
   def uid
-    self.send(Article.uid)
+    send(self.class.uid)
   end
 
   def uid_escaped
@@ -124,7 +135,7 @@ class Article < ActiveRecord::Base
   end
 
   def to_param
-    Article.to_uri(uid)
+    self.class.to_uri(uid)
   end
 
   def self.per_page
@@ -132,25 +143,29 @@ class Article < ActiveRecord::Base
   end
 
   def events_count
-    retrieval_statuses.inject(0) { |sum, r| sum + r.event_count }
+    retrieval_statuses.reduce(0) { |sum, r| sum + r.event_count }
   end
 
   def cited_retrievals_count
-    retrieval_statuses.select {|r| r.event_count > 0}.size
+    retrieval_statuses.select { |r| r.event_count > 0 }.size
   end
 
   # Filter retrieval_statuses by source
   def retrieval_statuses_by_source(options={})
     if options[:source]
       source_ids = Source.where("lower(name) in (?)", options[:source].split(",")).order("name").pluck(:id)
-      self.retrieval_statuses.by_source(source_ids)
+      retrieval_statuses.by_source(source_ids)
     else
-      self.retrieval_statuses
+      retrieval_statuses
     end
   end
 
   def doi_escaped
-    CGI.escape(doi)
+    if doi
+      CGI.escape(doi)
+    else
+      nil
+    end
   end
 
   def doi_as_url
@@ -167,11 +182,34 @@ class Article < ActiveRecord::Base
 
     url = get_canonical_url(doi_as_url)
 
-    if url.present?
+    if url.present? && url.is_a?(String)
       update_attributes(:canonical_url => url)
     else
       false
     end
+  end
+
+  # call Pubmed API to get missing identifiers
+  # update article if we find a new identifier
+  def get_ids
+    ids = { doi: doi, pmid: pmid, pmcid: pmcid }
+    missing_ids = ids.reject { |k, v| v.present? }
+    return true if missing_ids.empty?
+
+    result = get_persistent_identifiers(uid)
+    return true if result.blank?
+
+    # remove PMC prefix
+    result['pmcid'] = result['pmcid'][3..-1] if result['pmcid']
+
+    new_ids = missing_ids.reduce({}) do |hash, (k, v)|
+      val = result[k.to_s]
+      hash[k] = val if val.present? && val != "0"
+      hash
+    end
+    return true if new_ids.empty?
+
+    update_attributes(new_ids)
   end
 
   def all_urls
@@ -190,7 +228,7 @@ class Article < ActiveRecord::Base
   end
 
   def is_publisher?
-    CONFIG[:doi_prefix].to_s == doi[0..6]
+    doi =~ /^#{CONFIG[:doi_prefix].to_s}/
   end
 
   def pmc
@@ -205,8 +243,16 @@ class Article < ActiveRecord::Base
     retrieval_statuses.by_name("mendeley").first
   end
 
+  def mendeley_url
+    mendeley.present? && mendeley.events_url.present? ? mendeley.events_url : nil
+  end
+
   def citeulike
     retrieval_statuses.by_name("citeulike").first
+  end
+
+  def citeulike_url
+    citeulike.present? && citeulike.events_url.present? ? citeulike.events_url : nil
   end
 
   def facebook
@@ -217,8 +263,16 @@ class Article < ActiveRecord::Base
     retrieval_statuses.by_name("twitter").first
   end
 
+  def twitter_search
+    retrieval_statuses.by_name("twitter_search").first
+  end
+
   def scopus
     retrieval_statuses.by_name("scopus").first
+  end
+
+  def crossref
+    retrieval_statuses.by_name("crossref").first
   end
 
   def views
@@ -226,7 +280,7 @@ class Article < ActiveRecord::Base
   end
 
   def shares
-    (facebook.nil? ? 0 : facebook.event_count) + (twitter.nil? ? 0 : twitter.event_count)
+    (facebook.nil? ? 0 : facebook.event_count) + (twitter.nil? ? 0 : twitter.event_count) + (twitter_search.nil? ? 0 : twitter_search.event_count)
   end
 
   def bookmarks
@@ -234,7 +288,11 @@ class Article < ActiveRecord::Base
   end
 
   def citations
-    (scopus.nil? ? 0 : scopus.event_count)
+    if CONFIG[:doi_prefix] == "10.1371"
+      (scopus.nil? ? 0 : scopus.event_count)
+    else
+      (crossref.nil? ? 0 : crossref.event_count)
+    end
   end
 
   alias_method :viewed, :views
@@ -257,8 +315,10 @@ class Article < ActiveRecord::Base
   # Uses nil if invalid date
   def update_published_on
     date_parts = [year, month, day].reject(&:blank?)
-    published_on = Date.new(*date_parts) rescue nil
+    published_on = Date.new(*date_parts)
     write_attribute(:published_on, published_on)
+  rescue ArgumentError
+    nil
   end
 
   def validate_published_on
@@ -266,7 +326,7 @@ class Article < ActiveRecord::Base
   end
 
   def sanitize_title
-    self.title = ActionController::Base.helpers.sanitize(self.title)
+    self.title = ActionController::Base.helpers.sanitize(title)
   end
 
   def create_retrievals

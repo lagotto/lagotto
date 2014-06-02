@@ -12,8 +12,8 @@ The ALM application is available as Open Source software using a [Apache license
 
 Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of articles. As a rule of thumb you need one worker per 5,000 - 20,000 articles, and 1 Gb of RAM per 10 workers - the exact numbers depend on how often you plan to update articles, e.g. you need more workers if you plan on update your usage stats every day.
 
-#### Ruby 1.9
-ALM requires Ruby 1.9.3. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies, making them sometimes not the best choices in a production environment. The ALM application has not been tested with Ruby 2.x, but migration to Ruby 2.1.x is planned for 2014.
+#### Ruby
+ALM requires Ruby 1.9.3 or greater, and has been tested with Ruby 1.9.3, 2.0 and 2.1. Not all Linux distributions include Ruby 1.9 as a standard install, which makes it more difficult than it should be. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby 1.9. Unfortunately they also introduce additional dependencies, making them sometimes not the best choices in a production environment. The Chef script below installs Ruby 2.1.
 
 [RVM]: http://rvm.io/
 [Rbenv]: https://github.com/sstephenson/rbenv
@@ -56,7 +56,7 @@ This is an optional step. Rename the file `config.json.example` to `config.json`
 Some custom settings for the virtual machine are stored in the `Vagrantfile`, and that includes your cloud provider access keys, the ID base virtual machine with Ubuntu 12.04 from by your cloud provider, RAM for the virtual machine, and networking settings for a local installation. A sample configuration for AWS would look like:
 
 ```ruby
-config.vm.hostname = "alm"
+config.vm.hostname = "SUBDOMAIN.EXAMPLE.ORG"
 
 config.vm.provider :aws do |aws, override|
   aws.access_key_id = "EXAMPLE"
@@ -71,8 +71,24 @@ config.vm.provider :aws do |aws, override|
   override.ssh.private_key_path = "/EXAMPLE.pem"
 end
 ```
+For Digital Ocean the configuration could look like this:
 
-The sample configuration for AWS and Digital Ocean is included in the `Vagrantfile`.
+```ruby
+config.vm.hostname = "SUBDOMAIN.EXAMPLE.ORG"
+
+config.vm.provider :digital_ocean do |provider, override|
+  override.ssh.private_key_path = '~/.ssh/id_rsa'
+  override.vm.box = 'digital_ocean'
+  override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+  override.ssh.username = "ubuntu"
+
+  provider.client_id = 'EXAMPLE'
+  provider.api_key = 'EXAMPLE'
+  provider.size = '1GB'
+end
+```
+
+The sample configurations for AWS and Digital Ocean is included in the `Vagrantfile`.
 
 Then install all the required software for the ALM application with:
 
@@ -87,14 +103,14 @@ vagrant up
 [Omnibus]: https://github.com/schisamo/vagrant-omnibus
 [Chef Solo]: http://docs.opscode.com/chef_solo.html
 
-This installs the ALM server on a Ubuntu 12.04 virtual machine and can take up to 15 min. To get into in the virtual machine, use user `vagrant` with password `vagrant` or do:
+This can take up to 15 min, future updates with `vagrant provision` are of course much faster. To get into in the virtual machine, use user `vagrant` with password `vagrant` or do:
 
 ```sh
 vagrant ssh
 cd /vagrant
 ```
 
-This uses the private SSH key provided by you in the `Vagrantfile` (the default key for local installations using Virtualbox is `~/.vagrant.d/insecure_private_key`). The `vagrant` user has sudo privileges. The MySQL password is stored at `config/database.yml`, and is auto-generated during the installation. CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding (configured in `Vagrantfile`). Vagrant syncs the folder on the host containing the checked out ALM git repo with the folder `/var/www/alm/shared` on the guest.
+This uses the private SSH key provided by you in the `Vagrantfile` (the default insecure key for local installations using Virtualbox is `~/.vagrant.d/insecure_private_key`). The `vagrant` user has sudo privileges. The MySQL password is stored at `config/database.yml`, and is auto-generated during the installation. CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding (configured in `Vagrantfile`). Vagrant syncs the folder on the host containing the checked out ALM git repo with the folder `/var/www/alm/shared` on the guest.
 
 ## Deployment via Capistrano
 Using the deployment automation tool [Capistrano](http://capistranorb.com) is the recommended strategy for code updates via git, database migrations and server restarts. Capistrano assumes that the server has been provisioned using Vagrant or Chef (or via manual installation, see below).
@@ -152,6 +168,28 @@ For a different setup (e.g. a production server) edit the deployment configurati
 * number of background workers, e.g. three workers: :delayed_job_args, "-n 3"
 * SSH keys via :ssh_options
 
+A sample `config/deploy/production.rb` could look like this:
+
+```ruby
+set :stage, :production
+set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
+set :deploy_user, 'ubuntu'
+set :rails_env, :production
+
+role :app, %w{ALM.EXAMPLE.ORG}
+role :web, %w{ALM.EXAMPLE.ORG}
+role :db,  %w{ALM.EXAMPLE.ORG}
+
+set :ssh_options, {
+  user: "ubuntu",
+  keys: %w(~/.ssh/id_rsa),
+  auth_methods: %w(publickey)
+}
+
+# Set number of delayed_job workers
+set :delayed_job_args, "-n 6"
+```
+
 #### Deploy
 We deploy the ALM application with
 
@@ -159,7 +197,7 @@ We deploy the ALM application with
 bundle exec cap production deploy
 ```
 
-Replace `production` with `staging` or `development` for other environments. You can pass in environment variables, e.g. to deploy a different branch: `cap production deploy BRANCH_NAME=develop`.
+Replace `production` with `staging` or `development` for other environments. You can pass in environment variables, e.g. to deploy a different git branch: `cap production deploy BRANCH_NAME=develop`.
 
 The first time this command is run it creates the folder structure required by Capistrano, by default in `/var/www/alm`. To make sure the expected folder structure is created successfully you can run:
 
@@ -167,7 +205,7 @@ The first time this command is run it creates the folder structure required by C
 bundle exec cap production deploy:check
 ```
 
-On subsequent runs the command will pull the latest code from the Github repo, run database migrations, install the dependencies via Bundler, stop and start the background workers, and in production mode precompiles assets (CSS, Javascripts, images).
+On subsequent runs the command will pull the latest code from the Github repo, run database migrations, install the dependencies via Bundler, stop and start the background workers, updates the crontab file for ALM, and in production mode precompiles assets (CSS, Javascripts, images).
 
 ## Manual installation
 These instructions assume a fresh installation of Ubuntu 12.04 and a user with sudo privileges. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9.
@@ -236,14 +274,14 @@ sudo apt-get install apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev lib
 Passenger is a Rails application server: http://www.modrails.com. Update `passenger.load` and `passenger.conf` when you install a new version of the passenger gem.
 
 ```sh
-sudo gem install passenger -v 3.0.19
+sudo gem install passenger -v 4.0.41
 sudo passenger-install-apache2-module --auto
 
 # /etc/apache2/mods-available/passenger.load
-LoadModule passenger_module /var/lib/gems/1.9.1/gems/passenger-3.0.19/ext/apache2/mod_passenger.so
+LoadModule passenger_module /var/lib/gems/1.9.1/gems/passenger-4.0.41/ext/apache2/mod_passenger.so
 
 # /etc/apache2/mods-available/passenger.conf
-PassengerRoot /var/lib/gems/1.9.1/gems/passenger-3.0.19
+PassengerRoot /var/lib/gems/1.9.1/gems/passenger-4.0.41
 PassengerRuby /usr/bin/ruby1.9.1
 
 sudo a2enmod passenger
@@ -334,15 +372,35 @@ gem 'pg', '~> 0.17.1'
 ```
 
 ### Change database adapter
-Change the adapter in `config/database.yml` to use PostgreSQL instead of MySQL:
+Change the adapter in `config/database.yml` to use PostgreSQL instead of MySQL (change the line in defaults to `<<:postgres`):
 
 ```yaml
+mysql: &mysql
+  adapter: mysql2
+  username: root
+  password: YOUR_PASSWORD
+
+postgresql: &postgres
+  adapter: postgresql
+  username: postgres
+  password: YOUR_PASSWORD
+  pool: 10
+  min_messages: ERROR
+
+defaults: &defaults
+  pool: 5
+  timeout: 5000
+  database: alm_<%= Rails.env %>
+  host: localhost
+
+  <<: *<%= ENV['DB'] || "mysql" %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
 production:
-  #adapter:   mysql2
-  adapter:   postgresql
-  database:  alm_production
-  username:  postgres
-  password:  YOUR_PASSWORD
-  host:      localhost
-  pool:      10
+  <<: *defaults
 ```

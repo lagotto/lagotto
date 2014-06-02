@@ -8,21 +8,16 @@
       <%= f.input :display_name %>
       <%= f.input :state_event, :as => :boolean, label: "Active", :checked_value => 'activate', :unchecked_value => 'inactivate', input_html: { checked: @source.active? }, hint: "Source is talking to external APIs" %>
       <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
-      <%= f.input :queueable, :as => :boolean, hint: "Articles for this source can be queued" %>
       <%= f.input :description, :input_html => { :rows => 3 } %>
 
-      <% if not @source.get_config_fields.empty? %>
-        <% @source.get_config_fields.each do |field| %>
-          <% if field[:field_type] == "check_box" %>
-            <%= f.input field[:field_name], :as => :boolean, :label => field[:field_name].gsub(/_/, " ").capitalize %>
-          <% elsif field[:field_type] == "text_field" %>
-            <%= f.input field[:field_name] %>
-          <% elsif field[:field_type] == "text_area" %>
-            <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2) } %>
-          <% elsif field[:field_type] == "password_field" %>
-            <%= f.input field[:field_name], :as => :string %>
-          <% elsif field[:field_type] == "hidden_field" %>
-            <%= f.input field[:field_name], :as => :hidden %>
+      <% if not @source.config_fields.empty? %>
+        <% @source.config_fields.each do |field| %>
+          <% if field == "password" %>
+            <%= f.input field, :as => :string %>
+          <% elsif field == "expires_at" %>
+            <%= f.input field, :as => :hidden %>
+          <% else %>
+            <%= f.input field %>
           <% end %>
         <% end %>
       <% end %>
@@ -30,38 +25,38 @@
                                                     hint: "Max. number of workers" %>
       <%= f.input :job_batch_size, :as => :numeric, label: "Job queue",
                                                     hint: "Number of articles queued per job" %>
-      <%= f.input :batch_time_interval, collection: Source::INTERVAL_OPTIONS,
-                                                    label: false,
-                                                    include_blank: false,
-                                                    hint: "Batch job interval" %>
       <%= f.input :rate_limiting, :as => :numeric, label: false,
                                                     hint: "Max. requests per hour" %>
 
       <%= f.input :wait_time, label: false,
                               hint: "Time interval before more jobs can be added to the job queue (seconds)" %>
-
-      <%= f.input :staleness_week,  collection: Source::INTERVAL_OPTIONS,
-                                    label: "Update interval",
-                                    include_blank: false,
-                                    hint: "First 7 days after publication" %>
-      <%= f.input :staleness_month, collection: Source::INTERVAL_OPTIONS,
-                                    label: false,
-                                    include_blank: false,
-                                    hint: "First 31 days after publication" %>
-      <%= f.input :staleness_year,  collection: Source::INTERVAL_OPTIONS,
-                                    label: false,
-                                    include_blank: false,
-                                    hint: "First year after publication" %>
-      <%= f.input :staleness_all,   collection: Source::INTERVAL_OPTIONS,
-                                    label: false,
-                                    include_blank: false,
-                                    hint: "More than one year after publication" %>
+      <% if @source.queueable %>
+        <%= f.input :staleness_week,  collection: INTERVAL_OPTIONS,
+                                      label: "Update interval",
+                                      include_blank: false,
+                                      hint: "First 7 days after publication" %>
+        <%= f.input :staleness_month, collection: INTERVAL_OPTIONS,
+                                      label: false,
+                                      include_blank: false,
+                                      hint: "First 31 days after publication" %>
+        <%= f.input :staleness_year,  collection: INTERVAL_OPTIONS,
+                                      label: false,
+                                      include_blank: false,
+                                      hint: "First year after publication" %>
+        <%= f.input :staleness_all,   collection: INTERVAL_OPTIONS,
+                                      label: false,
+                                      include_blank: false,
+                                      hint: "More than one year after publication" %>
+      <% else %>
+        <%= f.input :cron_line, label: "Update interval",
+                                hint: "Time in crontab format before more jobs can be added to the job queue" %>
+      <% end %>
 
       <%= f.input :timeout, hint: "Time to wait for response from the source (seconds)"  %>
 
       <%= f.input :max_failed_queries, label: "Failed queries",
                                        hint: "Maximum number of failed queries allowed before being disabled" %>
-      <%= f.input :max_failed_query_time_interval, collection: Source::INTERVAL_OPTIONS,
+      <%= f.input :max_failed_query_time_interval, collection: INTERVAL_OPTIONS,
                                                    label: false,
                                                    include_blank: false,
                                                    hint: "Time interval for maximum number of failed queries" %>
@@ -83,11 +78,15 @@
     <thead>
     </thead>
     <tbody>
-      <% unless @source.get_config_fields.empty? %>
-        <% @source.get_config_fields.each do |field| %>
+      <% unless @source.config_fields.empty? %>
+        <% @source.config_fields.each do |field| %>
           <tr>
-            <th><%= field[:field_name].gsub(/_/, " ").capitalize %></th>
-            <td><%= @source.send(field[:field_name]) %></td>
+            <th><%= field.to_s.gsub(/_/, " ").capitalize %></th>
+            <% if [:username, :password, :client_id, :secret, :access_token, :api_key].include?(field) && cannot?(:manage, Alert) %>
+              <td><em>hidden</em></td>
+            <% else %>
+              <td><%= @source.send(field) %></td>
+            <% end %>
           </tr>
         <% end %>
       <% end %>
@@ -101,20 +100,18 @@
         <th>Job queue</th>
         <td>
           <%= @source.rate_limiting %> per hour rate-limiting</br>
-          <%= distance_of_time(@source.batch_time_interval) %> between batch jobs</br>
           <%= pluralize(@source.workers, "worker") %></br>
           <%= @source.job_batch_size %> articles per job</br>
           <%= @source.wait_time %> seconds before more jobs can be added</br>
-          <% if @source.queueable && @source.run_at > Time.zone.now %>
-            </br>Batch jobs will again be queued at <%= @source.run_at.to_s(:friendly) %>
-          <% elsif !@source.queueable %>
-            </br>Batch jobs need to be queued by rake task
-          <% end %>
         </td>
       </tr>
       <tr>
         <th>Update interval</th>
-        <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " for articles published #{i}" }.join("</br>").html_safe %></td>
+        <% if @source.queueable %>
+          <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " for articles published #{i}" }.join("</br>").html_safe %></td>
+        <% else %>
+          <td>Next update <%= @source.cron_line ? CronParser.new(@source.cron_line).next(Time.zone.now).to_s(:short) + " UTC" : "N/A" %></td>
+        <% end %>
       </tr>
       <tr>
         <th>Timeout</th>

@@ -48,7 +48,7 @@ FactoryGirl.define do
 
   factory :cross_ref, class: CrossRef do
     type "CrossRef"
-    name "crossref"
+    name "cross_ref"
     display_name "CrossRef"
     state_event "activate"
     username "EXAMPLE"
@@ -86,7 +86,7 @@ FactoryGirl.define do
     name "pmc"
     display_name "PubMed Central Usage Stats"
     state_event "activate"
-    url "http://127.0.0.1:5984/pmc_usage_stats_test/"
+    db_url "http://127.0.0.1:5984/pmc_usage_stats_test/"
     journals "ajrccm"
     username "EXAMPLE"
     password "EXAMPLE"
@@ -98,7 +98,7 @@ FactoryGirl.define do
 
   factory :pub_med, class: PubMed do
     type "PubMed"
-    name "pubmed"
+    name "pub_med"
     display_name "PubMed"
     state_event "activate"
 
@@ -109,7 +109,7 @@ FactoryGirl.define do
 
   factory :pmc_europe, class: PmcEurope do
     type "PmcEurope"
-    name "pmceurope"
+    name "pmc_europe"
     display_name "PMC Europe Citations"
     state_event "activate"
 
@@ -118,9 +118,9 @@ FactoryGirl.define do
     initialize_with { PmcEurope.find_or_create_by_name(name) }
   end
 
-    factory :pmc_europe_data, class: PmcEuropeData do
+  factory :pmc_europe_data, class: PmcEuropeData do
     type "PmcEuropeData"
-    name "pmceuropedata"
+    name "pmc_europe_data"
     display_name "PMC Europe Database Citations"
     state_event "activate"
 
@@ -280,8 +280,8 @@ FactoryGirl.define do
     name "f1000"
     display_name "F1000Prime"
     state_event "activate"
-    url "http://example.org/example.xml"
-    filename "example.xml"
+    db_url "http://127.0.0.1:5984/f1000_test/"
+    feed_url "http://example.org/example.xml"
 
     group
 
@@ -339,7 +339,7 @@ FactoryGirl.define do
 
   factory :relative_metric, class: RelativeMetric do
     type "RelativeMetric"
-    name "relativemetric"
+    name "relative_metric"
     display_name "Relative Metric"
     state_event "activate"
     url "http://example.org?doi=%{doi}"
@@ -351,7 +351,7 @@ FactoryGirl.define do
 
   factory :article_coverage, class: ArticleCoverage do
     type "ArticleCoverage"
-    name "articlecoverage"
+    name "article_coverage"
     display_name "Article Coverage"
     state_event "activate"
     url "http://example.org?doi=%{doi}"
@@ -363,7 +363,7 @@ FactoryGirl.define do
 
   factory :article_coverage_curated, class: ArticleCoverageCurated do
     type "ArticleCoverageCurated"
-    name "articlecoveragecurated"
+    name "article_coverage_curated"
     display_name "Article Coverage Curated"
     state_event "activate"
     url "http://example.org?doi=%{doi}"

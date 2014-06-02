@@ -5,9 +5,9 @@
       <legend>Edit Article</legend>
 
       <%= f.input :title, :input_html => { :rows => 2 } %>
-      <%= f.input :doi, :label => 'DOI', :disabled => true %>
-      <%= f.input :pmid, :label => 'PubMed ID' %>
-      <%= f.input :pmcid, :label => 'PubMed Central ID' %>
+      <%= f.input :doi, :label => 'DOI', :disabled => CONFIG[:uid] == "doi" %>
+      <%= f.input :pmid, :label => 'PubMed ID', :disabled => CONFIG[:uid] == "pmid" %>
+      <%= f.input :pmcid, :label => 'PubMed Central ID', :disabled => CONFIG[:uid] == "pmcid" %>
       <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
       <%= f.input :canonical_url, :label => 'Canonical URL' %>
       <%= f.input :published_on, label: "Publication Date" do %>
@@ -25,7 +25,7 @@
 
 <% else %>
   <div class="page-header">
-    <h1>
+    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-uid_type="<%= CONFIG[:uid] %>" data-uid="<%= @article.uid %>">
       <% if can?(:manage, Article) %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group btn-group-sm">
@@ -43,15 +43,15 @@
   <dl class="dl-horizontal">
     <dt>Publication Date</dt>
     <dd><%= l @article.published_on, format: date_format(@article) %></dd>
-    <% if @article.doi %>
+    <% if @article.doi.present? %>
       <dt>DOI</dt>
-      <dd class="doi" data-doi="<%= @article.doi %>" data-api_key="<%= CONFIG[:api_key] %>"><%= link_to h(@article.doi), @article.doi_as_url %></dd>
+      <dd class="doi" %><%= link_to h(@article.doi), @article.doi_as_url %></dd>
     <% end %>
-    <% if @article.pmid %>
+    <% if @article.pmid.present? %>
       <dt>PubMed ID</dt>
       <dd id="pmid" data-pmid="<%= @article.pmid %>"><%= link_to @article.pmid, "http://www.ncbi.nlm.nih.gov/pubmed/#{@article.pmid}" %></dd>
     <% end %>
-    <% if @article.pmcid %>
+    <% if @article.pmcid.present? %>
       <dt>PubMed Central ID</dt>
       <dd id="pmcid" data-pmcid="<%= @article.pmcid %>"><%= link_to "PMC#{@article.pmcid}", "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pmcid}" %></dd>
     <% end %>
@@ -61,17 +61,17 @@
     <% end %>
     <dt>URLs</dt>
     <dd>
-      <% if !@article.canonical_url.blank? %>
+      <% if @article.canonical_url.present? %>
         <%= link_to h(@article.canonical_url), @article.canonical_url %><br/>
       <% end %>
-      <% if @article.pmid %>
+      <% if @article.pmid.present? %>
         <%= link_to "http://europepmc.org/abstract/MED/#{@article.pmid}", "http://europepmc.org/abstract/MED/#{@article.pmid}" %><br/>
       <% end %>
-      <% if @article.mendeley && @article.mendeley.events_url %>
-        <%= link_to h(@article.mendeley.events_url), @article.mendeley.events_url %><br/>
+      <% if @article.mendeley_url.present? %>
+        <%= link_to h(@article.mendeley_url), @article.mendeley_url %><br/>
       <% end %>
-      <% if @article.citeulike && @article.citeulike.events_url %>
-        <%= link_to h(@article.citeulike.events_url), @article.citeulike.events_url %><br/>
+      <% if @article.citeulike_url.present? %>
+        <%= link_to h(@article.citeulike_url), @article.citeulike_url %><br/>
       <% end %>
     </dd>
   </dl>
@@ -84,6 +84,7 @@
 
   <ul class="nav nav-tabs">
     <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
+    <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
     <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
     <% if can? :read, Alert %>
       <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
@@ -93,7 +94,9 @@
   <div class="tab-content">
     <div class="tab-pane active" id="metrics">
       <%= render :partial => 'admin/articles/metrics' %>
-
+    </div>
+    <div class="tab-pane" id="events">
+      <%= render :partial => 'admin/articles/events' %>
     </div>
     <div class="tab-pane" id="more">
       <%= render :partial => 'admin/articles/more' %>

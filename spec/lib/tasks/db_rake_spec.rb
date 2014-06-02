@@ -75,7 +75,7 @@ describe "db:api_responses:delete" do
     FactoryGirl.create_list(:api_response, 5, unresolved: false, created_at: Time.zone.now - 2.days)
   end
 
-  let(:output) { "Deleted 5 resolved API responses, 0 unresolved API responses remaining\n" }
+  let(:output) { "Deleted 5 API responses, 0 API responses remaining\n" }
 
   it "should run" do
     capture_stdout { subject.invoke }.should eq(output)
@@ -89,7 +89,7 @@ describe "db:sources:activate" do
     FactoryGirl.create(:source, state_event: 'install')
   end
 
-  let(:output) { "Source CiteULike has been activated and is now queueing.\n" }
+  let(:output) { "Source CiteULike has been activated and is now waiting.\n" }
 
   it "should run" do
     capture_stdout { subject.invoke }.should eq(output)

@@ -19,12 +19,32 @@ Given /^that we have (\d+) recent articles$/ do |number|
   FactoryGirl.create_list(:article_for_feed, number.to_i)
 end
 
-Given /^we have (\d+) stale articles$/ do |arg1|
+Given /^that we have (\d+) stale articles? for "(.*?)"$/ do |number, name|
   FactoryGirl.create_list(:stale_articles, number.to_i)
 end
 
-Given /^we have (\d+) refreshed articles$/ do |arg1|
+Given /^that we have (\d+) queued articles? for "(.*?)"$/ do |number, name|
+  FactoryGirl.create_list(:queued_articles, number.to_i)
+end
+
+Given /^that we have (\d+) refreshed articles? for "(.*?)"$/ do |number, name|
   FactoryGirl.create_list(:refreshed_articles, number.to_i)
+end
+
+Given /^that we have queued all articles for "(.*?)"$/ do |name|
+  source = Source.find_by_name(name.underscore.downcase)
+  source.queue_all_articles(all: true)
+end
+
+Given /^that we have queued all stale articles for "(.*?)"$/ do |name|
+  source = Source.find_by_name(name.underscore.downcase)
+  source.queue_all_articles
+end
+
+Given /^that we have queued one article for "(.*?)"$/ do |name|
+  source = Source.find_by_name(name.underscore.downcase)
+  rs = RetrievalStatus.where(source_id: source.id).first
+  source.queue_article_jobs([rs.id], priority: 2)
 end
 
 ### WHEN ###
@@ -83,6 +103,11 @@ When /^I go to the article with "(.*?)" for "(.*?)"$/ do |value, identifier|
   visit article_path(article.doi)
 end
 
+When /^click on the "(.*?)" tab$/ do |name|
+  page.driver.render("tmp/capybara/#{name}")
+  click_link name
+end
+
 ### THEN ###
 Then /^I should see the article$/ do
   page.should have_content @article.title
@@ -92,13 +117,16 @@ Then /^I should see an article with title "(.*?)"$/ do |title|
   page.has_css?('h4 a', :text => title).should be_true
 end
 
-Then /^I should see a list of articles$/ do
-  page.has_css?('h4.article').should be_true
+Then /^I should see a list of (\d+) articles?$/ do |number|
+  page.has_css?('h4.article', :count => number).should be_true
 end
 
-Then /^I should see a list of (\d+) article[s]?$/ do |number|
-  page.driver.render("tmp/capybara/#{number}.png") if @wip
-  page.has_css?('h4.article', :visible => true, :count => number.to_i).should be_true
+Then /^I should see a list of (\d+) events$/ do |number|
+  page.has_css?('h4.article', :count => number).should be_true
+end
+
+Then /^I should see a list of (\d+) stale articles?$/ do |number|
+  pending # express the regexp above with the code you wish you had
 end
 
 Then /^I should see the DOI "(.*?)" as a link$/ do |doi|
@@ -132,10 +160,10 @@ Then /^I should not see the "(.*?)" for the article$/ do |label|
   page.has_no_css?('dt', :text => label).should be_true
 end
 
-Then(/^I should see the "(.*?)" chart$/) do |title|
-   page.find(:xpath, "//div[@id='#{title}']/*[name()='svg']").should be_true
+Then /^I should see the "(.*?)" chart$/ do |title|
+  page.find(:xpath, "//div[@id='#{title}']/*[name()='svg']").should be_true
 end
 
-Then(/^I should see the "(.*?)" menu$/) do |id|
+Then /^I should see the "(.*?)" menu$/ do |id|
   page.has_css?("div##{id}").should be_true
 end

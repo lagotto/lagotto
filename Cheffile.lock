@@ -1,12 +1,12 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    apache2 (1.10.2)
+    apache2 (1.10.4)
       iptables (>= 0.0.0)
       logrotate (>= 0.0.0)
       pacman (>= 0.0.0)
     apt (2.3.8)
-    aws (2.1.1)
+    aws (2.2.2)
     build-essential (2.0.0)
     chef_handler (1.1.6)
     chocolatey (0.1.0)
@@ -22,7 +22,7 @@ SITE
       postgresql (>= 1.0.0)
       xfs (>= 0.0.0)
     dmg (2.2.0)
-    erlang (1.5.2)
+    erlang (1.5.4)
       apt (>= 1.7.0)
       build-essential (>= 0.0.0)
       yum (~> 3.0)
@@ -47,21 +47,24 @@ SITE
       windows (>= 0.0.0)
     ms_dotnet45 (1.1.2)
       windows (>= 0.0.0)
-    mysql (5.0.2)
+    mysql (5.1.8)
     mysql-chef_gem (0.0.2)
       build-essential (>= 0.0.0)
       mysql (>= 0.0.0)
     openssl (1.1.0)
     pacman (1.1.1)
+    passenger_apache2 (2.2.0)
+      apache2 (>= 1.0.4)
+      build-essential (>= 0.0.0)
     phantomjs (1.0.3)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
     postfix (3.1.6)
-    postgresql (3.3.4)
-      apt (>= 0.0.0)
+    postgresql (3.4.0)
+      apt (>= 1.9.0)
       build-essential (>= 0.0.0)
       openssl (>= 0.0.0)
-    powershell (3.0.0)
+    powershell (3.0.4)
       ms_dotnet2 (>= 0.0.0)
       ms_dotnet4 (>= 0.0.0)
       ms_dotnet45 (>= 0.0.0)
@@ -70,7 +73,7 @@ SITE
       build-essential (>= 0.0.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
-    windows (1.30.2)
+    windows (1.31.0)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
     yum (3.2.0)
@@ -82,24 +85,14 @@ SITE
 GIT
   remote: https://github.com/articlemetrics/alm-cookbook.git
   ref: master
-  sha: 0535bc57efd8abd495953d73efa215e456ba26f8
+  sha: 24e5406b1377ff0233725765bc04fe077b260631
   specs:
-    alm (1.6.1)
+    alm (1.9.1)
       couchdb (>= 0.0.0)
       database (>= 0.0.0)
       git (>= 0.0.0)
       mysql (>= 0.0.0)
       passenger_apache2 (>= 0.0.0)
-      phantomjs (>= 0.0.0)
-
-GIT
-  remote: https://github.com/articlemetrics/passenger_apache2.git
-  ref: articlemetrics
-  sha: 28f0d174e1e55e6df2366a7c4169ffc56604091f
-  specs:
-    passenger_apache2 (1.1.0)
-      apache2 (>= 1.0.4)
-      build-essential (>= 0.0.0)
 
 DEPENDENCIES
   alm (>= 0)
@@ -109,8 +102,8 @@ DEPENDENCIES
   database (= 2.1.2)
   git (= 4.0.0)
   memcached (= 1.7.2)
-  mysql (= 5.0.2)
-  passenger_apache2 (>= 0)
+  mysql (= 5.1.8)
+  passenger_apache2 (= 2.2.0)
   phantomjs (= 1.0.3)
   postfix (= 3.1.6)
 

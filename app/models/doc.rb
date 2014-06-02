@@ -19,7 +19,6 @@
 # limitations under the License.
 
 class Doc
-
   attr_reader :title, :content
 
   def self.all
@@ -27,8 +26,12 @@ class Doc
   end
 
   def self.find(param)
-    name = all.detect { |doc| doc.downcase == "#{param.downcase}.md" } || raise(ActiveRecord::RecordNotFound)
-    self.new(name)
+    name = all.find { |doc| doc.downcase == "#{param.downcase}.md" }
+    if name.present?
+      new(name)
+    else
+      OpenStruct.new(title: "No title", content: "")
+    end
   end
 
   def initialize(name)
@@ -40,7 +43,7 @@ class Doc
       title = metadata["title"]
     end
 
-    @content = content || "No content"
+    @content = content || ""
     @title = title || "No title"
   end
 end

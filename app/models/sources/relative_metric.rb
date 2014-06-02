@@ -15,72 +15,36 @@
 # limitations under the License.
 
 class RelativeMetric < Source
+  def get_query_url(article)
+    return nil unless article.doi =~ /^10.1371/
 
-  def get_data(article, options={})
-
-    # Check that article has DOI
-    return { :events => [], :event_count => nil } if article.doi.blank?
-
-    if article.is_publisher?
-
-      events = get_relative_metric_data(article)
-
-      if events.blank?
-        return nil
-      else
-        total = 0
-        events[:subject_areas].each do | subject_area |
-          total += subject_area[:average_usage].reduce(:+)
-        end
-
-        event_metrics = { :pdf => nil,
-                          :html => nil,
-                          :shares => nil,
-                          :groups => nil,
-                          :comments => nil,
-                          :likes => nil,
-                          :citations => nil,
-                          :total => total }
-
-        { :events => events,
-          :event_count => total,
-          :event_metrics => event_metrics }
-      end
-    else
-      { :events => [], :event_count => nil }
-    end
+    url % { :doi => article.doi_escaped }
   end
 
+  def parse_data(result, article, options={})
+    return result if result[:error]
 
-  def get_relative_metric_data(article)
-    events = {}
+    events = get_events(result, article.published_on.year)
 
-    year = article.published_on.year
+    total = events[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }
 
-    events[:start_date] = "#{year}-01-01T00:00:00Z"
-    events[:end_date] = Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z")
-
-    query_url = get_query_url(article)
-    data = get_json(query_url)
-
-    if data.nil?
-      return nil
-    else
-      events[:subject_areas] = data["rows"].map { |row| { :subject_area => row["value"]["subject_area"], :average_usage => row["value"]["data"] } }
-    end
-
-    return events
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(total: total) }
   end
 
-  def get_config_fields
-    [{ :field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def get_events(result, year)
+    { start_date: "#{year}-01-01T00:00:00Z",
+      end_date: Date.civil(year, -1, -1).strftime("%Y-%m-%dT00:00:00Z"),
+      subject_areas: Array(result["rows"]).map do |row|
+        { :subject_area => row["value"]["subject_area"], :average_usage => row["value"]["data"] }
+      end }
   end
 
-  def rate_limiting
-    config.rate_limiting || 50000
-  end
-
-  def workers
-    config.workers || 5
+  def config_fields
+    [:url]
   end
 end

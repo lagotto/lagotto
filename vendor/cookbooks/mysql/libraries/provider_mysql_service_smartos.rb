@@ -1,4 +1,5 @@
 require 'chef/provider/lwrp_base'
+require 'shellwords'
 
 class Chef
   class Provider
@@ -157,7 +158,7 @@ class Chef
             execute 'assign-root-password' do
               cmd = "#{prefix_dir}/bin/mysqladmin"
               cmd << ' -u root password '
-              cmd << node['mysql']['server_root_password']
+              cmd << Shellwords.escape(node['mysql']['server_root_password'])
               command cmd
               action :run
               only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
@@ -166,9 +167,9 @@ class Chef
             template "#{prefix_dir}/etc/mysql_grants.sql" do
               cookbook 'mysql'
               source 'grants/grants.sql.erb'
-              owner  'root'
-              group  'root'
-              mode   '0600'
+              owner 'root'
+              group 'root'
+              mode '0600'
               action :create
               notifies :run, 'execute[install-grants]', :immediately
             end
@@ -176,7 +177,7 @@ class Chef
             if node['mysql']['server_root_password'].empty?
               pass_string = ''
             else
-              pass_string = "-p#{node['mysql']['server_root_password']}"
+              pass_string = '-p' + Shellwords.escape(node['mysql']['server_root_password'])
             end
 
             execute 'install-grants' do
@@ -190,6 +191,15 @@ class Chef
         end
 
         action :restart do
+          converge_by 'smartos pattern' do
+            service 'mysql' do
+              supports :restart => true
+              action :restart
+            end
+          end
+        end
+
+        action :reload do
           converge_by 'smartos pattern' do
             service 'mysql' do
               supports :reload => true

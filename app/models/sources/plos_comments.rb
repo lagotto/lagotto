@@ -19,55 +19,48 @@
 # limitations under the License.
 
 class PlosComments < Source
-
-  def get_data(article, options={})
-
-    return  { :events => [], :event_count => nil } unless article.doi[0..6] == CONFIG[:doi_prefix].to_s
-
-    query_url = get_query_url(article)
-    options[:source_id] = id
-    result = get_json(query_url, options)
-
-    if result.nil?
-      nil
-    elsif !result.kind_of?(Array) || result.empty?
-      { :events => [], :event_count => nil }
-    else
-      events = result
-      replies = events.inject(0) { |sum, hash| sum + hash["totalNumReplies"].to_i }
-      total = events.length + replies
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => events.length,
-                        :likes => nil,
-                        :citations => nil,
-                        :total => total }
-
-      { :events => events,
-        :event_count => total,
-        :event_metrics => event_metrics }
-    end
-  end
-
   def get_query_url(article)
+    return nil unless article.doi =~ /^10.1371/
+
     url % { :doi => article.doi }
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def parse_data(result, article, options={})
+    return result if result[:error]
+
+    events = get_events(result, article)
+    replies = get_sum(events, :event, 'totalNumReplies')
+    total = events.length + replies
+
+    { events: events,
+      events_by_day: get_events_by_day(events, article),
+      events_by_month: get_events_by_month(events),
+      events_url: nil,
+      event_count: total,
+      event_metrics: get_event_metrics(comments: events.length, total: total) }
   end
 
-  def url
-    config.url || "http://api.plosjournals.org/v1/articles/%{doi}?comments"
+  def get_events(result, article)
+    Array(result['data']).map do |item|
+      event_time = get_iso8601_from_time(item['created'])
+
+      { event: item,
+        event_time: event_time,
+        event_url: nil,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(item['creatorFormattedName']),
+          'title' => item.fetch('title') { '' },
+          'container-title' => 'PLOS Comments',
+          'issued' => get_date_parts(event_time),
+          'url' => article.doi_as_url,
+          'type' => 'personal_communication' }
+      }
+    end
   end
 
-  def rate_limiting
-    config.rate_limiting || 50000
-  end
-
-  def workers
-    config.workers || 5
+  def config_fields
+    [:url]
   end
 end

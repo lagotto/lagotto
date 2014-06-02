@@ -1,5 +1,4 @@
 class Alert < ActiveRecord::Base
-
   attr_accessor :exception, :request
 
   belongs_to :source
@@ -43,7 +42,7 @@ class Alert < ActiveRecord::Base
       self.trace        = nil
     else
       trace             = exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }
-      self.trace        = trace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/}.join("\n")
+      self.trace        = trace.reject! { |line| line =~ /passenger|gems|ruby|synchronize/ }.join("\n")
     end
 
     if request

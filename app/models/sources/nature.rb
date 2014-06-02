@@ -19,42 +19,31 @@
 # limitations under the License.
 
 class Nature < Source
+  def get_events(result)
+    Array(result['data']).map do |item|
+      item.extend Hashie::Extensions::DeepFetch
+      event_time = get_iso8601_from_time(item['post']['created_at'])
+      url = item['post']['url']
+      url = "http://#{url}" unless url.start_with?("http://")
 
-  def get_data(article, options={})
+      { event: item['post'],
+        event_time: event_time,
+        event_url: url,
 
-    # Check that article has DOI
-    return  { :events => [], :event_count => nil } if article.doi.blank?
-
-    query_url = get_query_url(article)
-    results = get_json(query_url, options)
-
-    if results.nil?
-      nil
-    else
-      events = results.map do |result|
-        url = result['post']['url']
-        url = "http://#{url}" unless url.start_with?("http://")
-
-        { :event => result['post'], :event_url => url }
-      end
-
-      event_metrics = { :pdf => nil,
-                        :html => nil,
-                        :shares => nil,
-                        :groups => nil,
-                        :comments => nil,
-                        :likes => nil,
-                        :citations => events.length,
-                        :total => events.length }
-
-      { :events => events,
-        :event_count => events.length,
-        :event_metrics => event_metrics }
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => '',
+          'title' => item.deep_fetch('post', 'title') { '' },
+          'container-title' => item.deep_fetch('post', 'blog', 'title') { '' },
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'post' }
+      }
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url]
   end
 
   def url
@@ -66,6 +55,6 @@ class Nature < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 200
+    config.rate_limiting || 5000
   end
 end

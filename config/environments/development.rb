@@ -29,11 +29,13 @@ Alm::Application.configure do
 
   config.serve_static_assets = false
 
+  # config.assets.prefix = "/dev-assets"
+
   # See everything in the log (default is :info)
   config.log_level = :debug
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  config.assets.debug = false
 
   # for devise
   config.action_mailer.default_url_options = { :host => "#{CONFIG[:mail]["address"]}#{CONFIG[:mail]["port"]}" }

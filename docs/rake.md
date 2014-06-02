@@ -125,7 +125,7 @@ rake queue:all[mendeley,citeulike]
 
 ### pmc.rake
 
-Import latest PubMed Central usage stats.
+Import latest (i.e. last month's) PubMed Central usage stats.
 
 ```sh
 rake pmc:update
@@ -134,7 +134,7 @@ rake pmc:update
 Import all PubMed Central usage stats since month/year.
 
 ```sh
-rake pmc:update[month,year]
+rake pmc:update MONTH=1 YEAR=2013
 ```
 
 ### workers.rake

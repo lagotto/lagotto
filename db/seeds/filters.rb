@@ -24,3 +24,7 @@ citation_milestone_alert = CitationMilestoneAlert.find_or_create_by_name(
   :name => "CitationMilestoneAlert",
   :display_name => "citation milestone alert",
   :description => "Creates an alert if an article has been cited the specified number of times.")
+html_ratio_too_high_error= HtmlRatioTooHighError.find_or_create_by_name(
+  :name => "HtmlRatioTooHighError",
+  :display_name => "HTML ratio too high error",
+  :description => "Raises an error if HTML/PDF ratio is higher than 50.")

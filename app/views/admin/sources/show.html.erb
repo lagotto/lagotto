@@ -63,6 +63,4 @@
   </div>
 </div>
 
-<%= javascript_tag do -%>
-  <%= render :partial => 'show', formats: :js, :locals => { :name => @source.name } %>
-<% end %>
+<%= javascript_include_tag 'sources/show' %>

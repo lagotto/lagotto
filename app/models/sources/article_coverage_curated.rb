@@ -19,55 +19,49 @@
 # limitations under the License.
 
 class ArticleCoverageCurated < Source
+  def get_query_url(article)
+    return nil unless article.doi =~ /^10.1371/
 
-  def get_data(article, options={})
+    url % { :doi => article.doi_escaped }
+  end
 
-    return  { :events => [], :event_count => nil } if article.doi.blank?
+  def response_options
+    { metrics: :comments }
+  end
 
-    query_url = get_query_url(article)
-    result = get_json(query_url, options)
+  def get_events(result)
+    Array(result['referrals']).map do |item|
+      event_time = get_iso8601_from_time(item['published_on'])
+      url = item['referral']
 
-    if result.nil?
-      { events: [], event_count: 0 }
-    else
-      # look for the referrals
-      referrals = result['referrals']
+      { event: item,
+        event_time: event_time,
+        event_url: url,
 
-      if (referrals.blank?)
-        { events: [], event_count: 0 }
-      else
-        events = referrals.map { |item| { event: item, event_url: item['referral'] }}
-
-        event_metrics = { pdf: nil,
-                          html: nil,
-                          shares: nil,
-                          groups: nil,
-                          comments: events.length,
-                          likes: nil,
-                          citations: nil,
-                          total: events.length }
-
-        { events: events,
-          event_count: events.length,
-          event_metrics: event_metrics }
-      end
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => '',
+          'title' => item.fetch('title') { '' },
+          'container-title' => item.fetch('publication') { '' },
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => get_csl_type(item['type']) }
+        }
     end
-
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def get_csl_type(type)
+    return nil if type.blank?
+
+    types = { 'Blog' => 'post',
+              'News' => 'article-newspaper',
+              'Podcast/Video' => 'broadcast',
+              'Lab website/homepage' => 'webpage',
+              'University page' => 'webpage' }
+    types[type]
   end
 
-  def url
-    config.url || "http://mediacuration.plos.org/api/v1?doi=%{doi}"
-  end
-
-  def rate_limiting
-    config.rate_limiting || 50000
-  end
-
-  def workers
-    config.workers || 5
+  def config_fields
+    [:url]
   end
 end

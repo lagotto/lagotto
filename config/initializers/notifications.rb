@@ -1,7 +1,7 @@
 INTERNAL_PARAMS = %w(controller action format _method only_path)
 
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
-  if payload[:params]["api_key"].present?
+  if payload[:params]["api_key"].present? && payload[:status].to_i < 400
     ApiRequest.create! do |api_request|
       api_request.format = payload[:format] || "html"
       api_request.view_duration = payload[:view_runtime]

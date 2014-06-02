@@ -8,13 +8,11 @@ describe "/api/v3/articles" do
     let(:articles) { FactoryGirl.create_list(:article_with_events, 55) }
 
     context "more than 50 articles in query" do
-      before(:each) do
-        article_list = articles.collect { |article| "#{article.doi_escaped}" }.join(",")
-        @uri = "/api/v3/articles?api_key=#{api_key}&ids=#{article_list}&type=doi"
-      end
+      let(:article_list) { articles.map { |article| "#{article.doi_escaped}" }.join(",") }
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article_list}&type=doi" }
 
       it "JSON" do
-        get @uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)
@@ -26,7 +24,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get @uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         response = Hash.from_xml(last_response.body)
@@ -44,10 +42,10 @@ describe "/api/v3/articles" do
 
     context "show summary information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&type=doi&info=summary"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&type=doi&info=summary" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
@@ -57,7 +55,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         response = Hash.from_xml(last_response.body)
@@ -70,10 +68,10 @@ describe "/api/v3/articles" do
 
     context "historical data after 30 days" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&days=30"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&days=30" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
@@ -86,7 +84,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         response = Hash.from_xml(last_response.body)
@@ -103,10 +101,10 @@ describe "/api/v3/articles" do
 
     context "historical data after 6 months" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&months=6"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&months=6" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
@@ -119,7 +117,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         response = Hash.from_xml(last_response.body)
@@ -135,10 +133,10 @@ describe "/api/v3/articles" do
 
     context "historical data until 2012" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&year=2012"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&year=2012" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
@@ -151,7 +149,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         response = Hash.from_xml(last_response.body)
@@ -167,10 +165,10 @@ describe "/api/v3/articles" do
 
     context "show detail information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=detail"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=detail" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
@@ -185,7 +183,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         response = Hash.from_xml(last_response.body)
@@ -201,10 +199,10 @@ describe "/api/v3/articles" do
 
     context "show history information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=history"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=history" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
@@ -217,7 +215,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         response = Hash.from_xml(last_response.body)
@@ -234,10 +232,10 @@ describe "/api/v3/articles" do
 
     context "show event information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=event"}
+      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=event" }
 
       it "JSON" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
@@ -252,7 +250,7 @@ describe "/api/v3/articles" do
       end
 
       it "XML" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/xml" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         response = Hash.from_xml(last_response.body)

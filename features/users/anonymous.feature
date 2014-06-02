@@ -24,7 +24,7 @@ Feature: Use without signing in
     Scenario: Anonymous user can go to source
       Given we have a user with role "admin"
       And the source "Citeulike" exists
-      When I go to the source "CiteULike"
+      When I go to the source "Citeulike"
       Then I should see the title "CiteULike"
 
    @allow-rescue

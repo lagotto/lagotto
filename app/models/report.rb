@@ -22,6 +22,8 @@ require 'csv'
 require 'zip'
 
 class Report < ActiveRecord::Base
+  # include HTTP request helpers
+  include Networkable
 
   has_and_belongs_to_many :users
 
@@ -37,23 +39,22 @@ class Report < ActiveRecord::Base
 
   # Generate CSV with event counts for all articles and installed sources
   def self.to_csv(options = {})
-
     if options[:include_private_sources]
       sources = Source.installed
     else
       sources = Source.installed.where(:private => false)
     end
 
-    sql = "SELECT a.doi, a.published_on, a.title"
+    sql = "SELECT a.#{CONFIG[:uid]}, a.published_on, a.title"
     sources.each do |source|
       sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.event_count END) AS #{source.name}"
     end
-    sql = sql + " FROM articles a LEFT JOIN retrieval_statuses rs ON a.id = rs.article_id GROUP BY a.id"
-
-    results = ActiveRecord::Base.connection.exec_query(sql)
+    sql += " FROM articles a LEFT JOIN retrieval_statuses rs ON a.id = rs.article_id GROUP BY a.id"
+    sanitized_sql = sanitize_sql_for_conditions(sql)
+    results = ActiveRecord::Base.connection.exec_query(sanitized_sql)
 
     CSV.generate do |csv|
-      csv << ["doi", "publication_date", "title"] + sources.map(&:name)
+      csv << [CONFIG[:uid], "publication_date", "title"] + sources.map(&:name)
       results.each { |row| csv << row.values }
     end
   end
@@ -77,23 +78,26 @@ class Report < ActiveRecord::Base
     date = options[:date] || Date.today.iso8601
     filename = "#{stat[:name]}.csv"
     filepath = "#{Rails.root}/data/report_#{date}/#{filename}"
-    csv = File.exist?(filepath) ? CSV.read(filepath, { headers: stat[:headers] ? stat[:headers] : :first_row, return_headers: true }) : nil
+    if File.exist?(filepath)
+      CSV.read(filepath, headers: stat[:headers] ? stat[:headers] : :first_row, return_headers: true)
+    else
+      nil
+    end
   end
 
   def self.merge_stats(options = {})
     if options[:include_private_sources]
-      alm_stats = self.read_stats({ name: "alm_private_stats" })
+      alm_stats = read_stats(name: "alm_private_stats")
     else
-      alm_stats = self.read_stats({ name: "alm_stats" })
+      alm_stats = read_stats(name: "alm_stats")
     end
     return nil if alm_stats.blank?
 
-    stats = [{ name: "mendeley_stats", headers: ["doi","mendeley_readers","mendeley_groups","mendeley"] },
-             { name: "pmc_stats", headers: ["doi","pmc_html","pmc_pdf","pmc"] },
-             { name: "counter_stats", headers: ["doi","counter_html","counter_pdf","counter"] }]
+    stats = [{ name: "mendeley_stats", headers: [CONFIG[:uid], "mendeley_readers", "mendeley_groups", "mendeley"] },
+             { name: "pmc_stats", headers: [CONFIG[:uid], "pmc_html", "pmc_pdf", "pmc"] },
+             { name: "counter_stats", headers: [CONFIG[:uid], "counter_html", "counter_pdf", "counter"] }]
     stats.each do |stat|
-      stat[:csv] = self.read_stats(stat, options).to_a
-      alm_stats.delete(stat[:name]) unless stat[:csv].blank?
+      stat[:csv] = read_stats(stat, options).to_a
     end
 
     # return alm_stats if no additional stats are found
@@ -103,9 +107,9 @@ class Report < ActiveRecord::Base
     CSV.generate do |csv|
       alm_stats.each do |row|
         stats.each do |stat|
-          # find row based on DOI, and discard the first item (the doi). Otherwise pad with zeros
-          match = stat[:csv].assoc(row.field("doi"))
-          match = match.present? ? match[1..-1] : [0,0,0]
+          # find row based on uid, and discard the first and last item (uid and total). Otherwise pad with zeros
+          match = stat[:csv].assoc(row.field(CONFIG[:uid]))
+          match = match.present? ? match[1..-2] : [0, 0]
           row.push(*match)
         end
         csv << row

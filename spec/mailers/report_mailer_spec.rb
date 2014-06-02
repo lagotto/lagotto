@@ -20,7 +20,7 @@ describe ReportMailer do
     end
 
     it "provides a link to the admin dashboard" do
-      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should have_link('Go to admin dashboard', href: admin_alerts_url(:host => CONFIG[:hostname]))
     end
   end
@@ -40,7 +40,7 @@ describe ReportMailer do
     end
 
     it "provides a link to the admin dashboard" do
-      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should have_link('Go to admin dashboard', href: admin_root_url(:host => CONFIG[:hostname]))
     end
   end
@@ -51,7 +51,8 @@ describe ReportMailer do
 
     it "sends email" do
       mail.subject.should eq("[ALM] Article Statistics Report")
-      mail.to.should eq([report.users.map(&:email).join(",")])
+      mail.bcc.should eq([report.users.map(&:email).join(",")])
+      mail.to.should eq([CONFIG[:notification_email]])
       mail.from.should eq([CONFIG[:notification_email]])
     end
 
@@ -60,7 +61,7 @@ describe ReportMailer do
     end
 
     it "provides a link to the admin dashboard" do
-      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should have_link('Download report', href: "#{CONFIG[:hostname]}/files/alm_report.zip")
     end
   end
@@ -81,7 +82,7 @@ describe ReportMailer do
     end
 
     it "provides a link to the admin dashboard" do
-      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should have_link('Go to admin dashboard', href: admin_source_url(source.name, :host => CONFIG[:hostname]))
     end
   end
@@ -103,7 +104,7 @@ describe ReportMailer do
     end
 
     it "provides a link to the admin dashboard" do
-      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should have_link('Go to admin dashboard', href: admin_alerts_url(:host => CONFIG[:hostname], :class => "SourceNotUpdatedError"))
     end
   end
@@ -123,7 +124,7 @@ describe ReportMailer do
     end
 
     it "provides a link to the admin dashboard" do
-      body_html = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should have_link('Go to admin dashboard', href: admin_root_url(:host => CONFIG[:hostname]))
     end
   end

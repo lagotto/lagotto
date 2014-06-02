@@ -19,85 +19,56 @@
 # limitations under the License.
 
 class Wikipedia < Source
-
-  def get_data(article, options={})
-
-    # Check that article has DOI
-    return  { :events => [], :event_count => nil } if article.doi.blank?
-
-    events = {}
-
-    # Loop through the languages
-    languages.split(" ").each do |lang|
-
-      host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
-      namespace = (lang == "commons") ? "6" : "0"
-      query_url = get_query_url(article, host: host, namespace: namespace)
-      results = get_json(query_url, options)
-
-      # if server doesn't return a result
-      if results.nil?
-        return nil
-      elsif !results.empty? and results['query'] and results['query']['searchinfo'] and results['query']['searchinfo']['totalhits']
-        lang_count = results['query']['searchinfo']['totalhits']
-      else
-        # Not Found
-        lang_count = 0
-      end
-
-      events[lang] = lang_count
-    end
-
-    event_count = events.values.inject(0) { |sum,x| sum + x }
-    events["total"] = event_count
-    events_url = get_events_url(article)
-
-    event_metrics = { :pdf => nil,
-                      :html => nil,
-                      :shares => nil,
-                      :groups => nil,
-                      :comments => nil,
-                      :likes => nil,
-                      :citations => event_count,
-                      :total => event_count }
-
-    { :events => events,
-      :event_count => event_count,
-      :event_metrics => event_metrics,
-      :events_url => events_url }
-  end
-
+  # MediaWiki API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
   def get_query_url(article, options={})
-    # Build URL for calling the MediaWiki API, using the following parameters:
-    #
-    # host - the Mediawiki to search, default en.wikipedia.org (English Wikipedia)
-    # namespace - the namespace to search: 0 = pages, 6 = files
-    # doi - the DOI to search for, uses article.doi
-    #
-    # API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
-
     host = options[:host] || "en.wikipedia.org"
     namespace = options[:namespace] || "0"
-
-    # We search for the DOI in parentheses to only get exact matches
     url % { host: host, namespace: namespace, doi: CGI.escape("\"#{article.doi}\"") }
   end
 
-  def get_events_url(article)
-    unless article.doi.blank?
-      "http://en.wikipedia.org/w/index.php?search=\"#{article.doi_escaped}\""
+  def get_data(article, options={})
+    if article.doi.nil?
+      result = {}
+      result.extend Hashie::Extensions::DeepFetch
     else
-      nil
+      # Loop through the languages, create hash with languages as keys and counts as values
+      languages.split(" ").reduce({}) do |sum, lang|
+        host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
+        namespace = (lang == "commons") ? "6" : "0"
+        query_url = get_query_url(article, host: host, namespace: namespace)
+
+        result = get_result(query_url, options)
+        result.extend Hashie::Extensions::DeepFetch
+
+        sum[lang] = result.deep_fetch('query', 'searchinfo', 'totalhits') { nil }
+        sum
+      end
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"},
-     {:field_name => "languages", :field_type => "text_area", :size => "90x2"}]
+  def parse_data(result, article, options={})
+    events = result
+    events['total'] = events.values.reduce(0) { |sum, x| x.nil? ? sum : sum + x } unless events.empty?
+    event_count = events['total'].to_i
+
+    { events: events,
+      events_by_day: [],
+      events_by_month: [],
+      events_url: get_events_url(article),
+      event_count: event_count,
+      event_metrics: get_event_metrics(citations: event_count) }
+  end
+
+  def config_fields
+    [:url, :events_url, :languages]
   end
 
   def url
     config.url || "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
+  end
+
+  def events_url
+    config.events_url || "http://en.wikipedia.org/w/index.php?search=\"%{doi}\""
   end
 
   def languages
@@ -110,7 +81,7 @@ class Wikipedia < Source
     config.languages = value
   end
 
-  def workers
-    config.workers || 5
+  def job_batch_size
+    config.job_batch_size || 50
   end
 end

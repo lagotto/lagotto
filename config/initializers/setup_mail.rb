@@ -6,6 +6,7 @@ if CONFIG[:mail]
     :user_name            => CONFIG[:mail]["user_name"],
     :password             => CONFIG[:mail]["password"],
     :authentication       => CONFIG[:mail]["authentication"],
-    :enable_starttls_auto => true
+    :enable_starttls_auto => true,
+    :openssl_verify_mode  => 'none'
   }
 end

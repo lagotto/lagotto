@@ -8,7 +8,7 @@ class AlertsController < ActionController::Base
     @alert = Alert.new(:exception => exception, :request => request)
 
     # Filter for errors that should not be saved
-    unless["ActiveRecord::RecordNotFound","ActionController::RoutingError"].include?(exception.class.to_s)
+    unless["ActiveRecord::RecordNotFound", "ActionController::RoutingError"].include?(exception.class.to_s)
       @alert.save
     else
       @alert.status = request.headers["PATH_INFO"][1..-1]
@@ -21,5 +21,4 @@ class AlertsController < ActionController::Base
       format.rss { render :show, status: @alert.status, layout: false }
     end
   end
-
 end

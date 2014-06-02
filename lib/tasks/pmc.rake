@@ -16,27 +16,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "source_helper"
 require 'date'
 require 'addressable/uri'
-
-include SourceHelper
 
 namespace :pmc do
 
   desc "Bulk-import PMC usage stats by month and journal"
-  task :update, [:month,:year] => :environment do |t, args|
+  task :update => :environment do |t, args|
 
-    source = Source.find_by_name("pmc")
-    if source.nil?
-      message = "Source \"pmc\" is missing"
-      Alert.create(:exception => "", :class_name => "NoMethodError",
-                   :message => message)
-      puts "Error: #{message}"
-      exit
-    end
+    # silently exit if pmc source is not available
+    source = Source.active.find_by_name("pmc")
+    exit if source.nil?
 
-    dates = Pmc.date_range(month: args.month, year: args.year)
+    dates = source.date_range(month: ENV['MONTH'], year: ENV['YEAR'])
 
     dates.each do |date|
       journals_with_errors = source.get_feed(date[:month], date[:year])

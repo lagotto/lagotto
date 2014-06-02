@@ -7,16 +7,22 @@ Given /^the source "(.*?)" exists$/ do |name|
   FactoryGirl.create(name.underscore.downcase.to_sym)
 end
 
-Given /^that the status of source "(.*?)" is "(.*?)"$/ do |display_name, status|
+Given /^"(.*?)" of source "(.*?)" is (\d+)$/ do |parameter, name, value|
+  source = FactoryGirl.create(name.underscore.downcase.to_sym)
+  source.update_attributes(parameter.to_sym => value)
+end
+
+Given /^the status of source "(.*?)" is "(.*?)"$/ do |name, status|
+  sym_name = name.underscore.downcase.to_sym
   if status == "inactive"
-    @source = FactoryGirl.create(:source, state_event: "inactivate")
+    @source = FactoryGirl.create(sym_name, state_event: "inactivate")
   elsif status == "working"
-    @source = FactoryGirl.create(:source, state_event: "start_working")
+    @source = FactoryGirl.create(sym_name, state_event: "work")
   elsif status == "disabled"
     @report = FactoryGirl.create(:disabled_source_report_with_admin_user)
-    @source = FactoryGirl.create(:source, state_event: "disable")
+    @source = FactoryGirl.create(sym_name, state_event: "disable")
   elsif status == "waiting"
-    @source = FactoryGirl.create(:source, state_event: "start_waiting")
+    @source = FactoryGirl.create(sym_name, state_event: "wait")
   end
 end
 
@@ -40,9 +46,8 @@ When /^I go to the submenu "(.*?)" of menu "(.*?)"$/ do |label, menu|
   page.driver.render("tmp/capybara/#{label}.png") if @wip
 end
 
-When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, display_name|
-  source = Source.find_by_display_name(display_name)
-  visit admin_source_path(source)
+When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, name|
+  visit admin_source_path(name.underscore.downcase)
   page.driver.render("tmp/capybara/#{tab_title}.png") if @wip
   within ("ul.nav-tabs") do
     click_link tab_title
@@ -57,25 +62,15 @@ When /^I go to the "(.*?)" tab of the Sources admin page$/ do |tab_title|
 end
 
 When /^I go to the admin page of source "(.*?)"$/ do |name|
-  source = Source.find_by_name(name.underscore.downcase)
-  visit admin_source_path(source)
+  visit admin_source_path(name.underscore.downcase)
 end
 
-When /^I go to the source "(.*?)"$/ do |display_name|
-  source = Source.find_by_display_name(display_name)
-  visit source_path(source)
+When /^I go to the source "(.*?)"$/ do |name|
+  visit source_path(name.underscore.downcase)
 end
 
-When /^I go to the menu "(.*?)" of source "(.*?)"$/ do |menu, display_name|
-  source = Source.find_by_display_name(display_name)
-  visit admin_source_path(source)
-  click_link menu
-  page.driver.render("tmp/capybara/#{menu}.png") if @wip
-end
-
-When /^I edit the source "(\w+)"$/ do |display_name|
-  source = Source.find_by_display_name(display_name)
-  visit admin_source_path(source)
+When /^I edit the source "(\w+)"$/ do |name|
+  visit admin_source_path(name.underscore.downcase)
   click_link "Configuration"
   click_link "Edit"
 end
@@ -117,7 +112,7 @@ When /^I go to "(.*?)"$/ do |path|
   page.driver.render("tmp/capybara/#{path}.png") if @wip
 end
 
-When /^click on the "(.*?)" tab$/ do |tab_name|
+When /^I click on the "(.*?)" tab$/ do |tab_name|
   within ("ul.nav-tabs") do
     click_link tab_name
   end
@@ -153,10 +148,10 @@ Then /^I should see the subtitle "(.*?)"$/ do |title|
   page.has_css?('h4', :text => title, :visible => true).should be_true
 end
 
-Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, source_name|
-  page.driver.render("tmp/capybara/#{number}.png") if @wip
+Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, display_name|
+  # page.driver.render("tmp/capybara/#{number}.png")
   page.has_content?(number).should be_true
-  page.has_content?(source_name).should be_true
+  page.has_content?(display_name).should be_true
 end
 
 Then /^I should not see a blog count$/ do
@@ -164,7 +159,7 @@ Then /^I should not see a blog count$/ do
 end
 
 Then /^"(.*?)" should be one option for "(.*?)"$/ do |value, field|
-  page.has_select?('source_batch_time_interval', :with_options => [value]).should be_true
+  page.has_select?('source_staleness_week', :with_options => [value]).should be_true
 end
 
 Then /^I should see the "(.*?)" column$/ do |column_title|
@@ -216,7 +211,31 @@ Then /^I should see a row of "(.*?)"$/ do |chart|
   page.has_css?("div#chart_#{chart} .chart .slice").should be_true
 end
 
-Then(/^I should see (\d+) bookmarks$/) do |number|
+Then /^I should see (\d+) bookmarks$/ do |number|
   page.driver.render("tmp/capybara/#{number}_bookmarks.png") if @wip
   page.has_css?('#alm-count-citeulike-saved', :text => number).should be_true
+end
+
+Then /^I should see (\d+) stale articles? for "(.*?)"$/ do |number, name|
+  source = Source.find_by_name(name.underscore.downcase)
+  page.driver.render("tmp/capybara/stale_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png") if @wip
+  page.has_css?("#stale_count_#{name.underscore.downcase}", :text => number).should be_true
+end
+
+Then /^I should not see stale articles? for "(.*?)"$/ do |name|
+  source = Source.find_by_name(name.underscore.downcase)
+  page.driver.render("tmp/capybara/stale_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png")
+  page.has_no_content?("#stale_count_#{name.underscore.downcase}").should be_true
+end
+
+Then /^I should see (\d+) queued articles? for "(.*?)"$/ do |number, name|
+  source = Source.find_by_name(name.underscore.downcase)
+  page.driver.render("tmp/capybara/queued_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png")
+  page.has_css?("#queued_count_#{name.underscore.downcase}", :text => number).should be_true
+end
+
+Then /^I should not see queued articles? for "(.*?)"$/ do |name|
+  source = Source.find_by_name(name.underscore.downcase)
+  page.driver.render("tmp/capybara/queued_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png")
+  page.has_no_content?("#queued_count_#{name.underscore.downcase}").should be_true
 end

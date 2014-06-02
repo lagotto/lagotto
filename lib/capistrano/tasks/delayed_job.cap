@@ -13,7 +13,7 @@ namespace :delayed_job do
     on roles(delayed_job_roles) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :'script/delayed_job', :stop
+          execute :'script/delayed_job', :stop, raise_on_non_zero_exit: false
         end
       end
     end

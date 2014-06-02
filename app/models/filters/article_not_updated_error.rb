@@ -19,15 +19,16 @@
 # limitations under the License.
 
 class ArticleNotUpdatedError < Filter
-
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).article_not_updated(limit)
 
     if responses.count > 0
-      responses = responses.all.map { |response| { source_id: response.source_id,
-                                                   article_id: response.article_id,
-                                                   error: 0,
-                                                   message: "Article not updated for #{response.update_interval} days" }}
+      responses = responses.all.map do |response|
+        { source_id: response.source_id,
+          article_id: response.article_id,
+          error: 0,
+          message: "Article not updated for #{response.update_interval} days" }
+      end
       raise_alerts(responses)
     end
 

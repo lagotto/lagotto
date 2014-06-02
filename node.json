@@ -3,13 +3,14 @@
     "recipe[apt]",
     "recipe[build-essential]",
     "recipe[git]",
-    "recipe[couchdb]",
     "recipe[phantomjs]",
     "recipe[memcached]",
     "recipe[postfix]",
     "recipe[apache2]",
     "recipe[alm]"
   ],
-  "passenger": { "version": "3.0.19" },
-  "phantomjs": { "version": "1.8.1" }
+  "passenger": { "version": "4.0.41",
+                 "ruby_bin": "/usr/bin/ruby",
+                 "root_path": "/var/lib/gems/2.1.0/gems/passenger-4.0.41" },
+  "phantomjs": { "version": "1.9.7", "base_url": "https://bitbucket.org/ariya/phantomjs/downloads" }
 }

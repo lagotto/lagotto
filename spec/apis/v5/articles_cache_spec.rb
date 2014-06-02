@@ -8,7 +8,7 @@ describe "/api/v5/articles", :not_teamcity => true do
 
     context "index" do
       let(:articles) { FactoryGirl.create_list(:article_with_events, 2) }
-      let(:article_list) { articles.collect { |article| "#{article.doi_escaped}" }.join(",") }
+      let(:article_list) { articles.map { |article| "#{article.doi_escaped}" }.join(",") }
       let(:uri) { "/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}" }
 
       it "can cache articles in JSON" do
@@ -16,7 +16,7 @@ describe "/api/v5/articles", :not_teamcity => true do
           Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//json")
         end.should_not be_true
 
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
@@ -35,10 +35,10 @@ describe "/api/v5/articles", :not_teamcity => true do
       end
 
       it "can make API requests 2x faster" do
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
         ApiRequest.count.should eql(2)
         ApiRequest.last.view_duration.should be < 0.5 * ApiRequest.first.view_duration
@@ -47,14 +47,14 @@ describe "/api/v5/articles", :not_teamcity => true do
 
     context "article is updated" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&api_key=#{api_key}"}
+      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&api_key=#{api_key}" }
       let(:key) { "rabl/#{ArticleDecorator.decorate(article).cache_key}" }
       let(:title) { "Foo" }
       let(:event_count) { 75 }
 
       it "does not use a stale cache when an article is updated" do
         Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
@@ -67,9 +67,9 @@ describe "/api/v5/articles", :not_teamcity => true do
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        article.update_attributes!({ :title => title })
+        article.update_attributes!(title: title)
 
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
         cache_key = "rabl/#{ArticleDecorator.decorate(article).cache_key}"
         cache_key.should_not eql(key)
@@ -82,7 +82,7 @@ describe "/api/v5/articles", :not_teamcity => true do
 
       it "does not use a stale cache when a source is updated" do
         Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
@@ -96,11 +96,11 @@ describe "/api/v5/articles", :not_teamcity => true do
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        article.retrieval_statuses.first.update_attributes!({ :event_count => event_count })
-        # TODO make sure that touch works in production
+        article.retrieval_statuses.first.update_attributes!(event_count: event_count)
+        # TODO: make sure that touch works in production
         article.touch
 
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
         cache_key = "rabl/#{ArticleDecorator.decorate(article).cache_key}"
         cache_key.should_not eql(key)
@@ -114,7 +114,7 @@ describe "/api/v5/articles", :not_teamcity => true do
 
       it "does not use a stale cache when the source query parameter changes" do
         Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
@@ -125,14 +125,14 @@ describe "/api/v5/articles", :not_teamcity => true do
         data["sources"].size.should == 1
 
         source_uri = "#{uri}&source=crossref"
-        get source_uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get source_uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
         JSON.parse(last_response.body).should eql("total" => 0, "total_pages" => 0, "page" => 0, "error" => nil, "data" =>[])
       end
 
       it "does not use a stale cache when the info query parameter changes" do
         Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
@@ -140,7 +140,7 @@ describe "/api/v5/articles", :not_teamcity => true do
         Rails.cache.exist?("#{key}//json").should be_true
 
         detail_uri = "#{uri}&info=detail"
-        get detail_uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get detail_uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -154,7 +154,7 @@ describe "/api/v5/articles", :not_teamcity => true do
         response_source["events"].should_not be_nil
 
         summary_uri = "#{uri}&info=summary"
-        get summary_uri, nil, { 'HTTP_ACCEPT' => "application/json" }
+        get summary_uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)

@@ -19,45 +19,42 @@
 # limitations under the License.
 
 class Wordpress < Source
+  def get_events(result)
+    result['data'] = nil if result['data'].is_a?(String)
+    Array(result['data']).map do |item|
+      event_time = get_iso8601_from_epoch(item["epoch_time"])
+      url = item['link']
 
-  def get_data(article, options={})
+      { event: item,
+        event_time: event_time,
+        event_url: url,
 
-    # Check that article has DOI
-    return  { events: [], event_count: nil } if article.doi.blank?
-
-    query_url = get_query_url(article)
-    result = get_json(query_url, options)
-
-    if result.nil?
-      { events: [], event_count: 0 }
-    else
-      events = result.map { |item| { event: item, event_url: item['link'] }}
-
-      event_metrics = { pdf: nil,
-                        html: nil,
-                        shares: nil,
-                        groups: nil,
-                        comments: nil,
-                        likes: nil,
-                        citations: events.length,
-                        total: events.length }
-
-      { events: events,
-        event_count: events.length,
-        events_url: "http://en.search.wordpress.com/?q=\"#{article.doi}\"&t=post",
-        event_metrics: event_metrics }
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_author(item['author']),
+          'title' => item.fetch('title') { '' },
+          'container-title' => '',
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'post'
+        }
+      }
     end
   end
 
-  def get_config_fields
-    [{:field_name => "url", :field_type => "text_area", :size => "90x2"}]
+  def config_fields
+    [:url, :events_url]
   end
 
   def url
     config.url || "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json&size=20"
   end
 
+  def events_url
+    config.events_url || "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post"
+  end
+
   def rate_limiting
-    config.rate_limiting || 5000
+    config.rate_limiting || 2500
   end
 end
