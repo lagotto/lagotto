@@ -48,7 +48,7 @@ FactoryGirl.define do
 
   factory :cross_ref, class: CrossRef do
     type "CrossRef"
-    name "cross_ref"
+    name "crossref"
     display_name "CrossRef"
     state_event "activate"
     username "EXAMPLE"
