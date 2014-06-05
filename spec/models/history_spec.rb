@@ -6,6 +6,7 @@ describe History do
 
   context "error" do
     let(:data) { { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{retrieval_status.article.doi_escaped}" } }
+    let(:update_interval) { 1.month.ago.end_of_month.day }
     subject { History.new(retrieval_status.id, data) }
 
     it "should have status error" do
@@ -17,12 +18,13 @@ describe History do
     end
 
     it "should respond to an error" do
-      subject.to_hash.should eq(event_count: nil, previous_count: 50, retrieval_history_id: nil, update_interval: 30)
+      subject.to_hash.should eq(event_count: nil, previous_count: 50, retrieval_history_id: nil, update_interval: update_interval)
     end
   end
 
   context "success no data" do
     let(:data) { { event_count: 0 } }
+    let(:update_interval) { 1.month.ago.end_of_month.day }
     subject { History.new(retrieval_status.id, data) }
 
     it "should have status success no data" do
@@ -35,7 +37,7 @@ describe History do
 
     #
     it "should respond to success with no data" do
-      subject.to_hash.should eq(event_count: 0, previous_count: 50, retrieval_history_id: subject.retrieval_history.id, update_interval: 30)
+      subject.to_hash.should eq(event_count: 0, previous_count: 50, retrieval_history_id: subject.retrieval_history.id, update_interval: update_interval)
     end
   end
 
@@ -44,6 +46,7 @@ describe History do
     after(:each) { subject.delete_alm_database }
 
     let(:data) { { event_count: 25, events_by_day: [], events_by_month: [] } }
+    let(:update_interval) { 1.month.ago.end_of_month.day }
     subject { History.new(retrieval_status.id, data) }
 
     it "should have status success" do
@@ -55,7 +58,7 @@ describe History do
     end
 
     it "should respond to success" do
-      subject.to_hash.should eq(event_count: 25, previous_count: 50, retrieval_history_id: subject.retrieval_history.id, update_interval: 30)
+      subject.to_hash.should eq(event_count: 25, previous_count: 50, retrieval_history_id: subject.retrieval_history.id, update_interval: update_interval)
     end
 
     # it "should store data in CouchDB" do
