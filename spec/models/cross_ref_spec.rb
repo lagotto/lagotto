@@ -46,7 +46,7 @@ describe CrossRef do
   end
 
   context "use the CrossRef OpenURL API" do
-    subject { FactoryGirl.create(:cross_ref, password: nil) }
+    subject { FactoryGirl.create(:crossref, password: nil) }
     let(:article) { FactoryGirl.create(:article, :doi => "10.1007/s00248-010-9734-2", :canonical_url => "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1") }
     let(:url) { url = subject.get_query_url(article) }
 
