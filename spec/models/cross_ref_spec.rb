@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CrossRef do
-  subject { FactoryGirl.create(:cross_ref) }
+  subject { FactoryGirl.create(:crossref) }
 
   let(:article) { FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007") }
 

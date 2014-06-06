@@ -127,7 +127,7 @@ FactoryGirl.define do
     end
     trait(:with_crossref_and_article_published_today) do
       association :article, factory: :article_published_today
-      association :source, factory: :cross_ref
+      association :source, factory: :crossref
     end
 
     before(:create) do |retrieval_status|
