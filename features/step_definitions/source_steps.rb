@@ -48,7 +48,7 @@ end
 
 When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, name|
   visit admin_source_path(name.underscore.downcase)
-  page.driver.render("tmp/capybara/#{tab_title}.png") if @wip
+  page.driver.render("tmp/capybara/#{name}.png") if @wip
   within ("ul.nav-tabs") do
     click_link tab_title
   end

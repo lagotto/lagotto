@@ -58,7 +58,7 @@ Feature: View documentation
         | Name                          |
         | Citeulike                     |
         | Mendeley                      |
-        | CrossRef                      |
+        | Crossref                      |
         | Datacite                      |
         | PmcEurope                     |
         | PmcEuropeData                 |
