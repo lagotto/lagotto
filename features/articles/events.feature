@@ -5,7 +5,7 @@ Feature: See events for article
 
   Background:
     Given we have a user with role "admin"
-    And the source "CrossRef" exists
+    And the source "Crossref" exists
     And there is an article
 
     Scenario: See events
