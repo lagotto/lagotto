@@ -110,7 +110,7 @@ FactoryGirl.define do
     trait(:staleness) { association :source, factory: :citeulike }
     trait(:with_errors) { event_count 0 }
     trait(:with_private) { association :source, private: true }
-    trait(:with_crossref) { association :source, factory: :cross_ref }
+    trait(:with_crossref) { association :source, factory: :crossref }
     trait(:with_mendeley) { association :source, factory: :mendeley }
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }
