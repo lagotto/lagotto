@@ -7,7 +7,7 @@ Feature: See events
   Background:
     Given I am logged in as "admin"
     And the source "Citeulike" exists
-    And the source "CrossRef" exists
+    And the source "Crossref" exists
     And that we have 5 articles
 
     Scenario: Events for articles in dashboard
