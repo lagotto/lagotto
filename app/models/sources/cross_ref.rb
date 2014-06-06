@@ -22,7 +22,7 @@ class CrossRef < Source
   def get_query_url(article)
     if article.doi.nil? || Time.zone.now - article.published_on.to_time < 1.day
       nil
-    elsif article.is_publisher? && password
+    elsif article.is_publisher? && password.present?
       url % { :username => username, :password => password, :doi => article.doi_escaped }
     else
       pid = password.blank? ? username : username + ":" + password
