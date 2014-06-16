@@ -96,9 +96,6 @@ class History
       # only save the data to couchdb
       @rs_rev = save_alm_data(couchdb_id, data: data.clone, source_id: retrieval_status.source_id)
     end
-
-    data[:doc_type] = "history"
-    @rh_rev = save_alm_data(couchdb_history_id, data: data, source_id: retrieval_status.source_id)
   end
 
   def get_events_by_day(event_arr = nil)
