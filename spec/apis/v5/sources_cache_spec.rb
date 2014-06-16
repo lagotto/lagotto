@@ -17,9 +17,9 @@ describe "/api/v5/sources", :not_teamcity => true do
   context "caching", :caching => true do
 
     context "index" do
-      let(:cross_ref) { FactoryGirl.create(:cross_ref) }
+      let(:crossref) { FactoryGirl.create(:crossref) }
       let(:mendeley) { FactoryGirl.create(:mendeley) }
-      let(:sources) { [source, cross_ref, mendeley] }
+      let(:sources) { [source, crossref, mendeley] }
       let(:uri) { "/api/v5/sources?api_key=#{api_key}" }
 
       it "can cache sources in JSON" do

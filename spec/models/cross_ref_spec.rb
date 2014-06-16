@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CrossRef do
-  subject { FactoryGirl.create(:cross_ref) }
+  subject { FactoryGirl.create(:crossref) }
 
   let(:article) { FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007") }
 
@@ -46,11 +46,23 @@ describe CrossRef do
   end
 
   context "use the CrossRef OpenURL API" do
+    subject { FactoryGirl.create(:crossref, password: nil) }
     let(:article) { FactoryGirl.create(:article, :doi => "10.1007/s00248-010-9734-2", :canonical_url => "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1") }
+    let(:url) { url = subject.get_query_url(article) }
+
+    it "should use the OpenURL API" do
+      url.should eq("http://www.crossref.org/openurl/?pid=EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true")
+    end
+
+    it "should use the OpenURL API if there is no password" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
+      subject.get_query_url(article).should eq("http://www.crossref.org/openurl/?pid=EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true")
+    end
 
     it "should report if there is an event_count of zero returned by the CrossRef OpenURL API" do
       body = File.read(fixture_path + 'cross_ref_openurl_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
+
+      stub = stub_request(:get, url).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -58,16 +70,16 @@ describe CrossRef do
 
     it "should report if there is an event_count greater than zero returned by the CrossRef OpenURL API" do
       body = File.read(fixture_path + 'cross_ref_openurl.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
+      stub = stub_request(:get, url).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
     end
 
     it "should catch errors with the CrossRef OpenURL API" do
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
+      stub = stub_request(:get, url).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true")
+      response.should eq(error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

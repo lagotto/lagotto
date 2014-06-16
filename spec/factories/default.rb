@@ -110,7 +110,7 @@ FactoryGirl.define do
     trait(:staleness) { association :source, factory: :citeulike }
     trait(:with_errors) { event_count 0 }
     trait(:with_private) { association :source, private: true }
-    trait(:with_crossref) { association :source, factory: :cross_ref }
+    trait(:with_crossref) { association :source, factory: :crossref }
     trait(:with_mendeley) { association :source, factory: :mendeley }
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }
@@ -127,7 +127,7 @@ FactoryGirl.define do
     end
     trait(:with_crossref_and_article_published_today) do
       association :article, factory: :article_published_today
-      association :source, factory: :cross_ref
+      association :source, factory: :crossref
     end
 
     initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }

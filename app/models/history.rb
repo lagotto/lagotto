@@ -84,9 +84,12 @@ class History
       @events_by_month = get_events_by_month(previous_data['events_by_month']) if events_by_month.blank?
 
       options = { data: data.clone }
-      options[:data][:_id] = "#{couchdb_id}"
-      options[:data][:_rev] = data_rev if data_rev.present?
       options[:source_id] = retrieval_status.source_id
+
+      if data_rev.present?
+        options[:data][:_id] = "#{couchdb_id}"
+        options[:data][:_rev] = data_rev
+      end
 
       @rs_rev = put_alm_data("#{CONFIG[:couchdb_url]}#{couchdb_id}", options)
     else

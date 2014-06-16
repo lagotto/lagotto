@@ -46,9 +46,9 @@ FactoryGirl.define do
     initialize_with { Copernicus.find_or_create_by_name(name) }
   end
 
-  factory :cross_ref, class: CrossRef do
+  factory :crossref, class: CrossRef do
     type "CrossRef"
-    name "cross_ref"
+    name "crossref"
     display_name "CrossRef"
     state_event "activate"
     username "EXAMPLE"
