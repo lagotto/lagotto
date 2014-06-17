@@ -24,6 +24,7 @@ describe "/api/v5/articles" do
         item_source["metrics"].should include("likes")
         item_source["metrics"].should include("html")
         item_source["metrics"].should include("pdf")
+        item_source["metrics"].should_not include("citations")
         item_source["events"].should be_nil
       end
     end
@@ -49,6 +50,7 @@ describe "/api/v5/articles" do
         item_source["metrics"].should include("likes")
         item_source["metrics"].should include("html")
         item_source["metrics"].should include("pdf")
+        item_source["metrics"].should_not include("citations")
         item_source["events"].should be_nil
       end
     end
