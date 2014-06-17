@@ -25,12 +25,12 @@ class RetrievalStatusDecorator < Draper::Decorator
   end
 
   def new_metrics
-    { :pdf => model.event_metrics[:pdf],
-      :html => model.event_metrics[:html],
-      :readers => model.event_metrics[:shares],
-      :comments => model.event_metrics[:comments],
-      :likes => model.event_metrics[:likes],
-      :total => model.event_metrics[:total] }
+    { :pdf => metrics[:pdf],
+      :html => metrics[:html],
+      :readers => metrics[:shares],
+      :comments => metrics[:comments],
+      :likes => metrics[:likes],
+      :total => metrics[:total] }
   end
 
   def by_year
