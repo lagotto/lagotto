@@ -10,7 +10,18 @@ class RetrievalStatusDecorator < Draper::Decorator
   end
 
   def metrics
-    model.event_metrics
+    if model.event_metrics.present?
+      model.event_metrics
+    else
+      { :pdf => nil,
+        :html => nil,
+        :shares => nil,
+        :groups => nil,
+        :comments => nil,
+        :likes => nil,
+        :citations => nil,
+        :total => 0 }
+    end
   end
 
   def new_metrics
