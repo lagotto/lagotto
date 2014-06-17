@@ -79,7 +79,6 @@ describe RetrievalStatus do
       stub = stub_request(:get, retrieval_status.source.get_query_url(retrieval_status.article))
         .to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
       result = retrieval_status.perform_get_data
-      rh_id = result[:retrieval_history_id]
 
       rs_result = retrieval_status.get_alm_data(rs_id)
       # rs_result.should include("source" => retrieval_status.source.name,

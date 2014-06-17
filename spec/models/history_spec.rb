@@ -47,12 +47,6 @@ describe History do
     it "should respond to success" do
       subject.to_hash.should eq(event_count: 25, previous_count: 50, skipped: false, update_interval: update_interval)
     end
-
-    # it "should store data in CouchDB" do
-    #   subject.to_hash.should eq(event_count: 25, previous_count: 50, retrieval_history_id: subject.retrieval_history.id, update_interval: 30)
-    #   subject.rs_rev.should be_nil
-    #   subject.rh_rev.should be_nil
-    # end
   end
 
   context "events_by_day" do
