@@ -29,7 +29,7 @@ class ArticlesController < ApplicationController
   def show
     load_article
 
-    format_options = params.slice :events, :history, :source
+    format_options = params.slice :events, :source
 
     @groups = Group.order("id")
 

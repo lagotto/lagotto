@@ -7,6 +7,6 @@ unless params[:info] == "summary"
     attributes :name, :display_name, :events_url, :metrics, :update_date
 
     attributes :events if ["detail","event"].include?(params[:info])
-    attributes :by_day, :by_month, :by_year if params[:info] == "detail"
+    attributes :by_day, :by_month, :by_year if ["detail","history"].include?(params[:info])
   end
 end

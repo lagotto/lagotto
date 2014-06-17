@@ -165,10 +165,6 @@ class History
     "#{retrieval_status.source.name}:#{retrieval_status.article.uid_escaped}"
   end
 
-  def couchdb_history_id
-    "#{couchdb_id}:#{retrieved_at.utc.iso8601}"
-  end
-
   def skipped
     not_error? ? false : true
   end
