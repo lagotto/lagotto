@@ -5,6 +5,6 @@ unless params[:info] == "summary"
     attributes :name, :display_name, :group_name, :events_url, :by_day, :by_month, :by_year, :update_date
     attributes :new_metrics => :metrics
 
-    attributes :events, :events_csl if ["detail","event"].include?(params[:info])
+    attributes :events, :events_csl if params[:info] == "detail"
   end
 end

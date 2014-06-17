@@ -65,50 +65,5 @@ describe "/api/v5/articles" do
         item_source["by_year"].should_not be_nil
       end
     end
-
-    context "event information" do
-      let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&info=event&api_key=#{api_key}" }
-
-      it "JSON" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
-
-        response = JSON.parse(last_response.body)
-        response["total"].should == 1
-        item = response["data"].first
-        item["doi"].should eq(article.doi)
-        item["issued"]["date_parts"].should eq([article.year, article.month, article.day])
-
-        item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["events"].should_not be_nil
-      end
-    end
-
-    context "history information" do
-      let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&info=history&api_key=#{api_key}" }
-
-      it "JSON" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
-
-        response = JSON.parse(last_response.body)
-        response["total"].should == 1
-        item = response["data"].first
-        item["doi"].should eq(article.doi)
-        item["issued"]["date_parts"].should eq([article.year, article.month, article.day])
-
-        item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["events"].should be_nil
-        item_source["by_day"].should_not be_nil
-        item_source["by_month"].should_not be_nil
-        item_source["by_year"].should_not be_nil
-      end
-    end
   end
 end
