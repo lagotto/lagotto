@@ -19,12 +19,10 @@ describe "/api/v5/articles" do
         item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"].should include("citations")
-        item_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
+        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
         item_source["metrics"].should include("comments")
-        item_source["metrics"].should include("groups")
-        item_source["metrics"].should include("html")
         item_source["metrics"].should include("likes")
+        item_source["metrics"].should include("html")
         item_source["metrics"].should include("pdf")
         item_source["events"].should be_nil
       end
@@ -46,12 +44,10 @@ describe "/api/v5/articles" do
         item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"].should include("citations")
-        item_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
+        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
         item_source["metrics"].should include("comments")
-        item_source["metrics"].should include("groups")
-        item_source["metrics"].should include("html")
         item_source["metrics"].should include("likes")
+        item_source["metrics"].should include("html")
         item_source["metrics"].should include("pdf")
         item_source["events"].should be_nil
       end

@@ -58,7 +58,7 @@ describe "/api/v5/articles" do
 
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
+        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
         item_source["events"].should_not be_nil
       end
     end

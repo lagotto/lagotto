@@ -150,7 +150,7 @@ describe "/api/v5/articles", :not_teamcity => true do
 
         response_source = data["sources"][0]
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
+        response_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
         response_source["events"].should_not be_nil
 
         summary_uri = "#{uri}&info=summary"
