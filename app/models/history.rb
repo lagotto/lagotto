@@ -75,7 +75,7 @@ class History
 
       if data_rev.present?
         previous_data = get_alm_data(couchdb_id)
-        previous_data = {} if previous_data.nil? || previous_data['error']
+        previous_data = {} if previous_data.nil? || previous_data[:error]
       else
         previous_data = {}
       end
