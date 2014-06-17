@@ -97,10 +97,10 @@ module Authenticable
       render "error", :status => 422
     end
 
-    # rescue_from NoMethodError do |exception|
-    #   @error = "Undefined method."
-    #   @article = nil
-    #   render "error", :status => 422
-    # end
+    rescue_from NoMethodError do |exception|
+      @error = "Undefined method."
+      @article = nil
+      render "error", :status => 422
+    end
   end
 end
