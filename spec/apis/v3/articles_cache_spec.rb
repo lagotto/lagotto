@@ -175,9 +175,7 @@ describe "/api/v3/articles", :not_teamcity => true do
 
         Rails.cache.exist?("#{key}//json").should be_true
         response = Rails.cache.read("#{key}//json")
-        response_source = response[:sources][0]
-        response_source[:metrics][:total].should eql(article.retrieval_statuses.first.event_count)
-        response_source[:metrics][:total].should_not eql(event_count)
+        update_date = response[:update_date]
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
@@ -191,9 +189,7 @@ describe "/api/v3/articles", :not_teamcity => true do
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = Rails.cache.read("#{cache_key}//json")
-        response_source = response[:sources][0]
-        response_source[:metrics][:total].should eql(article.retrieval_statuses.first.event_count)
-        response_source[:metrics][:total].should eql(event_count)
+        response[:update_date].should be > update_date
       end
 
       it "does not use a stale cache when the source query parameter changes" do
