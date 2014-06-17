@@ -79,7 +79,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def events
-    if data.blank? || data["error"]
+    if data.blank? || data[:error]
       []
     else
       data["events"]
@@ -87,7 +87,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def metrics
-    if data.blank? || data["error"]
+    if data.blank? || data[:error]
       []
     else
       data["event_metrics"]
@@ -95,7 +95,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def by_day
-    if data.blank? || data["error"]
+    if data.blank? || data[:error]
       []
     else
       data["events_by_day"]
@@ -103,7 +103,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def by_month
-    if data.blank? || data["error"]
+    if data.blank? || data[:error]
       []
     else
       data["events_by_month"]
