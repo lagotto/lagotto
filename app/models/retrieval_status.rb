@@ -25,6 +25,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   belongs_to :article, :touch => true
   belongs_to :source
+  has_many :retrieval_histories
 
   before_destroy :delete_couchdb_document
 
@@ -92,6 +93,10 @@ class RetrievalStatus < ActiveRecord::Base
     else
       data["event_metrics"]
     end
+  end
+
+  def get_past_events_by_month
+    retrieval_histories.group_by {|item| item.retrieved_at.strftime("%Y-%m") }.map {|k,v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :total => v.last.event_count }}
   end
 
   def by_day

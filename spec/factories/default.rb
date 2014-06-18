@@ -140,6 +140,14 @@ FactoryGirl.define do
       association :source, factory: :crossref
     end
 
+    trait(:with_crossref_histories) do
+      before(:create) do |retrieval_status|
+        FactoryGirl.create_list(:retrieval_history, 20, retrieval_status: retrieval_status,
+                                                        article: retrieval_status.article,
+                                                        source: retrieval_status.source)
+      end
+    end
+
     initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
   end
 
@@ -195,9 +203,11 @@ FactoryGirl.define do
   end
 
   factory :retrieval_history do
-    retrieved_at { Time.zone.today - 1.month }
-    event_count { retrieval_status.event_count }
-    status { event_count > 0 ? "SUCCESS" : "ERROR" }
+    sequence(:retrieved_at) do |n|
+      Date.stub(:today).and_return(Date.new(2013, 9, 5))
+      Date.today - n.weeks
+    end
+    sequence(:event_count) { |n| 1000 - 10 * n }
   end
 
   factory :alert do

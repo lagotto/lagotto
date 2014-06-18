@@ -31,24 +31,7 @@ class RetrievalHistory < ActiveRecord::Base
 
   before_destroy :delete_couchdb_document
 
-  default_scope order("retrieved_at DESC")
-
-  scope :after_days, lambda { |days|
-    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
-      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days)
-    else
-      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL '? DAY'", days)
-    end
-  }
-  scope :after_months, lambda { |months|
-    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
-      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months)
-    else
-      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL '? MONTH'", months)
-    end
-  }
-  scope :until_year, lambda { |year| joins(:article).where("EXTRACT(YEAR FROM retrieved_at) <= ?", year) }
-  scope :total, lambda { |duration| where("retrieved_at > ?", Time.zone.now - duration.days) }
+  default_scope order("retrieved_at ASC")
 
   private
 

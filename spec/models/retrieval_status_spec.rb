@@ -96,4 +96,12 @@ describe RetrievalStatus do
       # subject.get_alm_data(rh_id).should eq(error)
     end
   end
+
+  describe "retrieval_histories" do
+    let(:retrieval_status) { FactoryGirl.create(:retrieval_status, :with_crossref_histories) }
+
+    it "should get past events by month" do
+      retrieval_status.get_past_events_by_month.should eq([{:year=>2013, :month=>4, :total=>810}, {:year=>2013, :month=>5, :total=>860}, {:year=>2013, :month=>6, :total=>900}, {:year=>2013, :month=>7, :total=>940}, {:year=>2013, :month=>8, :total=>990}])
+    end
+  end
 end
