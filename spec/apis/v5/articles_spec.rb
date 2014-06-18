@@ -9,7 +9,7 @@ describe "/api/v5/articles" do
     context "more than 50 articles in query" do
       let(:articles) { FactoryGirl.create_list(:article_with_events, 55) }
       let(:article_list) { articles.map { |article| "#{article.doi_escaped}" }.join(",") }
-      let(:uri) { "/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}" }
+      let(:uri) { "/api/v5/articles?ids=#{article_list}&api_key=#{api_key}" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -25,9 +25,9 @@ describe "/api/v5/articles" do
       end
     end
 
-    context "summary information" do
+    context "default information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&type=doi&info=summary&api_key=#{api_key}" }
+      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&api_key=#{api_key}" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -36,8 +36,30 @@ describe "/api/v5/articles" do
         response = JSON.parse(last_response.body)
         response["total"].should == 1
         item = response["data"].first
-        item["doi"].should eql(article.doi)
-        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
+        item["doi"].should eq(article.doi)
+        item["issued"]["date_parts"].should eq([article.year, article.month, article.day])
+        item_source = item["sources"][0]
+        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
+        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
+        item_source["by_day"].should_not be_nil
+        item_source["by_month"].should_not be_nil
+        item_source["by_year"].should_not be_nil
+      end
+    end
+
+    context "summary information" do
+      let(:article) { FactoryGirl.create(:article_with_events) }
+      let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&info=summary&api_key=#{api_key}" }
+
+      it "JSON" do
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
+        last_response.status.should == 200
+
+        response = JSON.parse(last_response.body)
+        response["total"].should == 1
+        item = response["data"].first
+        item["doi"].should eq(article.doi)
+        item["issued"]["date_parts"].should eq([article.year, article.month, article.day])
         item["sources"].should be_nil
       end
     end
@@ -53,13 +75,16 @@ describe "/api/v5/articles" do
         response = JSON.parse(last_response.body)
         response["total"].should == 1
         item = response["data"].first
-        item["doi"].should eql(article.doi)
-        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
+        item["doi"].should eq(article.doi)
+        item["issued"]["date_parts"].should eq([article.year, article.month, article.day])
 
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
+        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
         item_source["events"].should_not be_nil
+        item_source["by_day"].should_not be_nil
+        item_source["by_month"].should_not be_nil
+        item_source["by_year"].should_not be_nil
       end
     end
   end

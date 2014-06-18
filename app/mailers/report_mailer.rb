@@ -26,7 +26,7 @@ class ReportMailer < ActionMailer::Base
 
     @users_count = User.count
     @couchdb_info = RetrievalStatus.new.get_alm_database || { "doc_count" => 0, "disk_size" => 0 }
-    @sql_info = RetrievalHistory.table_status
+    @sql_info = RetrievalStatus.table_status
 
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Status Report")
   end

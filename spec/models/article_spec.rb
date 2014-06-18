@@ -131,19 +131,6 @@ describe Article do
       @articles.each { |article| article.destroy }
       RetrievalStatus.count.should == 0
     end
-
-    it "should create associated retrieval_histories" do
-      RetrievalStatus.count.should == 0
-      @articles = FactoryGirl.create_list(:article_with_events, 2)
-      RetrievalHistory.count.should == 2
-    end
-
-    it "should delete associated retrieval_histories" do
-      @articles = FactoryGirl.create_list(:article_with_events, 2)
-      RetrievalHistory.count.should == 2
-      @articles.each { |article| article.destroy }
-      RetrievalHistory.count.should == 0
-    end
   end
 
 end

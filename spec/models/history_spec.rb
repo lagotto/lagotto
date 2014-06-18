@@ -13,12 +13,8 @@ describe History do
       subject.status.should eq(:error)
     end
 
-    it "should not create a retrieval_history record" do
-      subject.retrieval_history.should be_nil
-    end
-
     it "should respond to an error" do
-      subject.to_hash.should eq(event_count: nil, previous_count: 50, retrieval_history_id: nil, update_interval: update_interval)
+      subject.to_hash.should eq(event_count: nil, previous_count: 50, skipped: true, update_interval: update_interval)
     end
   end
 
@@ -31,13 +27,8 @@ describe History do
       subject.status.should eq(:success_no_data)
     end
 
-    it "should create a retrieval_history record" do
-      subject.retrieval_history.event_count.should eq(data[:event_count])
-    end
-
-    #
     it "should respond to success with no data" do
-      subject.to_hash.should eq(event_count: 0, previous_count: 50, retrieval_history_id: subject.retrieval_history.id, update_interval: update_interval)
+      subject.to_hash.should eq(event_count: 0, previous_count: 50, skipped: false, update_interval: update_interval)
     end
   end
 
@@ -53,19 +44,9 @@ describe History do
       subject.status.should eq(:success)
     end
 
-    it "should create a retrieval_history record" do
-      subject.retrieval_history.event_count.should eq(data[:event_count])
-    end
-
     it "should respond to success" do
-      subject.to_hash.should eq(event_count: 25, previous_count: 50, retrieval_history_id: subject.retrieval_history.id, update_interval: update_interval)
+      subject.to_hash.should eq(event_count: 25, previous_count: 50, skipped: false, update_interval: update_interval)
     end
-
-    # it "should store data in CouchDB" do
-    #   subject.to_hash.should eq(event_count: 25, previous_count: 50, retrieval_history_id: subject.retrieval_history.id, update_interval: 30)
-    #   subject.rs_rev.should be_nil
-    #   subject.rh_rev.should be_nil
-    # end
   end
 
   context "events_by_day" do

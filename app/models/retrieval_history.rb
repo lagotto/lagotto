@@ -31,63 +31,7 @@ class RetrievalHistory < ActiveRecord::Base
 
   before_destroy :delete_couchdb_document
 
-  default_scope order("retrieved_at DESC")
-
-  scope :after_days, lambda { |days|
-    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
-      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? DAY", days)
-    else
-      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL '? DAY'", days)
-    end
-  }
-  scope :after_months, lambda { |months|
-    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
-      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL ? MONTH", months)
-    else
-      joins(:article).where("retrieved_at <= articles.published_on + INTERVAL '? MONTH'", months)
-    end
-  }
-  scope :until_year, lambda { |year| joins(:article).where("EXTRACT(YEAR FROM retrieved_at) <= ?", year) }
-  scope :total, lambda { |duration| where("retrieved_at > ?", Time.zone.now - duration.days) }
-
-  # This is needed to calculate and display the table size
-  def self.table_status
-    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
-      sql = "SHOW TABLE STATUS LIKE 'retrieval_histories'"
-    else
-      sql = "SELECT * FROM pg_class WHERE oid = 'public.retrieval_histories'::regclass"
-    end
-    table_status = ActiveRecord::Base.connection.select_all(sql).first
-    Hash[table_status.map { |k, v| [k.to_s.underscore, v] }]
-  end
-
-  def data
-    if event_count > 0
-      data = get_alm_data(id)
-    else
-      nil
-    end
-  end
-
-  def events_url
-    data["events_url"] unless data.nil?
-  end
-
-  def events
-    unless data.nil?
-      data["events"]
-    else
-      []
-    end
-  end
-
-  def metrics
-    unless data.blank?
-      data["event_metrics"]
-    else
-      nil
-    end
-  end
+  default_scope order("retrieved_at ASC")
 
   private
 

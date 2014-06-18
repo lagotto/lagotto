@@ -4,7 +4,6 @@ describe RetrievalStatus do
 
   it { should belong_to(:article) }
   it { should belong_to(:source) }
-  it { should have_many(:retrieval_histories).dependent(:destroy) }
 
   it "stale_at should be publication date for unpublished articles" do
     article = FactoryGirl.create(:article, year: Time.zone.now.year + 1)
@@ -80,7 +79,6 @@ describe RetrievalStatus do
       stub = stub_request(:get, retrieval_status.source.get_query_url(retrieval_status.article))
         .to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
       result = retrieval_status.perform_get_data
-      rh_id = result[:retrieval_history_id]
 
       rs_result = retrieval_status.get_alm_data(rs_id)
       # rs_result.should include("source" => retrieval_status.source.name,
@@ -96,6 +94,14 @@ describe RetrievalStatus do
       # retrieval_status.article.destroy
       # subject.get_alm_data(rs_id).should eq(error)
       # subject.get_alm_data(rh_id).should eq(error)
+    end
+  end
+
+  describe "retrieval_histories" do
+    let(:retrieval_status) { FactoryGirl.create(:retrieval_status, :with_crossref_histories) }
+
+    it "should get past events by month" do
+      retrieval_status.get_past_events_by_month.should eq([{:year=>2013, :month=>4, :total=>810}, {:year=>2013, :month=>5, :total=>860}, {:year=>2013, :month=>6, :total=>900}, {:year=>2013, :month=>7, :total=>940}, {:year=>2013, :month=>8, :total=>990}])
     end
   end
 end

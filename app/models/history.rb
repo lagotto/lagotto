@@ -13,10 +13,10 @@ class History
   # ERROR
   # An error occured, typically 408 (Request Timeout), 403 (Too Many Requests) or 401 (Unauthorized)
   # It could also be an error in our code. 404 (Not Found) errors are handled as SUCCESS NO DATA
-  # We don't update retrieval status and don't create a retrieval_histories document,
+  # We don't update retrieval status and set skipped to true,
   # so that the request is repeated later. We could get stuck, but we see this in alerts
   #
-  # This class returns a hash in the format event_count: 12, previous_count: 8, retrieval_history_id: 3736, update_interval: 31
+  # This class returns a hash in the format event_count: 12, previous_count: 8, skipped: false, update_interval: 31
   # This hash can be used to track API responses, e.g. when event counts go down
 
   # include HTTP request helpers
@@ -28,7 +28,7 @@ class History
   # include metrics helpers
   include Measurable
 
-  attr_accessor :retrieval_status, :retrieval_history, :events, :event_count, :previous_count, :previous_retrieved_at, :event_metrics, :events_by_day, :events_by_month, :events_url, :status, :couchdb_id, :rs_rev, :rh_rev, :data
+  attr_accessor :retrieval_status, :events, :event_count, :previous_count, :previous_retrieved_at, :event_metrics, :events_by_day, :events_by_month, :events_url, :status, :couchdb_id, :rs_rev, :rh_rev, :data
 
   def initialize(rs_id, data = {})
     @retrieval_status = RetrievalStatus.find(rs_id)
@@ -66,12 +66,6 @@ class History
                                        event_count: event_count,
                                        event_metrics: event_metrics,
                                        events_url: events_url)
-
-    # save data to retrieval_history table
-    @retrieval_history = retrieval_status.retrieval_histories.create(article_id: retrieval_status.article_id,
-                                                                     source_id: retrieval_status.source_id,
-                                                                     event_count: event_count,
-                                                                     retrieved_at: retrieved_at)
   end
 
   def save_to_couchdb
@@ -81,7 +75,7 @@ class History
 
       if data_rev.present?
         previous_data = get_alm_data(couchdb_id)
-        previous_data = {} if previous_data.nil? || previous_data['error']
+        previous_data = {} if previous_data.nil? || previous_data[:error]
       else
         previous_data = {}
       end
@@ -102,9 +96,6 @@ class History
       # only save the data to couchdb
       @rs_rev = save_alm_data(couchdb_id, data: data.clone, source_id: retrieval_status.source_id)
     end
-
-    data[:doc_type] = "history"
-    @rh_rev = save_alm_data(retrieval_history_id, data: data, source_id: retrieval_status.source_id)
   end
 
   def get_events_by_day(event_arr = nil)
@@ -174,8 +165,8 @@ class History
     "#{retrieval_status.source.name}:#{retrieval_status.article.uid_escaped}"
   end
 
-  def retrieval_history_id
-    retrieval_history ? retrieval_history.id : nil
+  def skipped
+    not_error? ? false : true
   end
 
   # dates via utc time are more accurate than Date.today
@@ -210,7 +201,7 @@ class History
   def to_hash
     { event_count: event_count,
       previous_count: previous_count,
-      retrieval_history_id: retrieval_history_id,
+      skipped: skipped,
       update_interval: update_interval }
   end
 end

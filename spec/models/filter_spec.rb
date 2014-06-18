@@ -114,7 +114,7 @@ describe Filter do
     end
 
     context "skipped" do
-      let(:api_response) { FactoryGirl.create(:api_response, event_count: 0, retrieval_history_id: nil) }
+      let(:api_response) { FactoryGirl.create(:api_response, event_count: 0, skipped: true) }
       let(:options) { { id: api_response.id } }
 
       it "should not raise errors" do

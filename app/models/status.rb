@@ -63,8 +63,8 @@ class Status
     RetrievalStatus.new.get_alm_database["disk_size"] || 0
   end
 
-  def mysql_size
-    RetrievalHistory.table_status["data_length"] || 0
+  def sql_size
+    RetrievalStatus.table_status["data_length"] || 0
   end
 
   def update_date

@@ -12,7 +12,7 @@
 <br/>
 <%= number_with_delimiter(@users_count) %> Users<br/>
 ALM Version <%= Rails.application.config.version %><br/>
-MySQL retrieval_history size <%= number_to_human_size(@sql_info["data_length"]) %><br/>
+Retrieval_history table size <%= number_to_human_size(@sql_info["data_length"]) %><br/>
 CouchDB database size <%= number_to_human_size(@couchdb_info["disk_size"]) %><br/></p>
 
 <p><%= link_to "Go to admin dashboard", admin_root_url(:host => CONFIG[:hostname]) %></p>

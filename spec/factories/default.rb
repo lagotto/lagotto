@@ -94,6 +94,16 @@ FactoryGirl.define do
 
   factory :retrieval_status do
     event_count 50
+    event_metrics do
+      { :pdf => nil,
+        :html => nil,
+        :shares => 50,
+        :groups => nil,
+        :comments => nil,
+        :likes => nil,
+        :citations => nil,
+        :total => 50 }
+    end
     retrieved_at { Time.zone.now - 1.month }
     sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
 
@@ -130,12 +140,12 @@ FactoryGirl.define do
       association :source, factory: :crossref
     end
 
-    before(:create) do |retrieval_status|
-      FactoryGirl.create(:retrieval_history, retrieved_at: Time.zone.today - 2.years + 1.day,
-                                             event_count: 50,
-                                             retrieval_status: retrieval_status,
-                                             article: retrieval_status.article,
-                                             source: retrieval_status.source)
+    trait(:with_crossref_histories) do
+      before(:create) do |retrieval_status|
+        FactoryGirl.create_list(:retrieval_history, 20, retrieval_status: retrieval_status,
+                                                        article: retrieval_status.article,
+                                                        source: retrieval_status.source)
+      end
     end
 
     initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
@@ -193,9 +203,11 @@ FactoryGirl.define do
   end
 
   factory :retrieval_history do
-    retrieved_at { Time.zone.today - 1.month }
-    event_count { retrieval_status.event_count }
-    status { event_count > 0 ? "SUCCESS" : "ERROR" }
+    sequence(:retrieved_at) do |n|
+      Date.stub(:today).and_return(Date.new(2013, 9, 5))
+      Date.today - n.weeks
+    end
+    sequence(:event_count) { |n| 1000 - 10 * n }
   end
 
   factory :alert do
@@ -229,7 +241,6 @@ FactoryGirl.define do
     update_interval 7
     unresolved 1
     source_id 1
-    retrieval_history_id 1
   end
 
   factory :review do

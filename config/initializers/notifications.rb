@@ -25,7 +25,7 @@ ActiveSupport::Notifications.subscribe "api_response.get" do |name, start, finis
     api_response.article_id = payload[:article_id]
     api_response.source_id = payload[:source_id]
     api_response.retrieval_status_id = payload[:retrieval_status_id]
-    api_response.retrieval_history_id = payload[:retrieval_history_id]
+    api_response.skipped = payload[:skipped]
     api_response.event_count = payload[:event_count]
     api_response.previous_count = payload[:previous_count]
     api_response.update_interval = payload[:update_interval]

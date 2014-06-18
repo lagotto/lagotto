@@ -33,7 +33,7 @@ Loads 25 sample articles
 rake db:articles:seed
 ```
 
-Deletes all articles and associated rows in retrieval_statuses and retrieval_histories. For safety reasons doesn't work in the production environment.
+Deletes all articles and associated rows in the retrieval_statuses table. For safety reasons doesn't work in the production environment (use the following rake task).
 
 ```sh
 rake db:articles:delete_all

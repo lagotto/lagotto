@@ -32,10 +32,7 @@ class ArticleDecorator < Draper::Decorator
     { :article_id => id,
       :timestamp => updated_at.to_s(:number),
       :source => context[:source],
-      :info => context[:info],
-      :days => context[:days],
-      :months => context[:months],
-      :year => context[:year] }
+      :info => context[:info] }
   end
 
   def version
@@ -59,7 +56,7 @@ class ArticleDecorator < Draper::Decorator
 <blockquote class="alm well well-small">
 <h4 class="alm"><a href="#{doi_as_url}">#{title}</a></h4>
 <div class="alm date" data-datetime="#{publication_date}">Published #{published_on.to_s(:long)}</div>
-#{views_span} #{shares_span} #{bookmarks_span} #{citations_span} #{coins}
+#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}
 </blockquote>
     eos
   end
@@ -85,7 +82,7 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def saved_span
-    if model.bookmarks > 0
+    if model.saved > 0
       "<span class=\"alm label label-info saved\" data-saved=\"#{model.saved}\">Saved: #{model.saved}</span>"
     else
       ""

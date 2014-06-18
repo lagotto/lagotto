@@ -66,103 +66,6 @@ describe "/api/v3/articles" do
       end
     end
 
-    context "historical data after 30 days" do
-      let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&days=30" }
-
-      it "JSON" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
-
-        response = JSON.parse(last_response.body)[0]
-        response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_days(30).last.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should be_nil
-      end
-
-      it "XML" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
-
-        response = Hash.from_xml(last_response.body)
-        response = response["articles"]["article"]
-        response_source = response["sources"]["source"]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_days(30).last.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should be_nil
-      end
-
-    end
-
-    context "historical data after 6 months" do
-      let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&months=6" }
-
-      it "JSON" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
-
-        response = JSON.parse(last_response.body)[0]
-        response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.after_months(6).last.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should be_nil
-      end
-
-      it "XML" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
-
-        response = Hash.from_xml(last_response.body)
-        response = response["articles"]["article"]
-        response_source = response["sources"]["source"]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.retrieval_histories.after_months(6).last.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should be_nil
-      end
-    end
-
-    context "historical data until 2012" do
-      let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&year=2012" }
-
-      it "JSON" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
-
-        response = JSON.parse(last_response.body)[0]
-        response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2012).last.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should be_nil
-      end
-
-      it "XML" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
-
-        response = Hash.from_xml(last_response.body)
-        response = response["articles"]["article"]
-        response_source = response["sources"]["source"]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.retrieval_histories.until_year(2012).last.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should be_nil
-      end
-    end
-
     context "show detail information" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=detail" }
@@ -178,8 +81,6 @@ describe "/api/v3/articles" do
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
         response_source["events"].should_not be_nil
-        response_source["histories"].should_not be_nil
-
       end
 
       it "XML" do
@@ -192,40 +93,6 @@ describe "/api/v3/articles" do
         response["doi"].should eql(article.doi)
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
-        response_source["histories"].should_not be_nil
-      end
-
-    end
-
-    context "show history information" do
-      let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{article.doi_escaped}&info=history" }
-
-      it "JSON" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
-
-        response = JSON.parse(last_response.body)[0]
-        response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should_not be_nil
-      end
-
-      it "XML" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
-
-        response = Hash.from_xml(last_response.body)
-        response = response["articles"]["article"]
-        response_source = response["sources"]["source"]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
-        response_source["histories"].should_not be_nil
       end
 
     end
@@ -245,8 +112,6 @@ describe "/api/v3/articles" do
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
         response_source["events"].should_not be_nil
-        response_source["histories"].should be_nil
-
       end
 
       it "XML" do
@@ -259,7 +124,6 @@ describe "/api/v3/articles" do
         response["doi"].should eql(article.doi)
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
-        response_source["histories"].should be_nil
       end
     end
   end
