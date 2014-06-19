@@ -472,8 +472,42 @@ curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"arti
 When an article has been created successfully, the server reponds with `Status 201 Created` and the following JSON (the `data` object will include all article attributes):
 
 ```sh
-{"success":"Article created.","error":null,"data":{ ... }
+$ curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -u login:pwd -d '{"article":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://alm.example.org/api/v4/articles
+HTTP/1.1 201 Created
+Status: 201 Created
+Content-Type: application/json; charset=utf-8
+
+{"success":"Article created.","error":null,"data":{"doi":"10.7554/eLife.09002","title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel","canonical_url":null,"mendeley_uuid":null,"pmid":null,"pmcid":null,"views":0,"shares":0,"bookmarks":0,"citations":0,"sources":[{"name":"pmc","display_name":"PubMed Central Usage Stats","events_url":null,"metrics":[]},{"name":"copernicus",
+ ... more ...
 ```
+
+When an article with the specified DOI already exists, the server returns HTTP 400 error with a JSON body indicating the article exists:
+
+```sh
+$ curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -u login:pwd -d '{"article":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://alm.example.org/api/v4/articles
+HTTP/1.1 400 Bad Request
+Status: 400 Bad Request
+Content-Type: application/json; charset=utf-8
+
+{"total":0,"total_pages":0,"page":0,"success":null,"error":{"doi":["has already been taken"]},
+ "data":{"doi":"10.7554/eLife.99002","title":"Structure of a pore-blocking toxin in complex with a eukaryotic
+ voltage-dependent K+ channel","canonical_url":null,"mendeley_uuid":null,"pmid":null,"pmcid":null,"views":0,
+ "shares":0,"bookmarks":0,"citations":0,"sources":[]}}
+```
+
+In order to be accepted the following conditions must hold:
+
+* The JSON must be valid, and in particular the DOI must be quoted in the request and the internal slash must
+  not be prefixed with a backslash. The day, month and year can be unquoted.
+
+* The publication date must be in the past or up to a year in the future (as understood by the server's date).
+
+* The login details must be correct and at present it seems it must be a local login, not a Persona one.
+
+* The login must have the 'Admin' role assigned.
+
+* The DOI must not already exist in the database.
+
 
 ### Update article
 A sample curl API call to update an article would look like this:
