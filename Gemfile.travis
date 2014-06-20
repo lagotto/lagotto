@@ -53,6 +53,8 @@ gem "dotiw", "~> 1.1.1"
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.3.1"
 
+gem 'rack-mini-profiler', '~> 0.9.1'
+
 group :assets do
   gem 'turbo-sprockets-rails3', '~> 0.3.11'
 end
