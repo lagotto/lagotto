@@ -11,7 +11,7 @@ other = Group.find_or_create_by_name(name: 'other', display_name: 'Other')
 crossref = CrossRef.find_or_create_by_name(
   :name => 'crossref',
   :display_name => 'CrossRef',
-  :description => 'CrossRef is a non-profit organization that enables ' +
+  :description => 'CrossRef is a non-profit organization that enables ' \
                   'cross-publisher citation linking.',
   :group_id => cited.id,
   :state_event => 'install',
@@ -20,7 +20,7 @@ crossref = CrossRef.find_or_create_by_name(
 scopus = Scopus.find_or_create_by_name(
   :name => 'scopus',
   :display_name => 'Scopus',
-  :description => 'Scopus is an abstract and citation database of peer-' +
+  :description => 'Scopus is an abstract and citation database of peer-' \
                   'reviewed literature.',
   :group_id => cited.id,
   :api_key => nil,
@@ -51,7 +51,7 @@ researchblogging = Researchblogging.find_or_create_by_name(
 pmc = Pmc.find_or_create_by_name(
   :name => 'pmc',
   :display_name => 'PubMed Central Usage Stats',
-  :description => 'PubMed Central is a free full-text archive of biomedical ' +
+  :description => 'PubMed Central is a free full-text archive of biomedical ' \
                   'literature at the National Library of Medicine.',
   :queueable => false,
   :group_id => viewed.id,

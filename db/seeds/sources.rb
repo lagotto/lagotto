@@ -17,7 +17,7 @@ citeulike = Citeulike.find_or_create_by_name(
 pubmed = PubMed.find_or_create_by_name(
   :name => 'pubmed',
   :display_name => 'PubMed Central',
-  :description => 'PubMed Central is a free full-text archive of biomedical ' +
+  :description => 'PubMed Central is a free full-text archive of biomedical ' \
                   'literature at the National Library of Medicine.',
   :state_event => 'activate',
   :group_id => cited.id)
@@ -49,13 +49,13 @@ datacite = Datacite.find_or_create_by_name(
 pmc_europe = PmcEurope.find_or_create_by_name(
   :name => 'pmceurope',
   :display_name => 'Europe PubMed Central',
-  :description => 'Europe PubMed Central (Europe PMC) is an archive of life ' +
+  :description => 'Europe PubMed Central (Europe PMC) is an archive of life ' \
                   'sciences journal literature.',
   :group_id => cited.id)
 pmc_europe_data = PmcEuropeData.find_or_create_by_name(
   :name => 'pmceuropedata',
   :display_name => 'Europe PubMed Central Database Citations',
-  :description => 'Europe PubMed Central (Europe PMC) Database is an archive of ' +
+  :description => 'Europe PubMed Central (Europe PMC) Database is an archive of ' \
                   'life sciences journal data.',
   :group_id => cited.id)
 scienceseeker = ScienceSeeker.find_or_create_by_name(
@@ -71,7 +71,7 @@ nature = Nature.find_or_create_by_name(
 openedition = Openedition.find_or_create_by_name(
   :name => 'openedition',
   :display_name => 'OpenEdition',
-  :description => 'OpenEdition is the umbrella portal for OpenEdition Books, ' +
-                  'Revues.org, Hypotheses and Calenda in the humanities and ' +
+  :description => 'OpenEdition is the umbrella portal for OpenEdition Books, ' \
+                  'Revues.org, Hypotheses and Calenda in the humanities and ' \
                   'social sciences.',
   :group_id => discussed.id)

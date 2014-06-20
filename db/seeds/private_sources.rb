@@ -46,12 +46,12 @@ plos_comments = PlosComments.find_or_create_by_name(
       :display_name => 'Journal Comments',
       :description => 'Comments from the PLOS website.',
       :group_id => discussed.id)
-    
+
     # These sources are retired, but we need to keep them around for the data we collected
 connotea = Connotea.find_or_create_by_name(
       :name => 'connotea',
       :display_name => 'Connotea',
-      :description => 'A free online reference management service for scientists, ' +
+      :description => 'A free online reference management service for scientists, ' \
                       'researchers, and clinicians (discontinued March 2013)',
       :group_id => other.id)
 postgenomic = Postgenomic.find_or_create_by_name(
