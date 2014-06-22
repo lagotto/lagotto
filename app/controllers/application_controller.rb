@@ -31,7 +31,9 @@ class ApplicationController < ActionController::Base
     request.env['omniauth.origin'] || user_path("me")
   end
 
+  private
+
   def miniprofiler
-    Rack::MiniProfiler.authorize_request if current_user.try(:is_admin_or_staff?)
+    Rack::MiniProfiler.authorize_request # if current_user.try(:is_admin_or_staff?)
   end
 end
