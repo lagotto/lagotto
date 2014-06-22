@@ -3,21 +3,22 @@ layout: page
 title: "API"
 ---
 
-Version 3 of the API was released October 30, 2012 (ALM 2.3).
-Version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11). It extends v3.
-Version 5 of the API (simplify, drop xml, queries) was released April 24, 2014 (ALM 2.14).
+* Version 3 of the API was released October 30, 2012 (ALM 2.3). It is depreceated and will be discontinued in
+  favor of version 5 of the API September 1st.
+* Version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11).
+* Version 5 of the API was released April 24, 2014 (ALM 2.14).
 
 ## Base URL
-API calls to the version 3 APIs start with ``/api/v3/articles`` and
-API calls to the version 4 APIs start with ``/api/v4/articles``.
+* API calls to the version 4 APIs start with ``/api/v4/articles``
+* API calls to the version 5 APIs start with ``/api/v5/articles``
 
 ## Supported Media Types
 * JSON
 
-The media type is set in the header, e.g. "Accept: application/json". Media type negotiation via file extension (e.g. ".json") is not supported. The API defaults to JSON if no media type is given, e.g. to test the API with a browser. Support for XML has been depreciated.
+The media type is set in the header, e.g. "Accept: application/json". Media type negotiation via file extension (e.g. ".json") is not supported. The API defaults to JSON if no media type is given, e.g. to test the API with a browser.
 
 ## API Key
-All v3 API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
+All v5 API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
 
 The v4 API uses a username/password pair and HTTP Basic authentication for article create, update, and delete. You can GET article information from the v4 endpoint using an API key as for API v3.
 
@@ -25,8 +26,8 @@ The v4 API uses a username/password pair and HTTP Basic authentication for artic
 Specify one or more articles by a comma-separated list of DOIs in the `ids` parameter. These DOIs have to be URL-escaped, e.g. `%2F` for `/`:
 
 ```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413
+/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240
+/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413
 ```
 
 Queries for up to 50 articles at a time are supported.
@@ -34,50 +35,50 @@ Queries for up to 50 articles at a time are supported.
 ## Additional Parameters
 
 ### type=doi|pmid|pmcid|mendeley
-The version 3 API supports queries for DOI, PubMed ID, PubMed Central ID and Mendeley UUID. The default `doi` is used if no type is given in the query. The following queries are all for the same article:
+The API supports queries for DOI, PubMed ID, PubMed Central ID and Mendeley UUID. The default `doi` is used if no type is given in the query. The following queries are all for the same article:
 
 ```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pmed.1001361
-/api/v3/articles?api_key=API_KEY&ids=23300388&type=pmid
-/api/v3/articles?api_key=API_KEY&ids=PMC3531501&type=pmcid
-/api/v3/articles?api_key=API_KEY&ids=437b07d9-bc40-4c57-b60e-1f60fefe2300&type=mendeley
+/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pmed.1001361
+/api/v5/articles?api_key=API_KEY&ids=23300388&type=pmid
+/api/v5/articles?api_key=API_KEY&ids=PMC3531501&type=pmcid
+/api/v5/articles?api_key=API_KEY&ids=437b07d9-bc40-4c57-b60e-1f60fefe2300&type=mendeley
 ```
 
 ### info=summary|detail
 With the **summary** parameter no source information or metrics are provided, only article metadata such as DOI, PubMed ID, title or publication date. The only exception are summary statistics, aggregating metrics from several sources (views, shares, bookmarks and citations).
 
-With the **detail** parameter all raw data sent by the source are provided. This also includes metrics by day, month and year.
+With the **detail** parameter all raw data sent by the source are provided.
 
 ```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail
+/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail
 ```
 
 ### source=x
 Only provide metrics for a given source, or a list of sources. The response format is the same as the default response.
 
 ```sh
-/api/v3/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley,crossref
+/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley,crossref
 ```
 
 ## Metrics
-The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `shares` and `groups` for Mendeley, or `shares`, `likes` and `comments` for Facebook. The same seven categories are always returned for every source to simplify parsing of API responses:
+The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `readers` for bookmarking services, and `likes` and `comments` for social media. The same 5 categories are always returned for every source to simplify parsing of API responses:
 
-* **CiteULike**: shares
+* **CiteULike**: readers
 
-* **Mendeley**: shares, groups
+* **Mendeley**: readers
 
 * **Twitter**: comments
 
-* **Facebook**: shares, likes, comments
+* **Facebook**: likes, comments
 
 * **Reddit**: likes, comments
 
-* **CrossRef, PubMed, Nature Blogs, ResearchBlogging, ScienceSeeker, Wordpress.com, Wikipedia, PMC Europe Citations, PMC Europe Database Citations, Scopus**: citations
-
 * **Counter, PubMed Central**: html, pdf
 
+Some metrics are calculated using the total count, e.g. for Mendeley: `groups = total - readers` or Facebook: `shares = total - (likes + comments)`.
+
 ## Search
-Search is not supported by the v3 API, users have to provide specific identifiers or retrieve batches of 50 documents
+Search is not supported by the API, users have to provide specific identifiers or retrieve batches of 50 documents
 sorted by descending date or event count.
 
 ## Signposts
@@ -98,328 +99,337 @@ The API returns `null` if no query was made, and `0` if the external API returns
 ### JSON
 
 ```json
-[
-  {
-    "doi": "10.1371/journal.pone.0036240",
-    "title": "How Academic Biologists and Physicists View Science Outreach",
-    "url": "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0036240",
-    "mendeley": "88bfe7f0-9cb4-11e1-ac31-0024e8453de6",
-    "pmid": "22590526",
-    "pmcid": "3348938",
-    "publication_date": "2012-05-09T07:00:00Z",
-    "update_date": "2013-05-17T13:33:36Z",
-    "views": 12987,
-    "shares": 276,
-    "bookmarks": 38,
-    "citations": 3,
-    "sources": [
-      {
-        "name": "bloglines",
-        "display_name": "Bloglines",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 0,
-          "total": 0
-        },
-        "update_date": "2009-03-12T00:29:00Z"
+{
+  "total": 1,
+  "total_pages": 1,
+  "page": 1,
+  "error": null,
+  "data": [
+    {
+      "doi": "10.1371/journal.pcbi.1000204",
+      "title": "Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web",
+      "canonical_url": "http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1000204",
+      "mendeley_uuid": "0cf5702b-0e74-37f3-b54d-79496d754a90",
+      "pmid": "18974831",
+      "pmcid": "2568856",
+      "issued": {
+        "date_parts": [
+          2008,
+          10,
+          31
+        ]
       },
-      {
-        "name": "citeulike",
-        "display_name": "CiteULike",
-        "events_url": "http://www.citeulike.org/doi/10.1371/journal.pone.0036240",
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": 5,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": null,
-          "total": 5
+      "viewed": 80546,
+      "saved": 2260,
+      "discussed": 30,
+      "cited": 51,
+      "update_date": "2014-06-22T00:40:15Z",
+      "sources": [
+        {
+          "name": "citeulike",
+          "display_name": "CiteULike",
+          "events_url": "http://www.citeulike.org/doi/10.1371%2Fjournal.pcbi.1000204",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": 473,
+            "comments": null,
+            "likes": null,
+            "total": 473
+          },
+          "update_date": "2014-06-20T09:25:36Z"
         },
-        "update_date": "2013-05-12T21:20:14Z"
-      },
-      {
-        "name": "connotea",
-        "display_name": "Connotea",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 0,
-          "total": 0
+        {
+          "name": "crossref",
+          "display_name": "CrossRef",
+          "group_name": "cited",
+          "events_url": null,
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 27
+          },
+          "by_day": [
+          ],
+          "by_month": [
+            {
+              "year": 2014,
+              "month": 5,
+              "total": 27
+            },
+            {
+              "year": 2014,
+              "month": 6,
+              "total": 0
+            }
+          ],
+          "by_year": [
+            {
+              "year": 2014,
+              "total": 27
+            }
+          ],
+          "update_date": "2014-06-22T00:40:15Z"
         },
-        "update_date": "2009-03-12T00:29:20Z"
-      },
-      {
-        "name": "crossref",
-        "display_name": "CrossRef",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 3,
-          "total": 3
+        {
+          "name": "nature",
+          "display_name": "Nature",
+          "events_url": null,
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 0
+          },
+          "update_date": "2014-06-01T20:17:33Z"
         },
-        "update_date": "2013-05-10T03:17:07Z"
-      },
-      {
-        "name": "nature",
-        "display_name": "Nature",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 1,
-          "total": 1
+        {
+          "name": "pubmed",
+          "display_name": "PubMed Central",
+          "events_url": "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=18974831",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 16
+          },
+          "update_date": "2014-06-18T08:01:51Z"
         },
-        "update_date": "2013-05-15T16:04:54Z"
-      },
-      {
-        "name": "postgenomic",
-        "display_name": "Postgenomic",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 0,
-          "total": 0
+        {
+          "name": "scopus",
+          "display_name": "Scopus",
+          "events_url": "http://www.scopus.com/inward/citedby.url?partnerID=HzOxMe3b&scp=55449101991",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 51
+          },
+          "update_date": "2014-06-01T15:02:52Z"
         },
-        "update_date": "2009-03-12T00:30:06Z"
-      },
-      {
-        "name": "pubmed",
-        "display_name": "PubMed Central",
-        "events_url": "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=22590526",
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 1,
-          "total": 1
+        {
+          "name": "counter",
+          "display_name": "Counter",
+          "events_url": null,
+          "metrics": {
+            "pdf": 7351,
+            "html": 66069,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 73836
+          },
+          "update_date": "2014-06-21T12:04:49Z"
         },
-        "update_date": "2013-05-10T16:55:43Z"
-      },
-      {
-        "name": "scopus",
-        "display_name": "Scopus",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 0,
-          "total": 0
+        {
+          "name": "researchblogging",
+          "display_name": "Research Blogging",
+          "events_url": "http://researchblogging.org/post-search/list?article=10.1371%2Fjournal.pcbi.1000204",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 7
+          },
+          "update_date": "2014-05-06T14:07:07Z"
         },
-        "update_date": "2013-02-01T09:44:57Z"
-      },
-      {
-        "name": "counter",
-        "display_name": "Counter",
-        "events_url": "http://www.plosreports.org/services/rest?method=usage.stats&doi=10.1371%2Fjournal.pone.0036240",
-        "metrics": {
-          "pdf": 814,
-          "html": 12036,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": null,
-          "total": 12886
+        {
+          "name": "pmc",
+          "display_name": "PubMed Central Usage Stats",
+          "events_url": "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2568856",
+          "metrics": {
+            "pdf": 1526,
+            "html": 5184,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 6710
+          },
+          "update_date": "2014-06-09T13:38:43Z"
         },
-        "update_date": "2013-05-17T13:33:36Z"
-      },
-      {
-        "name": "researchblogging",
-        "display_name": "Research Blogging",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 0,
-          "total": 0
+        {
+          "name": "facebook",
+          "display_name": "Facebook",
+          "events_url": null,
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": 17,
+            "comments": 1,
+            "likes": 0,
+            "total": 18
+          },
+          "update_date": "2014-06-11T12:55:20Z"
         },
-        "update_date": "2013-05-17T07:59:35Z"
-      },
-      {
-        "name": "biod",
-        "display_name": "Biod",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": null,
-          "total": 0
+        {
+          "name": "mendeley",
+          "display_name": "Mendeley",
+          "events_url": "http://www.mendeley.com/catalog/defrosting-digital-library-bibliographic-tools-next-generation-web/",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": 1787,
+            "comments": null,
+            "likes": null,
+            "total": 1787
+          },
+          "update_date": "2014-06-11T15:07:16Z"
         },
-        "update_date": "2013-05-17T12:52:04Z"
-      },
-      {
-        "name": "wos",
-        "display_name": "Web of Science®",
-        "events_url": "http://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&SrcApp=PARTNER_APP&SrcAuth=PLoSCEL&KeyUT=000305336100022&DestLinkType=CitingArticles&DestApp=WOS_CPL&UsrCustomerID=c642dd6a62e245b029e19b27ca7f6b1c",
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 1,
-          "total": 1
+        {
+          "name": "twitter",
+          "display_name": "Twitter",
+          "events_url": null,
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": 12,
+            "likes": null,
+            "total": 12
+          },
+          "update_date": "2014-06-17T13:21:56Z"
         },
-        "update_date": "2013-05-16T06:13:38Z"
-      },
-      {
-        "name": "pmc",
-        "display_name": "PubMed Central Usage Stats",
-        "events_url": null,
-        "metrics": {
-          "pdf": 19,
-          "html": 82,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": null,
-          "total": 101
+        {
+          "name": "wikipedia",
+          "display_name": "Wikipedia",
+          "events_url": "http://en.wikipedia.org/w/index.php?search=\"10.1371%2Fjournal.pcbi.1000204\"",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 7
+          },
+          "update_date": "2014-06-17T21:21:05Z"
         },
-        "update_date": "2013-05-17T02:06:31Z"
-      },
-      {
-        "name": "facebook",
-        "display_name": "Facebook",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": 58,
-          "groups": null,
-          "comments": 54,
-          "likes": 47,
-          "citations": null,
-          "total": 159
+        {
+          "name": "scienceseeker",
+          "display_name": "ScienceSeeker",
+          "events_url": "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=10.1371%2Fjournal.pcbi.1000204",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 0
+          },
+          "update_date": "2014-06-03T13:32:39Z"
         },
-        "update_date": "2013-05-16T04:09:20Z"
-      },
-      {
-        "name": "mendeley",
-        "display_name": "Mendeley",
-        "events_url": "http://api.mendeley.com/research/academic-biologists-physicists-view-science-outreach-1/",
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": 33,
-          "groups": 0,
-          "comments": null,
-          "likes": null,
-          "citations": null,
-          "total": 33
+        {
+          "name": "f1000",
+          "display_name": "F1000Prime",
+          "events_url": null,
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 0
+          },
+          "update_date": "2014-04-15T08:06:14Z"
         },
-        "update_date": "2013-05-03T12:13:26Z"
-      },
-      {
-        "name": "twitter",
-        "display_name": "Twitter",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 117,
-          "total": 117
+        {
+          "name": "figshare",
+          "display_name": "Figshare",
+          "events_url": null,
+          "metrics": {
+            "pdf": 0,
+            "html": 3,
+            "readers": null,
+            "comments": null,
+            "likes": 0,
+            "total": 3
+          },
+          "update_date": "2014-06-20T05:03:53Z"
         },
-        "update_date": "2013-05-10T19:21:40Z"
-      },
-      {
-        "name": "wikipedia",
-        "display_name": "Wikipedia",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 0,
-          "total": 0
+        {
+          "name": "pmceurope",
+          "display_name": "PMC Europe Citations",
+          "events_url": "http://europepmc.org/abstract/MED/18974831#fragment-related-citations",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 17
+          },
+          "update_date": "2014-06-19T07:00:58Z"
         },
-        "update_date": "2013-05-05T13:18:29Z"
-      },
-      {
-        "name": "scienceseeker",
-        "display_name": "ScienceSeeker",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": 0,
-          "total": 0
+        {
+          "name": "pmceuropedata",
+          "display_name": "PMC Europe Database Citations",
+          "events_url": "http://europepmc.org/abstract/MED/18974831#fragment-related-bioentities",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 0
+          },
+          "update_date": "2014-05-31T05:00:14Z"
         },
-        "update_date": "2013-05-12T14:19:53Z"
-      },
-      {
-        "name": "relativemetric",
-        "display_name": "Relative Metric",
-        "events_url": null,
-        "metrics": {
-          "pdf": null,
-          "html": null,
-          "shares": null,
-          "groups": null,
-          "comments": null,
-          "likes": null,
-          "citations": null,
-          "total": 14031
+        {
+          "name": "wordpress",
+          "display_name": "Wordpress.com",
+          "events_url": "http://en.search.wordpress.com/?q=\"10.1371%2Fjournal.pcbi.1000204\"&t=post",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 13
+          },
+          "update_date": "2014-06-20T06:37:38Z"
         },
-        "update_date": "2013-05-03T04:06:33Z"
-      }
-    ]
-  }
-]
+        {
+          "name": "reddit",
+          "display_name": "Reddit",
+          "events_url": "http://www.reddit.com/search?q=\"10.1371%2Fjournal.pcbi.1000204\"",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": 0,
+            "likes": 0,
+            "total": 0
+          },
+          "update_date": "2014-06-19T02:10:13Z"
+        },
+        {
+          "name": "datacite",
+          "display_name": "DataCite",
+          "events_url": "http://search.datacite.org/ui?q=relatedIdentifier:10.1371%2Fjournal.pcbi.1000204",
+          "metrics": {
+            "pdf": null,
+            "html": null,
+            "readers": null,
+            "comments": null,
+            "likes": null,
+            "total": 0
+          },
+          "update_date": "2014-06-20T23:00:47Z"
+        }
+      ]
+    }
+  ]
+}
 ```
 
 ## v4 API
@@ -497,12 +507,12 @@ Content-Type: application/json; charset=utf-8
 
 In order to be accepted the following conditions must hold:
 
-* The JSON must be valid, and in particular the DOI must be quoted in the request and the internal slash must
-  not be prefixed with a backslash. The day, month and year can be unquoted.
+* The JSON must be valid, this means that string variables such as the DOI must be quoted in the request.
+  The day, month and year are integers and can be left unquoted.
 
 * The publication date must be in the past or up to a year in the future (as understood by the server's date).
 
-* The login details must be correct and at present it seems it must be a local login, not a Persona one.
+* The login details must be correct and at must be a local login, not a third-party login such as Persona.
 
 * The login must have the 'Admin' role assigned.
 
