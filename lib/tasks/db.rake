@@ -229,7 +229,7 @@ namespace :db do
     desc "Delete all API responses older than 24 hours"
     task :delete => :environment do
       before = ApiResponse.count
-      ApiResponse.where("created_at < ?", Time.zone.now - 1.day).destroy_all
+      ApiResponse.where("created_at < ?", Time.zone.now - 1.day).delete_all
       after = ApiResponse.count
       puts "Deleted #{before - after} API responses, #{after} API responses remaining"
     end
