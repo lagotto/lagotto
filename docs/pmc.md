@@ -5,6 +5,15 @@ title: "PubMed Central"
 
 [PubMed Central](http://www.ncbi.nlm.nih.gov/pmc/) is a free full-text archive of biomedical and life sciences journal literature at the U.S. National Institutes of Health's National Library of Medicine. PubMed Central usage stats are available to publishers of these journal articles. The usage stats are available as individual XML files for a given journal, month and year.
 
+## Required configuration fields
+
+* **DB url**: local CouchDB database to store usage stats, e.g. `http://localhost:5984/pmc/`
+* **Feed url**: PubMed Central URL to fetch monthly article stats, defaults to http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=%{year}&month=%{month}&jrid=%{journal}&user=%{username}&password=%{password}`.
+* **Events url**: PubMed Central URL for further information about article, defaults to `http://www.ncbi.nlm.nih.gov/pmc/articles/PMC%{pmcid}`.
+* **Journals**: List of journals for which we need usage stats, using PMC names and separated by space, e.g. `plosbiol plosmed ploscomp`.
+* **Username**: PMC user account that has permissions to download usage stats
+* **Password**: Password for that PMC user account
+
 The rake task `rake pmc:update` fetches the usage stats XML file, parses it, and stores the information as JSON for every article in CouchDB. The pmc source therefore only needs to be updated once a month.
 
 When installing the source, the CouchDB database for PMC has to be created with `curl -X PUT database_url`, where `database_url` is the URL stored in the configuration.
