@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:persona, :cas]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :authentication_token
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token
 
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true

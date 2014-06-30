@@ -43,7 +43,7 @@
       <dd>Admin - full access to the ALM application</dd>
     <% elsif @user.role == "staff" %>
       <dd>Staff - read access to the admin dashboard</dd>
-    <% elsif @user.role == "user" %>
+    <% else %>
       <dd>User - access to the API</dd>
     <% end %>
     <dt>API Key</dt>
