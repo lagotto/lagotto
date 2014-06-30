@@ -4,7 +4,7 @@ class Ability
   # To simplify, all admin permissions are linked to the Alert resource
 
   def initialize(user)
-    user ||= User.new(:role => "anonymous") # Guest user
+    user ||= User.new # Guest user
     if user.role == "admin"
       can :manage, :all
     elsif user.role == "staff"

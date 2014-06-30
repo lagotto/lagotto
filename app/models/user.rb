@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:persona, :cas]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :authentication_token
 
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
@@ -59,7 +59,8 @@ class User < ActiveRecord::Base
                           :authentication_token => auth.token,
                           :provider => auth.provider,
                           :uid => auth.uid,
-                          :email => email)
+                          :email => email,
+                          :role => "user")
     end
 
     user
@@ -73,7 +74,8 @@ class User < ActiveRecord::Base
                           :authentication_token => auth.token,
                           :provider => auth.provider,
                           :uid => auth.uid,
-                          :email => auth.info.email)
+                          :email => auth.info.email,
+                          :role => "user")
     end
 
     user
@@ -89,6 +91,11 @@ class User < ActiveRecord::Base
     conditions = warden_conditions.dup
     login = conditions.delete(:login)
     where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.strip.downcase }]).first
+  end
+
+  # Helper method to check for admin user
+  def is_admin?
+    role == "admin"
   end
 
   # Helper method to check for admin or staff user
