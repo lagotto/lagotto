@@ -87,7 +87,7 @@ end
 group :test, :development do
   gem "rspec-rails", "~> 2.14.0"
   gem 'jasmine-rails', '~> 0.7.0'
-  gem "brakeman", "~> 2.5.0", :require => false
+  gem "brakeman", "~> 2.6.0", :require => false
   gem 'rubocop', '~> 0.20.1'
 end
 
