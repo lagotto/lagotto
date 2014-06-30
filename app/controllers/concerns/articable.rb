@@ -48,8 +48,10 @@ module Articable
         end
       end
 
+      rows = params[:rows].to_i > 50 ? 50 : params[:rows].to_i
+
       collection = collection.order_articles(params[:order])
-      collection = collection.paginate(:page => params[:page])
+      collection = collection.paginate(:page => params[:page], :per_page => rows)
       @articles = collection.decorate(:context => { :info => params[:info], :source => params[:source] })
     end
 
