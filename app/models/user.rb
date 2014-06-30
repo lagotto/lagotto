@@ -59,8 +59,7 @@ class User < ActiveRecord::Base
                           :authentication_token => auth.token,
                           :provider => auth.provider,
                           :uid => auth.uid,
-                          :email => email,
-                          :role => "user")
+                          :email => email)
     end
 
     user
@@ -74,8 +73,7 @@ class User < ActiveRecord::Base
                           :authentication_token => auth.token,
                           :provider => auth.provider,
                           :uid => auth.uid,
-                          :email => auth.info.email,
-                          :role => "user")
+                          :email => auth.info.email)
     end
 
     user
