@@ -34,6 +34,6 @@ class ApplicationController < ActionController::Base
   private
 
   def miniprofiler
-    Rack::MiniProfiler.authorize_request if current_user.try(:is_admin_or_staff?)
+    Rack::MiniProfiler.authorize_request if current_user.try(:is_admin?)
   end
 end
