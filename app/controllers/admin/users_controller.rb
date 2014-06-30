@@ -24,7 +24,7 @@ class Admin::UsersController < Admin::ApplicationController
   def update
     # Admin updates user role
     if params[:user][:role]
-      @user.update_attributes(safe_params)
+      @user.update_attribute(:role, params[:user][:role])
       load_index
       respond_with(@users) do |format|
         format.js { render :index }
@@ -77,6 +77,6 @@ class Admin::UsersController < Admin::ApplicationController
   private
 
   def safe_params
-    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :role, :subscribe, :unsubscribe)
+    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :subscribe, :unsubscribe)
   end
 end
