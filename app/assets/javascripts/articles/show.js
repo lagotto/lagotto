@@ -77,7 +77,7 @@ function showEvents(data, page) {
         formattedDate(event["date"], event["issued"]["date_parts"].length)  + ". ";
 
       d3.select("#results").append("h4")
-        .attr("class", "article")
+        .attr("class", "article text discussed")
         .append("text")
         .html(event["title"]);
       d3.select("#results").append("p")
