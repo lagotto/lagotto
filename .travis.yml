@@ -24,6 +24,7 @@ script:
   - bundle exec rspec --tag ~@not_teamcity
   - bundle exec cucumber --tags ~@not_teamcity
   - bundle exec rake spec:javascript
+  - bundle exec rake brakeman:run
   - bundle exec rubocop -R app config db features lib spec
 
 env:

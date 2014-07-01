@@ -53,8 +53,6 @@ gem "dotiw", "~> 1.1.1"
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.3.1"
 
-gem 'rack-mini-profiler', '~> 0.9.1'
-
 group :assets do
   gem 'turbo-sprockets-rails3', '~> 0.3.11'
 end
@@ -89,6 +87,8 @@ end
 group :test, :development do
   gem "rspec-rails", "~> 2.14.0"
   gem 'jasmine-rails', '~> 0.7.0'
-  gem "brakeman", "~> 2.5.0", :require => false
+  gem "brakeman", "~> 2.6.0", :require => false
   gem 'rubocop', '~> 0.20.1'
 end
+
+gem 'rack-mini-profiler', '~> 0.9.1'
