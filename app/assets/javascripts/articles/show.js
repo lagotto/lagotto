@@ -80,15 +80,15 @@ function showEvents(data, page) {
         .attr("class", "article")
         .append("text")
         .html(event["title"]);
-      var sel_text = d3.select("#results").append("p")
+
+      sel_title.classed('discussed_event', function(d) { return event["type"] != "article-journal"; });
+
+      d3.select("#results").append("p")
         .html(event_text)
         .append("a")
         .attr("href", function(d) { return event["url"]; })
         .append("text")
         .text(event["url"]);
-
-      sel_title.classed('discussed_event', function(d) { return event["type"] != "article-journal"; });
-      sel_text.classed('discussed_event', function(d) { return event["type"] != "article-journal"; });
     };
   };
 
