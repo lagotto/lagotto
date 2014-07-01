@@ -69,23 +69,25 @@ function showEvents(data, page) {
       .text(year.key);
 
     for (var j=0; j<year.values.length; j++) {
-      event = year.values[j];
+      var event = year.values[j];
       var event_text =
         (event["author"].length > 0 ? formattedAuthor(event["author"]) + ". " : "") +
         (event["container-title"].length > 0 ? "<em>" + event["container-title"] + "</em>. " : "") +
         formattedType(event["type"]) + ". " +
         formattedDate(event["date"], event["issued"]["date_parts"].length)  + ". ";
 
-      d3.select("#results").append("h4")
-        .attr("class", "article")
+      var sel_title = d3.select("#results").append("h4")
+        .attr("class", "article text discussed")
         .append("text")
         .html(event["title"]);
-      d3.select("#results").append("p")
+      var sel_text = d3.select("#results").append("p")
         .html(event_text)
         .append("a")
         .attr("href", function(d) { return event["url"]; })
         .append("text")
         .text(event["url"]);
+
+      // sel_title.classed('text discussed', true);
     };
   };
 

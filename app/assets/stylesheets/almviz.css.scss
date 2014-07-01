@@ -91,6 +91,10 @@
   fill: $turquoise;
 }
 
+.text.discussed {
+  color: $turquoise;
+}
+
 .bar.discussed-alt {
   fill: darken($turquoise, 15%);
 }
