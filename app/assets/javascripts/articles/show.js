@@ -87,7 +87,7 @@ function showEvents(data, page) {
         .append("text")
         .text(event["url"]);
 
-      sel_title.classed('discussed_event', true);
+      sel_title.classed('discussed_event', function(d) { return event["type"] != "article-journal"; });
     };
   };
 
