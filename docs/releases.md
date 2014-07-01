@@ -5,7 +5,7 @@ title: "Releases"
 
 ## [ALM 3.2](https://github.com/articlemetrics/alm/releases/tag/v.3.2)
 
-ALM 3.1 was released on July 3, 2014 with the following features:
+ALM 3.2 was released on July 1, 2014 with the following features:
 
 * removed all dependencies on retrieval_histories table (which will be dropped in a future release)
 * finished work on v5 API (first released in ALM 2.14), which should now be stable
