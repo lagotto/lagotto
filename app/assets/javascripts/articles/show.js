@@ -76,11 +76,11 @@ function showEvents(data, page) {
         formattedType(event["type"]) + ". " +
         formattedDate(event["date"], event["issued"]["date_parts"].length)  + ". ";
 
-      var sel_title = d3.select("#results").append("h4")
+      d3.select("#results").append("h4")
         .attr("class", "article text discussed")
         .append("text")
         .html(event["title"]);
-      var sel_text = d3.select("#results").append("p")
+      d3.select("#results").append("p")
         .html(event_text)
         .append("a")
         .attr("href", function(d) { return event["url"]; })
