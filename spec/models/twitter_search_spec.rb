@@ -19,7 +19,7 @@ describe TwitterSearch do
 
     it "should look up access token if blank" do
       subject.access_token = nil
-      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
       stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
         .to_return(:body => File.read(fixture_path + 'twitter_auth.json'))
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
@@ -31,6 +31,24 @@ describe TwitterSearch do
     end
   end
 
+  context "lookup canonical URL" do
+    it "should look up canonical URL if there is no article url" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => nil)
+      lookup_stub = stub_request(:get, article.doi_as_url).to_return(:status => 404)
+      response = subject.get_data(article)
+      lookup_stub.should have_been_requested
+    end
+
+    it "should not look up canonical URL if there is article url" do
+      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
+      lookup_stub = stub_request(:get, article.canonical_url).to_return(:status => 200, :headers => { 'Location' => article.canonical_url })
+      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'))
+      response = subject.get_data(article)
+      lookup_stub.should_not have_been_requested
+      stub.should have_been_requested
+    end
+  end
+
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       article = FactoryGirl.build(:article, :doi => nil)
@@ -38,7 +56,7 @@ describe TwitterSearch do
     end
 
     it "should report if there are no events and event_count returned by the Twitter Search API" do
-      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000000")
+      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000000", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
@@ -47,7 +65,7 @@ describe TwitterSearch do
     end
 
     it "should report if there are events and event_count returned by the Twitter Search API" do
-      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pmed.0020124")
+      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pmed.0020124", :canonical_url => "http://www.plosmedicine.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124")
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
@@ -56,10 +74,10 @@ describe TwitterSearch do
     end
 
     it "should catch errors with the Twitter Search API" do
-      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000001")
+      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000001", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0000001")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response.should eq(error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=#{CGI.escape(article.doi_escaped)}&result_type=recent")
+      response.should eq(error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=10.1371%252Fjournal.pone.0000001+OR+http%3A%2F%2Fwww.plosone.org%2Farticle%2Finfo%253Adoi%252F10.1371%252Fjournal.pmed.0000001&result_type=recent")
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
