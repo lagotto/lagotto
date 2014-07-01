@@ -1,5 +1,5 @@
 object false
-cache @status
+cache ['v5', @status]
 
 node(:error) { nil }
 
