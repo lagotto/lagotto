@@ -77,7 +77,7 @@ function showEvents(data, page) {
         formattedDate(event["date"], event["issued"]["date_parts"].length)  + ". ";
 
       var sel_title = d3.select("#results").append("h4")
-        .attr("class", "article")
+        .attr("class", "article text discussed")
         .append("text")
         .html(event["title"]);
       var sel_text = d3.select("#results").append("p")
@@ -87,7 +87,7 @@ function showEvents(data, page) {
         .append("text")
         .text(event["url"]);
 
-      sel_title.classed('text discussed', true);
+      // sel_title.classed('text discussed', true);
     };
   };
 
