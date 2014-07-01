@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "PubMed Central"
+title: "PubMed Central Usage Stats"
 ---
 
 [PubMed Central](http://www.ncbi.nlm.nih.gov/pmc/) is a free full-text archive of biomedical and life sciences journal literature at the U.S. National Institutes of Health's National Library of Medicine. PubMed Central usage stats are available to publishers of these journal articles. The usage stats are available as individual XML files for a given journal, month and year.
