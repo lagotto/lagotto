@@ -76,18 +76,19 @@ function showEvents(data, page) {
         formattedType(event["type"]) + ". " +
         formattedDate(event["date"], event["issued"]["date_parts"].length)  + ". ";
 
-      d3.select("#results").append("h4")
-        .attr("class", "article text discussed")
+      var sel_title = d3.select("#results").append("h4")
+        .attr("class", "article")
         .append("text")
         .html(event["title"]);
+
+      sel_title.classed('discussed_event', function(d) { return event["type"] != "article-journal"; });
+
       d3.select("#results").append("p")
         .html(event_text)
         .append("a")
         .attr("href", function(d) { return event["url"]; })
         .append("text")
         .text(event["url"]);
-
-      // sel_title.classed('text discussed', true);
     };
   };
 

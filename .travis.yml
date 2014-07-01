@@ -7,9 +7,6 @@ env:
   - DB=mysql
   - DB=postgresql
 
-gemfile:
-  - Gemfile.travis
-
 services:
   - couchdb
   - memcached
