@@ -88,6 +88,7 @@ function showEvents(data, page) {
         .text(event["url"]);
 
       sel_title.classed('discussed_event', function(d) { return event["type"] != "article-journal"; });
+      sel_text.classed('discussed_event', function(d) { return event["type"] != "article-journal"; });
     };
   };
 
