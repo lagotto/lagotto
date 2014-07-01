@@ -144,6 +144,10 @@ class TwitterSearch < Source
     config.api_secret = value
   end
 
+  def job_batch_size
+    config.job_batch_size || 100
+  end
+
   def rate_limiting
     config.rate_limiting || 1600
   end

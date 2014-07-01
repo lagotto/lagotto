@@ -54,6 +54,10 @@ class Wordpress < Source
     config.events_url || "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post"
   end
 
+  def job_batch_size
+    config.job_batch_size || 100
+  end
+
   def rate_limiting
     config.rate_limiting || 2500
   end

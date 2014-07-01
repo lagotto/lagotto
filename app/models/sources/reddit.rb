@@ -72,6 +72,10 @@ class Reddit < Source
     config.events_url || "http://www.reddit.com/search?q=\"%{doi}\""
   end
 
+  def job_batch_size
+    config.job_batch_size || 100
+  end
+
   def rate_limiting
     config.rate_limiting || 1800
   end
