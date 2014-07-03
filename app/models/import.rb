@@ -30,7 +30,6 @@ class Import
     @filter += ",member:#{member}" if member
     @rows = options.fetch(:rows, 500)
     @offset = options.fetch(:offset, 0)
-
   end
 
   def query_url
