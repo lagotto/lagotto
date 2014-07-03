@@ -19,10 +19,6 @@
 # limitations under the License.
 
 namespace :db do
-
-  def validate_uid
-
-  end
   namespace :articles do
 
     desc "Bulk-load articles from standard input"
