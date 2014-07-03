@@ -22,11 +22,14 @@ class Import
   attr_accessor :filter, :rows, :offset
 
   def initialize(options = {})
-    from_pub_date = options.fetch(:from_pub_date, Date.yesterday.to_s(:db))
-    until_pub_date = options.fetch(:until_pub_date, Date.today.to_s(:db))
+    from_index_date = options.fetch(:from_index_date, Date.yesterday.to_s(:db))
+    until_index_date = options.fetch(:until_index_date, Date.yesterday.to_s(:db))
+    type = options.fetch(:type, 'journal-article')
     member = options.fetch(:member, nil)
 
-    @filter = "from-pub-date:#{from_pub_date},until-pub-date:#{until_pub_date}"
+    @filter = "from-index-date:#{from_index_date}"
+    @filter += ",until-index-date:#{until_index_date}"
+    @filter += ",type:#{type}"
     @filter += ",member:#{member}" if member
     @rows = options.fetch(:rows, 500)
     @offset = options.fetch(:offset, 0)
@@ -36,9 +39,7 @@ class Import
     url = "http://api.crossref.org/works?"
     params = { filter: @filter,
                rows: @rows,
-               offset: @offset,
-               sort: "published",
-               order: "asc" }
+               offset: @offset }
     url + params.to_query
   end
 
