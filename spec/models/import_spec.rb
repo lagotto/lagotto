@@ -55,13 +55,42 @@ describe Import do
       stub.should have_been_requested
     end
 
-    it "should get_data from_index_date" do
-      import = Import.new(from_index_date: "2013-09-01")
-      body = File.read(fixture_path + 'import.json')
+    it "should get_data default no data" do
+      import = Import.new
+      body = File.read(fixture_path + 'import_nil.json')
       stub = stub_request(:get, import.query_url).to_return(:body => body)
       response = import.get_data
       response.should eq(JSON.parse(body))
       stub.should have_been_requested
+    end
+
+    it "should get_data access denied error" do
+      import = Import.new
+      body = File.read(fixture_path + 'import_access_denied.txt')
+      error = "the server responded with status 401 for http://api.crossref.org/works?filter=from-index-date%3A2013-09-04%2Cuntil-index-date%3A2013-09-04%2Ctype%3Ajournal-article&offset=0&rows=500"
+      stub = stub_request(:get, import.query_url).to_return(:body => body, :status => 401)
+      response = import.get_data
+      response.should eq(error: error)
+      stub.should have_been_requested
+
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPUnauthorized")
+      alert.message.should eq(error)
+      alert.status.should == 401
+    end
+
+    it "should get_data timeout error" do
+      import = Import.new
+      stub = stub_request(:get, import.query_url).to_return(:status => 408)
+      response = import.get_data
+      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/works?filter=from-index-date%3A2013-09-04%2Cuntil-index-date%3A2013-09-04%2Ctype%3Ajournal-article&offset=0&rows=500")
+      stub.should have_been_requested
+
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Net::HTTPRequestTimeOut")
+      alert.status.should == 408
     end
   end
 
@@ -80,6 +109,36 @@ describe Import do
       article[:year].should == 2008
       article[:month].should == 7
       article[:day].should ==26
+    end
+
+    it "should parse_data incomplete date" do
+      import = Import.new
+      body = File.read(fixture_path + 'import.json')
+      result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
+      response = import.parse_data(result)
+      response.length.should eq(10)
+
+      article = response[5]
+      article[:doi].should eq("10.1007/bf02975686")
+      article[:title].should eq("Sanitary and meteorological notes")
+      article[:year].should == 1884
+      article[:month].should == 8
+      article[:day].should be_nil
+    end
+  end
+
+  context "create_articles" do
+    it "should create_articles" do
+      import = Import.new
+      body = File.read(fixture_path + 'import.json')
+      result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
+      items = import.parse_data(result)
+      response = import.create_articles(items)
+      response.length.should eq(10)
+      response.should eq((1..10).to_a)
+      Alert.count.should == 0
     end
   end
 end
