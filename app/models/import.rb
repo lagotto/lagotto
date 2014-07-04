@@ -19,6 +19,9 @@
 # limitations under the License.
 
 class Import
+  # include HTTP request helpers
+  include Networkable
+
   attr_accessor :filter, :rows, :offset
 
   def initialize(options = {})
@@ -48,5 +51,22 @@ class Import
 
     # extend hash fetch method to nested hashes
     result.extend Hashie::Extensions::DeepFetch
+  end
+
+  def parse_data(result, options = {})
+    # return early if an error occured
+    return result if result["status"] != "ok"
+
+    articles = result['message'] && result.deep_fetch('message', 'items') { nil }
+    Array(articles).map do |item|
+      date_parts = item["issued"]["date-parts"][0]
+      year, month, day = date_parts[0], date_parts[1], date_parts[2]
+
+      { doi: item["DOI"],
+        title: item["title"][0],
+        year: year,
+        month: month,
+        day: day }
+    end
   end
 end
