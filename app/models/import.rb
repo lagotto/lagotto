@@ -29,20 +29,25 @@ class Import
     until_index_date = options.fetch(:until_index_date, Date.yesterday.to_s(:db))
     type = options.fetch(:type, 'journal-article')
     member = options.fetch(:member, nil)
+    issn = options.fetch(:issn, nil)
 
     @filter = "from-index-date:#{from_index_date}"
     @filter += ",until-index-date:#{until_index_date}"
     @filter += ",type:#{type}"
     @filter += ",member:#{member}" if member
+    @filter += ",issn:#{issn}" if issn
     @rows = options.fetch(:rows, 500)
     @offset = options.fetch(:offset, 0)
+    @sample = options.fetch(:sample, nil)
   end
 
   def query_url
     url = "http://api.crossref.org/works?"
-    params = { filter: @filter,
-               rows: @rows,
-               offset: @offset }
+    if @sample
+      params = { filter: @filter, sample: @sample }
+    else
+      params = { filter: @filter, rows: @rows, offset: @offset }
+    end
     url + params.to_query
   end
 

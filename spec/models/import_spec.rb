@@ -43,6 +43,18 @@ describe Import do
       url = "http://api.crossref.org/works?filter=from-index-date%3A2013-09-04%2Cuntil-index-date%3A2013-09-04%2Ctype%3Abook-entry&offset=0&rows=500"
       import.query_url.should eq(url)
     end
+
+    it "should have query_url with issn" do
+      import = Import.new(issn: '1545-7885')
+      url = "http://api.crossref.org/works?filter=from-index-date%3A2013-09-04%2Cuntil-index-date%3A2013-09-04%2Ctype%3Ajournal-article%2Cissn%3A1545-7885&offset=0&rows=500"
+      import.query_url.should eq(url)
+    end
+
+    it "should have query_url with sample" do
+      import = Import.new(sample: 100)
+      url = "http://api.crossref.org/works?filter=from-index-date%3A2013-09-04%2Cuntil-index-date%3A2013-09-04%2Ctype%3Ajournal-article&sample=100"
+      import.query_url.should eq(url)
+    end
   end
 
   context "get_data" do
