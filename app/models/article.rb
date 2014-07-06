@@ -52,7 +52,7 @@ class Article < ActiveRecord::Base
     end
   }
 
-  scope :last_x_days, lambda { |duration| where(published_on: (Date.today-duration.days)..Date.today) }
+  scope :last_x_days, lambda { |duration| where(published_on: (Date.today - duration.days)..Date.today) }
   scope :is_cited, lambda { includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0) }
 
   scope :order_articles, lambda { |name|
@@ -133,7 +133,7 @@ class Article < ActiveRecord::Base
     # this is faster than find_or_create_by_doi for all articles
     # raise an error for other RecordInvalid errors such as missing title
     if e.message == "Validation failed: Doi has already been taken"
-      article = self.find_by_doi(params[:doi])
+      article = find_by_doi(params[:doi])
       article.update_attributes(params)
       article
     else
