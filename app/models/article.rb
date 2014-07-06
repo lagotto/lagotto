@@ -126,6 +126,25 @@ class Article < ActiveRecord::Base
     end
   end
 
+  def self.find_or_create(params)
+    self.create!(params)
+  rescue ActiveRecord::RecordInvalid => e
+    # update title and/or date if article exists
+    # this is faster than find_or_create_by_doi for all articles
+    # raise an error for other RecordInvalid errors such as missing title
+    if e.message == "Validation failed: Doi has already been taken"
+      article = self.find_by_doi(params[:doi])
+      article.update_attributes(params)
+      article
+    else
+      Alert.create(:exception => "",
+                   :class_name => "ActiveRecord::RecordInvalid",
+                   :message => "#{e.message} for doi #{params[:doi]}.",
+                   :target_url => "http://api.crossref.org/works/10.1371/#{params[:doi]}")
+      nil
+    end
+  end
+
   def uid
     send(self.class.uid)
   end

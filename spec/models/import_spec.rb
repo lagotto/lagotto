@@ -140,17 +140,47 @@ describe Import do
     end
   end
 
-  context "create_articles" do
-    it "should create_articles" do
+  context "import_data" do
+    it "should import_data" do
       import = Import.new
       body = File.read(fixture_path + 'import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       items = import.parse_data(result)
-      response = import.create_articles(items)
+      response = import.import_data(items)
       response.length.should eq(10)
       response.should eq((1..10).to_a)
       Alert.count.should == 0
+    end
+
+    it "should import_data with one existing article" do
+      article = FactoryGirl.create(:article, :doi => "10.1787/gen_papers-v2008-art6-en")
+      import = Import.new
+      body = File.read(fixture_path + 'import.json')
+      result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
+      items = import.parse_data(result)
+      response = import.import_data(items)
+      response.compact.length.should eq(10)
+      response.should eq((1..10).to_a)
+      Alert.count.should == 0
+    end
+
+    it "should import_data with missing title" do
+      import = Import.new
+      body = File.read(fixture_path + 'import.json')
+      result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
+      items = import.parse_data(result)
+      items[0][:title] = nil
+      response = import.import_data(items)
+      response.compact.length.should eq(9)
+      response.compact.should eq((1..9).to_a)
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("ActiveRecord::RecordInvalid")
+      alert.message.should eq("Validation failed: Title can't be blank for doi 10.1787/gen_papers-v2008-art6-en.")
+      alert.target_url.should eq("http://api.crossref.org/works/10.1371/10.1787/gen_papers-v2008-art6-en")
     end
   end
 end

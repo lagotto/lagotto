@@ -75,16 +75,10 @@ class Import
     end
   end
 
-  def create_articles(items)
-    Array(items).map { |item| create_article(item).id }
-  end
-
-  def create_article(item)
-    Article.create!(item)
-  rescue ActiveRecord::RecordNotUnique
-    # update title and/or date if article exists
-    # this is faster than find_or_create_by_doi for all articles
-    article = Article.find_by_doi(item[:doi])
-    article.update(item)
+  def import_data(items)
+    Array(items).map do |item|
+      article = Article.find_or_create(item)
+      article ? article.id : nil
+    end
   end
 end
