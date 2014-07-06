@@ -14,9 +14,9 @@ Feature: View admin dashboard
       Then I should see that we have 10 articles
 
     Scenario: Article last 30 days info
-      Given that we have 5 articles from the last 30 days
+      Given that we have 5 recent articles
       When I go to the "Home" admin page
-      Then I should see that we have 10 articles from the last 30 days
+      Then I should see that we have 5 recent articles
 
     Scenario: Events info
       Given that we have 5 articles
@@ -29,7 +29,7 @@ Feature: View admin dashboard
       Then I should see that we have 1 user
 
     Scenario: Sources info
-      Given that we have 1 source
+      Given the source "Citeulike" exists
       When I go to the "Home" admin page
       Then I should see that we have 1 active source
 

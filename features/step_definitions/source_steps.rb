@@ -170,11 +170,11 @@ Then /^I should not see the "(.*?)" column$/ do |column_title|
   page.has_css?('th', :text => column_title, :visible => true).should_not be_true
 end
 
-Then(/^I should see the donut "(.*?)"$/) do |title|
+Then /^I should see the donut "(.*?)"$/ do |title|
   page.find(:xpath, "//div[@id='chart_#{title}']/*[name()='svg']").should be_true
 end
 
-Then(/^I should see the tooltip$/) do
+Then /^I should see the tooltip$/ do
   page.has_css?('div.tooltip').should be_true
 end
 
