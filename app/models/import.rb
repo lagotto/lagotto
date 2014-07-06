@@ -22,7 +22,7 @@ class Import
   # include HTTP request helpers
   include Networkable
 
-  attr_accessor :filter, :sample
+  attr_accessor :filter, :sample, :rows
 
   def initialize(options = {})
     from_index_date = options.fetch(:from_index_date, Date.yesterday.to_s(:db))
@@ -37,43 +37,46 @@ class Import
     @filter += ",member:#{member}" if member
     @filter += ",issn:#{issn}" if issn
     @sample = options.fetch(:sample, nil)
+    @rows = options.fetch(:rows, 1000)
   end
 
-  def query_url(offset = 0, rows = 1000)
-    url = "http://api.crossref.org/works?"
-    if @sample
-      params = { filter: @filter, sample: @sample }
-    else
-      params = { filter: @filter, rows: rows, offset: offset }
-    end
-    url + params.to_query
-  end
-
-  def queue_article_import
-    if @sample
-      delay(priority: 0, queue: "article-import-queue").process_data
-    else
-      delay(priority: 0, queue: "article-import-queue").process_data
-    end
-  end
-
-  def process_data
-    result = get_data
-    result = parse_data(result)
-    result = import_data(result)
-    result.length
-  end
-
-  def get_total_results(options={})
-    result = get_result(query_url(rows = 0), options)
+  def total_results(options={})
+    result = get_result(query_url(offset = 0, rows = 0), options)
 
     # extend hash fetch method to nested hashes
     result.extend Hashie::Extensions::DeepFetch
     result.deep_fetch('message', 'total-results') { 0 }
   end
 
-  def get_data(options={})
-    result = get_result(query_url, options)
+  def queue_article_import
+    if @sample
+      delay(priority: 0, queue: "article-import-queue").process_data
+    else
+      (0...total_results).step(@rows) do |offset|
+        delay(priority: 0, queue: "article-import-queue").process_data(offset)
+      end
+    end
+  end
+
+  def process_data(offset = 0)
+    result = get_data(offset)
+    result = parse_data(result)
+    result = import_data(result)
+    result.length
+  end
+
+  def query_url(offset = 0, rows = @rows)
+    url = "http://api.crossref.org/works?"
+    if @sample
+      params = { filter: @filter, sample: @sample }
+    else
+      params = { filter: @filter, offset: offset, rows: rows }
+    end
+    url + params.to_query
+  end
+
+  def get_data(offset = 0, options={})
+    result = get_result(query_url(offset), options)
 
     # extend hash fetch method to nested hashes
     result.extend Hashie::Extensions::DeepFetch

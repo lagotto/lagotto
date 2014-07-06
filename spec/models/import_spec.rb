@@ -8,6 +8,15 @@ describe Import do
   end
 
   context "query_url" do
+    it "should have total_results" do
+      import = Import.new
+      body = File.read(fixture_path + 'import_no_rows.json')
+      stub = stub_request(:get, import.query_url(offset = 0, rows = 0)).to_return(:body => body)
+      import.total_results.should == 22993
+    end
+  end
+
+  context "query_url" do
     it "should have default query_url" do
       import = Import.new
       url = "http://api.crossref.org/works?filter=from-index-date%3A2013-09-04%2Cuntil-index-date%3A2013-09-04%2Ctype%3Ajournal-article&offset=0&rows=1000"
@@ -57,9 +66,9 @@ describe Import do
     end
 
     it "should have query_url with rows" do
-      import = Import.new
+      import = Import.new(rows: 250)
       url = "http://api.crossref.org/works?filter=from-index-date%3A2013-09-04%2Cuntil-index-date%3A2013-09-04%2Ctype%3Ajournal-article&offset=0&rows=250"
-      import.query_url(offset = 0, rows = 250).should eq(url)
+      import.query_url.should eq(url)
     end
   end
 
