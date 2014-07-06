@@ -50,7 +50,7 @@ module Articable
 
       collection = collection.order_articles(params[:order])
       collection = collection.page(params[:page])
-      collection = collection.per_page(params[:rows]) if params[:rows] && params[:rows] <= 50
+      collection = collection.per_page(params[:rows].to_i) if params[:rows] && (1..50).include?(params[:rows].to_i)
       @articles = collection.decorate(:context => { :info => params[:info], :source => params[:source] })
     end
 

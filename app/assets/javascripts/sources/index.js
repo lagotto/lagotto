@@ -1,9 +1,9 @@
 var data;
 var colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e","#95a6a6"];
 
-var l = 200; // left margin
+var l = 250; // left margin
 var r = 150; // right margin
-var w = 600; // width of drawing area
+var w = 500; // width of drawing area
 var h = 36;  // bar height
 var s = 2;   // spacing between bars
 
@@ -55,7 +55,7 @@ function articlesViz(data) {
     .attr("height", data.length * (h + 2 * s) + 30)
     .attr("class", "chart")
     .append("g")
-    .attr("transform", "translate(250,20)");
+    .attr("transform", "translate(330,20)");
 
   var x = d3.scale.linear()
     .domain([0, d3.max(data, function(d) { return d.article_count; })])
@@ -72,7 +72,7 @@ function articlesViz(data) {
     .enter().append("a").attr("xlink:href", function(d) { return "/admin/sources/" + d.name; }).append("text")
     .attr("x", 0)
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
-    .attr("dx", -250) // padding-right
+    .attr("dx", -330) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(function(d) { return d.display_name; });
   chart.selectAll("rect")
@@ -104,7 +104,7 @@ function eventsViz(data) {
     .attr("height", data.length * (h + 2 * s) + 30)
     .attr("class", "chart")
     .append("g")
-    .attr("transform", "translate(250,20)");
+    .attr("transform", "translate(330,20)");
 
   var x = d3.scale.log()
     .domain([0.1, d3.max(data, function(d) { return d.event_count; })])
@@ -121,7 +121,7 @@ function eventsViz(data) {
     .enter().append("a").attr("xlink:href", function(d) { return "/admin/sources/" + d.name; }).append("text")
     .attr("x", 0)
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
-    .attr("dx", -250) // padding-right
+    .attr("dx", -330) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(function(d) { return d.display_name; });
   chart.selectAll("rect")

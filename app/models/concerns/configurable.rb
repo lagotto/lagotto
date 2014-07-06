@@ -149,12 +149,8 @@ module Configurable
       config.job_batch_size = value.to_i
     end
 
-    def max_job_batch_size
-      (rate_limiting * batch_time_interval / 3600).round
-    end
-
     def rate_limiting
-      config.rate_limiting || 100000
+      config.rate_limiting || 200000
     end
 
     def rate_limiting=(value)
@@ -162,7 +158,7 @@ module Configurable
     end
 
     def job_interval
-      3600 / rate_limiting
+      3600 * working_count / rate_limiting
     end
 
     def batch_interval

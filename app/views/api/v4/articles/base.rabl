@@ -1,3 +1,5 @@
+cache ['v4', @article]
+
 attributes :doi, :title, :canonical_url, :mendeley_uuid, :pmid, :pmcid, :issued, :views, :shares, :bookmarks, :citations, :update_date
 
 unless params[:info] == "summary"

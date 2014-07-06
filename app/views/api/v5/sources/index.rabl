@@ -1,5 +1,5 @@
 object false
-cache @sources
+cache ['v5', @sources]
 
 node(:total) { |m| @sources.size }
 node(:error) { nil }

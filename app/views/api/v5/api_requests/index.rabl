@@ -1,5 +1,5 @@
 object false
-cache @api_requests
+cache ['v5', @api_requests]
 
 node(:total) { |m| @api_requests.total_entries }
 node(:total_pages) { |m| (@api_requests.total_entries.to_f / @api_requests.per_page).ceil }

@@ -20,6 +20,7 @@ The following organizations have implemented Article-Level Metrics using the Ope
 * [Copernicus Publications](http://publications.copernicus.org/services/article_level_metrics.html)
 * [Public Knowledge Project (PKP)](http://pkp.sfu.ca/pkp-launches-article-level-metrics-for-ojs-journals/)
 * [CrossRef Labs](http://crosstech.crossref.org/2014/02/many-metrics-such-data-wow.html)
+* [eLife](http://alm.svr.elifesciences.org/)
 
 Live status information for the publicly available ALM instances is [here](http://articlemetrics.github.io/status/).
 
