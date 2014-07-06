@@ -22,7 +22,7 @@ class Import
   # include HTTP request helpers
   include Networkable
 
-  attr_accessor :filter, :rows, :offset
+  attr_accessor :filter, :sample
 
   def initialize(options = {})
     from_index_date = options.fetch(:from_index_date, Date.yesterday.to_s(:db))
@@ -36,19 +36,40 @@ class Import
     @filter += ",type:#{type}"
     @filter += ",member:#{member}" if member
     @filter += ",issn:#{issn}" if issn
-    @rows = options.fetch(:rows, 500)
-    @offset = options.fetch(:offset, 0)
     @sample = options.fetch(:sample, nil)
   end
 
-  def query_url
+  def query_url(offset = 0, rows = 1000)
     url = "http://api.crossref.org/works?"
     if @sample
       params = { filter: @filter, sample: @sample }
     else
-      params = { filter: @filter, rows: @rows, offset: @offset }
+      params = { filter: @filter, rows: rows, offset: offset }
     end
     url + params.to_query
+  end
+
+  def queue_article_import
+    if @sample
+      delay(priority: 0, queue: "article-import-queue").process_data
+    else
+      delay(priority: 0, queue: "article-import-queue").process_data
+    end
+  end
+
+  def process_data
+    result = get_data
+    result = parse_data(result)
+    result = import_data(result)
+    result.length
+  end
+
+  def get_total_results(options={})
+    result = get_result(query_url(rows = 0), options)
+
+    # extend hash fetch method to nested hashes
+    result.extend Hashie::Extensions::DeepFetch
+    result.deep_fetch('message', 'total-results') { 0 }
   end
 
   def get_data(options={})
@@ -80,5 +101,12 @@ class Import
       article = Article.find_or_create(item)
       article ? article.id : nil
     end
+  end
+
+  def to_hash
+    { filter: filter,
+      rows: rows,
+      offset: offset,
+      sample: sample }
   end
 end
