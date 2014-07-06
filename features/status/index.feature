@@ -13,6 +13,11 @@ Feature: View admin dashboard
       When I go to the "Home" admin page
       Then I should see that we have 10 articles
 
+    Scenario: Article last 30 days info
+      Given that we have 5 articles from the last 30 days
+      When I go to the "Home" admin page
+      Then I should see that we have 10 articles from the last 30 days
+
     Scenario: Events info
       Given that we have 5 articles
       And the source "Citeulike" exists
@@ -22,6 +27,11 @@ Feature: View admin dashboard
     Scenario: User info
       When I go to the "Home" admin page
       Then I should see that we have 1 user
+
+    Scenario: Sources info
+      Given that we have 1 source
+      When I go to the "Home" admin page
+      Then I should see that we have 1 active source
 
     Scenario: CouchDB info
       When I go to the "Home" admin page
