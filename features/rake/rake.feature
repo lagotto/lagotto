@@ -22,6 +22,7 @@ Feature: Run rake tasks
       | db:alerts:delete                 | Delete all resolved alerts                                      |
       | db:api_requests:delete           | Delete API requests, keeping last 10,000 requests               |
       | db:articles:seed                 | Seed sample articles                                            |
+      | db:articles:import               | Bulk-load articles from Crossref API                            |
       | db:articles:load                 | Bulk-load articles from standard input                          |
       | db:articles:delete               | Delete all articles                                             |
       | filter:all                       | Create alerts by filtering API responses                        |

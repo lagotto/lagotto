@@ -20,6 +20,16 @@
 
 namespace :db do
   namespace :articles do
+    desc "Bulk-load articles from Crossref API"
+    task :import => :environment do |t, args|
+      options = { from_index_date: ENV['FROM_INDEX_DATE'],
+                  until_index_date: ENV['UNTIL_INDEX_DATE'],
+                  type: ENV['TYPE'],
+                  member: ENV['MEMBER'],
+                  issn: ENV['ISSN'],
+                  sample: ENV['SAMPLE'] }
+      import = Import.new(options)
+    end
 
     desc "Bulk-load articles from standard input"
     task :load => :environment do
