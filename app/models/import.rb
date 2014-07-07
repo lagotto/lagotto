@@ -34,11 +34,10 @@ class Import
 
     from_update_date = Date.yesterday.to_s(:db) if from_update_date.blank?
     until_update_date= Date.yesterday.to_s(:db) if until_update_date.blank?
-    type = 'journal-article' if type.blank?
 
     @filter = "from-update-date:#{from_update_date}"
     @filter += ",until-update-date:#{until_update_date}"
-    @filter += ",type:#{type}"
+    @filter += ",type:#{type}" if type
     @filter += ",member:#{member}" if member
     @filter += ",issn:#{issn}" if issn
 
