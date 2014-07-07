@@ -55,12 +55,10 @@ class Import
 
   def queue_article_import
     if @sample > 0
-      process_data
-      # delay(priority: 0, queue: "article-import-queue").process_data
+      delay(priority: 0, queue: "article-import-queue").process_data
     else
       (0...total_results).step(1000) do |offset|
-        process_data(offset)
-        # delay(priority: 0, queue: "article-import-queue").process_data(offset)
+        delay(priority: 0, queue: "article-import-queue").process_data(offset)
       end
     end
   end

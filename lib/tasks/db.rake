@@ -30,6 +30,7 @@ namespace :db do
                   sample: ENV['SAMPLE'] }
       import = Import.new(options)
       number = ENV['SAMPLE'] || import.total_results
+      import.queue_article_import
       puts "Started import of #{number} articles in the background..."
     end
 
