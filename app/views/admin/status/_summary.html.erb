@@ -10,17 +10,17 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="events_count">&nbsp;</h2>
+        <h2 id="articles_last30_count">&nbsp;</h2>
       </div>
-      <div class="panel-footer"><%= link_to "Events", admin_sources_path %></div>
+      <div class="panel-footer"><%= link_to "Articles last 30 days", articles_path %></div>
     </div>
   </div>
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="sources_disabled_count">&nbsp;</h2>
+        <h2 id="events_count">&nbsp;</h2>
       </div>
-      <div class="panel-footer"><%= link_to "Disabled sources", admin_sources_path %></div>
+      <div class="panel-footer"><%= link_to "Events", admin_sources_path %></div>
     </div>
   </div>
   <div class="col-md-3 text-center">
@@ -78,17 +78,17 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="version">&nbsp;</h2>
+        <h2 id="sources_active_count">&nbsp;</h2>
       </div>
-      <div class="panel-footer">ALM Version</div>
+      <div class="panel-footer"><%= link_to "Active sources", admin_sources_path %></div>
     </div>
   </div>
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="sql_size">&nbsp;</h2>
+        <h2 id="version">&nbsp;</h2>
       </div>
-      <div class="panel-footer">Retrieval_status table size</div>
+      <div class="panel-footer">ALM Version</div>
     </div>
   </div>
   <div class="col-md-3 text-center">

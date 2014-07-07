@@ -52,7 +52,7 @@ class Article < ActiveRecord::Base
     end
   }
 
-  scope :last_x_days, lambda { |duration| where(published_on: (Date.today-duration.days)..Date.today) }
+  scope :last_x_days, lambda { |duration| where(published_on: (Date.today - duration.days)..Date.today) }
   scope :is_cited, lambda { includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0) }
 
   scope :order_articles, lambda { |name|
@@ -123,6 +123,25 @@ class Article < ActiveRecord::Base
       id =~ DOI_FORMAT
     else
       true
+    end
+  end
+
+  def self.find_or_create(params)
+    self.create!(params)
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
+    # update title and/or date if article exists
+    # this is faster than find_or_create_by_doi for all articles
+    # raise an error for other RecordInvalid errors such as missing title
+    if e.message == "Validation failed: Doi has already been taken"
+      article = find_by_doi(params[:doi])
+      article.update_attributes(params)
+      article
+    else
+      Alert.create(:exception => "",
+                   :class_name => "ActiveRecord::RecordInvalid",
+                   :message => "#{e.message} for doi #{params[:doi]}.",
+                   :target_url => "http://api.crossref.org/works/#{params[:doi]}")
+      nil
     end
   end
 

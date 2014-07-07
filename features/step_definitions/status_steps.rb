@@ -12,15 +12,23 @@ Then /^I should see that the CouchDB size is "(.*?)"$/ do |size|
   end
 end
 
-Then(/^I should see that we have (\d+) articles$/) do |number|
+Then /^I should see that we have (\d+) articles$/ do |number|
   page.has_css?('#articles_count', :text => number).should be_true
 end
 
-Then(/^I should see that we have (\d+) events$/) do |number|
+Then /^I should see that we have (\d+) recent articles$/ do |number|
+  page.has_css?('#articles_last30_count', :text => number).should be_true
+end
+
+Then /^I should see that we have (\d+) events$/ do |number|
   page.has_css?('#events_count', :text => number).should be_true
 end
 
-Then(/^I should see that we have (\d+) user$/) do |number|
+Then /^I should see that we have (\d+) user$/ do |number|
   page.driver.render("tmp/capybara/CouchDB.png") if @wip
   page.has_css?('#users_count', :text => number).should be_true
+end
+
+Then /^I should see that we have (\d+) active source$/ do |number|
+  page.has_css?('#sources_active_count', :text => number).should be_true
 end

@@ -23,12 +23,12 @@ class Status
     Article.count
   end
 
-  def events_count
-    RetrievalStatus.joins(:source).where("state > ?", 0).where("name != ?", "relativemetric").sum(:event_count)
+  def articles_last30_count
+    Article.last_x_days(30).count
   end
 
-  def sources_disabled_count
-    Source.where("state = ?", 1).count
+  def events_count
+    RetrievalStatus.joins(:source).where("state > ?", 0).where("name != ?", "relativemetric").sum(:event_count)
   end
 
   def alerts_last_day_count
@@ -55,16 +55,16 @@ class Status
     User.count
   end
 
+  def sources_active_count
+    Source.active.count
+  end
+
   def version
     Rails.application.config.version
   end
 
   def couchdb_size
     RetrievalStatus.new.get_alm_database["disk_size"] || 0
-  end
-
-  def sql_size
-    RetrievalStatus.table_status["data_length"] || 0
   end
 
   def update_date

@@ -81,6 +81,20 @@ describe Article do
         stub.should have_been_requested
       end
 
+      it "get_canonical_url with landing page" do
+        article = FactoryGirl.create(:article_with_events, :doi => "10.3109/09286586.2014.926940")
+        url = "http://informahealthcare.com/action/cookieabsent"
+        stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
+        response = subject.get_canonical_url(article.doi_as_url)
+        response.should eq(error: "DOI could not be resolved")
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("Faraday::ResourceNotFound")
+        alert.status.should == 404
+        stub.should have_been_requested
+      end
+
       it "get_canonical_url with not found error" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 404, :body => File.read(fixture_path + 'doi_not_found.html'))

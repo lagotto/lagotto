@@ -1,0 +1,670 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message-version": "1.0.0",
+  "message": {
+    "query": {
+      "search-terms": null,
+      "start-index": 0
+    },
+    "items-per-page": 10,
+    "items": [
+      {
+        "subtitle": [
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2008,
+              7,
+              26
+            ]
+          ]
+        },
+        "score": 1,
+        "prefix": "http://id.crossref.org/prefix/10.1787",
+        "author": [
+          {
+            "family": "Batra",
+            "given": "Geeta"
+          },
+          {
+            "family": "Stone",
+            "given": "Andrew H. W."
+          }
+        ],
+        "container-title": [
+          "OECD Journal: General Papers"
+        ],
+        "reference-count": 0,
+        "page": "1-37",
+        "deposited": {
+          "date-parts": [
+            [
+              2014,
+              6,
+              28
+            ]
+          ],
+          "timestamp": 1403913600000
+        },
+        "issue": "1",
+        "title": [
+          "Investment climate, capabilities and firm performance"
+        ],
+        "type": "journal-article",
+        "DOI": "10.1787/gen_papers-v2008-art6-en",
+        "ISSN": [
+          "1995-2821"
+        ],
+        "URL": "http://dx.doi.org/10.1787/gen_papers-v2008-art6-en",
+        "source": "CrossRef",
+        "publisher": "Organisation for Economic Co-Operation and Development (OECD)",
+        "indexed": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              1
+            ]
+          ],
+          "timestamp": 1404255640552
+        },
+        "volume": "2008",
+        "member": "http://id.crossref.org/member/1963"
+      },
+      {
+        "subtitle": [
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2008,
+              7,
+              26
+            ]
+          ]
+        },
+        "score": 1,
+        "prefix": "http://id.crossref.org/prefix/10.1787",
+        "author": [
+          {
+            "family": "Lunati",
+            "given": "Maria Rosa"
+          },
+          {
+            "family": "O'Connor",
+            "given": "David"
+          }
+        ],
+        "container-title": [
+          "OECD Journal: General Papers"
+        ],
+        "reference-count": 0,
+        "page": "1-31",
+        "deposited": {
+          "date-parts": [
+            [
+              2014,
+              6,
+              28
+            ]
+          ],
+          "timestamp": 1403913600000
+        },
+        "issue": "1",
+        "title": [
+          "Economic opening and the demand for skills in developing countries"
+        ],
+        "type": "journal-article",
+        "DOI": "10.1787/gen_papers-v2008-art3-en",
+        "ISSN": [
+          "1995-2821"
+        ],
+        "URL": "http://dx.doi.org/10.1787/gen_papers-v2008-art3-en",
+        "source": "CrossRef",
+        "publisher": "Organisation for Economic Co-Operation and Development (OECD)",
+        "indexed": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              1
+            ]
+          ],
+          "timestamp": 1404255640577
+        },
+        "volume": "2008",
+        "member": "http://id.crossref.org/member/1963"
+      },
+      {
+        "subtitle": [
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2008,
+              7,
+              26
+            ]
+          ]
+        },
+        "score": 1,
+        "prefix": "http://id.crossref.org/prefix/10.1787",
+        "author": [
+          {
+            "family": "Miyamoto",
+            "given": "Koji"
+          }
+        ],
+        "container-title": [
+          "OECD Journal: General Papers"
+        ],
+        "reference-count": 0,
+        "page": "1-40",
+        "deposited": {
+          "date-parts": [
+            [
+              2014,
+              6,
+              28
+            ]
+          ],
+          "timestamp": 1403913600000
+        },
+        "issue": "1",
+        "title": [
+          "Human capital formation and foreign direct"
+        ],
+        "type": "journal-article",
+        "DOI": "10.1787/gen_papers-v2008-art4-en",
+        "ISSN": [
+          "1995-2821"
+        ],
+        "URL": "http://dx.doi.org/10.1787/gen_papers-v2008-art4-en",
+        "source": "CrossRef",
+        "publisher": "Organisation for Economic Co-Operation and Development (OECD)",
+        "indexed": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              1
+            ]
+          ],
+          "timestamp": 1404255640601
+        },
+        "volume": "2008",
+        "member": "http://id.crossref.org/member/1963"
+      },
+      {
+        "subtitle": [
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2008,
+              7,
+              26
+            ]
+          ]
+        },
+        "score": 1,
+        "prefix": "http://id.crossref.org/prefix/10.1787",
+        "author": [
+          {
+            "family": "Mercado",
+            "given": "Alfonso"
+          }
+        ],
+        "container-title": [
+          "OECD Journal: General Papers"
+        ],
+        "reference-count": 0,
+        "page": "1-31",
+        "deposited": {
+          "date-parts": [
+            [
+              2014,
+              6,
+              28
+            ]
+          ],
+          "timestamp": 1403913600000
+        },
+        "issue": "1",
+        "title": [
+          "MNE Spillovers in Developing Asian and Latin American Countries"
+        ],
+        "type": "journal-article",
+        "DOI": "10.1787/gen_papers-v2008-art7-en",
+        "ISSN": [
+          "1995-2821"
+        ],
+        "URL": "http://dx.doi.org/10.1787/gen_papers-v2008-art7-en",
+        "source": "CrossRef",
+        "publisher": "Organisation for Economic Co-Operation and Development (OECD)",
+        "indexed": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              1
+            ]
+          ],
+          "timestamp": 1404255640625
+        },
+        "volume": "2008",
+        "member": "http://id.crossref.org/member/1963"
+      },
+      {
+        "subtitle": [
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2008,
+              7,
+              26
+            ]
+          ]
+        },
+        "score": 1,
+        "prefix": "http://id.crossref.org/prefix/10.1787",
+        "author": [
+          {
+            "family": "Aoki",
+            "given": "Yu"
+          },
+          {
+            "family": "Todo",
+            "given": "Yasukudi"
+          }
+        ],
+        "container-title": [
+          "OECD Journal: General Papers"
+        ],
+        "reference-count": 0,
+        "page": "1-31",
+        "deposited": {
+          "date-parts": [
+            [
+              2014,
+              6,
+              28
+            ]
+          ],
+          "timestamp": 1403913600000
+        },
+        "issue": "1",
+        "title": [
+          "FDI and economic growth in less developed countries"
+        ],
+        "type": "journal-article",
+        "DOI": "10.1787/gen_papers-v2008-art5-en",
+        "ISSN": [
+          "1995-2821"
+        ],
+        "URL": "http://dx.doi.org/10.1787/gen_papers-v2008-art5-en",
+        "source": "CrossRef",
+        "publisher": "Organisation for Economic Co-Operation and Development (OECD)",
+        "indexed": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              1
+            ]
+          ],
+          "timestamp": 1404255640650
+        },
+        "volume": "2008",
+        "member": "http://id.crossref.org/member/1963"
+      },
+      {
+        "subtitle": [
+        ],
+        "subject": [
+          "Medicine(all)"
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              1884,
+              8
+            ]
+          ]
+        },
+        "score": 1,
+        "prefix": "http://id.crossref.org/prefix/10.1007",
+        "update-policy": "http://dx.doi.org/10.1007/springer_crossmark_policy",
+        "author": [
+          {
+            "family": "Moore",
+            "given": "J. W"
+          }
+        ],
+        "container-title": [
+          "The Dublin Journal of Medical Science"
+        ],
+        "reference-count": 0,
+        "page": "185-189",
+        "deposited": {
+          "date-parts": [
+            [
+              2014,
+              6,
+              28
+            ]
+          ],
+          "timestamp": 1403913600000
+        },
+        "issue": "2",
+        "title": [
+          "Sanitary and meteorological notes"
+        ],
+        "type": "journal-article",
+        "DOI": "10.1007/bf02975686",
+        "ISSN": [
+          "0790-231X"
+        ],
+        "URL": "http://dx.doi.org/10.1007/bf02975686",
+        "source": "CrossRef",
+        "publisher": "Springer Science + Business Media",
+        "indexed": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              1
+            ]
+          ],
+          "timestamp": 1404255738803
+        },
+        "volume": "78",
+        "member": "http://id.crossref.org/member/297"
+      },
+      {
+        "subtitle": [
+        ],
+        "subject": [
+          "Cultural Studies",
+          "Literature and Literary Theory"
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2012,
+              2
+            ]
+          ]
+        },
+        "score": 1,
+        "prefix": "http://id.crossref.org/prefix/10.13109",
+        "author": [
+          {
+            "family": "Eibl",
+            "given": "Karl"
+          }
+        ],
+        "container-title": [
+          "KulturPoetik"
+        ],
+        "reference-count": 11,
+        "page": "285-291",
+        "deposited": {
+          "date-parts": [
+            [
+              2014,
+              6,
+              28
+            ]
+          ],
+          "timestamp": 1403913600000
+        },
+        "issue": "2",
+        "title": [
+          "Vom vergangenen und vom gegenwärtigen Zweck der Lyrik"
+        ],
+        "type": "journal-article",
+        "DOI": "10.13109/kult.2012.12.2.285",
+        "ISSN": [
+          "1616-1203",
+          "2196-7970"
+        ],
+        "URL": "http://dx.doi.org/10.13109/kult.2012.12.2.285",
+        "source": "CrossRef",
+        "publisher": "Vandenhoeck & Ruprecht GmbH & Co, KG",
+        "indexed": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              1
+            ]
+          ],
+          "timestamp": 1404258251104
+        },
+        "volume": "12",
+        "member": "http://id.crossref.org/member/5267"
+      },
+      {
+        "subtitle": [
+        ],
+        "subject": [
+          "Cultural Studies",
+          "Literature and Literary Theory"
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2012,
+              2
+            ]
+          ]
+        },
+        "score": 1,
+        "prefix": "http://id.crossref.org/prefix/10.13109",
+        "container-title": [
+          "KulturPoetik"
+        ],
+        "reference-count": 3,
+        "page": "i-ii",
+        "deposited": {
+          "date-parts": [
+            [
+              2014,
+              6,
+              28
+            ]
+          ],
+          "timestamp": 1403913600000
+        },
+        "issue": "2",
+        "title": [
+          "Titelei"
+        ],
+        "type": "journal-article",
+        "DOI": "10.13109/kult.2012.12.2.i",
+        "ISSN": [
+          "1616-1203",
+          "2196-7970"
+        ],
+        "URL": "http://dx.doi.org/10.13109/kult.2012.12.2.i",
+        "source": "CrossRef",
+        "publisher": "Vandenhoeck & Ruprecht GmbH & Co, KG",
+        "indexed": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              1
+            ]
+          ],
+          "timestamp": 1404258251129
+        },
+        "volume": "12",
+        "member": "http://id.crossref.org/member/5267"
+      },
+      {
+        "subtitle": [
+        ],
+        "subject": [
+          "Cultural Studies",
+          "Literature and Literary Theory"
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2012,
+              2
+            ]
+          ]
+        },
+        "score": 1,
+        "prefix": "http://id.crossref.org/prefix/10.13109",
+        "author": [
+          {
+            "family": "Kiefer",
+            "given": "Sascha"
+          }
+        ],
+        "container-title": [
+          "KulturPoetik"
+        ],
+        "reference-count": 10,
+        "page": "274-277",
+        "deposited": {
+          "date-parts": [
+            [
+              2014,
+              6,
+              28
+            ]
+          ],
+          "timestamp": 1403913600000
+        },
+        "issue": "2",
+        "title": [
+          "Zuhause in der Neuen Sachlichkeit"
+        ],
+        "type": "journal-article",
+        "DOI": "10.13109/kult.2012.12.2.274",
+        "ISSN": [
+          "1616-1203",
+          "2196-7970"
+        ],
+        "URL": "http://dx.doi.org/10.13109/kult.2012.12.2.274",
+        "source": "CrossRef",
+        "publisher": "Vandenhoeck & Ruprecht GmbH & Co, KG",
+        "indexed": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              1
+            ]
+          ],
+          "timestamp": 1404258251166
+        },
+        "volume": "12",
+        "member": "http://id.crossref.org/member/5267"
+      },
+      {
+        "subtitle": [
+        ],
+        "subject": [
+          "Computational Theory and Mathematics",
+          "Computer Science Applications",
+          "Applied Mathematics",
+          "Ecology, Evolution, Behavior and Systematics",
+          "Modelling and Simulation",
+          "Ecological Modelling",
+          "Ecology"
+        ],
+        "license": [
+          {
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "start": {
+              "date-parts": [
+                [
+                  2014,
+                  7,
+                  1
+                ]
+              ],
+              "timestamp": 1404172800000
+            },
+            "URL": "http://www.elsevier.com/tdm/userlicense/1.0/"
+          }
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2014,
+              7
+            ]
+          ]
+        },
+        "link": [
+          {
+            "intended-application": "text-mining",
+            "content-version": "vor",
+            "content-type": "text/xml",
+            "URL": "http://api.elsevier.com/content/article/PII:S157495411400065X?httpAccept=text/xml"
+          },
+          {
+            "intended-application": "text-mining",
+            "content-version": "vor",
+            "content-type": "text/plain",
+            "URL": "http://api.elsevier.com/content/article/PII:S157495411400065X?httpAccept=text/plain"
+          }
+        ],
+        "score": 1,
+        "prefix": "http://id.crossref.org/prefix/10.1016",
+        "container-title": [
+          "Ecological Informatics"
+        ],
+        "reference-count": 0,
+        "page": "IFC",
+        "deposited": {
+          "date-parts": [
+            [
+              2014,
+              6,
+              28
+            ]
+          ],
+          "timestamp": 1403913600000
+        },
+        "title": [
+          "Editorial Board"
+        ],
+        "type": "journal-article",
+        "DOI": "10.1016/s1574-9541(14)00065-x",
+        "ISSN": [
+          "1574-9541"
+        ],
+        "URL": "http://dx.doi.org/10.1016/s1574-9541(14)00065-x",
+        "source": "CrossRef",
+        "publisher": "Elsevier BV",
+        "indexed": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              1
+            ]
+          ],
+          "timestamp": 1404258251191
+        },
+        "volume": "22",
+        "member": "http://id.crossref.org/member/78"
+      }
+    ],
+    "total-results": 22993,
+    "facets": {
+    }
+  }
+}

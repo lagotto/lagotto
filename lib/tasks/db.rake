@@ -19,11 +19,20 @@
 # limitations under the License.
 
 namespace :db do
-
-  def validate_uid
-
-  end
   namespace :articles do
+    desc "Bulk-load articles from Crossref API"
+    task :import => :environment do |t, args|
+      options = { from_update_date: ENV['FROM-UPDATE-DATE'],
+                  until_update_date: ENV['UNTIL-UPDATE-DATE'],
+                  type: ENV['TYPE'],
+                  member: ENV['MEMBER'],
+                  issn: ENV['ISSN'],
+                  sample: ENV['SAMPLE'] }
+      import = Import.new(options)
+      number = ENV['SAMPLE'] || import.total_results
+      import.queue_article_import
+      puts "Started import of #{number} articles in the background..."
+    end
 
     desc "Bulk-load articles from standard input"
     task :load => :environment do
