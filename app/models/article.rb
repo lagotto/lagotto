@@ -140,7 +140,7 @@ class Article < ActiveRecord::Base
       Alert.create(:exception => "",
                    :class_name => "ActiveRecord::RecordInvalid",
                    :message => "#{e.message} for doi #{params[:doi]}.",
-                   :target_url => "http://api.crossref.org/works/10.1371/#{params[:doi]}")
+                   :target_url => "http://api.crossref.org/works/#{params[:doi]}")
       nil
     end
   end

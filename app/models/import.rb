@@ -61,6 +61,7 @@ class Import
         delay(priority: 0, queue: "article-import-queue").process_data(offset)
       end
     end
+    delay(priority: 0, queue: "article-cache-queue").expire_cache
   end
 
   def process_data(offset = 0)
@@ -111,10 +112,11 @@ class Import
     end
   end
 
-  def to_hash
-    { filter: filter,
-      rows: rows,
-      offset: offset,
-      sample: sample }
+  private
+
+  def expire_cache
+    Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
+    status_url = "http://localhost/api/v5/status?api_key=#{CONFIG[:api_key]}"
+    get_result(status_url, timeout: cache_timeout)
   end
 end
