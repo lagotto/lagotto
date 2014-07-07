@@ -195,7 +195,7 @@ describe Import do
       alert = Alert.first
       alert.class_name.should eq("ActiveRecord::RecordInvalid")
       alert.message.should eq("Validation failed: Title can't be blank for doi 10.1787/gen_papers-v2008-art6-en.")
-      alert.target_url.should eq("http://api.crossref.org/works/10.1371/10.1787/gen_papers-v2008-art6-en")
+      alert.target_url.should eq("http://api.crossref.org/works/10.1787/gen_papers-v2008-art6-en")
     end
   end
 end
