@@ -79,6 +79,10 @@ module Resolvable
         fail Faraday::Error::ResourceNotFound, response.env
       end
 
+      # URL must be a string that contains at least one number
+      # we don't want to store publisher landing or error pages
+      fail Faraday::Error::ResourceNotFound, response.env unless url =~ /\d/
+
       url
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options.merge(doi_lookup: true))
