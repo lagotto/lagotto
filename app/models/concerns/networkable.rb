@@ -124,7 +124,7 @@ module Networkable
                        class_name: error.class.to_s,
                        message: "DOI could not be resolved",
                        details: error.response[:body],
-                       status: error.response[:status],
+                       status: 404,
                        target_url: url)
           { error: "DOI could not be resolved" }
         else
