@@ -25,19 +25,19 @@ class Import
   attr_accessor :filter, :sample, :rows
 
   def initialize(options = {})
-    from_index_date = options.fetch(:from_index_date, nil)
-    until_index_date = options.fetch(:until_index_date, nil)
+    from_update_date = options.fetch(:from_update_date, nil)
+    until_update_date = options.fetch(:until_update_date, nil)
     type = options.fetch(:type, nil)
     member = options.fetch(:member, nil)
     issn = options.fetch(:issn, nil)
     sample = options.fetch(:sample, 0)
 
-    from_index_date = Date.yesterday.to_s(:db) if from_index_date.blank?
-    until_index_date= Date.yesterday.to_s(:db) if until_index_date.blank?
+    from_update_date = Date.yesterday.to_s(:db) if from_update_date.blank?
+    until_update_date= Date.yesterday.to_s(:db) if until_update_date.blank?
     type = 'journal-article' if type.blank?
 
-    @filter = "from-index-date:#{from_index_date}"
-    @filter += ",until-index-date:#{until_index_date}"
+    @filter = "from-update-date:#{from_update_date}"
+    @filter += ",until-update-date:#{until_update_date}"
     @filter += ",type:#{type}"
     @filter += ",member:#{member}" if member
     @filter += ",issn:#{issn}" if issn
