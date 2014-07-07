@@ -6,17 +6,36 @@ title: "Rake"
 There are several ALM-specific rake tasks that help with administration of the ALM application. They can be listed with the following command:
 
 ```sh
-rake -T
+bundle exec rake -T
 ```
 
-Depending on your server setup you may have to use `bundle exec rake` instead of `rake`.
+Please append `RAILS_ENV=production` to all rake commands when running Rails in `production` mode.
 
 ### db.rake
+
+Bulk-load articles via the CrossRef API:
+
+```sh
+bundle exec rake db:articles:import
+```
+
+The command takes the following optional parameters via ENV variables:
+
+```sh
+FROM-UPDATE-DATE=2014-02-05
+UNTIL-UPDATE-DATE=2014-03
+MEMBER=340
+TYPE=journal-article
+ISSN=1545-7885
+SAMPLE=50
+```
+
+`FROM-UPDATE-DATE` means metadata updated since (inclusive) `{date}`, `UNTIL-UPDATE-DATE` means metadata updated until (inclusive) `{date}`. `MEMBER` is the CrossRef member_id, which you find by searching the member database, e.g. `http://api.crossref.org/members?query=elife`. `TYPE` is the type of the resource, e.g. `journal-article`, a listing of available types can be found at `http://api.crossref.org/types`. `SAMPLE` returns a random sample of x DOIs. For more information please see the [CrossRef API documentation](https://github.com/CrossRef/rest-api-doc/blob/master/funder_kpi_api.md).
 
 Bulk-load a file consisting of DOIs, one per line. It'll ignore (but count) invalid ones and those that already exist in the database:
 
 ```sh
-rake db:articles:load <DOI_DUMP
+bundle exec rake db:articles:load <DOI_DUMP
 ```
 
 Format for import file
@@ -30,19 +49,19 @@ The rake task splits on white space for the first two elements, and then takes t
 Loads 25 sample articles
 
 ```sh
-rake db:articles:seed
+bundle exec rake db:articles:seed
 ```
 
 Deletes all articles and associated rows in the retrieval_statuses table. For safety reasons doesn't work in the production environment (use the following rake task).
 
 ```sh
-rake db:articles:delete_all
+bundle exec rake db:articles:delete_all
 ```
 
 Bulk-load a file consisting of DOIs, one per line. It'll ignore (but count) invalid DOIs, and will delete all articles with matching DOIs:
 
 ```sh
-rake db:articles:delete <DOI_DUMP
+bundle exec rake db:articles:delete <DOI_DUMP
 ```
 
 Format for import file:
@@ -56,37 +75,37 @@ The rake task splits on white space for the first two elements, and then takes t
 Removes all HTML and XML tags from title field (for legacy data).
 
 ```sh
-rake db:articles:sanitize_title
+bundle exec rake db:articles:sanitize_title
 ```
 
 Isnstall sources. Provide one or more source names as arguments, e.g. `rake db:sources:install[pmc]` or install all available sources without arguments:
 
 ```sh
-rake db:sources:install
+bundle exec rake db:sources:install
 ```
 
 Uninstall sources. Provide one or more source names as arguments, e.g. `rake db:sources:uninstall[pmc]`:
 
 ```sh
-rake db:sources:uninstall
+bundle exec rake db:sources:uninstall
 ```
 
 Deletes all resolved alerts:
 
 ```sh
-rake db:alerts:delete
+bundle exec rake db:alerts:delete
 ```
 
 Delete old API requests (only keep the last 10,000):
 
 ```sh
-rake db:api_requests:delete
+bundle exec rake db:api_requests:delete
 ```
 
 Delete all resolved API responses older than 24 hours:
 
 ```sh
-rake db:api_responses:delete
+bundle exec rake db:api_responses:delete
 ```
 
 The last three rake tasks should run regularly, and can be set up to run as a daily cron task with `bundle exec whenever -w`.
@@ -96,31 +115,31 @@ The last three rake tasks should run regularly, and can be set up to run as a da
 Queue all articles
 
 ```sh
-rake queue:all
+bundle exec rake queue:all
 ```
 
 Queue article with given DOI:
 
 ```sh
-rake queue:one[DOI]
+bundle exec rake queue:one[DOI]
 ```
 
 Start job queue
 
 ```sh
-rake queue:start
+bundle exec rake queue:start
 ```
 
 Stop job queue
 
 ```sh
-rake queue:stop
+bundle exec rake queue:stop
 ```
 
 By default the rake tasks above run for all sources. Do have them run for one or more specific sources, add the source names as parameters:
 
 ```sh
-rake queue:all[mendeley,citeulike]
+bundle exec rake queue:all[mendeley,citeulike]
 ```
 
 ### pmc.rake
@@ -128,13 +147,13 @@ rake queue:all[mendeley,citeulike]
 Import latest (i.e. last month's) PubMed Central usage stats.
 
 ```sh
-rake pmc:update
+bundle exec rake pmc:update
 ```
 
 Import all PubMed Central usage stats since month/year.
 
 ```sh
-rake pmc:update MONTH=1 YEAR=2013
+bundle exec rake pmc:update MONTH=1 YEAR=2013
 ```
 
 ### workers.rake
@@ -142,13 +161,13 @@ rake pmc:update MONTH=1 YEAR=2013
 Start all the workers.
 
 ```sh
-rake workers:start_all
+bundle exec rake workers:start_all
 ```
 
 Stop all the workers.
 
 ```sh
-rake workers:stop_all
+bundle exec rake workers:stop_all
 ```
 
 ### filter.rake
@@ -156,13 +175,13 @@ rake workers:stop_all
 Create alerts by filtering API responses
 
 ```sh
-rake filter:all
+bundle exec rake filter:all
 ```
 
 Unresolve all alerts that have been filtered (e.g. to re-run filters with new settings)
 
 ```sh
-rake filter:unresolve
+bundle exec rake filter:unresolve
 ```
 
 ### mailer.rake
@@ -170,17 +189,17 @@ rake filter:unresolve
 Send all reports
 
 ```sh
-rake mailer:all
+bundle exec rake mailer:all
 ```
 
 Send error report
 
 ```sh
-rake mailer:error_report
+bundle exec rake mailer:error_report
 ```
 
 Send status report
 
 ```sh
-rake mailer:status_report
+bundle exec rake mailer:status_report
 ```
