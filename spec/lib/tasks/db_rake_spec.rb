@@ -12,6 +12,29 @@ describe "db:articles:seed" do
   end
 end
 
+describe "db:articles:import" do
+  include_context "rake"
+
+  let(:output) { "Started import of 22993 articles in the background...\n" }
+
+  its(:prerequisites) { should include("environment") }
+
+  it "should run the rake task" do
+    import = Import.new
+    stub_request(:get, import.query_url(offset = 0, rows = 0)).to_return(:body => File.read(fixture_path + 'import_no_rows.json'))
+    stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'import.json'))
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+
+  it "should run the rake task for a sample" do
+    ENV['SAMPLE'] = "50"
+    output = "Started import of 50 articles in the background...\n"
+    import = Import.new
+    stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'import.json'))
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
 describe "db:articles:delete_all" do
   include_context "rake"
 

@@ -29,7 +29,8 @@ namespace :db do
                   issn: ENV['ISSN'],
                   sample: ENV['SAMPLE'] }
       import = Import.new(options)
-      puts "Started background import of #{import.total_results} articles via CrossRef API..."
+      number = ENV['SAMPLE'] || import.total_results
+      puts "Started import of #{number} articles in the background..."
     end
 
     desc "Bulk-load articles from standard input"

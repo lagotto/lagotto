@@ -25,19 +25,24 @@ class Import
   attr_accessor :filter, :sample, :rows
 
   def initialize(options = {})
-    from_index_date = options.fetch(:from_index_date, Date.yesterday.to_s(:db))
-    until_index_date = options.fetch(:until_index_date, Date.yesterday.to_s(:db))
-    type = options.fetch(:type, 'journal-article')
+    from_index_date = options.fetch(:from_index_date, nil)
+    until_index_date = options.fetch(:until_index_date, nil)
+    type = options.fetch(:type, nil)
     member = options.fetch(:member, nil)
     issn = options.fetch(:issn, nil)
+    sample = options.fetch(:sample, 0)
+
+    from_index_date = Date.yesterday.to_s(:db) if from_index_date.blank?
+    until_index_date= Date.yesterday.to_s(:db) if until_index_date.blank?
+    type = 'journal-article' if type.blank?
 
     @filter = "from-index-date:#{from_index_date}"
     @filter += ",until-index-date:#{until_index_date}"
     @filter += ",type:#{type}"
     @filter += ",member:#{member}" if member
     @filter += ",issn:#{issn}" if issn
-    @sample = options.fetch(:sample, nil)
-    @rows = options.fetch(:rows, 1000)
+
+    @sample = sample.to_i
   end
 
   def total_results(options={})
@@ -49,10 +54,10 @@ class Import
   end
 
   def queue_article_import
-    if @sample
+    if @sample > 0
       delay(priority: 0, queue: "article-import-queue").process_data
     else
-      (0...total_results).step(@rows) do |offset|
+      (0...total_results).step(1000) do |offset|
         delay(priority: 0, queue: "article-import-queue").process_data(offset)
       end
     end
@@ -65,9 +70,9 @@ class Import
     result.length
   end
 
-  def query_url(offset = 0, rows = @rows)
+  def query_url(offset = 0, rows = 1000)
     url = "http://api.crossref.org/works?"
-    if @sample
+    if @sample > 0
       params = { filter: @filter, sample: @sample }
     else
       params = { filter: @filter, offset: offset, rows: rows }
