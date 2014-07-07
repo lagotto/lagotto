@@ -112,11 +112,9 @@ class Import
     end
   end
 
-  private
-
   def expire_cache
     Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
     status_url = "http://localhost/api/v5/status?api_key=#{CONFIG[:api_key]}"
-    get_result(status_url, timeout: cache_timeout)
+    get_result(status_url, timeout: 300)
   end
 end
