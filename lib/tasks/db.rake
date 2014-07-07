@@ -22,8 +22,8 @@ namespace :db do
   namespace :articles do
     desc "Bulk-load articles from Crossref API"
     task :import => :environment do |t, args|
-      options = { from_update_date: ENV['FROM-UPDATE-DATE'],
-                  until_update_date: ENV['UNTIL-UPDATE-DATE'],
+      options = { from_update_date: ENV['FROM_UPDATE_DATE'],
+                  until_update_date: ENV['UNTIL_UPDATE_DATE'],
                   type: ENV['TYPE'],
                   member: ENV['MEMBER'],
                   issn: ENV['ISSN'],

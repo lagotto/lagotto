@@ -22,15 +22,15 @@ bundle exec rake db:articles:import
 The command takes the following optional parameters via ENV variables
 
 ```sh
-FROM-UPDATE-DATE=2014-02-05
-UNTIL-UPDATE-DATE=2014-03
+FROM_UPDATE_DATE=2014-02-05
+UNTIL_UPDATE_DATE=2014-03
 MEMBER=340
 TYPE=journal-article
 ISSN=1545-7885
 SAMPLE=50
 ```
 
-* `FROM-UPDATE-DATE` means metadata updated since (inclusive) `{date}`, `UNTIL-UPDATE-DATE` means metadata updated until (inclusive) `{date}`.
+* `FROM_UPDATE_DATE` means metadata updated since (inclusive) `{date}`, `UNTIL_UPDATE_DATE` means metadata updated until (inclusive) `{date}`.
 * `MEMBER` is the CrossRef member_id, which you find by searching the member database, e.g. `http://api.crossref.org/members?query=elife`.
 * `TYPE` is the type of the resource, e.g. `journal-article`, a listing of available types can be found at `http://api.crossref.org/types`.
 * `SAMPLE` returns a random sample of x DOIs and can be combined with the other parameters.
