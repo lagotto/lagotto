@@ -128,7 +128,7 @@ class Article < ActiveRecord::Base
 
   def self.find_or_create(params)
     self.create!(params)
-  rescue ActiveRecord::RecordInvalid => e
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
     # update title and/or date if article exists
     # this is faster than find_or_create_by_doi for all articles
     # raise an error for other RecordInvalid errors such as missing title
