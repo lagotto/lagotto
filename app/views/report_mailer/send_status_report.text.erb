@@ -1,18 +1,18 @@
 This is the ALM status report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.
 
-<%= number_with_delimiter(@articles_count) %> Articles
-<%= number_with_delimiter(@events_count) %> Events
-<%= number_with_delimiter(@sources_disabled_count) %> Disabled sources
-<%= number_with_delimiter(@alerts_last_day_count) %> Unresolved alerts in the last 24 hours
+<%= number_with_delimiter(@status.articles_count) %> Articles
+<%= number_with_delimiter(@status.articles_last30_count) %> Articles last 30 days
+<%= number_with_delimiter(@status.events_count) %> Events
+<%= number_with_delimiter(@status.alerts_last_day_count) %> Unresolved alerts in the last 24 hours
 
-<%= number_with_delimiter(@workers_count) %> Active workers
-<%= number_with_delimiter(@delayed_jobs_active_count) %> Pending and working jobs
-<%= number_with_delimiter(@responses_count) %> API responses in the last 24 hours
-<%= number_with_delimiter(@requests_count) %> API requests in the last 24 hours
+<%= number_with_delimiter(@status.workers_count) %> Active workers
+<%= number_with_delimiter(@status.delayed_jobs_active_count) %> Pending and working jobs
+<%= number_with_delimiter(@status.responses_count) %> API responses in the last 24 hours
+<%= number_with_delimiter(@status.requests_count) %> API requests in the last 24 hours
 
-<%= number_with_delimiter(@users_count) %> Users
-ALM Version <%= Rails.application.config.version %>
-Retrieval_history table size <%= number_to_human_size(@sql_info["data_length"]) %>
-CouchDB database size <%= number_to_human_size(@couchdb_info["disk_size"]) %>
+<%= number_with_delimiter(@status.users_count) %> Users
+<%= number_with_delimiter(@status.sources_active_count) %> Active sources
+ALM Version <%= @status.version %>
+CouchDB database size <%= number_to_human_size(@status.couchdb_size) %>
 
 Go to admin dashboard: <%= admin_root_url(:host => CONFIG[:hostname]) %>
