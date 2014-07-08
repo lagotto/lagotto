@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140602135852) do
+ActiveRecord::Schema.define(:version => 20140708173329) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -228,6 +228,8 @@ ActiveRecord::Schema.define(:version => 20140602135852) do
     t.string   "name"
     t.string   "authentication_token"
     t.string   "role",                   :default => "user"
+    t.string   "publisher_name"
+    t.integer  "publisher_id"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_authentication_token", :unique => true
