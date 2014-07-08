@@ -102,7 +102,7 @@ class User < ActiveRecord::Base
   end
 
   # Use different cache key for admin or staff user
-  def cache_group
+  def cache_key
     is_admin_or_staff? ? "1" : "2"
   end
 
