@@ -5,6 +5,6 @@ class Api::V5::SourcesController < Api::V5::BaseController
 
   def show
     @source = Source.find_by_name(params[:id])
-    @source = SourceDecorator.new(source)
+    @source = SourceDecorator.new(@source)
   end
 end
