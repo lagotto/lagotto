@@ -9,10 +9,9 @@
       <% end %>
     </ul>
   </div>
-  <h1>
-    <%= pluralize(number_with_delimiter(@users.count), 'User') %>
+  <h1>Users
     <% unless params[:query].blank? %>
-        <small>with <em><%= params[:query] %></em> in the name, username or API key</small>
+      <small>with <em><%= params[:query] %></em> in the name, username or API key</small>
     <% end %>
   </h1>
 </div>

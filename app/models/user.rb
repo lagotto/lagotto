@@ -36,8 +36,8 @@ class User < ActiveRecord::Base
   validates :name, :presence => true
   validates :email, :uniqueness => true, :allow_blank => true
 
-  scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%")
-    .order("sign_in_count DESC, updated_at DESC") }
+  scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
+  scope :ordered, order("sign_in_count DESC, updated_at DESC")
 
   def self.find_for_cas_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first

@@ -44,13 +44,7 @@ class Article < ActiveRecord::Base
   before_validation :sanitize_title
   after_create :create_retrievals
 
-  scope :query, lambda { |query|
-    if self.has_many?
-      where("doi like ?", "#{query}%")
-    else
-      where("doi like ? OR title like ?", "%#{query}%", "%#{query}%")
-    end
-  }
+  scope :query, lambda { |query| where("doi like ?", "#{query}%") }
 
   scope :last_x_days, lambda { |duration| where(published_on: (Date.today - duration.days)..Date.today) }
   scope :is_cited, lambda { includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0) }
@@ -62,11 +56,6 @@ class Article < ActiveRecord::Base
       where("retrieval_statuses.event_count > 0").order("retrieval_statuses.event_count DESC, published_on DESC")
     end
   }
-
-  # simplify admin dashboard when we have more than 150,000 articles
-  def self.has_many?
-    Article.count > 150000
-  end
 
   def self.from_uri(id)
     return nil if id.nil?

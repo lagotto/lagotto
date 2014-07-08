@@ -12,7 +12,7 @@ class Admin::UsersController < Admin::ApplicationController
 
   def index
     load_index
-    respond_with @users.order("sign_in_count DESC, updated_at DESC")
+    respond_with @users
   end
 
   def edit
@@ -70,6 +70,7 @@ class Admin::UsersController < Admin::ApplicationController
       @role = params[:role]
     end
     collection = collection.query(params[:query]) if params[:query]
+    collection = collection.ordered
 
     @users = collection.paginate(:page => params[:page])
   end
