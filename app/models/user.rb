@@ -117,6 +117,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def name_with_publisher
+    if publisher_name.present?
+      name + " (" + publisher_name + ")"
+    else
+      name
+    end
+  end
+
   protected
 
   def set_first_user
