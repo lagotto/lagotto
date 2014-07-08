@@ -132,7 +132,7 @@ class Article < ActiveRecord::Base
     # update title and/or date if article exists
     # this is faster than find_or_create_by_doi for all articles
     # raise an error for other RecordInvalid errors such as missing title
-    if e.message == "Validation failed: Doi has already been taken"
+    if e.message.start_with?("Mysql2::Error: Duplicate entry", "Validation failed: Doi has already been taken")
       article = find_by_doi(params[:doi])
       article.update_attributes(params)
       article
