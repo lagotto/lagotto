@@ -12,7 +12,7 @@ class Admin::UsersController < Admin::ApplicationController
 
   def index
     load_index
-    respond_with @users
+    respond_with @users.order("sign_in_count DESC, updated_at DESC")
   end
 
   def edit
