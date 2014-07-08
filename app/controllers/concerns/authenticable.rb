@@ -34,7 +34,6 @@ module Authenticable
         sign_in user, store: false
       else
         @error = "Missing or wrong API key."
-        create_alert(request)
         render "error", :status => 401
       end
     end
@@ -46,21 +45,9 @@ module Authenticable
           sign_in :user, resource
         else
           @error = "You are not authorized to access this page."
-          create_alert(request)
           render "error", :status => 401
         end
       end
-    end
-
-    def create_alert(request)
-      Alert.create(:exception => "",
-                   :class_name => "Net::HTTPUnauthorized",
-                   :message => @error,
-                   :target_url => request.original_url,
-                   :remote_ip => request.remote_ip,
-                   :user_agent => request.user_agent,
-                   :content_type => request.formats.first.to_s,
-                   :status => 401)
     end
 
     def cors_set_access_control_headers
