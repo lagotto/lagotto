@@ -1,5 +1,5 @@
 object false
-cache ['v5', current_user.cache_group, @articles]
+cache ['v5', current_user, @articles]
 
 node(:total) { |m| @articles.total_entries }
 node(:total_pages) { |m| (@articles.total_entries.to_f / @articles.per_page).ceil }

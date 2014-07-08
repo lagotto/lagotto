@@ -1,4 +1,5 @@
 object false
+cache ['v5', current_user, @status]
 
 node(:error) { nil }
 

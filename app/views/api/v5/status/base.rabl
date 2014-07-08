@@ -1,5 +1,4 @@
 object @status
-cache ['v5', current_user, @status]
 
 attributes :articles_count, :version, :update_date
 
