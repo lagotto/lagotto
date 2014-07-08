@@ -44,6 +44,10 @@
     <% else %>
       <dd>User - read access to the API</dd>
     <% end %>
+    <% if @user.role == "publisher" && @user.publisher_name.present? %>
+      <dt>Publisher</dt>
+      <dd><%= h(@user.publisher_name) %></dd>
+    <% end %>
     <dt>API Key</dt>
     <dd><%= @user.authentication_token %></dd>
   </dl>

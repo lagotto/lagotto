@@ -74,6 +74,11 @@
             <h5>Role</h5>
             <%= user.role.capitalize %>
 
+            <% if @user.role == "publisher" && @user.publisher_name.present? %>
+              <h5>Publisher</h5>
+              <%= h(@user.publisher_name) %>
+            <% end %>
+
             <h5>Account created</h5>
             <%= user.created_at.to_s(:friendly) %>
 
