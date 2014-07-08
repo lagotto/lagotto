@@ -70,7 +70,7 @@
   <div class="search">
     <%= form_tag(articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
        <div class="form-group">
-        <%= search_field_tag :q, params[:q], :placeholder => Article.has_many? ? "Search by DOI" : "Search by DOI", :class => "form-control" %>
+        <%= search_field_tag :q, params[:q], :placeholder => "Search by DOI", :class => "form-control" %>
       </div>
       <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
       <% unless params[:q].blank? %>
