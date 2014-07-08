@@ -31,13 +31,13 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:persona, :cas]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token, :publisher_name, :publisher_id
 
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
   validates :email, :uniqueness => true, :allow_blank => true
 
-  scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
+  scope :query, lambda { |query| where("name like ? OR username like ? OR publisher_name like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%", "%#{query}%") }
   scope :ordered, order("sign_in_count DESC, updated_at DESC")
 
   def self.find_for_cas_oauth(auth, signed_in_resource=nil)
