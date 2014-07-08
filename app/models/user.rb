@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
 
   before_save :ensure_authentication_token
   after_create :set_first_user
+  after_save :set_publisher
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -118,8 +119,8 @@ class User < ActiveRecord::Base
   end
 
   def name_with_publisher
-    if publisher_name.present?
-      name + " (" + publisher_name + ")"
+    if name && publisher_name && name != publisher_name
+      "#{name} (#{publisher_name})"
     else
       name
     end
@@ -133,6 +134,11 @@ class User < ActiveRecord::Base
     if User.count == 1 && !Rails.env.test?
       update_attributes(role: "admin", authentication_token: CONFIG[:api_key])
     end
+  end
+
+  def set_publisher
+    # Only users with role == "publisher" should have publisher name and id attributes
+    update_attributes(publisher_name: nil, publisher_id: nil) unless role == "publisher"
   end
 
   # Don't require email or password, as we also use OAuth
