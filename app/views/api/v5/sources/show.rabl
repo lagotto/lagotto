@@ -1,5 +1,5 @@
 object false
-cache ['v5', current_user.is_admin_or_staff?, @source]
+cache ['v5', current_user.cache_group, @source]
 
 node(:error) { nil }
 

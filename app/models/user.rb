@@ -101,6 +101,11 @@ class User < ActiveRecord::Base
     ["admin", "staff"].include?(role)
   end
 
+  # Use different cache key for admin or staff user
+  def cache_group
+    is_admin_or_staff? ? "1" : "2"
+  end
+
   def api_key
     authentication_token
   end
