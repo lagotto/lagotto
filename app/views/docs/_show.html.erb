@@ -1,6 +1,8 @@
 <div class="markdown">
   <% unless @doc.content.blank? %>
-    <%= markdown @doc.content %>
+    <% cache do %>
+      <%= markdown @doc.content %>
+    <% end %>
   <% else %>
     <div class="alert alert-info">No documentation found</div>
   <% end %>
