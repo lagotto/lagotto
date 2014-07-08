@@ -5,16 +5,18 @@ class Ability
 
   def initialize(user)
     user ||= User.new(:role => "anonymous") # Guest user
-    if user.role == "admin"
-      can :manage, :all
-    elsif user.role == "staff"
-      can :read, :all
-      can :destroy, Alert
-      can :create, Article
-      can :update, User, :id => user.id
-    elsif user.role == "user"
-      can [:update, :show], User, :id => user.id
-    else
+
+    case user
+      when "user", "publisher"
+        can [:update, :show], User, :id => user.id
+      when "admin"
+        can :manage, :all
+      when "staff"
+        can :read, :all
+        can :destroy, Alert
+        can :create, Article
+        can :update, User, :id => user.id
+      end
     end
   end
 end

@@ -41,10 +41,12 @@
     <dt>Role</dt>
     <% if @user.role == "admin" %>
       <dd>Admin - full access to the ALM application</dd>
+    <% elsif @user.role == "publisher" %>
+      <dd>Publisher - read access to the API</dd>
     <% elsif @user.role == "staff" %>
       <dd>Staff - read access to the admin dashboard</dd>
     <% else %>
-      <dd>User - access to the API</dd>
+      <dd>User - read access to the API</dd>
     <% end %>
     <dt>API Key</dt>
     <dd><%= @user.authentication_token %></dd>

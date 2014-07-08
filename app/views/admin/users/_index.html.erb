@@ -47,6 +47,9 @@
                   <% if user.role != "user" %>
                     <li><%= link_to "Role User", admin_user_path(user, :query => params[:query], :role => params[:role], :user => { :role => "user" }), :method => :put, :remote => true, :id => "#{user.id}-update-user" %></li>
                   <% end %>
+                  <% if user.role != "publisher" %>
+                    <li><%= link_to "Role Publisher", admin_user_path(user, :query => params[:query], :role => params[:role], :user => { :role => "publisher" }), :method => :put, :remote => true, :id => "#{user.id}-update-publisher" %></li>
+                  <% end %>
                   <% if user.role != "staff" %>
                     <li><%= link_to "Role Staff", admin_user_path(user, :query => params[:query], :role => params[:role], :user => { :role => "staff" }), :method => :put, :remote => true, :id => "#{user.id}-update-staff" %></li>
                   <% end %>
