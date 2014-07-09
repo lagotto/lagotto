@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
 
   before_save :ensure_authentication_token
   after_create :set_first_user
-  after_save :set_publisher
+  # after_save :set_publisher
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
