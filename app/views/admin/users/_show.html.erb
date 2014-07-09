@@ -44,7 +44,7 @@
     <% else %>
       <dd>User - read access to the API</dd>
     <% end %>
-    <% if @user.publisher_name.present? %>
+    <% unless @user.has_publisher_name? %>
       <dt>Publisher</dt>
       <dd><%= h(@user.publisher_name) %></dd>
     <% end %>

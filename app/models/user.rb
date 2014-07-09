@@ -111,7 +111,7 @@ class User < ActiveRecord::Base
   end
 
   def email_with_name
-    if name && email && name != email
+    if email && name != email
       "#{name} <#{email}>"
     else
       email
@@ -119,11 +119,15 @@ class User < ActiveRecord::Base
   end
 
   def name_with_publisher
-    if name && publisher_name && name != publisher_name
+    if publisher_name && name != publisher_name
       "#{name} (#{publisher_name})"
     else
       name
     end
+  end
+
+  def has_publisher_name?
+    publisher_name && name == publisher_name
   end
 
   protected
