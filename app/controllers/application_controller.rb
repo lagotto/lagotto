@@ -27,6 +27,8 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
 
+  respond_to :html, :js, :json
+
   def after_sign_in_path_for(resource)
     request.env['omniauth.origin'] || user_path("me")
   end
