@@ -24,7 +24,7 @@
   </div>
 
   <dl class="dl-horizontal" id="dl-horizontal">
-    <%= render :partial => 'dl-horizontal' %>
+    <%= render :partial => 'admin/sources/dl-horizontal' %>
   </dl>
 
   <ul class="nav nav-tabs">
@@ -39,7 +39,7 @@
   <div class="tab-content">
     <div class="tab-pane active" id="summary">
       <div id="source-show">
-        <%= render :partial => 'show', :locals => { :name => @source.name } %>
+        <%= render :partial => 'admin/sources/show', :locals => { :name => @source.name } %>
       </div>
       <% if Article.count > 0 %>
         <div class="row">
