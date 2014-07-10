@@ -6,6 +6,9 @@ class Ability
   def initialize(user)
     user ||= User.new(:role => "anonymous") # Guest user
 
+    can :read, Article
+    can :read, Source
+
     if user.role == "admin"
       can :manage, :all
     elsif user.role == "staff"
