@@ -4,9 +4,21 @@ class PublishersController < ApplicationController
 
   respond_to :html, :js
 
+  def index
+    load_index
+    respond_with @publishers
+  end
+
   protected
 
   def load_publisher
     @publisher = Publisher.find(params[:id])
+  end
+
+  def load_index
+    collection = Publisher
+    collection = collection.query(params[:query]) if params[:query]
+
+    @publishers = collection.paginate(:page => params[:page])
   end
 end
