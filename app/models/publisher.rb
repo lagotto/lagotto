@@ -21,4 +21,9 @@ class Publisher < ActiveRecord::Base
   has_many :articles
   has_many :publisher_options
   has_many :sources, :through => :publisher_options
+
+  validates :name, :presence => true
+  validates :crossref_id, :presence => true, :uniqueness => true
+
+  scope :query, lambda { |query| where("name like ? OR crossref_id = ?", "%#{query}%", query) }
 end

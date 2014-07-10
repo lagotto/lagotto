@@ -78,6 +78,6 @@ class Admin::UsersController < ApplicationController
   private
 
   def safe_params
-    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :subscribe, :unsubscribe, :publisher_name, :publisher_id)
+    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :subscribe, :unsubscribe, :publisher_id)
   end
 end

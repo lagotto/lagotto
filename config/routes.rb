@@ -9,6 +9,7 @@ Alm::Application.routes.draw do
   resources :articles, :constraints => { :id => /.+?/, :format => /html|js/ }
   resources :sources
   resources :users
+  resources :publishers
   resources :status, only: [:index]
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
 
