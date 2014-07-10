@@ -37,23 +37,23 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="summary">
-      <%= render :partial => 'admin/sources/summary' %>
+      <%= render :partial => 'summary' %>
     </div>
     <div class="tab-pane" id="articles">
-      <%= render :partial => 'admin/sources/articles' %>
+      <%= render :partial => 'articles' %>
     </div>
     <div class="tab-pane" id="events">
-      <%= render :partial => 'admin/sources/events' %>
+      <%= render :partial => 'events' %>
     </div>
     <% if can? :read, Alert %>
       <div class="tab-pane active" id="jobs">
-        <%= render :partial => 'admin/sources/jobs' %>
+        <%= render :partial => 'jobs' %>
       </div>
       <div class="tab-pane" id="responses">
-        <%= render :partial => 'admin/sources/responses' %>
+        <%= render :partial => 'responses' %>
       </div>
       <div class="tab-pane" id="installation">
-        <%= render :partial => 'admin/sources/installation' %>
+        <%= render :partial => 'installation' %>
       </div>
     <% end %>
     <div class="tab-pane" id="documentation">

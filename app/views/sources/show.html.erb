@@ -20,11 +20,11 @@
 
 <div class="content">
   <div class="page-header" id="page-header">
-    <%= render :partial => 'admin/sources/page-header' %>
+    <%= render :partial => 'page-header' %>
   </div>
 
   <dl class="dl-horizontal" id="dl-horizontal">
-    <%= render :partial => 'admin/sources/dl-horizontal' %>
+    <%= render :partial => 'dl-horizontal' %>
   </dl>
 
   <ul class="nav nav-tabs">
@@ -39,7 +39,7 @@
   <div class="tab-content">
     <div class="tab-pane active" id="summary">
       <div id="source-show">
-        <%= render :partial => 'admin/sources/show', :locals => { :name => @source.name } %>
+        <%= render :partial => 'show', :locals => { :name => @source.name } %>
       </div>
       <% if can? :read, Alert && Article.count > 0 %>
         <div class="row">
@@ -50,11 +50,11 @@
       <% end %>
     </div>
     <div class="tab-pane" id="most-cited">
-      <%= render :partial => 'admin/sources/most-cited' %>
+      <%= render :partial => 'most-cited' %>
     </div>
     <% if can? :read, Alert && @source.state > 0 %>
       <div class="tab-pane" id="configuration">
-        <%= render :partial => 'admin/sources/configuration' %>
+        <%= render :partial => 'configuration' %>
       </div>
     <% end %>
     <div class="tab-pane" id="documentation">
