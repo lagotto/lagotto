@@ -37,16 +37,16 @@
     <dt>Role</dt>
     <% if @user.role == "admin" %>
       <dd>Admin - full access to the ALM application</dd>
-    <% elsif @user.role == "publisher" %>
-      <dd>Publisher - read access to the API</dd>
     <% elsif @user.role == "staff" %>
       <dd>Staff - read access to the admin dashboard</dd>
+    <% elsif @user.role == "publisher" %>
+      <dd>Publisher - full access to the API</dd>
     <% else %>
       <dd>User - read access to the API</dd>
     <% end %>
-    <% unless @user.has_publisher_name? %>
+    <% if @user.publisher %>
       <dt>Publisher</dt>
-      <dd><%= h(@user.publisher_name) %></dd>
+      <dd><%= h(@user.publisher.name) %></dd>
     <% end %>
     <dt>API Key</dt>
     <dd><%= @user.authentication_token %></dd>
@@ -54,18 +54,12 @@
 
   <ul class="nav nav-tabs">
     <li class="active"><a href="#reports" data-toggle="tab">Reports</a></li>
-    <% if @user.role == "publisher" %>
-      <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
-    <% end %>
     <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
   </ul>
 
   <div class="tab-content">
     <div class="tab-pane active" id="reports">
       <%= render :partial => 'admin/users/reports' %>
-    </div>
-    <div class="tab-pane" id="configuration">
-      <%= render :partial => 'admin/users/configuration' %>
     </div>
     <div class="tab-pane" id="documentation">
       <h1>API</h1>

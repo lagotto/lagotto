@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(:version => 20140708173329) do
     t.integer  "year",          :default => 1970
     t.integer  "month"
     t.integer  "day"
+    t.string   "doi_prefix"
+    t.string   "publisher_id"
   end
 
   add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"
@@ -119,6 +121,29 @@ ActiveRecord::Schema.define(:version => 20140708173329) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "display_name"
+  end
+
+  create_table "prefixes", :force => true do |t|
+    t.integer  "publisher_id"
+    t.string   "name"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "publisher_options", :force => true do |t|
+    t.integer  "publisher_id"
+    t.integer  "source_id"
+    t.string   "config"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "publishers", :force => true do |t|
+    t.string   "name"
+    t.integer  "crossref_id"
+    t.text     "prefixes"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "reports", :force => true do |t|
@@ -228,7 +253,6 @@ ActiveRecord::Schema.define(:version => 20140708173329) do
     t.string   "name"
     t.string   "authentication_token"
     t.string   "role",                   :default => "user"
-    t.string   "publisher_name"
     t.integer  "publisher_id"
   end
 

@@ -31,6 +31,7 @@ class Article < ActiveRecord::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  belongs_to :publisher
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :sources, :through => :retrieval_statuses
   has_many :alerts
