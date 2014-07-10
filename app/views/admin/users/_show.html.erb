@@ -40,7 +40,7 @@
     <% elsif @user.role == "staff" %>
       <dd>Staff - read access to the admin dashboard</dd>
     <% elsif @user.role == "publisher" %>
-      <dd>Publisher - full access to the API</dd>
+      <dd>Publisher - read/write access to the API</dd>
     <% else %>
       <dd>User - read access to the API</dd>
     <% end %>
