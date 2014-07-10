@@ -31,7 +31,6 @@ class ArticlesController < ApplicationController
 
     respond_with do |format|
       format.js { render "index" }
-      format.html { redirect_to articles_path }
     end
   end
 
