@@ -17,8 +17,9 @@
 # limitations under the License.
 
 class SourcesController < ApplicationController
-  before_filter :load_source, :only => [ :show, :edit, :update ]
+  before_filter :load_source, :only => [:show, :edit, :update]
   load_and_authorize_resource
+  skip_authorize_resource :only => [:show, :index]
 
   respond_to :html, :rss
 
