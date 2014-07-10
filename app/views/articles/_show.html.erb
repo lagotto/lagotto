@@ -78,7 +78,7 @@
 
   <% if can? :read, Alert %>
     <div id="alert-error-message">
-      <%= render :partial => 'admin/articles/alert_message' %>
+      <%= render :partial => 'alert_message' %>
     </div>
   <% end %>
 
@@ -93,16 +93,16 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="metrics">
-      <%= render :partial => 'admin/articles/metrics' %>
+      <%= render :partial => 'metrics' %>
     </div>
     <div class="tab-pane" id="events">
-      <%= render :partial => 'admin/articles/events' %>
+      <%= render :partial => 'events' %>
     </div>
     <div class="tab-pane" id="more">
-      <%= render :partial => 'admin/articles/more' %>
+      <%= render :partial => 'more' %>
     </div>
     <div class="tab-pane" id="alert">
-      <%= render :partial => 'admin/articles/alert' %>
+      <%= render :partial => 'alert' %>
     </div>
   </div>
 <% end %>

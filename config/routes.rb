@@ -6,8 +6,7 @@ Alm::Application.routes.draw do
   root :to => "docs#index"
 
   # constraints is added to allow dot in the url (doi is used to show article)
-  resources :articles, :constraints => { :id => /.+?/, :format => /html/}
-
+  resources :articles, :constraints => { :id => /.+?/, :format => /html|js/ }
   resources :sources
   resources :users
   resources :status, only: [:index]
@@ -16,8 +15,6 @@ Alm::Application.routes.draw do
   match "oembed" => "oembed#show"
 
   namespace :admin do
-    resources :articles, :constraints => { :id => /.+?/, :format => /html|js/ }
-    resources :sources
     resources :errors
     resources :alerts
     resources :api_requests
