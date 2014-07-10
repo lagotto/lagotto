@@ -1,37 +1,5 @@
 <table class="table table-striped" id="SummaryTable">
-  <thead>
-    <tr>
-      <th/>
-      <th class="number">Pending</th>
-      <th class="number">Working</th>
-    </tr>
-  </thead>
   <tbody>
-    <tr>
-      <th>Jobs</th>
-      <td class="number" id="pending_count"><%= number_hiding_zero(@source.pending_count) %></td>
-      <td class="number" id="working_count"><%= number_hiding_zero(@source.working_count) %></td>
-    </tr>
-    <tr>
-      <th/>
-      <th class="number">Responses</th>
-      <th class="number">Errors</th>
-    </tr>
-    <tr>
-      <th>Responses in the last 24 Hours</th>
-      <td class="number" id="response_count">&nbsp;</td>
-      <td class="number" id="error_count"><%= link_to_if(@source.alerts.total_errors(1).size > 0, number_hiding_zero(@source.alerts.total_errors(1).size), admin_alerts_path(:source => @source.name)) %></td>
-    </tr>
-    <tr>
-      <th/>
-      <th class="number">Average</th>
-      <th class="number">Maximum</th>
-    </tr>
-    <tr>
-      <th>Response duration in the last 24 Hours (ms)</th>
-      <td class="number" id="average_count">&nbsp;</td>
-      <td class="number" id="maximum_count">&nbsp;</td>
-    </tr>
     <tr>
       <th/>
       <th class="number">Articles&nbsp;with&nbsp;Events</th>
@@ -42,5 +10,38 @@
       <td class="number" id="article_count">&nbsp;</td>
       <td class="number" id="event_count">&nbsp;</td>
     </tr>
+
+    <% if can? :read, Alert %>
+      <tr>
+        <th/>
+        <th class="number">Pending</th>
+        <th class="number">Working</th>
+      </tr>
+      <tr>
+        <th>Jobs</th>
+        <td class="number" id="pending_count"><%= number_hiding_zero(@source.pending_count) %></td>
+        <td class="number" id="working_count"><%= number_hiding_zero(@source.working_count) %></td>
+      </tr>
+      <tr>
+        <th/>
+        <th class="number">Responses</th>
+        <th class="number">Errors</th>
+      </tr>
+      <tr>
+        <th>Responses in the last 24 Hours</th>
+        <td class="number" id="response_count">&nbsp;</td>
+        <td class="number" id="error_count"><%= link_to_if(@source.alerts.total_errors(1).size > 0, number_hiding_zero(@source.alerts.total_errors(1).size), admin_alerts_path(:source => @source.name)) %></td>
+      </tr>
+      <tr>
+        <th/>
+        <th class="number">Average</th>
+        <th class="number">Maximum</th>
+      </tr>
+      <tr>
+        <th>Response duration in the last 24 Hours (ms)</th>
+        <td class="number" id="average_count">&nbsp;</td>
+        <td class="number" id="maximum_count">&nbsp;</td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
