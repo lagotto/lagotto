@@ -10,12 +10,12 @@ Alm::Application.routes.draw do
 
   resources :sources
   resources :users
+  resources :status, only: [:index]
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
 
   match "oembed" => "oembed#show"
 
   namespace :admin do
-    root :to => "status#index"
     resources :articles, :constraints => { :id => /.+?/, :format => /html|js/ }
     resources :sources
     resources :errors

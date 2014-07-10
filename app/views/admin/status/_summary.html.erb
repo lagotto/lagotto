@@ -26,77 +26,79 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="alerts_last_day_count">&nbsp;</h2>
-      </div>
-      <div class="panel-footer"><%= link_to "Open alerts last 24 hours", admin_alerts_path %></div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-3 text-center">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h2 id="workers_count">&nbsp;</h2>
-      </div>
-      <div class="panel-footer">Active workers</div>
-    </div>
-  </div>
-  <div class="col-md-3 text-center">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h2 id="delayed_jobs_active_count">&nbsp;</h2>
-      </div>
-      <div class="panel-footer"><%= link_to "Pending and working jobs", admin_sources_path %></div>
-    </div>
-  </div>
-  <div class="col-md-3 text-center">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h2 id="responses_count">&nbsp;</h2>
-      </div>
-      <div class="panel-footer"><%= link_to "API responses last 24 hours", admin_sources_path %></div>
-    </div>
-  </div>
-  <div class="col-md-3 text-center">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h2 id="requests_count">&nbsp;</h2>
-      </div>
-      <div class="panel-footer"><%= link_to "API requests last 24 hours", admin_api_requests_path %></div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-3 text-center">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h2 id="users_count">&nbsp;</h2>
-      </div>
-      <div class="panel-footer"><%= link_to "Users", admin_users_path %></div>
-    </div>
-  </div>
-  <div class="col-md-3 text-center">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h2 id="sources_active_count">&nbsp;</h2>
-      </div>
-      <div class="panel-footer"><%= link_to "Active sources", admin_sources_path %></div>
-    </div>
-  </div>
-  <div class="col-md-3 text-center">
-    <div class="panel panel-default">
-      <div class="panel-body">
         <h2 id="version">&nbsp;</h2>
       </div>
       <div class="panel-footer">ALM Version</div>
     </div>
   </div>
-  <div class="col-md-3 text-center">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h2 id="couchdb_size">&nbsp;</h2>
+</div>
+<% if can? :read, Alert %>
+  <div class="row">
+    <div class="col-md-3 text-center">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2 id="workers_count">&nbsp;</h2>
+        </div>
+        <div class="panel-footer">Active workers</div>
       </div>
-      <div class="panel-footer">CouchDB database size</div>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2 id="delayed_jobs_active_count">&nbsp;</h2>
+        </div>
+        <div class="panel-footer"><%= link_to "Pending and working jobs", admin_sources_path %></div>
+      </div>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2 id="responses_count">&nbsp;</h2>
+        </div>
+        <div class="panel-footer"><%= link_to "API responses last 24 hours", admin_sources_path %></div>
+      </div>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2 id="requests_count">&nbsp;</h2>
+        </div>
+        <div class="panel-footer"><%= link_to "API requests last 24 hours", admin_api_requests_path %></div>
+      </div>
     </div>
   </div>
-</div>
+  <div class="row">
+    <div class="col-md-3 text-center">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2 id="users_count">&nbsp;</h2>
+        </div>
+        <div class="panel-footer"><%= link_to "Users", admin_users_path %></div>
+      </div>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2 id="sources_active_count">&nbsp;</h2>
+        </div>
+        <div class="panel-footer"><%= link_to "Active sources", admin_sources_path %></div>
+      </div>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2 id="couchdb_size">&nbsp;</h2>
+        </div>
+        <div class="panel-footer">CouchDB database size</div>
+      </div>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2 id="alerts_last_day_count">&nbsp;</h2>
+        </div>
+        <div class="panel-footer"><%= link_to "Open alerts last 24 hours", admin_alerts_path %></div>
+      </div>
+    </div>
+  </div>
+<% end %>

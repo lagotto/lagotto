@@ -110,9 +110,7 @@
               <% end %>
             </ul>
           </li>
-          <% if can? :read, Alert %>
-            <%= controller.controller_name == "status" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Status", admin_root_path %></li>
-          <% end %>
+          <%= controller.controller_name == "status" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Status", status_path %></li>
         </ul>
         <% unless ["sessions","registrations"].include?(controller.controller_name) %>
           <ul class="nav navbar-nav navbar-right">
