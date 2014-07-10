@@ -1,4 +1,4 @@
-class Admin::UsersController < Admin::ApplicationController
+class Admin::UsersController < ApplicationController
   before_filter :load_user, :only => [ :show, :edit, :update, :destroy ]
   load_and_authorize_resource
 

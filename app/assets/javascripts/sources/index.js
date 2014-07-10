@@ -69,7 +69,7 @@ function articlesViz(data) {
 
   chart.selectAll("text.labels")
     .data(data)
-    .enter().append("a").attr("xlink:href", function(d) { return "/admin/sources/" + d.name; }).append("text")
+    .enter().append("a").attr("xlink:href", function(d) { return "/sources/" + d.name; }).append("text")
     .attr("x", 0)
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
     .attr("dx", -330) // padding-right
@@ -118,7 +118,7 @@ function eventsViz(data) {
 
   chart.selectAll("text.labels")
     .data(data)
-    .enter().append("a").attr("xlink:href", function(d) { return "/admin/sources/" + d.name; }).append("text")
+    .enter().append("a").attr("xlink:href", function(d) { return "/sources/" + d.name; }).append("text")
     .attr("x", 0)
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
     .attr("dx", -330) // padding-right

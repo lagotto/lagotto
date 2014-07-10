@@ -1,4 +1,4 @@
-class Admin::AlertsController < Admin::ApplicationController
+class Admin::AlertsController < ApplicationController
   load_and_authorize_resource
 
   def index

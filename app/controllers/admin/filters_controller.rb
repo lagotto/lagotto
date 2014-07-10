@@ -1,4 +1,4 @@
-class Admin::FiltersController < Admin::ApplicationController
+class Admin::FiltersController < ApplicationController
   before_filter :load_filter, :only => [ :edit, :update ]
   load_and_authorize_resource
 

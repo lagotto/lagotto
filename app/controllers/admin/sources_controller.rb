@@ -1,4 +1,4 @@
-class Admin::SourcesController < Admin::ApplicationController
+class Admin::SourcesController < ApplicationController
   before_filter :load_source, :only => [ :show, :edit, :update ]
   load_and_authorize_resource
 
