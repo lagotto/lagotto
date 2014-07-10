@@ -19,25 +19,48 @@
 -%>
 
 <div class="content">
-  <div class="page-header">
-    <%= render :partial => 'admin/sources/page-header' %>
+  <div class="page-header" id="page-header">
+    <%= render :partial => 'page-header' %>
   </div>
 
-  <dl class="dl-horizontal">
-    <%= render :partial => 'admin/sources/dl-horizontal' %>
+  <dl class="dl-horizontal" id="dl-horizontal">
+    <%= render :partial => 'dl-horizontal' %>
   </dl>
 
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#most-cited" data-toggle="tab">Most-Cited</a></li>
+    <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
+    <li><a href="#most-cited" data-toggle="tab">Most-Cited</a></li>
+    <% if @source.state > 0 %>
+      <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
+    <% end %>
     <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
   </ul>
 
   <div class="tab-content">
-    <div class="tab-pane active" id="most-cited">
-      <%= render :partial => 'admin/sources/most-cited' %>
+    <div class="tab-pane active" id="summary">
+      <div id="source-show">
+        <%= render :partial => 'show', :locals => { :name => @source.name } %>
+      </div>
+      <% if Article.count > 0 %>
+        <div class="row">
+          <div class="col-md-4" id="chart_status"></div>
+          <div class="col-md-4" id="chart_day"></div>
+          <div class="col-md-4" id="chart_month"></div>
+        </div>
+      <% end %>
     </div>
+    <div class="tab-pane" id="most-cited">
+      <%= render :partial => 'most-cited' %>
+    </div>
+    <% if @source.state > 0 %>
+      <div class="tab-pane" id="configuration">
+        <%= render :partial => 'configuration' %>
+      </div>
+    <% end %>
     <div class="tab-pane" id="documentation">
       <%= render :partial => 'docs/show' %>
     </div>
   </div>
 </div>
+
+<%= javascript_include_tag 'sources/show' %>

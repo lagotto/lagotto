@@ -12,7 +12,7 @@
       <div class="panel-body">
         <h2 id="articles_last30_count">&nbsp;</h2>
       </div>
-      <div class="panel-footer"><%= link_to "Articles last 30 days", articles_path %></div>
+      <div class="panel-footer">Articles last 30 days</div>
     </div>
   </div>
   <div class="col-md-3 text-center">
@@ -20,7 +20,7 @@
       <div class="panel-body">
         <h2 id="events_count">&nbsp;</h2>
       </div>
-      <div class="panel-footer"><%= link_to "Events", admin_sources_path %></div>
+      <div class="panel-footer"><%= link_to "Events", sources_path %></div>
     </div>
   </div>
   <div class="col-md-3 text-center">
@@ -32,6 +32,7 @@
     </div>
   </div>
 </div>
+
 <% if can? :read, Alert %>
   <div class="row">
     <div class="col-md-3 text-center">

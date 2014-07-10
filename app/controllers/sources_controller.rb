@@ -42,7 +42,9 @@ class SourcesController < ApplicationController
   end
 
   def index
-    @groups = Group.order("id")
+    @doc = Doc.find("sources")
+
+    @groups = Group.includes(:sources).order("groups.id, sources.display_name")
     respond_with @groups
   end
 end

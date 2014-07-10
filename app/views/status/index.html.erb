@@ -25,7 +25,9 @@
 
   <ul class="nav nav-tabs" id="nav_index">
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
-    <li><a href="#workers" data-toggle="tab" title="Workers">Workers</a></li>
+    <% if can? :read, Alert %>
+      <li><a href="#workers" data-toggle="tab" title="Workers">Workers</a></li>
+    <% end %>
   </ul>
 
   <div class="tab-content">
@@ -33,9 +35,11 @@
       <%= render :partial => 'admin/status/summary' %>
     </div>
 
-    <div class="tab-pane" id="workers">
-      <%= render :partial => 'admin/status/workers' %>
-    </div>
+    <% if can? :read, Alert %>
+      <div class="tab-pane" id="workers">
+        <%= render :partial => 'admin/status/workers' %>
+      </div>
+    <% end %>
   </div>
 
   <%= javascript_include_tag 'status/index' %>

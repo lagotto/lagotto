@@ -1,0 +1,37 @@
+<p>Sources used by this ALM application.</p>
+
+<% unless Source.visible.empty? %>
+  <table class="table" id="JobsTable">
+    <thead>
+      <tr>
+        <th class="group">Group</th>
+        <th class="name">Source</th>
+        <th>Status</th>
+        <th class="name">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @groups.each do |group| %>
+        <tr>
+          <% if group.sources.visible.size > 0 %>
+            <td <%= group.sources.visible.empty? ? "rowspan=1" : "rowspan=#{group.sources.visible.count}" %>><h4><%= h(group.display_name) %></h4></td>
+            <td class="name"><%= link_to group.sources.visible.first.display_name, admin_source_path(group.sources.visible.first.name) %></td>
+            <td><%= state_label(group.sources.visible.first.human_state_name).html_safe %></td>
+            <td class="name"><%= h(group.sources.visible.first.description) %></td>
+          <% end %>
+        </tr>
+        <% if group.sources.visible.size > 1 %>
+          <% group.sources.visible[1..-1].each do |source| %>
+            <tr>
+              <td><%= link_to source.display_name, admin_source_path(source) %></td>
+              <td><%= state_label(source.human_state_name).html_safe %></td>
+              <td class="name"><%= h(source.description) %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info">No active sources found</div>
+<% end %>
