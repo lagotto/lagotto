@@ -16,10 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class Admin::StatusController < Admin::ApplicationController
-  load_and_authorize_resource :alert, :parent => false
-
+class StatusController < ApplicationController
   def index
-    @workers = Worker.all
+
   end
 end

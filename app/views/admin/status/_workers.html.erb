@@ -1,4 +1,4 @@
-<% unless @workers.empty? %>
+<% if Worker.all.size > 0 %>
   <table class="table">
     <thead>
       <tr>
@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-    <% @workers.each do |worker| %>
+    <% Worker.all.each do |worker| %>
       <tr>
         <td><%= worker.id %></td>
         <td><%= worker.pid %></td>
