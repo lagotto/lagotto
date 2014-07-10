@@ -1,6 +1,6 @@
 <% if can?(:manage, Article) and (controller.action_name == "new" or (controller.action_name == "create" and !@article.errors.empty?)) %>
 
-  <%= simple_form_for @article, :url => admin_articles_path, :html => { :remote => true } do |f| %>
+  <%= simple_form_for @article, :url => articles_path, :html => { :remote => true } do |f| %>
     <fieldset>
       <legend>New Article</legend>
 
@@ -18,7 +18,7 @@
 
       <div class="form-group">
         <%= f.submit "Save ", class: "btn btn-default" %>
-        <%= link_to 'Cancel', admin_articles_path, { :remote => true, :class => 'btn' } %>
+        <%= link_to 'Cancel', articles_path, { :remote => true, :class => 'btn' } %>
       </div>
     </fieldset>
   <% end %>
@@ -28,7 +28,7 @@
     <div class="btn-toolbar pull-right">
       <% if can?(:manage, Article) %>
         <div class="btn-group btn-group-sm">
-          <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_admin_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-default' } %>
+          <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-default' } %>
         </div>
       <% end %>
       <% if can? :read, Alert %>

@@ -9,7 +9,7 @@ describe SourcesController do
     end
 
     it "redirects to the login page for an unknown source in the admin dashboard" do
-      get admin_source_path("x")
+      get source_path("x")
       last_response.status.should eql(302)
       last_response.body.should include("/users/sign_in")
     end

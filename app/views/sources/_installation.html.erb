@@ -22,12 +22,12 @@
             <% if can?(:manage, Alert) %>
               <td>
                 <% if group.sources.first.human_state_name == "available" %>
-                  <%= link_to 'Install', admin_source_path(group.sources.first, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-primary btn-sm', :id => "#{group.sources.first.name}-status", :title => "Install Source" %>
+                  <%= link_to 'Install', source_path(group.sources.first, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-primary btn-sm', :id => "#{group.sources.first.name}-status", :title => "Install Source" %>
                 <% elsif group.sources.first.human_state_name == "retired" %>
                 <% elsif group.sources.first.human_state_name == "inactive" %>
-                  <%= link_to 'Activate', admin_source_path(group.sources.first, state_event: "activate"), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{group.sources.first.name}-status", :title => "Activate Source" %>
+                  <%= link_to 'Activate', source_path(group.sources.first, state_event: "activate"), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{group.sources.first.name}-status", :title => "Activate Source" %>
                 <% else %>
-                  <%= link_to 'Inactivate', admin_source_path(group.sources.first, state_event: "inactivate"), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{group.sources.first.name}-status", :title => "Inactivate Source" %>
+                  <%= link_to 'Inactivate', source_path(group.sources.first, state_event: "inactivate"), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{group.sources.first.name}-status", :title => "Inactivate Source" %>
                 <% end %>
               </td>
             <% end %>
@@ -43,12 +43,12 @@
               <% if can?(:manage, Alert) %>
                 <td>
                   <% if source.human_state_name == "available" %>
-                    <%= link_to 'Install', admin_source_path(source, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-primary btn-sm', :id => "#{source.name}-status", :title => "Install Source" %>
+                    <%= link_to 'Install', source_path(source, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-primary btn-sm', :id => "#{source.name}-status", :title => "Install Source" %>
                   <% elsif source.human_state_name == "retired" %>
                   <% elsif source.human_state_name == "inactive" %>
-                    <%= link_to 'Activate', admin_source_path(source, state_event: "activate"), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{source.name}-status", :title => "Activate Source" %>
+                    <%= link_to 'Activate', source_path(source, state_event: "activate"), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{source.name}-status", :title => "Activate Source" %>
                   <% else %>
-                    <%= link_to 'Inactivate', admin_source_path(source, state_event: "inactivate"), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{source.name}-status", :title => "Inactivate Source" %>
+                    <%= link_to 'Inactivate', source_path(source, state_event: "inactivate"), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{source.name}-status", :title => "Inactivate Source" %>
                   <% end %>
                 </td>
               <% end %>

@@ -93,12 +93,12 @@
                                                                                   q: params[:q]) %></p>
             <% unless alert.source_id.blank? %>
               <h5>Source</h5>
-              <%= link_to alert.source.display_name, admin_source_path(alert.source) %>
+              <%= link_to alert.source.display_name, source_path(alert.source) %>
             <% end %>
 
             <% unless alert.article_id.blank? %>
               <h5>Article</h5>
-              <%= link_to alert.article.uid, admin_article_path(alert.article) %>
+              <%= link_to alert.article.uid, article_path(alert.article) %>
             <% end %>
 
             <h5>Time</h5>

@@ -1,6 +1,6 @@
 <% if can?(:manage, Article) and (controller.action_name == "edit" or (controller.action_name == "update" and !@article.errors.empty?)) %>
 
-  <%= simple_form_for @article, :url => admin_article_path(@article), :html => { :role => "form", :remote => true } do |f| %>
+  <%= simple_form_for @article, :url => article_path(@article), :html => { :role => "form", :remote => true } do |f| %>
     <fieldset>
       <legend>Edit Article</legend>
 
@@ -18,7 +18,7 @@
 
       <div class="form-group">
         <%= f.submit "Save ", class: "btn btn-default" %>
-        <%= link_to 'Cancel', admin_article_path(@article), { :remote => true, :class => 'btn' } %>
+        <%= link_to 'Cancel', article_path(@article), { :remote => true, :class => 'btn' } %>
       </div>
     </fieldset>
   <% end %>
@@ -29,10 +29,10 @@
       <% if can?(:manage, Article) %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group btn-group-sm">
-            <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_article_path(@article), { :remote => true, :class => 'btn btn-default' } %>
+            <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_article_path(@article), { :remote => true, :class => 'btn btn-default' } %>
           </div>
           <div class="btn-group btn-group-sm">
-            <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, admin_article_path(@article), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
+            <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, article_path(@article), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
           </div>
         </div>
       <% end %>
