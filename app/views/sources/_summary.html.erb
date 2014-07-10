@@ -1,12 +1,12 @@
 <p>Sources used by this ALM application.</p>
 
 <% unless Source.visible.empty? %>
-  <table class="table" id="JobsTable">
+  <table class="table" id="SummaryTable">
     <thead>
       <tr>
         <th class="group">Group</th>
         <th class="name">Source</th>
-        <th>Status</th>
+        <th class="description">Status</th>
         <th>Description</th>
       </tr>
     </thead>
@@ -17,7 +17,7 @@
             <td <%= group.sources.visible.empty? ? "rowspan=1" : "rowspan=#{group.sources.visible.count}" %>><h4><%= h(group.display_name) %></h4></td>
             <td class="name"><%= link_to group.sources.visible.first.display_name, source_path(group.sources.visible.first.name) %></td>
             <td><%= state_label(group.sources.visible.first.human_state_name).html_safe %></td>
-            <td><%= h(group.sources.visible.first.description) %></td>
+            <td class="description"><%= h(group.sources.visible.first.description) %></td>
           <% end %>
         </tr>
         <% if group.sources.visible.size > 1 %>

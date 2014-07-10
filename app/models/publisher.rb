@@ -26,4 +26,8 @@ class Publisher < ActiveRecord::Base
   validates :crossref_id, :presence => true, :uniqueness => true
 
   scope :query, lambda { |query| where("name like ? OR crossref_id = ?", "%#{query}%", query) }
+
+  def self.per_page
+    20
+  end
 end

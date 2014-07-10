@@ -30,9 +30,6 @@
             <% if can?(:manage, publisher) %>
               <div class="btn-group btn-sm pull-right">
                 <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe, publisher_path(publisher, :query => params[:query], :role => params[:role]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.id}-delete" %>
-                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#" id='<%= "#{publisher.id}-update" %>'>
-                  <span class="glyphicon glyphicon-pencil"></span> <span class="caret"></span>
-                </a>
               </div>
             <% end %>
 

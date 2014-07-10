@@ -9,6 +9,14 @@ class PublishersController < ApplicationController
     respond_with @publishers
   end
 
+  def destroy
+    @publisher.destroy
+    load_index
+    respond_with(@publishers) do |format|
+      format.js { render :index }
+    end
+  end
+
   protected
 
   def load_publisher
