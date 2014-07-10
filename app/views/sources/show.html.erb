@@ -20,7 +20,7 @@
 
 <div class="content">
   <div class="page-header" id="page-header">
-    <%= render :partial => 'page-header' %>
+    <%= render :partial => 'admin/sources/page-header' %>
   </div>
 
   <dl class="dl-horizontal" id="dl-horizontal">
@@ -50,11 +50,11 @@
       <% end %>
     </div>
     <div class="tab-pane" id="most-cited">
-      <%= render :partial => 'most-cited' %>
+      <%= render :partial => 'admin/sources/most-cited' %>
     </div>
     <% if @source.state > 0 %>
       <div class="tab-pane" id="configuration">
-        <%= render :partial => 'configuration' %>
+        <%= render :partial => 'admin/sources/configuration' %>
       </div>
     <% end %>
     <div class="tab-pane" id="documentation">
