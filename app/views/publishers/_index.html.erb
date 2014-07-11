@@ -38,8 +38,10 @@
               <%= link_to publisher.crossref_id, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
             <% end %>
 
-            <h5>Account created</h5>
-            <%= publisher.created_at.to_s(:friendly) %>
+            <% if publisher.created_at.present? %>
+              <h5>Account created</h5>
+              <%= publisher.created_at.to_s(:friendly) %>
+            <% end %>
           </div>
         </div>
       </div>
