@@ -37,14 +37,14 @@
               </div>
             <% end %>
 
-            <% if publisher.other_names.present? %>
-              <h5>Other Names</h5>
+            <% if publisher.other_names.present? && publisher.other_names.length > 1 %>
+              <h5>Names</h5>
               <%= publisher.other_names.join("</br>").html_safe %>
             <% end %>
 
             <% if publisher.prefixes.present? %>
               <h5>DOI Prefixes</h5>
-              <%= publisher.prefixes.join("</br>").html_safe %>
+              <%= publisher.prefixes.join(" ") %>
             <% end %>
 
             <% if publisher.crossref_id.present? %>

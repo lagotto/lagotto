@@ -39,8 +39,8 @@ class Publisher < ActiveRecord::Base
     crossref_id
   end
 
-  def query(string)
-    result = get_data(string)
+  def query(string, offset = 0, rows = 20)
+    result = get_data(string, offset, rows)
     result = parse_data(result)
   end
 
