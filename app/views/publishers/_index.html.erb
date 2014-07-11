@@ -29,7 +29,7 @@
           <div class="panel-body">
             <% if can?(:manage, publisher) %>
               <div class="btn-group btn-sm pull-right">
-                <% if publisher.crossref_id.present? %>
+                <% if publisher.persisted? %>
                   <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe, publisher_path(publisher, :query => params[:query]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-delete" %>
                 <% else %>
                   <%= link_to "<span class=\"glyphicon glyphicon-plus\"></span>".html_safe, publisher_path(publisher, :query => params[:query]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-delete" %>
@@ -39,7 +39,7 @@
 
             <% if publisher.other_names.present? %>
               <h5>Other Names</h5>
-              <%= publisher.other_names.join("\n") %>
+              <%= publisher.other_names.join("</br>") %>
             <% end %>
 
             <% if publisher.prefixes.present? %>
@@ -52,7 +52,7 @@
               <%= link_to publisher.crossref_id, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
             <% end %>
 
-            <% if publisher.created_at.present? %>
+            <% if publisher.persisted? %>
               <h5>Account created</h5>
               <%= publisher.created_at.to_s(:friendly) %>
             <% end %>
