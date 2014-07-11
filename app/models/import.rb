@@ -22,6 +22,8 @@ class Import
   # include HTTP request helpers
   include Networkable
 
+  DOI_TYPES = %w{ journal-article, proceedings-article, dissertation, standard, report, book, monograph, edited-book, reference-book, dataset }
+
   attr_accessor :filter, :sample, :rows
 
   def initialize(options = {})
@@ -101,8 +103,14 @@ class Import
       date_parts = item["issued"]["date-parts"][0]
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
+      if DOI_TYPES.include?(item["type"])
+        title = item["title"][0]
+      else
+        title = item["title"][0].presence || item["container-title"][0].presence || "No title"
+      end
+
       { doi: item["DOI"],
-        title: item["title"][0],
+        title: title,
         year: year,
         month: month,
         day: day }
