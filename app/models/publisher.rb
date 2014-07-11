@@ -28,7 +28,12 @@ class Publisher < ActiveRecord::Base
   validates :name, :presence => true
   validates :crossref_id, :presence => true, :uniqueness => true
 
-  scope :query, lambda { |query| where("name like ? OR crossref_id = ?", "%#{query}%", query) }
+  # scope :query, lambda { |query| where("name like ? OR crossref_id = ?", "%#{query}%", query) }
+
+  def query(string)
+    result = get_data(string)
+    result = parse_data(result)
+  end
 
   def query_url(string = "", offset = 0, rows = 20)
     url = "http://api.crossref.org/members?"
