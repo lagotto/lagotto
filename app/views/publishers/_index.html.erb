@@ -30,9 +30,9 @@
             <% if can?(:manage, publisher) %>
               <div class="btn-group btn-sm pull-right">
                 <% if publisher.persisted? %>
-                  <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe, publisher_path(publisher, :query => params[:query]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-delete" %>
+                  <%= link_to 'Delete', publisher_path(publisher, event: "delete", query: params[:query]), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-remove", :title => "Remove Publisher" %>
                 <% else %>
-                  <%= button_to "Test", publishers_path(publisher, :query => params[:query]), :method => :post, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-create" %>
+                  <%= link_to 'Import', publisher_path(publisher, event: "import", query: params[:query]), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{publisher.crossref_id}-import", :title => "Import Publisher" %>
                 <% end %>
               </div>
             <% end %>
