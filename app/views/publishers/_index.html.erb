@@ -32,7 +32,7 @@
                 <% if publisher.persisted? %>
                   <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe, publisher_path(publisher, :query => params[:query]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-delete" %>
                 <% else %>
-                  <%= button_to "<span class=\"glyphicon glyphicon-plus\"></span>".html_safe, publishers_path(publisher, :query => params[:query]), :method => :post, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-create" %>
+                  <%= button_to "Test", publishers_path(publisher, :query => params[:query]), :method => :post, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-create" %>
                 <% end %>
               </div>
             <% end %>
