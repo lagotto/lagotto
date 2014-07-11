@@ -17,15 +17,45 @@
 # limitations under the License.
 
 class Publisher < ActiveRecord::Base
+  # include HTTP request helpers
+  include Networkable
+
   has_many :users
   has_many :articles
-  has_many :publisher_options
+  has_many :publisher_options, :dependent => :destroy
   has_many :sources, :through => :publisher_options
 
   validates :name, :presence => true
   validates :crossref_id, :presence => true, :uniqueness => true
 
   scope :query, lambda { |query| where("name like ? OR crossref_id = ?", "%#{query}%", query) }
+
+  def query_url(string = "", offset = 0, rows = 20)
+    url = "http://api.crossref.org/members?"
+    params = { query: string, offset: offset, rows: rows }
+    url + params.to_query
+  end
+
+  def get_data(string = "", offset = 0, rows = 20, options={})
+    result = get_result(query_url(string, offset, rows), options)
+
+    # extend hash fetch method to nested hashes
+    result.extend Hashie::Extensions::DeepFetch
+  end
+
+  def parse_data(result)
+    # return early if an error occured
+    return result if result["status"] != "ok"
+
+    items = result['message'] && result.deep_fetch('message', 'items') { nil }
+    Array(items).map do |item|
+      Publisher.new do |publisher|
+        publisher.name = item["primary-name"]
+        publisher.crossref_id = item["id"]
+        publisher.prefixes = item["prefixes"]
+      end
+    end
+  end
 
   def self.per_page
     20
