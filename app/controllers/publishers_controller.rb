@@ -33,7 +33,7 @@ class PublishersController < ApplicationController
 
   def load_index
     publisher = Publisher.new
-    current_page = params[:page] || 1
+    current_page = params[:page].to_i || 1
     per_page = Publisher.per_page
     offset = (current_page - 1) * per_page
     publishers = publisher.query(params[:query], offset)
