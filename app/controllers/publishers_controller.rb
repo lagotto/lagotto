@@ -9,6 +9,14 @@ class PublishersController < ApplicationController
     respond_with @publishers
   end
 
+  def create
+    @publisher = Publisher.create(safe_params)
+    load_index
+    respond_with(@publishers) do |format|
+      format.js { render :index }
+    end
+  end
+
   def destroy
     @publisher.destroy
     load_index
@@ -30,5 +38,11 @@ class PublishersController < ApplicationController
     per_page = Publisher.per_page
 
     @publishers = WillPaginate::Collection.create(current_page, per_page, publishers.length) { |pager| pager.replace publishers }
+  end
+
+  private
+
+  def safe_params
+    params.require(:publisher).permit(:name, :crossref_id, :other_names, :prefixes)
   end
 end

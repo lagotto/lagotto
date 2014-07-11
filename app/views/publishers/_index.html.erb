@@ -32,19 +32,19 @@
                 <% if publisher.persisted? %>
                   <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe, publisher_path(publisher, :query => params[:query]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-delete" %>
                 <% else %>
-                  <%= link_to "<span class=\"glyphicon glyphicon-plus\"></span>".html_safe, publisher_path(publisher, :query => params[:query]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-delete" %>
+                  <%= link_to "<span class=\"glyphicon glyphicon-plus\"></span>".html_safe, publishers_path(publisher.to_query, :query => params[:query]), :method => :post, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-create" %>
                 <% end %>
               </div>
             <% end %>
 
             <% if publisher.other_names.present? %>
               <h5>Other Names</h5>
-              <%= publisher.other_names.join("</br>") %>
+              <%= publisher.other_names.join("</br>").html_safe %>
             <% end %>
 
             <% if publisher.prefixes.present? %>
               <h5>DOI Prefixes</h5>
-              <%= publisher.prefixes.join(" ") %>
+              <%= publisher.prefixes.join("</br>").html_safe %>
             <% end %>
 
             <% if publisher.crossref_id.present? %>
