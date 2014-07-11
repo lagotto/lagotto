@@ -15,7 +15,7 @@ class Alert < ActiveRecord::Base
   scope :from_sources, lambda { |duration| where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now - duration.days) }
 
   def self.per_page
-    20
+    15
   end
 
   def public_message

@@ -91,6 +91,10 @@ class User < ActiveRecord::Base
     where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.strip.downcase }]).first
   end
 
+  def self.per_page
+    15
+  end
+
   # Helper method to check for admin user
   def is_admin?
     role == "admin"

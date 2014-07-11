@@ -32,7 +32,7 @@ class Publisher < ActiveRecord::Base
   validates :crossref_id, :presence => true, :uniqueness => true
 
   def self.per_page
-    20
+    15
   end
 
   def to_param  # overridden, use crossref_id instead of id
