@@ -38,9 +38,7 @@ class PublishersController < ApplicationController
     offset = (page - 1) * per_page
     publishers = publisher.query(params[:query], offset)
 
-    @publishers = publishers.paginate(:page => page, :per_page => per_page)
-
-    # @publishers = WillPaginate::Collection.create(current_page, per_page, publishers.length) { |pager| pager.replace publishers }
+    @publishers = WillPaginate::Collection.create(page, per_page, 100) { |pager| pager.replace publishers }
   end
 
   private
