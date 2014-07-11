@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(:version => 20140708173329) do
     t.string   "name"
     t.integer  "crossref_id"
     t.text     "prefixes"
+    t.text     "other_names"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end

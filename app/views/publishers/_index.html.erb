@@ -37,6 +37,16 @@
               </div>
             <% end %>
 
+            <% if publisher.other_names.present? %>
+              <h5>Other Names</h5>
+              <%= publisher.other_names.join("\n") %>
+            <% end %>
+
+            <% if publisher.prefixes.present? %>
+              <h5>DOI Prefixes</h5>
+              <%= publisher.prefixes.join(" ") %>
+            <% end %>
+
             <% if publisher.crossref_id.present? %>
               <h5>CrossRef ID</h5>
               <%= link_to publisher.crossref_id, "http://api.crossref.org/members/#{publisher.crossref_id}" %>

@@ -1,7 +1,7 @@
 # $HeadURL$
 # $Id$
 #
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
+# Copyright (c) 2009-2014 by Public Library of Science, a non-profit corporation
 # http://www.plos.org/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,8 +25,15 @@ class Publisher < ActiveRecord::Base
   has_many :publisher_options, :dependent => :destroy
   has_many :sources, :through => :publisher_options
 
+  serialize :prefixes
+  serialize :other_names
+
   validates :name, :presence => true
   validates :crossref_id, :presence => true, :uniqueness => true
+
+  def self.per_page
+    20
+  end
 
   def to_param  # overridden, use crossref_id instead of id
     crossref_id
@@ -60,11 +67,8 @@ class Publisher < ActiveRecord::Base
         publisher.name = item["primary-name"]
         publisher.crossref_id = item["id"]
         publisher.prefixes = item["prefixes"]
+        publisher.other_names = item["names"]
       end
     end
-  end
-
-  def self.per_page
-    20
   end
 end

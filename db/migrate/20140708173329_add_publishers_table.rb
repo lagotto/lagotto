@@ -4,6 +4,7 @@ class AddPublishersTable < ActiveRecord::Migration
       t.string :name
       t.integer :crossref_id
       t.text :prefixes
+      t.text :other_names
       t.timestamps
     end
 
