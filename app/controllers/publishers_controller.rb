@@ -24,8 +24,8 @@ class PublishersController < ApplicationController
   end
 
   def load_index
-    collection = Publisher
-    collection = collection.query(params[:query]) if params[:query]
+    publisher = Publisher.new
+    collection = publisher.query(params[:query])
 
     @publishers = collection.paginate(:page => params[:page])
   end
