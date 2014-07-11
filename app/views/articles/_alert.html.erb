@@ -13,30 +13,30 @@
                   <span class="glyphicon glyphicon-trash"></span> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><%= link_to "by Message", admin_alert_path(alert, :article_id => @article.uid),
-                                                                        :method => :delete,
-                                                                        :data => { :confirm => 'Are you sure?' },
-                                                                        :remote => true,
-                                                                        :id => "#{alert.id}-delete-message" %></li>
-                  <li><%= link_to "by Class", admin_alert_path(alert,   :article_id => @article.uid,
-                                                                        :filter => "class_name"),
-                                                                        :method => :delete,
-                                                                        :data => { :confirm => 'Are you sure?' },
-                                                                        :remote => true,
-                                                                        :id => "#{alert.id}-delete-class" %></li>
-                  <li><%= link_to "by Article", admin_alert_path(alert, :article_id => @article.uid,
-                                                                        :filter => "article_id"),
-                                                                        :method => :delete,
-                                                                        :data => { :confirm => 'Are you sure?' },
-                                                                        :remote => true,
-                                                                        :id => "#{alert.id}-delete-article" %></li>
+                  <li><%= link_to "by Message", alert_path(alert, :article_id => @article.uid),
+                                                                  :method => :delete,
+                                                                  :data => { :confirm => 'Are you sure?' },
+                                                                  :remote => true,
+                                                                  :id => "#{alert.id}-delete-message" %></li>
+                  <li><%= link_to "by Class", alert_path(alert,   :article_id => @article.uid,
+                                                                  :filter => "class_name"),
+                                                                  :method => :delete,
+                                                                  :data => { :confirm => 'Are you sure?' },
+                                                                  :remote => true,
+                                                                  :id => "#{alert.id}-delete-class" %></li>
+                  <li><%= link_to "by Article", alert_path(alert, :article_id => @article.uid,
+                                                                  :filter => "article_id"),
+                                                                  :method => :delete,
+                                                                  :data => { :confirm => 'Are you sure?' },
+                                                                  :remote => true,
+                                                                  :id => "#{alert.id}-delete-article" %></li>
                 </ul>
               </div>
             <% end %>
             <p class="class_name"><%= h(alert.class_name) %></p>
             <% unless alert.source_id.blank? %>
               <h5>Source</h5>
-              <%= link_to alert.source.display_name, admin_alerts_path(source_id: alert.source_id) %>
+              <%= link_to alert.source.display_name, alerts_path(source_id: alert.source_id) %>
             <% end %>
 
             <h5>Time</h5>

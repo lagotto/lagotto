@@ -32,7 +32,7 @@
       <tr>
         <th>Responses in the last 24 Hours</th>
         <td class="number" id="response_count">&nbsp;</td>
-        <td class="number" id="error_count"><%= link_to_if(@source.alerts.total_errors(1).size > 0, number_hiding_zero(@source.alerts.total_errors(1).size), admin_alerts_path(:source => @source.name)) %></td>
+        <td class="number" id="error_count"><%= link_to_if(@source.alerts.total_errors(1).size > 0, number_hiding_zero(@source.alerts.total_errors(1).size), alerts_path(:source => @source.name)) %></td>
       </tr>
       <tr>
         <th/>

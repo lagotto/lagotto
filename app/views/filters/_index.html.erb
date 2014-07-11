@@ -1,5 +1,5 @@
 <% if can?(:manage, Alert) and (controller.action_name == "edit" or (controller.action_name == "update" and !@filter.errors.empty?)) %>
-  <%= simple_form_for([:admin, @filter.becomes(Filter)], :url => admin_filter_path(@filter), :html => { :remote => true }) do |f| %>
+  <%= simple_form_for([:admin, @filter.becomes(Filter)], :url => filter_path(@filter), :html => { :remote => true }) do |f| %>
   <% f.object = @filter.becomes(@filter.class) %>
     <fieldset>
       <legend>Edit Filter <small><%= @filter.name %></small></legend>
@@ -27,7 +27,7 @@
 
       <div class="form-group">
         <%= f.submit "Save ", class: "btn btn-default" %>
-        <%= link_to 'Cancel', admin_filters_path, { remote: true, class: 'btn' } %>
+        <%= link_to 'Cancel', filters_path, { remote: true, class: 'btn' } %>
       </div>
     </fieldset>
   <% end %>
@@ -55,9 +55,9 @@
             <% if can? :manage, Alert %>
               <td>
                 <% if filter.active %>
-                  <%= link_to 'Active'.html_safe, admin_filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
+                  <%= link_to 'Active'.html_safe, filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
                 <% else %>
-                  <%= link_to 'Inactive'.html_safe, admin_filter_path(filter, active: 1), :method => :put, :remote => true, :class => 'btn btn-default btn-info btn-sm', :id => "#{filter.name}-status" %>
+                  <%= link_to 'Inactive'.html_safe, filter_path(filter, active: 1), :method => :put, :remote => true, :class => 'btn btn-default btn-info btn-sm', :id => "#{filter.name}-status" %>
                 <% end %>
               </td>
             <% else %>
@@ -68,7 +68,7 @@
                 <% if filter.get_config_fields.empty? %>
                   &nbsp;
                 <% else %>
-                  <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_admin_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
+                  <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
                 <% end %>
               </td>
             <% end %>

@@ -15,11 +15,11 @@
           <% if report.users.exists?(@user) %>
             <td><%= description_with_link(report).html_safe %></td>
             <td><%= distance_of_time_in_words(Time.now, Time.now + report.interval, true, { :highest_measure_only => true }) %></td>
-            <td><%= link_to 'Unsubscribe'.html_safe, admin_user_path(@user, :user => { :unsubscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{report.name}-status" %></td>
+            <td><%= link_to 'Unsubscribe'.html_safe, user_path(@user, :user => { :unsubscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{report.name}-status" %></td>
           <% else %>
             <td><%= h(report.description) %></td>
             <td><%= distance_of_time_in_words(Time.now, Time.now + report.interval, true, { :highest_measure_only => true }) %></td>
-            <td><%= link_to 'Subscribe'.html_safe, admin_user_path(@user, :user => { :subscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{report.name}-status" %></td>
+            <td><%= link_to 'Subscribe'.html_safe, user_path(@user, :user => { :subscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{report.name}-status" %></td>
           <% end %>
         </tr>
       <% end %>

@@ -5,14 +5,14 @@ end
 
 ### WHEN ###
 When /^I change the limit of filter "(.*?)" to (\d+)$/ do |name, number|
-  visit admin_filters_path
+  visit filters_path
   click_on "#{name}-edit"
   fill_in 'Limit', :with => number
   click_on 'Save'
 end
 
 When(/^I change the sources of filter "(.*?)" to "(.*?)"$/) do |name, source|
-  visit admin_filters_path
+  visit filters_path
   click_on "#{name}-edit"
   sleep 5
   page.driver.render("tmp/capybara/#{source}.png") if @wip

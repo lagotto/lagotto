@@ -8,4 +8,4 @@
 <p>No stale source found.</p>
 <% end -%>
 
-<p><%= link_to "Go to admin dashboard", admin_alerts_url(:host => CONFIG[:hostname], :class => "SourceNotUpdatedError") %></p>
+<p><%= link_to "Go to admin dashboard", alerts_url(:host => CONFIG[:hostname], :class => "SourceNotUpdatedError") %></p>

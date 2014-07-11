@@ -32,7 +32,7 @@ end
 
 ### WHEN ###
 When /^I go to the "(.*?)" menu$/ do |menu|
-  visit admin_root_path
+  visit root_path
   click_link menu
 end
 
