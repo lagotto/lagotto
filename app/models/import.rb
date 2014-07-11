@@ -27,6 +27,8 @@ class Import
   def initialize(options = {})
     from_update_date = options.fetch(:from_update_date, nil)
     until_update_date = options.fetch(:until_update_date, nil)
+    from_pub_date = options.fetch(:from_pub_date, nil)
+    until_pub_date = options.fetch(:until_pub_date, nil)
     type = options.fetch(:type, nil)
     member = options.fetch(:member, nil)
     issn = options.fetch(:issn, nil)
@@ -34,9 +36,12 @@ class Import
 
     from_update_date = Date.yesterday.to_s(:db) if from_update_date.blank?
     until_update_date= Date.yesterday.to_s(:db) if until_update_date.blank?
+    until_pub_date= Date.today.to_s(:db) if until_pub_date.blank?
 
     @filter = "from-update-date:#{from_update_date}"
     @filter += ",until-update-date:#{until_update_date}"
+    @filter += ",until-pub-date:#{until_pub_date}"
+    @filter += ",from-pub-date:#{from_pub_date}" if from_pub_date
     @filter += ",type:#{type}" if type
     @filter += ",member:#{member}" if member
     @filter += ",issn:#{issn}" if issn
