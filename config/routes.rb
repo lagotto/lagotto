@@ -12,16 +12,11 @@ Alm::Application.routes.draw do
   resources :publishers
   resources :status, only: [:index]
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
+  resources :alerts
+  resources :api_requests
+  resources :filters
 
   match "oembed" => "oembed#show"
-
-  namespace :admin do
-    resources :errors
-    resources :alerts
-    resources :api_requests
-    resources :users
-    resources :filters
-  end
 
   namespace :api do
     namespace :v3 do

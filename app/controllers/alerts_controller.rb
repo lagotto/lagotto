@@ -1,7 +1,26 @@
 class AlertsController < ActionController::Base
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:create]
+
   layout 'application'
 
   respond_to :html, :xml, :json, :rss
+
+  def index
+    collection = Alert
+    if params[:source]
+      collection = collection.includes(:source).where("sources.name = ?", params[:source])
+      @source = Source.find_by_name(params[:source])
+    end
+    if params[:class_name]
+      collection = collection.where(:class_name => params[:class_name])
+      @class_name = params[:class_name]
+    end
+    collection = collection.query(params[:q]) if params[:q]
+
+    @alerts = collection.paginate(:page => params[:page])
+    respond_with @alerts
+  end
 
   def create
     exception = env["action_dispatch.exception"]
@@ -21,4 +40,41 @@ class AlertsController < ActionController::Base
       format.rss { render :show, status: @alert.status, layout: false }
     end
   end
+
+  def destroy
+    @alert = Alert.find(params[:id])
+    if params[:filter] == "class_name"
+      Alert.where(:class_name => @alert.class_name).update_all(:unresolved => false)
+    elsif params[:filter] == "source_id"
+      Alert.where(:source_id => @alert.source_id).update_all(:unresolved => false)
+    elsif params[:filter] == "article_id"
+      Alert.where(:article_id => @alert.article_id).update_all(:unresolved => false)
+    else
+      Alert.where(:message => @alert.message).update_all(:unresolved => false)
+    end
+
+    collection = Alert
+    if params[:source]
+      collection = collection.includes(:source).where("sources.name = ?", params[:source])
+      @source = Source.find_by_name(params[:source])
+    end
+    if params[:class_name]
+      collection = collection.where(:class_name => params[:class_name])
+      @class_name = params[:class_name]
+    end
+    collection = collection.query(params[:q]) if params[:q]
+
+    @alerts = collection.paginate(:page => params[:page])
+    respond_with(@alerts) do |format|
+      if params[:article_id]
+        id_hash = Article.from_uri(params[:article_id])
+        key, value = id_hash.first
+        @article = Article.where(key => value).first
+        format.js { render :alert }
+      else
+        format.js { render :index }
+      end
+    end
+  end
 end
+
