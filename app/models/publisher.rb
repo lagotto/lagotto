@@ -28,7 +28,9 @@ class Publisher < ActiveRecord::Base
   validates :name, :presence => true
   validates :crossref_id, :presence => true, :uniqueness => true
 
-  # scope :query, lambda { |query| where("name like ? OR crossref_id = ?", "%#{query}%", query) }
+  def to_param  # overridden, use crossref_id instead of id
+    crossref_id
+  end
 
   def query(string)
     result = get_data(string)

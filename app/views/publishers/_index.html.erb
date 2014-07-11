@@ -23,13 +23,17 @@
     <% @publishers.each do |publisher| %>
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title"><%= link_to h(publisher.name), "#publisher_#{publisher.id}", :class => "accordion-toggle", :id => "link_#{publisher.id}", :data => { :toggle => "collapse", :parent => "#publisher" }, :href => "#publisher_#{publisher.id}" %></h4>
+          <h4 class="panel-title"><%= link_to h(publisher.name), "#publisher_#{publisher.crossref_id}", :class => "accordion-toggle", :id => "link_#{publisher.crossref_id}", :data => { :toggle => "collapse", :parent => "#publisher" }, :href => "#publisher_#{publisher.crossref_id}" %></h4>
         </div>
-        <div id="publisher_<%= publisher.id %>" class="panel-collapse collapse">
+        <div id="publisher_<%= publisher.crossref_id %>" class="panel-collapse collapse">
           <div class="panel-body">
             <% if can?(:manage, publisher) %>
               <div class="btn-group btn-sm pull-right">
-                <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe, publisher_path(publisher, :query => params[:query], :role => params[:role]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.id}-delete" %>
+                <% if publisher.crossref_id.present? %>
+                  <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe, publisher_path(publisher, :query => params[:query]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-delete" %>
+                <% else %>
+                  <%= link_to "<span class=\"glyphicon glyphicon-plus\"></span>".html_safe, publisher_path(publisher, :query => params[:query]), :method => :delete, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-delete" %>
+                <% end %>
               </div>
             <% end %>
 
