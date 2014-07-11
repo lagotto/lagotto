@@ -24,6 +24,8 @@ namespace :db do
     task :import => :environment do |t, args|
       options = { from_update_date: ENV['FROM_UPDATE_DATE'],
                   until_update_date: ENV['UNTIL_UPDATE_DATE'],
+                  from_pub_date: ENV['FROM_PUB_DATE'],
+                  until_pub_date: ENV['UNTIL_PUB_DATE'],
                   type: ENV['TYPE'],
                   member: ENV['MEMBER'],
                   issn: ENV['ISSN'],
