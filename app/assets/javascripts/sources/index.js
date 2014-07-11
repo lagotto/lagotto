@@ -38,7 +38,7 @@ function jobsViz(data) {
     d3.select("#response_count_" + item["name"]).html(numberWithDelimiter(item["responses"]["count"]));
     d3.select("#average_count_" + item["name"]).html(numberWithDelimiter(item["responses"]["average"]));
     if(item["error_count"] > 0) {
-      d3.select("#error_count_" + item["name"]).html("<a href='/admin/alerts?source=" + item["name"] + "'>" + formatFixed(item["error_count"]) + "</a>");
+      d3.select("#error_count_" + item["name"]).html("<a href='/alerts?source=" + item["name"] + "'>" + formatFixed(item["error_count"]) + "</a>");
     }
   };
 }

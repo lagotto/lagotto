@@ -103,7 +103,7 @@ When /^I go to the "(.*?)" admin page$/ do |page_title|
   else
     title = page_title.downcase
   end
-  visit "/admin/#{title}"
+  visit "/#{title}"
   page.driver.render("tmp/capybara/#{title}.png") if @wip
 end
 

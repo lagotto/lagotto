@@ -155,7 +155,7 @@ function crossfilterViz(data) {
       requestEnter.append("div")
         .attr("class", "source")
         .append("a")
-        .attr("href", function(d) { return "/admin/users?query=" + d.api_key; })
+        .attr("href", function(d) { return "/users?query=" + d.api_key; })
         .text(function(d) { return d.api_key.substr(0,20); });
 
       requestEnter.append("div")
