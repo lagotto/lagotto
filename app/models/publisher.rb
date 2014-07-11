@@ -62,7 +62,7 @@ class Publisher < ActiveRecord::Base
     return result if result["status"] != "ok"
 
     items = result['message'] && result.deep_fetch('message', 'items') { nil }
-    Array(items).map do |item|
+    publishers = Array(items).map do |item|
       Publisher.new do |publisher|
         publisher.name = item["primary-name"]
         publisher.crossref_id = item["id"]
@@ -70,5 +70,9 @@ class Publisher < ActiveRecord::Base
         publisher.other_names = item["names"]
       end
     end
+
+    # return the number of total hits, plus an array of unsaved ActiveRecord objects
+    { total_entries: result.deep_fetch('message', 'total-results') { 0 },
+      publishers: publishers }
   end
 end
