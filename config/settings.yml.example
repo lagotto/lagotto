@@ -17,6 +17,7 @@
 # limitations under the License.
 
 defaults: &defaults
+  sitename: ALM
   useragent: Article-Level Metrics
   api_key: 8897f9349100728d66d64d56bc21254bb346a9ed21954933 #'run `rake secret` to generate a key to insert here'
   notification_email: alm@alm.example.org
