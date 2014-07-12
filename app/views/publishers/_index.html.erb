@@ -28,13 +28,7 @@
         <div id="publisher_<%= publisher.crossref_id %>" class="panel-collapse collapse">
           <div class="panel-body">
             <% if can?(:manage, publisher) %>
-              <div class="btn-group btn-sm pull-right">
-                <% if publisher.persisted? %>
-                  <%= link_to 'Delete', publisher_path(publisher, event: "delete", query: params[:query]), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{publisher.crossref_id}-remove", :title => "Remove Publisher" %>
-                <% else %>
-                  <%= link_to 'Import', publisher_path(publisher, event: "import", query: params[:query]), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{publisher.crossref_id}-import", :title => "Import Publisher" %>
-                <% end %>
-              </div>
+
             <% end %>
 
             <% if publisher.other_names.present? && publisher.other_names.length > 1 %>

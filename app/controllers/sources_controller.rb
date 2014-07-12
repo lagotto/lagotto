@@ -52,7 +52,7 @@ class SourcesController < ApplicationController
     respond_with @groups
   end
 
-   def edit
+  def edit
     respond_with(@source) do |format|
       format.js { render :show }
     end
