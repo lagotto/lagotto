@@ -42,13 +42,13 @@ Feature: View documentation
       And I click on the "Documentation" tab
       Then I should see the documentation
 
-    Scenario: Documentation on source admin page
+    Scenario: Documentation on source page
       Given I am logged in as "admin"
       And the source "Citeulike" exists
       When I go to the "Documentation" tab of source "Citeulike"
       Then I should see the documentation
 
-    Scenario Outline: Documentation on source admin page
+    Scenario Outline: Documentation on source page
       Given I am logged in as "admin"
       And the source "<Name>" exists
       When I go to the "Documentation" tab of source "<Name>"
@@ -83,7 +83,7 @@ Feature: View documentation
         | RelativeMetric                |
         | F1000                         |
 
-    Scenario: Documentation on sources admin page
+    Scenario: Documentation on sources page
       Given I am logged in as "admin"
-      When I go to the "Documentation" tab of the Sources admin page
+      When I go to the "Documentation" tab of the Sources page
       Then I should see the documentation

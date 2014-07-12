@@ -20,8 +20,8 @@ Feature: Edit sources
 
     Scenario: Source overview should display source name
       When I go to the "Sources" page
-      Then I should see the subtitle "CiteULike"
+      Then I should see the row "CiteULike"
 
     Scenario: Source should display source name
-      When I go to the admin page of source "Citeulike"
+      When I go to the page of source "Citeulike"
       Then I should see the title "CiteULike"

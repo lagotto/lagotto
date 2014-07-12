@@ -11,7 +11,7 @@ Feature: See jobs
 
     @not_teamcity
     Scenario: Jobs in dashboard
-      When I go to the "Sources" admin page
+      When I go to the "Jobs" tab of the Sources page
       Then the table "JobsTable" should be:
         | Source    | Status   | Pending | Working | Stale Articles |
         | CiteULike | waiting  |         |         | 5              |

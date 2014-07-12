@@ -10,9 +10,9 @@ Feature: Responsive design of sources
     And that we have 10 articles
 
   Scenario: I should see the responses tab
-    When I go to the "Responses" tab of the Sources admin page
+    When I go to the "Responses" tab of the Sources page
     Then I should see the "Errors (24 hours)" column
 
   Scenario: I should see the source summary tab
-    When I go to the admin page of source "Citeulike"
+    When I go to the page of source "Citeulike"
     Then I should see the "Summary" tab

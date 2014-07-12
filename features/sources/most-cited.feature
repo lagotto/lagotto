@@ -13,6 +13,6 @@ Feature: Display most-cited articles
       When I go to the source "Citeulike"
       Then I should see a list of 10 articles
 
-    Scenario: I should see the most-cited articles in the admin dashboard
+    Scenario: I should see the most-cited articles in the dashboard
       When I go to the "Most-Cited" tab of source "Citeulike"
       Then I should see a list of 10 articles

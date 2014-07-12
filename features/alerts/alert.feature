@@ -9,12 +9,12 @@ Feature: Show alerts
 
     Scenario: Seeing a list of alerts
       Given we have 1 alert
-      When I go to the "Alerts" admin page
+      When I go to the "Alerts" page
       Then I should see 1 alert
 
     Scenario Outline: Seeing alert information
       Given we have 1 alert
-      When I go to the "Alerts" admin page
+      When I go to the "Alerts" page
       Then I should see the "<Message>" error
       And I should not see the "<ClassName>" class name
 
@@ -24,7 +24,7 @@ Feature: Show alerts
 
     Scenario Outline: Seeing alert details
       Given we have 1 alert
-      When I go to the "Alerts" admin page
+      When I go to the "Alerts" page
       And I click on the "[408] The request timed out." link
       Then I should see the "<Message>" error
       And I should see the "<ClassName>" class name
@@ -45,13 +45,13 @@ Feature: Show alerts
 
     Scenario: Seeing multiple alerts
       Given we have 25 alerts
-      When I go to the "Alerts" admin page
+      When I go to the "Alerts" page
       And I go to page 2
       Then I should see 5 alerts
 
     Scenario: Deleting alert
       Given we have 25 alerts
-      When I go to the "Alerts" admin page
+      When I go to the "Alerts" page
       And I go to page 2
       And I click on the "by Message" menu item of the Delete button of the first alert and confirm
       Then I should see 0 alerts

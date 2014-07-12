@@ -12,17 +12,17 @@ Feature: Work done in background
     And that we have 20 queued articles for "Citeulike"
 
     Scenario: Don't see stale articles
-      When I go to the "Sources" admin page
+      When I go to the "Jobs" tab of the Sources page
       And I wait until all jobs for "Citeulike" have been processed
       Then I should not see stale articles for "Citeulike"
 
     Scenario: Don't see queued articles
-      When I go to the "Sources" admin page
+      When I go to the "Jobs" tab of the Sources page
       And I wait until all jobs for "Citeulike" have been processed
       Then I should not see queued articles for "Citeulike"
 
     Scenario: Don't see jobs
-      When I go to the "Sources" admin page
+      When I go to the "Jobs" tab of the Sources page
       And I wait until all jobs for "Citeulike" have been processed
       Then I should not see working jobs for "Citeulike"
       And I should not see pending jobs for "Citeulike"
@@ -30,6 +30,6 @@ Feature: Work done in background
     Scenario: Don't see jobs with not enough workers
       Given "job_batch_size" of source "Citeulike" is 10
       And "workers" of source "Citeulike" is 1
-      When I go to the "Sources" admin page
+      When I go to the "Jobs" tab of the Sources page
       Then I should not see working jobs for "Citeulike"
       And I should not see pending jobs for "Citeulike"

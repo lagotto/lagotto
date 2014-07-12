@@ -12,6 +12,7 @@ class Ability
       can :read, :all
       can :destroy, Alert
       can :create, Article
+      can :update, Source
       can :manage, User, :id => user.id
     elsif user.role == "publisher"
       can :update, Source
