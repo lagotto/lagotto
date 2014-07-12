@@ -18,6 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'timeout'
+
 namespace :db do
   namespace :articles do
     desc "Bulk-load articles from Crossref API"
@@ -38,59 +40,15 @@ namespace :db do
 
     desc "Bulk-load articles from standard input"
     task :load => :environment do
-      puts "Reading #{CONFIG[:uid]}s from standard input..."
-      valid = []
-      invalid = []
-      duplicate = []
-      created = []
-      updated = []
-
-      while (line = STDIN.gets)
-        line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
-        raw_uid, raw_published_on, raw_title = line.strip.split(" ", 3)
-
-        uid = Article.from_uri(raw_uid.strip).values.first
-        if raw_published_on
-          date_parts = raw_published_on.split("-")
-          year, month, day = date_parts[0], date_parts[1], date_parts[2]
-        end
-        title = raw_title.strip.chomp('.') if raw_title
-        if Article.validate_format(uid) && year && title
-          valid << [uid, year, month, day, title]
-        else
-          puts "Ignoring #{CONFIG[:uid]}: #{raw_uid}, #{raw_published_on}, #{raw_title}"
-          invalid << [raw_uid, raw_published_on, raw_title]
-        end
+      begin
+        input = Timeout::timeout(15) { STDIN.readlines }
+      rescue Timeout::Error
+        puts "No input provided."
+        exit
       end
-
-      puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
-
-      if valid.size > 0
-        valid.each do |uid, year, month, day, title|
-          existing = Article.where(CONFIG[:uid].to_sym => uid).first
-          unless existing
-            article = Article.create(CONFIG[:uid].to_sym => uid,
-                                     :year => year,
-                                     :month => month,
-                                     :day => day,
-                                     :title => title)
-            created << uid
-          else
-            if [existing.year, existing.month, existing.day].join("-") != [year, month, day].join("-") || existing.title != title
-              existing.year = year
-              existing.month = month
-              existing.day = day
-              existing.title = title
-              existing.save!
-              updated << uid
-            else
-              duplicate << uid
-            end
-          end
-        end
-      end
-
-      puts "Saved #{created.size} new articles, updated #{updated.size} articles, ignored #{duplicate.size} existing articles"
+      import = Import.new(file: input)
+      import.queue_article_import
+      puts "Started import of #{input.length} articles in the background..."
     end
 
     desc "Seed sample articles"

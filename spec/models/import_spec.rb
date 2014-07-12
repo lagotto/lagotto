@@ -91,6 +91,54 @@ describe Import do
       stub.should have_been_requested
     end
 
+    it "should get_data file" do
+      input = File.readlines(fixture_path + 'articles.txt')
+      import = Import.new(file: input)
+      response = import.get_data
+      response["message"]["items"].length.should == 2
+
+      item = response["message"]["items"].first
+      item["doi"].should eq("10.1371/journal.pone.0040259")
+      item["issued"]["date-parts"].should eq([[2012, 7, 11]])
+      item["title"].should eq(["The Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
+    end
+
+    it "should get_data file missing day" do
+      input = File.readlines(fixture_path + 'articles_year_month.txt')
+      import = Import.new(file: input)
+      response = import.get_data
+      response["message"]["items"].length.should == 2
+
+      item = response["message"]["items"].first
+      item["doi"].should eq("10.1371/journal.pone.0040259")
+      item["issued"]["date-parts"].should eq([[2012, 8]])
+      item["title"].should eq(["The Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
+    end
+
+    it "should get_data file missing month and day" do
+      input = File.readlines(fixture_path + 'articles_year.txt')
+      import = Import.new(file: input)
+      response = import.get_data
+      response["message"]["items"].length.should == 2
+
+      item = response["message"]["items"].first
+      item["doi"].should eq("10.1371/journal.pone.0040259")
+      item["issued"]["date-parts"].should eq([[2011]])
+      item["title"].should eq(["The Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
+    end
+
+    it "should get_data file missing dates" do
+      input = File.readlines(fixture_path + 'articles_nil_dates.txt')
+      import = Import.new(file: input)
+      response = import.get_data
+      response["message"]["items"].length.should == 1
+
+      item = response["message"]["items"].first
+      item["doi"].should eq("10.1371/journal.pone.0040259")
+      item["issued"]["date-parts"].should eq([[]])
+      item["title"].should eq(["Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
+    end
+
     it "should get_data access denied error" do
       import = Import.new
       body = File.read(fixture_path + 'access_denied.txt')

@@ -36,27 +36,34 @@ class Import
     issn = options.fetch(:issn, nil)
     sample = options.fetch(:sample, 0)
 
-    from_update_date = Date.yesterday.to_s(:db) if from_update_date.blank?
-    until_update_date= Date.yesterday.to_s(:db) if until_update_date.blank?
-    until_pub_date= Date.today.to_s(:db) if until_pub_date.blank?
-
-    @filter = "from-update-date:#{from_update_date}"
-    @filter += ",until-update-date:#{until_update_date}"
-    @filter += ",until-pub-date:#{until_pub_date}"
-    @filter += ",from-pub-date:#{from_pub_date}" if from_pub_date
-    @filter += ",type:#{type}" if type
-    @filter += ",member:#{member}" if member
-    @filter += ",issn:#{issn}" if issn
-
+    @file = options.fetch(:file, nil)
     @sample = sample.to_i
+
+    unless @file
+      from_update_date = Date.yesterday.to_s(:db) if from_update_date.blank?
+      until_update_date= Date.yesterday.to_s(:db) if until_update_date.blank?
+      until_pub_date= Date.today.to_s(:db) if until_pub_date.blank?
+
+      @filter = "from-update-date:#{from_update_date}"
+      @filter += ",until-update-date:#{until_update_date}"
+      @filter += ",until-pub-date:#{until_pub_date}"
+      @filter += ",from-pub-date:#{from_pub_date}" if from_pub_date
+      @filter += ",type:#{type}" if type
+      @filter += ",member:#{member}" if member
+      @filter += ",issn:#{issn}" if issn
+    end
   end
 
   def total_results(options={})
-    result = get_result(query_url(offset = 0, rows = 0), options)
+    if @file
+      @file.length
+    else
+      result = get_result(query_url(offset = 0, rows = 0), options)
 
-    # extend hash fetch method to nested hashes
-    result.extend Hashie::Extensions::DeepFetch
-    result.deep_fetch('message', 'total-results') { 0 }
+      # extend hash fetch method to nested hashes
+      result.extend Hashie::Extensions::DeepFetch
+      result.deep_fetch('message', 'total-results') { 0 }
+    end
   end
 
   def queue_article_import
@@ -88,10 +95,41 @@ class Import
   end
 
   def get_data(offset = 0, options={})
-    result = get_result(query_url(offset), options)
+    if @file
+      result = get_text(offset)
+    else
+      result = get_result(query_url(offset), options)
+    end
 
     # extend hash fetch method to nested hashes
     result.extend Hashie::Extensions::DeepFetch
+  end
+
+  def get_text(offset = 0, rows = 1000)
+    text = @file.slice(offset...(offset + rows))
+    items = text.map do |line|
+      line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
+      raw_uid, raw_published_on, raw_title = line.strip.split(" ", 3)
+
+      uid = Article.from_uri(raw_uid.strip).values.first
+      if raw_published_on
+        # date_parts is an array of non-null integers in the form [year, month, day]
+        # everything else should be nil and thrown away with compact
+        date_parts = raw_published_on.split("-")
+        date_parts = date_parts.map { |x| x.to_i > 0 ? x.to_i : nil }.compact
+      else
+        date_parts = []
+      end
+      title = raw_title ? raw_title.strip.chomp('.') : ""
+
+      { Article.uid => uid,
+        "issued" => { "date-parts" => [date_parts] },
+        "title" => [title],
+        "type" => "standard" }
+    end
+
+    { "status" => "ok",
+      "message" => { "items" => items } }
   end
 
   def parse_data(result)
@@ -100,6 +138,7 @@ class Import
 
     items = result['message'] && result.deep_fetch('message', 'items') { nil }
     Array(items).map do |item|
+      uid = item["DOI"] || item[Article.uid]
       date_parts = item["issued"]["date-parts"][0]
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
@@ -109,7 +148,7 @@ class Import
         title = item["title"][0].presence || item["container-title"][0].presence || "No title"
       end
 
-      { doi: item["DOI"],
+      { Article.uid_as_sym => uid,
         title: title,
         year: year,
         month: month,
