@@ -39,15 +39,15 @@ Feature: Show alerts
       Then I should see the "<Alert>" error message
 
       Examples:
-        | Path        | Alert                |
-        | /articles/x | No record for "x" found     |
-        | /x          | No route matches [GET] "/x" |
+        | Path        | Alert                        |
+        | /articles/x | ActiveRecord::RecordNotFound |
+        | /x          | No route matches [GET] "/x"  |
 
     Scenario: Seeing multiple alerts
       Given we have 25 alerts
       When I go to the "Alerts" page
       And I go to page 2
-      Then I should see 5 alerts
+      Then I should see 10 alerts
 
     Scenario: Deleting alert
       Given we have 25 alerts
