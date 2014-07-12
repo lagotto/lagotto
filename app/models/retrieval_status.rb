@@ -121,15 +121,8 @@ class RetrievalStatus < ActiveRecord::Base
       return cron_parser.next(Time.zone.now)
     end
 
-    if article.published_on.present?
-      age_in_days = Date.today - article.published_on
-    else
-      age_in_days = 366
-    end
-
-    if age_in_days < 0
-      article.published_on
-    elsif (0..7).include?(age_in_days)
+    age_in_days = Date.today - article.published_on
+    if (0..7).include?(age_in_days)
       random_time(source.staleness[0])
     elsif (8..31).include?(age_in_days)
       random_time(source.staleness[1])
@@ -142,14 +135,6 @@ class RetrievalStatus < ActiveRecord::Base
 
   def random_time(duration)
     Time.zone.now + duration + rand(duration/10)
-  end
-
-  def since_id
-    other.since_id || 0
-  end
-
-  def since_id=(value)
-    other.since_id = value
   end
 
   private
