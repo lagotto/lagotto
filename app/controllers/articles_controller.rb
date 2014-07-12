@@ -29,10 +29,6 @@ class ArticlesController < ApplicationController
     @q = params[:q]
     @class_name = params[:class_name]
     @order = params[:order]
-
-    respond_with do |format|
-      format.js { render "index" }
-    end
   end
 
   def show
