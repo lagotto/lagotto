@@ -37,6 +37,19 @@ describe "db:articles:import" do
   end
 end
 
+describe "db:articles:load" do
+  include_context "rake"
+
+  let(:output) { "Started import of 993 articles in the background...\n" }
+
+  its(:prerequisites) { should include("environment") }
+
+  it "should run the rake task" do
+    import = Import.new
+    capture_stdout { subject.invoke }.should eq(output)
+  end
+end
+
 describe "db:articles:delete_all" do
   include_context "rake"
 

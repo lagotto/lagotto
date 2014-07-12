@@ -13,7 +13,7 @@ describe "/api/v5/articles", :not_teamcity => true do
 
       it "can cache articles in JSON" do
         articles.any? do |article|
-          Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//json")
+          Rails.cache.exist?("rabl/v5/#{user.cache_key}/#{ArticleDecorator.decorate(article).cache_key}//json")
         end.should_not be_true
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -22,11 +22,11 @@ describe "/api/v5/articles", :not_teamcity => true do
         sleep 1
 
         articles.all? do |article|
-          Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//json")
+          Rails.cache.exist?("rabl/v5/#{user.cache_key}/#{ArticleDecorator.decorate(article).cache_key}//json")
         end.should be_true
 
         article = articles.first
-        response = JSON.parse(Rails.cache.read("rabl/#{ArticleDecorator.decorate(article).cache_key}//json"))
+        response = JSON.parse(Rails.cache.read("rabl/v5/#{user.cache_key}/#{ArticleDecorator.decorate(article).cache_key}//json"))
         response_source = response[:sources][0]
         response[:doi].should eql(article.doi)
         response[:issued][:date_parts].should eql([article.year, article.month, article.day])
@@ -48,7 +48,7 @@ describe "/api/v5/articles", :not_teamcity => true do
     context "article is updated" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&api_key=#{api_key}" }
-      let(:key) { "rabl/#{ArticleDecorator.decorate(article).cache_key}" }
+      let(:key) { "rabl/v5/#{user.cache_key}/#{ArticleDecorator.decorate(article).cache_key}//json" }
       let(:title) { "Foo" }
       let(:event_count) { 75 }
 
@@ -71,7 +71,7 @@ describe "/api/v5/articles", :not_teamcity => true do
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
-        cache_key = "rabl/#{ArticleDecorator.decorate(article).cache_key}"
+        cache_key = "rabl/v5/#{user.cache_key}/#{ArticleDecorator.decorate(article).cache_key}//json"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = JSON.parse(Rails.cache.read("#{cache_key}//json"))
@@ -100,7 +100,7 @@ describe "/api/v5/articles", :not_teamcity => true do
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
-        cache_key = "rabl/#{ArticleDecorator.decorate(article).cache_key}"
+        cache_key = "rabl/v5/#{user.cache_key}/#{ArticleDecorator.decorate(article).cache_key}//json"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = JSON.parse(Rails.cache.read("#{cache_key}//json"))
