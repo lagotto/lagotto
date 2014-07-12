@@ -71,7 +71,7 @@
     </dd>
   </dl>
 
-  <% if can? :read, Alert %>
+  <% if can?(:read, Alert) %>
     <div id="alert-error-message">
       <%= render :partial => 'alert_message' %>
     </div>
@@ -81,7 +81,7 @@
     <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
     <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
     <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
-    <% if can? :read, Alert %>
+    <% if can?(:read, Alert) %>
       <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
     <% end %>
   </ul>

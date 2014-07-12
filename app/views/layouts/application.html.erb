@@ -75,7 +75,7 @@
         <ul class="nav navbar-nav">
           <%= controller.controller_name == "articles" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", articles_path %></li>
           <%= controller.controller_name == "sources" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Sources", sources_path %></li>
-          <% if can? :read, Alert %>
+          <% if can?(:read, Alert) %>
             <%= controller.controller_name == "api_requests" ? '<li class="dropdown active">'.html_safe : '<li class="dropdown">'.html_safe %>
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Clients <span class="caret"></span></a>
               <ul class="dropdown-menu">

@@ -52,7 +52,7 @@
           <tr>
             <td><%= h(filter.name) %></td>
             <td><%= h(filter.description) %></td>
-            <% if can? :manage, Alert %>
+            <% if can?(:manage, Alert) %>
               <td>
                 <% if filter.active %>
                   <%= link_to 'Active'.html_safe, filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
@@ -63,7 +63,7 @@
             <% else %>
               <td><%= state_label(filter.status).html_safe %></td>
             <% end %>
-            <% if can? :manage, Alert %>
+            <% if can?(:manage, Alert) %>
               <td>
                 <% if filter.get_config_fields.empty? %>
                   &nbsp;

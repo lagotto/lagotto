@@ -31,7 +31,7 @@
           <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-default' } %>
         </div>
       <% end %>
-      <% if can? :read, Alert %>
+      <% if can?(:read, Alert) %>
         <div class="btn-group btn-group-sm" id="article-alerts">
           <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Articles" : h(@class_name) %> <span class="caret"></span></a>
           <ul class="dropdown-menu pull-right">

@@ -27,7 +27,7 @@
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
     <li><a href="#articles" data-toggle="tab" title="Articles">Articles</a></li>
     <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
-    <% if can? :read, Alert %>
+    <% if can?(:read, Alert) %>
       <li><a href="#jobs" data-toggle="tab" title="Jobs">Jobs</a></li>
       <li><a href="#responses" data-toggle="tab" title="Responses">Responses</a></li>
       <li><a href="#installation" data-toggle="tab" title="Installation">Installation</a></li>
@@ -45,7 +45,7 @@
     <div class="tab-pane" id="events">
       <%= render :partial => 'events' %>
     </div>
-    <% if can? :read, Alert %>
+    <% if can?(:read, Alert) %>
       <div class="tab-pane" id="jobs">
         <%= render :partial => 'jobs' %>
       </div>

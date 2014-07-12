@@ -30,7 +30,7 @@
   <ul class="nav nav-tabs">
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
     <li><a href="#most-cited" data-toggle="tab">Most-Cited</a></li>
-    <% if can? :update, Source && @source.state > 0 %>
+    <% if can?(:read, Source) && @source.state > 0 %>
       <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
     <% end %>
     <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
@@ -41,7 +41,7 @@
       <div id="source-show">
         <%= render :partial => 'show', :locals => { :name => @source.name } %>
       </div>
-      <% if can? :read, Alert && Article.count > 0 %>
+      <% if can?(:read, Alert) && Article.count > 0 %>
         <div class="row">
           <div class="col-md-4" id="chart_status"></div>
           <div class="col-md-4" id="chart_day"></div>
@@ -52,7 +52,7 @@
     <div class="tab-pane" id="most-cited">
       <%= render :partial => 'most-cited' %>
     </div>
-    <% if can? :update, Source && @source.state > 0 %>
+    <% if can?(:read, Source) && @source.state > 0 %>
       <div class="tab-pane" id="configuration">
         <%= render :partial => 'configuration' %>
       </div>
