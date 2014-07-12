@@ -24,11 +24,6 @@ class SourcesController < ApplicationController
   respond_to :html, :rss
 
   def show
-    @source = Source.find_by_name(params[:id])
-
-    # raise error if source wasn't found
-    fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
-
     @doc = Doc.find(@source.name)
 
     respond_with(@source) do |format|
@@ -81,6 +76,9 @@ class SourcesController < ApplicationController
 
   def load_source
     @source = Source.find_by_name(params[:id])
+
+    # raise error if article wasn't found
+    fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
   end
 
   private

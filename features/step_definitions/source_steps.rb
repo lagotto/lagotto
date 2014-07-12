@@ -54,14 +54,14 @@ When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, name|
   end
 end
 
-When /^I go to the "(.*?)" tab of the Sources admin page$/ do |tab_title|
+When /^I go to the "(.*?)" tab of the Sources page$/ do |tab_title|
   visit sources_path
   within ("ul.nav-tabs") do
     click_link tab_title
   end
 end
 
-When /^I go to the admin page of source "(.*?)"$/ do |name|
+When /^I go to the page of source "(.*?)"$/ do |name|
   visit source_path(name.underscore.downcase)
 end
 
@@ -84,20 +84,8 @@ When /^I submit the form$/ do
 end
 
 When /^I go to the "(.*?)" page$/ do |page_title|
-  if page_title == "Articles"
-    visit articles_path
-  elsif page_title == "Sources"
-    visit sources_path
-  elsif page_title == "Home"
-    visit root_path
-  end
-end
-
-When /^I go to the "(.*?)" admin page$/ do |page_title|
   if page_title == "Errors"
     title = "alerts"
-  elsif page_title == "Home"
-    title = ""
   elsif page_title == "API Requests"
     title = "api_requests"
   else
@@ -131,7 +119,7 @@ Then /^I should see the "(.*?)" menu item$/ do |menu_item|
 end
 
 Then /^I should see the "(.*?)" tab$/ do |tab_title|
-  page.driver.render("tmp/capybara/#{tab_title}.png") if @wip
+  page.driver.render("tmp/capybara/#{tab_title}.png") # if @wip
   page.has_css?('li', :text => tab_title, :visible => true).should be_true
 end
 
@@ -144,8 +132,8 @@ Then /^I should see the title "(.*?)"$/ do |title|
   page.has_css?('h1', :text => title, :visible => true).should be_true
 end
 
-Then /^I should see the subtitle "(.*?)"$/ do |title|
-  page.has_css?('h4', :text => title, :visible => true).should be_true
+Then /^I should see the row "(.*?)"$/ do |title|
+  page.has_css?('a', :text => title, :visible => true).should be_true
 end
 
 Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, display_name|
@@ -201,7 +189,7 @@ Then /^I should see the image "(.+)"$/ do |image|
 end
 
 Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|
-  page.driver.render("tmp/capybara/#{table_name}.png") if @wip
+  page.driver.render("tmp/capybara/#{table_name}.png")
   rows = find("table##{table_name}").all('tr')
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
   expected_table.diff!(table)

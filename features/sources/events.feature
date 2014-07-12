@@ -22,11 +22,11 @@ Feature: See events
     Scenario: Events in source view
       When I go to the "Summary" tab of source "Citeulike"
       Then the table "SummaryTable" should be:
+        |                                             | Articles with Events | All Events |
+        | Events                                      | 5                    | 250        |
         |                                             | Pending              | Working    |
         | Jobs                                        |                      |            |
         |                                             | Responses            | Errors     |
         | Responses in the last 24 Hours              |                      |            |
         |                                             | Average              | Maximum    |
         | Response duration in the last 24 Hours (ms) |                      |            |
-        |                                             | Articles with Events | All Events |
-        | Events                                      | 5                    | 250        |

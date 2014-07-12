@@ -1,7 +1,7 @@
 @javascript
 Feature: Sign in as staff
   In order to monitor ALM
-  Staff users should be able to see the admin dashboard
+  Staff users should be able to see the dashboard
 
   Background:
     Given I am logged in as "staff"
@@ -12,14 +12,14 @@ Feature: Sign in as staff
       And that we have 5 articles
       When I go to the "Summary" tab of source "Citeulike"
       Then the table "SummaryTable" should be:
+        |                                             | Articles with Events | All Events |
+        | Events                                      | 5                    | 250        |
         |                                             | Pending              | Working    |
         | Jobs                                        |                      |            |
         |                                             | Responses            | Errors     |
         | Responses in the last 24 Hours              |                      |            |
         |                                             | Average              | Maximum    |
         | Response duration in the last 24 Hours (ms) |                      |            |
-        |                                             | Articles with Events | All Events |
-        | Events                                      | 5                    | 250        |
 
     Scenario: Configuration should be displayed
       Given the source "Citeulike" exists
@@ -35,12 +35,12 @@ Feature: Sign in as staff
 
     Scenario: Staff cannot edited users
       Given we have user "joeboxer" with name "Joe Boxer"
-      When I go to the "Users" admin page
+      When I go to the "Users" page
       And I click on user "joeboxer"
       Then I should not see the "Edit" button
 
    # Scenario: Staff can delete alerts
    #   Given we have 1 alert
-   #   When I go to the "Alerts" admin page
+   #   When I go to the "Alerts" page
    #   And I click on the "[408] The request timed out." link
    #   Then I should see the "Delete" button

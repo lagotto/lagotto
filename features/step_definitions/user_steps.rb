@@ -23,7 +23,8 @@ end
 
 ### GIVEN ###
 Given /^we have a user with role "(.*?)"$/ do |role|
-  FactoryGirl.create(:user, role: role, authentication_token: "12345")
+  token = ["admin", "staff"].include?(role) ? "12345" : "67890"
+  FactoryGirl.create(:user, role: role, authentication_token: token)
 end
 
 Given /^we have (\d+) users$/  do |number|
@@ -43,7 +44,8 @@ Given /^I am logged in$/ do
 end
 
 Given /^I am logged in as "(.*?)"$/ do |role|
-  @user = FactoryGirl.create(:user, role: role, authentication_token: "12345")
+  token = ["admin", "staff"].include?(role) ? "12345" : "67890"
+  @user = FactoryGirl.create(:user, role: role, authentication_token: token)
   visit '/users/auth/cas'
 end
 

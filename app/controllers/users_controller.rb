@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :load_user, :only => [ :show, :edit, :update, :destroy ]
+  before_filter :load_user, :only => [ :show, :edit, :destroy ]
   load_and_authorize_resource
 
   respond_to :html, :js
@@ -24,6 +24,10 @@ class UsersController < ApplicationController
   def update
     # Admin updates user role
     if params[:user][:role]
+      @user = User.find(params[:id])
+      @reports = Report.available(@user.role)
+      @doc = Doc.find("api")
+
       @user.update_attribute(:role, params[:user][:role])
       load_index
       respond_with(@users) do |format|
@@ -31,6 +35,8 @@ class UsersController < ApplicationController
       end
     # User updates his account
     else
+      load_user
+
       if params[:user][:subscribe]
         report = Report.find(params[:user][:subscribe])
         @user.reports << report
@@ -67,12 +73,6 @@ class UsersController < ApplicationController
   end
 
   protected
-
-  # def load_user
-  #   @user = User.find(params[:id])
-  #   @reports = Report.available(@user.role)
-  #   @doc = Doc.find("api")
-  # end
 
   def load_user
     if user_signed_in?

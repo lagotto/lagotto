@@ -19,7 +19,7 @@ Feature: Use without signing in
       Given we have a user with role "admin"
       And the source "Citeulike" exists
       When I go to the "Sources" page
-      Then I should see the subtitle "CiteULike"
+      Then I should see the row "CiteULike"
 
     Scenario: Anonymous user can go to source
       Given we have a user with role "admin"
@@ -27,36 +27,41 @@ Feature: Use without signing in
       When I go to the source "Citeulike"
       Then I should see the title "CiteULike"
 
-   @allow-rescue
-    Scenario: Anonymous user cannot see the main admin dashboard
-      When I go to the "Home" admin page
-      Then I should see the "You need to sign in or sign up before continuing." error message
+    Scenario: Events info
+      Given we have a user with role "admin"
+      And that we have 5 articles
+      And the source "Citeulike" exists
+      When I go to the "Status" page
+      Then I should see that we have 250 events
 
-    @allow-rescue
-    Scenario: Anonymous user cannot see sources in the admin dashboard
-      When I go to the "Sources" admin page
-      Then I should see the "You need to sign in or sign up before continuing." error message
+    Scenario: User info
+      Given we have a user with role "admin"
+      When I go to the "Status" page
+      Then I should not see that we have 1 user
 
-    @allow-rescue
-    Scenario: Anonymous user cannot see an individual source in the admin dashboard
+    Scenario: Anonymous user cannot see the tab "Installation" in the sources dashboard
+      When I go to the "Sources" page
+      Then I should not see the "Installation" tab
+
+    Scenario: Anonymous user cannot see the tab "Configuration" for an individual source in the dashboard
       Given the source "Citeulike" exists
-      When I go to the admin page of source "Citeulike"
-      Then I should see the "You need to sign in or sign up before continuing." error message
+      When I go to the page of source "Citeulike"
+      Then I should not see the "Configuration" tab
 
     @allow-rescue
-    Scenario: Anonymous user cannot see users in the admin dashboard
-      When I go to the "Users" admin page
-      Then I should see the "You need to sign in or sign up before continuing." error message
+    Scenario: Anonymous user cannot see users in the dashboard
+      When I go to the "Users" page
+      Then I should see the "You are not authorized to access this page." error message
 
     @allow-rescue
-    Scenario: Anonymous user cannot see API requests in the admin dashboard
-      When I go to the "API Requests" admin page
-      Then I should see the "You need to sign in or sign up before continuing." error message
+    Scenario: Anonymous user cannot see API requests in the dashboard
+      When I go to the "API Requests" page
+      Then I should see the "You are not authorized to access this page." error message
 
     @allow-rescue
-    Scenario: Anonymous user cannot see errors in the admin dashboard
-      When I go to the "Alerts" admin page
-      Then I should see the "You need to sign in or sign up before continuing." error message
+    Scenario: Anonymous user cannot see alerts in the dashboard
+      When I go to the "Alerts" page
+      Then I should see the "You are not authorized to access this page." error message
 
     @allow-rescue @not_teamcity
     Scenario: Anonymous user can download the monthly report

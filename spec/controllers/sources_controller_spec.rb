@@ -7,12 +7,6 @@ describe SourcesController do
     it "returns a proper error for an unknown source" do
       expect { get source_path("x") }.to raise_error(ActiveRecord::RecordNotFound)
     end
-
-    it "redirects to the login page for an unknown source in the admin dashboard" do
-      get source_path("x")
-      last_response.status.should eql(302)
-      last_response.body.should include("/users/sign_in")
-    end
   end
 
   context "RSS" do
