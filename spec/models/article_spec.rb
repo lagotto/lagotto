@@ -35,6 +35,14 @@ describe Article do
   it 'don\'t validate wrong date' do
     article = FactoryGirl.build(:article, month: 2, day: 30)
     article.should_not be_valid
+    article.errors[:published_on].should eq(["is not a valid date"])
+  end
+
+  it 'don\'t validate date in the future' do
+    date = Date.today + 1.day
+    article = FactoryGirl.build(:article, year: date.year, month: date.month, day: date.day)
+    article.should_not be_valid
+    article.errors[:published_on].should eq(["is a date in the future"])
   end
 
   it 'to published_on' do
