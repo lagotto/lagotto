@@ -41,7 +41,7 @@ namespace :db do
     desc "Bulk-load articles from standard input"
     task :load => :environment do
       begin
-        input = Timeout::timeout(15) { STDIN.readlines }
+        input = Timeout::timeout(60) { STDIN.readlines }
       rescue Timeout::Error
         puts "No input provided."
         exit
