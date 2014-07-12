@@ -15,7 +15,7 @@ class Ability
       can :manage, User, :id => user.id
     elsif user.role == "publisher"
       can :read, Source
-      can :manage, User, :id => user.id
+      can [:update, :show, :create], User, :id => user.id
     elsif user.role == "user"
       can [:update, :show], User, :id => user.id
     else

@@ -1,4 +1,4 @@
-<% if can?(:manage, User) and (controller.action_name == "edit" or (controller.action_name == "update" and !@user.errors.empty?)) %>
+<% if can?(:create, User) and (controller.action_name == "edit" or (controller.action_name == "update" and !@user.errors.empty?)) %>
 
   <%= simple_form_for @user, :url => user_path(@user), :html => { :remote => true } do |f| %>
     <fieldset>
