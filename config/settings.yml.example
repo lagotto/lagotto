@@ -31,7 +31,6 @@ defaults: &defaults
   cas_logout_url: /cas/logout
   cas_service_validate_url: /cas/serviceValidate
   couchdb_url: http://localhost:5984/alm/
-  doi_prefix:
   uid: doi
   # configure mail here, more info at http://guides.rubyonrails.org/action_mailer_basics.html
   mail:
