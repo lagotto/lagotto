@@ -45,7 +45,7 @@ class Doc
 
     @content = content || ""
     @title = title || "No title"
-    @updated_at =  File.mtime(file)
+    @updated_at =  File.mtime(Rails.root.join("docs/#{name}"))
   end
 
   def update_date
