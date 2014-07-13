@@ -23,9 +23,5 @@
     <h1><%= @doc.title %></h1>
   </div>
 
-  <div class="markdown">
-    <% cache(@doc) do %>
-      <%= markdown @doc.content %>
-    <% end %>
-  </div>
+  <%= render :partial => 'show' %>
 </div>
