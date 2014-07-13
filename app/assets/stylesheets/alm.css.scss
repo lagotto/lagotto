@@ -276,6 +276,9 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 .alert-inner { min-height: 120px; }
 .remote { color: #88A2BD; }
 
+// make the scrollbar always visible
+html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
+
 .markdown pre { font-size: 0.75em; }
 .markdown code {
   margin: 0 2px;
