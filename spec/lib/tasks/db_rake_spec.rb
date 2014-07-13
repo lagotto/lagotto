@@ -40,12 +40,11 @@ end
 describe "db:articles:load" do
   include_context "rake"
 
-  let(:output) { "Started import of 993 articles in the background...\n" }
+  let(:output) { "Started import of 2 articles in the background...\n" }
 
   its(:prerequisites) { should include("environment") }
 
   it "should run the rake task" do
-    import = Import.new
     capture_stdout { subject.invoke }.should eq(output)
   end
 end

@@ -26,7 +26,7 @@ Feature: View documentation
         | Contributors      |
 
     Scenario: Documentation on home page
-      When I go to the "Home" page
+      When I go to the "Documentation" page
       Then I should see the documentation
 
     Scenario: Documentation on user page

@@ -118,6 +118,7 @@ Then /^I should see an article with title "(.*?)"$/ do |title|
 end
 
 Then /^I should see a list of (\d+) articles?$/ do |number|
+  page.driver.render("tmp/capybara/#{number}_articles.png")
   page.has_css?('h4.article', :count => number).should be_true
 end
 

@@ -23,12 +23,6 @@ describe ArticlesController do
       last_response.status.should == 200
       last_response.body.should include(article.pmcid.to_s)
     end
-
-    it "GET mendeley" do
-      get "/articles/info:mendeley/#{article.mendeley_uuid}"
-      last_response.status.should == 200
-      last_response.body.should include(article.doi)
-    end
   end
 
   context "errors" do

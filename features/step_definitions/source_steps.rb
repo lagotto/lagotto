@@ -84,7 +84,9 @@ When /^I submit the form$/ do
 end
 
 When /^I go to the "(.*?)" page$/ do |page_title|
-  if page_title == "Errors"
+  if page_title == "Documentation"
+    title = "docs"
+  elsif page_title == "Errors"
     title = "alerts"
   elsif page_title == "API Requests"
     title = "api_requests"

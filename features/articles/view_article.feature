@@ -24,7 +24,6 @@ Feature: View article
       Then I should see the DOI "10.1371/journal.pone.000001" as a link
       And I should not see the "PubMed ID" for the article
       And I should not see the "PubMed Central ID" for the article
-      And I should not see the "Mendeley UUID" for the article
 
     Scenario Outline: Article identifiers
       When I go to the article with "<Value>" for "<Identifier>"
@@ -34,5 +33,4 @@ Feature: View article
       | Identifier      | Value                                                                      | Label             |
       | pmid            | 17183632                                                                   | PubMed ID         |
       | pmcid           | 1762354                                                                    | PubMed Central ID |
-      | mendeley_uuid   | 1779fd30-6d0c-11df-a2b2-0026b95e3eb7                                       | Mendeley UUID     |
       | canonical_url   | http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000010 | URL               |
