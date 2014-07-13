@@ -1,6 +1,6 @@
 <div class="markdown">
   <% unless @doc.content.blank? %>
-    <% cache do %>
+    <% cache @doc do %>
       <%= markdown @doc.content %>
     <% end %>
   <% else %>
