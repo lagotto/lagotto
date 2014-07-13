@@ -18,8 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'timeout'
-
 namespace :db do
   namespace :articles do
     desc "Bulk-load articles from Crossref API"
@@ -34,21 +32,21 @@ namespace :db do
                   sample: ENV['SAMPLE'] }
       import = Import.new(options)
       number = ENV['SAMPLE'] || import.total_results
-      import.queue_article_import
+      import.queue_article_import if number.to_i > 0
       puts "Started import of #{number} articles in the background..."
     end
 
     desc "Bulk-load articles from standard input"
     task :load => :environment do
-      begin
-        input = Timeout::timeout(60) { STDIN.readlines }
-      rescue Timeout::Error
-        puts "No input provided."
-        exit
-      end
+      input = (STDIN.tty?) ? [] : STDIN.readlines
       import = Import.new(file: input)
-      import.queue_article_import
-      puts "Started import of #{input.length} articles in the background..."
+      number = input.length
+      if number > 0
+        import.queue_article_import
+        puts "Started import of #{number} articles in the background..."
+      else
+        puts "No articles to import."
+      end
     end
 
     desc "Seed sample articles"

@@ -40,7 +40,8 @@ end
 describe "db:articles:load" do
   include_context "rake"
 
-  let(:output) { "Started import of 2 articles in the background...\n" }
+  # we are not providing a file to import
+  let(:output) { "No articles to import.\n" }
 
   its(:prerequisites) { should include("environment") }
 
