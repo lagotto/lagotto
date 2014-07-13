@@ -358,7 +358,7 @@ PLATFORMS
 DEPENDENCIES
   addressable (~> 2.3.5)
   aruba (~> 0.5.1)
-  bootstrap-sass (~> 3.1.0.2)
+  bootstrap-sass (~> 3.1.1.1)
   brakeman (~> 2.6.0)
   cache_digests (~> 0.3.1)
   cancan (~> 1.6.10)
