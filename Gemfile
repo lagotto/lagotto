@@ -43,7 +43,7 @@ gem "uglifier", "~> 2.4.0"
 gem "jquery-rails", "~> 3.1.0"
 gem "therubyracer", "~> 0.12.0"
 gem 'sass-rails', '~> 3.2.5'
-gem "bootstrap-sass", '~> 3.1.0.2'
+gem "bootstrap-sass", '~> 3.1.1.1'
 gem 'coffee-rails', '~> 3.2.2'
 gem "turbolinks", "~> 2.2.1"
 gem 'will_paginate', '3.0.5'
