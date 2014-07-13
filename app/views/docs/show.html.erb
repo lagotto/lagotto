@@ -24,7 +24,7 @@
   </div>
 
   <div class="markdown">
-    <% cache do %>
+    <% cache(@doc) do %>
       <%= markdown @doc.content %>
     <% end %>
   </div>
