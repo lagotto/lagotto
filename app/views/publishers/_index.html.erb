@@ -11,7 +11,7 @@
     <div class="form-group">
       <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "form-control" %>
     </div>
-    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+    <button type="submit" id="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
     <% unless params[:query].blank? %>
       <%= link_to "clear", publishers_path, :class => "btn" %>
     <% end %>

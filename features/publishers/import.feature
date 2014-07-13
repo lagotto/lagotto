@@ -7,8 +7,8 @@ Feature: Manage publishers
     Given I am logged in as "admin"
 
     Scenario: See list of publishers
-      When we have 5 publishers
       And I go to the "Publishers" page
+      And I search for publisher "elife"
       Then I should see 5 publishers
 
     Scenario: Search for publisher

@@ -54,6 +54,11 @@ Feature: Use without signing in
       Then I should see the "You are not authorized to access this page." error message
 
     @allow-rescue
+    Scenario: User cannot see publishers in the dashboard
+      When I go to the "Publishers" page
+      Then I should see the "You are not authorized to access this page." error message
+
+    @allow-rescue
     Scenario: Anonymous user cannot see API requests in the dashboard
       When I go to the "API Requests" page
       Then I should see the "You are not authorized to access this page." error message
