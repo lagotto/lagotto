@@ -360,19 +360,7 @@ sudo service apache2 reload
 You can now access the ALM application with your web browser at the name or IP address (if it is the only virtual host) of your Ubuntu installation.
 
 ## Using PostgreSQL instead of MySQL
-The instructions above are for using MySQL, but the ALM application can also be installed with PostgreSQL with two small changes:
-
-### Install PostgreSQL gem
-Uncomment `gem 'pg'` in your `Gemfile`, comment out `gem 'mysql2'` and run `bundle update`:
-
-```ruby
-gem 'rails', '3.2.16'
-#gem 'mysql2', '0.3.13'
-gem 'pg', '~> 0.17.1'
-```
-
-### Change database adapter
-Change the adapter in `config/database.yml` to use PostgreSQL instead of MySQL (change the line in defaults to `<<:postgres`):
+The instructions above are for using MySQL, but the ALM application can also be installed with PostgreSQL by changing the database adapter in `config/database.yml` to use PostgreSQL instead of MySQL (change the line in defaults to `<<:postgres`):
 
 ```yaml
 mysql: &mysql
