@@ -19,7 +19,7 @@
 # limitations under the License.
 
 class Doc
-  attr_reader :title, :content, :cache_key
+  attr_reader :title, :content, :updated_at, :update_date, :cache_key
 
   def self.all
     Dir.entries(Rails.root.join("docs"))
@@ -45,7 +45,14 @@ class Doc
 
     @content = content || ""
     @title = title || "No title"
+    @updated_at =  File.mtime(file)
   end
 
-  alias_method :cache_key, :title
+  def update_date
+    updated_at.utc.iso8601
+  end
+
+  def cache_key
+    ActiveSupport::Cache.expand_cache_key [title, update_date]
+  end
 end
