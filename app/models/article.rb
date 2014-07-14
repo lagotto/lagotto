@@ -50,14 +50,6 @@ class Article < ActiveRecord::Base
   scope :last_x_days, lambda { |duration| where(published_on: (Date.today - duration.days)..Date.today) }
   scope :is_cited, lambda { includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0) }
 
-  scope :order_articles, lambda { |name|
-    if name.blank?
-      order("published_on DESC").preload(:retrieval_statuses)
-    else
-      where("retrieval_statuses.event_count > 0").order("retrieval_statuses.event_count DESC")
-    end
-  }
-
   def self.from_uri(id)
     return nil if id.nil?
 

@@ -28,7 +28,7 @@ module Articable
       # Translate type query parameter into column name
       # Paginate query results (50 per page)
       source_ids = get_source_ids(params[:source])
-      collection = collection = ArticleDecorator
+      collection = collection = ArticleDecorator.preload(:retrieval_statuses)
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
@@ -48,7 +48,14 @@ module Articable
         end
       end
 
-      collection = collection.order_articles(params[:order])
+      if params[:order] && source = Source.find_by_name(params[:id])
+        collection.joins(:retrieval_statuses)
+          .where(retrieval_statuses: { article: article, source: source })
+          .order("event_count DESC")
+      else
+        collection = collection.order("published_on DESC")
+      end
+
       collection = collection.page(params[:page])
       collection = collection.per_page(params[:rows].to_i) if params[:rows] && (1..50).include?(params[:rows].to_i)
       @articles = collection.decorate(:context => { :info => params[:info], :source => params[:source] })
