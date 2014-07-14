@@ -23,12 +23,10 @@ module Articable
 
   included do
     def index
-      # Filter by source parameter, filter out private sources unless admin
       # Load articles from ids listed in query string, use type parameter if present
       # Translate type query parameter into column name
       # Paginate query results (50 per page)
-      # source_ids = get_source_ids(params[:source])
-      collection = ArticleDecorator.preload(:retrieval_statuses)
+      collection = ArticleDecorator.preload(:retrieval_statuses, :sources)
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
@@ -40,7 +38,7 @@ module Articable
 
       if params[:class_name]
         @class_name = params[:class_name]
-        collection = collection.includes(:alerts)
+        collection = collection.preload(:alerts)
         if @class_name == "All Alerts"
           collection = collection.where("alerts.unresolved = ?", true)
         else
@@ -72,19 +70,6 @@ module Articable
         @article = Article.where(key => value).first
       else
         @article = nil
-      end
-    end
-
-    # Filter by source parameter, filter out private sources unless staff or admin
-    def get_source_ids(source_names)
-      if source_names && current_user.try(:is_admin_or_staff?)
-        source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
-      elsif source_names
-        source_ids = Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
-      elsif current_user.try(:is_admin_or_staff?)
-        source_ids = Source.order("group_id, sources.display_name").pluck(:id)
-      else
-        source_ids = Source.where("private = ?", false).order("group_id, sources.display_name").pluck(:id)
       end
     end
 

@@ -7,6 +7,9 @@ class ArticleDecorator < Draper::Decorator
     PaginatingDecorator
   end
 
+  # Filter by source parameter, filter out private sources unless admin
+  # source_ids = get_source_ids(params[:source])
+
   def publication_date
     published_on.nil? ? nil : published_on.to_time.utc.iso8601
   end
@@ -103,5 +106,20 @@ class ArticleDecorator < Draper::Decorator
 
   def provider_url
     "http://#{CONFIG[:hostname]}"
+  end
+
+  protected
+
+  # Filter by source parameter, filter out private sources unless staff or admin
+  def get_source_ids(source_names)
+    if source_names && current_user.try(:is_admin_or_staff?)
+      source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
+    elsif source_names
+      source_ids = Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
+    elsif current_user.try(:is_admin_or_staff?)
+      source_ids = Source.order("group_id, sources.display_name").pluck(:id)
+    else
+      source_ids = Source.where("private = ?", false).order("group_id, sources.display_name").pluck(:id)
+    end
   end
 end
