@@ -26,7 +26,7 @@ module Articable
       # Load articles from ids listed in query string, use type parameter if present
       # Translate type query parameter into column name
       # Paginate query results (50 per page)
-      collection = ArticleDecorator.preload(:retrieval_statuses, :sources)
+      collection = ArticleDecorator.preload(:retrieval_statuses).includes(:sources)
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
