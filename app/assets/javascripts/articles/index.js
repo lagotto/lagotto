@@ -37,6 +37,8 @@ function articlesViz(json) {
   if (class_name != "") json["href"] += "&class_name=" + class_name;
   if (order != "") json["href"] += "&order=" + order;
 
+  d3.select("#loading-results").remove();
+
   if (data.length == 0) {
     d3.select("#results").text("")
       .insert("div")
