@@ -28,7 +28,7 @@ module Articable
       # Translate type query parameter into column name
       # Paginate query results (50 per page)
       source_ids = get_source_ids(params[:source])
-      collection = collection = ArticleDecorator.joins(:retrieval_statuses)
+      collection = collection = ArticleDecorator
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
