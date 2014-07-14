@@ -70,8 +70,5 @@ module Alm
 
     # Disable IP spoofing check
     config.action_dispatch.ip_spoofing_check = false
-
-    # Catch JSON parse errors
-    config.middleware.insert_before ActionDispatch::ParamsParser, "CatchJsonParseErrors"
   end
 end
