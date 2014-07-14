@@ -50,7 +50,7 @@ module Articable
 
       if params[:order]
         source = Source.where(name: params[:order]).first
-        collection.joins(:retrieval_statuses)
+        collection.joins('LEFT OUTER JOIN retrieval_statuses ON articles.id = retrieval_statuses.article_id')
           .where("retrieval_statuses.source_id = ? & retrieval_statuses.event_count > 0", source.id)
           .order("retrieval_statuses.event_count DESC, published_on DESC")
       else
