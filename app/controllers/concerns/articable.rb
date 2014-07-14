@@ -48,10 +48,10 @@ module Articable
         end
       end
 
-      if params[:order] && source = Source.find_by_name(params[:order])
+      if params[:order] && source = Source.where(name: params[:order]).first
         collection.joins(:retrieval_statuses)
           .where("retrieval_statuses.source_id = ? & retrieval_statuses.event_count > 0", source.id)
-          .order("event_count DESC, published_on DESC")
+          .order("retrieval_statuses.event_count DESC, published_on DESC")
       else
         collection = collection.order("published_on DESC")
       end
