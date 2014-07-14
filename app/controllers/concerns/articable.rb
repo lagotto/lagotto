@@ -49,10 +49,12 @@ module Articable
       end
 
       if params[:order]
-        source = Source.where(name: params[:order]).first
+        # source = Source.where(name: params[:order]).first
         collection.joins(:retrievaL_statuses)
-          .where("retrieval_statuses.source_id = ? && retrieval_statuses.event_count > 0", source.id)
-          .order("retrieval_statuses.event_count DESC, published_on DESC")
+          .where("retrieval_statuses.source_id = 5 && retrieval_statuses.event_count > 0")
+          .order("retrieval_statuses.event_count DESC")
+
+          SELECT a.id, rs.event_count AS wikipedia FROM articles a LEFT JOIN retrieval_statuses rs ON a.id = rs.article_id WHERE rs.source_id=5 ORDER BY wikipedia DESC LIMIT 50
       else
         collection = collection.order("published_on DESC")
       end
