@@ -54,7 +54,7 @@ class Article < ActiveRecord::Base
     if name.blank?
       order("published_on DESC")
     else
-      where("retrieval_statuses.event_count > 0").order("retrieval_statuses.event_count DESC, published_on DESC")
+      where("retrieval_statuses.event_count > 0").order("retrieval_statuses.event_count DESC")
     end
   }
 
