@@ -52,7 +52,7 @@ class Article < ActiveRecord::Base
 
   scope :order_articles, lambda { |name|
     if name.blank?
-      order("published_on DESC")
+      order("published_on DESC").preload(:retrieval_statuses)
     else
       where("retrieval_statuses.event_count > 0").order("retrieval_statuses.event_count DESC")
     end
