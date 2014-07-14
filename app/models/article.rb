@@ -55,14 +55,6 @@ class Article < ActiveRecord::Base
   scope :last_x_days, lambda { |duration| where(published_on: (Date.today - duration.days)..Date.today) }
   scope :is_cited, lambda { includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0) }
 
-  scope :order_articles, lambda { |name|
-    if name.blank?
-      order("published_on DESC")
-    else
-      where("retrieval_statuses.event_count > 0").order("retrieval_statuses.event_count DESC, published_on DESC")
-    end
-  }
-
   # simplify admin dashboard when we have more than 150,000 articles
   def self.has_many?
     Article.count > 150000

@@ -23,12 +23,10 @@ module Articable
 
   included do
     def index
-      # Filter by source parameter, filter out private sources unless admin
       # Load articles from ids listed in query string, use type parameter if present
       # Translate type query parameter into column name
       # Paginate query results (50 per page)
-      source_ids = get_source_ids(params[:source])
-      collection = ArticleDecorator.includes(:retrieval_statuses).where(:retrieval_statuses => { :source_id => source_ids })
+      collection = ArticleDecorator.preload(:retrieval_statuses)
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
@@ -40,7 +38,7 @@ module Articable
 
       if params[:class_name]
         @class_name = params[:class_name]
-        collection = collection.includes(:alerts)
+        collection = collection.preload(:alerts)
         if @class_name == "All Alerts"
           collection = collection.where("alerts.unresolved = ?", true)
         else
@@ -48,7 +46,15 @@ module Articable
         end
       end
 
-      collection = collection.order_articles(params[:order])
+      if params[:order] && source = Source.find_by_name(params[:order])
+        collection = collection.joins(:retrieval_statuses)
+          .where("retrieval_statuses.source_id = ?", source.id)
+          .where("retrieval_statuses.event_count > 0")
+          .order("retrieval_statuses.event_count DESC")
+      else
+        collection = collection.order("published_on DESC")
+      end
+
       collection = collection.page(params[:page])
       collection = collection.per_page(params[:rows].to_i) if params[:rows] && (1..50).include?(params[:rows].to_i)
       @articles = collection.decorate(:context => { :info => params[:info], :source => params[:source] })
