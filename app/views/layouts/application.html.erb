@@ -36,7 +36,7 @@
     <![endif]-->
 
     <% if controller.controller_name == "articles" && controller.action_name == "show" %>
-      <link rel="alternate" type="application/json+oembed" href="/oembed?url=#{@article.doi_as_url}" title="Article oEmbed Profile" />
+    <link rel="alternate" type="application/json+oembed" href="/oembed?url=<%= @article.doi_as_url %>" title="Article oEmbed Profile" />
     <% end %>
 
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic' rel='stylesheet' type='text/css'>
