@@ -187,14 +187,6 @@ class Article < ActiveRecord::Base
     end
   end
 
-  def doi_as_url_escaped
-    if doi_as_url
-      CGI.escape(doi_as_url)
-    else
-      nil
-    end
-  end
-
   def get_url
     return true if canonical_url.present?
     return false unless doi.present?
