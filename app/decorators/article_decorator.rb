@@ -54,9 +54,9 @@ class ArticleDecorator < Draper::Decorator
   def html
     <<-eos
 <blockquote class="alm well well-small">
-<h4 class="alm"><a href="#{doi_as_url}">#{title}</a></h4>
+<h3 class="alm"><a href="#{doi_as_url}">#{title}</a></h3>
 <div class="alm date" data-datetime="#{publication_date}">Published #{published_on.to_s(:long)}</div>
-#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}
+<div class="alm signposts">#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}</div>
 </blockquote>
     eos
   end
