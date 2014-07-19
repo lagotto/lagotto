@@ -180,8 +180,16 @@ class Article < ActiveRecord::Base
   end
 
   def doi_as_url
-    if doi[0..2] == "10."
+    if doi =~ DOI_FORMAT
       Addressable::URI.encode("http://dx.doi.org/#{doi}")
+    else
+      nil
+    end
+  end
+
+  def doi_as_url_escaped
+    if doi_as_url
+      CGI.escape(doi_as_url)
     else
       nil
     end
