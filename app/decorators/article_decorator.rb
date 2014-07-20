@@ -58,7 +58,7 @@ class ArticleDecorator < Draper::Decorator
     display: inline-block;
     padding: 16px;
     margin: 10px 0;
-    max-width: 468px;
+    max-width: 500px;
 
     border: #ddd 1px solid;
     border-top-color: #eee;
@@ -66,14 +66,36 @@ class ArticleDecorator < Draper::Decorator
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 
-    font: bold 14px/18px Helvetica, Arial, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
     color: #000;
   }
+  h4.alm { color: #34485e; font-size: 18px; font-weight: 600; line-height: 1.1; margin-top: 0; margin-bottom: 10px; }
+  span.alm signpost {
+    border-bottom-left-radius: 0.25em;
+    border-bottom-right-radius: 0.25em;
+    border-top-left-radius: 0.25em;
+    border-top-right-radius: 0.25em;
+    color: #FFFFFF;
+    display: inline;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+  }
+  span.alm viewed { color: #3498db; }
+  span.alm saved { color: #1dbc9c; }
+  span.alm discussed { color: #2ecc71; }
+  span.alm cited { color: #a368bd; }
+  p.alm a { text-decoration: none; color: #3498DB; }
 </style>
 <blockquote class="alm">
-<h4 class="alm"><a href="#{doi_as_url}">#{title}</a></h4>
-<div class="alm date" data-datetime="#{publication_date}">Published #{published_on.to_s(:long)}</div>
-<div class="alm signposts">#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}</div>
+<h4 class="alm">#{title}</h4>
+<p class="alm" data-datetime="#{publication_date}">#{published_on.to_s(:long)}. <a href="#{doi_as_url}">"#{doi_as_url}"</a></p>
+<p class="alm">#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}</p>
 </blockquote>
     eos
   end
@@ -84,7 +106,7 @@ class ArticleDecorator < Draper::Decorator
 
   def viewed_span
     if model.viewed > 0
-      "<span class=\"alm label viewed\" data-viewed=\"#{model.viewed}\">Viewed: #{model.viewed}</span>"
+      "<span class=\"alm signpost viewed\" data-viewed=\"#{model.viewed}\">Viewed: #{model.viewed}</span>"
     else
       ""
     end
@@ -92,7 +114,7 @@ class ArticleDecorator < Draper::Decorator
 
   def discussed_span
     if model.discussed > 0
-      "<span class=\"alm label label-success discussed\" data-discussed=\"#{model.discussed}\">Discussed: #{model.discussed}</span>"
+      "<span class=\"alm signpost discussed\" data-discussed=\"#{model.discussed}\">Discussed: #{model.discussed}</span>"
     else
       ""
     end
@@ -100,7 +122,7 @@ class ArticleDecorator < Draper::Decorator
 
   def saved_span
     if model.saved > 0
-      "<span class=\"alm label label-info saved\" data-saved=\"#{model.saved}\">Saved: #{model.saved}</span>"
+      "<span class=\"alm signpost saved\" data-saved=\"#{model.saved}\">Saved: #{model.saved}</span>"
     else
       ""
     end
@@ -108,7 +130,7 @@ class ArticleDecorator < Draper::Decorator
 
   def cited_span
     if model.cited > 0
-      "<span class=\"alm label label-inverse cited\" data-cited=\"#{model.cited}\">Cited: #{model.cited}</span>"
+      "<span class=\"alm signpost cited\" data-cited=\"#{model.cited}\">Cited: #{model.cited}</span>"
     else
       ""
     end
