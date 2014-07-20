@@ -69,7 +69,7 @@ class ArticleDecorator < Draper::Decorator
     display: inline-block;
     padding: 16px;
     margin: 10px 0;
-    max-width: 500px;
+    max-width: 600px;
 
     border: #ddd 1px solid;
     border-top-color: #eee;
@@ -81,10 +81,10 @@ class ArticleDecorator < Draper::Decorator
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 1.1;
+    line-height: 1.2 !important;
     color: #000;
   }
-  blockquote h4.alm { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 5px; }
+  blockquote h4.alm { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 5px !important; }
   blockquote span.alm.signpost {
     border-bottom-left-radius: 0.25em;
     border-bottom-right-radius: 0.25em;
