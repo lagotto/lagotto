@@ -86,15 +86,6 @@ describe Article do
     Article.is_cited.all? { |article| article.events_count > 0 }.should be_true
   end
 
-  it "order by published_on" do
-    articles = Article.order_articles("")
-    i = 0
-    while i < (articles.size-1)
-      assert(articles[i].published_on <= articles[i+1].published_on)
-      i += 1
-    end
-  end
-
   it 'should get_url' do
     article = FactoryGirl.create(:article, canonical_url: nil)
     url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"

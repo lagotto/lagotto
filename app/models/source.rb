@@ -241,7 +241,10 @@ class Source < ActiveRecord::Base
   end
 
   def get_date_parts_from_parts(year, month = nil, day = nil)
-    { 'date_parts' => [year, month, day].reject(&:blank?) }
+    { 'date-parts' => [
+        [year, month, day].reject(&:blank?)
+      ]
+    }
   end
 
   def get_author(author)

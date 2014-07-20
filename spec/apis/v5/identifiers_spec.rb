@@ -41,7 +41,7 @@ describe "/api/v5/articles" do
         data.length.should == 50
         data.any? do |article|
           article["doi"] == articles[0].doi
-          article["issued"]["date_parts"].should eql([articles[0].year, articles[0].month, articles[0].day])
+          article["issued"]["date-parts"][0].should eql([articles[0].year, articles[0].month, articles[0].day])
         end.should be_true
       end
 
@@ -54,7 +54,7 @@ describe "/api/v5/articles" do
         data.length.should == 50
         data.any? do |article|
           article["doi"] == articles[0].doi
-          article["issued"]["date_parts"].should eql([articles[0].year, articles[0].month, articles[0].day])
+          article["issued"]["date-parts"][0].should eql([articles[0].year, articles[0].month, articles[0].day])
         end.should be_true
       end
     end
@@ -131,7 +131,7 @@ describe "/api/v5/articles" do
         data.length.should == 50
         data.any? do |article|
           article["doi"] == articles[0].doi
-          article["issued"]["date_parts"].should eql([articles[0].year, articles[0].month, articles[0].day])
+          article["issued"]["date-parts"][0].should eql([articles[0].year, articles[0].month, articles[0].day])
         end.should be_true
       end
     end
