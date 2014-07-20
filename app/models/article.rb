@@ -318,6 +318,17 @@ class Article < ActiveRecord::Base
     }
   end
 
+  def issued_date
+    date_parts = issued["date-parts"].first
+    date = Date.new(*date_parts)
+
+    case date_parts.length
+      when 1 then date.strftime("%Y")
+      when 2 then date.strftime("%B %Y")
+      when 3 then date.strftime("%B %-d, %Y")
+    end
+  end
+
   def update_date_parts
     return nil unless published_on
 
