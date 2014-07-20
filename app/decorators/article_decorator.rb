@@ -81,11 +81,11 @@ class ArticleDecorator < Draper::Decorator
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 1;
+    line-height: 1.1;
     color: #000;
   }
-  h4.alm { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; margin-top: 0; margin-bottom: 5px; }
-  span.alm.signpost {
+  blockquote h4.alm { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 5px; }
+  blockquote span.alm.signpost {
     border-bottom-left-radius: 0.25em;
     border-bottom-right-radius: 0.25em;
     border-top-left-radius: 0.25em;
@@ -98,12 +98,12 @@ class ArticleDecorator < Draper::Decorator
     vertical-align: baseline;
     white-space: nowrap;
   }
-  span.alm.viewed { background-color: #3498db; }
-  span.alm.saved { background-color: #1dbc9c; }
-  span.alm.discussed { background-color: #2ecc71; }
-  span.alm.cited { background-color: #a368bd; }
-  p.alm { font-size: 14px; margin-top: 0; margin-bottom: 10px; }
-  p.alm a { text-decoration: none; color: #3498DB; }
+  blockquote span.alm.viewed { background-color: #3498db; }
+  blockquote span.alm.saved { background-color: #1dbc9c; }
+  blockquote span.alm.discussed { background-color: #2ecc71; }
+  blockquote span.alm.cited { background-color: #a368bd; }
+  blockquote p.alm { font-size: 14px; font-weight: 400; line-height: 1.1; margin: 0 0 10px; }
+  blockquote p.alm a { text-decoration: none; color: #3498DB; }
 </style>
     eos
   end
