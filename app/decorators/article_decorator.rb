@@ -68,10 +68,12 @@ class ArticleDecorator < Draper::Decorator
 
     font-family: Helvetica, Arial, sans-serif;
     font-size: 14px;
+    font-style: normal;
+    line-height: 1;
     color: #000;
   }
-  h4.alm { color: #34485e; font-size: 18px; font-weight: 600; line-height: 1.1; margin-top: 0; margin-bottom: 10px; }
-  span.alm signpost {
+  h4.alm { color: #34485e; font-size: 18px; font-weight: 600; margin-top: 0; margin-bottom: 10px; }
+  span.alm.signpost {
     border-bottom-left-radius: 0.25em;
     border-bottom-right-radius: 0.25em;
     border-top-left-radius: 0.25em;
@@ -80,21 +82,20 @@ class ArticleDecorator < Draper::Decorator
     display: inline;
     font-size: 75%;
     font-weight: bold;
-    line-height: 1;
     padding: 0.2em 0.6em 0.3em;
     text-align: center;
     vertical-align: baseline;
     white-space: nowrap;
   }
-  span.alm viewed { color: #3498db; }
-  span.alm saved { color: #1dbc9c; }
-  span.alm discussed { color: #2ecc71; }
-  span.alm cited { color: #a368bd; }
-  p.alm a { text-decoration: none; color: #3498DB; }
+  span.alm.viewed { color: #3498db; }
+  span.alm.saved { color: #1dbc9c; }
+  span.alm.discussed { color: #2ecc71; }
+  span.alm.cited { color: #a368bd; }
+  p.alm a { text-decoration: none; color: #3498DB; margin-bottom: 10px; }
 </style>
 <blockquote class="alm">
 <h4 class="alm">#{title}</h4>
-<p class="alm" data-datetime="#{publication_date}">#{published_on.to_s(:long)}. <a href="#{doi_as_url}">"#{doi_as_url}"</a></p>
+<p class="alm" data-datetime="#{publication_date}">#{published_on.to_s(:long)}. <a href="#{doi_as_url}">#{doi_as_url}</a></p>
 <p class="alm">#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}</p>
 </blockquote>
     eos
