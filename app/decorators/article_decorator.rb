@@ -69,10 +69,9 @@ class ArticleDecorator < Draper::Decorator
     font-family: Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-style: normal;
-    line-height: 1;
     color: #000;
   }
-  h4.alm { color: #34485e; font-size: 18px; font-weight: 600; margin-top: 0; margin-bottom: 10px; }
+  h4.alm { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; line-height: 20px; margin-top: 0; margin-bottom: 10px; }
   span.alm.signpost {
     border-bottom-left-radius: 0.25em;
     border-bottom-right-radius: 0.25em;
@@ -87,10 +86,11 @@ class ArticleDecorator < Draper::Decorator
     vertical-align: baseline;
     white-space: nowrap;
   }
-  span.alm.viewed { color: #3498db; }
-  span.alm.saved { color: #1dbc9c; }
-  span.alm.discussed { color: #2ecc71; }
-  span.alm.cited { color: #a368bd; }
+  span.alm.viewed { background-color: #3498db; }
+  span.alm.saved { background-color: #1dbc9c; }
+  span.alm.discussed { background-color: #2ecc71; }
+  span.alm.cited { background-color: #a368bd; }
+  p.alm { font-size: 14px; }
   p.alm a { text-decoration: none; color: #3498DB; margin-bottom: 10px; }
 </style>
 <blockquote class="alm">
