@@ -53,7 +53,24 @@ class ArticleDecorator < Draper::Decorator
 
   def html
     <<-eos
-<blockquote class="alm well well-small">
+<style type="text/css">
+  blockquote.alm {
+    display: inline-block;
+    padding: 16px;
+    margin: 10px 0;
+    max-width: 468px;
+
+    border: #ddd 1px solid;
+    border-top-color: #eee;
+    border-bottom-color: #bbb;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+
+    font: bold 14px/18px Helvetica, Arial, sans-serif;
+    color: #000;
+  }
+</style>
+<blockquote class="alm">
 <h4 class="alm"><a href="#{doi_as_url}">#{title}</a></h4>
 <div class="alm date" data-datetime="#{publication_date}">Published #{published_on.to_s(:long)}</div>
 <div class="alm signposts">#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}</div>
@@ -98,10 +115,26 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def provider_name
-    CONFIG[:useragent]
+    CONFIG[:sitename] || CONFIG[:useragent]
   end
 
   def provider_url
     "http://#{CONFIG[:hostname]}"
+  end
+
+  protected
+
+
+  # Filter by source parameter, filter out private sources unless staff or admin
+  def get_source_ids(source_names)
+    if source_names && current_user.try(:is_admin_or_staff?)
+      source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
+    elsif source_names
+      source_ids = Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
+    elsif current_user.try(:is_admin_or_staff?)
+      source_ids = Source.order("group_id, sources.display_name").pluck(:id)
+    else
+      source_ids = Source.where("private = ?", false).order("group_id, sources.display_name").pluck(:id)
+    end
   end
 end
