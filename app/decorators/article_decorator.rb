@@ -81,10 +81,10 @@ class ArticleDecorator < Draper::Decorator
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 1.2 !important;
+    line-height: 1.2;
     color: #000;
   }
-  blockquote h4.alm { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 5px !important; }
+  blockquote h4.alm, #content h4 { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; line-height: 1.2; margin: 0 0 5px; }
   blockquote span.alm.signpost {
     border-bottom-left-radius: 0.25em;
     border-bottom-right-radius: 0.25em;
