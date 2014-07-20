@@ -51,8 +51,8 @@ class ArticleDecorator < Draper::Decorator
 #{css}
 <blockquote class="alm">
 <h4 class="alm">#{title}</h4>
-<p class="alm" data-datetime="#{publication_date}">#{published_on.to_s(:long)}. <a href="#{doi_as_url}">#{doi_as_url}</a></p>
-<p class="alm">#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}</p>
+<p class="alm" data-datetime="#{publication_date}">#{issued_date}. <a href="#{doi_as_url}">#{doi_as_url}</a></p>
+<p class="alm">#{signposts} #{coins}</p>
 </blockquote>
     eos
   end
@@ -80,24 +80,7 @@ class ArticleDecorator < Draper::Decorator
     color: #000;
   }
   blockquote h4.alm, #content h4 { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; line-height: 1.2; margin: 0 0 5px; }
-  blockquote span.alm.signpost {
-    border-bottom-left-radius: 0.25em;
-    border-bottom-right-radius: 0.25em;
-    border-top-left-radius: 0.25em;
-    border-top-right-radius: 0.25em;
-    color: #FFFFFF;
-    display: inline;
-    font-size: 75%;
-    padding: 0.2em 0.6em 0.3em;
-    text-align: center;
-    vertical-align: baseline;
-    white-space: nowrap;
-  }
-  blockquote span.alm.viewed { background-color: #3498db; }
-  blockquote span.alm.saved { background-color: #1dbc9c; }
-  blockquote span.alm.discussed { background-color: #2ecc71; }
-  blockquote span.alm.cited { background-color: #a368bd; }
-  blockquote p.alm { font-size: 14px; font-weight: 400; line-height: 1.1; margin: 0 0 10px; }
+  blockquote p.alm { font-size: 14px; font-weight: 400; line-height: 1.1; margin: 0 0 5px; }
   blockquote p.alm a { text-decoration: none; color: #3498DB; }
 </style>
     eos
@@ -107,36 +90,32 @@ class ArticleDecorator < Draper::Decorator
     "<span class=\"Z3988\" title=\"ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft_id=info:doi/#{doi_escaped}&amp;rft.genre=article&amp;rft.atitle=#{title_escaped}&amp;rft_date=#{published_on.to_s(:db)}\"></span>"
   end
 
+  def signposts
+    [viewed_span, discussed_span, saved_span, cited_span].join(" • ")
+  end
+
   def viewed_span
-    if model.viewed > 0
-      "<span class=\"alm signpost viewed\" data-viewed=\"#{model.viewed}\">Viewed: #{model.viewed}</span>"
-    else
-      ""
-    end
+    return nil unless model.viewed > 0
+
+    "<span class=\"alm signpost viewed\" data-viewed=\"#{model.viewed}\">Viewed: #{model.viewed}</span>"
   end
 
   def discussed_span
-    if model.discussed > 0
-      "<span class=\"alm signpost discussed\" data-discussed=\"#{model.discussed}\">Discussed: #{model.discussed}</span>"
-    else
-      ""
-    end
+    return nil unless model.discussed > 0
+
+    "<span class=\"alm signpost discussed\" data-discussed=\"#{model.discussed}\">Discussed: #{model.discussed}</span>"
   end
 
   def saved_span
-    if model.saved > 0
-      "<span class=\"alm signpost saved\" data-saved=\"#{model.saved}\">Saved: #{model.saved}</span>"
-    else
-      ""
-    end
+    return nil unless model.saved > 0
+
+    "<span class=\"alm signpost saved\" data-saved=\"#{model.saved}\">Saved: #{model.saved}</span>"
   end
 
   def cited_span
-    if model.cited > 0
-      "<span class=\"alm signpost cited\" data-cited=\"#{model.cited}\">Cited: #{model.cited}</span>"
-    else
-      ""
-    end
+    return nil unless model.cited > 0
+
+    "<span class=\"alm signpost cited\" data-cited=\"#{model.cited}\">Cited: #{model.cited}</span>"
   end
 
   def provider_name
