@@ -11,11 +11,6 @@ class ArticleDecorator < Draper::Decorator
     published_on.nil? ? nil : published_on.to_time.utc.iso8601
   end
 
-  def issued
-    date_parts = [year, month, day].reject(&:blank?)
-    { "date_parts" => date_parts }
-  end
-
   def url
     canonical_url
   end

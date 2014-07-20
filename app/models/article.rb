@@ -311,6 +311,13 @@ class Article < ActiveRecord::Base
   alias_method :discussed, :shares
   alias_method :cited, :citations
 
+  def issued
+    { "date-parts" => [
+        [year, month, day].reject(&:blank?)
+      ]
+    }
+  end
+
   def update_date_parts
     return nil unless published_on
 
