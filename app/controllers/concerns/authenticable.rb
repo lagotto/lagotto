@@ -34,7 +34,7 @@ module Authenticable
         sign_in user, store: false
       else
         @error = "Missing or wrong API key."
-        create_alert(request)
+        Alert.create(request: request, class_name: "Net:HTTPUnauthorized", message: @error, status: 401)
         render "error", :status => 401
       end
     end
@@ -46,21 +46,10 @@ module Authenticable
           sign_in :user, resource
         else
           @error = "You are not authorized to access this page."
-          create_alert(request)
+          Alert.create(request: request, class_name: "Net:HTTPUnauthorized", message: @error, status: 401)
           render "error", :status => 401
         end
       end
-    end
-
-    def create_alert(request)
-      Alert.create(:exception => "",
-                   :class_name => "Net::HTTPUnauthorized",
-                   :message => @error,
-                   :target_url => request.original_url,
-                   :remote_ip => request.remote_ip,
-                   :user_agent => request.user_agent,
-                   :content_type => request.formats.first.to_s,
-                   :status => 401)
     end
 
     def cors_set_access_control_headers
@@ -82,24 +71,29 @@ module Authenticable
     rescue_from CanCan::AccessDenied do |exception|
       @error = exception.message
       @article = nil
-      render "error", :status => 401
+      status = 401
+      Alert.create(exception: exception, request: request)
+      render "error", :status => status
     end
 
     rescue_from ActionController::ParameterMissing do |exception|
       @error = { exception.param => ['parameter is required'] }
       @article = nil
-      render "error", :status => 422
+      Alert.create(exception: exception, request: request)
+      render "error", :status => status
     end
 
     rescue_from ActionController::UnpermittedParameters do |exception|
       @error = Hash[exception.params.map { |v| [v, ['unpermitted parameter']] }]
       @article = nil
+      Alert.create(exception: exception, request: request)
       render "error", :status => 422
     end
 
     rescue_from NoMethodError do |exception|
       @error = "Undefined method."
       @article = nil
+      Alert.create(exception: exception, request: request)
       render "error", :status => 422
     end
   end
