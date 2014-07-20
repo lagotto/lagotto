@@ -53,6 +53,17 @@ class ArticleDecorator < Draper::Decorator
 
   def html
     <<-eos
+#{css}
+<blockquote class="alm">
+<h4 class="alm">#{title}</h4>
+<p class="alm" data-datetime="#{publication_date}">#{published_on.to_s(:long)}. <a href="#{doi_as_url}">#{doi_as_url}</a></p>
+<p class="alm">#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}</p>
+</blockquote>
+    eos
+  end
+
+  def css
+    <<-eos
 <style type="text/css">
   blockquote.alm {
     display: inline-block;
@@ -69,9 +80,11 @@ class ArticleDecorator < Draper::Decorator
     font-family: Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-style: normal;
+    font-weight: 400;
+    line-height: 1;
     color: #000;
   }
-  h4.alm { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; line-height: 20px; margin-top: 0; margin-bottom: 10px; }
+  h4.alm { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; margin-top: 0; margin-bottom: 5px; }
   span.alm.signpost {
     border-bottom-left-radius: 0.25em;
     border-bottom-right-radius: 0.25em;
@@ -80,7 +93,6 @@ class ArticleDecorator < Draper::Decorator
     color: #FFFFFF;
     display: inline;
     font-size: 75%;
-    font-weight: bold;
     padding: 0.2em 0.6em 0.3em;
     text-align: center;
     vertical-align: baseline;
@@ -90,14 +102,9 @@ class ArticleDecorator < Draper::Decorator
   span.alm.saved { background-color: #1dbc9c; }
   span.alm.discussed { background-color: #2ecc71; }
   span.alm.cited { background-color: #a368bd; }
-  p.alm { font-size: 14px; }
-  p.alm a { text-decoration: none; color: #3498DB; margin-bottom: 10px; }
+  p.alm { font-size: 14px; margin-top: 0; margin-bottom: 10px; }
+  p.alm a { text-decoration: none; color: #3498DB; }
 </style>
-<blockquote class="alm">
-<h4 class="alm">#{title}</h4>
-<p class="alm" data-datetime="#{publication_date}">#{published_on.to_s(:long)}. <a href="#{doi_as_url}">#{doi_as_url}</a></p>
-<p class="alm">#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}</p>
-</blockquote>
     eos
   end
 
