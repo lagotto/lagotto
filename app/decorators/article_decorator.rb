@@ -80,7 +80,7 @@ class ArticleDecorator < Draper::Decorator
     color: #000;
   }
   blockquote h4.alm, #content h4 { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; line-height: 1.2; margin: 0 0 5px; }
-  blockquote p.alm { font-size: 14px; font-weight: 400; line-height: 1.1; margin: 0 0 5px; }
+  blockquote p.alm { font-size: 14px; font-weight: 400; line-height: 1.1; margin: 0 0 5px 0; }
   blockquote p.alm a { text-decoration: none; color: #3498DB; }
 </style>
     eos
@@ -91,7 +91,7 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def signposts
-    [viewed_span, discussed_span, saved_span, cited_span].join(" • ")
+    [viewed_span, discussed_span, saved_span, cited_span].reject(&:blank?).join(" • ")
   end
 
   def viewed_span
