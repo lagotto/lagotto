@@ -149,7 +149,6 @@ class ArticleDecorator < Draper::Decorator
 
   protected
 
-
   # Filter by source parameter, filter out private sources unless staff or admin
   def get_source_ids(source_names)
     if source_names && current_user.try(:is_admin_or_staff?)

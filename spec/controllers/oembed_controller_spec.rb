@@ -3,10 +3,19 @@ require 'spec_helper'
 describe OembedController do
   render_views
 
-  context "show" do
-    let(:article) { FactoryGirl.create(:article_with_events) }
-    let(:uri) { "/oembed?url=#{article_path(article)}" }
+  let(:article) { FactoryGirl.create(:article_with_events) }
+  let(:uri) { "http://#{CONFIG[:hostname]}/oembed?url=#{article_path(article)}" }
 
+  context "discovery" do
+    it "correct oembed link" do
+      get article_path(article)
+      last_response.status.should == 200
+      last_response.body.should have_css(%Q(link[rel="alternate"][type="application/json+oembed"][title="Article oEmbed Profile"][href="#{uri}"]), visible: false)
+      Alert.count.should == 0
+    end
+  end
+
+  context "show" do
     it "GET oembed" do
       get uri
       last_response.status.should == 200
@@ -14,7 +23,7 @@ describe OembedController do
       response["type"].should eq("rich")
       response["title"].should eq(article.title)
       response["url"].should eq(article.doi_as_url)
-      response["html"].should include("<blockquote class=\"alm well well-small\">")
+      response["html"].should include("<blockquote class=\"alm\">")
     end
 
     it "GET oembed JSON" do
@@ -24,7 +33,7 @@ describe OembedController do
       response["type"].should eq("rich")
       response["title"].should eq(article.title)
       response["url"].should eq(article.doi_as_url)
-      response["html"].should include("<blockquote class=\"alm well well-small\">")
+      response["html"].should include("<blockquote class=\"alm\">")
     end
 
     it "GET oembed XML" do
@@ -35,7 +44,7 @@ describe OembedController do
       response["type"].should eq("rich")
       response["title"].should eq(article.title)
       response["url"].should eq(article.doi_as_url)
-      response["html"].should include("<blockquote class=\"alm well well-small\">")
+      response["html"].should include("<blockquote class=\"alm\">")
     end
   end
 
