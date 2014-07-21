@@ -284,6 +284,14 @@ class Source < ActiveRecord::Base
     end
   end
 
+  def cache_key
+    "#{name}/#{cached_at.utc.iso8601}"
+  end
+
+  def update_date
+    cached_at.utc.iso8601
+  end
+
   # Remove all retrieval records for this source that have never been updated,
   # return true if all records are removed
   def remove_all_retrievals

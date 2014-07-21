@@ -24,7 +24,7 @@ include Couchable
 World(FactoryGirl::Syntax::Methods)
 
 # Allow connections to localhost and code climate code coverage tool
-WebMock.disable_net_connect!(allow: [/codeclimate.com/], allow_localhost: true)
+WebMock.disable_net_connect!(allow: [/codeclimate.com/, CONFIG[:hostname]], allow_localhost: true)
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd

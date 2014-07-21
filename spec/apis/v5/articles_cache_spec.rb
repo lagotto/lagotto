@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "/api/v5/articles", :not_teamcity => true do
+describe "/api/v5/articles" do
   let(:user) { FactoryGirl.create(:user) }
   let(:api_key) { user.authentication_token }
 

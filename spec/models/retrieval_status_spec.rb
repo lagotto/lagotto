@@ -21,7 +21,7 @@ describe RetrievalStatus do
     end
   end
 
-  describe "staleness intervals", :not_teamcity => true do
+  describe "staleness intervals" do
 
     it "published a day ago" do
       date = Time.zone.today - 1.day

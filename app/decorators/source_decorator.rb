@@ -106,12 +106,4 @@ class SourceDecorator < Draper::Decorator
       "without_events" => without_events_by_month_count,
       "not_updated" => all_articles_count - (with_events_by_month_count + without_events_by_month_count) }
   end
-
-  def cache_key
-    "#{name}/#{cached_at.to_s(:number)}"
-  end
-
-  def update_date
-    cached_at.utc.iso8601
-  end
 end

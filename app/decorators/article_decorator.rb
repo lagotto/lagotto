@@ -28,7 +28,7 @@ class ArticleDecorator < Draper::Decorator
 
   def cache_key
     { :article_id => id,
-      :timestamp => updated_at.to_s(:number),
+      :update_date => updated_at.utc.iso8601,
       :source => context[:source],
       :info => context[:info] }
   end

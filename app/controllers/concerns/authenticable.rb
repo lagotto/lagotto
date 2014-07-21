@@ -71,16 +71,15 @@ module Authenticable
     rescue_from CanCan::AccessDenied do |exception|
       @error = exception.message
       @article = nil
-      status = 401
       Alert.create(exception: exception, request: request)
-      render "error", :status => status
+      render "error", :status => 401
     end
 
     rescue_from ActionController::ParameterMissing do |exception|
       @error = { exception.param => ['parameter is required'] }
       @article = nil
       Alert.create(exception: exception, request: request)
-      render "error", :status => status
+      render "error", :status => 422
     end
 
     rescue_from ActionController::UnpermittedParameters do |exception|
