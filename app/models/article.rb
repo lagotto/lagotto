@@ -312,10 +312,7 @@ class Article < ActiveRecord::Base
   alias_method :cited, :citations
 
   def issued
-    { "date-parts" => [
-        [year, month, day].reject(&:blank?)
-      ]
-    }
+    { "date-parts" => [[year, month, day].reject(&:blank?)] }
   end
 
   def issued_date
@@ -323,9 +320,9 @@ class Article < ActiveRecord::Base
     date = Date.new(*date_parts)
 
     case date_parts.length
-      when 1 then date.strftime("%Y")
-      when 2 then date.strftime("%B %Y")
-      when 3 then date.strftime("%B %-d, %Y")
+    when 1 then date.strftime("%Y")
+    when 2 then date.strftime("%B %Y")
+    when 3 then date.strftime("%B %-d, %Y")
     end
   end
 

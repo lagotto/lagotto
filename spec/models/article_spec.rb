@@ -45,9 +45,7 @@ describe Article do
 
   it 'issued' do
     article = FactoryGirl.create(:article)
-    date = { "date-parts" => [
-               [article.year, article.month, article.day]
-             ] }
+    date = { "date-parts" => [[article.year, article.month, article.day]] }
     article.issued.should eq(date)
   end
 
