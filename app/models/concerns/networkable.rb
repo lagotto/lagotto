@@ -22,6 +22,7 @@ require 'faraday'
 require 'faraday_middleware'
 require 'typhoeus'
 require 'typhoeus/adapters/faraday'
+require 'net/http'
 require 'uri'
 
 module Networkable
