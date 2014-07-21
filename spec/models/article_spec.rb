@@ -45,10 +45,31 @@ describe Article do
     article.errors[:published_on].should eq(["is a date in the future"])
   end
 
-  it 'to published_on' do
+  it 'published_on' do
     article = FactoryGirl.create(:article)
     date = Date.new(article.year, article.month, article.day)
     article.published_on.should eq(date)
+  end
+
+  it 'issued' do
+    article = FactoryGirl.create(:article)
+    date = { "date-parts" => [[article.year, article.month, article.day]] }
+    article.issued.should eq(date)
+  end
+
+  it 'issued_date year month day' do
+    article = FactoryGirl.create(:article, year: 2013, month: 2, day: 9)
+    article.issued_date.should eq("February 9, 2013")
+  end
+
+  it 'issued_date year month' do
+    article = FactoryGirl.create(:article, year: 2013, month: 2, day: nil)
+    article.issued_date.should eq("February 2013")
+  end
+
+  it 'issued_date year' do
+    article = FactoryGirl.create(:article, year: 2013, month: nil, day: nil)
+    article.issued_date.should eq("2013")
   end
 
   it 'sanitize title' do
@@ -92,15 +113,6 @@ describe Article do
 
   it "is cited" do
     Article.is_cited.all? { |article| article.events_count > 0 }.should be_true
-  end
-
-  it "order by published_on" do
-    articles = Article.order_articles("")
-    i = 0
-    while i < (articles.size-1)
-      assert(articles[i].published_on <= articles[i+1].published_on)
-      i += 1
-    end
   end
 
   it 'should get_url' do

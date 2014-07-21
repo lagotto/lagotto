@@ -170,7 +170,7 @@ class Article < ActiveRecord::Base
   end
 
   def doi_as_url
-    if doi[0..2] == "10."
+    if doi =~ DOI_FORMAT
       Addressable::URI.encode("http://dx.doi.org/#{doi}")
     else
       nil
@@ -300,6 +300,21 @@ class Article < ActiveRecord::Base
   alias_method :saved, :bookmarks
   alias_method :discussed, :shares
   alias_method :cited, :citations
+
+  def issued
+    { "date-parts" => [[year, month, day].reject(&:blank?)] }
+  end
+
+  def issued_date
+    date_parts = issued["date-parts"].first
+    date = Date.new(*date_parts)
+
+    case date_parts.length
+    when 1 then date.strftime("%Y")
+    when 2 then date.strftime("%B %Y")
+    when 3 then date.strftime("%B %-d, %Y")
+    end
+  end
 
   def update_date_parts
     return nil unless published_on

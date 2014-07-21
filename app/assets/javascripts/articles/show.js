@@ -34,7 +34,7 @@ function eventViz(json) {
 
   // generate iso8601 datetime for sorting, year for nesting
   data = data.map(function(d) {
-    d["date"] = datePartsToDate(d["issued"]["date_parts"]);
+    d["date"] = datePartsToDate(d["issued"]["date-parts"][0]);
     d["year"] = (d["date"]) ? d["date"].getUTCFullYear() : null;
     return d;
   });
@@ -74,7 +74,7 @@ function showEvents(data, page) {
         (event["author"].length > 0 ? formattedAuthor(event["author"]) + ". " : "") +
         (event["container-title"].length > 0 ? "<em>" + event["container-title"] + "</em>. " : "") +
         formattedType(event["type"]) + ". " +
-        formattedDate(event["date"], event["issued"]["date_parts"].length)  + ". ";
+        formattedDate(event["date"], event["issued"]["date-parts"][0].length)  + ". ";
 
       var sel_title = d3.select("#results").append("h4")
         .attr("class", "article")

@@ -50,7 +50,7 @@ function articlesViz(json) {
 
   for (var i=0; i<data.length; i++) {
     var article = data[i];
-    var date_parts = article["issued"]["date_parts"];
+    var date_parts = article["issued"]["date-parts"][0];
     var date = datePartsToDate(date_parts);
 
     d3.select("#results").append("h4")

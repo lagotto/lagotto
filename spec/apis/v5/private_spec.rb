@@ -16,7 +16,7 @@ describe "/api/v5/articles" do
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eql(article.doi)
-        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
+        item["issued"]["date-parts"][0].should eql([article.year, article.month, article.day])
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
@@ -42,7 +42,7 @@ describe "/api/v5/articles" do
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eql(article.doi)
-        item["issued"]["date_parts"].should eql([article.year, article.month, article.day])
+        item["issued"]["date-parts"][0].should eql([article.year, article.month, article.day])
         item_source = item["sources"][0]
         item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
         item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)

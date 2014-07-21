@@ -20,10 +20,18 @@ class OembedController < ApplicationController
   respond_to :json, :xml
 
   def show
-    id_hash = Article.from_uri(params[:url])
-    @article = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).first.decorate(context: { maxwidth: params[:maxwidth], maxheight: params[:maxheight] })
+    not_found if params[:url].blank?
 
-    # Return 404 HTTP status code and error message if article wasn't found
-    render "404", :status => 404 if @article.blank?
+    url = Rails.application.routes.recognize_path(params[:url])
+    id_hash = Article.from_uri(url[:id])
+    article = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).first
+
+    not_found if article.blank?
+
+    @article = article.decorate(context: { maxwidth: params[:maxwidth], maxheight: params[:maxheight] })
+  end
+
+  def not_found
+    render "404", :status => :not_found
   end
 end

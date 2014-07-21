@@ -14,11 +14,6 @@ class ArticleDecorator < Draper::Decorator
     published_on.nil? ? nil : published_on.to_time.utc.iso8601
   end
 
-  def issued
-    date_parts = [year, month, day].reject(&:blank?)
-    { "date_parts" => date_parts }
-  end
-
   def url
     canonical_url
   end
@@ -47,20 +42,67 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def width
-    (context[:maxwidth] || 500).to_i
+    (context[:maxwidth] || 600).to_i
   end
 
   def height
-    (context[:maxheight] || 75).to_i
+    (context[:maxheight] || 100).to_i
   end
 
   def html
     <<-eos
-<blockquote class="alm well well-small">
-<h4 class="alm"><a href="#{doi_as_url}">#{title}</a></h4>
-<div class="alm date" data-datetime="#{publication_date}">Published #{published_on.to_s(:long)}</div>
-#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}
+#{css}
+<blockquote class="alm">
+<h4 class="alm">#{title}</h4>
+<p class="alm" data-datetime="#{publication_date}">#{issued_date}. <a href="#{doi_as_url}">#{doi_as_url}</a></p>
+<p class="alm">#{viewed_span} #{discussed_span} #{saved_span} #{cited_span} #{coins}</p>
 </blockquote>
+    eos
+  end
+
+  def css
+    <<-eos
+<style type="text/css">
+  blockquote.alm {
+    display: inline-block;
+    padding: 16px;
+    margin: 10px 0;
+    max-width: 600px;
+
+    border: #ddd 1px solid;
+    border-top-color: #eee;
+    border-bottom-color: #bbb;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #000;
+  }
+  blockquote h4.alm, #content h4 { color: #34485e; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; line-height: 1.2; margin: 0 0 5px; }
+  blockquote span.alm.signpost {
+    border-bottom-left-radius: 0.25em;
+    border-bottom-right-radius: 0.25em;
+    border-top-left-radius: 0.25em;
+    border-top-right-radius: 0.25em;
+    color: #FFFFFF;
+    display: inline;
+    font-size: 75%;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+  }
+  blockquote span.alm.viewed { background-color: #3498db; }
+  blockquote span.alm.saved { background-color: #1dbc9c; }
+  blockquote span.alm.discussed { background-color: #2ecc71; }
+  blockquote span.alm.cited { background-color: #a368bd; }
+  blockquote p.alm { font-size: 14px; font-weight: 400; line-height: 1.1; margin: 0 0 10px; }
+  blockquote p.alm a { text-decoration: none; color: #3498DB; }
+</style>
     eos
   end
 
@@ -70,7 +112,7 @@ class ArticleDecorator < Draper::Decorator
 
   def viewed_span
     if model.viewed > 0
-      "<span class=\"alm label viewed\" data-viewed=\"#{model.viewed}\">Viewed: #{model.viewed}</span>"
+      "<span class=\"alm signpost viewed\" data-viewed=\"#{model.viewed}\">Viewed: #{model.viewed}</span>"
     else
       ""
     end
@@ -78,7 +120,7 @@ class ArticleDecorator < Draper::Decorator
 
   def discussed_span
     if model.discussed > 0
-      "<span class=\"alm label label-success discussed\" data-discussed=\"#{model.discussed}\">Discussed: #{model.discussed}</span>"
+      "<span class=\"alm signpost discussed\" data-discussed=\"#{model.discussed}\">Discussed: #{model.discussed}</span>"
     else
       ""
     end
@@ -86,7 +128,7 @@ class ArticleDecorator < Draper::Decorator
 
   def saved_span
     if model.saved > 0
-      "<span class=\"alm label label-info saved\" data-saved=\"#{model.saved}\">Saved: #{model.saved}</span>"
+      "<span class=\"alm signpost saved\" data-saved=\"#{model.saved}\">Saved: #{model.saved}</span>"
     else
       ""
     end
@@ -94,14 +136,14 @@ class ArticleDecorator < Draper::Decorator
 
   def cited_span
     if model.cited > 0
-      "<span class=\"alm label label-inverse cited\" data-cited=\"#{model.cited}\">Cited: #{model.cited}</span>"
+      "<span class=\"alm signpost cited\" data-cited=\"#{model.cited}\">Cited: #{model.cited}</span>"
     else
       ""
     end
   end
 
   def provider_name
-    CONFIG[:useragent]
+    CONFIG[:sitename] || CONFIG[:useragent]
   end
 
   def provider_url

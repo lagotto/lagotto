@@ -72,7 +72,7 @@ function AlmViz(options) {
   // extract publication date
 
   // Construct date object from date parts, using "1" for missing day and month
-  var date_parts = data[0]["issued"]["date_parts"];
+  var date_parts = data[0]["issued"]["date-parts"][0];
   var len = date_parts.length;
   while (date_parts.length < 3) date_parts.push(1);
 

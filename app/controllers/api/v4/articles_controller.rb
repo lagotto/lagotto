@@ -5,26 +5,6 @@ class Api::V4::ArticlesController < Api::V4::BaseController
   before_filter :load_article, :only => [ :update, :destroy ]
   # load_and_authorize_resource :except => [ :show, :index ]
 
-  def show
-    # Load one article given query params
-    source_ids = get_source_ids(params[:source])
-
-    id_hash = { :articles => Article.from_uri(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
-    @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash).decorate(context: { info: params[:info], source: params[:source] })
-
-    # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
-    if @article.blank?
-      if params[:source].blank?
-        @error = "Article not found."
-      else
-        @error = "Source not found."
-      end
-      render "error", :status => :not_found
-    else
-      @success = "Article found."
-    end
-  end
-
   def create
     @article = Article.new(safe_params)
     authorize! :create, @article
