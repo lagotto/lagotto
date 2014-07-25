@@ -154,7 +154,7 @@ describe Mendeley do
       stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:body => File.read(fixture_path + 'mendeley.json'))
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 404)
       response = subject.get_data(article)
-      response.should eq(error: JSON.parse(body))
+      response.should eq(error: JSON.parse(body), status: 404)
       Alert.count.should == 0
     end
 
@@ -164,7 +164,7 @@ describe Mendeley do
       stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:body => File.read(fixture_path + 'mendeley.json'))
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 404)
       response = subject.get_data(article)
-      response.should eq(error: JSON.parse(body)['error'])
+      response.should eq(error: JSON.parse(body)['error'], status: 404)
       stub.should have_been_requested
       Alert.count.should == 0
     end
@@ -184,7 +184,7 @@ describe Mendeley do
       stub_uuid = stub_request(:get, subject.get_lookup_url(article)).to_return(:body => File.read(fixture_path + 'mendeley.json'))
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{article.mendeley_uuid}")
+      response.should eq(error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{article.mendeley_uuid}", :status=>408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -240,7 +240,7 @@ describe Mendeley do
 
     it "should catch timeout errors with the Mendeley API" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
-      result = { error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{article.mendeley_uuid}" }
+      result = { error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{article.mendeley_uuid}", status: 408 }
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
       response.should eq(result)

@@ -19,7 +19,7 @@ describe ArticleCoverage do
     it "should report if article doesn't exist in Article Coverage source" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => {"error" => "Article not found"}.to_json, :status => 404)
-      subject.get_data(article).should eq(error: "Article not found")
+      subject.get_data(article).should eq(error: "Article not found", status: 404)
       stub.should have_been_requested
     end
 
@@ -43,7 +43,7 @@ describe ArticleCoverage do
     it "should catch timeout errors with the Article Coverage API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response.should eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}")
+      response.should eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", :status=>408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -100,7 +100,7 @@ describe ArticleCoverage do
     end
 
     it "should catch timeout errors with the Article Coverage API" do
-      result = { error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}" }
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", status: 408 }
       response = subject.parse_data(result, article)
       response.should eq(result)
     end

@@ -35,7 +35,7 @@ describe PmcEuropeData do
     it "should catch errors with the PMC Europe API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{article.pmid}/databaseLinks//1/json")
+      response.should eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{article.pmid}/databaseLinks//1/json", status: 408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -75,7 +75,7 @@ describe PmcEuropeData do
       subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:#{article.doi}")
+      response.should eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:#{article.doi}", status: 408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -109,7 +109,7 @@ describe PmcEuropeData do
 
     it "should catch timeout errors with the PMC Europe API" do
       article = FactoryGirl.create(:article, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{article.pmid}/databaseLinks//1/json" }
+      result = { error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{article.pmid}/databaseLinks//1/json", status: 408 }
       response = subject.parse_data(result, article)
       response.should eq(result)
     end

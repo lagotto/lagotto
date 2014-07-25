@@ -35,7 +35,7 @@ describe CrossRef do
     it "should catch timeout errors with the CrossRef API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://doi.crossref.org/servlet/getForwardLinks?usr=EXAMPLE&pwd=EXAMPLE&doi=#{article.doi_escaped}")
+      response.should eq(error: "the server responded with status 408 for http://doi.crossref.org/servlet/getForwardLinks?usr=EXAMPLE&pwd=EXAMPLE&doi=#{article.doi_escaped}", status: 408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -79,7 +79,7 @@ describe CrossRef do
     it "should catch errors with the CrossRef OpenURL API" do
       stub = stub_request(:get, url).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true")
+      response.should eq(error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true", status: 408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -142,7 +142,7 @@ describe CrossRef do
     end
 
     it "should catch timeout errors with the CrossRef API" do
-      result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true" }
+      result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true", :status=>408 }
       response = subject.parse_data(result, article)
       response.should eq(result)
     end
@@ -175,7 +175,7 @@ describe CrossRef do
     end
 
     it "should catch timeout errors with the CrossRef OpenURL API" do
-      result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true" }
+      result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true", status: 408 }
       response = subject.parse_data(result, article)
       response.should eq(result)
     end

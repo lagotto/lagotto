@@ -77,7 +77,7 @@ describe TwitterSearch do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000001", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0000001")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response.should eq(error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=10.1371%252Fjournal.pone.0000001+OR+http%3A%2F%2Fwww.plosone.org%2Farticle%2Finfo%253Adoi%252F10.1371%252Fjournal.pmed.0000001&result_type=recent")
+      response.should eq(error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=10.1371%252Fjournal.pone.0000001+OR+http%3A%2F%2Fwww.plosone.org%2Farticle%2Finfo%253Adoi%252F10.1371%252Fjournal.pmed.0000001&result_type=recent", :status=>408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -124,7 +124,7 @@ describe TwitterSearch do
 
     it "should catch timeout errors with the Twitter Search API" do
       article = FactoryGirl.create(:article, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=#{CGI.escape(article.doi_escaped)}&result_type=mixed" }
+      result = { error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=#{CGI.escape(article.doi_escaped)}&result_type=mixed", status: 408 }
       response = subject.parse_data(result, article)
       response.should eq(result)
     end

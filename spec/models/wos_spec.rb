@@ -44,7 +44,7 @@ describe Wos do
     it "should catch timeout errors with the Wos API" do
       stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response.should eq(error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc")
+      response.should eq(error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc", status: 408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first

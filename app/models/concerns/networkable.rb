@@ -108,29 +108,30 @@ module Networkable
 
     def rescue_faraday_error(url, error, options={})
       if error.kind_of?(Faraday::Error::ResourceNotFound)
+        status = 404
         if error.response.blank? && error.response[:body].blank?
-          { error: "resource not found" }
+          { error: "resource not found", status: status }
         # we raise an error if we find a canonical URL mismatch
         elsif options[:doi_mismatch]
           Alert.create(exception: error.exception,
                        class_name: error.class.to_s,
                        message: error.response[:message],
                        details: error.response[:body],
-                       status: 404,
+                       status: status,
                        target_url: url)
-          { error: error.response[:message] }
+          { error: error.response[:message], status: status }
         # we raise an error if a DOI can't be resolved
         elsif options[:doi_lookup]
           Alert.create(exception: error.exception,
                        class_name: error.class.to_s,
                        message: "DOI could not be resolved",
                        details: error.response[:body],
-                       status: 404,
+                       status: status,
                        target_url: url)
-          { error: "DOI could not be resolved" }
+          { error: "DOI could not be resolved", status: status }
         else
           error = parse_error_response(error.response[:body])
-          { error: error }
+          { error: error, status: status }
         end
       else
         details = nil
@@ -165,7 +166,7 @@ module Networkable
                      status: status,
                      target_url: url,
                      source_id: options[:source_id])
-        { error: message }
+        { error: message, status: status }
       end
     end
 
@@ -175,6 +176,7 @@ module Networkable
         when 400 then Net::HTTPBadRequest
         when 401 then Net::HTTPUnauthorized
         when 403 then Net::HTTPForbidden
+        when 404 then Net::HTTPNotFound
         when 406 then Net::HTTPNotAcceptable
         when 408 then Net::HTTPRequestTimeOut
         when 409 then Net::HTTPConflict

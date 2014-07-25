@@ -20,7 +20,7 @@ describe PlosComments do
       body = File.read(fixture_path + 'plos_comments_error.txt')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body, :status => 404)
       response = subject.get_data(article)
-      response.should eq(error: body)
+      response.should eq(error: body, status: 404)
       stub.should have_been_requested
     end
 
@@ -44,7 +44,7 @@ describe PlosComments do
     it "should catch timeout errors with the PLOS comments API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response.should eq(error: "the server responded with status 408 for http://example.org?doi={doi}")
+      response.should eq(error: "the server responded with status 408 for http://example.org?doi={doi}", :status=>408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -109,7 +109,7 @@ describe PlosComments do
 
     it "should catch timeout errors with the PLOS comments API" do
       article = FactoryGirl.create(:article, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for http://example.org?doi={doi}" }
+      result = { error: "the server responded with status 408 for http://example.org?doi={doi}", status: 408 }
       response = subject.parse_data(result, article)
       response.should eq(result)
     end

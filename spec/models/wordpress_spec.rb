@@ -34,7 +34,7 @@ describe Wordpress do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response.should eq(error: "the server responded with status 408 for http://en.search.wordpress.com/?q=\"#{article.doi_escaped}\"&t=post&f=json&size=20")
+      response.should eq(error: "the server responded with status 408 for http://en.search.wordpress.com/?q=\"#{article.doi_escaped}\"&t=post&f=json&size=20", :status=>408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -84,7 +84,7 @@ describe Wordpress do
 
     it "should catch timeout errors with the Wordpress API" do
       article = FactoryGirl.create(:article, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for http://en.search.wordpress.com/?q=\"#{article.doi_escaped}\"&t=post&f=json&size=20" }
+      result = { error: "the server responded with status 408 for http://en.search.wordpress.com/?q=\"#{article.doi_escaped}\"&t=post&f=json&size=20", status: 408 }
       response = subject.parse_data(result, article)
       response.should eq(result)
     end

@@ -40,7 +40,7 @@ describe Publisher do
       error = "the server responded with status 401 for http://api.crossref.org/members?offset=0&query=&rows=20"
       stub = stub_request(:get, subject.query_url).to_return(:body => body, :status => 401)
       response = subject.get_data
-      response.should eq(error: error)
+      response.should eq(error: error, status: 401)
       stub.should have_been_requested
 
       Alert.count.should == 1
@@ -53,7 +53,7 @@ describe Publisher do
     it "should get_data timeout error" do
       stub = stub_request(:get, subject.query_url).to_return(:status => 408)
       response = subject.get_data
-      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/members?offset=0&query=&rows=20")
+      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/members?offset=0&query=&rows=20", status: 408)
       stub.should have_been_requested
 
       Alert.count.should == 1
