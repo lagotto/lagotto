@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
 
     # Boot with a GUI so you can see the screen. (Default is headless)
     # vb.gui = true
-    
+
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
@@ -52,9 +52,13 @@ Vagrant.configure("2") do |config|
     override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
     override.ssh.username = "ubuntu"
 
-    provider.client_id = 'EXAMPLE'
-    provider.api_key = 'EXAMPLE'
+    provider.region = 'nyc2'
+    provider.image = 'Ubuntu 12.04.4 x64'
     provider.size = '1GB'
+
+    # please configure
+    override.vm.hostname = "ALM.EXAMPLE.ORG"
+    provider.token = 'EXAMPLE'
   end
 
   config.vm.hostname = "alm.local"
