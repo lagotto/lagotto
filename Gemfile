@@ -33,7 +33,7 @@ gem "cancan", "~> 1.6.10"
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.3.0"
-gem "rabl", "~> 0.9.0"
+gem "rabl", "~> 0.10.0"
 gem "dalli", "~> 2.7.0"
 gem "cache_digests", "~> 0.3.1"
 
