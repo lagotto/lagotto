@@ -89,64 +89,6 @@ describe "/api/v5/sources" do
         ApiRequest.count.should eql(2)
         ApiRequest.last.view_duration.should be < 0.5 * ApiRequest.first.view_duration
       end
-
-      it "updates the cached_at column when a source is updated" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
-
-        sleep 1
-
-        Rails.cache.exist?("#{key}//json").should be_true
-        response = JSON.parse(Rails.cache.read("#{key}//json"))
-        data = response["data"]
-        data["display_name"].should eql(citeulike.display_name)
-        data["display_name"].should_not eql(display_name)
-
-        # wait a second so that the timestamp for cache_key is different
-        sleep 1
-        cached_at = citeulike.cached_at.utc.iso8601
-        citeulike.update_attributes!(display_name: display_name)
-
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
-        cache_key = "rabl/v5/#{user.cache_key}/#{citeulike.cache_key}"
-        cache_key.should_not eql(key)
-        Rails.cache.exist?("#{cache_key}//json").should be_true
-        response = JSON.parse(Rails.cache.read("#{cache_key}//json"))
-        data = response["data"]
-        data["display_name"].should eql(citeulike.display_name)
-        data["display_name"].should eql(display_name)
-        data["update_date"].should be > cached_at
-      end
-
-      it "does not use a stale cache when a source is updated" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
-
-        sleep 1
-
-        Rails.cache.exist?("#{key}//json").should be_true
-        response = JSON.parse(Rails.cache.read("#{key}//json"))
-        data = response["data"]
-        data["display_name"].should eql(citeulike.display_name)
-        data["display_name"].should_not eql(display_name)
-
-        # wait a second so that the timestamp for cache_key is different
-        sleep 1
-        citeulike.update_attributes!(display_name: display_name)
-
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
-        cache_key = "rabl/v5/#{user.cache_key}/#{citeulike.cache_key}"
-        cache_key.should_not eql(key)
-        Rails.cache.exist?("#{cache_key}//json").should be_true
-        response = JSON.parse(Rails.cache.read("#{cache_key}//json"))
-        data = response["data"]
-        data["display_name"].should eql(citeulike.display_name)
-        data["display_name"].should eql(display_name)
-      end
     end
   end
 end
