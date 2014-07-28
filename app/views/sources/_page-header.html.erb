@@ -1,4 +1,3 @@
 <h1 id="api_key" data-name="<%= @source.name %>" data-api_key="<%= CONFIG[:api_key] %>" data-uid_type="<%= CONFIG[:uid] %>" data-page="" data-q="" data-class_name="" data-order="<%= @source.name %>">
-  <%= h(@source.display_name) %> <small id="update_date"><%= date_from_iso8601(@source.update_date) + ' UTC' %></small>
+  <%= h(@source.display_name) %> <small id="update_date"><%= date_from_iso8601(@source.update_date) + ' UTC' %> <span class="pull-right"><%= state_label(@source.human_state_name).html_safe %></span></small>
 </h1>
-<div class="pull-right"><%= state_label(@source.human_state_name).html_safe %></div>
