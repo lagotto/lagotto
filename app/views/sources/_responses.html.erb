@@ -19,9 +19,9 @@
             <td <%= group.sources.visible.empty? ? "rowspan=1" : "rowspan=#{group.sources.visible.count}" %>><h4><%= h(group.display_name) %></h4></td>
             <td class="name"><%= link_to group.sources.visible.first.display_name, source_path(group.sources.visible.first.name) %></td>
             <td><%= state_label(group.sources.visible.first.human_state_name).html_safe %></td>
-            <td class="number" id="response_count_<%= group.sources.visible.first.name %>">&nbsp;</td>
-            <td class="number" id="average_count_<%= group.sources.visible.first.name %>">&nbsp;</td>
-            <td class="number" id="error_count_<%= group.sources.visible.first.name %>">&nbsp;</td>
+            <td class="number" id="response_count_<%= group.sources.visible.first.name %>"><%= number_hiding_zero(group.sources.visible.first.cached_version["response_count"]) %></td>
+            <td class="number" id="average_count_<%= group.sources.visible.first.name %>"><%= number_hiding_zero(group.sources.visible.first.cached_version["average_count"]) %></td>
+            <td class="number" id="error_count_<%= group.sources.visible.first.name %>"><%= number_hiding_zero(group.sources.visible.first.cached_version["error_count"]) %></td>
           <% end %>
         </tr>
         <% if group.sources.visible.size > 1 %>
@@ -29,9 +29,9 @@
             <tr>
               <td><%= link_to source.display_name, source_path(source) %></td>
               <td><%= state_label(source.human_state_name).html_safe %></td>
-              <td class="number" id="response_count_<%= source.name %>">&nbsp;</td>
-              <td class="number" id="average_count_<%= source.name %>">&nbsp;</td>
-              <td class="number" id="error_count_<%= source.name %>">&nbsp;</td>
+              <td class="number" id="response_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version["response_count"]) %></td>
+              <td class="number" id="average_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version["average_count"]) %></td>
+              <td class="number" id="error_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version["error_count"]) %></td>
             </tr>
           <% end %>
         <% end %>

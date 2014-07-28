@@ -26,22 +26,22 @@ if (query) {
 }
 
 // add data to page
-function jobsViz(data) {
-  for (var i=0; i<data.length; i++) {
-    item = data[i];
+// function jobsViz(data) {
+//   for (var i=0; i<data.length; i++) {
+//     item = data[i];
 
-    // Jobs tab
-    d3.select("#queued_count_" + item["name"]).html(numberWithDelimiter(item["status"]["queued"]));
-    d3.select("#stale_count_" + item["name"]).html(numberWithDelimiter(item["status"]["stale"]));
+//     // Jobs tab
+//     d3.select("#queued_count_" + item["name"]).html(numberWithDelimiter(item["status"]["queued"]));
+//     d3.select("#stale_count_" + item["name"]).html(numberWithDelimiter(item["status"]["stale"]));
 
-    // Responses tab
-    d3.select("#response_count_" + item["name"]).html(numberWithDelimiter(item["responses"]["count"]));
-    d3.select("#average_count_" + item["name"]).html(numberWithDelimiter(item["responses"]["average"]));
-    if(item["error_count"] > 0) {
-      d3.select("#error_count_" + item["name"]).html("<a href='/alerts?source=" + item["name"] + "'>" + formatFixed(item["error_count"]) + "</a>");
-    }
-  };
-}
+//     // Responses tab
+//     d3.select("#response_count_" + item["name"]).html(numberWithDelimiter(item["responses"]["count"]));
+//     d3.select("#average_count_" + item["name"]).html(numberWithDelimiter(item["responses"]["average"]));
+//     if(item["error_count"] > 0) {
+//       d3.select("#error_count_" + item["name"]).html("<a href='/alerts?source=" + item["name"] + "'>" + formatFixed(item["error_count"]) + "</a>");
+//     }
+//   };
+// }
 
 // articles bar chart
 function articlesViz(data) {

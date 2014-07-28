@@ -286,9 +286,17 @@ class Source < ActiveRecord::Base
     cached_at.utc.iso8601
   end
 
+  def source_url
+    "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
+  end
+
+  def cached_version
+    response = get_result(source_url, timeout: 5)
+    response["data"] || {}
+  end
+
   def update_cache
     update_column(:cached_at, Time.zone.now)
-    source_url = "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
     DelayedJob.delete_all(queue: "#{name}-cache-queue")
     delay(priority: 0, queue: "#{name}-cache-queue").get_result(source_url, timeout: 300)
   end
