@@ -84,8 +84,7 @@ class Status
 
   def cached_version
     response = Rails.cache.read("rabl/v5/1/#{cache_key}//json")
-    response.nil? ? { "data" => {} } : JSON.parse(response)
-    response["data"]
+    response.nil? ? { "data" => {} } : JSON.parse(response)["data"]
   end
 
   def update_cache
