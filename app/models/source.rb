@@ -291,8 +291,9 @@ class Source < ActiveRecord::Base
   end
 
   def cached_version
-    response = Rails.cache.fetch(cache_key)
-    response.nil? ? {} : response["data"]
+    response = Rails.cache.read("rabl/v5/1/#{cache_key}//json")
+    response.nil? ? { "data" => { "responses" => {} } } : JSON.parse(response)
+    response["data"]
   end
 
   def update_cache
