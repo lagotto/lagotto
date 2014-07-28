@@ -74,9 +74,17 @@ class Status
     Rails.cache.fetch('status:timestamp') { Time.zone.now.utc.iso8601 }
   end
 
+  def status_url
+    "http://#{CONFIG[:hostname]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
+  end
+
+  def cached_version
+    response = get_result(status_url, timeout: 5)
+    response["data"] || {}
+  end
+
   def update_cache
     Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
-    status_url = "http://#{CONFIG[:hostname]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
     DelayedJob.delete_all(queue: "status-cache-queue")
     delay(priority: 0, queue: "status-cache-queue").get_result(status_url, timeout: 300)
   end
