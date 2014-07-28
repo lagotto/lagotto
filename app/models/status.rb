@@ -80,7 +80,7 @@ class Status
 
   def cached_version
     response = Rails.cache.fetch(cache_key)
-    response["data"] || {}
+    response.nil? ? {} : response["data"]
   end
 
   def update_cache
