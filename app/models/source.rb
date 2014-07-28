@@ -291,7 +291,7 @@ class Source < ActiveRecord::Base
   end
 
   def cached_version
-    response = get_result(source_url, timeout: 5)
+    response = Rails.cache.fetch(cache_key)
     response["data"] || {}
   end
 
