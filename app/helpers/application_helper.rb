@@ -94,6 +94,10 @@ module ApplicationHelper
     end
   end
 
+  def date_from_iso8601(date)
+    DateTime.parse(date).to_s(:short)
+  end
+
   def description_with_link(report)
     if report.name == 'article_statistics_report' && article_statistics_report_path
       h(report.description) + link_to("Download", article_statistics_report_path, :class => 'pull-right')

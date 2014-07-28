@@ -46,7 +46,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="delayed_jobs_active_count"><%= @status.delayed_jobs_active_count %></h2>
+          <h2 id="delayed_jobs_active_count"><%= number_with_delimiter(@status.delayed_jobs_active_count) %></h2>
         </div>
         <div class="panel-footer"><%= link_to "Pending and working jobs", sources_path %></div>
       </div>
@@ -72,7 +72,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="users_count"><%= @status.users_count %></h2>
+          <h2 id="users_count"><%= number_with_delimiter(@status.users_count) %></h2>
         </div>
         <div class="panel-footer"><%= link_to "Users", users_path %></div>
       </div>
@@ -88,7 +88,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="couchdb_size"><%= @status.couchdb_size %></h2>
+          <h2 id="couchdb_size"><%= number_to_human_size(@status.couchdb_size) %></h2>
         </div>
         <div class="panel-footer">CouchDB database size</div>
       </div>
