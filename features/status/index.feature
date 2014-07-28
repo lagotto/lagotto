@@ -35,7 +35,7 @@ Feature: View dashboard
 
     Scenario: CouchDB info
       When I go to the "Status" page
-      Then I should see that the CouchDB size is "2.6 kB"
+      Then I should see that the CouchDB size is "2.6 KB"
 
     @not_teamcity
     Scenario: Worker info
