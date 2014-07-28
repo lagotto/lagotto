@@ -24,8 +24,8 @@
             <td><%= state_label(source.human_state_name).html_safe %></td>
             <td class="number" id="pending_count_<%= source.name %>"><%= number_hiding_zero(source.pending_count) %></td>
             <td class="number" id="working_count_<%= source.name %>"><%= number_hiding_zero(source.working_count) %></td>
-            <td class="number" id="queued_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version["queued_count"]) %></td>
-            <td class="number" id="stale_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version["stale_count"]) %></td>
+            <td class="number" id="queued_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version["status"]["queued"]) %></td>
+            <td class="number" id="stale_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version["status"]["stale"]) %></td>
           </tr>
         <% end %>
       <% end %>
