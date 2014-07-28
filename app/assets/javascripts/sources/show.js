@@ -23,20 +23,20 @@ if (query) {
 }
 
 // add data to page
-function sourceViz(json) {
-  data = json['data'];
+// function sourceViz(json) {
+//   data = json['data'];
 
-  d3.select("#update_date").html(formatTime(inputTime.parse(data["update_date"])));
+//   d3.select("#update_date").html(formatTime(inputTime.parse(data["update_date"])));
 
-  // Summary table
-  d3.select("#response_count").html(numberWithDelimiter(data["responses"]["count"]));
+//   // Summary table
+//   d3.select("#response_count").html(numberWithDelimiter(data["responses"]["count"]));
 
-  d3.select("#average_count").html(numberWithDelimiter(data["responses"]["average"]));
-  d3.select("#maximum_count").html(numberWithDelimiter(data["responses"]["maximum"]));
+//   d3.select("#average_count").html(numberWithDelimiter(data["responses"]["average"]));
+//   d3.select("#maximum_count").html(numberWithDelimiter(data["responses"]["maximum"]));
 
-  d3.select("#article_count").html(numberWithDelimiter(data["article_count"]));
-  d3.select("#event_count").html(numberWithDelimiter(data["event_count"]));
-};
+//   d3.select("#article_count").html(numberWithDelimiter(data["article_count"]));
+//   d3.select("#event_count").html(numberWithDelimiter(data["event_count"]));
+// };
 
 // Status donut chart
 function statusDonutViz(json) {
