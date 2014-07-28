@@ -74,6 +74,10 @@ class Status
     Rails.cache.fetch('status:timestamp') { Time.zone.now.utc.iso8601 }
   end
 
+  def cache_key
+    "status/#{update_date}"
+  end
+
   def status_url
     "http://#{CONFIG[:hostname]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
   end
@@ -88,6 +92,4 @@ class Status
     DelayedJob.delete_all(queue: "status-cache-queue")
     delay(priority: 0, queue: "status-cache-queue").get_result(status_url, timeout: 300)
   end
-
-  alias_method :cache_key, :update_date
 end
