@@ -17,6 +17,9 @@
 # limitations under the License.
 
 class Status
+  # include HTTP request helpers
+  include Networkable
+
   attr_reader :articles_count, :events_count, :sources_disabled_count, :alerts_last_day_count, :workers_count, :delayed_jobs_active_count, :responses_count, :requests_count, :users_count, :version, :couchdb_size, :mysql_size, :update_date, :cache_key
 
   def articles_count
@@ -69,6 +72,13 @@ class Status
 
   def update_date
     Rails.cache.fetch('status:timestamp') { Time.zone.now.utc.iso8601 }
+  end
+
+  def update_cache
+    Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
+    status_url = "http://#{CONFIG[:hostname]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
+    DelayedJob.delete_all(queue: "status-cache-queue")
+    delay(priority: 0, queue: "status-cache-queue").get_result(status_url, timeout: 300)
   end
 
   alias_method :cache_key, :update_date

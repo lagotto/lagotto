@@ -49,8 +49,6 @@ class Source < ActiveRecord::Base
 
   serialize :config, OpenStruct
 
-  after_update :check_cache, :if => proc { |source| source.state_changed? || source.display_name_changed? }
-
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
   validates :workers, :numericality => { :only_integer => true, :greater_than => 0 }
@@ -280,19 +278,19 @@ class Source < ActiveRecord::Base
     errors.add(:cron_line, "is not a valid crontab entry")
   end
 
-  def check_cache
-    if ActionController::Base.perform_caching
-      DelayedJob.delete_all(queue: "#{name}-cache-queue")
-      delay(priority: 0, queue: "#{name}-cache-queue").expire_cache
-    end
-  end
-
   def cache_key
     "#{name}/#{cached_at.utc.iso8601}"
   end
 
   def update_date
     cached_at.utc.iso8601
+  end
+
+  def update_cache
+    update_column(:cached_at, Time.zone.now)
+    source_url = "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
+    DelayedJob.delete_all(queue: "#{name}-cache-queue")
+    delay(priority: 0, queue: "#{name}-cache-queue").get_result(source_url, timeout: 300)
   end
 
   # Remove all retrieval records for this source that have never been updated,
@@ -310,21 +308,5 @@ class Source < ActiveRecord::Base
     sql += " where articles.id not in (#{article_ids.join(",")})" if article_ids.any?
 
     ActiveRecord::Base.connection.execute sql
-  end
-
-  def cache_timeout
-    30.seconds + (Article.count / 250).seconds
-  end
-
-  private
-
-  def expire_cache
-    update_column(:cached_at, Time.zone.now)
-    source_url = "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
-    get_result(source_url, timeout: cache_timeout)
-
-    Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
-    status_url = "http://#{CONFIG[:hostname]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
-    get_result(status_url, timeout: cache_timeout)
   end
 end

@@ -17,6 +17,7 @@ set :output, "log/cron.log"
 
 every 60.minutes do
   rake "queue:stale"
+  rake "cache:update"
 end
 
 every 4.hours do
