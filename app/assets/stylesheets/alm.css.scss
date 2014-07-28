@@ -240,6 +240,7 @@ body { padding-top: 60px; padding-bottom: 20px; }
 // Fix inconsistencies
 .panel-group .panel .panel-heading { background-color: $body-bg; }
 .panel-group .panel .panel-heading h4 small { margin-top: 3px; }
+h1 small span { vertical-align: bottom; font-size: 66%; }
 .label { font-weight: normal; }
 .btn-link { color: $navbar-inverse-link-color; }
 .btn-link:hover, .btn-link:focus, .btn-link:active { color: $navbar-inverse-link-hover-color; text-decoration: none; }
