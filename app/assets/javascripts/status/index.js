@@ -14,18 +14,15 @@ if (query) {
   });
 }
 
-// add data to page
+// add data for slow queries to page
 function statusViz(data) {
-  for (var item in data) {
-    if(item.substr(item.length - 5) == "count") {
-      d3.select("#" + item).html(formatFixed(data[item]));
-    } else if(item.substr(item.length - 4) == "size") {
-      d3.select("#" + item).html(numberToHumanSize(data[item]));
-    } else if(item == "update_date") {
-      d3.select("#" + item).html(formatTime(inputTime.parse(data[item])));
-    } else {
-      d3.select("#" + item).html(data[item]);
-    }
+   d3.select("#articles_count").html(formatFixed(data["articles_count"]));
+   d3.select("#articles_last30_count").html(formatFixed(data["articles_last30_count"]));
+   d3.select("#events_count").html(formatFixed(data["events_count"]));
+
+   d3.select("#alerts_last_day_count").html(formatFixed(data["alerts_last_day_count"]));
+   d3.select("#responses_count").html(formatFixed(data["responses_count"]));
+   d3.select("#requests_count").html(formatFixed(data["requests_count"]));
   };
 }
 
