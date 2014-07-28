@@ -26,7 +26,7 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="version">&nbsp;</h2>
+        <h2 id="version"><%= @status.version %></h2>
       </div>
       <div class="panel-footer">ALM Version</div>
     </div>
@@ -38,7 +38,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="workers_count">&nbsp;</h2>
+          <h2 id="workers_count"><%= @status.workers_count %></h2>
         </div>
         <div class="panel-footer">Active workers</div>
       </div>
@@ -46,7 +46,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="delayed_jobs_active_count">&nbsp;</h2>
+          <h2 id="delayed_jobs_active_count"><%= @status.delayed_jobs_active_count %></h2>
         </div>
         <div class="panel-footer"><%= link_to "Pending and working jobs", sources_path %></div>
       </div>
@@ -72,7 +72,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="users_count">&nbsp;</h2>
+          <h2 id="users_count"><%= @status.users_count %></h2>
         </div>
         <div class="panel-footer"><%= link_to "Users", users_path %></div>
       </div>
@@ -80,7 +80,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="sources_active_count">&nbsp;</h2>
+          <h2 id="sources_active_count"><%= @status.sources_active %></h2>
         </div>
         <div class="panel-footer"><%= link_to "Active sources", sources_path %></div>
       </div>
@@ -88,7 +88,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="couchdb_size">&nbsp;</h2>
+          <h2 id="couchdb_size"><%= @status.couchdb_size %></h2>
         </div>
         <div class="panel-footer">CouchDB database size</div>
       </div>
