@@ -145,7 +145,7 @@ describe Import do
       error = "the server responded with status 401 for http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
       stub = stub_request(:get, import.query_url).to_return(:body => body, :status => 401)
       response = import.get_data
-      response.should eq(error: error, status: 401)
+      response.should eq(error: error)
       stub.should have_been_requested
 
       Alert.count.should == 1
@@ -159,7 +159,7 @@ describe Import do
       import = Import.new
       stub = stub_request(:get, import.query_url).to_return(:status => 408)
       response = import.get_data
-      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000", status: 408)
+      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000")
       stub.should have_been_requested
 
       Alert.count.should == 1

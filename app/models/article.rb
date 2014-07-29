@@ -38,7 +38,7 @@ class Article < ActiveRecord::Base
 
   validates :uid, :title, :year, :presence => true
   validates :doi, :uniqueness => true , :format => { :with => DOI_FORMAT }, :allow_nil => true
-  validates :year, :numericality => { :only_integer => true }, :inclusion => { :in => 1660..(Time.zone.now.year + 1), :message => "should be between 1660 and #{Time.zone.now.year + 1}" }
+  validates :year, :numericality => { :only_integer => true }, :inclusion => { :in => 1650..(Time.zone.now.year), :message => "should be between 1650 and #{Time.zone.now.year}" }
   validate :validate_published_on
 
   before_validation :sanitize_title

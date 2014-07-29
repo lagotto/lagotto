@@ -19,11 +19,8 @@ every 60.minutes do
   rake "queue:stale"
 end
 
-# only use this cron job if the application manages the workers
-if ENV['WORKERS']
-  every 4.hours do
-    rake "workers:monitor"
-  end
+every 4.hours do
+  rake "workers:monitor"
 end
 
 every 1.day, at: "1:00 AM" do

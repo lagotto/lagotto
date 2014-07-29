@@ -5,24 +5,6 @@ describe "/api/v5/articles" do
   let(:api_key) { user.authentication_token }
   let(:error) { { "error" => "Article not found."} }
 
-  context "missing api_key" do
-    let(:article) { FactoryGirl.create(:article_with_events) }
-    let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}" }
-    let(:missing_key) { { "total" => 0, "total_pages" => 0, "page" => 0, "error" => "Missing or wrong API key.", "data" => [] } }
-
-    it "JSON" do
-      get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-      last_response.status.should eql(401)
-      last_response.body.should eq(missing_key.to_json)
-      Alert.count.should == 1
-      alert = Alert.first
-      alert.class_name.should eq("Net::HTTPUnauthorized")
-      alert.message.should include("Missing or wrong API key.")
-      alert.content_type.should eq("application/json")
-      alert.status.should == 401
-    end
-  end
-
   context "index" do
     let(:articles) { FactoryGirl.create_list(:article_with_events, 50) }
 
