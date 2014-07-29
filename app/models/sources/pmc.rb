@@ -23,6 +23,9 @@ class Pmc < Source
   include Dateable
 
   def parse_data(result, article, options={})
+    # properly handle not found errors
+    result = { 'data' => [] } if result[:status] == 404
+
     return result if result[:error]
 
     events = Array(result["views"])

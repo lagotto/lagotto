@@ -20,6 +20,9 @@
 
 class F1000 < Source
   def parse_data(result, article, options={})
+    # properly handle not found errors
+    result = { 'data' => [] } if result[:status] == 404
+
     return result if result[:error]
 
     events = get_events(result)

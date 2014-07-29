@@ -33,7 +33,7 @@ describe PubMed do
     it "should catch errors with the PubMed API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response.should eq(error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=#{article.pmid}")
+      response.should eq(error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=#{article.pmid}", :status=>408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -84,7 +84,7 @@ describe PubMed do
 
     it "should catch timeout errors with the PubMed API" do
       article = FactoryGirl.create(:article, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=#{article.pmid}" }
+      result = { error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=#{article.pmid}", status: 408 }
       response = subject.parse_data(result, article)
       response.should eq(result)
     end

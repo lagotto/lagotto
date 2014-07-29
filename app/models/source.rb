@@ -174,7 +174,10 @@ class Source < ActiveRecord::Base
     # turn result into a hash for easier parsing later
     result = { 'data' => result } unless result.is_a?(Hash)
 
-    # return early if an error occured
+    # properly handle not found errors
+    result = { 'data' => [] } if result[:status] == 404
+
+    # return early if an error occured that is not a not_found error
     return result if result[:error]
 
     options.merge!(response_options)
