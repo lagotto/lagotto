@@ -5,12 +5,6 @@ describe RetrievalStatus do
   it { should belong_to(:article) }
   it { should belong_to(:source) }
 
-  it "stale_at should be publication date for unpublished articles" do
-    article = FactoryGirl.create(:article, year: Time.zone.now.year + 1)
-    retrieval_status = FactoryGirl.create(:retrieval_status, article: article)
-    retrieval_status.stale_at.to_date.should eq(retrieval_status.article.published_on)
-  end
-
   describe "use stale_at" do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
 
@@ -22,12 +16,12 @@ describe RetrievalStatus do
       (retrieval_status.stale_at - Time.zone.now).should be > 0
     end
 
-    it "stale_at should be after article publication date for published articles" do
+    it "stale_at should be after article publication date" do
       (retrieval_status.stale_at - retrieval_status.article.published_on.to_datetime).should be > 0
     end
   end
 
-  describe "staleness intervals", :not_teamcity => true do
+  describe "staleness intervals" do
 
     it "published a day ago" do
       date = Time.zone.today - 1.day
