@@ -3,9 +3,9 @@ layout: page
 title: "Releases"
 ---
 
-## [ALM 3.2.5](https://github.com/articlemetrics/alm/releases/tag/v.3.2.5)
+## [ALM 3.3](https://github.com/articlemetrics/alm/releases/tag/v.3.3)
 
-ALM 3.2.5 was released on July 29, 2014 with the following features:
+ALM 3.3 was released on July 29, 2014 with the following features:
 
 * import of articles via the CrossRef API
 * support for oEmbed
