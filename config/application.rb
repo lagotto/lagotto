@@ -17,7 +17,7 @@ CONFIG[:hostname] ||= "localhost"
 CONFIG[:memcached_servers] ||= [CONFIG[:hostname]]
 
 # provide some of the configuration settings as ENV variables
-ENV['WORKERS'] = CONFIG[:workers]
+ENV['WORKERS'] = CONFIG[:workers].to_s
 
 if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
