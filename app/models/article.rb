@@ -342,7 +342,11 @@ class Article < ActiveRecord::Base
   def update_published_on
     date_parts = [year, month, day].reject(&:blank?)
     published_on = Date.new(*date_parts)
-    write_attribute(:published_on, published_on)
+    if published_on > Date.today
+      errors.add :published_on, "is a date in the future"
+    else
+      write_attribute(:published_on, published_on)
+    end
   rescue ArgumentError
     nil
   end
