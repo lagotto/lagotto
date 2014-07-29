@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Import do
 
   before(:each) do
-    Date.stub(:today).and_return(Date.new(2013, 9, 5))
-    Date.stub(:yesterday).and_return(Date.new(2013, 9, 4))
+    Date.stub(:today).and_return(Date.new(2014, 7, 5))
+    Date.stub(:yesterday).and_return(Date.new(2014, 7, 4))
   end
 
   context "query_url" do
@@ -19,55 +19,55 @@ describe Import do
   context "query_url" do
     it "should have default query_url" do
       import = Import.new
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-04&offset=0&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with from_update_date" do
-      import = Import.new(from_update_date: "2013-09-01")
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-01%2Cuntil-update-date%3A2013-09-04&offset=0&rows=1000"
+      import = Import.new(from_update_date: "2014-07-01")
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-01%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with until_update_date" do
-      import = Import.new(until_update_date: "2013-09-05")
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-05&offset=0&rows=1000"
+      import = Import.new(until_update_date: "2014-07-05")
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with member_id" do
       import = Import.new(member: 340)
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-04%2Cmember%3A340&offset=0&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05%2Cmember%3A340&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with type" do
       import = Import.new(type: 'book-entry')
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-04%2Ctype%3Abook-entry&offset=0&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05%2Ctype%3Abook-entry&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with issn" do
       import = Import.new(issn: '1545-7885')
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-04%2Cissn%3A1545-7885&offset=0&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05%2Cissn%3A1545-7885&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with sample" do
       import = Import.new(sample: 100)
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-04&sample=100"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&sample=100"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with offset" do
       import = Import.new
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-04&offset=250&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=250&rows=1000"
       import.query_url(offset = 250).should eq(url)
     end
 
     it "should have query_url with rows" do
       import = Import.new
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-04&offset=0&rows=250"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=250"
       import.query_url(offset = 0, rows = 250).should eq(url)
     end
   end
@@ -91,13 +91,61 @@ describe Import do
       stub.should have_been_requested
     end
 
+    it "should get_data file" do
+      input = File.readlines(fixture_path + 'articles.txt')
+      import = Import.new(file: input)
+      response = import.get_data
+      response["message"]["items"].length.should == 2
+
+      item = response["message"]["items"].first
+      item["doi"].should eq("10.1371/journal.pone.0040259")
+      item["issued"]["date-parts"].should eq([[2012, 7, 11]])
+      item["title"].should eq(["The Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
+    end
+
+    it "should get_data file missing day" do
+      input = File.readlines(fixture_path + 'articles_year_month.txt')
+      import = Import.new(file: input)
+      response = import.get_data
+      response["message"]["items"].length.should == 2
+
+      item = response["message"]["items"].first
+      item["doi"].should eq("10.1371/journal.pone.0040259")
+      item["issued"]["date-parts"].should eq([[2012, 8]])
+      item["title"].should eq(["The Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
+    end
+
+    it "should get_data file missing month and day" do
+      input = File.readlines(fixture_path + 'articles_year.txt')
+      import = Import.new(file: input)
+      response = import.get_data
+      response["message"]["items"].length.should == 2
+
+      item = response["message"]["items"].first
+      item["doi"].should eq("10.1371/journal.pone.0040259")
+      item["issued"]["date-parts"].should eq([[2011]])
+      item["title"].should eq(["The Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
+    end
+
+    it "should get_data file missing dates" do
+      input = File.readlines(fixture_path + 'articles_nil_dates.txt')
+      import = Import.new(file: input)
+      response = import.get_data
+      response["message"]["items"].length.should == 1
+
+      item = response["message"]["items"].first
+      item["doi"].should eq("10.1371/journal.pone.0040259")
+      item["issued"]["date-parts"].should eq([[]])
+      item["title"].should eq(["Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
+    end
+
     it "should get_data access denied error" do
       import = Import.new
-      body = File.read(fixture_path + 'import_access_denied.txt')
-      error = "the server responded with status 401 for http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-04&offset=0&rows=1000"
+      body = File.read(fixture_path + 'access_denied.txt')
+      error = "the server responded with status 401 for http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
       stub = stub_request(:get, import.query_url).to_return(:body => body, :status => 401)
       response = import.get_data
-      response.should eq(error: error)
+      response.should eq(error: error, status: 401)
       stub.should have_been_requested
 
       Alert.count.should == 1
@@ -111,7 +159,7 @@ describe Import do
       import = Import.new
       stub = stub_request(:get, import.query_url).to_return(:status => 408)
       response = import.get_data
-      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-04&offset=0&rows=1000")
+      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000", status: 408)
       stub.should have_been_requested
 
       Alert.count.should == 1
@@ -153,6 +201,53 @@ describe Import do
       article[:month].should == 8
       article[:day].should be_nil
     end
+
+    it "should parse_data missing title" do
+      import = Import.new
+      body = File.read(fixture_path + 'import.json')
+      result = JSON.parse(body)
+      result["message"]["items"][5]["title"] = []
+      result.extend Hashie::Extensions::DeepFetch
+      response = import.parse_data(result)
+      response.length.should eq(10)
+
+      article = response[5]
+      article[:doi].should eq("10.1007/bf02975686")
+      article[:title].should be_nil
+    end
+
+    it "should parse_data missing title journal-issue" do
+      import = Import.new
+      body = File.read(fixture_path + 'import.json')
+      result = JSON.parse(body)
+      result["message"]["items"][5]["title"] = []
+      result["message"]["items"][5]["type"] = "journal-issue"
+      result.extend Hashie::Extensions::DeepFetch
+
+      response = import.parse_data(result)
+      response.length.should eq(10)
+
+      article = response[5]
+      article[:doi].should eq("10.1007/bf02975686")
+      article[:title].should eq("The Dublin Journal of Medical Science")
+    end
+
+    it "should parse_data missing title missing container-title journal-issue" do
+      import = Import.new
+      body = File.read(fixture_path + 'import.json')
+      result = JSON.parse(body)
+      result["message"]["items"][5]["title"] = []
+      result["message"]["items"][5]["container-title"] = []
+      result["message"]["items"][5]["type"] = "journal-issue"
+      result.extend Hashie::Extensions::DeepFetch
+
+      response = import.parse_data(result)
+      response.length.should eq(10)
+
+      article = response[5]
+      article[:doi].should eq("10.1007/bf02975686")
+      article[:title].should eq("No title")
+    end
   end
 
   context "import_data" do
@@ -176,7 +271,7 @@ describe Import do
       result.extend Hashie::Extensions::DeepFetch
       items = import.parse_data(result)
       response = import.import_data(items)
-      response.compact.length.should eq(10)
+      response.length.should eq(10)
       response.should eq((1..10).to_a)
       Alert.count.should == 0
     end
