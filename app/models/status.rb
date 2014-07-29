@@ -36,7 +36,7 @@ class Status
   end
 
   def workers_count
-    if CONFIG[:workers] > 0
+    if CONFIG[:workers]
       Worker.count
     else
       0

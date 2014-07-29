@@ -18,5 +18,6 @@ server '33.33.33.44', roles: %w{web app db}
 set :ssh_options, user: "vagrant", keys: %w(~/.vagrant.d/insecure_private_key), auth_methods: %w(publickey)
 
 # Set number of delayed_job workers
-if ENV['WORKERS'] > 0
-set :delayed_job_args, "-n #{ENV['WORKERS']}"
+if ENV['WORKERS']
+  set :delayed_job_args, "-n #{ENV['WORKERS']}"
+end

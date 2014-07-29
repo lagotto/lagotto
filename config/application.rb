@@ -15,7 +15,6 @@ CONFIG[:sitename] ||= "ALM"
 CONFIG[:useragent] ||= "Article-Level Metrics"
 CONFIG[:hostname] ||= "localhost"
 CONFIG[:memcached_servers] ||= [CONFIG[:hostname]]
-CONFIG[:workers] ||= 0
 
 # provide some of the configuration settings as ENV variables
 ENV['WORKERS'] = CONFIG[:workers]
