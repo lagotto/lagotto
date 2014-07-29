@@ -39,4 +39,4 @@ Feature: Manage ALM Database
       And I pipe in the file "../../spec/fixtures/articles.txt"
       Then the output should contain "Reading dois from standard input..."
       Then the output should contain "Read 2 valid entries; ignored 0 invalid entries"
-      Then the output should contain "Deleted 1 articles, ignored 1 articles"
+      Then the output should contain "Deleted 0 articles, ignored 2 articles"

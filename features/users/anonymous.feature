@@ -3,6 +3,7 @@ Feature: Use without signing in
   In order to use ALM
   Users should not be required to sign in
 
+    @not_teamcity
     Scenario: Anonymous user can see articles
       Given we have a user with role "admin"
       And that we have 5 articles

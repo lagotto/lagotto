@@ -4,6 +4,7 @@ Feature: View article list
   A user
   Should be able to view a list of articles
 
+    @not_teamcity
     Scenario Outline: Article list
       Given we have a user with role "admin"
       And that we have <Number> articles
