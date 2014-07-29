@@ -19,8 +19,11 @@ every 60.minutes do
   rake "queue:stale"
 end
 
-every 4.hours do
-  rake "workers:monitor"
+# only use this cron job if the application manages the workers
+if CONFIG[:workers]
+  every 4.hours do
+    rake "workers:monitor"
+  end
 end
 
 every 1.day, at: "1:00 AM" do

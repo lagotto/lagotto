@@ -20,4 +20,6 @@ role :db,  %w{33.33.33.44}
 set :ssh_options, user: "vagrant", keys: %w(~/.vagrant.d/insecure_private_key), auth_methods: %w(publickey)
 
 # Set number of delayed_job workers
-set :delayed_job_args, "-n 3"
+if CONFIG[:workers]
+  set :delayed_job_args, "-n #{CONFIG[:workers]}"
+end

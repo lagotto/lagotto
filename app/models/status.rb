@@ -36,7 +36,11 @@ class Status
   end
 
   def workers_count
-    Worker.count
+    if CONFIG[:workers]
+      Worker.count
+    else
+      0
+    end
   end
 
   def delayed_jobs_active_count
