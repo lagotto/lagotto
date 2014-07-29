@@ -151,9 +151,7 @@ set :bundle_flags, '--system'
 # don't precompile assets
 set :assets_roles, []
 
-role :app, %w{33.33.33.44}
-role :web, %w{33.33.33.44}
-role :db,  %w{33.33.33.44}
+server '33.33.33.44', roles: %w{web app db}
 
 set :ssh_options, {
   user: "vagrant",
@@ -411,10 +409,10 @@ production:
 
 ## Running ALM on multiple servers
 
-The ALM software was developed to run on a single server, but most components scale to multiple servers. When running ALM on multiple servers, make sure of that:
+The ALM software was developed to run on a single server, but most components scale to multiple servers. When running ALM on multiple servers, make sure that:
 
-* use the name used in the load balancer as `hostname`in `config/settings.yml`
-* memcached should be set up as a cluster by adding a `memcached_servers` list to with all ALM servers to `config/settings.yml`
-* workers should run on only one server (work is in progress to scale to multiple servers), e.g. the server with the `:db` role
+* the name used in the load balancer is the same as `hostname`in `config/settings.yml`
+* memcached should be set up as a cluster by adding a `memcached_servers` list with all ALM servers to `config/settings.yml`, e.g. `memcached_servers: [localhost, example.org]`
+* workers should run on only one server (work is in progress to scale to multiple servers), e.g. the server with the capistrano `:db` role
 * database maintenance rake tasks should run on only one server, capistrano defaults to install the cron jobs only for the `:db` role.
 * mail services (sending emails) should run on only one server. They are part of the database maintenance tasks, so by default run only on the server with the `:db` role.
