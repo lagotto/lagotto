@@ -36,7 +36,7 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="workers_count">&nbsp;</h2>
+        <h2 id="workers_count"><%= CONFIG[:workers] ? "&nbsp;" : "n/a" %></h2>
       </div>
       <div class="panel-footer">Active workers</div>
     </div>

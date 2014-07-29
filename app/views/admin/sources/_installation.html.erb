@@ -14,7 +14,7 @@
     </thead>
     <tbody>
       <% @groups.with_sources.each do |group| %>
-        <% group.sources.visible.each do |source| %>
+        <% group.sources.each do |source| %>
           <tr>
             <% if group.sources.first.name == source.name %>
               <td <%= "rowspan=#{group.sources.count}" %>><h4><%= h(group.display_name) %></h4></td>
