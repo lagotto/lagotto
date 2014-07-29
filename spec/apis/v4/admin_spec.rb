@@ -139,6 +139,11 @@ describe "/api/v4/articles" do
         response["error"].should eq ({"foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"]})
         response["success"].should be_nil
         response["data"].should be_nil
+
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("ActionController::UnpermittedParameters")
+        alert.status.should == 422
       end
     end
 
@@ -153,6 +158,11 @@ describe "/api/v4/articles" do
         response["error"].should eq ("Undefined method.")
         response["success"].should be_nil
         response["data"].should be_nil
+
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("NoMethodError")
+        alert.status.should == 422
       end
     end
   end
@@ -252,6 +262,11 @@ describe "/api/v4/articles" do
         response["error"].should eq ({"article"=>["parameter is required"]})
         response["success"].should be_nil
         response["data"].should be_nil
+
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("ActionController::ParameterMissing")
+        alert.status.should == 422
       end
     end
 
@@ -283,6 +298,11 @@ describe "/api/v4/articles" do
         response["error"].should eq ({"foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"]})
         response["success"].should be_nil
         response["data"].should be_nil
+
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("ActionController::UnpermittedParameters")
+        alert.status.should == 422
       end
     end
   end
