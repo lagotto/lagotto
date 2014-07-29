@@ -94,7 +94,7 @@ When /^I go to the "(.*?)" page$/ do |page_title|
 end
 
 When /^I go to the "(.*?)" admin page$/ do |page_title|
-  if page_title == "Errors"
+  if page_title == "Alerts"
     title = "alerts"
   elsif page_title == "Home"
     title = ""
