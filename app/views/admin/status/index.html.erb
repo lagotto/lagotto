@@ -25,7 +25,7 @@
 
   <ul class="nav nav-tabs" id="nav_index">
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
-    <% if CONFIG[:workers] %>
+    <% if CONFIG[:workers] > 0 %>
       <li><a href="#workers" data-toggle="tab" title="Workers">Workers</a></li>
     <% end %>
   </ul>
@@ -35,7 +35,7 @@
       <%= render :partial => 'summary' %>
     </div>
 
-    <% if CONFIG[:workers] %>
+    <% if CONFIG[:workers] > 0 %>
       <div class="tab-pane" id="workers">
         <%= render :partial => 'workers' %>
       </div>

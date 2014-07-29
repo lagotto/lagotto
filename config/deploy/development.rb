@@ -13,11 +13,10 @@ set :bundle_flags, '--system'
 # precompile assets in development
 set :assets_roles, [:web, :app]
 
-role :app, %w{33.33.33.44}
-role :web, %w{33.33.33.44}
-role :db,  %w{33.33.33.44}
+server '33.33.33.44', roles: %w{web app db}
 
 set :ssh_options, user: "vagrant", keys: %w(~/.vagrant.d/insecure_private_key), auth_methods: %w(publickey)
 
 # Set number of delayed_job workers
-set :delayed_job_args, "-n 3"
+if ENV['WORKERS'] > 0
+set :delayed_job_args, "-n #{ENV['WORKERS']}"

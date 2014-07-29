@@ -20,7 +20,7 @@ every 60.minutes do
 end
 
 # only use this cron job if the application manages the workers
-if CONFIG[:workers]
+if ENV['WORKERS']
   every 4.hours do
     rake "workers:monitor"
   end
