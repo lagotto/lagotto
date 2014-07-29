@@ -14,29 +14,19 @@
       </tr>
     </thead>
     <tbody>
-      <% @groups.each do |group| %>
-        <tr>
-          <% if group.sources.visible.size > 0 %>
-            <td <%= group.sources.visible.empty? ? "rowspan=1" : "rowspan=#{group.sources.visible.count}" %>><h4><%= h(group.display_name) %></h4></td>
-            <td class="name"><%= link_to group.sources.visible.first.display_name, admin_source_path(group.sources.visible.first.name) %></td>
-            <td><%= state_label(group.sources.visible.first.human_state_name).html_safe %></td>
-            <td class="number" id="pending_count_<%= group.sources.visible.first.name %>"><%= number_hiding_zero(group.sources.visible.first.pending_count) %></td>
-            <td class="number" id="working_count_<%= group.sources.visible.first.name %>"><%= number_hiding_zero(group.sources.visible.first.working_count) %></td>
-            <td class="number" id="queued_count_<%= group.sources.visible.first.name %>"></td>
-            <td class="number" id="stale_count_<%= group.sources.visible.first.name %>"></td>
-          <% end %>
-        </tr>
-        <% if group.sources.visible.size > 1 %>
-          <% group.sources.visible[1..-1].each do |source| %>
-            <tr>
-              <td><%= link_to source.display_name, admin_source_path(source) %></td>
-              <td><%= state_label(source.human_state_name).html_safe %></td>
-              <td class="number" id="pending_count_<%= source.name %>"><%= number_hiding_zero(source.pending_count) %></td>
-              <td class="number" id="working_count_<%= source.name %>"><%= number_hiding_zero(source.working_count) %></td>
-              <td class="number" id="queued_count_<%= source.name %>"></td>
-              <td class="number" id="stale_count_<%= source.name %>"></td>
-            </tr>
-          <% end %>
+      <% @groups.visible.each do |group| %>
+        <% group.sources.visible.each do |source| %>
+          <tr>
+            <% if group.sources.visible.first.name == source.name %>
+              <td <%= "rowspan=#{group.sources.visible.count}" %>><h4><%= h(group.display_name) %></h4></td>
+            <% end %>
+            <td><%= link_to source.display_name, source_path(source) %></td>
+            <td><%= state_label(source.human_state_name).html_safe %></td>
+            <td class="number" id="pending_count_<%= source.name %>"><%= number_hiding_zero(source.pending_count) %></td>
+            <td class="number" id="working_count_<%= source.name %>"><%= number_hiding_zero(source.working_count) %></td>
+            <td class="number" id="queued_count_<%= source.name %>"></td>
+            <td class="number" id="stale_count_<%= source.name %>"></td>
+          </tr>
         <% end %>
       <% end %>
     </tbody>

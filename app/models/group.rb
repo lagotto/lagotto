@@ -23,4 +23,7 @@ class Group < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
+
+  scope :visible, joins(:sources).where("state > ?", 1).order("id")
+  scope :with_sources, joins(:sources).order("groups.id")
 end

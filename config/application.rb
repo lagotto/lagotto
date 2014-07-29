@@ -10,6 +10,12 @@ SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/object:OpenStruct"]
 CONFIG = YAML.load(ERB.new(File.read(File.expand_path('../settings.yml', __FILE__))).result)[Rails.env]
 CONFIG.symbolize_keys!
 
+# reasonable defaults
+CONFIG[:sitename] ||= "ALM"
+CONFIG[:useragent] ||= "Article-Level Metrics"
+CONFIG[:hostname] ||= "localhost"
+CONFIG[:memcached_servers] ||= [CONFIG[:hostname]]
+
 if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
   # you've limited to :test, :development, or :production.
@@ -52,7 +58,7 @@ module Alm
     config.filter_parameters += [:password]
 
     # Use a different cache store
-    config.cache_store = :dalli_store, { :namespace => "alm" }
+    config.cache_store = :dalli_store, *CONFIG[:memcached_servers], { :namespace => "alm" }
 
     # Enable the asset pipeline
     config.assets.enabled = true
