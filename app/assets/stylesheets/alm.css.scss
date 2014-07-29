@@ -274,6 +274,8 @@ div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left:
 dt, dd { line-height: 1.5; }
 .border-bottom { border-bottom: 1px solid #eee; }
 .alert-inner { min-height: 120px; }
+// make the scrollbar always visible
+html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
 
 .markdown pre { font-size: 0.75em; }
 .markdown code {
