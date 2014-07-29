@@ -19,7 +19,7 @@
             <% if group.sources.first.name == source.name %>
               <td <%= "rowspan=#{group.sources.count}" %>><h4><%= h(group.display_name) %></h4></td>
             <% end %>
-            <td><%= link_to_if source.installed?, source.display_name, source_path(source) %></td>
+            <td><%= link_to_if source.installed?, source.display_name, admin_source_path(source) %></td>
             <td><%= state_label(source.human_state_name).html_safe %></td>
             <% if can?(:manage, Alert) %>
               <td>

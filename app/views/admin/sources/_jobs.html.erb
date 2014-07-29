@@ -20,7 +20,7 @@
             <% if group.sources.visible.first.name == source.name %>
               <td <%= "rowspan=#{group.sources.visible.count}" %>><h4><%= h(group.display_name) %></h4></td>
             <% end %>
-            <td><%= link_to source.display_name, source_path(source) %></td>
+            <td><%= link_to source.display_name, admin_source_path(source) %></td>
             <td><%= state_label(source.human_state_name).html_safe %></td>
             <td class="number" id="pending_count_<%= source.name %>"><%= number_hiding_zero(source.pending_count) %></td>
             <td class="number" id="working_count_<%= source.name %>"><%= number_hiding_zero(source.working_count) %></td>
