@@ -85,7 +85,7 @@ describe Source do
 
     it "handle missing data" do
       get_response = subject.get_alm_data(id)
-      get_response.should eq(error: "not_found")
+      get_response.should eq(error: "not_found", status: 404)
       Alert.count.should == 0
     end
   end
