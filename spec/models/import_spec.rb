@@ -139,6 +139,18 @@ describe Import do
       item["title"].should eq(["Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
     end
 
+    it "should get_data file non-utf-8 characters" do
+      input = File.readlines(fixture_path + 'articles_not_utf8.txt')
+      import = Import.new(file: input)
+      response = import.get_data
+      response["message"]["items"].length.should == 5
+
+      item = response["message"]["items"].first
+      item["doi"].should eq("10.1371/journal.pone.0103093")
+      item["issued"]["date-parts"].should eq([[2014, 7, 29]])
+      item["title"].should eq(["Capsaicin Induces “Brite” Phenotype in Differentiating 3T3-L1 Preadipocytes"])
+    end
+
     it "should get_data access denied error" do
       import = Import.new
       body = File.read(fixture_path + 'access_denied.txt')

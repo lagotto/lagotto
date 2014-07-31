@@ -1,0 +1,5 @@
+info:doi/10.1371/journal.pone.0103093	2014-07-29	Capsaicin Induces “Brite” Phenotype in Differentiating 3T3-L1 Preadipocytes
+info:doi/10.1371/journal.pone.0103113	2014-07-29	Incidence of <italic>Cyp51 A</italic> Key Mutations in <italic>Aspergillus fumigatus</italic>—A Study on Primary Clinical Samples of Immunocompromised Patients in the Period of 1995–2013
+info:doi/10.1371/journal.pone.0103450	2014-07-29	<italic>Phytophthora</italic> ×<italic>stagnum</italic> nothosp. nov., a New Hybrid from Irrigation Reservoirs at Ornamental Plant Nurseries in Virginia
+info:doi/10.1371/journal.pone.0103462	2014-07-29	Physicians’ Attitudes and Use of E-Cigarettes as Cessation Devices, North Carolina, 2013
+info:doi/10.1371/journal.pone.0103791	2014-07-29	Is Bladder Tumor Location Associated with Prostate Cancer Detection after Intravesical Bacillus Calmette-Guérin Instillation?
