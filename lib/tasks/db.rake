@@ -38,7 +38,9 @@ namespace :db do
 
     desc "Bulk-load articles from standard input"
     task :load => :environment do
-      input = (STDIN.tty?) ? [] : STDIN.readlines
+      input = []
+      $stdin.each_line { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) } unless $stdin.tty?
+
       import = Import.new(file: input)
       number = input.length
       if number > 0

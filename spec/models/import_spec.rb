@@ -140,7 +140,8 @@ describe Import do
     end
 
     it "should get_data file non-utf-8 characters" do
-      input = File.readlines(fixture_path + 'articles_not_utf8.txt')
+      input = []
+      File.readlines(fixture_path + 'articles_not_utf8.txt').each { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) }
       import = Import.new(file: input)
       response = import.get_data
       response["message"]["items"].length.should == 5
