@@ -3,6 +3,12 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 3.3.1](https://github.com/articlemetrics/alm/releases/tag/v.3.3.1)
+
+ALM 3.3.1 was released on July 31, 2014 with the following bugfix:
+
+* allow import of articles that contain non utf-8 characters in the title
+
 ## [ALM 3.3](https://github.com/articlemetrics/alm/releases/tag/v.3.3)
 
 ALM 3.3 was released on July 29, 2014 with the following features:
