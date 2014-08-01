@@ -33,11 +33,6 @@ class ArticleDecorator < Draper::Decorator
       :info => context[:info] }
   end
 
-  def oembed_key
-    { :article_id => id,
-      :update_date => updated_at.utc.iso8601 }
-  end
-
   def version
     "1.0"
   end
