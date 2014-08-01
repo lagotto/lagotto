@@ -16,7 +16,7 @@ describe "/api/v3/articles", :not_teamcity => true do
 
       it "can cache articles in JSON" do
         articles.any? do |article|
-          Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//json")
+          Rails.cache.exist?("rabl/v3/#{ArticleDecorator.decorate(article).cache_key}//json")
         end.should_not be_true
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
@@ -24,22 +24,23 @@ describe "/api/v3/articles", :not_teamcity => true do
         sleep 1
 
         articles.all? do |article|
-          Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//json")
+          Rails.cache.exist?("rabl/v3/#{ArticleDecorator.decorate(article).cache_key}//json")
         end.should be_true
 
         article = articles.first
-        response = Rails.cache.read("rabl/#{ArticleDecorator.decorate(article).cache_key}//json")
-        response_source = response[:sources][0]
-        response[:doi].should eql(article.doi)
-        response[:publication_date].should eql(article.published_on.to_time.utc.iso8601)
-        response_source[:metrics][:total].should eql(article.retrieval_statuses.first.event_count)
-        response_source[:events].should be_nil
-        response_source[:histories].should be_nil
+        response = Rails.cache.read("rabl/v3/#{ArticleDecorator.decorate(article).cache_key}//json")
+        response = JSON.parse(response).first
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].should eql(article.retrieval_statuses.first.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should be_nil
       end
 
       it "can cache articles in XML" do
         articles.any? do |article|
-          Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//xml")
+          Rails.cache.exist?("rabl/v3/#{ArticleDecorator.decorate(article).cache_key}//xml")
         end.should_not be_true
         get @uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
@@ -47,17 +48,19 @@ describe "/api/v3/articles", :not_teamcity => true do
         sleep 1
 
         articles.all? do |article|
-          Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//xml")
+          Rails.cache.exist?("rabl/v3/#{ArticleDecorator.decorate(article).cache_key}//xml")
         end.should be_true
 
         article = articles.first
-        response = Rails.cache.read("rabl/#{ArticleDecorator.decorate(article).cache_key}//xml")
-        response_source = response[:sources][0]
-        response[:doi].should eql(article.doi)
-        response[:publication_date].should eql(article.published_on.to_time.utc.iso8601)
-        response_source[:metrics][:total].should eql(article.retrieval_statuses.first.event_count)
-        response_source[:events].should be_nil
-        response_source[:histories].should be_nil
+        response = Rails.cache.read("rabl/v3/#{ArticleDecorator.decorate(article).cache_key}//xml")
+        response = Hash.from_xml(response)
+        response = response["articles"]
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].should eql(article.retrieval_statuses.first.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should be_nil
       end
 
       it "can make API requests 2x faster" do
@@ -74,7 +77,7 @@ describe "/api/v3/articles", :not_teamcity => true do
     context "show" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{api_key}" }
-      let(:key) { "rabl/#{ArticleDecorator.decorate(article).cache_key}" }
+      let(:key) { "rabl/v3/#{ArticleDecorator.decorate(article).cache_key}" }
       let(:title) { "Foo" }
       let(:event_count) { 75 }
 
@@ -88,12 +91,13 @@ describe "/api/v3/articles", :not_teamcity => true do
         Rails.cache.exist?("#{key}//json").should be_true
 
         response = Rails.cache.read("#{key}//json")
-        response_source = response[:sources][0]
-        response[:doi].should eql(article.doi)
-        response[:publication_date].should eql(article.published_on.to_time.utc.iso8601)
-        response_source[:metrics][:total].should eql(article.retrieval_statuses.first.event_count)
-        response_source[:events].should be_nil
-        response_source[:histories].should be_nil
+        response = JSON.parse(response).first
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].should eql(article.retrieval_statuses.first.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should be_nil
       end
 
       it "can cache an article in XML" do
@@ -106,12 +110,14 @@ describe "/api/v3/articles", :not_teamcity => true do
         Rails.cache.exist?("#{key}//xml").should be_true
 
         response = Rails.cache.read("#{key}//xml")
-        response_source = response[:sources][0]
-        response[:doi].should eql(article.doi)
-        response[:publication_date].should eql(article.published_on.to_time.utc.iso8601)
-        response_source[:metrics][:total].should eql(article.retrieval_statuses.first.event_count)
-        response_source[:events].should be_nil
-        response_source[:histories].should be_nil
+        response = Hash.from_xml(response)
+        response = response["articles"]["article"]
+        response_source = response["sources"]["source"]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
+        response_source["events"].should be_nil
+        response_source["histories"].should be_nil
       end
 
       it "can cache JSON and XML separately" do
@@ -149,8 +155,9 @@ describe "/api/v3/articles", :not_teamcity => true do
 
         Rails.cache.exist?("#{key}//json").should be_true
         response = Rails.cache.read("#{key}//json")
-        response[:title].should eql(article.title)
-        response[:title].should_not eql(title)
+        response = JSON.parse(response).first
+        response["title"].should eql(article.title)
+        response["title"].should_not eql(title)
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
@@ -158,12 +165,13 @@ describe "/api/v3/articles", :not_teamcity => true do
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
-        cache_key = "rabl/#{ArticleDecorator.decorate(article).cache_key}"
+        cache_key = "rabl/v3/#{ArticleDecorator.decorate(article).cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = Rails.cache.read("#{cache_key}//json")
-        response[:title].should eql(article.title)
-        response[:title].should eql(title)
+        response = JSON.parse(response).first
+        response["title"].should eql(article.title)
+        response["title"].should eql(title)
       end
 
       it "does not use a stale cache when a source is updated" do
@@ -175,7 +183,8 @@ describe "/api/v3/articles", :not_teamcity => true do
 
         Rails.cache.exist?("#{key}//json").should be_true
         response = Rails.cache.read("#{key}//json")
-        update_date = response[:update_date]
+        response = JSON.parse(response).first
+        update_date = response["update_date"]
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
@@ -185,11 +194,12 @@ describe "/api/v3/articles", :not_teamcity => true do
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
-        cache_key = "rabl/#{ArticleDecorator.decorate(article).cache_key}"
+        cache_key = "rabl/v3/#{ArticleDecorator.decorate(article).cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = Rails.cache.read("#{cache_key}//json")
-        response[:update_date].should be > update_date
+        response = JSON.parse(response).first
+        response["update_date"].should be > update_date
       end
 
       it "does not use a stale cache when the source query parameter changes" do
@@ -201,7 +211,8 @@ describe "/api/v3/articles", :not_teamcity => true do
 
         Rails.cache.exist?("#{key}//json").should be_true
         response = Rails.cache.read("#{key}//json")
-        response[:sources].size.should eql(1)
+        response = JSON.parse(response).first
+        response["sources"].size.should eql(1)
 
         source_uri = "#{uri}&source=crossref"
         get source_uri, nil, 'HTTP_ACCEPT' => 'application/json'
