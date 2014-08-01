@@ -49,7 +49,7 @@ module Articable
       # Paginate query results (50 per page)
       source_ids = get_source_ids(params[:source])
 
-      collection = Article.joins(:sources)
+      collection = Article.preload(:sources)
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
@@ -70,7 +70,7 @@ module Articable
       end
 
       if params[:order] && source = Source.find_by_name(params[:order])
-        collection = collection
+        collection = collection.joins(:retrieval_statuses)
           .where("retrieval_statuses.source_id = ?", source.id)
           .where("retrieval_statuses.event_count > 0")
           .order("retrieval_statuses.event_count DESC")
