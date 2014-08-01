@@ -43,7 +43,7 @@ class ArticlesController < ApplicationController
     id_hash = Article.from_uri(params[:id])
     if id_hash.respond_to?("key")
       key, value = id_hash.first
-      @article = Article.where(key => value).includes(:source).first
+      @article = Article.where(key => value).includes(:sources).first
     else
       @article = nil
     end
