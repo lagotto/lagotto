@@ -247,7 +247,9 @@ class Article < ActiveRecord::Base
   end
 
   def event_count(name)
-    signposts.reduce(0) { |sum, hash| hash["name"] == name ? hash['event_count'] : sum }
+    signposts.reduce(0) do |sum, hash|
+      hash["name"] == name ? hash['event_count'].to_i : sum
+    end
   end
 
   def events_url(name)

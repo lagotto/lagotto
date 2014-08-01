@@ -12,7 +12,7 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def filtered_retrieval_statuses
-    self.retrieval_statuses.select { |rs| source_ids.include?(rs.source_id) }
+    model.retrieval_statuses.select { |rs| source_ids.include?(rs.source_id) }
   end
 
   def publication_date
