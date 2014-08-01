@@ -47,6 +47,8 @@ module Articable
       # Load articles from ids listed in query string, use type parameter if present
       # Translate type query parameter into column name
       # Paginate query results (50 per page)
+      source_ids = get_source_ids(params[:source])
+
       collection = Article.preload(:retrieval_statuses)
 
       if params[:ids]
@@ -78,7 +80,7 @@ module Articable
 
       collection = collection.page(params[:page])
       collection = collection.per_page(params[:rows].to_i) if params[:rows] && (1..50).include?(params[:rows].to_i)
-      @articles = collection.decorate(:context => { :info => params[:info], :source => params[:source] })
+      @articles = collection.decorate(:context => { :info => params[:info], :source => source_ids })
     end
 
     protected
@@ -91,6 +93,19 @@ module Articable
         @article = Article.where(key => value).first
       else
         @article = nil
+      end
+    end
+
+    # Filter by source parameter, filter out private sources unless staff or admin
+    def get_source_ids(source_names)
+      if source_names && current_user.try(:is_admin_or_staff?)
+        Source.where("lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
+      elsif source_names
+        Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
+      elsif current_user.try(:is_admin_or_staff?)
+        Source.order("group_id, sources.display_name").pluck(:id)
+      else
+        Source.where("private = ?", false).order("group_id, sources.display_name").pluck(:id)
       end
     end
 
