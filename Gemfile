@@ -89,6 +89,7 @@ group :test, :development do
   gem 'jasmine-rails', '~> 0.7.0'
   gem "brakeman", "~> 2.6.0", :require => false
   gem 'rubocop', '~> 0.20.1'
+  gem 'bullet', '~> 4.13.0'
 end
 
 gem 'rack-mini-profiler', '~> 0.9.1'
