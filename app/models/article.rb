@@ -54,7 +54,6 @@ class Article < ActiveRecord::Base
 
   scope :last_x_days, lambda { |duration| where(published_on: (Date.today - duration.days)..Date.today) }
   scope :is_cited, lambda { includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0) }
-  scope :signposts, joins(:sources).pluck_all(:name, :event_count)
 
   # simplify admin dashboard when we have more than 150,000 articles
   def self.has_many?
