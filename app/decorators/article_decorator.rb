@@ -7,8 +7,9 @@ class ArticleDecorator < Draper::Decorator
     PaginatingDecorator
   end
 
-  # Filter by source parameter, filter out private sources unless admin
-  # source_ids = get_source_ids(params[:source])
+  def filtered_retrieval_statuses
+    self.retrieval_statuses.select { |rs| rs.source_id == 3 }
+  end
 
   def publication_date
     published_on.nil? ? nil : published_on.to_time.utc.iso8601
