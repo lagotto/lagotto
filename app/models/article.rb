@@ -243,70 +243,42 @@ class Article < ActiveRecord::Base
   end
 
   def signposts
-    sources.pluck_all(:name, :event_count)
+    sources.pluck_all(:name, :event_count, :events_url)
   end
 
-  def pmc
-    signposts.select { |signpost| signpost["name"] == 'pmc' }
+  def event_count(name)
+    signposts.reduce(0) { |sum, hash| hash["name"] == name ? hash['event_count'] : sum }
   end
 
-  def counter
-    signposts.select { |signpost| signpost["name"] == 'counter' }
-  end
-
-  def mendeley
-    retrieval_statuses.by_name("mendeley").first
+  def events_url(name)
+    signposts.reduce(nil) { |sum, hash| hash["name"] == name ? hash['events_url'] : sum }
   end
 
   def mendeley_url
-    mendeley.present? && mendeley.events_url.present? ? mendeley.events_url : nil
-  end
-
-  def citeulike
-    retrieval_statuses.by_name("citeulike").first
+    events_url("mendeley")
   end
 
   def citeulike_url
-    citeulike.present? && citeulike.events_url.present? ? citeulike.events_url : nil
-  end
-
-  def facebook
-    signposts.select { |signpost| signpost["name"] == 'facebook' }
-  end
-
-  def twitter
-    signposts.select { |signpost| signpost["name"] == 'twitter' }
-  end
-
-  def twitter_search
-    signposts.select { |signpost| signpost["name"] == 'twitter_search' }
-  end
-
-  def scopus
-    signposts.select { |signpost| signpost["name"] == 'scopus' }
-  end
-
-  def crossref
-    signposts.select { |signpost| signpost["name"] == 'crossref' }
+    events_url("citeulike")
   end
 
   def views
-    pmc["event_count"] + counter["event_count"]
+    event_count("pmc") + event_count("counter")
   end
 
   def shares
-    facebook["event_count"] + twitter["event_count"] + twitter_search["event_count"]
+    event_count("facebook") + event_count("twitter") + event_count("twitter_search")
   end
 
   def bookmarks
-    (citeulike.nil? ? 0 : citeulike.event_count) + (mendeley.nil? ? 0 : mendeley.event_count)
+    event_count("citeulike") + event_count("mendeley")
   end
 
   def citations
     if CONFIG[:doi_prefix] == "10.1371"
-      scopus["event_count"]
+      event_count("scopus")
     else
-      crossref["event_count"]
+      event_count("crossref")
     end
   end
 
