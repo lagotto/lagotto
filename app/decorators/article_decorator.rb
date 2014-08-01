@@ -7,8 +7,12 @@ class ArticleDecorator < Draper::Decorator
     PaginatingDecorator
   end
 
+  def source_ids
+    context[:source]
+  end
+
   def filtered_retrieval_statuses
-    self.retrieval_statuses.select { |rs| rs.source_id == 3 }
+    self.retrieval_statuses.select { |rs| source_ids.include?(rs.source_id) }
   end
 
   def publication_date
@@ -25,10 +29,6 @@ class ArticleDecorator < Draper::Decorator
 
   def update_date
     updated_at.utc.iso8601
-  end
-
-  def source_ids
-    context[:source]
   end
 
   def cache_key

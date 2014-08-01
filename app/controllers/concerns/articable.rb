@@ -28,7 +28,7 @@ module Articable
 
       id_hash = { :articles => Article.from_uri(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
       @article = Article.includes(:retrieval_statuses).where(id_hash)
-        .decorate(context: { info: params[:info], source: params[:source] })
+        .decorate(context: { info: params[:info], source: source_ids })
 
       # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
       if @article.blank?
