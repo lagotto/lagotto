@@ -242,6 +242,10 @@ class Article < ActiveRecord::Base
     doi =~ /^#{CONFIG[:doi_prefix].to_s}/
   end
 
+  def signposts
+    sources.pluck_all(:name, :event_count)
+  end
+
   def pmc
     retrieval_statuses.by_name("pmc").first
   end
