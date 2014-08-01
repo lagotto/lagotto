@@ -247,11 +247,11 @@ class Article < ActiveRecord::Base
   end
 
   def pmc
-    retrieval_statuses.by_name("pmc").first
+    signposts.select { |signpost| signpost["name"] == 'pmc' }
   end
 
   def counter
-    retrieval_statuses.by_name("counter").first
+    signposts.select { |signpost| signpost["name"] == 'counter' }
   end
 
   def mendeley
@@ -271,31 +271,31 @@ class Article < ActiveRecord::Base
   end
 
   def facebook
-    retrieval_statuses.by_name("facebook").first
+    signposts.select { |signpost| signpost["name"] == 'facebook' }
   end
 
   def twitter
-    retrieval_statuses.by_name("twitter").first
+    signposts.select { |signpost| signpost["name"] == 'twitter' }
   end
 
   def twitter_search
-    retrieval_statuses.by_name("twitter_search").first
+    signposts.select { |signpost| signpost["name"] == 'twitter_search' }
   end
 
   def scopus
-    retrieval_statuses.by_name("scopus").first
+    signposts.select { |signpost| signpost["name"] == 'scopus' }
   end
 
   def crossref
-    retrieval_statuses.by_name("crossref").first
+    signposts.select { |signpost| signpost["name"] == 'crossref' }
   end
 
   def views
-    (pmc.nil? ? 0 : pmc.event_count) + (counter.nil? ? 0 : counter.event_count)
+    pmc["event_count"] + counter["event_count"]
   end
 
   def shares
-    (facebook.nil? ? 0 : facebook.event_count) + (twitter.nil? ? 0 : twitter.event_count) + (twitter_search.nil? ? 0 : twitter_search.event_count)
+    facebook["event_count"] + twitter["event_count"] + twitter_search["event_count"]
   end
 
   def bookmarks
@@ -304,9 +304,9 @@ class Article < ActiveRecord::Base
 
   def citations
     if CONFIG[:doi_prefix] == "10.1371"
-      (scopus.nil? ? 0 : scopus.event_count)
+      scopus["event_count"]
     else
-      (crossref.nil? ? 0 : crossref.event_count)
+      crossref["event_count"]
     end
   end
 
