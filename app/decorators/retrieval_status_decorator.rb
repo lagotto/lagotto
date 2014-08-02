@@ -5,7 +5,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   delegate_all
   decorates_association :article
 
-  def group_name
+  def test_name
     "test" # model.source.group.name
   end
 
