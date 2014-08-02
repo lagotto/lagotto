@@ -1,7 +1,6 @@
 class ArticleDecorator < Draper::Decorator
   delegate_all
   decorates_finders
-  decorates_association :retrieval_statuses
 
   def self.collection_decorator_class
     PaginatingDecorator
