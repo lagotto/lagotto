@@ -27,7 +27,7 @@ module Articable
       source_ids = get_source_ids(params[:source])
 
       id_hash = { :articles => Article.from_uri(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
-      @article = Article.includes(:retrieval_statuses).where(id_hash)
+      @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash)
         .decorate(context: { info: params[:info], source: source_ids })
 
       # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
@@ -49,7 +49,7 @@ module Articable
       # Paginate query results (50 per page)
       source_ids = get_source_ids(params[:source])
 
-      collection = Article.includes(:retrieval_statuses)
+      collection = ArticleDecorator.preload(:retrieval_statuses)
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
