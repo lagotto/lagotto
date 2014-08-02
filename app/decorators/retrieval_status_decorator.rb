@@ -1,17 +1,14 @@
 class RetrievalStatusDecorator < Draper::Decorator
-  # helper methods
-  include Measurable
-
   delegate_all
   decorates_association :source
 
-  def test_name
-    "test" # model.source.group.name
+  def group_name
+    source.group.name
   end
 
   def metrics
-    if model.event_metrics.present?
-      model.event_metrics
+    if object.event_metrics.present?
+      object.event_metrics
     else
       { :pdf => nil,
         :html => nil,
@@ -53,9 +50,9 @@ class RetrievalStatusDecorator < Draper::Decorator
   end
 
   def events_csl
-    return [] unless model.events.is_a?(Array)
+    return [] unless object.events.is_a?(Array)
 
-    model.events.map { |event| event['event_csl'] }.compact
+    object.events.map { |event| event['event_csl'] }.compact
   end
 
   def cache_key
