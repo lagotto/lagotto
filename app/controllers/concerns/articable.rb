@@ -49,7 +49,7 @@ module Articable
       # Paginate query results (50 per page)
       source_ids = get_source_ids(params[:source])
 
-      collection = Article.preload(:retrieval_statuses)
+      collection = Article.includes(:retrieval_statuses)
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
