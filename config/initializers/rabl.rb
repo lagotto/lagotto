@@ -18,5 +18,5 @@ Rabl.configure do |config|
   config.enable_json_callbacks = true
   config.xml_options = { :dasherize  => false, :skip_types => true }
   config.view_paths = [Rails.root.join("app/views/api")]
-  # config.raise_on_missing_attribute = true # Defaults to false
+  config.raise_on_missing_attribute = true # Defaults to false
 end
