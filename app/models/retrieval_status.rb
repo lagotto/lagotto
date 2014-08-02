@@ -76,40 +76,6 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
 
-  def events_csl
-    return [] unless events.is_a?(Array)
-
-    events.map { |event| event['event_csl'] }.compact
-  end
-
-  def metrics
-    if data.blank? || data[:error]
-      { :pdf => nil,
-        :html => nil,
-        :shares => nil,
-        :groups => nil,
-        :comments => nil,
-        :likes => nil,
-        :citations => nil,
-        :total => 0 }
-    else
-      data["event_metrics"]
-    end
-  end
-
-  def new_metrics
-    { :pdf => metrics[:pdf],
-      :html => metrics[:html],
-      :readers => metrics[:shares],
-      :comments => metrics[:comments],
-      :likes => metrics[:likes],
-      :total => metrics[:total] }
-  end
-
-  def get_past_events_by_month
-    retrieval_histories.group_by { |item| item.retrieved_at.strftime("%Y-%m") }.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :total => v.last.event_count } }
-  end
-
   def by_day
     if data.blank? || data[:error]
       []
@@ -139,6 +105,25 @@ class RetrievalStatus < ActiveRecord::Base
           total: v.reduce(0) { |sum, hash| sum + hash['total'].to_i } }
       end
     end
+  end
+
+  def events_csl
+    return [] unless events.is_a?(Array)
+
+    events.map { |event| event['event_csl'] }.compact
+  end
+
+  def new_metrics
+    { :pdf => event_metrics[:pdf],
+      :html => event_metrics[:html],
+      :readers => event_metrics[:shares],
+      :comments => event_metrics[:comments],
+      :likes => event_metrics[:likes],
+      :total => event_metrics[:total] }
+  end
+
+  def get_past_events_by_month
+    retrieval_histories.group_by { |item| item.retrieved_at.strftime("%Y-%m") }.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :total => v.last.event_count } }
   end
 
   def group_name
@@ -193,14 +178,6 @@ class RetrievalStatus < ActiveRecord::Base
 
   def random_time(duration)
     Time.zone.now + duration + rand(duration/10)
-  end
-
-  def since_id
-    other.since_id || 0
-  end
-
-  def since_id=(value)
-    other.since_id = value
   end
 
   private
