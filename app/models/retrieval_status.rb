@@ -114,12 +114,21 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def new_metrics
-    { :pdf => event_metrics[:pdf],
-      :html => event_metrics[:html],
-      :readers => event_metrics[:shares],
-      :comments => event_metrics[:comments],
-      :likes => event_metrics[:likes],
-      :total => event_metrics[:total] }
+    if event_metrics.blank?
+      { :pdf => nil,
+        :html => nil,
+        :readers => nil,
+        :comments => nil,
+        :likes => nil,
+        :total => 0 }
+    else
+      { :pdf => event_metrics[:pdf],
+        :html => event_metrics[:html],
+        :readers => event_metrics[:shares],
+        :comments => event_metrics[:comments],
+        :likes => event_metrics[:likes],
+        :total => event_metrics[:total] }
+    end
   end
 
   def get_past_events_by_month
