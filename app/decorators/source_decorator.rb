@@ -27,7 +27,7 @@ class SourceDecorator < Draper::Decorator
   end
 
   def group
-    model.group.name
+    group.name
   end
 
   def jobs
