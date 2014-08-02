@@ -34,6 +34,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   delegate :name, :to => :source
   delegate :display_name, :to => :source
+  delegate :group, :to => :source
 
   scope :most_cited, lambda { where("event_count > ?", 0).order("event_count desc").limit(25) }
   scope :most_cited_last_x_days, lambda { |duration| joins(:article).where("event_count > ?", 0).where("articles.published_on >= ?", Date.today - duration.days).order("event_count desc").limit(25) }
@@ -75,12 +76,34 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
 
+  def events_csl
+    return [] unless events.is_a?(Array)
+
+    events.map { |event| event['event_csl'] }.compact
+  end
+
   def metrics
     if data.blank? || data[:error]
-      []
+      { :pdf => nil,
+        :html => nil,
+        :shares => nil,
+        :groups => nil,
+        :comments => nil,
+        :likes => nil,
+        :citations => nil,
+        :total => 0 }
     else
       data["event_metrics"]
     end
+  end
+
+  def new_metrics
+    { :pdf => metrics[:pdf],
+      :html => metrics[:html],
+      :readers => metrics[:shares],
+      :comments => metrics[:comments],
+      :likes => metrics[:likes],
+      :total => metrics[:total] }
   end
 
   def get_past_events_by_month
@@ -101,6 +124,35 @@ class RetrievalStatus < ActiveRecord::Base
     else
       data["events_by_month"]
     end
+  end
+
+  def by_year
+    return [] if by_month.blank?
+
+    by_month.group_by { |event| event["year"] }.sort.map do |k, v|
+      if ['counter', 'pmc', 'figshare', 'copernicus'].include?(name)
+        { year: k.to_i,
+          pdf: v.reduce(0) { |sum, hash| sum + hash['pdf'].to_i },
+          html: v.reduce(0) { |sum, hash| sum + hash['html'].to_i } }
+      else
+        { year: k.to_i,
+          total: v.reduce(0) { |sum, hash| sum + hash['total'].to_i } }
+      end
+    end
+  end
+
+  def group_name
+    group.name
+  end
+
+  def update_date
+    updated_at.utc.iso8601
+  end
+
+  def cache_key
+    { :id => id,
+      :update_date => update_date,
+      :info => context[:info] }
   end
 
   def delete_document
