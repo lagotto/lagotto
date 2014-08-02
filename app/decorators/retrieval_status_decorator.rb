@@ -1,4 +1,7 @@
 class RetrievalStatusDecorator < Draper::Decorator
+  # helper methods
+  include Measurable
+
   delegate_all
   decorates_association :source
 
