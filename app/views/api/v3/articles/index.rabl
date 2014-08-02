@@ -5,7 +5,6 @@ attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :upd
 
 unless params[:info] == "summary"
   child :retrieval_statuses => :sources do |rs|
-    cache ['v3', rs]
     attributes :name, :display_name, :events_url, :metrics, :update_date
 
     attributes :events if ["detail","event"].include?(params[:info])
