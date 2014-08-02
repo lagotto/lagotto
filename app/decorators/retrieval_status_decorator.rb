@@ -3,7 +3,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   include Measurable
 
   delegate_all
-  decorates_association :article
+  decorates_association :source
 
   def test_name
     "test" # model.source.group.name
