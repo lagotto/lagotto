@@ -6,7 +6,7 @@ class RetrievalStatusDecorator < Draper::Decorator
   decorates_association :article
 
   def group_name
-    group.name
+    source.group.name
   end
 
   def metrics
