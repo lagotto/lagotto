@@ -23,6 +23,9 @@ class RetrievalStatus < ActiveRecord::Base
   # include CouchDB helpers
   include Couchable
 
+  # include methods for calculating metrics
+  include Measurable
+
   belongs_to :article, :touch => true
   belongs_to :source
   has_many :retrieval_histories
@@ -113,22 +116,21 @@ class RetrievalStatus < ActiveRecord::Base
     events.map { |event| event['event_csl'] }.compact
   end
 
-  def new_metrics
-    if event_metrics.blank?
-      { :pdf => nil,
-        :html => nil,
-        :readers => nil,
-        :comments => nil,
-        :likes => nil,
-        :total => 0 }
+  def metrics
+    if event_metrics.present?
+      event_metrics
     else
-      { :pdf => event_metrics[:pdf],
-        :html => event_metrics[:html],
-        :readers => event_metrics[:shares],
-        :comments => event_metrics[:comments],
-        :likes => event_metrics[:likes],
-        :total => event_metrics[:total] }
+      get_event_metrics(total: 0)
     end
+  end
+
+  def new_metrics
+    { :pdf => metrics[:pdf],
+      :html => metrics[:html],
+      :readers => metrics[:shares],
+      :comments => metrics[:comments],
+      :likes => metrics[:likes],
+      :total => metrics[:total] }
   end
 
   def get_past_events_by_month
