@@ -1,7 +1,7 @@
 collection @articles
 cache ['v3', @articles]
 
-attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date, :views, :shares, :bookmarks, :citations, :group_name
+attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date, :views, :shares, :bookmarks, :citations
 
 unless params[:info] == "summary"
   child :retrieval_statuses => :sources do
