@@ -1,12 +1,12 @@
 require "spec_helper"
 
-describe "/api/v5/status", :not_teamcity => true do
+describe "/api/v5/status" do
 
   let(:source) { FactoryGirl.create(:source_with_api_responses) }
   let(:user) { FactoryGirl.create(:admin_user) }
   let(:api_key) { user.authentication_token }
   let(:status) { Status.new }
-  let(:key) { "rabl/#{status.update_date}" }
+  let(:key) { "rabl/v5/#{status.cache_key}" }
 
   before(:each) do
     source.put_alm_database
@@ -27,8 +27,6 @@ describe "/api/v5/status", :not_teamcity => true do
         last_response.status.should == 200
 
         sleep 1
-
-        Rails.cache.exist?("#{key}//json").should be_true
 
         response = JSON.parse(Rails.cache.read("#{key}//json"))
         data = response["data"]
@@ -60,7 +58,6 @@ describe "/api/v5/status", :not_teamcity => true do
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be_true
         response = JSON.parse(Rails.cache.read("#{key}//json"))
         data = response["data"]
         data["version"].should eq(Rails.application.config.version)
@@ -74,7 +71,7 @@ describe "/api/v5/status", :not_teamcity => true do
 
         get uri, nil, 'HTTP_ACCEPT' => "application/json"
         last_response.status.should eql(200)
-        cache_key = "rabl/#{status.update_date}"
+        cache_key = "rabl/v5/#{status.cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = JSON.parse(Rails.cache.read("#{cache_key}//json"))

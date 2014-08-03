@@ -20,6 +20,7 @@ describe "/api/v5/sources" do
       let(:crossref) { FactoryGirl.create(:crossref) }
       let(:mendeley) { FactoryGirl.create(:mendeley) }
       let(:sources) { [source, crossref, mendeley] }
+      let(:key) { "rabl/v5/#{source.decorate.cache_key}" }
       let(:cache_key_list) { sources.map { |source| "#{source.decorate.cache_key}" }.join("/") }
       let(:uri) { "/api/v5/sources?api_key=#{api_key}" }
 
@@ -35,8 +36,23 @@ describe "/api/v5/sources" do
         response = JSON.parse(response)
         response = response["data"][0]
         response["name"].should eql(source.name)
-        response["update_date"].should eql(source.cached_at.utc.iso8601)
+        response["responses"].should eq("count"=>5, "average"=>200, "maximum"=>200)
       end
+
+      # it "can cache a source in JSON" do
+      #   Rails.cache.exist?("rabl/v5/#{cache_key_list}//json").should_not be_true
+      #   get uri, nil, 'HTTP_ACCEPT' => 'application/json'
+      #   last_response.status.should == 200
+
+      #   sleep 1
+
+      #   Rails.cache.exist?("#{key}//json").should be_true
+
+      #   response = JSON.parse(Rails.cache.read("#{key}//json"))
+      #   response = response["data"]
+      #   response["name"].should eql(source.name)
+      #   response["responses"].should eq("count"=>5, "average"=>200, "maximum"=>200)
+      # end
     end
 
     context "show" do
@@ -55,9 +71,9 @@ describe "/api/v5/sources" do
         Rails.cache.exist?("#{key}//json").should be_true
 
         response = JSON.parse(Rails.cache.read("#{key}//json"))
-        data = response["data"]
-        data["name"].should eql(source.name)
-        data["update_date"].should eql(source.cached_at.utc.iso8601)
+        response = response["data"]
+        response["name"].should eql(source.name)
+        response["responses"].should eq("count"=>5, "average"=>200, "maximum"=>200)
       end
 
       it "can make API requests 2x faster" do
