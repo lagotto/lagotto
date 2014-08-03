@@ -23,7 +23,7 @@ describe "db:articles:import" do
     import = Import.new
     stub_request(:get, import.query_url(offset = 0, rows = 0)).to_return(:body => File.read(fixture_path + 'import_no_rows_single.json'))
     stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'import.json'))
-    stub_request(:get, "http://#{CONFIG[:server_name]}/api/v5/status?api_key=#{CONFIG[:api_key]}")
+    stub_request(:get, "http://#{CONFIG[:public_server]}/api/v5/status?api_key=#{CONFIG[:api_key]}")
     capture_stdout { subject.invoke }.should eq(output)
   end
 
@@ -32,7 +32,7 @@ describe "db:articles:import" do
     output = "Started import of 50 articles in the background...\n"
     import = Import.new(sample: 50)
     stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'import.json'))
-    stub_request(:get, "http://#{CONFIG[:server_name]}/api/v5/status?api_key=#{CONFIG[:api_key]}")
+    stub_request(:get, "http://#{CONFIG[:public_server]}/api/v5/status?api_key=#{CONFIG[:api_key]}")
     capture_stdout { subject.invoke }.should eq(output)
   end
 end

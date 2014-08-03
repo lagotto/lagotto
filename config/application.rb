@@ -16,9 +16,8 @@ CONFIG[:uid] ||= "doi"
 CONFIG[:sitename] ||= "ALM"
 CONFIG[:useragent] ||= "Article-Level Metrics"
 CONFIG[:hostname] ||= Socket.gethostname
-CONFIG[:server_name] ||= CONFIG[:hostname]
-CONFIG[:memcached_servers] ||= [CONFIG[:hostname]]
-CONFIG[:alerts_servers] ||= CONFIG[:memcached_servers]
+CONFIG[:public_server] ||= CONFIG[:hostname]
+CONFIG[:web_servers] ||= [CONFIG[:hostname]]
 
 if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
@@ -62,7 +61,7 @@ module Alm
     config.filter_parameters += [:password]
 
     # Use a different cache store
-    config.cache_store = :dalli_store, *CONFIG[:memcached_servers], { :namespace => "alm" }
+    config.cache_store = :dalli_store, *CONFIG[:web_servers], { :namespace => "alm" }
 
     # Enable the asset pipeline
     config.assets.enabled = true

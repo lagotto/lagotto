@@ -411,8 +411,8 @@ production:
 
 The ALM software was developed to run on a single server, but most components scale to multiple servers. When running ALM on multiple servers, make sure that:
 
-* the name used in the load balancer is set as `server_name` in `config/settings.yml`
-* memcached should be set up as a cluster by adding a `memcached_servers` list with all ALM servers to `config/settings.yml`, e.g. `memcached_servers: [localhost, example.org]`
+* the name used in the load balancer is set as `public_server` in `config/settings.yml`
+* memcached should be set up as a cluster by adding a `web_servers` list with all ALM servers behind the load balancer to `config/settings.yml`, e.g. `web_servers: [example1.org, example2.org]`
 * workers should run on only one server (work is in progress to scale to multiple servers), e.g. the server with the capistrano `:db` role
 * database maintenance rake tasks should run on only one server, capistrano defaults to install the cron jobs only for the `:db` role.
 * mail services (sending emails) should run on only one server. They are part of the database maintenance tasks, so by default run only on the server with the `:db` role.

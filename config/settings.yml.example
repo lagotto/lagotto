@@ -50,5 +50,6 @@ test:
 
 production:
   <<: *defaults
-  server_name: # public server name if load balancer is used, defaults to hostname
-  memcached_servers: # array of all servers, defaults to hostname
+  hostname: # will be auto-detected if left empty
+  public_server: # public server name if load balancer is used, defaults to hostname
+  web_servers: # array of all servers behind load balancer, defaults to hostname
