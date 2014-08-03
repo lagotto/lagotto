@@ -1,6 +1,6 @@
 Rabl.configure do |config|
   # Commented as these are defaults
-  # config.cache_all_output = true
+  config.cache_all_output = true
   config.cache_sources = true # Rails.env != 'development' # Defaults to false
   # config.cache_engine = Rabl::CacheEngine.new # Defaults to Rails cache
   # config.perform_caching = false
