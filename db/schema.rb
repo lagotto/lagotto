@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140602135852) do
+ActiveRecord::Schema.define(:version => 20140803074135) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20140602135852) do
     t.string   "remote_ip"
     t.integer  "article_id"
     t.boolean  "error",                        :default => true
+    t.string   "hostname"
   end
 
   add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"

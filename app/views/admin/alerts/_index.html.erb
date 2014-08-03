@@ -104,6 +104,11 @@
             <h5>Time</h5>
             <%= alert.created_at.to_s(:friendly) %>
 
+            <% unless alert.hostname.blank? %>
+              <h5>Hostname</h5>
+              <%= alert.hostname %>
+            <% end %>
+
             <% unless alert.content_type.blank? or alert.content_type == "text/html" %>
               <h5>Content Type</h5>
               <%= alert.content_type %>
