@@ -6,7 +6,7 @@
         <li><%= link_to "All Hosts", admin_alerts_path(class_name: params[:class_name], q: params[:q]) %></li>
         <li class="divider"></li>
         <% CONFIG[:alerts_servers].each do |hostname| %>
-          <li><%= link_to h(hostname), admin_alerts_path(source: source.name, class_name: params[:class_name], hostname: hostname, q: params[:q]) %></li>
+          <li><%= link_to h(hostname), admin_alerts_path(source: params[:source], class_name: params[:class_name], hostname: hostname, q: params[:q]) %></li>
         <% end %>
       </ul>
     </div>
