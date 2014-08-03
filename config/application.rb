@@ -16,7 +16,8 @@ CONFIG[:sitename] ||= "ALM"
 CONFIG[:useragent] ||= "Article-Level Metrics"
 CONFIG[:hostname] ||= Socket.gethostname
 CONFIG[:server_name] ||= CONFIG[:hostname]
-CONFIG[:memcached_servers] ||= ENV['MEMCACHED_SERVERS'].to_s.split(",") || [CONFIG[:hostname]]
+CONFIG[:memcached_servers] ||= [CONFIG[:hostname]]
+CONFIG[:alerts_servers] ||= CONFIG[:memcached_servers]
 
 if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
