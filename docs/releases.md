@@ -3,6 +3,13 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 3.3.2](https://github.com/articlemetrics/alm/releases/tag/v.3.3.2)
+
+ALM 3.3.2 was released on August 3, 2014 with the following bugfixes:
+
+* fixed a problem where the same cached response was used by both the v3 and v5 API
+* fixed a bug where some dates from events where incorrently formatted
+
 ## [ALM 3.3.1](https://github.com/articlemetrics/alm/releases/tag/v.3.3.1)
 
 ALM 3.3.1 was released on July 31, 2014 with the following bugfix:
