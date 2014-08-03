@@ -312,6 +312,10 @@ class Article < ActiveRecord::Base
     write_attribute(:day, published_on.day)
   end
 
+  def update_date
+    updated_at.utc.iso8601
+  end
+
   private
 
   # Use values from year, month, day for published_on

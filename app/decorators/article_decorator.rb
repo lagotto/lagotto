@@ -26,10 +26,6 @@ class ArticleDecorator < Draper::Decorator
     mendeley_uuid
   end
 
-  def update_date
-    updated_at.utc.iso8601
-  end
-
   def cache_key
     { :article_id => id,
       :update_date => update_date,

@@ -298,6 +298,14 @@ class Source < ActiveRecord::Base
     30.seconds + (Article.count / 250).seconds
   end
 
+  def update_date
+    updated_at.utc.iso8601
+  end
+
+  def cache_key
+    "#{name}/#{update_date}"
+  end
+
   private
 
   def expire_cache

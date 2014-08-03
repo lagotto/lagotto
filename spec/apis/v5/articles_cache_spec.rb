@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "/api/v5/articles", :not_teamcity => true do
+describe "/api/v5/articles" do
   let(:user) { FactoryGirl.create(:user) }
   let(:api_key) { user.authentication_token }
 
@@ -9,46 +9,32 @@ describe "/api/v5/articles", :not_teamcity => true do
     context "index" do
       let(:articles) { FactoryGirl.create_list(:article_with_events, 2) }
       let(:article_list) { articles.map { |article| "#{article.doi_escaped}" }.join(",") }
+      let(:cache_key_list) { articles.map { |article| "#{article.decorate(:context => { :source => [1] }).cache_key}" }.join("/") }
       let(:uri) { "/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}" }
 
       it "can cache articles in JSON" do
-        articles.any? do |article|
-          Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//json")
-        end.should_not be_true
-
+        Rails.cache.exist?("rabl/v5/#{cache_key_list}//json").should_not be_true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
-        articles.all? do |article|
-          Rails.cache.exist?("rabl/#{ArticleDecorator.decorate(article).cache_key}//json")
-        end.should be_true
-
         article = articles.first
-        response = JSON.parse(Rails.cache.read("rabl/#{ArticleDecorator.decorate(article).cache_key}//json"))
-        response_source = response[:sources][0]
-        response[:doi].should eql(article.doi)
-        response[:issued][:date_parts].should eql([article.year, article.month, article.day])
-        response_source[:metrics][:total].should eql(article.retrieval_statuses.first.event_count)
-        response_source[:events].should be_nil
-      end
-
-      it "can make API requests 2x faster" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
-
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
-        ApiRequest.count.should eql(2)
-        ApiRequest.last.view_duration.should be < 0.5 * ApiRequest.first.view_duration
+        response = Rails.cache.read("rabl/v5/#{cache_key_list}//json")
+        response = JSON.parse(response)
+        response = response["data"][0]
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["issued"]["date-parts"][0].should eql([article.year, article.month, article.day])
+        response_source["metrics"]["total"].to_i.should eql(article.retrieval_statuses.first.event_count)
+        response_source["events"].should be_nil
       end
     end
 
     context "article is updated" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&api_key=#{api_key}" }
-      let(:key) { "rabl/#{ArticleDecorator.decorate(article).cache_key}" }
+      let(:key) { "rabl/v5/#{article.decorate(:context => { :source => [1] }).cache_key}" }
       let(:title) { "Foo" }
       let(:event_count) { 75 }
 
@@ -71,7 +57,7 @@ describe "/api/v5/articles", :not_teamcity => true do
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
-        cache_key = "rabl/#{ArticleDecorator.decorate(article).cache_key}"
+        cache_key = "rabl/v5/#{article.decorate(:context => { :source => [1] }).cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = JSON.parse(Rails.cache.read("#{cache_key}//json"))
@@ -100,7 +86,7 @@ describe "/api/v5/articles", :not_teamcity => true do
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
-        cache_key = "rabl/#{ArticleDecorator.decorate(article).cache_key}"
+        cache_key = "rabl/v5/#{article.decorate(:context => { :source => [1] }).cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = JSON.parse(Rails.cache.read("#{cache_key}//json"))
@@ -123,7 +109,13 @@ describe "/api/v5/articles", :not_teamcity => true do
         source_uri = "#{uri}&source=crossref"
         get source_uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
-        JSON.parse(last_response.body).should eql("total" => 0, "total_pages" => 0, "page" => 0, "error" => nil, "data" =>[])
+
+        response = JSON.parse(last_response.body)
+        response["total"].should == 1
+        item = response["data"].first
+        item["doi"].should eql(article.doi)
+        item["issued"]["date-parts"][0].should eql([article.year, article.month, article.day])
+        item["sources"].should be_empty
       end
 
       it "does not use a stale cache when the info query parameter changes" do
@@ -142,7 +134,7 @@ describe "/api/v5/articles", :not_teamcity => true do
         response = JSON.parse(last_response.body)
         data = response["data"][0]
         data["doi"].should eql(article.doi)
-        data["issued"]["date_parts"].should eql([article.year, article.month, article.day])
+        data["issued"]["date-parts"][0].should eql([article.year, article.month, article.day])
 
         response_source = data["sources"][0]
         response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
@@ -157,7 +149,7 @@ describe "/api/v5/articles", :not_teamcity => true do
         data = response["data"][0]
         data["sources"].should be_nil
         data["doi"].should eql(article.doi)
-        data["issued"]["date_parts"].should eql([article.year, article.month, article.day])
+        data["issued"]["date-parts"][0].should eql([article.year, article.month, article.day])
       end
     end
   end
