@@ -1,14 +1,24 @@
 <div class="page-header">
   <div class="btn-toolbar pull-right">
     <div class="btn-group btn-group-sm">
+      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @hostname.nil? ? "All Hosts" : h(@hostname) %> <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><%= link_to "All Hosts", admin_alerts_path(class_name: params[:class_name], q: params[:q]) %></li>
+        <li class="divider"></li>
+        <% CONFIG[:memcached_servers].each do |hostname| %>
+          <li><%= link_to h(hostname), admin_alerts_path(source: source.name, class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @source.nil? ? "All Sources" : @source.display_name %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><%= link_to "All Sources", admin_alerts_path(class_name: params[:class_name], q: params[:q]) %></li>
+        <li><%= link_to "All Sources", admin_alerts_path(class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %></li>
         <% Group.order("id").each do |group| %>
           <% unless group.sources.active.empty? %>
             <li class="divider"></li>
             <% group.sources.active.each do |source| %>
-              <li><%= link_to h(source.display_name), admin_alerts_path(source: source.name, class_name: params[:class_name], q: params[:q]) %></li>
+              <li><%= link_to h(source.display_name), admin_alerts_path(source: source.name, class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %></li>
             <% end %>
           <% end %>
         <% end %>
@@ -17,10 +27,10 @@
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
-        <li><%= link_to "All Alerts", admin_alerts_path(source: params[:source], q: params[:q]) %></li>
+        <li><%= link_to "All Alerts", admin_alerts_path(source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
         <li class="divider"></li>
         <% alerts.each do|alert| %>
-        <li><%= link_to h(alert), admin_alerts_path(class_name: alert, source: params[:source], q: params[:q]) %></li>
+        <li><%= link_to h(alert), admin_alerts_path(class_name: alert, source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
         <% end %>
       </ul>
     </div>
@@ -40,7 +50,7 @@
     </div>
     <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
     <% unless params[:q].blank? %>
-      <%= link_to "clear", admin_alerts_path(source: params[:source]), class: "btn" %>
+      <%= link_to "clear", admin_alerts_path(source: params[:source], hostname: params[:hostname]), class: "btn" %>
     <% end %>
   <% end %>
 </div>
@@ -62,6 +72,7 @@
                 <ul class="dropdown-menu">
                   <li><%= link_to "by Message", admin_alert_path(alert, q: params[:q],
                                                                         source: params[:source],
+                                                                        hostname: params[:hostname],
                                                                         page: params[:page]),
                                                                         method: :delete,
                                                                         data: { :confirm => 'Are you sure?' },
@@ -69,6 +80,7 @@
                                                                         id: "#{alert.id}-delete-message" %></li>
                   <li><%= link_to "by Class", admin_alert_path(alert, q: params[:q],
                                                                       source: params[:source],
+                                                                      hostname: params[:hostname],
                                                                       filter: "class_name",
                                                                       page: params[:page]),
                                                                       method: :delete,
@@ -78,6 +90,7 @@
                   <% unless alert.source_id.nil? %>
                     <li><%= link_to "by Source", admin_alert_path(alert, q: params[:q],
                                                                          source: params[:source],
+                                                                         hostname: params[:hostname],
                                                                          filter: "source",
                                                                          page: params[:page]),
                                                                          method: :delete,
@@ -90,6 +103,7 @@
             <% end %>
             <p class="class_name"><%= link_to alert.class_name, admin_alerts_path(class_name: h(alert.class_name),
                                                                                   source: params[:source],
+                                                                                  hostname: params[:hostname],
                                                                                   q: params[:q]) %></p>
             <% unless alert.source_id.blank? %>
               <h5>Source</h5>

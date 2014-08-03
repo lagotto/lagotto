@@ -11,6 +11,10 @@ class Admin::AlertsController < Admin::ApplicationController
       collection = collection.where(:class_name => params[:class_name])
       @class_name = params[:class_name]
     end
+    if params[:hostname]
+      collection = collection.where(:hostname => params[:hostname])
+      @hostname = params[:hostname]
+    end
     collection = collection.query(params[:q]) if params[:q]
 
     @alerts = collection.paginate(:page => params[:page])
@@ -37,6 +41,10 @@ class Admin::AlertsController < Admin::ApplicationController
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])
       @class_name = params[:class_name]
+    end
+    if params[:hostname]
+      collection = collection.where(:hostname => params[:hostname])
+      @hostname = params[:hostname]
     end
     collection = collection.query(params[:q]) if params[:q]
 
