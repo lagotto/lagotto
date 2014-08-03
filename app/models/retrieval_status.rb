@@ -146,9 +146,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def cache_key
-    { :id => id,
-      :update_date => update_date,
-      :info => context[:info] }
+    "#{id}/#{update_date}"
   end
 
   def delete_document
