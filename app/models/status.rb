@@ -75,5 +75,7 @@ class Status
     Rails.cache.fetch('status:timestamp') { Time.zone.now.utc.iso8601 }
   end
 
-  alias_method :cache_key, :update_date
+  def cache_key
+    "status/#{update_date}"
+  end
 end

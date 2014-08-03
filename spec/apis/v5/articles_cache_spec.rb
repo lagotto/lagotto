@@ -28,21 +28,21 @@ describe "/api/v5/articles" do
         response_source[:events].should be_nil
       end
 
-      it "can cache an article" do
-        Rails.cache.exist?("rabl/v5/#{cache_key_list}//hash").should_not be_true
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+      # it "can cache an article" do
+      #   Rails.cache.exist?("rabl/v5/#{cache_key_list}//hash").should_not be_true
+      #   get uri, nil, 'HTTP_ACCEPT' => 'application/json'
+      #   last_response.status.should == 200
 
-        sleep 1
+      #   sleep 1
 
-        article = articles.first
-        response = Rails.cache.read("rabl/v5/#{article.decorate(:context => { :source => [1] }).cache_key}//hash").first
-        response_source = response[:sources][0]
-        response[:doi].should eql(article.doi)
-        response[:issued]["date-parts"][0].should eql([article.year, article.month, article.day])
-        response_source[:metrics][:total].to_i.should eql(article.retrieval_statuses.first.event_count)
-        response_source[:events].should be_nil
-      end
+      #   article = articles.first
+      #   response = Rails.cache.read("rabl/v5/#{article.decorate(:context => { :source => [1] }).cache_key}//hash").first
+      #   response_source = response[:sources][0]
+      #   response[:doi].should eql(article.doi)
+      #   response[:issued]["date-parts"][0].should eql([article.year, article.month, article.day])
+      #   response_source[:metrics][:total].to_i.should eql(article.retrieval_statuses.first.event_count)
+      #   response_source[:events].should be_nil
+      # end
     end
 
     context "article is updated" do
