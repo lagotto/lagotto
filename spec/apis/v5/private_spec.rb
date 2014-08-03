@@ -59,12 +59,17 @@ describe "/api/v5/articles" do
       let(:user) { FactoryGirl.create(:user, :role => "user") }
       let(:article) { FactoryGirl.create(:article_with_private_citations) }
       let(:uri) { "/api/v5/articles?ids=#{article.doi_escaped}&api_key=#{user.api_key}" }
-      let(:nothing_found) { { "total" => 0, "total_pages" => 0, "page" => 0, "error" => nil, "data" => [] } }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
-        last_response.body.should eq(nothing_found.to_json)
+
+        response = JSON.parse(last_response.body)
+        response["total"].should == 1
+        item = response["data"].first
+        item["doi"].should eql(article.doi)
+        item["issued"]["date-parts"][0].should eql([article.year, article.month, article.day])
+        item["sources"].should be_empty
       end
     end
   end

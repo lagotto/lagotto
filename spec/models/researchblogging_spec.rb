@@ -81,7 +81,7 @@ describe Researchblogging do
       event[:event_csl]['author'].should eq([{"family"=>"Spoetnik", "given"=>"Laika"}])
       event[:event_csl]['title'].should eq("Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan")
       event[:event_csl]['container-title'].should eq("Laika's Medliblog")
-      event[:event_csl]['issued'].should eq("date_parts"=>[2012, 10, 27])
+      event[:event_csl]['issued'].should eq("date-parts"=>[[2012, 10, 27]])
       event[:event_csl]['type'].should eq("post")
 
       event[:event_time].should eq("2012-10-27T11:32:09Z")
@@ -108,7 +108,7 @@ describe Researchblogging do
       event[:event_csl]['author'].should eq([{"family"=>"Spoetnik", "given"=>"Laika"}])
       event[:event_csl]['title'].should eq("Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan")
       event[:event_csl]['container-title'].should eq("Laika's Medliblog")
-      event[:event_csl]['issued'].should eq("date_parts"=>[2012, 10, 27])
+      event[:event_csl]['issued'].should eq("date-parts"=>[[2012, 10, 27]])
       event[:event_csl]['type'].should eq("post")
 
       event[:event_time].should eq("2012-10-27T11:32:09Z")

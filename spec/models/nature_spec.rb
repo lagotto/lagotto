@@ -74,7 +74,7 @@ describe Nature do
       event[:event_csl]['author'].should eq("")
       event[:event_csl]['title'].should eq("More Impact Factor spam from Nature")
       event[:event_csl]['container-title'].should eq("bjoern.brembs.blog : a neuroscientist's blog")
-      event[:event_csl]['issued'].should eq("date_parts"=>[2012, 6, 19])
+      event[:event_csl]['issued'].should eq("date-parts"=>[[2012, 6, 19]])
       event[:event_csl]['type'].should eq("post")
 
       event[:event_time].should eq("2012-06-19T16:40:23Z")
