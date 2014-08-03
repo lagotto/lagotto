@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/articlemetrics/alm.png?branch=develop)](https://travis-ci.org/articlemetrics/alm)
+[![Build Status](https://travis-ci.org/articlemetrics/alm.png?branch=master)](https://travis-ci.org/articlemetrics/alm)
 [![Code Climate](https://codeclimate.com/github/articlemetrics/alm.png)](https://codeclimate.com/github/articlemetrics/alm)
 [![Code Climate Test Coverage](https://codeclimate.com/github/articlemetrics/alm/coverage.png)](https://codeclimate.com/github/articlemetrics/alm)
 
