@@ -97,7 +97,7 @@ module Networkable
 
       Faraday.new do |c|
         c.headers['Accept'] = accept_header
-        c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:hostname]}"
+        c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:server_name]}"
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10, :cookie => :all
         c.request  :multipart
         c.request  :json if accept_header == 'application/json'

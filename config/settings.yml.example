@@ -39,12 +39,10 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  hostname: dev.example.org
 
 test:
   <<: *defaults
   api_key: 12345
-  hostname: test.example.org
   notification_email: alm@alm.example.org
   workers: 1
   couchdb_url: http://localhost:5984/alm_test/
@@ -52,5 +50,5 @@ test:
 
 production:
   <<: *defaults
-  hostname: alm.example.org
-  memcached_servers: # array, defaults to hostname
+  server_name: # public server name if load balancer is used, defaults to hostname
+  memcached_servers: # array of all servers, defaults to hostname

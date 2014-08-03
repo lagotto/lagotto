@@ -2,6 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 require 'safe_yaml'
+require 'socket'
 
 SafeYAML::OPTIONS[:default_mode] = :safe
 SafeYAML::OPTIONS[:deserialize_symbols] = true
@@ -13,7 +14,8 @@ CONFIG.symbolize_keys!
 # reasonable defaults
 CONFIG[:sitename] ||= "ALM"
 CONFIG[:useragent] ||= "Article-Level Metrics"
-CONFIG[:hostname] ||= "localhost"
+CONFIG[:hostname] ||= Socket.gethostname
+CONFIG[:server_name] ||= CONFIG[:hostname]
 CONFIG[:memcached_servers] ||= ENV['MEMCACHED_SERVERS'].to_s.split(",") || [CONFIG[:hostname]]
 
 if defined?(Bundler)

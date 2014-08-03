@@ -166,7 +166,7 @@ class Import
   def expire_cache
     if ActionController::Base.perform_caching
       Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
-      status_url = "http://#{CONFIG[:hostname]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
+      status_url = "http://#{CONFIG[:server_name]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
       get_result(status_url, timeout: 300)
     end
   end
