@@ -313,7 +313,7 @@ class Article < ActiveRecord::Base
   end
 
   def update_date
-    updated_at.utc.iso8601
+    updated_at.nil? ? nil : updated_at.utc.iso8601
   end
 
   private
