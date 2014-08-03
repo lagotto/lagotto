@@ -12,6 +12,7 @@ CONFIG = YAML.load(ERB.new(File.read(File.expand_path('../settings.yml', __FILE_
 CONFIG.symbolize_keys!
 
 # reasonable defaults
+CONFIG[:uid] ||= "doi"
 CONFIG[:sitename] ||= "ALM"
 CONFIG[:useragent] ||= "Article-Level Metrics"
 CONFIG[:hostname] ||= Socket.gethostname
