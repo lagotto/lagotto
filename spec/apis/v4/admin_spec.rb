@@ -20,10 +20,9 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        #last_response.status.should eql(201)
+        last_response.status.should eql(201)
 
         response = JSON.parse(last_response.body)
-        response.should eq(2)
         response["success"].should eq ("Article created.")
         response["error"].should be_nil
         response["data"]["doi"].should eq (params["article"]["doi"])
@@ -280,7 +279,7 @@ describe "/api/v4/articles" do
         last_response.status.should == 400
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq("title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1650 and 2014"], "published_on"=>["is not a valid date"])
+        response["error"].should eq("title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1650 and 2014"])
         response["success"].should be_nil
         response["data"]["doi"].should eq (params["article"]["doi"])
         response["data"]["title"].should be_nil

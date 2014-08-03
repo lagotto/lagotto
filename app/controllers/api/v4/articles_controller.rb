@@ -3,7 +3,6 @@ class Api::V4::ArticlesController < Api::V4::BaseController
   include Articable
 
   before_filter :load_article, :only => [ :update, :destroy ]
-  # load_and_authorize_resource :except => [ :show, :index ]
 
   def create
     @article = Article.new(safe_params)
