@@ -25,10 +25,12 @@ Delayed::Worker.read_ahead = 10
 Delayed::Worker.delay_jobs = !Rails.env.test?
 
 # monkeypatch delayed_jobs to catch worker errors
+# delayed_job v.4.0.2
+# https://github.com/collectiveidea/delayed_job/blob/master/lib/delayed/command.rb
 module Delayed
   class Command
 
-  def run(worker_name = nil)
+    def run(worker_name = nil)
       Dir.chdir(Rails.root)
 
       Delayed::Worker.after_fork
