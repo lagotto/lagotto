@@ -29,7 +29,6 @@ Delayed::Worker.delay_jobs = !Rails.env.test?
 # https://github.com/collectiveidea/delayed_job/blob/master/lib/delayed/command.rb
 module Delayed
   class Command
-
     def run(worker_name = nil)
       Dir.chdir(Rails.root)
 
