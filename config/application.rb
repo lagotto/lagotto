@@ -62,7 +62,7 @@ module Alm
     config.filter_parameters += [:password]
 
     # Use a different cache store
-    config.cache_store = :dalli_store, *CONFIG[:web_servers], { :namespace => "alm" }
+    config.cache_store = :dalli_store, *CONFIG[:web_servers], { :namespace => "alm", :compress => true }
 
     # Enable the asset pipeline
     config.assets.enabled = true
