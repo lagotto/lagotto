@@ -23,4 +23,27 @@ Delayed::Worker.default_priority = 3
 Delayed::Worker.max_run_time = 90.minutes
 Delayed::Worker.read_ahead = 10
 Delayed::Worker.delay_jobs = !Rails.env.test?
-Delayed::Worker.logger = Logger.new(Rails.root.join('log', 'delayed_job.log'))
+
+# monkeypatch delayed_jobs to catch worker errors
+module Delayed
+  class Command
+
+  def run(worker_name = nil)
+      Dir.chdir(Rails.root)
+
+      Delayed::Worker.after_fork
+      Delayed::Worker.logger ||= Logger.new(File.join(Rails.root, 'log', 'delayed_job.log'))
+
+      worker = Delayed::Worker.new(@options)
+      worker.name_prefix = "#{worker_name} "
+      worker.start
+    rescue => e
+      # added this line
+      Alert.create(:exception => e)
+
+      Rails.logger.fatal e
+      STDERR.puts e.message
+      exit 1
+    end
+  end
+end

@@ -3,6 +3,13 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 3.3.3](https://github.com/articlemetrics/alm/releases/tag/v.3.3.3)
+
+ALM 3.3.3 was released on August 4, 2014 with the following bugfix:
+
+* handle larger delayed_job payloads (up to 16 MB)
+* catch delayed_job worker errors as alert
+
 ## [ALM 3.3.2](https://github.com/articlemetrics/alm/releases/tag/v.3.3.2)
 
 ALM 3.3.2 was released on August 3, 2014 with the following bugfixes:
