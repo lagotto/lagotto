@@ -41,10 +41,13 @@ namespace :db do
       input = []
       $stdin.each_line { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) } unless $stdin.tty?
 
-      import = Import.new(file: input)
       number = input.length
       if number > 0
-        import.queue_article_import
+        # import in batches of 1,000 articles
+        input.each_slice(1000) do |batch|
+          import = Import.new(file: batch)
+          import.queue_article_import
+        end
         puts "Started import of #{number} articles in the background..."
       else
         puts "No articles to import."
