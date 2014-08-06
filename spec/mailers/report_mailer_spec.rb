@@ -21,7 +21,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: admin_alerts_url(:host => CONFIG[:public_server]))
+      body_html.should have_link('Go to admin dashboard', href: alerts_url(:host => CONFIG[:public_server]))
     end
   end
 
@@ -41,7 +41,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: admin_root_url(:host => CONFIG[:public_server]))
+      body_html.should have_link('Go to admin dashboard', href: status_url(:host => CONFIG[:public_server]))
     end
   end
 
@@ -83,7 +83,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: admin_source_url(source.name, :host => CONFIG[:public_server]))
+      body_html.should have_link('Go to admin dashboard', href: source_url(source.name, :host => CONFIG[:public_server]))
     end
   end
 
@@ -105,7 +105,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: admin_alerts_url(:host => CONFIG[:public_server], :class => "SourceNotUpdatedError"))
+      body_html.should have_link('Go to admin dashboard', href: alerts_url(:host => CONFIG[:public_server], :class => "SourceNotUpdatedError"))
     end
   end
 
@@ -125,7 +125,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: admin_root_url(:host => CONFIG[:public_server]))
+      body_html.should have_link('Go to admin dashboard', href: status_url(:host => CONFIG[:public_server]))
     end
   end
 end

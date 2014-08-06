@@ -32,7 +32,7 @@ end
 
 ### WHEN ###
 When /^I go to the "(.*?)" menu$/ do |menu|
-  visit admin_root_path
+  visit status_path
   click_link menu
 end
 
@@ -47,7 +47,7 @@ When /^I go to the submenu "(.*?)" of menu "(.*?)"$/ do |label, menu|
 end
 
 When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, name|
-  visit admin_source_path(name.underscore.downcase)
+  visit source_path(name.underscore.downcase)
   page.driver.render("tmp/capybara/#{name}.png") if @wip
   within ("ul.nav-tabs") do
     click_link tab_title
@@ -55,14 +55,14 @@ When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, name|
 end
 
 When /^I go to the "(.*?)" tab of the Sources admin page$/ do |tab_title|
-  visit admin_sources_path
+  visit sources_path
   within ("ul.nav-tabs") do
     click_link tab_title
   end
 end
 
 When /^I go to the admin page of source "(.*?)"$/ do |name|
-  visit admin_source_path(name.underscore.downcase)
+  visit source_path(name.underscore.downcase)
 end
 
 When /^I go to the source "(.*?)"$/ do |name|
@@ -70,7 +70,7 @@ When /^I go to the source "(.*?)"$/ do |name|
 end
 
 When /^I edit the source "(\w+)"$/ do |name|
-  visit admin_source_path(name.underscore.downcase)
+  visit source_path(name.underscore.downcase)
   click_link "Configuration"
   click_link "Edit"
 end

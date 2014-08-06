@@ -4,10 +4,10 @@
       <div class="btn-group btn-group-sm">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @hostname.nil? ? "All Hosts" : h(@hostname) %> <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><%= link_to "All Hosts", admin_alerts_path(class_name: params[:class_name], q: params[:q]) %></li>
+          <li><%= link_to "All Hosts", alerts_path(class_name: params[:class_name], q: params[:q]) %></li>
           <li class="divider"></li>
           <% CONFIG[:web_servers].each do |hostname| %>
-            <li><%= link_to h(hostname), admin_alerts_path(source: params[:source], class_name: params[:class_name], hostname: hostname, q: params[:q]) %></li>
+            <li><%= link_to h(hostname), alerts_path(source: params[:source], class_name: params[:class_name], hostname: hostname, q: params[:q]) %></li>
           <% end %>
         </ul>
       </div>
@@ -15,12 +15,12 @@
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @source.nil? ? "All Sources" : @source.display_name %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><%= link_to "All Sources", admin_alerts_path(class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to "All Sources", alerts_path(class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %></li>
         <% Group.order("id").each do |group| %>
           <% unless group.sources.active.empty? %>
             <li class="divider"></li>
             <% group.sources.active.each do |source| %>
-              <li><%= link_to h(source.display_name), admin_alerts_path(source: source.name, class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %></li>
+              <li><%= link_to h(source.display_name), alerts_path(source: source.name, class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %></li>
             <% end %>
           <% end %>
         <% end %>
@@ -29,10 +29,10 @@
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
-        <li><%= link_to "All Alerts", admin_alerts_path(source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to "All Alerts", alerts_path(source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
         <li class="divider"></li>
         <% alerts.each do|alert| %>
-        <li><%= link_to h(alert), admin_alerts_path(class_name: alert, source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to h(alert), alerts_path(class_name: alert, source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
         <% end %>
       </ul>
     </div>
@@ -46,13 +46,13 @@
 </div>
 
 <div class="search">
-  <%= form_tag(admin_alerts_path, :method => "get", :class => "form-inline", :role => "form") do %>
+  <%= form_tag(alerts_path, :method => "get", :class => "form-inline", :role => "form") do %>
     <div class="form-group">
       <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
     </div>
     <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
     <% unless params[:q].blank? %>
-      <%= link_to "clear", admin_alerts_path(source: params[:source], hostname: params[:hostname]), class: "btn" %>
+      <%= link_to "clear", alerts_path(source: params[:source], hostname: params[:hostname]), class: "btn" %>
     <% end %>
   <% end %>
 </div>
@@ -72,7 +72,7 @@
                   <span class="glyphicon glyphicon-trash"></span> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><%= link_to "by Message", admin_alert_path(alert, q: params[:q],
+                  <li><%= link_to "by Message", alert_path(alert, q: params[:q],
                                                                         source: params[:source],
                                                                         hostname: params[:hostname],
                                                                         page: params[:page]),
@@ -80,7 +80,7 @@
                                                                         data: { :confirm => 'Are you sure?' },
                                                                         remote: true,
                                                                         id: "#{alert.id}-delete-message" %></li>
-                  <li><%= link_to "by Class", admin_alert_path(alert, q: params[:q],
+                  <li><%= link_to "by Class", alert_path(alert, q: params[:q],
                                                                       source: params[:source],
                                                                       hostname: params[:hostname],
                                                                       filter: "class_name",
@@ -90,7 +90,7 @@
                                                                       remote: true,
                                                                       id: "#{alert.id}-delete-class" %></li>
                   <% unless alert.source_id.nil? %>
-                    <li><%= link_to "by Source", admin_alert_path(alert, q: params[:q],
+                    <li><%= link_to "by Source", alert_path(alert, q: params[:q],
                                                                          source: params[:source],
                                                                          hostname: params[:hostname],
                                                                          filter: "source",
@@ -103,18 +103,18 @@
                 </ul>
               </div>
             <% end %>
-            <p class="class_name"><%= link_to alert.class_name, admin_alerts_path(class_name: h(alert.class_name),
+            <p class="class_name"><%= link_to alert.class_name, alerts_path(class_name: h(alert.class_name),
                                                                                   source: params[:source],
                                                                                   hostname: params[:hostname],
                                                                                   q: params[:q]) %></p>
             <% unless alert.source_id.blank? %>
               <h5>Source</h5>
-              <%= link_to alert.source.display_name, admin_source_path(alert.source) %>
+              <%= link_to alert.source.display_name, source_path(alert.source) %>
             <% end %>
 
             <% unless alert.article_id.blank? %>
               <h5>Article</h5>
-              <%= link_to alert.article.uid, admin_article_path(alert.article) %>
+              <%= link_to alert.article.uid, article_path(alert.article) %>
             <% end %>
 
             <h5>Time</h5>
@@ -161,7 +161,7 @@
       </div>
     <% end %>
   </div>
-  <%= will_paginate @alerts, :params => { :controller => admin_alerts_path }, :renderer => BootstrapPagination::Rails %>
+  <%= will_paginate @alerts, :params => { :controller => alerts_path }, :renderer => BootstrapPagination::Rails %>
 <% else %>
   <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>alerts
     <% unless @source.nil? %>
