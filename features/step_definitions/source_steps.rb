@@ -32,7 +32,7 @@ end
 
 ### WHEN ###
 When /^I go to the "(.*?)" menu$/ do |menu|
-  visit root_path
+  visit admin_root_path
   click_link menu
 end
 
@@ -47,22 +47,22 @@ When /^I go to the submenu "(.*?)" of menu "(.*?)"$/ do |label, menu|
 end
 
 When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, name|
-  visit source_path(name.underscore.downcase)
-  page.driver.render("tmp/capybara/#{name}.png") # if @wip
+  visit admin_source_path(name.underscore.downcase)
+  page.driver.render("tmp/capybara/#{name}.png") if @wip
   within ("ul.nav-tabs") do
     click_link tab_title
   end
 end
 
-When /^I go to the "(.*?)" tab of the Sources page$/ do |tab_title|
-  visit sources_path
+When /^I go to the "(.*?)" tab of the Sources admin page$/ do |tab_title|
+  visit admin_sources_path
   within ("ul.nav-tabs") do
     click_link tab_title
   end
 end
 
-When /^I go to the page of source "(.*?)"$/ do |name|
-  visit source_path(name.underscore.downcase)
+When /^I go to the admin page of source "(.*?)"$/ do |name|
+  visit admin_source_path(name.underscore.downcase)
 end
 
 When /^I go to the source "(.*?)"$/ do |name|
@@ -70,7 +70,7 @@ When /^I go to the source "(.*?)"$/ do |name|
 end
 
 When /^I edit the source "(\w+)"$/ do |name|
-  visit source_path(name.underscore.downcase)
+  visit admin_source_path(name.underscore.downcase)
   click_link "Configuration"
   click_link "Edit"
 end
@@ -84,16 +84,26 @@ When /^I submit the form$/ do
 end
 
 When /^I go to the "(.*?)" page$/ do |page_title|
-  if page_title == "Documentation"
-    title = "docs"
-  elsif page_title == "Errors"
+  if page_title == "Articles"
+    visit articles_path
+  elsif page_title == "Sources"
+    visit sources_path
+  elsif page_title == "Home"
+    visit root_path
+  end
+end
+
+When /^I go to the "(.*?)" admin page$/ do |page_title|
+  if page_title == "Alerts"
     title = "alerts"
+  elsif page_title == "Home"
+    title = ""
   elsif page_title == "API Requests"
     title = "api_requests"
   else
     title = page_title.downcase
   end
-  visit "/#{title}"
+  visit "/admin/#{title}"
   page.driver.render("tmp/capybara/#{title}.png") if @wip
 end
 
@@ -121,7 +131,7 @@ Then /^I should see the "(.*?)" menu item$/ do |menu_item|
 end
 
 Then /^I should see the "(.*?)" tab$/ do |tab_title|
-  page.driver.render("tmp/capybara/#{tab_title}.png") # if @wip
+  page.driver.render("tmp/capybara/#{tab_title}.png") if @wip
   page.has_css?('li', :text => tab_title, :visible => true).should be_true
 end
 
@@ -134,8 +144,8 @@ Then /^I should see the title "(.*?)"$/ do |title|
   page.has_css?('h1', :text => title, :visible => true).should be_true
 end
 
-Then /^I should see the row "(.*?)"$/ do |title|
-  page.has_css?('a', :text => title, :visible => true).should be_true
+Then /^I should see the subtitle "(.*?)"$/ do |title|
+  page.has_css?('h4', :text => title, :visible => true).should be_true
 end
 
 Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, display_name|
@@ -191,7 +201,7 @@ Then /^I should see the image "(.+)"$/ do |image|
 end
 
 Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|
-  page.driver.render("tmp/capybara/#{table_name}.png")
+  page.driver.render("tmp/capybara/#{table_name}.png") if @wip
   rows = find("table##{table_name}").all('tr')
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
   expected_table.diff!(table)

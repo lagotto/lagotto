@@ -120,7 +120,7 @@ describe "/api/v4/articles" do
         last_response.status.should == 400
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({ "title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1650 and #{Date.today.year}"] })
+        response["error"].should eq ({ "title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1650 and 2014"] })
         response["success"].should be_nil
         response["data"]["doi"].should eq (params["article"]["doi"])
         response["data"]["title"].should be_nil
@@ -139,6 +139,11 @@ describe "/api/v4/articles" do
         response["error"].should eq ({"foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"]})
         response["success"].should be_nil
         response["data"].should be_nil
+
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("ActionController::UnpermittedParameters")
+        alert.status.should == 422
       end
     end
 
@@ -153,6 +158,11 @@ describe "/api/v4/articles" do
         response["error"].should eq ("Undefined method.")
         response["success"].should be_nil
         response["data"].should be_nil
+
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("NoMethodError")
+        alert.status.should == 422
       end
     end
   end
@@ -252,6 +262,11 @@ describe "/api/v4/articles" do
         response["error"].should eq ({"article"=>["parameter is required"]})
         response["success"].should be_nil
         response["data"].should be_nil
+
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("ActionController::ParameterMissing")
+        alert.status.should == 422
       end
     end
 
@@ -264,7 +279,7 @@ describe "/api/v4/articles" do
         last_response.status.should == 400
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq("title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1650 and #{Date.today.year}"], "published_on"=>["is not a valid date"])
+        response["error"].should eq("title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1650 and 2014"])
         response["success"].should be_nil
         response["data"]["doi"].should eq (params["article"]["doi"])
         response["data"]["title"].should be_nil
@@ -283,6 +298,11 @@ describe "/api/v4/articles" do
         response["error"].should eq ({"foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"]})
         response["success"].should be_nil
         response["data"].should be_nil
+
+        Alert.count.should == 1
+        alert = Alert.first
+        alert.class_name.should eq("ActionController::UnpermittedParameters")
+        alert.status.should == 422
       end
     end
   end

@@ -95,7 +95,7 @@ describe ScienceSeeker do
       event[:event_csl]['author'].should eq([{"family"=>"Duncan", "given"=>""}])
       event[:event_csl]['title'].should eq("Web analytics: Numbers speak louder than words")
       event[:event_csl]['container-title'].should eq("O'Really?")
-      event[:event_csl]['issued'].should eq("date_parts"=>[2012, 5, 18])
+      event[:event_csl]['issued'].should eq("date-parts"=>[[2012, 5, 18]])
       event[:event_csl]['type'].should eq("post")
 
       event[:event_time].should eq("2012-05-18T07:58:34Z")
@@ -121,7 +121,7 @@ describe ScienceSeeker do
       event[:event_csl]['author'].should eq([{"family"=>"Duncan", "given"=>""}])
       event[:event_csl]['title'].should eq("Web analytics: Numbers speak louder than words")
       event[:event_csl]['container-title'].should eq("O'Really?")
-      event[:event_csl]['issued'].should eq("date_parts"=>[2012, 5, 18])
+      event[:event_csl]['issued'].should eq("date-parts"=>[[2012, 5, 18]])
       event[:event_csl]['type'].should eq("post")
 
       event[:event_time].should eq("2012-05-18T07:58:34Z")

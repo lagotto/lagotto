@@ -2,4 +2,4 @@
 
 <p>Expected <%= pluralize(CONFIG[:workers], 'worker') %>, but only <%= pluralize(@workers_count, 'worker') %> running.</p>
 
-<p><%= link_to "Go to admin dashboard", status_url(:host => CONFIG[:hostname]) %></p>
+<p><%= link_to "Go to admin dashboard", admin_root_url(:host => CONFIG[:public_server]) %></p>

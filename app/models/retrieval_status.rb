@@ -23,6 +23,9 @@ class RetrievalStatus < ActiveRecord::Base
   # include CouchDB helpers
   include Couchable
 
+  # include methods for calculating metrics
+  include Measurable
+
   belongs_to :article, :touch => true
   belongs_to :source
   has_many :retrieval_histories
@@ -76,18 +79,6 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
 
-  def metrics
-    if data.blank? || data[:error]
-      []
-    else
-      data["event_metrics"]
-    end
-  end
-
-  def get_past_events_by_month
-    retrieval_histories.group_by { |item| item.retrieved_at.strftime("%Y-%m") }.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :total => v.last.event_count } }
-  end
-
   def by_day
     if data.blank? || data[:error]
       []
@@ -102,6 +93,60 @@ class RetrievalStatus < ActiveRecord::Base
     else
       data["events_by_month"]
     end
+  end
+
+  def by_year
+    return [] if by_month.blank?
+
+    by_month.group_by { |event| event["year"] }.sort.map do |k, v|
+      if ['counter', 'pmc', 'figshare', 'copernicus'].include?(name)
+        { year: k.to_i,
+          pdf: v.reduce(0) { |sum, hash| sum + hash['pdf'].to_i },
+          html: v.reduce(0) { |sum, hash| sum + hash['html'].to_i } }
+      else
+        { year: k.to_i,
+          total: v.reduce(0) { |sum, hash| sum + hash['total'].to_i } }
+      end
+    end
+  end
+
+  def events_csl
+    return [] unless events.is_a?(Array)
+
+    events.map { |event| event['event_csl'] }.compact
+  end
+
+  def metrics
+    if event_metrics.present?
+      event_metrics
+    else
+      get_event_metrics(total: 0)
+    end
+  end
+
+  def new_metrics
+    { :pdf => metrics[:pdf],
+      :html => metrics[:html],
+      :readers => metrics[:shares],
+      :comments => metrics[:comments],
+      :likes => metrics[:likes],
+      :total => metrics[:total] }
+  end
+
+  def get_past_events_by_month
+    retrieval_histories.group_by { |item| item.retrieved_at.strftime("%Y-%m") }.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :total => v.last.event_count } }
+  end
+
+  def group_name
+    group.name
+  end
+
+  def update_date
+    updated_at.utc.iso8601
+  end
+
+  def cache_key
+    "#{id}/#{update_date}"
   end
 
   def delete_document

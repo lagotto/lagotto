@@ -37,6 +37,9 @@ class Source < ActiveRecord::Base
   # include CouchDB helpers
   include Couchable
 
+  # include date methods concern
+  include Dateable
+
   # include hash helper
   include Hashie::Extensions::DeepFetch
 
@@ -48,6 +51,8 @@ class Source < ActiveRecord::Base
   belongs_to :group
 
   serialize :config, OpenStruct
+
+  after_update :check_cache, :if => proc { |source| source.state_changed? || source.display_name_changed? }
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
@@ -232,19 +237,6 @@ class Source < ActiveRecord::Base
     end
   end
 
-  def get_date_parts(iso8601_time)
-    return nil if iso8601_time.nil?
-
-    year = iso8601_time[0..3].to_i
-    month = iso8601_time[5..6].to_i
-    day = iso8601_time[8..9].to_i
-    { 'date_parts' => [year, month, day] }
-  end
-
-  def get_date_parts_from_parts(year, month = nil, day = nil)
-    { 'date-parts' => [[year, month, day].reject(&:blank?)] }
-  end
-
   def get_author(author)
     return '' if author.blank?
 
@@ -278,27 +270,11 @@ class Source < ActiveRecord::Base
     errors.add(:cron_line, "is not a valid crontab entry")
   end
 
-  def cache_key
-    "#{name}/#{cached_at.utc.iso8601}"
-  end
-
-  def update_date
-    cached_at.utc.iso8601
-  end
-
-  def source_url
-    "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
-  end
-
-  def cached_version
-    response = Rails.cache.read("rabl/v5/1/#{cache_key}//json")
-    response.nil? ? { "data" => { "responses" => {}, "status" => {} } } : JSON.parse(response)["data"]
-  end
-
-  def update_cache
-    update_column(:cached_at, Time.zone.now)
-    DelayedJob.delete_all(queue: "#{name}-cache-queue")
-    delay(priority: 0, queue: "#{name}-cache-queue").get_result(source_url, timeout: 900)
+  def check_cache
+    if ActionController::Base.perform_caching
+      DelayedJob.delete_all(queue: "#{name}-cache-queue")
+      delay(priority: 0, queue: "#{name}-cache-queue").expire_cache
+    end
   end
 
   # Remove all retrieval records for this source that have never been updated,
@@ -316,5 +292,29 @@ class Source < ActiveRecord::Base
     sql += " where articles.id not in (#{article_ids.join(",")})" if article_ids.any?
 
     ActiveRecord::Base.connection.execute sql
+  end
+
+  def cache_timeout
+    30.seconds + (Article.count / 250).seconds
+  end
+
+  def update_date
+    updated_at.utc.iso8601
+  end
+
+  def cache_key
+    "#{name}/#{update_date}"
+  end
+
+  private
+
+  def expire_cache
+    update_column(:cached_at, Time.zone.now)
+    source_url = "http://#{CONFIG[:public_server]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
+    get_result(source_url, timeout: cache_timeout)
+
+    Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
+    status_url = "http://#{CONFIG[:public_server]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
+    get_result(status_url, timeout: cache_timeout)
   end
 end

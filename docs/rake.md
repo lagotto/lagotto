@@ -24,6 +24,8 @@ The command takes the following optional parameters via ENV variables
 ```sh
 FROM_UPDATE_DATE=2014-02-05
 UNTIL_UPDATE_DATE=2014-03
+FROM_PUB_DATE=2014-01-01
+UNTIL_UPDATE_DATE=2014-07-01
 MEMBER=340
 TYPE=journal-article
 ISSN=1545-7885
@@ -31,6 +33,7 @@ SAMPLE=50
 ```
 
 * `FROM_UPDATE_DATE` means metadata updated since (inclusive) `{date}`, `UNTIL_UPDATE_DATE` means metadata updated until (inclusive) `{date}`.
+* `FROM_PUB_DATE` means article published since (inclusive) `{date}`, `UNTIL_PUB_DATE` published until (inclusive) `{date}`.
 * `MEMBER` is the CrossRef member_id, which you find by searching the member database, e.g. `http://api.crossref.org/members?query=elife`.
 * `TYPE` is the type of the resource, e.g. `journal-article`, a listing of available types can be found at `http://api.crossref.org/types`.
 * `SAMPLE` returns a random sample of x DOIs and can be combined with the other parameters.

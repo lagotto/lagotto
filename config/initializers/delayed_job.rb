@@ -23,4 +23,3 @@ Delayed::Worker.default_priority = 3
 Delayed::Worker.max_run_time = 90.minutes
 Delayed::Worker.read_ahead = 10
 Delayed::Worker.delay_jobs = !Rails.env.test?
-Delayed::Worker.logger = Logger.new(Rails.root.join('log', 'delayed_job.log'))

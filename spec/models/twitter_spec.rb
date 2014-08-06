@@ -65,7 +65,7 @@ describe Twitter do
       event[:event_csl]['author'].should eq([{"family"=>"Regrum", "given"=>""}])
       event[:event_csl]['title'].should eq("Don't be blinded by science http://t.co/YOWRhsXb")
       event[:event_csl]['container-title'].should eq("Twitter")
-      event[:event_csl]['issued'].should eq("date_parts"=>[2012, 5, 20])
+      event[:event_csl]['issued'].should eq("date-parts"=>[[2012, 5, 20]])
       event[:event_csl]['type'].should eq("personal_communication")
 
       event[:event_url].should eq("http://twitter.com/regrum/status/204270013081849857")

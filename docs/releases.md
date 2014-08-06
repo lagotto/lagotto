@@ -3,6 +3,35 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 3.3.5](https://github.com/articlemetrics/alm/releases/tag/v.3.3.5)
+
+ALM 3.3.5 was released on August 5, 2014 with the following bugfix:
+
+* handle larger delayed_job payloads (up to 16 MB)
+
+## [ALM 3.3.2](https://github.com/articlemetrics/alm/releases/tag/v.3.3.2)
+
+ALM 3.3.2 was released on August 3, 2014 with the following bugfixes:
+
+* fixed a problem where the same cached response was used by both the v3 and v5 API
+* fixed a bug where some dates from events where incorrently formatted
+
+## [ALM 3.3.1](https://github.com/articlemetrics/alm/releases/tag/v.3.3.1)
+
+ALM 3.3.1 was released on July 31, 2014 with the following bugfix:
+
+* allow import of articles that contain non utf-8 characters in the title
+
+## [ALM 3.3](https://github.com/articlemetrics/alm/releases/tag/v.3.3)
+
+ALM 3.3 was released on July 29, 2014 with the following features:
+
+* import of articles via the CrossRef API
+* support for oEmbed
+* performance improvements
+* better handling of not found errors
+* better support for multiple ALM servers
+
 ## [ALM 3.2](https://github.com/articlemetrics/alm/releases/tag/v.3.2)
 
 ALM 3.2 was released on July 1, 2014 with the following features:

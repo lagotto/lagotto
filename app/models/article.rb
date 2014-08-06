@@ -232,67 +232,45 @@ class Article < ActiveRecord::Base
     doi =~ /^#{CONFIG[:doi_prefix].to_s}/
   end
 
-  def pmc
-    retrieval_statuses.by_name("pmc").first
+  def signposts
+    sources.pluck_all(:name, :event_count, :events_url)
   end
 
-  def counter
-    retrieval_statuses.by_name("counter").first
+  def event_count(name)
+    signposts.reduce(0) do |sum, hash|
+      hash["name"] == name ? hash['event_count'].to_i : sum
+    end
   end
 
-  def mendeley
-    retrieval_statuses.by_name("mendeley").first
+  def events_url(name)
+    signposts.reduce(nil) { |sum, hash| hash["name"] == name ? hash['events_url'] : sum }
   end
 
   def mendeley_url
-    mendeley.present? && mendeley.events_url.present? ? mendeley.events_url : nil
-  end
-
-  def citeulike
-    retrieval_statuses.by_name("citeulike").first
+    events_url("mendeley")
   end
 
   def citeulike_url
-    citeulike.present? && citeulike.events_url.present? ? citeulike.events_url : nil
-  end
-
-  def facebook
-    retrieval_statuses.by_name("facebook").first
-  end
-
-  def twitter
-    retrieval_statuses.by_name("twitter").first
-  end
-
-  def twitter_search
-    retrieval_statuses.by_name("twitter_search").first
-  end
-
-  def scopus
-    retrieval_statuses.by_name("scopus").first
-  end
-
-  def crossref
-    retrieval_statuses.by_name("crossref").first
+    events_url("citeulike")
   end
 
   def views
-    (pmc.nil? ? 0 : pmc.event_count) + (counter.nil? ? 0 : counter.event_count)
+    event_count("pmc") + event_count("counter")
   end
 
   def shares
-    (facebook.nil? ? 0 : facebook.event_count) + (twitter.nil? ? 0 : twitter.event_count) + (twitter_search.nil? ? 0 : twitter_search.event_count)
+    event_count("facebook") + event_count("twitter") + event_count("twitter_search")
   end
 
   def bookmarks
-    (citeulike.nil? ? 0 : citeulike.event_count) + (mendeley.nil? ? 0 : mendeley.event_count)
+    event_count("citeulike") + event_count("mendeley")
   end
 
   def citations
     if CONFIG[:doi_prefix] == "10.1371"
-      (scopus.nil? ? 0 : scopus.event_count)
+      event_count("scopus")
     else
-      (crossref.nil? ? 0 : crossref.event_count)
+      event_count("crossref")
     end
   end
 
@@ -322,6 +300,10 @@ class Article < ActiveRecord::Base
     write_attribute(:year, published_on.year)
     write_attribute(:month, published_on.month)
     write_attribute(:day, published_on.day)
+  end
+
+  def update_date
+    updated_at.nil? ? nil : updated_at.utc.iso8601
   end
 
   private

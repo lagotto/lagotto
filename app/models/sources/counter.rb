@@ -19,9 +19,6 @@
 # limitations under the License.
 
 class Counter < Source
-  # include date methods concern
-  include Dateable
-
   def get_query_url(article)
     return nil unless article.doi =~ /^10.1371/
 

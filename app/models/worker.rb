@@ -43,7 +43,7 @@ class Worker
   end
 
   def self.start
-    expected = (CONFIG[:workers] || 1).to_i
+    expected = (CONFIG[:workers]).to_i
     status = { expected: expected, running: count, message: nil }
 
     # all workers are running
@@ -85,7 +85,7 @@ class Worker
   end
 
   def self.monitor
-    expected = (CONFIG[:workers] || 1).to_i
+    expected = (CONFIG[:workers] || 0).to_i
     if count < expected
       message = "Error monitoring workers, only #{count} of #{expected} workers running. Workers restarted."
       Alert.create(:exception => "",

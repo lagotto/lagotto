@@ -4,7 +4,7 @@ describe OembedController do
   render_views
 
   let(:article) { FactoryGirl.create(:article_with_events) }
-  let(:uri) { "http://#{CONFIG[:hostname]}/oembed?url=#{article_path(article)}" }
+  let(:uri) { "http://#{CONFIG[:public_server]}/oembed?url=#{article_path(article)}" }
 
   context "discovery" do
     it "correct oembed link" do

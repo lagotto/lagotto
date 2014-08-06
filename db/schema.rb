@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140708173329) do
+ActiveRecord::Schema.define(:version => 20140804204942) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20140708173329) do
     t.string   "remote_ip"
     t.integer  "article_id"
     t.boolean  "error",                        :default => true
+    t.string   "hostname"
   end
 
   add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"
@@ -81,25 +82,23 @@ ActiveRecord::Schema.define(:version => 20140708173329) do
     t.integer  "year",          :default => 1970
     t.integer  "month"
     t.integer  "day"
-    t.string   "doi_prefix"
-    t.string   "publisher_id"
   end
 
   add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
 
   create_table "delayed_jobs", :force => true do |t|
-    t.integer  "priority",   :default => 0
-    t.integer  "attempts",   :default => 0
-    t.text     "handler"
+    t.integer  "priority",                       :default => 0
+    t.integer  "attempts",                       :default => 0
+    t.text     "handler",    :limit => 16777215
     t.text     "last_error"
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
     t.string   "locked_by"
     t.string   "queue"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
   end
 
   add_index "delayed_jobs", ["locked_at", "locked_by", "failed_at"], :name => "index_delayed_jobs_locked_at_locked_by_failed_at"
@@ -121,30 +120,6 @@ ActiveRecord::Schema.define(:version => 20140708173329) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "display_name"
-  end
-
-  create_table "prefixes", :force => true do |t|
-    t.integer  "publisher_id"
-    t.string   "name"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
-  create_table "publisher_options", :force => true do |t|
-    t.integer  "publisher_id"
-    t.integer  "source_id"
-    t.string   "config"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
-  create_table "publishers", :force => true do |t|
-    t.string   "name"
-    t.integer  "crossref_id"
-    t.text     "prefixes"
-    t.text     "other_names"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
   end
 
   create_table "reports", :force => true do |t|
@@ -254,7 +229,6 @@ ActiveRecord::Schema.define(:version => 20140708173329) do
     t.string   "name"
     t.string   "authentication_token"
     t.string   "role",                   :default => "user"
-    t.integer  "publisher_id"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_authentication_token", :unique => true

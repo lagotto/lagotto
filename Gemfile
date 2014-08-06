@@ -33,7 +33,7 @@ gem "cancan", "~> 1.6.10"
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.3.0"
-gem "rabl", "~> 0.10.0"
+gem 'rabl', '~> 0.10.1'
 gem "dalli", "~> 2.7.0"
 gem "cache_digests", "~> 0.3.1"
 
@@ -43,7 +43,7 @@ gem "uglifier", "~> 2.4.0"
 gem "jquery-rails", "~> 3.1.0"
 gem "therubyracer", "~> 0.12.0"
 gem 'sass-rails', '~> 3.2.5'
-gem "bootstrap-sass", '~> 3.1.1.1'
+gem "bootstrap-sass", '~> 3.1.0.2'
 gem 'coffee-rails', '~> 3.2.2'
 gem "turbolinks", "~> 2.2.1"
 gem 'will_paginate', '3.0.5'
@@ -89,6 +89,7 @@ group :test, :development do
   gem 'jasmine-rails', '~> 0.7.0'
   gem "brakeman", "~> 2.6.0", :require => false
   gem 'rubocop', '~> 0.20.1'
+  gem 'bullet', '~> 4.13.0'
 end
 
 gem 'rack-mini-profiler', '~> 0.9.1'

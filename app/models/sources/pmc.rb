@@ -19,9 +19,6 @@
 # limitations under the License.
 
 class Pmc < Source
-  # include date methods concern
-  include Dateable
-
   def parse_data(result, article, options={})
     # properly handle not found errors
     result = { 'data' => [] } if result[:status] == 404

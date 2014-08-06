@@ -1,14 +1,18 @@
 class ArticleDecorator < Draper::Decorator
   delegate_all
   decorates_finders
-  decorates_association :retrieval_statuses
 
   def self.collection_decorator_class
     PaginatingDecorator
   end
 
-  # Filter by source parameter, filter out private sources unless admin
-  # source_ids = get_source_ids(params[:source])
+  def source_ids
+    context[:source]
+  end
+
+  def filtered_retrieval_statuses
+    model.retrieval_statuses.select { |rs| source_ids.include?(rs.source_id) }
+  end
 
   def publication_date
     published_on.nil? ? nil : published_on.to_time.utc.iso8601
@@ -22,14 +26,10 @@ class ArticleDecorator < Draper::Decorator
     mendeley_uuid
   end
 
-  def update_date
-    updated_at.utc.iso8601
-  end
-
   def cache_key
     { :article_id => id,
-      :update_date => updated_at.utc.iso8601,
-      :source => context[:source],
+      :update_date => update_date,
+      :source => source_ids,
       :info => context[:info] }
   end
 
@@ -143,25 +143,10 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def provider_name
-    CONFIG[:sitename] || CONFIG[:useragent]
+    CONFIG[:sitename]
   end
 
   def provider_url
-    "http://#{CONFIG[:hostname]}"
-  end
-
-  protected
-
-  # Filter by source parameter, filter out private sources unless staff or admin
-  def get_source_ids(source_names)
-    if source_names && current_user.try(:is_admin_or_staff?)
-      source_ids = Source.where("lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
-    elsif source_names
-      source_ids = Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
-    elsif current_user.try(:is_admin_or_staff?)
-      source_ids = Source.order("group_id, sources.display_name").pluck(:id)
-    else
-      source_ids = Source.where("private = ?", false).order("group_id, sources.display_name").pluck(:id)
-    end
+    "http://#{CONFIG[:public_server]}"
   end
 end

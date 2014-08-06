@@ -115,7 +115,7 @@ describe TwitterSearch do
       event[:event_csl]['author'].should eq([{"family"=>"Champions Everywhere", "given"=>""}])
       event[:event_csl]['title'].should eq("A bit technical but worth a read: randomised medical control studies may be almost entirely false:... http://t.co/ohldzDxNiq")
       event[:event_csl]['container-title'].should eq("Twitter")
-      event[:event_csl]['issued'].should eq("date_parts"=>[2014, 1, 11])
+      event[:event_csl]['issued'].should eq("date-parts"=>[[2014, 1, 11]])
       event[:event_csl]['type'].should eq("personal_communication")
 
       event[:event_url].should eq("http://twitter.com/ChampsEvrywhere/status/422039629882089472")

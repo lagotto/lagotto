@@ -2,4 +2,4 @@ Some workers are missing at <%= Time.zone.now.to_formatted_s(:long) %> UTC:
 
 Expected <%= pluralize(CONFIG[:workers], 'worker') %>, but only <%= pluralize(@workers_count, 'worker') %> running.
 
-Go to admin dashboard: <%= status_url(:host => CONFIG[:hostname]) %>
+Go to admin dashboard: <%= admin_root_url(:host => CONFIG[:public_server]) %>

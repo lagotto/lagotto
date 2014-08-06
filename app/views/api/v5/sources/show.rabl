@@ -1,8 +1,8 @@
 object false
-cache ['v5', current_user, @source]
 
 node(:error) { nil }
 
-node :data do
-  partial "v5/sources/base", :object => @source
+child @source => :data do
+  cache ['v5', @source]
+  extends "v5/sources/base"
 end

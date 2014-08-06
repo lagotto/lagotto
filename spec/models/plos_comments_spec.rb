@@ -99,7 +99,7 @@ describe PlosComments do
       event[:event_csl]['author'].should eq([{"family"=>"Samigulina", "given"=>"Gulnara"}])
       event[:event_csl]['title'].should eq("A small group research.")
       event[:event_csl]['container-title'].should eq("PLOS Comments")
-      event[:event_csl]['issued'].should eq("date_parts"=>[2013, 10, 27])
+      event[:event_csl]['issued'].should eq("date-parts"=>[[2013, 10, 27]])
       event[:event_csl]['type'].should eq("personal_communication")
       event[:event_csl]['url'].should eq("http://dx.doi.org/#{article.doi}")
 

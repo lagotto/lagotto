@@ -3,6 +3,7 @@ object false
 node(:success) { @success }
 node(:error) { nil }
 
-node :data do
-  partial "v4/articles/base", :object => @article
+child @article => :data do
+  cache ['v4', @article]
+  extends "v4/articles/base"
 end

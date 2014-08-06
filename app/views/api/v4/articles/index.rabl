@@ -5,6 +5,7 @@ node(:total_pages) { |m| (@articles.total_entries.to_f / @articles.per_page).cei
 node(:page) { |m| @articles.total_entries > 0 ? @articles.current_page : 0 }
 node(:error) { nil }
 
-node :data do
-  partial "api/v4/articles/collection", :object => @articles
+child @articles => :data do
+  cache ['v4', @articles]
+  extends "v4/articles/base"
 end

@@ -27,8 +27,8 @@ module Articable
       source_ids = get_source_ids(params[:source])
 
       id_hash = { :articles => Article.from_uri(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
-      @article = Article.includes(:retrieval_statuses).where(id_hash)
-        .decorate(context: { info: params[:info], source: params[:source] })
+      @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash)
+        .decorate(context: { info: params[:info], source: source_ids })
 
       # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
       if @article.blank?
@@ -47,7 +47,9 @@ module Articable
       # Load articles from ids listed in query string, use type parameter if present
       # Translate type query parameter into column name
       # Paginate query results (50 per page)
-      collection = Article.preload(:retrieval_statuses)
+      source_ids = get_source_ids(params[:source])
+
+      collection = Article.preload(:sources)
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
@@ -78,7 +80,7 @@ module Articable
 
       collection = collection.page(params[:page])
       collection = collection.per_page(params[:rows].to_i) if params[:rows] && (1..50).include?(params[:rows].to_i)
-      @articles = collection.decorate(:context => { :info => params[:info], :source => params[:source] })
+      @articles = collection.decorate(:context => { :info => params[:info], :source => source_ids })
     end
 
     protected
@@ -88,9 +90,22 @@ module Articable
       id_hash = Article.from_uri(params[:id])
       if id_hash.respond_to?("key")
         key, value = id_hash.first
-        @article = Article.where(key => value).first
+        @article = Article.where(key => value).decorate.first
       else
         @article = nil
+      end
+    end
+
+    # Filter by source parameter, filter out private sources unless staff or admin
+    def get_source_ids(source_names)
+      if source_names && current_user.try(:is_admin_or_staff?)
+        Source.where("lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
+      elsif source_names
+        Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
+      elsif current_user.try(:is_admin_or_staff?)
+        Source.order("group_id, sources.display_name").pluck(:id)
+      else
+        Source.where("private = ?", false).order("group_id, sources.display_name").pluck(:id)
       end
     end
 
