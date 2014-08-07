@@ -142,11 +142,12 @@ class Import
       date_parts = item["issued"]["date-parts"][0]
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
-      if TYPES_WITH_TITLE.include?(item["type"])
-        title = item["title"][0]
-      else
-        title = item["title"][0].presence || item["container-title"][0].presence || "No title"
-      end
+      title = case item["title"].length
+              when 0 then nil
+              when 1 then item["title"][0]
+              else item["title"][0].presence || item["title"][1]
+              end
+      title = item["container-title"][0].presence || "No title" if title.blank? && !TYPES_WITH_TITLE.include?(item["type"])
 
       { Article.uid_as_sym => uid,
         title: title,
