@@ -215,6 +215,19 @@ describe Import do
       article[:day].should be_nil
     end
 
+    it "should parse_data title as second item" do
+      import = Import.new
+      body = File.read(fixture_path + 'import.json')
+      result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
+      response = import.parse_data(result)
+      response.length.should eq(10)
+
+      article = response[2]
+      article[:doi].should eq("10.1787/gen_papers-v2008-art4-en")
+      article[:title].should eq("Human capital formation and foreign direct")
+    end
+
     it "should parse_data missing title" do
       import = Import.new
       body = File.read(fixture_path + 'import.json')
