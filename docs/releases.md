@@ -3,6 +3,12 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 3.3.8](https://github.com/articlemetrics/alm/releases/tag/v.3.3.8)
+
+ALM 3.3.8 was released on August 8, 2014 with the following bugfix:
+
+* unescape URLs in the oembed controller
+
 ## [ALM 3.3.5](https://github.com/articlemetrics/alm/releases/tag/v.3.3.5)
 
 ALM 3.3.5 was released on August 5, 2014 with the following bugfix:

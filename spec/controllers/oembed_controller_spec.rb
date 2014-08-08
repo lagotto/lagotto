@@ -26,6 +26,16 @@ describe OembedController do
       response["html"].should include("<blockquote class=\"alm\">")
     end
 
+    it "GET oembed escaped" do
+      get "http://#{CONFIG[:public_server]}/oembed?url=#{CGI.escape(article_path(article))}"
+      last_response.status.should == 200
+      response = JSON.parse(last_response.body)
+      response["type"].should eq("rich")
+      response["title"].should eq(article.title)
+      response["url"].should eq(article.doi_as_url)
+      response["html"].should include("<blockquote class=\"alm\">")
+    end
+
     it "GET oembed JSON" do
       get uri, nil, 'HTTP_ACCEPT' => 'application/json'
       last_response.status.should == 200
