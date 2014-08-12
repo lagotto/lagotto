@@ -33,15 +33,15 @@ class RetrievalHistory < ActiveRecord::Base
 
   def self.delete_all_since(date = Date.today)
     number = 0
-    RetrievalHistory.where("created_at >= ?", date).find_in_batches do |retrieval_histories|
-      self.delay(priority: 0, queue: "couchdb-queue").delete_documents(retrieval_histories)
-      number += retrieval_histories.length
+    RetrievalHistory.where("created_at >= ?", date).find_in_batches do |rh_ids|
+      self.delay(priority: 0, queue: "couchdb-queue").delete_documents(rh_ids)
+      number += rh_ids.length
     end
     number
   end
 
-  def self.delete_documents(retrieval_histories)
-    retrieval_histories.each { |rh| rh.delete_document }
+  def self.delete_documents(rh_ids)
+    rh_ids.each { |rh| rh.delete_document }
   end
 
   def delete_document

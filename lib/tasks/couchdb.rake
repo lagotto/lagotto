@@ -22,7 +22,7 @@ namespace :couchdb do
   namespace :histories do
     desc "delete CouchDB history documents"
     task :delete => :environment do |t, args|
-      date = ENV['DATE'] || Date.today
+      date = ENV['START_DATE'] || Date.today
       number = RetrievalHistory.delete_all_since(date)
       if number > 0
         puts "Deleting #{number} CouchDB history documents since #{date} in the background..."
