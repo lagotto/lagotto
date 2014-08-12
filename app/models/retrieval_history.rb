@@ -41,10 +41,13 @@ class RetrievalHistory < ActiveRecord::Base
   end
 
   def self.delete_documents(ids)
-    ids.each { |id| self.delete_document(id) }
+    ids.each do |id|
+      rh = RetrievalHistory.find(id)
+      rh.delete_document
+    end
   end
 
-  def self.delete_document(id)
+  def delete_document
     data_rev = get_alm_rev(id)
     remove_alm_data(id, data_rev)
   end
