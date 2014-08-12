@@ -3,6 +3,16 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 3.3.9](https://github.com/articlemetrics/alm/releases/tag/v.3.3.9)
+
+ALM 3.3.9 was released on August 12, 2014 with the following new feature:
+
+* added rake task to delete CouchDB history documents (which are no longer used). Use `date` for start date.
+
+```
+bundle exec rake couchdb:histories:delete DATE=2014-01-01
+```
+
 ## [ALM 3.3.8](https://github.com/articlemetrics/alm/releases/tag/v.3.3.8)
 
 ALM 3.3.8 was released on August 8, 2014 with the following bugfix:
