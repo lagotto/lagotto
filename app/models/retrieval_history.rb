@@ -41,7 +41,7 @@ class RetrievalHistory < ActiveRecord::Base
     end
 
     collection.find_in_batches do |retrieval_histories|
-      RetrievalStatus.delay(priority: 0, queue: "couchdb-queue").delete_documents(retrieval_histories)
+      RetrievalHistory.delay(priority: 0, queue: "couchdb-queue").delete_documents(retrieval_histories)
       number += retrieval_histories.length
     end
     number
