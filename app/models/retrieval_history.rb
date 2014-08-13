@@ -32,8 +32,8 @@ class RetrievalHistory < ActiveRecord::Base
   def self.delete_many_documents(options = {})
     number = 0
 
-    start_date = options[:start_date] || Date.today
-    end_date = options[:end_date] || Date.today - 5.years
+    start_date = options[:start_date] || Date.today - 5.years
+    end_date = options[:end_date] || Date.today
     collection = RetrievalHistory.where("created_at >= ? AND created_at <= ?", start_date, end_date)
     if options[:number]
       limit = options[:number].to_i * 1000
