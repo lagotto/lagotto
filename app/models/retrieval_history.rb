@@ -34,17 +34,14 @@ class RetrievalHistory < ActiveRecord::Base
 
     start_date = options[:start_date] || (Date.today - 5.years).to_s
     end_date = options[:end_date] || Date.today.to_s
-    collection = RetrievalHistory.where(created_at: start_date..end_date)
+    collection = RetrievalHistory.select(:id).where(created_at: start_date..end_date)
 
-    collection.find_in_batches do |retrieval_histories|
-      self.delay(priority: 0, queue: "couchdb-queue").delete_documents(retrieval_histories)
-      number += retrieval_histories.length
+    collection.find_in_batches do |rh_ids|
+      ids = rh_ids.map(&:id)
+      Delayed::Job.enqueue RetrievalHistoryJob.new(ids), queue: "couchdb-queue", priority: 0
+      number += ids.length
     end
     number
-  end
-
-  def self.delete_documents(retrieval_histories)
-    retrieval_histories.each { |rh| rh.delete_document }
   end
 
   def delete_document
