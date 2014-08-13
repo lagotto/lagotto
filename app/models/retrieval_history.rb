@@ -32,8 +32,8 @@ class RetrievalHistory < ActiveRecord::Base
   def self.delete_many_documents(options = {})
     number = 0
 
-    start_date = options[:start_date] || Date.today - 5.years
-    end_date = options[:end_date] || Date.today
+    start_date = options[:start_date] || (Date.today - 5.years).to_s
+    end_date = options[:end_date] || Date.today.to_s
     collection = RetrievalHistory.where(created_at: start_date..end_date)
 
     collection.find_in_batches do |retrieval_histories|
