@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "couchdb:histories:delete" do
   include_context "rake"
 
-  let(:output) { "No CouchDB history documents since #{Date.today} to delete.\n" }
+  let(:output) { "No CouchDB history documents to delete.\n" }
 
   its(:prerequisites) { should include("environment") }
 

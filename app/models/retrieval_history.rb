@@ -29,19 +29,20 @@ class RetrievalHistory < ActiveRecord::Base
   belongs_to :article
   belongs_to :source
 
-  default_scope order("retrieved_at ASC")
-
-  def self.delete_all_since(date = Date.today)
+  def self.delete_all(start_date, end_date)
     number = 0
-    RetrievalHistory.where("created_at >= ?", date).find_in_batches do |rh_ids|
-      self.delay(priority: 0, queue: "couchdb-queue").delete_documents(rh_ids)
-      number += rh_ids.length
+    RetrievalHistory.where("created_at >= ? AND created_at <= ?", start_date, end_date).find_in_batches do |ids|
+      self.delay(priority: 0, queue: "couchdb-queue").delete_documents(ids)
+      number += ids.length
     end
     number
   end
 
-  def self.delete_documents(rh_ids)
-    rh_ids.each { |rh| rh.delete_document }
+  def self.delete_documents(ids)
+    ids.each do |id|
+      rh = RetrievalHistory.find(id)
+      rh.delete_document
+    end
   end
 
   def delete_document
