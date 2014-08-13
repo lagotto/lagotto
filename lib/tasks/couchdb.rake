@@ -23,8 +23,7 @@ namespace :couchdb do
     desc "delete CouchDB history documents"
     task :delete => :environment do |t, args|
       options = { start_date: ENV['START_DATE'],
-                  end_date: ENV['END_DATE'],
-                  number:  ENV['NUMBER'] }
+                  end_date: ENV['END_DATE'] }
       number = RetrievalHistory.delete_many_documents(options)
       if number > 0
         puts "Deleting #{number} CouchDB history documents in the background..."

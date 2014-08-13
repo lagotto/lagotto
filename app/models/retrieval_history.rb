@@ -34,11 +34,7 @@ class RetrievalHistory < ActiveRecord::Base
 
     start_date = options[:start_date] || Date.today - 5.years
     end_date = options[:end_date] || Date.today
-    collection = RetrievalHistory.where("created_at >= ? AND created_at <= ?", start_date, end_date)
-    if options[:number]
-      limit = options[:number].to_i * 1000
-      collection = collection.limit(limit)
-    end
+    collection = RetrievalHistory.where(created_at: start_date..end_date)
 
     collection.find_in_batches do |retrieval_histories|
       RetrievalHistory.delay(priority: 0, queue: "couchdb-queue").delete_documents(retrieval_histories)

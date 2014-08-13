@@ -7,11 +7,10 @@ title: "Releases"
 
 ALM 3.3.11 was released on August 13, 2014 with the following new feature:
 
-* added rake task to delete CouchDB history documents (which are no longer used). Use `START_DATE` and `END_DATE`, or `NUMBER` - the number of documents to delete * 1000.
+* added rake task to delete CouchDB history documents (which are no longer needed). Use `START_DATE` and `END_DATE`.
 
 ```
 bundle exec rake couchdb:histories:delete START_DATE=2014-01-01
-bundle exec rake couchdb:histories:delete NUMBER=100
 ```
 
 ## [ALM 3.3.8](https://github.com/articlemetrics/alm/releases/tag/v.3.3.8)
