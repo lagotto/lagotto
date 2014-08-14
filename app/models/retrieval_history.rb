@@ -47,11 +47,12 @@ class RetrievalHistory < ActiveRecord::Base
   def delete_document
     data_rev = get_alm_rev(id)
     response = remove_alm_data(id, data_rev)
+    timestamp = Time.zone.now.utc.iso8601
 
     if response[:error]
-      logger.error "CouchDB document #{id} could not be deleted: #{response[:error]}"
+      logger.error "#{timestamp}: CouchDB document #{id} could not be deleted: #{response[:error]}"
     else
-      logger.info "CouchDB document #{id} deleted"
+      logger.info "#{timestamp}: CouchDB document #{id} deleted"
     end
   end
 end
