@@ -48,10 +48,10 @@ class RetrievalHistory < ActiveRecord::Base
     data_rev = get_alm_rev(id)
     response = remove_alm_data(id, data_rev)
 
-    if response["ok"]
-      logger.info response
+    if response[:error]
+      logger.error "CouchDB document #{id} could not be deleted: #{response[:error]}"
     else
-      logger.error response
+      logger.info "CouchDB document #{id} deleted"
     end
   end
 end
