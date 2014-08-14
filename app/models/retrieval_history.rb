@@ -46,6 +46,12 @@ class RetrievalHistory < ActiveRecord::Base
 
   def delete_document
     data_rev = get_alm_rev(id)
-    remove_alm_data(id, data_rev)
+    response = remove_alm_data(id, data_rev)
+
+    if response["ok"]
+      logger.info response
+    else
+      logger.error response
+    end
   end
 end
