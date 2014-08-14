@@ -36,6 +36,6 @@ class OembedController < ApplicationController
   end
 
   def not_found
-    render "404", :status => :not_found
+    render "404", :status => :not_found and return
   end
 end
