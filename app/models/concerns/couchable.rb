@@ -83,11 +83,11 @@ module Couchable
       end
 
       if response.nil?
-        logger.info "#{timestamp}: CouchDB document #{id} not found"
+        Rails.logger.info "#{timestamp}: CouchDB document #{id} not found"
       elsif response.respond_to?(:error)
-        logger.error "#{timestamp}: CouchDB document #{id} could not be deleted: #{response[:error]}"
+        Rails.logger.error "#{timestamp}: CouchDB document #{id} could not be deleted: #{response[:error]}"
       else
-        logger.info "#{timestamp}: CouchDB document #{id} deleted with rev #{response}"
+        Rails.logger.info "#{timestamp}: CouchDB document #{id} deleted with rev #{response}"
       end
 
       response
