@@ -3,6 +3,12 @@ layout: page
 title: "Releases"
 ---
 
+## [ALM 3.3.14](https://github.com/articlemetrics/alm/releases/tag/v.3.3.14)
+
+ALM 3.3.14 was released on August 15, 2014 with the following bugfix:
+
+* fixed bug with oEmbed functionality.
+
 ## [ALM 3.3.12](https://github.com/articlemetrics/alm/releases/tag/v.3.3.12)
 
 ALM 3.3.12 was released on August 13, 2014 with the following new feature:
