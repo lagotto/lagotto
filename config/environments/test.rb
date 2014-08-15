@@ -41,4 +41,6 @@ Alm::Application.configure do
 
   # strong_parameters gem, default in Rails 4
   config.action_controller.action_on_unpermitted_parameters = :raise
+
+  config.action_mailer.default_url_options = { :host => "#{CONFIG[:public_server]}" }
 end
