@@ -4,7 +4,7 @@ describe OembedController do
   render_views
 
   let(:article) { FactoryGirl.create(:article_with_events) }
-  let(:uri) { "/oembed?url=#{article.doi_as_url}" }
+  let(:uri) { "/oembed?url=#{article_url(article)}" }
 
   context "discovery" do
     it "correct oembed link" do
@@ -27,7 +27,7 @@ describe OembedController do
     end
 
     it "GET oembed escaped" do
-      get "http://#{CONFIG[:public_server]}/oembed?url=maxwidth=474&maxheight=711&url=#{CGI.escape(article.doi_as_url)}&format=json"
+      get "http://#{CONFIG[:public_server]}/oembed?url=maxwidth=474&maxheight=711&url=#{CGI.escape(article_url(article))}&format=json"
       last_response.status.should == 200
       response = JSON.parse(last_response.body)
       response["type"].should eq("rich")
@@ -56,31 +56,11 @@ describe OembedController do
       response["url"].should eq(article.doi_as_url)
       response["html"].should include("<blockquote class=\"alm\">")
     end
-
-    it "GET oembed doi" do
-      get "/oembed?url=#{article.doi}"
-      last_response.status.should == 200
-      response = JSON.parse(last_response.body)
-      response["type"].should eq("rich")
-      response["title"].should eq(article.title)
-      response["url"].should eq(article.doi_as_url)
-      response["html"].should include("<blockquote class=\"alm\">")
-    end
-
-    it "GET oembed pmid" do
-      get "/oembed?url=info:pmid/#{article.pmid}"
-      last_response.status.should == 200
-      response = JSON.parse(last_response.body)
-      response["type"].should eq("rich")
-      response["title"].should eq(article.title)
-      response["url"].should eq(article.doi_as_url)
-      response["html"].should include("<blockquote class=\"alm\">")
-    end
   end
 
   context "errors" do
     it "RoutingError error" do
-      expect { get "/oembed?url=x" }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { get "/oembed?url=x" }.to raise_error(ActionController::RoutingError)
       Alert.count.should == 0
     end
   end

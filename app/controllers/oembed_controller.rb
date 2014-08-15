@@ -16,11 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'cgi'
+
 class OembedController < ApplicationController
   respond_to :json, :xml
 
   def show
-    id_hash = Article.from_uri(params[:url])
+    url = CGI.unescape(params[:url])
+    url = Rails.application.routes.recognize_path(url)
+    id_hash = Article.from_uri(url[:id])
     article = Article.includes(:sources).where(id_hash).first
 
     # raise error if article wasn't found

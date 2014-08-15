@@ -65,6 +65,7 @@ class ArticleDecorator < Draper::Decorator
 <style type="text/css">
   blockquote.alm {
     display: inline-block;
+    background-color: #fff;
     padding: 16px;
     margin: 10px 0;
     max-width: 600px;
