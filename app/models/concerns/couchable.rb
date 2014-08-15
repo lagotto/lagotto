@@ -83,7 +83,7 @@ module Couchable
       end
 
       if response.nil?
-        Rails.logger.info "#{timestamp}: CouchDB document #{id} not found"
+        Rails.logger.warn "#{timestamp}: CouchDB document #{id} not found"
       elsif response.respond_to?(:error)
         Rails.logger.error "#{timestamp}: CouchDB document #{id} could not be deleted: #{response[:error]}"
       else
