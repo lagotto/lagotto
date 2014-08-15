@@ -64,6 +64,7 @@ class Article < ActiveRecord::Base
     return nil if id.nil?
 
     id = id.gsub("%2F", "/")
+    id = id.gsub("%3A", ":")
 
     case
     when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
