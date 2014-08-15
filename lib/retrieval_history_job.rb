@@ -31,6 +31,10 @@ class RetrievalHistoryJob < Struct.new(:rh_ids)
     rh_ids.each { | rh_id | remove_alm_data(rh_id) }
   end
 
+  def error(job, exception)
+    Alert.create(:exception => "", :class_name => exception.class.to_s, :message => exception.message)
+  end
+
   def failure(job)
     # bring error into right format
     error = job.last_error.split("\n")
