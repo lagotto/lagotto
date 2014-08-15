@@ -134,7 +134,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def get_past_events_by_month
-    retrieval_histories.group_by { |item| item.retrieved_at.strftime("%Y-%m") }.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :total => v.last.event_count } }
+    retrieval_histories.group_by { |item| item.retrieved_at.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :total => v.last.event_count } }
   end
 
   def group_name

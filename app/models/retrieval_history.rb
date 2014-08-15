@@ -29,6 +29,8 @@ class RetrievalHistory < ActiveRecord::Base
   belongs_to :article
   belongs_to :source
 
+  default_scope order("retrieved_at DESC")
+
   def self.delete_many_documents(options = {})
     number = 0
 
@@ -42,17 +44,5 @@ class RetrievalHistory < ActiveRecord::Base
       number += ids.length
     end
     number
-  end
-
-  def delete_document
-    data_rev = get_alm_rev(id)
-    response = remove_alm_data(id, data_rev)
-    timestamp = Time.zone.now.utc.iso8601
-
-    if response[:error]
-      logger.error "#{timestamp}: CouchDB document #{id} could not be deleted: #{response[:error]}"
-    else
-      logger.info "#{timestamp}: CouchDB document #{id} deleted"
-    end
   end
 end

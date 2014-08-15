@@ -18,12 +18,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'timeout'
+
 class RetrievalHistoryJob < Struct.new(:rh_ids)
+  # include HTTP request helpers
+  include Networkable
+
+  # include CouchDB helpers
+  include Couchable
+
   def perform
-    rh_ids.each do | rh_id |
-      rh = RetrievalHistory.find(rh_id)
-      rh.delete_document
-    end
+    rh_ids.each { | rh_id | remove_alm_data(rh_id) }
   end
 
   def failure(job)

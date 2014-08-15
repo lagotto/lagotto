@@ -41,10 +41,7 @@ describe Source do
       new_rev.should_not be_nil
       new_rev.should_not eq(rev)
 
-      get_response = subject.get_alm_data(id)
-      get_response.should include("_id" => id, "_rev" => new_rev)
-
-      delete_rev = subject.remove_alm_data(id, new_rev)
+      delete_rev = subject.remove_alm_data(id)
       delete_rev.should_not be_nil
       delete_rev.should_not eq(rev)
       delete_rev.should include("3-")
@@ -69,7 +66,7 @@ describe Source do
       new_rev = subject.save_alm_data(id, data: data)
       new_rev.should_not be_nil
       new_rev.should_not eq(rev)
-      delete_rev = subject.remove_alm_data(id, new_rev)
+      delete_rev = subject.remove_alm_data(id)
       delete_rev.should_not eq(new_rev)
     end
 

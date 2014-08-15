@@ -71,13 +71,31 @@ module Couchable
       rescue_faraday_error(url, e, options)
     end
 
-    def remove_alm_data(id, data_rev)
-      params = {'rev' => data_rev }
-      delete_alm_data("#{couchdb_url}#{id}?#{params.to_query}")
+    def remove_alm_data(id)
+      data_rev = get_alm_rev(id)
+      timestamp = Time.zone.now.utc.iso8601
+
+      if data_rev.present?
+        params = {'rev' => data_rev }
+        response = delete_alm_data("#{couchdb_url}#{id}?#{params.to_query}")
+      else
+        response = nil
+      end
+
+      if response.nil?
+        logger.info "#{timestamp}: CouchDB document #{id} not found"
+      elsif response.respond_to?(:error)
+        logger.error "#{timestamp}: CouchDB document #{id} could not be deleted: #{response[:error]}"
+      else
+        logger.info "#{timestamp}: CouchDB document #{id} deleted with rev #{response}"
+      end
+
+      response
     end
 
     def delete_alm_data(url, options={})
-      return nil if url == couchdb_url && !Rails.env.test?
+      # don't delete database
+      return nil if (url == couchdb_url && Rails.env != "test")
 
       conn = faraday_conn('json')
       response = conn.delete url
