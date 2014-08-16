@@ -8,4 +8,4 @@ The following sources have not been updated for 24 hours as of <%= Time.zone.now
 No stale source found.
 <% end -%>
 
-Go to admin dashboard: <%= status_url(:host => CONFIG[:public_server], :class => "SourceNotUpdatedError") %>
+Go to admin dashboard: <%= admin_alerts_url(:class => "SourceNotUpdatedError") %>

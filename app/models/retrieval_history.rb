@@ -29,14 +29,20 @@ class RetrievalHistory < ActiveRecord::Base
   belongs_to :article
   belongs_to :source
 
-  before_destroy :delete_couchdb_document
+  default_scope order("retrieved_at DESC")
 
-  default_scope order("retrieved_at ASC")
+  def self.delete_many_documents(options = {})
+    number = 0
 
-  private
+    start_date = options[:start_date] || (Date.today - 5.years).to_s
+    end_date = options[:end_date] || Date.today.to_s
+    collection = RetrievalHistory.select(:id).where(created_at: start_date..end_date)
 
-  def delete_couchdb_document
-    data_rev = get_alm_rev(id)
-    remove_alm_data(id, data_rev)
+    collection.find_in_batches do |rh_ids|
+      ids = rh_ids.map(&:id)
+      Delayed::Job.enqueue RetrievalHistoryJob.new(ids), queue: "couchdb-queue", priority: 0
+      number += ids.length
+    end
+    number
   end
 end

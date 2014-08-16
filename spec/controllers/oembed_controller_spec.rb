@@ -4,7 +4,7 @@ describe OembedController do
   render_views
 
   let(:article) { FactoryGirl.create(:article_with_events) }
-  let(:uri) { "http://#{CONFIG[:public_server]}/oembed?url=#{article_path(article)}" }
+  let(:uri) { "/oembed?url=#{article_url(article)}" }
 
   context "discovery" do
     it "correct oembed link" do
@@ -18,6 +18,16 @@ describe OembedController do
   context "show" do
     it "GET oembed" do
       get uri
+      last_response.status.should == 200
+      response = JSON.parse(last_response.body)
+      response["type"].should eq("rich")
+      response["title"].should eq(article.title)
+      response["url"].should eq(article.doi_as_url)
+      response["html"].should include("<blockquote class=\"alm\">")
+    end
+
+    it "GET oembed escaped" do
+      get "http://#{CONFIG[:public_server]}/oembed?url=maxwidth=474&maxheight=711&url=#{CGI.escape(article_url(article))}&format=json"
       last_response.status.should == 200
       response = JSON.parse(last_response.body)
       response["type"].should eq("rich")

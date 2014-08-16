@@ -16,22 +16,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'cgi'
+
 class OembedController < ApplicationController
   respond_to :json, :xml
 
   def show
-    not_found if params[:url].blank?
-
-    url = Rails.application.routes.recognize_path(params[:url])
+    url = CGI.unescape(params[:url])
+    url = Rails.application.routes.recognize_path(url)
     id_hash = Article.from_uri(url[:id])
-    article = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).first
+    article = Article.includes(:sources).where(id_hash).first
 
-    not_found if article.blank?
+    # raise error if article wasn't found
+    fail ActiveRecord::RecordNotFound, "No record for \"#{params[:url]}\" found" if article.blank?
 
     @article = article.decorate(context: { maxwidth: params[:maxwidth], maxheight: params[:maxheight] })
-  end
-
-  def not_found
-    render "404", :status => :not_found
   end
 end

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # $HeadURL$
 # $Id$
 #
@@ -16,28 +18,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class ApplicationController < ActionController::Base
-  protect_from_forgery
-
-  before_filter :miniprofiler
-
-  layout 'application'
-
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_path, :alert => exception.message
-  end
-
-  def default_url_options
-    { host: CONFIG[:public_server] }
-  end
-
-  def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || user_path("me")
-  end
-
-  private
-
-  def miniprofiler
-    Rack::MiniProfiler.authorize_request if current_user.try(:is_admin?)
+namespace :couchdb do
+  namespace :histories do
+    desc "delete CouchDB history documents"
+    task :delete => :environment do |t, args|
+      options = { start_date: ENV['START_DATE'],
+                  end_date: ENV['END_DATE'] }
+      number = RetrievalHistory.delete_many_documents(options)
+      if number > 0
+        puts "Deleting #{number} CouchDB history documents in the background..."
+      else
+        puts "No CouchDB history documents to delete."
+      end
+    end
   end
 end
