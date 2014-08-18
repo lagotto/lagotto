@@ -54,6 +54,7 @@ class Admin::SourcesController < Admin::ApplicationController
                                    :queueable,
                                    :description,
                                    :job_batch_size,
+                                   :priority,
                                    :workers,
                                    :rate_limiting,
                                    :wait_time,
