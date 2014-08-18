@@ -54,6 +54,7 @@ class Source < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
+  validates :priority, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :workers, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :timeout, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :wait_time, :numericality => { :only_integer => true, :greater_than => 0 }
