@@ -292,7 +292,7 @@ class Source < ActiveRecord::Base
   end
 
   def cache_timeout
-    30.seconds + (Article.count / 250).seconds
+    30.seconds + (Article.count / 200).seconds
   end
 
   def update_date
