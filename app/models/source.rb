@@ -52,8 +52,6 @@ class Source < ActiveRecord::Base
 
   serialize :config, OpenStruct
 
-  after_update :check_cache, :if => proc { |source| source.state_changed? || source.display_name_changed? }
-
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
   validates :workers, :numericality => { :only_integer => true, :greater_than => 0 }
@@ -94,8 +92,6 @@ class Source < ActiveRecord::Base
   def queue_all_articles(options = {})
     return 0 unless active?
 
-    priority = options[:priority] || Delayed::Worker.default_priority
-
     # find articles that need to be updated. Not queued currently, scheduled_at doesn't matter
     rs = retrieval_statuses
 
@@ -118,8 +114,6 @@ class Source < ActiveRecord::Base
       wait
       return 0
     end
-
-    priority = options[:priority] || Delayed::Worker.default_priority
 
     rs.each_slice(job_batch_size) do |rs_ids|
       Delayed::Job.enqueue SourceJob.new(rs_ids, id), queue: name, run_at: schedule_at, priority: priority
@@ -290,7 +284,7 @@ class Source < ActiveRecord::Base
   def update_cache
     update_column(:cached_at, Time.zone.now)
     DelayedJob.delete_all(queue: "#{name}-cache-queue")
-    delay(priority: 0, queue: "#{name}-cache-queue").get_result(source_url, timeout: 900)
+    delay(priority: priority, queue: "#{name}-cache-queue").get_result(source_url, timeout: 900)
   end
 
   # Remove all retrieval records for this source that have never been updated,
