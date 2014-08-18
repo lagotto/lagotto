@@ -68,13 +68,13 @@ class Import
 
   def queue_article_import
     if @sample > 0
-      delay(priority: 0, queue: "article-import-queue").process_data
+      delay(priority: 2, queue: "article-import-queue").process_data
     else
       (0...total_results).step(1000) do |offset|
-        delay(priority: 0, queue: "article-import-queue").process_data(offset)
+        delay(priority: 2, queue: "article-import-queue").process_data(offset)
       end
     end
-    delay(priority: 0, queue: "article-cache-queue").expire_cache
+    delay(priority: 2, queue: "article-cache-queue").expire_cache
   end
 
   def process_data(offset = 0)

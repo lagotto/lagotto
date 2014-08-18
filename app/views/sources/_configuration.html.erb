@@ -21,6 +21,8 @@
           <% end %>
         <% end %>
       <% end %>
+      <%= f.input :priority, :as => :numeric, label: "Priority of jobs",
+                                                    hint: "Priority of background jobs" %>
       <%= f.input :workers, :as => :numeric, label: "Workers",
                                                     hint: "Max. number of workers" %>
       <%= f.input :job_batch_size, :as => :numeric, label: "Job queue",
@@ -100,6 +102,7 @@
         <th>Job queue</th>
         <td>
           <%= @source.rate_limiting %> per hour rate-limiting</br>
+          <%= @source.priority %> is the priority of jobs</br>
           <%= pluralize(@source.workers, "worker") %></br>
           <%= @source.job_batch_size %> articles per job</br>
           <%= @source.wait_time %> seconds before more jobs can be added</br>

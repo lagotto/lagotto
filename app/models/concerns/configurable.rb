@@ -226,6 +226,14 @@ module Configurable
       config.cron_line = value
     end
 
+    def priority
+      config.priority || Delayed::Worker.default_priority
+    end
+
+    def priority=(value)
+      config.priority = value.to_i
+    end
+
     # is this source no longer accepting new data?
     def obsolete
       config.obsolete || false

@@ -27,6 +27,7 @@ describe Source do
 
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:display_name) }
+  it { should validate_numericality_of(:priority).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { should validate_numericality_of(:workers).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { should validate_numericality_of(:timeout).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { should validate_numericality_of(:wait_time).is_greater_than(0).only_integer.with_message("must be greater than 0") }
