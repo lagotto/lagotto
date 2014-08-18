@@ -123,7 +123,7 @@ describe Report do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should include("<a href=\"http://#{CONFIG[:public_server]}/admin/alerts\">Go to admin dashboard</a>")
+      body_html.should include("<a href=\"http://#{CONFIG[:public_server]}/alerts\">Go to admin dashboard</a>")
     end
   end
 
@@ -150,7 +150,7 @@ describe Report do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should include("<a href=\"http://#{CONFIG[:public_server]}/admin/alerts?class=SourceNotUpdatedError\">Go to admin dashboard</a>")
+      body_html.should include("<a href=\"http://#{CONFIG[:public_server]}/alerts?class=SourceNotUpdatedError\">Go to admin dashboard</a>")
     end
   end
 end
