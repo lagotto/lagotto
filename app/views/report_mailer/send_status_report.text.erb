@@ -15,4 +15,4 @@ This is the ALM status report, generated <%= Time.zone.now.to_formatted_s(:long)
 ALM Version <%= @status.version %>
 CouchDB database size <%= number_to_human_size(@status.couchdb_size) %>
 
-Go to admin dashboard: <%= admin_root_url %>
+Go to admin dashboard: <%= status_url %>
