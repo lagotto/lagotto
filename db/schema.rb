@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140804204942) do
+ActiveRecord::Schema.define(:version => 20140808173329) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(:version => 20140804204942) do
     t.integer  "year",          :default => 1970
     t.integer  "month"
     t.integer  "day"
+    t.string   "publisher_id"
   end
 
   add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"
@@ -120,6 +121,23 @@ ActiveRecord::Schema.define(:version => 20140804204942) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "display_name"
+  end
+
+  create_table "publisher_options", :force => true do |t|
+    t.integer  "publisher_id"
+    t.integer  "source_id"
+    t.string   "config"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "publishers", :force => true do |t|
+    t.string   "name"
+    t.integer  "crossref_id"
+    t.text     "prefixes"
+    t.text     "other_names"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "reports", :force => true do |t|
@@ -229,6 +247,7 @@ ActiveRecord::Schema.define(:version => 20140804204942) do
     t.string   "name"
     t.string   "authentication_token"
     t.string   "role",                   :default => "user"
+    t.integer  "publisher_id"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_authentication_token", :unique => true
