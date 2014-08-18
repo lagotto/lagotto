@@ -21,9 +21,9 @@
             <% end %>
             <td><%= link_to source.display_name, source_path(source) %></td>
             <td><%= state_label(source.human_state_name).html_safe %></td>
-            <td class="number" id="response_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version["responses"]["count"]) %></td>
-            <td class="number" id="average_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version["responses"]["average"]) %></td>
-            <td class="number" id="error_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version["error_count"]) %></td>
+            <td class="number" id="response_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version.fetch('responses', 0).fetch('count', 0)) %></td>
+            <td class="number" id="average_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version.fetch('responses', 0).fetch('average', 0)) %></td>
+            <td class="number" id="error_count_<%= source.name %>"><%= number_hiding_zero(source.cached_version.fetch('error_count', 0)) %></td>
           </tr>
         <% end %>
       <% end %>

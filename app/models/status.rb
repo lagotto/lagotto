@@ -89,7 +89,7 @@ class Status
 
   def update_cache
     Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
-    DelayedJob.delete_all(queue: "status-cache-queue")
-    delay(priority: 0, queue: "status-cache-queue").get_result(status_url, timeout: 900)
+    DelayedJob.delete_all(queue: "status-cache")
+    delay(priority: 3, queue: "status-cache").get_result(status_url, timeout: 900)
   end
 end

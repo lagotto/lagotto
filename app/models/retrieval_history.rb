@@ -40,7 +40,7 @@ class RetrievalHistory < ActiveRecord::Base
 
     collection.find_in_batches do |rh_ids|
       ids = rh_ids.map(&:id)
-      Delayed::Job.enqueue RetrievalHistoryJob.new(ids), queue: "couchdb-queue", priority: 4
+      Delayed::Job.enqueue RetrievalHistoryJob.new(ids), queue: "couchdb", priority: 4
       number += ids.length
     end
     number
