@@ -102,7 +102,7 @@
         <th>Job queue</th>
         <td>
           <%= @source.rate_limiting %> per hour rate-limiting</br>
-          Priority for jobs is <%= @source.priority %>.</br>
+          @source.priority %> is the priority of jobs</br>
           <%= pluralize(@source.workers, "worker") %></br>
           <%= @source.job_batch_size %> articles per job</br>
           <%= @source.wait_time %> seconds before more jobs can be added</br>
