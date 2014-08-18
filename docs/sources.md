@@ -3,7 +3,7 @@ layout: page
 title: "Sources"
 ---
 
-The ALM application provides a number of public sources. Most sources require a user account with the service (see table below). The private ALM sources not made available here either use an internal application that is not available via public API (PLOS Usage Stats, PLOS Comments, Figshare) or require a contract with the provider (Web of Science, F1000).
+The ALM application provides a number of public sources. Most sources require a user account with the service (see table below).
 
 ### Viewed
 * [PubMed Central Usage Stats](/docs/pmc)
@@ -29,15 +29,17 @@ The ALM application provides a number of public sources. Most sources require a 
 * [PubMed Central Citations](/docs/pubmed)
 * [Europe PMC Citations](/docs/pmceurope)
 * [Scopus](/docs/scopus)
+* [Web of Science](/docs/wos)
 * [DataCite](/docs/datacite)
 * [Europe PMC Database Citations](/docs/pmceuropedata)
 
-### Private Sources
+### Recommended
+* [F1000Prime](/docs/f1000)
+
+### PLOS-specific Sources
 * [PLOS Usage Stats](/docs/counter)
 * [PLOS Figshare Usage Stats](/docs/figshare)
 * [PLOS Comments](/docs/plos_comments)
-* [Web of Science](/docs/wos)
-* [F1000Prime](/docs/f1000)
 
 ### Retired Sources
 * [Biod](/docs/biod)
