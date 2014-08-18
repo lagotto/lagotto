@@ -142,6 +142,17 @@ In a continously updating production system we want to run the workers in the ba
 
 When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We need to run at least one delayed_job to do this.
 
+### List of background jobs that ALM uses
+
+The default priority for jobs is 5. We have the following background jobs sorted by decreasing priority:
+
+* **Disabled source alert**. Queue name is `mailer`, priority is 1.
+* **Article imports**. Queue name is `article-import-queue`, priority is 2.
+* **Deleting CouchDB documents**. A one-time maintenance task, queue name is `couchdb-queue`, default priority is 4.
+* **Updating sources**. Queue name is name of the source, priority can be any integer greater than 0, default priority is 5.
+* **Updating sources cache**. Queue names are `{name of source}-cache`, priority is the same as for the source.
+* **Email reports**. Queue name is `mailer`, default priority is 6.
+
 ## Configuring Maintenance Tasks
 The ALM application uses a number of maintenance tasks in production mode - they are not necessary for a development instance.
 

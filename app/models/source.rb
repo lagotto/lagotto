@@ -57,6 +57,7 @@ class Source < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
   validates :workers, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :priority, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :timeout, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :wait_time, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :max_failed_queries, :numericality => { :only_integer => true, :greater_than => 0 }
@@ -94,8 +95,6 @@ class Source < ActiveRecord::Base
   def queue_all_articles(options = {})
     return 0 unless active?
 
-    priority = options[:priority] || Delayed::Worker.default_priority
-
     # find articles that need to be updated. Not queued currently, scheduled_at doesn't matter
     rs = retrieval_statuses
 
@@ -118,8 +117,6 @@ class Source < ActiveRecord::Base
       wait
       return 0
     end
-
-    priority = options[:priority] || Delayed::Worker.default_priority
 
     rs.each_slice(job_batch_size) do |rs_ids|
       Delayed::Job.enqueue SourceJob.new(rs_ids, id), queue: name, run_at: schedule_at, priority: priority
@@ -273,7 +270,7 @@ class Source < ActiveRecord::Base
   def check_cache
     if ActionController::Base.perform_caching
       DelayedJob.delete_all(queue: "#{name}-cache-queue")
-      delay(priority: 0, queue: "#{name}-cache-queue").expire_cache
+      delay(priority: priority, queue: "#{name}-cache-queue").expire_cache
     end
   end
 
