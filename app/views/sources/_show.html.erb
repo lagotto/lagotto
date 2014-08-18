@@ -9,8 +9,8 @@
   <tbody>
     <tr>
       <th>Events</th>
-      <td class="number" id="article_count"><%= number_hiding_zero(@source.cached_version.fetch('article_count', 0) %></td>
-      <td class="number" id="event_count"><%= number_hiding_zero(@source.cached_version.fetch('event_count', 0) %></td>
+      <td class="number" id="article_count"><%= number_hiding_zero(@source.cached_version.fetch('article_count', 0)) %></td>
+      <td class="number" id="event_count"><%= number_hiding_zero(@source.cached_version.fetch('event_count', 0)) %></td>
     </tr>
 
     <% if can?(:read, Alert) %>
