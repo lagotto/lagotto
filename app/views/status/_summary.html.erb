@@ -2,7 +2,7 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="articles_count"><%= number_with_delimiter(@status.cached_version.fetch('articles_count', 0) %></h2>
+        <h2 id="articles_count"><%= number_with_delimiter(@status.cached_version.fetch('articles_count', 0)) %></h2>
       </div>
       <div class="panel-footer"><%= link_to "Articles", articles_path %></div>
     </div>
@@ -10,7 +10,7 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="articles_last30_count"><%= number_with_delimiter(@status.cached_version.fetch('article_last30_count', 0) %></h2>
+        <h2 id="articles_last30_count"><%= number_with_delimiter(@status.cached_version.fetch('article_last30_count', 0)) %></h2>
       </div>
       <div class="panel-footer">Articles last 30 days</div>
     </div>
@@ -18,7 +18,7 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="events_count"><%= number_with_delimiter(@status.cached_version.fetch('events_count', 0) %></h2>
+        <h2 id="events_count"><%= number_with_delimiter(@status.cached_version.fetch('events_count', 0)) %></h2>
       </div>
       <div class="panel-footer"><%= link_to "Events", sources_path %></div>
     </div>
