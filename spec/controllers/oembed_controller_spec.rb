@@ -4,7 +4,7 @@ describe OembedController do
   render_views
 
   let(:article) { FactoryGirl.create(:article_with_events) }
-  let(:uri) { "/oembed?url=#{article_path(article)}" }
+  let(:uri) { "/oembed?url=#{article_url(article)}" }
 
   context "discovery" do
     it "correct oembed link" do
