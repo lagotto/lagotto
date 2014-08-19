@@ -26,7 +26,7 @@ class CitationMilestoneAlert < Filter
       responses = responses.all.map do |response|
         { source_id: response.source_id,
           article_id: response.article_id,
-          error: 0,
+          level: Alert::INFO,
           message: "Article has been cited #{response.event_count} times" }
       end
       raise_alerts(responses)

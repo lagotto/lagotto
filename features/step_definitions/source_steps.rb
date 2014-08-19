@@ -54,14 +54,14 @@ When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, name|
   end
 end
 
-When /^I go to the "(.*?)" tab of the Sources admin page$/ do |tab_title|
+When /^I go to the "(.*?)" tab of the Sources page$/ do |tab_title|
   visit sources_path
   within ("ul.nav-tabs") do
     click_link tab_title
   end
 end
 
-When /^I go to the admin page of source "(.*?)"$/ do |name|
+When /^I go to the page of source "(.*?)"$/ do |name|
   visit source_path(name.underscore.downcase)
 end
 
@@ -168,6 +168,10 @@ end
 
 Then /^I should not see the "(.*?)" column$/ do |column_title|
   page.has_css?('th', :text => column_title, :visible => true).should_not be_true
+end
+
+Then /^I should see the row "(.*?)"$/ do |title|
+   page.has_css?('td', :text => title, :visible => true).should be_true
 end
 
 Then /^I should see the donut "(.*?)"$/ do |title|

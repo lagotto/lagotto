@@ -42,7 +42,7 @@ $brand-primary:         $wet-asphalt;
 $brand-secondary:       $peter-river;
 $brand-success:         $emerald;
 $brand-warning:         $sun-flower;
-$brand-danger:          $alizarin;
+$brand-danger:          $carrot;
 $brand-info:            $peter-river;
 
 $body-bg:               white;
@@ -242,6 +242,7 @@ body { padding-top: 60px; padding-bottom: 20px; }
 .panel-group .panel .panel-heading h4 small { margin-top: 3px; }
 h1 small span.label { vertical-align: bottom; font-size: 66%; margin-left: 0.5em; }
 .label { font-weight: normal; }
+.label-fatal { background-color: $alizarin; }
 .btn-link { color: $navbar-inverse-link-color; }
 .btn-link:hover, .btn-link:focus, .btn-link:active { color: $navbar-inverse-link-hover-color; text-decoration: none; }
 .configuration-edit { margin-bottom: 1em; }

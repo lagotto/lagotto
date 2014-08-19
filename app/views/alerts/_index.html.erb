@@ -27,6 +27,14 @@
       </ul>
     </div>
     <div class="btn-group btn-group-sm">
+      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= h(levels[@level]) %> <span class="caret"></span></a>
+      <ul class="dropdown-menu pull-right">
+        <% levels.each do|level| %>
+        <li><%= link_to h(alert), alerts_path(level: level, class_name: params[:class_name], source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
         <li><%= link_to "All Alerts", alerts_path(source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
@@ -60,7 +68,7 @@
 <% if @alerts.size > 0 %>
   <div class="panel-group" id="alert">
     <% @alerts.each do |alert| %>
-      <div class="panel panel-default">
+      <div class="panel <%= alert.level == 4 ? 'panel-danger' : 'panel-default' %>">
         <div class="panel-heading">
           <h4 class="panel-title"><%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %></h4>
         </div>
@@ -73,40 +81,47 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><%= link_to "by Message", alert_path(alert, q: params[:q],
-                                                                        source: params[:source],
-                                                                        hostname: params[:hostname],
-                                                                        page: params[:page]),
-                                                                        method: :delete,
-                                                                        data: { :confirm => 'Are you sure?' },
-                                                                        remote: true,
-                                                                        id: "#{alert.id}-delete-message" %></li>
+                                                                  source: params[:source],
+                                                                  level: params[:level],
+                                                                  class_name: params[:class_name],
+                                                                  hostname: params[:hostname],
+                                                                  page: params[:page]),
+                                                                  method: :delete,
+                                                                  data: { :confirm => 'Are you sure?' },
+                                                                  remote: true,
+                                                                  id: "#{alert.id}-delete-message" %></li>
                   <li><%= link_to "by Class", alert_path(alert, q: params[:q],
-                                                                      source: params[:source],
-                                                                      hostname: params[:hostname],
-                                                                      filter: "class_name",
-                                                                      page: params[:page]),
-                                                                      method: :delete,
-                                                                      data: { :confirm => 'Are you sure?' },
-                                                                      remote: true,
-                                                                      id: "#{alert.id}-delete-class" %></li>
+                                                                source: params[:source],
+                                                                level: params[:level],
+                                                                class_name: params[:class_name],
+                                                                hostname: params[:hostname],
+                                                                filter: "class_name",
+                                                                page: params[:page]),
+                                                                method: :delete,
+                                                                data: { :confirm => 'Are you sure?' },
+                                                                remote: true,
+                                                                id: "#{alert.id}-delete-class" %></li>
                   <% unless alert.source_id.nil? %>
                     <li><%= link_to "by Source", alert_path(alert, q: params[:q],
-                                                                         source: params[:source],
-                                                                         hostname: params[:hostname],
-                                                                         filter: "source",
-                                                                         page: params[:page]),
-                                                                         method: :delete,
-                                                                         data: { :confirm => 'Are you sure?' },
-                                                                         remote: true,
-                                                                         id: "#{alert.id}-delete-source" %></li>
+                                                                   source: params[:source],
+                                                                   level: params[:level],
+                                                                   class_name: params[:class_name],
+                                                                   hostname: params[:hostname],
+                                                                   filter: "source",
+                                                                   page: params[:page]),
+                                                                   method: :delete,
+                                                                   data: { :confirm => 'Are you sure?' },
+                                                                   remote: true,
+                                                                   id: "#{alert.id}-delete-source" %></li>
                   <% end %>
                 </ul>
               </div>
             <% end %>
             <p class="class_name"><%= link_to alert.class_name, alerts_path(class_name: h(alert.class_name),
-                                                                                  source: params[:source],
-                                                                                  hostname: params[:hostname],
-                                                                                  q: params[:q]) %></p>
+                                                                            source: params[:source],
+                                                                            level: params[:level],
+                                                                            hostname: params[:hostname],
+                                                                            q: params[:q]) %></p>
             <% unless alert.source_id.blank? %>
               <h5>Source</h5>
               <%= link_to alert.source.display_name, source_path(alert.source) %>
@@ -119,6 +134,9 @@
 
             <h5>Time</h5>
             <%= alert.created_at.to_s(:friendly) %>
+
+            <h5>Level</h5>
+            <%= level_label(alert.level) %>
 
             <% unless alert.hostname.blank? %>
               <h5>Hostname</h5>

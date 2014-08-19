@@ -48,18 +48,23 @@ module ApplicationHelper
   end
 
   def state_label(state)
-    if state == "working"
-      '<span class="label label-success">working</span>'
-    elsif state == "inactive"
-      '<span class="label label-info">inactive</span>'
-    elsif state == "disabled"
-      '<span class="label label-warning">disabled</span>'
-    elsif state == "available"
-      '<span class="label label-primary">available</span>'
-    elsif state == "retired"
-      '<span class="label label-default">retired</span>'
-    else
-      state
+    case state
+    when "working" then '<span class="label label-success">working</span>'
+    when "inactive" then '<span class="label label-info">inactive</span>'
+    when "disabled" then '<span class="label label-warning">disabled</span>'
+    when "available" then '<span class="label label-primary">available</span>'
+    when "retired" then '<span class="label label-default">retired</span>'
+    else state
+    end
+  end
+
+  def level_label(level)
+    case level
+    when 1 then '<span class="label label-info">Info</span>'
+    when 2 then '<span class="label label-warning">Warn</span>'
+    when 3 then '<span class="label label-danger">Error</span>'
+    when 4 then '<span class="label label-fatal">Fatal</span>'
+    else '<span class="label label-default">Other</span>'
     end
   end
 
@@ -69,6 +74,10 @@ module ApplicationHelper
 
   def sources
     Source.order("group_id, display_name")
+  end
+
+  def levels
+    %w(Debug Info Warn Error Fatal)
   end
 
   def alerts

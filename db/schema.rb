@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140808173329) do
+ActiveRecord::Schema.define(:version => 20140819090422) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(:version => 20140808173329) do
     t.datetime "updated_at",                                     :null => false
     t.string   "remote_ip"
     t.integer  "article_id"
-    t.boolean  "error",                        :default => true
+    t.integer  "level",                        :default => 3
     t.string   "hostname"
   end
 

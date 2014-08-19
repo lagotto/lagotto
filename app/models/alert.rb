@@ -14,6 +14,15 @@ class Alert < ActiveRecord::Base
   scope :total_errors, lambda { |duration| where("alerts.error = ?", true).where("created_at > ?", Time.zone.now - duration.days) }
   scope :from_sources, lambda { |duration| where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now - duration.days) }
 
+  # alert level, default is ERROR
+  # adapted from http://www.ruby-doc.org/stdlib-2.1.2/libdoc/logger/rdoc/Logger.html
+  DEBUG   = 0
+  INFO    = 1
+  WARN    = 2
+  ERROR   = 3
+  FATAL   = 4
+  UNKNOWN = 5
+
   def self.per_page
     15
   end

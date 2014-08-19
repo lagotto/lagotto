@@ -1,7 +1,7 @@
 <% unless @article.alerts.empty? %>
   <div class="panel-group" id="alert">
     <% @article.alerts.limit(20).each do |alert| %>
-      <div class="panel panel-default">
+      <div class="panel <%= alert.level == 4 ? 'panel-danger' : 'panel-default' %>">
         <div class="panel-heading">
           <h4 class="panel-title"><%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + "<strong>" + h(alert.message) + "</strong>").html_safe, "#error_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %></h4>
         </div>

@@ -69,6 +69,7 @@ module Networkable
                    :class_name => exception.class.to_s,
                    :message => exception.message,
                    :status => 500,
+                   :level => Alert::FATAL,
                    :source_id => options[:source_id])
       nil
     end
@@ -83,6 +84,7 @@ module Networkable
                    :class_name => exception.class.to_s,
                    :message => exception.message,
                    :status => 500,
+                   :level => Alert::FATAL,
                    :source_id => options[:source_id])
       nil
     end
@@ -154,6 +156,7 @@ module Networkable
         end
 
         class_name = class_by_status(status) || error.class
+        level = level_by_status(status)
 
         message = parse_error_response(error.message)
         message = "#{message} for #{url}"
@@ -165,6 +168,7 @@ module Networkable
                      details: details,
                      status: status,
                      target_url: url,
+                     level: level,
                      source_id: options[:source_id])
         { error: message, status: status }
       end
@@ -186,6 +190,15 @@ module Networkable
         when 502 then Net::HTTPBadGateway
         when 503 then Net::HTTPServiceUnavailable
         else nil
+        end
+    end
+
+    def level_by_status(status)
+      level =
+        case status
+        # temporary network problems should be WARN not ERROR
+        when 408, 502, 503, 504 then 2
+        else 3
         end
     end
 
