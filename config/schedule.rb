@@ -31,12 +31,13 @@ every 1.day, at: "1:00 AM" do
 
   rake "db:api_requests:delete"
   rake "db:api_responses:delete"
-  rake "db:alerts:delete"
+  rake "db:alerts:resolve"
 end
 
 every :monday, at: "1:30 AM" do
   rake "mailer:status_report"
   rake "f1000:update"
+  rake "db:alerts:delete"
 end
 
 # every 9th of the month at 2 AM

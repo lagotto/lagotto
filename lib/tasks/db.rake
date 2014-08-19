@@ -170,12 +170,21 @@ namespace :db do
   end
 
   namespace :alerts do
+    desc "Resolve all alerts with level INFO and WARN"
+    task :resolve => :environment do
+      Alert.unscoped {
+        before = Alert.count
+        Alert.where("level < 3").update_all(resolved: true)
+        after = Alert.count
+        puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
+      }
+    end
 
     desc "Delete all resolved alerts"
     task :delete => :environment do
       Alert.unscoped {
         before = Alert.count
-        Alert.destroy_all(:unresolved => false)
+        Alert.where(:unresolved => false).delete_all
         after = Alert.count
         puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
       }
