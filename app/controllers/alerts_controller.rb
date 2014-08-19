@@ -19,7 +19,7 @@ class AlertsController < ActionController::Base
     if params[:level]
       collection = collection.where("level >= ?", params[:level])
     end
-    @level = params[:level] || 1
+    @level = params[:level] ? params[:level].to_i : 0
     collection = collection.query(params[:q]) if params[:q]
 
     @alerts = collection.paginate(:page => params[:page])

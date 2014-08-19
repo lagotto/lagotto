@@ -4,6 +4,7 @@
       <div class="panel <%= alert.level == 4 ? 'panel-danger' : 'panel-default' %>">
         <div class="panel-heading">
           <h4 class="panel-title"><%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + "<strong>" + h(alert.message) + "</strong>").html_safe, "#error_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %></h4>
+          <span class="pull-right"><%= level_label(alert.level).html_safe %></span>
         </div>
         <div class="panel-collapse collapse" id="alert_<%= alert.id %>">
           <div class="panel-body alert-inner">

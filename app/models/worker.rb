@@ -57,7 +57,8 @@ class Worker
       message = "Error starting workers, only #{count} of #{expected} workers running."
       Alert.create(:exception => "",
                    :class_name => "StandardError",
-                   :message => message)
+                   :message => message,
+                   :level => Alert::FATAL)
     end
 
     # system call returns before all workers are finished starting
@@ -78,7 +79,8 @@ class Worker
       message = "Error stopping workers, #{count} workers still running"
       Alert.create(:exception => "",
                    :class_name => "StandardError",
-                   :message => message)
+                   :message => message,
+                   :level => Alert::FATAL)
     end
 
     status = { expected: expected, running: count, message: message }
