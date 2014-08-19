@@ -18,6 +18,11 @@ class Alert < ActiveRecord::Base
   # alert level, default is ERROR
   # adapted from http://www.ruby-doc.org/stdlib-2.1.2/libdoc/logger/rdoc/Logger.html
   LEVELS = %w(DEBUG INFO WARN ERROR FATAL)
+  DEBUG  = 0
+  INFO   = 1
+  WARN   = 2
+  ERROR  = 3
+  FATAL  = 4
 
   def self.per_page
     15
