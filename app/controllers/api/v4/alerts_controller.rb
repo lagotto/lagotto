@@ -18,7 +18,7 @@ class Api::V4::AlertsController < Api::V4::BaseController
     end
 
     collection = collection.query(params[:q]) if params[:q]
-    collection = collection.paginate(:page => params[:page])
+    collection = collection.paginate(:page => params[:page], :per_page => 50)
     @alerts = collection.decorate
   end
 end

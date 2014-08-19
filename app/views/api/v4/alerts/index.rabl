@@ -8,5 +8,5 @@ node(:error) { nil }
 child @alerts => :data do
   cache ['v4', @alerts]
 
-  attributes :id, :level, :class_name, :message, :status, :hostname, :source, :article, :unresolved, :create_date, :update_date
+  attributes :id, :level, :class_name, :message, :status, :hostname, :target_url, :source, :article, :unresolved, :create_date, :update_date
 end
