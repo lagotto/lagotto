@@ -240,7 +240,7 @@ body { padding-top: 60px; padding-bottom: 20px; }
 // Fix inconsistencies
 .panel-group .panel .panel-heading { background-color: $body-bg; }
 .panel-group .panel .panel-heading h4 small { margin-top: 3px; }
-h1 small span.label { vertical-align: bottom; font-size: 66%; margin-left: 0.5em; }
+small span.label { vertical-align: bottom; font-size: 66%; margin-left: 0.5em; }
 .label { font-weight: normal; }
 .label-fatal { background-color: $alizarin; }
 .btn-link { color: $navbar-inverse-link-color; }
@@ -281,7 +281,7 @@ dt, dd { line-height: 1.5; }
 // make the scrollbar always visible
 html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
 
-.markdown pre { font-size: 0.75em; }
+.markdown pre { font-size: 0.75em; border: 0; }
 .markdown code {
   margin: 0 2px;
   padding: 0px 5px;
