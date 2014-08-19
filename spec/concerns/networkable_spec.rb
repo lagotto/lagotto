@@ -280,6 +280,8 @@ describe Source do
       end
 
       it "should catch errors saving a file" do
+        report = FactoryGirl.create(:fatal_error_report_with_admin_user)
+
         url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030"
         filename = ""
         stub = stub_request(:get, url).to_return(:status => 200, :body => "Test")
@@ -307,6 +309,8 @@ describe Source do
       end
 
       it "should catch errors reading a missing file" do
+        report = FactoryGirl.create(:fatal_error_report_with_admin_user)
+
         File.delete("#{Rails.root}/data/#{filename}")
         response = subject.read_from_file(filename)
         response.should be_nil
