@@ -11,10 +11,10 @@ class AlertDecorator < Draper::Decorator
   end
 
   def source
-    model.source.name
+    source_id ? model.source.name : nil
   end
 
   def article
-    model.article.uid
+    article_id ? model.article.uid : nil
   end
 end
