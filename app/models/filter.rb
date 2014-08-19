@@ -145,10 +145,11 @@ class Filter < ActiveRecord::Base
 
   def raise_alerts(responses)
     responses.each do |response|
+      level = response[:level] || 3
       alert = Alert.find_or_initialize_by_class_name_and_article_id_and_source_id(class_name: name,
                                                                                   source_id: response[:source_id],
                                                                                   article_id: response[:article_id])
-      alert.update_attributes(exception: "", error: !response[:error], message: response[:message] ? response[:message] : "An API response error occured")
+      alert.update_attributes(exception: "", level: level, message: response[:message] ? response[:message] : "An API response error occured")
     end
   end
 end

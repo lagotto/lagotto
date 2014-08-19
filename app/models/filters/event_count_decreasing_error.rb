@@ -26,7 +26,7 @@ class EventCountDecreasingError < Filter
       responses = responses.all.map do |response|
         { source_id: response.source_id,
           article_id: response.article_id,
-          level: Alert::INFO,
+          level: Alert::WARN,
           message: "Event count decreased from #{response.previous_count} to #{response.event_count}" }
       end
       raise_alerts(responses)

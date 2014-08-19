@@ -10,10 +10,10 @@ class ReportMailer < ActionMailer::Base
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Error Report")
   end
 
-  def send_fatal_error_report(report)
+  def send_fatal_error_report(report, message)
     return if report.users.empty?
 
-    @source = Source.find(source_id)
+    @message = message
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Fatal Error Report")
   end
 
