@@ -1,6 +1,5 @@
 object @status
 cache [@status.articles_count]
 
-attributes :machine_name, :version
+attributes :version, :articles_count, :update_date
 node(:status) { "OK" }
-attributes :articles_count, :update_date
