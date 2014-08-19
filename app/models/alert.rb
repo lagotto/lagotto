@@ -46,6 +46,14 @@ class Alert < ActiveRecord::Base
     report.send_fatal_error_report(message)
   end
 
+  def create_date
+    created_at.utc.iso8601
+  end
+
+  def update_date
+    updated_at.utc.iso8601
+  end
+
   private
 
   def collect_env_info
