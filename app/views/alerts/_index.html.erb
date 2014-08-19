@@ -29,7 +29,9 @@
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @level.nil? ? "All Levels" : @level.titleize %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
-        <% Alert::LEVELS.each do|level| %>
+        <li><%= link_to "All Levels", alerts_path(class_name: params[:class_name], source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
+        <li class="divider"></li>
+        <% Alert::LEVELS[1..-1].each do|level| %>
         <li><%= link_to h(level.titleize), alerts_path(level: level.downcase, class_name: params[:class_name], source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
         <% end %>
       </ul>
@@ -70,8 +72,9 @@
     <% @alerts.each do |alert| %>
       <div class="panel <%= alert.level == 4 ? 'panel-danger' : 'panel-default' %>">
         <div class="panel-heading">
-          <h4 class="panel-title"><%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %></h4>
-          <span class="pull-right"><%= level_label(alert.level).html_safe %></span>
+          <h4 class="panel-title"><%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %>
+            <span class="pull-right"><%= level_label(alert.level).html_safe %></span>
+          </h4>
         </div>
         <div class="panel-collapse collapse" id="alert_<%= alert.id %>">
           <div class="panel-body alert-inner">
