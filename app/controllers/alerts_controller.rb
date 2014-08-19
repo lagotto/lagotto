@@ -17,7 +17,7 @@ class AlertsController < ActionController::Base
       @class_name = params[:class_name]
     end
     if params[:level]
-      level = Alert::LEVELS.index(params[:level].UPCASE) || 0
+      level = Alert::LEVELS.index(params[:level].upcase) || 0
       collection = collection.where("level >= ?", level)
       @level = params[:level]
     end

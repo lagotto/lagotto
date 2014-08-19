@@ -70,10 +70,10 @@
 <% if @alerts.size > 0 %>
   <div class="panel-group" id="alert">
     <% @alerts.each do |alert| %>
-      <div class="panel <%= alert.level == 4 ? 'panel-danger' : 'panel-default' %>">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title"><%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %>
-            <span class="pull-right"><%= level_label(alert.level).html_safe %></span>
+            <% if alert.level != 3 %><span class="pull-right"><%= level_label(alert.level).html_safe %></span><% end %>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="alert_<%= alert.id %>">
