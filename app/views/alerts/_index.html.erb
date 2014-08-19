@@ -4,10 +4,10 @@
       <div class="btn-group btn-group-sm">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @hostname.nil? ? "All Hosts" : h(@hostname) %> <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><%= link_to "All Hosts", alerts_path(class_name: params[:class_name], q: params[:q]) %></li>
+          <li><%= link_to "All Hosts", alerts_path(class_name: params[:class_name], level: params[:level], q: params[:q]) %></li>
           <li class="divider"></li>
           <% CONFIG[:web_servers].each do |hostname| %>
-            <li><%= link_to h(hostname), alerts_path(source: params[:source], class_name: params[:class_name], hostname: hostname, q: params[:q]) %></li>
+            <li><%= link_to h(hostname), alerts_path(source: params[:source], class_name: params[:class_name], level: params[:level], hostname: hostname, q: params[:q]) %></li>
           <% end %>
         </ul>
       </div>
@@ -15,12 +15,12 @@
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @source.nil? ? "All Sources" : @source.display_name %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><%= link_to "All Sources", alerts_path(class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to "All Sources", alerts_path(class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
         <% Group.order("id").each do |group| %>
           <% unless group.sources.active.empty? %>
             <li class="divider"></li>
             <% group.sources.active.each do |source| %>
-              <li><%= link_to h(source.display_name), alerts_path(source: source.name, class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %></li>
+              <li><%= link_to h(source.display_name), alerts_path(source: source.name, class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
             <% end %>
           <% end %>
         <% end %>
@@ -39,10 +39,10 @@
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
-        <li><%= link_to "All Alerts", alerts_path(source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to "All Alerts", alerts_path(source: params[:source], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
         <li class="divider"></li>
         <% alerts.each do|alert| %>
-        <li><%= link_to h(alert), alerts_path(class_name: alert, source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to h(alert), alerts_path(class_name: alert, source: params[:source], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
         <% end %>
       </ul>
     </div>
@@ -184,10 +184,13 @@
 <% else %>
   <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>alerts
     <% unless @source.nil? %>
-        for <%= @source.display_name %>
+      for <%= @source.display_name %>
+    <% end %>
+    <% unless @level.nil? %>
+      with level <em><%= @level.titleize %></em> or higher
     <% end %>
     <% unless params[:q].blank? %>
-        with <em><%= params[:q] %></em> in the class name, message or DOI
+      with <em><%= params[:q] %></em> in the class name, message or DOI
     <% end %>
   </div>
 <% end %>

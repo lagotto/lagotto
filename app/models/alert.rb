@@ -8,10 +8,10 @@ class Alert < ActiveRecord::Base
 
   default_scope where("unresolved = ?", true).order("alerts.created_at DESC")
 
-  scope :errors, where("alerts.error = ?", true)
+  scope :errors, where("alerts.level > ?", 0)
   scope :query, lambda { |query| includes(:article).where("class_name like ? OR message like ? OR status = ? OR articles.doi = ?", "%#{query}%", "%#{query}%", query, query) }
   scope :total, lambda { |duration| where("created_at > ?", Time.zone.now - duration.days) }
-  scope :total_errors, lambda { |duration| where("alerts.error = ?", true).where("created_at > ?", Time.zone.now - duration.days) }
+  scope :total_errors, lambda { |duration| where("alerts.level > ?", 0).where("created_at > ?", Time.zone.now - duration.days) }
   scope :from_sources, lambda { |duration| where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now - duration.days) }
 
   # alert level, default is ERROR

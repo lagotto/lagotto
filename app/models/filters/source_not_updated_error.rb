@@ -30,6 +30,7 @@ class SourceNotUpdatedError < Filter
 
       responses = responses.map do |response|
         { source_id: response,
+          level: Alert::FATAL,
           message: "Source not updated for 24 hours" }
       end
       raise_alerts(responses)

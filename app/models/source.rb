@@ -132,7 +132,7 @@ class Source < ActiveRecord::Base
 
   # condition for not adding more jobs and disabling the source
   def check_for_failures
-    failed_queries = Alert.where("source_id = ? and updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count
+    failed_queries = Alert.where("source_id = ? AND level > 1 AND updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count
     failed_queries > max_failed_queries
   end
 
