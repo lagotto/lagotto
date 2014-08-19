@@ -1,4 +1,4 @@
-object @status, :object_root => false
+object @status
 cache [@status.articles_count]
 
 attributes :machine_name, :version
