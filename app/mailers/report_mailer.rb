@@ -10,6 +10,13 @@ class ReportMailer < ActionMailer::Base
     mail(to: report.users.map(&:email).join(","), subject: "[ALM] Error Report")
   end
 
+  def send_fatal_error_report(report)
+    return if report.users.empty?
+
+    @source = Source.find(source_id)
+    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Fatal Error Report")
+  end
+
   def send_status_report(report)
     return if report.users.empty?
 
@@ -26,13 +33,6 @@ class ReportMailer < ActionMailer::Base
     mail(to: CONFIG[:notification_email],
          bcc: report.users.map(&:email).join(","),
          subject: "[ALM] Article Statistics Report")
-  end
-
-  def send_disabled_source_report(report, source_id)
-    return if report.users.empty?
-
-    @source = Source.find(source_id)
-    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Disabled Source Report")
   end
 
   def send_stale_source_report(report, source_ids)

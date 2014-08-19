@@ -180,10 +180,10 @@ FactoryGirl.define do
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
-    factory :disabled_source_report_with_admin_user do
-      name 'disabled_source_report'
-      display_name 'Disabled Source Report'
-      description 'Reports when a source has been disabled'
+    factory :fatal_error_report_with_admin_user do
+      name 'fatal_error_report'
+      display_name 'Fatal Error Report'
+      description 'Reports when a fatal error has occured'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 

@@ -5,6 +5,7 @@ class Alert < ActiveRecord::Base
   belongs_to :article
 
   before_create :collect_env_info
+  after_create :send_fatal_error_report, if: Proc.new { self.level == 4 }
 
   default_scope where("unresolved = ?", true).order("alerts.created_at DESC")
 
@@ -33,6 +34,11 @@ class Alert < ActiveRecord::Base
 
   def human_level_name
     LEVELS[level]
+  end
+
+  def send_fatal_error_report
+    report = Report.find_by_name("fatal_error_report")
+    report.send_fatal_error_report(message)
   end
 
   private

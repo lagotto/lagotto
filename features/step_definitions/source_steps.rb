@@ -19,7 +19,7 @@ Given /^the status of source "(.*?)" is "(.*?)"$/ do |name, status|
   elsif status == "working"
     @source = FactoryGirl.create(sym_name, state_event: "work")
   elsif status == "disabled"
-    @report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+    @report = FactoryGirl.create(:fatal_error_report_with_admin_user)
     @source = FactoryGirl.create(sym_name, state_event: "disable")
   elsif status == "waiting"
     @source = FactoryGirl.create(sym_name, state_event: "wait")

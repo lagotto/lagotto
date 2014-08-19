@@ -67,9 +67,10 @@ describe ReportMailer do
   end
 
   describe "disabled source report" do
-    let(:report) { FactoryGirl.create(:disabled_source_report_with_admin_user) }
+    let(:report) { FactoryGirl.create(:fatal_error_report_with_admin_user) }
     let(:source) { FactoryGirl.create(:source) }
-    let(:mail) { ReportMailer.send_disabled_source_report(report, source.id) }
+    let(:message) { "#{source.display_name} has exceeded maximum failed queries. Disabling the source." }
+    let(:mail) { ReportMailer.send_fatal_error_report(report, message) }
 
     it "sends email" do
       mail.subject.should eq("[ALM] Disabled Source Report")

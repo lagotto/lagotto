@@ -168,8 +168,8 @@ class Report < ActiveRecord::Base
     ReportMailer.delay(queue: 'mailer', priority: 6).send_article_statistics_report(self)
   end
 
-  def send_disabled_source_report(source_id)
-    ReportMailer.delay(queue: 'mailer', priority: 1).send_disabled_source_report(self, source_id)
+  def send_fatal_error_report(message)
+    ReportMailer.delay(queue: 'mailer', priority: 1).send_fatal_error_report(self, message)
   end
 
   def send_stale_source_report(source_ids)

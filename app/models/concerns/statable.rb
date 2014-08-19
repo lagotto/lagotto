@@ -71,8 +71,6 @@ module Statable
                      :message => "#{source.display_name} has exceeded maximum failed queries. Disabling the source.",
                      :source_id => source.id,
                      :level => Alert::FATAL)
-        report = Report.find_by_name("disabled_source_report")
-        report.send_disabled_source_report(source.id)
       end
 
       event :install do

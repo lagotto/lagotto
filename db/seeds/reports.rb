@@ -29,10 +29,10 @@ article_statistics_report = Report.find_or_create_by_name(
                 :interval => 1.month,
                 :private => false)
 
-disabled_source_report = Report.find_or_create_by_name(
-                :name => 'disabled_source_report',
-                :display_name => 'Disabled Source Report',
-                :description => 'Reports when a source has been disabled',
+fatal_error_report = Report.find_or_create_by_name(
+                :name => 'fatal_error_report',
+                :display_name => 'Fatal Error Report',
+                :description => 'Reports when a fatal error has occured',
                 :interval => 0,
                 :private => true)
 
