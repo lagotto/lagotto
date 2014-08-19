@@ -27,6 +27,7 @@ Alm::Application.routes.draw do
     end
 
     namespace :v4 do
+      resources :articles, :constraints => { :format=> false }
       resources :articles, :constraints => { :id => /.+?/, :format=> false }
     end
 
