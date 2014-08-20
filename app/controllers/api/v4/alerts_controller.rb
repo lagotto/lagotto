@@ -2,7 +2,8 @@ class Api::V4::AlertsController < Api::V4::BaseController
   load_and_authorize_resource
 
   def index
-    collection = Alert
+    collection = Alert.unscoped.order("alerts.created_at DESC")
+    collection = collection.where(unresolved: true) if params[:unresolved]
     if params[:source]
       collection = collection.includes(:source).where("sources.name = ?", params[:source])
       @source = Source.find_by_name(params[:source])
