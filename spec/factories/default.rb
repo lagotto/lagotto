@@ -222,6 +222,10 @@ FactoryGirl.define do
     remote_ip "127.0.0.1"
     status 408
     content_type "text/html"
+
+    factory :alert_with_source do
+      source
+    end
   end
 
   factory :api_request do
