@@ -34,7 +34,7 @@ Queries for up to 50 articles at a time are supported.
 
 ## Additional Parameters
 
-### type=doi|pmid|pmcid|mendeley
+### type=doi|pmid|pmcid| mendeley (v3 API) or mendeley_uuid (v5 API)
 The API supports queries for DOI, PubMed ID, PubMed Central ID and Mendeley UUID. The default `doi` is used if no type is given in the query. The following queries are all for the same article:
 
 ```sh
@@ -47,7 +47,7 @@ The API supports queries for DOI, PubMed ID, PubMed Central ID and Mendeley UUID
 ### info=summary|detail
 With the **summary** parameter no source information or metrics are provided, only article metadata such as DOI, PubMed ID, title or publication date. The only exception are summary statistics, aggregating metrics from several sources (views, shares, bookmarks and citations).
 
-With the **detail** parameter all raw data sent by the source are provided.
+With the **detail** parameter all raw data sent by the source are provided (`event` is an alias for `detail`). The **history** parameter has been depreciated with the ALM 3.0 release, you can use the `by day`, `by month` and `by year`response instead.
 
 ```sh
 /api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail
@@ -59,6 +59,10 @@ Only provide metrics for a given source, or a list of sources. The response form
 ```sh
 /api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley,crossref
 ```
+
+### page|per_page
+
+Results of the v5 API are paged with 50 results per page. Use `per_page` to pick a smaller number (1-50) of results per page, and use `page` to page through the results.
 
 ## Metrics
 The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `readers` for bookmarking services, and `likes` and `comments` for social media. The same 5 categories are always returned for every source to simplify parsing of API responses:
@@ -90,7 +94,17 @@ Several metrics are aggregated and available in all API queries:
 * Cited: crossref (scopus at PLOS)
 
 ## Date and Time Format
-All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``
+All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``. `date_parts` uses the Citeproc convention to allow incomplete dates (e.g. year only):
+
+```json
+"date-parts": [
+    [
+      2008,
+      10,
+      31
+    ]
+```
+`date-parts` is a nested array of year, month, day, with only the year being required.
 
 ## Null
 The API returns `null` if no query was made, and `0` if the external API returns 0 events.
@@ -114,9 +128,11 @@ The API returns `null` if no query was made, and `0` if the external API returns
       "pmcid": "2568856",
       "issued": {
         "date_parts": [
-          2008,
-          10,
-          31
+          [
+            2008,
+            10,
+            31
+          ]
         ]
       },
       "viewed": 80546,
