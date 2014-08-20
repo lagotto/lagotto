@@ -64,6 +64,10 @@ Only provide metrics for a given source, or a list of sources. The response form
 
 Results of the v5 API are paged with 50 results per page. Use `rows` to pick a smaller number (1-50) of results per page, and use `page` to page through the results.
 
+### order
+
+When used together with the `source` parameter, results are sorted by descending event count. Otherwise (the default) results are sorted by date descending.
+
 ## Metrics
 The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `readers` for bookmarking services, and `likes` and `comments` for social media. The same 5 categories are always returned for every source to simplify parsing of API responses:
 
