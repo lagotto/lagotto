@@ -467,10 +467,15 @@ The v4 API is only available to users with admin prileges and uses basic authent
 <td valign="top" width=40%>/api/v4/articles/info:doi/DOI</td>
 <td valign="top" width=30%>delete</td>
 </tr>
+<tr>
+<td valign="top" width=30%>GET</td>
+<td valign="top" width=40%>/api/v4/alerts</td>
+<td valign="top" width=30%>index</td>
+</tr>
 </tbody>
 </table>
 
-The API response to get a list of articles or a single article is the same as for the v3 API. You can also use one of the other supported identifiers (pmid or pmcid) instead of the DOI.
+The API response to get a list of articles or a single article is the same as for the v5 API. You can also use one of the other supported identifiers (pmid or pmcid) instead of the DOI.
 
 ### Create article
 A sample curl API call to create a new article would look like this:
@@ -510,7 +515,7 @@ In order to be accepted the following conditions must hold:
 * The JSON must be valid, this means that string variables such as the DOI must be quoted in the request.
   The day, month and year are integers and can be left unquoted.
 
-* The publication date must be in the past or up to a year in the future (as understood by the server's date).
+* The publication date can't be in the future (as understood by the server's date).
 
 * The login details must be correct and at must be a local login, not a third-party login such as Persona.
 
@@ -543,4 +548,39 @@ When an article has been deleted successfully, the server reponds with `Status 2
 
 ```sh
 {"success":"Article deleted.","error":null,"data":{ ... }
+```
+
+### Get alerts
+
+The same query parameters as in the admin web interface are supported:
+
+* source
+* class_name
+* level
+* query (but using `q`)
+
+By default the API returns all alerts, add `&unresolved=1` to only retrieve unresolved alerts, as in the admin web interface. An example API response would be:
+
+```sh
+{
+  "total": 1,
+  "total_pages": 1,
+  "page": 1,
+  "error": null,
+  "data": [
+    {
+      "id": 228,
+      "level": "ERROR",
+      "class_name": "NoMethodError",
+      "message": "undefined method `name' for nil:NilClass",
+      "status": 422,
+      "hostname": "example.org",
+      "target_url": null,
+      "source": null,
+      "article": null,
+      "unresolved": true,
+      "create_date": "2014-08-19T20:23:05Z"
+    }
+  ]
+}
 ```

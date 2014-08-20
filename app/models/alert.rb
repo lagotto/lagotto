@@ -50,10 +50,6 @@ class Alert < ActiveRecord::Base
     created_at.utc.iso8601
   end
 
-  def update_date
-    updated_at.utc.iso8601
-  end
-
   private
 
   def collect_env_info
