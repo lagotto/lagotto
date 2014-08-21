@@ -1,15 +1,15 @@
 class PublishersController < ApplicationController
+  before_filter :load_index, :only => [ :index, :create ]
   load_and_authorize_resource
 
   respond_to :html, :js
 
   def index
-    @publishers = Publisher.order(:name).all
     respond_with @publishers
   end
 
   def new
-    load_index
+    @publishers = MemberList.new(query: params[:query], per_page: 10).publishers
 
     respond_with(@publishers) do |format|
       format.js { render :index }
@@ -37,7 +37,7 @@ class PublishersController < ApplicationController
   end
 
   def load_index
-    @publishers = MemberList.new(query: params[:query], per_page: 10).publishers
+    @publishers = Publisher.order(:name).paginate(:page => params[:page])
   end
 
   private
