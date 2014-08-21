@@ -1,35 +1,62 @@
-<div class="page-header">
-  <h1>Publishers
-    <% unless params[:query].blank? %>
-      <small>with <em><%= params[:query] %></em> in the name</small>
-    <% end %>
-  </h1>
-</div>
+<% if can?(:manage, Publisher) and (controller.action_name == "new" or (controller.action_name == "create" and !@publisher.errors.empty?)) %>
 
-<div class="search">
-  <%= form_tag(publishers_path, :method => "get", :class => "form-inline", :role => "form") do %>
-    <div class="form-group">
-      <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "form-control" %>
+  <div class="page-header">
+    <h1>New Publisher
+      <% unless params[:query].blank? %>
+        <small>with <em><%= params[:query] %></em> in the name</small>
+      <% end %>
+    </h1>
+  </div>
+
+  <div class="search">
+    <%= form_tag(publishers_path, :method => "get", :class => "form-inline", :role => "form") do %>
+      <div class="form-group">
+        <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "form-control" %>
+      </div>
+      <button type="submit" id="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+      <% unless params[:query].blank? %>
+        <%= link_to "clear", publishers_path, :class => "btn" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if @publishers.size > 0 %>
+    <div id="results">
+      <% @publishers.each do |publisher| %>
+        <h4 class="article">
+          <%= link_to publisher.crossref_id, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
+        </h4>
+        <p>Prefixes: <%= publisher.prefixes.join(" ") %></p>
+      <% end %>
     </div>
-    <button type="submit" id="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-    <% unless params[:query].blank? %>
-      <%= link_to "clear", publishers_path, :class => "btn" %>
-    <% end %>
+  <% else %>
+    <div class="alert alert-info">There are currently no CrossRef members
+      <% unless params[:query].blank? %>
+          with <em><%= params[:query] %></em> in the name
+      <% end %>
+    </div>
   <% end %>
-</div>
-
-<% if @publishers.size > 0 %>
-  <div id="results">
-    <% @publishers.each do |publisher| %>
-      <h4 class="article"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></h4>
-      <p>CrossRef ID: <%= link_to publisher.crossref_id, "http://api.crossref.org/members/#{publisher.crossref_id}" %> • Prefixes: <%= publisher.prefixes.join(" ") %></p>
-    <% end %>
-  </div>
-  <%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails %>
 <% else %>
-  <div class="alert alert-info">There are currently no publishers
-    <% unless params[:query].blank? %>
-        with <em><%= params[:query] %></em> in the name
-    <% end %>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <% if can?(:manage, Publisher) %>
+        <div class="btn-group btn-group-sm">
+          <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_publisher_path, { :remote => true, :id => "new_publisher", :class => 'btn btn-default' } %>
+        </div>
+      <% end %>
+    </div>
+    <h1>Publishers</h1>
   </div>
+
+  <% if @publishers.size > 0 %>
+    <div id="results">
+      <% @publishers.each do |publisher| %>
+        <h4 class="article"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></h4>
+        <p>Prefixes: <%= publisher.prefixes.join(" ") %></p>
+      <% end %>
+    </div>
+    <%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails %>
+  <% else %>
+    <div class="alert alert-info">There are currently no publishers</div>
+  <% end %>
 <% end %>

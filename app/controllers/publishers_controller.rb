@@ -1,11 +1,19 @@
 class PublishersController < ApplicationController
-  before_filter :load_index
   load_and_authorize_resource
 
   respond_to :html, :js
 
   def index
+    @publishers = Publisher.order(:name).all
     respond_with @publishers
+  end
+
+  def new
+    load_index
+
+    respond_with(@publishers) do |format|
+      format.js { render :index }
+    end
   end
 
   def create
