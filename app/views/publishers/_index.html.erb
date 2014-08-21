@@ -22,7 +22,7 @@
         <fieldset>
           <% @publishers.each do |publisher| %>
             <h4 class="article">
-              <input name="publisher[crossref_id]" type="radio" value="<%= publisher.crossref_id %>">
+              <input name="publisher[crossref_id]" type="radio" value="<%= publisher.crossref_id %>" class="radio_tag">
               <input name="publisher[name]" type="hidden" value="<%= publisher.name %>">
               <input name="publisher[other_names]" type="hidden" value="<%= publisher.other_names %>">
               <input name="publisher[prefixes]" type="hidden" value="<%= publisher.prefixes %>">
@@ -34,7 +34,7 @@
             <p>Prefixes: <%= publisher.prefixes.join(" ") %></p>
           <% end %>
 
-          <div class="form-group">
+          <div class="form-group form_tag">
             <%= submit_tag 'Save', class: "btn btn-default" %>
             <%= link_to 'Cancel', publishers_path, { :remote => true, :class => 'btn' } %>
           </div>
