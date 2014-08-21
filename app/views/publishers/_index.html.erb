@@ -22,10 +22,10 @@
         <fieldset class="radio_tag">
           <% @publishers.each do |publisher| %>
             <h4 class="article">
-              <input name="publisher[crossref_id]" type="radio" value="<%= publisher.crossref_id %>" class="radio_tag">
-              <input name="publisher[name]" type="hidden" value="<%= publisher.name %>">
-              <input name="publisher[other_names]" type="hidden" value="<%= publisher.other_names %>">
-              <input name="publisher[prefixes]" type="hidden" value="<%= publisher.prefixes %>">
+              <%= radio_button_tag "publisher[crossref_id]", publisher.crossref_id, false, class: "radio_tag" %>
+              <%= hidden_field_tag "publisher[name]", publisher.name %>
+              <%= hidden_field_tag "publisher[other_names]", publisher.other_names %>
+              <%= hidden_field_tag "publisher[prefixes]", publisher.prefixes %>
               <%= link_to publisher.name, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
             </h4>
             <p class="radio_tag">Prefixes: <%= publisher.prefixes.join(" ") %></p>
