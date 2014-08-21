@@ -24,8 +24,8 @@
             <h4 class="article">
               <input name="publisher[crossref_id]" type="radio" value="<%= publisher.crossref_id %>" class="radio_tag">
               <input name="publisher[name]" type="hidden" value="<%= publisher.name %>">
-              <input name="publisher[other_names]" type="hidden" value="<%= publisher.other_names %>">
-              <input name="publisher[prefixes]" type="hidden" value="<%= publisher.prefixes %>">
+              <input name="publisher[other_names][]" type="hidden" value="<%= publisher.other_names %>">
+              <input name="publisher[prefixes][]" type="hidden" value="<%= publisher.prefixes %>">
               <%= link_to publisher.name, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
             </h4>
             <% if publisher.other_names.present? && publisher.other_names.length > 1 %>
