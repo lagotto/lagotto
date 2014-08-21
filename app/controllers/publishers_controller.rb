@@ -48,6 +48,6 @@ class PublishersController < ApplicationController
   private
 
   def safe_params
-    params.require(:publisher).permit(:name, :crossref_id, :other_names, :prefixes)
+    params.require(:publisher).permit(:name, :crossref_id, :other_names=> [], :prefixes => [])
   end
 end
