@@ -11,7 +11,9 @@ class PublishersController < ApplicationController
   end
 
   def new
-    @publishers = MemberList.new(query: params[:query], per_page: 10).publishers
+    ids = Publisher.all.pluck(:crossref_id)
+    publishers = MemberList.new(query: params[:query], per_page: 10).publishers
+    @publishers = publishers.reject { |publisher| ids.include?(publisher.crossref_id) }
 
     respond_with(@publishers) do |format|
       format.js { render :index }

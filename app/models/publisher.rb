@@ -30,4 +30,8 @@ class Publisher < ActiveRecord::Base
 
   validates :name, :presence => true
   validates :crossref_id, :presence => true, :uniqueness => true
+
+  def to_param  # overridden, use crossref_id instead of id
+    crossref_id
+  end
 end
