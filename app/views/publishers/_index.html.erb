@@ -26,10 +26,10 @@
         <fieldset>
           <% @publishers.each do |publisher| %>
             <h4 class="article">
-              <%= f.radio_button :crossref_id %>
-              <%= f.hidden_field :name %>
-              <%= f.hidden_field :other_names %>
-              <%= f.hidden_field :prefixes %>
+              <input name="publisher[crossref_id]" type="radio" value="<%= publisher.crossref_id %>">
+              <input name="publisher[name]" type="hidden" value="<%= publisher.name %>">
+              <input name="publisher[other_names]" type="hidden" value="<%= publisher.other_names %>">
+              <input name="publisher[prefixes]" type="hidden" value="<%= publisher.prefixes %>">
               <%= link_to publisher.name, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
             </h4>
             <% if publisher.other_names.present? && publisher.other_names.length > 1 %>
