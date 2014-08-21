@@ -1,5 +1,6 @@
 class PublishersController < ApplicationController
-  before_filter :load_index, :only => [ :index, :create ]
+  before_filter :load_index, :only => [:index, :create]
+  before_filter :new_publisher, :only => [:create]
   load_and_authorize_resource
 
   respond_to :html, :js
@@ -17,7 +18,7 @@ class PublishersController < ApplicationController
   end
 
   def create
-    @publisher = Publisher.create(safe_params)
+    @publisher.save
     respond_with(@publishers) do |format|
       format.js { render :index }
     end
@@ -28,6 +29,10 @@ class PublishersController < ApplicationController
     respond_with(@publishers) do |format|
       format.js { render :index }
     end
+  end
+
+  def new_publisher
+    @publisher = Publisher.new(safe_params)
   end
 
   protected
