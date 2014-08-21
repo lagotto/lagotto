@@ -19,40 +19,10 @@
 </div>
 
 <% if @publishers.size > 0 %>
-  <div class="panel-group" id="publisher">
+  <div id="results">
     <% @publishers.each do |publisher| %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title remote"><%= link_to h(publisher.name), "#publisher_#{publisher.crossref_id}", :class => "accordion-toggle", :id => "link_#{publisher.crossref_id}", :data => { :toggle => "collapse", :parent => "#publisher" }, :href => "#publisher_#{publisher.crossref_id}" %></h4>
-        </div>
-        <div id="publisher_<%= publisher.crossref_id %>" class="panel-collapse collapse">
-          <div class="panel-body">
-            <% if can?(:manage, publisher) %>
-
-            <% end %>
-
-            <% if publisher.other_names.present? && publisher.other_names.length > 1 %>
-              <h5>Names</h5>
-              <%= publisher.other_names.join("</br>").html_safe %>
-            <% end %>
-
-            <% if publisher.prefixes.present? %>
-              <h5>DOI Prefixes</h5>
-              <%= publisher.prefixes.join(" ") %>
-            <% end %>
-
-            <% if publisher.crossref_id.present? %>
-              <h5>CrossRef ID</h5>
-              <%= link_to publisher.crossref_id, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
-            <% end %>
-
-            <% if publisher.persisted? %>
-              <h5>Account created</h5>
-              <%= publisher.created_at.to_s(:friendly) %>
-            <% end %>
-          </div>
-        </div>
-      </div>
+      <h4 class="article"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></h4>
+      <p><%= publisher.prefixes.join(" ") %></p>
     <% end %>
   </div>
   <%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails %>
