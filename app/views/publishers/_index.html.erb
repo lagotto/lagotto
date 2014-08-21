@@ -15,21 +15,28 @@
       </div>
       <button type="submit" id="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
       <% unless params[:query].blank? %>
-        <%= link_to "clear", publishers_path, :class => "btn" %>
+        <%= link_to "clear", new_publisher_path, :class => "btn" %>
       <% end %>
     <% end %>
   </div>
 
   <% if @publishers.size > 0 %>
     <div id="results">
-      <% @publishers.each do |publisher| %>
-        <h4 class="article">
-          <%= link_to publisher.name, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
-        </h4>
-        <% if publisher.other_names.present? && publisher.other_names.length > 1 %>
-          <p><%= publisher.other_names.join(" • ").html_safe %></p>
+      <%= simple_form_for @publisher, :url => publishers_path, :html => { :remote => true } do |f| %>
+        <% @publishers.each do |publisher| %>
+          <h4 class="article">
+            <%= link_to publisher.name, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
+          </h4>
+          <% if publisher.other_names.present? && publisher.other_names.length > 1 %>
+            <p><%= publisher.other_names.select { |name| name != publisher.name }.join(" • ").html_safe %></p>
+          <% end %>
+          <p>Prefixes: <%= publisher.prefixes.join(" ") %></p>
         <% end %>
-        <p>Prefixes: <%= publisher.prefixes.join(" ") %></p>
+
+        <div class="form-group">
+          <%= f.submit "Save ", class: "btn btn-default" %>
+          <%= link_to 'Cancel', publishers_path, { :remote => true, :class => 'btn' } %>
+        </div>
       <% end %>
     </div>
   <% else %>
