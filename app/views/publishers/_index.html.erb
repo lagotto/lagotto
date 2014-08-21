@@ -22,7 +22,7 @@
   <div id="results">
     <% @publishers.each do |publisher| %>
       <h4 class="article"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></h4>
-      <p><%= publisher.prefixes.join(" ") %></p>
+      <p>CrossRef ID: <%= link_to publisher.crossref_id, "http://api.crossref.org/members/#{publisher.crossref_id}" %> • Prefixes: <%= publisher.prefixes.join(" ") %></p>
     <% end %>
   </div>
   <%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails %>
