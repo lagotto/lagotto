@@ -25,8 +25,11 @@
       <%= simple_form_for @publisher, :url => publishers_path, :html => { :remote => true } do |f| %>
         <fieldset>
           <% @publishers.each do |publisher| %>
-            <%= f.radio_button :crossref_id, publisher.crossref_id %>
             <h4 class="article">
+              <%= f.radio_button :crossref_id %>
+              <%= f.hidden_field :name %>
+              <%= f.hidden_field :other_names %>
+              <%= f.hidden_field :prefixes %>
               <%= link_to publisher.name, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
             </h4>
             <% if publisher.other_names.present? && publisher.other_names.length > 1 %>
