@@ -12,9 +12,47 @@ describe Article do
   it { should validate_presence_of(:title) }
   it { should validate_numericality_of(:year).only_integer }
 
-  it "validate doi format" do
-    invalid_doi = FactoryGirl.build(:article, :doi => "asdfasdfasdf")
-    invalid_doi.should_not be_valid
+  context "validate doi format" do
+    it "10.5555/12345678" do
+      article = FactoryGirl.build(:article, :doi => "10.5555/12345678")
+      article.should be_valid
+    end
+
+    it "10.13039/100000001" do
+      article = FactoryGirl.build(:article, :doi => "10.13039/100000001")
+      article.should be_valid
+    end
+
+    it "10.1386//crre.4.1.53_1" do
+      article = FactoryGirl.build(:article, :doi => " 10.1386//crre.4.1.53_1")
+      article.should be_valid
+    end
+
+    it "10.555/12345678" do
+      article = FactoryGirl.build(:article, :doi => "10.555/12345678")
+      article.should_not be_valid
+    end
+
+    it "8.5555/12345678" do
+      article = FactoryGirl.build(:article, :doi => "8.5555/12345678")
+      article.should_not be_valid
+    end
+
+    it "10.asdf/12345678" do
+      article = FactoryGirl.build(:article, :doi => "10.asdf/12345678")
+      article.should_not be_valid
+    end
+
+    it "10.5555" do
+      article = FactoryGirl.build(:article, :doi => "10.5555")
+      article.should_not be_valid
+    end
+
+    it "asdfasdfasdf" do
+      article = FactoryGirl.build(:article, :doi => "asdfasdfasdf")
+      article.should_not be_valid
+    end
+
   end
 
   it 'validate date' do

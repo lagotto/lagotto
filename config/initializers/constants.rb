@@ -28,9 +28,9 @@ NETWORKABLE_EXCEPTIONS = [Faraday::Error::ClientError,
                           NoMethodError,
                           TypeError]
 
-# Format used for DOI validation - we want to store DOIs without
-# the leading "info:doi/"
-DOI_FORMAT = %r(^\d+\.[^/]+/[^/]+)
+# Format used for DOI validation
+# The prefix is 10.x where x is 4-5 digits. The suffix can be anything, but can't be left off
+DOI_FORMAT = %r(^10\.\d{4,5}/.+)
 
 # Form interval options
 INTERVAL_OPTIONS = [['½ hour', 30.minutes],
