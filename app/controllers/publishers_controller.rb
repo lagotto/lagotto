@@ -32,7 +32,7 @@ class PublishersController < ApplicationController
     page = params[:page].present? ? params[:page].to_i : 1
     per_page = MemberList.per_page
     offset = (page - 1) * per_page
-    member_list = MemberList.new(params[:query], offset, per_page)
+    member_list = MemberList.new(query: params[:query], offset: offset, per_page: per_page)
 
     @publishers = WillPaginate::Collection.create(page, per_page, member_list.total_entries) { |pager| pager.replace member_list.publishers }
   end
