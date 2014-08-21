@@ -2,7 +2,7 @@ class MemberList
   # include HTTP request helpers
   include Networkable
 
-  attr_accessor :query, :offset, :per_page, :publishers, :total_entries
+  attr_accessor :query, :offset, :per_page, :no_network, :publishers, :total_entries
 
   def self.per_page
     15
@@ -13,7 +13,10 @@ class MemberList
     @offset = attributes.fetch(:offset, 0)
     @per_page = attributes.fetch(:per_page, 15)
 
-    @publishers = get_publishers
+    # to test individual methods
+    no_network = attributes.fetch(:no_network, false)
+
+    @publishers = get_publishers unless no_network
   end
 
   def get_publishers
@@ -56,9 +59,5 @@ class MemberList
 
   def to_param  # overridden, use crossref_id instead of id
     crossref_id
-  end
-
-  def persisted?
-    false
   end
 end
