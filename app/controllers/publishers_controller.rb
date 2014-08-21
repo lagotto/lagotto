@@ -11,7 +11,7 @@ class PublishersController < ApplicationController
   end
 
   def new
-    ids = Publisher.all.pluck(:crossref_id)
+    ids = Publisher.pluck(:crossref_id)
     publishers = MemberList.new(query: params[:query], per_page: 10).publishers
     @publishers = publishers.reject { |publisher| ids.include?(publisher.crossref_id) }
 
@@ -41,7 +41,7 @@ class PublishersController < ApplicationController
   protected
 
   def load_publisher
-    @publisher = Publisher.find(params[:id])
+    @publisher = Publisher.find(params[:crossref_id])
   end
 
   def load_index
