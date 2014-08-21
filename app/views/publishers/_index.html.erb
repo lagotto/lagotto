@@ -1,17 +1,13 @@
 <% if can?(:manage, Publisher) and (controller.action_name == "new" or (controller.action_name == "create" and !@publisher.errors.empty?)) %>
 
   <div class="page-header">
-    <h1>Add Publisher
-      <% unless params[:query].blank? %>
-        <small>with <em><%= params[:query] %></em> in the name</small>
-      <% end %>
-    </h1>
+    <h1>Add Publisher</h1>
   </div>
 
   <div class="search">
     <%= form_tag(new_publisher_path, :method => "get", :class => "form-inline", :role => "form", remote: true) do %>
       <div class="form-group">
-        <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "form-control" %>
+        <%= search_field_tag :query, params[:query], :placeholder => "Search by Name", :class => "form-control" %>
       </div>
       <button type="submit" id="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
       <% unless params[:query].blank? %>
@@ -22,7 +18,7 @@
 
   <% if @publishers.size > 0 %>
     <div id="results">
-      <%= simple_form_for @publisher, :url => publishers_path, :html => { :remote => true } do |f| %>
+      <%= form_tag(publishers_path, :method => "post", :remote => true) do %>
         <fieldset>
           <% @publishers.each do |publisher| %>
             <h4 class="article">
@@ -39,7 +35,7 @@
           <% end %>
 
           <div class="form-group">
-            <%= f.submit "Save ", class: "btn btn-default" %>
+            <%= submit_tag 'Save', class: "btn btn-default" %>
             <%= link_to 'Cancel', publishers_path, { :remote => true, :class => 'btn' } %>
           </div>
         </fieldset>
