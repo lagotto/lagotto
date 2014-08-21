@@ -9,7 +9,7 @@
   </div>
 
   <div class="search">
-    <%= form_tag(publishers_path, :method => "get", :class => "form-inline", :role => "form") do %>
+    <%= form_tag(new_publisher_path, :method => "get", :class => "form-inline", :role => "form") do %>
       <div class="form-group">
         <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "form-control" %>
       </div>
@@ -24,8 +24,11 @@
     <div id="results">
       <% @publishers.each do |publisher| %>
         <h4 class="article">
-          <%= link_to publisher.crossref_id, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
+          <%= link_to publisher.name, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
         </h4>
+        <% if publisher.other_names.present? && publisher.other_names.length > 1 %>
+          <p><%= publisher.other_names.join(" • ").html_safe %></p>
+        <% end %>
         <p>Prefixes: <%= publisher.prefixes.join(" ") %></p>
       <% end %>
     </div>

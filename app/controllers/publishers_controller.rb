@@ -37,12 +37,7 @@ class PublishersController < ApplicationController
   end
 
   def load_index
-    page = params[:page].present? ? params[:page].to_i : 1
-    per_page = MemberList.per_page
-    offset = (page - 1) * per_page
-    member_list = MemberList.new(query: params[:query], offset: offset, per_page: per_page)
-
-    @publishers = WillPaginate::Collection.create(page, per_page, member_list.total_entries) { |pager| pager.replace member_list.publishers }
+    @publishers = MemberList.new(query: params[:query], per_page: 10).publishers
   end
 
   private
