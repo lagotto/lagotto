@@ -41,6 +41,18 @@ namespace :mailer do
     puts "Article statistics report sent to #{report.users.count} subscriber(s)"
   end
 
+  desc "Rename error report"
+  task :rename_report => :environment do
+    Report.where(name: "disabled_source_report").delete_all
+    fatal_error_report = Report.find_or_create_by_name(
+                :name => 'fatal_error_report',
+                :display_name => 'Fatal Error Report',
+                :description => 'Reports when a fatal error has occured',
+                :interval => 0,
+                :private => true)
+    puts "Reports updated"
+  end
+
   desc 'Send all scheduled mails'
   task :all => [:environment, :error_report, :article_statistics_report, :status_report]
 end
