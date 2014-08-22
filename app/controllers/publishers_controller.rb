@@ -38,6 +38,7 @@ class PublishersController < ApplicationController
   end
 
   def new_publisher
+    params[:publisher] = JSON.parse(params[:publisher], { symbolize_names: true })
     @publisher = Publisher.new(safe_params)
   end
 
