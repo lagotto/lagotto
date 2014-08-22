@@ -49,8 +49,12 @@ class Import
       @filter += ",until-pub-date:#{until_pub_date}"
       @filter += ",from-pub-date:#{from_pub_date}" if from_pub_date
       @filter += ",type:#{type}" if type
-      @filter += ",member:#{member}" if member
       @filter += ",issn:#{issn}" if issn
+
+      if member
+        member_list = member.split(",")
+        @filter += member_list.reduce("") { |sum, member| sum + ",member:#{member}" }
+      end
     end
   end
 

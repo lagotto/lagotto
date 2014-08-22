@@ -25,6 +25,7 @@ every 4.hours do
 end
 
 every 1.day, at: "1:00 AM" do
+  rake "db:articles:import"
   rake "filter:all"
   rake "mailer:error_report"
   rake "mailer:stale_source_report"

@@ -30,6 +30,7 @@ defaults: &defaults
   cas_service_validate_url: /cas/serviceValidate
   couchdb_url: http://localhost:5984/alm/
   doi_prefix:
+  import: # automatic import via CrossRef API. Use 'all', 'member', 'sample', 'member_sample', or leave empty
   uid: doi
   # configure mail here, more info at http://guides.rubyonrails.org/action_mailer_basics.html
   mail:

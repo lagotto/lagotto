@@ -22,14 +22,29 @@ namespace :db do
   namespace :articles do
     desc "Bulk-load articles from Crossref API"
     task :import => :environment do |t, args|
+      # only run if configuration option :import
+      case CONFIG[:import]
+      when "member", "member_sample"
+        member = Publisher.pluck(:crossref_id).join(",")
+        sample = ENV['SAMPLE']
+      when "all", "sample"
+        member = ENV['MEMBER']
+        sample = ENV['SAMPLE']
+      when "sample", "member_sample"
+        sample ||= 20
+      else
+        puts "CrossRef API import not configured"
+        exit
+      end
+
       options = { from_update_date: ENV['FROM_UPDATE_DATE'],
                   until_update_date: ENV['UNTIL_UPDATE_DATE'],
                   from_pub_date: ENV['FROM_PUB_DATE'],
                   until_pub_date: ENV['UNTIL_PUB_DATE'],
                   type: ENV['TYPE'],
-                  member: ENV['MEMBER'],
+                  member: member,
                   issn: ENV['ISSN'],
-                  sample: ENV['SAMPLE'] }
+                  sample: sample }
       import = Import.new(options)
       number = ENV['SAMPLE'] || import.total_results
       import.queue_article_import if number.to_i > 0
