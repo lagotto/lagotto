@@ -20,19 +20,19 @@ describe "/api/v5/sources" do
       let(:crossref) { FactoryGirl.create(:crossref) }
       let(:mendeley) { FactoryGirl.create(:mendeley) }
       let(:sources) { [source, crossref, mendeley] }
-      let(:key) { "rabl/v5/#{source.decorate.cache_key}" }
+      let(:key) { "rabl/v5/#{user.cache_key}/#{source.decorate.cache_key}" }
       let(:cache_key_list) { sources.map { |source| "#{source.decorate.cache_key}" }.join("/") }
       let(:uri) { "/api/v5/sources?api_key=#{api_key}" }
 
       it "can cache sources in JSON" do
-        Rails.cache.exist?("rabl/v5/#{cache_key_list}//hash").should_not be_true
+        Rails.cache.exist?("rabl/v5/#{user.cache_key}/#{cache_key_list}//hash").should_not be_true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
         source = sources.first
-        response = Rails.cache.read("rabl/v5/#{cache_key_list}//hash").first
+        response = Rails.cache.read("rabl/v5/#{user.cache_key}/#{cache_key_list}//hash").first
         response[:name].should eql(source.name)
         response[:responses].should eq("count"=>5, "average"=>200, "maximum"=>200)
       end
@@ -53,7 +53,7 @@ describe "/api/v5/sources" do
 
     context "show" do
       let(:uri) { "/api/v5/sources/#{source.name}?api_key=#{api_key}" }
-      let(:key) { "rabl/v5/#{source.decorate.cache_key}" }
+      let(:key) { "rabl/v5/#{user.cache_key}/#{source.decorate.cache_key}" }
       let(:display_name) { "Foo" }
       let(:event_count) { 75 }
 

@@ -69,7 +69,7 @@ describe "/api/v5/status" do
 
         get uri, nil, 'HTTP_ACCEPT' => "application/json"
         last_response.status.should eql(200)
-        cache_key = "rabl/v5/#{status.cache_key}"
+        cache_key = "rabl/v5/#{user.cache_key}/#{status.cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//hash").should be_true
         response = Rails.cache.read("#{cache_key}//hash")
