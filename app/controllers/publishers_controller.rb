@@ -47,7 +47,7 @@ class PublishersController < ApplicationController
   end
 
   def load_index
-    @publishers = Publisher.order(:name).paginate(:page => params[:page])
+    @publishers = Publisher.order(:name).paginate(:page => params[:page]).all
   end
 
   private

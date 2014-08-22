@@ -2,7 +2,7 @@ class MemberList
   # include HTTP request helpers
   include Networkable
 
-  attr_accessor :query, :offset, :per_page, :no_network, :publishers, :total_entries
+  attr_accessor :query, :offset, :per_page, :no_network, :publishers
 
   def self.per_page
     15
@@ -16,7 +16,11 @@ class MemberList
     # to test individual methods
     no_network = attributes.fetch(:no_network, false)
 
-    @publishers = get_publishers unless no_network
+    if no_network || @query.blank?
+      @publishers = []
+    else
+      @publishers = get_publishers
+    end
   end
 
   def get_publishers
@@ -40,9 +44,6 @@ class MemberList
   def parse_data(result)
     # return early if an error occured
     return result if result["status"] != "ok"
-
-    # total number of results for pagination
-    @total_entries = result.deep_fetch('message', 'total-results') { 0 }
 
     items = result['message'] && result.deep_fetch('message', 'items') { nil }
 
