@@ -11,9 +11,13 @@ class PublishersController < ApplicationController
   end
 
   def new
-    ids = Publisher.pluck(:crossref_id)
-    publishers = MemberList.new(query: params[:query], per_page: 10).publishers
-    @publishers = publishers.reject { |publisher| ids.include?(publisher.crossref_id) }
+    if params[:query]
+      ids = Publisher.pluck(:crossref_id)
+      publishers = MemberList.new(query: params[:query], per_page: 10).publishers
+      @publishers = publishers.reject { |publisher| ids.include?(publisher.crossref_id) }
+    else
+      @publishers = []
+    end
 
     respond_with(@publishers) do |format|
       format.js { render :index }
@@ -30,10 +34,7 @@ class PublishersController < ApplicationController
 
   def destroy
     @publisher.destroy
-    load_index
-    respond_with(@publishers) do |format|
-      format.js { render :index }
-    end
+    redirect_to publishers_path
   end
 
   def new_publisher
