@@ -28,7 +28,7 @@
               <%= hidden_field_tag "publisher[prefixes][]", publisher.prefixes %>
               <%= link_to publisher.name, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
             </h4>
-            <p class="radio_tag">Prefixes: <%= publisher.prefixes.join(" ") %></p>
+            <p class="radio_tag"><%= pluralize(publisher.prefixes.size, 'Prefix') + ": " + publisher.prefixes.join(" ") %></p>
           <% end %>
         </fieldset>
         <div class="form-group form_tag">
@@ -42,6 +42,9 @@
       <% unless params[:query].blank? %>
           with <em><%= params[:query] %></em> in the name
       <% end %>
+    </div>
+    <div class="form-group form_tag">
+      <%= link_to 'Cancel', publishers_path, { :remote => true, :class => 'btn' } %>
     </div>
   <% end %>
 <% else %>
@@ -60,7 +63,7 @@
     <div id="results">
       <% @publishers.each do |publisher| %>
         <h4 class="article"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></h4>
-        <p>Prefixes: <%= publisher.prefixes.join(" ") %></p>
+        <p><%= pluralize(publisher.prefixes.size, 'Prefix') + ": " + publisher.prefixes.join(" ") %></p>
       <% end %>
     </div>
     <%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails %>
