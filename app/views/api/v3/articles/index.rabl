@@ -1,5 +1,5 @@
 collection @articles
-cache ['v3', @articles]
+cache ['v3', current_user, @articles]
 
 attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date, :views, :shares, :bookmarks, :citations
 

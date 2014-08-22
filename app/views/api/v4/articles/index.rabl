@@ -6,6 +6,6 @@ node(:page) { |m| @articles.total_entries > 0 ? @articles.current_page : 0 }
 node(:error) { nil }
 
 child @articles => :data do
-  cache ['v4', @articles]
+  cache ['v4', current_user, @articles]
   extends "v4/articles/base"
 end

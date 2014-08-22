@@ -1,5 +1,5 @@
 object @article
-cache ['v3', @article]
+cache ['v3', current_user, @article]
 
 attributes :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date, :views, :shares, :bookmarks, :citations
 
