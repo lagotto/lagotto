@@ -31,7 +31,7 @@
           <% end %>
         </fieldset>
         <div class="form-group form_tag">
-          <%= submit_tag 'Save', class: "btn btn-default" %>
+          <%= submit_tag 'Save', class: "btn btn-default", autofocus: true %>
           <%= link_to 'Cancel', publishers_path, { :remote => true, :class => 'btn' } %>
         </div>
       <% end %>
