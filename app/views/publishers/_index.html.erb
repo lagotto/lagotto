@@ -7,9 +7,9 @@
   <div class="search">
     <%= form_tag(new_publisher_path, :method => "get", :class => "form-inline", :role => "form", remote: true) do %>
       <div class="form-group">
-        <%= search_field_tag :query, params[:query], :placeholder => "Search by Name", :class => "form-control" %>
+        <%= search_field_tag :query, params[:query], :placeholder => "Search by Name", :class => "form-control", autofocus: true %>
       </div>
-      <button type="submit" id="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+      <button type="submit" id="search_submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
       <% if params[:query].blank? %>
         <%= link_to 'cancel', publishers_path, { :remote => true, :class => 'btn' } %>
       <% else %>
@@ -31,7 +31,7 @@
           <% end %>
         </fieldset>
         <div class="form-group form_tag">
-          <%= submit_tag 'Save', class: "btn btn-default", autofocus: true %>
+          <%= submit_tag 'Save', id: "form_submit", class: "btn btn-default" %>
           <%= link_to 'Cancel', publishers_path, { :remote => true, :class => 'btn' } %>
         </div>
       <% end %>
