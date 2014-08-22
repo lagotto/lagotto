@@ -5,21 +5,25 @@ Feature: Manage publishers
 
   Background:
     Given I am logged in as "admin"
+    And we have a publisher with name "Public Library of Science (PLoS)" and CrossRef id 340
 
     Scenario: See list of publishers
-      And I go to the "Publishers" page
-      And I search for publisher "elife"
-      Then I should see 5 publishers
-
-    Scenario: Search for publisher
-      Given we have a publisher with name "Public Library of Science" and CrossRef id 340
       When I go to the "Publishers" page
-      And I search for publisher "Public Library of Science"
-      Then I should see the publisher "Public Library of Science"
+      Then I should see a list of 1 publisher
 
     Scenario: See publisher details
-      Given we have a publisher with name "Public Library of Science" and CrossRef id 340
       When I go to the "Publishers" page
-      And I search for publisher "Public Library of Science"
       And I click on publisher "Public Library of Science"
-      Then I should see the CrossRef id 340 for publisher "Public Library of Science"
+      Then I should see the CrossRef id 340 for publisher "Public Library of Science (PLoS)"
+
+    Scenario: Search for existing publisher
+      When I go to the "Publishers" page
+      And I click on the add button on the Publishers page
+      And I search for publisher "plos"
+      Then I should see the alert "No CrossRef members to add"
+
+    Scenario: Search for new publisher
+      When I go to the "Publishers" page
+      And I click on the add button on the Publishers page
+      And I search for publisher "elife"
+      Then I should see the alert "No CrossRef members to add"

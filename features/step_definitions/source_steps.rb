@@ -84,26 +84,12 @@ When /^I submit the form$/ do
 end
 
 When /^I go to the "(.*?)" page$/ do |page_title|
-  if page_title == "Articles"
-    visit articles_path
-  elsif page_title == "Sources"
-    visit sources_path
-  elsif page_title == "Home"
-    visit root_path
-  end
-end
-
-When /^I go to the "(.*?)" admin page$/ do |page_title|
-  if page_title == "Alerts"
-    title = "alerts"
-  elsif page_title == "Home"
-    title = ""
-  elsif page_title == "API Requests"
+  if page_title == "API Requests"
     title = "api_requests"
   else
     title = page_title.downcase
   end
-  visit "/admin/#{title}"
+  visit "/#{title}"
   page.driver.render("tmp/capybara/#{title}.png") if @wip
 end
 

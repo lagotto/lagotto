@@ -271,6 +271,15 @@ FactoryGirl.define do
     end
   end
 
+  factory :publisher do
+    crossref_id 340
+    name 'Public Library of Science (PLoS)'
+    other_names ["Public Library of Science", "Public Library of Science (PLoS)"]
+    prefixes ["10.1371"]
+
+    initialize_with { Publisher.find_or_create_by_crossref_id(crossref_id) }
+  end
+
   factory :html_ratio_too_high_error, class: HtmlRatioTooHighError do
     type "HtmlRatioTooHighError"
     name "HtmlRatioTooHighError"

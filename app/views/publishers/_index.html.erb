@@ -5,7 +5,7 @@
   </div>
 
   <div class="search">
-    <%= form_tag(new_publisher_path, :method => "get", :class => "form-inline", :role => "form", remote: true) do %>
+    <%= form_tag(new_publisher_path, :method => "get", :id => "search_form", :class => "form-inline", :role => "form", remote: true) do %>
       <div class="form-group">
         <%= search_field_tag :query, params[:query], :placeholder => "Search by Name", :class => "form-control", autofocus: true %>
       </div>
