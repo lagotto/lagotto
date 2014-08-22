@@ -1,12 +1,12 @@
 class PublishersController < ApplicationController
   before_filter :load_publisher, :only => [:show, :update, :destroy]
-  before_filter :load_index, :only => [:index, :create, :destroy]
   before_filter :new_publisher, :only => [:create]
   load_and_authorize_resource
 
   respond_to :html, :js
 
   def index
+    load_index
     respond_with @publishers
   end
 
@@ -22,6 +22,7 @@ class PublishersController < ApplicationController
 
   def create
     @publisher.save
+    load_index
     respond_with(@publishers) do |format|
       format.js { render :index }
     end
@@ -29,6 +30,7 @@ class PublishersController < ApplicationController
 
   def destroy
     @publisher.destroy
+    load_index
     respond_with(@publishers) do |format|
       format.js { render :index }
     end
