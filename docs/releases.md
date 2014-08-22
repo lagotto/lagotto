@@ -7,12 +7,13 @@ title: "Releases"
 
 ALM 3.4 was released on August 22, 2014 with the following new features:
 
-* better caching of admin panel
-* simplified admin panel navigation and made more information available to regular users
+* better caching of the admin panel
+* simplified admin panel navigation, and more information made available to regular users
 * publisher model with support for automated article import via CrossRef API
 * more granular error reporting with levels `INFO`, `WARN`, `ERROR`and `FATAL`
 * Alerts API for admin users
 * new `/heartbeat` API endpoint to check application health
+* many bug fixes
 
 To enable the automated daily article import via CrossRef API, add the following line to `config/settings.yml`:
 
@@ -22,16 +23,16 @@ import: member
 
 To import articles manually, leave import empty; or use one of the following options for automated daily import via cron:
 
-* **all**: All DOIs updated the last day
-* **sample**: A random sample of 20 from all DOIs updated the last day
-* **member**: All DOIs from the publishers in the publisher admin interface, updated the last day
-* **member_sample**: A random sample of 20 from all DOIs from the publishers in the publisher admin interface, updated the last day
+* `import: all`: All DOIs updated the last day
+* `import: sample`: A random sample of 20 from all DOIs updated the last day
+* `import: member`: All DOIs from the publishers in the publisher admin interface, updated the last day
+* `import: member_sample`: A random sample of 20 from all DOIs from the publishers in the publisher admin interface, updated the last day
 
-Publishers can now be added in the admin interface, the only functionality is currently the automated article import described above.
+Publishers can now be added in the admin interface. The only functionality is currently the automated article import described above.
 
 For admin users alerts are now available via API, use the `/api/v4/alerts` endpoint and basic authentication. More details in the API documentation.
 
-There is one configuration change in error reporting: the `disabled_source_report` has been renamed to `fatal_error_report`, as all an immediate email will now be sent for all errors with severity `FATAL`. To rename the report template in the database, run this rake task once:
+There is one configuration change in error reporting: the `disabled_source_report` has been renamed to `fatal_error_report`, as an immediate email will now be sent for all errors with severity `FATAL`. To rename the report template in the database, run this rake task once (using the appropriate `RAILS_ENV`):
 
 ```
 bundle exec rake mailer:rename_report RAILS_ENV=production
