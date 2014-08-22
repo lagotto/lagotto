@@ -24,7 +24,7 @@
         <fieldset class="radio_tag">
           <% @publishers.each_with_index do |publisher, i| %>
             <h4 class="article">
-              <%= radio_button_tag "publisher", publisher.attributes, (i == 0), class: "radio_tag" %>
+              <%= radio_button_tag "publisher", publisher.attributes.symbolize_keys, (i == 0), class: "radio_tag" %>
               <%= link_to publisher.name, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
             </h4>
             <p class="radio_tag"><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
