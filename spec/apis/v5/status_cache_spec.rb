@@ -6,7 +6,7 @@ describe "/api/v5/status" do
   let(:user) { FactoryGirl.create(:admin_user) }
   let(:api_key) { user.authentication_token }
   let(:status) { Status.new }
-  let(:key) { "rabl/v5/#{status.cache_key}" }
+  let(:key) { "rabl/v5/#{user.cache_key}/#{status.cache_key}" }
 
   before(:each) do
     source.put_alm_database
