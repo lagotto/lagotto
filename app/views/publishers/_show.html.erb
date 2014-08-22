@@ -12,12 +12,12 @@
 <dl class="dl-horizontal">
   <% if @publisher.other_names.present? && @publisher.other_names.length > 1 %>
     <dt>Other Names</dt>
-    <dd><%= h(@user.publisher.name) %></dd>
+    <dd><%= @publisher.other_names.join("</br>").html_safe %></dd>
   <% end %>
   <% if @publisher.prefixes.present? %>
     <dt>DOI Prefixes</dt>
     <dd><%= @publisher.prefixes.join(" ") %></dd>
   <% end %>
   <dt>CrossRef ID</dt>
-  <dd><%= link_to publisher.crossref_id, "http://api.crossref.org/members/#{publisher.crossref_id}" %></dd>
+  <dd><%= link_to @publisher.crossref_id, "http://api.crossref.org/members/#{@publisher.crossref_id}" %></dd>
 </dl>
