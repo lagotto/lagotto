@@ -52,7 +52,7 @@ class Import
       @filter += ",issn:#{issn}" if issn
 
       if member
-        member_list = member.split(",")
+        member_list = member.to_s.split(",")
         @filter += member_list.reduce("") { |sum, member| sum + ",member:#{member}" }
       end
     end
