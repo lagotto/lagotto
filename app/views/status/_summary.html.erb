@@ -2,7 +2,7 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="articles_count"><%= number_with_delimiter(@status.cached_version.fetch('articles_count', 0)) %></h2>
+        <h2 id="articles_count"><%= number_with_delimiter(@status.cached_version.fetch(:articles_count, 0)) %></h2>
       </div>
       <div class="panel-footer"><%= link_to "Articles", articles_path %></div>
     </div>
@@ -10,7 +10,7 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="articles_last30_count"><%= number_with_delimiter(@status.cached_version.fetch('article_last30_count', 0)) %></h2>
+        <h2 id="articles_last30_count"><%= number_with_delimiter(@status.cached_version.fetch(:article_last30_count, 0)) %></h2>
       </div>
       <div class="panel-footer">Articles last 30 days</div>
     </div>
@@ -18,7 +18,7 @@
   <div class="col-md-3 text-center">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="events_count"><%= number_with_delimiter(@status.cached_version.fetch('events_count', 0)) %></h2>
+        <h2 id="events_count"><%= number_with_delimiter(@status.cached_version.fetch(:events_count, 0)) %></h2>
       </div>
       <div class="panel-footer"><%= link_to "Events", sources_path %></div>
     </div>
@@ -54,7 +54,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="responses_count"><%= number_with_delimiter(@status.cached_version.fetch('responses_count', 0)) %></h2>
+          <h2 id="responses_count"><%= number_with_delimiter(@status.cached_version.fetch(:responses_count, 0)) %></h2>
         </div>
         <div class="panel-footer"><%= link_to "API responses last 24 hours", sources_path %></div>
       </div>
@@ -62,7 +62,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="requests_count"><%= number_with_delimiter(@status.cached_version.fetch('requests_count', 0)) %></h2>
+          <h2 id="requests_count"><%= number_with_delimiter(@status.cached_version.fetch(:requests_count, 0)) %></h2>
         </div>
         <div class="panel-footer"><%= link_to "API requests last 24 hours", api_requests_path %></div>
       </div>
@@ -96,7 +96,7 @@
     <div class="col-md-3 text-center">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 id="alerts_last_day_count"><%= number_with_delimiter(@status.cached_version.fetch('alerts_last_day_count', 0)) %></h2>
+          <h2 id="alerts_last_day_count"><%= number_with_delimiter(@status.cached_version.fetch(:alerts_last_day_count, 0)) %></h2>
         </div>
         <div class="panel-footer"><%= link_to "Open alerts last 24 hours", alerts_path %></div>
       </div>

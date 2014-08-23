@@ -16,14 +16,14 @@ describe "/api/v3/articles" do
       end
 
       it "can cache articles in JSON" do
-        Rails.cache.exist?("rabl/v3/#{user.cache_key}/#{cache_key_list}//json").should_not be_true
+        Rails.cache.exist?("rabl/v3/#{cache_key_list}//json").should_not be_true
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
 
         sleep 1
 
         article = articles.first
-        response = Rails.cache.read("rabl/v3/#{user.cache_key}/#{cache_key_list}//json")
+        response = Rails.cache.read("rabl/v3/#{cache_key_list}//json")
         response = JSON.parse(response).first
         response_source = response["sources"][0]
         response["doi"].should eql(article.doi)
@@ -33,14 +33,14 @@ describe "/api/v3/articles" do
       end
 
       it "can cache articles in XML" do
-        Rails.cache.exist?("rabl/v3/#{user.cache_key}/#{cache_key_list}//xml").should_not be_true
+        Rails.cache.exist?("rabl/v3/#{cache_key_list}//xml").should_not be_true
         get @uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
 
         sleep 1
 
         article = articles.first
-        response = Rails.cache.read("rabl/v3/#{user.cache_key}/#{cache_key_list}//xml")
+        response = Rails.cache.read("rabl/v3/#{cache_key_list}//xml")
         response = Hash.from_xml(response)
         response = response["articles"]["article"][0]
         response_source = response["sources"]["source"]
@@ -54,7 +54,7 @@ describe "/api/v3/articles" do
     context "show" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:uri) { "/api/v3/articles/info:doi/#{article.doi}?api_key=#{api_key}" }
-      let(:key) { "rabl/v3/#{user.cache_key}/#{ArticleDecorator.decorate(article).cache_key}" }
+      let(:key) { "rabl/v3/#{ArticleDecorator.decorate(article).cache_key}" }
       let(:title) { "Foo" }
       let(:event_count) { 75 }
 
@@ -140,7 +140,7 @@ describe "/api/v3/articles" do
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
-        cache_key = "rabl/v3/#{user.cache_key}/#{ArticleDecorator.decorate(article).cache_key}"
+        cache_key = "rabl/v3/#{ArticleDecorator.decorate(article).cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = Rails.cache.read("#{cache_key}//json")
@@ -169,7 +169,7 @@ describe "/api/v3/articles" do
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should eql(200)
-        cache_key = "rabl/v3/#{user.cache_key}/#{ArticleDecorator.decorate(article).cache_key}"
+        cache_key = "rabl/v3/#{ArticleDecorator.decorate(article).cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//json").should be_true
         response = Rails.cache.read("#{cache_key}//json")
