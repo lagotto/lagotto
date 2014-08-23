@@ -147,8 +147,8 @@ When we have to update the metrics for an article (determined by the staleness i
 The default priority for jobs is 5. We have the following background jobs sorted by decreasing priority:
 
 * **Disabled source alert**. Queue name is `mailer`, priority is 1.
+* **Updating sources and status cache**. Queue names are `{name of source}-cache` and `status-cache`, priority is 1.
 * **Article imports**. Queue name is `article-import`, priority is 2.
-* **Updating sources and status cache**. Queue names are `{name of source}-cache` and `status-cache`, priority is 3.
 * **Deleting CouchDB documents**. A one-time maintenance task, queue name is `couchdb`, default priority is 4.
 * **Updating sources**. Queue name is name of the source, priority can be any integer greater than 0, default priority is 5.
 * **Email reports**. Queue name is `mailer`, default priority is 6.

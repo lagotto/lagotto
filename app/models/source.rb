@@ -285,7 +285,7 @@ class Source < ActiveRecord::Base
   def update_cache
     update_column(:cached_at, Time.zone.now)
     DelayedJob.delete_all(queue: "#{name}-cache")
-    delay(priority: priority, queue: "#{name}-cache").get_result(source_url, timeout: 900)
+    delay(priority: 1, queue: "#{name}-cache").get_result(source_url, timeout: 900)
   end
 
   # Remove all retrieval records for this source that have never been updated,
