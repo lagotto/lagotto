@@ -15,7 +15,7 @@
     <dd><%= @publisher.other_names.reject { |name| name == @publisher.name }.join("</br>").html_safe %></dd>
   <% end %>
   <% if @publisher.prefixes.present? %>
-    <dt>DOI Prefixes</dt>
+    <dt>DOI <%= 'Prefix'.pluralize(@publisher.prefixes.size) %></dt>
     <dd><%= @publisher.prefixes.join(" ") %></dd>
   <% end %>
   <dt>CrossRef ID</dt>
