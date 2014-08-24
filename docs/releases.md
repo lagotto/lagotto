@@ -3,6 +3,12 @@ layout: page
 title: "Releases"
 ---
 
+### [ALM 3.4.2](https://github.com/articlemetrics/alm/releases/tag/v.3.4.2)
+
+ALM 3.4.2 was released on August 24, 2014 with the following bugfix:
+
+* fixed issue with caching of the admin panel
+
 ## [ALM 3.4](https://github.com/articlemetrics/alm/releases/tag/v.3.4)
 
 ALM 3.4 was released on August 22, 2014 with the following new features:
