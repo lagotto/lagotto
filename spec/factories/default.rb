@@ -204,7 +204,6 @@ FactoryGirl.define do
 
   factory :retrieval_history do
     sequence(:retrieved_at) do |n|
-      Date.stub(:today).and_return(Date.new(2013, 9, 5))
       Date.today - n.weeks
     end
     sequence(:event_count) { |n| 1000 - 10 * n }

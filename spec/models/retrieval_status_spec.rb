@@ -24,7 +24,7 @@ describe RetrievalStatus do
 
   describe "staleness intervals" do
     it "published a day ago" do
-      date = Time.zone.today - 1.day
+      date = Date.today - 1.day
       article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[0]
@@ -32,7 +32,7 @@ describe RetrievalStatus do
     end
 
     it "published 8 days ago" do
-      date = Time.zone.today - 8.days
+      date = Date.today - 8.days
       article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[1]
@@ -40,7 +40,7 @@ describe RetrievalStatus do
     end
 
     it "published 32 days ago" do
-      date = Time.zone.today - 32.days
+      date = Date.today - 32.days
       article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[2]
@@ -48,7 +48,7 @@ describe RetrievalStatus do
     end
 
     it "published 370 days ago" do
-      date = Time.zone.today - 370.days
+      date = Date.today - 370.days
       article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[3]
@@ -95,7 +95,7 @@ describe RetrievalStatus do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status, :with_crossref_histories) }
 
     it "should get past events by month" do
-      retrieval_status.get_past_events_by_month.should eq([{:year=>2013, :month=>4, :total=>810}, {:year=>2013, :month=>5, :total=>860}, {:year=>2013, :month=>6, :total=>900}, {:year=>2013, :month=>7, :total=>940}, {:year=>2013, :month=>8, :total=>990}])
+      retrieval_status.get_past_events_by_month.should eq([{:year=>2013, :month=>4, :total=>800}, {:year=>2013, :month=>5, :total=>820}, {:year=>2013, :month=>6, :total=>870}, {:year=>2013, :month=>7, :total=>910}, {:year=>2013, :month=>8, :total=>950}])
     end
   end
 end
