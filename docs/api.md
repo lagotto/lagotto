@@ -98,7 +98,7 @@ Several metrics are aggregated and available in all API queries:
 * Cited: crossref (scopus at PLOS)
 
 ## Date and Time Format
-All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``. `date_parts` uses the Citeproc convention to allow incomplete dates (e.g. year only):
+All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``. `date-parts` uses the Citeproc convention to allow incomplete dates (e.g. year only):
 
 ```json
 "date-parts": [
@@ -131,7 +131,7 @@ The API returns `null` if no query was made, and `0` if the external API returns
       "pmid": "18974831",
       "pmcid": "2568856",
       "issued": {
-        "date_parts": [
+        "date-parts": [
           [
             2008,
             10,
