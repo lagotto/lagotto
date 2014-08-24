@@ -8,6 +8,7 @@ describe Facebook do
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no article url" do
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => nil)
+      report = FactoryGirl.create(:fatal_error_report_with_admin_user)
       lookup_stub = stub_request(:get, article.doi_as_url).to_return(:status => 404)
       response = subject.get_data(article)
       lookup_stub.should have_been_requested

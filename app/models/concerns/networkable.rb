@@ -115,23 +115,27 @@ module Networkable
           { error: "resource not found", status: status }
         # we raise an error if we find a canonical URL mismatch
         elsif options[:doi_mismatch]
+          article = Article.where(id: options[:article_id]).first
           Alert.create(exception: error.exception,
                        class_name: error.class.to_s,
                        message: error.response[:message],
                        details: error.response[:body],
                        status: status,
+                       article_id: article.id,
                        target_url: url)
           { error: error.response[:message], status: status }
         # we raise an error if a DOI can't be resolved
         elsif options[:doi_lookup]
+          article = Article.where(id: options[:article_id]).first
           Alert.create(exception: error.exception,
                        class_name: error.class.to_s,
-                       message: "DOI #{url} could not be resolved",
+                       message: "DOI #{article.doi} could not be resolved",
                        details: error.response[:body],
                        status: status,
                        level: Alert::FATAL,
+                       article_id: article.id,
                        target_url: url)
-          { error: "DOI #{url} could not be resolved", status: status }
+          { error: "DOI #{article.doi} could not be resolved", status: status }
         else
           error = parse_error_response(error.response[:body])
           { error: error, status: status }
