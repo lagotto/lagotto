@@ -129,6 +129,7 @@ module Networkable
                        message: "DOI could not be resolved",
                        details: error.response[:body],
                        status: status,
+                       level: Alert::FATAL,
                        target_url: url)
           { error: "DOI could not be resolved", status: status }
         else
