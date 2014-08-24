@@ -78,7 +78,6 @@ class Import
         delay(priority: 2, queue: "article-import").process_data(offset)
       end
     end
-    delay(priority: 2, queue: "article-cache").expire_cache
   end
 
   def process_data(offset = 0)
@@ -165,14 +164,6 @@ class Import
     Array(items).map do |item|
       article = Article.find_or_create(item)
       article ? article.id : nil
-    end
-  end
-
-  def expire_cache
-    if ActionController::Base.perform_caching
-      Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
-      status_url = "http://#{CONFIG[:public_server]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
-      get_result(status_url, timeout: 300)
     end
   end
 end
