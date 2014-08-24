@@ -21,7 +21,6 @@ When /^I click on the add button on the Publishers page$/ do
   page.driver.render("tmp/capybara/#{button_name}.png") if @wip
 end
 
-
 When /^I search for publisher "(.*?)"$/ do |name|
   within(".search") do
     fill_in 'query', :with => name
