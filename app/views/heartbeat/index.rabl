@@ -1,5 +1,5 @@
 object @status
-cache [@status.articles_count]
+cache [@status]
 
 attributes :version, :articles_count, :update_date
 node(:status) { "OK" }
