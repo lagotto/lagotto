@@ -2,8 +2,8 @@ var data;
 var colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e","#95a6a6"];
 
 var l = 250; // left margin
-var r = 150; // right margin
-var w = 500; // width of drawing area
+var r = 170; // right margin
+var w = 480; // width of drawing area
 var h = 36;  // bar height
 var s = 2;   // spacing between bars
 
