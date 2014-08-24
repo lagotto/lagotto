@@ -4,7 +4,8 @@ Given /^that an article has no blog count$/ do
 end
 
 Given /^the source "(.*?)" exists$/ do |name|
-  FactoryGirl.create(name.underscore.downcase.to_sym)
+  source = FactoryGirl.create(name.underscore.downcase.to_sym)
+  source.update_cache
 end
 
 Given /^"(.*?)" of source "(.*?)" is (\d+)$/ do |parameter, name, value|
@@ -191,7 +192,7 @@ Then /^I should see the image "(.+)"$/ do |image|
 end
 
 Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|
-  page.driver.render("tmp/capybara/#{table_name}.png") if @wip
+  page.driver.render("tmp/capybara/#{table_name}.png") # if @wip
   rows = find("table##{table_name}").all('tr')
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
   expected_table.diff!(table)

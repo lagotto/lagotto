@@ -9,12 +9,11 @@ Feature: See jobs
     And the source "Citeulike" exists
     And that we have 5 articles
 
-    @not_teamcity
     Scenario: Jobs in dashboard
       When I go to the "Jobs" tab of the Sources page
       Then the table "JobsTable" should be:
-        | Source    | Status   | Pending | Working | Stale Articles |
-        | CiteULike | waiting  |         |         | 5              |
+         | Group | Source    | Status   | Pending | Working | Queued Articles | Stale Articles |
+         | Saved | CiteULike | waiting  |         |         |                 | 5              |
 
     @not_teamcity
     Scenario: Jobs in source view
