@@ -52,7 +52,7 @@ describe RetrievalStatus do
       article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[3]
-      (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
+      (retrieval_status.stale_at - Time.zone.now).should be_within(0.15 * duration).of(duration)
     end
   end
 
