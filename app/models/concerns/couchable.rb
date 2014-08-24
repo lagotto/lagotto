@@ -95,7 +95,7 @@ module Couchable
 
     def delete_alm_data(url, options={})
       # don't delete database
-      return nil if (url == couchdb_url && Rails.env != "test")
+      return nil if url == couchdb_url && Rails.env != "test"
 
       conn = faraday_conn('json')
       response = conn.delete url

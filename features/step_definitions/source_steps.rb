@@ -157,7 +157,7 @@ Then /^I should not see the "(.*?)" column$/ do |column_title|
 end
 
 Then /^I should see the row "(.*?)"$/ do |title|
-   page.has_css?('td', :text => title, :visible => true).should be_true
+  page.has_css?('td', :text => title, :visible => true).should be_true
 end
 
 Then /^I should see the donut "(.*?)"$/ do |title|
