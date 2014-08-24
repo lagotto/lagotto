@@ -64,7 +64,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   def error(job, exception)
     # don't create alert for these errors
     unless exception.kind_of?(SourceInactiveError) || exception.kind_of?(NotEnoughWorkersError)
-      Alert.create(:exception => "", :class_name => exception.class.to_s, :message => exception.message, :source_id => source_id)
+      Alert.create(exception: "", class_name: exception.class.to_s, message: exception.message, source_id: source_id, level: Alert::WARN)
     end
   end
 
@@ -74,7 +74,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     message = error.shift
     exception = OpenStruct.new(backtrace: error)
 
-    Alert.create(:class_name => "DelayedJobError", :message => "Failure in #{job.queue}: #{message}", :exception => exception, :source_id => source_id)
+    Alert.create(class_name: "DelayedJobError", message: "Failure in #{job.queue}: #{message}", exception: exception, source_id: source_id, level: Alert::FATAL)
   end
 
   def after(job)

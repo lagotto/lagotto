@@ -126,12 +126,12 @@ module Networkable
         elsif options[:doi_lookup]
           Alert.create(exception: error.exception,
                        class_name: error.class.to_s,
-                       message: "DOI could not be resolved",
+                       message: "DOI #{url} could not be resolved",
                        details: error.response[:body],
                        status: status,
                        level: Alert::FATAL,
                        target_url: url)
-          { error: "DOI could not be resolved", status: status }
+          { error: "DOI #{url} could not be resolved", status: status }
         else
           error = parse_error_response(error.response[:body])
           { error: error, status: status }
