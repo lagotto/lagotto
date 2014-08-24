@@ -37,10 +37,10 @@ class Article < ActiveRecord::Base
   has_many :alerts
   has_many :api_responses
 
-  validates :uid, :title, :year, :presence => true
+  validates :uid, :title, :presence => true
   validates :doi, :uniqueness => true , :format => { :with => DOI_FORMAT }, :allow_nil => true
   validates :year, :numericality => { :only_integer => true }, :inclusion => { :in => 1650..(Time.zone.now.year), :message => "should be between 1650 and #{Time.zone.now.year}" }
-  validate :validate_published_on
+  validate :validate_published_on, if: proc { |article| article.year.present? }
 
   before_validation :sanitize_title
   after_create :create_retrievals
@@ -311,8 +311,7 @@ class Article < ActiveRecord::Base
 
   # Use values from year, month, day for published_on
   # Uses  "01" for month and day if they are missing
-  # Uses nil if invalid date
-  def update_published_on
+  def validate_published_on
     date_parts = [year, month, day].reject(&:blank?)
     published_on = Date.new(*date_parts)
     if published_on > Date.today
@@ -321,11 +320,7 @@ class Article < ActiveRecord::Base
       write_attribute(:published_on, published_on)
     end
   rescue ArgumentError
-    nil
-  end
-
-  def validate_published_on
-    errors.add :published_on, "is not a valid date" unless update_published_on
+    errors.add :published_on, "is not a valid date"
   end
 
   def sanitize_title

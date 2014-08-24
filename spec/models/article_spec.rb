@@ -8,7 +8,6 @@ describe Article do
 
   it { should have_many(:retrieval_statuses).dependent(:destroy) }
   it { should validate_uniqueness_of(:doi) }
-  it { should validate_presence_of(:year) }
   it { should validate_presence_of(:title) }
   it { should validate_numericality_of(:year).only_integer }
 
@@ -72,19 +71,23 @@ describe Article do
       article.should be_valid
     end
 
+    it 'don\'t validate date with missing year, month and day' do
+      article = FactoryGirl.build(:article, year: nil, month: nil, day: nil)
+      article.should_not be_valid
+      article.errors.messages.should eq(year: ["is not a number", "should be between 1650 and 2014"])
+    end
+
     it 'don\'t validate wrong date' do
       article = FactoryGirl.build(:article, month: 2, day: 30)
       article.should_not be_valid
-      article.errors.should eq(2)
-      article.errors[:published_on].should eq(["is not a valid date"])
+      article.errors.messages.should eq(published_on: ["is not a valid date"])
     end
 
     it 'don\'t validate date in the future' do
       date = Date.today + 1.day
       article = FactoryGirl.build(:article, year: date.year, month: date.month, day: date.day)
       article.should_not be_valid
-      article.errors.should eq(2)
-      article.errors[:published_on].should eq(["is a date in the future"])
+      article.errors.messages.should eq(published_on: ["is a date in the future"])
     end
 
     it 'published_on' do

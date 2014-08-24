@@ -122,7 +122,7 @@ describe "/api/v4/articles" do
         last_response.status.should == 400
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({ "title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1650 and 2014"] })
+        response["error"].should eq ({ "title"=>["can't be blank"], "year"=>["is not a number", "should be between 1650 and 2014"] })
         response["success"].should be_nil
         response["data"]["doi"].should eq (params["article"]["doi"])
         response["data"]["title"].should be_nil
@@ -283,7 +283,7 @@ describe "/api/v4/articles" do
         last_response.status.should == 400
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq("title"=>["can't be blank"], "year"=>["can't be blank", "is not a number", "should be between 1650 and 2014"])
+        response["error"].should eq("title"=>["can't be blank"], "year"=>["is not a number", "should be between 1650 and 2014"])
         response["success"].should be_nil
         response["data"]["doi"].should eq (params["article"]["doi"])
         response["data"]["title"].should be_nil
