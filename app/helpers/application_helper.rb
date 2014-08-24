@@ -69,7 +69,7 @@ module ApplicationHelper
   end
 
   def number_hiding_zero(number)
-    (number.nil? || number == 0 ? "" : number)
+    (number.nil? || number == 0 ? "" : number_with_delimiter(number))
   end
 
   def sources
