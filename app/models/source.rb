@@ -278,7 +278,7 @@ class Source < ActiveRecord::Base
   end
 
   def cached_version
-    response = Rails.cache.read("rabl/v5/1/#{cache_key}//hash")
+    response = Rails.cache.read("rabl/v5/1/#{cache_key}//hash") || {}
   end
 
   def update_cache
