@@ -170,6 +170,7 @@ module Networkable
                      status: status,
                      target_url: url,
                      level: level,
+                     article_id: options[:article_id]),
                      source_id: options[:source_id])
         { error: message, status: status }
       end

@@ -57,8 +57,8 @@ class RetrievalStatus < ActiveRecord::Base
   scope :by_name, lambda { |source| includes(:source).where("sources.name = ?", source) }
 
   def perform_get_data
-    result = source.get_data(article, timeout: source.timeout, source_id: source_id)
-    data = source.parse_data(result, article, source_id: source_id)
+    result = source.get_data(article, timeout: source.timeout, article_id: article_id, source_id: source_id)
+    data = source.parse_data(result, article, article_id: article_id, source_id: source_id)
     history = History.new(id, data)
     history.to_hash
   end
