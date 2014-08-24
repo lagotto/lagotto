@@ -52,62 +52,67 @@ describe Article do
       article = FactoryGirl.build(:article, :doi => "asdfasdfasdf")
       article.should_not be_valid
     end
-
   end
 
-  it 'validate date' do
-    article = FactoryGirl.build(:article, day: 25)
-    article.should be_valid
-  end
+  context "validate date " do
+    before(:each) { Date.stub(:today).and_return(Date.new(2013, 9, 5)) }
 
-  it 'validate date with missing day' do
-    article = FactoryGirl.build(:article, day: nil)
-    article.should be_valid
-  end
+    it 'validate date' do
+      article = FactoryGirl.build(:article)
+      article.should be_valid
+    end
 
-  it 'validate date with missing month and day' do
-    article = FactoryGirl.build(:article, month: nil, day: nil)
-    article.should be_valid
-  end
+    it 'validate date with missing day' do
+      article = FactoryGirl.build(:article, day: nil)
+      article.should be_valid
+    end
 
-  it 'don\'t validate wrong date' do
-    article = FactoryGirl.build(:article, month: 2, day: 30)
-    article.should_not be_valid
-    article.errors[:published_on].should eq(["is not a valid date"])
-  end
+    it 'validate date with missing month and day' do
+      article = FactoryGirl.build(:article, month: nil, day: nil)
+      article.should be_valid
+    end
 
-  it 'don\'t validate date in the future' do
-    date = Date.today + 1.day
-    article = FactoryGirl.build(:article, year: date.year, month: date.month, day: date.day)
-    article.should_not be_valid
-    article.errors[:published_on].should eq(["is a date in the future"])
-  end
+    it 'don\'t validate wrong date' do
+      article = FactoryGirl.build(:article, month: 2, day: 30)
+      article.should_not be_valid
+      article.errors.should eq(2)
+      article.errors[:published_on].should eq(["is not a valid date"])
+    end
 
-  it 'published_on' do
-    article = FactoryGirl.create(:article)
-    date = Date.new(article.year, article.month, article.day)
-    article.published_on.should eq(date)
-  end
+    it 'don\'t validate date in the future' do
+      date = Date.today + 1.day
+      article = FactoryGirl.build(:article, year: date.year, month: date.month, day: date.day)
+      article.should_not be_valid
+      article.errors.should eq(2)
+      article.errors[:published_on].should eq(["is a date in the future"])
+    end
 
-  it 'issued' do
-    article = FactoryGirl.create(:article)
-    date = { "date-parts" => [[article.year, article.month, article.day]] }
-    article.issued.should eq(date)
-  end
+    it 'published_on' do
+      article = FactoryGirl.create(:article)
+      date = Date.new(article.year, article.month, article.day)
+      article.published_on.should eq(date)
+    end
 
-  it 'issued_date year month day' do
-    article = FactoryGirl.create(:article, year: 2013, month: 2, day: 9)
-    article.issued_date.should eq("February 9, 2013")
-  end
+    it 'issued' do
+      article = FactoryGirl.create(:article)
+      date = { "date-parts" => [[article.year, article.month, article.day]] }
+      article.issued.should eq(date)
+    end
 
-  it 'issued_date year month' do
-    article = FactoryGirl.create(:article, year: 2013, month: 2, day: nil)
-    article.issued_date.should eq("February 2013")
-  end
+    it 'issued_date year month day' do
+      article = FactoryGirl.create(:article, year: 2013, month: 2, day: 9)
+      article.issued_date.should eq("February 9, 2013")
+    end
 
-  it 'issued_date year' do
-    article = FactoryGirl.create(:article, year: 2013, month: nil, day: nil)
-    article.issued_date.should eq("2013")
+    it 'issued_date year month' do
+      article = FactoryGirl.create(:article, year: 2013, month: 2, day: nil)
+      article.issued_date.should eq("February 2013")
+    end
+
+    it 'issued_date year' do
+      article = FactoryGirl.create(:article, year: 2013, month: nil, day: nil)
+      article.issued_date.should eq("2013")
+    end
   end
 
   it 'sanitize title' do

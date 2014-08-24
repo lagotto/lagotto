@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe RetrievalStatus do
+  before(:each) { Date.stub(:today).and_return(Date.new(2013, 9, 5)) }
 
   it { should belong_to(:article) }
   it { should belong_to(:source) }
@@ -22,7 +23,6 @@ describe RetrievalStatus do
   end
 
   describe "staleness intervals" do
-
     it "published a day ago" do
       date = Time.zone.today - 1.day
       article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)

@@ -112,6 +112,8 @@ describe "/api/v4/articles" do
     end
 
     context "with missing title and year params" do
+      before(:each) { Date.stub(:today).and_return(Date.new(2013, 9, 5)) }
+
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) { { "article" => { "doi" => "10.1371/journal.pone.0036790", "title" => nil, "year" => nil } } }
 
@@ -271,6 +273,8 @@ describe "/api/v4/articles" do
     end
 
     context "with missing title and year params" do
+      before(:each) { Date.stub(:today).and_return(Date.new(2013, 9, 5)) }
+
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) { { "article" => { "doi" => "10.1371/journal.pone.0036790", "title" => nil, "year" => nil } } }
 
