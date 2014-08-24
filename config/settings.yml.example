@@ -45,7 +45,6 @@ development:
 test:
   <<: *defaults
   api_key: 12345
-  hostname: 33.33.33.44
   notification_email: alm@alm.example.org
   workers: 1
   couchdb_url: http://localhost:5984/alm_test/
