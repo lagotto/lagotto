@@ -16,6 +16,7 @@ capybara-*.html
 .librarian
 /.bundle
 /vendor/bundle/*
+/vendor/cookbooks/*/
 /bin/*
 /log/*
 /data/*
@@ -33,7 +34,6 @@ capybara-*.html
 /config/deploy/staging.rb
 /config/data_bags/*
 /db/seeds/_custom_sources.rb
-/vendor/cookbooks/*/.git
 **.orig
 rerun.txt
 pickle-email-*.html
