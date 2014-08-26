@@ -19,7 +19,7 @@ def provision(config, override, overrides = {})
       chef.json.merge!(config)
     end
 
-    chef.json['alm_report'].merge!(overrides['alm_report'] || {})
+    chef.json['alm'].merge!(overrides['alm'] || {})
   end
 
   # Link database.yml and settings.yml generated in alm recipe to current app directory
@@ -66,10 +66,6 @@ Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "chef/ubuntu-14.04"
 
-  # The url from where the 'config.vm.box' box will be fetched if it
-  # doesn't already exist on the user's system.
-  config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box"
-
   # For any additional, provider-specific overrides for provisioning
   chef_overrides = {}
 
@@ -88,8 +84,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider :vmware_fusion do |fusion, override|
     fusion.vmx["memsize"] = "1024"
-
-    override.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box"
     provision(config, override)
   end
 
