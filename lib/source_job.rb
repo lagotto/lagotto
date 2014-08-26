@@ -56,7 +56,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     message = error.shift
     exception = OpenStruct.new(backtrace: error)
 
-    Alert.create(class_name: "DelayedJobError", message: "Failure in #{job.queue}: #{message}", exception: exception, source_id: source_id, level: Alert::FATAL)
+    Alert.create(class_name: "DelayedJobError", message: "Failure in #{job.queue}: #{message}", exception: exception, source_id: source_id)
   end
 
   def after(job)
