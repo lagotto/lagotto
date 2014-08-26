@@ -1,23 +1,5 @@
 # encoding: UTF-8
 
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2014 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 require 'faraday'
 require 'faraday_middleware'
 require 'typhoeus'
@@ -69,6 +51,7 @@ module Networkable
                    :class_name => exception.class.to_s,
                    :message => exception.message,
                    :status => 500,
+                   :level => Alert::FATAL,
                    :source_id => options[:source_id])
       nil
     end
@@ -83,6 +66,7 @@ module Networkable
                    :class_name => exception.class.to_s,
                    :message => exception.message,
                    :status => 500,
+                   :level => Alert::FATAL,
                    :source_id => options[:source_id])
       nil
     end
@@ -113,22 +97,27 @@ module Networkable
           { error: "resource not found", status: status }
         # we raise an error if we find a canonical URL mismatch
         elsif options[:doi_mismatch]
+          article = Article.where(id: options[:article_id]).first
           Alert.create(exception: error.exception,
                        class_name: error.class.to_s,
                        message: error.response[:message],
                        details: error.response[:body],
                        status: status,
+                       article_id: article.id,
                        target_url: url)
           { error: error.response[:message], status: status }
         # we raise an error if a DOI can't be resolved
         elsif options[:doi_lookup]
+          article = Article.where(id: options[:article_id]).first
           Alert.create(exception: error.exception,
                        class_name: error.class.to_s,
-                       message: "DOI could not be resolved",
+                       message: "DOI #{article.doi} could not be resolved",
                        details: error.response[:body],
                        status: status,
+                       level: Alert::FATAL,
+                       article_id: article.id,
                        target_url: url)
-          { error: "DOI could not be resolved", status: status }
+          { error: "DOI #{article.doi} could not be resolved", status: status }
         else
           error = parse_error_response(error.response[:body])
           { error: error, status: status }
@@ -154,6 +143,7 @@ module Networkable
         end
 
         class_name = class_by_status(status) || error.class
+        level = level_by_status(status)
 
         message = parse_error_response(error.message)
         message = "#{message} for #{url}"
@@ -165,6 +155,8 @@ module Networkable
                      details: details,
                      status: status,
                      target_url: url,
+                     level: level,
+                     article_id: options[:article_id],
                      source_id: options[:source_id])
         { error: message, status: status }
       end
@@ -186,6 +178,15 @@ module Networkable
         when 502 then Net::HTTPBadGateway
         when 503 then Net::HTTPServiceUnavailable
         else nil
+        end
+    end
+
+    def level_by_status(status)
+      level =
+        case status
+        # temporary network problems should be WARN not ERROR
+        when 408, 502, 503, 504 then 2
+        else 3
         end
     end
 

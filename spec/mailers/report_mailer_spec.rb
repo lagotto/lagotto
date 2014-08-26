@@ -66,24 +66,25 @@ describe ReportMailer do
     end
   end
 
-  describe "disabled source report" do
-    let(:report) { FactoryGirl.create(:disabled_source_report_with_admin_user) }
+  describe "fatal error report" do
+    let(:report) { FactoryGirl.create(:fatal_error_report_with_admin_user) }
     let(:source) { FactoryGirl.create(:source) }
-    let(:mail) { ReportMailer.send_disabled_source_report(report, source.id) }
+    let(:message) { "#{source.display_name} has exceeded maximum failed queries. Disabling the source." }
+    let(:mail) { ReportMailer.send_fatal_error_report(report, message) }
 
     it "sends email" do
-      mail.subject.should eq("[ALM] Disabled Source Report")
+      mail.subject.should eq("[ALM] Fatal Error Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([CONFIG[:notification_email]])
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("The following source has been disabled")
+      mail.body.encoded.should include("Disabling the source")
     end
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: source_url(source.name))
+      body_html.should have_link('Go to admin dashboard', href: alerts_url(level: "fatal"))
     end
   end
 

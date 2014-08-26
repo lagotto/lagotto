@@ -1,23 +1,5 @@
 # encoding: UTF-8
 
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2014 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 class Import
   # include HTTP request helpers
   include Networkable
@@ -49,8 +31,12 @@ class Import
       @filter += ",until-pub-date:#{until_pub_date}"
       @filter += ",from-pub-date:#{from_pub_date}" if from_pub_date
       @filter += ",type:#{type}" if type
-      @filter += ",member:#{member}" if member
       @filter += ",issn:#{issn}" if issn
+
+      if member
+        member_list = member.to_s.split(",")
+        @filter += member_list.reduce("") { |sum, member| sum + ",member:#{member}" }
+      end
     end
   end
 
@@ -74,7 +60,6 @@ class Import
         delay(priority: 2, queue: "article-import").process_data(offset)
       end
     end
-    delay(priority: 2, queue: "article-cache").expire_cache
   end
 
   def process_data(offset = 0)
@@ -161,14 +146,6 @@ class Import
     Array(items).map do |item|
       article = Article.find_or_create(item)
       article ? article.id : nil
-    end
-  end
-
-  def expire_cache
-    if ActionController::Base.perform_caching
-      Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
-      status_url = "http://#{CONFIG[:public_server]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
-      get_result(status_url, timeout: 300)
     end
   end
 end

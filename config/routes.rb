@@ -11,6 +11,7 @@ Alm::Application.routes.draw do
   resources :users
   resources :publishers
   resources :status, only: [:index]
+  resources :heartbeat, only: [:index]
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :alerts
   resources :api_requests
@@ -27,6 +28,7 @@ Alm::Application.routes.draw do
     end
 
     namespace :v4 do
+      resources :alerts, :constraints => { :format=> false }
       resources :articles, :constraints => { :id => /.+?/, :format=> false }
     end
 

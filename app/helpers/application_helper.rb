@@ -1,21 +1,3 @@
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 require 'github/markdown'
 require 'rouge'
 
@@ -48,23 +30,28 @@ module ApplicationHelper
   end
 
   def state_label(state)
-    if state == "working"
-      '<span class="label label-success">working</span>'
-    elsif state == "inactive"
-      '<span class="label label-info">inactive</span>'
-    elsif state == "disabled"
-      '<span class="label label-warning">disabled</span>'
-    elsif state == "available"
-      '<span class="label label-primary">available</span>'
-    elsif state == "retired"
-      '<span class="label label-default">retired</span>'
-    else
-      state
+    case state
+    when "working" then '<span class="label label-success">working</span>'
+    when "inactive" then '<span class="label label-info">inactive</span>'
+    when "disabled" then '<span class="label label-warning">disabled</span>'
+    when "available" then '<span class="label label-primary">available</span>'
+    when "retired" then '<span class="label label-default">retired</span>'
+    else state
+    end
+  end
+
+  def level_label(level)
+    case level
+    when 1 then '<span class="label label-info">Info</span>'
+    when 2 then '<span class="label label-warning">Warn</span>'
+    when 3 then '<span class="label label-danger">Error</span>'
+    when 4 then '<span class="label label-fatal">Fatal</span>'
+    else '<span class="label label-default">Other</span>'
     end
   end
 
   def number_hiding_zero(number)
-    (number.nil? || number == 0 ? "" : number)
+    (number.nil? || number == 0 ? "" : number_with_delimiter(number))
   end
 
   def sources

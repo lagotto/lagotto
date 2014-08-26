@@ -22,7 +22,7 @@ describe Source do
       end
 
       it 'should change to :disabled on :disable' do
-        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+        report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
         subject.disable
         subject.should be_disabled
@@ -44,7 +44,7 @@ describe Source do
       end
 
       it 'should change to :disabled on :disable' do
-        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+        report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
         subject.disable
         subject.should be_disabled

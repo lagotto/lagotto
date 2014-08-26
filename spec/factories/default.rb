@@ -180,10 +180,10 @@ FactoryGirl.define do
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
-    factory :disabled_source_report_with_admin_user do
-      name 'disabled_source_report'
-      display_name 'Disabled Source Report'
-      description 'Reports when a source has been disabled'
+    factory :fatal_error_report_with_admin_user do
+      name 'fatal_error_report'
+      display_name 'Fatal Error Report'
+      description 'Reports when a fatal error has occured'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
@@ -204,7 +204,6 @@ FactoryGirl.define do
 
   factory :retrieval_history do
     sequence(:retrieved_at) do |n|
-      Date.stub(:today).and_return(Date.new(2013, 9, 5))
       Date.today - n.weeks
     end
     sequence(:event_count) { |n| 1000 - 10 * n }
@@ -214,6 +213,7 @@ FactoryGirl.define do
     exception "An exception"
     class_name "Net::HTTPRequestTimeOut"
     message "The request timed out."
+    level 2
     trace "backtrace"
     request "A request"
     user_agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/536.26.17 (KHTML, like Gecko) Version/6.0.2 Safari/536.26.17"
@@ -221,6 +221,10 @@ FactoryGirl.define do
     remote_ip "127.0.0.1"
     status 408
     content_type "text/html"
+
+    factory :alert_with_source do
+      source
+    end
   end
 
   factory :api_request do
@@ -264,6 +268,15 @@ FactoryGirl.define do
       role "admin"
       authentication_token "12345"
     end
+  end
+
+  factory :publisher do
+    crossref_id 340
+    name 'Public Library of Science (PLoS)'
+    other_names ["Public Library of Science", "Public Library of Science (PLoS)"]
+    prefixes ["10.1371"]
+
+    initialize_with { Publisher.find_or_create_by_crossref_id(crossref_id) }
   end
 
   factory :html_ratio_too_high_error, class: HtmlRatioTooHighError do

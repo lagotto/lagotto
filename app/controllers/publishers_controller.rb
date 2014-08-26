@@ -1,15 +1,32 @@
 class PublishersController < ApplicationController
-  before_filter :load_index
+  before_filter :load_publisher, :only => [:show, :update, :destroy]
+  before_filter :new_publisher, :only => [:create]
   load_and_authorize_resource
 
   respond_to :html, :js
 
   def index
+    load_index
     respond_with @publishers
   end
 
+  def new
+    if params[:query]
+      ids = Publisher.pluck(:crossref_id)
+      publishers = MemberList.new(query: params[:query], per_page: 10).publishers
+      @publishers = publishers.reject { |publisher| ids.include?(publisher.crossref_id) }
+    else
+      @publishers = []
+    end
+
+    respond_with(@publishers) do |format|
+      format.js { render :index }
+    end
+  end
+
   def create
-    @publisher = Publisher.create(safe_params)
+    @publisher.save
+    load_index
     respond_with(@publishers) do |format|
       format.js { render :index }
     end
@@ -17,33 +34,27 @@ class PublishersController < ApplicationController
 
   def destroy
     @publisher.destroy
-    respond_with(@publishers) do |format|
-      format.js { render :index }
-    end
+    redirect_to publishers_path
+  end
+
+  def new_publisher
+    params[:publisher] = JSON.parse(params[:publisher], symbolize_names: true)
+    @publisher = Publisher.new(safe_params)
   end
 
   protected
 
   def load_publisher
-    @publisher = Publisher.find(params[:id])
+    @publisher = Publisher.find_by_crossref_id(params[:id])
   end
 
   def load_index
-    publisher = Publisher.new
-    page = params[:page].present? ? params[:page].to_i : 1
-    per_page = Publisher.per_page
-    offset = (page - 1) * per_page
-
-    result = publisher.query(params[:query], offset, per_page)
-    publishers = result[:publishers]
-    total_entries = result[:total_entries]
-
-    @publishers = WillPaginate::Collection.create(page, per_page, total_entries) { |pager| pager.replace publishers }
+    @publishers = Publisher.order(:name).paginate(:page => params[:page]).all
   end
 
   private
 
   def safe_params
-    params.require(:publisher).permit(:name, :crossref_id, :other_names, :prefixes)
+    params.require(:publisher).permit(:name, :crossref_id, :other_names=> [], :prefixes => [])
   end
 end

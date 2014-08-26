@@ -5,14 +5,24 @@ class Alert < ActiveRecord::Base
   belongs_to :article
 
   before_create :collect_env_info
+  after_create :send_fatal_error_report, if: proc { level == 4 }
 
   default_scope where("unresolved = ?", true).order("alerts.created_at DESC")
 
-  scope :errors, where("alerts.error = ?", true)
+  scope :errors, where("alerts.level > ?", 0)
   scope :query, lambda { |query| includes(:article).where("class_name like ? OR message like ? OR status = ? OR articles.doi = ?", "%#{query}%", "%#{query}%", query, query) }
   scope :total, lambda { |duration| where("created_at > ?", Time.zone.now - duration.days) }
-  scope :total_errors, lambda { |duration| where("alerts.error = ?", true).where("created_at > ?", Time.zone.now - duration.days) }
+  scope :total_errors, lambda { |duration| where("alerts.level > ?", 0).where("created_at > ?", Time.zone.now - duration.days) }
   scope :from_sources, lambda { |duration| where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now - duration.days) }
+
+  # alert level, default is ERROR
+  # adapted from http://www.ruby-doc.org/stdlib-2.1.2/libdoc/logger/rdoc/Logger.html
+  LEVELS = %w(DEBUG INFO WARN ERROR FATAL)
+  DEBUG  = 0
+  INFO   = 1
+  WARN   = 2
+  ERROR  = 3
+  FATAL  = 4
 
   def self.per_page
     15
@@ -25,6 +35,19 @@ class Alert < ActiveRecord::Base
     else
       "Internal server error."
     end
+  end
+
+  def human_level_name
+    LEVELS[level]
+  end
+
+  def send_fatal_error_report
+    report = Report.find_by_name("fatal_error_report")
+    report.send_fatal_error_report(message)
+  end
+
+  def create_date
+    created_at.utc.iso8601
   end
 
   private

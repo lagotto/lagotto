@@ -1,23 +1,3 @@
-# encoding: UTF-8
-
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2014 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 require 'cgi'
 require 'addressable/uri'
 require "builder"
@@ -37,10 +17,10 @@ class Article < ActiveRecord::Base
   has_many :alerts
   has_many :api_responses
 
-  validates :uid, :title, :year, :presence => true
+  validates :uid, :title, :presence => true
   validates :doi, :uniqueness => true , :format => { :with => DOI_FORMAT }, :allow_nil => true
   validates :year, :numericality => { :only_integer => true }, :inclusion => { :in => 1650..(Time.zone.now.year), :message => "should be between 1650 and #{Time.zone.now.year}" }
-  validate :validate_published_on
+  validate :validate_published_on, if: proc { |article| article.year.present? }
 
   before_validation :sanitize_title
   after_create :create_retrievals
@@ -182,7 +162,7 @@ class Article < ActiveRecord::Base
     return true if canonical_url.present?
     return false unless doi.present?
 
-    url = get_canonical_url(doi_as_url)
+    url = get_canonical_url(doi_as_url, article_id: id)
 
     if url.present? && url.is_a?(String)
       update_attributes(:canonical_url => url)
@@ -311,8 +291,7 @@ class Article < ActiveRecord::Base
 
   # Use values from year, month, day for published_on
   # Uses  "01" for month and day if they are missing
-  # Uses nil if invalid date
-  def update_published_on
+  def validate_published_on
     date_parts = [year, month, day].reject(&:blank?)
     published_on = Date.new(*date_parts)
     if published_on > Date.today
@@ -321,11 +300,7 @@ class Article < ActiveRecord::Base
       write_attribute(:published_on, published_on)
     end
   rescue ArgumentError
-    nil
-  end
-
-  def validate_published_on
-    errors.add :published_on, "is not a valid date" unless update_published_on
+    errors.add :published_on, "is not a valid date"
   end
 
   def sanitize_title

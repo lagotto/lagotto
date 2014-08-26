@@ -40,6 +40,7 @@ describe SourceJob do
 
   context "failure" do
     it "should create an alert on failure" do
+      report = FactoryGirl.create(:fatal_error_report_with_admin_user)
       error = File.read(fixture_path + 'delayed_job_failure.txt')
       job.last_error = error
       error = error.split("\n")

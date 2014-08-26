@@ -1,21 +1,3 @@
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 defaults: &defaults
   api_key: 8897f9349100728d66d64d56bc21254bb346a9ed21954933 #'run `rake secret` to generate a key to insert here'
   notification_email: alm@alm.example.org
@@ -30,6 +12,7 @@ defaults: &defaults
   cas_service_validate_url: /cas/serviceValidate
   couchdb_url: http://localhost:5984/alm/
   doi_prefix:
+  import: # automatic import via CrossRef API. Use 'all', 'member', 'sample', 'member_sample', or leave empty
   uid: doi
   # configure mail here, more info at http://guides.rubyonrails.org/action_mailer_basics.html
   mail:
@@ -39,10 +22,12 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  hostname: 33.33.33.44
 
 test:
   <<: *defaults
   api_key: 12345
+  hostname: localhost
   notification_email: alm@alm.example.org
   workers: 1
   couchdb_url: http://localhost:5984/alm_test/

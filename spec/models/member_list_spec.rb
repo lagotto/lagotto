@@ -1,34 +1,36 @@
 require 'spec_helper'
 
-describe Publisher do
-
-  subject { Publisher.new }
+describe MemberList do
 
   context "query_url" do
     it "should have query string" do
-      string = "elife"
-      url = "http://api.crossref.org/members?offset=0&query=elife&rows=20"
-      subject.query_url(string).should eq(url)
+      query = "elife"
+      url = "http://api.crossref.org/members?offset=0&query=#{query}&rows=15"
+      subject = MemberList.new(query: query, no_network: true)
+      subject.query_url.should eq(url)
     end
 
     it "should have empty query string" do
-      url = "http://api.crossref.org/members?offset=0&query=&rows=20"
+      url = "http://api.crossref.org/members?offset=0&query=&rows=15"
+      subject = MemberList.new(no_network: true)
       subject.query_url.should eq(url)
     end
   end
 
   context "get_data" do
     it "should get_data query string" do
-      string = "elife"
+      query = "elife"
       body = File.read(fixture_path + 'publisher.json')
-      stub = stub_request(:get, subject.query_url(string)).to_return(:body => body)
-      response = subject.get_data(string)
+      subject = MemberList.new(query: query, no_network: true)
+      stub = stub_request(:get, subject.query_url).to_return(:body => body)
+      response = subject.get_data
       response.should eq(JSON.parse(body))
       stub.should have_been_requested
     end
 
     it "should get_data empty query string" do
-      body = File.read(fixture_path + 'publisher_nil.json')
+      body = File.read(fixture_path + 'publisher.json')
+      subject = MemberList.new(no_network: true)
       stub = stub_request(:get, subject.query_url).to_return(:body => body)
       response = subject.get_data
       response.should eq(JSON.parse(body))
@@ -37,10 +39,11 @@ describe Publisher do
 
     it "should get_data access denied error" do
       body = File.read(fixture_path + 'access_denied.txt')
-      error = "the server responded with status 401 for http://api.crossref.org/members?offset=0&query=&rows=20"
+      error = "the server responded with status 401 for http://api.crossref.org/members?offset=0&query=&rows=15"
+      subject = MemberList.new(no_network: true)
       stub = stub_request(:get, subject.query_url).to_return(:body => body, :status => 401)
       response = subject.get_data
-      response.should eq(error: error, status: 401)
+      response.should eq(error: "the server responded with status 401 for http://api.crossref.org/members?offset=0&query=&rows=15", status: 401)
       stub.should have_been_requested
 
       Alert.count.should == 1
@@ -51,9 +54,10 @@ describe Publisher do
     end
 
     it "should get_data timeout error" do
+      subject = MemberList.new(no_network: true)
       stub = stub_request(:get, subject.query_url).to_return(:status => 408)
       response = subject.get_data
-      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/members?offset=0&query=&rows=20", status: 408)
+      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/members?offset=0&query=&rows=15", status: 408)
       stub.should have_been_requested
 
       Alert.count.should == 1

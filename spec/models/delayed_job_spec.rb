@@ -1,23 +1,5 @@
 # encoding: UTF-8
 
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 require 'spec_helper'
 
 describe DelayedJob do
@@ -53,7 +35,7 @@ describe DelayedJob do
       end
 
       it "with disabled source" do
-        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+        report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
         source.disable
         source.should be_disabled
@@ -124,7 +106,7 @@ describe DelayedJob do
       end
 
       it "with disabled source" do
-        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+        report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
         source.disable
         Delayed::Job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
@@ -142,7 +124,7 @@ describe DelayedJob do
       end
 
       it "with too many failed queries" do
-        report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+        report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
         FactoryGirl.create_list(:alert, 10, source_id: source.id, updated_at: Time.zone.now - 10.minutes)
         source.max_failed_queries = 5

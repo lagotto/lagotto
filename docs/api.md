@@ -34,7 +34,7 @@ Queries for up to 50 articles at a time are supported.
 
 ## Additional Parameters
 
-### type=doi|pmid|pmcid|mendeley
+### type=doi|pmid|pmcid| mendeley (v3 API) or mendeley_uuid (v5 API)
 The API supports queries for DOI, PubMed ID, PubMed Central ID and Mendeley UUID. The default `doi` is used if no type is given in the query. The following queries are all for the same article:
 
 ```sh
@@ -47,7 +47,7 @@ The API supports queries for DOI, PubMed ID, PubMed Central ID and Mendeley UUID
 ### info=summary|detail
 With the **summary** parameter no source information or metrics are provided, only article metadata such as DOI, PubMed ID, title or publication date. The only exception are summary statistics, aggregating metrics from several sources (views, shares, bookmarks and citations).
 
-With the **detail** parameter all raw data sent by the source are provided.
+With the **detail** parameter all raw data sent by the source are provided (`event` is an alias for `detail`). The **history** parameter has been depreciated with the ALM 3.0 release, you can use the `by day`, `by month` and `by year`response instead.
 
 ```sh
 /api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail
@@ -59,6 +59,14 @@ Only provide metrics for a given source, or a list of sources. The response form
 ```sh
 /api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley,crossref
 ```
+
+### page|rows
+
+Results of the v5 API are paged with 50 results per page. Use `rows` to pick a smaller number (1-50) of results per page, and use `page` to page through the results.
+
+### order
+
+When used together with the `source` parameter, results are sorted by descending event count. Otherwise (the default) results are sorted by date descending.
 
 ## Metrics
 The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `readers` for bookmarking services, and `likes` and `comments` for social media. The same 5 categories are always returned for every source to simplify parsing of API responses:
@@ -90,7 +98,17 @@ Several metrics are aggregated and available in all API queries:
 * Cited: crossref (scopus at PLOS)
 
 ## Date and Time Format
-All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``
+All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``. `date-parts` uses the Citeproc convention to allow incomplete dates (e.g. year only):
+
+```json
+"date-parts": [
+    [
+      2008,
+      10,
+      31
+    ]
+```
+`date-parts` is a nested array of year, month, day, with only the year being required.
 
 ## Null
 The API returns `null` if no query was made, and `0` if the external API returns 0 events.
@@ -113,10 +131,12 @@ The API returns `null` if no query was made, and `0` if the external API returns
       "pmid": "18974831",
       "pmcid": "2568856",
       "issued": {
-        "date_parts": [
-          2008,
-          10,
-          31
+        "date-parts": [
+          [
+            2008,
+            10,
+            31
+          ]
         ]
       },
       "viewed": 80546,
@@ -467,10 +487,15 @@ The v4 API is only available to users with admin prileges and uses basic authent
 <td valign="top" width=40%>/api/v4/articles/info:doi/DOI</td>
 <td valign="top" width=30%>delete</td>
 </tr>
+<tr>
+<td valign="top" width=30%>GET</td>
+<td valign="top" width=40%>/api/v4/alerts</td>
+<td valign="top" width=30%>index</td>
+</tr>
 </tbody>
 </table>
 
-The API response to get a list of articles or a single article is the same as for the v3 API. You can also use one of the other supported identifiers (pmid or pmcid) instead of the DOI.
+The API response to get a list of articles or a single article is the same as for the v5 API. You can also use one of the other supported identifiers (pmid or pmcid) instead of the DOI.
 
 ### Create article
 A sample curl API call to create a new article would look like this:
@@ -510,7 +535,7 @@ In order to be accepted the following conditions must hold:
 * The JSON must be valid, this means that string variables such as the DOI must be quoted in the request.
   The day, month and year are integers and can be left unquoted.
 
-* The publication date must be in the past or up to a year in the future (as understood by the server's date).
+* The publication date can't be in the future (as understood by the server's date).
 
 * The login details must be correct and at must be a local login, not a third-party login such as Persona.
 
@@ -543,4 +568,39 @@ When an article has been deleted successfully, the server reponds with `Status 2
 
 ```sh
 {"success":"Article deleted.","error":null,"data":{ ... }
+```
+
+### Get alerts
+
+The same query parameters as in the admin web interface are supported:
+
+* source
+* class_name
+* level
+* query (but using `q`)
+
+By default the API returns all alerts, add `&unresolved=1` to only retrieve unresolved alerts, as in the admin web interface. An example API response would be:
+
+```sh
+{
+  "total": 1,
+  "total_pages": 1,
+  "page": 1,
+  "error": null,
+  "data": [
+    {
+      "id": 228,
+      "level": "ERROR",
+      "class_name": "NoMethodError",
+      "message": "undefined method `name' for nil:NilClass",
+      "status": 422,
+      "hostname": "example.org",
+      "target_url": null,
+      "source": null,
+      "article": null,
+      "unresolved": true,
+      "create_date": "2014-08-19T20:23:05Z"
+    }
+  ]
+}
 ```

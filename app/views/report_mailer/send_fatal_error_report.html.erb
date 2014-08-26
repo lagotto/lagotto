@@ -1,0 +1,5 @@
+<p>A fatal error has occured at <%= Time.zone.now.to_formatted_s(:long) %> UTC:</p>
+
+<p><%= @message %></p>
+
+<p><%= link_to "Go to admin dashboard", alerts_url(level: "fatal") %></p>

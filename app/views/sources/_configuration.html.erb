@@ -76,7 +76,7 @@
   <% if can?(:manage, Alert) && @source.state > 1 %>
     <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_source_path(@source.name), { :remote => true, :class => 'btn btn-default btn-sm pull-right configuration-edit', :title => "Edit" } %>
   <% end %>
-  <table class="table">
+  <table class="table table-striped">
     <thead>
     </thead>
     <tbody>

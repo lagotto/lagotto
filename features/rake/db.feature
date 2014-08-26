@@ -13,25 +13,25 @@ Feature: Manage ALM Database
     Scenario: Articles are added succesfully
       When I run `bundle exec rake db:articles:load` interactively
       And I pipe in the file "../../spec/fixtures/articles.txt"
-      And I go to the "Alerts" admin page
+      And I go to the "Alerts" page
       Then I should see 0 alert
 
     Scenario: Articles with year and month as publication date added succesfully
       When I run `bundle exec rake db:articles:load` interactively
       And I pipe in the file "../../spec/fixtures/articles_year_month.txt"
-      And I go to the "Alerts" admin page
+      And I go to the "Alerts" page
       Then I should see 0 alert
 
     Scenario: Articles with year as publication date added succesfully
       When I run `bundle exec rake db:articles:load` interactively
       And I pipe in the file "../../spec/fixtures/articles_year.txt"
-      And I go to the "Alerts" admin page
+      And I go to the "Alerts" page
       Then I should see 0 alert
 
     Scenario: Articles without publication date are not added
       When I run `bundle exec rake db:articles:load` interactively
       And I pipe in the file "../../spec/fixtures/articles_nil_dates.txt"
-      And I go to the "Alerts" admin page
+      And I go to the "Alerts" page
       Then I should see 0 alert
 
     Scenario: Articles are deleted succesfully

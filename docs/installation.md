@@ -3,7 +3,7 @@ layout: page
 title: "Installation"
 ---
 
-ALM is a typical Ruby on Rails web application with one unusual feature: it requires the CouchDB database. CouchDB is used to store the responses from external API calls, MySQL (or PostgreSQL, see below) is used for everything else. The application has been tested with Apache/Passenger, but should also run in other deployment environments, e.g. Nginx/Unicorn or WEBrick. ALM uses Ruby on Rails 3.2.x, migration to Rails 4.x is planned for 2014. The application has extensive test coverage using [Rspec] and [Cucumber].
+ALM is a typical Ruby on Rails web application with one unusual feature: it requires the CouchDB database. CouchDB is used to store the responses from external API calls, MySQL (or PostgreSQL, see below) is used for everything else. The application is used in production systems with Apache/Passenger and Nginx/Puma. ALM uses Ruby on Rails 3.2.x, migration to Rails 4.x is planned for 2014. The application has extensive test coverage using [Rspec] and [Cucumber].
 
 [Rspec]: http://rspec.info/
 [Cucumber]: http://cukes.info/
@@ -210,7 +210,15 @@ bundle exec cap production deploy:check
 On subsequent runs the command will pull the latest code from the Github repo, run database migrations, install the dependencies via Bundler, stop and start the background workers, updates the crontab file for ALM, and in production mode precompiles assets (CSS, Javascripts, images).
 
 ## Manual installation
-These instructions assume a fresh installation of Ubuntu 12.04 and a user with sudo privileges. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install Ruby 1.9.
+These instructions assume a fresh installation of Ubuntu 14.04 and a user with sudo privileges. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install a recent Ruby (at least 1.9.3 is required).
+
+#### Add PPAs to install more recent versions of Ruby and CouchDB
+
+```sh
+sudo apt-get install python-software-properties
+sudo apt-add-repository ppa:brightbox/ruby-ng
+sudo add-apt-repository ppa:couchdb/stable
+```
 
 #### Update package lists
 
@@ -225,11 +233,11 @@ sudo apt-get update
 sudo apt-get install curl build-essential git-core libxml2-dev libxslt1-dev nodejs
 ```
 
-#### Install Ruby 1.9.3
+#### Install Ruby 2.1
 We only need one Ruby version and manage gems with bundler, so there is no need to install `rvm` or `rbenv`.
 
 ```sh
-sudo apt-get install ruby1.9.3
+sudo apt-get install ruby2.1 ruby2.1-dev
 ```
 
 #### Install databases
@@ -276,14 +284,14 @@ sudo apt-get install apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev lib
 Passenger is a Rails application server: http://www.modrails.com. Update `passenger.load` and `passenger.conf` when you install a new version of the passenger gem.
 
 ```sh
-sudo gem install passenger -v 4.0.41
+sudo gem install passenger -v 4.0.49
 sudo passenger-install-apache2-module --auto
 
 # /etc/apache2/mods-available/passenger.load
-LoadModule passenger_module /var/lib/gems/1.9.1/gems/passenger-4.0.41/ext/apache2/mod_passenger.so
+LoadModule passenger_module /var/lib/gems/1.9.1/gems/passenger-4.0.49/ext/apache2/mod_passenger.so
 
 # /etc/apache2/mods-available/passenger.conf
-PassengerRoot /var/lib/gems/1.9.1/gems/passenger-4.0.41
+PassengerRoot /var/lib/gems/1.9.1/gems/passenger-4.0.49
 PassengerRuby /usr/bin/ruby1.9.1
 
 sudo a2enmod passenger
@@ -346,7 +354,7 @@ It is possible to connect the ALM app to MySQL and/or CouchDB running on a diffe
 
 ```sh
 cd /var/www/alm
-rake db:setup RAILS_ENV=development
+rake db:setup RAILS_ENV=production
 curl -X PUT http://localhost:5984/alm/
 ```
 

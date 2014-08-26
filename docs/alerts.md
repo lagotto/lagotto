@@ -67,10 +67,6 @@ A background job could not be processed in `max_run_time`. This typically happen
 
 If all 200 jobs take close to 3000 sec, and they will not be done within an hour, and before we process the next batch. Decrease `job_batch_size` or increase `timeout` if you see to many of these errors for a source.
 
-#### [401] Missing API key.
-
-An API request was done without an API key. Make sure the api_key is declared in `config/settings.yml`.
-
 #### [503] Service Temporarily Unavailable while requesting http://blogs.nature.com/posts.json?doi=DOI
 
 The server is overloaded or we hit rate-limiting. This is a temporary error and can be ignored unless it happens frequently.

@@ -1,35 +1,32 @@
 # encoding: UTF-8
 
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 namespace :db do
   namespace :articles do
     desc "Bulk-load articles from Crossref API"
     task :import => :environment do |t, args|
+      # only run if configuration option :import
+      case CONFIG[:import]
+      when "member", "member_sample"
+        member = Publisher.pluck(:crossref_id).join(",")
+        sample = ENV['SAMPLE']
+      when "all", "sample"
+        member = ENV['MEMBER']
+        sample = ENV['SAMPLE']
+      when "sample", "member_sample"
+        sample ||= 20
+      else
+        puts "CrossRef API import not configured"
+        exit
+      end
+
       options = { from_update_date: ENV['FROM_UPDATE_DATE'],
                   until_update_date: ENV['UNTIL_UPDATE_DATE'],
                   from_pub_date: ENV['FROM_PUB_DATE'],
                   until_pub_date: ENV['UNTIL_PUB_DATE'],
                   type: ENV['TYPE'],
-                  member: ENV['MEMBER'],
+                  member: member,
                   issn: ENV['ISSN'],
-                  sample: ENV['SAMPLE'] }
+                  sample: sample }
       import = Import.new(options)
       number = ENV['SAMPLE'] || import.total_results
       import.queue_article_import if number.to_i > 0
@@ -170,12 +167,21 @@ namespace :db do
   end
 
   namespace :alerts do
+    desc "Resolve all alerts with level INFO and WARN"
+    task :resolve => :environment do
+      Alert.unscoped {
+        before = Alert.count
+        Alert.where("level < 3").update_all(resolved: true)
+        after = Alert.count
+        puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
+      }
+    end
 
     desc "Delete all resolved alerts"
     task :delete => :environment do
       Alert.unscoped {
         before = Alert.count
-        Alert.destroy_all(:unresolved => false)
+        Alert.where(:unresolved => false).delete_all
         after = Alert.count
         puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
       }

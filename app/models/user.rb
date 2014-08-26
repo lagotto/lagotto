@@ -1,21 +1,3 @@
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2012 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 class User < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
@@ -31,13 +13,13 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:persona, :cas]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token, :publisher_name, :publisher_id
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token, :publisher_id
 
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
   validates :email, :uniqueness => true, :allow_blank => true
 
-  scope :query, lambda { |query| where("name like ? OR username like ? OR publisher_name like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%", "%#{query}%") }
+  scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
   scope :ordered, order("sign_in_count DESC, updated_at DESC")
 
   def self.find_for_cas_oauth(auth, signed_in_resource=nil)

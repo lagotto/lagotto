@@ -4,7 +4,8 @@ Given /^that an article has no blog count$/ do
 end
 
 Given /^the source "(.*?)" exists$/ do |name|
-  FactoryGirl.create(name.underscore.downcase.to_sym)
+  source = FactoryGirl.create(name.underscore.downcase.to_sym)
+  source.update_cache
 end
 
 Given /^"(.*?)" of source "(.*?)" is (\d+)$/ do |parameter, name, value|
@@ -19,7 +20,7 @@ Given /^the status of source "(.*?)" is "(.*?)"$/ do |name, status|
   elsif status == "working"
     @source = FactoryGirl.create(sym_name, state_event: "work")
   elsif status == "disabled"
-    @report = FactoryGirl.create(:disabled_source_report_with_admin_user)
+    @report = FactoryGirl.create(:fatal_error_report_with_admin_user)
     @source = FactoryGirl.create(sym_name, state_event: "disable")
   elsif status == "waiting"
     @source = FactoryGirl.create(sym_name, state_event: "wait")
@@ -54,14 +55,14 @@ When /^I go to the "(.*?)" tab of source "(.*?)"$/ do |tab_title, name|
   end
 end
 
-When /^I go to the "(.*?)" tab of the Sources admin page$/ do |tab_title|
+When /^I go to the "(.*?)" tab of the Sources page$/ do |tab_title|
   visit sources_path
   within ("ul.nav-tabs") do
     click_link tab_title
   end
 end
 
-When /^I go to the admin page of source "(.*?)"$/ do |name|
+When /^I go to the page of source "(.*?)"$/ do |name|
   visit source_path(name.underscore.downcase)
 end
 
@@ -84,26 +85,12 @@ When /^I submit the form$/ do
 end
 
 When /^I go to the "(.*?)" page$/ do |page_title|
-  if page_title == "Articles"
-    visit articles_path
-  elsif page_title == "Sources"
-    visit sources_path
-  elsif page_title == "Home"
-    visit root_path
-  end
-end
-
-When /^I go to the "(.*?)" admin page$/ do |page_title|
-  if page_title == "Alerts"
-    title = "alerts"
-  elsif page_title == "Home"
-    title = ""
-  elsif page_title == "API Requests"
+  if page_title == "API Requests"
     title = "api_requests"
   else
     title = page_title.downcase
   end
-  visit "/admin/#{title}"
+  visit "/#{title}"
   page.driver.render("tmp/capybara/#{title}.png") if @wip
 end
 
@@ -170,6 +157,10 @@ Then /^I should not see the "(.*?)" column$/ do |column_title|
   page.has_css?('th', :text => column_title, :visible => true).should_not be_true
 end
 
+Then /^I should see the row "(.*?)"$/ do |title|
+  page.has_css?('td', :text => title, :visible => true).should be_true
+end
+
 Then /^I should see the donut "(.*?)"$/ do |title|
   page.find(:xpath, "//div[@id='chart_#{title}']/*[name()='svg']").should be_true
 end
@@ -201,7 +192,7 @@ Then /^I should see the image "(.+)"$/ do |image|
 end
 
 Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|
-  page.driver.render("tmp/capybara/#{table_name}.png") if @wip
+  page.driver.render("tmp/capybara/#{table_name}.png") # if @wip
   rows = find("table##{table_name}").all('tr')
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
   expected_table.diff!(table)

@@ -1,0 +1,23 @@
+<div class="page-header">
+  <div class="btn-toolbar btn-sm pull-right">
+    <div class="btn-group btn-group-sm">
+      <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, publisher_path(@publisher), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
+    </div>
+  </div>
+  <h1>
+    <%= h@publisher.name %>
+  </h1>
+</div>
+
+<dl class="dl-horizontal">
+  <% if @publisher.other_names.present? && @publisher.other_names.length > 1 %>
+    <dt>Other Names</dt>
+    <dd><%= @publisher.other_names.reject { |name| name == @publisher.name }.join("</br>").html_safe %></dd>
+  <% end %>
+  <% if @publisher.prefixes.present? %>
+    <dt>DOI <%= 'Prefix'.pluralize(@publisher.prefixes.size) %></dt>
+    <dd><%= @publisher.prefixes.join(" ") %></dd>
+  <% end %>
+  <dt>CrossRef ID</dt>
+  <dd><%= link_to @publisher.crossref_id, "http://api.crossref.org/members/#{@publisher.crossref_id}" %></dd>
+</dl>

@@ -1,23 +1,5 @@
 # encoding: UTF-8
 
-# $HeadURL$
-# $Id$
-#
-# Copyright (c) 2009-2014 by Public Library of Science, a non-profit corporation
-# http://www.plos.org/
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 require 'cgi'
 require "addressable/uri"
 
@@ -132,7 +114,7 @@ class Source < ActiveRecord::Base
 
   # condition for not adding more jobs and disabling the source
   def check_for_failures
-    failed_queries = Alert.where("source_id = ? and updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count
+    failed_queries = Alert.where("source_id = ? AND level > 1 AND updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count
     failed_queries > max_failed_queries
   end
 
@@ -278,14 +260,13 @@ class Source < ActiveRecord::Base
   end
 
   def cached_version
-    response = Rails.cache.read("rabl/v5/1/#{cache_key}//json")
-    response.nil? ? { "data" => {} } : JSON.parse(response)["data"]
+    response = Rails.cache.read("rabl/v5/1/#{cache_key}//hash") || {}
   end
 
   def update_cache
     update_column(:cached_at, Time.zone.now)
     DelayedJob.delete_all(queue: "#{name}-cache")
-    delay(priority: priority, queue: "#{name}-cache").get_result(source_url, timeout: 900)
+    delay(priority: 1, queue: "#{name}-cache").get_result(source_url, timeout: 900)
   end
 
   # Remove all retrieval records for this source that have never been updated,
