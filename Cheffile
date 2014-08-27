@@ -1,7 +1,7 @@
 ##!/usr/bin/env ruby
 #^syntax detection
 
-site 'https://supermarket.getchef.com/api/v1'
+site 'http://community.opscode.com/api/v1'
 
 cookbook "apt", "2.3.8"
 cookbook "build-essential", "2.0.0"

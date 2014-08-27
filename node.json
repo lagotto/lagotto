@@ -2,6 +2,5 @@
   "run_list": [
     "recipe[rails]",
     "recipe[alm]"
-  ],
-  "phantomjs": { "version": "1.9.7", "base_url": "https://bitbucket.org/ariya/phantomjs/downloads" }
+  ]
 }
