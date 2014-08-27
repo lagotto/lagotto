@@ -1,6 +1,5 @@
 {
   "run_list": [
-    "recipe[rails]",
     "recipe[alm]"
   ]
 }

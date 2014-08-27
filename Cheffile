@@ -3,16 +3,17 @@
 
 site 'http://community.opscode.com/api/v1'
 
-cookbook "apt", "2.3.8"
-cookbook "build-essential", "2.0.0"
-cookbook "git", "4.0.0"
-
-cookbook "mysql", "5.1.8"
-cookbook "database", "2.1.2"
-cookbook "couchdb", "2.5.1"
-cookbook "phantomjs", "1.0.3"
-cookbook "memcached", "1.7.2"
-cookbook "postfix", "3.1.6"
-
-cookbook "rails", :git => "https://github.com/articlemetrics/rails-cookbook.git"
-cookbook "alm", :git => "https://github.com/articlemetrics/alm-cookbook.git"
+cookbook "alm",
+  :git => "git@github.com:articlemetrics/alm-cookbook.git"
+cookbook "ruby",
+  :git => "git@github.com:articlemetrics/ruby-cookbook.git"
+cookbook "passenger_nginx",
+  :git => "git@github.com:articlemetrics/passenger_nginx-cookbook.git"
+cookbook "capistrano",
+  :git => "git@github.com:articlemetrics/capistrano-cookbook.git"
+cookbook "mysql", '~> 5.4.3'
+cookbook 'database', '~> 2.3.0'
+cookbook "memcached"
+cookbook "phantomjs"
+cookbook "couchdb"
+cookbook "postfix"
