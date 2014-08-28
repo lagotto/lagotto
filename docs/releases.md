@@ -3,6 +3,12 @@ layout: page
 title: "Releases"
 ---
 
+### [ALM 3.4.8](https://github.com/articlemetrics/alm/releases/tag/v.3.4.8)
+
+ALM 3.4.8 was released on August 28, 2014 with the following bugfix:
+
+* don't send email alerts for delayed_job errors
+
 ### [ALM 3.4.2](https://github.com/articlemetrics/alm/releases/tag/v.3.4.2)
 
 ALM 3.4.2 was released on August 24, 2014 with the following bugfix:
