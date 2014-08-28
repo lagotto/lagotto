@@ -72,9 +72,9 @@ SITE
 GIT
   remote: git@github.com:articlemetrics/alm-cookbook.git
   ref: master
-  sha: 00ab8da0162143e60619f6d995179002f7a2e4bb
+  sha: 96ca7553abcc5dd50bcd327956e1cd45f3e396bb
   specs:
-    alm (3.0.2)
+    alm (3.0.3)
       capistrano (~> 0.1.0)
       couchdb (>= 0.0.0)
       database (~> 2.3.0)
@@ -88,9 +88,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/capistrano-cookbook.git
   ref: master
-  sha: 15162a85d4cd907f33f246f7bb8529312f3bf6b5
+  sha: a071f4549c51ca005254a1d66e14fad439c70d0f
   specs:
-    capistrano (0.1.13)
+    capistrano (0.1.14)
       database (~> 2.3.0)
       mysql (~> 5.4.3)
       passenger_nginx (~> 0.1.0)
