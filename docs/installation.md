@@ -243,7 +243,7 @@ sudo apt-get install ruby2.1 ruby2.1-dev
 #### Install databases
 
 ```sh
-sudo apt-get install couchdb mysql-server
+sudo apt-get install couchdb libmysqlclient-dev mysql-server
 ```
 
 #### Install Memcached

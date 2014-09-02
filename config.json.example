@@ -1,24 +1,17 @@
 {
-  "alm": { "host": "example.org",
-           "uid": "doi",
-           "doi_prefix": nil,
-           "workers": 3,
-           "admin": { "username": "EXAMPLE", "email": "admin@example.org", "password": "EXAMPLE" },
-           "cas_url": "https://example.org",
-           "counter": { "url": "EXAMPLE" },
-           "figshare": { "url": "EXAMPLE" },
-           "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },
-           "facebook": { "access_token": "EXAMPLE" },
-           "mendeley": { "api_key": "EXAMPLE" },
-           "nature": { "api_key": "EXAMPLE"},
-           "pmc": { "url": "EXAMPLE", "journals": "EXAMPLE,EXAMPLE", "username": "EXAMPLE", "password": "EXAMPLE" },
-           "f1000": { "url": "EXAMPLE", "filename": "EXAMPLE" },
-           "researchblogging": { "username": "EXAMPLE", "password": "EXAMPLE" },
-           "wos": { "url": "EXAMPLE" }},
-  "capistrano": { "rails_env": "development" },
-  "mysql": { "bind_address": "0.0.0.0",
-             "server_root_password": "EXAMPLE",
-             "server_repl_password": "EXAMPLE",
-             "server_debian_password": "EXAMPLE"},
+  "alm": { "rails_env": "development",
+           "db": { "password": "EXAMPLE" },
+           "settings": {
+             "uid": "doi",
+             "doi_prefix": "",
+             "workers": 3
+            },
+           "sources": {
+             "admin": { "password": null, "email": "info@example.org" },
+             "crossref": { "username": "EXAMPLE", "password": "EXAMPLE" },
+             "facebook": { "access_token": "EXAMPLE" },
+             "mendeley": { "client_id": "EXAMPLE", "secret": "EXAMPLE" }
+          }
+        },
   "couch_db": { "config": { "httpd": { "bind_address": "0.0.0.0", "port": 5984 }}}
 }

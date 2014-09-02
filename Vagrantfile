@@ -6,6 +6,7 @@
 # some recipes and/or roles.
 def provision(config, override, overrides = {})
   override.vm.provision :chef_solo do |chef|
+    chef.custom_config_path = "Vagrantfile.chef"
     chef.cookbooks_path = "vendor/cookbooks"
     dna = JSON.parse(File.read("node.json"))
     dna.delete("run_list").each do |recipe|
@@ -21,14 +22,18 @@ def provision(config, override, overrides = {})
 
     chef.json['alm'].merge!(overrides['alm'] || {})
   end
+end
 
-  # Link database.yml and settings.yml generated in alm recipe to current app directory
-  # and install required gems and run pending database migrations
-  override.vm.provision "shell", inline: <<-EOF
-    ln -fs /var/www/alm/shared/config/database.yml /var/www/alm/current/config/database.yml
-    ln -fs /var/www/alm/shared/config/settings.yml /var/www/alm/current/config/settings.yml
-    cd /var/www/alm/current && bundle && bundle exec rake db:setup
-  EOF
+def installed_plugins(required_plugins)
+  required_plugins.reduce([]) do |missing, plugin|
+    if Vagrant.has_plugin?(plugin)
+      missing
+    else
+      puts "#{plugin} plugin is missing. Installing..."
+      %x(set -x; vagrant plugin install #{plugin})
+      missing << plugin
+    end
+  end
 end
 
 Vagrant.configure("2") do |config|
@@ -37,26 +42,10 @@ Vagrant.configure("2") do |config|
   # please see the online documentation at vagrantup.com.
 
   # Check if required plugins are installed.
-  unless Vagrant.has_plugin?('vagrant-omnibus')
-    puts "vagrant-omnibus plugin is missing. Installing..."
-    %x(set -x; vagrant plugin install vagrant-omnibus)
-    restart = true
-  end
+  required_plugins = %w{ vagrant-omnibus vagrant-librarian-chef vagrant-bindfs }
 
-  unless Vagrant.has_plugin?('vagrant-librarian-chef')
-    puts "vagrant-librarian-chef plugin is missing. Installing..."
-    %x(set -x; vagrant plugin install vagrant-librarian-chef )
-    restart = true
-  end
-
-  unless Vagrant.has_plugin?('vagrant-bindfs')
-    puts "vagrant-bindfs plugin is missing. Installing..."
-    %x(set -x; vagrant plugin install vagrant-bindfs )
-    restart = true
-  end
-
-  if restart
-    puts "Plugins have now been installed, please rerun vagrant."
+  unless installed_plugins(required_plugins).empty?
+    puts "Plugins have been installed, please rerun vagrant."
     exit
   end
 
@@ -75,9 +64,9 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
     nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
     # Disable default synced folder before bindfs tries to bind to it
-    override.vm.synced_folder ".", "/var/www/alm-report/current", disabled: true
+    override.vm.synced_folder ".", "/var/www/alm/current", disabled: true
     override.vm.synced_folder ".", "/vagrant", id: "vagrant-root", :nfs => nfs_setting
-    override.bindfs.bind_folder "/vagrant", "/var/www/alm-report/current"
+    override.bindfs.bind_folder "/vagrant", "/var/www/alm/current"
 
     provision(vb, override)
   end
