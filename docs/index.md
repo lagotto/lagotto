@@ -12,7 +12,7 @@ The Ruby on Rails application Article-Level Metrics (ALM) was started in March 2
 As a user you will typically see Article-Level Metrics displayed on journal pages or in specialized web applications. You can sign up with your [Mozilla Persona](http://www.mozilla.org/en-US/persona/) account here if you want direct access to the underlying data - this will give you an API key for [API access](/docs/api) and will alert you when the monthly summary stats are available for download. The online documentation gives detailed instructions on how data from external [sources](/docs/sources) are collected.
 
 ## For Publishers and Providers
-To facilitate the dissemination of Article-Level Metrics, PLOS has made this application available as Open Source software under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0). Detailed instructions on how to [install](/docs/installation) and [setup](/docs/setup) the ALM application are available in the documentation, and the installation and setup can be done in under an hour.
+To facilitate the dissemination of Article-Level Metrics, PLOS has made this application available as Open Source software under a [MIT License](https://github.com/articlemetrics/alm/blob/master/LICENSE.md). Detailed instructions on how to [install](/docs/installation) and [setup](/docs/setup) the ALM application are available in the documentation, and the installation and setup can be done in under an hour.
 
 The following organizations have implemented Article-Level Metrics using the Open Source ALM application:
 
