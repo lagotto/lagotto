@@ -61,8 +61,8 @@ SITE
     windows (1.34.2)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
-    yum (3.2.4)
-    yum-epel (0.4.0)
+    yum (3.3.1)
+    yum-epel (0.5.1)
       yum (~> 3.0)
     yum-erlang_solutions (0.2.0)
       yum (~> 3.0)
@@ -72,9 +72,9 @@ SITE
 GIT
   remote: git@github.com:articlemetrics/alm-cookbook.git
   ref: master
-  sha: db9236de76f3c1b6013a6eec2e429955b282b1b4
+  sha: 1cd2185f36a7e6c7bae81836b1923571aaae772e
   specs:
-    alm (3.4.6)
+    alm (3.4.9)
       apt (>= 0.0.0)
       capistrano (~> 0.6.0)
       couchdb (>= 0.0.0)
@@ -90,17 +90,17 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/capistrano-cookbook.git
   ref: master
-  sha: f2e224ed5cb7368f54707004aeb45e503564a41a
+  sha: 43d031f6041ca8a034bd89bde5167a51459d1f0e
   specs:
-    capistrano (0.6.1)
+    capistrano (0.6.4)
       ruby (~> 0.3.0)
 
 GIT
   remote: git@github.com:articlemetrics/mysql_rails-cookbook.git
   ref: master
-  sha: c7fdaa8cdaa9b7e3e0bcdc11907cf5bc6e9672a9
+  sha: 1f890904b9dcc4d206688b8afa599e04764863fc
   specs:
-    mysql_rails (0.2.2)
+    mysql_rails (0.2.3)
       database (>= 0.0.0)
       mysql (>= 0.0.0)
       ruby (~> 0.3.0)
@@ -108,18 +108,18 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/passenger_nginx-cookbook.git
   ref: master
-  sha: aa7dd5f0a2864294360f93cf391c60ee1e640a67
+  sha: 6b1d24822d9c84e9b3117e22a53cb23c891d89d2
   specs:
-    passenger_nginx (0.2.14)
+    passenger_nginx (0.2.15)
       apt (~> 2.5.3)
       ruby (~> 0.3.0)
 
 GIT
   remote: git@github.com:articlemetrics/ruby-cookbook.git
   ref: master
-  sha: 099726c8bdcdb61376a9e15aead239346b26061f
+  sha: 2a8fadaf76ff4ac3a196f211f138aedb8642b5df
   specs:
-    ruby (0.3.2)
+    ruby (0.3.4)
       apt (~> 2.5.3)
 
 DEPENDENCIES
