@@ -17,7 +17,7 @@ module Couchable
       head_lagotto_data("#{couchdb_url}#{id}", options)[:rev]
     end
 
-    def head_alm_data(url, options = { timeout: DEFAULT_TIMEOUT })
+    def head_lagotto_data(url, options = { timeout: DEFAULT_TIMEOUT })
       conn = faraday_conn('json')
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.options[:timeout] = options[:timeout]

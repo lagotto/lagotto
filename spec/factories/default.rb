@@ -8,9 +8,9 @@ FactoryGirl.define do
     pmcid 2568856
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
-    year { Time.zone.now.year - 1 }
-    month { Time.zone.now.month }
-    day { Time.zone.now.day }
+    year { Date.today.year - 1 }
+    month { Date.today.month }
+    day { Date.today.day }
 
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
@@ -104,7 +104,7 @@ FactoryGirl.define do
         :citations => nil,
         :total => 50 }
     end
-    retrieved_at { Time.zone.now - 1.month }
+    retrieved_at { Date.today - 1.month }
     sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
 
     association :article

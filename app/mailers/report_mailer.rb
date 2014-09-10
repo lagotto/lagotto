@@ -47,6 +47,6 @@ class ReportMailer < ActionMailer::Base
 
     @workers_count = Worker.count
 
-    mail(to: report.users.map(&:email).join(","), subject: "[lagotto] Missing Workers Report")
+    mail(to: report.users.map(&:email).join(","), subject: "[Lagotto] Missing Workers Report")
   end
 end

@@ -1,4 +1,4 @@
-This is the ALM status report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.
+This is the Lagotto status report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.
 
 <%= number_with_delimiter(@status.articles_count) %> Articles
 <%= number_with_delimiter(@status.articles_last30_count) %> Articles last 30 days
@@ -12,7 +12,7 @@ This is the ALM status report, generated <%= Time.zone.now.to_formatted_s(:long)
 
 <%= number_with_delimiter(@status.users_count) %> Users
 <%= number_with_delimiter(@status.sources_active_count) %> Active sources
-ALM Version <%= @status.version %>
+Lagotto Version <%= @status.version %>
 CouchDB database size <%= number_to_human_size(@status.couchdb_size) %>
 
 Go to admin dashboard: <%= status_url %>
