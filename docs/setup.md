@@ -138,7 +138,7 @@ script/delayed_job stop
 ```
 
 ### Background workers
-In a continously updating production system we want to run the workers in the background with the above command. You can monitor the status of your workers in the admin dashboard (`/admin`).
+In a continously updating production system we want to run the workers in the background with the above command. You can monitor the status of your workers in the admin dashboard (`/status`).
 
 When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We need to run at least one delayed_job to do this.
 
