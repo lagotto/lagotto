@@ -66,7 +66,15 @@ Vagrant.configure("2") do |config|
     # Disable default synced folder before bindfs tries to bind to it
     override.vm.synced_folder ".", "/var/www/alm/current", disabled: true
     override.vm.synced_folder ".", "/vagrant", id: "vagrant-root", :nfs => nfs_setting
-    override.bindfs.bind_folder "/vagrant", "/var/www/alm/current"
+    override.bindfs.bind_folder "/vagrant", "/var/www/alm-report/current",
+      :owner => "900",
+      :group => "33",
+      :"create-as-user" => true,
+      :perms => "u=rwx:g=rwx:o=rwx",
+      :"create-with-perms" => "u=rwx:g=rwx:o=rwx",
+      :"chown-ignore" => true,
+      :"chgrp-ignore" => true,
+      :"chmod-ignore" => true
 
     provision(vb, override)
   end
@@ -133,7 +141,7 @@ Vagrant.configure("2") do |config|
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
-  config.vm.network :forwarded_port, guest: 80, host: 8080 # Apache2
+  # config.vm.network :forwarded_port, guest: 80, host: 8080
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
