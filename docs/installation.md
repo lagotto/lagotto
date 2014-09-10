@@ -16,7 +16,7 @@ ALM is a typical Ruby on Rails web application with one unusual feature: it requ
 [Rspec]: http://rspec.info/
 [Cucumber]: http://cukes.info/
 
-The ALM application is available as Open Source software using a [MIT License](https://github.com/articlemetrics/alm/blob/master/LICENSE.md), all dependencies (software and libraries) are also Open Source.
+The ALM application is available as Open Source software using a [Apache license](http://www.apache.org/licenses/LICENSE-2.0.html), all dependencies (software and libraries) are also Open Source.
 
 Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of articles. As a rule of thumb you need one worker per 5,000 - 20,000 articles, and 1 Gb of RAM per 10 workers - the exact numbers depend on how often you plan to update articles, e.g. you need more workers if you plan on update your usage stats every day.
 
@@ -220,7 +220,7 @@ sudo apt-get install nginx-full passenger
 Edit `/etc/nginx/nginx.conf` and uncomment `passenger_root` and `passenger_ruby`.
 
 #### Set up Nginx virtual host
-Please set `server_name` if you have set up more than one virtual host. Use `passenger_app_env development` to use the Rails development environment.
+Please set `ServerName` if you have set up more than one virtual host. Also don't forget to add`AllowEncodedSlashes On` to the Apache virtual host file in order to keep Apache from messing up encoded embedded slashes in DOIs. Use `passenger_app_env development` to use the Rails development environment.
 
 ```
 server {
