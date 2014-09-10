@@ -3,8 +3,8 @@
 
 site 'http://community.opscode.com/api/v1'
 
-cookbook "alm",
-  :git => "git@github.com:articlemetrics/alm-cookbook.git"
+cookbook "lagotto",
+  :git => "git@github.com:articlemetrics/lagotto-cookbook.git"
 cookbook "ruby",
   :git => "git@github.com:articlemetrics/ruby-cookbook.git"
 cookbook "passenger_nginx",
