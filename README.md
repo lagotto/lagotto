@@ -26,4 +26,4 @@ Please direct questions about the application to the [mailing list].
 * Commit, push and make a pull request. Bonus points for topical branches.
 
 ## License
-[Apache 2 License](https://github.com/articlemetrics/alm/blob/master/LICENSE.md) for details.
+ALM is released under the [MIT License](https://github.com/articlemetrics/alm/blob/master/LICENSE.md).
