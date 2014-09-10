@@ -49,7 +49,7 @@ class Status
   end
 
   def couchdb_size
-    RetrievalStatus.new.get_alm_database["disk_size"] || 0
+    RetrievalStatus.new.get_lagotto_database["disk_size"] || 0
   end
 
   def update_date

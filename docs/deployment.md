@@ -11,17 +11,17 @@ title: "Deployment"
 ## Deployment via Capistrano
 Capistrano greatly simplifies the code updates via git, database migrations and server restarts on a remote machine. Capistrano assumes that the server has been provisioned using Vagrant/Chef or via manual installation (see [Installation](/docs/installation.md)). Capistrano runs on your local machine.
 
-To use Capistrano you need Ruby (at least 1.9.3) installed on your local machine. If you haven't done so, install [Bundler](http://bundler.io/) to manage the dependencies for the ALM application:
+To use Capistrano you need Ruby (at least 1.9.3) installed on your local machine. If you haven't done so, install [Bundler](http://bundler.io/) to manage the dependencies for Lagotto:
 
 ```sh
 gem install bundler
 ```
 
-Then go to the ALM git repo that you probably have already cloned in the installation step and install all required dependencies.
+Then go to the Lagotto git repo that you probably have already cloned in the installation step and install all required dependencies.
 
 ```sh
-git clone git://github.com/articlemetrics/alm.git
-cd alm
+git clone git://github.com/articlemetrics/lagotto.git
+cd lagotto
 bundle install
 ```
 
@@ -54,7 +54,7 @@ set :delayed_job_args, "-n 6"
 ```
 
 #### Deploy
-We deploy the ALM application with
+We deploy Lagotto with
 
 ```sh
 bundle exec cap production deploy
@@ -62,10 +62,10 @@ bundle exec cap production deploy
 
 You can replace `production` with other environments, e.g. `staging`. You can pass in environment variables, e.g. to deploy a different git branch: `cap production deploy BRANCH_NAME=develop`.
 
-The first time this command is run it creates the folder structure required by Capistrano, by default in `/var/www/alm`. To make sure the expected folder structure is created successfully you can run:
+The first time this command is run it creates the folder structure required by Capistrano, by default in `/var/www/lagotto`. To make sure the expected folder structure is created successfully you can run:
 
 ```sh
 bundle exec cap production deploy:check
 ```
 
-On subsequent runs the command will pull the latest code from the Github repo, run database migrations, install the dependencies via Bundler, stop and start the background workers, updates the crontab file for ALM, and precompiles assets (CSS, Javascripts, images).
+On subsequent runs the command will pull the latest code from the Github repo, run database migrations, install the dependencies via Bundler, stop and start the background workers, updates the crontab file for Lagotto, and precompiles assets (CSS, Javascripts, images).

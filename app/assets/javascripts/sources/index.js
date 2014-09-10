@@ -14,7 +14,7 @@ if (!params.empty()) {
   var query = encodeURI("/api/v5/sources?api_key=" + api_key);
 };
 
-// load the data from the ALM API
+// load the data from the Lagotto API
 if (query) {
   d3.json(query, function(error, json) {
     if (error) return console.warn(error);

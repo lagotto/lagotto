@@ -9,8 +9,8 @@ describe SourceJob do
 
   subject { SourceJob.new([retrieval_status.id], source.id) }
 
-  before(:each) { subject.put_alm_database }
-  after(:each) { subject.delete_alm_database }
+  before(:each) { subject.put_lagotto_database }
+  after(:each) { subject.delete_lagotto_database }
 
   context "error" do
     it "should create an alert on error" do

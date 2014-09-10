@@ -7,14 +7,14 @@ class ReportMailer < ActionMailer::Base
     return if report.users.empty?
 
     @reviews = Review.daily_report
-    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Error Report")
+    mail(to: report.users.map(&:email).join(","), subject: "[Lagotto] Error Report")
   end
 
   def send_fatal_error_report(report, message)
     return if report.users.empty?
 
     @message = message
-    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Fatal Error Report")
+    mail(to: report.users.map(&:email).join(","), subject: "[Lagotto] Fatal Error Report")
   end
 
   def send_status_report(report)
@@ -22,7 +22,7 @@ class ReportMailer < ActionMailer::Base
 
     @status = Status.new
 
-    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Status Report")
+    mail(to: report.users.map(&:email).join(","), subject: "[Lagotto] Status Report")
   end
 
   def send_article_statistics_report(report)
@@ -32,14 +32,14 @@ class ReportMailer < ActionMailer::Base
 
     mail(to: CONFIG[:notification_email],
          bcc: report.users.map(&:email).join(","),
-         subject: "[ALM] Article Statistics Report")
+         subject: "[Lagotto] Article Statistics Report")
   end
 
   def send_stale_source_report(report, source_ids)
     return if report.users.empty?
 
     @sources = Source.find(source_ids)
-    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Stale Source Report")
+    mail(to: report.users.map(&:email).join(","), subject: "[Lagotto] Stale Source Report")
   end
 
   def send_missing_workers_report(report)
@@ -47,6 +47,6 @@ class ReportMailer < ActionMailer::Base
 
     @workers_count = Worker.count
 
-    mail(to: report.users.map(&:email).join(","), subject: "[ALM] Missing Workers Report")
+    mail(to: report.users.map(&:email).join(","), subject: "[lagotto] Missing Workers Report")
   end
 end

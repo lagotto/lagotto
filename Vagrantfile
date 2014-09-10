@@ -20,7 +20,7 @@ def provision(config, override, overrides = {})
       chef.json.merge!(config)
     end
 
-    chef.json['alm'].merge!(overrides['alm'] || {})
+    chef.json['lagotto'].merge!(overrides['lagotto'] || {})
   end
 end
 
@@ -60,13 +60,13 @@ Vagrant.configure("2") do |config|
 
   # Override settings for specific providers
   config.vm.provider :virtualbox do |vb, override|
-    vb.name = "alm"
+    vb.name = "lagotto"
     vb.customize ["modifyvm", :id, "--memory", "1024"]
     unless Vagrant::Util::Platform.windows?
       # Disable default synced folder before bindfs tries to bind to it
-      override.vm.synced_folder ".", "/var/www/alm/current", disabled: true
+      override.vm.synced_folder ".", "/var/www/lagotto/current", disabled: true
       override.vm.synced_folder ".", "/vagrant", id: "vagrant-root", nfs: true
-      override.bindfs.bind_folder "/vagrant", "/var/www/alm/current",
+      override.bindfs.bind_folder "/vagrant", "/var/www/lagotto/current",
         :owner => "900",
         :group => "900",
         :"create-as-user" => true,
@@ -93,13 +93,13 @@ Vagrant.configure("2") do |config|
     aws.instance_type = "m3.medium"
     aws.ami = "ami-0307d674"
     aws.region = "eu-west-1"
-    aws.tags = { Name: 'Vagrant ALM' }
+    aws.tags = { Name: 'Vagrant Lagotto' }
     override.ssh.username = "ubuntu"
     override.ssh.private_key_path = "~/path/to/ec2/key.pem"
     override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
 
-    # Custom parameters for the ALM recipe
-    chef_overrides['alm'] = {
+    # Custom parameters for the Lagotto recipe
+    chef_overrides['lagotto'] = {
       'user' => 'ubuntu',
       'group' => 'ubuntu',
       'provider' => 'aws'
@@ -119,13 +119,13 @@ Vagrant.configure("2") do |config|
     provider.size = '1GB'
 
     # please configure
-    override.vm.hostname = "ALM.EXAMPLE.ORG"
+    override.vm.hostname = "LAGOTTO.EXAMPLE.ORG"
     provider.token = 'EXAMPLE'
 
     provision(config, override, chef_overrides)
   end
 
-  config.vm.hostname = "alm.local"
+  config.vm.hostname = "lagotto.local"
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui
 
@@ -148,7 +148,7 @@ Vagrant.configure("2") do |config|
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
 
-  config.vm.synced_folder ".", "/var/www/alm/current", id: "vagrant-root"
+  config.vm.synced_folder ".", "/var/www/lagotto/current", id: "vagrant-root"
 end
 
 # workaround for shared folders with vmware and lxc providers

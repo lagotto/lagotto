@@ -86,11 +86,11 @@ After('@javascript') do
 end
 
 Before('@couchdb') do
-  put_alm_database
+  put_lagotto_database
 end
 
 After('@couchdb') do
-  delete_alm_database
+  delete_lagotto_database
 end
 
 Before('@delayed') do

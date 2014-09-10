@@ -7,7 +7,7 @@ if (!params.empty()) {
     if (key != "") query += "&key=" + key;
 };
 
-// load the data from the ALM API
+// load the data from the Lagotto API
 if (query) {
   d3.json(query, function(error, json) {
     if (error) return console.warn(error);

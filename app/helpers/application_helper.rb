@@ -63,7 +63,7 @@ module ApplicationHelper
   end
 
   def article_statistics_report_path
-    path = "/files/alm_report.zip"
+    path = "/files/lagotto_report.zip"
     if File.exist?("#{Rails.root}/public#{path}")
       path
     else

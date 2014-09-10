@@ -1,9 +1,9 @@
 {
   "run_list": [
-    "recipe[alm]"
+    "recipe[lagotto]"
   ],
-  "alm": {
+  "lagotto": {
     "host": "10.2.2.4",
-    "hostname": "alm"
+    "hostname": "lagotto"
   }
 }

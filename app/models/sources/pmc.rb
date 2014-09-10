@@ -94,7 +94,7 @@ class Pmc < Source
             data['views'] << view
           end
 
-          put_alm_data(db_url + CGI.escape(doi), data: data)
+          put_lagotto_data(db_url + CGI.escape(doi), data: data)
         end
       end
     end
@@ -102,7 +102,7 @@ class Pmc < Source
   end
 
   def put_database
-    put_alm_data(db_url)
+    put_lagotto_data(db_url)
   end
 
   def get_feed_url(month, year, journal)

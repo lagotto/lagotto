@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Alm::Application.load_tasks
+Lagotto::Application.load_tasks
