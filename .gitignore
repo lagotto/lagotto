@@ -36,7 +36,6 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
-.librarian
 .vagrant*
 config.json
 /public/assets
