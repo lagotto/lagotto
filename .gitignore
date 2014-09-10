@@ -13,7 +13,6 @@
 .sass-cache
 capybara-*.html
 .rspec
-.librarian
 /.bundle
 /vendor/bundle/*
 /vendor/cookbooks/*
@@ -37,7 +36,6 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
-.librarian
 .vagrant*
 config.json
 /public/assets

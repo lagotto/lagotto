@@ -16,6 +16,7 @@ Several videos, presentations and other information are available at the [PLOS A
 * [Public Library of Science (PLOS)](http://article-level-metrics.plos.org/)
 * [Copernicus Publications](http://publications.copernicus.org/services/article_level_metrics.html)
 * [Public Knowledge Project (PKP)](http://pkp.sfu.ca/pkp-launches-article-level-metrics-for-ojs-journals/)
+* [eLife](http://elifesciences.org/)
 
 Please contact us if you are using the ALM application and want your organization to be listed here.
 
@@ -27,4 +28,4 @@ Article-Level Metrics is a very dynamic area, as of January 2014 the following o
 * [Plum Analytics](http://www.plumanalytics.com)
 
 ### Are there tools to interact with the ALM API?
-The [alm](http://ropensci.org/packages/alm.html) package for the R statistical language is provided by the [rOpenSci](http://ropensci.org/) project. Cameron Neylon has released [pyalm](https://github.com/cameronneylon/pyalm), an experimental Python wrapper for the ALM API. Both tools are Open Source software.
+The [alm](http://ropensci.org/packages/alm.html) package for the R statistical language is provided by the [rOpenSci](http://ropensci.org/) project. Cameron Neylon has released [pyalm](https://github.com/articlemetrics/pyalm), an experimental Python wrapper for the ALM API. Both tools are Open Source software.
