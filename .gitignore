@@ -13,7 +13,6 @@
 .sass-cache
 capybara-*.html
 .rspec
-.librarian
 /.bundle
 /vendor/bundle/*
 /vendor/cookbooks/*
