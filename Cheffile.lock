@@ -72,9 +72,9 @@ SITE
 GIT
   remote: git@github.com:articlemetrics/alm-cookbook.git
   ref: master
-  sha: 1cd2185f36a7e6c7bae81836b1923571aaae772e
+  sha: 427a7ebef49dc110e800349ec395610b5209777f
   specs:
-    alm (3.4.9)
+    alm (3.4.10)
       apt (>= 0.0.0)
       capistrano (~> 0.6.0)
       couchdb (>= 0.0.0)
@@ -117,9 +117,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/ruby-cookbook.git
   ref: master
-  sha: 2a8fadaf76ff4ac3a196f211f138aedb8642b5df
+  sha: bf75f7445ec401696e10c8f4e346f86e9c2604a2
   specs:
-    ruby (0.3.4)
+    ruby (0.3.5)
       apt (~> 2.5.3)
 
 DEPENDENCIES

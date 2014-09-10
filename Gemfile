@@ -42,7 +42,6 @@ gem "d3_rails", "~> 3.4.1"
 gem "crossfilter-rails", "~> 1.3.5"
 gem "uglifier", "~> 2.4.0"
 gem "jquery-rails", "~> 3.1.0"
-gem "therubyracer", "~> 0.12.0"
 gem 'sass-rails', '~> 3.2.5'
 gem "bootstrap-sass", '~> 3.1.0.2'
 gem 'coffee-rails', '~> 3.2.2'

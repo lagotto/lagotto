@@ -171,10 +171,10 @@ sudo apt-get update
 ```
 
 #### Install Ruby and required packages
-Also install the `curl` and `git` packages, the `libxml2-dev` and `libxslt-dev` libraries required by the `nokogiri` gem, the `libmysqlclient-dev` library required by the `myslq2` gem, the `libpq-dev` library required by the `pg`gem, and `nodejs` as Javascript runtime. When running ALM on a local machine we also want to install `avahi-daemon` and `libnss-mdns`for zeroconf networking.
+Also install the `curl` and `git` packages, the `libmysqlclient-dev` library required by the `myslq2` gem, the `libpq-dev` library required by the `pg`gem, and `nodejs` as Javascript runtime. When running ALM on a local machine we also want to install `avahi-daemon` and `libnss-mdns`for zeroconf networking.
 
 ```sh
-sudo apt-get install ruby2.1 ruby2.1-dev curl git libxml2-dev libxslt-dev libmysqlclient-dev nodejs avahi-daemon libnss-mdns
+sudo apt-get install ruby2.1 ruby2.1-dev curl git libmysqlclient-dev nodejs avahi-daemon libnss-mdns
 ```
 
 #### Install databases
@@ -242,11 +242,10 @@ git clone git://github.com/articlemetrics/alm.git
 ```
 
 #### Install Bundler and Ruby gems required by the application
-Bundler is a tool to manage dependencies of Ruby applications: http://gembundler.com. We have to install `therubyracer` gem as sudo because of a permission problem.
+Bundler is a tool to manage dependencies of Ruby applications: http://gembundler.com.
 
 ```sh
 sudo gem install bundler
-sudo gem install therubyracer
 
 cd /var/www/alm
 bundle install
