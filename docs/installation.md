@@ -242,11 +242,11 @@ git clone git://github.com/articlemetrics/alm.git
 ```
 
 #### Install Bundler and Ruby gems required by the application
-Bundler is a tool to manage dependencies of Ruby applications: http://gembundler.com. We have to install `therubyracer` gem as sudo because of a permission problem (make sure the version matches the version in `Gemfile` in the ALM root directory).
+Bundler is a tool to manage dependencies of Ruby applications: http://gembundler.com. We have to install `therubyracer` gem as sudo because of a permission problem.
 
 ```sh
 sudo gem install bundler
-sudo gem install therubyracer -v '0.12.0'
+sudo gem install therubyracer
 
 cd /var/www/alm
 bundle install

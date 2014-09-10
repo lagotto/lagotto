@@ -15,7 +15,7 @@ The Ruby on Rails application Article-Level Metrics (ALM) was started in March 2
 
 Once the setup is complete (it might take up to 20 minutes), you'll be able to open up a browser and navigate to [http://10.2.2.4](http://10.2.2.4), and you should see this screen:
 
-![ALM screenshot](https://github.com/articlemetrics/alm-report/blob/master/app/asstes/images/start.png)
+![ALM screenshot](https://github.com/articlemetrics/alm-report/blob/master/app/assets/images/start.png)
 
 ## Documentation
 Detailed instructions on how to start developing are [here](https://github.com/articlemetrics/alm-report/blob/master/docs/installation.md). There is extensive documentation at the [project website](http://articlemetrics.github.io).
