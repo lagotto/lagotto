@@ -1,5 +1,9 @@
 {
   "run_list": [
     "recipe[alm]"
-  ]
+  ],
+  "alm": {
+    "host": "10.2.2.4",
+    "hostname": "alm"
+  }
 }

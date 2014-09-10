@@ -29,6 +29,7 @@ gem 'rubyzip',  "~> 1.1", :require => 'zip'
 gem "devise", "~> 3.2.2"
 gem "omniauth-persona"
 gem "omniauth-cas", "~> 1.0.4"
+gem 'omniauth', '~> 1.1.0'
 gem "cancan", "~> 1.6.10"
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
@@ -41,7 +42,6 @@ gem "d3_rails", "~> 3.4.1"
 gem "crossfilter-rails", "~> 1.3.5"
 gem "uglifier", "~> 2.4.0"
 gem "jquery-rails", "~> 3.1.0"
-gem "therubyracer", "~> 0.12.0"
 gem 'sass-rails', '~> 3.2.5'
 gem "bootstrap-sass", '~> 3.1.0.2'
 gem 'coffee-rails', '~> 3.2.2'
