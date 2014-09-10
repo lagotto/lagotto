@@ -62,26 +62,27 @@ Vagrant.configure("2") do |config|
   config.vm.provider :virtualbox do |vb, override|
     vb.name = "alm"
     vb.customize ["modifyvm", :id, "--memory", "1024"]
-    nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
-    # Disable default synced folder before bindfs tries to bind to it
-    override.vm.synced_folder ".", "/var/www/alm/current", disabled: true
-    override.vm.synced_folder ".", "/vagrant", id: "vagrant-root", :nfs => nfs_setting
-    override.bindfs.bind_folder "/vagrant", "/var/www/alm-report/current",
-      :owner => "900",
-      :group => "33",
-      :"create-as-user" => true,
-      :perms => "u=rwx:g=rwx:o=rwx",
-      :"create-with-perms" => "u=rwx:g=rwx:o=rwx",
-      :"chown-ignore" => true,
-      :"chgrp-ignore" => true,
-      :"chmod-ignore" => true
-
+    unless Vagrant::Util::Platform.windows?
+      # Disable default synced folder before bindfs tries to bind to it
+      override.vm.synced_folder ".", "/var/www/alm/current", disabled: true
+      override.vm.synced_folder ".", "/vagrant", id: "vagrant-root", nfs: true
+      override.bindfs.bind_folder "/vagrant", "/var/www/alm/current",
+        :owner => "900",
+        :group => "900",
+        :"create-as-user" => true,
+        :perms => "u=rwx:g=rwx:o=rwx",
+        :"create-with-perms" => "u=rwx:g=rwx:o=rwx",
+        :"chown-ignore" => true,
+        :"chgrp-ignore" => true,
+        :"chmod-ignore" => true
+    end
     provision(vb, override)
   end
 
   config.vm.provider :vmware_fusion do |fusion, override|
     fusion.vmx["memsize"] = "1024"
-    provision(config, override)
+
+    provision(fusion, override)
   end
 
   config.vm.provider :aws do |aws, override|
@@ -141,11 +142,23 @@ Vagrant.configure("2") do |config|
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
-  # config.vm.network :forwarded_port, guest: 80, host: 8080
+  # config.vm.network :forwarded_port, guest: 80, host: 8090
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
 
   config.vm.synced_folder ".", "/var/www/alm/current", id: "vagrant-root"
+end
+
+# workaround for shared folders with vmware and lxc providers
+# see https://github.com/applicationsonline/librarian/issues/151
+require 'librarian/action'
+class Librarian::Action::Install < Librarian::Action::Base
+  def create_install_path
+    if install_path.exist?
+      FileUtils.rm_rf("#{install_path}/.", secure: true)
+    end
+    install_path.mkpath
+  end
 end
