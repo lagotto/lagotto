@@ -10,17 +10,18 @@ if (!params.empty()) {
 // load the data from the Lagotto API
 if (query) {
   d3.json(query, function(error, json) {
-    if (error) return console.warn(error);
+    if (error) { return console.warn(error); };
+    var data = json.data;
 
-    eventViz(json);
+    eventViz(data);
   });
 }
 
 // add data to page
-function eventViz(json) {
+function eventViz(data) {
   d3.select("#loading-events").remove();
 
-  var data = json['data'][0]['sources'];
+  var data = data[0]['sources'];
   data = data.map( function(d) { return d.events_csl });
   data = d3.merge(data);
 
@@ -43,7 +44,7 @@ function eventViz(json) {
 
   var page = 1;
   showEvents(data, page);
-};
+}
 
 function showEvents(data, page) {
   data = data.sort(function(a, b) { return d3.descending(a.date, b.date); });
@@ -93,7 +94,7 @@ function showEvents(data, page) {
   };
 
   paginate(data, page);
-};
+}
 
 // pagination
 function paginate(data, page) {
@@ -119,7 +120,7 @@ function paginate(data, page) {
       showEvents(data, num);
     });
   }
-};
+}
 
 // d3 helper functions
  var formatDate = d3.time.format("%B %d, %Y"),
@@ -145,7 +146,7 @@ function datePartsToDate(date_parts) {
   // convert to date, workaround for different time zones
   var timestamp = Date.parse(date_parts.join('-') + 'T12:00');
   return new Date(timestamp);
-};
+}
 
 // format date
 function formattedDate(date, len) {
@@ -157,7 +158,7 @@ function formattedDate(date, len) {
     case 3:
       return formatDate(date);
   }
-};
+}
 
 // construct author object from author parts
 function formattedAuthor(author) {
@@ -173,7 +174,7 @@ function formattedAuthor(author) {
     default:
       return author.slice(0,3).join(", ") + ", <em>et al</em>";
   }
-};
+}
 
 // format event type
 function formattedType(type) {
@@ -184,4 +185,4 @@ function formattedType(type) {
                 "broadcast": "Podcast/Video",
                 "personal_communication": "Personal communication" }
   return types[type] || "Other";
-};
+}
