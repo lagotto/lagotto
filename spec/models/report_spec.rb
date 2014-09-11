@@ -82,8 +82,8 @@ describe Report do
 
       it "should zip report file" do
         csv = subject.merge_stats
-        filename = "lagotto_report.csv"
-        zip_filepath = "#{Rails.root}/public/files/lagotto_report.zip"
+        filename = "alm_report.csv"
+        zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
         lagotto_report = subject.write(filename, csv)
 
         response = subject.zip_file

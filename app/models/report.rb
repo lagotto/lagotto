@@ -101,9 +101,9 @@ class Report < ActiveRecord::Base
 
   def self.zip_file(options = {})
     date = options[:date] || Date.today.iso8601
-    filename = "lagotto_report_#{date}.csv"
-    filepath = "#{Rails.root}/data/report_#{date}/lagotto_report.csv"
-    zip_filepath = "#{Rails.root}/public/files/lagotto_report.zip"
+    filename = "alm_report_#{date}.csv"
+    filepath = "#{Rails.root}/data/report_#{date}/alm_report.csv"
+    zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
     return nil unless File.exist? filepath
 
     Zip::File.open(zip_filepath, Zip::File::CREATE) do |zipfile|

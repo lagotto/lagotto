@@ -260,4 +260,4 @@ The reports are generated via the cron jobs mentioned above. Make sure you have 
 bundle exec rake report:all_stats RAILS_ENV=production
 ```
 
-This rake task generates the monthly report file at `/public/files/lagotto_report.zip` and this file is then available for download at `/files/lagotto_report.zip`. Users who have signed up for this report will see a download link in their account preferences. Additional reports are stored as zip file in the `/data` folder.
+This rake task generates the monthly report file at `/public/files/alm_report.zip` and this file is then available for download at `/files/alm_report.zip`. Users who have signed up for this report will see a download link in their account preferences. Additional reports are stored as zip file in the `/data` folder.

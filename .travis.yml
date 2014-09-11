@@ -1,11 +1,10 @@
 language: ruby
 
 rvm:
-  - 2.0.0
+  - 2.1.0
 
 env:
   - DB=mysql
-  - DB=postgresql
 
 services:
   - couchdb
@@ -19,7 +18,7 @@ before_script:
 script:
   - bundle exec rake db:setup RAILS_ENV=test
   - bundle exec rspec
-  - bundle exec cucumber --tags ~@not_teamcity
+  - bundle exec cucumber
   - bundle exec rake spec:javascript
   - bundle exec rake brakeman:run
   - bundle exec rubocop -R app config db features lib spec
