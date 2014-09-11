@@ -1,17 +1,18 @@
 @javascript @couchdb
 Feature: View dashboard
   In order to understand the status of the application
-  An user
+  A user
   Should be able to get a status overview in the dashboard
 
   Background:
     Given I am logged in as "admin"
     And that we have added 3 documents to CouchDB
+    And we have refreshed the status cache
 
     Scenario: Article info
       Given that we have 5 articles
       When I go to the "Status" page
-      Then I should see that we have 10 articles
+      Then I should see that we have 5 articles
 
     Scenario: Article last 30 days info
       Given that we have 5 recent articles
@@ -35,7 +36,7 @@ Feature: View dashboard
 
     Scenario: CouchDB info
       When I go to the "Status" page
-      Then I should see that the CouchDB size is "2.6 KB"
+      Then I should see that the CouchDB size is "5.45 KB"
 
     @not_teamcity
     Scenario: Worker info
