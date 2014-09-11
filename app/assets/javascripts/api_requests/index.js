@@ -1,17 +1,23 @@
+var params = d3.select("h1#api_key"),
+    formatNumber = d3.format(",d"),
+    formatFixed = d3.format(",.0f"),
+    formatDate = d3.time.format.utc("%B %d, %Y"),
+    formatTime = d3.time.format.utc("%H:%M UTC");
+
 // construct query string
-var params = d3.select("h1#api_key");
 if (!params.empty()) {
     var api_key = params.attr('data-api_key');
     var key = params.attr('data-key');
     var query = encodeURI("/api/v5/api_requests?api_key=" + api_key);
-    if (key != "") query += "&key=" + key;
-};
+    if (key !== "") { query += "&key=" + key; };
+}
 
 // load the data from the Lagotto API
 if (query) {
   d3.json(query, function(error, json) {
-    if (error) return console.warn(error);
-    var data = json["data"];
+    if (error) { return console.warn(error); };
+    var data = json.data;
+
     crossfilterViz(data);
   });
 }
@@ -19,7 +25,7 @@ if (query) {
 // crossfilter visualization
 function crossfilterViz(data) {
 
-  if (!data || data.length == 0) {
+  if (!data || data.length === 0) {
     d3.select("#description").text("")
       .insert("div")
       .attr("class", "alert alert-info")
@@ -177,7 +183,7 @@ function crossfilterViz(data) {
   }
 
   function barChart() {
-    if (!barChart.id) barChart.id = 0;
+    if (!barChart.id) { barChart.id = 0; };
 
     var margin = {top: 10, right: 20, bottom: 20, left: 10},
         x,
@@ -274,10 +280,10 @@ function crossfilterViz(data) {
     }
 
     function resizePath(d) {
-      var e = +(d == "e"),
+      var e = +(d === "e"),
           x = e ? 1 : -1,
           y = height / 3;
-      return "M" + (.5 * x) + "," + y
+      return "M" + (0.5 * x) + "," + y
         + "A6,6 0 0 " + e + " " + (6.5 * x) + "," + (y + 6)
         + "V" + (2 * y - 6)
         + "A6,6 0 0 " + e + " " + (.5 * x) + "," + (2 * y)
@@ -368,10 +374,4 @@ function crossfilterViz(data) {
 
     return d3.rebind(chart, brush, "on");
   }
-};
-
-// d3 helper functions
-var formatNumber = d3.format(",d"),
-    formatFixed = d3.format(",.0f"),
-    formatDate = d3.time.format.utc("%B %d, %Y"),
-    formatTime = d3.time.format.utc("%H:%M UTC");
+}

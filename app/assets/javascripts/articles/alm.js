@@ -36,8 +36,8 @@ if (!params.empty()) {
 // load the data from the ALM API
 if (query) {
   d3.json(query, function(error, json) {
-    if (error) return console.warn(error);
-    options['almStatsJson'] = json["data"];
+    if (error) { return console.warn(error); };
+    options.almStatsJson = json.data;
     var almviz = new AlmViz(options);
     almviz.initViz();
   });
@@ -77,7 +77,7 @@ function AlmViz(options) {
   while (date_parts.length < 3) date_parts.push(1);
 
   // turn numbers to strings and pad with 0
-  for (i = 0; i < date_parts.length; ++i) {
+  for (var i = 0; i < date_parts.length; ++i) {
     if (date_parts[i] < 10) {
       date_parts[i] = "0" + date_parts[i];
     } else {
@@ -139,10 +139,10 @@ function AlmViz(options) {
 
     // Loop through sources to add statistics data to the group.
     data[0]["sources"].forEach(function(source) {
-      if (source.group_name != group.name) return;
+      if (source.group_name !== group.name) return;
 
       var total = source.metrics.total;
-      if (total == 0) return;
+      if (total === 0) { return; };
 
       // Only add the group row the first time
       if (!$groupRow) {
@@ -153,7 +153,7 @@ function AlmViz(options) {
       metricsFound_ = true;
 
       // Some sources have multiple data
-      if (source.group_name == "viewed") {
+      if (source.group_name === "viewed") {
         if (source.metrics.html > 0) addSource_(source, source.display_name + " HTML", source.metrics.html, group, "html", $groupRow);
         if (source.metrics.pdf > 0) addSource_(source, source.display_name + " PDF", source.metrics.pdf, group, "pdf", $groupRow);
       } else {
@@ -219,7 +219,7 @@ function AlmViz(options) {
     $count
       .text(formatNumber_(total));
 
-    if (source.name == 'pkpTimedViews') {
+    if (source.name === 'pkpTimedViews') {
       $countLabel.append("p")
         .text(label);
     } else {
@@ -239,7 +239,7 @@ function AlmViz(options) {
       var showYearly = false;
 
       if (source.by_year) {
-        level_data = getData_('year', source);
+        var level_data = getData_('year', source);
         var yearTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numYears = d3.time.year.utc.range(pub_date, new Date()).length;
 
@@ -247,11 +247,11 @@ function AlmViz(options) {
           numYears >= minItems_.minYearsForYearly) {
           showYearly = true;
           level = 'year';
-        };
+        }
       }
 
       if (source.by_month) {
-        level_data = getData_('month', source);
+        var level_data = getData_('month', source);
         var monthTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numMonths = d3.time.month.utc.range(pub_date, new Date()).length;
 
@@ -259,18 +259,18 @@ function AlmViz(options) {
             numMonths >= minItems_.minMonthsForMonthly) {
             showMonthly = true;
             level = 'month';
-        };
+        }
       }
 
       if (source.by_day){
-        level_data = getData_('day', source);
+        var level_data = getData_('day', source);
         var dayTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numDays = d3.time.day.utc.range(pub_date, new Date()).length;
 
         if (dayTotal >= minItems_.minEventsForDaily && numDays >= minItems_.minDaysForDaily) {
             showDaily = true;
             level = 'day';
-        };
+        }
       }
 
       // The level and level_data should be set to the finest level
@@ -302,7 +302,7 @@ function AlmViz(options) {
             .attr("href", "javascript:void(0)")
             .classed("alm-control", true)
             .classed("disabled", !showDaily)
-            .classed("active", (level == 'day'))
+            .classed("active", (level === 'day'))
             .text("daily (first 30)")
             .on("click", function() {
               if (showDaily && !$(this).hasClass('active')) {
@@ -339,7 +339,7 @@ function AlmViz(options) {
             .attr("href", "javascript:void(0)")
             .classed("alm-control", true)
             .classed("disabled", !showYearly || !showMonthly)
-            .classed("active", (level == 'year'))
+            .classed("active", (level === 'year'))
             .text("yearly")
             .on("click", function() {
               if (showYearly && !$(this).hasClass('active')) {
@@ -588,7 +588,7 @@ function AlmViz(options) {
 
     barsForTooltips
       .enter().append("rect")
-      .attr("class", function(d) { return "barsForTooltip " + viz.z((level == 'day' ? d3.time.weekOfYear(getDate_(level, d)) : d.year)); });
+      .attr("class", function(d) { return "barsForTooltip " + viz.z((level === 'day' ? d3.time.weekOfYear(getDate_(level, d)) : d.year)); });
 
     barsForTooltips
       .attr("width", barWidth + 2)
@@ -598,10 +598,10 @@ function AlmViz(options) {
 
     // add in some tool tips
     viz.barsForTooltips.selectAll("rect").each(
-      function(d,i){
+      function(d){
         $(this).tooltip('destroy'); // need to destroy so all bars get updated
         $(this).tooltip({title: formatNumber_(d[subgroup]) + " in " + getFormattedDate_(level, d), container: "body"});
       }
     );
-  }
+  };
 }

@@ -69,11 +69,11 @@ class Report < ActiveRecord::Base
 
   def self.merge_stats(options = {})
     if options[:include_private_sources]
-      lagotto_stats = read_stats(name: "lagotto_private_stats")
+      alm_stats = read_stats(name: "alm_private_stats")
     else
-      lagotto_stats = read_stats(name: "lagotto_stats")
+      alm_stats = read_stats(name: "alm_stats")
     end
-    return nil if lagotto_stats.blank?
+    return nil if alm_stats.blank?
 
     stats = [{ name: "mendeley_stats", headers: [CONFIG[:uid], "mendeley_readers", "mendeley_groups", "mendeley"] },
              { name: "pmc_stats", headers: [CONFIG[:uid], "pmc_html", "pmc_pdf", "pmc"] },
@@ -82,12 +82,12 @@ class Report < ActiveRecord::Base
       stat[:csv] = read_stats(stat, options).to_a
     end
 
-    # return lagotto_stats if no additional stats are found
+    # return alm_stats if no additional stats are found
     stats.reject! { |stat| stat[:csv].blank? }
-    return lagotto_stats if stats.empty?
+    return alm_stats if stats.empty?
 
     CSV.generate do |csv|
-      lagotto_stats.each do |row|
+      alm_stats.each do |row|
         stats.each do |stat|
           # find row based on uid, and discard the first and last item (uid and total). Otherwise pad with zeros
           match = stat[:csv].assoc(row.field(CONFIG[:uid]))
@@ -101,9 +101,9 @@ class Report < ActiveRecord::Base
 
   def self.zip_file(options = {})
     date = options[:date] || Date.today.iso8601
-    filename = "lagotto_report_#{date}.csv"
-    filepath = "#{Rails.root}/data/report_#{date}/lagotto_report.csv"
-    zip_filepath = "#{Rails.root}/public/files/lagotto_report.zip"
+    filename = "alm_report_#{date}.csv"
+    filepath = "#{Rails.root}/data/report_#{date}/alm_report.csv"
+    zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
     return nil unless File.exist? filepath
 
     Zip::File.open(zip_filepath, Zip::File::CREATE) do |zipfile|

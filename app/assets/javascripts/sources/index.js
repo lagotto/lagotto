@@ -12,13 +12,13 @@ var params = d3.select("h1#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var query = encodeURI("/api/v5/sources?api_key=" + api_key);
-};
+}
 
 // load the data from the Lagotto API
 if (query) {
   d3.json(query, function(error, json) {
-    if (error) return console.warn(error);
-    data = json["data"];
+    if (error) { return console.warn(error); };
+    var data = json.data;
 
     articlesViz(data);
     eventsViz(data);
@@ -29,7 +29,7 @@ if (query) {
 function articlesViz(data) {
 
   // remove source not needed for the following visualizations
-  data = data.filter(function(d) { return d.name != "relativemetric"; });
+  data = data.filter(function(d) { return d.name !== "relativemetric"; });
 
   // Articles tab
   var chart = d3.select("div#articles").append("svg")
@@ -61,7 +61,7 @@ function articlesViz(data) {
     .data(data)
     .enter().append("rect")
     .attr("fill", function(d) { return z(d.group); })
-    .attr("y", function(d,i) { return y(d.display_name); })
+    .attr("y", function(d) { return y(d.display_name); })
     .attr("height", h)
     .attr("width", function(d) { return x(d.article_count); });
   chart.selectAll("text.values")
@@ -78,7 +78,7 @@ function articlesViz(data) {
 function eventsViz(data) {
 
   // remove source not needed for the following visualizations
-  data = data.filter(function(d) { return d.name != "relativemetric"; });
+  data = data.filter(function(d) { return d.name !== "relativemetric"; });
 
   // Events tab
   var chart = d3.select("div#events").append("svg")
