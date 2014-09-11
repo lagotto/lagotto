@@ -85,7 +85,9 @@ When /^I submit the form$/ do
 end
 
 When /^I go to the "(.*?)" page$/ do |page_title|
-  if page_title == "API Requests"
+  if page_title == "Home"
+    title = ""
+  elsif page_title == "API Requests"
     title = "api_requests"
   else
     title = page_title.downcase
