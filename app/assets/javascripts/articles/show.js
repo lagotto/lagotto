@@ -10,7 +10,7 @@ if (!params.empty()) {
 // load the data from the Lagotto API
 if (query) {
   d3.json(query, function(error, json) {
-    if (error) { return console.warn(error); };
+    if (error) { return console.warn(error); }
     var data = json.data;
 
     eventViz(data);

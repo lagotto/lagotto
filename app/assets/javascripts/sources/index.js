@@ -1,11 +1,10 @@
-var data;
-var colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e","#95a6a6"];
-
-var l = 250; // left margin
-var r = 175; // right margin
-var w = 475; // width of drawing area
-var h = 36;  // bar height
-var s = 2;   // spacing between bars
+var d3,
+    colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e","#95a6a6"],
+    l = 250, // left margin
+    r = 175, // right margin
+    w = 475, // width of drawing area
+    h = 36,  // bar height
+    s = 2;   // spacing between bars
 
 // construct query string
 var params = d3.select("h1#api_key");
@@ -17,7 +16,7 @@ if (!params.empty()) {
 // load the data from the Lagotto API
 if (query) {
   d3.json(query, function(error, json) {
-    if (error) { return console.warn(error); };
+    if (error) { return console.warn(error); }
     var data = json.data;
 
     articlesViz(data);
