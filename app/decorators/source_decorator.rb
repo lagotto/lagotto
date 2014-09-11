@@ -2,6 +2,13 @@ class SourceDecorator < Draper::Decorator
   delegate_all
   decorates_association :group
 
+  def update_date
+    # refresh cache when given nocache parameter
+    object.update_column(:cached_at, Time.zone.now) if context[:nocache]
+
+    model.update_date
+  end
+
   def state
     human_state_name
   end

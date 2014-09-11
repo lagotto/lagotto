@@ -61,7 +61,7 @@ class Status
   end
 
   def status_url
-    "http://#{CONFIG[:hostname]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
+    "http://#{CONFIG[:hostname]}/api/v5/status?api_key=#{CONFIG[:api_key]}&nocache=1"
   end
 
   def cached_version
@@ -69,7 +69,6 @@ class Status
   end
 
   def update_cache
-    Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
     DelayedJob.delete_all(queue: "status-cache")
     delay(priority: 1, queue: "status-cache").get_result(status_url, timeout: 900)
   end

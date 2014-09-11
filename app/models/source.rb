@@ -256,7 +256,7 @@ class Source < ActiveRecord::Base
   end
 
   def source_url
-    "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
+    "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}&nocache=1"
   end
 
   def cached_version
@@ -264,7 +264,6 @@ class Source < ActiveRecord::Base
   end
 
   def update_cache
-    update_column(:cached_at, Time.zone.now)
     DelayedJob.delete_all(queue: "#{name}-cache")
     delay(priority: 1, queue: "#{name}-cache").get_result(source_url, timeout: 900)
   end
