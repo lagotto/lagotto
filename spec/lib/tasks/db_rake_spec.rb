@@ -1,17 +1,5 @@
 require 'spec_helper'
 
-describe "db:articles:seed" do
-  include_context "rake"
-
-  let(:output) { "Seeded 35 articles\n" }
-
-  its(:prerequisites) { should include("environment") }
-
-  it "should run the rake task" do
-    capture_stdout { subject.invoke }.should eq(output)
-  end
-end
-
 describe "db:articles:import" do
   include_context "rake"
 
