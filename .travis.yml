@@ -30,7 +30,7 @@ env:
 
 addons:
   code_climate:
-    repo_token: aac1cb82a2f90e108527e1e3f498113a1f41cf8cdab5cdda60d6bb7f1fd47342
+    repo_token: c2515476ac88e8540c23b121b6dadb75188482db1d5c39516208b2ea7485a907
 
 notifications:
   hipchat:
