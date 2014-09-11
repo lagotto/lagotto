@@ -3,7 +3,7 @@
     "rails_env": "development",
     "db": { "password": "EXAMPLE" }
   },
-  "alm": {
+  "lagotto": {
     "settings": {
       "uid": "doi",
       "doi_prefix": "",

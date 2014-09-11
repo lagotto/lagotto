@@ -9,15 +9,15 @@ module Couchable
       CONFIG[:couchdb_url]
     end
 
-    def get_alm_data(id = "", options={})
+    def get_lagotto_data(id = "", options={})
       get_result("#{couchdb_url}#{id}", options)
     end
 
-    def get_alm_rev(id, options={})
-      head_alm_data("#{couchdb_url}#{id}", options)[:rev]
+    def get_lagotto_rev(id, options={})
+      head_lagotto_data("#{couchdb_url}#{id}", options)[:rev]
     end
 
-    def head_alm_data(url, options = { timeout: DEFAULT_TIMEOUT })
+    def head_lagotto_data(url, options = { timeout: DEFAULT_TIMEOUT })
       conn = faraday_conn('json')
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.options[:timeout] = options[:timeout]
@@ -29,17 +29,17 @@ module Couchable
       rescue_faraday_error(url, e, options.merge(head: true))
     end
 
-    def save_alm_data(id, options = { data: nil })
-      data_rev = get_alm_rev(id)
+    def save_lagotto_data(id, options = { data: nil })
+      data_rev = get_lagotto_rev(id)
       if data_rev.present?
         options[:data][:_id] = "#{id}"
         options[:data][:_rev] = data_rev
       end
 
-      put_alm_data("#{couchdb_url}#{id}", options)
+      put_lagotto_data("#{couchdb_url}#{id}", options)
     end
 
-    def put_alm_data(url, options = { data: nil })
+    def put_lagotto_data(url, options = { data: nil })
       return nil unless options[:data] || Rails.env.test?
 
       conn = faraday_conn('json')
@@ -53,13 +53,13 @@ module Couchable
       rescue_faraday_error(url, e, options)
     end
 
-    def remove_alm_data(id)
-      data_rev = get_alm_rev(id)
+    def remove_lagotto_data(id)
+      data_rev = get_lagotto_rev(id)
       timestamp = Time.zone.now.utc.iso8601
 
       if data_rev.present?
         params = {'rev' => data_rev }
-        response = delete_alm_data("#{couchdb_url}#{id}?#{params.to_query}")
+        response = delete_lagotto_data("#{couchdb_url}#{id}?#{params.to_query}")
       else
         response = nil
       end
@@ -75,7 +75,7 @@ module Couchable
       response
     end
 
-    def delete_alm_data(url, options={})
+    def delete_lagotto_data(url, options={})
       # don't delete database
       return nil if url == couchdb_url && Rails.env != "test"
 
@@ -87,21 +87,21 @@ module Couchable
       rescue_faraday_error(url, e, options)
     end
 
-    def get_alm_database
-      get_alm_data
+    def get_lagotto_database
+      get_lagotto_data
     end
 
-    def put_alm_database
-      put_alm_data(couchdb_url)
+    def put_lagotto_database
+      put_lagotto_data(couchdb_url)
       filter = Faraday::UploadIO.new('design_doc/filter.json', 'application/json')
-      put_alm_data("#{couchdb_url}_design/filter", data: filter)
+      put_lagotto_data("#{couchdb_url}_design/filter", data: filter)
 
       reports = Faraday::UploadIO.new('design_doc/reports.json', 'application/json')
-      put_alm_data("#{couchdb_url}_design/reports", data: reports)
+      put_lagotto_data("#{couchdb_url}_design/reports", data: reports)
     end
 
-    def delete_alm_database
-      delete_alm_data(couchdb_url)
+    def delete_lagotto_database
+      delete_lagotto_data(couchdb_url)
     end
 
     def parse_rev(string)

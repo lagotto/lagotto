@@ -171,11 +171,11 @@ describe Filter do
     subject { FactoryGirl.create(:html_ratio_too_high_error) }
 
     before(:each) do
-      # subject.put_alm_database
+      # subject.put_lagotto_database
     end
 
     after(:each) do
-      subject.delete_alm_database
+      subject.delete_lagotto_database
     end
 
     context "ratio too high" do
@@ -188,7 +188,7 @@ describe Filter do
         # body = File.read(fixture_path + 'counter_too_many_html.xml')
         # stub = stub_request(:get, counter.get_query_url(article)).to_return(:body => body, :status => 200)
         # response = counter.get_data(article)
-        # subject.get_alm_data("_design/filter/_view/html_ratio").should eq(2)
+        # subject.get_lagotto_data("_design/filter/_view/html_ratio").should eq(2)
         # subject.run_filter(options).should == 1
         # Alert.count.should == 1
         # alert = Alert.first

@@ -3,7 +3,7 @@ layout: page
 title: Setup
 ---
 
-To configure the ALM application, the following steps are necessary:
+To configure Lagotto, the following steps are necessary:
 
 * add users (we need at least one admin user)
 * configure sources
@@ -12,13 +12,13 @@ To configure the ALM application, the following steps are necessary:
 * configure maintenance tasks (only in production system)
 
 ## Adding Users
-The ALM application supports the following user roles:
+Lagotto supports the following user roles:
 
 * API user - only API key
 * staff - read-only access to admin area
 * admin - full access to admin area
 
-The ALM application supports the following forms of authentication:
+Lagotto supports the following forms of authentication:
 
 * username/password ([Login](/users/sign_in)) for admin and staff users
 * authentication with [Mozilla Persona](http://www.mozilla.org/en-US/persona/) for all user roles
@@ -106,10 +106,10 @@ curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"arti
 The DOI, publication date and title are again all required fields, but you can also include other fields such as the Pubmed ID. See the [API](/docs/api) page for more information, e.g. how to update or delete articles.
 
 ## Starting Workers
-The ALM application talks to external data sources to collect metrics about a set of articles. Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. This can be done in one of two ways:
+Lagotto talks to external data sources to collect metrics about a set of articles. Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. This can be done in one of two ways:
 
 ### Ad-hoc workers
-To collect metrics once for a set of articles, or for testing purposes the workers can be run ad-hoc using the [foreman](https://github.com/ddollar/foreman) utility that is installed with the ALM application. To make sure foreman detects the correct environment you are running (`development` or `production`), make sure the file `.env` in the root folder of your application has the correct information:
+To collect metrics once for a set of articles, or for testing purposes the workers can be run ad-hoc using the [foreman](https://github.com/ddollar/foreman) utility that is installed with Lagotto. To make sure foreman detects the correct environment you are running (`development` or `production`), make sure the file `.env` in the root folder of your application has the correct information:
 
 ```sh
 RAILS_ENV=development
@@ -142,7 +142,7 @@ In a continously updating production system we want to run the workers in the ba
 
 When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We need to run at least one delayed_job to do this.
 
-### List of background jobs that ALM uses
+### List of background jobs that Lagotto uses
 
 The default priority for jobs is 5. We have the following background jobs sorted by decreasing priority:
 
@@ -154,7 +154,7 @@ The default priority for jobs is 5. We have the following background jobs sorted
 * **Email reports**. Queue name is `mailer`, default priority is 6.
 
 ## Configuring Maintenance Tasks
-The ALM application uses a number of maintenance tasks in production mode - they are not necessary for a development instance.
+Lagotto uses a number of maintenance tasks in production mode - they are not necessary for a development instance.
 
 Many of the maintenance taks are `rake` tasks, and they are listed on a [separate page](/docs/rake). All rake tasks are issued from the application root folder. You want to prepend your rake command with `bundle exec` and `RAILS_ENV=production` should be appended to the rake command when running in production, e.g.
 
@@ -163,7 +163,7 @@ bundle exec rake db:articles:load <IMPORT.TXT RAILS_ENV=production
 ```
 
 ### Cron jobs
-The ALM application uses the [Whenever](https://github.com/javan/whenever) gem to make it easy to generate cron jobs. The configuration is stored in `config/schedule.rb`:
+Lagotto uses the [Whenever](https://github.com/javan/whenever) gem to make it easy to generate cron jobs. The configuration is stored in `config/schedule.rb`:
 
 ```ruby
 env :PATH, ENV['PATH']
@@ -220,7 +220,7 @@ bundle exec whenever
 To write this information to your crontab file, use
 
 ```sh
-bundle exec whenever --update-crontab alm
+bundle exec whenever --update-crontab lagotto
 ```
 
 The crontab is automatically updated when you run capistrano (see [Installation](/docs/installation)).
@@ -233,13 +233,13 @@ Filters check all API responses of the last 24 hours for errors and potential an
 These filters will generate alerts that are displayed in the admin panel in various places. More information is available on the [Alerts](/docs/Alerts) page.
 
 ### Reports
-The ALM application generates a number of email reports:
+Lagotto generates a number of email reports:
 
 ![Profile](/assets/profile.png)
 
 The **Article Statistics Report** is available to all users, all other reports only to admin and staff users. Users can sign up for these reports in the account preferences.
 
-The ALM application installs the **Postfix** mailer and the default settings should work in most cases. Mail can otherwise me configure in `config/settings.yml`:
+Lagotto installs the **Postfix** mailer and the default settings should work in most cases. Mail can otherwise me configure in `config/settings.yml`:
 
 ```yaml
   mail:
@@ -251,7 +251,7 @@ The ALM application installs the **Postfix** mailer and the default settings sho
 We need to process CouchDB data for some sources (Mendeley, Pmc, Counter) in the **Article Statistics Report**, please install the CouchDB design document for this report:
 
 ```sh
-curl -X PUT -d @design_doc/reports.json 'http://localhost:5984/alm/_design/reports'
+curl -X PUT -d @design_doc/reports.json 'http://localhost:5984/lagotto/_design/reports'
 ```
 
 The reports are generated via the cron jobs mentioned above. Make sure you have correct write permissions for the Article Statistics Report, it is recommended to run the rake task at least once to test for this:
@@ -260,4 +260,4 @@ The reports are generated via the cron jobs mentioned above. Make sure you have 
 bundle exec rake report:all_stats RAILS_ENV=production
 ```
 
-This rake task generates the monthly report file at `/public/files/alm_report.zip` and this file is then available for download at `/files/alm_report.zip`. Users who have signed up for this report will see a download link in their account preferences. Additional reports are stored as zip file in the `/data` folder.
+This rake task generates the monthly report file at `/public/files/lagotto_report.zip` and this file is then available for download at `/files/lagotto_report.zip`. Users who have signed up for this report will see a download link in their account preferences. Additional reports are stored as zip file in the `/data` folder.

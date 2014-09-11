@@ -62,11 +62,11 @@ describe RetrievalStatus do
     let(:error) { { "error" => "not_found", "reason" => "deleted" } }
 
     before(:each) do
-      subject.put_alm_database
+      subject.put_lagotto_database
     end
 
     after(:each) do
-      subject.delete_alm_database
+      subject.delete_lagotto_database
     end
 
     it "should perform and get data" do
@@ -74,20 +74,20 @@ describe RetrievalStatus do
         .to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
       result = retrieval_status.perform_get_data
 
-      rs_result = retrieval_status.get_alm_data(rs_id)
+      rs_result = retrieval_status.get_lagotto_data(rs_id)
       # rs_result.should include("source" => retrieval_status.source.name,
       #                          "doi" => retrieval_status.article.doi,
       #                          "doc_type" => "current",
       #                          "_id" =>  "#{retrieval_status.source.name}:#{retrieval_status.article.doi}")
-      # rh_result = retrieval_status.get_alm_data(rh_id)
+      # rh_result = retrieval_status.get_lagotto_data(rh_id)
       # rh_result.should include("source" => retrieval_status.source.name,
       #                          "doi" => retrieval_status.article.doi,
       #                          "doc_type" => "history",
       #                          "_id" => "#{rh_id}")
 
       # retrieval_status.article.destroy
-      # subject.get_alm_data(rs_id).should eq(error)
-      # subject.get_alm_data(rh_id).should eq(error)
+      # subject.get_lagotto_data(rs_id).should eq(error)
+      # subject.get_lagotto_data(rh_id).should eq(error)
     end
   end
 

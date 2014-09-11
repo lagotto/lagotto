@@ -33,8 +33,8 @@ describe History do
   end
 
   context "success" do
-    before(:each) { subject.put_alm_database }
-    after(:each) { subject.delete_alm_database }
+    before(:each) { subject.put_lagotto_database }
+    after(:each) { subject.delete_lagotto_database }
 
     let(:data) { { event_count: 25, events_by_day: [], events_by_month: [] } }
     let(:update_interval) { 1.month.ago.end_of_month.day }
@@ -50,8 +50,8 @@ describe History do
   end
 
   context "events_by_day" do
-    before(:each) { subject.put_alm_database }
-    after(:each) { subject.delete_alm_database }
+    before(:each) { subject.put_lagotto_database }
+    after(:each) { subject.delete_lagotto_database }
 
     let(:data) { { event_count: 25, events_by_day: nil, event_metrics: { html: 15, pdf: 5, total: 25 } } }
     let(:today) { Time.zone.now.to_date }
@@ -111,8 +111,8 @@ describe History do
   end
 
   context "events_by_month" do
-    before(:each) { subject.put_alm_database }
-    after(:each) { subject.delete_alm_database }
+    before(:each) { subject.put_lagotto_database }
+    after(:each) { subject.delete_lagotto_database }
 
     let(:data) { { event_count: 25, events_by_month: nil, event_metrics: { html: 15, pdf: 5, total: 25 } } }
     let(:today) { Time.zone.now.to_date }

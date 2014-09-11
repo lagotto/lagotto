@@ -51,15 +51,6 @@ namespace :db do
       end
     end
 
-    desc "Seed sample articles"
-    task :seed => :environment do
-      before = Article.count
-      ENV['ARTICLES'] = "true"
-      Rake::Task['db:seed'].invoke
-      after = Article.count
-      puts "Seeded #{after - before} articles"
-    end
-
     desc "Delete articles provided via standard input"
     task :delete => :environment do
       puts "Reading #{CONFIG[:uid]}s from standard input..."

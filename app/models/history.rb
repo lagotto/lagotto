@@ -71,10 +71,10 @@ class History
   def save_to_couchdb
     if events_by_day.blank? || events_by_month.blank?
       # check for existing couchdb document
-      data_rev = get_alm_rev(couchdb_id)
+      data_rev = get_lagotto_rev(couchdb_id)
 
       if data_rev.present?
-        previous_data = get_alm_data(couchdb_id)
+        previous_data = get_lagotto_data(couchdb_id)
         previous_data = {} if previous_data.nil? || previous_data[:error]
       else
         previous_data = {}
@@ -91,10 +91,10 @@ class History
         options[:data][:_rev] = data_rev
       end
 
-      @rs_rev = put_alm_data("#{CONFIG[:couchdb_url]}#{couchdb_id}", options)
+      @rs_rev = put_lagotto_data("#{CONFIG[:couchdb_url]}#{couchdb_id}", options)
     else
       # only save the data to couchdb
-      @rs_rev = save_alm_data(couchdb_id, data: data.clone, source_id: retrieval_status.source_id)
+      @rs_rev = save_lagotto_data(couchdb_id, data: data.clone, source_id: retrieval_status.source_id)
     end
   end
 

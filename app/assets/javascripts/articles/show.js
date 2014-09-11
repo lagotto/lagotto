@@ -7,7 +7,7 @@ if (!params.empty()) {
   var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + uid + "&type=" + uid_type + "&info=detail");
 }
 
-// load the data from the ALM API
+// load the data from the Lagotto API
 if (query) {
   d3.json(query, function(error, json) {
     if (error) return console.warn(error);

@@ -89,11 +89,11 @@ describe Pmc do
     let(:journal) { "ajrccm" }
 
     before(:each) do
-      subject.put_alm_data(subject.db_url)
+      subject.put_lagotto_data(subject.db_url)
     end
 
     after(:each) do
-      subject.delete_alm_data(subject.db_url)
+      subject.delete_lagotto_data(subject.db_url)
     end
 
     it "should parse PMC data" do
@@ -107,11 +107,11 @@ describe Pmc do
 
   context "get_data" do
     before(:each) do
-      subject.put_alm_data(subject.db_url)
+      subject.put_lagotto_data(subject.db_url)
     end
 
     after(:each) do
-      subject.delete_alm_data(subject.db_url)
+      subject.delete_lagotto_data(subject.db_url)
     end
 
     it "should report that there are no events if the doi is missing" do

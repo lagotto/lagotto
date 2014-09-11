@@ -14,7 +14,7 @@ CONFIG.symbolize_keys!
 # reasonable defaults
 CONFIG[:uid] ||= "doi"
 CONFIG[:sitename] ||= "ALM"
-CONFIG[:useragent] ||= "Article-Level Metrics"
+CONFIG[:useragent] ||= "Lagotto"
 
 addrinfo = Socket.getaddrinfo(Socket.gethostname, nil, nil, Socket::SOCK_DGRAM, nil, Socket::AI_CANONNAME)
 CONFIG[:hostname] ||= addrinfo[0][2]
@@ -27,7 +27,7 @@ if defined?(Bundler)
   Bundler.require(:default, Rails.env)
 end
 
-module Alm
+module Lagotto
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -63,7 +63,7 @@ module Alm
     config.filter_parameters += [:password]
 
     # Use a different cache store
-    config.cache_store = :dalli_store, *CONFIG[:web_servers], { :namespace => "alm", :compress => true }
+    config.cache_store = :dalli_store, *CONFIG[:web_servers], { :namespace => "lagotto", :compress => true }
 
     # Enable the asset pipeline
     config.assets.enabled = true

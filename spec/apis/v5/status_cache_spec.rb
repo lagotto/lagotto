@@ -9,11 +9,11 @@ describe "/api/v5/status" do
   let(:key) { "rabl/v5/#{user.cache_key}/#{status.cache_key}//hash" }
 
   before(:each) do
-    source.put_alm_database
+    source.put_lagotto_database
   end
 
   after(:each) do
-    source.delete_alm_database
+    source.delete_lagotto_database
   end
 
   context "caching", :caching => true do

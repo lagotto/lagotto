@@ -85,12 +85,12 @@ class F1000 < Source
       end
 
       # store updated information in CouchDB
-      put_alm_data(db_url + CGI.escape(doi), data: data)
+      put_lagotto_data(db_url + CGI.escape(doi), data: data)
     end
   end
 
   def put_database
-    put_alm_data(db_url)
+    put_lagotto_data(db_url)
   end
 
   def get_feed_url

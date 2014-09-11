@@ -6,13 +6,13 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_error_report(report) }
 
     it "sends email" do
-      mail.subject.should eq("[ALM] Error Report")
+      mail.subject.should eq("[Lagotto] Error Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([CONFIG[:notification_email]])
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("This is the ALM error report")
+      mail.body.encoded.should include("This is the Lagotto error report")
     end
 
     it "includes no reviews" do
@@ -30,13 +30,13 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_status_report(report) }
 
     it "sends email" do
-      mail.subject.should eq("[ALM] Status Report")
+      mail.subject.should eq("[Lagotto] Status Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([CONFIG[:notification_email]])
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("This is the ALM status report")
+      mail.body.encoded.should include("This is the Lagotto status report")
     end
 
     it "provides a link to the admin dashboard" do
@@ -50,19 +50,19 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_article_statistics_report(report) }
 
     it "sends email" do
-      mail.subject.should eq("[ALM] Article Statistics Report")
+      mail.subject.should eq("[Lagotto] Article Statistics Report")
       mail.bcc.should eq([report.users.map(&:email).join(",")])
       mail.to.should eq([CONFIG[:notification_email]])
       mail.from.should eq([CONFIG[:notification_email]])
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("This is the ALM article statistics report")
+      mail.body.encoded.should include("This is the Lagotto article statistics report")
     end
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Download report', href: "#{CONFIG[:public_server]}/files/alm_report.zip")
+      body_html.should have_link('Download report', href: "#{CONFIG[:public_server]}/files/lagotto_report.zip")
     end
   end
 
@@ -73,7 +73,7 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_fatal_error_report(report, message) }
 
     it "sends email" do
-      mail.subject.should eq("[ALM] Fatal Error Report")
+      mail.subject.should eq("[Lagotto] Fatal Error Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([CONFIG[:notification_email]])
     end
@@ -95,7 +95,7 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_stale_source_report(report, source_ids) }
 
     it "sends email" do
-      mail.subject.should eq("[ALM] Stale Source Report")
+      mail.subject.should eq("[Lagotto] Stale Source Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([CONFIG[:notification_email]])
     end
@@ -115,7 +115,7 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_missing_workers_report(report) }
 
     it "sends email" do
-      mail.subject.should eq("[ALM] Missing Workers Report")
+      mail.subject.should eq("[Lagotto] Missing Workers Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([CONFIG[:notification_email]])
     end

@@ -23,7 +23,7 @@ describe Report do
   context "generate csv" do
     let!(:article) { FactoryGirl.create(:article_with_events) }
 
-    it "should format the ALM data as csv" do
+    it "should format the Lagotto data as csv" do
       response = CSV.parse(subject.to_csv)
       response.length.should == 3
       response.first.should eq(["doi", "publication_date", "title", "citeulike"])
@@ -39,7 +39,7 @@ describe Report do
 
     let!(:article) { FactoryGirl.create(:article_with_events, doi: "10.1371/journal.pcbi.1000204") }
     let(:csv) { subject.to_csv }
-    let(:filename) { "alm_stats.csv" }
+    let(:filename) { "lagotto_stats.csv" }
     let(:mendeley) { FactoryGirl.create(:mendeley) }
 
     it "should write report file" do
@@ -55,7 +55,7 @@ describe Report do
       end
 
       it "should read stats" do
-        stat = { name: "alm_stats" }
+        stat = { name: "lagotto_stats" }
         response = subject.read_stats(stat).to_s
         response.should eq(csv)
       end
@@ -82,9 +82,9 @@ describe Report do
 
       it "should zip report file" do
         csv = subject.merge_stats
-        filename = "alm_report.csv"
-        zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
-        alm_report = subject.write(filename, csv)
+        filename = "lagotto_report.csv"
+        zip_filepath = "#{Rails.root}/public/files/lagotto_report.zip"
+        lagotto_report = subject.write(filename, csv)
 
         response = subject.zip_file
         response.should eq(zip_filepath)
@@ -109,7 +109,7 @@ describe Report do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
       mail.to.should == [report.users.map(&:email).join(",")]
-      mail.subject.should == "[ALM] Error Report"
+      mail.subject.should == "[Lagotto] Error Report"
     end
 
     it "generates a multipart message (plain text and html)" do
@@ -136,7 +136,7 @@ describe Report do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
       mail.to.should == [report.users.map(&:email).join(",")]
-      mail.subject.should == "[ALM] Stale Source Report"
+      mail.subject.should == "[Lagotto] Stale Source Report"
     end
 
     it "generates a multipart message (plain text and html)" do

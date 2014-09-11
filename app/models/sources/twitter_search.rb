@@ -71,7 +71,7 @@ class TwitterSearch < Source
   # merge with new tweets, using tweet URL as unique key
   # we need hash with indifferent access to compare string and symbol keys
   def update_events(article, events)
-    data = HashWithIndifferentAccess.new(get_alm_data("twitter_search:#{article.doi_escaped}"))
+    data = HashWithIndifferentAccess.new(get_lagotto_data("twitter_search:#{article.doi_escaped}"))
 
     merged_events = Array(data['events']) | events
     merged_events.group_by { |event| event[:event][:id] }.map { |k, v| v.first }

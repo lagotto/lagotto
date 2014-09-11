@@ -7,11 +7,11 @@ describe "/api/v5/sources" do
   let(:api_key) { user.authentication_token }
 
   before(:each) do
-    source.put_alm_database
+    source.put_lagotto_database
   end
 
   after(:each) do
-    source.delete_alm_database
+    source.delete_lagotto_database
   end
 
   context "caching", :caching => true do

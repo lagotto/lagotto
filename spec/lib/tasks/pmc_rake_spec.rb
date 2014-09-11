@@ -10,11 +10,11 @@ describe "pmc:update" do
   let(:output) { "PMC Usage stats for month #{month} and year #{year} have been saved\nPMC Usage stats for month #{month} and year #{year} have been parsed\n" }
 
   before(:each) do
-    pmc.put_alm_data(pmc.url)
+    pmc.put_lagotto_data(pmc.url)
   end
 
   after(:each) do
-    pmc.delete_alm_data(pmc.url)
+    pmc.delete_lagotto_data(pmc.url)
   end
 
   its(:prerequisites) { should include("environment") }

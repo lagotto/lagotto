@@ -10,7 +10,7 @@ class RetrievalHistoryJob < Struct.new(:rh_ids)
   include Couchable
 
   def perform
-    rh_ids.each { | rh_id | remove_alm_data(rh_id) }
+    rh_ids.each { | rh_id | remove_lagotto_data(rh_id) }
   end
 
   def error(job, exception)

@@ -1,14 +1,14 @@
 # config valid only for Capistrano 3.2
 lock '3.2.1'
 
-set :application, 'alm'
-set :repo_url, 'https://github.com/articlemetrics/alm.git'
+set :application, 'lagotto'
+set :repo_url, 'https://github.com/articlemetrics/lagotto.git'
 
 # Default branch is :master
 set :branch, 'master'
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/var/www/alm'
+set :deploy_to, '/var/www/lagotto'
 
 # Default value for :scm is :git
 # set :scm, :git
