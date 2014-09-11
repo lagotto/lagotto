@@ -29,7 +29,7 @@ module Couchable
       rescue_faraday_error(url, e, options.merge(head: true))
     end
 
-    def save_alm_data(id, options = { data: nil })
+    def save_lagotto_data(id, options = { data: nil })
       data_rev = get_lagotto_rev(id)
       if data_rev.present?
         options[:data][:_id] = "#{id}"
@@ -53,7 +53,7 @@ module Couchable
       rescue_faraday_error(url, e, options)
     end
 
-    def remove_alm_data(id)
+    def remove_lagotto_data(id)
       data_rev = get_lagotto_rev(id)
       timestamp = Time.zone.now.utc.iso8601
 

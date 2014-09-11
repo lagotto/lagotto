@@ -37,11 +37,11 @@ describe Source do
       get_response = subject.get_lagotto_data(id)
       get_response.should include("_id" => id, "_rev" => rev)
 
-      new_rev = subject.save_alm_data(id, data: data)
+      new_rev = subject.save_lagotto_data(id, data: data)
       new_rev.should_not be_nil
       new_rev.should_not eq(rev)
 
-      delete_rev = subject.remove_alm_data(id)
+      delete_rev = subject.remove_lagotto_data(id)
       delete_rev.should_not be_nil
       delete_rev.should_not eq(rev)
       delete_rev.should include("3-")
@@ -66,7 +66,7 @@ describe Source do
       new_rev = subject.save_lagotto_data(id, data: data)
       new_rev.should_not be_nil
       new_rev.should_not eq(rev)
-      delete_rev = subject.remove_alm_data(id)
+      delete_rev = subject.remove_lagotto_data(id)
       delete_rev.should_not eq(new_rev)
     end
 

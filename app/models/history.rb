@@ -94,7 +94,7 @@ class History
       @rs_rev = put_lagotto_data("#{CONFIG[:couchdb_url]}#{couchdb_id}", options)
     else
       # only save the data to couchdb
-      @rs_rev = save_alm_data(couchdb_id, data: data.clone, source_id: retrieval_status.source_id)
+      @rs_rev = save_lagotto_data(couchdb_id, data: data.clone, source_id: retrieval_status.source_id)
     end
   end
 

@@ -134,7 +134,7 @@ class RetrievalStatus < ActiveRecord::Base
   def delete_document
     unless data_rev.nil
       document_id = "#{source.name}:#{article.uid_escaped}"
-      remove_alm_data(document_id, data_rev)
+      remove_lagotto_data(document_id, data_rev)
     else
       nil
     end
@@ -168,6 +168,6 @@ class RetrievalStatus < ActiveRecord::Base
 
   def delete_couchdb_document
     couchdb_id = "#{source.name}:#{article.uid_escaped}"
-    remove_alm_data(couchdb_id)
+    remove_lagotto_data(couchdb_id)
   end
 end
