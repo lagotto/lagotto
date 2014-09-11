@@ -84,7 +84,7 @@ describe Report do
         csv = subject.merge_stats
         filename = "alm_report.csv"
         zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
-        alm_report = subject.write(filename, csv)
+        subject.write(filename, csv)
 
         response = subject.zip_file
         response.should eq(zip_filepath)
