@@ -39,7 +39,7 @@ describe Report do
 
     let!(:article) { FactoryGirl.create(:article_with_events, doi: "10.1371/journal.pcbi.1000204") }
     let(:csv) { subject.to_csv }
-    let(:filename) { "lagotto_stats.csv" }
+    let(:filename) { "alm_stats.csv" }
     let(:mendeley) { FactoryGirl.create(:mendeley) }
 
     it "should write report file" do
@@ -55,7 +55,7 @@ describe Report do
       end
 
       it "should read stats" do
-        stat = { name: "lagotto_stats" }
+        stat = { name: "alm_stats" }
         response = subject.read_stats(stat).to_s
         response.should eq(csv)
       end
@@ -84,7 +84,7 @@ describe Report do
         csv = subject.merge_stats
         filename = "alm_report.csv"
         zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
-        lagotto_report = subject.write(filename, csv)
+        alm_report = subject.write(filename, csv)
 
         response = subject.zip_file
         response.should eq(zip_filepath)
