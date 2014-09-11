@@ -36,7 +36,7 @@ if (!params.empty()) {
 // load the data from the ALM API
 if (query) {
   d3.json(query, function(error, json) {
-    if (error) { return console.warn(error); };
+    if (error) { return console.warn(error); }
     options.almStatsJson = json.data;
     var almviz = new AlmViz(options);
     almviz.initViz();

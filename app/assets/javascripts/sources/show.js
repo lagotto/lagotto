@@ -1,4 +1,5 @@
-var w = 300,
+var d3,
+    w = 300,
     h = 200,
     radius = Math.min(w, h) / 2,
     color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#95a5a6"]),
@@ -15,69 +16,22 @@ if (!params.empty()) {
 // load the data from the Lagotto API
 if (query) {
   d3.json(query, function(error, json) {
-    if (error) { return console.warn(error); };
+    if (error) { return console.warn(error); }
     var data = json.data;
+    var status = d3.entries(data.status);
+    var by_day = d3.entries(data.by_day);
+    var by_month = d3.entries(data.by_month);
 
-    statusDonutViz(data);
-    dayDonutViz(data);
-    monthDonutViz(data);
+    donutViz(status, "div#chart_status", "Status", "of articles");
+    donutViz(by_day, "div#chart_day", "Events", "last 24 hours");
+    donutViz(by_month, "div#chart_month", "Events", "last 31 days");
   });
 }
 
-// Status donut chart
-function statusDonutViz(data) {
-  var status = d3.entries(data.status);
-
-  var chart = d3.select("div#chart_status").append("svg")
-    .data([status])
-    .attr("width", w)
-    .attr("height", h)
-    .attr("class", "chart")
-    .append("svg:g")
-    .attr("transform", "translate(150,100)");
-
-  var arc = d3.svg.arc()
-    .outerRadius(radius - 10)
-    .innerRadius(radius - 40);
-
-  var pie = d3.layout.pie()
-    .sort(null)
-    .value(function(d) { return d.value; });
-
-  var arcs = chart.selectAll("g.slice")
-    .data(pie)
-    .enter()
-    .append("svg:g")
-    .attr("class", "slice");
-
-  arcs.append("svg:path")
-    .attr("fill", function(d, i) { return color(i); } )
-    .attr("d", arc);
-
-  arcs.each(
-    function(d){ $(this).tooltip({title: formatFixed(d.data.value) + " articles " + d.data.key, container: "body"});
-  });
-
-  chart.append("text")
-    .attr("dy", 0)
-    .attr("text-anchor", "middle")
-    .attr("class", "title")
-    .text("Status");
-
-  chart.append("text")
-    .attr("dy", 21)
-    .attr("text-anchor", "middle")
-    .attr("class", "subtitle")
-    .text("of articles");
-
-}
-
-// Events today donut chart
-function dayDonutViz(data) {
-  var by_day = d3.entries(data.by_day);
-
-  var chart = d3.select("div#chart_day").append("svg")
-    .data([by_day])
+// donut chart
+function donutViz(data, div, title, subtitle) {
+  var chart = d3.select(div).append("svg")
+    .data([data])
     .attr("width", w)
     .attr("height", h)
     .attr("class", "chart")
@@ -109,62 +63,13 @@ function dayDonutViz(data) {
     .attr("dy", 0)
     .attr("text-anchor", "middle")
     .attr("class", "title")
-    .text("Events");
+    .text(title);
 
   chart.append("text")
     .attr("dy", 21)
     .attr("text-anchor", "middle")
     .attr("class", "subtitle")
-    .text("last 24 hours");
-
-  // return chart object
-  return chart;
-}
-
-// Events this month donut chart
-function monthDonutViz(data) {
-  var by_month = d3.entries(data.by_month);
-
-  var chart = d3.select("div#chart_month").append("svg")
-    .data([by_month])
-    .attr("width", w)
-    .attr("height", h)
-    .attr("class", "chart")
-    .append("svg:g")
-    .attr("transform", "translate(150,100)");
-
-  var arc = d3.svg.arc()
-    .outerRadius(radius - 10)
-    .innerRadius(radius - 40);
-
-  var pie = d3.layout.pie()
-    .sort(null)
-    .value(function(d) { return d.value; });
-
-  var arcs = chart.selectAll("g.slice")
-    .data(pie)
-    .enter()
-    .append("svg:g")
-    .attr("class", "slice");
-
-  arcs.append("svg:path")
-    .attr("fill", function(d, i) { return color(i); } )
-    .attr("d", arc);
-  arcs.each(
-  function(d){ $(this).tooltip({title: formatFixed(d.data.value) + " articles " + d.data.key.replace("_", " "), container: "body"});
-  });
-
-  chart.append("text")
-    .attr("dy", 0)
-    .attr("text-anchor", "middle")
-    .attr("class", "title")
-    .text("Events");
-
-  chart.append("text")
-    .attr("dy", 21)
-    .attr("text-anchor", "middle")
-    .attr("class", "subtitle")
-    .text("last 31 days");
+    .text(subtitle);
 
   // return chart object
   return chart;
