@@ -95,8 +95,10 @@ end
 
 Before('@delayed') do
   Delayed::Worker.delay_jobs = true
+  system "RAILS_ENV=test script/delayed_job -n 2 start"
 end
 
 After('@delayed') do
   Delayed::Worker.delay_jobs = false
+  system "RAILS_ENV=test script/delayed_job stop"
 end

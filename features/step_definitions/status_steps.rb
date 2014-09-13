@@ -12,12 +12,11 @@ end
 ### THEN ###
 Then /^I should see that the CouchDB size is "(.*?)"$/ do |size|
   within("#couchdb_size") do
-    page.should have_content('kB')
+    page.should have_content('KB')
   end
 end
 
 Then /^I should see that we have (\d+) articles$/ do |number|
-  page.driver.render("tmp/capybara/#{number}_articles.png")
   page.has_css?('#articles_count', :text => number).should be_true
 end
 
@@ -26,17 +25,14 @@ Then /^I should see that we have (\d+) recent articles$/ do |number|
 end
 
 Then /^I should see that we have (\d+) events$/ do |number|
-  page.driver.render("tmp/capybara/#{number}_events.png")
   page.has_css?('#events_count', :text => number).should be_true
 end
 
 Then /^I should see that we have (\d+) users?$/ do |number|
-  page.driver.render("tmp/capybara/CouchDB.png") if @wip
   page.has_css?('#users_count', :text => number).should be_true
 end
 
 Then /^I should not see that we have (\d+) users?$/ do |number|
-  page.driver.render("tmp/capybara/CouchDB.png") if @wip
   page.has_no_content?('#users_count', :text => number).should be_true
 end
 

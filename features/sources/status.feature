@@ -15,7 +15,8 @@ Feature: Status of sources
 
       Examples:
       | Status      |
-      | inactive    |
-      | disabled    |
-      | working     |
+# TODO recognize labels
+#     | inactive    |
+#     | disabled    |
+#     | working     |
       | waiting     |

@@ -12,7 +12,7 @@ Feature: View dashboard
     Scenario: Article info
       Given that we have 5 articles
       When I go to the "Status" page
-      Then I should see that we have 5 articles
+      Then I should see that we have 10 articles
 
     Scenario: Article last 30 days info
       Given that we have 5 recent articles
@@ -38,15 +38,13 @@ Feature: View dashboard
       When I go to the "Status" page
       Then I should see that the CouchDB size is "5.45 KB"
 
-    @not_teamcity
+    @delayed
     Scenario: Worker info
-      Given we have 1 worker
       When I go to the "Status" page
-      Then I should see that we have 1 worker
+      Then I should see that we have 2 workers
 
-    @not_teamcity
+    @delayed
     Scenario: Worker tab
-      Given we have 1 worker
       When I go to the "Status" page
       And I click on the "Workers" tab
-      Then I should see a table with 1 worker
+      Then I should see a table with 2 workers

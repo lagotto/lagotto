@@ -15,7 +15,6 @@ Feature: See jobs
          | Group | Source    | Status   | Pending | Working | Queued Articles | Stale Articles |
          | Saved | CiteULike | waiting  |         |         |                 | 5              |
 
-    @not_teamcity
     Scenario: Jobs in source view
       When I go to the "Summary" tab of source "Citeulike"
       Then the table "SummaryTable" should be:

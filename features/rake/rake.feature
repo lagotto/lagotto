@@ -4,7 +4,7 @@ Feature: Run rake tasks
   Scenario: rake is installed
     When I run `bundle exec rake --version` interactively
     Then the output should contain "rake, version"
-  @not_teamcity
+
   Scenario Outline: rake tasks exist
     When I run `bundle exec rake -T` interactively
     Then the output should contain "<Task>"
@@ -21,7 +21,6 @@ Feature: Run rake tasks
       | queue:stale                      | Queue stale articles                                            |
       | db:alerts:delete                 | Delete all resolved alerts                                      |
       | db:api_requests:delete           | Delete API requests, keeping last 10,000 requests               |
-      | db:articles:seed                 | Seed sample articles                                            |
       | db:articles:import               | Bulk-load articles from Crossref API                            |
       | db:articles:load                 | Bulk-load articles from standard input                          |
       | db:articles:delete               | Delete all articles                                             |
