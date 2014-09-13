@@ -10,6 +10,8 @@ describe "/api/v5/status" do
       before(:each) do
         @articles = FactoryGirl.create_list(:article, 5)
         @api_responses = FactoryGirl.create_list(:api_response, 10)
+        status = Status.new
+        status.update_cache
       end
 
       it "JSON" do
@@ -18,6 +20,7 @@ describe "/api/v5/status" do
 
         response = JSON.parse(last_response.body)
         data = response["data"]
+        data["update_date"].should_not eq("1970-01-01T00:00:00Z")
         data["articles_count"].should == 5
         data["responses_count"].should == 10
         data["users_count"].should == 1

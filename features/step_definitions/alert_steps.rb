@@ -54,7 +54,6 @@ Then /^I should see the "(.*?)" error message$/ do |error|
 end
 
 Then /^I should not see the "(.*?)" error message$/ do |error|
-  page.driver.render("tmp/capybara/error.png") if @wip
   page.should_not have_content error
 end
 

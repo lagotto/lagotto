@@ -22,6 +22,9 @@ class Source < ActiveRecord::Base
   # include date methods concern
   include Dateable
 
+  # include summary counts
+  include Countable
+
   # include hash helper
   include Hashie::Extensions::DeepFetch
 
@@ -125,14 +128,6 @@ class Source < ActiveRecord::Base
 
   def check_for_active_workers
     working_count > 1
-  end
-
-  def working_count
-    delayed_jobs.count(:locked_at)
-  end
-
-  def pending_count
-    delayed_jobs.count - working_count
   end
 
   def get_data(article, options={})
@@ -248,25 +243,37 @@ class Source < ActiveRecord::Base
   end
 
   def cache_key
-    "#{name}/#{cached_at.utc.iso8601}"
+    "#{name}/#{update_date}"
   end
 
   def update_date
     cached_at.utc.iso8601
   end
 
-  def source_url
-    "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
-  end
-
-  def cached_version
-    response = Rails.cache.read("rabl/v5/1/#{cache_key}//hash") || {}
-  end
-
   def update_cache
-    update_column(:cached_at, Time.zone.now)
     DelayedJob.delete_all(queue: "#{name}-cache")
-    delay(priority: 1, queue: "#{name}-cache").get_result(source_url, timeout: 900)
+    delay(priority: 1, queue: "#{name}-cache").write_cache
+  end
+
+  def write_cache
+    # update cache_key as last step so that we have the old version until we are done
+    now = Time.zone.now
+    timestamp = now.utc.iso8601
+
+    # loop through cached attributes we want to update
+    [:event_count,
+     :article_count,
+     :queued_count,
+     :stale_count,
+     :response_count,
+     :average_count,
+     :maximum_count,
+     :with_events_by_day_count,
+     :without_events_by_day_count,
+     :with_events_by_month_count,
+     :without_events_by_month_count].each { |cached_attr| send("#{cached_attr}=", timestamp) }
+
+    update_column(:cached_at, now)
   end
 
   # Remove all retrieval records for this source that have never been updated,

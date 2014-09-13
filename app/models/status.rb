@@ -2,22 +2,40 @@ class Status
   # include HTTP request helpers
   include Networkable
 
-  attr_reader :articles_count, :events_count, :sources_disabled_count, :alerts_last_day_count, :workers_count, :delayed_jobs_active_count, :responses_count, :requests_count, :users_count, :version, :couchdb_size, :mysql_size, :update_date, :cache_key
-
   def articles_count
-    Article.count
+    Rails.cache.read("status/articles_count/#{update_date}").to_i
+  end
+
+  def articles_count=(timestamp)
+    Rails.cache.write("status/articles_count/#{timestamp}", Article.count)
   end
 
   def articles_last30_count
-    Article.last_x_days(30).count
+    Rails.cache.read("status/articles_last30_count/#{update_date}").to_i
+  end
+
+  def articles_last30_count=(timestamp)
+    Rails.cache.write("status/articles_last30_count/#{timestamp}",
+                      Article.last_x_days(30).count)
   end
 
   def events_count
-    RetrievalStatus.joins(:source).where("state > ?", 0).where("name != ?", "relativemetric").sum(:event_count)
+    Rails.cache.read("status/events_count/#{update_date}").to_i
+  end
+
+  def events_count=(timestamp)
+    Rails.cache.write("status/events_count/#{timestamp}",
+                      RetrievalStatus.joins(:source).where("state > ?", 0)
+                        .where("name != ?", "relativemetric").sum(:event_count))
   end
 
   def alerts_last_day_count
-    Alert.total_errors(1).count
+    Rails.cache.read("status/alerts_last_day_count/#{update_date}").to_i
+  end
+
+  def alerts_last_day_count=(timestamp)
+    Rails.cache.write("status/alerts_last_day_count/#{timestamp}",
+                      Alert.total_errors(1).count)
   end
 
   def workers_count
@@ -29,11 +47,22 @@ class Status
   end
 
   def responses_count
-    ApiResponse.total(1).count
+    Rails.cache.read("status/responses_count/#{update_date}").to_i
+  end
+
+  def responses_count=(timestamp)
+    Rails.cache.write("status/responses_count/#{timestamp}",
+                      ApiResponse.total(1).count)
   end
 
   def requests_count
-    ApiRequest.where("created_at > ?", Time.zone.now - 1.day).count
+    Rails.cache.fetch("status/requests_count/#{update_date}").to_i
+  end
+
+  def requests_count=(timestamp)
+    Rails.cache.write("status/requests_count/#{timestamp}",
+                      ApiRequest.where("created_at > ?",
+                                       Time.zone.now - 1.day).count)
   end
 
   def users_count
@@ -53,24 +82,33 @@ class Status
   end
 
   def update_date
-    Rails.cache.fetch('status:timestamp') { Time.zone.now.utc.iso8601 }
+    Rails.cache.fetch("status:timestamp") { "1970-01-01T00:00:00Z" }
+  end
+
+  def update_date=(timestamp)
+    Rails.cache.write("status:timestamp", timestamp)
   end
 
   def cache_key
     "status/#{update_date}"
   end
 
-  def status_url
-    "http://#{CONFIG[:hostname]}/api/v5/status?api_key=#{CONFIG[:api_key]}"
-  end
-
-  def cached_version
-    response = Rails.cache.read("rabl/v5/1/#{cache_key}//hash") || {}
-  end
-
   def update_cache
-    Rails.cache.write('status:timestamp', Time.zone.now.utc.iso8601)
     DelayedJob.delete_all(queue: "status-cache")
-    delay(priority: 1, queue: "status-cache").get_result(status_url, timeout: 900)
+    delay(priority: 1, queue: "status-cache").write_cache
+  end
+
+  def write_cache
+    # update cache_key as last step so that old version works until we are done
+    timestamp = Time.zone.now.utc.iso8601
+
+    # loop through cached attributes we want to update
+    [:articles_count,
+     :articles_last30_count,
+     :events_count,
+     :alerts_last_day_count,
+     :responses_count,
+     :requests_count,
+     :update_date].each { |cached_attr| send("#{cached_attr}=", timestamp) }
   end
 end

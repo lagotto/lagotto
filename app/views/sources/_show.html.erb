@@ -9,8 +9,8 @@
   <tbody>
     <tr>
       <th>Events</th>
-      <td class="number" id="article_count"><%= number_hiding_zero(@source.cached_version.fetch(:article_count, 0)) %></td>
-      <td class="number" id="event_count"><%= number_hiding_zero(@source.cached_version.fetch(:event_count, 0)) %></td>
+      <td class="number" id="article_count"><%= number_hiding_zero(@source.article_count) %></td>
+      <td class="number" id="event_count"><%= number_hiding_zero(@source.event_count) %></td>
     </tr>
 
     <% if can?(:read, Alert) %>
@@ -31,8 +31,8 @@
       </tr>
       <tr>
         <th>Responses in the last 24 Hours</th>
-        <td class="number" id="response_count"><%= number_hiding_zero(@source.cached_version.fetch(:responses, {}).fetch('count', 0)) %></td>
-        <td class="number" id="error_count"><%= link_to_if(@source.alerts.total_errors(1).size > 0, number_hiding_zero(@source.alerts.total_errors(1).size), alerts_path(:source => @source.name)) %></td>
+        <td class="number" id="response_count"><%= number_hiding_zero(@source.response_count) %></td>
+        <td class="number" id="error_count"><%= link_to_if(@source.error_count > 0, number_hiding_zero(@source.error_count), alerts_path(:source => @source.name)) %></td>
       </tr>
       <tr>
         <th/>
@@ -41,8 +41,8 @@
       </tr>
       <tr>
         <th>Response duration in the last 24 Hours (ms)</th>
-        <td class="number" id="average_count"><%= number_hiding_zero(@source.cached_version.fetch(:responses, {}).fetch('average', 0)) %></td>
-        <td class="number" id="maximum_count"><%= number_hiding_zero(@source.cached_version.fetch(:responses, {}).fetch('maximum', 0)) %></td>
+        <td class="number" id="average_count"><%= number_hiding_zero(@source.average_count) %></td>
+        <td class="number" id="maximum_count"><%= number_hiding_zero(@source.maximum_count) %></td>
       </tr>
     <% end %>
   </tbody>

@@ -1,5 +1,5 @@
 class SourcesController < ApplicationController
-  before_filter :load_source, :only => [:show, :edit, :update]
+  before_filter :load_source, only: [:show, :edit, :update]
   load_and_authorize_resource
   skip_authorize_resource :only => [:show, :index]
 
@@ -26,7 +26,6 @@ class SourcesController < ApplicationController
     @doc = Doc.find("sources")
 
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
-    respond_with @groups
   end
 
   def edit

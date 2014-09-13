@@ -3,12 +3,11 @@ Feature: Use without signing in
   In order to use ALM
   Users should not be required to sign in
 
-    @not_teamcity
     Scenario: Anonymous user can see articles
       Given we have a user with role "admin"
       And that we have 5 articles
       When I go to the "Articles" page
-      Then I should see a list of 5 articles
+      Then I should see a list of 10 articles
 
     Scenario: Anonymous user can go to article
       Given we have a user with role "admin"
@@ -32,6 +31,7 @@ Feature: Use without signing in
       Given we have a user with role "admin"
       And that we have 5 articles
       And the source "Citeulike" exists
+      And we have refreshed the status cache
       When I go to the "Status" page
       Then I should see that we have 250 events
 
@@ -69,7 +69,7 @@ Feature: Use without signing in
       When I go to the "Alerts" page
       Then I should see the "You are not authorized to access this page." error message
 
-    @allow-rescue @not_teamcity
+    @allow-rescue
     Scenario: Anonymous user can download the monthly report
       Given we have report "article_statistics_report"
       When I go to the "/files/alm_report.zip" URL

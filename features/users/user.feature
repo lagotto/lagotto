@@ -14,6 +14,7 @@ Feature: Sign in as user
       Given we have a user with role "admin"
       And that we have 5 articles
       And the source "Citeulike" exists
+      And we have refreshed the status cache
       When I go to the "Status" page
       Then I should see that we have 250 events
 

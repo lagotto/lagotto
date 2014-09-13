@@ -22,12 +22,12 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  hostname: 33.33.33.44
+  hostname: 10.2.2.4
 
 test:
   <<: *defaults
-  api_key: 12345
   hostname: localhost
+  api_key: 12345
   notification_email: info@example.org
   workers: 1
   couchdb_url: http://localhost:5984/alm_test/

@@ -5,7 +5,8 @@ end
 
 Given /^we have (\d+) workers?$/ do |number|
   # TODO: take number argument
-  Delayed::Worker.new.work_off
+  Delayed::Worker.exit_on_complete = false
+  worker = Delayed::Worker.new(quiet: false)
 end
 
 ### WHEN ###

@@ -117,6 +117,10 @@ Then /^I should see an article with title "(.*?)"$/ do |title|
   page.has_css?('h4 a', :text => title).should be_true
 end
 
+Then /^I should see (\d+) cited articles$/ do |number|
+  page.has_css?('td#article_count', :text => number).should be_true
+end
+
 Then /^I should see a list of (\d+) articles?$/ do |number|
   page.driver.render("tmp/capybara/#{number}_articles.png")
   page.has_css?('h4.article', :count => number).should be_true

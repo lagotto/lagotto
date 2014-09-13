@@ -1,5 +1,5 @@
 class Api::V3::ArticlesController < Api::V3::BaseController
-  before_filter :load_article, :only => [ :update, :destroy ]
+  before_filter :load_article, only: [:update, :destroy]
 
   def index
     # Filter by source parameter, filter out private sources unless admin

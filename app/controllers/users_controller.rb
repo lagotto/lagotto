@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :load_user, :only => [ :show, :edit, :destroy ]
+  before_filter :load_user, only: [:show, :edit, :destroy]
   load_and_authorize_resource
 
   respond_to :html, :js
@@ -54,6 +54,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user = User.find(params[:id])
     @user.destroy
     load_index
     respond_with(@users) do |format|
