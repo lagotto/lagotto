@@ -22,6 +22,9 @@ class Source < ActiveRecord::Base
   # include date methods concern
   include Dateable
 
+  # include summary counts
+  include Countable
+
   # include hash helper
   include Hashie::Extensions::DeepFetch
 
@@ -125,14 +128,6 @@ class Source < ActiveRecord::Base
 
   def check_for_active_workers
     working_count > 1
-  end
-
-  def working_count
-    delayed_jobs.count(:locked_at)
-  end
-
-  def pending_count
-    delayed_jobs.count - working_count
   end
 
   def get_data(article, options={})
@@ -248,7 +243,7 @@ class Source < ActiveRecord::Base
   end
 
   def cache_key
-    "#{name}/#{cached_at.utc.iso8601}"
+    "#{name}/#{update_date}"
   end
 
   def update_date
@@ -256,14 +251,11 @@ class Source < ActiveRecord::Base
   end
 
   def source_url
-    "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}&nocache=1"
-  end
-
-  def cached_version
-    response = Rails.cache.read("rabl/v5/1/#{cache_key}//hash") || {}
+    "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
   end
 
   def update_cache
+    update_column(:cached_at, Time.zone.now)
     DelayedJob.delete_all(queue: "#{name}-cache")
     delay(priority: 1, queue: "#{name}-cache").get_result(source_url, timeout: 900)
   end

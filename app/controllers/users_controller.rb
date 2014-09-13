@@ -54,6 +54,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user = User.find(params[:id])
     @user.destroy
     load_index
     respond_with(@users) do |format|

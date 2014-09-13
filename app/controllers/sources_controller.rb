@@ -26,7 +26,6 @@ class SourcesController < ApplicationController
     @doc = Doc.find("sources")
 
     @groups = Group.includes(:sources).order("groups.id, sources.display_name")
-    respond_with @groups
   end
 
   def edit
