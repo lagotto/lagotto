@@ -6,4 +6,4 @@ std_opts = "-r features/support/ -r features/step_definitions --format #{ENV['CU
 default: <%= std_opts %> --require features
 wip: --tags @wip:3 --wip --require features
 rerun: <%= rerun_opts %> --format rerun --out rerun.txt --tags ~@wip
-ci:  <%= std_opts %> --require features --tags ~@not_teamcity
+ci:  <%= std_opts %> --require features --tags
