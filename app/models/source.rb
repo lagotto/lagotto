@@ -250,14 +250,20 @@ class Source < ActiveRecord::Base
     cached_at.utc.iso8601
   end
 
-  def source_url
-    "http://#{CONFIG[:hostname]}/api/v5/sources/#{name}?api_key=#{CONFIG[:api_key]}"
+  def update_cache
+    DelayedJob.delete_all(queue: "#{name}-cache")
+    delay(priority: 1, queue: "#{name}-cache").write_cache
   end
 
-  def update_cache
-    update_column(:cached_at, Time.zone.now)
-    DelayedJob.delete_all(queue: "#{name}-cache")
-    delay(priority: 1, queue: "#{name}-cache").get_result(source_url, timeout: 900)
+  def write_cache
+    # update cache_key as last step so that we have the old version until we are done
+    now = Time.zone.now
+    timestamp = now.utc.iso8601
+
+    # loop through cached attributes we want to update
+    [:event_count, :article_count, :queued_count, :stale_count, :response_count, :average_count, :maximum_count, :with_events_by_day_count, :without_events_by_day_count, :with_events_by_month_count, :without_events_by_month_count].each { |cached_attr| send("#{cached_attr}=", timestamp) }
+
+    update_column(:cached_at, now)
   end
 
   # Remove all retrieval records for this source that have never been updated,
