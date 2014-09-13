@@ -176,7 +176,6 @@ Then /^I should see the "(.*?)" settings$/ do |parameter|
 end
 
 Then /^I should see that the source is "(.*?)"$/ do |status|
-  page.driver.render("tmp/capybara/#{status}.png") #if @wip
   page.should have_content status
 end
 

@@ -18,7 +18,7 @@ Lagotto::Application.routes.draw do
   resources :filters
 
   match "oembed" => "oembed#show"
-  match '/files/alm_report.zip', :to => redirect('/files/alm_report.zip')
+  match "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
 
   namespace :api do
     namespace :v3 do

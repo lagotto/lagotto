@@ -22,7 +22,8 @@ module Countable
     end
 
     def event_count=(timestamp)
-      Rails.cache.write("#{name}/event_count/#{timestamp}", retrieval_statuses.sum(:event_count))
+      Rails.cache.write("#{name}/event_count/#{timestamp}",
+                        retrieval_statuses.sum(:event_count))
     end
 
     def article_count
@@ -30,7 +31,8 @@ module Countable
     end
 
     def article_count=(timestamp)
-      Rails.cache.write("#{name}/article_count/#{timestamp}", articles.is_cited.size)
+      Rails.cache.write("#{name}/article_count/#{timestamp}",
+                        articles.is_cited.size)
     end
 
     def queued_count
@@ -38,7 +40,8 @@ module Countable
     end
 
     def queued_count=(timestamp)
-      Rails.cache.write("#{name}/queued_count/#{timestamp}", retrieval_statuses.queued.size)
+      Rails.cache.write("#{name}/queued_count/#{timestamp}",
+                        retrieval_statuses.queued.size)
     end
 
     def stale_count
@@ -46,7 +49,8 @@ module Countable
     end
 
     def stale_count=(timestamp)
-      Rails.cache.write("#{name}/stale_count/#{timestamp}", retrieval_statuses.stale.size)
+      Rails.cache.write("#{name}/stale_count/#{timestamp}",
+                        retrieval_statuses.stale.size)
     end
 
     def response_count
@@ -54,7 +58,8 @@ module Countable
     end
 
     def response_count=(timestamp)
-      Rails.cache.write("#{name}/response_count/#{timestamp}", api_responses.total(1).size)
+      Rails.cache.write("#{name}/response_count/#{timestamp}",
+                        api_responses.total(1).size)
     end
 
     def average_count
@@ -62,7 +67,8 @@ module Countable
     end
 
     def average_count=(timestamp)
-      Rails.cache.write("#{name}/average_count/#{timestamp}", api_responses.total(1).average("duration"))
+      Rails.cache.write("#{name}/average_count/#{timestamp}",
+                        api_responses.total(1).average("duration"))
     end
 
     def maximum_count
@@ -70,7 +76,8 @@ module Countable
     end
 
     def maximum_count=(timestamp)
-      Rails.cache.write("#{name}/maximum_count/#{timestamp}", api_responses.total(1).maximum("duration"))
+      Rails.cache.write("#{name}/maximum_count/#{timestamp}",
+                        api_responses.total(1).maximum("duration"))
     end
 
     def error_count
@@ -82,7 +89,8 @@ module Countable
     end
 
     def with_events_by_day_count=(timestamp)
-      Rails.cache.write("#{name}/with_events_by_day_count/#{timestamp}", retrieval_statuses.with_events(1).size)
+      Rails.cache.write("#{name}/with_events_by_day_count/#{timestamp}",
+                        retrieval_statuses.with_events(1).size)
     end
 
     def without_events_by_day_count
@@ -90,7 +98,8 @@ module Countable
     end
 
     def without_events_by_day_count=(timestamp)
-      Rails.cache.write("#{name}/without_events_by_day_count/#{timestamp}", retrieval_statuses.without_events(1).size)
+      Rails.cache.write("#{name}/without_events_by_day_count/#{timestamp}",
+                        retrieval_statuses.without_events(1).size)
     end
 
     def with_events_by_month_count
@@ -98,7 +107,8 @@ module Countable
     end
 
     def with_events_by_month_count=(timestamp)
-      Rails.cache.write("#{name}/with_events_by_month_count/#{timestamp}", retrieval_statuses.with_events(31).size)
+      Rails.cache.write("#{name}/with_events_by_month_count/#{timestamp}",
+                        retrieval_statuses.with_events(31).size)
     end
 
     def without_events_by_month_count
@@ -106,7 +116,8 @@ module Countable
     end
 
     def without_events_by_month_count=(timestamp)
-      Rails.cache.write("#{name}/without_events_by_month_count/#{timestamp}", retrieval_statuses.without_events(31).size)
+      Rails.cache.write("#{name}/without_events_by_month_count/#{timestamp}",
+                        retrieval_statuses.without_events(31).size)
     end
   end
 end

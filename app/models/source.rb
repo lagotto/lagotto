@@ -261,7 +261,17 @@ class Source < ActiveRecord::Base
     timestamp = now.utc.iso8601
 
     # loop through cached attributes we want to update
-    [:event_count, :article_count, :queued_count, :stale_count, :response_count, :average_count, :maximum_count, :with_events_by_day_count, :without_events_by_day_count, :with_events_by_month_count, :without_events_by_month_count].each { |cached_attr| send("#{cached_attr}=", timestamp) }
+    [:event_count,
+     :article_count,
+     :queued_count,
+     :stale_count,
+     :response_count,
+     :average_count,
+     :maximum_count,
+     :with_events_by_day_count,
+     :without_events_by_day_count,
+     :with_events_by_month_count,
+     :without_events_by_month_count].each { |cached_attr| send("#{cached_attr}=", timestamp) }
 
     update_column(:cached_at, now)
   end

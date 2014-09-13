@@ -58,7 +58,7 @@ BlockComments:
 
 BlockNesting:
   Description: 'Avoid excessive block nesting'
-  Enabled: false
+  Enabled: true
 
 Blocks:
   Description: >-
@@ -167,7 +167,7 @@ EmptyLiteral:
 
 Encoding:
   Description: 'Use UTF-8 as the source file encoding.'
-  Enabled: false
+  Enabled: true
 
 EndBlock:
   Description: 'Avoid the use of END blocks.'
@@ -195,7 +195,7 @@ For:
 
 FormatString:
   Description: 'Enforce the use of Kernel#sprintf, Kernel#format or String#%.'
-  Enabled: false
+  Enabled: true
 
 GlobalVars:
   Description: 'Do not introduce global variables.'

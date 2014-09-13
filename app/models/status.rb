@@ -15,7 +15,8 @@ class Status
   end
 
   def articles_last30_count=(timestamp)
-    Rails.cache.write("status/articles_last30_count/#{timestamp}", Article.last_x_days(30).count)
+    Rails.cache.write("status/articles_last30_count/#{timestamp}",
+                      Article.last_x_days(30).count)
   end
 
   def events_count
@@ -23,7 +24,9 @@ class Status
   end
 
   def events_count=(timestamp)
-    Rails.cache.write("status/events_count/#{timestamp}", RetrievalStatus.joins(:source).where("state > ?", 0).where("name != ?", "relativemetric").sum(:event_count))
+    Rails.cache.write("status/events_count/#{timestamp}",
+                      RetrievalStatus.joins(:source).where("state > ?", 0)
+                        .where("name != ?", "relativemetric").sum(:event_count))
   end
 
   def alerts_last_day_count
@@ -31,7 +34,8 @@ class Status
   end
 
   def alerts_last_day_count=(timestamp)
-    Rails.cache.write("status/alerts_last_day_count/#{timestamp}", Alert.total_errors(1).count)
+    Rails.cache.write("status/alerts_last_day_count/#{timestamp}",
+                      Alert.total_errors(1).count)
   end
 
   def workers_count
@@ -47,7 +51,8 @@ class Status
   end
 
   def responses_count=(timestamp)
-    Rails.cache.write("status/responses_count/#{timestamp}", ApiResponse.total(1).count)
+    Rails.cache.write("status/responses_count/#{timestamp}",
+                      ApiResponse.total(1).count)
   end
 
   def requests_count
@@ -55,7 +60,8 @@ class Status
   end
 
   def requests_count=(timestamp)
-    Rails.cache.write("status/requests_count/#{timestamp}", ApiRequest.where("created_at > ?", Time.zone.now - 1.day).count)
+    Rails.cache.write("status/requests_count/#{timestamp}",
+                      ApiRequest.where("created_at > ?", Time.zone.now - 1.day).count)
   end
 
   def users_count
@@ -75,11 +81,11 @@ class Status
   end
 
   def update_date
-    Rails.cache.fetch('status:timestamp') { "1970-01-01T00:00:00Z" }
+    Rails.cache.fetch("status:timestamp") { "1970-01-01T00:00:00Z" }
   end
 
   def update_date=(timestamp)
-    Rails.cache.write('status:timestamp', timestamp)
+    Rails.cache.write("status:timestamp", timestamp)
   end
 
   def cache_key
@@ -96,6 +102,12 @@ class Status
     timestamp = Time.zone.now.utc.iso8601
 
     # loop through cached attributes we want to update
-    [:articles_count, :articles_last30_count, :events_count, :alerts_last_day_count, :responses_count, :requests_count, :update_date].each { |cached_attr| send("#{cached_attr}=", timestamp) }
+    [:articles_count,
+     :articles_last30_count,
+     :events_count,
+     :alerts_last_day_count,
+     :responses_count,
+     :requests_count,
+     :update_date].each { |cached_attr| send("#{cached_attr}=", timestamp) }
   end
 end
