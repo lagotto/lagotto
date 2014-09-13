@@ -79,14 +79,14 @@ group :test do
   gem "rest-client", "~> 1.6.7"
   gem "aruba", "~> 0.5.1", :require => false
   gem "poltergeist", "~> 1.5.0"
-  gem 'phantomjs', '~> 1.9.7.0', :require => 'phantomjs/poltergeist'
+  gem 'phantomjs', '~> 1.9.7.1', :require => 'phantomjs/poltergeist'
   gem "minitest", "~> 4.4.0"
   gem "mocha", "~> 0.13.3", :require => false
 end
 
 group :test, :development do
   gem "rspec-rails", "~> 2.14.0"
-  gem 'jasmine-rails', '~> 0.7.0'
+  gem 'jasmine-rails', '~> 0.10.2'
   gem "brakeman", "~> 2.6.0", :require => false
   gem 'rubocop', '~> 0.20.1'
   gem 'bullet', '~> 4.13.0'
