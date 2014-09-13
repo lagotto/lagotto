@@ -15,7 +15,7 @@ defaults: &defaults
   timeout: 5000
   database: alm_<%= Rails.env %>
   host: localhost
-  <<: *<%= ENV['DB'] || "postgresql" %>
+  <<: *<%= ENV['DB'] || "mysql" %>
 
 development:
   <<: *defaults
