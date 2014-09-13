@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_filter :load_article, :only => [ :show, :edit, :update, :destroy ]
+  before_filter :load_article, :only => [:show, :edit, :update, :destroy]
   before_filter :new_article, :only => [:create]
   load_and_authorize_resource
   skip_authorize_resource :only => [:show, :index]

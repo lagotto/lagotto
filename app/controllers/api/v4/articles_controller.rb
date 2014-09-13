@@ -2,7 +2,7 @@ class Api::V4::ArticlesController < Api::V4::BaseController
   # include article controller methods
   include Articable
 
-  before_filter :load_article, :only => [ :update, :destroy ]
+  before_filter :load_article, :only => [:update, :destroy]
 
   def create
     @article = Article.new(safe_params)

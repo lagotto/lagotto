@@ -61,7 +61,8 @@ class Status
 
   def requests_count=(timestamp)
     Rails.cache.write("status/requests_count/#{timestamp}",
-                      ApiRequest.where("created_at > ?", Time.zone.now - 1.day).count)
+                      ApiRequest.where("created_at > ?",
+                                       Time.zone.now - 1.day).count)
   end
 
   def users_count
@@ -98,7 +99,7 @@ class Status
   end
 
   def write_cache
-    # update cache_key as last step so that we have the old version until we are done
+    # update cache_key as last step so that old version works until we are done
     timestamp = Time.zone.now.utc.iso8601
 
     # loop through cached attributes we want to update
