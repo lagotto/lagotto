@@ -56,7 +56,7 @@ GEM
     cache_digests (0.3.1)
       actionpack (>= 3.2)
       thread_safe
-    cancan (1.6.10)
+    cancancan (1.9.2)
     capistrano (3.2.1)
       i18n
       rake (>= 10.0.0)
@@ -362,7 +362,7 @@ DEPENDENCIES
   brakeman (~> 2.6.0)
   bullet (~> 4.13.0)
   cache_digests (~> 0.3.1)
-  cancan (~> 1.6.10)
+  cancancan (~> 1.9.2)
   capistrano-bundler (~> 1.1.2)
   capistrano-rails (~> 1.1.1)
   capybara (~> 2.2.1)
