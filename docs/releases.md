@@ -10,8 +10,8 @@ from Apache 2.0 to a MIT license. Lagotto 3.5 was released on September 14, 2014
 with the following features and bugfixes:
 
 * updated automated installation with Chef/Vagrant to use Ubuntu 14.04 and Nginx,
-  and simplified and tested the Chef cookbook.
-* updated the manual installation instructions and added a new page with deployment instructions
+  and simplified and tested the Chef cookbook
+* updated the manual installation instructions, and added a new page with deployment instructions
 * fixed a bug with caching JSONP API responses
 * improved caching of the admin dashboard by moving to model caching for slow queries
 
