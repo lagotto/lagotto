@@ -82,7 +82,7 @@ class Status
   end
 
   def update_date
-    Rails.cache.fetch("status:timestamp") { "1970-01-01T00:00:00Z" }
+    Rails.cache.read("status:timestamp") || "1970-01-01T00:00:00Z"
   end
 
   def update_date=(timestamp)
