@@ -1,4 +1,10 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+
+  # redirect to home page if login fails
+  rescue_from ActiveRecord::RecordInvalid do |exception|
+    redirect_to root_path, :alert => exception.message
+  end
+
   def persona
     @user = User.find_for_persona_oauth(request.env["omniauth.auth"], current_user) if request.env["omniauth.auth"]
 

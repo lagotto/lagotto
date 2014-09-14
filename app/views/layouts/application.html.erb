@@ -30,7 +30,7 @@
               $('input[name=assertion]').val(assertion);
               $('form').submit();
             } else {
-              window.location = "#{failure_path}"
+              window.location = "<%= root_path %>"
             }
           });
         }
