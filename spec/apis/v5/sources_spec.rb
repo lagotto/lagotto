@@ -23,6 +23,18 @@ describe "/api/v5/sources" do
         item["name"].should eq(@source.name)
         item["status"]["stale"].should == 10
       end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])
+        data = response["data"]
+        item = data.first
+        item["name"].should eq(@source.name)
+        item["status"]["stale"].should == 10
+      end
     end
 
     context "get responses" do
@@ -36,6 +48,19 @@ describe "/api/v5/sources" do
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
+        data = response["data"]
+        item = data.first
+        item["name"].should eq(@source.name)
+        item["responses"]["count"].should == 5
+        item["responses"]["average"].should == 200
+      end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
         item = data.first
         item["name"].should eq(@source.name)
@@ -62,6 +87,19 @@ describe "/api/v5/sources" do
         item["article_count"].should == 10
         item["event_count"].should == 500
       end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])
+        data = response["data"]
+        item = data.first
+        item["name"].should eq(@source.name)
+        item["article_count"].should == 10
+        item["event_count"].should == 500
+      end
     end
   end
 
@@ -82,6 +120,21 @@ describe "/api/v5/sources" do
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
+        data = response["data"]
+        data["name"].should eq(@source.name)
+        data["article_count"].should == 5
+        data["event_count"].should == 250
+        data["responses"]["count"].should == 5
+        data["responses"]["average"].should == 200
+        data["status"]["stale"].should == 5
+      end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
         data["name"].should eq(@source.name)
         data["article_count"].should == 5

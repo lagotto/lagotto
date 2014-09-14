@@ -23,6 +23,20 @@ describe "/api/v5/articles" do
           article["issued"]["date-parts"][0] == [articles[0].year, articles[0].month, articles[0].day]
         end.should be_true
       end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])
+        data = response["data"]
+        data.length.should == 50
+        data.any? do |article|
+          article["doi"] == articles[0].doi
+          article["issued"]["date-parts"][0] == [articles[0].year, articles[0].month, articles[0].day]
+        end.should be_true
+      end
     end
 
     context "default information" do
@@ -34,6 +48,24 @@ describe "/api/v5/articles" do
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
+        response["total"].should == 1
+        item = response["data"].first
+        item["doi"].should eq(article.doi)
+        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
+        item_source = item["sources"][0]
+        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
+        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
+        item_source["by_day"].should_not be_nil
+        item_source["by_month"].should_not be_nil
+        item_source["by_year"].should_not be_nil
+      end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eq(article.doi)
@@ -62,6 +94,19 @@ describe "/api/v5/articles" do
         item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
         item["sources"].should be_nil
       end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])
+        response["total"].should == 1
+        item = response["data"].first
+        item["doi"].should eq(article.doi)
+        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
+        item["sources"].should be_nil
+      end
     end
 
     context "detail information" do
@@ -73,6 +118,26 @@ describe "/api/v5/articles" do
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
+        response["total"].should == 1
+        item = response["data"].first
+        item["doi"].should eq(article.doi)
+        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
+
+        item_source = item["sources"][0]
+        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
+        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
+        item_source["events"].should_not be_nil
+        item_source["by_day"].should_not be_nil
+        item_source["by_month"].should_not be_nil
+        item_source["by_year"].should_not be_nil
+      end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])
         response["total"].should == 1
         item = response["data"].first
         item["doi"].should eq(article.doi)
