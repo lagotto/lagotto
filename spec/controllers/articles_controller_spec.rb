@@ -26,15 +26,16 @@ describe ArticlesController do
   end
 
   context "errors" do
-    let(:message) { "The page you were looking for doesn't exist." }
-    it "RecordNotFound error" do
-      expect { get "/articles/info:doi/x" }.to raise_error(ActiveRecord::RecordNotFound)
-      Alert.count.should == 0
+    it "redirects to the home page for an unknown article" do
+      get "/articles/info:doi/x"
+      last_response.status.should eql(404)
+      last_response.body.should include("redirected")
     end
 
-    it "RoutingError error" do
-      expect { get "/x" }.to raise_error(ActionController::RoutingError)
-      Alert.count.should == 0
+    it "redirects to the home page for an unknown path" do
+      get "/x"
+      last_response.status.should eql(404)
+      last_response.body.should include("redirected")
     end
   end
 end

@@ -45,19 +45,19 @@ Feature: Sign in as user
     @allow-rescue
     Scenario: User cannot see users in the dashboard
       When I go to the "Users" page
-      Then I should see the "You are not authorized to access this page." error message
+      Then I should see the "The page you are looking for doesn't exist." error message
 
     @allow-rescue
     Scenario: User cannot see publishers in the dashboard
       When I go to the "Publishers" page
-      Then I should see the "You are not authorized to access this page." error message
+      Then I should see the "The page you are looking for doesn't exist." error message
 
     @allow-rescue
     Scenario: User cannot see API requests in the dashboard
       When I go to the "API Requests" page
-      Then I should see the "You are not authorized to access this page." error message
+      Then I should see the "The page you are looking for doesn't exist." error message
 
     @allow-rescue
     Scenario: User cannot see alerts in the dashboard
       When I go to the "Alerts" page
-      Then I should see the "You are not authorized to access this page." error message
+      Then I should see the "The page you are looking for doesn't exist." error message

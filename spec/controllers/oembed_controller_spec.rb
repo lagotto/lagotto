@@ -59,9 +59,18 @@ describe OembedController do
   end
 
   context "errors" do
-    it "RoutingError error" do
-      expect { get "/oembed?url=x" }.to raise_error(ActiveRecord::RecordNotFound)
-      Alert.count.should == 0
+    it "Not found JSON" do
+      get "/oembed?url=x", 'HTTP_ACCEPT' => 'application/json'
+      last_response.status.should eql(404)
+      response = JSON.parse(last_response.body)
+      response.should eq("error" => "No article found.")
+    end
+
+    it "Not found XML" do
+      get "/oembed?url=x", nil, 'HTTP_ACCEPT' => 'application/xml'
+      last_response.status.should eql(404)
+      response = Hash.from_xml(last_response.body)
+      response.should eq("hash" => { "error" => "No article found." })
     end
   end
 end

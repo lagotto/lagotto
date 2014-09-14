@@ -4,8 +4,10 @@ describe SourcesController do
   render_views
 
   context "show" do
-    it "returns a proper error for an unknown source" do
-      expect { get source_path("x") }.to raise_error(ActiveRecord::RecordNotFound)
+    it "redirects to the home page for an unknown source" do
+      get source_path("x")
+      last_response.status.should eql(404)
+      last_response.body.should include("redirected")
     end
   end
 
@@ -74,7 +76,12 @@ describe SourcesController do
     end
 
     it "returns a proper RSS error for an unknown source" do
-      expect { get source_path("x"), format: "rss" }.to raise_error(ActiveRecord::RecordNotFound)
+      get source_path("x"), format: "rss"
+      last_response.status.should eql(404)
+      response = Hash.from_xml(last_response.body)
+      response = response["rss"]["channel"]
+      response["title"].should eq("Lagotto: source not found")
+      response["link"].should eq(root_url)
     end
   end
 end
