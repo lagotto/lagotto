@@ -63,7 +63,7 @@ module Lagotto
     config.filter_parameters += [:password]
 
     # Use a different cache store
-    config.cache_store = :dalli_store, *CONFIG[:web_servers], { :namespace => "lagotto", :compress => true }
+    config.cache_store = :dalli_store, *CONFIG[:web_servers], { :namespace => "lagotto_#{Rails.env}", :compress => true }
 
     # Enable the asset pipeline
     config.assets.enabled = true
