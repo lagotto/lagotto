@@ -40,4 +40,7 @@ Lagotto::Application.routes.draw do
       resources :api_requests, :constraints => { :format=> false }, only: [:index]
     end
   end
+
+  # rescue routing errors
+  match "*path", :to => "alerts#routing_error"
 end
