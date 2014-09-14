@@ -1,7 +1,7 @@
 Rabl.configure do |config|
   # Commented as these are defaults
   # config.cache_all_output = true
-  config.cache_sources = true # Rails.env != 'development' # Defaults to false
+  config.cache_sources = true # Defaults to false
   # config.cache_engine = Rabl::CacheEngine.new # Defaults to Rails cache
   # config.perform_caching = false
   # config.escape_all_output = false
@@ -15,7 +15,7 @@ Rabl.configure do |config|
   # config.include_plist_root = true
   # config.include_xml_root  = false
   config.include_child_root = false
-  config.enable_json_callbacks = true
+  # config.enable_json_callbacks = true
   config.xml_options = { :dasherize  => false, :skip_types => true }
   config.view_paths = [Rails.root.join("app/views/api")]
   # config.raise_on_missing_attribute = true # Defaults to false

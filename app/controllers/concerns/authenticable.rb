@@ -6,6 +6,14 @@ module Authenticable
       request.format = :json if request.format.html?
     end
 
+    # from https://github.com/spree/spree/blob/master/api/app/controllers/spree/api/base_controller.rb
+    def set_jsonp_format
+      if params[:callback] && request.get?
+        self.response_body = "#{params[:callback]}(#{response.body})"
+        headers["Content-Type"] = 'application/javascript'
+      end
+    end
+
     def authenticate_user_from_token!
       user_token = params[:api_key].presence
       user       = user_token && User.find_by_authentication_token(user_token.to_s)

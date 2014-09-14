@@ -17,6 +17,14 @@ class ApplicationController < ActionController::Base
     request.env['omniauth.origin'] || user_path("me")
   end
 
+  # from https://github.com/spree/spree/blob/master/api/app/controllers/spree/api/base_controller.rb
+  def set_jsonp_format
+    if params[:callback] && request.get?
+      self.response_body = "#{params[:callback]}(#{response.body})"
+      headers["Content-Type"] = 'application/javascript'
+    end
+  end
+
   private
 
   def miniprofiler

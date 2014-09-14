@@ -5,5 +5,5 @@ class Api::V5::BaseController < ActionController::Base
   respond_to :json
 
   before_filter :default_format_json, :authenticate_user_from_token!, :cors_preflight_check
-  after_filter :cors_set_access_control_headers
+  after_filter :cors_set_access_control_headers, :set_jsonp_format
 end
