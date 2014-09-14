@@ -30,7 +30,7 @@ gem "devise", "~> 3.2.2"
 gem "omniauth-persona"
 gem "omniauth-cas", "~> 1.0.4"
 gem 'omniauth', '~> 1.1.0'
-gem "cancan", "~> 1.6.10"
+gem 'cancancan', '~> 1.9.2'
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.3.0"

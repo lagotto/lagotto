@@ -5,4 +5,5 @@ class Api::V4::BaseController < ActionController::Base
   respond_to :json
 
   before_filter :default_format_json, :authenticate_user_via_basic_authentication!
+  after_filter :set_jsonp_format
 end

@@ -23,6 +23,19 @@ describe "/api/v3/articles" do
         end.should be_true
       end
 
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])
+        response.length.should eql(50)
+        response.any? do |article|
+          article["doi"] == articles[0].doi
+          article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
+        end.should be_true
+      end
+
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
@@ -49,6 +62,17 @@ describe "/api/v3/articles" do
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response["sources"].should be_nil
+      end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])[0]
         response["doi"].should eql(article.doi)
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
         response["sources"].should be_nil
@@ -83,6 +107,20 @@ describe "/api/v3/articles" do
         response_source["events"].should_not be_nil
       end
 
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])[0]
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
+        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
+        response_source["events"].should_not be_nil
+      end
+
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should eql(200)
@@ -106,6 +144,20 @@ describe "/api/v3/articles" do
         last_response.status.should eql(200)
 
         response = JSON.parse(last_response.body)[0]
+        response_source = response["sources"][0]
+        response["doi"].should eql(article.doi)
+        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
+        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
+        response_source["events"].should_not be_nil
+      end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        last_response.status.should eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])[0]
         response_source = response["sources"][0]
         response["doi"].should eql(article.doi)
         response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)

@@ -40,4 +40,11 @@ Lagotto::Application.routes.draw do
       resources :api_requests, :constraints => { :format=> false }, only: [:index]
     end
   end
+
+  # redirect from old admin namespace
+  get "/admin/:name", to: redirect("/%{name}")
+  get "/admin/", to: redirect("/status")
+
+  # rescue routing errors
+  match "*path", to: "alerts#routing_error"
 end

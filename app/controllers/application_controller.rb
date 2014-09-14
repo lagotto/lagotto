@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   layout 'application'
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_path, :alert => exception.message
+    redirect_to root_path
   end
 
   def default_url_options
@@ -15,6 +15,14 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     request.env['omniauth.origin'] || user_path("me")
+  end
+
+  # from https://github.com/spree/spree/blob/master/api/app/controllers/spree/api/base_controller.rb
+  def set_jsonp_format
+    if params[:callback] && request.get?
+      self.response_body = "#{params[:callback]}(#{response.body})"
+      headers["Content-Type"] = 'application/javascript'
+    end
   end
 
   private
