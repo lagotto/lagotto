@@ -35,7 +35,7 @@ Lagotto::Application.configure do
   config.log_level = :debug
 
   # Expands the lines which load the assets
-  config.assets.debug = false
+  config.assets.debug = true
 
   # for devise
   config.action_mailer.default_url_options = { :host => "#{CONFIG[:mail]["address"]}#{CONFIG[:mail]["port"]}" }

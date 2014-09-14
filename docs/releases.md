@@ -6,7 +6,7 @@ title: "Releases"
 ### [Lagotto 3.5](https://github.com/articlemetrics/lagotto/releases/tag/v.3.5)
 
 With this release the ALM application was renamed to Lagotto and the license changed
-from Apache 2.0 to a MIT license. Lagotto 3.5 was  released on September 14, 2014
+from Apache 2.0 to a MIT license. Lagotto 3.5 was released on September 14, 2014
 with the following features and bugfixes:
 
 * updated automated installation with Chef/Vagrant to use Ubuntu 14.04 and Nginx,

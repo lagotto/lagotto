@@ -44,7 +44,7 @@ SITE
     phantomjs (1.0.3)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
-    postfix (3.5.0)
+    postfix (3.6.0)
     postgresql (3.4.2)
       apt (>= 1.9.0)
       build-essential (>= 0.0.0)
@@ -61,7 +61,7 @@ SITE
     windows (1.34.2)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
-    yum (3.3.1)
+    yum (3.3.2)
     yum-epel (0.5.1)
       yum (~> 3.0)
     yum-erlang_solutions (0.2.0)
@@ -72,17 +72,17 @@ SITE
 GIT
   remote: git@github.com:articlemetrics/capistrano-cookbook.git
   ref: master
-  sha: 43d031f6041ca8a034bd89bde5167a51459d1f0e
+  sha: d17dff7d3fef0359f11d3c69ee66013ad59f555d
   specs:
-    capistrano (0.6.4)
+    capistrano (0.6.5)
       ruby (~> 0.3.0)
 
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: 3e8866963efa2a74c3025443167cbfd32aac0daf
+  sha: b26bad34cb5ae1f662aab32bd0e44e5abe613c21
   specs:
-    lagotto (3.4.10)
+    lagotto (3.4.11)
       apt (>= 0.0.0)
       capistrano (~> 0.6.0)
       couchdb (>= 0.0.0)
