@@ -60,7 +60,7 @@ describe OembedController do
 
   context "errors" do
     it "RoutingError error" do
-      expect { get "/oembed?url=x" }.to raise_error(ActionController::RoutingError)
+      expect { get "/oembed?url=x" }.to raise_error(ActiveRecord::RecordNotFound)
       Alert.count.should == 0
     end
   end

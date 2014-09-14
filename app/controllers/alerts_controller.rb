@@ -1,10 +1,14 @@
 class AlertsController < ActionController::Base
   load_and_authorize_resource
-  skip_authorize_resource :only => [:create]
+  skip_authorize_resource :only => [:create, :routing_error]
 
   layout 'application'
 
   respond_to :html, :xml, :json, :rss
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_path
+  end
 
   def index
     collection = Alert
@@ -33,7 +37,7 @@ class AlertsController < ActionController::Base
     @alert = Alert.new(:exception => exception, :request => request)
 
     # Filter for errors that should not be saved
-    unless["ActiveRecord::RecordNotFound", "ActionController::RoutingError"].include?(exception.class.to_s)
+    unless["ActiveRecord::RecordNotFound", "ActionController::RoutingError", "CanCan::AccessDenied"].include?(exception.class.to_s)
       @alert.save
     else
       @alert.status = request.headers["PATH_INFO"][1..-1]
