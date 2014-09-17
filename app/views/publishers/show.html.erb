@@ -3,3 +3,7 @@
     <%= render :partial => 'show' %>
   </div>
 </div>
+
+<% if @publisher.articles %>
+  <%= render :partial => 'article' %>
+<% end %>

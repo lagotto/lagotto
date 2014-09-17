@@ -6,12 +6,14 @@ if (!params.empty()) {
   var page = params.attr('data-page');
   var q = params.attr('data-q');
   var class_name = params.attr('data-class_name');
+  var publisher = params.attr('data-publisher');
   var order = params.attr('data-order');
 
   var query = encodeURI("/api/v5/articles?api_key=" + api_key);
   if (page != "") query += "&page=" + page;
   if (q != "") query += "&q=" + q;
   if (class_name != "") query += "&class_name=" + class_name;
+  if (publisher != "") query += "&publisher=" + publisher;
   if (order != "") {
     query += "&source=" + order + "&order=" + order;
   } else {
