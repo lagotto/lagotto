@@ -58,6 +58,10 @@ module Articable
         collection = collection.order("published_on DESC")
       end
 
+      if params[:publisher]
+        collection = collection.where(publisher_id: params[:publisher])
+      end
+
       collection = collection.page(params[:page])
       collection = collection.per_page(params[:rows].to_i) if params[:rows] && (1..50).include?(params[:rows].to_i)
       @articles = collection.decorate(:context => { :info => params[:info], :source => source_ids })

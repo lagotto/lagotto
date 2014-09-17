@@ -58,6 +58,10 @@ module ApplicationHelper
     Source.order("group_id, display_name")
   end
 
+  def publishers
+    Publisher.order("name")
+  end
+
   def alerts
     %w(Net::HTTPUnauthorized Net::HTTPRequestTimeOut Delayed::WorkerTimeout DelayedJobError Net::HTTPConflict Net::HTTPServiceUnavailable Faraday::ResourceNotFound ActiveRecord::RecordInvalid TooManyErrorsBySourceError SourceInactiveError TooManyWorkersError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end
