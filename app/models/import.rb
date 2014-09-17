@@ -4,9 +4,18 @@ class Import
   # include HTTP request helpers
   include Networkable
 
-  TYPES_WITH_TITLE = %w(journal-article proceedings-article dissertation standard report book monograph edited-book reference-book dataset)
+  TYPES_WITH_TITLE = %w(journal-article
+                        proceedings-article
+                        dissertation
+                        standard
+                        report
+                        book
+                        monograph
+                        edited-book
+                        reference-book
+                        dataset)
 
-  attr_accessor :filter, :sample, :rows
+  attr_accessor :filter, :sample, :rows, :member_list
 
   def initialize(options = {})
     from_update_date = options.fetch(:from_update_date, nil)
@@ -20,6 +29,7 @@ class Import
 
     @file = options.fetch(:file, nil)
     @sample = sample.to_i
+    @member_list = member.to_s.split(",")
 
     unless @file
       from_update_date = Date.yesterday.to_s(:db) if from_update_date.blank?
@@ -33,9 +43,10 @@ class Import
       @filter += ",type:#{type}" if type
       @filter += ",issn:#{issn}" if issn
 
-      if member
-        member_list = member.to_s.split(",")
-        @filter += member_list.reduce("") { |sum, member| sum + ",member:#{member}" }
+      if @member_list.present?
+        @filter += member_list.reduce("") do |sum, member|
+          sum + ",member:#{member}"
+        end
       end
     end
   end
@@ -45,10 +56,7 @@ class Import
       @file.length
     else
       result = get_result(query_url(offset = 0, rows = 0), options)
-
-      # extend hash fetch method to nested hashes
-      result.extend Hashie::Extensions::DeepFetch
-      result.deep_fetch('message', 'total-results') { 0 }
+      result.fetch('message', {}).fetch('total-results', 0)
     end
   end
 
@@ -85,9 +93,6 @@ class Import
     else
       result = get_result(query_url(offset), options)
     end
-
-    # extend hash fetch method to nested hashes
-    result.extend Hashie::Extensions::DeepFetch
   end
 
   def get_text(offset = 0, rows = 1000)
@@ -98,7 +103,7 @@ class Import
 
       uid = Article.from_uri(raw_uid.strip).values.first
       if raw_published_on
-        # date_parts is an array of non-null integers in the form [year, month, day]
+        # date_parts is an array of non-null integers: [year, month, day]
         # everything else should be nil and thrown away with compact
         date_parts = raw_published_on.split("-")
         date_parts = date_parts.map { |x| x.to_i > 0 ? x.to_i : nil }.compact
@@ -110,7 +115,8 @@ class Import
       { Article.uid => uid,
         "issued" => { "date-parts" => [date_parts] },
         "title" => [title],
-        "type" => "standard" }
+        "type" => "standard",
+        "member" => member_list.first }
     end
 
     { "status" => "ok",
@@ -121,9 +127,9 @@ class Import
     # return early if an error occured
     return result if result["status"] != "ok"
 
-    items = result['message'] && result.deep_fetch('message', 'items') { nil }
+    items = result.fetch('message', {}).fetch('items', nil)
     Array(items).map do |item|
-      uid = item["DOI"] || item[Article.uid]
+      uid = item.fetch("DOI", nil) || item.fetch(Article.uid, nil)
       date_parts = item["issued"]["date-parts"][0]
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
@@ -132,13 +138,19 @@ class Import
               when 1 then item["title"][0]
               else item["title"][0].presence || item["title"][1]
               end
-      title = item["container-title"][0].presence || "No title" if title.blank? && !TYPES_WITH_TITLE.include?(item["type"])
+
+      if title.blank? && !TYPES_WITH_TITLE.include?(item["type"])
+        title = item["container-title"][0].presence || "No title"
+      end
+      member = item.fetch("member", nil)
+      member = member[30..-1].to_i if member
 
       { Article.uid_as_sym => uid,
         title: title,
         year: year,
         month: month,
-        day: day }
+        day: day
+        member: member }
     end
   end
 

@@ -42,7 +42,7 @@ namespace :db do
       if number > 0
         # import in batches of 1,000 articles
         input.each_slice(1000) do |batch|
-          import = Import.new(file: batch)
+          import = Import.new(file: batch, member: ENV['MEMBER'])
           import.queue_article_import
         end
         puts "Started import of #{number} articles in the background..."
