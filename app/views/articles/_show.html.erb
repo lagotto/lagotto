@@ -9,6 +9,9 @@
       <%= f.input :pmid, :label => 'PubMed ID', :disabled => CONFIG[:uid] == "pmid" %>
       <%= f.input :pmcid, :label => 'PubMed Central ID', :disabled => CONFIG[:uid] == "pmcid" %>
       <%= f.input :canonical_url, :label => 'Canonical URL' %>
+      <% if publishers.length > 1 %>
+        <%= f.association :publisher %>
+      <% end %>
       <%= f.input :published_on, label: "Publication Date" do %>
         <%= f.input_field :day, as: :day %>
         <%= f.input_field :month, as: :month %>

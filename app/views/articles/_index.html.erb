@@ -10,6 +10,9 @@
       <%= f.input :pmcid, :label => 'PubMed Central ID' %>
       <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
       <%= f.input :canonical_url, :label => 'Canonical URL' %>
+      <% if publishers.length > 1 %>
+        <%= f.association :publisher %>
+      <% end %>
       <%= f.input :published_on, label: "Publication Date" do %>
         <%= f.input_field :day, as: :day %>
         <%= f.input_field :month, as: :month %>
@@ -41,6 +44,18 @@
             <li class="divider"></li>
             <% article_alerts.each do |alert| %>
               <li><%= link_to h(alert), articles_path(:class_name => alert, :q => params[:q]) %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if publishers.length > 1 %>
+        <div class="btn-group btn-group-sm" id="article-publishers">
+          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @publisher.nil? ? "All Publishers" : h(@publisher) %> <span class="caret"></span></a>
+          <ul class="dropdown-menu pull-right">
+            <li><%= link_to "All Publishers", articles_path(:q => params[:q]) %></li>
+            <li class="divider"></li>
+            <% publishers.each do |publisher| %>
+              <li><%= link_to h(publisher.name), articles_path(:publisher => publisher.crossref_id, :q => params[:q]) %></li>
             <% end %>
           </ul>
         </div>
