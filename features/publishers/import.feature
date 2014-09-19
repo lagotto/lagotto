@@ -14,7 +14,7 @@ Feature: Manage publishers
     Scenario: See publisher details
       When I go to the "Publishers" page
       And I click on publisher "Public Library of Science"
-      Then I should see the CrossRef id 340 for publisher "Public Library of Science (PLoS)"
+      Then the CrossRef ID should be 340
 
     Scenario: Search for existing publisher
       When I go to the "Publishers" page

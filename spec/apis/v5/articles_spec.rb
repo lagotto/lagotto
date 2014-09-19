@@ -160,6 +160,7 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
+        article = articles.first
         last_response.status.should == 200
 
         response = JSON.parse(last_response.body)
@@ -177,6 +178,7 @@ describe "/api/v5/articles" do
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+        article = articles.first
         last_response.status.should eql(200)
 
         # remove jsonp wrapper

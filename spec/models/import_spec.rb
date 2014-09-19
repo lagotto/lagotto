@@ -196,7 +196,7 @@ describe Import do
       article[:year].should == 2008
       article[:month].should == 7
       article[:day].should == 26
-      article[:member].should == 1963
+      article[:publisher_id].should == 1963
     end
 
     it "should parse_data incomplete date" do
@@ -212,7 +212,7 @@ describe Import do
       article[:year].should == 1884
       article[:month].should == 8
       article[:day].should be_nil
-      article[:member].should == 297
+      article[:publisher_id].should == 297
     end
 
     it "should parse_data title as second item" do

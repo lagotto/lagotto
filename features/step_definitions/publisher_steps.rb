@@ -28,6 +28,11 @@ When /^I search for publisher "(.*?)"$/ do |name|
   end
 end
 
+When /^I go to the page of publisher "(.*?)"$/ do |name|
+  publisher = Publisher.find_by_name(name)
+  visit publisher_path(publisher)
+end
+
 ### THEN ###
 Then /^I should see a list of (\d+) publishers?$/ do |number|
   # page.driver.render("tmp/capybara/#{number}_publishers.png")
@@ -39,13 +44,25 @@ Then /^I should see the publisher "(.*?)"$/ do |name|
   page.has_css?('a', :text => name).should be_true
 end
 
-Then /^I should see the CrossRef id (\d+) for publisher "(.*?)"$/ do |id, name|
+Then /^I should see the alert "(.*?)"$/ do |text|
+  # page.driver.render("tmp/capybara/alert.png")
+  page.has_css?('div.alert', :text => text, :visible => true).should be_true
+end
+
+Then /^the CrossRef ID should be (\d+)$/ do |id|
   within(".dl-horizontal") do
     page.has_css?('a', :text => id, :visible => true).should be_true
   end
 end
 
-Then /^I should see the alert "(.*?)"$/ do |text|
-  # page.driver.render("tmp/capybara/alert.png")
-  page.has_css?('div.alert', :text => text, :visible => true).should be_true
+Then /^the DOI prefix should be "(.*?)"$/ do |prefix|
+  within(".dl-horizontal") do
+    page.has_css?('dd', :text => prefix, :visible => true).should be_true
+  end
+end
+
+Then /^the other names should include "(.*?)"$/ do |name|
+  within(".dl-horizontal") do
+    page.has_css?('dd', :text => name, :visible => true).should be_true
+  end
 end

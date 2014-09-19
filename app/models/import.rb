@@ -149,8 +149,8 @@ class Import
         title: title,
         year: year,
         month: month,
-        day: day
-        member: member }
+        day: day,
+        publisher_id: member }
     end
   end
 
