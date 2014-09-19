@@ -6,8 +6,8 @@ def import_publishers
 end
 
 ### GIVEN ###
-Given /^we have a publisher with name "(.*?)" and CrossRef id (\d+)$/ do |name, id|
-  FactoryGirl.create(:publisher, :name => name, :crossref_id => id)
+Given /^the publisher "(.*?)" and CrossRef exists$/ do |name|
+  FactoryGirl.create(:publisher, :name => name)
 end
 
 ### WHEN ###

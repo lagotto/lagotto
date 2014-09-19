@@ -5,7 +5,7 @@ Feature: Manage publishers
 
   Background:
     Given I am logged in as "admin"
-    And we have a publisher with name "Public Library of Science (PLoS)" and CrossRef id 340
+    And the publisher "Public Library of Science (PLoS)" exists
 
     Scenario: See list of publishers
       When I go to the "Publishers" page

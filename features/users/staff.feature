@@ -27,16 +27,20 @@ Feature: Sign in as staff
       And I should see the "Update interval" settings
       And I should see the "Failed queries" settings
 
-    Scenario: Staff cannot edited sources
+    Scenario: Staff cannot edit sources
       Given the source "Citeulike" exists
       When I go to the "Configuration" tab of source "Citeulike"
       Then I should not see the "Edit" button
 
-    Scenario: Staff cannot edited users
+    Scenario: Staff cannot edit users
       Given we have user "joeboxer" with name "Joe Boxer"
       When I go to the "Users" page
       And I click on user "joeboxer"
       Then I should not see the "Edit" button
+
+    Scenario: Staff cannot edit publishers
+      When I go to the "Publishers" page
+      Then I should not see the "Add" button
 
    # Scenario: Staff can delete alerts
    #   Given we have 1 alert

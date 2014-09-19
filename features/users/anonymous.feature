@@ -21,6 +21,11 @@ Feature: Use without signing in
       When I go to the "Sources" page
       Then I should see the row "CiteULike"
 
+    Scenario: Anonymous user can see publishers
+      Given the publisher "Public Library of Science (PLoS)" exists
+      When I go to the "Publishers" page
+      Then I should see the publisher "Public Library of Science (PLoS)"
+
     Scenario: Anonymous user can go to source
       Given we have a user with role "admin"
       And the source "Citeulike" exists

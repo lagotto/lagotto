@@ -8,6 +8,10 @@ Feature: View publisher
     Given I am logged in as "admin"
     And the publisher "Public Library of Science (PLoS)" exists
 
+    Scenario: List of publishers
+      When I go to the "Publishers" page
+      Then I should see the publisher "Public Library of Science (PLoS)"
+
     Scenario: CrossRef ID
       When I go to the page of publisher "Public Library of Science (PLoS)"
       Then the CrossRef ID should be 340
