@@ -11,7 +11,7 @@ describe HeartbeatController do
       response = JSON.parse(last_response.body)
       response["version"].should eq(Rails.application.config.version)
       response["articles_count"].should == 0
-      response["update_date"].should eq (Rails.cache.fetch("status:timestamp"))
+      response["update_date"].should eq("1970-01-01T00:00:00Z")
       response["status"].should eq("OK")
     end
 
@@ -23,7 +23,7 @@ describe HeartbeatController do
       response = JSON.parse(last_response.body[6...-1])
       response["version"].should eq(Rails.application.config.version)
       response["articles_count"].should == 0
-      response["update_date"].should eq (Rails.cache.fetch("status:timestamp"))
+      response["update_date"].should eq("1970-01-01T00:00:00Z")
       response["status"].should eq("OK")
     end
   end
