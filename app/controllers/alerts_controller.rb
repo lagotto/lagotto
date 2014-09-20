@@ -88,6 +88,6 @@ class AlertsController < ActionController::Base
   end
 
   def routing_error
-    redirect_to root_path, :alert => "The page you are looking for doesn't exist.", status: 404
+    redirect_to root_path, :alert => "The page you are looking for doesn't exist."
   end
 end

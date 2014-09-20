@@ -40,8 +40,8 @@ Feature: Show alerts
 
       Examples:
         | Path        | Alert                        |
-        | /articles/x | ActiveRecord::RecordNotFound |
-        | /x          | No route matches [GET] "/x"  |
+        | /articles/x | The page you are looking for doesn't exist. |
+        | /x          | The page you are looking for doesn't exist. |
 
     Scenario: Seeing multiple alerts
       Given we have 25 alerts
