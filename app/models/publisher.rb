@@ -16,4 +16,8 @@ class Publisher < ActiveRecord::Base
   def to_param  # overridden, use crossref_id instead of id
     crossref_id
   end
+
+  def update_date
+    updated_at.utc.iso8601
+  end
 end
