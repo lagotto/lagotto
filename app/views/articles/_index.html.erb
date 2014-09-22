@@ -38,12 +38,12 @@
         <div class="btn-group btn-group-sm" id="article-alerts">
           <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Articles" : h(@class_name) %> <span class="caret"></span></a>
           <ul class="dropdown-menu pull-right">
-            <li><%= link_to "All Articles", articles_path(:q => params[:q]) %></li>
+            <li><%= link_to "All Articles", articles_path(:q => params[:q], publisher: params[:publisher], order: params[:order]) %></li>
             <li class="divider"></li>
-            <li><%= link_to "All Alerts", articles_path(:class_name => "All Alerts", :q => params[:q]) %></li>
+            <li><%= link_to "All Alerts", articles_path(:class_name => "All Alerts", :q => params[:q], publisher: params[:publisher], order: params[:order]) %></li>
             <li class="divider"></li>
             <% article_alerts.each do |alert| %>
-              <li><%= link_to h(alert), articles_path(:class_name => alert, :q => params[:q]) %></li>
+              <li><%= link_to h(alert), articles_path(:class_name => alert, :q => params[:q], publisher: params[:publisher], order: params[:order]) %></li>
             <% end %>
           </ul>
         </div>
@@ -55,7 +55,7 @@
             <li><%= link_to "All Publishers", articles_path(:q => params[:q]) %></li>
             <li class="divider"></li>
             <% publishers.each do |publisher| %>
-              <li><%= link_to h(publisher.name), articles_path(:publisher => publisher.crossref_id, :q => params[:q]) %></li>
+              <li><%= link_to h(publisher.name), articles_path(:publisher => publisher.crossref_id, :q => params[:q], order: params[:order]) %></li>
             <% end %>
           </ul>
         </div>
@@ -63,12 +63,12 @@
       <div class="btn-group btn-group-sm" id="article-order">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @source.nil? ? "Date" : h(@source.display_name) %> <span class="caret"></span></a>
         <ul class="dropdown-menu pull-right">
-          <li><%= link_to "Date", articles_path(q: params[:q], class_name: params[:class_name]) %></li>
+          <li><%= link_to "Date", articles_path(q: params[:q], class_name: params[:class_name], publisher: params[:publisher]) %></li>
             <% Group.order("id").each do |group| %>
               <% unless group.sources.active.empty? %>
                 <li class="divider"></li>
                 <% group.sources.active.each do |source| %>
-                  <li><%= link_to h(source.display_name), articles_path(q: params[:q], class_name: params[:class_name], order: source.name) %></li>
+                  <li><%= link_to h(source.display_name), articles_path(q: params[:q], class_name: params[:class_name], publisher: params[:publisher], order: source.name) %></li>
                 <% end %>
               <% end %>
             <% end %>
