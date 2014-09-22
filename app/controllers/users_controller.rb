@@ -111,6 +111,15 @@ class UsersController < ApplicationController
   private
 
   def safe_params
-    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :subscribe, :unsubscribe, :role, :publisher_id)
+    params.require(:user).permit(:name,
+                                 :username,
+                                 :email,
+                                 :password,
+                                 :password_confirmation,
+                                 :subscribe,
+                                 :unsubscribe,
+                                 :role,
+                                 :publisher_id,
+                                 :authentication_token)
   end
 end
