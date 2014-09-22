@@ -187,7 +187,6 @@ describe Import do
       import = Import.new
       body = File.read(fixture_path + 'import.json')
       result = JSON.parse(body)
-      result.extend Hashie::Extensions::DeepFetch
       response = import.parse_data(result)
       response.length.should eq(10)
 
@@ -196,14 +195,14 @@ describe Import do
       article[:title].should eq("Investment climate, capabilities and firm performance")
       article[:year].should == 2008
       article[:month].should == 7
-      article[:day].should ==26
+      article[:day].should == 26
+      article[:publisher_id].should == 1963
     end
 
     it "should parse_data incomplete date" do
       import = Import.new
       body = File.read(fixture_path + 'import.json')
       result = JSON.parse(body)
-      result.extend Hashie::Extensions::DeepFetch
       response = import.parse_data(result)
       response.length.should eq(10)
 
@@ -213,13 +212,13 @@ describe Import do
       article[:year].should == 1884
       article[:month].should == 8
       article[:day].should be_nil
+      article[:publisher_id].should == 297
     end
 
     it "should parse_data title as second item" do
       import = Import.new
       body = File.read(fixture_path + 'import.json')
       result = JSON.parse(body)
-      result.extend Hashie::Extensions::DeepFetch
       response = import.parse_data(result)
       response.length.should eq(10)
 
@@ -233,7 +232,6 @@ describe Import do
       body = File.read(fixture_path + 'import.json')
       result = JSON.parse(body)
       result["message"]["items"][5]["title"] = []
-      result.extend Hashie::Extensions::DeepFetch
       response = import.parse_data(result)
       response.length.should eq(10)
 
@@ -248,7 +246,6 @@ describe Import do
       result = JSON.parse(body)
       result["message"]["items"][5]["title"] = []
       result["message"]["items"][5]["type"] = "journal-issue"
-      result.extend Hashie::Extensions::DeepFetch
 
       response = import.parse_data(result)
       response.length.should eq(10)
@@ -265,7 +262,6 @@ describe Import do
       result["message"]["items"][5]["title"] = []
       result["message"]["items"][5]["container-title"] = []
       result["message"]["items"][5]["type"] = "journal-issue"
-      result.extend Hashie::Extensions::DeepFetch
 
       response = import.parse_data(result)
       response.length.should eq(10)
@@ -281,7 +277,6 @@ describe Import do
       import = Import.new
       body = File.read(fixture_path + 'import.json')
       result = JSON.parse(body)
-      result.extend Hashie::Extensions::DeepFetch
       items = import.parse_data(result)
       response = import.import_data(items)
       response.length.should eq(10)
@@ -294,7 +289,6 @@ describe Import do
       import = Import.new
       body = File.read(fixture_path + 'import.json')
       result = JSON.parse(body)
-      result.extend Hashie::Extensions::DeepFetch
       items = import.parse_data(result)
       response = import.import_data(items)
       response.length.should eq(10)
@@ -306,7 +300,6 @@ describe Import do
       import = Import.new
       body = File.read(fixture_path + 'import.json')
       result = JSON.parse(body)
-      result.extend Hashie::Extensions::DeepFetch
       items = import.parse_data(result)
       items[0][:title] = nil
       response = import.import_data(items)

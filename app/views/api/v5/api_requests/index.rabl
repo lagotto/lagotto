@@ -9,4 +9,3 @@ node(:error) { nil }
 child @api_requests => :data do
   attributes :api_key, :info, :source, :ids, :db_duration, :view_duration, :date
 end
-

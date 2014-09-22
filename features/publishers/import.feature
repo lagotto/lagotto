@@ -5,7 +5,7 @@ Feature: Manage publishers
 
   Background:
     Given I am logged in as "admin"
-    And we have a publisher with name "Public Library of Science (PLoS)" and CrossRef id 340
+    And the publisher "Public Library of Science (PLoS)" exists
 
     Scenario: See list of publishers
       When I go to the "Publishers" page
@@ -14,7 +14,7 @@ Feature: Manage publishers
     Scenario: See publisher details
       When I go to the "Publishers" page
       And I click on publisher "Public Library of Science"
-      Then I should see the CrossRef id 340 for publisher "Public Library of Science (PLoS)"
+      Then the CrossRef ID should be 340
 
     Scenario: Search for existing publisher
       When I go to the "Publishers" page

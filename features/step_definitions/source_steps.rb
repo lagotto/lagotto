@@ -93,7 +93,7 @@ When /^I go to the "(.*?)" page$/ do |page_title|
     title = page_title.downcase
   end
   visit "/#{title}"
-  page.driver.render("tmp/capybara/#{title}.png") if @wip
+  page.driver.render("tmp/capybara/#{title}.png") #if @wip
 end
 
 When /^I go to "(.*?)"$/ do |path|

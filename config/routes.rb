@@ -23,9 +23,6 @@ Lagotto::Application.routes.draw do
   namespace :api do
     namespace :v3 do
       resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index, :show]
-      resources :sources, :constraints => { :format=> false }, only: [:index, :show]
-      resources :status, :constraints => { :format=> false }, only: [:index]
-      resources :api_requests, :constraints => { :format=> false }, only: [:index]
     end
 
     namespace :v4 do
@@ -38,6 +35,7 @@ Lagotto::Application.routes.draw do
       resources :sources, :constraints => { :format=> false }, only: [:index, :show]
       resources :status, :constraints => { :format=> false }, only: [:index]
       resources :api_requests, :constraints => { :format=> false }, only: [:index]
+      resources :publishers, :constraints => { :format=> false }, only: [:index]
     end
   end
 

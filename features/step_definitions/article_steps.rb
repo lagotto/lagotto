@@ -114,6 +114,7 @@ Then /^I should see the article$/ do
 end
 
 Then /^I should see an article with title "(.*?)"$/ do |title|
+  page.driver.render("tmp/capybara/#{title}")
   page.has_css?('h4 a', :text => title).should be_true
 end
 

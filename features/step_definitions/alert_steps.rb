@@ -18,6 +18,7 @@ When /^I click on the "(.*?)" link$/ do |link_name|
 end
 
 When /^I go to page (\d+)$/ do |page_number|
+  page.driver.render("tmp/capybara/#{page_number}.png")
   within(".pagination") do
     click_link page_number
   end
@@ -58,6 +59,7 @@ Then /^I should not see the "(.*?)" error message$/ do |error|
 end
 
 Then /^I should see the "(.*?)" error$/ do |error|
+  page.driver.render("tmp/capybara/#{error}.png")
   within(".panel-heading") do
     page.should have_content error
   end

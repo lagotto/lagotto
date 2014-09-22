@@ -21,6 +21,11 @@ Feature: Use without signing in
       When I go to the "Sources" page
       Then I should see the row "CiteULike"
 
+    Scenario: Anonymous user can see publishers
+      Given the publisher "Public Library of Science (PLoS)" exists
+      When I go to the "Publishers" page
+      Then I should see the publisher "Public Library of Science (PLoS)"
+
     Scenario: Anonymous user can go to source
       Given we have a user with role "admin"
       And the source "Citeulike" exists
@@ -54,10 +59,10 @@ Feature: Use without signing in
       When I go to the "Users" page
       Then I should see the "The page you are looking for doesn't exist." error message
 
-    @allow-rescue
-    Scenario: User cannot see publishers in the dashboard
+    Scenario: User can see publishers in the dashboard
+      Given the publisher "Public Library of Science (PLoS)" exists
       When I go to the "Publishers" page
-      Then I should see the "The page you are looking for doesn't exist." error message
+      Then I should see the publisher "Public Library of Science (PLoS)"
 
     @allow-rescue
     Scenario: Anonymous user cannot see API requests in the dashboard

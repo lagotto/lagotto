@@ -1,14 +1,6 @@
-class AlertsController < ActionController::Base
+class AlertsController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:create, :routing_error]
-
-  layout 'application'
-
-  respond_to :html, :xml, :json, :rss
-
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_path
-  end
 
   def index
     collection = Alert
@@ -88,6 +80,6 @@ class AlertsController < ActionController::Base
   end
 
   def routing_error
-    redirect_to root_path, :alert => "The page you are looking for doesn't exist.", status: 404
+    redirect_to root_path, :alert => "The page you are looking for doesn't exist."
   end
 end

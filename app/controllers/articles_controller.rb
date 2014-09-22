@@ -10,6 +10,7 @@ class ArticlesController < ApplicationController
     @page = params[:page] || 1
     @q = params[:q]
     @class_name = params[:class_name]
+    @publisher = params[:publisher]
     @order = params[:order]
   end
 
