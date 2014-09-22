@@ -3,7 +3,7 @@ class Publisher < ActiveRecord::Base
   include Networkable
 
   has_many :users
-  has_many :articles
+  has_many :articles, primary_key: :crossref_id
   has_many :publisher_options, :dependent => :destroy
   has_many :sources, :through => :publisher_options
 
