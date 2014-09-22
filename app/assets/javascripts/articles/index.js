@@ -37,6 +37,7 @@ function articlesViz(json) {
   json["href"] = "?page={{number}}";
   if (q != "") json["href"] += "&q=" + q;
   if (class_name != "") json["href"] += "&class_name=" + class_name;
+  if (publisher != "") json["href"] += "&publisher=" + publisher;
   if (order != "") json["href"] += "&order=" + order;
 
   d3.select("#loading-results").remove();
