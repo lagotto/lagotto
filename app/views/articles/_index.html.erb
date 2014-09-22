@@ -61,7 +61,7 @@
         </div>
       <% end %>
       <div class="btn-group btn-group-sm" id="article-order">
-        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @order.nil? || Source.find_by_name(@order).nil? ? "Date" : h(Source.active.select { |s| s.name == @order }.first.display_name) %> <span class="caret"></span></a>
+        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @source.nil? ? "Date" : h(@source.display_name) %> <span class="caret"></span></a>
         <ul class="dropdown-menu pull-right">
           <li><%= link_to "Date", articles_path(q: params[:q], class_name: params[:class_name]) %></li>
             <% Group.order("id").each do |group| %>
@@ -75,7 +75,7 @@
         </ul>
       </div>
     </div>
-     <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-uid_type="<%= CONFIG[:uid] %>" data-page="<%= @page %>" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher %>" data-order="<%= @order %>">Articles
+     <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-uid_type="<%= CONFIG[:uid] %>" data-page="<%= @page %>" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher.present? ? @publisher.crossref_id : nil %>" data-order="<%= @source.present? ? h(@source.name) : nil %>">Articles
     <% unless params[:q].blank? %>
       <small>with <em><%= params[:q] %></em> in the DOI</small>
     <% end %>

@@ -11,6 +11,10 @@ class PublishersController < ApplicationController
     respond_with @publishers
   end
 
+  def show
+    @source = Source.active.where(name: params[:order]).first
+  end
+
   def new
     if params[:query]
       ids = Publisher.pluck(:crossref_id)

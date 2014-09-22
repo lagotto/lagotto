@@ -1,13 +1,27 @@
 <div class="page-header">
-  <% if can?(:manage, Publisher) %>
-    <div class="btn-toolbar btn-sm pull-right">
+  <div class="btn-toolbar btn-sm pull-right">
+    <% if can?(:manage, Publisher) %>
       <div class="btn-group btn-group-sm">
         <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, publisher_path(@publisher), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
       </div>
+    <% end %>
+    <div class="btn-group btn-group-sm" id="article-order">
+      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @source.nil? ? "Date" : h(@source.display_name) %> <span class="caret"></span></a>
+      <ul class="dropdown-menu pull-right">
+        <li><%= link_to "Date", publisher_path(@publisher) %></li>
+          <% Group.order("id").each do |group| %>
+            <% unless group.sources.active.empty? %>
+              <li class="divider"></li>
+              <% group.sources.active.each do |source| %>
+                <li><%= link_to h(source.display_name), publisher_path(@publisher, order: source.name) %></li>
+              <% end %>
+            <% end %>
+          <% end %>
+      </ul>
     </div>
-  <% end %>
-  <h1 id="api_key" data-name="" data-api_key="<%= CONFIG[:api_key] %>" data-uid_type="<%= CONFIG[:uid] %>" data-page="" data-q="" data-class_name="" data-order="" data-publisher="<%= @publisher.crossref_id %>">
-    <%= h@publisher.name %>
+  </div>
+  <h1 id="api_key" data-name="" data-api_key="<%= CONFIG[:api_key] %>" data-uid_type="<%= CONFIG[:uid] %>" data-page="" data-q="" data-class_name="" data-order="<%= @source.present? ? h(@source.name) : nil %>" data-publisher="<%= @publisher.crossref_id %>">
+    <%= h(@publisher.name) %>
   </h1>
 </div>
 
