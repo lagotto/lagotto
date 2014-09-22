@@ -39,8 +39,8 @@
           <div id="user_<%= user.id %>" class="panel-collapse collapse.in">
             <div class="panel-body">
               <%= simple_form_for user, url: user_path(user), html: { role: "form", remote: true } do |f| %>
-                <%= f.input :name %>
-                <%= f.input :authentication_token, label: "API key" %>
+                <%= f.input :name, input_html: { class: "form-user" } %>
+                <%= f.input :authentication_token, label: "API key", input_html: { class: "form-user" } %>
                 <%= f.input :role, collection: roles.map { |role| [role.titleize, role] }, include_blank: false, input_html: { class: "form-user" } %>
                 <%= f.association :publisher, input_html: { class: "form-user" } %>
 
