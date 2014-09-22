@@ -106,6 +106,6 @@ module ApplicationHelper
   end
 
   def roles
-    %w(user publisher staff admin)
+    %w(user staff admin)
   end
 end

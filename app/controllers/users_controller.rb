@@ -16,25 +16,27 @@ class UsersController < ApplicationController
   end
 
   def edit
-    respond_with(@user) do |format|
-      format.js { render :show }
-    end
-  end
-
-  def update
-    # Admin updates user role
-    if params[:user][:role]
+    if params[:id].to_i == current_user.id
+      # user updates his account
+      respond_with(@user) do |format|
+        format.js { render :show }
+      end
+    else
+      # admin updates user account
       @user = User.find(params[:id])
       @reports = Report.available(@user.role)
       @doc = Doc.find("api")
-
-      @user.update_attribute(:role, params[:user][:role])
       load_index
       respond_with(@users) do |format|
         format.js { render :index }
       end
-    # User updates his account
-    else
+    end
+  end
+
+  def update
+    if params[:id].to_i == current_user.id
+      # user updates his account
+
       load_user
 
       if params[:user][:subscribe]
@@ -49,6 +51,15 @@ class UsersController < ApplicationController
 
       respond_with(@user) do |format|
         format.js { render :show }
+      end
+    else
+      # admin updates user account
+      @user = User.find(params[:id])
+      @user.update_attributes(safe_params)
+
+      load_index
+      respond_with(@users) do |format|
+        format.js { render :index }
       end
     end
   end
@@ -100,6 +111,6 @@ class UsersController < ApplicationController
   private
 
   def safe_params
-    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :subscribe, :unsubscribe, :publisher_id)
+    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :subscribe, :unsubscribe, :role, :publisher_id)
   end
 end

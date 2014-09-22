@@ -34,4 +34,8 @@
     <dt>DOI <%= 'Prefix'.pluralize(@publisher.prefixes.size) %></dt>
     <dd><%= @publisher.prefixes.join(" ") %></dd>
   <% end %>
+  <% if can?(:read, Alert) && @publisher.users %>
+    <dt>Users</dt>
+    <dd><%= @publisher.users.map { |user| link_to h(user.username), users_path(query: user.username) }.join("</br>").html_safe %></dd>
+  <% end %>
 </dl>
