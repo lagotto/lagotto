@@ -10,7 +10,7 @@ class ArticlesController < ApplicationController
     @page = params[:page] || 1
     @q = params[:q]
     @class_name = params[:class_name]
-    @publisher = params[:publisher]
+    @publisher = Publisher.find_by_crossref_id(params[:publisher])
     @order = params[:order]
   end
 
