@@ -34,6 +34,4 @@
     <dt>DOI <%= 'Prefix'.pluralize(@publisher.prefixes.size) %></dt>
     <dd><%= @publisher.prefixes.join(" ") %></dd>
   <% end %>
-  <dt>CrossRef ID</dt>
-  <dd><%= link_to @publisher.crossref_id, "http://api.crossref.org/members/#{@publisher.crossref_id}" %></dd>
 </dl>
