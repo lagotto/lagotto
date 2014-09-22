@@ -33,7 +33,7 @@ WebMock.disable_net_connect!(allow: allowed_hosts, allow_localhost: true)
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, :timeout => 120,
+  Capybara::Poltergeist::Driver.new(app, :timeout => 60,
                                          :js_errors => true,
                                          :debug => false,
                                          :inspector => true)
@@ -65,20 +65,12 @@ ActionController::Base.allow_rescue = false
 Cucumber::Rails::World.use_transactional_fixtures = true
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
-# Remove/comment out the lines below if your app doesn't have a database.
-# For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
-# begin
-#   DatabaseCleaner.strategy = :transaction
-# rescue NameError
-#   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
-# end
-
 Before('@javascript') do
   OmniAuth.config.test_mode = true
-  omni_hash = { :provider => "cas",
-                :uid => "12345",
-                :info => { "email" => "joe@example.com", "name" => "Joe Boxer" }}
-  OmniAuth.config.mock_auth[:cas] = OmniAuth::AuthHash.new(omni_hash)
+  omni_hash = { :provider => "persona",
+                :uid => "joe@example.com",
+                :info => { "email" => "joe@example.com" }}
+  OmniAuth.config.mock_auth[:persona] = OmniAuth::AuthHash.new(omni_hash)
 end
 
 After('@javascript') do

@@ -13,12 +13,12 @@ end
 
 def sign_up
   delete_user
-  visit '/users/auth/cas'
+  visit '/users/auth/persona'
 end
 
 def sign_in
   find_user
-  visit '/users/auth/cas'
+  visit '/users/auth/persona'
 end
 
 ### GIVEN ###
@@ -46,7 +46,7 @@ end
 Given /^I am logged in as "(.*?)"$/ do |role|
   token = ["admin", "staff"].include?(role) ? "12345" : "67890"
   @user = FactoryGirl.create(:user, role: role, authentication_token: token)
-  visit '/users/auth/cas'
+  visit '/users/auth/persona'
 end
 
 Given /^I exist as a user$/ do
