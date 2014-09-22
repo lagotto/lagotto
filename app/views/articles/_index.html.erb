@@ -50,7 +50,7 @@
       <% end %>
       <% if publishers.length > 1 %>
         <div class="btn-group btn-group-sm" id="article-publishers">
-          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @publisher.nil? ? "All Publishers" : h(@publisher) %> <span class="caret"></span></a>
+          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @publisher.nil? ? "All Publishers" : h(@publisher.name) %> <span class="caret"></span></a>
           <ul class="dropdown-menu pull-right">
             <li><%= link_to "All Publishers", articles_path(:q => params[:q]) %></li>
             <li class="divider"></li>
@@ -75,7 +75,7 @@
         </ul>
       </div>
     </div>
-     <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-uid_type="<%= CONFIG[:uid] %>" data-page="<%= @page %>" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-order="<%= @order %>">Articles
+     <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-uid_type="<%= CONFIG[:uid] %>" data-page="<%= @page %>" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher %>" data-order="<%= @order %>">Articles
     <% unless params[:q].blank? %>
       <small>with <em><%= params[:q] %></em> in the DOI</small>
     <% end %>
