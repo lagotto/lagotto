@@ -68,8 +68,9 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 Before('@javascript') do
   OmniAuth.config.test_mode = true
   omni_hash = { :provider => "persona",
-                :uid => "joe@example.com",
-                :info => { "email" => "joe@example.com" }}
+                :uid => "12345",
+                :info => { "email" => "joe@example.com",
+                           "username" => "joe@example.com" }}
   OmniAuth.config.mock_auth[:persona] = OmniAuth::AuthHash.new(omni_hash)
 end
 

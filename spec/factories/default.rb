@@ -255,13 +255,13 @@ FactoryGirl.define do
   end
 
   factory :user do
-    sequence(:username) { |n| "joesmith#{n}" }
-    sequence(:name) { |n| "Joe Smith#{n}" }
+    sequence(:username) { |n| "joe#{n}@example.com" }
     sequence(:email) { |n| "joe#{n}@example.com" }
+    sequence(:name) { |n| "Joe Smith#{n}" }
     password "joesmith"
     sequence(:authentication_token) { |n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
     role "admin"
-    provider "cas"
+    provider "persona"
     uid "12345"
 
     factory :admin_user do
