@@ -1,14 +1,6 @@
-class AlertsController < ActionController::Base
+class AlertsController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:create, :routing_error]
-
-  layout 'application'
-
-  respond_to :html, :xml, :json, :rss
-
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_path
-  end
 
   def index
     collection = Alert
