@@ -35,7 +35,7 @@
         <div class="panel-heading">
           <h4 class="panel-title"><%= link_to ("#{h(user.name)}<small class='pull-right'>#{user.last_sign_in_at.blank? ? "" : user.last_sign_in_at.to_s(:short)}</small>").html_safe, "#user_#{user.id}", :class => "accordion-toggle", :id => "link_#{user.id}", :data => { :toggle => "collapse", :parent => "#user" }, :href => "#user_#{user.id}" %></h4>
         </div>
-        <% if can?(:manage, user) and (controller.action_name == "edit" or (controller.action_name == "update" and !@user.errors.empty?)) %>
+        <% if can?(:manage, user) && user.id == @user.id && (controller.action_name == "edit" or (controller.action_name == "update" and !@user.errors.empty?)) %>
           <div id="user_<%= user.id %>" class="panel-collapse collapse.in">
             <div class="panel-body">
               <%= simple_form_for user, url: user_path(user), html: { role: "form", remote: true } do |f| %>
@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                   <%= f.submit "Save ", class: "btn btn-default" %>
-                  <%= link_to 'Cancel', users_path, { :remote => true, :class => 'btn' } %>
+                  <%= link_to 'Cancel', users_path(query: params[:query], role: params[:role]), { :remote => true, :class => 'btn' } %>
                 </div>
               <% end %>
             </div>
@@ -52,7 +52,7 @@
         <% else %>
           <div id="user_<%= user.id %>" class="panel-collapse collapse">
             <div class="panel-body">
-              <% if can?(:manage, user) and user.id != current_user.id %>
+              <% if can?(:manage, user) && user.id != current_user.id %>
                 <div class="btn-toolbar pull-right">
                   <div class="btn-group btn-group-sm">
                     <%= link_to "<span class=\"glyphicon glyphicon-pencil\"></span>".html_safe, edit_user_path(user, query: params[:query], role: params[:role]), remote: true, class: 'btn btn-default btn-sm', id: "#{user.id}-edit" %>
