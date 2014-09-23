@@ -4,10 +4,10 @@
     <fieldset>
       <legend>Edit Your Account</legend>
 
-      <%= f.input :name %>
+      <%= f.input :name, input_html: { class: "form-user" } %>
       <%= f.input :authentication_token, label: "API key", input_html: { class: "form-user" } %>
-      <%= f.input :password %>
-      <%= f.input :password_confirmation %>
+      <%= f.input :password, input_html: { class: "form-user" } %>
+      <%= f.input :password_confirmation, input_html: { class: "form-user" } %>
 
       <div class="form-group">
         <%= f.submit "Save ", class: "btn btn-default" %>
@@ -40,12 +40,12 @@
       <dd>Admin - full access to the ALM application</dd>
     <% elsif @user.role == "staff" %>
       <dd>Staff - read access to the admin dashboard</dd>
-    <% elsif @user.role == "publisher" %>
+    <% elsif @user.publisher_id.present? %>
       <dd>Publisher - read/write access to the API</dd>
     <% else %>
       <dd>User - read access to the API</dd>
     <% end %>
-    <% if @user.publisher %>
+    <% if @user.publisher_id.present? %>
       <dt>Publisher</dt>
       <dd><%= h(@user.publisher.name) %></dd>
     <% end %>
