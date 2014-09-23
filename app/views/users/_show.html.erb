@@ -5,6 +5,7 @@
       <legend>Edit Your Account</legend>
 
       <%= f.input :name %>
+      <%= f.input :authentication_token, label: "API key", input_html: { class: "form-user" } %>
       <%= f.input :password %>
       <%= f.input :password_confirmation %>
 
