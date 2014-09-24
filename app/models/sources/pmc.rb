@@ -164,15 +164,11 @@ class Pmc < Source
     config.events_url  || "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC%{pmcid}"
   end
 
-  def journals
-    config.journals
-  end
-
-  def journals=(value)
-    config.journals = value
-  end
-
   def cron_line
     config.cron_line || "0 5 9 * *"
+  end
+
+  def by_publisher?
+    config.by_publisher? || true
   end
 end
