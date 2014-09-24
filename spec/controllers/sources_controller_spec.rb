@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe SourcesController do
   render_views
@@ -6,7 +6,7 @@ describe SourcesController do
   context "show" do
     it "redirects to the home page for an unknown source" do
       get source_path("x")
-      last_response.status.should eql(404)
+      last_response.status.should == 302
       last_response.body.should include("redirected")
     end
   end
