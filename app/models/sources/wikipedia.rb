@@ -53,16 +53,6 @@ class Wikipedia < Source
     config.events_url || "http://en.wikipedia.org/w/index.php?search=\"%{doi}\""
   end
 
-  def languages
-    # Default is 25 largest Wikipedias:
-    # https://meta.wikimedia.org/wiki/List_of_Wikipedias#All_Wikipedias_ordered_by_number_of_articles
-    config.languages || "en nl de sv fr it ru es pl war ceb ja vi pt zh uk ca no fi fa id cs ko hu ar commons"
-  end
-
-  def languages=(value)
-    config.languages = value
-  end
-
   def job_batch_size
     config.job_batch_size || 50
   end
