@@ -3,10 +3,13 @@ class SourcesController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:show, :index]
 
-  respond_to :html, :rss
+  respond_to :html, :js, :rss
 
   def show
     @doc = Doc.find(@source.name)
+    if current_user && current_user.publisher
+      @publisher_option = PublisherOption.find_or_create_by_publisher_id_and_source_id(current_user.publisher_id, @source.id)
+    end
 
     respond_with(@source) do |format|
       format.rss do
@@ -58,7 +61,7 @@ class SourcesController < ApplicationController
   def load_source
     @source = Source.find_by_name(params[:id])
 
-    # raise error if article wasn't found
+    # raise error if source wasn't found
     fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
   end
 
@@ -69,6 +72,7 @@ class SourcesController < ApplicationController
                                    :group_id,
                                    :state_event,
                                    :private,
+                                   :by_publisher,
                                    :queueable,
                                    :description,
                                    :job_batch_size,

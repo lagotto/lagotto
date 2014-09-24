@@ -1,5 +1,4 @@
-<% if can?(:manage, Alert) && @source.state > 1 && (controller.action_name == "edit" or (controller.action_name == "update" && !@source.errors.empty?)) %>
-
+<% if can?(:manage, Source) && @source.state > 1 && (controller.action_name == "edit" or (controller.action_name == "update" && !@source.errors.empty?)) %>
   <%= simple_form_for(@source.becomes(Source), :url => source_path(@source.name), :html => { :remote => true }) do |f| %>
     <% f.object = @source.becomes(@source.class) %>
     <fieldset>
@@ -8,6 +7,9 @@
       <%= f.input :display_name %>
       <%= f.input :state_event, :as => :boolean, label: "Active", :checked_value => 'activate', :unchecked_value => 'inactivate', input_html: { checked: @source.active? }, hint: "Source is talking to external APIs" %>
       <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
+      <% if @source.publisher_fields.present? %>
+        <%= f.input :by_publisher, :as => :boolean, hint: "Publisher-specific settings for API keys, etc." %>
+      <% end %>
       <%= f.input :description, :input_html => { :rows => 3 } %>
 
       <% if not @source.config_fields.empty? %>
@@ -21,6 +23,7 @@
           <% end %>
         <% end %>
       <% end %>
+
       <%= f.input :priority, :as => :numeric, label: "Priority of jobs",
                                                     hint: "Priority of background jobs" %>
       <%= f.input :workers, :as => :numeric, label: "Workers",
@@ -71,9 +74,8 @@
       </div>
     </fieldset>
   <% end %>
-
 <% else %>
-  <% if can?(:manage, Alert) && @source.state > 1 %>
+  <% if can?(:manage, Source) && @source.state > 1 %>
     <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_source_path(@source.name), { :remote => true, :class => 'btn btn-default btn-sm pull-right configuration-edit', :title => "Edit" } %>
   <% end %>
   <table class="table table-striped">
@@ -96,6 +98,12 @@
         <tr>
           <th>Private source</th>
           <td>Source not made available via API</td>
+        </tr>
+      <% end %>
+      <% if @source.by_publisher? %>
+        <tr>
+          <th>By publisher</th>
+          <td>Publisher-specific settings for API keys, etc.</td>
         </tr>
       <% end %>
       <tr>
