@@ -26,7 +26,7 @@ Lagotto supports the following forms of authentication:
 
 The first user created in the system automatically has an admin role, and this user can be created with any of the authentication methods listed above. From then on all user accounts are created with an API user role, and users have to create their own account using third-party authentication with Persona (or CAS). Admin users can change the user role after an account has been created, but can't create user accounts
 
-Third-party authentication is configured in `config/settings.yml`. To use Persona, make sure the folling setting exists: `persona: true` (the default). No other configuration is necessary. Authentication via username/password is always enabled.
+Third-party authentication is configured in `config/settings.yml`. To use Persona, make sure the following setting exists: `persona: true` (the default). No other configuration is necessary. Authentication via username/password is always enabled.
 
 Users automatically obtain an API key, and they can sign up to the monthly report in CSV format. Admin users can sign up for additional reports (error report, status report, disabled source report).
 
