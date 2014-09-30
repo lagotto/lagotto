@@ -10,7 +10,7 @@ defaults: &defaults
   cas_login_url: /cas/login
   cas_logout_url: /cas/logout
   cas_service_validate_url: /cas/serviceValidate
-  couchdb_url: http://localhost:5984/alm/
+  couchdb_url: http://localhost:5984/lagotto/
   doi_prefix:
   import: # automatic import via CrossRef API. Use 'all', 'member', 'sample', 'member_sample', or leave empty
   uid: doi
