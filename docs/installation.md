@@ -153,13 +153,16 @@ These instructions assume a fresh installation of Ubuntu 14.04 and a user with s
 We only need one Ruby version and manage gems with bundler, so there is no need to install `rvm` or `rbenv`. We want to install the latest CouchDB version from the official PPA, and we want to install Nginx precompiled with Passenger.
 
 ```sh
-sudo apt-get install python-software-properties
+sudo apt-get install python-software-properties -y
 sudo apt-add-repository ppa:brightbox/ruby-ng
 sudo add-apt-repository ppa:couchdb/stable
 
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
-sudo apt-get install apt-transport-https ca-certificates
+sudo apt-get install apt-transport-https ca-certificates -y
+
+# Create a file /etc/apt/sources.list.d/passenger.list and insert the following line:
 deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main
+
 sudo chown root: /etc/apt/sources.list.d/passenger.list
 sudo chmod 600 /etc/apt/sources.list.d/passenger.list
 ```
@@ -174,27 +177,27 @@ sudo apt-get update
 Also install the `curl` and `git` packages, the `libmysqlclient-dev` library required by the `myslq2` gem, the `libpq-dev` library required by the `pg`gem, and `nodejs` as Javascript runtime. When running Lagotto on a local machine we also want to install `avahi-daemon` and `libnss-mdns`for zeroconf networking.
 
 ```sh
-sudo apt-get install ruby2.1 ruby2.1-dev curl git libmysqlclient-dev nodejs avahi-daemon libnss-mdns
+sudo apt-get install ruby2.1 ruby2.1-dev curl git libmysqlclient-dev nodejs avahi-daemon libnss-mdns -y
 ```
 
 #### Install databases
 
 ```sh
-sudo apt-get install couchdb mysql-server
+sudo apt-get install couchdb mysql-server -y
 ```
 
 #### Install Memcached
-Memcached is used to cache requests (in particular API requests), and the default configuration can be used. If you want to run memcached on a different host, change `config.cache_store = :dalli_store, { :namespace => "lagotto" }` in `config/environments/production.rb` to `config.cache_store = :dalli_store, 'cache.example.com', { :namespace => "lagotto" }`.
+Memcached is used to cache requests (in particular API requests), and the default configuration can be used.
 
 ```sh
-sudo apt-get install memcached
+sudo apt-get install memcached -y
 ```
 
 #### Install Postfix
 Postfix is used to send reports via email. Alternatively, a different SMTP host can be configured in `config/settings.yml`.
 
 ```sh
-sudo apt-get install postfix
+sudo apt-get install postfix -y
 ```
 
 The default configuration assumes `address: localhost`, `port: 25`. You can configure mail in `config/settings.yml`:
@@ -214,19 +217,19 @@ More information can be found [here](http://guides.rubyonrails.org/action_mailer
 #### Install Nginx with Passenger
 
 ```sh
-sudo apt-get install nginx-full passenger
+sudo apt-get install nginx-full passenger -y
 ```
 
 Edit `/etc/nginx/nginx.conf` and uncomment `passenger_root` and `passenger_ruby`.
 
 #### Set up Nginx virtual host
-Please set `server_name` if you have set up more than one virtual host. Use `passenger_app_env development` to use the Rails development environment.
+Please set `server_name` if you have set up more than one virtual host. Use `passenger_app_env development` to use the Rails development environment. Edit the file `/etc/nginx/sites-enabled/default` or - if you use multiple hosts - create the file `/etc/nginx/sites-enabled/lagotto.conf` with the following contents:
 
 ```
 server {
   listen 80 default_server;
   server_name EXAMPLE.ORG;
-  root /var/www/lagotto/current/public;
+  root /var/www/lagotto/public;
   access_log /var/log/nginx/lagotto.access.log;
   passenger_enabled on;
   passenger_app_env production;
@@ -237,7 +240,9 @@ server {
 You may have to set the permissions first, depending on your server setup. Passenger by default is run by the user who owns `config.ru`.
 
 ```sh
-dd /var/www
+mkdir -p /var/www
+sudo chmod 755 /var/www
+cd /var/www
 git clone git://github.com/articlemetrics/lagotto.git
 ```
 
@@ -253,12 +258,16 @@ bundle install
 
 #### Set Lagotto configuration settings
 You want to set the MySQL username/password in `database.yml`, using either the root password that you generated when you installed MySQL, or a different MySQL user. You also want to set the site and session keys in `settings.yml`, they can be generated with `rake secret`.
+The `api_key` is also needed and can again be generated with `rake secret`.
 
 ```sh
 cd /var/www/lagotto
 cp config/database.yml.example config/database.yml
 cp config/settings.yml.example config/settings.yml
 ```
+
+#### Configure Memcached (optional)
+If you want to run memcached on a different host, change `config.cache_store = :dalli_store, { :namespace => "lagotto" }` in `config/environments/production.rb` to `config.cache_store = :dalli_store, 'cache.example.com', { :namespace => "lagotto" }`.
 
 #### Install Lagotto databases
 We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including sample articles and a default user account (username/password _articlemetrics_). Use `RAILS_ENV=production` if you set up Passenger to run in the production environment.
@@ -269,6 +278,7 @@ It is possible to connect Lagotto to MySQL and/or CouchDB running on a different
 cd /var/www/lagotto
 rake db:setup RAILS_ENV=production
 curl -X PUT http://localhost:5984/lagotto/
+# should return {"ok":true}
 ```
 
 #### Restart Nginx
@@ -312,6 +322,12 @@ test:
 
 production:
   <<: *defaults
+```
+
+Make sure the `pg` gem is included in your `Gemfile` and you have installed Postgres and the required libraries with
+
+```sh
+sudo apt-get install postgresql libpq-dev -y
 ```
 
 ## Running Lagotto on multiple servers
