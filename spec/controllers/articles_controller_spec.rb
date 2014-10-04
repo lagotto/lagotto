@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe ArticlesController do
   render_views
@@ -28,13 +28,13 @@ describe ArticlesController do
   context "errors" do
     it "redirects to the home page for an unknown article" do
       get "/articles/info:doi/x"
-      last_response.status.should eql(404)
+      last_response.status.should == 302
       last_response.body.should include("redirected")
     end
 
     it "redirects to the home page for an unknown path" do
       get "/x"
-      last_response.status.should eql(404)
+      last_response.status.should == 302
       last_response.body.should include("redirected")
     end
   end
