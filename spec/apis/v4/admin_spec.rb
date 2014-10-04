@@ -3,7 +3,7 @@ require "spec_helper"
 describe "/api/v4/articles" do
   let(:error) { { "total" => 0, "total_pages" => 0, "page" => 0, "success" => nil, "error" => "You are not authorized to access this page.", "data" => nil } }
   let(:password) { user.password }
-  let(:headers) { { 'HTTP_ACCEPT' => 'application/json', 'HTTP_AUTHORIZATION' => "Basic " + Base64.encode64("#{CGI.escape(user.username)}:#{password}") } }
+  let(:headers) { { 'HTTP_ACCEPT' => 'application/json', 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, password) } }
 
   context "create" do
     let(:uri) { "/api/v4/articles" }
@@ -20,7 +20,7 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should eql(201)
+        last_response.status.should == 201
 
         response = JSON.parse(last_response.body)
         response["success"].should eq ("Article created.")
@@ -34,7 +34,7 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should eql(201)
+        last_response.status.should == 201
 
         response = JSON.parse(last_response.body)
         response["success"].should eq ("Article created.")
@@ -115,7 +115,8 @@ describe "/api/v4/articles" do
       before(:each) { Date.stub(:today).and_return(Date.new(2013, 9, 5)) }
 
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:params) { { "article" => { "doi" => "10.1371/journal.pone.0036790", "title" => nil, "year" => nil } } }
+      let(:params) { { "article" => { "doi" => "10.1371/journal.pone.0036790",
+                                      "title" => nil, "year" => nil } } }
 
       it "JSON" do
         post uri, params, headers
@@ -138,7 +139,8 @@ describe "/api/v4/articles" do
         last_response.status.should == 422
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({"foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"]})
+        response["error"].should eq ({"foo" => ["unpermitted parameter"],
+                                      "baz" => ["unpermitted parameter" ]})
         response["success"].should be_nil
         response["data"].should be_nil
 
