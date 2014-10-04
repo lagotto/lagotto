@@ -10,7 +10,7 @@
       <%= f.input :pmcid, :label => 'PubMed Central ID', :disabled => CONFIG[:uid] == "pmcid" %>
       <%= f.input :canonical_url, :label => 'Canonical URL' %>
       <% if publishers.length > 1 %>
-        <%= f.association :publisher %>
+        <%= f.association :publisher, collection: Publisher.order('name').map { |publisher| [publisher.name, publisher.crossref_id] }, input_html: { class: "form-user" } %>
       <% end %>
       <%= f.input :published_on, label: "Publication Date" do %>
         <%= f.input_field :day, as: :day %>
@@ -45,7 +45,7 @@
   <dl class="dl-horizontal">
     <dt>Publication Date</dt>
     <dd><%= l @article.published_on, format: date_format(@article) %></dd>
-    <% if @article.publisher_id.present? %>
+    <% if @article.publisher %>
       <dt>Publisher</dt>
       <dd><%= link_to h(@article.publisher.name), publisher_path(@article.publisher) %></dd>
     <% end %>

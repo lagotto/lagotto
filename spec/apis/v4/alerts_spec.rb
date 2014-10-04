@@ -3,7 +3,7 @@ require "spec_helper"
 describe "/api/v4/alerts" do
   let(:error) { { "total" => 0, "total_pages" => 0, "page" => 0, "error" => "You are not authorized to access this page.", "data" => [] } }
   let(:password) { user.password }
-  let(:headers) { { 'HTTP_ACCEPT' => 'application/json', 'HTTP_AUTHORIZATION' => "Basic " + Base64.encode64("#{CGI.escape(user.username)}:#{password}") } }
+  let(:headers) { { 'HTTP_ACCEPT' => 'application/json', 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, password) } }
 
   context "index" do
     context "most recent articles" do

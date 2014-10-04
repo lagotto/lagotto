@@ -260,9 +260,8 @@ FactoryGirl.define do
     sequence(:name) { |n| "Joe Smith#{n}" }
     password "joesmith"
     sequence(:authentication_token) { |n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
-    role "admin"
     provider "persona"
-    uid "12345"
+    sequence(:uid) { |n| "joe#{n}@example.com" }
 
     factory :admin_user do
       role "admin"
