@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
 
-  belongs_to :publisher
+  belongs_to :publisher, primary_key: :crossref_id
   has_and_belongs_to_many :reports
 
   before_save :ensure_authentication_token
@@ -26,14 +26,10 @@ class User < ActiveRecord::Base
   def self.find_for_cas_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     unless user
-      unless Rails.env.test?
-        # We obtain the email address from a second call to the CAS server
-        url = "#{CONFIG[:cas_url]}/cas/email?guid=#{auth.uid}"
-        result = User.new.get_result(url, content_type: 'html')
-        email = result.blank? ? "" : result
-      else
-        email = auth.info.email
-      end
+      # We obtain the email address from a second call to the CAS server
+      url = "#{CONFIG[:cas_url]}/cas/email?guid=#{auth.uid}"
+      result = User.new.get_result(url, content_type: 'html')
+      email = result.blank? ? "" : result
       name = email.present? ? email : auth.uid
       username = email.present? ? email : auth.uid
 
@@ -108,8 +104,8 @@ class User < ActiveRecord::Base
   protected
 
   def set_first_user
-    # The first user we create has an admin role and uses the configuration API key
-    # unless it is in the test environment
+    # The first user we create has an admin role and uses the configuration
+    # API key, unless it is in the test environment
     if User.count == 1 && !Rails.env.test?
       update_attributes(role: "admin", authentication_token: CONFIG[:api_key])
     end

@@ -2,7 +2,7 @@ class Publisher < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
 
-  has_many :users
+  has_many :users, primary_key: :crossref_id
   has_many :articles, primary_key: :crossref_id
   has_many :publisher_options, :dependent => :destroy
   has_many :sources, :through => :publisher_options
