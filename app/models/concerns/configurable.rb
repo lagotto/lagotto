@@ -56,6 +56,38 @@ module Configurable
       config.api_key = value
     end
 
+    def api_secret
+      config.api_secret
+    end
+
+    def api_secret=(value)
+      config.api_secret = value
+    end
+
+    def client_id
+      config.client_id
+    end
+
+    def client_id=(value)
+      config.client_id = value
+    end
+
+    def secret
+      config.secret
+    end
+
+    def secret=(value)
+      config.secret = value
+    end
+
+    def expires_at
+      config.expires_at || "1970-01-01"
+    end
+
+    def expires_at=(value)
+      config.expires_at = value
+    end
+
     def access_token
       config.access_token
     end
@@ -71,6 +103,32 @@ module Configurable
     def db_url=(value)
       # make sure we have trailing slash
       config.db_url = value ? value.chomp("/") + "/" : nil
+    end
+
+    def journals
+      config.journals
+    end
+
+    def journals=(value)
+      config.journals = value
+    end
+
+    def languages
+      # Default is 25 largest Wikipedias:
+      # https://meta.wikimedia.org/wiki/List_of_Wikipedias#All_Wikipedias_ordered_by_number_of_articles
+      config.languages || "en nl de sv fr it ru es pl war ceb ja vi pt zh uk ca no fi fa id cs ko hu ar commons"
+    end
+
+    def languages=(value)
+      config.languages = value
+    end
+
+    def count_limit
+      config.count_limit || 20000
+    end
+
+    def count_limit=(value)
+      config.count_limit = value
     end
 
     def workers
@@ -224,6 +282,17 @@ module Configurable
     end
 
     alias_method :obsolete?, :obsolete
+
+    # is this source using publisher-specific settings?
+    def by_publisher
+      config.by_publisher || false
+    end
+
+    def by_publisher=(value)
+      config.by_publisher = value
+    end
+
+    alias_method :by_publisher?, :by_publisher
 
   end
 end

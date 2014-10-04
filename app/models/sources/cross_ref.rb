@@ -97,4 +97,8 @@ class CrossRef < Source
   def workers
     config.workers || 10
   end
+
+  def by_publisher?
+    config.by_publisher? || true
+  end
 end

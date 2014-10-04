@@ -14,6 +14,10 @@ class Ability
       can :create, Article
       can :manage, User, :id => user.id
     elsif user.role == "user"
+      # publisher-specific source configuration
+      can :update, Source do |source|
+        user.publisher && source.by_publisher?
+      end
       can [:update, :show], User, :id => user.id
     else
     end

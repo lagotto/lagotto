@@ -40,12 +40,4 @@ class Facebook < Source
   def url
     config.url || "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'"
   end
-
-  def count_limit
-    config.count_limit || 20000
-  end
-
-  def count_limit=(value)
-    config.count_limit = value
-  end
 end

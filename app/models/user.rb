@@ -18,7 +18,6 @@ class User < ActiveRecord::Base
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
   validates :email, :uniqueness => true, :allow_blank => true
-  validates :authentication_token, :presence => true, :uniqueness => true
 
   scope :query, lambda { |query| where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
   scope :ordered, order("sign_in_count DESC, updated_at DESC")

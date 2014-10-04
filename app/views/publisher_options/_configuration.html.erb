@@ -1,0 +1,46 @@
+<% if can?(:update, @source) && @source.state > 1 && (controller.action_name == "edit" or (controller.action_name == "update" && !@publisher_option.errors.empty?)) %>
+  <%= simple_form_for(@publisher_option, :url => source_publisher_option_path(@source.name, current_user.publisher), :html => { :remote => true }) do |f| %>
+    <fieldset>
+      <legend>Edit Source</legend>
+
+      <% if not @publisher_option.publisher_fields.empty? %>
+        <% @publisher_option.publisher_fields.each do |field| %>
+          <% if field == "password" %>
+            <%= f.input field, :as => :string %>
+          <% elsif field == "expires_at" %>
+            <%= f.input field, :as => :hidden %>
+          <% else %>
+            <%= f.input field %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.submit "Save ", class: "btn btn-default" %>
+        <%= link_to 'Cancel', source_publisher_option_path(@source.name, current_user.publisher), { :remote => true, :class => 'btn' } %>
+      </div>
+    </fieldset>
+  <% end %>
+<% else %>
+  <% if can?(:update, @source) && @source.state > 1 %>
+    <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_source_publisher_option_path(@source.name, current_user.publisher), { :remote => true, :class => 'btn btn-default btn-sm pull-right configuration-edit', :title => "Edit" } %>
+  <% end %>
+  <table class="table table-striped">
+    <thead>
+    </thead>
+    <tbody>
+      <% unless @publisher_option.publisher_fields.empty? %>
+        <% @publisher_option.publisher_fields.each do |field| %>
+          <tr>
+            <th><%= field.to_s.gsub(/_/, " ").capitalize %></th>
+            <% if [:username, :password, :client_id, :secret, :access_token, :api_key].include?(field) && cannot?(:update, @source) %>
+              <td><em>hidden</em></td>
+            <% else %>
+              <td><%= @publisher_option.send(field) %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

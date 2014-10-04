@@ -30,6 +30,7 @@ class Source < ActiveRecord::Base
 
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses
+  has_many :publishers, :through => :publisher_options
   has_many :alerts
   has_many :api_responses
   has_many :delayed_jobs, primary_key: "name", foreign_key: "queue", :dependent => :destroy
@@ -218,6 +219,12 @@ class Source < ActiveRecord::Base
 
     [{ 'family' => String(family).titleize,
        'given' => String(given).titleize }]
+  end
+
+  # fields with publisher-specific settings such as API keys,
+  # i.e. everything that is not a URL
+  def publisher_fields
+    config_fields.select { |field| field !~ /url/ }
   end
 
   # Custom validations that are triggered in state machine

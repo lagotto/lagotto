@@ -153,28 +153,4 @@ class Mendeley < Source
   def authentication_url=(value)
     config.authentication_url = value
   end
-
-  def client_id
-    config.client_id
-  end
-
-  def client_id=(value)
-    config.client_id = value
-  end
-
-  def secret
-    config.secret
-  end
-
-  def secret=(value)
-    config.secret = value
-  end
-
-  def expires_at
-    config.expires_at || "1970-01-01"
-  end
-
-  def expires_at=(value)
-    config.expires_at = value
-  end
 end

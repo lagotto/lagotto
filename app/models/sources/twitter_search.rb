@@ -118,14 +118,6 @@ class TwitterSearch < Source
     config.authentication_url = value
   end
 
-  def api_secret
-    config.api_secret
-  end
-
-  def api_secret=(value)
-    config.api_secret = value
-  end
-
   def job_batch_size
     config.job_batch_size || 100
   end
