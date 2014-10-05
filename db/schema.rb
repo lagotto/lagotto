@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140819090422) do
+ActiveRecord::Schema.define(:version => 20141005174453) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -130,6 +130,8 @@ ActiveRecord::Schema.define(:version => 20140819090422) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
+
+  add_index "publisher_options", ["publisher_id", "source_id"], :name => "index_publisher_options_on_publisher_id_and_source_id", :unique => true
 
   create_table "publishers", :force => true do |t|
     t.string   "name"
