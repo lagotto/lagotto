@@ -7,8 +7,6 @@
         <th>Memory</th>
         <th>Start Worker</th>
         <th>State</th>
-        <th>Queue</th>
-        <th>Start Queue</th>
       </tr>
     </thead>
     <tbody>
@@ -19,8 +17,6 @@
         <td><%= worker.memory %></td>
         <td><%= worker.created_at.to_s(:short) + " UTC" %></td>
         <td><%= worker.state %></td>
-        <td><%= worker.queue %></td>
-        <td><%= worker.locked_at ? worker.locked_at.to_s(:short) + " UTC" : "" %></td>
       </tr>
     <% end %>
     </tbody>
