@@ -6,7 +6,6 @@
   "lagotto": {
     "settings": {
       "uid": "doi",
-      "doi_prefix": "",
       "workers": 3
     },
     "sources": {
