@@ -32,21 +32,25 @@ class Pmc < Source
 
   # Retrieve usage stats in XML and store in /data directory. Returns an empty array if no error occured
   def get_feed(month, year, options={})
+    journals_with_errors = []
     options[:source_id] = id
 
-    journals_array = journals.split(" ")
-    journals_with_errors = []
-    journals_array.each do |journal|
-      feed_url = get_feed_url(month, year, journal)
-      filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
+    publisher_configs.each do |publisher|
+      publisher_id = publisher["publisher_id"]
+      journals_array = publisher["config"].journals.to_s.split(" ")
 
-      if save_to_file(feed_url, filename, options).nil?
-        Alert.create(:exception => "",
-                     :class_name => "Net::HTTPInternalServerError",
-                     :message => "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved",
-                     :status => 500,
-                     :source_id => id)
-        journals_with_errors << journal
+      journals_array.each do |journal|
+        feed_url = get_feed_url(publisher_id, month, year, journal)
+        filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
+
+        if save_to_file(feed_url, filename, options).nil?
+          Alert.create(:exception => "",
+                       :class_name => "Net::HTTPInternalServerError",
+                       :message => "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved",
+                       :status => 500,
+                       :source_id => id)
+          journals_with_errors << journal
+        end
       end
     end
     journals_with_errors
@@ -54,47 +58,54 @@ class Pmc < Source
 
   # Parse usage stats and store in CouchDB. Returns an empty array if no error occured
   def parse_feed(month, year, options={})
-    journals_array = journals.split(" ")
     journals_with_errors = []
-    journals_array.each do |journal|
-      filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
-      file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
-      document = Nokogiri::XML(file)
 
-      status = document.at_xpath("//pmc-web-stat/response/@status").value
-      if status != "0"
-        error_message = document.at_xpath("//pmc-web-stat/response/error").content
-        Alert.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
-                     :message => "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: #{error_message}",
-                     :status => 500,
-                     :source_id => id)
-        journals_with_errors << journal
-      else
-        # go through all the articles in the xml document
-        document.xpath("//article").each do |article|
-          article = article.to_hash
-          article = article["article"]
+    publisher_configs.each do |publisher|
+      pc = publisher["config"]
+      next if pc.username.nil? || pc.password.nil?
 
-          doi = article["meta-data"]["doi"]
-          # sometimes doi metadata are missing
-          break unless doi
+      journals_array = pc.journals.to_s.split(" ")
 
-          view = article["usage"]
-          view['year'] = year.to_s
-          view['month'] = month.to_s
+      journals_array.each do |journal|
+        filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
+        file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
+        document = Nokogiri::XML(file)
 
-          # try to get the existing information about the given article
-          data = get_result(db_url + CGI.escape(doi))
+        status = document.at_xpath("//pmc-web-stat/response/@status").value
+        if status != "0"
+          error_message = document.at_xpath("//pmc-web-stat/response/error").content
+          Alert.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
+                       :message => "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: #{error_message}",
+                       :status => 500,
+                       :source_id => id)
+          journals_with_errors << journal
+        else
+          # go through all the articles in the xml document
+          document.xpath("//article").each do |article|
+            article = article.to_hash
+            article = article["article"]
 
-          if data['views'].nil?
-            data = { 'views' => [view] }
-          else
-            # update existing entry
-            data['views'].delete_if { |view| view['month'] == month.to_s && view['year'] == year.to_s }
-            data['views'] << view
+            doi = article["meta-data"]["doi"]
+            # sometimes doi metadata are missing
+            break unless doi
+
+            view = article["usage"]
+            view['year'] = year.to_s
+            view['month'] = month.to_s
+
+            # try to get the existing information about the given article
+            data = get_result(db_url + CGI.escape(doi))
+
+            if data['views'].nil?
+              data = { 'views' => [view] }
+            else
+              # update existing entry
+              data['views'].delete_if { |view| view['month'] == month.to_s && view['year'] == year.to_s }
+              data['views'] << view
+            end
+
+            put_lagotto_data(db_url + CGI.escape(doi), data: data)
           end
-
-          put_lagotto_data(db_url + CGI.escape(doi), data: data)
         end
       end
     end
@@ -105,15 +116,17 @@ class Pmc < Source
     put_lagotto_data(db_url)
   end
 
-  def get_feed_url(month, year, journal)
-    feed_url % { year: year, month: month, journal: journal, username: username, password: password }
+  def get_feed_url(publisher_id, month, year, journal)
+    # check that we have publisher-specific configuration
+    pc = publisher_config(publisher_id)
+    return nil if pc.username.nil? || pc.password.nil?
+
+    feed_url % { year: year, month: month, journal: journal, username: pc.username, password: pc.password }
   end
 
   def get_events_url(article)
     if article.pmcid.present?
       events_url % { :pmcid => article.pmcid }
-    else
-      nil
     end
   end
 
@@ -169,6 +182,6 @@ class Pmc < Source
   end
 
   def by_publisher?
-    config.by_publisher? || true
+    true
   end
 end
