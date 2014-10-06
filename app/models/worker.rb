@@ -128,16 +128,4 @@ class Worker
   def memory
     proc["VmRSS"] ? proc["VmRSS"].strip : nil
   end
-
-  def job
-    DelayedJob.where("right(locked_by,?) = ?", @pid.length, @pid).first || OpenStruct.new(queue: nil, run_at: nil)
-  end
-
-  def queue
-    job.queue
-  end
-
-  def locked_at
-    job.locked_at
-  end
 end
