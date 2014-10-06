@@ -43,7 +43,12 @@ class Status
   end
 
   def delayed_jobs_active_count
-    DelayedJob.count
+    Rails.cache.read("status/alerts_last_day_count/#{update_date}").to_i
+  end
+
+  def delayed_jobs_active_count=(timestamp)
+    Rails.cache.write("status/delayed_jobs_active_count/#{timestamp}",
+                      DelayedJob.count)
   end
 
   def responses_count
@@ -107,6 +112,7 @@ class Status
      :articles_last30_count,
      :events_count,
      :alerts_last_day_count,
+     :delayed_jobs_active_count,
      :responses_count,
      :requests_count,
      :update_date].each { |cached_attr| send("#{cached_attr}=", timestamp) }

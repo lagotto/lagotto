@@ -5,11 +5,25 @@ module Countable
 
   included do
     def working_count
-      delayed_jobs.count(:locked_at)
+      Rails.cache.read("#{name}/working_count/#{update_date}").to_i
+    end
+
+    def working_count=(timestamp)
+      Rails.cache.write("#{name}/working_count/#{timestamp}",
+                        delayed_jobs.count(:locked_at))
+    end
+
+    def delayed_jobs_count
+      Rails.cache.read("#{name}/delayed_jobs_count/#{update_date}").to_i
+    end
+
+    def delayed_jobs_count=(timestamp)
+      Rails.cache.write("#{name}/delayed_jobs_count/#{timestamp}",
+                        delayed_jobs.count)
     end
 
     def pending_count
-      delayed_jobs.count - working_count
+      delayed_jobs_count - working_count
     end
 
     def articles_count
