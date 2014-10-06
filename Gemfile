@@ -37,14 +37,8 @@ gem "draper", "~> 1.3.0"
 gem 'rabl', '~> 0.10.1'
 gem "dalli", "~> 2.7.0"
 gem "cache_digests", "~> 0.3.1"
-
 gem "d3_rails", "~> 3.4.1"
 gem "crossfilter-rails", "~> 1.3.5"
-gem "uglifier", "~> 2.4.0"
-gem "jquery-rails", "~> 3.1.0"
-gem 'sass-rails', '~> 3.2.5'
-gem "bootstrap-sass", '~> 3.1.0.2'
-gem 'coffee-rails', '~> 3.2.2'
 gem "turbolinks", "~> 2.2.1"
 gem 'will_paginate', '3.0.5'
 gem "will_paginate-bootstrap", "~> 1.0.0"
@@ -52,9 +46,14 @@ gem "simple_form", "~> 2.1.0"
 gem "dotiw", "~> 1.1.1"
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.3.1"
+gem "jquery-rails", "~> 3.1.2"
+gem 'sass-rails', "~> 3.2.5"
+gem 'bootstrap-sass', '~> 3.1.0.2'
 
 group :assets do
-  gem 'turbo-sprockets-rails3', '~> 0.3.11'
+  gem 'coffee-rails', '~> 3.2.2'
+  gem "uglifier", "~> 2.5.3"
+  gem 'turbo-sprockets-rails3', '~> 0.3.14'
 end
 
 group :development do
