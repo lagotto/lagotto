@@ -282,7 +282,7 @@ module Configurable
 
     # is this source no longer accepting new data?
     def obsolete
-      false
+      config.obsolete || false
     end
 
     def obsolete=(value)
@@ -293,7 +293,7 @@ module Configurable
 
     # is this source using publisher-specific settings?
     def by_publisher
-      false
+      config.by_publisher || false
     end
 
     def by_publisher=(value)

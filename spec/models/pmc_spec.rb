@@ -71,10 +71,11 @@ describe Pmc do
   context "save PMC data" do
     let(:month) { 1.month.ago.month }
     let(:year) { 1.month.ago.year }
-    let(:publisher_id) { 340 }
-    let(:journal) { "ajrccm" }
 
     it "should fetch and save PMC data" do
+      config = subject.publisher_configs.first
+      publisher_id = config["publisher_id"]
+      journal = config["config"].journals.split(" ").first
       stub = stub_request(:get, subject.get_feed_url(publisher_id, month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
       subject.get_feed(month, year).should be_empty
       file = "#{Rails.root}/data/pmcstat_#{journal}_#{month}_#{year}.xml"
@@ -87,8 +88,6 @@ describe Pmc do
   context "parse PMC data" do
     let(:month) { 1.month.ago.month }
     let(:year) { 1.month.ago.year }
-    let(:publisher_id) { 340 }
-    let(:journal) { "ajrccm" }
 
     before(:each) do
       subject.put_lagotto_data(subject.db_url)
@@ -99,6 +98,9 @@ describe Pmc do
     end
 
     it "should parse PMC data" do
+      config = subject.publisher_configs.first
+      publisher_id = config["publisher_id"]
+      journal = config["config"].journals.split(" ").first
       stub = stub_request(:get, subject.get_feed_url(publisher_id, month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
       subject.get_feed(month, year).should be_empty
       subject.parse_feed(month, year).should be_empty
