@@ -16,6 +16,7 @@ gem 'strong_parameters', "~> 0.2.1"
 
 gem "faraday", "~> 0.9.0"
 gem "faraday_middleware", "~> 0.9.1"
+gem 'faraday-cookie_jar', '~> 0.0.6'
 gem "typhoeus", "~> 0.6.7"
 gem 'addressable', "~> 2.3.5"
 gem "multi_xml", "~> 0.5.5"
