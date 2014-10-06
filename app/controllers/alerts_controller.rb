@@ -47,7 +47,7 @@ class AlertsController < ApplicationController
     @alert = Alert.find(params[:id])
     if params[:filter] == "class_name"
       Alert.where(:class_name => @alert.class_name).update_all(:unresolved => false)
-    elsif params[:filter] == "source_id"
+    elsif params[:filter] == "source"
       Alert.where(:source_id => @alert.source_id).update_all(:unresolved => false)
     elsif params[:filter] == "article_id"
       Alert.where(:article_id => @alert.article_id).update_all(:unresolved => false)
