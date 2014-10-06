@@ -31,6 +31,7 @@ class Source < ActiveRecord::Base
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :articles, :through => :retrieval_statuses
   has_many :publishers, :through => :publisher_options
+  has_many :publisher_options
   has_many :alerts
   has_many :api_responses
   has_many :delayed_jobs, primary_key: "name", foreign_key: "queue", :dependent => :destroy
@@ -199,9 +200,9 @@ class Source < ActiveRecord::Base
   end
 
   def get_query_url(article)
-    return nil unless article.doi.present?
-
-    url % { :doi => article.doi_escaped }
+    if url.present? && article.doi.present?
+      url % { :doi => article.doi_escaped }
+    end
   end
 
   def get_events_url(article)
@@ -227,12 +228,30 @@ class Source < ActiveRecord::Base
     config_fields.select { |field| field !~ /url/ }
   end
 
+  # all publisher-specific configurations
+  def publisher_configs
+    return [] unless by_publisher?
+
+    publisher_options.pluck_all(:publisher_id, :config)
+  end
+
+  def publisher_config(publisher_id)
+    conf = publisher_configs.find { |conf| conf["publisher_id"] == publisher_id }
+    conf.nil? ? OpenStruct.new : conf["config"]
+  end
+
+  # all other fields
+  def url_fields
+    config_fields.select { |field| field =~ /url/ }
+  end
+
   # Custom validations that are triggered in state machine
   def validate_config_fields
     config_fields.each do |field|
 
       # Some fields can be blank
-      next if name == "crossref" && field == :password
+      next if name == "crossref" && [:username, :password].include?(field)
+      next if name == "pmc" && [:journals, :username, :password].include?(field)
       next if name == "mendeley" && field == :access_token
       next if name == "twitter_search" && field == :access_token
       next if name == "scopus" && field == :insttoken

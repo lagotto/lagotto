@@ -1,7 +1,7 @@
-<% if can?(:update, @source) && @source.state > 1 && (controller.action_name == "edit" or (controller.action_name == "update" && !@publisher_option.errors.empty?)) %>
+<% if can?(:update, @source) && @source.state > 1 && (controller.action_name == "edit" || (controller.action_name == "update" && !@publisher_option.errors.empty?)) %>
   <%= simple_form_for(@publisher_option, :url => source_publisher_option_path(@source.name, current_user.publisher), :html => { :remote => true }) do |f| %>
     <fieldset>
-      <legend>Edit Source</legend>
+      <legend>Edit Source for <%= @publisher_option.publisher.name %></legend>
 
       <% if not @publisher_option.publisher_fields.empty? %>
         <% @publisher_option.publisher_fields.each do |field| %>
@@ -25,6 +25,7 @@
   <% if can?(:update, @source) && @source.state > 1 %>
     <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_source_publisher_option_path(@source.name, current_user.publisher), { :remote => true, :class => 'btn btn-default btn-sm pull-right configuration-edit', :title => "Edit" } %>
   <% end %>
+  <h4><%= @publisher_option.publisher.name %></h4>
   <table class="table table-striped">
     <thead>
     </thead>

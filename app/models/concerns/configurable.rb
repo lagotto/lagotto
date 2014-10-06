@@ -48,6 +48,14 @@ module Configurable
       config.password = value
     end
 
+    def openurl_username
+      config.openurl_username
+    end
+
+    def openurl_username=(value)
+      config.openurl_username = value
+    end
+
     def api_key
       config.api_key
     end
@@ -274,7 +282,7 @@ module Configurable
 
     # is this source no longer accepting new data?
     def obsolete
-      config.obsolete || false
+      false
     end
 
     def obsolete=(value)
@@ -285,7 +293,7 @@ module Configurable
 
     # is this source using publisher-specific settings?
     def by_publisher
-      config.by_publisher || false
+      false
     end
 
     def by_publisher=(value)
