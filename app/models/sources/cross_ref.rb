@@ -2,13 +2,18 @@
 
 class CrossRef < Source
   def get_query_url(article)
-    if article.doi.nil? || Time.zone.now - article.published_on.to_time < 1.day
-      nil
-    elsif article.is_publisher? && password.present?
-      url % { :username => username, :password => password, :doi => article.doi_escaped }
+    return nil if article.doi.nil? || Time.zone.now - article.published_on.to_time < 1.day
+
+    if article.publisher
+      # check that we have publisher-specific configuration
+      pc = publisher_config(article.publisher_id)
+      return nil if pc.username.nil? || pc.password.nil?
+
+      url % { :username => pc.username, :password => pc.password, :doi => article.doi_escaped }
     else
-      pid = password.blank? ? username : username + ":" + password
-      openurl % { :pid => pid, :doi => article.doi_escaped }
+      return nil if openurl_username.nil?
+
+      openurl % { :openurl_username => openurl_username, :doi => article.doi_escaped }
     end
   end
 
@@ -21,7 +26,7 @@ class CrossRef < Source
 
     events = get_events(result)
 
-    if article.is_publisher?
+    if article.publisher
       event_count = events.length
     else
       event_count = result.deep_fetch('crossref_result', 'query_result', 'body', 'query', 'fl_count') { 0 }
@@ -48,7 +53,6 @@ class CrossRef < Source
       if item.empty?
         nil
       else
-        item.extend Hashie::Extensions::DeepFetch
         url = Article.to_url(item['doi'])
 
         { event: item,
@@ -56,7 +60,7 @@ class CrossRef < Source
 
           # the rest is CSL (citation style language)
           event_csl: {
-            'author' => get_author(item.deep_fetch('contributors', 'contributor') { [] }),
+            'author' => get_author(item.fetch('contributors', {}).fetch('contributor', [])),
             'title' => String(item.fetch('article_title') { '' }).titleize,
             'container-title' => item.fetch('journal_title') { '' },
             'issued' => get_date_parts_from_parts(item['year']),
@@ -75,7 +79,7 @@ class CrossRef < Source
   end
 
   def config_fields
-    [:url, :openurl, :username, :password]
+    [:url, :openurl, :username, :password, :openurl_username]
   end
 
   def url
@@ -83,7 +87,7 @@ class CrossRef < Source
   end
 
   def openurl
-    config.openurl || "http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true"
+    config.openurl || "http://www.crossref.org/openurl/?pid=%{openurl_username}&id=doi:%{doi}&noredirect=true"
   end
 
   def openurl=(value)
@@ -99,6 +103,6 @@ class CrossRef < Source
   end
 
   def by_publisher?
-    config.by_publisher? || true
+    true
   end
 end

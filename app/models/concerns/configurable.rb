@@ -48,6 +48,14 @@ module Configurable
       config.password = value
     end
 
+    def openurl_username
+      config.openurl_username
+    end
+
+    def openurl_username=(value)
+      config.openurl_username = value
+    end
+
     def api_key
       config.api_key
     end

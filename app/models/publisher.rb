@@ -4,7 +4,7 @@ class Publisher < ActiveRecord::Base
 
   has_many :users, primary_key: :crossref_id
   has_many :articles, primary_key: :crossref_id
-  has_many :publisher_options, :dependent => :destroy
+  has_many :publisher_options, primary_key: :crossref_id, :dependent => :destroy
   has_many :sources, :through => :publisher_options
 
   serialize :prefixes

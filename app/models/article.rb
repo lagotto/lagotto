@@ -143,19 +143,15 @@ class Article < ActiveRecord::Base
   end
 
   def doi_escaped
-    if doi
-      CGI.escape(doi)
-    else
-      nil
-    end
+    CGI.escape(doi) if doi.present?
   end
 
   def doi_as_url
-    if doi =~ DOI_FORMAT
-      Addressable::URI.encode("http://dx.doi.org/#{doi}")
-    else
-      nil
-    end
+    Addressable::URI.encode("http://dx.doi.org/#{doi}")  if doi.present?
+  end
+
+  def doi_prefix
+    doi[/^10\.\d{4,5}/]
   end
 
   def get_url
@@ -209,10 +205,6 @@ class Article < ActiveRecord::Base
     CGI.escape(title.to_str).gsub("+", "%20")
   end
 
-  def is_publisher?
-    doi =~ /^#{CONFIG[:doi_prefix].to_s}/
-  end
-
   def signposts
     sources.pluck_all(:name, :event_count, :events_url)
   end
@@ -248,7 +240,7 @@ class Article < ActiveRecord::Base
   end
 
   def citations
-    if CONFIG[:doi_prefix] == "10.1371"
+    if Source.installed(name: "scopus").present?
       event_count("scopus")
     else
       event_count("crossref")

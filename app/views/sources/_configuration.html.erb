@@ -7,13 +7,14 @@
       <%= f.input :display_name %>
       <%= f.input :state_event, :as => :boolean, label: "Active", :checked_value => 'activate', :unchecked_value => 'inactivate', input_html: { checked: @source.active? }, hint: "Source is talking to external APIs" %>
       <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
-      <% if @source.publisher_fields.present? %>
-        <%= f.input :by_publisher, :as => :boolean, hint: "Publisher-specific settings for API keys, etc." %>
-      <% end %>
       <%= f.input :description, :input_html => { :rows => 3 } %>
 
-      <% if not @source.config_fields.empty? %>
-        <% @source.config_fields.each do |field| %>
+      <% @source.url_fields.each do |field| %>
+        <%= f.input field %>
+      <% end %>
+
+      <% unless @source.by_publisher? %>
+        <% @source.publisher_fields.each do |field| %>
           <% if field == "password" %>
             <%= f.input field, :as => :string %>
           <% elsif field == "expires_at" %>
@@ -82,11 +83,17 @@
     <thead>
     </thead>
     <tbody>
-      <% unless @source.config_fields.empty? %>
-        <% @source.config_fields.each do |field| %>
+      <% @source.url_fields.each do |field| %>
+        <tr>
+          <th><%= field.to_s.gsub(/_/, " ").capitalize %></th>
+          <td><%= @source.send(field) %></td>
+        </tr>
+      <% end %>
+      <% unless @source.by_publisher? %>
+        <% @source.publisher_fields.each do |field| %>
           <tr>
             <th><%= field.to_s.gsub(/_/, " ").capitalize %></th>
-            <% if [:username, :password, :client_id, :secret, :access_token, :api_key].include?(field) && cannot?(:manage, Alert) %>
+            <% if [:username, :password, :client_id, :secret, :access_token, :api_key].include?(field) && cannot?(:manage, Source) %>
               <td><em>hidden</em></td>
             <% else %>
               <td><%= @source.send(field) %></td>
@@ -98,12 +105,6 @@
         <tr>
           <th>Private source</th>
           <td>Source not made available via API</td>
-        </tr>
-      <% end %>
-      <% if @source.by_publisher? %>
-        <tr>
-          <th>By publisher</th>
-          <td>Publisher-specific settings for API keys, etc.</td>
         </tr>
       <% end %>
       <tr>

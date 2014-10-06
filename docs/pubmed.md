@@ -69,6 +69,9 @@ title: "PubMed Central"
 </PubMedToPMCcitingformSET>
 ```
 
+## Source Code
+The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/pub_med.rb).
+
 ## API Documentation
 * [PubMed Central citation data](http://www.pubmedcentral.nih.gov/utils/)
 * [Entrez to PMC Citing - parse for total citations](http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi)

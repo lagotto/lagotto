@@ -51,12 +51,19 @@ FactoryGirl.define do
     name "crossref"
     display_name "CrossRef"
     state_event "activate"
-    username "EXAMPLE"
-    password "EXAMPLE"
+    openurl_username "openurl_username"
 
     group
 
-    initialize_with { CrossRef.find_or_create_by_name(name) }
+    after(:create) do |source|
+      FactoryGirl.create(:publisher_option, source: source)
+    end
+
+    factory :crossref_without_password do
+      after(:create) do |source|
+        FactoryGirl.create(:publisher_option, source: source, password: nil)
+      end
+    end
   end
 
   factory :nature, class: Nature do
@@ -87,13 +94,12 @@ FactoryGirl.define do
     display_name "PubMed Central Usage Stats"
     state_event "activate"
     db_url "http://127.0.0.1:5984/pmc_usage_stats_test/"
-    journals "ajrccm"
-    username "EXAMPLE"
-    password "EXAMPLE"
 
     group
 
-    initialize_with { Pmc.find_or_create_by_name(name) }
+    after(:create) do |source|
+      FactoryGirl.create(:publisher_option_for_pmc, source: source)
+    end
   end
 
   factory :pub_med, class: PubMed do

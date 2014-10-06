@@ -79,7 +79,7 @@ Facebook has problems with DOIs that require cookies during DOI resolution. We t
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/facebook.rb).
+The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/facebook.rb).
 
 ## Further Documentation
 * [Facebook Developer Documentation](http://developers.facebook.com/docs/reference/fql/link_stat/)
