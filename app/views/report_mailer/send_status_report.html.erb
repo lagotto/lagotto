@@ -11,7 +11,7 @@
 <%= number_with_delimiter(@status.requests_count) %> API requests in the last 24 hours<br/>
 <br/>
 <%= number_with_delimiter(@status.users_count) %> Users<br/>
-<%= number_with_delimiter(@status.sources_active_count) %> Disabled sources<br/>
+<%= number_with_delimiter(@status.sources_active_count) %> Active sources<br/>
 Lagotto Version <%= @status.version %><br/>
 CouchDB database size <%= number_to_human_size(@status.couchdb_size) %><br/></p>
 
