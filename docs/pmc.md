@@ -102,7 +102,7 @@ When installing the source, the CouchDB database for PMC has to be created with 
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/pmc.rb).
+The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/pmc.rb).
 
 ## Further Documentation
 * [PubMed Central usage stats](http://www.ncbi.nlm.nih.gov/pmc/about/faq/#q26)

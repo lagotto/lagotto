@@ -133,7 +133,7 @@ stats: {
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/mendeley.rb).
+The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/mendeley.rb).
 
 ## Further Documentation
 * [Mendeley API Documentation](http://apidocs.mendeley.com)

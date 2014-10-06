@@ -3,17 +3,17 @@ layout: page
 title: "CrossRef"
 ---
 
-[CrossRef](http://www.crossref.org) is a non-profit organization that enables cross-publisher citation linking of the scholarly literature via Digital Object Identifiers (DOIs). CrossRef member organizations can use the **Cited-by** Linking service that provides basic information about the scholarly literature citing a particular DOI. All other users can use the CrossRef **OpenURL** service which provides citation counts (the `fl_count' attribute), but no information about the citing literature. The ALM application handles both scenarios.
+[CrossRef](http://www.crossref.org) is a non-profit organization that enables cross-publisher citation linking of the scholarly literature via Digital Object Identifiers (DOIs). CrossRef member organizations can use the **Cited-by** Linking service that provides basic information about the scholarly literature citing a particular DOI that they have published. All other users can use the CrossRef **OpenURL** service which provides citation counts (the `fl_count' attribute), but no information about the citing literature. Lagotto handles both scenarios.
 
 ## Required configuration fields
 
 ### Cited-by
 
-Add your DOI prefix as `doi_prefix` in `config/settings.yml`, then add username and password provided by CrossRef in the CrossRef configuration settings.
+Add username and password provided by CrossRef in the `Publisher Configuration` tab of the CrossRef source. This setting is specific to a particular publisher associated with the user entering this information.
 
 ### OpenURL
 
-For articles that don't mactch the DOI prefix in `config/settings.yml`, or when this setting is left empty, the username in the CrossRef configuration settings will be used. You can register for a username [here](http://www.crossref.org/requestaccount/).
+For articles without a publisher the `openurl_username` in the `Configuration` tab of the CrossRef source will be used. You can register for a CrossRef Query Services account [here](http://www.crossref.org/requestaccount/).
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
@@ -180,7 +180,7 @@ For articles that don't mactch the DOI prefix in `config/settings.yml`, or when 
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/cross_ref.rb).
+The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/cross_ref.rb).
 
 ## Further Documentation
 * [CrossRef Cited-by Linking](http://www.crossref.org/citedby.html)

@@ -84,7 +84,7 @@ Because of the extensive load-balancing on Wikipedia's servers, pagination (for 
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/wikipedia.rb).
+The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/wikipedia.rb).
 
 ## Further Documentation
 * [Mediawiki API Documentation](http://www.mediawiki.org/wiki/API:Main_page)

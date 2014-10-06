@@ -103,5 +103,8 @@ Nature Blogs is a science blog aggregator. Since May 1st 2013 API keys are [no l
   },
 ```
 
+## Source Code
+The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/nature.rb).
+
 ## Further Documentation
 * [Nature Blogs API Documentation](http://www.nature.com/developers/documentation/api-references/blogs-api/)

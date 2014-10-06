@@ -124,7 +124,7 @@ Research Blogging is a science blog aggregator.
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/alm/blob/master/app/models/sources/researchblogging.rb).
+The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/researchblogging.rb).
 
 ## Further Documentation
 * [Research Blogging website](http://researchblogging.org)
