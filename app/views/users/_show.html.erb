@@ -19,11 +19,13 @@
 
 <% else %>
   <div class="page-header">
-    <div class="btn-toolbar btn-sm pull-right">
-      <div class="btn-group">
-        <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_user_path(@user), { remote: true, class: 'btn btn-default btn-sm', id: 'edit' } %>
+    <% if can?(:create, User) %>
+      <div class="btn-toolbar btn-sm pull-right">
+        <div class="btn-group">
+          <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_user_path(@user), { remote: true, class: 'btn btn-default btn-sm', id: 'edit' } %>
+        </div>
       </div>
-    </div>
+    <% end %>
     <h1>
       <%= h@user.name %>
     </h1>
@@ -41,14 +43,12 @@
       <dd>Admin - full access to the ALM application</dd>
     <% elsif @user.role == "staff" %>
       <dd>Staff - read access to the admin dashboard</dd>
-    <% elsif @user.publisher_id.present? %>
-      <dd>Publisher - read/write access to the API</dd>
     <% else %>
       <dd>User - read access to the API</dd>
     <% end %>
-    <% if @user.publisher %>
+    <% if can?(:create, User) && @user.publisher %>
       <dt>Publisher</dt>
-      <dd><%= h(@user.publisher.name) %></dd>
+      <dd><%= link_to h(@user.publisher.name), publisher_path(@user.publisher) %></dd>
     <% end %>
     <dt>API Key</dt>
     <dd><%= @user.authentication_token %></dd>
