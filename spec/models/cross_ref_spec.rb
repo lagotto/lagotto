@@ -15,10 +15,41 @@ describe CrossRef do
     subject.get_data(article).should eq({})
   end
 
+  context "publisher_configs" do
+    it "all publisher_configs" do
+      config = subject.publisher_configs.first["config"]
+      config.username.should eq("username")
+      config.password.should eq("password")
+    end
+
+    it "for specific publisher" do
+      config = subject.publisher_config(340)
+      config.username.should eq("username")
+      config.password.should eq("password")
+    end
+  end
+
+  context "get_query_url" do
+    it "with username and password" do
+      subject.get_query_url(article).should eq("http://doi.crossref.org/servlet/getForwardLinks?usr=username&pwd=password&doi=10.1371%2Fjournal.pone.0043007")
+    end
+
+    it "without password" do
+      crossref = FactoryGirl.create(:crossref_without_password)
+      crossref.get_query_url(article).should be_nil
+    end
+
+    it "without publisher" do
+      article = FactoryGirl.create(:article, doi: "10.1007/s00248-010-9734-2", canonical_url: "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1", publisher_id: nil)
+      subject.get_query_url(article).should eq("http://www.crossref.org/openurl/?pid=openurl_username&id=doi:10.1007%2Fs00248-010-9734-2&noredirect=true")
+    end
+  end
+
   context "get_data from the CrossRef API" do
     it "should report if there are no events and event_count returned by the CrossRef API" do
       body = File.read(fixture_path + 'cross_ref_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
+      url = subject.get_query_url(article)
+      stub = stub_request(:get, url).to_return(:body => body)
       response = subject.get_data(article)
       response.should eq(Hash.from_xml(body))
       stub.should have_been_requested
@@ -35,7 +66,7 @@ describe CrossRef do
     it "should catch timeout errors with the CrossRef API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://doi.crossref.org/servlet/getForwardLinks?usr=EXAMPLE&pwd=EXAMPLE&doi=#{article.doi_escaped}", status: 408)
+      response.should eq(error: "the server responded with status 408 for http://doi.crossref.org/servlet/getForwardLinks?usr=username&pwd=password&doi=#{article.doi_escaped}", status: 408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -46,17 +77,11 @@ describe CrossRef do
   end
 
   context "use the CrossRef OpenURL API" do
-    subject { FactoryGirl.create(:crossref, password: nil) }
-    let(:article) { FactoryGirl.create(:article, :doi => "10.1007/s00248-010-9734-2", :canonical_url => "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1") }
+    let(:article) { FactoryGirl.create(:article, doi: "10.1007/s00248-010-9734-2", canonical_url: "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1", publisher_id: nil) }
     let(:url) { url = subject.get_query_url(article) }
 
     it "should use the OpenURL API" do
-      url.should eq("http://www.crossref.org/openurl/?pid=EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true")
-    end
-
-    it "should use the OpenURL API if there is no password" do
-      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
-      subject.get_query_url(article).should eq("http://www.crossref.org/openurl/?pid=EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true")
+      url.should eq("http://www.crossref.org/openurl/?pid=openurl_username&id=doi:#{article.doi_escaped}&noredirect=true")
     end
 
     it "should report if there is an event_count of zero returned by the CrossRef OpenURL API" do
@@ -79,7 +104,7 @@ describe CrossRef do
     it "should catch errors with the CrossRef OpenURL API" do
       stub = stub_request(:get, url).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true", status: 408)
+      response.should eq(error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=openurl_username&id=doi:#{article.doi_escaped}&noredirect=true", status: 408)
       stub.should have_been_requested
       Alert.count.should == 1
       alert = Alert.first
@@ -142,14 +167,14 @@ describe CrossRef do
     end
 
     it "should catch timeout errors with the CrossRef API" do
-      result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true", :status=>408 }
+      result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=username&id=doi:#{article.doi_escaped}&noredirect=true", :status=>408 }
       response = subject.parse_data(result, article)
       response.should eq(result)
     end
   end
 
   context "parse_data from the CrossRef OpenURL API" do
-    let(:article) { FactoryGirl.create(:article, :doi => "10.1007/s00248-010-9734-2", :canonical_url => "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1") }
+    let(:article) { FactoryGirl.create(:article, doi: "10.1007/s00248-010-9734-2", canonical_url: "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1", publisher_id: nil) }
     let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
 
     it "should report if the doi is missing" do
@@ -175,7 +200,7 @@ describe CrossRef do
     end
 
     it "should catch timeout errors with the CrossRef OpenURL API" do
-      result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=EXAMPLE:EXAMPLE&id=doi:#{article.doi_escaped}&noredirect=true", status: 408 }
+      result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=username&id=doi:#{article.doi_escaped}&noredirect=true", status: 408 }
       response = subject.parse_data(result, article)
       response.should eq(result)
     end

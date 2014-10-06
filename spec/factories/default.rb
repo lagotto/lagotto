@@ -11,6 +11,7 @@ FactoryGirl.define do
     year { Date.today.year - 1 }
     month { Date.today.month }
     day { Date.today.day }
+    publisher_id 340
 
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
@@ -262,6 +263,7 @@ FactoryGirl.define do
     sequence(:authentication_token) { |n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
     provider "persona"
     sequence(:uid) { |n| "joe#{n}@example.com" }
+    publisher_id 340
 
     factory :admin_user do
       role "admin"
@@ -276,6 +278,22 @@ FactoryGirl.define do
     prefixes ["10.1371"]
 
     initialize_with { Publisher.find_or_create_by_crossref_id(crossref_id) }
+  end
+
+  factory :publisher_option do
+    id 1
+    source_id 1
+    publisher_id 340
+    username "username"
+    password "password"
+
+    publisher
+
+    initialize_with { PublisherOption.find_or_create_by_id(id) }
+
+    factory :publisher_option_for_pmc do
+      journals "ajrccm"
+    end
   end
 
   factory :html_ratio_too_high_error, class: HtmlRatioTooHighError do
