@@ -41,7 +41,7 @@ module Articable
 
       if params[:class_name]
         @class_name = params[:class_name]
-        collection = collection.preload(:alerts)
+        collection = collection.includes(:alerts)
         if @class_name == "All Alerts"
           collection = collection.where("alerts.unresolved = ?", true)
         else
