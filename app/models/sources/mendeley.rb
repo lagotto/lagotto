@@ -113,8 +113,15 @@ class Mendeley < Source
   def to_csv(options = {})
     service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
 
-    result = get_result(service_url, options)
-    return nil if result.blank? || result["rows"].blank?
+    result = get_result(service_url, options.merge(timeout: 1800))
+    if result.blank? || result["rows"].blank?
+      Alert.create(exception: "", class_name: "Faraday::ResourceNotFound",
+             message: "CouchDB report for Mendeley could not be retrieved.",
+             status: 404,
+             source_id: id,
+             level: Alert::FATAL)
+      return nil
+    end
 
     CSV.generate do |csv|
       csv << [CONFIG[:uid], "readers", "groups", "total"]

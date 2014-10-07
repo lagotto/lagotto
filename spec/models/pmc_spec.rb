@@ -61,6 +61,18 @@ describe Pmc do
       response.first.should eq(["doi"] + dates)
       response[3].should eq(row)
     end
+
+    it "should report an error if the CouchDB design document can't be retrieved" do
+      FactoryGirl.create(:fatal_error_report_with_admin_user)
+      url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc"
+      stub = stub_request(:get, url).to_return(:status => [404])
+      subject.to_csv.should be_nil
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Faraday::ResourceNotFound")
+      alert.message.should eq("CouchDB report for PMC could not be retrieved.")
+      alert.status.should == 404
+    end
   end
 
   it "should report that there are no events if the doi is missing" do

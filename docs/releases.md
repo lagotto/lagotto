@@ -12,6 +12,7 @@ Lagotto 3.6 was released on October 7, 2014 with the following features and bugf
 * enabled publisher-specific source configuration for CrossRef and PMC Usage Stats
 * associate user accounts with publishers, and allow these users to change publisher-specific source configuration
 * Upgrade to Rails 3.2.19
+* fixed problem with generation of monthly reports for counter, pmc and mendeley
 * many small bug fixes
 
 ### [Lagotto 3.5](https://github.com/articlemetrics/lagotto/releases/tag/v.3.5)

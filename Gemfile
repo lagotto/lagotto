@@ -50,11 +50,11 @@ gem "rouge", "~> 1.3.1"
 gem "jquery-rails", "~> 3.1.2"
 gem 'sass-rails', "~> 3.2.5"
 gem 'bootstrap-sass', '~> 3.1.0.2'
+gem 'turbo-sprockets-rails3', '~> 0.3.14'
 
 group :assets do
   gem 'coffee-rails', '~> 3.2.2'
   gem "uglifier", "~> 2.5.3"
-  gem 'turbo-sprockets-rails3', '~> 0.3.14'
 end
 
 group :development do

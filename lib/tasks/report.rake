@@ -36,7 +36,11 @@ namespace :report do
   desc 'Generate CSV file with Mendeley stats'
   task :mendeley_stats => :environment do |t, args|
     filename = "mendeley_stats.csv"
-    source = Source.find_by_name("mendeley")
+
+    # check that source is installed
+    source = Source.visible.where(name: "mendeley").first
+    exit if source.nil?
+
     csv = source.to_csv
 
     if csv.nil?
@@ -56,7 +60,10 @@ namespace :report do
       filename = "pmc_stats.csv"
     end
 
-    source = Source.find_by_name("pmc")
+    # check that source is installed
+    source = Source.visible.where(name: "pmc").first
+    exit if source.nil?
+
     csv = source.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
     if csv.nil?
@@ -115,7 +122,10 @@ namespace :report do
       filename = "counter_stats.csv"
     end
 
-    source = Source.find_by_name("counter")
+    # check that source is installed
+    source = Source.visible.where(name: "counter").first
+    exit if source.nil?
+
     csv = source.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
     if csv.nil?
