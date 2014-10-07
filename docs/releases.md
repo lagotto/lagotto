@@ -5,7 +5,7 @@ title: "Releases"
 
 ### [Lagotto 3.6](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6)
 
-Lagotto 3.6 was released on October 7, 2014 with the following features and bugfixes:
+Lagotto 3.6 was released on October 8, 2014 with the following features and bugfixes:
 
 * added publisher information to articles and enabled import of publisher information from CrossRef
 * list articles by publisher
@@ -14,6 +14,11 @@ Lagotto 3.6 was released on October 7, 2014 with the following features and bugf
 * Upgrade to Rails 3.2.19
 * fixed problem with generation of monthly reports for counter, pmc and mendeley
 * many small bug fixes
+
+Users upgrading from earlier versions need to make the following changes:
+
+* Add at least one publisher, and associate at least one user account with this publisher (in the account profile for admin/staff accounts, by an admin for user accounts)
+* Add publisher-specific settings to the `CrossRef` and `PMC` source. Add `Openurl username` to CrossRef if you plan to collect citation counts for articles where you are not the publisher.
 
 ### [Lagotto 3.5](https://github.com/articlemetrics/lagotto/releases/tag/v.3.5)
 
