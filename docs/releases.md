@@ -3,6 +3,17 @@ layout: page
 title: "Releases"
 ---
 
+### [Lagotto 3.6](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6)
+
+Lagotto 3.6 was released on October 7, 2014 with the following features and bugfixes:
+
+* added publisher information to articles and enabled import of publisher information from CrossRef
+* list articles by publisher
+* enabled publisher-specific source configuration for CrossRef and PMC Usage Stats
+* associate user accounts with publishers, and allow these users to change publisher-specific source configuration
+* Upgrade to Rails 3.2.19
+* many small bug fixes
+
 ### [Lagotto 3.5](https://github.com/articlemetrics/lagotto/releases/tag/v.3.5)
 
 With this release the ALM application was renamed to Lagotto and the license changed
