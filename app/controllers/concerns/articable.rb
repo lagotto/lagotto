@@ -63,7 +63,7 @@ module Articable
       end
 
       collection = collection.page(params[:page])
-      collection = collection.per_page(params[:rows].to_i) if params[:rows] && (1..50).include?(params[:rows].to_i)
+      collection = collection.per_page(params[:per_page].to_i) if params[:per_page] && (1..50).include?(params[:per_page].to_i)
       @articles = collection.decorate(:context => { :info => params[:info], :source => source_ids })
     end
 

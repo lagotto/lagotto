@@ -60,9 +60,9 @@ Only provide metrics for a given source, or a list of sources. The response form
 /api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley,crossref
 ```
 
-### page|rows
+### page|per_page
 
-Results of the v5 API are paged with 50 results per page. Use `rows` to pick a smaller number (1-50) of results per page, and use `page` to page through the results.
+Results of the v5 API are paged with 50 results per page. Use `per_page` to pick a smaller number (1-50) of results per page, and use `page` to page through the results.
 
 ### order
 
