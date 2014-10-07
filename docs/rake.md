@@ -170,6 +170,116 @@ Import all PubMed Central usage stats since month/year.
 bundle exec rake pmc:update MONTH=1 YEAR=2013
 ```
 
+### report.rake
+
+Generate all article stats reports.
+
+```sh
+bundle exec rake report:all_stats
+```
+
+Generate CSV file with ALM stats for private and public sources.
+
+```sh
+bundle exec rake report:alm_private_stats
+```
+
+Generate CSV file with ALM stats for public sources.
+
+```sh
+bundle exec rake report:alm_stats
+```
+
+Generate CSV file with combined ALM private and public sources.
+
+```sh
+bundle exec rake report:combined_private_stats
+```
+
+Generate CSV file with combined ALM stats.
+
+```sh
+bundle exec rake report:combined_stats
+```
+
+Generate CSV file with Counter usage stats.
+
+```sh
+bundle exec rake report:counter
+```
+
+Generate CSV file with Counter combined usage stats.
+
+```sh
+bundle exec rake report:counter_combined_stats
+```
+
+Generate CSV file with Counter HTML usage stats.
+
+```sh
+bundle exec rake report:counter_html_stats
+```
+
+Generate CSV file with Counter PDF usage stats.
+
+```sh
+bundle exec rake report:counter_pdf_stats
+```
+
+Generate CSV file with cumulative Counter usage stats.
+
+```sh
+bundle exec rake report:counter_stats
+```
+
+Generate CSV file with Counter XML usage stats.
+
+```sh
+bundle exec rake report:counter_xml_stats
+```
+
+Generate CSV file with Mendeley stats.
+
+```sh
+bundle exec rake report:mendeley_stats
+```
+
+Generate CSV file with PMC usage stats.
+
+```sh
+bundle exec rake report:pmc
+```
+
+Generate CSV file with PMC combined usage stats.
+
+```sh
+bundle exec rake report:pmc_combined_stats
+```
+
+Generate CSV file with PMC HTML usage stats over time.
+
+```sh
+bundle exec rake report:pmc_html_stats
+```
+
+Generate CSV file with PMC PDF usage stats over time.
+
+```sh
+bundle exec rake report:pmc_pdf_stats
+```
+
+Generate CSV file with PMC cumulative usage stats.
+
+```sh
+bundle exec rake report:pmc_stats
+```
+
+Zip reports.
+
+```sh
+bundle exec rake report:zip
+```
+
 ### workers.rake
 
 Start all the workers.
