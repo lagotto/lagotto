@@ -39,7 +39,7 @@ namespace :report do
 
     # check that source is installed
     source = Source.visible.where(name: "mendeley").first
-    return if source.nil?
+    next if source.nil?
 
     csv = source.to_csv
 
@@ -62,7 +62,7 @@ namespace :report do
 
     # check that source is installed
     source = Source.visible.where(name: "pmc").first
-    return if source.nil?
+    next if source.nil?
 
     csv = source.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
@@ -124,7 +124,7 @@ namespace :report do
 
     # check that source is installed
     source = Source.visible.where(name: "counter").first
-    return if source.nil?
+    next if source.nil?
 
     csv = source.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
