@@ -14,6 +14,17 @@ describe Mendeley do
       response.first.should eq(["doi", "readers", "groups", "total"])
       response.last.should eq(["10.5194/se-1-1-2010", "6", "0", "6"])
     end
+
+    it "should report an error if the CouchDB design document can't be retrieved" do
+      FactoryGirl.create(:fatal_error_report_with_admin_user)
+      stub = stub_request(:get, url).to_return(:status => [404])
+      subject.to_csv.should be_nil
+      Alert.count.should == 1
+      alert = Alert.first
+      alert.class_name.should eq("Faraday::ResourceNotFound")
+      alert.message.should eq("CouchDB report for Mendeley could not be retrieved.")
+      alert.status.should == 404
+    end
   end
 
   context "lookup access token" do

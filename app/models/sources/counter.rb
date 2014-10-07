@@ -63,8 +63,15 @@ class Counter < Source
 
     service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
 
-    result = get_result(service_url, options)
-    return nil if result.blank? || result["rows"].blank?
+    result = get_result(service_url, options.merge(timeout: 1800))
+    if result.blank? || result["rows"].blank?
+      Alert.create(exception: "", class_name: "Faraday::ResourceNotFound",
+                   message: "CouchDB report for Counter could not be retrieved.",
+                   source_id: id,
+                   status: 404,
+                   level: Alert::FATAL)
+      return nil
+    end
 
     if view == "counter"
       CSV.generate do |csv|
