@@ -50,7 +50,7 @@ module Articable
       end
 
       if params[:order] && source = Source.find_by_name(params[:order])
-        collection = collection.joins(:retrieval_statuses)
+        collection = collection.includes(:retrieval_statuses)
           .where("retrieval_statuses.source_id = ?", source.id)
           .where("retrieval_statuses.event_count > 0")
           .order("retrieval_statuses.event_count DESC")
@@ -62,8 +62,8 @@ module Articable
         collection = collection.where(publisher_id: params[:publisher])
       end
 
-      collection = collection.page(params[:page])
-      collection = collection.per_page(params[:per_page].to_i) if params[:per_page] && (1..50).include?(params[:per_page].to_i)
+      per_page = params[:per_page] && (1..50).include?(params[:per_page].to_i) ? params[:per_page].to_i : 50
+      collection.paginate(:per_page => per_page, :page => params[:page], :total_entries => Article.count_all)
       @articles = collection.decorate(:context => { :info => params[:info], :source => source_ids })
     end
 

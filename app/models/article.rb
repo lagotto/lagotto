@@ -124,6 +124,11 @@ class Article < ActiveRecord::Base
     50
   end
 
+  def self.count_all
+    articles_count_date = Rails.cache.read("status:timestamp")
+    Rails.cache.read("status/articles_count/#{articles_count_date}").to_i
+  end
+
   def events_count
     @events_count ||= retrieval_statuses.reduce(0) { |sum, r| sum + r.event_count }
   end
