@@ -28,7 +28,7 @@ class ReportMailer < ActionMailer::Base
   def send_article_statistics_report(report)
     return if report.users.empty?
 
-    @articles_count = Article.count
+    @articles_count = Status.new.articles_count
 
     mail(to: CONFIG[:notification_email],
          bcc: report.users.map(&:email).join(","),

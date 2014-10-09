@@ -91,7 +91,7 @@ namespace :db do
 
     desc "Delete all articles"
     task :delete_all => :environment do
-      before = Article.count
+      before = Status.new.articles_count
       Article.destroy_all unless Rails.env.production?
       after = Article.count
       puts "Deleted #{before - after} articles, #{after} articles remaining"

@@ -24,7 +24,7 @@
       <div id="source-show">
         <%= render :partial => 'show', :locals => { :name => @source.name } %>
       </div>
-      <% if can?(:read, Alert) && Article.count > 0 %>
+      <% if can?(:read, Alert) && Article.first %>
         <div class="row">
           <div class="col-md-4" id="chart_status"></div>
           <div class="col-md-4" id="chart_day"></div>
