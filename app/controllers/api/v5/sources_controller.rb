@@ -1,6 +1,6 @@
 class Api::V5::SourcesController < Api::V5::BaseController
   def index
-    @sources = SourceDecorator.decorate_collection(Source.active, context: { nocache: params[:nocache] })
+    @sources = SourceDecorator.decorate_collection(Source.visible, context: { nocache: params[:nocache] })
   end
 
   def show
