@@ -228,23 +228,19 @@ class Article < ActiveRecord::Base
   end
 
   def views
-    event_count("pmc") + event_count("counter")
+    @views || event_count("pmc") + event_count("counter")
   end
 
   def shares
-    event_count("facebook") + event_count("twitter") + event_count("twitter_search")
+    @shares ||= event_count("facebook") + event_count("twitter") + event_count("twitter_search")
   end
 
   def bookmarks
-    event_count("citeulike") + event_count("mendeley")
+    @bookmarks ||= event_count("citeulike") + event_count("mendeley")
   end
 
   def citations
-    if Source.installed(name: "scopus").present?
-      event_count("scopus")
-    else
-      event_count("crossref")
-    end
+    @citations ||= Source.installed(name: "scopus").present? ? event_count("scopus") : event_count("crossref")
   end
 
   alias_method :viewed, :views

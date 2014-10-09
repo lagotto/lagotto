@@ -46,35 +46,19 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def data
-    if event_count > 0
-      data = get_lagotto_data("#{source.name}:#{article.uid_escaped}")
-    else
-      nil
-    end
+    @data ||= event_count > 0 ? get_lagotto_data("#{source.name}:#{article.uid_escaped}") : nil
   end
 
   def events
-    if data.blank? || data[:error]
-      []
-    else
-      data["events"]
-    end
+    @events ||= (data.blank? || data[:error]) ? [] : data["events"]
   end
 
   def by_day
-    if data.blank? || data[:error]
-      []
-    else
-      data["events_by_day"]
-    end
+    @by_day ||= (data.blank? || data[:error]) ? [] : data["events_by_day"]
   end
 
   def by_month
-    if data.blank? || data[:error]
-      []
-    else
-      data["events_by_month"]
-    end
+    @by_month ||= (data.blank? || data[:error]) ? [] : data["events_by_month"]
   end
 
   def by_year
@@ -93,26 +77,20 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def events_csl
-    return [] unless events.is_a?(Array)
-
-    events.map { |event| event['event_csl'] }.compact
+    @events_csl ||= events.is_a?(Array) ? events.map { |event| event['event_csl'] }.compact : []
   end
 
   def metrics
-    if event_metrics.present?
-      event_metrics
-    else
-      get_event_metrics(total: 0)
-    end
+    @metrics ||= event_metrics.present? ? event_metrics : get_event_metrics(total: 0)
   end
 
   def new_metrics
-    { :pdf => metrics[:pdf],
-      :html => metrics[:html],
-      :readers => metrics[:shares],
-      :comments => metrics[:comments],
-      :likes => metrics[:likes],
-      :total => metrics[:total] }
+    @new_metrics ||= { :pdf => metrics[:pdf],
+                       :html => metrics[:html],
+                       :readers => metrics[:shares],
+                       :comments => metrics[:comments],
+                       :likes => metrics[:likes],
+                       :total => metrics[:total] }
   end
 
   def get_past_events_by_month
@@ -120,7 +98,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def group_name
-    group.name
+    @group_name ||= group.name
   end
 
   def update_date
@@ -129,15 +107,6 @@ class RetrievalStatus < ActiveRecord::Base
 
   def cache_key
     "#{id}/#{update_date}"
-  end
-
-  def delete_document
-    unless data_rev.nil
-      document_id = "#{source.name}:#{article.uid_escaped}"
-      remove_lagotto_data(document_id, data_rev)
-    else
-      nil
-    end
   end
 
   # calculate datetime when retrieval_status should be updated, adding random interval
