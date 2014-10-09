@@ -27,16 +27,15 @@ module Articable
       # Load articles from ids listed in query string, use type parameter if present
       # Translate type query parameter into column name
       # Paginate query results (50 per page)
-      source_ids = get_source_ids(params[:source])
-
-      collection = Article.preload(:sources)
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
         ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Article.clean_id(id) }
-        collection = collection.where(:articles => { type.to_sym => ids })
+        collection = Article.where(:articles => { type.to_sym => ids })
       elsif params[:q]
-        collection = collection.query(params[:q])
+        collection = Article.query(params[:q])
+      else
+        collection = Article
       end
 
       if params[:class_name]
@@ -50,7 +49,7 @@ module Articable
       end
 
       if params[:order] && source = Source.find_by_name(params[:order])
-        collection = collection.includes(:retrieval_statuses)
+        collection = collection.joins(:retrieval_statuses)
           .where("retrieval_statuses.source_id = ?", source.id)
           .where("retrieval_statuses.event_count > 0")
           .order("retrieval_statuses.event_count DESC")
@@ -63,6 +62,7 @@ module Articable
       end
 
       per_page = params[:per_page] && (1..50).include?(params[:per_page].to_i) ? params[:per_page].to_i : 50
+      source_ids = get_source_ids(params[:source])
       collection = collection.paginate(:per_page => per_page, :page => params[:page], :total_entries => Article.count_all)
       @articles = collection.decorate(:context => { :info => params[:info], :source => source_ids })
     end
