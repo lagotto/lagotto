@@ -63,7 +63,7 @@ module Articable
       end
 
       per_page = params[:per_page] && (1..50).include?(params[:per_page].to_i) ? params[:per_page].to_i : 50
-      collection.paginate(:per_page => per_page, :page => params[:page], :total_entries => Article.count_all)
+      collection = collection.paginate(:per_page => per_page, :page => params[:page], :total_entries => Article.count_all)
       @articles = collection.decorate(:context => { :info => params[:info], :source => source_ids })
     end
 
