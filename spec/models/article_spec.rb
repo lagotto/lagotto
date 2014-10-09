@@ -150,13 +150,6 @@ describe Article do
     end
   end
 
-  it "cited_retrievals_count" do
-    Article.all.each do |article|
-      total = article.retrieval_statuses.reduce(0) { |sum, rs| sum + 1 if rs.event_count > 0 }
-      total.should == article.cited_retrievals_count
-    end
-  end
-
   it "is cited" do
     Article.is_cited.all? { |article| article.events_count > 0 }.should be_true
   end

@@ -125,11 +125,7 @@ class Article < ActiveRecord::Base
   end
 
   def events_count
-    retrieval_statuses.reduce(0) { |sum, r| sum + r.event_count }
-  end
-
-  def cited_retrievals_count
-    retrieval_statuses.select { |r| r.event_count > 0 }.size
+    @events_count ||= retrieval_statuses.reduce(0) { |sum, r| sum + r.event_count }
   end
 
   # Filter retrieval_statuses by source
@@ -206,7 +202,7 @@ class Article < ActiveRecord::Base
   end
 
   def signposts
-    sources.pluck_all(:name, :event_count, :events_url)
+    @signposts ||= sources.pluck_all(:name, :event_count, :events_url)
   end
 
   def event_count(name)
@@ -220,11 +216,11 @@ class Article < ActiveRecord::Base
   end
 
   def mendeley_url
-    events_url("mendeley")
+    @mendeley_url ||= events_url("mendeley")
   end
 
   def citeulike_url
-    events_url("citeulike")
+    @citeulike_url ||= events_url("citeulike")
   end
 
   def views
