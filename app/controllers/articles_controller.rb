@@ -7,7 +7,7 @@ class ArticlesController < ApplicationController
   respond_to :html, :js
 
   def index
-    if params[:order]
+    if params[:order].present?
       @page = ""
     else
       @page = params[:page] || 1

@@ -12,7 +12,7 @@ class PublishersController < ApplicationController
   end
 
   def show
-    if params[:order]
+    if params[:order].present?
       @page = ""
     else
       @page = params[:page] || 1
