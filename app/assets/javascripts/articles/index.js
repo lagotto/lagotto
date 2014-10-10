@@ -4,6 +4,7 @@ if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var uid_type = params.attr('data-uid_type');
   var page = params.attr('data-page');
+  var per_page = params.attr('data-per_page');
   var q = params.attr('data-q');
   var class_name = params.attr('data-class_name');
   var publisher = params.attr('data-publisher');
@@ -11,6 +12,7 @@ if (!params.empty()) {
 
   var query = encodeURI("/api/v5/articles?api_key=" + api_key);
   if (page != "") query += "&page=" + page;
+  if (per_page != "") query += "&per_page=" + per_page;
   if (q != "") query += "&q=" + q;
   if (class_name != "") query += "&class_name=" + class_name;
   if (publisher != "") query += "&publisher=" + publisher;
