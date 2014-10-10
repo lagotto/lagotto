@@ -3,9 +3,9 @@ layout: page
 title: "Releases"
 ---
 
-### [Lagotto 3.6.1](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6.1)
+### [Lagotto 3.6.2](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6.2)
 
-Lagotto 3.6.1 was released on October 10, 2014 with the following features:
+Lagotto 3.6.2 was released on October 10, 2014 with the following features:
 
 * improved caching of the admin dashboard
 * optimized SQL queries for listing articles
