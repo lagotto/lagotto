@@ -36,6 +36,7 @@ SAMPLE=50
 * `FROM_PUB_DATE` means article published since (inclusive) `{date}`, `UNTIL_PUB_DATE` published until (inclusive) `{date}`.
 * `MEMBER` is the CrossRef member_id, which you find by searching the member database, e.g. `http://api.crossref.org/members?query=elife`.
    If you have ìmport: member` in `config/settings.yml`, then the rake task will use the CrossRef member_id of all publishers added via the web interface.
+   Using `MEMBER` as ENV variable will instead import DOIs for that CrossRef member.
 * `TYPE` is the type of the resource, e.g. `journal-article`, a listing of available types can be found at `http://api.crossref.org/types`.
 * `SAMPLE` returns a random sample of x DOIs and can be combined with the other parameters.
 
@@ -67,25 +68,11 @@ Loads 25 sample articles
 bundle exec rake db:articles:seed
 ```
 
-Deletes all articles and associated rows in the retrieval_statuses table. For safety reasons doesn't work in the production environment (use the following rake task).
+Deletes articles and associated rows in the retrieval_statuses table. Use `MEMBER` to delete articles from a particular publisher, or `MEMBER=all" to delete all articles.
 
 ```sh
-bundle exec rake db:articles:delete_all
+bundle exec rake db:articles:delete MEMBER=340
 ```
-
-Bulk-load a file consisting of DOIs, one per line. It'll ignore (but count) invalid DOIs, and will delete all articles with matching DOIs:
-
-```sh
-bundle exec rake db:articles:delete <DOI_DUMP
-```
-
-Format for import file:
-
-```sh
-DOI Date(YYYY-MM-DD) Title
-```
-
-The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
 
 Removes all HTML and XML tags from title field (for legacy data).
 

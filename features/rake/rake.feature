@@ -23,7 +23,7 @@ Feature: Run rake tasks
       | db:api_requests:delete           | Delete API requests, keeping last 10,000 requests               |
       | db:articles:import               | Bulk-load articles from Crossref API                            |
       | db:articles:load                 | Bulk-load articles from standard input                          |
-      | db:articles:delete               | Delete all articles                                             |
+      | db:articles:delete               | Delete  articles                                                |
       | filter:all                       | Create alerts by filtering API responses                        |
       | mailer:all                       | Send all scheduled mails                                        |
       | mailer:article_statistics_report | Send article statistics report                                  |

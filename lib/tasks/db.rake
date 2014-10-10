@@ -7,7 +7,7 @@ namespace :db do
       # only run if configuration option :import
       case CONFIG[:import]
       when "member", "member_sample"
-        member = Publisher.pluck(:crossref_id).join(",")
+        member = ENV['MEMBER'] || Publisher.pluck(:crossref_id).join(",")
         sample = ENV['SAMPLE']
       when "all", "sample"
         member = ENV['MEMBER']
@@ -51,48 +51,19 @@ namespace :db do
       end
     end
 
-    desc "Delete articles provided via standard input"
+    desc "Delete articles"
     task :delete => :environment do
-      puts "Reading #{CONFIG[:uid]}s from standard input..."
-      valid = []
-      invalid = []
-      missing = []
-      deleted = []
-
-      while (line = STDIN.gets)
-        line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
-        raw_uid, raw_other = line.strip.split(" ", 2)
-
-        uid = Article.from_uri(raw_uid.strip).values.first
-        if Article.validate_format(uid)
-          valid << [uid]
-        else
-          puts "Ignoring #{CONFIG[:uid]}: #{raw_uid}"
-          invalid << [raw_uid]
-        end
-      end
-
-      puts "Read #{valid.size} valid entries; ignored #{invalid.size} invalid entries"
-
-      if valid.size > 0
-        valid.each do |uid|
-          existing = Article.where(CONFIG[:uid].to_sym => uid).first
-          if existing
-            existing.destroy
-            deleted << uid
-          else
-            missing << uid
-          end
-        end
-      end
-
-      puts "Deleted #{deleted.size} articles, ignored #{missing.size} articles"
-    end
-
-    desc "Delete all articles"
-    task :delete_all => :environment do
       before = Article.count
-      Article.destroy_all unless Rails.env.production?
+
+      if ENV['MEMBER'] == "all"
+        Article.destroy_all
+      elsif ENV['MEMBER'].present?
+        Article.destroy_all(publisher_id: ENV['MEMBER'])
+      else
+        puts "Please use MEMBER environment variable. No article deleted."
+        exit
+      end
+
       after = Article.count
       puts "Deleted #{before - after} articles, #{after} articles remaining"
     end
