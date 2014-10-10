@@ -1,4 +1,4 @@
-<% if Article.first && Source.active.any? %>
+<% if Article.first && Source.visible.any? %>
   <p>Total number of events per source, logarithmic scale.</p><br/>
 <% else %>
   <div class="alert alert-info">No events found</div>

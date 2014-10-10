@@ -9,14 +9,12 @@
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @source.nil? ? "Date" : h(@source.display_name) %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
         <li><%= link_to "Date", publisher_path(@publisher) %></li>
-          <% Group.order("id").each do |group| %>
-            <% unless group.sources.active.empty? %>
-              <li class="divider"></li>
-              <% group.sources.active.each do |source| %>
-                <li><%= link_to h(source.display_name), publisher_path(@publisher, order: source.name) %></li>
-              <% end %>
-            <% end %>
+        <% Group.order("id").each do |group| %>
+          <% group.sources.visible.each_with_index do |source, i| %>
+            <%= '<li class="divider"></li>' if i == 0 %>
+            <li><%= link_to h(source.display_name), publisher_path(@publisher, order: source.name) %></li>
           <% end %>
+        <% end %>
       </ul>
     </div>
   </div>
