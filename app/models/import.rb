@@ -125,7 +125,7 @@ class Import
 
   def parse_data(result)
     # return early if an error occured
-    return result if result["status"] != "ok"
+    return [] unless result && result["status"] == "ok"
 
     items = result.fetch('message', {}).fetch('items', nil)
     Array(items).map do |item|
