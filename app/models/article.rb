@@ -125,8 +125,12 @@ class Article < ActiveRecord::Base
   end
 
   def self.count_all
-    articles_count_date = Rails.cache.read("status:timestamp")
-    Rails.cache.read("status/articles_count/#{articles_count_date}").to_i
+    if Rails.env.test?
+      Article.count
+    else
+      status_update_date = Rails.cache.read('status:timestamp')
+      Rails.cache.read("status/articles_count/#{status_update_date}").to_i
+    end
   end
 
   def events_count
