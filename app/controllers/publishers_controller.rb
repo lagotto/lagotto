@@ -12,7 +12,11 @@ class PublishersController < ApplicationController
   end
 
   def show
-    @page = params[:page] || 1
+    if params[:order]
+      @page = ""
+    else
+      @page = params[:page] || 1
+    end
     @source = Source.visible.where(name: params[:order]).first
   end
 

@@ -17,6 +17,11 @@ class Publisher < ActiveRecord::Base
     crossref_id
   end
 
+  def article_count
+    Rails.cache.fetch("publisher/#{crossref_id}/article_count/#{update_date}",
+                      articles.size).to_i
+  end
+
   def update_date
     updated_at.utc.iso8601
   end

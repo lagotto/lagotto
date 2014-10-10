@@ -60,6 +60,8 @@ module Articable
       end
 
       if params[:publisher]
+        publisher = Publisher.find_by_crossref_id(params[:publisher])
+        total_entries = publisher.article_count
         collection = collection.where(publisher_id: params[:publisher])
       end
 

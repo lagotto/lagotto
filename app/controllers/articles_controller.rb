@@ -7,7 +7,11 @@ class ArticlesController < ApplicationController
   respond_to :html, :js
 
   def index
-    @page = params[:page] || 1
+    if params[:order]
+      @page = ""
+    else
+      @page = params[:page] || 1
+    end
     @q = params[:q]
     @class_name = params[:class_name]
     @publisher = Publisher.where(crossref_id: params[:publisher]).first
