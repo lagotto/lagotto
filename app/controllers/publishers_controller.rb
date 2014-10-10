@@ -13,7 +13,7 @@ class PublishersController < ApplicationController
 
   def show
     @page = params[:page] || 1
-    @source = Source.active.where(name: params[:order]).first
+    @source = Source.visible.where(name: params[:order]).first
   end
 
   def new

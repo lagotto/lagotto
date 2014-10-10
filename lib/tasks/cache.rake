@@ -8,7 +8,7 @@ namespace :cache do
     status.update_cache
     puts "Cache update for status page has been queued."
 
-    sources = Source.active
+    sources = Source.visible
     sources.each do |source|
       source.update_cache
       puts "Cache update for source #{source.display_name} has been queued."
