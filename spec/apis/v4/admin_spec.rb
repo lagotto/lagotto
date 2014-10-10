@@ -115,8 +115,10 @@ describe "/api/v4/articles" do
       before(:each) { Date.stub(:today).and_return(Date.new(2013, 9, 5)) }
 
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:params) { { "article" => { "doi" => "10.1371/journal.pone.0036790",
-                                      "title" => nil, "year" => nil } } }
+      let(:params) do
+        { "article" => { "doi" => "10.1371/journal.pone.0036790",
+                         "title" => nil, "year" => nil } }
+      end
 
       it "JSON" do
         post uri, params, headers
@@ -139,8 +141,8 @@ describe "/api/v4/articles" do
         last_response.status.should == 422
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({"foo" => ["unpermitted parameter"],
-                                      "baz" => ["unpermitted parameter" ]})
+        response["error"].should eq ({ "foo" => ["unpermitted parameter"],
+                                       "baz" => ["unpermitted parameter"] })
         response["success"].should be_nil
         response["data"].should be_nil
 

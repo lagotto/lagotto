@@ -26,7 +26,7 @@ describe "/api/v5/publishers" do
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil,
-          'HTTP_ACCEPT' => 'application/javascript'
+            "HTTP_ACCEPT" => "application/javascript"
         last_response.status.should eql(200)
 
         # remove jsonp wrapper

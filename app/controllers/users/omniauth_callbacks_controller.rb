@@ -1,5 +1,4 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-
   # redirect to home page if login fails
   rescue_from ActiveRecord::RecordInvalid do |exception|
     redirect_to root_path, :alert => exception.message

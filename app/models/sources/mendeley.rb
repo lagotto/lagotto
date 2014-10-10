@@ -116,10 +116,10 @@ class Mendeley < Source
     result = get_result(service_url, options.merge(timeout: 1800))
     if result.blank? || result["rows"].blank?
       Alert.create(exception: "", class_name: "Faraday::ResourceNotFound",
-             message: "CouchDB report for Mendeley could not be retrieved.",
-             status: 404,
-             source_id: id,
-             level: Alert::FATAL)
+                   message: "CouchDB report for Mendeley could not be retrieved.",
+                   status: 404,
+                   source_id: id,
+                   level: Alert::FATAL)
       return nil
     end
 

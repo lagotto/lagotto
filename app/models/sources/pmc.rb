@@ -125,9 +125,7 @@ class Pmc < Source
   end
 
   def get_events_url(article)
-    if article.pmcid.present?
-      events_url % { :pmcid => article.pmcid }
-    end
+    events_url % { :pmcid => article.pmcid } if article.pmcid.present?
   end
 
   # Format Pmc events for all articles as csv

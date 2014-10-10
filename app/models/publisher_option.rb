@@ -15,7 +15,6 @@ class PublisherOption < ActiveRecord::Base
     source.config_fields.select { |field| field !~ /url/ }
   end
 
-
   # Custom validations
   def validate_publisher_fields
     publisher_fields.each do |field|
