@@ -11,7 +11,7 @@
         <li><%= link_to "Date", publisher_path(@publisher) %></li>
         <% Group.order("id").each do |group| %>
           <% group.sources.visible.each_with_index do |source, i| %>
-            <%= '<li class="divider"></li>' if i == 0 %>
+            <%= '<li class="divider"></li>'.html_safe if i == 0 %>
             <li><%= link_to h(source.display_name), publisher_path(@publisher, order: source.name) %></li>
           <% end %>
         <% end %>

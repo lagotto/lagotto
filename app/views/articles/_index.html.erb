@@ -66,7 +66,7 @@
           <li><%= link_to "Date", articles_path(q: params[:q], class_name: params[:class_name], publisher: params[:publisher]) %></li>
           <% Group.order("id").each do |group| %>
             <% group.sources.visible.each_with_index do |source, i| %>
-              <%= '<li class="divider"></li>' if i == 0 %>
+              <%= '<li class="divider"></li>'.html_safe if i == 0 %>
               <li><%= link_to h(source.display_name), articles_path(q: params[:q], class_name: params[:class_name], publisher: params[:publisher], order: source.name) %></li>
             <% end %>
           <% end %>
