@@ -35,15 +35,16 @@ SAMPLE=50
 * `FROM_UPDATE_DATE` means metadata updated since (inclusive) `{date}`, `UNTIL_UPDATE_DATE` means metadata updated until (inclusive) `{date}`.
 * `FROM_PUB_DATE` means article published since (inclusive) `{date}`, `UNTIL_PUB_DATE` published until (inclusive) `{date}`.
 * `MEMBER` is the CrossRef member_id, which you find by searching the member database, e.g. `http://api.crossref.org/members?query=elife`.
+   If you have ìmport: member` in `config/settings.yml`, then the rake task will use the CrossRef member_id of all publishers added via the web interface.
 * `TYPE` is the type of the resource, e.g. `journal-article`, a listing of available types can be found at `http://api.crossref.org/types`.
 * `SAMPLE` returns a random sample of x DOIs and can be combined with the other parameters.
 
 For more information please see the [CrossRef API documentation](https://github.com/CrossRef/rest-api-doc/blob/master/funder_kpi_api.md).
 
-To load for example all eLife content created or updated in 2014, use the following command:
+To load for example all eLife content created or updated in 2014 (assuming eLife was added as a publisher), use the following command:
 
 ```sh
-bundle exec rake db:articles:import MEMBER=4374 FROM-UPDATE-DATE=2014-01 UNTIL-UPDATE-DATE=2014-12
+bundle exec rake db:articles:import FROM_UPDATE_DATE=2014 UNTIL_UPDATE_DATE=2014-12
 ```
 
 Bulk-load a file consisting of DOIs, one per line. It'll ignore (but count) invalid ones and those that already exist in the database:
