@@ -66,8 +66,7 @@ class Status
 
   def requests_count=(timestamp)
     Rails.cache.write("status/requests_count/#{timestamp}",
-                      ApiRequest.where("created_at > ?",
-                                       Time.zone.now - 1.day).count)
+                      ApiRequest.total(1).count)
   end
 
   def users_count

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141005174453) do
+ActiveRecord::Schema.define(:version => 20141011095718) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -32,6 +32,9 @@ ActiveRecord::Schema.define(:version => 20141005174453) do
     t.string   "hostname"
   end
 
+  add_index "alerts", ["created_at"], :name => "index_alerts_on_created_at"
+  add_index "alerts", ["level", "created_at"], :name => "index_alerts_on_level_and_created_at"
+  add_index "alerts", ["source_id", "created_at"], :name => "index_alerts_on_source_id_and_created_at"
   add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"
   add_index "alerts", ["unresolved", "updated_at"], :name => "index_error_messages_on_unresolved_and_updated_at"
   add_index "alerts", ["updated_at"], :name => "index_error_messages_on_updated_at"
@@ -65,7 +68,6 @@ ActiveRecord::Schema.define(:version => 20141005174453) do
   end
 
   add_index "api_responses", ["created_at"], :name => "index_api_responses_created_at"
-  add_index "api_responses", ["created_at"], :name => "index_api_responses_on_created_at"
   add_index "api_responses", ["event_count"], :name => "index_api_responses_on_event_count"
   add_index "api_responses", ["unresolved", "id"], :name => "index_api_responses_unresolved_id"
 
@@ -87,6 +89,8 @@ ActiveRecord::Schema.define(:version => 20141005174453) do
 
   add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"
   add_index "articles", ["doi"], :name => "index_articles_on_doi", :unique => true
+  add_index "articles", ["published_on"], :name => "index_articles_on_published_on"
+  add_index "articles", ["publisher_id", "published_on"], :name => "index_articles_on_publisher_id_and_published_on"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",                       :default => 0
@@ -189,10 +193,13 @@ ActiveRecord::Schema.define(:version => 20141005174453) do
     t.text     "other"
   end
 
+  add_index "retrieval_statuses", ["article_id", "event_count"], :name => "index_retrieval_statuses_on_article_id_and_event_count"
   add_index "retrieval_statuses", ["article_id", "source_id"], :name => "index_retrieval_statuses_on_article_id_and_source_id", :unique => true
+  add_index "retrieval_statuses", ["article_id"], :name => "index_retrieval_statuses_on_article_id"
   add_index "retrieval_statuses", ["source_id", "article_id", "event_count"], :name => "index_retrieval_statuses_source_id_article_id_event_count_desc"
   add_index "retrieval_statuses", ["source_id", "event_count", "retrieved_at"], :name => "index_retrieval_statuses_source_id_event_count_retr_at_desc"
   add_index "retrieval_statuses", ["source_id", "event_count"], :name => "index_retrieval_statuses_source_id_event_count_desc"
+  add_index "retrieval_statuses", ["source_id"], :name => "index_retrieval_statuses_on_source_id"
 
   create_table "reviews", :force => true do |t|
     t.string   "name"
@@ -227,6 +234,7 @@ ActiveRecord::Schema.define(:version => 20141005174453) do
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
+  add_index "sources", ["state"], :name => "index_sources_on_state"
   add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true
 
   create_table "users", :force => true do |t|

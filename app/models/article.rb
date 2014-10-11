@@ -27,7 +27,7 @@ class Article < ActiveRecord::Base
 
   scope :query, lambda { |query| where("doi like ?", "#{query}%") }
 
-  scope :last_x_days, lambda { |duration| where(published_on: (Date.today - duration.days)..Date.today) }
+  scope :last_x_days, lambda { |duration| where("published_on >= ?", Date.today - duration.days) }
   scope :is_cited, lambda { includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0) }
 
   def self.from_uri(id)
