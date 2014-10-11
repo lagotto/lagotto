@@ -53,19 +53,17 @@ namespace :db do
 
     desc "Delete articles"
     task :delete => :environment do
-      before = Article.count
-
-      if ENV['MEMBER'] == "all"
-        Article.destroy_all
-      elsif ENV['MEMBER'].present?
-        Article.destroy_all(publisher_id: ENV['MEMBER'])
-      else
+      if ENV['MEMBER'].blank?
         puts "Please use MEMBER environment variable. No article deleted."
         exit
       end
 
-      after = Article.count
-      puts "Deleted #{before - after} articles, #{after} articles remaining"
+      Article.queue_article_delete(ENV['MEMBER'])
+      if ENV['MEMBER'] == "all"
+        puts "Started deleting all articles in the background..."
+      else
+        puts "Started deleting all articles from MEMBER #{ENV['MEMBER']} in the background..."
+      end
     end
 
     desc "Add missing sources"

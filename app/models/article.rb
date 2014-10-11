@@ -108,6 +108,15 @@ class Article < ActiveRecord::Base
     end
   end
 
+  def self.queue_article_delete(publisher_id)
+    if publisher_id == "all"
+      delay(priority: 2, queue: "article-delete-queue").destroy_all
+    elsif publisher_id.present?
+      delay(priority: 2, queue: "article-delete-queue")
+        .destroy_all(publisher_id: publisher_id)
+    end
+  end
+
   def uid
     send(self.class.uid)
   end

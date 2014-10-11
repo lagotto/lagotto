@@ -38,16 +38,17 @@ describe "db:articles:load" do
   end
 end
 
-describe "db:articles:delete_all" do
+describe "db:articles:delete" do
   include_context "rake"
 
   before do
     FactoryGirl.create_list(:article, 5)
   end
 
-  let(:output) { "Deleted 5 articles, 0 articles remaining\n" }
+  let(:output) { "Started deleting all articles in the background...\n" }
 
   it "should run" do
+    ENV['MEMBER'] = "all"
     capture_stdout { subject.invoke }.should eq(output)
   end
 end
