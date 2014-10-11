@@ -34,14 +34,13 @@ Queries for up to 50 articles at a time are supported.
 
 ## Additional Parameters
 
-### type=doi|pmid|pmcid| mendeley (v3 API) or mendeley_uuid (v5 API)
-The API supports queries for DOI, PubMed ID, PubMed Central ID and Mendeley UUID. The default `doi` is used if no type is given in the query. The following queries are all for the same article:
+### type=doi|pmid|pmcid
+The API supports queries for DOI, PubMed ID and PubMed Central ID. The default `doi` is used if no type is given in the query. The following queries are all for the same article:
 
 ```sh
 /api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pmed.1001361
 /api/v5/articles?api_key=API_KEY&ids=23300388&type=pmid
 /api/v5/articles?api_key=API_KEY&ids=PMC3531501&type=pmcid
-/api/v5/articles?api_key=API_KEY&ids=437b07d9-bc40-4c57-b60e-1f60fefe2300&type=mendeley
 ```
 
 ### info=summary|detail
@@ -54,10 +53,10 @@ With the **detail** parameter all raw data sent by the source are provided (`eve
 ```
 
 ### source=x
-Only provide metrics for a given source, or a list of sources. The response format is the same as the default response.
+Only provide metrics for a given source. The response format is the same as the default response.
 
 ```sh
-/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley,crossref
+/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley
 ```
 
 ### page|per_page
@@ -83,11 +82,9 @@ The metrics for every source are returned as total number, and separated in cate
 
 * **Counter, PubMed Central**: html, pdf
 
-Some metrics are calculated using the total count, e.g. for Mendeley: `groups = total - readers` or Facebook: `shares = total - (likes + comments)`.
-
 ## Search
 Search is not supported by the API, users have to provide specific identifiers or retrieve batches of 50 documents
-sorted by descending date or event count.
+sorted by descending date or source event count.
 
 ## Signposts
 Several metrics are aggregated and available in all API queries:
