@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141011095718) do
+ActiveRecord::Schema.define(:version => 20141011095609) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -32,9 +32,6 @@ ActiveRecord::Schema.define(:version => 20141011095718) do
     t.string   "hostname"
   end
 
-  add_index "alerts", ["created_at"], :name => "index_alerts_on_created_at"
-  add_index "alerts", ["level", "created_at"], :name => "index_alerts_on_level_and_created_at"
-  add_index "alerts", ["source_id", "created_at"], :name => "index_alerts_on_source_id_and_created_at"
   add_index "alerts", ["source_id", "unresolved", "updated_at"], :name => "index_error_messages_on_source_id_and_unresolved_and_updated_at"
   add_index "alerts", ["unresolved", "updated_at"], :name => "index_error_messages_on_unresolved_and_updated_at"
   add_index "alerts", ["updated_at"], :name => "index_error_messages_on_updated_at"
@@ -68,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20141011095718) do
   end
 
   add_index "api_responses", ["created_at"], :name => "index_api_responses_created_at"
+  add_index "api_responses", ["created_at"], :name => "index_api_responses_on_created_at"
   add_index "api_responses", ["event_count"], :name => "index_api_responses_on_event_count"
   add_index "api_responses", ["unresolved", "id"], :name => "index_api_responses_unresolved_id"
 
@@ -234,7 +232,6 @@ ActiveRecord::Schema.define(:version => 20141011095718) do
   end
 
   add_index "sources", ["name"], :name => "index_sources_on_name", :unique => true
-  add_index "sources", ["state"], :name => "index_sources_on_state"
   add_index "sources", ["type"], :name => "index_sources_on_type", :unique => true
 
   create_table "users", :force => true do |t|
