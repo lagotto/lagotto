@@ -9,7 +9,7 @@ describe "/api/v5/articles" do
     context "index" do
       let(:articles) { FactoryGirl.create_list(:article_with_events, 2) }
       let(:article_list) { articles.map { |article| "#{article.doi_escaped}" }.join(",") }
-      let(:cache_key_list) { articles.map { |article| "#{article.decorate(:context => { :source => [1] }).cache_key}" }.join("/") }
+      let(:cache_key_list) { articles.map { |article| "#{article.decorate(:context => { source: 'citeulike' }).cache_key}" }.join("/") }
       let(:uri) { "http://#{CONFIG[:hostname]}/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}" }
 
       it "can cache articles" do
@@ -48,7 +48,7 @@ describe "/api/v5/articles" do
     context "article is updated" do
       let(:article) { FactoryGirl.create(:article_with_events) }
       let(:uri) { "http://#{CONFIG[:hostname]}/api/v5/articles?ids=#{article.doi_escaped}&api_key=#{api_key}" }
-      let(:key) { "rabl/v5/#{article.decorate(:context => { :source => [1] }).cache_key}" }
+      let(:key) { "rabl/v5/#{article.decorate(:context => { source: 'citeulike' }).cache_key}" }
       let(:title) { "Foo" }
       let(:event_count) { 75 }
 
@@ -70,7 +70,7 @@ describe "/api/v5/articles" do
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
-        cache_key = "rabl/v5/#{article.decorate(:context => { :source => [1] }).cache_key}"
+        cache_key = "rabl/v5/#{article.decorate(:context => { source: 'citeulike' }).cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//hash").should be_true
         response = Rails.cache.read("#{cache_key}//hash").first
@@ -97,7 +97,7 @@ describe "/api/v5/articles" do
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
-        cache_key = "rabl/v5/#{article.decorate(:context => { :source => [1] }).cache_key}"
+        cache_key = "rabl/v5/#{article.decorate(:context => { source: 'citeulike' }).cache_key}"
         cache_key.should_not eql(key)
         Rails.cache.exist?("#{cache_key}//hash").should be_true
         response = Rails.cache.read("#{cache_key}//hash").first

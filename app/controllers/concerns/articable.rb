@@ -24,9 +24,6 @@ module Articable
       # Translate type query parameter into column name
       # Paginate query results, default is 50 articles per page
 
-      # only show this source in API response
-      source_id = Source.where(name: params[:source]).pluck(:id).first
-
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
         ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Article.clean_id(id) }
@@ -82,7 +79,7 @@ module Articable
                                        page: params[:page],
                                        total_entries: total_entries)
       @articles = collection.decorate(context: { info: params[:info],
-                                                 source_id: source_id,
+                                                 source: params[:source],
                                                  user: current_user.cache_key })
     end
 

@@ -33,10 +33,3 @@ Feature: Manage ALM Database
       And I pipe in the file "../../spec/fixtures/articles_nil_dates.txt"
       And I go to the "Alerts" page
       Then I should see 0 alert
-
-    Scenario: Articles are deleted succesfully
-      When I run `bundle exec rake db:articles:delete` interactively
-      And I pipe in the file "../../spec/fixtures/articles.txt"
-      Then the output should contain "Reading dois from standard input..."
-      Then the output should contain "Read 2 valid entries; ignored 0 invalid entries"
-      Then the output should contain "Deleted 1 articles, ignored 1 articles"

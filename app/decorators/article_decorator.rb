@@ -8,10 +8,10 @@ class ArticleDecorator < Draper::Decorator
 
   def source_ids
     collection = Source
-    collection = collection.where(id: context[:source_id]) \
-      if context[:source_id]
+    collection = collection.where(name: context[:source]) \
+      if context[:source]
     collection = collection.where("private = ?", false) \
-      if context[:user] == 1
+      if context[:user] == "2"
     collection = collection.order("name").pluck(:id)
   end
 
@@ -32,10 +32,10 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def cache_key
-    { :article_id => id,
-      :update_date => update_date,
-      :source_ids => source_ids,
-      :info => context[:info] }
+    { article_id: id,
+      update_date: update_date,
+      source_ids: source_ids,
+      info: context[:info] }
   end
 
   def version
