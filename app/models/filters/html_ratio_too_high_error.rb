@@ -11,11 +11,12 @@ class HtmlRatioTooHighError < Filter
         doi = response['id'] && response['id'][8..-1]
         article = Article.find_by_doi(doi)
         article_id = article && article.id
+        date = Date.today.to_formatted_s(:short)
 
         { source_id: source.id,
           article_id: article_id,
           level: Alert::WARN,
-          message: "HTML/PDF ratio is #{response['value']['ratio']} with #{response['value']['html']} HTML views this month" }
+          message: "HTML/PDF ratio is #{response['value']['ratio']} with #{response['value']['html']} HTML views on #{date} (Counter)" }
       end
       raise_alerts(responses)
     end
