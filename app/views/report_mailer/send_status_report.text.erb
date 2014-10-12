@@ -15,4 +15,4 @@ This is the Lagotto status report, generated <%= Time.zone.now.to_formatted_s(:l
 Lagotto Version <%= @status.version %>
 CouchDB database size <%= number_to_human_size(@status.couchdb_size) %>
 
-Go to admin dashboard: <%= status_url %>
+Go to admin dashboard: <%= status_url(host: CONFIG[:public_server]) %>

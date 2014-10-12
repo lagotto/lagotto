@@ -2,4 +2,4 @@
 
 <p><%= @message %></p>
 
-<p><%= link_to "Go to admin dashboard", alerts_url(level: "fatal") %></p>
+<p><%= link_to "Go to admin dashboard", alerts_url(host: CONFIG[:public_server], level: "fatal") %></p>

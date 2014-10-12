@@ -8,4 +8,4 @@ This is the Lagotto error report, generated <%= Time.zone.now.to_formatted_s(:lo
 No review found.
 <% end -%>
 
-Go to admin dashboard: <%= alerts_url %>
+Go to admin dashboard: <%= alerts_url(host: CONFIG[:public_server]) %>
