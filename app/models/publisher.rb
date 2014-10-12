@@ -13,16 +13,18 @@ class Publisher < ActiveRecord::Base
   validates :name, :presence => true
   validates :crossref_id, :presence => true, :uniqueness => true
 
+  after_create :reset_articles_counter
+
   def to_param  # overridden, use crossref_id instead of id
     crossref_id
   end
 
-  def article_count
-    Rails.cache.fetch("publisher/#{crossref_id}/article_count/#{update_date}",
-                      articles.size).to_i
-  end
-
   def update_date
     updated_at.utc.iso8601
+  end
+
+  # we may create the publisher after adding articles
+  def reset_articles_counter
+    Publisher.reset_counters(id, :articles)
   end
 end
