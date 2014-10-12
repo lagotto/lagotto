@@ -3,6 +3,14 @@ layout: page
 title: "Releases"
 ---
 
+### [Lagotto 3.6.3](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6.3)
+
+Lagotto 3.6.3 was released on October 12, 2014 with the following features:
+
+* faster filtering and sorting of articles (through additional indexes and caching)
+* filter v5 API responses by source, and sort them by event count or date (#136)
+* many small bug fixes
+
 ### [Lagotto 3.6.2](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6.2)
 
 Lagotto 3.6.2 was released on October 10, 2014 with the following features:
