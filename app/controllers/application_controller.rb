@@ -15,10 +15,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def default_url_options
-    { host: CONFIG[:public_server] }
-  end
-
   def after_sign_in_path_for(resource)
     request.env['omniauth.origin'] || user_path("me")
   end
