@@ -143,9 +143,9 @@ ActiveRecord::Schema.define(:version => 20141011165435) do
     t.integer  "crossref_id"
     t.text     "prefixes"
     t.text     "other_names"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
-    t.integer  "articles_count", :default => 0, :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.datetime "cached_at",   :default => '1970-01-01 00:00:00', :null => false
   end
 
   add_index "publishers", ["crossref_id"], :name => "index_publishers_on_crossref_id", :unique => true
