@@ -83,8 +83,7 @@ The metrics for every source are returned as total number, and separated in cate
 * **Counter, PubMed Central**: html, pdf
 
 ## Search
-Search is not supported by the API, users have to provide specific identifiers or retrieve batches of 50 documents
-sorted by descending date or source event count.
+Search is not supported by the API, users have to provide specific identifiers or retrieve batches of 50 documents, sorted by descending date or source event count.
 
 ## Signposts
 Several metrics are aggregated and available in all API queries:
