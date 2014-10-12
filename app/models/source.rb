@@ -313,8 +313,15 @@ class Source < ActiveRecord::Base
   def create_retrievals
     article_ids = RetrievalStatus.where(:source_id => id).pluck(:article_id)
 
+    (0...article_ids.length).step(1000) do |offset|
+      ids = article_ids[offset...offset + 1000]
+      delay(priority: 2, queue: "retrieval-status").insert_retrievals(ids)
+    end
+  end
+
+  def insert_retrievals(ids)
     sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles"
-    sql += " where articles.id not in (#{article_ids.join(",")})" if article_ids.any?
+    sql += " where articles.id not in (#{article_ids.join(",")})" if ids.any?
 
     ActiveRecord::Base.connection.execute sql
   end
