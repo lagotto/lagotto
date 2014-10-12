@@ -71,6 +71,7 @@ module Articable
 
       # use cached counts for total number of results
       total_entries = case
+                      when params[:ids] || params[:q] then nil # can't be cached
                       when source && publisher then publisher.article_count_by_source(source.id)
                       when source then source.article_count
                       when publisher then publisher.article_count
