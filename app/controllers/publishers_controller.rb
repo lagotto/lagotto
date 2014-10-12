@@ -12,12 +12,9 @@ class PublishersController < ApplicationController
   end
 
   def show
-    if params[:order].present?
-      @page = ""
-    else
-      @page = params[:page] || 1
-    end
-    @source = Source.visible.where(name: params[:order]).first
+    @page = params[:page] || 1
+    @source = Source.visible.where(name: params[:source]).first
+    @order = Source.visible.where(name: params[:order]).first
   end
 
   def new

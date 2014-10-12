@@ -8,7 +8,9 @@ if (!params.empty()) {
   var q = params.attr('data-q');
   var class_name = params.attr('data-class_name');
   var publisher = params.attr('data-publisher');
+  var source = params.attr('data-source');
   var order = params.attr('data-order');
+  var model = params.attr('data-model');
 
   var query = encodeURI("/api/v5/articles?api_key=" + api_key);
   if (page != "") query += "&page=" + page;
@@ -16,9 +18,9 @@ if (!params.empty()) {
   if (q != "") query += "&q=" + q;
   if (class_name != "") query += "&class_name=" + class_name;
   if (publisher != "") query += "&publisher=" + publisher;
-  if (order != "") {
-    query += "&source=" + order + "&order=" + order;
-  } else {
+  if (source != "") query += "&source=" + source;
+  if (order != "") query += "&order=" + order;
+  if (source == "" && order == "") {
     query += "&info=summary";
   }
 };
@@ -39,7 +41,8 @@ function articlesViz(json) {
   json["href"] = "?page={{number}}";
   if (q != "") json["href"] += "&q=" + q;
   if (class_name != "") json["href"] += "&class_name=" + class_name;
-  if (publisher != "") json["href"] += "&publisher=" + publisher;
+  if (publisher != "" && model != "publisher") json["href"] += "&publisher=" + publisher;
+  if (source != "") json["href"] += "&source=" + source;
   if (order != "") json["href"] += "&order=" + order;
 
   d3.select("#loading-results").remove();
@@ -147,9 +150,12 @@ function formattedDate(date, len) {
 };
 
 function signpostsToString(article) {
-  if (order != "") {
-    source = article["sources"].filter(function(d) { return d.name == order })[0];
-    a = [source.display_name + ": " + formatFixed(source.metrics.total)];
+  if (source != "") {
+    s = article["sources"].filter(function(d) { return d.name == source })[0];
+    a = [s.display_name + ": " + formatFixed(s.metrics.total)];
+  } else if (order != "") {
+    s = article["sources"].filter(function(d) { return d.name == order })[0];
+    a = [s.display_name + ": " + formatFixed(s.metrics.total)];
   } else {
     a = [];
   }

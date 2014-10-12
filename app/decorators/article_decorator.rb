@@ -7,7 +7,12 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def source_ids
-    context[:source]
+    collection = Source
+    collection = collection.where(id: context[:source_id]) \
+      if context[:source_id]
+    collection = collection.where("private = ?", false) \
+      if context[:user] == 1
+    collection = collection.order("name").pluck(:id)
   end
 
   def filtered_retrieval_statuses
@@ -29,7 +34,7 @@ class ArticleDecorator < Draper::Decorator
   def cache_key
     { :article_id => id,
       :update_date => update_date,
-      :source => source_ids,
+      :source_ids => source_ids,
       :info => context[:info] }
   end
 

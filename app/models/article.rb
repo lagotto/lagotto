@@ -28,7 +28,11 @@ class Article < ActiveRecord::Base
   scope :query, lambda { |query| where("doi like ?", "#{query}%") }
 
   scope :last_x_days, lambda { |duration| where("published_on >= ?", Date.today - duration.days) }
-  scope :is_cited, lambda { includes(:retrieval_statuses).where("retrieval_statuses.event_count > ?", 0) }
+  scope :is_cited, lambda { includes(:retrieval_statuses)
+    .where("retrieval_statuses.event_count > ?", 0) }
+  scope :is_cited_by_source, lambda { |source_id| includes(:retrieval_statuses)
+    .where("retrieval_statuses.source_id = ?", source_id)
+    .where("retrieval_statuses.event_count > ?", 0) }
 
   def self.from_uri(id)
     return nil if id.nil?
@@ -108,6 +112,19 @@ class Article < ActiveRecord::Base
     end
   end
 
+  def self.per_page
+    50
+  end
+
+  def self.count_all
+    if Rails.env.test?
+      Article.count
+    else
+      status_update_date = Rails.cache.read('status:timestamp')
+      Rails.cache.read("status/articles_count/#{status_update_date}").to_i
+    end
+  end
+
   def self.queue_article_delete(publisher_id)
     if publisher_id == "all"
       delay(priority: 2, queue: "article-delete-queue").destroy_all
@@ -127,19 +144,6 @@ class Article < ActiveRecord::Base
 
   def to_param
     self.class.to_uri(uid)
-  end
-
-  def self.per_page
-    50
-  end
-
-  def self.count_all
-    if Rails.env.test?
-      Article.count
-    else
-      status_update_date = Rails.cache.read('status:timestamp')
-      Rails.cache.read("status/articles_count/#{status_update_date}").to_i
-    end
   end
 
   def events_count

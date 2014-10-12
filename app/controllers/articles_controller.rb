@@ -7,15 +7,12 @@ class ArticlesController < ApplicationController
   respond_to :html, :js
 
   def index
-    if params[:order].present?
-      @page = ""
-    else
-      @page = params[:page] || 1
-    end
+    @page = params[:page] || 1
     @q = params[:q]
     @class_name = params[:class_name]
     @publisher = Publisher.where(crossref_id: params[:publisher]).first
-    @source = Source.visible.where(name: params[:order]).first
+    @source = Source.visible.where(name: params[:source]).first
+    @order = Source.visible.where(name: params[:order]).first
   end
 
   def show

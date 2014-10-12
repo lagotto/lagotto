@@ -3,20 +3,16 @@ module Articable
 
   included do
     def show
+      source_id = Source.where(name: params[:source]).pluck(:id).first
+
       # Load one article given query params
-      source_ids = get_source_ids(params[:source])
-
-      id_hash = { :articles => Article.from_uri(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
+      id_hash = { :articles => Article.from_uri(params[:id]) }
       @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash)
-        .decorate(context: { info: params[:info], source: source_ids })
+        .decorate(context: { info: params[:info], source_id: source_id })
 
-      # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
+      # Return 404 HTTP status code and error message if article wasn't found
       if @article.blank?
-        if params[:source].blank?
-          @error = "Article not found."
-        else
-          @error = "Source not found."
-        end
+        @error = "Article not found."
         render "error", :status => :not_found
       else
         @success = "Article found."
@@ -26,7 +22,10 @@ module Articable
     def index
       # Load articles from ids listed in query string, use type parameter if present
       # Translate type query parameter into column name
-      # Paginate query results (50 per page)
+      # Paginate query results, default is 50 articles per page
+
+      # only show this source in API response
+      source_id = Source.where(name: params[:source]).pluck(:id).first
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
@@ -34,6 +33,10 @@ module Articable
         collection = Article.where(:articles => { type.to_sym => ids })
       elsif params[:q]
         collection = Article.query(params[:q])
+      elsif params[:source] && source = Source.find_by_name(params[:source])
+        collection = Article.includes(:retrieval_statuses)
+          .where("retrieval_statuses.source_id = ?", source.id)
+          .where("retrieval_statuses.event_count > 0")
       else
         collection = Article
       end
@@ -48,27 +51,38 @@ module Articable
         end
       end
 
-      if params[:order] && source = Source.find_by_name(params[:order])
-        total_entries = source.article_count
+      # sort by source event_count
+      # we can't filter and sort by two different sources
+      if params[:order] && source && params[:order] == params[:source]
+        collection = collection.order("retrieval_statuses.event_count DESC")
+      elsif params[:order] && !source && order = Source.find_by_name(params[:order])
         collection = collection.includes(:retrieval_statuses)
-          .where("retrieval_statuses.source_id = ?", source.id)
-          .where("retrieval_statuses.event_count > 0")
-          .order("retrieval_statuses.event_count DESC").select("articles.*, sources.name, sources.display_name, retrieval_statuses.event_count, retrieval_statuses.events_url")
+          .where("retrieval_statuses.source_id = ?", order.id)
+          .order("retrieval_statuses.event_count DESC")
       else
-        total_entries = Article.count_all
         collection = collection.order("published_on DESC")
       end
 
-      if params[:publisher]
-        publisher = Publisher.find_by_crossref_id(params[:publisher])
-        total_entries = publisher.article_count
+      if params[:publisher] && publisher = Publisher.find_by_crossref_id(params[:publisher])
         collection = collection.where(publisher_id: params[:publisher])
       end
 
       per_page = params[:per_page] && (1..50).include?(params[:per_page].to_i) ? params[:per_page].to_i : 50
-      source_ids = get_source_ids(params[:source])
-      collection = collection.paginate(:per_page => per_page, :page => params[:page], :total_entries => total_entries)
-      @articles = collection.decorate(:context => { :info => params[:info], :source => source_ids })
+
+      # use cached counts for total number of results
+      total_entries = case
+                      when source && publisher then publisher.article_count_by_source(source.id)
+                      when source then source.article_count
+                      when publisher then publisher.article_count
+                      else Article.count_all
+                      end
+
+      collection = collection.paginate(per_page: per_page,
+                                       page: params[:page],
+                                       total_entries: total_entries)
+      @articles = collection.decorate(context: { info: params[:info],
+                                                 source_id: source_id,
+                                                 user: current_user.cache_key })
     end
 
     protected
@@ -81,19 +95,6 @@ module Articable
         @article = Article.where(key => value).decorate.first
       else
         @article = nil
-      end
-    end
-
-    # Filter by source parameter, filter out private sources unless staff or admin
-    def get_source_ids(source_names)
-      if source_names && current_user.try(:is_admin_or_staff?)
-        Source.where("lower(name) in (?)", source_names.split(",")).order("group_id, sources.display_name").pluck(:id)
-      elsif source_names
-        Source.where("private = ?", false).where("lower(name) in (?)", source_names.split(",")).order("name").pluck(:id)
-      elsif current_user.try(:is_admin_or_staff?)
-        Source.order("group_id, sources.display_name").pluck(:id)
-      else
-        Source.where("private = ?", false).order("group_id, sources.display_name").pluck(:id)
       end
     end
 

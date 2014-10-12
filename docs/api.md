@@ -59,13 +59,13 @@ Only provide metrics for a given source. The response format is the same as the 
 /api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source=mendeley
 ```
 
+### order=x
+
+Results are sorted by descending event count when given the source name, e.g. `&order=wikipedia`. Otherwise (the default) results are sorted by date descending. When using `&source=x`, we can only sort by data or that source, not a different source.
+
 ### page|per_page
 
 Results of the v5 API are paged with 50 results per page. Use `per_page` to pick a smaller number (1-50) of results per page, and use `page` to page through the results.
-
-### order
-
-When used together with the `source` parameter, results are sorted by descending event count. Otherwise (the default) results are sorted by date descending.
 
 ## Metrics
 The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `readers` for bookmarking services, and `likes` and `comments` for social media. The same 5 categories are always returned for every source to simplify parsing of API responses:
