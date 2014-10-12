@@ -9,6 +9,7 @@ Lagotto 3.6.3 was released on October 12, 2014 with the following features:
 
 * faster filtering and sorting of articles (through additional indexes and caching)
 * filter v5 API responses by source, and sort them by event count or date (#136)
+* Turned very slow SQL insert statement into multiple background jobs (#137)
 * many small bug fixes
 
 ### [Lagotto 3.6.2](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6.2)
