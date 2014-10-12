@@ -81,7 +81,7 @@ describe SourcesController do
       response = Hash.from_xml(last_response.body)
       response = response["rss"]["channel"]
       response["title"].should eq("Lagotto: source not found")
-      response["link"].should eq(root_url)
+      response["link"].should eq("http://example.org/")
     end
   end
 end
