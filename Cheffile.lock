@@ -69,16 +69,16 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: a8bec4ba6f88fa8b318137d87cc4aaa42859cfea
+  sha: 071aa3f9814f234a6823b4d9d95d16fd450a6674
   specs:
-    lagotto (3.4.18)
+    lagotto (3.5.0)
       apt (>= 0.0.0)
       capistrano (~> 0.6.0)
       couchdb (>= 0.0.0)
       database (>= 0.0.0)
       memcached (>= 0.0.0)
       mysql (~> 5.4.3)
-      mysql_rails (~> 0.2.0)
+      mysql_rails (~> 0.3.0)
       passenger_nginx (~> 0.2.0)
       phantomjs (>= 0.0.0)
       postfix (>= 0.0.0)
@@ -87,9 +87,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/mysql_rails-cookbook.git
   ref: master
-  sha: 1f890904b9dcc4d206688b8afa599e04764863fc
+  sha: b793a4ecfebd84192bd8ec00d51d05a487360dc4
   specs:
-    mysql_rails (0.2.3)
+    mysql_rails (0.3.0)
       database (>= 0.0.0)
       mysql (>= 0.0.0)
       ruby (~> 0.3.0)
