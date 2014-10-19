@@ -43,3 +43,6 @@ config.json
 erl_crash.dump
 optimise-db.txt
 doc/dependencies*
+
+# Ignore application configuration
+/config/application.yml

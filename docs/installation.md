@@ -26,6 +26,14 @@ Lagotto requires Ruby 1.9.3 or greater, and has been tested with Ruby 1.9.3, 2.0
 [RVM]: http://rvm.io/
 [Rbenv]: https://github.com/sstephenson/rbenv
 
+The following files hold configuration settings and may need to be created (`database.yml` and `settings.yml`) or modified before installation:
+
+* `config/database.yml`: database adapter configuration
+* `config/settings.yml`: application configuration
+* `Vagrantfile`: Vagrant configuration
+* `config.json`: Chef configuration
+* `config/deploy/production`: Capistrano configuration
+
 #### Installation Options
 
 * automated installation via Vagrant/Chef (recommended)
