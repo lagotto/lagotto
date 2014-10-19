@@ -69,9 +69,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: 1c32a1cba1f7c1dfced6e1cc8dcc95c8cb8ff42d
+  sha: e5c05f888ff8b6dfac06193f69b17f6d9c0b69ff
   specs:
-    lagotto (3.5.1)
+    lagotto (3.5.3)
       apt (>= 0.0.0)
       capistrano (~> 0.6.0)
       couchdb (>= 0.0.0)
