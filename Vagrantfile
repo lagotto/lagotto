@@ -90,7 +90,7 @@ Vagrant.configure("2") do |config|
     aws.access_key_id = ENV['AWS_KEY']
     aws.secret_access_key = ENV['AWS_SECRET']
     aws.keypair_name = ENV['AWS_KEYNAME']
-    override.ssh.private_key_path = ENV['AWS_KEYPATH'] || "~/path/to/ec2/key.pem"
+    override.ssh.private_key_path = ENV['AWS_KEYPATH']
     override.vm.hostname = ENV['HOSTNAME']
 
     aws.security_groups = "default"
@@ -120,7 +120,7 @@ Vagrant.configure("2") do |config|
 
     provider.region = 'nyc2'
     provider.image = 'Ubuntu 14.04 x64'
-    provider.size = '1GB'
+    provider.size = ENV['DO_SIZE'] || '1GB'
 
     # please configure
     override.vm.hostname = ENV['HOSTNAME']

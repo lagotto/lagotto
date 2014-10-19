@@ -27,12 +27,10 @@ capybara-*.html
 /coverage/
 /data/
 /spec/tmp/*
-/config/database.yml
-/config/settings.yml
+/config/application.yml
 /config/deploy/production.rb
 /config/deploy/staging.rb
 /config/data_bags/*
-/db/seeds/_custom_sources.rb
 **.orig
 rerun.txt
 pickle-email-*.html
@@ -43,6 +41,3 @@ config.json
 erl_crash.dump
 optimise-db.txt
 doc/dependencies*
-
-# Ignore application configuration
-/config/application.yml

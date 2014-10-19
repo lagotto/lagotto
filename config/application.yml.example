@@ -1,0 +1,59 @@
+# Configuration settings for this application
+# This file should never be under version control
+
+# config/database.yml
+DB_USERNAME: root
+DB_PASSWORD:
+DB_HOST: localhost
+
+# config/settings.yml
+
+# name of server
+# will be auto-detected if left empty
+HOSTNAME:
+
+# all instances of server used behind load balancer
+# comma-delimited string of server names
+# defaults to hostname if left empty
+WEB_SERVERS:
+
+# load balancer
+# defaults to hostname if left empty
+PUBLIC_SERVER:
+
+# name used on navigation bar and in email subject line
+# defaults to "ALM" if left empty
+SITENAME:
+
+# couch_db server
+COUCHDB_HOST: localhost
+
+# email address for sending emails
+ADMIN_EMAIL: admin@example.com
+
+# number of background workers
+WORKERS: 3
+
+# automatic import via CrossRef API.
+# Use 'all', 'member', 'sample', 'member_sample', or leave empty
+IMPORT:
+
+# persistent identifier used, defaults to doi if left empty
+UID: doi
+
+# keys
+# run `rake secret` to generate these keys
+API_KEY: 8897f9349100728d66d64d56bc21254bb346a9ed21954933
+AUTH_SITE_KEY: 3ff84e3896eff64f2645e508b69da6b9f88804ecb08c368fb9252c534251c57908d65fc831f9e6e94e8361bcdf9494f2f10789183d52d2a429a3e8bcc3512279
+SECRET_TOKEN: c436de247c988eb5d0908407e700098fc3992040629bb8f98223cd221e94ee4d15626aae5d815f153f3dbbce2724ccb8569c4e26a0f6f663375f6f2697f1f3cf
+
+# third-party login
+# enabling persona overrides cas settings
+PERSONA: true
+CAS_URL: https://example.org
+CAS_PREFIX: /cas
+
+# mail settings
+MAIL_ADDRESS: localhost
+MAIL_PORT: 25
+MAIL_DOMAIN: localhost

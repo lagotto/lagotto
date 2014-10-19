@@ -1,0 +1,65 @@
+defaults: &defaults
+  # name of server
+  hostname: <%= ENV['HOSTNAME'] %>
+
+  # all instances of server used behind load balancer
+  # comma-delimited string of server names
+  # defaults to hostname if left empty
+  web_servers: <%= ENV['WEB_SERVERS'] %>
+
+  # load balancer
+  # defaults to hostname if left empty
+  public_server: <%= ENV['PUBLIC_SERVER'] %>
+
+  # name used on navigation bar and in email subject line
+  sitename: <%= ENV['SITENAME'] %>
+
+  # couch_db server
+  couchdb_url: http://<%= ENV['COUCHDB_HOST'] %>:5984/lagotto/
+
+  # email address for sending emails
+  notification_email: <%= ENV['ADMIN_EMAIL'] %>
+
+  # number of background workers
+  workers: <%= ENV['WORKERS'] %>
+
+  # automatic import via CrossRef API.
+  # Use 'all', 'member', 'sample', 'member_sample', or leave empty
+  import: <%= ENV['IMPORT'] %>
+
+  # persistent identifier used, defaults to doi if left empty
+  uid: <%= ENV['UID'] %>
+
+  # keys
+  api_key: <%= ENV['API_KEY'] %>
+  rest_auth_site_key: <%= ENV['AUTH_SITE_KEY'] %>
+  secret_token: <%= ENV['SECRET_TOKEN'] %>
+  rest_auth_digest_stretches: 10
+
+  # third-party login
+  # enabling persona overrides cas settings
+  persona: <%= ENV['PERSONA'] %>
+  cas_url: <%= ENV['CAS_URL'] %>
+  cas_login_url: <%= ENV['CAS_PREFIX'] %>/login
+  cas_logout_url: <%= ENV['CAS_PREFIX'] %>/logout
+  cas_service_validate_url: <%= ENV['CAS_PREFIX'] %>/serviceValidate
+
+  # mail settings
+  mail:
+    address: <%= ENV['MAIL_ADDRESS'] %>
+    port: <%= ENV['MAIL_PORT'] %>
+    domain: <%= ENV['MAIL_DOMAIN'] %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+  api_key: 12345
+  notification_email: info@example.org
+  workers: 1
+  couchdb_url: http://localhost:5984/lagotto_test/
+  import: member
+
+production:
+  <<: *defaults

@@ -3,8 +3,9 @@ defaults: &defaults
   timeout: 5000
   database: lagotto_<%= Rails.env %>
   adapter: mysql2
-  username: root
-  password:
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
 
 development:
   <<: *defaults
