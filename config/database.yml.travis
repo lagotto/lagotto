@@ -13,7 +13,7 @@ postgresql: &postgresql
 defaults: &defaults
   pool: 5
   timeout: 5000
-  database: alm_<%= Rails.env %>
+  database: lagotto_<%= Rails.env %>
   host: localhost
   <<: *<%= ENV['DB'] || "mysql" %>
 
