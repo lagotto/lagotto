@@ -1,6 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+begin
+  require 'librarian/action'
+rescue LoadError
+  puts "librarian gem missing. Please install and try again"
+  exit
+end
+
 # Enable provisioning with chef solo, specifying a cookbooks path, roles
 # path, and data_bags path (all relative to this Vagrantfile), and adding
 # some recipes and/or roles.
