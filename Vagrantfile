@@ -4,7 +4,7 @@
 begin
   require 'librarian/action'
 rescue LoadError
-  puts "librarian gem missing. Please install and try again"
+  puts "librarian-chef gem missing. Please install and try again"
   exit
 end
 
@@ -120,18 +120,17 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider :digital_ocean do |provider, override|
-    override.ssh.private_key_path = ENV['SSH_PRIVATE_KEY_PATH'] || '~/.ssh/id_rsa'
-    override.vm.box = 'digital_ocean'
-    override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-    override.ssh.username = "ubuntu"
-
-    provider.region = 'nyc2'
-    provider.image = 'Ubuntu 14.04 x64'
-    provider.size = ENV['DO_SIZE'] || '1GB'
-
     # please configure
     override.vm.hostname = ENV['HOSTNAME']
     provider.token = ENV['DO_PROVIDER_TOKEN']
+    provider.size = ENV['DO_SIZE'] || '1GB'
+    override.ssh.private_key_path = ENV['SSH_PRIVATE_KEY_PATH'] || '~/.ssh/id_rsa'
+
+    override.vm.box = 'digital_ocean'
+    override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+    override.ssh.username = "ubuntu"
+    provider.region = 'nyc2'
+    provider.image = 'Ubuntu 14.04 x64'
 
     provision(config, override, chef_overrides)
   end

@@ -77,7 +77,7 @@ The VMware plugin requires a commercial license, all other plugins are freely av
 ### Custom settings (passwords, API keys)
 This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
 
-Some custom settings for the virtual machine are stored in the `Vagrantfile`, and that includes your cloud provider access keys, the ID base virtual machine with Ubuntu 14.04 from by your cloud provider, RAM for the virtual machine, and networking settings for a local installation. A sample configuration for AWS would look like:
+Some custom settings for the virtual machine are stored in the `Vagrantfile`, and that includes your cloud provider access keys, the ID base virtual machine with Ubuntu 14.04 from by your cloud provider, RAM for the virtual machine, and networking settings for a local installation. Use ENV variables to configure Vagrant. For Amazon AWS the configuration could look like this:
 
 ```ruby
 config.vm.provider :aws do |aws, override|
@@ -85,7 +85,7 @@ config.vm.provider :aws do |aws, override|
   aws.access_key_id = ENV['AWS_KEY']
   aws.secret_access_key = ENV['AWS_SECRET']
   aws.keypair_name = ENV['AWS_KEYNAME']
-  override.ssh.private_key_path = ENV['AWS_KEYPATH'] || "~/path/to/ec2/key.pem"
+  override.ssh.private_key_path = ENV['AWS_KEYPATH']
   override.vm.hostname = ENV['HOSTNAME']
 
   aws.security_groups = "default"
@@ -112,24 +112,20 @@ For Digital Ocean the configuration could look like this:
 
 ```ruby
 config.vm.provider :digital_ocean do |provider, override|
+  override.vm.hostname = ENV['HOSTNAME']
+  provider.token = ENV['DO_PROVIDER_TOKEN']
+  provider.size = ENV['DO_SIZE'] || '1GB'
+  override.ssh.private_key_path = ENV['SSH_PRIVATE_KEY_PATH'] || '~/.ssh/id_rsa'
+
   override.vm.box = 'digital_ocean'
   override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
   override.ssh.username = "ubuntu"
-
   provider.region = 'nyc2'
   provider.image = 'Ubuntu 14.04 x64'
-  provider.size = '1GB'
-
-  # please configure
-  override.vm.hostname = ENV['HOSTNAME']
-  provider.token = ENV['DO_TOKEN']
-  override.ssh.private_key_path = ENV['DO_KEYPATH'] || '~/.ssh/id_rsa'
 
   provision(config, override, chef_overrides)
 end
 ```
-
-The sample configurations for AWS and Digital Ocean are included in the `Vagrantfile`. You can edit the Vagrantfile if you don't want to provide the specific settings via ENV variables.
 
 ### Cookbooks
 
