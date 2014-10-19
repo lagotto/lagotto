@@ -36,10 +36,18 @@ Hosting Lagotto at a Platform as a Service (PaaS) provider such as Heroku or Ope
 ## Automated Installation
 This is the recommended way to install the Lagotto. The required applications and libraries will automatically be installed in a self-contained virtual machine running Ubuntu 14.04, using [Vagrant] and [Chef Solo].
 
-Start by downloading and installing [Vagrant], and then install the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo):
+Start by downloading and installing [Vagrant], and the librarian gem (used to manage Chef cookbooks):
+
+```sh
+gem install librarian
+```
+
+Vagrant needs three additional plugins and will complain if they are missing. The `vagrant-omnibus` plugin installs Chef on the VM, the `vagrant-librarian-chef` plugin manages cookbooks, and the `vagrant-bindfs` plugin improves the performance of shared folders when using Virtualbox.
 
 ```sh
 vagrant plugin install vagrant-omnibus
+vagrant plugin install vagrant-librarian-chef
+vagrant plugin install vagrant-bindfs
 ```
 
 The following providers have been tested with Lagotto:
@@ -65,17 +73,20 @@ Some custom settings for the virtual machine are stored in the `Vagrantfile`, an
 
 ```ruby
 config.vm.provider :aws do |aws, override|
-  aws.access_key_id = "EXAMPLE"
-  aws.secret_access_key = "EXAMPLE"
-  aws.keypair_name = "EXAMPLE"
-  aws.security_groups = ["EXAMPLE"]
+  # please configure
+  aws.access_key_id = ENV['AWS_KEY']
+  aws.secret_access_key = ENV['AWS_SECRET']
+  aws.keypair_name = ENV['AWS_KEYNAME']
+  override.ssh.private_key_path = ENV['AWS_KEYPATH'] || "~/path/to/ec2/key.pem"
+  override.vm.hostname = ENV['HOSTNAME']
+
+  aws.security_groups = "default"
   aws.instance_type = "m3.medium"
-  aws.ami = "ami-0307d674"
-  aws.region = "eu-west-1"
+  aws.ami = "ami-9aaa1cf2"
+  aws.region = "us-east-1"
   aws.tags = { Name: 'Vagrant Lagotto' }
-  override.vm.hostname = "LAGOTTO.EXAMPLE.ORG"
+
   override.ssh.username = "ubuntu"
-  override.ssh.private_key_path = "~/path/to/ec2/key.pem"
   override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
 
   # Custom parameters for the Lagotto recipe
@@ -93,7 +104,6 @@ For Digital Ocean the configuration could look like this:
 
 ```ruby
 config.vm.provider :digital_ocean do |provider, override|
-  override.ssh.private_key_path = '~/YOUR_PRIVATE_SSH_KEY'
   override.vm.box = 'digital_ocean'
   override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
   override.ssh.username = "ubuntu"
@@ -103,14 +113,15 @@ config.vm.provider :digital_ocean do |provider, override|
   provider.size = '1GB'
 
   # please configure
-  override.vm.hostname = "LAGOTTO.EXAMPLE.ORG"
-  provider.token = 'EXAMPLE'
+  override.vm.hostname = ENV['HOSTNAME']
+  provider.token = ENV['DO_TOKEN']
+  override.ssh.private_key_path = ENV['DO_KEYPATH'] || '~/.ssh/id_rsa'
 
   provision(config, override, chef_overrides)
 end
 ```
 
-The sample configurations for AWS and Digital Ocean is included in the `Vagrantfile`.
+The sample configurations for AWS and Digital Ocean are included in the `Vagrantfile`. You can edit the Vagrantfile if you don't want to provide the specific settings via ENV variables.
 
 ### Cookbooks
 
