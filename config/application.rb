@@ -19,7 +19,7 @@ CONFIG[:useragent] ||= "Lagotto"
 addrinfo = Socket.getaddrinfo(Socket.gethostname, nil, nil, Socket::SOCK_DGRAM, nil, Socket::AI_CANONNAME)
 CONFIG[:hostname] ||= addrinfo[0][2]
 CONFIG[:public_server] ||= CONFIG[:hostname]
-CONFIG[:web_servers] ||= [CONFIG[:hostname]]
+CONFIG[:servers] ||= [CONFIG[:hostname]]
 
 if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
@@ -63,7 +63,7 @@ module Lagotto
     config.filter_parameters += [:password]
 
     # Use a different cache store
-    config.cache_store = :dalli_store, *CONFIG[:web_servers], { :namespace => "lagotto", :compress => true }
+    config.cache_store = :dalli_store, *CONFIG[:servers], { :namespace => "lagotto", :compress => true }
 
     # Enable the asset pipeline
     config.assets.enabled = true

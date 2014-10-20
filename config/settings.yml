@@ -5,7 +5,7 @@ defaults: &defaults
   # all instances of server used behind load balancer
   # comma-delimited string of server names
   # defaults to hostname if left empty
-  web_servers: <%= ENV['WEB_SERVERS'] %>
+  servers: <%= ENV['SERVERS'] %>
 
   # load balancer
   # defaults to hostname if left empty
