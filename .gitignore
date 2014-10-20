@@ -6,6 +6,7 @@
 #
 # Template taken from https://github.com/github/gitignore/blob/master/Rails.gitignore
 
+.env
 .DS_Store
 .svn
 *.rbc
@@ -26,8 +27,7 @@ capybara-*.html
 /public/files/alm_report.zip
 /coverage/
 /data/
-/spec/tmp/*
-/config/application.yml
+/spec/tmp/
 /config/deploy/production.rb
 /config/deploy/staging.rb
 /config/data_bags/*
