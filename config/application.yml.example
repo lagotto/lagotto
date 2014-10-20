@@ -1,12 +1,14 @@
 # Configuration settings for this application
 # This file should never be under version control
 
-# config/database.yml
+# database settings
 DB_USERNAME: root
 DB_PASSWORD:
 DB_HOST: localhost
 
-# config/settings.yml
+# user and group who own application repository
+DEPLOY_USER: vagrant
+DEPLOY_GROUP: vagrant
 
 # name of server
 # will be auto-detected if left empty
@@ -15,7 +17,7 @@ HOSTNAME:
 # all instances of server used behind load balancer
 # comma-delimited string of server names
 # defaults to hostname if left empty
-WEB_SERVERS:
+SERVERS:
 
 # load balancer
 # defaults to hostname if left empty

@@ -1,14 +1,28 @@
+require "yaml"
+
 # config valid only for Capistrano 3.2
 lock '3.2.1'
+
+begin
+  # Default value for default_env is {}
+  # Load relevant ENV variables from application.yml
+  CONFIG = YAML.load_file('application.yml')
+  set :default_env, { 'WORKERS' => CONFIG['WORKERS'],
+                      'SERVERS' => CONFIG['SERVERS'],
+                      'DEPLOY_USER' => CONFIG['DEPLOY_USER'] }
+rescue
+  puts "File config/application.yml is missing. Please create file and try again."
+  exit
+end
 
 set :application, 'lagotto'
 set :repo_url, 'https://github.com/articlemetrics/lagotto.git'
 
 # Default branch is :master
-set :branch, 'master'
+set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/var/www/alm'
+set :deploy_to, '/var/www/lagotto'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -28,9 +42,6 @@ set :linked_files, %w{ config/application.yml }
 # Default value for linked_dirs is []
 set :linked_dirs, %w{ bin log data tmp/pids tmp/sockets vendor/bundle public/files }
 
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
-
 # Default value for keep_releases is 5
 set :keep_releases, 5
 
@@ -39,6 +50,9 @@ set :bundle_path, -> { shared_path.join('vendor/bundle') }
 
 # Use system libraries for Nokogiri
 set :bundle_env_variables, 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1
+
+# number of background workers
+set :delayed_job_args, "-n #{ENV['WORKERS']}"
 
 namespace :deploy do
 
