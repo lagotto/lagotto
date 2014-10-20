@@ -1,17 +1,26 @@
-require "yaml"
-
 # config valid only for Capistrano 3.2
 lock '3.2.1'
 
 begin
-  # Default value for default_env is {}
-  # Load relevant ENV variables from application.yml
-  CONFIG = YAML.load_file('application.yml')
-  set :default_env, { 'WORKERS' => CONFIG['WORKERS'],
-                      'SERVERS' => CONFIG['SERVERS'],
-                      'DEPLOY_USER' => CONFIG['DEPLOY_USER'] }
-rescue
-  puts "File config/application.yml is missing. Please create file and try again."
+  # make sure file .env exists
+  fail Errno::ENOENT unless File.exist?(File.expand_path('../../.env', __FILE__))
+
+  # create ENV variables
+  require "dotenv"
+  Dotenv.load
+
+  # make sure ENV variables required for capistrano are set
+  fail ArgumentError if ENV['WORKERS'].to_s.empty? ||
+                        ENV['SERVERS'].to_s.empty? ||
+                        ENV['DEPLOY_USER'].to_s.empty?
+rescue Errno::ENOENT
+  $stderr.puts "Please create file .env in the Rails root folder"
+  exit
+rescue LoadError
+  $stderr.puts "Please install dotenv with \"gem install dotenv\""
+  exit
+rescue ArgumentError
+  $stderr.puts "Please set WORKERS, SERVERS and DEPLOY_USER in the .env file"
   exit
 end
 
@@ -37,7 +46,7 @@ set :log_level, :info
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{ config/application.yml }
+set :linked_files, %w{ .env }
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{ bin log data tmp/pids tmp/sockets vendor/bundle public/files }
