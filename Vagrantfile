@@ -2,33 +2,22 @@
 # vi: set ft=ruby :
 
 begin
-  require 'librarian/action'
-rescue LoadError
-  puts "librarian-chef gem missing. Please install and try again"
-  exit
-end
+  # requires librarian-chef plugin
+  require "librarian/action"
 
-# Enable provisioning with chef solo, specifying a cookbooks path, roles
-# path, and data_bags path (all relative to this Vagrantfile), and adding
-# some recipes and/or roles.
-def provision(config, override, overrides = {})
-  override.vm.provision :chef_solo do |chef|
-    chef.custom_config_path = "Vagrantfile.chef"
-    chef.cookbooks_path = "vendor/cookbooks"
-    dna = JSON.parse(File.read("node.json"))
-    dna.delete("run_list").each do |recipe|
-      chef.add_recipe(recipe)
+  # workaround for shared folders with vmware and lxc providers
+  # see https://github.com/applicationsonline/librarian/issues/151
+  class Librarian::Action::Install < Librarian::Action::Base
+    def create_install_path
+      if install_path.exist?
+        FileUtils.rm_rf("#{install_path}/.", secure: true)
+      end
+      install_path.mkpath
     end
-    chef.json.merge!(dna)
-
-    # Read in user-specific configuration settings, not under version control
-    if File.file?("config.json")
-      config = JSON.parse(File.read("config.json"))
-      chef.json.merge!(config)
-    end
-
-    chef.json['lagotto'].merge!(overrides['lagotto'] || {})
   end
+rescue LoadError
+  $stderr.puts "Please install librarian-chef plugin with \"vagrant plugin install librarian-chef\""
+  exit
 end
 
 def installed_plugins(required_plugins)
@@ -43,27 +32,38 @@ def installed_plugins(required_plugins)
   end
 end
 
+def load_env
+  # requires dotenv plugin/gem
+  require "dotenv"
+
+  # use .env.example if .env doesn't exist
+  # load ENV variables from .env, where all user-specific configuration settings are stored
+  FileUtils.cp '.env.example', '.env' unless File.exist?('.env')
+  Dotenv.load!
+rescue LoadError
+  $stderr.puts "Please install dotenv plugin with \"vagrant plugin install dotenv\""
+  exit
+end
+
 Vagrant.configure("2") do |config|
-  # All Vagrant configuration is done here. The most common configuration
-  # options are documented and commented below. For a complete reference,
-  # please see the online documentation at vagrantup.com.
+  # All Vagrant configuration is done here.
 
   # Check if required plugins are installed.
-  required_plugins = %w{ vagrant-omnibus vagrant-librarian-chef vagrant-bindfs }
+  required_plugins = %w{ vagrant-omnibus vagrant-librarian-chef vagrant-bindfs dotenv }
 
   unless installed_plugins(required_plugins).empty?
     puts "Plugins have been installed, please rerun vagrant."
     exit
   end
 
+  # load ENV variables
+  load_env
+
   # Install latest version of Chef
   config.omnibus.chef_version = :latest
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "chef/ubuntu-14.04"
-
-  # For any additional, provider-specific overrides for provisioning
-  chef_overrides = {}
 
   # Override settings for specific providers
   config.vm.provider :virtualbox do |vb, override|
@@ -83,22 +83,18 @@ Vagrant.configure("2") do |config|
         :"chgrp-ignore" => true,
         :"chmod-ignore" => true
     end
-    provision(vb, override)
   end
 
   config.vm.provider :vmware_fusion do |fusion, override|
     fusion.vmx["memsize"] = "1024"
-
-    provision(fusion, override)
   end
 
   config.vm.provider :aws do |aws, override|
-    # please configure
-    aws.access_key_id = ENV['AWS_KEY']
-    aws.secret_access_key = ENV['AWS_SECRET']
-    aws.keypair_name = ENV['AWS_KEYNAME']
-    override.ssh.private_key_path = ENV['AWS_KEYPATH']
-    override.vm.hostname = ENV['HOSTNAME']
+    # please configure in .env
+    aws.access_key_id = ENV.fetch('AWS_KEY')
+    aws.secret_access_key = ENV.fetch('AWS_SECRET')
+    aws.keypair_name = ENV.fetch('AWS_KEYNAME')
+    override.ssh.private_key_path = ENV.fetch('AWS_KEYPATH')
 
     aws.security_groups = "default"
     aws.instance_type = "m3.medium"
@@ -108,63 +104,34 @@ Vagrant.configure("2") do |config|
 
     override.ssh.username = "ubuntu"
     override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
-
-    # Custom parameters for the Lagotto recipe
-    chef_overrides['lagotto'] = {
-      'user' => 'ubuntu',
-      'group' => 'ubuntu',
-      'provider' => 'aws'
-    }
-
-    provision(config, override, chef_overrides)
   end
 
-  config.vm.provider :digital_ocean do |provider, override|
-    # please configure
-    override.vm.hostname = ENV['HOSTNAME']
-    provider.token = ENV['DO_PROVIDER_TOKEN']
-    provider.size = ENV['DO_SIZE'] || '1GB'
-    override.ssh.private_key_path = ENV['SSH_PRIVATE_KEY_PATH'] || '~/.ssh/id_rsa'
+  # config.vm.provider :digital_ocean do |digital_ocean, override|
+  #   # please configure in .env
+  #   override.ssh.private_key_path = ENV.fetch('PRIVATE_KEY_PATH')
+  #   digital_ocean.token = ENV.fetch('DO_PROVIDER_TOKEN')
+  #   digital_ocean.size = ENV.fetch('DO_SIZE')
 
-    override.vm.box = 'digital_ocean'
-    override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-    override.ssh.username = "ubuntu"
-    provider.region = 'nyc2'
-    provider.image = 'Ubuntu 14.04 x64'
+  #   override.vm.box = 'digital_ocean'
+  #   override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+  #   override.ssh.username = "ubuntu"
+  #   digital_ocean.region = 'nyc2'
+  #   digital_ocean.image = 'Ubuntu 14.04 x64'
+  # end
 
-    provision(config, override, chef_overrides)
-  end
-
-  config.vm.hostname = ENV['HOSTNAME'] || "lagotto.local"
-  # Boot with a GUI so you can see the screen. (Default is headless)
-  # config.vm.boot_mode = :gui
-
-  # Assign this VM to a host-only network IP, allowing you to access it
-  # via the IP. Host-only networks can talk to the host machine as well as
-  # any other machines on the same network, but cannot be accessed (through this
-  # network interface) by any external networks.
-  config.vm.network :private_network, ip: ENV['PRIVATE_IP'] || "10.2.2.4"
-
-  # Assign this VM to a bridged network, allowing you to connect directly to a
-  # network using the host's network device. This makes the VM appear as another
-  # physical device on your network.
-  # config.vm.network :bridged
-
-  # Share an additional folder to the guest VM. The first argument is
-  # an identifier, the second is the path on the guest to mount the
-  # folder, and the third is the path on the host to the actual folder.
-
+  config.vm.hostname = ENV.fetch('HOSTNAME')
+  config.vm.network :private_network, ip: ENV.fetch('PRIVATE_IP')
+  config.vm.network :public_network
   config.vm.synced_folder ".", "/var/www/lagotto/current", id: "vagrant-root"
-end
 
-# workaround for shared folders with vmware and lxc providers
-# see https://github.com/applicationsonline/librarian/issues/151
-require 'librarian/action'
-class Librarian::Action::Install < Librarian::Action::Base
-  def create_install_path
-    if install_path.exist?
-      FileUtils.rm_rf("#{install_path}/.", secure: true)
+  # Enable provisioning with chef solo
+  config.vm.provision :chef_solo do |chef|
+    chef.custom_config_path = "Vagrantfile.chef"
+    chef.cookbooks_path = "vendor/cookbooks"
+    dna = JSON.parse(File.read("node.json"))
+    dna.delete("run_list").each do |recipe|
+      chef.add_recipe(recipe)
     end
-    install_path.mkpath
+    chef.json.merge!(dna)
   end
 end
