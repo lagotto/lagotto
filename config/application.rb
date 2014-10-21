@@ -1,25 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-require 'safe_yaml'
 require 'socket'
-
-SafeYAML::OPTIONS[:default_mode] = :safe
-SafeYAML::OPTIONS[:deserialize_symbols] = true
-SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/object:OpenStruct"]
-
-CONFIG = YAML.load(ERB.new(File.read(File.expand_path('../settings.yml', __FILE__))).result)[Rails.env]
-CONFIG.symbolize_keys!
-
-# reasonable defaults
-CONFIG[:uid] ||= "doi"
-CONFIG[:sitename] ||= "ALM"
-CONFIG[:useragent] ||= "Lagotto"
-
-addrinfo = Socket.getaddrinfo(Socket.gethostname, nil, nil, Socket::SOCK_DGRAM, nil, Socket::AI_CANONNAME)
-CONFIG[:hostname] ||= addrinfo[0][2]
-CONFIG[:public_server] ||= CONFIG[:hostname]
-CONFIG[:servers] ||= [CONFIG[:hostname]]
 
 if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
@@ -63,7 +45,7 @@ module Lagotto
     config.filter_parameters += [:password]
 
     # Use a different cache store
-    config.cache_store = :dalli_store, *CONFIG[:servers], { :namespace => "lagotto", :compress => true }
+    config.cache_store = :dalli_store, *(ENV['SERVERS'].split(",")), { :namespace => "lagotto", :compress => true }
 
     # Enable the asset pipeline
     config.assets.enabled = true
