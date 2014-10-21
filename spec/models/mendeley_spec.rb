@@ -5,7 +5,7 @@ describe Mendeley do
   subject { FactoryGirl.create(:mendeley) }
 
   context "CSV report" do
-    let(:url) { "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley" }
+    let(:url) { "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley" }
 
     it "should format the CouchDB report as csv" do
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'))

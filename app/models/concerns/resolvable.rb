@@ -73,7 +73,7 @@ module Resolvable
     def get_persistent_identifiers(uid, options = { timeout: 120 })
       conn = faraday_conn('json')
       params = { 'ids' => uid,
-                 'idtype' => CONFIG[:uid],
+                 'idtype' => ENV['UID'],
                  'format' => 'json' }
       url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?" + params.to_query
 

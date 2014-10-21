@@ -8,7 +8,7 @@ describe ReportMailer do
     it "sends email" do
       mail.subject.should eq("[Lagotto] Error Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
-      mail.from.should eq([CONFIG[:notification_email]])
+      mail.from.should eq([ENV['ADMIN_EMAIL']])
     end
 
     it "renders the body" do
@@ -21,7 +21,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: alerts_url(host: CONFIG[:public_server]))
+      body_html.should have_link('Go to admin dashboard', href: alerts_url(host: ENV['SERVERNAME']))
     end
   end
 
@@ -32,7 +32,7 @@ describe ReportMailer do
     it "sends email" do
       mail.subject.should eq("[Lagotto] Status Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
-      mail.from.should eq([CONFIG[:notification_email]])
+      mail.from.should eq([ENV['ADMIN_EMAIL']])
     end
 
     it "renders the body" do
@@ -41,7 +41,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: status_url(host: CONFIG[:public_server]))
+      body_html.should have_link('Go to admin dashboard', href: status_url(host: ENV['SERVERNAME']))
     end
   end
 
@@ -52,8 +52,8 @@ describe ReportMailer do
     it "sends email" do
       mail.subject.should eq("[Lagotto] Article Statistics Report")
       mail.bcc.should eq([report.users.map(&:email).join(",")])
-      mail.to.should eq([CONFIG[:notification_email]])
-      mail.from.should eq([CONFIG[:notification_email]])
+      mail.to.should eq([ENV['ADMIN_EMAIL']])
+      mail.from.should eq([ENV['ADMIN_EMAIL']])
     end
 
     it "renders the body" do
@@ -64,7 +64,7 @@ describe ReportMailer do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       body_html.should have_link(
         "Download report",
-        href: "http://#{CONFIG[:public_server]}/files/alm_report.zip")
+        href: "http://#{ENV['SERVERNAME']}/files/alm_report.zip")
     end
   end
 
@@ -77,7 +77,7 @@ describe ReportMailer do
     it "sends email" do
       mail.subject.should eq("[Lagotto] Fatal Error Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
-      mail.from.should eq([CONFIG[:notification_email]])
+      mail.from.should eq([ENV['ADMIN_EMAIL']])
     end
 
     it "renders the body" do
@@ -86,7 +86,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: alerts_url(host: CONFIG[:public_server], level: "fatal"))
+      body_html.should have_link('Go to admin dashboard', href: alerts_url(host: ENV['SERVERNAME'], level: "fatal"))
     end
   end
 
@@ -99,7 +99,7 @@ describe ReportMailer do
     it "sends email" do
       mail.subject.should eq("[Lagotto] Stale Source Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
-      mail.from.should eq([CONFIG[:notification_email]])
+      mail.from.should eq([ENV['ADMIN_EMAIL']])
     end
 
     it "renders the body" do
@@ -108,7 +108,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: alerts_url(host: CONFIG[:public_server], :class => "SourceNotUpdatedError"))
+      body_html.should have_link('Go to admin dashboard', href: alerts_url(host: ENV['SERVERNAME'], :class => "SourceNotUpdatedError"))
     end
   end
 
@@ -119,7 +119,7 @@ describe ReportMailer do
     it "sends email" do
       mail.subject.should eq("[Lagotto] Missing Workers Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
-      mail.from.should eq([CONFIG[:notification_email]])
+      mail.from.should eq([ENV['ADMIN_EMAIL']])
     end
 
     it "renders the body" do
@@ -128,7 +128,7 @@ describe ReportMailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should have_link('Go to admin dashboard', href: status_url(host: CONFIG[:public_server]))
+      body_html.should have_link('Go to admin dashboard', href: status_url(host: ENV['SERVERNAME']))
     end
   end
 end

@@ -19,7 +19,6 @@ class ArticlesController < ApplicationController
     format_options = params.slice :events, :source
 
     @groups = Group.order("id")
-    @api_key = CONFIG[:api_key]
 
     respond_with(@article) do |format|
       format.js { render :show }

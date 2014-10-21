@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     unless user
       # We obtain the email address from a second call to the CAS server
-      url = "#{CONFIG[:cas_url]}/cas/email?guid=#{auth.uid}"
+      url = "#{ENV['CAS_URL']}/cas/email?guid=#{auth.uid}"
       result = User.new.get_result(url, content_type: 'html')
       email = result.blank? ? "" : result
       name = email.present? ? email : auth.uid
@@ -106,7 +106,7 @@ class User < ActiveRecord::Base
     # The first user we create has an admin role and uses the configuration
     # API key, unless it is in the test environment
     if User.count == 1 && !Rails.env.test?
-      update_attributes(role: "admin", authentication_token: CONFIG[:api_key])
+      update_attributes(role: "admin", authentication_token: ENV['API_KEY'])
     end
   end
 

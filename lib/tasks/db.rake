@@ -5,7 +5,7 @@ namespace :db do
     desc "Bulk-load articles from Crossref API"
     task :import => :environment do |t, args|
       # only run if configuration option :import
-      case CONFIG[:import]
+      case ENV['IMPORT']
       when "member", "member_sample"
         member = ENV['MEMBER'] || Publisher.pluck(:crossref_id).join(",")
         sample = ENV['SAMPLE']

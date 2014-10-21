@@ -82,7 +82,7 @@ module Networkable
 
       Faraday.new do |c|
         c.headers['Accept'] = accept_header
-        c.headers['User-Agent'] = "#{CONFIG[:useragent]} #{Rails.application.config.version} - http://#{CONFIG[:public_server]}"
+        c.headers['User-Agent'] = "Lagotto #{Rails.application.config.version} - http://#{ENV['SERVERNAME']}"
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10, :cookie => :all
         c.use      :cookie_jar
         c.request  :multipart

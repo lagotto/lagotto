@@ -1,12 +1,10 @@
-if CONFIG[:mail]
-  ActionMailer::Base.smtp_settings = {
-    :address              => CONFIG[:mail]["address"],
-    :port                 => CONFIG[:mail]["port"],
-    :domain               => CONFIG[:mail]["domain"],
-    :user_name            => CONFIG[:mail]["user_name"],
-    :password             => CONFIG[:mail]["password"],
-    :authentication       => CONFIG[:mail]["authentication"],
-    :enable_starttls_auto => true,
-    :openssl_verify_mode  => 'none'
-  }
-end
+ActionMailer::Base.smtp_settings = {
+  :address              => ENV['MAIL_ADDRESS'],
+  :port                 => ENV['MAIL_PORT'],
+  :domain               => ENV['MAIL_DOMAIN'],
+  :user_name            => ENV['MAIL_USERNAME'],
+  :password             => ENV['MAIL_PASSWORD'],
+  :authentication       => ENV['MAIL_AUTHENTICATION'],
+  :enable_starttls_auto => true,
+  :openssl_verify_mode  => 'none'
+}

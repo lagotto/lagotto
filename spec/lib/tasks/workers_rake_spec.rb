@@ -7,7 +7,7 @@ describe "workers:start" do
     Worker.stop
   end
 
-  let(:output) { "All #{CONFIG[:workers]} workers started.\n" }
+  let(:output) { "All #{ENV['WORKERS']} workers started.\n" }
 
   its(:prerequisites) { should include("environment") }
 
@@ -42,8 +42,8 @@ describe "workers:monitor" do
     Worker.stop
   end
 
-  let(:message) { "Error monitoring workers, only 0 of #{CONFIG[:workers]} workers running. Workers restarted." }
-  let(:output) { "#{message}\n#{CONFIG[:workers]} workers expected, #{CONFIG[:workers]} workers running.\n" }
+  let(:message) { "Error monitoring workers, only 0 of #{ENV['WORKERS']} workers running. Workers restarted." }
+  let(:output) { "#{message}\n#{ENV['WORKERS']} workers expected, #{ENV['WORKERS']} workers running.\n" }
 
   it "should run" do
     capture_stdout { subject.invoke }.should eq(output)

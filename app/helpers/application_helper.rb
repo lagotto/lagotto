@@ -3,15 +3,15 @@ require 'rouge'
 
 module ApplicationHelper
   def login_link
-    if CONFIG[:persona]
+    if ENV['CAS_URL']
+      link_to "Sign In", user_omniauth_authorize_path(:cas), :id => "sign_in"
+    else
       s = form_tag '/users/auth/persona/callback', :id => 'persona_form', :class => "navbar-form" do
         p = hidden_field_tag('assertion')
         p << button_tag('Sign In with Persona', :id => 'sign_in', :class => 'btn btn-link persona')
         p
       end
       s.html_safe
-    elsif CONFIG[:cas_url]
-      link_to "Sign In", user_omniauth_authorize_path(:cas), :id => "sign_in"
     end
   end
 

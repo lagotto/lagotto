@@ -3,6 +3,8 @@ class AlertsController < ApplicationController
   skip_authorize_resource :only => [:create, :routing_error]
 
   def index
+    @servers = ENV['SERVERS'].split(",")
+
     collection = Alert
     if params[:source]
       collection = collection.includes(:source).where("sources.name = ?", params[:source])

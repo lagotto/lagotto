@@ -1,13 +1,13 @@
 # encoding: UTF-8
 
 class ReportMailer < ActionMailer::Base
-  default :from => CONFIG[:notification_email]
+  default :from => ENV['ADMIN_EMAIL']
 
   def send_error_report(report)
     return if report.users.empty?
 
     @reviews = Review.daily_report
-    mail(to: report.users.map(&:email).join(","), subject: "[Lagotto] Error Report")
+    mail(to: report.users.map(&:email).join(","), subject: "[#{ENV['SITENAME']}] Error Report")
   end
 
   def send_fatal_error_report(report, message)
@@ -30,7 +30,7 @@ class ReportMailer < ActionMailer::Base
 
     @articles_count = Status.new.articles_count
 
-    mail(to: CONFIG[:notification_email],
+    mail(to: ENV['ADMIN_EMAIL'],
          bcc: report.users.map(&:email).join(","),
          subject: "[Lagotto] Article Statistics Report")
   end

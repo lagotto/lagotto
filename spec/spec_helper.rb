@@ -19,7 +19,7 @@ require "rack/test"
 require 'draper/test/rspec_integration'
 
 include WebMock::API
-allowed_hosts = [/codeclimate.com/, CONFIG[:hostname]]
+allowed_hosts = [/codeclimate.com/, ENV['HOSTNAME']]
 WebMock.disable_net_connect!(allow: allowed_hosts, allow_localhost: true)
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }

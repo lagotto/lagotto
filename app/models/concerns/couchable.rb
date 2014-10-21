@@ -4,17 +4,12 @@ module Couchable
   extend ActiveSupport::Concern
 
   included do
-
-    def couchdb_url
-      CONFIG[:couchdb_url]
-    end
-
     def get_lagotto_data(id = "", options={})
-      get_result("#{couchdb_url}#{id}", options)
+      get_result("#{ENV['COUCHDB_URL']}/#{id}", options)
     end
 
     def get_lagotto_rev(id, options={})
-      head_lagotto_data("#{couchdb_url}#{id}", options)[:rev]
+      head_lagotto_data("#{ENV['COUCHDB_URL']}/#{id}", options)[:rev]
     end
 
     def head_lagotto_data(url, options = { timeout: DEFAULT_TIMEOUT })
@@ -36,7 +31,7 @@ module Couchable
         options[:data][:_rev] = data_rev
       end
 
-      put_lagotto_data("#{couchdb_url}#{id}", options)
+      put_lagotto_data("#{ENV['COUCHDB_URL']}/#{id}", options)
     end
 
     def put_lagotto_data(url, options = { data: nil })
@@ -59,7 +54,7 @@ module Couchable
 
       if data_rev.present?
         params = {'rev' => data_rev }
-        response = delete_lagotto_data("#{couchdb_url}#{id}?#{params.to_query}")
+        response = delete_lagotto_data("#{ENV['COUCHDB_URL']}/#{id}?#{params.to_query}")
       else
         response = nil
       end
@@ -77,7 +72,7 @@ module Couchable
 
     def delete_lagotto_data(url, options={})
       # don't delete database
-      return nil if url == couchdb_url && Rails.env != "test"
+      return nil if url == ENV['COUCHDB_URL'] && Rails.env != "test"
 
       conn = faraday_conn('json')
       response = conn.delete url
@@ -92,16 +87,16 @@ module Couchable
     end
 
     def put_lagotto_database
-      put_lagotto_data(couchdb_url)
+      put_lagotto_data(ENV['COUCHDB_URL'])
       filter = Faraday::UploadIO.new('design_doc/filter.json', 'application/json')
-      put_lagotto_data("#{couchdb_url}_design/filter", data: filter)
+      put_lagotto_data("#{ENV['COUCHDB_URL']}/_design/filter", data: filter)
 
       reports = Faraday::UploadIO.new('design_doc/reports.json', 'application/json')
-      put_lagotto_data("#{couchdb_url}_design/reports", data: reports)
+      put_lagotto_data("#{ENV['COUCHDB_URL']}/_design/reports", data: reports)
     end
 
     def delete_lagotto_database
-      delete_lagotto_data(couchdb_url)
+      delete_lagotto_data(ENV['COUCHDB_URL'])
     end
 
     def parse_rev(string)

@@ -15,7 +15,7 @@ describe Pmc do
     end
 
     it "should format the CouchDB report as csv" do
-      url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc"
+      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_report.json'))
       response = CSV.parse(subject.to_csv)
       response.count.should == 25
@@ -28,7 +28,7 @@ describe Pmc do
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["10.1371/journal.ppat.1000446", "5", "4"]
       row.fill("0", 3..(dates.length))
-      url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_html_views"
+      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_html_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_html_report.json'))
       response = CSV.parse(subject.to_csv(format: "html", month: 11, year: 2013))
       response.count.should == 25
@@ -41,7 +41,7 @@ describe Pmc do
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["10.1371/journal.pbio.0030137", "0", "0"]
       row.fill("0", 3..(dates.length))
-      url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_pdf_views"
+      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_pdf_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_pdf_report.json'))
       response = CSV.parse(subject.to_csv(format: "pdf", month: 11, year: 2013))
       response.count.should == 25
@@ -54,7 +54,7 @@ describe Pmc do
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["10.1371/journal.pbio.0040015", "9", "10"]
       row.fill("0", 3..(dates.length))
-      url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc_combined_views"
+      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_combined_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_combined_report.json'))
       response = CSV.parse(subject.to_csv(format: "combined", month: 11, year: 2013))
       response.count.should == 25
@@ -64,7 +64,7 @@ describe Pmc do
 
     it "should report an error if the CouchDB design document can't be retrieved" do
       FactoryGirl.create(:fatal_error_report_with_admin_user)
-      url = "#{CONFIG[:couchdb_url]}_design/reports/_view/pmc"
+      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc"
       stub = stub_request(:get, url).to_return(:status => [404])
       subject.to_csv.should be_nil
       Alert.count.should == 1

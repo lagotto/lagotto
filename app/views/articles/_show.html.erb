@@ -5,9 +5,9 @@
       <legend>Edit Article</legend>
 
       <%= f.input :title, :input_html => { :rows => 2 } %>
-      <%= f.input :doi, :label => 'DOI', :disabled => CONFIG[:uid] == "doi" %>
-      <%= f.input :pmid, :label => 'PubMed ID', :disabled => CONFIG[:uid] == "pmid" %>
-      <%= f.input :pmcid, :label => 'PubMed Central ID', :disabled => CONFIG[:uid] == "pmcid" %>
+      <%= f.input :doi, :label => 'DOI', :disabled => ENV['UID'] == "doi" %>
+      <%= f.input :pmid, :label => 'PubMed ID', :disabled => ENV['UID'] == "pmid" %>
+      <%= f.input :pmcid, :label => 'PubMed Central ID', :disabled => ENV['UID'] == "pmcid" %>
       <%= f.input :canonical_url, :label => 'Canonical URL' %>
       <% if publishers.length > 1 %>
         <%= f.association :publisher, collection: Publisher.order('name').map { |publisher| [publisher.name, publisher.crossref_id] }, input_html: { class: "form-user" } %>
@@ -27,7 +27,7 @@
 
 <% else %>
   <div class="page-header">
-    <h1 id="api_key" data-api_key="<%= CONFIG[:api_key] %>" data-uid_type="<%= CONFIG[:uid] %>" data-uid="<%= @article.uid %>">
+    <h1 id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-uid="<%= @article.uid %>">
       <% if can?(:manage, Article) %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group btn-group-sm">

@@ -91,7 +91,7 @@ class History
         options[:data][:_rev] = data_rev
       end
 
-      @rs_rev = put_lagotto_data("#{CONFIG[:couchdb_url]}#{couchdb_id}", options)
+      @rs_rev = put_lagotto_data("#{ENV['COUCHDB_URL']}/#{couchdb_id}", options)
     else
       # only save the data to couchdb
       @rs_rev = save_lagotto_data(couchdb_id, data: data.clone, source_id: retrieval_status.source_id)
@@ -187,7 +187,7 @@ class History
   end
 
   def data
-    { CONFIG[:uid].to_sym => retrieval_status.article.uid,
+    { ENV['UID'].to_sym => retrieval_status.article.uid,
       retrieved_at: retrieved_at,
       source: retrieval_status.source.name,
       events: events,

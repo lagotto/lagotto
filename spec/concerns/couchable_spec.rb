@@ -12,7 +12,7 @@ describe Source do
     end
 
     let(:id) { "test" }
-    let(:url) { "#{CONFIG[:couchdb_url]}#{id}" }
+    let(:url) { "#{ENV['COUCHDB_URL']}/#{id}" }
     let(:data) { { "name" => "Fred"} }
     let(:error) { {"error"=>"not_found", "reason"=>"missing"} }
 
@@ -24,7 +24,7 @@ describe Source do
       rev = subject.put_lagotto_data(url, data: data)
 
       get_info = subject.get_lagotto_database
-      db_name = Addressable::URI.parse(CONFIG[:couchdb_url]).path[1..-2]
+      db_name = Addressable::URI.parse(ENV['COUCHDB_URL']).path[1..-2]
       get_info["db_name"].should eq(db_name)
       get_info["disk_size"].should be > 0
       get_info["doc_count"].should be > 1
