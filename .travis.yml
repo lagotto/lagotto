@@ -11,8 +11,7 @@ services:
   - memcached
 
 before_script:
-  - cp config/settings.yml.example config/settings.yml
-  - cp config/database.yml.travis config/database.yml
+  - cp .env.example .env
   - mkdir -p tmp/pids
 
 script:
