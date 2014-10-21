@@ -61,21 +61,29 @@ SITE
 GIT
   remote: git@github.com:articlemetrics/capistrano-cookbook.git
   ref: master
-  sha: d688ff9d63522d8fc0fc1993e372e3ee8814eaca
+  sha: a888dbcef2d0e4993f722b14b1a8b67c0b717188
   specs:
-    capistrano (0.6.11)
+    capistrano (0.6.17)
       ruby (~> 0.4.0)
+
+GIT
+  remote: git@github.com:articlemetrics/dotenv-cookbook.git
+  ref: master
+  sha: 2e8a1c23c69d2f0e13d035986d398889a26b69ad
+  specs:
+    dotenv (0.1.4)
 
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: b704050564ed7d71e85e1d3f177de1750eebe3f5
+  sha: ef1482ca01a9cd186ddee81ebf4a85a0ce0f2853
   specs:
-    lagotto (3.5.6)
+    lagotto (3.6.6)
       apt (>= 0.0.0)
       capistrano (~> 0.6.0)
       couchdb (>= 0.0.0)
       database (>= 0.0.0)
+      dotenv (~> 0.1.0)
       memcached (>= 0.0.0)
       mysql (~> 5.4.3)
       mysql_rails (~> 0.3.0)
@@ -87,9 +95,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/mysql_rails-cookbook.git
   ref: master
-  sha: 605c67b996066bd28f85e839ec230f9bc288906f
+  sha: d3ae398d4c49e994a06b5029c6c38166ddf2b893
   specs:
-    mysql_rails (0.3.2)
+    mysql_rails (0.3.6)
       database (>= 0.0.0)
       mysql (>= 0.0.0)
       ruby (~> 0.4.0)
@@ -97,9 +105,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/passenger_nginx-cookbook.git
   ref: master
-  sha: 1f91dcdd3ce78559ddb73e432a177af3e5e702e9
+  sha: 2a1654714bf612ee72a0e78557040eb442b3ee1f
   specs:
-    passenger_nginx (0.3.0)
+    passenger_nginx (0.3.2)
       apt (~> 2.5.3)
       ruby (~> 0.4.0)
 
@@ -115,6 +123,7 @@ DEPENDENCIES
   capistrano (>= 0)
   couchdb (>= 0)
   database (~> 2.3.0)
+  dotenv (>= 0)
   lagotto (>= 0)
   memcached (>= 0)
   mysql (~> 5.4.3)
