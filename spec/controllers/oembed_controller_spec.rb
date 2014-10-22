@@ -27,7 +27,7 @@ describe OembedController do
     end
 
     it "GET oembed escaped" do
-      get "http://#{CONFIG[:public_server]}/oembed?url=maxwidth=474&maxheight=711&url=#{CGI.escape(article_url(article))}&format=json"
+      get "http://#{ENV['SERVERNAME']}/oembed?url=maxwidth=474&maxheight=711&url=#{CGI.escape(article_url(article))}&format=json"
       last_response.status.should == 200
       response = JSON.parse(last_response.body)
       response["type"].should eq("rich")

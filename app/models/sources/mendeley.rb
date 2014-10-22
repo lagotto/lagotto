@@ -111,7 +111,7 @@ class Mendeley < Source
 
   # Format Mendeley events for all articles as csv
   def to_csv(options = {})
-    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
+    service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley"
 
     result = get_result(service_url, options.merge(timeout: 1800))
     if result.blank? || result["rows"].blank?
@@ -124,7 +124,7 @@ class Mendeley < Source
     end
 
     CSV.generate do |csv|
-      csv << [CONFIG[:uid], "readers", "groups", "total"]
+      csv << [ENV['UID'], "readers", "groups", "total"]
       result["rows"].each { |row| csv << [row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
     end
   end

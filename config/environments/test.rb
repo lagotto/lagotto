@@ -42,5 +42,5 @@ Lagotto::Application.configure do
   # strong_parameters gem, default in Rails 4
   config.action_controller.action_on_unpermitted_parameters = :raise
 
-  config.action_mailer.default_url_options = { :host => "#{CONFIG[:mail]["address"]}#{CONFIG[:mail]["port"]}" }
+  config.action_mailer.default_url_options = { :host => "#{ENV['MAIL_ADDRESS']}:#{ENV['MAIL_PORT']}" }
 end

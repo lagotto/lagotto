@@ -2,8 +2,7 @@
   "run_list": [
     "recipe[lagotto]"
   ],
-  "lagotto": {
-    "host": "10.2.2.4",
-    "hostname": "lagotto"
-  }
+  "phantomjs": {
+    "version": "1.9.7",
+    "base_url": "https://bitbucket.org/ariya/phantomjs/downloads" }
 }

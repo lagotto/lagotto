@@ -10,7 +10,7 @@ describe "/api/v5/articles" do
       let(:articles) { FactoryGirl.create_list(:article_with_events, 2) }
       let(:article_list) { articles.map { |article| "#{article.doi_escaped}" }.join(",") }
       let(:cache_key_list) { articles.map { |article| "#{article.decorate(:context => { source: 'citeulike' }).cache_key}" }.join("/") }
-      let(:uri) { "http://#{CONFIG[:hostname]}/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}" }
+      let(:uri) { "http://#{ENV['HOSTNAME']}/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}" }
 
       it "can cache articles" do
         Rails.cache.exist?("rabl/v5/#{cache_key_list}//hash").should_not be_true
@@ -47,7 +47,7 @@ describe "/api/v5/articles" do
 
     context "article is updated" do
       let(:article) { FactoryGirl.create(:article_with_events) }
-      let(:uri) { "http://#{CONFIG[:hostname]}/api/v5/articles?ids=#{article.doi_escaped}&api_key=#{api_key}" }
+      let(:uri) { "http://#{ENV['HOSTNAME']}/api/v5/articles?ids=#{article.doi_escaped}&api_key=#{api_key}" }
       let(:key) { "rabl/v5/#{article.decorate(:context => { source: 'citeulike' }).cache_key}" }
       let(:title) { "Foo" }
       let(:event_count) { 75 }

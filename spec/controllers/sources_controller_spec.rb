@@ -28,7 +28,7 @@ describe SourcesController do
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
       response["version"].should eq("2.0")
-      response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
+      response["channel"]["title"].should eq("Lagotto: most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end
@@ -42,7 +42,7 @@ describe SourcesController do
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
       response["version"].should eq("2.0")
-      response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
+      response["channel"]["title"].should eq("Lagotto: most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end
@@ -56,7 +56,7 @@ describe SourcesController do
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
       response["version"].should eq("2.0")
-      response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
+      response["channel"]["title"].should eq("Lagotto: most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end
@@ -70,7 +70,7 @@ describe SourcesController do
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
       response["version"].should eq("2.0")
-      response["channel"]["title"].should eq(CONFIG[:useragent] + ": most-cited articles in #{source.display_name}")
+      response["channel"]["title"].should eq("Lagotto: most-cited articles in #{source.display_name}")
       Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
       response["channel"]["item"].should_not be_nil
     end

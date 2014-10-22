@@ -61,7 +61,7 @@ describe Report do
       end
 
       it "should merge stats" do
-        url = "#{CONFIG[:couchdb_url]}_design/reports/_view/mendeley"
+        url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley"
         stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
         filename = "mendeley_stats.csv"
         filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}/#{filename}"
@@ -109,7 +109,7 @@ describe Report do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
       mail.to.should == [report.users.map(&:email).join(",")]
-      mail.subject.should == "[Lagotto] Error Report"
+      mail.subject.should == "[#{ENV['SITENAME']}] Error Report"
     end
 
     it "generates a multipart message (plain text and html)" do
@@ -123,7 +123,7 @@ describe Report do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should include("<a href=\"http://#{CONFIG[:public_server]}/alerts\">Go to admin dashboard</a>")
+      body_html.should include("<a href=\"http://#{ENV['SERVERNAME']}/alerts\">Go to admin dashboard</a>")
     end
   end
 
@@ -136,7 +136,7 @@ describe Report do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
       mail.to.should == [report.users.map(&:email).join(",")]
-      mail.subject.should == "[Lagotto] Stale Source Report"
+      mail.subject.should == "[#{ENV['SITENAME']}] Stale Source Report"
     end
 
     it "generates a multipart message (plain text and html)" do
@@ -150,7 +150,7 @@ describe Report do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should include("<a href=\"http://#{CONFIG[:public_server]}/alerts?class=SourceNotUpdatedError\">Go to admin dashboard</a>")
+      body_html.should include("<a href=\"http://#{ENV['SERVERNAME']}/alerts?class=SourceNotUpdatedError\">Go to admin dashboard</a>")
     end
   end
 end

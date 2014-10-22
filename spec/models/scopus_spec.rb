@@ -16,7 +16,7 @@ describe Scopus do
     it "should report if there are no events and event_count returned by the Scopus API" do
       article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.000001")
       body = File.read(fixture_path + 'scopus_nil.json')
-      stub = stub_request(:get, subject.get_query_url(article)).with(:headers => { 'Accept'=>'application/json', 'User-Agent'=>"Lagotto #{Rails.application.config.version} - http://#{CONFIG[:public_server]}", 'X-ELS-APIKEY' => subject.api_key, 'X-ELS-INSTTOKEN' => subject.insttoken }).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).with(:headers => { 'Accept'=>'application/json', 'User-Agent'=>"Lagotto #{Rails.application.config.version} - http://#{ENV['SERVERNAME']}", 'X-ELS-APIKEY' => subject.api_key, 'X-ELS-INSTTOKEN' => subject.insttoken }).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested
@@ -25,7 +25,7 @@ describe Scopus do
     it "should report if there are events and event_count returned by the Scopus API" do
       body = File.read(fixture_path + 'scopus.json')
       events = JSON.parse(body)["search-results"]["entry"][0]
-      stub = stub_request(:get, subject.get_query_url(article)).with(:headers => { 'Accept'=>'application/json', 'User-Agent'=>"Lagotto #{Rails.application.config.version} - http://#{CONFIG[:public_server]}", 'X-ELS-APIKEY' => subject.api_key, 'X-ELS-INSTTOKEN' => subject.insttoken }).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
+      stub = stub_request(:get, subject.get_query_url(article)).with(:headers => { 'Accept'=>'application/json', 'User-Agent'=>"Lagotto #{Rails.application.config.version} - http://#{ENV['SERVERNAME']}", 'X-ELS-APIKEY' => subject.api_key, 'X-ELS-INSTTOKEN' => subject.insttoken }).to_return(:headers => { "Content-Type" => "application/json" }, :body => body, :status => 200)
       response = subject.get_data(article)
       response.should eq(JSON.parse(body))
       stub.should have_been_requested

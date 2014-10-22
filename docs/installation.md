@@ -5,7 +5,7 @@ title: "Installation"
 
 ## Introduction
 
-Setting up Lagotto consists of three steps:
+Configuring Lagotto consists of three steps:
 
 * Installation (this document)
 * [Deployment](/docs/deployment.md) if you are using Lagotto in a production system
@@ -26,6 +26,78 @@ Lagotto requires Ruby 1.9.3 or greater, and has been tested with Ruby 1.9.3, 2.0
 [RVM]: http://rvm.io/
 [Rbenv]: https://github.com/sstephenson/rbenv
 
+#### Configuration options
+
+Starting with the Lagotto 3.7 release all user-specific configuration options for Rails, as well as for the server configuration and deployment tools Vagrant, Chef and Capistrano are environment variables, and can be stored in a single `.env` file. An example file is provided (`.env.example`) and can be used without modifications for a development server. More information regarding ENV variables and `.env` is available [here](https://github.com/bkeepers/dotenv). The following configuration options need to be set:
+
+```sh
+# Example configuration settings for this application
+
+# database settings
+DB_USERNAME=vagrant
+DB_PASSWORD=
+DB_HOST=localhost
+
+# internal name of server
+HOSTNAME=lagotto.local
+
+# public name of server
+# can be HOSTNAME, or different if load balancer is used
+SERVERNAME=lagotto.local
+
+# all instances of server used behind load balancer
+# can be HOSTNAME, or comma-delimited string of HOSTNAME
+SERVERS=lagotto.local
+
+# name used on navigation bar and in email subject line
+SITENAME=ALM
+
+# couch_db database
+COUCHDB_URL=http://localhost:5984/lagotto
+
+# email address for sending emails
+ADMIN_EMAIL=admin@example.com
+
+# number of background workers
+WORKERS=3
+
+# automatic import via CrossRef API.
+# Use 'all', 'member', 'sample', 'member_sample', or leave empty
+IMPORT=
+
+# persistent identifier used
+UID=doi
+
+# keys
+# run `rake secret` to generate these keys
+API_KEY=8897f9349100728d66d64d56bc21254bb346a9ed21954933
+SECRET_TOKEN=c436de247c988eb5d0908407e700098fc3992040629bb8f98223cd221e94ee4d15626aae5d815f153f3dbbce2724ccb8569c4e26a0f6f663375f6f2697f1f3cf
+
+# mail settings
+MAIL_ADDRESS=localhost
+MAIL_PORT=25
+MAIL_DOMAIN=localhost
+
+# vagrant settings
+PRIVATE_IP=10.2.2.4
+
+AWS_KEY=
+AWS_SECRET=
+AWS_KEYNAME=
+AWS_KEYPATH=
+
+DO_PROVIDER_TOKEN=
+DO_SIZE=1GB
+SSH_PRIVATE_KEY='~/.ssh/id_rsa'
+
+# user and group who own application repository
+DEPLOY_USER=vagrant
+DEPLOY_GROUP=vagrant
+
+# mysql server root password for chef
+DB_SERVER_ROOT_PASSWORD=EZ$zspyxF2
+```
+
 #### Installation Options
 
 * automated installation via Vagrant/Chef (recommended)
@@ -34,12 +106,22 @@ Lagotto requires Ruby 1.9.3 or greater, and has been tested with Ruby 1.9.3, 2.0
 Hosting Lagotto at a Platform as a Service (PaaS) provider such as Heroku or OpenShift is possible, but has not been tested.
 
 ## Automated Installation
-This is the recommended way to install the Lagotto. The required applications and libraries will automatically be installed in a self-contained virtual machine running Ubuntu 14.04, using [Vagrant] and [Chef Solo].
+This is the recommended way to install Lagotto. The required applications and libraries will automatically be installed in a self-contained virtual machine running Ubuntu 14.04, using [Vagrant] and [Chef Solo].
 
-Start by downloading and installing [Vagrant], and then install the [Omnibus] Vagrant plugin (which installs the newest version of Chef Solo):
+The first step is to copy `.env.example` to `.env` and to set all variables - reasonable defaults are provided for many of them.
+
+Then download and install [Vagrant], and the librarian gem (used to manage Chef cookbooks):
+
+```sh
+gem install librarian
+```
+
+Vagrant needs three additional plugins and will complain if they are missing. The `vagrant-omnibus` plugin installs Chef on the VM, the `vagrant-librarian-chef` plugin manages cookbooks, and the `vagrant-bindfs` plugin improves the performance of shared folders when using Virtualbox.
 
 ```sh
 vagrant plugin install vagrant-omnibus
+vagrant plugin install vagrant-librarian-chef
+vagrant plugin install vagrant-bindfs
 ```
 
 The following providers have been tested with Lagotto:
@@ -58,24 +140,24 @@ vagrant plugin install vagrant-aws
 
 The VMware plugin requires a commercial license, all other plugins are freely available as Open Source software.
 
-### Custom settings (passwords, API keys)
-This is an optional step. Rename the file `config.json.example` to `config.json` and add your custom settings to it, including usernames, passwords, API keys and the MySQL password. This will automatically configure the application with your settings.
-
-Some custom settings for the virtual machine are stored in the `Vagrantfile`, and that includes your cloud provider access keys, the ID base virtual machine with Ubuntu 14.04 from by your cloud provider, RAM for the virtual machine, and networking settings for a local installation. A sample configuration for AWS would look like:
+For Amazon AWS the configuration could look like this:
 
 ```ruby
 config.vm.provider :aws do |aws, override|
-  aws.access_key_id = "EXAMPLE"
-  aws.secret_access_key = "EXAMPLE"
-  aws.keypair_name = "EXAMPLE"
-  aws.security_groups = ["EXAMPLE"]
+  # please configure
+  aws.access_key_id = ENV['AWS_KEY']
+  aws.secret_access_key = ENV['AWS_SECRET']
+  aws.keypair_name = ENV['AWS_KEYNAME']
+  override.ssh.private_key_path = ENV['AWS_KEYPATH']
+  override.vm.hostname = ENV['HOSTNAME']
+
+  aws.security_groups = "default"
   aws.instance_type = "m3.medium"
-  aws.ami = "ami-0307d674"
-  aws.region = "eu-west-1"
+  aws.ami = "ami-9aaa1cf2"
+  aws.region = "us-east-1"
   aws.tags = { Name: 'Vagrant Lagotto' }
-  override.vm.hostname = "LAGOTTO.EXAMPLE.ORG"
+
   override.ssh.username = "ubuntu"
-  override.ssh.private_key_path = "~/path/to/ec2/key.pem"
   override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
 
   # Custom parameters for the Lagotto recipe
@@ -93,34 +175,26 @@ For Digital Ocean the configuration could look like this:
 
 ```ruby
 config.vm.provider :digital_ocean do |provider, override|
-  override.ssh.private_key_path = '~/YOUR_PRIVATE_SSH_KEY'
+  override.vm.hostname = ENV['HOSTNAME']
+  provider.token = ENV['DO_PROVIDER_TOKEN']
+  provider.size = ENV['DO_SIZE'] || '1GB'
+  override.ssh.private_key_path = ENV['PRIVATE_KEY_PATH']
+
   override.vm.box = 'digital_ocean'
   override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
   override.ssh.username = "ubuntu"
-
   provider.region = 'nyc2'
   provider.image = 'Ubuntu 14.04 x64'
-  provider.size = '1GB'
-
-  # please configure
-  override.vm.hostname = "LAGOTTO.EXAMPLE.ORG"
-  provider.token = 'EXAMPLE'
 
   provision(config, override, chef_overrides)
 end
 ```
 
-The sample configurations for AWS and Digital Ocean is included in the `Vagrantfile`.
+All user-specific settings are controlled via ENV variables and the `.env` file.
 
 ### Cookbooks
 
-The [Chef cookbooks](https://supermarket.getchef.com/) needed by the Lagotto cookbook are managed by [librarian-chef](https://github.com/applicationsonline/librarian-chef), which is installed as a Ruby gem:
-
-```
-gem install librarian-chef
-```
-
-The required cookbooks are listed in the `Cheffile`, and are automatically installed into `vendor/cookbooks`.
+The [Chef cookbooks](https://supermarket.getchef.com/) needed by the Lagotto cookbook are managed by [librarian-chef](https://github.com/applicationsonline/librarian-chef), which was installed in a previous step. The required cookbooks are listed in the `Cheffile`, and are automatically installed into `vendor/cookbooks`.
 
 ### Installation
 
@@ -144,10 +218,10 @@ vagrant ssh
 cd /var/www/lagotto/current
 ```
 
-This uses the private SSH key provided by you in the `Vagrantfile` (the default insecure key for local installations using Virtualbox is `~/.vagrant.d/insecure_private_key`). The `vagrant` user has sudo privileges. The MySQL password is stored at `config/database.yml`, and is auto-generated during the installation. CouchDB is set up to run in **Admin Party** mode, i.e. without usernames or passwords. The database servers can be reached from the virtual machine or via port forwarding. Vagrant syncs the folder on the host containing the checked out Lagotto git repo with the folder `/var/www/lagotto/current` on the guest.
+This uses the private SSH key provided by you in the `Vagrantfile` (the default insecure key for local installations using Virtualbox is `~/.vagrant.d/insecure_private_key`). The `vagrant` user has sudo privileges. The MySQL password is stored as `DB_PASSWORD` in the `.env` file. The database servers can be reached from the virtual machine or via port forwarding. Vagrant syncs the folder on the host containing the checked out Lagotto git repo with the folder `/var/www/lagotto/current` on the guest.
 
 ## Manual installation
-These instructions assume a fresh installation of Ubuntu 14.04 and a user with sudo privileges. Installation on other Unix/Linux platforms should be similar, but may require additional steps to install a recent Ruby (at least 1.9.3 is required).
+These instructions assume a fresh installation of Ubuntu 14.04 and a user with sudo privileges. Installation on other Unix/Linux platforms should be similar, and Lagotto runs on several production systems with RHEL and CentOS.
 
 #### Add PPAs to install more recent versions of Ruby and CouchDB, and Nginx/Passeger
 We only need one Ruby version and manage gems with bundler, so there is no need to install `rvm` or `rbenv`. We want to install the latest CouchDB version from the official PPA, and we want to install Nginx precompiled with Passenger.
@@ -174,7 +248,7 @@ sudo apt-get update
 ```
 
 #### Install Ruby and required packages
-Also install the `curl` and `git` packages, the `libmysqlclient-dev` library required by the `myslq2` gem, the `libpq-dev` library required by the `pg`gem, and `nodejs` as Javascript runtime. When running Lagotto on a local machine we also want to install `avahi-daemon` and `libnss-mdns`for zeroconf networking.
+Also install the `curl` and `git` packages, the `libmysqlclient-dev` library required by the `myslq2` gem, and `nodejs` as Javascript runtime. When running Lagotto on a local machine we also want to install `avahi-daemon` and `libnss-mdns`for zeroconf networking - this allows us to reach the server at `http://lagotto.local`.
 
 ```sh
 sudo apt-get install ruby2.1 ruby2.1-dev curl git libmysqlclient-dev nodejs avahi-daemon libnss-mdns -y
@@ -194,25 +268,11 @@ sudo apt-get install memcached -y
 ```
 
 #### Install Postfix
-Postfix is used to send reports via email. Alternatively, a different SMTP host can be configured in `config/settings.yml`.
+Postfix is used to send reports via email. The configuration is done in the `.env` file. More information can be found [here](http://guides.rubyonrails.org/action_mailer_basics.html).
 
 ```sh
 sudo apt-get install postfix -y
 ```
-
-The default configuration assumes `address: localhost`, `port: 25`. You can configure mail in `config/settings.yml`:
-
-```yaml
-mail:
-  address:
-  port:
-  domain:
-  user_name:
-  password:
-  authentication:
-```
-
-More information can be found [here](http://guides.rubyonrails.org/action_mailer_basics.html).
 
 #### Install Nginx with Passenger
 
@@ -256,28 +316,15 @@ cd /var/www/lagotto
 bundle install
 ```
 
-#### Set Lagotto configuration settings
-You want to set the MySQL username/password in `database.yml`, using either the root password that you generated when you installed MySQL, or a different MySQL user. You also want to set the site and session keys in `settings.yml`, they can be generated with `rake secret`.
-The `api_key` is also needed and can again be generated with `rake secret`.
-
-```sh
-cd /var/www/lagotto
-cp config/database.yml.example config/database.yml
-cp config/settings.yml.example config/settings.yml
-```
-
-#### Configure Memcached (optional)
-If you want to run memcached on a different host, change `config.cache_store = :dalli_store, { :namespace => "lagotto" }` in `config/environments/production.rb` to `config.cache_store = :dalli_store, 'cache.example.com', { :namespace => "lagotto" }`.
-
 #### Install Lagotto databases
-We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including sample articles and a default user account (username/password _articlemetrics_). Use `RAILS_ENV=production` if you set up Passenger to run in the production environment.
+We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including sample articles and a default user account (`DB_USERNAME` from your `.env` file). Use `RAILS_ENV=production` in your `.env` file if you set up Passenger to run in the production environment.
 
-It is possible to connect Lagotto to MySQL and/or CouchDB running on a different server, please change `host` in database.yml and `couched_url` in settings.yml accordingly.
+It is possible to connect Lagotto to MySQL and/or CouchDB running on a different server, please change `DB_HOST` and `COUCHDB_URL` in your `.env` file accordingly.
 
 ```sh
 cd /var/www/lagotto
 rake db:setup RAILS_ENV=production
-curl -X PUT http://localhost:5984/lagotto/
+curl -X PUT http://localhost:5984/lagotto
 # should return {"ok":true}
 ```
 
@@ -296,13 +343,9 @@ The instructions above are for using MySQL, but Lagotto can also be installed wi
 ```yaml
 mysql: &mysql
   adapter: mysql2
-  username: root
-  password: YOUR_PASSWORD
 
 postgresql: &postgres
   adapter: postgresql
-  username: postgres
-  password: YOUR_PASSWORD
   pool: 10
   min_messages: ERROR
 
@@ -310,7 +353,9 @@ defaults: &defaults
   pool: 5
   timeout: 5000
   database: lagotto_<%= Rails.env %>
-  host: localhost
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
 
   <<: *<%= ENV['DB'] || "mysql" %>
 
@@ -334,8 +379,8 @@ sudo apt-get install postgresql libpq-dev -y
 
 Lagotto was developed to run on a single server, but most components scale to multiple servers. When running Lagotto on multiple servers, make sure that:
 
-* the name used in the load balancer is set as `public_server` in `config/settings.yml`
-* memcached should be set up as a cluster by adding a `web_servers` list with all Lagotto servers behind the load balancer to `config/settings.yml`, e.g. `web_servers: [example1.org, example2.org]`
+* the name of load balancer is set as `SERVERNAME` in `.env`
+* memcached should be set up as a cluster by adding a `SERVERS` comma-separated list with all Lagotto servers behind the load balancer to `.env`, e.g. `SERVERS=example1.org,example2.org`
 * workers should run on only one server (work is in progress to scale to multiple servers), e.g. the server with the capistrano `:db` role
 * database maintenance rake tasks should run on only one server, capistrano defaults to install the cron jobs only for the `:db` role.
 * mail services (sending emails) should run on only one server. They are part of the database maintenance tasks, so by default run only on the server with the `:db` role.

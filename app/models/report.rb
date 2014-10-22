@@ -27,7 +27,7 @@ class Report < ActiveRecord::Base
       sources = Source.installed.where(:private => false)
     end
 
-    sql = "SELECT a.#{CONFIG[:uid]}, a.published_on, a.title"
+    sql = "SELECT a.#{ENV['UID']}, a.published_on, a.title"
     sources.each do |source|
       sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.event_count END) AS #{source.name}"
     end
@@ -36,7 +36,7 @@ class Report < ActiveRecord::Base
     results = ActiveRecord::Base.connection.exec_query(sanitized_sql)
 
     CSV.generate do |csv|
-      csv << [CONFIG[:uid], "publication_date", "title"] + sources.map(&:name)
+      csv << [ENV['UID'], "publication_date", "title"] + sources.map(&:name)
       results.each { |row| csv << row.values }
     end
   end
@@ -75,9 +75,9 @@ class Report < ActiveRecord::Base
     end
     return nil if alm_stats.blank?
 
-    stats = [{ name: "mendeley_stats", headers: [CONFIG[:uid], "mendeley_readers", "mendeley_groups", "mendeley"] },
-             { name: "pmc_stats", headers: [CONFIG[:uid], "pmc_html", "pmc_pdf", "pmc"] },
-             { name: "counter_stats", headers: [CONFIG[:uid], "counter_html", "counter_pdf", "counter"] }]
+    stats = [{ name: "mendeley_stats", headers: [ENV['UID'], "mendeley_readers", "mendeley_groups", "mendeley"] },
+             { name: "pmc_stats", headers: [ENV['UID'], "pmc_html", "pmc_pdf", "pmc"] },
+             { name: "counter_stats", headers: [ENV['UID'], "counter_html", "counter_pdf", "counter"] }]
     stats.each do |stat|
       stat[:csv] = read_stats(stat, options).to_a
     end
@@ -90,7 +90,7 @@ class Report < ActiveRecord::Base
       alm_stats.each do |row|
         stats.each do |stat|
           # find row based on uid, and discard the first and last item (uid and total). Otherwise pad with zeros
-          match = stat[:csv].assoc(row.field(CONFIG[:uid]))
+          match = stat[:csv].assoc(row.field(ENV['UID']))
           match = match.present? ? match[1..-2] : [0, 0]
           row.push(*match)
         end

@@ -76,8 +76,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.uid
-    # use the column name defined in settings.yml, default to doi
-    CONFIG[:uid] || "doi"
+    ENV['UID']
   end
 
   def self.uid_as_sym
@@ -85,7 +84,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.validate_format(id)
-    case CONFIG[:uid]
+    case ENV['UID']
     when "doi"
       id =~ DOI_FORMAT
     else

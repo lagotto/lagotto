@@ -4,9 +4,9 @@ class Api::V5::ApiRequestsController < Api::V5::BaseController
   def index
     if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
       if params[:key] == "local"
-        collection = ApiRequest.where("api_key = ?", CONFIG[:api_key])
+        collection = ApiRequest.where("api_key = ?", ENV['API_KEY'])
       elsif params[:key] == "external"
-        collection = ApiRequest.where("api_key != ?", CONFIG[:api_key])
+        collection = ApiRequest.where("api_key != ?", ENV['API_KEY'])
       elsif params[:key]
         collection = ApiRequest.where("api_key = ?", params[:key])
       else
@@ -14,9 +14,9 @@ class Api::V5::ApiRequestsController < Api::V5::BaseController
       end
     else
       if params[:key] == "local"
-        collection = ApiRequest.where("api_key = '?'", CONFIG[:api_key])
+        collection = ApiRequest.where("api_key = '?'", ENV['API_KEY'])
       elsif params[:key] == "external"
-        collection = ApiRequest.where("api_key != '?'", CONFIG[:api_key])
+        collection = ApiRequest.where("api_key != '?'", ENV['API_KEY'])
       elsif params[:key]
         collection = ApiRequest.where("api_key = '?'", params[:key])
       else

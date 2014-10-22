@@ -61,7 +61,7 @@ class Counter < Source
       view = "counter"
     end
 
-    service_url = "#{CONFIG[:couchdb_url]}_design/reports/_view/#{view}"
+    service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/#{view}"
 
     result = get_result(service_url, options.merge(timeout: 1800))
     if result.blank? || result["rows"].blank?
@@ -75,14 +75,14 @@ class Counter < Source
 
     if view == "counter"
       CSV.generate do |csv|
-        csv << [CONFIG[:uid], "html", "pdf", "total"]
+        csv << [ENV['UID'], "html", "pdf", "total"]
         result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
       end
     else
       dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
 
       CSV.generate do |csv|
-        csv << [CONFIG[:uid]] + dates
+        csv << [ENV['UID']] + dates
         result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 } }
       end
     end

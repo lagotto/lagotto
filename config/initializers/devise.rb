@@ -182,7 +182,7 @@ Devise.setup do |config|
   # Defines name of the authentication token params key
   # config.token_authentication_key = :api_key
 
-  config.secret_key = CONFIG[:secret_token]
+  config.secret_key = ENV['SECRET_TOKEN']
 
   # ==> Scopes configuration
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
@@ -213,12 +213,15 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :persona
-  config.omniauth :cas, url: (CONFIG[:cas_url] ? CONFIG[:cas_url] : "http://example.org"),
-                        login_url: CONFIG[:cas_login_url],
-                        logout_url: CONFIG[:cas_logout_url],
-                        service_validate_url: CONFIG[:cas_service_validate_url],
-                        ssl: true
+  if ENV['CAS_URL']
+    config.omniauth :cas, url: ENV['CAS_URL'],
+                          login_url: "#{ENV['CAS_PREFIX']}/login",
+                          logout_url: "#{ENV['CAS_PREFIX']}/logout",
+                          service_validate_url: "#{ENV['CAS_PREFIX']}/serviceValidate",
+                          ssl: true
+  else
+    config.omniauth :persona
+  end
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

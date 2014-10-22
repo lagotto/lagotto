@@ -60,7 +60,7 @@ class Alert < ActiveRecord::Base
 
     self.class_name     = class_name || exception.class.to_s
     self.message        = message || exception.message
-    self.hostname       = hostname || CONFIG[:hostname]
+    self.hostname       = hostname || ENV['HOSTNAME']
 
     if exception.kind_of?(String)
       self.trace        = nil

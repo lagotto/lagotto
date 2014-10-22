@@ -1,12 +1,8 @@
 mysql: &mysql
   adapter: mysql2
-  username: root
-  password:
 
-postgresql: &postgresql
+postgresql: &postgres
   adapter: postgresql
-  username: postgres
-  password:
   pool: 10
   min_messages: ERROR
 
@@ -14,7 +10,10 @@ defaults: &defaults
   pool: 5
   timeout: 5000
   database: lagotto_<%= Rails.env %>
-  host: localhost
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+
   <<: *<%= ENV['DB'] || "mysql" %>
 
 development:
