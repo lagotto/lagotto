@@ -84,7 +84,6 @@ describe Article do
       it "get_canonical_url with landing page" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.3109/09286586.2014.926940")
         url = "http://informahealthcare.com/action/cookieabsent"
-        report = FactoryGirl.create(:fatal_error_report_with_admin_user)
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
