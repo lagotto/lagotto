@@ -15,3 +15,12 @@ defaults: &defaults
   host: <%= ENV['DB_HOST'] %>
 
   <<: *<%= ENV['DB'] || "mysql" %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

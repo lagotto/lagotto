@@ -359,6 +359,15 @@ defaults: &defaults
   host: <%= ENV['DB_HOST'] %>
 
   <<: *<%= ENV['DB'] || "mysql" %>
+
+  development:
+  <<: *defaults
+
+  test:
+    <<: *defaults
+
+  production:
+    <<: *defaults
 ```
 
 Make sure the `pg` gem is included in your `Gemfile` and you have installed Postgres and the required libraries with
