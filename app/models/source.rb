@@ -289,6 +289,8 @@ class Source < ActiveRecord::Base
     # loop through cached attributes we want to update
     [:event_count,
      :article_count,
+     :working_count,
+     :pending_count,
      :queued_count,
      :stale_count,
      :response_count,
