@@ -6,7 +6,7 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_error_report(report) }
 
     it "sends email" do
-      mail.subject.should eq("[Lagotto] Error Report")
+      mail.subject.should eq("[#{ENV['SITENAME']}] Error Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([ENV['ADMIN_EMAIL']])
     end
@@ -30,7 +30,7 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_status_report(report) }
 
     it "sends email" do
-      mail.subject.should eq("[Lagotto] Status Report")
+      mail.subject.should eq("[#{ENV['SITENAME']}] Status Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([ENV['ADMIN_EMAIL']])
     end
@@ -50,7 +50,7 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_article_statistics_report(report) }
 
     it "sends email" do
-      mail.subject.should eq("[Lagotto] Article Statistics Report")
+      mail.subject.should eq("[#{ENV['SITENAME']}] Article Statistics Report")
       mail.bcc.should eq([report.users.map(&:email).join(",")])
       mail.to.should eq([ENV['ADMIN_EMAIL']])
       mail.from.should eq([ENV['ADMIN_EMAIL']])
@@ -75,7 +75,7 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_fatal_error_report(report, message) }
 
     it "sends email" do
-      mail.subject.should eq("[Lagotto] Fatal Error Report")
+      mail.subject.should eq("[#{ENV['SITENAME']}] Fatal Error Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([ENV['ADMIN_EMAIL']])
     end
@@ -97,7 +97,7 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_stale_source_report(report, source_ids) }
 
     it "sends email" do
-      mail.subject.should eq("[Lagotto] Stale Source Report")
+      mail.subject.should eq("[#{ENV['SITENAME']}] Stale Source Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([ENV['ADMIN_EMAIL']])
     end
@@ -117,7 +117,7 @@ describe ReportMailer do
     let(:mail) { ReportMailer.send_missing_workers_report(report) }
 
     it "sends email" do
-      mail.subject.should eq("[Lagotto] Missing Workers Report")
+      mail.subject.should eq("[#{ENV['SITENAME']}] Missing Workers Report")
       mail.to.should eq([report.users.map(&:email).join(",")])
       mail.from.should eq([ENV['ADMIN_EMAIL']])
     end

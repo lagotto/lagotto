@@ -1,4 +1,10 @@
-ENV["RAILS_ENV"] = 'test'
+# set ENV variables for testing
+ENV["RAILS_ENV"] = "test"
+ENV["API_KEY"] = "12345"
+ENV["ADMIN_EMAIL"] = "info@example.org"
+ENV["WORKERS"] = "1"
+ENV["COUCHDB_URL"] = "http://localhost:5984/alm_test"
+ENV["IMPORT"] = "member"
 
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.configure do |config|

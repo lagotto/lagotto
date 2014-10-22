@@ -109,7 +109,7 @@ describe Report do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
       mail.to.should == [report.users.map(&:email).join(",")]
-      mail.subject.should == "[Lagotto] Error Report"
+      mail.subject.should == "[#{ENV['SITENAME']}] Error Report"
     end
 
     it "generates a multipart message (plain text and html)" do
@@ -136,7 +136,7 @@ describe Report do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
       mail.to.should == [report.users.map(&:email).join(",")]
-      mail.subject.should == "[Lagotto] Stale Source Report"
+      mail.subject.should == "[#{ENV['SITENAME']}] Stale Source Report"
     end
 
     it "generates a multipart message (plain text and html)" do
