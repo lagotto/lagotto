@@ -31,7 +31,7 @@ module Articable
       elsif params[:q]
         collection = Article.query(params[:q])
       elsif params[:source] && source = Source.find_by_name(params[:source])
-        collection = Article.includes(:retrieval_statuses)
+        collection = Article.joins(:retrieval_statuses)
           .where("retrieval_statuses.source_id = ?", source.id)
           .where("retrieval_statuses.event_count > 0")
       else
@@ -53,7 +53,7 @@ module Articable
       if params[:order] && source && params[:order] == params[:source]
         collection = collection.order("retrieval_statuses.event_count DESC")
       elsif params[:order] && !source && order = Source.find_by_name(params[:order])
-        collection = collection.includes(:retrieval_statuses)
+        collection = collection.joins(:retrieval_statuses)
           .where("retrieval_statuses.source_id = ?", order.id)
           .order("retrieval_statuses.event_count DESC")
       else
