@@ -7,7 +7,7 @@ To configure Lagotto, the following steps are necessary:
 
 * add users (we need at least one admin user)
 * configure sources
-* add articles (or seed a set of sample articles)
+* add articles
 * start workers (start collecting data from external APIs)
 * configure maintenance tasks (only in production system)
 
@@ -22,17 +22,17 @@ Lagotto supports the following forms of authentication:
 
 * username/password ([Login](/users/sign_in)) for admin and staff users
 * authentication with [Mozilla Persona](http://www.mozilla.org/en-US/persona/) for all user roles
-* authentication with CAS (currently PLOS only)
+* authentication with CAS for all user roles (currently PLOS only)
 
 The first user created in the system automatically has an admin role, and this user can be created with any of the authentication methods listed above. From then on all user accounts are created with an API user role, and users have to create their own account using third-party authentication with Persona (or CAS). Admin users can change the user role after an account has been created, but can't create user accounts
 
-Third-party authentication is configured in `config/settings.yml`. To use Persona, make sure the following setting exists: `persona: true` (the default). No other configuration is necessary. Authentication via username/password is always enabled.
+Third-party authentication is configured in `.env`. By default authentication via username/password and Persona is enabled enabled, by enabling a CAS server with `ENV['CAS_URL']` we disable Persona.
 
 Users automatically obtain an API key, and they can sign up to the monthly report in CSV format. Admin users can sign up for additional reports (error report, status report, disabled source report).
 
 ## Configuring Sources
 
-Unless this has already been done during installation, sources have to be installed and activated through the web interface `Sources -> Installation`:
+Sources have to be installed and activated through the web interface `Sources -> Installation`:
 
 ![Installation](/assets/installation.png)
 
@@ -55,22 +55,17 @@ The following addiotional configuration options are available via the web interf
 
 Through these setup options the behavior of sources can be fine-tuned, but the default settings should almost always work. The default rate-limiting settings should only be increased if your application has been whitelisted with that source.
 
+Some sources (currently *PubMed Central Usage Stats* and *CrossRef*) also have publisher-specific settings. You need to add at least one publisher via the web interface and associate your account with a publisher. You then see an additional configuration tab **Publisher** configuration.
+
 ## Adding Articles
 Articles can be added in one of several ways:
 
 * admin dashboard (admin user)
-* seeding of sample articles
 * command line rake task
 * API
+* CrossRef API
 
 Adding or changing articles via the admin dashboard is mainly for testing purposes, or to fix errors in the title or publication date of specific articles.
-
-### Seeding articles
-A set of about 30 sample articles is loaded during installation when using Vagrant and `seed_sample_articles` in `node.json`is set to `true`. They can also be seeded later via rake task:
-
-```sh
-bundle exec rake db:articles:seed
-```
 
 ### Command line rake task
 We can use a rake command line task to automate the import of a large number of articles. The import file (e.g. IMPORT.TXT) is a text file with one article per line, and the required fields DOI, publication date and title separated by a space:
@@ -104,6 +99,10 @@ curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"arti
 ```
 
 The DOI, publication date and title are again all required fields, but you can also include other fields such as the Pubmed ID. See the [API](/docs/api) page for more information, e.g. how to update or delete articles.
+
+### CrossRef API
+
+This is the preferred option. You need so set the configuration option `IMPORT` in `.env` to either `member`, `member_sample`, `all` or `sample`. `member` imports all articles from the publishers added in the admin interface, `member_sample` imports a random subset with 20 articles for that publisher.
 
 ## Starting Workers
 Lagotto talks to external data sources to collect metrics about a set of articles. Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. This can be done in one of two ways:
@@ -239,13 +238,12 @@ Lagotto generates a number of email reports:
 
 The **Article Statistics Report** is available to all users, all other reports only to admin and staff users. Users can sign up for these reports in the account preferences.
 
-Lagotto installs the **Postfix** mailer and the default settings should work in most cases. Mail can otherwise me configure in `config/settings.yml`:
+Lagotto installs the **Postfix** mailer and the default settings should work in most cases. Mail can otherwise me configure in the `.env` file:
 
-```yaml
-  mail:
-    address: localhost
-    port: 25
-    domain: localhost
+```
+MAIL_ADDRESS=localhost
+MAIL_PORT=25
+MAIL_DOMAIN=localhost
 ```
 
 We need to process CouchDB data for some sources (Mendeley, Pmc, Counter) in the **Article Statistics Report**, please install the CouchDB design document for this report:
