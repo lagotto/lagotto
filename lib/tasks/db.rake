@@ -39,10 +39,16 @@ namespace :db do
       $stdin.each_line { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) } unless $stdin.tty?
 
       number = input.length
+      member = ENV['MEMBER']
+      if member.nil? && Publisher.pluck(:crossref_id).length == 1
+        # if we have only configured a single publisher
+        member = Publisher.pluck(:crossref_id).first
+      end
+
       if number > 0
         # import in batches of 1,000 articles
         input.each_slice(1000) do |batch|
-          import = Import.new(file: batch, member: ENV['MEMBER'])
+          import = Import.new(file: batch, member: member)
           import.queue_article_import
         end
         puts "Started import of #{number} articles in the background..."
