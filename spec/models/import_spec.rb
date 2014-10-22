@@ -19,13 +19,13 @@ describe Import do
   context "query_url" do
     it "should have default query_url" do
       import = Import.new
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with from_update_date" do
       import = Import.new(from_update_date: "2014-07-01")
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-01%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-01%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
@@ -37,37 +37,37 @@ describe Import do
 
     it "should have query_url with member_id" do
       import = Import.new(member: 340)
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05%2Cmember%3A340&offset=0&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05%2Cmember%3A340&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with type" do
       import = Import.new(type: 'book-entry')
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05%2Ctype%3Abook-entry&offset=0&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05%2Ctype%3Abook-entry&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with issn" do
       import = Import.new(issn: '1545-7885')
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05%2Cissn%3A1545-7885&offset=0&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05%2Cissn%3A1545-7885&offset=0&rows=1000"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with sample" do
       import = Import.new(sample: 100)
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&sample=100"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05&sample=100"
       import.query_url.should eq(url)
     end
 
     it "should have query_url with offset" do
       import = Import.new
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=250&rows=1000"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05&offset=250&rows=1000"
       import.query_url(offset = 250).should eq(url)
     end
 
     it "should have query_url with rows" do
       import = Import.new
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=250"
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=250"
       import.query_url(offset = 0, rows = 250).should eq(url)
     end
   end
@@ -155,7 +155,7 @@ describe Import do
     it "should get_data access denied error" do
       import = Import.new
       body = File.read(fixture_path + 'access_denied.txt')
-      error = "the server responded with status 401 for http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
+      error = "the server responded with status 401 for http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000"
       stub = stub_request(:get, import.query_url).to_return(:body => body, :status => 401)
       response = import.get_data
       response.should eq(error: error, status: 401)
@@ -172,7 +172,7 @@ describe Import do
       import = Import.new
       stub = stub_request(:get, import.query_url).to_return(:status => 408)
       response = import.get_data
-      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-04%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000", status: 408)
+      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/works?filter=from-update-date%3A2014-07-04%2Cuntil-update-date%3A2014-07-05%2Cuntil-pub-date%3A2014-07-05&offset=0&rows=1000", status: 408)
       stub.should have_been_requested
 
       Alert.count.should == 1
