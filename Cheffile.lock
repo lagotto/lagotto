@@ -2,7 +2,7 @@ SITE
   remote: http://community.opscode.com/api/v1
   specs:
     apt (2.5.3)
-    aws (2.4.0)
+    aws (2.5.0)
     build-essential (2.1.2)
     chef-sugar (2.4.1)
     chef_handler (1.1.6)
@@ -76,9 +76,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: 5258197f736adc8582efa592a36317a51e6357f5
+  sha: d1942795dfd4b86bfb5cfb1b7f70f7c9fdf345ee
   specs:
-    lagotto (3.6.7)
+    lagotto (3.6.8)
       apt (>= 0.0.0)
       capistrano (~> 0.6.0)
       couchdb (>= 0.0.0)
@@ -95,9 +95,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/mysql_rails-cookbook.git
   ref: master
-  sha: d3ae398d4c49e994a06b5029c6c38166ddf2b893
+  sha: 60e94610241908864f2bc11c2686dc5388ec900c
   specs:
-    mysql_rails (0.3.6)
+    mysql_rails (0.3.7)
       database (>= 0.0.0)
       mysql (>= 0.0.0)
       ruby (~> 0.4.0)
