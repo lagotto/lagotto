@@ -32,7 +32,7 @@ ISSN=1545-7885
 SAMPLE=50
 ```
 
-* `FROM_UPDATE_DATE` means metadata updated since (inclusive) `{date}`, `UNTIL_UPDATE_DATE` means metadata updated until (inclusive) `{date}`.
+* `FROM_UPDATE_DATE` means metadata updated since (inclusive) `{date}`, `UNTIL_UPDATE_DATE` means metadata updated until (inclusive) `{date}`, it defaults to today.
 * `FROM_PUB_DATE` means article published since (inclusive) `{date}`, `UNTIL_PUB_DATE` published until (inclusive) `{date}`.
 * `MEMBER` is the CrossRef member_id, which you find by searching the member database, e.g. `http://api.crossref.org/members?query=elife`.
    If you have ìmport: member` in `config/settings.yml`, then the rake task will use the CrossRef member_id of all publishers added via the web interface.

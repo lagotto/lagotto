@@ -33,7 +33,7 @@ class Import
 
     unless @file
       from_update_date = Date.yesterday.to_s(:db) if from_update_date.blank?
-      until_update_date= Date.yesterday.to_s(:db) if until_update_date.blank?
+      until_update_date= Date.today.to_s(:db) if until_update_date.blank?
       until_pub_date= Date.today.to_s(:db) if until_pub_date.blank?
 
       @filter = "from-update-date:#{from_update_date}"
