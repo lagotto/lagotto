@@ -15,8 +15,8 @@ namespace :db do
       when "sample", "member_sample"
         sample ||= 20
       else
-        puts "CrossRef API import not configured"
-        exit
+        member = ENV['MEMBER']
+        sample = ENV['SAMPLE'] || 20
       end
 
       options = { from_update_date: ENV['FROM_UPDATE_DATE'],
