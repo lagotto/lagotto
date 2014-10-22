@@ -34,6 +34,7 @@ Starting with the Lagotto 3.7 release all user-specific configuration options fo
 # Example configuration settings for this application
 
 # database settings
+DB_NAME=lagotto_development
 DB_USERNAME=vagrant
 DB_PASSWORD=
 DB_HOST=localhost
@@ -352,21 +353,12 @@ postgresql: &postgres
 defaults: &defaults
   pool: 5
   timeout: 5000
-  database: lagotto_<%= Rails.env %>
+  database: <%= ENV['DB_NAME'] %>
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV['DB_HOST'] %>
 
   <<: *<%= ENV['DB'] || "mysql" %>
-
-development:
-  <<: *defaults
-
-test:
-  <<: *defaults
-
-production:
-  <<: *defaults
 ```
 
 Make sure the `pg` gem is included in your `Gemfile` and you have installed Postgres and the required libraries with
