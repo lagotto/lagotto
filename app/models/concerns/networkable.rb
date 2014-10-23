@@ -178,6 +178,7 @@ module Networkable
         when 500 then Net::HTTPInternalServerError
         when 502 then Net::HTTPBadGateway
         when 503 then Net::HTTPServiceUnavailable
+        when 504 then Net::HTTPGatewayTimeOut
         else nil
         end
     end
