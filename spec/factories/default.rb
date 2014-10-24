@@ -19,24 +19,34 @@ FactoryGirl.define do
     trait(:missing_mendeley) { mendeley_uuid nil }
 
     factory :article_with_events do
-      retrieval_statuses { |article| [article.association(:retrieval_status)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, article: article)
+      end
     end
 
     factory :article_with_events_and_alerts do
-      retrieval_statuses { |article| [article.association(:retrieval_status)] }
-      alerts { |article| [article.association(:alert)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, article: article)
+        FactoryGirl.create(:alert, :article => article)
+      end
     end
 
     factory :stale_articles do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :stale)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :stale, article: article)
+      end
     end
 
     factory :queued_articles do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :queued)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :queued, article: article)
+      end
     end
 
     factory :refreshed_articles do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :refreshed)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :refreshed, article: article)
+      end
     end
 
     factory :article_for_feed do
@@ -44,7 +54,9 @@ FactoryGirl.define do
       year { date.year }
       month { date.month }
       day { date.day }
-      retrieval_statuses { |article| [article.association(:retrieval_status, retrieved_at: date)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :refreshed, retrieved_at: date, article: article)
+      end
     end
 
     factory :article_published_today do
@@ -53,43 +65,63 @@ FactoryGirl.define do
     end
 
     factory :article_with_errors do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_errors)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :with_errors, article: article)
+      end
     end
 
     factory :article_with_private_citations do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_private)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :with_private, article: article)
+      end
     end
 
     factory :article_with_crossref_citations do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_crossref)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :with_crossref, article: article)
+      end
     end
 
     factory :article_with_pubmed_citations do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_pubmed)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :with_pubmed, article: article)
+      end
     end
 
     factory :article_with_mendeley_events do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_mendeley)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :with_mendeley, article: article)
+      end
     end
 
     factory :article_with_nature_citations do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_pubmed)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :with_nature, article: article)
+      end
     end
 
     factory :article_with_researchblogging_citations do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_researchblogging)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :with_researchblogging, article: article)
+      end
     end
 
     factory :article_with_wos_citations do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_wos)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :with_wos, article: article)
+      end
     end
 
     factory :article_with_counter_citations do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_counter)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :with_counter, article: article)
+      end
     end
 
     factory :article_with_tweets do
-      retrieval_statuses { |article| [article.association(:retrieval_status, :with_twitter_search)] }
+      after :create do |article|
+        FactoryGirl.create(:retrieval_status, :with_twitter_serach, article: article)
+      end
     end
   end
 
