@@ -252,6 +252,7 @@ class Source < ActiveRecord::Base
       # Some fields can be blank
       next if name == "crossref" && [:username, :password].include?(field)
       next if name == "pmc" && [:journals, :username, :password].include?(field)
+      next if name == "facebook" && [:linkstat_url, :access_token].include?(field)
       next if name == "mendeley" && field == :access_token
       next if name == "twitter_search" && field == :access_token
       next if name == "scopus" && field == :insttoken
@@ -290,7 +291,6 @@ class Source < ActiveRecord::Base
     [:event_count,
      :article_count,
      :working_count,
-     :pending_count,
      :queued_count,
      :stale_count,
      :response_count,

@@ -120,7 +120,7 @@ FactoryGirl.define do
 
     factory :article_with_tweets do
       after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_twitter_serach, article: article)
+        FactoryGirl.create(:retrieval_status, :with_twitter_search, article: article)
       end
     end
   end

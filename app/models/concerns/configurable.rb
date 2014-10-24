@@ -88,6 +88,22 @@ module Configurable
       config.secret = value
     end
 
+    def app_id
+      config.app_key
+    end
+
+    def app_id=(value)
+      config.app_id = value
+    end
+
+    def app_secret
+      config.app_secret
+    end
+
+    def app_secret=(value)
+      config.app_secret = value
+    end
+
     def expires_at
       config.expires_at || "1970-01-01"
     end

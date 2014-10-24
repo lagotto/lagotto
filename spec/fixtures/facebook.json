@@ -1,22 +1,15 @@
 {
-  "data": [
-    {
-      "url": "http://dx.doi.org/10.1371/journal.pmed.0020124",
-      "share_count": 3120,
-      "like_count": 1715,
-      "comment_count": 1910,
-      "click_count": 2,
-      "total_count": 6745,
-      "comments_fbid": "10150805897619922"
-    },
-    {
-      "url": "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124",
-      "share_count": 3120,
-      "like_count": 1715,
-      "comment_count": 1910,
-      "click_count": 2,
-      "total_count": 6745,
-      "comments_fbid": "10150168740355926"
-    }
-  ]
+   "og_object": {
+      "id": "119940294870426",
+      "description": "PLOS Medicine is an open-access, peer-reviewed medical journal that publishes outstanding human studies that substantially enhance the understanding of human health and disease.",
+      "title": "Why Most Published Research Findings Are False",
+      "type": "article",
+      "updated_time": "2014-10-24T15:34:04+0000",
+      "url": "http://www.plosmedicine.org/article/info\u00253Adoi\u00252F10.1371\u00252Fjournal.pmed.0020124"
+   },
+   "share": {
+      "comment_count": 0,
+      "share_count": 9972
+   },
+   "id": "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124"
 }

@@ -114,10 +114,6 @@ class TwitterSearch < Source
     config.authentication_url || "https://api.twitter.com/oauth2/token"
   end
 
-  def authentication_url=(value)
-    config.authentication_url = value
-  end
-
   def job_batch_size
     config.job_batch_size || 100
   end

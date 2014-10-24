@@ -237,7 +237,8 @@ FactoryGirl.define do
     type "Facebook"
     name "facebook"
     display_name "Facebook"
-    state_event "activate"
+    app_id "EXAMPLE"
+    app_secret "EXAMPLE"
     access_token "EXAMPLE"
 
     group

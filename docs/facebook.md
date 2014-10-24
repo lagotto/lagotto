@@ -5,15 +5,22 @@ title: "Facebook"
 
 Facebook is the largest social network.
 
-Information about obtaining an app access token for this source can be found at http://developers.facebook.com/docs/howtos/login/login-as-app/. Access tokens are required for production use because of rate-limiting.
+An **app_key** and **app_secret** are required for OAuth authentication and can be obtained from the Facebook [App Dashboard](https://developers.facebook.com/apps).
 
-Since January 2013 Facebook aggregates the stats from DOIs (e.g. http://dx.doi.org/10.1371/journal.pone.0035869) with those from the journal landing page (e.g. http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0035869), so that multiple API calls per article are no longer necessary, but the results aren't consistent. Since URLs with query parameters (e.g. `?pid=S1415-47572009000400031&lng=en&nrm=iso&tlng=en`) can cause problems, we use the DOI.
+Since January 2013 Facebook aggregates the stats from DOIs (e.g. http://dx.doi.org/10.1371/journal.pone.0035869) with those from the journal landing page (e.g. http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0035869), so that multiple API calls per article are no longer necessary.
 
-Facebook has problems with DOIs that require cookies during DOI resolution. We talk to Facebook via the [Graph API](https://developers.facebook.com/docs/reference/api/), the old REST API will return the same results via http://api.facebook.com/restserver.php?method=links.getStats&urls=URL, but has been depreciated.
+Facebook has problems with DOIs that require cookies during DOI resolution, and it then reports numbers for the journal site instead of the individual article. Check your article DOI in the Facebook [Debugger](https://developers.facebook.com/tools/debug) if you aren't sure that Facebook can reach your article pages correctly.
+
+Since the release of the v2.1 API in August 2014 the **link_stat** API endpoint is depreciated. New user accounts have to use the v2.1 API and only get the total count of Facebook activity, whereas users will older API keys can still use the **link_stat** API and get the number of shares, comments and likes in addition to the total count. Please add the following link_stat URL to the Facebook configuration to use the **link_stat** API:
+
+```sh
+https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'
+```
 
 ## Required configuration fields
 
-* **access token**: can be obtained via http://developers.facebook.com/docs/howtos/login/login-as-app/
+* **app_key**: can be obtained by registering your application in the Facebook [App Dashboard](https://developers.facebook.com/apps)
+* **app_secret**: see above
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
@@ -67,14 +74,19 @@ Facebook has problems with DOIs that require cookies during DOI resolution. We t
 
 ```json
 {
-  "commentsbox_count": 0,
-  "like_count": 0,
-  "url": "http://www.plosbiology.org/article/info:doi/10.1371/journal.pbio.0000002",
-  "comments_fbid": 10150608377818440,
-  "total_count": 3,
-  "comment_count": 0,
-  "share_count": 3,
-  "click_count": 0
+   "og_object": {
+      "id": "119940294870426",
+      "description": "PLOS Medicine is an open-access, peer-reviewed medical journal that publishes outstanding human studies that substantially enhance the understanding of human health and disease.",
+      "title": "Why Most Published Research Findings Are False",
+      "type": "article",
+      "updated_time": "2014-10-24T15:34:04+0000",
+      "url": "http://www.plosmedicine.org/article/info\u00253Adoi\u00252F10.1371\u00252Fjournal.pmed.0020124"
+   },
+   "share": {
+      "comment_count": 0,
+      "share_count": 9972
+   },
+   "id": "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124"
 }
 ```
 
@@ -82,4 +94,4 @@ Facebook has problems with DOIs that require cookies during DOI resolution. We t
 The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/facebook.rb).
 
 ## Further Documentation
-* [Facebook Developer Documentation](http://developers.facebook.com/docs/reference/fql/link_stat/)
+* [Facebook Graph API](https://developers.facebook.com/docs/graph-api/using-graph-api/v2.1)
