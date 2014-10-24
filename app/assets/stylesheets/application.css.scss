@@ -250,6 +250,7 @@ legend { color: $brand-primary; font-size: $font-size-h2; font-weight: bold; lin
 select.form-control { width: 190px; }
 .form-user { width: 400px !important; }
 .publisher { margin-bottom: 30px; }
+#flash_alert a { color: white; text-decoration: underline; }
 label.date { display: block; }
 select.form-control.date { display: inline; }
 .form-group.has-error input, .form-group.has-error span.help-block, .has-error { color: $brand-danger; }

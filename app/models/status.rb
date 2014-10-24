@@ -2,6 +2,8 @@ class Status
   # include HTTP request helpers
   include Networkable
 
+  RELEASES_URL = "https://api.github.com/repos/articlemetrics/lagotto/releases"
+
   def articles_count
     Rails.cache.read("status/articles_count/#{update_date}").to_i
   end
@@ -81,6 +83,21 @@ class Status
     Rails.application.config.version
   end
 
+  def current_version
+    Rails.cache.read("status/current_version/#{update_date}")
+  end
+
+  def current_version=(timestamp)
+    result = get_result(RELEASES_URL)
+    result = result.is_a?(Array) ? result.first : {}
+    Rails.cache.write("status/current_version/#{timestamp}",
+                      result.fetch("tag_name", "v.#{version}")[2..-1])
+  end
+
+  def outdated_version?
+    !Gem::Dependency.new("", "~> #{version}").match?("", current_version)
+  end
+
   def couchdb_size
     RetrievalStatus.new.get_lagotto_database["disk_size"] || 0
   end
@@ -114,6 +131,7 @@ class Status
      :delayed_jobs_active_count,
      :responses_count,
      :requests_count,
+     :current_version,
      :update_date].each { |cached_attr| send("#{cached_attr}=", timestamp) }
   end
 end
