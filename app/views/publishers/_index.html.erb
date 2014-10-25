@@ -37,9 +37,11 @@
       <% end %>
     </div>
   <% else %>
-    <div class="alert alert-info">No CrossRef members to add
-      <% unless params[:query].blank? %>
-          with <em><%= params[:query] %></em> in the name
+    <div class="alert alert-info">
+      <% if params[:query].present? %>
+        No CrossRef members found with <em><%= params[:query] %></em> in the name
+      <% else %>
+        No publishers added
       <% end %>
     </div>
   <% end %>
