@@ -84,7 +84,7 @@ class Status
   end
 
   def current_version
-    Rails.cache.read("status/current_version/#{update_date}")
+    Rails.cache.read("status/current_version/#{update_date}") || version
   end
 
   def current_version=(timestamp)
