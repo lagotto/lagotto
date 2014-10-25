@@ -1,82 +1,77 @@
-<% if can?(:manage, Alert) and (controller.action_name == "edit" or (controller.action_name == "update" and !@filter.errors.empty?)) %>
-  <%= simple_form_for([:admin, @filter.becomes(Filter)], :url => filter_path(@filter), :html => { :remote => true }) do |f| %>
-  <% f.object = @filter.becomes(@filter.class) %>
-    <fieldset>
-      <legend>Edit Filter <small><%= @filter.name %></small></legend>
+<div class="page-header">
+  <h1>Filters</h1>
+</div>
 
-      <% if not @filter.get_config_fields.empty? %>
-        <% @filter.get_config_fields.each do |field| %>
-          <% if field[:field_name] == "source_ids" %>
-            <%= f.input :source_ids, :as => :check_boxes,
-                                      collection: Source.active.where("name != ?", 'relativemetric'),
-                                      label_method: :display_name,
-                                      value_method: :id,
-                                      label: "Sources",
-                                      :selected => @filter.source_ids %>
-          <% elsif field[:field_type] == "check_box" %>
-            <%= f.input field[:field_name], :label => field[:field_name].gsub(/_/, " ").capitalize %>
-          <% elsif field[:field_type] == "text_field" %>
-            <%= f.input field[:field_name], :as => :numeric, hint: h(field[:field_hint]) %>
-          <% elsif field[:field_type] == "text_area" %>
-            <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2), :class => "form-control" } %>
-          <% elsif field[:field_type] == "password_field" %>
-            <%= f.input field[:field_name], :as => :string, :input_html => { :class => "form-control" } %>
+<% if @filters.size > 0 %>
+  <div class="panel-group" id="filter">
+    <% @filters.each do |filter| %>
+      <div class="panel <%= filter.active ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading panel-title">
+          <%= link_to filter.name, "#filter_#{filter.id}", :class => "accordion-toggle", :id => "link_#{filter.id}", :data => { :toggle => "collapse", :parent => "#filter" }, :href => "#filter_#{filter.id}" %>
+          <% unless filter.active %>
+            <small class="pull-right">inactive</small>
           <% end %>
-        <% end %>
-      <% end %>
+        </div>
+        <% if can?(:manage, Alert) && @filter && @filter.id == filter.id && (controller.action_name == "edit" or (controller.action_name == "update" and !@filter.errors.empty?)) %>
+          <div id="filter_<%= filter.id %>" class="panel-collapse collapse.in">
+            <div class="panel-body">
+              <%= simple_form_for([:admin, @filter.becomes(Filter)], :url => filter_path(@filter), :html => { :remote => true }) do |f| %>
+                <% f.object = @filter.becomes(@filter.class) %>
+                <% if not @filter.get_config_fields.empty? %>
+                  <% @filter.get_config_fields.each do |field| %>
+                    <% if field[:field_name] == "source_ids" %>
+                      <%= f.input :source_ids, :as => :check_boxes,
+                                                collection: Source.active.where("name != ?", 'relativemetric'),
+                                                label_method: :display_name,
+                                                value_method: :id,
+                                                label: "Sources",
+                                                :selected => @filter.source_ids %>
+                    <% elsif field[:field_type] == "check_box" %>
+                      <%= f.input field[:field_name], :label => field[:field_name].gsub(/_/, " ").capitalize %>
+                    <% elsif field[:field_type] == "text_field" %>
+                      <%= f.input field[:field_name], :as => :numeric, hint: h(field[:field_hint]), input_html: { class: "form-user" } %>
+                    <% elsif field[:field_type] == "text_area" %>
+                      <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2), :class => "form-control" } %>
+                    <% elsif field[:field_type] == "password_field" %>
+                      <%= f.input field[:field_name], :as => :string, :input_html => { :class => "form-control" } %>
+                    <% end %>
+                  <% end %>
+                <% end %>
 
-      <div class="form-group">
-        <%= f.submit "Save ", class: "btn btn-default" %>
-        <%= link_to 'Cancel', filters_path, { remote: true, class: 'btn' } %>
+                <div class="form-group">
+                  <%= f.submit "Save ", class: "btn btn-default" %>
+                  <%= link_to 'Cancel', filters_path, { remote: true, class: 'btn' } %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% else %>
+          <div id="filter_<%= filter.id %>" class="panel-collapse collapse">
+            <div class="panel-body">
+              <% if can?(:manage, Alert) %>
+                <div class="btn-toolbar pull-right">
+                  <% unless filter.get_config_fields.empty? %>
+                    <div class="btn-group btn-group-sm">
+                      <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
+                    </div>
+                  <% end %>
+                  <div class="btn-group btn-group-sm">
+                    <% if filter.active %>
+                      <%= link_to 'Inactivate'.html_safe, filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
+                    <% else %>
+                      <%= link_to 'Activate'.html_safe, filter_path(filter, active: 1), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+
+              <p><%= filter.description %></p>
+            </div>
+          </div>
+        <% end %>
       </div>
-    </fieldset>
-  <% end %>
-<% else %>
-  <div class="page-header">
-    <h1>Filters</h1>
+    <% end %>
   </div>
-  <% if @filters.size > 0 %>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th class="status">Status</th>
-          <% if can?(:manage, Alert) %>
-            <th>Edit</th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% @filters.each do |filter| %>
-          <tr>
-            <td><%= h(filter.name) %></td>
-            <td><%= h(filter.description) %></td>
-            <% if can?(:manage, Alert) %>
-              <td>
-                <% if filter.active %>
-                  <%= link_to 'Active'.html_safe, filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
-                <% else %>
-                  <%= link_to 'Inactive'.html_safe, filter_path(filter, active: 1), :method => :put, :remote => true, :class => 'btn btn-default btn-info btn-sm', :id => "#{filter.name}-status" %>
-                <% end %>
-              </td>
-            <% else %>
-              <td><%= state_label(filter.status).html_safe %></td>
-            <% end %>
-            <% if can?(:manage, Alert) %>
-              <td>
-                <% if filter.get_config_fields.empty? %>
-                  &nbsp;
-                <% else %>
-                  <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
-                <% end %>
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <div class="alert alert-info">There are currently no filters</div>
-  <% end %>
+<% else %>
+  <div class="alert alert-info">There are currently no filters</div>
 <% end %>

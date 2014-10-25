@@ -1,71 +1,68 @@
-<% if can?(:create, User) and (controller.action_name == "edit" or (controller.action_name == "update" and !@user.errors.empty?)) %>
-
-  <%= simple_form_for @user, :url => user_path(@user), :html => { :remote => true } do |f| %>
-    <fieldset>
-      <legend>Edit Your Account</legend>
-
-      <%= f.input :name, input_html: { class: "form-user" } %>
-      <%= f.input :authentication_token, label: "API key", input_html: { class: "form-user" } %>
-      <%= f.input :password, input_html: { class: "form-user" } %>
-      <%= f.input :password_confirmation, input_html: { class: "form-user" } %>
-      <%= f.association :publisher, collection: Publisher.order('name').map { |publisher| [publisher.name, publisher.crossref_id] }, input_html: { class: "form-user" } %>
-
-      <div class="form-group">
-        <%= f.submit "Save ", class: "btn btn-default" %>
-        <%= link_to 'Cancel', user_path(@user), { remote: true, class: 'btn' } %>
-      </div>
-    </fieldset>
-  <% end %>
-
-<% else %>
-  <div class="page-header">
+<div class="panel panel-default">
+  <div class="panel-heading panel-title">
     <% if can?(:create, User) %>
-      <div class="btn-toolbar btn-sm pull-right">
-        <div class="btn-group">
-          <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_user_path(@user), { remote: true, class: 'btn btn-default btn-sm', id: 'edit' } %>
+      <div class="btn-toolbar pull-right">
+        <div class="btn-group btn-group-sm">
+           <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_user_path(@user), { remote: true, class: 'btn btn-default btn-sm', id: 'edit' } %>
         </div>
       </div>
     <% end %>
-    <h1>
-      <%= h@user.name %>
-    </h1>
+    Your Account
   </div>
+  <div class="panel-body" id="chart_status">
+    <% if can?(:create, User) and (controller.action_name == "edit" or (controller.action_name == "update" and !@user.errors.empty?)) %>
+      <%= simple_form_for @user, :url => user_path(@user), :html => { :remote => true } do |f| %>
+          <%= f.input :name, input_html: { class: "form-user" } %>
+          <%= f.input :authentication_token, label: "API key", input_html: { class: "form-user" } %>
+          <%= f.input :password, input_html: { class: "form-user" } %>
+          <%= f.input :password_confirmation, input_html: { class: "form-user" } %>
+          <%= f.association :publisher, collection: Publisher.order('name').map { |publisher| [publisher.name, publisher.crossref_id] }, input_html: { class: "form-user" } %>
 
-  <dl class="dl-horizontal">
-    <dt>Username</dt>
-    <dd><%= @user.username %></dd>
-    <% if @user.email.present? %>
-      <dt>Email</dt>
-      <dd><%= h(@user.email) %></dd>
-    <% end %>
-    <dt>Role</dt>
-    <% if @user.role == "admin" %>
-      <dd>Admin - full access to the ALM application</dd>
-    <% elsif @user.role == "staff" %>
-      <dd>Staff - read access to the admin dashboard</dd>
+          <div class="form-group">
+            <%= f.submit "Save ", class: "btn btn-default" %>
+            <%= link_to 'Cancel', user_path(@user), { remote: true, class: 'btn' } %>
+          </div>
+      <% end %>
     <% else %>
-      <dd>User - read access to the API</dd>
+      <dl class="dl-horizontal">
+        <dt>Name</dt>
+        <dd><%= @user.name %></dd>
+        <dt>Username</dt>
+        <dd><%= @user.username %></dd>
+        <% if @user.email.present? %>
+          <dt>Email</dt>
+          <dd><%= @user.email %></dd>
+        <% end %>
+        <dt>Role</dt>
+        <% if @user.role == "admin" %>
+          <dd>Admin - full access to the ALM application</dd>
+        <% elsif @user.role == "staff" %>
+          <dd>Staff - read access to the admin dashboard</dd>
+        <% else %>
+          <dd>User - read access to the API</dd>
+        <% end %>
+        <% if can?(:create, User) && @user.publisher %>
+          <dt>Publisher</dt>
+          <dd><%= link_to h(@user.publisher.name), publisher_path(@user.publisher) %></dd>
+        <% end %>
+        <dt>API Key</dt>
+        <dd><%= @user.authentication_token %></dd>
+      </dl>
     <% end %>
-    <% if can?(:create, User) && @user.publisher %>
-      <dt>Publisher</dt>
-      <dd><%= link_to h(@user.publisher.name), publisher_path(@user.publisher) %></dd>
-    <% end %>
-    <dt>API Key</dt>
-    <dd><%= @user.authentication_token %></dd>
-  </dl>
-
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#reports" data-toggle="tab">Reports</a></li>
-    <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
-  </ul>
-
-  <div class="tab-content">
-    <div class="tab-pane active" id="reports">
-      <%= render :partial => 'reports' %>
-    </div>
-    <div class="tab-pane" id="documentation">
-      <h1>API</h1>
-      <%= render :partial => 'docs/show' %>
-    </div>
   </div>
-<% end %>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#reports" data-toggle="tab">Reports</a></li>
+  <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="reports">
+    <%= render :partial => 'reports' %>
+  </div>
+  <div class="tab-pane" id="documentation">
+    <h1>API</h1>
+    <%= render :partial => 'docs/show' %>
+  </div>
+</div>

@@ -3,7 +3,8 @@ var d3,
     h = 200,
     radius = Math.min(w, h) / 2,
     color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#95a5a6"]),
-    formatFixed = d3.format(",.0f");
+    formatFixed = d3.format(",.0f"),
+    formatPercent = d3.format(",.0%");
 
 // construct query string
 var params = d3.select("h1");
@@ -22,9 +23,13 @@ if (query) {
     var by_day = d3.entries(data.by_day);
     var by_month = d3.entries(data.by_month);
 
-    donutViz(status, "div#chart_status", "Status", "of articles");
-    donutViz(by_day, "div#chart_day", "Events", "last 24 hours");
-    donutViz(by_month, "div#chart_month", "Events", "last 31 days");
+    var status_title = formatPercent(data.status.refreshed / d3.sum(status, function(g) { return g.value; }));
+    var by_day_title = formatPercent(data.by_day.with_events / d3.sum(by_day, function(g) { return g.value; }));
+    var by_month_title = formatPercent(data.by_month.with_events / d3.sum(by_month, function(g) { return g.value; }));
+
+    donutViz(status, "div#chart_status", status_title, "refreshed");
+    donutViz(by_day, "div#chart_day", by_day_title, "with events");
+    donutViz(by_month, "div#chart_month", by_month_title, "with events");
   });
 }
 
@@ -70,6 +75,8 @@ function donutViz(data, div, title, subtitle) {
     .attr("text-anchor", "middle")
     .attr("class", "subtitle")
     .text(subtitle);
+
+  d3.select(div + "-loading").remove();
 
   // return chart object
   return chart;

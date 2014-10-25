@@ -48,13 +48,16 @@ function articlesViz(json) {
   d3.select("#loading-results").remove();
 
   if (data.length == 0) {
-    d3.select("#results").text("")
+    d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
       .text("No articles found");
     if (page == "") d3.select("div#rss").remove();
     return;
   }
+
+  d3.select("#content").insert("div")
+    .attr("id", "results");
 
   for (var i=0; i<data.length; i++) {
     var article = data[i];
@@ -95,7 +98,7 @@ function paginate(json) {
     var prev = (json["page"] > 1) ? "«" : null;
     var next = (json["page"] < json["total_pages"]) ? "»" : null;
 
-    d3.select("#results").append("div")
+    d3.select("#content").append("div")
       .attr("id", "paginator");
 
     $('#paginator').bootpag({

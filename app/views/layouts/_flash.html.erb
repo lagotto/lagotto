@@ -1,6 +1,6 @@
 <% unless @flash.blank? %>
   <% @flash.each do |name, msg| %>
-    <div class="alert alert-<%= name == :notice ? "success" : "danger" %>">
+    <div class="alert alert-<%= name == :notice ? "success" : "warning" %>">
       <a class="close" data-dismiss="alert">&#215;</a>
       <%= content_tag :div, msg, :id => "flash_#{name}" if msg.present? and msg.is_a?(String) %>
     </div>

@@ -18,33 +18,36 @@
     <% end %>
   </div>
 
-  <% if @publishers.size > 0 %>
-    <div id="results">
-      <%= form_tag(publishers_path, :method => "post", :remote => true) do %>
-        <fieldset class="radio_tag">
+  <div class="content" id="content">
+    <% if @publishers.size > 0 %>
+        <%= form_tag(publishers_path, :method => "post", :remote => true) do %>
           <% @publishers.each_with_index do |publisher, i| %>
-            <h4 class="article">
-              <%= radio_button_tag "publisher", publisher.to_json(:only => [:crossref_id, :name, :other_names, :prefixes]), (i == 0), class: "radio_tag",tabindex: i %>
-              <%= link_to publisher.name, "http://api.crossref.org/members/#{publisher.crossref_id}" %>
-            </h4>
-            <p class="radio_tag"><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
+            <div class="panel panel-default">
+              <div class="panel-heading"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></div>
+              <div class="panel-body">
+                <% if publisher.other_names.size > 1 %>
+                  <p><%= publisher.other_names.reject { |name| name == publisher.name }.join("</br>").html_safe %></p>
+                <% end %>
+                <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
+                <%= radio_button_tag "publisher", publisher.to_json(:only => [:crossref_id, :name, :other_names, :prefixes]), (i == 0), class: "radio_tag",tabindex: i %>Select
+              </div>
+            </div>
           <% end %>
-        </fieldset>
-        <div class="form-group form_tag">
-          <%= submit_tag 'Save', id: "form_submit", class: "btn btn-default" %>
-          <%= link_to 'Cancel', publishers_path, { :remote => true, :class => 'btn' } %>
-        </div>
-      <% end %>
-    </div>
-  <% else %>
-    <div class="alert alert-info">
-      <% if params[:query].present? %>
-        No CrossRef members found with <em><%= params[:query] %></em> in the name
-      <% else %>
-        No publishers added
-      <% end %>
-    </div>
-  <% end %>
+          <div class="form-group form_tag">
+            <%= submit_tag 'Save', id: "form_submit", class: "btn btn-default" %>
+            <%= link_to 'Cancel', publishers_path, { :remote => true, :class => 'btn' } %>
+          </div>
+        <% end %>
+    <% else %>
+      <div class="alert alert-info">
+        <% if params[:query].present? %>
+          No CrossRef members found with <em><%= params[:query] %></em> in the name
+        <% else %>
+          Please enter a search term
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 <% else %>
   <div class="page-header">
     <div class="btn-toolbar pull-right">
@@ -54,18 +57,20 @@
         </div>
       <% end %>
     </div>
-    <h1>Publishers</h1>
+    <h1><%= pluralize(@publishers.size, "Publisher") %></h1>
   </div>
 
-  <% if @publishers.size > 0 %>
-    <div id="results">
-      <% @publishers.each do |publisher| %>
-        <h4 class="article"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></h4>
-        <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
-      <% end %>
-    </div>
-    <%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails %>
-  <% else %>
-    <div class="alert alert-info">There are currently no publishers</div>
-  <% end %>
+  <div class="content" id="content">
+    <% if @publishers.size > 0 %>
+      <div id="results">
+        <% @publishers.each do |publisher| %>
+          <h4 class="article"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></h4>
+          <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
+        <% end %>
+      </div>
+      <%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails %>
+    <% else %>
+      <div class="alert alert-info">There are currently no publishers</div>
+    <% end %>
+  </div>
 <% end %>

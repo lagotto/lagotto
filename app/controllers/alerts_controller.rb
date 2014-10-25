@@ -46,6 +46,7 @@ class AlertsController < ApplicationController
   end
 
   def destroy
+    @servers = ENV['SERVERS'].split(",")
     @alert = Alert.find(params[:id])
     if params[:filter] == "class_name"
       Alert.where(:class_name => @alert.class_name).update_all(:unresolved => false)

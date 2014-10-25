@@ -10,13 +10,14 @@ $sun-flower:    #f1c40f;
 $carrot:        #e67e22;
 $alizarin:      #e74c3c;
 $clouds:        #f4f6f7;
-$concrete:      #95a6a6;
+$silver:        #bfc5c9;
+$asbestos:      #6c797a;
 
-$gray:          lighten($wet-asphalt, 50%);
-$gray-light:    lighten($wet-asphalt, 65%);
-$gray-lighter:  lighten($wet-asphalt, 70%);
-$gray-dark:     lighten($wet-asphalt, 35%);
-$gray-darker:   lighten($wet-asphalt, 20%);
+$gray:          lighten($silver, 15%);
+$gray-light:    lighten($silver, 20%);
+$gray-lighter:  lighten($silver, 30%);
+$gray-dark:     darken($silver, 20%);
+$gray-darker:   darken($silver, 30%);
 $inverse:       white;
 
 $brand-primary:         $wet-asphalt;
@@ -26,13 +27,13 @@ $brand-warning:         $sun-flower;
 $brand-danger:          $carrot;
 $brand-info:            $peter-river;
 
-$body-bg:               white;
+$body-bg:               $gray-light;
 $text-color:            $brand-primary;
 
 $link-color:            $peter-river;
 $link-hover-color:      mix($peter-river, black, 85%);
 
-$hr-border:             $gray-light;
+$hr-border:             $gray;
 
 // Typography
 // -------------------------
@@ -84,8 +85,8 @@ $component-active-bg:    $brand-primary;
 $btn-font-weight:       normal;
 
 $btn-default-color:     $brand-primary;
-$btn-default-bg:        $gray-light;
-$btn-default-border:    $gray-light;
+$btn-default-bg:        $gray;
+$btn-default-border:    $gray;
 $btn-hover-bg:          mix($gray-light, white, 80%);
 $btn-active-bg:         mix($gray-light, black, 85%);
 
@@ -122,7 +123,7 @@ $navbar-inverse-bg:    $brand-primary;
 // Nav
 // -------------------------
 
-$nav-tabs-border-color: $gray-light;
+$nav-tabs-border-color: $gray;
 $nav-tabs-active-link-hover-color: $gray-dark;
 
 // Dropdown Menu
@@ -130,7 +131,7 @@ $nav-tabs-active-link-hover-color: $gray-dark;
 
 $dropdown-bg: $inverse;
 $dropdown-caret-color: $brand-primary;
-$dropdown-divider-bg: $gray-light;
+$dropdown-divider-bg: $gray;
 $dropdown-link-color: $brand-primary;
 $dropdown-link-hover-bg: $inverse;
 
@@ -145,22 +146,22 @@ $close-text-shadow: 0;
 // Panels, alerts and labels
 // -------------------------
 
-$panel-footer-bg:                lighten($brand-primary, 60%);
-$panel-inner-border:             lighten($brand-primary, 60%);
+$panel-footer-bg:                $gray;
+$panel-inner-border:             $gray;
 
 $panel-default-text:             $brand-primary;
-$panel-default-heading-bg:       lighten($brand-primary, 60%);
-$panel-default-border:           lighten($brand-primary, 60%);
+$panel-default-heading-bg:       $gray;
+$panel-default-border:           $gray;
 
-$panel-warning-text:             $brand-warning;
+$panel-warning-text:             $brand-primary;
 $panel-warning-border:           $brand-warning;
-$panel-warning-heading-bg:       $body-bg;
+$panel-warning-heading-bg:       $brand-warning;
 
-$state-warning-text:             $inverse;
+$state-warning-text:             $brand-primary;
 $state-warning-border:           $brand-warning;
 $state-warning-bg:               $brand-warning;
 
-$state-success-text:             $inverse;
+$state-success-text:             $brand-primary;
 $state-success-border:           $brand-success;
 $state-success-bg:               $brand-success;
 
@@ -172,7 +173,7 @@ $state-danger-text:              $inverse;
 $state-danger-border:            $brand-danger;
 $state-danger-bg:                $brand-danger;
 
-$label-default-bg:               $gray-dark;
+$label-default-bg:               $gray;
 $label-info-bg:                  $brand-info;
 $label-warning-bg:               $brand-warning;
 
@@ -181,7 +182,7 @@ $alert-padding:                  10px;
 // Badges
 // -------------------------
 
-$badge-bg: $gray-dark;
+$badge-bg:                       $gray;
 
 // Tables
 // -------------------------
@@ -189,7 +190,6 @@ $badge-bg: $gray-dark;
 $table-cell-padding:             10px;
 $table-bg-hover:                 lighten($brand-primary, 65%);
 $table-bg-accent:                lighten($brand-primary, 65%);
-$table-border-color:             lighten($brand-primary, 65%);
 
 // Forms
 // -------------------------
@@ -198,7 +198,7 @@ $input-height-base:              ($line-height-computed + ($padding-base-vertica
 $input-height-large:             (floor($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 2);
 $input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2);
 $input-color:                    black;
-$input-color-placeholder:        $gray;
+$input-color-placeholder:        $gray-dark;
 
 // Charts
 // -------------------------
@@ -219,8 +219,10 @@ $bar-color-7: lighten($bar-color-1, 20%);
 body { padding-top: 60px; padding-bottom: 20px; }
 
 // Fix inconsistencies
-.panel-group .panel .panel-heading { background-color: $body-bg; }
-.panel-group .panel .panel-heading h4 small { margin-top: 3px; }
+.panel .panel-heading small { margin-top: 3px; }
+.panel-heading { font-weight: bold; }
+.panel-heading .label-report { border: 1px solid white; font-size: $font-size-base; }
+.panel-source { min-height: 284px; }
 small span.label { vertical-align: bottom; font-size: 66%; margin-left: 0.5em; }
 .label { font-weight: normal; }
 .label-fatal { background-color: $alizarin; }
@@ -231,7 +233,7 @@ a { text-decoration: none; }
 
 .table .number { text-align: right; width: 180px;}
 .table .name { width: 300px;}
-.table .description { width: 490px;}
+.table .description { width: 600px;}
 .table .group { width: 190px;}
 .table .status { width: 95px;}
 .section { padding-bottom: 4px; }
@@ -250,13 +252,14 @@ legend { color: $brand-primary; font-size: $font-size-h2; font-weight: bold; lin
 select.form-control { width: 190px; }
 .form-user { width: 400px !important; }
 .publisher { margin-bottom: 30px; }
-#flash_alert a { color: white; text-decoration: underline; }
+#flash_alert a { color: $brand-primary; text-decoration: underline; }
 label.date { display: block; }
 select.form-control.date { display: inline; }
 .form-group.has-error input, .form-group.has-error span.help-block, .has-error { color: $brand-danger; }
 .form-group.has-error input, .form-group.has-error textarea, .form-group.has-error select { border: 1px solid $brand-danger; }
 h1 img { vertical-align: 2px; }
 h5, h4.article { margin-bottom: 0; }
+h4.article:first-child { margin-top: 0; }
 #results h4, #results p { margin-bottom: 0; }
 #results p { line-height: 1.33; }
 td h4 { margin-top: 0; }
@@ -265,21 +268,26 @@ dt, dd { line-height: 1.5; }
 .border-bottom { border-bottom: 1px solid #eee; }
 .alert-inner { min-height: 120px; }
 .remote { color: #88A2BD; }
+#results, .markdown { background-color: white; border: 1px solid $gray; padding: 1.5em; }
+#rss { padding: 1em; }
+#paginator { width: 50%; margin: 0 auto; }
 
 // make the scrollbar always visible
 html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
 
+// markdown formatting
+.markdown h2 { border-bottom: 1px solid $gray; padding-bottom: 3px; }
 .markdown pre { font-size: 0.75em; border: 0; }
 .markdown code {
   margin: 0 2px;
   padding: 0px 5px;
-  background-color: #f7f7f7;
+  background-color: $gray-light;
   border-radius: 3px;
   color: black;
   font-size: 0.75em;
 }
 .markdown table {
-    border:1px solid rgba(0,0,0,0.25);
+    border:1px solid $gray;
     border-collapse:collapse;
     display:table;
     empty-cells:hide;
@@ -297,5 +305,5 @@ html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
     background:rgba(248,248,248,0.06)
 }
 .markdown table tr:nth-child(even) {
-    background:rgba(0,0,0,0.06)
+    background: $gray-light
 }

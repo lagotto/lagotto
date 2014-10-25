@@ -1,5 +1,9 @@
 <% if Article.first && Source.visible.any? %>
-  <p>Total number of events per source, logarithmic scale.</p><br/>
+  <div class="panel panel-default">
+    <div class="panel-heading">Total number of events per source, logarithmic scale</div>
+    <div class="panel-body" id="events-body">
+    </div>
+  </div>
 <% else %>
   <div class="alert alert-info">No events found</div>
 <% end %>

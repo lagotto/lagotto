@@ -31,7 +31,7 @@ function articlesViz(data) {
   data = data.filter(function(d) { return d.name !== "relativemetric"; });
 
   // Articles tab
-  var chart = d3.select("div#articles").append("svg")
+  var chart = d3.select("div#articles-body").append("svg")
     .attr("width", w + l + r)
     .attr("height", data.length * (h + 2 * s) + 30)
     .attr("class", "chart")
@@ -80,7 +80,7 @@ function eventsViz(data) {
   data = data.filter(function(d) { return d.name !== "relativemetric"; });
 
   // Events tab
-  var chart = d3.select("div#events").append("svg")
+  var chart = d3.select("div#events-body").append("svg")
     .attr("width", w + l + r)
     .attr("height", data.length * (h + 2 * s) + 30)
     .attr("class", "chart")

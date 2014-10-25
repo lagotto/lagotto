@@ -1,30 +1,37 @@
-<% if @reports.present? %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th class="name">Name</th>
-        <th class="description">Description</th>
-        <th>Interval</th>
-        <th class="status">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @reports.each do |report| %>
-        <tr>
-          <td><%= h(report.display_name) %></td>
-          <% if report.users.exists?(@user) %>
-            <td><%= description_with_link(report).html_safe %></td>
-            <td><%= distance_of_time_in_words(Time.now, Time.now + report.interval, true, { :highest_measure_only => true }) %></td>
-            <td><%= link_to 'Unsubscribe'.html_safe, user_path(@user, :user => { :unsubscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{report.name}-status" %></td>
-          <% else %>
-            <td><%= h(report.description) %></td>
-            <td><%= distance_of_time_in_words(Time.now, Time.now + report.interval, true, { :highest_measure_only => true }) %></td>
-            <td><%= link_to 'Subscribe'.html_safe, user_path(@user, :user => { :subscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{report.name}-status" %></td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<% if @reports.size > 0 %>
+  <div class="panel-group" id="report">
+    <% @reports.each do |report| %>
+      <div class="panel <%= report.users.exists?(@user) ? 'panel-info' : 'panel-default' %>">
+        <div class="panel-heading panel-title">
+          <%= link_to report.display_name, "#report_#{report.id}", :class => "accordion-toggle", :id => "link_#{report.id}", :data => { :toggle => "collapse", :parent => "#report" }, :href => "#report_#{report.id}" %>
+          <% if report.users.exists?(@user) %><span class="label label-report pull-right">subscribed</span><% end %>
+        </div>
+        <div id="report_<%= report.id %>" class="panel-collapse collapse">
+          <div class="panel-body">
+            <div class="btn-toolbar pull-right">
+              <div class="btn-group btn-group-sm">
+                <% if report.users.exists?(@user) %>
+                  <%= link_to 'Unsubscribe'.html_safe, user_path(@user, :user => { :unsubscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{report.name}-status" %>
+                <% else %>
+                  <%= link_to 'Subscribe'.html_safe, user_path(@user, :user => { :subscribe => report.id }), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{report.name}-status" %>
+                <% end %>
+              </div>
+            </div>
+
+            <% if report.users.exists?(@user) %>
+              <p><%= description_with_link(report).html_safe %>
+            <% else %>
+              <p><%= report.description %>
+            <% end %>
+            <% if report.interval %>
+              , interval <%= distance_of_time_in_words(Time.now, Time.now + report.interval, true, { :highest_measure_only => true }) %>
+            <% end %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 <% else %>
   <div class="alert alert-info">There are currently no reports</div>
 <% end %>
+

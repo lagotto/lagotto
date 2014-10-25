@@ -24,13 +24,6 @@
       <div id="source-show">
         <%= render :partial => 'show', :locals => { :name => @source.name } %>
       </div>
-      <% if can?(:read, Alert) && Article.first %>
-        <div class="row">
-          <div class="col-md-4" id="chart_status"></div>
-          <div class="col-md-4" id="chart_day"></div>
-          <div class="col-md-4" id="chart_month"></div>
-        </div>
-      <% end %>
     </div>
     <div class="tab-pane" id="most-cited">
       <%= render :partial => 'most-cited' %>

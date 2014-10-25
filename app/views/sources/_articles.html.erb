@@ -1,7 +1,10 @@
 <% if Article.first && Source.visible.any? %>
-  <p>Total number of articles with at least one event, linear scale.</p><br/>
+  <div class="panel panel-default">
+    <div class="panel-heading">Total number of articles with at least one event, linear scale</div>
+    <div class="panel-body" id="articles-body">
+      <%= javascript_include_tag 'sources/index' %>
+    </div>
+  </div>
 <% else %>
   <div class="alert alert-info">No events found</div>
 <% end %>
-
-<%= javascript_include_tag 'sources/index' %>

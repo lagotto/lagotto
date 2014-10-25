@@ -12,6 +12,7 @@ class FiltersController < ApplicationController
   end
 
   def edit
+    load_index
     respond_with(@filter) do |format|
       format.js { render :index }
     end

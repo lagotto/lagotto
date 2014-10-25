@@ -1,24 +1,131 @@
+<div class="page-header">
+  <h1 id="api_key" data-api_key="<%= ENV['API_KEY'] %>">Status <small id="update_date"><%= date_from_iso8601(@status.update_date) + ' UTC' %></small></h1>
+</div>
+
 <div class="content">
-  <div class="page-header">
-    <h1 id="api_key" data-api_key="<%= ENV['API_KEY'] %>">Status <small id="update_date"><%= date_from_iso8601(@status.update_date) + ' UTC' %></small></h1>
-  </div>
-
-  <ul class="nav nav-tabs" id="nav_index">
-    <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
-    <% if can?(:read, Alert) %>
-      <li><a href="#workers" data-toggle="tab" title="Workers">Workers</a></li>
-    <% end %>
-  </ul>
-
-  <div class="tab-content">
-    <div class="tab-pane active" id="summary">
-      <%= render :partial => 'summary' %>
-    </div>
-
-    <% if can?(:read, Alert) %>
-      <div class="tab-pane" id="workers">
-        <%= render :partial => 'workers' %>
+  <div class="row">
+  <div class="col-md-3 text-center">
+    <div class="panel <%= @status.articles_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">Articles</div>
+      <div class="panel-body">
+        <h2 id="articles_count"><%= number_with_delimiter(@status.articles_count) %></h2>
       </div>
-    <% end %>
+    </div>
+  </div>
+  <div class="col-md-3 text-center">
+    <div class="panel <%= @status.articles_last30_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">Articles last 30 days</div>
+      <div class="panel-body">
+        <h2 id="articles_last30_count"><%= number_with_delimiter(@status.articles_last30_count) %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 text-center">
+    <div class="panel <%= @status.events_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">Events</div>
+      <div class="panel-body">
+        <h2 id="events_count"><%= number_with_delimiter(@status.events_count) %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 text-center">
+    <div class="panel <%= @status.outdated_version? ? 'panel-warning' : 'panel-default' %>">
+      <div class="panel-heading">Lagotto version</div>
+      <div class="panel-body">
+        <h2 id="version"><%= @status.version %></h2>
+      </div>
+    </div>
   </div>
 </div>
+
+<% if can?(:read, Alert) %>
+  <div class="row">
+    <div class="col-md-3 text-center">
+      <div class="panel <%= @status.sources_active_count > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">Active sources</div>
+        <div class="panel-body">
+          <h2 id="sources_active_count"><%= @status.sources_active_count %></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="panel <%= @status.requests_count > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">API requests last 24 hours</div>
+        <div class="panel-body">
+          <h2 id="requests_count"><%= number_with_delimiter(@status.requests_count) %></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="panel <%= @status.responses_count > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">API responses last 24 hours</div>
+        <div class="panel-body">
+          <h2 id="responses_count"><%= number_with_delimiter(@status.responses_count) %></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="panel <%= @status.alerts_last_day_count > 0 ? 'panel-default' : 'panel-success' %>">
+        <div class="panel-heading">Open alerts last 24 hours</div>
+        <div class="panel-body">
+          <h2 id="alerts_last_day_count"><%= number_with_delimiter(@status.alerts_last_day_count) %></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <div class="panel <%= @status.workers_count > 0 ? 'panel-default' : 'panel-danger' %>">
+        <div class="panel-heading">Aktive Workers</div>
+        <% if Worker.all.size > 0 %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Identifier</th>
+                <th>PID</th>
+                <th>Memory</th>
+                <th>Start Worker</th>
+                <th>State</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% Worker.all.each do |worker| %>
+              <tr>
+                <td><%= worker.id %></td>
+                <td><%= worker.pid %></td>
+                <td><%= worker.memory %></td>
+                <td><%= worker.created_at.to_s(:short) + " UTC" %></td>
+                <td><%= worker.state %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <div class="panel-body">
+            No active workers found
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="panel <%= @status.delayed_jobs_active_count > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">Pending and working jobs</div>
+        <div class="panel-body">
+          <h2 id="delayed_jobs_active_count"><%= number_with_delimiter(@status.delayed_jobs_active_count) %></h2>
+        </div>
+      </div>
+      <div class="panel <%= @status.users_count > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">Users</div>
+        <div class="panel-body">
+          <h2 id="users_count"><%= number_with_delimiter(@status.users_count) %></h2>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">CouchDB database size</div>
+        <div class="panel-body">
+          <h2 id="couchdb_size"><%= number_to_human_size(@status.couchdb_size) %></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

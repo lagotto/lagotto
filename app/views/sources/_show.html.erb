@@ -1,49 +1,60 @@
-<table class="table table-striped" id="SummaryTable">
-  <thead>
-    <tr>
-      <th/>
-      <th class="number">Articles&nbsp;with&nbsp;Events</th>
-      <th class="number">All Events</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Events</th>
-      <td class="number" id="article_count"><%= number_hiding_zero(@source.article_count) %></td>
-      <td class="number" id="event_count"><%= number_hiding_zero(@source.event_count) %></td>
-    </tr>
-
-    <% if can?(:read, Alert) %>
-      <tr>
-        <th/>
-        <th class="number">Pending</th>
-        <th class="number">Working</th>
-      </tr>
-      <tr>
-        <th>Jobs</th>
-        <td class="number" id="pending_count"><%= number_hiding_zero(@source.pending_count) %></td>
-        <td class="number" id="working_count"><%= number_hiding_zero(@source.working_count) %></td>
-      </tr>
-      <tr>
-        <th/>
-        <th class="number">Responses</th>
-        <th class="number">Errors</th>
-      </tr>
-      <tr>
-        <th>Responses in the last 24 Hours</th>
-        <td class="number" id="response_count"><%= number_hiding_zero(@source.response_count) %></td>
-        <td class="number" id="error_count"><%= link_to_if(@source.error_count > 0, number_hiding_zero(@source.error_count), alerts_path(:source => @source.name)) %></td>
-      </tr>
-      <tr>
-        <th/>
-        <th class="number">Average</th>
-        <th class="number">Maximum</th>
-      </tr>
-      <tr>
-        <th>Response duration in the last 24 Hours (ms)</th>
-        <td class="number" id="average_count"><%= number_hiding_zero(@source.average_count) %></td>
-        <td class="number" id="maximum_count"><%= number_hiding_zero(@source.maximum_count) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="content">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="panel panel-source <%= @source.article_count > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">Events</div>
+        <div class="panel-body">
+          <p><%= pluralize(@source.article_count, "article") %> with events, or <%= number_to_percentage(@source.article_count * 100/ @source.articles_count, precision: 0) %> of articles</p>
+          <p><%= pluralize(@source.event_count, "events") %> for these articles</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-source panel-default">
+        <div class="panel-heading">Jobs</div>
+        <div class="panel-body">
+          <p><%= @source.pending_count %> pending, <%= @source.working_count %> working</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-source <%= @source.response_count > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">Responses <small class="pull-right">last 24 hours</small></div>
+        <div class="panel-body">
+          <p><%= pluralize(@source.response_count, "response") %> with
+          <%= link_to_if(@source.error_count > 0, pluralize(number_with_delimiter(@source.error_count), "error"), alerts_path(:source => @source.name)) %></p>
+          <p>Average <%= number_with_delimiter(@source.average_count) %> ms</br>
+          Maximum <%= number_with_delimiter(@source.maximum_count) %> ms</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% if can?(:read, Alert) && Article.first %>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="panel panel-source panel-default">
+          <div class="panel-heading">Status</div>
+          <div class="panel-body" id="chart_status">
+            <div class="text-muted" id="chart_status-loading">Loading … <%= image_tag "spinner.gif" %></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-source panel-default">
+          <div class="panel-heading">Events <small class="pull-right">last 24 hours</small></div>
+          <div class="panel-body" id="chart_day">
+            <div class="text-muted" id="chart_day-loading">Loading … <%= image_tag "spinner.gif" %></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-source panel-default">
+          <div class="panel-heading">Events <small class="pull-right">last 31 days</small></div>
+          <div class="panel-body" id="chart_month">
+            <div class="text-muted" id="chart_month-loading">Loading … <%= image_tag "spinner.gif" %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -26,12 +26,15 @@ function eventViz(data) {
   data = d3.merge(data);
 
   if (data.length == 0) {
-    d3.select("#results").text("")
+    d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
       .text("No events found");
     return;
   }
+
+  d3.select("#content").insert("div")
+    .attr("id", "results");
 
   // generate iso8601 datetime for sorting, year for nesting
   data = data.map(function(d) {
