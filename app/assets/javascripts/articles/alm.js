@@ -16,7 +16,7 @@ var options = {
     minMonthsForMonthly: 1,
     minDaysForDaily: 1
   },
-  vizDiv: "#metrics",
+  vizDiv: "#panel-metrics",
   showTitle: false,
   groups: [{ name: "viewed", display_name: "Viewed" },
            { name: "cited", display_name: "Cited" },
@@ -25,7 +25,7 @@ var options = {
            { name: "recommended", display_name: "Recommended" }]
 };
 
-var params = d3.select("h1#api_key");
+var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var uid_type = params.attr('data-uid_type');

@@ -97,7 +97,7 @@
     </h1>
   </div>
 
-  <div class="search">
+  <div class="search text-center">
     <%= form_tag(articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
        <div class="form-group">
         <%= search_field_tag :q, params[:q], :placeholder => "Search by DOI", :class => "form-control" %>

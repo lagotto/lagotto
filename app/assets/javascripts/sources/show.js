@@ -7,7 +7,7 @@ var d3,
     formatPercent = d3.format(",.0%");
 
 // construct query string
-var params = d3.select("h1");
+var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var source_name = params.attr('data-name');

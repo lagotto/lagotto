@@ -1,16 +1,14 @@
 <div class="panel panel-default">
   <div class="panel-heading panel-title">
-    <% if can?(:create, User) %>
-      <div class="btn-toolbar pull-right">
-        <div class="btn-group btn-group-sm">
-           <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_user_path(@user), { remote: true, class: 'btn btn-default btn-sm', id: 'edit' } %>
-        </div>
-      </div>
+    <% if can?(:create, User) && controller.action_name != "edit" && !(controller.action_name == "update" && !@user.errors.empty?) %>
+      <span class="pull-right">
+         <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_user_path(@user), { remote: true, class: 'btn btn-default btn-sm', id: 'edit' } %>
+      </span>
     <% end %>
     Your Account
   </div>
-  <div class="panel-body" id="chart_status">
-    <% if can?(:create, User) and (controller.action_name == "edit" or (controller.action_name == "update" and !@user.errors.empty?)) %>
+  <div class="panel-body">
+    <% if can?(:create, User) && (controller.action_name == "edit" || (controller.action_name == "update" && !@user.errors.empty?)) %>
       <%= simple_form_for @user, :url => user_path(@user), :html => { :remote => true } do |f| %>
           <%= f.input :name, input_html: { class: "form-user" } %>
           <%= f.input :authentication_token, label: "API key", input_html: { class: "form-user" } %>
@@ -25,8 +23,10 @@
       <% end %>
     <% else %>
       <dl class="dl-horizontal">
-        <dt>Name</dt>
-        <dd><%= @user.name %></dd>
+        <% if @user.name != @user.username %>
+          <dt>Name</dt>
+          <dd><%= @user.name %></dd>
+        <% end %>
         <dt>Username</dt>
         <dd><%= @user.username %></dd>
         <% if @user.email.present? %>

@@ -1,3 +1,0 @@
-<h1 id="api_key" data-name="<%= @source.name %>" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-page="" data-per_page="15" data-q="" data-publisher="" data-source="<%= @source.name %>" data-class_name="" data-order="<%= @source.name %>">
-  <%= h(@source.display_name) %> <small id="update_date"><%= date_from_iso8601(@source.update_date) + ' UTC' %> <%= state_label(@source.human_state_name).html_safe %></small>
-</h1>

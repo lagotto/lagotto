@@ -5,11 +5,11 @@
 <% if @filters.size > 0 %>
   <div class="panel-group" id="filter">
     <% @filters.each do |filter| %>
-      <div class="panel <%= filter.active ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading panel-title">
+      <div class="panel <%= filter.active ? 'panel-info' : 'panel-default' %>">
+        <div class="panel-heading panel-title panel-list">
           <%= link_to filter.name, "#filter_#{filter.id}", :class => "accordion-toggle", :id => "link_#{filter.id}", :data => { :toggle => "collapse", :parent => "#filter" }, :href => "#filter_#{filter.id}" %>
-          <% unless filter.active %>
-            <small class="pull-right">inactive</small>
+          <% if filter.active %>
+            <small class="pull-right">active</small>
           <% end %>
         </div>
         <% if can?(:manage, Alert) && @filter && @filter.id == filter.id && (controller.action_name == "edit" or (controller.action_name == "update" and !@filter.errors.empty?)) %>

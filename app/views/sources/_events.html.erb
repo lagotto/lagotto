@@ -1,7 +1,8 @@
 <% if Article.first && Source.visible.any? %>
   <div class="panel panel-default">
-    <div class="panel-heading">Total number of events per source, logarithmic scale</div>
+    <div class="panel-heading panel-title">Events <small class="pull-right">Total number of events per source, logarithmic scale</small></div>
     <div class="panel-body" id="events-body">
+      <div class="text-muted" id="events-loading">Loading … <%= image_tag "spinner.gif" %></div>
     </div>
   </div>
 <% else %>

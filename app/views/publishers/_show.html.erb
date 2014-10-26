@@ -1,27 +1,28 @@
-<div class="page-header">
-  <div class="btn-toolbar btn-sm pull-right">
+<div class="panel panel-default">
+  <div class="panel-heading panel-title" id="api_key" data-model="publisher" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-page="<%= @page %>" data-per_page="15" data-q="" data-class_name="" data-source="<%= @source.present? ? @source.name : "" %>" data-order="<%= @order.present? ? @order.name : "" %>" data-publisher="<%= @publisher.crossref_id %>">
     <% if can?(:manage, Publisher) %>
-      <div class="btn-group btn-group-sm">
-        <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, publisher_path(@publisher), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
+      <div class="btn-toolbar pull-right">
+        <div class="btn-group btn-group-sm">
+          <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, publisher_path(@publisher), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
+        </div>
       </div>
     <% end %>
+    <%= @publisher.name %>
   </div>
-  <h1 id="api_key" data-model="publisher" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-page="<%= @page %>" data-per_page="15" data-q="" data-class_name="" data-source="<%= @source.present? ? @source.name : "" %>" data-order="<%= @order.present? ? @order.name : "" %>" data-publisher="<%= @publisher.crossref_id %>">
-    <%= h(@publisher.name) %>
-  </h1>
+  <div class="panel-body">
+    <dl class="dl-horizontal">
+      <% if @publisher.other_names.present? && @publisher.other_names.length > 1 %>
+        <dt>Other Names</dt>
+        <dd><%= @publisher.other_names.reject { |name| name == @publisher.name }.join("</br>").html_safe %></dd>
+      <% end %>
+      <% if @publisher.prefixes.present? %>
+        <dt>DOI <%= 'Prefix'.pluralize(@publisher.prefixes.size) %></dt>
+        <dd><%= @publisher.prefixes.join(" ") %></dd>
+      <% end %>
+      <% if can?(:read, Alert) && @publisher.users.present? %>
+        <dt>Users</dt>
+        <dd><%= @publisher.users.map { |user| link_to h(user.username), users_path(query: user.username) }.join("</br>").html_safe %></dd>
+      <% end %>
+    </dl>
+  </div>
 </div>
-
-<dl class="dl-horizontal">
-  <% if @publisher.other_names.present? && @publisher.other_names.length > 1 %>
-    <dt>Other Names</dt>
-    <dd><%= @publisher.other_names.reject { |name| name == @publisher.name }.join("</br>").html_safe %></dd>
-  <% end %>
-  <% if @publisher.prefixes.present? %>
-    <dt>DOI <%= 'Prefix'.pluralize(@publisher.prefixes.size) %></dt>
-    <dd><%= @publisher.prefixes.join(" ") %></dd>
-  <% end %>
-  <% if can?(:read, Alert) && @publisher.users.present? %>
-    <dt>Users</dt>
-    <dd><%= @publisher.users.map { |user| link_to h(user.username), users_path(query: user.username) }.join("</br>").html_safe %></dd>
-  <% end %>
-</dl>

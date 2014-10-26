@@ -1,6 +1,6 @@
 <div class="panel panel-default">
-  <div class="panel-heading">
-    <% if can?(:manage, Source) && @source.state > 1 %>
+  <div class="panel-heading panel-title">
+    <% if can?(:manage, Source) && @source.state > 1 && controller.action_name != "edit" && !(controller.action_name == "update" && !@source.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
           <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_source_path(@source.name), { :remote => true, :class => 'btn btn-default btn-sm pull-right configuration-edit', :title => "Edit" } %>
@@ -9,7 +9,7 @@
     <% end %>
     Configuration
   </div>
-  <% if can?(:manage, Source) && @source.state > 1 && (controller.action_name == "edit" or (controller.action_name == "update" && !@source.errors.empty?)) %>
+  <% if can?(:manage, Source) && @source.state > 1 && (controller.action_name == "edit" || (controller.action_name == "update" && !@source.errors.empty?)) %>
     <div class="panel-body">
       <%= simple_form_for(@source.becomes(Source), :url => source_path(@source.name), :html => { :remote => true }) do |f| %>
         <% f.object = @source.becomes(@source.class) %>

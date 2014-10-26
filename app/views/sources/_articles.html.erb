@@ -1,7 +1,9 @@
 <% if Article.first && Source.visible.any? %>
   <div class="panel panel-default">
-    <div class="panel-heading">Total number of articles with at least one event, linear scale</div>
+    <div class="panel-heading panel-title">Articles <small class="pull-right">Total number of articles with at least one event, linear scale</small></div>
     <div class="panel-body" id="articles-body">
+      <div class="text-muted" id="articles-loading">Loading … <%= image_tag "spinner.gif" %></div>
+
       <%= javascript_include_tag 'sources/index' %>
     </div>
   </div>

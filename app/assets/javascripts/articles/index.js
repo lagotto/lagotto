@@ -1,5 +1,5 @@
 // construct query string
-var params = d3.select("h1#api_key");
+var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var uid_type = params.attr('data-uid_type');
@@ -99,7 +99,8 @@ function paginate(json) {
     var next = (json["page"] < json["total_pages"]) ? "»" : null;
 
     d3.select("#content").append("div")
-      .attr("id", "paginator");
+      .attr("id", "paginator")
+      .attr("class", "text-center");
 
     $('#paginator').bootpag({
       total: json["total_pages"],

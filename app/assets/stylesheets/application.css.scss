@@ -173,7 +173,7 @@ $state-danger-text:              $inverse;
 $state-danger-border:            $brand-danger;
 $state-danger-bg:                $brand-danger;
 
-$label-default-bg:               $gray;
+$label-default-bg:               $gray-dark;
 $label-info-bg:                  $brand-info;
 $label-warning-bg:               $brand-warning;
 
@@ -182,7 +182,7 @@ $alert-padding:                  10px;
 // Badges
 // -------------------------
 
-$badge-bg:                       $gray;
+$badge-bg:                       $gray-dark;
 
 // Tables
 // -------------------------
@@ -216,14 +216,15 @@ $bar-color-7: lighten($bar-color-1, 20%);
 @import "github";
 @import "bootstrap";
 
-body { padding-top: 60px; padding-bottom: 20px; }
+body { padding-top: 70px; padding-bottom: 20px; }
 
 // Fix inconsistencies
-.panel .panel-heading small { margin-top: 3px; }
-.panel-heading { font-weight: bold; }
+.panel-heading { font-weight: bold; line-height: 1.33; }
+.panel-heading small { font-weight: normal; margin-top: 3px; }
 .panel-heading .label-report { border: 1px solid white; font-size: $font-size-base; }
+.panel-list { font-weight: normal; }
 .panel-source { min-height: 284px; }
-small span.label { vertical-align: bottom; font-size: 66%; margin-left: 0.5em; }
+// small span.label { vertical-align: bottom; font-size: 66%; margin-left: 0.5em; }
 .label { font-weight: normal; }
 .label-fatal { background-color: $alizarin; }
 .btn-link { color: $navbar-inverse-link-color; }
@@ -257,7 +258,7 @@ label.date { display: block; }
 select.form-control.date { display: inline; }
 .form-group.has-error input, .form-group.has-error span.help-block, .has-error { color: $brand-danger; }
 .form-group.has-error input, .form-group.has-error textarea, .form-group.has-error select { border: 1px solid $brand-danger; }
-h1 img { vertical-align: 2px; }
+h1 { margin-top: 0; }
 h5, h4.article { margin-bottom: 0; }
 h4.article:first-child { margin-top: 0; }
 #results h4, #results p { margin-bottom: 0; }
@@ -270,7 +271,6 @@ dt, dd { line-height: 1.5; }
 .remote { color: #88A2BD; }
 #results, .markdown { background-color: white; border: 1px solid $gray; padding: 1.5em; }
 #rss { padding: 1em; }
-#paginator { width: 50%; margin: 0 auto; }
 
 // make the scrollbar always visible
 html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }

@@ -71,6 +71,8 @@ function articlesViz(data) {
     .attr("dx", 5) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(function(d) { return numberWithDelimiter(d.article_count); });
+
+  d3.select("#articles-loading").remove();
 }
 
 // events bar chart
@@ -120,6 +122,8 @@ function eventsViz(data) {
     .attr("dx", 5) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
     .text(function(d) { return numberWithDelimiter(d.event_count); });
+
+  d3.select("#events-loading").remove();
 }
 
 // d3 helper functions

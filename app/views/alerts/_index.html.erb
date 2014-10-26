@@ -55,7 +55,7 @@
   </h1>
 </div>
 
-<div class="search">
+<div class="search text-center">
   <%= form_tag(alerts_path, :method => "get", :class => "form-inline", :role => "form") do %>
     <div class="form-group">
       <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
@@ -71,7 +71,7 @@
   <div class="panel-group" id="alert">
     <% @alerts.each do |alert| %>
       <div class="panel panel-default">
-        <div class="panel-heading panel-title">
+        <div class="panel-heading panel-title panel-list">
           <% if alert.level != 3 %><span class="pull-right"><%= level_label(alert.level).html_safe %></span><% end %>
           <%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.id}", :class => "accordion-toggle", :id => "link_#{alert.id}", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %>
         </div>
@@ -179,7 +179,9 @@
       </div>
     <% end %>
   </div>
-  <%= will_paginate @alerts, :params => { :controller => alerts_path }, :renderer => BootstrapPagination::Rails %>
+  <div class="text-center">
+    <%= will_paginate @alerts, :params => { :controller => alerts_path }, :renderer => BootstrapPagination::Rails %>
+  </div>
 <% else %>
   <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>alerts
     <% unless @source.nil? %>

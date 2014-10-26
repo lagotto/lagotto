@@ -1,60 +1,17 @@
-<div class="content">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="panel panel-source <%= @source.article_count > 0 ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">Events</div>
-        <div class="panel-body">
-          <p><%= pluralize(@source.article_count, "article") %> with events, or <%= number_to_percentage(@source.article_count * 100/ @source.articles_count, precision: 0) %> of articles</p>
-          <p><%= pluralize(@source.event_count, "events") %> for these articles</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="panel panel-source panel-default">
-        <div class="panel-heading">Jobs</div>
-        <div class="panel-body">
-          <p><%= @source.pending_count %> pending, <%= @source.working_count %> working</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="panel panel-source <%= @source.response_count > 0 ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">Responses <small class="pull-right">last 24 hours</small></div>
-        <div class="panel-body">
-          <p><%= pluralize(@source.response_count, "response") %> with
-          <%= link_to_if(@source.error_count > 0, pluralize(number_with_delimiter(@source.error_count), "error"), alerts_path(:source => @source.name)) %></p>
-          <p>Average <%= number_with_delimiter(@source.average_count) %> ms</br>
-          Maximum <%= number_with_delimiter(@source.maximum_count) %> ms</p>
-        </div>
-      </div>
-    </div>
+<div class="panel panel-default">
+  <div class="panel-heading panel-title" id="api_key" data-name="<%= @source.name %>" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-page="" data-per_page="15" data-q="" data-publisher="" data-source="<%= @source.name %>" data-class_name="" data-order="<%= @source.name %>">
+    <%= @source.display_name %> <small class="pull-right" id="update_date"><%= date_from_iso8601(@source.update_date) + ' UTC' %> <%= state_label(@source.human_state_name).html_safe %></small>
   </div>
-  <% if can?(:read, Alert) && Article.first %>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="panel panel-source panel-default">
-          <div class="panel-heading">Status</div>
-          <div class="panel-body" id="chart_status">
-            <div class="text-muted" id="chart_status-loading">Loading … <%= image_tag "spinner.gif" %></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-source panel-default">
-          <div class="panel-heading">Events <small class="pull-right">last 24 hours</small></div>
-          <div class="panel-body" id="chart_day">
-            <div class="text-muted" id="chart_day-loading">Loading … <%= image_tag "spinner.gif" %></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-source panel-default">
-          <div class="panel-heading">Events <small class="pull-right">last 31 days</small></div>
-          <div class="panel-body" id="chart_month">
-            <div class="text-muted" id="chart_month-loading">Loading … <%= image_tag "spinner.gif" %></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
+  <div class="panel-body">
+    <dl class="dl-horizontal">
+      <% unless @source.group.blank? %>
+        <dt>Group</dt>
+        <dd><%= h(@source.group.display_name) %></dd>
+      <% end %>
+      <% unless @source.description.blank? %>
+        <dt>Description</dt>
+        <dd><%= h(@source.description) %></dd>
+      <% end %>
+    </dl>
+  </div>
 </div>
