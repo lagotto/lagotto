@@ -61,7 +61,7 @@ class Status
     Worker.active
   end
 
-  def workers_active_count
+  def workers_count
     Worker.active.length
   end
 
@@ -158,7 +158,11 @@ class Status
   end
 
   def update_date
-    Rails.cache.read("status:timestamp") || "1970-01-01T00:00:00Z"
+    if ActionController::Base.perform_caching
+      Rails.cache.read("status:timestamp") || "1970-01-01T00:00:00Z"
+    else
+      Time.zone.now.utc.iso8601
+    end
   end
 
   def update_date=(timestamp)

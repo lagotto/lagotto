@@ -32,7 +32,7 @@ describe Status do
   end
 
   it "delayed_jobs_active_count" do
-    subject.delayed_jobs_active_count.should == 2
+    subject.delayed_jobs_active_count.should == 1
   end
 
   it "responses_count" do

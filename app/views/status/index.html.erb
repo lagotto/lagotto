@@ -86,9 +86,9 @@
   </div>
   <div class="row">
     <div class="col-md-8">
-      <div class="panel <%= @status.workers_active_count > 0 ? 'panel-default' : 'panel-danger' %>">
-        <div class="panel-heading">Aktive Workers</div>
-        <% if @status.workers_active_count > 0 %>
+      <div class="panel <%= @status.workers_count > 0 ? 'panel-default' : 'panel-danger' %>">
+        <div class="panel-heading">Workers</div>
+        <% if @status.workers_count > 0 %>
           <table class="table">
             <thead>
               <tr>
@@ -113,7 +113,7 @@
           </table>
         <% else %>
           <div class="panel-body">
-            No active workers found
+            No <strong>delayed_job</strong> workers found
           </div>
         <% end %>
       </div>

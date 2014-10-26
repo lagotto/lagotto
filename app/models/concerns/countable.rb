@@ -21,13 +21,13 @@ module Countable
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/pending_count/#{update_date}").to_i
       else
-        delayed_jobs.count(:conditions => ":locked_at IS NULL")
+        delayed_jobs.count(:conditions => "locked_at IS NULL")
       end
     end
 
     def pending_count=(timestamp)
       Rails.cache.write("#{name}/pending_count/#{timestamp}",
-                        delayed_jobs.count(:conditions => ":locked_at IS NULL"))
+                        delayed_jobs.count(:conditions => "locked_at IS NULL"))
     end
 
     def delayed_jobs_count
@@ -48,7 +48,7 @@ module Countable
         status_update_date = Rails.cache.read('status:timestamp')
         Rails.cache.read("status/articles_count/#{status_update_date}").to_i
       else
-
+        Article.count
       end
     end
 

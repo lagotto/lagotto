@@ -62,7 +62,7 @@
           <%= controller.controller_name == "status" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Status", status_path %></li>
           <%= controller.controller_name == "articles" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", articles_path %></li>
           <%= controller.controller_name == "sources" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Sources", sources_path %></li>
-          <% if can?(:read, Alert) || publishers.length > 1 %>
+          <% if can?(:read, Alert) || publishers.length > 1 %>
             <%= controller.controller_name == "publishers" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Publishers", publishers_path %></li>
           <% end %>
           <% if can?(:read, Alert) %>

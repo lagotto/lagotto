@@ -25,7 +25,7 @@ describe Report do
 
     it "should format the Lagotto data as csv" do
       response = CSV.parse(subject.to_csv)
-      response.length.should == 3
+      response.length.should == 2
       response.first.should eq(["doi", "publication_date", "title", "citeulike"])
       response.last.should eq([article.doi, article.published_on.iso8601, article.title, "50"])
     end
@@ -69,7 +69,7 @@ describe Report do
         subject.write(filename, csv)
 
         response = CSV.parse(subject.merge_stats)
-        response.length.should == 3
+        response.length.should == 2
         response.first.should eq(["doi", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups"])
         response.last.should eq([article.doi, article.published_on.iso8601, article.title, "50", "1663", "0"])
         File.delete filepath

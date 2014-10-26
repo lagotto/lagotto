@@ -28,7 +28,7 @@ describe "/api/v5/status" do
         data = response["data"]
         data["update_date"].should_not eq("1970-01-01T00:00:00Z")
         data["articles_count"].should == 5
-        data["responses_count"].should == 10
+        data["responses_count"].should == 6
         data["users_count"].should == 1
         data["version"].should == Rails.application.config.version
       end
@@ -42,7 +42,7 @@ describe "/api/v5/status" do
         data = response["data"]
         data["update_date"].should_not eq("1970-01-01T00:00:00Z")
         data["articles_count"].should == 5
-        data["responses_count"].should == 10
+        data["responses_count"].should == 6
         data["users_count"].should == 1
         data["version"].should == Rails.application.config.version
       end
