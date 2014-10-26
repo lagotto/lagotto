@@ -13,6 +13,15 @@ module Countable
                         delayed_jobs.count(:locked_at))
     end
 
+    def pending_count
+      Rails.cache.read("#{name}/pending_count/#{update_date}").to_i
+    end
+
+    def pending_count=(timestamp)
+      Rails.cache.write("#{name}/pending_count/#{timestamp}",
+                        delayed_jobs.count(:conditions => ":locked_at IS NULL"))
+    end
+
     def delayed_jobs_count
       Rails.cache.read("#{name}/delayed_jobs_count/#{update_date}").to_i
     end
@@ -20,10 +29,6 @@ module Countable
     def delayed_jobs_count=(timestamp)
       Rails.cache.write("#{name}/delayed_jobs_count/#{timestamp}",
                         delayed_jobs.count)
-    end
-
-    def pending_count
-      delayed_jobs_count - working_count
     end
 
     def articles_count

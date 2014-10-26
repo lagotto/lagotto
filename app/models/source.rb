@@ -294,6 +294,7 @@ class Source < ActiveRecord::Base
     [:event_count,
      :article_count,
      :working_count,
+     :pending_count,
      :queued_count,
      :stale_count,
      :response_count,
