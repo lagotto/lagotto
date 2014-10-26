@@ -3,7 +3,7 @@ layout: page
 title: "Sources"
 ---
 
-The ALM application provides a number of public sources. Most sources require a user account with the service (see table below).
+The Lagotto software includes a number of sources. Most sources require a user account with the service (see table below).
 
 ### Viewed
 * [PubMed Central Usage Stats](/docs/pmc)

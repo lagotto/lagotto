@@ -20,9 +20,10 @@ The following organizations are using Lagotto:
 * [Copernicus Publications](http://publications.copernicus.org/services/article_level_metrics.html)
 * [Public Knowledge Project (PKP)](http://pkp.sfu.ca/pkp-launches-article-level-metrics-for-ojs-journals/)
 * [CrossRef Labs](http://crosstech.crossref.org/2014/02/many-metrics-such-data-wow.html)
-* [eLife](http://alm.svr.elifesciences.org/)
+* [eLife](http://lagotto.svr.elifesciences.org/)
+* [Pensoft](http://alm.pensoft.net:81/)
 
 Live status information for the publicly available Lagotto instances is [here](http://articlemetrics.github.io/status/).
 
 ## For Developers
-We always welcome feedback and code contributions, and we have a growing list of [contributors](/docs/contributors). For technical questions regarding the Article-Level Metrics application, visit the [PLOS API Developers Google Group](https://groups.google.com/forum/?fromgroups#!forum/plos-api-developers) or use the [Github issue tracker](https://github.com/articlemetrics/lagotto/issues).
+We always welcome feedback and code contributions, and we have a growing list of [contributors](/docs/contributors). For questions or comments regarding Lagotto, visit the [Lagotto support forum](http://discuss.lagotto.io) or use the [Github issue tracker](https://github.com/articlemetrics/lagotto/issues).

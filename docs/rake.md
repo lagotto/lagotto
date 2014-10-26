@@ -35,7 +35,7 @@ SAMPLE=50
 * `FROM_UPDATE_DATE` means metadata updated since (inclusive) `{date}`, `UNTIL_UPDATE_DATE` means metadata updated until (inclusive) `{date}`, it defaults to today.
 * `FROM_PUB_DATE` means article published since (inclusive) `{date}`, `UNTIL_PUB_DATE` published until (inclusive) `{date}`.
 * `MEMBER` is the CrossRef member_id, which you find by searching the member database, e.g. `http://api.crossref.org/members?query=elife`.
-   If you have ìmport=member` in `.env`, then the rake task will use the CrossRef member_id of all publishers added via the web interface.
+   If you have `import=member` in `.env`, then the rake task will use the CrossRef member_id of all publishers added via the web interface.
    Using `MEMBER` as ENV variable will instead import DOIs for that CrossRef member.
 * `TYPE` is the type of the resource, e.g. `journal-article`, a listing of available types can be found at `http://api.crossref.org/types`.
 * `SAMPLE` returns a random sample of x DOIs and can be combined with the other parameters.
