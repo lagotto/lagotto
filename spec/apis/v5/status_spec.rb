@@ -1,6 +1,7 @@
 require "spec_helper"
 
 describe "/api/v5/status" do
+  subject { Status.new }
 
   context "index" do
     let(:user) { FactoryGirl.create(:admin_user) }
@@ -8,10 +9,15 @@ describe "/api/v5/status" do
 
     context "get response" do
       before(:each) do
-        @articles = FactoryGirl.create_list(:article, 5)
-        @api_responses = FactoryGirl.create_list(:api_response, 10)
-        status = Status.new
-        status.update_cache
+        date = Date.today - 1.day
+        FactoryGirl.create_list(:article_with_events, 5, year: date.year, month: date.month, day: date.day)
+        FactoryGirl.create_list(:alert, 2)
+        FactoryGirl.create(:delayed_job)
+        FactoryGirl.create_list(:api_request, 4)
+        FactoryGirl.create_list(:api_response, 6)
+        body = File.read(fixture_path + 'releases.json')
+        stub_request(:get, "https://api.github.com/repos/articlemetrics/lagotto/releases").to_return(body: body)
+        subject.update_cache
       end
 
       it "JSON" do
