@@ -20,7 +20,11 @@ class Publisher < ActiveRecord::Base
   end
 
   def article_count
-    Rails.cache.read("publisher/#{crossref_id}/article_count/#{update_date}").to_i
+    if ActionController::Base.perform_caching
+      Rails.cache.read("publisher/#{crossref_id}/article_count/#{update_date}").to_i
+    else
+      articles.size
+    end
   end
 
   def article_count=(timestamp)
@@ -29,7 +33,11 @@ class Publisher < ActiveRecord::Base
   end
 
   def article_count_by_source(source_id)
-    Rails.cache.read("publisher/#{crossref_id}/#{source_id}/article_count/#{update_date}").to_i
+    if ActionController::Base.perform_caching
+      Rails.cache.read("publisher/#{crossref_id}/#{source_id}/article_count/#{update_date}").to_i
+    else
+      articles.is_cited_by_source(source_id).size
+    end
   end
 
   def article_count_by_source=(source_id, timestamp)

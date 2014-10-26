@@ -5,7 +5,11 @@ class Status
   RELEASES_URL = "https://api.github.com/repos/articlemetrics/lagotto/releases"
 
   def articles_count
-    Rails.cache.read("status/articles_count/#{update_date}").to_i
+    if ActionController::Base.perform_caching
+      Rails.cache.read("status/articles_count/#{update_date}").to_i
+    else
+      Article.count
+    end
   end
 
   def articles_count=(timestamp)
@@ -13,7 +17,11 @@ class Status
   end
 
   def articles_last30_count
-    Rails.cache.read("status/articles_last30_count/#{update_date}").to_i
+    if ActionController::Base.perform_caching
+      Rails.cache.read("status/articles_last30_count/#{update_date}").to_i
+    else
+      Article.last_x_days(30).count
+    end
   end
 
   def articles_last30_count=(timestamp)
@@ -22,7 +30,12 @@ class Status
   end
 
   def events_count
-    Rails.cache.read("status/events_count/#{update_date}").to_i
+    if ActionController::Base.perform_caching
+      Rails.cache.read("status/events_count/#{update_date}").to_i
+    else
+      RetrievalStatus.joins(:source).where("state > ?", 0)
+        .where("name != ?", "relativemetric").sum(:event_count)
+    end
   end
 
   def events_count=(timestamp)
@@ -32,7 +45,11 @@ class Status
   end
 
   def alerts_last_day_count
-    Rails.cache.read("status/alerts_last_day_count/#{update_date}").to_i
+    if ActionController::Base.perform_caching
+      Rails.cache.read("status/alerts_last_day_count/#{update_date}").to_i
+    else
+      Alert.total_errors(1).count
+    end
   end
 
   def alerts_last_day_count=(timestamp)
@@ -49,7 +66,11 @@ class Status
   end
 
   def delayed_jobs_active_count
-    Rails.cache.read("status/alerts_last_day_count/#{update_date}").to_i
+    if ActionController::Base.perform_caching
+      Rails.cache.read("status/alerts_last_day_count/#{update_date}").to_i
+    else
+      DelayedJob.count
+    end
   end
 
   def delayed_jobs_active_count=(timestamp)
@@ -58,7 +79,11 @@ class Status
   end
 
   def responses_count
-    Rails.cache.read("status/responses_count/#{update_date}").to_i
+    if ActionController::Base.perform_caching
+      Rails.cache.read("status/responses_count/#{update_date}").to_i
+    else
+      ApiResponse.total(1).count
+    end
   end
 
   def responses_count=(timestamp)
@@ -67,7 +92,11 @@ class Status
   end
 
   def requests_count
-    Rails.cache.fetch("status/requests_count/#{update_date}").to_i
+    if ActionController::Base.perform_caching
+      Rails.cache.fetch("status/requests_count/#{update_date}").to_i
+    else
+      ApiRequest.total(1).count
+    end
   end
 
   def requests_count=(timestamp)
@@ -104,7 +133,13 @@ class Status
   end
 
   def current_version
-    Rails.cache.read("status/current_version/#{update_date}") || version
+    if ActionController::Base.perform_caching
+      Rails.cache.read("status/current_version/#{update_date}") || version
+    else
+      result = get_result(RELEASES_URL)
+      result = result.is_a?(Array) ? result.first : {}
+      result.fetch("tag_name", "v.#{version}")[2..-1]
+    end
   end
 
   def current_version=(timestamp)

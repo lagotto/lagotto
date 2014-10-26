@@ -5,7 +5,11 @@ module Countable
 
   included do
     def working_count
-      Rails.cache.read("#{name}/working_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/working_count/#{update_date}").to_i
+      else
+        delayed_jobs.count(:locked_at)
+      end
     end
 
     def working_count=(timestamp)
@@ -14,7 +18,11 @@ module Countable
     end
 
     def pending_count
-      Rails.cache.read("#{name}/pending_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/pending_count/#{update_date}").to_i
+      else
+        delayed_jobs.count(:conditions => ":locked_at IS NULL")
+      end
     end
 
     def pending_count=(timestamp)
@@ -23,7 +31,11 @@ module Countable
     end
 
     def delayed_jobs_count
-      Rails.cache.read("#{name}/delayed_jobs_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/delayed_jobs_count/#{update_date}").to_i
+      else
+        delayed_jobs.count
+      end
     end
 
     def delayed_jobs_count=(timestamp)
@@ -32,12 +44,20 @@ module Countable
     end
 
     def articles_count
-      status_update_date = Rails.cache.read('status:timestamp')
-      Rails.cache.read("status/articles_count/#{status_update_date}").to_i
+      if ActionController::Base.perform_caching
+        status_update_date = Rails.cache.read('status:timestamp')
+        Rails.cache.read("status/articles_count/#{status_update_date}").to_i
+      else
+
+      end
     end
 
     def event_count
-      Rails.cache.read("#{name}/event_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/event_count/#{update_date}").to_i
+      else
+        retrieval_statuses.sum(:event_count)
+      end
     end
 
     def event_count=(timestamp)
@@ -46,7 +66,10 @@ module Countable
     end
 
     def article_count
-      Rails.cache.read("#{name}/article_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/article_count/#{update_date}").to_i
+      else
+      end
     end
 
     def article_count=(timestamp)
@@ -55,7 +78,11 @@ module Countable
     end
 
     def queued_count
-      Rails.cache.read("#{name}/queued_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/queued_count/#{update_date}").to_i
+      else
+        retrieval_statuses.queued.size
+      end
     end
 
     def queued_count=(timestamp)
@@ -64,7 +91,11 @@ module Countable
     end
 
     def stale_count
-      Rails.cache.read("#{name}/stale_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/stale_count/#{update_date}").to_i
+      else
+        retrieval_statuses.stale.size
+      end
     end
 
     def stale_count=(timestamp)
@@ -73,7 +104,11 @@ module Countable
     end
 
     def response_count
-      Rails.cache.read("#{name}/response_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/response_count/#{update_date}").to_i
+      else
+        api_responses.total(1).size
+      end
     end
 
     def response_count=(timestamp)
@@ -82,7 +117,11 @@ module Countable
     end
 
     def average_count
-      Rails.cache.read("#{name}/average_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/average_count/#{update_date}").to_i
+      else
+        api_responses.total(1).average("duration")
+      end
     end
 
     def average_count=(timestamp)
@@ -91,7 +130,11 @@ module Countable
     end
 
     def maximum_count
-      Rails.cache.read("#{name}/maximum_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/maximum_count/#{update_date}").to_i
+      else
+        api_responses.total(1).maximum("duration")
+      end
     end
 
     def maximum_count=(timestamp)
@@ -104,7 +147,11 @@ module Countable
     end
 
     def with_events_by_day_count
-      Rails.cache.read("#{name}/with_events_by_day_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/with_events_by_day_count/#{update_date}").to_i
+      else
+        retrieval_statuses.with_events(1).size
+      end
     end
 
     def with_events_by_day_count=(timestamp)
@@ -113,7 +160,11 @@ module Countable
     end
 
     def without_events_by_day_count
-      Rails.cache.read("#{name}/without_events_by_day_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/without_events_by_day_count/#{update_date}").to_i
+      else
+        retrieval_statuses.without_events(1).size
+      end
     end
 
     def without_events_by_day_count=(timestamp)
@@ -122,7 +173,11 @@ module Countable
     end
 
     def with_events_by_month_count
-      Rails.cache.read("#{name}/with_events_by_month_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/with_events_by_month_count/#{update_date}").to_i
+      else
+        retrieval_statuses.with_events(31).size
+      end
     end
 
     def with_events_by_month_count=(timestamp)
@@ -131,7 +186,11 @@ module Countable
     end
 
     def without_events_by_month_count
-      Rails.cache.read("#{name}/without_events_by_month_count/#{update_date}").to_i
+      if ActionController::Base.perform_caching
+        Rails.cache.read("#{name}/without_events_by_month_count/#{update_date}").to_i
+      else
+        retrieval_statuses.without_events(31).size
+      end
     end
 
     def without_events_by_month_count=(timestamp)
