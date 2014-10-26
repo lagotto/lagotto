@@ -79,6 +79,22 @@ class Status
     Source.active.count
   end
 
+  def sources_working_count
+    Source.working.count
+  end
+
+  def sources_waiting_count
+    Source.waiting.count
+  end
+
+  def sources_disabled_count
+    Source.disabled.count
+  end
+
+  def sources_inactive_count
+    Source.inactive.count
+  end
+
   def version
     Rails.application.config.version
   end

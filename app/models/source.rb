@@ -60,6 +60,9 @@ class Source < ActiveRecord::Base
   scope :retired, where("state = ?", 1).order("group_id, sources.display_name")
   scope :visible, where("state > ?", 1).order("group_id, sources.display_name")
   scope :inactive, where("state = ?", 2).order("group_id, sources.display_name")
+  scope :disabled, where("state = ?", 3).order("group_id, sources.display_name")
+  scope :waiting, where("state = ?", 5).order("group_id, sources.display_name")
+  scope :working, where("state = ?", 6).order("group_id, sources.display_name")
   scope :active, where("state > ?", 2).order("group_id, sources.display_name")
   scope :for_events, where("state > ?", 2).where("name != ?", 'relativemetric').order("group_id, sources.display_name")
   scope :queueable, where("state > ?", 2).where("queueable = ?", true).order("group_id, sources.display_name")
@@ -250,7 +253,7 @@ class Source < ActiveRecord::Base
     config_fields.each do |field|
 
       # Some fields can be blank
-      next if name == "crossref" && [:username, :password].include?(field)
+      next if name == "crossref" && [:username, :password, :openurl_username].include?(field)
       next if name == "pmc" && [:journals, :username, :password].include?(field)
       next if name == "facebook" && [:linkstat_url, :access_token].include?(field)
       next if name == "mendeley" && field == :access_token
