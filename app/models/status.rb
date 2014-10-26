@@ -40,8 +40,12 @@ class Status
                       Alert.total_errors(1).count)
   end
 
-  def workers_count
-    Worker.count
+  def workers
+    Worker.active
+  end
+
+  def workers_active_count
+    Worker.active.length
   end
 
   def delayed_jobs_active_count

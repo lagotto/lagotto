@@ -6,14 +6,14 @@ class Worker
   include Comparable
   include Enumerable
 
-  attr_reader :id, :pid, :state, :memory, :queue, :locked_at, :created_at
+  attr_reader :id, :pid, :state, :memory, :locked_at, :created_at
 
   def self.files
     Dir[Rails.root.join("tmp/pids/delayed_job*pid")]
   end
 
   def self.count
-    files.count
+    active.count
   end
 
   def self.all
@@ -22,6 +22,17 @@ class Worker
 
   def self.find(param)
     all.find { |f| f.id == param } || fail(ActiveRecord::RecordNotFound)
+  end
+
+  def self.active
+    files.reduce([]) do |sum, file|
+      w = Worker.new(file)
+      if w.state.present?
+        sum << w
+      else
+        sum
+      end
+    end
   end
 
   def self.start
@@ -91,7 +102,6 @@ class Worker
     @pid = IO.read(file).strip
     @memory = memory
     @state = state
-    @queue = queue
     @locked_at = locked_at
     @created_at = File.ctime(file).utc
   end

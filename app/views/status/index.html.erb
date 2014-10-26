@@ -86,9 +86,9 @@
   </div>
   <div class="row">
     <div class="col-md-8">
-      <div class="panel <%= @status.workers_count > 0 ? 'panel-default' : 'panel-danger' %>">
+      <div class="panel <%= @status.workers_active_count > 0 ? 'panel-default' : 'panel-danger' %>">
         <div class="panel-heading">Aktive Workers</div>
-        <% if Worker.all.size > 0 %>
+        <% if @status.workers_active_count > 0 %>
           <table class="table">
             <thead>
               <tr>
@@ -100,7 +100,7 @@
               </tr>
             </thead>
             <tbody>
-            <% Worker.all.each do |worker| %>
+            <% @status.workers.each do |worker| %>
               <tr>
                 <td><%= worker.id %></td>
                 <td><%= worker.pid %></td>
