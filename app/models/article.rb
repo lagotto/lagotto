@@ -116,11 +116,11 @@ class Article < ActiveRecord::Base
   end
 
   def self.count_all
-    if Rails.env.test?
-      Article.count
-    else
+    if ActionController::Base.perform_caching
       status_update_date = Rails.cache.read('status:timestamp')
       Rails.cache.read("status/articles_count/#{status_update_date}").to_i
+    else
+      Article.count
     end
   end
 
