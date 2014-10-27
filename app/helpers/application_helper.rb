@@ -102,7 +102,7 @@ module ApplicationHelper
   end
 
   def documents
-    %w(Home Installation Setup Sources API Rake Alerts FAQ Releases Roadmap Contributors)
+    %w(Home Installation Setup Sources API Rake Alerts Releases Roadmap Contributors)
   end
 
   def roles

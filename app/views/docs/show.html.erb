@@ -1,7 +1,9 @@
 <div class="content">
-  <div class="page-header">
-    <h1><%= @doc.title %></h1>
-  </div>
+  <% if @doc.title != "Home" %>
+    <div class="page-header">
+      <h1><%= @doc.title %></h1>
+    </div>
+  <% end %>
 
   <%= render :partial => 'show' %>
 </div>

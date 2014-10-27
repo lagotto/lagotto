@@ -19,7 +19,7 @@ Lagotto 3.6.2 was released on October 10, 2014 with the following features:
 * improved caching of the admin dashboard
 * optimized SQL queries for listing articles
 
-### [Lagotto 3.6](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6)
+## [Lagotto 3.6](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6)
 
 Lagotto 3.6 was released on October 8, 2014 with the following features and bugfixes:
 
@@ -36,7 +36,7 @@ Users upgrading from earlier versions need to make the following changes:
 * Add at least one publisher, and associate at least one user account with this publisher (in the account profile for admin/staff accounts, by an admin for user accounts)
 * Add publisher-specific settings to the `CrossRef` and `PMC` source. Add `Openurl username` to CrossRef if you plan to collect citation counts for articles where you are not the publisher.
 
-### [Lagotto 3.5](https://github.com/articlemetrics/lagotto/releases/tag/v.3.5)
+## [Lagotto 3.5](https://github.com/articlemetrics/lagotto/releases/tag/v.3.5)
 
 With this release the ALM application was renamed to Lagotto and the license changed
 from Apache 2.0 to a MIT license. Lagotto 3.5 was released on September 14, 2014
