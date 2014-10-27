@@ -4,7 +4,7 @@
       <div class="panel panel-source <%= @source.article_count > 0 ? 'panel-default' : 'panel-warning' %>">
         <div class="panel-heading">Events</div>
         <div class="panel-body">
-          <p><%= pluralize(number_with_delimiter(@source.article_count), "article") %> or <%= number_to_percentage(@source.article_count * 100.0/ @source.articles_count, precision: 0) %> with events</p>
+          <p><%= pluralize(number_with_delimiter(@source.article_count), "article") %> or <%= number_to_percentage(@source.relative_article_count, precision: 0) %> with events</p>
           <p><%= pluralize(number_with_delimiter(@source.event_count), "events") %> for these articles</br>&nbsp;</p>
         </div>
       </div>

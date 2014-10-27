@@ -69,12 +69,21 @@ module Countable
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/article_count/#{update_date}").to_i
       else
+        articles.is_cited.size
       end
     end
 
     def article_count=(timestamp)
       Rails.cache.write("#{name}/article_count/#{timestamp}",
                         articles.is_cited.size)
+    end
+
+    def relative_article_count
+      if articles_count > 0
+        article_count * 100.0 / articles_count
+      else
+        0
+      end
     end
 
     def queued_count
@@ -120,7 +129,7 @@ module Countable
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/average_count/#{update_date}").to_i
       else
-        api_responses.total(1).average("duration")
+        api_responses.total(1).average("duration").to_i
       end
     end
 
@@ -133,7 +142,7 @@ module Countable
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/maximum_count/#{update_date}").to_i
       else
-        api_responses.total(1).maximum("duration")
+        api_responses.total(1).maximum("duration").to_i
       end
     end
 
