@@ -7,7 +7,7 @@
         <% Group.order("id").each do |group| %>
           <% group.sources.visible.each_with_index do |source, i| %>
             <%= '<li class="divider"></li>'.html_safe if i == 0 %>
-            <li><%= link_to source.display_name, publisher_path(@publisher, source: source.name) %></li>
+            <li><%= link_to "Filter by #{source.display_name}", publisher_path(@publisher, source: source.name) %></li>
           <% end %>
         <% end %>
       </ul>
