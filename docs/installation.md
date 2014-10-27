@@ -34,7 +34,7 @@ Starting with the Lagotto 3.7 release all user-specific configuration options fo
 # Example configuration settings for this application
 
 # database settings
-DB_NAME=lagotto_development
+DB_NAME=lagotto
 DB_USERNAME=vagrant
 DB_PASSWORD=
 DB_HOST=localhost

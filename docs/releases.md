@@ -3,6 +3,95 @@ layout: page
 title: "Releases"
 ---
 
+## [Lagotto 3.7](https://github.com/articlemetrics/lagotto/releases/tag/v.3.7)
+
+Lagotto 3.7 was released on October 27, 2014 with the following features and bug fixes:
+
+* simplified configuration: use ENV variables and consolidate configuration for Rails, Capistrano, Chef and Vagrant into a single `.env` file. See below for more information ([#146](https://github.com/articlemetrics/lagotto/issues/146))
+* raise alert on the admin status page if not running the latest Lagotto version. This feature checks for the [latest release in the Lagotto Github repo](https://github.com/articlemetrics/lagotto/releases) using pessimistic version constraints, e.g. `"~> 3.6.3"` ([#155](https://github.com/articlemetrics/lagotto/issues/155))
+* facelift of the admin panel layout ([#156](https://github.com/articlemetrics/lagotto/issues/156))
+* adapted to changes in the Facebook API ([#90](https://github.com/articlemetrics/lagotto/issues/90)). Lagotto now automatically
+  fetches the authentication token from a given `app_key` and `app_secret`. Since the release of the v2.1 API in August 2014 the **link_stat** API endpoint is depreciated. New user accounts have to use the v2.1 API and only get the total count of Facebook activity, whereas users will older API keys can still use the **link_stat** API and get the number of shares, comments and likes in addition to the total count by adding the following `link_stat URL` in the Facebook configuration:
+
+```sh
+https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'
+```
+
+* don't cache in Rails development mode ([#157](https://github.com/articlemetrics/lagotto/issues/157))
+* many small bug fixes ([#147](https://github.com/articlemetrics/lagotto/issues/147), [#148](https://github.com/articlemetrics/lagotto/issues/148), [#149](https://github.com/articlemetrics/lagotto/issues/149), [#150](https://github.com/articlemetrics/lagotto/issues/150), [#151](https://github.com/articlemetrics/lagotto/issues/151), [#152](https://github.com/articlemetrics/lagotto/issues/152), [#153](https://github.com/articlemetrics/lagotto/issues/153), [#154](https://github.com/articlemetrics/lagotto/issues/154))
+
+Starting with the Lagotto 3.7 release all user-specific configuration options for Rails, as well as for the server configuration and deployment tools Vagrant, Chef and Capistrano are environment variables, and can be stored in a single `.env` file. An example file is provided (`.env.example`) and can be used without modifications for a development server. More information regarding ENV variables and `.env` is available [here](https://github.com/bkeepers/dotenv). The following configuration options need to be set:
+
+```sh
+# Example configuration settings for this application
+
+# database settings
+DB_NAME=lagotto
+DB_USERNAME=vagrant
+DB_PASSWORD=
+DB_HOST=localhost
+
+# internal name of server
+HOSTNAME=lagotto.local
+
+# public name of server
+# can be HOSTNAME, or different if load balancer is used
+SERVERNAME=lagotto.local
+
+# all instances of server used behind load balancer
+# can be HOSTNAME, or comma-delimited string of HOSTNAME
+SERVERS=lagotto.local
+
+# name used on navigation bar and in email subject line
+SITENAME=ALM
+
+# couch_db database
+COUCHDB_URL=http://localhost:5984/lagotto
+
+# email address for sending emails
+ADMIN_EMAIL=admin@example.com
+
+# number of background workers
+WORKERS=3
+
+# automatic import via CrossRef API.
+# Use 'all', 'member', 'sample', 'member_sample', or leave empty
+IMPORT=
+
+# persistent identifier used
+UID=doi
+
+# keys
+# run `rake secret` to generate these keys
+API_KEY=8897f9349100728d66d64d56bc21254bb346a9ed21954933
+SECRET_TOKEN=c436de247c988eb5d0908407e700098fc3992040629bb8f98223cd221e94ee4d15626aae5d815f153f3dbbce2724ccb8569c4e26a0f6f663375f6f2697f1f3cf
+
+# mail settings
+MAIL_ADDRESS=localhost
+MAIL_PORT=25
+MAIL_DOMAIN=localhost
+
+# vagrant settings
+PRIVATE_IP=10.2.2.4
+
+AWS_KEY=
+AWS_SECRET=
+AWS_KEYNAME=
+AWS_KEYPATH=
+
+DO_PROVIDER_TOKEN=
+DO_SIZE=1GB
+SSH_PRIVATE_KEY='~/.ssh/id_rsa'
+
+# user and group who own application repository
+DEPLOY_USER=vagrant
+DEPLOY_GROUP=vagrant
+
+# mysql server root password for chef
+DB_SERVER_ROOT_PASSWORD=EZ$zspyxF2
+```
+
+
 ### [Lagotto 3.6.3](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6.3)
 
 Lagotto 3.6.3 was released on October 12, 2014 with the following features:

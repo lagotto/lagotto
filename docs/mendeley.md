@@ -48,7 +48,7 @@ Mendeley uses OAuth2 authentification, we automatically obtain the access token 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>Authentication</strong></td>
-<td valign="top" width=80%>OAuth 1.0</td>
+<td valign="top" width=80%>OAuth 2.0</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>Restriction by IP Address</strong></td>
@@ -56,7 +56,7 @@ Mendeley uses OAuth2 authentification, we automatically obtain the access token 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>http://api.mendeley.com/oapi/documents/details/DOI/?type=doi&consumer_key=API_KEY</td>
+<td valign="top" width=80%>https://api-oauth2.mendeley.com/oapi/documents/details/DOI/?type=doi&consumer_key=API_KEY</td>
 </tr>
 </tbody>
 </table>
