@@ -8,7 +8,7 @@
     <div class="panel <%= @status.articles_count > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">Articles</div>
       <div class="panel-body text-center">
-        <h2 id="articles_count"><%= number_with_delimiter(@status.articles_count) %></h2>
+        <h2 id="articles_count"><%= link_to_if @status.articles_count > 0, number_with_delimiter(@status.articles_count), articles_path %></h2>
       </div>
     </div>
   </div>
@@ -16,7 +16,7 @@
     <div class="panel <%= @status.articles_last30_count > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">Articles <small class="pull-right">last 30 days</small></div>
       <div class="panel-body text-center">
-        <h2 id="articles_last30_count"><%= number_with_delimiter(@status.articles_last30_count) %></h2>
+        <h2 id="articles_last30_count"><%= link_to_if @status.articles_last30_count > 0, number_with_delimiter(@status.articles_last30_count), articles_path %></h2>
       </div>
     </div>
   </div>
@@ -24,7 +24,7 @@
     <div class="panel <%= @status.events_count > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">Events</div>
       <div class="panel-body text-center">
-        <h2 id="events_count"><%= number_with_delimiter(@status.events_count) %></h2>
+        <h2 id="events_count"><%= link_to_if @status.events_count > 0, number_with_delimiter(@status.events_count), sources_path %></h2>
       </div>
     </div>
   </div>
@@ -35,7 +35,7 @@
     <div class="panel <%= @status.responses_count > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">API responses <small class="pull-right">last 24 hours</small></div>
       <div class="panel-body text-center">
-        <h2 id="responses_count"><%= number_with_delimiter(@status.responses_count) %></h2>
+        <h2 id="responses_count"><%= link_to_if @status.responses_count > 0, number_with_delimiter(@status.responses_count), sources_path %></h2>
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
     <div class="panel <%= @status.requests_count > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">API requests <small class="pull-right">last 24 hours</small></div>
       <div class="panel-body text-center">
-        <h2 id="requests_count"><%= number_with_delimiter(@status.requests_count) %></h2>
+        <h2 id="requests_count"><%= link_to_if @status.requests_count > 0 && can?(:read, Alert), number_with_delimiter(@status.requests_count), api_requests_path %></h2>
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@
       <div class="panel <%= @status.alerts_last_day_count > 0 ? 'panel-default' : 'panel-success' %>">
         <div class="panel-heading">Open alerts <small class="pull-right">last 24 hours</small></div>
         <div class="panel-body text-center">
-          <h2 id="alerts_last_day_count"><%= number_with_delimiter(@status.alerts_last_day_count) %></h2>
+          <h2 id="alerts_last_day_count"><%= link_to_if @status.alerts_last_day_count > 0, number_with_delimiter(@status.alerts_last_day_count), alerts_path %></h2>
         </div>
       </div>
     </div>
@@ -71,7 +71,7 @@
       <div class="panel <%= @status.users_count > 0 ? 'panel-default' : 'panel-warning' %>">
         <div class="panel-heading">Users</div>
         <div class="panel-body text-center">
-          <h2 id="users_count"><%= number_with_delimiter(@status.users_count) %></h2>
+          <h2 id="users_count"><%= link_to number_with_delimiter(@status.users_count), users_path %></h2>
         </div>
       </div>
     </div>
@@ -122,7 +122,7 @@
       <div class="panel <%= @status.delayed_jobs_active_count > 0 ? 'panel-default' : 'panel-warning' %>">
         <div class="panel-heading">Pending and working jobs</div>
         <div class="panel-body text-center">
-          <h2 id="delayed_jobs_active_count"><%= number_with_delimiter(@status.delayed_jobs_active_count) %></h2>
+          <h2 id="delayed_jobs_active_count"><%= link_to_if @status.delayed_jobs_active_count > 0, number_with_delimiter(@status.delayed_jobs_active_count), sources_path %></h2>
         </div>
       </div>
       <div class="panel <%= @status.sources_disabled_count > 0 ? 'panel-warning' : 'panel-default' %>">
