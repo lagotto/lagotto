@@ -33,6 +33,8 @@ Starting with the Lagotto 3.7 release all user-specific configuration options fo
 ```sh
 # Example configuration settings for this application
 
+APPLICATION=lagotto
+
 # database settings
 DB_NAME=lagotto
 DB_USERNAME=vagrant

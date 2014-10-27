@@ -25,6 +25,8 @@ Starting with the Lagotto 3.7 release all user-specific configuration options fo
 ```sh
 # Example configuration settings for this application
 
+APPLICATION=lagotto
+
 # database settings
 DB_NAME=lagotto
 DB_USERNAME=vagrant
@@ -90,7 +92,6 @@ DEPLOY_GROUP=vagrant
 # mysql server root password for chef
 DB_SERVER_ROOT_PASSWORD=EZ$zspyxF2
 ```
-
 
 ### [Lagotto 3.6.3](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6.3)
 

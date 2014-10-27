@@ -24,14 +24,14 @@ rescue ArgumentError
   exit
 end
 
-set :application, 'lagotto'
+set :application, ENV["APPLICATION"]
 set :repo_url, 'https://github.com/articlemetrics/lagotto.git'
 
 # Default branch is :master
 set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/var/www/lagotto'
+# set :deploy_to, '/var/www/lagotto'
 
 # Default value for :scm is :git
 # set :scm, :git
