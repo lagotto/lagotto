@@ -191,9 +191,6 @@
 }
 
 .reset {
-  padding-left: 1em;
-  font-size: 13px;
-  font-weigth: normal;
   color: $bar-color-1;
 }
 
@@ -230,8 +227,8 @@
 #request-list .day { margin-bottom: .4em; }
 #request-list .request {
   line-height: 27px;
-  background: $gray-light;
   margin-bottom: 2px;
+  padding-left: 15px;
 }
 
 #request-list .request div {
@@ -272,4 +269,4 @@
   color: $brand-warning;
 }
 
-#totals {font-size: smaller; }
+#count { padding-bottom: 1em; margin-bottom: 1em; }
