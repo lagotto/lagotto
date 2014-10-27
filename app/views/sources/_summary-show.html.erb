@@ -1,16 +1,7 @@
 <div class="content">
   <div class="row">
     <div class="col-md-4">
-      <div class="panel panel-source <%= @source.article_count > 0 ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">Events</div>
-        <div class="panel-body">
-          <p><%= pluralize(number_with_delimiter(@source.article_count), "article") %> or <%= number_to_percentage(@source.relative_article_count, precision: 0) %> with events</p>
-          <p><%= pluralize(number_with_delimiter(@source.event_count), "events") %> for these articles</br>&nbsp;</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="panel panel-source panel-default">
+      <div class="panel panel-source <%= @source.human_state_name == 'working' ? 'panel-success' : 'panel-default' %>">
         <div class="panel-heading">Jobs</div>
         <div class="panel-body">
           <p><%= @source.pending_count %> pending, <%= @source.working_count %> working</p>
@@ -23,9 +14,18 @@
         <div class="panel-heading">Responses <small class="pull-right">last 24 hours</small></div>
         <div class="panel-body">
           <p><%= pluralize(number_with_delimiter(@source.response_count), "response") %> with
-          <%= link_to_if(@source.error_count > 0, pluralize(number_with_delimiter(@source.error_count), "error"), alerts_path(:source => @source.name)) %></p>
+          <%= link_to_if(@source.error_count > 0 && can?(:manage, @source), pluralize(number_with_delimiter(@source.error_count), "error"), alerts_path(:source => @source.name)) %></p>
           <p>Average <%= number_with_delimiter(@source.average_count) %> ms</br>
           Maximum <%= number_with_delimiter(@source.maximum_count) %> ms</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-source <%= @source.article_count > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">Events</div>
+        <div class="panel-body">
+          <p><%= pluralize(number_with_delimiter(@source.article_count), "article") %> or <%= number_to_percentage(@source.relative_article_count, precision: 0) %> with events</p>
+          <p><%= pluralize(number_with_delimiter(@source.event_count), "events") %> for these articles</br>&nbsp;</p>
         </div>
       </div>
     </div>

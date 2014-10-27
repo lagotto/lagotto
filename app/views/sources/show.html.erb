@@ -29,7 +29,7 @@
         <%= render :partial => 'configuration' %>
       </div>
     <% end %>
-     <% if @publisher_option && can?(:update, @source) && @source.state > 0 %>
+    <% if @publisher_option && can?(:update, @source) && @source.state > 0 %>
       <div class="tab-pane" id="publisher_options">
         <%= render :partial => 'publisher_options/configuration' %>
       </div>

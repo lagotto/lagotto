@@ -13,6 +13,14 @@
     </div>
   </div>
   <div class="col-md-4">
+    <div class="panel <%= @status.articles_last30_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">Articles <small class="pull-right">last 30 days</small></div>
+      <div class="panel-body text-center">
+        <h2 id="articles_last30_count"><%= number_with_delimiter(@status.articles_last30_count) %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
     <div class="panel <%= @status.events_count > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">Events</div>
       <div class="panel-body text-center">
@@ -20,22 +28,14 @@
       </div>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="panel <%= @status.outdated_version? ? 'panel-warning' : 'panel-default' %>">
-      <div class="panel-heading">Lagotto version</div>
-      <div class="panel-body text-center">
-        <h2 id="version"><%= @status.version %></h2>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="row">
   <div class="col-md-4">
-    <div class="panel <%= @status.articles_last30_count > 0 ? 'panel-default' : 'panel-warning' %>">
-      <div class="panel-heading">Articles <small class="pull-right">last 30 days</small></div>
+    <div class="panel <%= @status.responses_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">API responses <small class="pull-right">last 24 hours</small></div>
       <div class="panel-body text-center">
-        <h2 id="articles_last30_count"><%= number_with_delimiter(@status.articles_last30_count) %></h2>
+        <h2 id="responses_count"><%= number_with_delimiter(@status.responses_count) %></h2>
       </div>
     </div>
   </div>
@@ -48,10 +48,10 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="panel <%= @status.responses_count > 0 ? 'panel-default' : 'panel-warning' %>">
-      <div class="panel-heading">API responses <small class="pull-right">last 24 hours</small></div>
+    <div class="panel <%= @status.outdated_version? ? 'panel-warning' : 'panel-default' %>">
+      <div class="panel-heading">Lagotto version</div>
       <div class="panel-body text-center">
-        <h2 id="responses_count"><%= number_with_delimiter(@status.responses_count) %></h2>
+        <h2 id="version"><%= @status.version %></h2>
       </div>
     </div>
   </div>
@@ -76,7 +76,7 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="panel panel-default">
+      <div class="panel <%= @status.couchdb_size > 0 ? 'panel-default' : 'panel-warning' %>">
         <div class="panel-heading">CouchDB database size</div>
         <div class="panel-body text-center">
           <h2 id="couchdb_size"><%= number_to_human_size(@status.couchdb_size) %></h2>
@@ -86,7 +86,7 @@
   </div>
   <div class="row">
     <div class="col-md-8">
-      <div class="panel <%= @status.workers_count > 0 ? 'panel-default' : 'panel-danger' %>">
+      <div class="panel <%= @status.workers_count > 0 ? 'panel-default' : 'panel-warning' %>">
         <div class="panel-heading">Workers</div>
         <% if @status.workers_count > 0 %>
           <table class="table">
