@@ -9,12 +9,10 @@
       <li><a href="#jobs" data-toggle="tab" title="Jobs">Jobs</a></li>
       <li><a href="#responses" data-toggle="tab" title="Responses">Responses</a></li>
     <% end %>
-    <li><a href="#articles" data-toggle="tab" title="Articles">Articles</a></li>
     <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
     <% if can?(:read, Alert) %>
       <li><a href="#installation" data-toggle="tab" title="Installation">Installation</a></li>
     <% end %>
-    <li><a href="#documentation" data-toggle="tab" title="documentation">Documentation</a></li>
   </ul>
 
   <div class="tab-content">
@@ -29,9 +27,6 @@
         <%= render :partial => 'responses' %>
       </div>
     <% end %>
-    <div class="tab-pane" id="articles">
-      <%= render :partial => 'articles' %>
-    </div>
     <div class="tab-pane" id="events">
       <%= render :partial => 'events' %>
     </div>
@@ -40,8 +35,5 @@
         <%= render :partial => 'installation' %>
       </div>
     <% end %>
-    <div class="tab-pane" id="documentation">
-      <%= render :partial => 'docs/show' %>
-    </div>
   </div>
 </div>

@@ -1,6 +1,13 @@
 <% if Article.first && Source.visible.any? %>
   <div class="panel panel-default">
-    <div class="panel-heading panel-title">Events <small class="pull-right">Total number of events per source, logarithmic scale</small></div>
+    <div class="panel-heading panel-title">Articles with events<small class="pull-right">linear scale</small></div>
+    <div class="panel-body" id="articles-body">
+      <div class="text-muted" id="articles-loading">Loading … <%= image_tag "spinner.gif" %></div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading panel-title">Total number of events <small class="pull-right">logarithmic scale</small></div>
     <div class="panel-body" id="events-body">
       <div class="text-muted" id="events-loading">Loading … <%= image_tag "spinner.gif" %></div>
     </div>
@@ -8,3 +15,5 @@
 <% else %>
   <div class="alert alert-info">No events found</div>
 <% end %>
+
+<%= javascript_include_tag 'sources/index' %>
