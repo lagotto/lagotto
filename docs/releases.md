@@ -5,7 +5,7 @@ title: "Releases"
 
 ## [Lagotto 3.7](https://github.com/articlemetrics/lagotto/releases/tag/v.3.7)
 
-Lagotto 3.7 was released on October 27, 2014 with the following features and bug fixes:
+Lagotto 3.7 was released on October 28, 2014 with the following features and bug fixes:
 
 * simplified configuration: use ENV variables and consolidate configuration for Rails, Capistrano, Chef and Vagrant into a single `.env` file. See below for more information ([#146](https://github.com/articlemetrics/lagotto/issues/146))
 * raise alert on the admin status page if not running the latest Lagotto version. This feature checks for the [latest release in the Lagotto Github repo](https://github.com/articlemetrics/lagotto/releases) using pessimistic version constraints, e.g. `"~> 3.6.3"` ([#155](https://github.com/articlemetrics/lagotto/issues/155))
