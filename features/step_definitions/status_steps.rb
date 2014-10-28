@@ -6,6 +6,8 @@ Given /^that we have added (\d+) documents to CouchDB$/ do |number|
 end
 
 Given /^we have refreshed the status cache$/ do
+  stub_request(:get, "https://api.github.com/repos/articlemetrics/lagotto/releases").
+    to_return(:status => 200, :body => "", :headers => {})
   Status.new.update_cache
 end
 

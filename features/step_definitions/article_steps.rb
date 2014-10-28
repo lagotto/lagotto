@@ -108,6 +108,11 @@ When /^click on the "(.*?)" tab$/ do |name|
   click_link name
 end
 
+When /^click on the "(.*?)" button$/ do |name|
+  page.driver.render("tmp/capybara/#{name}")
+  click_link name
+end
+
 ### THEN ###
 Then /^I should see the article$/ do
   page.should have_content @article.title
