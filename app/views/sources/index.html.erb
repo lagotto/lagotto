@@ -3,7 +3,7 @@
     <h1 id="api_key" data-api_key="<%= ENV['API_KEY'] %>">Sources</h1>
   </div>
 
-  <ul class="nav nav-tabs" id="nav_index">
+  <ul class="nav nav-pills" id="nav_index">
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
     <% if can?(:read, Alert) %>
       <li><a href="#jobs" data-toggle="tab" title="Jobs">Jobs</a></li>

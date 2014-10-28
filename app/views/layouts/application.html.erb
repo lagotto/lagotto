@@ -66,19 +66,8 @@
             <%= controller.controller_name == "publishers" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Publishers", publishers_path %></li>
           <% end %>
           <% if can?(:read, Alert) %>
+            <%= controller.controller_name == "users" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Users", users_path %></li>
             <%= controller.controller_name == "alerts" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Alerts", alerts_path %></li>
-            <%= ["users","api_requests", "filters"].include?(controller.controller_name) ? '<li class="dropdown active">'.html_safe : '<li class="dropdown">'.html_safe %>
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><%= link_to "Users", users_path %></li>
-                <li class="divider"></li>
-                <li><%= link_to "Local API Requests", api_requests_path(key: "local") %></li>
-                <li><%= link_to "External API Requests", api_requests_path(key: "external") %></li>
-                <li><%= link_to "Other API Requests", api_requests_path %></li>
-                <li class="divider"></li>
-                <li><%= link_to "Filters", filters_path %></li>
-              </ul>
-            </li>
           <% end %>
           <%= controller.controller_name == "docs" ? '<li class="dropdown active">'.html_safe : '<li class="dropdown">'.html_safe %>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <span class="caret"></span></a>

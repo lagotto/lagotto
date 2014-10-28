@@ -1,4 +1,9 @@
 <div class="page-header">
+  <div class="btn-toolbar pull-right">
+    <div class="btn-group btn-group-sm">
+      <%= link_to '<span class="glyphicon glyphicon-wrench"> Filters</span>'.html_safe, filters_path, { :id => "edit_alert", :class => 'btn btn-default' } %>
+    </div>
+  </div>
   <h1 class="pull-left">
     <%= pluralize(@alerts.count, 'Alert') %>
   </h1>
