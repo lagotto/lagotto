@@ -93,6 +93,8 @@ DEPLOY_GROUP=vagrant
 DB_SERVER_ROOT_PASSWORD=EZ$zspyxF2
 ```
 
+The Mendeley configuration variable `secret` has been renamed to `client_secret` to be more consistent with other OAuth2 applications, please update your configuration.
+
 ### [Lagotto 3.6.3](https://github.com/articlemetrics/lagotto/releases/tag/v.3.6.3)
 
 Lagotto 3.6.3 was released on October 12, 2014 with the following features:
