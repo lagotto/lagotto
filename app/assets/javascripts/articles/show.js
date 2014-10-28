@@ -29,7 +29,7 @@ function eventViz(data) {
     d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
-      .text("No events found");
+      .text("No formatted events found");
     return;
   }
 
