@@ -34,8 +34,8 @@ module ApplicationHelper
     when "working" then '<span class="label label-success">working</span>'
     when "inactive" then '<span class="label label-info">inactive</span>'
     when "disabled" then '<span class="label label-warning">disabled</span>'
-    when "available" then '<span class="label label-primary">available</span>'
-    when "retired" then '<span class="label label-default">retired</span>'
+    when "available" then '<span class="label label-default">available</span>'
+    when "retired" then '<span class="label label-primary">retired</span>'
     else state
     end
   end
