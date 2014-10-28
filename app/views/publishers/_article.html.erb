@@ -1,5 +1,5 @@
-<div class="publisher">&nbsp;
-  <div class="btn-toolbar btn-sm pull-right">
+<div class="article">&nbsp;
+  <div class="btn-toolbar pull-left">
     <div class="btn-group btn-group-sm" id="article-source">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @source.nil? ? "All Sources" : h(@source.display_name) %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
@@ -12,6 +12,8 @@
         <% end %>
       </ul>
     </div>
+  </div>
+  <div class="btn-toolbar pull-right">
     <div class="btn-group btn-group-sm" id="publisher-order">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @order.nil? ? "Sort by Date" : "Sort by #{@order.display_name}" %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
@@ -32,8 +34,8 @@
   </div>
 </div>
 
-<div class="content" id="content">
-  <div class="text-muted" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
+<div id="content">
+  <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
 </div>
 
 <%= javascript_include_tag 'articles/index' %>

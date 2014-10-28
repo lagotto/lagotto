@@ -1,31 +1,30 @@
 <% if can?(:manage, Article) and (controller.action_name == "new" or (controller.action_name == "create" and !@article.errors.empty?)) %>
+  <div class="panel panel-default">
+    <div class="panel-heading panel-title">New Article</div>
+    <div class="panel-body">
+      <%= simple_form_for @article, :url => articles_path, :html => { :remote => true } do |f| %>
+        <%= f.input :title, :input_html => { :rows => 2 } %>
+        <%= f.input :doi, :label => 'DOI' %>
+        <%= f.input :pmid, :label => 'PubMed ID' %>
+        <%= f.input :pmcid, :label => 'PubMed Central ID' %>
+        <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
+        <%= f.input :canonical_url, :label => 'Canonical URL' %>
+        <% if publishers.length > 1 %>
+          <%= f.association :publisher %>
+        <% end %>
+        <%= f.input :published_on, label: "Publication Date" do %>
+          <%= f.input_field :day, as: :day %>
+          <%= f.input_field :month, as: :month %>
+          <%= f.input_field :year, as: :year %>
+        <% end %>
 
-  <%= simple_form_for @article, :url => articles_path, :html => { :remote => true } do |f| %>
-    <fieldset>
-      <legend>New Article</legend>
-
-      <%= f.input :title, :input_html => { :rows => 2 } %>
-      <%= f.input :doi, :label => 'DOI' %>
-      <%= f.input :pmid, :label => 'PubMed ID' %>
-      <%= f.input :pmcid, :label => 'PubMed Central ID' %>
-      <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
-      <%= f.input :canonical_url, :label => 'Canonical URL' %>
-      <% if publishers.length > 1 %>
-        <%= f.association :publisher %>
+        <div class="form-group">
+          <%= f.submit "Save ", class: "btn btn-default" %>
+          <%= link_to 'Cancel', articles_path, { :remote => true, :class => 'btn' } %>
+        </div>
       <% end %>
-      <%= f.input :published_on, label: "Publication Date" do %>
-        <%= f.input_field :day, as: :day %>
-        <%= f.input_field :month, as: :month %>
-        <%= f.input_field :year, as: :year %>
-      <% end %>
-
-      <div class="form-group">
-        <%= f.submit "Save ", class: "btn btn-default" %>
-        <%= link_to 'Cancel', articles_path, { :remote => true, :class => 'btn' } %>
-      </div>
-    </fieldset>
-  <% end %>
-
+    </div>
+  </div>
 <% else %>
   <div class="page-header">
     <div class="btn-toolbar pull-right">
@@ -34,6 +33,28 @@
           <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_article_path, { :remote => true, :id => "new_article", :class => 'btn btn-default' } %>
         </div>
       <% end %>
+    </div>
+    <h1 id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher.present? ? @publisher.crossref_id : nil %>" data-source="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">Articles
+    <% unless params[:q].blank? %>
+      <small>with <em><%= params[:q] %></em> in the DOI</small>
+    <% end %>
+    </h1>
+  </div>
+
+  <div class="search text-center">
+    <%= form_tag(articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
+       <div class="form-group">
+        <%= search_field_tag :q, params[:q], :placeholder => "Search by DOI", :class => "form-control" %>
+      </div>
+      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+      <% unless params[:q].blank? %>
+        <%= link_to "clear", articles_path, :class => "btn" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="article">&nbsp;
+    <div class="btn-toolbar pull-left">
       <% if can?(:read, Alert) %>
         <div class="btn-group btn-group-sm" id="article-alerts">
           <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Articles" : h(@class_name) %> <span class="caret"></span></a>
@@ -72,6 +93,8 @@
           <% end %>
         </ul>
       </div>
+    </div>
+    <div class="btn-toolbar pull-right">
       <div class="btn-group btn-group-sm" id="article-order">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @order.nil? ? "Sort by Date" : "Sort by #{@order.display_name}" %> <span class="caret"></span></a>
         <ul class="dropdown-menu pull-right">
@@ -90,27 +113,10 @@
         </ul>
       </div>
     </div>
-     <h1 id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher.present? ? @publisher.crossref_id : nil %>" data-source="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">Articles
-    <% unless params[:q].blank? %>
-      <small>with <em><%= params[:q] %></em> in the DOI</small>
-    <% end %>
-    </h1>
   </div>
 
-  <div class="search text-center">
-    <%= form_tag(articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
-       <div class="form-group">
-        <%= search_field_tag :q, params[:q], :placeholder => "Search by DOI", :class => "form-control" %>
-      </div>
-      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-      <% unless params[:q].blank? %>
-        <%= link_to "clear", articles_path, :class => "btn" %>
-      <% end %>
-    <% end %>
-  </div>
-
-  <div class="content" id="content">
-    <div class="text-muted" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
+  <div id="content">
+    <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
   </div>
 
   <%= javascript_include_tag 'articles/index' %>
