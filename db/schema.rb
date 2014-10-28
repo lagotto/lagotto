@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141011165435) do
+ActiveRecord::Schema.define(:version => 20141028115912) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20141011165435) do
     t.string   "hostname"
   end
 
+  add_index "alerts", ["article_id", "created_at"], :name => "index_alerts_on_article_id_and_created_at"
   add_index "alerts", ["class_name"], :name => "index_alerts_on_class_name"
   add_index "alerts", ["created_at"], :name => "index_alerts_on_created_at"
   add_index "alerts", ["level", "created_at"], :name => "index_alerts_on_level_and_created_at"
