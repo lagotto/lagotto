@@ -138,7 +138,7 @@
             <% if @status.sources_disabled_count > 0 %>
               <span class="label label-warning"><%= @status.sources_disabled_count %> disabled</span>
             <% end %>
-            <% if @status.sources_waiting_count > 0 %>
+            <% if @status.sources_inactive_count > 0 %>
               <span class="label label-info"><%= @status.sources_inactive_count %> inactive</span>
             <% end %>
           </p>
