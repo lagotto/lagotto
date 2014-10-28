@@ -54,8 +54,8 @@ class Publisher < ActiveRecord::Base
   end
 
   def update_cache
-    DelayedJob.delete_all(queue: "publisher-cache")
-    delay(priority: 1, queue: "publisher-cache").write_cache
+    DelayedJob.delete_all(queue: "publisher-#{crossref_id}-cache")
+    delay(priority: 1, queue: "publisher-#{crossref_id}-cache").write_cache
   end
 
   def write_cache
