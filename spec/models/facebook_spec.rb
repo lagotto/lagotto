@@ -6,7 +6,7 @@ describe Facebook do
   context "lookup access token" do
     it "should make the right API call" do
       subject.access_token = nil
-      stub = stub_request(:get, subject.authentication_url).to_return(:body => File.read(fixture_path + 'facebook_auth.txt'))
+      stub = stub_request(:get, subject.get_authentication_url).to_return(:body => File.read(fixture_path + 'facebook_auth.txt'))
       subject.get_access_token.should be_true
       stub.should have_been_requested
       subject.access_token.should eq("778123482473896|xQ0RGAHG6k8VUZrliyHgIIkwZYM")
@@ -15,7 +15,7 @@ describe Facebook do
     it "should look up access token if blank" do
       subject.access_token = nil
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
-      stub_auth = stub_request(:get, subject.authentication_url).to_return(:body => File.read(fixture_path + 'facebook_auth.txt'))
+      stub_auth = stub_request(:get, subject.get_authentication_url).to_return(:body => File.read(fixture_path + 'facebook_auth.txt'))
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
 
       response = subject.get_data(article, source_id: subject.id)

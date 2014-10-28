@@ -12,6 +12,10 @@ class Facebook < Source
     end
   end
 
+  def request_options
+    { bearer: access_token }
+  end
+
   def parse_data(result, article, options={})
     return result if result[:error]
 
@@ -52,15 +56,11 @@ class Facebook < Source
     return true if access_token.present?
 
     # Otherwise get new access token
-    result = get_result(authentication_url, options.merge(
-      content_type: 'html',
-      client_id: app_id,
-      client_secret: app_secret,
-      grant_type: "client_credentials",
-      source_id: id))
+    result = get_result(get_authentication_url, options.merge(source_id: id))
 
-    if result
+    if result && result.is_a?(String)
       # response is in format "access_token=12345"
+      # or a hash if an error occured
       config.access_token = result.rstrip[13..-1]
       save
     else
@@ -68,12 +68,16 @@ class Facebook < Source
     end
   end
 
+  def get_authentication_url
+    authentication_url % { client_id: client_id, client_secret: client_secret }
+  end
+
   def config_fields
-    [:url, :linkstat_url, :authentication_url, :app_id, :app_secret, :access_token, :count_limit]
+    [:url, :linkstat_url, :authentication_url, :client_id, :client_secret, :access_token, :count_limit]
   end
 
   def authentication_url
-    config.authentication_url || "https://graph.facebook.com/oauth/access_token?"
+    config.authentication_url || "https://graph.facebook.com/oauth/access_token?client_id=%{client_id}&client_secret=%{client_secret}&grant_type=client_credentials"
   end
 
   def url

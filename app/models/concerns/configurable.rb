@@ -80,28 +80,12 @@ module Configurable
       config.client_id = value
     end
 
-    def secret
-      config.secret
+    def client_secret
+      config.client_secret
     end
 
-    def secret=(value)
-      config.secret = value
-    end
-
-    def app_id
-      config.app_key
-    end
-
-    def app_id=(value)
-      config.app_id = value
-    end
-
-    def app_secret
-      config.app_secret
-    end
-
-    def app_secret=(value)
-      config.app_secret = value
+    def client_secret=(value)
+      config.client_secret = value
     end
 
     def expires_at
@@ -127,6 +111,14 @@ module Configurable
     def db_url=(value)
       # make sure we have trailing slash
       config.db_url = value ? value.chomp("/") + "/" : nil
+    end
+
+    def authentication_url
+      config.authentication_url
+    end
+
+    def authentication_url=(value)
+      config.authentication_url = value
     end
 
     def journals

@@ -5,7 +5,11 @@ title: "Facebook"
 
 Facebook is the largest social network.
 
-An **app_key** and **app_secret** are required for OAuth authentication and can be obtained from the Facebook [App Dashboard](https://developers.facebook.com/apps).
+An **app_id** and **app_secret** are required for OAuth authentication and can be obtained from the Facebook [App Dashboard](https://developers.facebook.com/apps). Lagotto uses the following URL to get the access_token:
+
+```sh
+https://graph.facebook.com/oauth/access_token?client_id=%{client_id}&client_secret=%{client_secret}&grant_type=client_credentials
+```
 
 Since January 2013 Facebook aggregates the stats from DOIs (e.g. http://dx.doi.org/10.1371/journal.pone.0035869) with those from the journal landing page (e.g. http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0035869), so that multiple API calls per article are no longer necessary.
 
@@ -19,8 +23,8 @@ https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_
 
 ## Required configuration fields
 
-* **app_key**: can be obtained by registering your application in the Facebook [App Dashboard](https://developers.facebook.com/apps)
-* **app_secret**: see above
+* **client_id (app_id)**: can be obtained by registering your application in the Facebook [App Dashboard](https://developers.facebook.com/apps).
+* **client_secret (app_secret)**: see above
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
@@ -53,7 +57,7 @@ https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_
 </tr>
 <tr>
 <td valign="top" width=20%><strong>Authentication</strong></td>
-<td valign="top" width=80%>OAuth 2.0 (optional)</td>
+<td valign="top" width=80%>OAuth 2.0</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>Restriction by IP Address</strong></td>
@@ -61,7 +65,7 @@ https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>https://graph.facebook.com/fql?q=select url, share_count, like_count, comment_count, click_count, total_count, comments_fbid, commentsbox_count from link_stat where url = 'DOI_AS_URL'</td>
+<td valign="top" width=80%>https://graph.facebook.com/v2.1/?access_token=%{access_token}&id=DOI_AS_URL</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>License</strong></td>
