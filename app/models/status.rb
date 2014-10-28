@@ -67,7 +67,7 @@ class Status
 
   def delayed_jobs_active_count
     if ActionController::Base.perform_caching
-      Rails.cache.read("status/alerts_last_day_count/#{update_date}").to_i
+      Rails.cache.read("status/delayed_jobs_active_count/#{update_date}").to_i
     else
       DelayedJob.count
     end
