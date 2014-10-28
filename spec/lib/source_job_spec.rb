@@ -39,7 +39,7 @@ describe SourceJob do
   end
 
   context "failure" do
-    it "should create an alert on failure" do
+    it "should not create an alert if not enough workers available for source" do
       report = FactoryGirl.create(:fatal_error_report_with_admin_user)
       error = File.read(fixture_path + 'delayed_job_failure.txt')
       job.last_error = error
@@ -49,12 +49,7 @@ describe SourceJob do
 
       subject.failure(job)
 
-      Alert.count.should == 1
-      alert = Alert.first
-      alert.class_name.should eq("DelayedJobError")
-      alert.message.should eq("Failure in #{job.queue}: #{error.shift}")
-      alert.trace.should eq(trace)
-      alert.source_id.should == source.id
+      Alert.count.should == 0
     end
   end
 

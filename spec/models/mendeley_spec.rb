@@ -28,7 +28,7 @@ describe Mendeley do
   end
 
   context "lookup access token" do
-    let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(subject.client_id, subject.secret) }
+    let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(subject.client_id, subject.client_secret) }
 
     it "should make the right API call" do
       Time.stub(:now).and_return(Time.mktime(2013, 9, 5))
