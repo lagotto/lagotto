@@ -16,7 +16,7 @@
   <div class="btn-toolbar pull-right">
     <div class="btn-group btn-group-sm" id="publisher-order">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @order.nil? ? "Sort by Date" : "Sort by #{@order.display_name}" %> <span class="caret"></span></a>
-      <ul class="dropdown-menu pull-right">
+      <ul class="dropdown-menu">
         <li><%= link_to "Date", publisher_path(@publisher, source: params[:source]) %></li>
         <% if @source.nil? %>
           <% Group.order("id").each do |group| %>
