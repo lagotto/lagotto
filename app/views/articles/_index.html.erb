@@ -34,16 +34,12 @@
         </div>
       <% end %>
     </div>
-    <h1 id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher.present? ? @publisher.crossref_id : nil %>" data-source="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">Articles
-    <% unless params[:q].blank? %>
-      <small>with <em><%= params[:q] %></em> in the DOI</small>
-    <% end %>
+    <h1 class="pull-left" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher.present? ? @publisher.crossref_id : nil %>" data-source="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">
+      Articles
     </h1>
-  </div>
 
-  <div class="search text-center">
-    <%= form_tag(articles_path, :method => "get", :class => "form-inline", :role => "form") do %>
-       <div class="form-group">
+    <%= form_tag(articles_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
+      <div class="form-group">
         <%= search_field_tag :q, params[:q], :placeholder => "Search by DOI", :class => "form-control" %>
       </div>
       <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>

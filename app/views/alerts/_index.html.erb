@@ -1,5 +1,21 @@
 <div class="page-header">
-  <div class="btn-toolbar pull-right">
+  <h1 class="pull-left">
+    <%= pluralize(@alerts.count, 'Alert') %>
+  </h1>
+
+  <%= form_tag(alerts_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
+    <div class="form-group">
+      <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
+    </div>
+    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+    <% unless params[:q].blank? %>
+      <%= link_to "clear", alerts_path(source: params[:source], class_name: params[:class_name], level: params[:level], hostname: params[:hostname]), class: "btn" %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="article">&nbsp;
+  <div class="btn-toolbar pull-left">
     <% if @servers.length > 1 %>
       <div class="btn-group btn-group-sm">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @hostname.nil? ? "All Hosts" : h(@hostname) %> <span class="caret"></span></a>
@@ -47,24 +63,6 @@
       </ul>
     </div>
   </div>
-  <h1>
-    <%= pluralize(@alerts.count, 'Alert') %>
-    <% unless params[:q].blank? %>
-        <small>with <em><%= params[:q] %></em> in the class name, message or DOI</small>
-    <% end %>
-  </h1>
-</div>
-
-<div class="search text-center">
-  <%= form_tag(alerts_path, :method => "get", :class => "form-inline", :role => "form") do %>
-    <div class="form-group">
-      <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
-    </div>
-    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-    <% unless params[:q].blank? %>
-      <%= link_to "clear", alerts_path(source: params[:source], class_name: params[:class_name], level: params[:level], hostname: params[:hostname]), class: "btn" %>
-    <% end %>
-  <% end %>
 </div>
 
 <% if @alerts.size > 0 %>
