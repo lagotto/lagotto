@@ -91,7 +91,7 @@ class Mendeley < Source
     # Otherwise get new access token
     result = get_result(authentication_url, options.merge(
       username: client_id,
-      password: secret,
+      password: client_secret,
       data: "grant_type=client_credentials",
       source_id: id,
       headers: { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
@@ -130,7 +130,7 @@ class Mendeley < Source
   end
 
   def config_fields
-    [:url, :url_with_type, :url_with_title, :authentication_url, :client_id, :secret, :access_token, :expires_at]
+    [:url, :url_with_type, :url_with_title, :authentication_url, :client_id, :client_secret, :access_token, :expires_at]
   end
 
   def url
@@ -155,9 +155,5 @@ class Mendeley < Source
 
   def authentication_url
     config.authentication_url || "https://api-oauth2.mendeley.com/oauth/token"
-  end
-
-  def authentication_url=(value)
-    config.authentication_url = value
   end
 end

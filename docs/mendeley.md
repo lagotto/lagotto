@@ -15,7 +15,7 @@ Mendeley uses OAuth2 authentification, we automatically obtain the access token 
 
 ## Required configuration fields
 
-* **client_id** and **secret**: register your OAuth2 application at https://mix.mendeley.com/portal#/register
+* **client_id** and **client_secret (secret)**: register your OAuth2 application at https://mix.mendeley.com/portal#/register
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
