@@ -6,7 +6,7 @@ class Api::V5::ApiRequestsController < Api::V5::BaseController
 
     if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "mysql2"
       if params[:q]
-        collection = collection.where("api_key LIKE ?", "#{params[:q]}%")
+        collection = collection.where("api_key = ?", params[:q])
       elsif params[:key] == "internal"
         collection = collection.where("api_key = ?", ENV['API_KEY'])
       elsif params[:key] == "external"
@@ -16,7 +16,7 @@ class Api::V5::ApiRequestsController < Api::V5::BaseController
       end
     else
       if params[:q]
-        collection = collection.where("api_key LIKE '?'", "#{params[:q]}%")
+        collection = collection.where("api_key = '?'", params[:q])
       elsif params[:key] == "internal"
         collection = collection.where("api_key = '?'", ENV['API_KEY'])
       elsif params[:key] == "external"
