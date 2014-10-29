@@ -60,10 +60,10 @@
 <% if can?(:read, Alert) %>
   <div class="row">
     <div class="col-md-4">
-      <div class="panel <%= @status.alerts_last_day_count > 0 ? 'panel-default' : 'panel-success' %>">
-        <div class="panel-heading">Open alerts <small class="pull-right">last 24 hours</small></div>
+      <div class="panel <%= @status.alerts_count > 0 ? 'panel-default' : 'panel-success' %>">
+        <div class="panel-heading">Unresolved alerts</div>
         <div class="panel-body text-center">
-          <h2 id="alerts_last_day_count"><%= link_to_if @status.alerts_last_day_count > 0, number_with_delimiter(@status.alerts_last_day_count), alerts_path %></h2>
+          <h2 id="alerts_count"><%= link_to_if @status.alerts_count > 0, number_with_delimiter(@status.alerts_count), alerts_path %></h2>
         </div>
       </div>
     </div>

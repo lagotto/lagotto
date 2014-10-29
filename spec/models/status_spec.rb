@@ -27,8 +27,8 @@ describe Status do
     subject.events_count.should == 250
   end
 
-  it "alerts_last_day_count" do
-    subject.alerts_last_day_count.should ==2
+  it "alerts_count" do
+    subject.alerts_count.should ==2
   end
 
   it "delayed_jobs_active_count" do

@@ -44,17 +44,17 @@ class Status
                         .where("name != ?", "relativemetric").sum(:event_count))
   end
 
-  def alerts_last_day_count
+  def alerts_count
     if ActionController::Base.perform_caching
-      Rails.cache.read("status/alerts_last_day_count/#{update_date}").to_i
+      Rails.cache.read("status/alerts_count/#{update_date}").to_i
     else
-      Alert.total_errors(1).count
+      Alert.errors.count
     end
   end
 
-  def alerts_last_day_count=(timestamp)
-    Rails.cache.write("status/alerts_last_day_count/#{timestamp}",
-                      Alert.total_errors(1).count)
+  def alerts_count=(timestamp)
+    Rails.cache.write("status/alerts_count/#{timestamp}",
+                      Alert.errors.count)
   end
 
   def workers
@@ -186,7 +186,7 @@ class Status
     [:articles_count,
      :articles_last30_count,
      :events_count,
-     :alerts_last_day_count,
+     :alerts_count,
      :delayed_jobs_active_count,
      :responses_count,
      :requests_count,

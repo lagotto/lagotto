@@ -3,7 +3,7 @@
 <p><%= number_with_delimiter(@status.articles_count) %> Articles<br/>
 <%= number_with_delimiter(@status.articles_last30_count) %> Articles last 30 days<br/>
 <%= number_with_delimiter(@status.events_count) %> Events<br/>
-<%= number_with_delimiter(@status.alerts_last_day_count) %> Unresolved alerts in the last 24 hours<br/>
+<%= number_with_delimiter(@status.alerts_count) %> Unresolved alerts<br/>
 </br>
 <%= number_with_delimiter(@status.workers_count) %> Active workers<br/>
 <%= number_with_delimiter(@status.delayed_jobs_active_count) %> Pending and working jobs<br/>
