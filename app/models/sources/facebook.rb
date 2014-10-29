@@ -33,15 +33,16 @@ class Facebook < Source
     # workaround for Facebook getting confused about the canonical URL
     if total > count_limit.to_i
       shares, comments, likes, total = 0, 0, 0, 0
+      events = {}
     elsif linkstat_url.blank?
       shares, comments, likes = 0, 0, 0
+      events = result
     else
       shares = result.deep_fetch('data', 0, 'share_count') { 0 }
       comments = result.deep_fetch('data', 0, 'comment_count') { 0 }
       likes = result.deep_fetch('data', 0, 'like_count') { 0 }
+      events = result['data'] || {}
     end
-
-    events = result['data'] || {}
 
     { events: events,
       events_by_day: [],
