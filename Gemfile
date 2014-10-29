@@ -4,6 +4,8 @@ gem 'rails', '3.2.19'
 gem 'mysql2', '0.3.13'
 # gem 'pg', '~> 0.17.1'
 
+# for some reason minitest is needed to be able to run the rails console
+gem "minitest", "~> 4.4.0"
 gem 'dotenv-rails', '~> 1.0.2'
 gem "delayed_job", "~> 4.0.0"
 gem "delayed_job_active_record", "~> 4.0.0"
@@ -81,7 +83,6 @@ group :test do
   gem "aruba", "~> 0.5.1", :require => false
   gem "poltergeist", "~> 1.5.0"
   gem 'phantomjs', '~> 1.9.7.1', :require => 'phantomjs/poltergeist'
-  gem "minitest", "~> 4.4.0"
   gem "mocha", "~> 0.13.3", :require => false
 end
 
