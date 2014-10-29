@@ -23,8 +23,6 @@ class Api::V5::ApiRequestsController < Api::V5::BaseController
         collection = collection.where("api_key != '?'", ENV['API_KEY'])
       elsif params[:key] == "other"
         collection = collection.where("ids LIKE ?", "Api::%")
-      elsif params[:key]
-        collection = collection.where("api_key LIKE '?'", "#{params[:key]}%")
       end
     end
 
