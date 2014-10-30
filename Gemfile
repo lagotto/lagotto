@@ -50,7 +50,6 @@ gem "rouge", "~> 1.3.1"
 
 gem 'sprockets', '2.2.2.backport2'
 gem 'sprockets-rails', '2.0.0.backport1'
-gem 'sprockets_better_errors', '~> 0.0.5'
 gem 'sass-rails', github: 'guilleiguaran/sass-rails', branch: 'backport'
 gem "jquery-rails", "~> 3.1.2"
 gem 'bootstrap-sass', '~> 3.2.0.2'

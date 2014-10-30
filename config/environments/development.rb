@@ -36,6 +36,7 @@ Lagotto::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  config.assets.raise_runtime_errors = true
 
   # for devise
   config.action_mailer.default_url_options = { :host => "#{ENV['MAIL_ADDRESS']}:#{ENV['MAIL_PORT']}" }
