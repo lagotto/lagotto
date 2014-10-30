@@ -5,9 +5,10 @@ begin
   # make sure file .env exists
   fail Errno::ENOENT unless File.exist?(File.expand_path('../../.env', __FILE__))
 
-  # create ENV variables
+  # load ENV variables from file specified by APP_ENV, fallback to .env
   require "dotenv"
-  Dotenv.load
+  filename = ENV["APP_ENV"] ? ".env.#{ENV["APP_ENV"]}" : ".env"
+  Dotenv.load! filename
 
   # make sure ENV variables required for capistrano are set
   fail ArgumentError if ENV['WORKERS'].to_s.empty? ||
