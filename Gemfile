@@ -28,6 +28,7 @@ gem 'safe_yaml', '= 1.0.1'
 gem 'hashie', '~> 2.1.1'
 gem 'rubyzip',  "~> 1.1", :require => 'zip'
 
+gem 'bcrypt', '~> 3.1.9'
 gem "devise", "~> 3.2.2"
 gem "omniauth-persona"
 gem "omniauth-cas", "~> 1.0.4"
@@ -39,8 +40,6 @@ gem "draper", "~> 1.3.0"
 gem 'rabl', '~> 0.10.1'
 gem "dalli", "~> 2.7.0"
 gem "cache_digests", "~> 0.3.1"
-gem "d3_rails", "~> 3.4.1"
-gem "crossfilter-rails", "~> 1.3.5"
 gem "turbolinks", "~> 2.2.1"
 gem 'will_paginate', '3.0.5'
 gem "will_paginate-bootstrap", "~> 1.0.0"
@@ -48,15 +47,17 @@ gem "simple_form", "~> 2.1.0"
 gem "dotiw", "~> 1.1.1"
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.3.1"
-gem "jquery-rails", "~> 3.1.2"
-gem 'sass-rails', "~> 3.2.5"
-gem 'bootstrap-sass', '~> 3.1.0.2'
-gem 'turbo-sprockets-rails3', '~> 0.3.14'
 
-group :assets do
-  gem 'coffee-rails', '~> 3.2.2'
-  gem "uglifier", "~> 2.5.3"
-end
+gem 'sprockets', '2.2.2.backport2'
+gem 'sprockets-rails', '2.0.0.backport1'
+gem 'sprockets_better_errors', '~> 0.0.5'
+gem 'sass-rails', github: 'guilleiguaran/sass-rails', branch: 'backport'
+gem "jquery-rails", "~> 3.1.2"
+gem 'bootstrap-sass', '~> 3.2.0.2'
+gem "d3_rails", "~> 3.4.1"
+gem "crossfilter-rails", "~> 1.3.5"
+gem 'coffee-rails', '~> 3.2.2'
+gem "uglifier", "~> 2.5.3"
 
 group :development do
   gem 'capistrano-rails', '~> 1.1.1', :require => false

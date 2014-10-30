@@ -7,7 +7,7 @@
 // Load jQuery
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
+//= require bootstrap-sprockets
 //= require jquery.bootpag.min.js
 //= require turbolinks
 //

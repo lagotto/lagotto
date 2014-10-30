@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/guilleiguaran/sass-rails.git
+  revision: 0393d9e1a6e4a776e61f16fb75f97971b9f4abd2
+  branch: backport
+  specs:
+    sass-rails (4.0.1)
+      railties (>= 3.2.0, < 5.0)
+      sass (>= 3.2.0)
+      sprockets-rails (~> 2.0.0.backport1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -36,7 +46,7 @@ GEM
       rspec-expectations (>= 2.7.0)
     ast (2.0.0)
     bcrypt (3.1.9)
-    bootstrap-sass (3.1.0.2)
+    bootstrap-sass (3.2.0.2)
       sass (~> 3.2)
     brakeman (2.6.3)
       erubis (~> 2.6)
@@ -282,10 +292,6 @@ GEM
     rubyzip (1.1.6)
     safe_yaml (1.0.1)
     sass (3.4.6)
-    sass-rails (3.2.6)
-      railties (~> 3.2.0)
-      sass (>= 3.1.10)
-      tilt (~> 1.3)
     sexp_processor (4.4.4)
     shoulda-matchers (2.6.2)
       activesupport (>= 3.0.0)
@@ -301,13 +307,19 @@ GEM
       tilt (>= 1.3.3, < 2.1)
     slop (3.6.0)
     spring (1.1.3)
-    sprockets (2.2.1)
+    sprockets (2.2.2.backport2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (0.0.1)
-      sprockets (>= 1.0.2)
+    sprockets-rails (2.0.0.backport1)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      sprockets (~> 2.2.2.backport2)
+    sprockets_better_errors (0.0.5)
+      actionpack (< 4.1)
+      activesupport (< 4.1)
+      sprockets-rails (>= 1.0.0)
     sshkit (1.4.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -332,9 +344,6 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    turbo-sprockets-rails3 (0.3.14)
-      railties (> 3.2.8, < 4.0.0)
-      sprockets (>= 2.2.0)
     turbolinks (2.2.3)
       coffee-rails
     typhoeus (0.6.9)
@@ -369,7 +378,8 @@ PLATFORMS
 DEPENDENCIES
   addressable (~> 2.3.5)
   aruba (~> 0.5.1)
-  bootstrap-sass (~> 3.1.0.2)
+  bcrypt (~> 3.1.9)
+  bootstrap-sass (~> 3.2.0.2)
   brakeman (~> 2.6.0)
   bullet (~> 4.13.0)
   cache_digests (~> 0.3.1)
@@ -426,16 +436,18 @@ DEPENDENCIES
   rubocop (~> 0.20.1)
   rubyzip (~> 1.1)
   safe_yaml (= 1.0.1)
-  sass-rails (~> 3.2.5)
+  sass-rails!
   shoulda-matchers (~> 2.6.0)
   simple_form (~> 2.1.0)
   simplecov (~> 0.7.1)
   spring (~> 1.1.2)
+  sprockets (= 2.2.2.backport2)
+  sprockets-rails (= 2.0.0.backport1)
+  sprockets_better_errors (~> 0.0.5)
   sshkit (~> 1.4.0)
   state_machine (~> 1.2.0)
   strip_attributes (~> 1.2)
   strong_parameters (~> 0.2.1)
-  turbo-sprockets-rails3 (~> 0.3.14)
   turbolinks (~> 2.2.1)
   typhoeus (~> 0.6.7)
   uglifier (~> 2.5.3)
