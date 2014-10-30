@@ -34,7 +34,7 @@ Users automatically obtain an API key, and they can sign up to the monthly repor
 
 Sources have to be installed and activated through the web interface `Sources -> Installation`:
 
-![Installation](/assets/installation.png)
+![Installation](/images/installation.png)
 
 All sources can be installed, but some sources require additional configuration settings such as API keys before they can be activated. The [documentation for sources](sources) contains information about how to obtain API keys and other required source-specific settings.
 
@@ -51,7 +51,7 @@ The following addiotional configuration options are available via the web interf
 * maximum number of failed queries allowed in a time interval (default 24 hours)
 * disable delay after too many failed queries (default 10 sec)
 
-![Configuration](/assets/configuration.png)
+![Configuration](/images/configuration.png)
 
 Through these setup options the behavior of sources can be fine-tuned, but the default settings should almost always work. The default rate-limiting settings should only be increased if your application has been whitelisted with that source.
 
@@ -227,14 +227,14 @@ The crontab is automatically updated when you run capistrano (see [Installation]
 ### Filters
 Filters check all API responses of the last 24 hours for errors and potential anti-gaming activity, and they are typically run as cron job. They can be activated and configured (e.g. to set limits) individually in the admin panel:
 
-![Filters](/assets/filters.png)
+![Filters](/images/filters.png)
 
 These filters will generate alerts that are displayed in the admin panel in various places. More information is available on the [Alerts](/docs/Alerts) page.
 
 ### Reports
 Lagotto generates a number of email reports:
 
-![Profile](/assets/profile.png)
+![Profile](/images/profile.png)
 
 The **Article Statistics Report** is available to all users, all other reports only to admin and staff users. Users can sign up for these reports in the account preferences.
 

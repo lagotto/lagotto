@@ -15,7 +15,7 @@ Lagotto allows a user to aggregate relevant performance data on research article
 
 Once the setup is complete (it might take up to 20 minutes), you'll be able to open up a browser and navigate to [http://10.2.2.4](http://10.2.2.4), and you should see this screen:
 
-![Lagotto screenshot](https://github.com/articlemetrics/lagotto/blob/master/app/assets/images/start.png)
+![Lagotto screenshot](https://github.com/articlemetrics/lagotto/blob/master/public/images/start.png)
 
 ## Documentation
 

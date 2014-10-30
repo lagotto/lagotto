@@ -5,7 +5,7 @@ title: "Home"
 
 Lagotto allows a user to aggregate relevant performance data on research articles, including how often an article has been viewed, cited, saved, discussed and recommended. The application was called Article-Level Metrics (ALM) until September 2014 and was started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). We are continuing to expand Lagotto because we believe that articles should be considered on their own merits, and that the impact of an individual article should not be determined by the journal in which it happened to be published. As a result, we hope that new ways of measuring and evaluating research quality (or ‘impact’) can and will evolve. To learn more about Article-Level Metrics, see the [SPARC ALM primer](http://www.sparc.arl.org/resource/sparc-article-level-metrics-primer).
 
-![Usage](/assets/usage.png)
+![Usage](/images/usage.png)
 *From: Fenner M, Lin J (2013). Altmetrics in Evolution: Defining & Redefining the Ontology of Article-Level Metrics. [http://dx.doi.org/10.3789/isqv25no2.2013.04](http://dx.doi.org/10.3789/isqv25no2.2013.04).*
 
 ## For Users
