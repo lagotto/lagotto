@@ -6,7 +6,6 @@
 #
 # Template taken from https://github.com/github/gitignore/blob/master/Rails.gitignore
 
-.env
 .DS_Store
 .svn
 *.rbc
@@ -38,3 +37,6 @@ pickle-email-*.html
 erl_crash.dump
 optimise-db.txt
 doc/dependencies*
+.env
+.env.*
+!.env.example
