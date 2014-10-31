@@ -27,6 +27,7 @@ end
 
 set :application, ENV["APPLICATION"]
 set :repo_url, 'https://github.com/articlemetrics/lagotto.git'
+set :stage, ENV["STAGE"]
 
 # Default branch is :master
 set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
