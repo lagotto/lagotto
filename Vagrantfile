@@ -76,7 +76,7 @@ Vagrant.configure("2") do |config|
     chef.json = { "dotenv" => ENV["DOTENV"] }
     chef.custom_config_path = "Vagrantfile.chef"
     chef.cookbooks_path = "vendor/cookbooks"
-    dna = JSON.parse(File.read("node.json"))
+    dna = JSON.parse(File.read(File.expand_path("../node.json", __FILE__)))
     dna.delete("run_list").each do |recipe|
       chef.add_recipe(recipe)
     end
