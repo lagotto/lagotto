@@ -87,13 +87,13 @@ Vagrant.configure("2") do |config|
   config.vm.define ENV["DOTENV"] do |machine|
     # Override settings for specific providers
     machine.vm.provider :virtualbox do |vb, override|
-      vb.name = "lagotto"
+      vb.name = ENV["APPLICATION"]
       vb.customize ["modifyvm", :id, "--memory", "1024"]
       unless Vagrant::Util::Platform.windows?
         # Disable default synced folder before bindfs tries to bind to it
-        override.vm.synced_folder ".", "/var/www/lagotto/current", disabled: true
+        override.vm.synced_folder ".", "/var/www/#{ENV["APPLICATION"]}/current", disabled: true
         override.vm.synced_folder ".", "/vagrant", id: "vagrant-root", nfs: true
-        override.bindfs.bind_folder "/vagrant", "/var/www/lagotto/current",
+        override.bindfs.bind_folder "/vagrant", "/var/www/#{ENV["APPLICATION"]}/current",
           :owner => "900",
           :group => "900",
           :"create-as-user" => true,
@@ -120,7 +120,7 @@ Vagrant.configure("2") do |config|
       aws.instance_type = "m3.medium"
       aws.ami = "ami-9aaa1cf2"
       aws.region = "us-east-1"
-      aws.tags = { Name: 'Vagrant Lagotto' }
+      aws.tags = { Name: ENV["APPLICATION"] }
 
       override.ssh.username = "ubuntu"
       override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
@@ -142,6 +142,6 @@ Vagrant.configure("2") do |config|
     machine.vm.hostname = ENV.fetch('HOSTNAME')
     machine.vm.network :private_network, ip: ENV.fetch('PRIVATE_IP', nil)
     machine.vm.network :public_network
-    machine.vm.synced_folder ".", "/var/www/lagotto/current", id: "vagrant-root"
+    machine.vm.synced_folder ".", "/var/www/#{ENV["APPLICATION"]}/current", id: "vagrant-root"
   end
 end
