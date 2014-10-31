@@ -9,7 +9,8 @@ Lagotto 3.7.1 was released on October 31, 2014 with the following features and b
 
 * upgraded to Rails 4 asset pipeline ([#172](https://github.com/articlemetrics/lagotto/issues/172))
 * show all open alerts, not just those from the last 24 hours ([#173](https://github.com/articlemetrics/lagotto/issues/173))
-* handle multiple `.env` files via `DOTENV` ENV variable, default to `DOTENV=default` ([#174](https://github.com/articlemetrics/lagotto/issues/174))current_versionvre
+* handle multiple `.env` files via `DOTENV` ENV variable, default to `DOTENV=default` ([#174](https://github.com/articlemetrics/lagotto/issues/174))
+* fixed an error picking up publisher-specific settings for the CrossRef source ([#176](https://github.com/articlemetrics/lagotto/issues/176))
 * show an alert on the status page also when patch level version (e.g.. 3.7.x) is outdated, not just minor or major version differences.
 
 ## [Lagotto 3.7](https://github.com/articlemetrics/lagotto/releases/tag/v.3.7)
