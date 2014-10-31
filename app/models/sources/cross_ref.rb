@@ -4,7 +4,7 @@ class CrossRef < Source
   def get_query_url(article)
     return nil if article.doi.nil? || Time.zone.now - article.published_on.to_time < 1.day
 
-    if article.publisher
+    if article.publisher_id.present?
       # check that we have publisher-specific configuration
       pc = publisher_config(article.publisher_id)
       return nil if pc.username.nil? || pc.password.nil?

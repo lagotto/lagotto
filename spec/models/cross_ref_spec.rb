@@ -3,7 +3,7 @@ require 'spec_helper'
 describe CrossRef do
   subject { FactoryGirl.create(:crossref) }
 
-  let(:article) { FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007") }
+  let(:article) { FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007", :publisher_id => 340) }
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => nil)
@@ -23,7 +23,7 @@ describe CrossRef do
     end
 
     it "for specific publisher" do
-      config = subject.publisher_config(340)
+      config = subject.publisher_config(article.publisher_id)
       config.username.should eq("username")
       config.password.should eq("password")
     end

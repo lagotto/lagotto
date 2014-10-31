@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141028115912) do
+ActiveRecord::Schema.define(:version => 20141031213833) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "source_id"
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(:version => 20141028115912) do
     t.integer  "year",          :default => 1970
     t.integer  "month"
     t.integer  "day"
-    t.string   "publisher_id"
+    t.integer  "publisher_id"
   end
 
   add_index "articles", ["doi", "published_on", "id"], :name => "index_articles_doi_published_on_article_id"
