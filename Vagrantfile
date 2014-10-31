@@ -111,10 +111,10 @@ Vagrant.configure("2") do |config|
 
     machine.vm.provider :aws do |aws, override|
       # please configure in .env
-      aws.access_key_id = ENV.fetch('AWS_KEY')
-      aws.secret_access_key = ENV.fetch('AWS_SECRET')
-      aws.keypair_name = ENV.fetch('AWS_KEYNAME')
-      override.ssh.private_key_path = ENV.fetch('AWS_KEYPATH')
+      aws.access_key_id = ENV.fetch('AWS_KEY', nil)
+      aws.secret_access_key = ENV.fetch('AWS_SECRET', nil)
+      aws.keypair_name = ENV.fetch('AWS_KEYNAME', nil)
+      override.ssh.private_key_path = ENV.fetch('AWS_KEYPATH', nil)
 
       aws.security_groups = "default"
       aws.instance_type = "m3.medium"
@@ -126,22 +126,22 @@ Vagrant.configure("2") do |config|
       override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
     end
 
-    # config.vm.provider :digital_ocean do |digital_ocean, override|
-    #   # please configure in .env
-    #   override.ssh.private_key_path = ENV.fetch('PRIVATE_KEY_PATH')
-    #   digital_ocean.token = ENV.fetch('DO_PROVIDER_TOKEN')
-    #   digital_ocean.size = ENV.fetch('DO_SIZE')
+    machine.vm.provider :digital_ocean do |digital_ocean, override|
+      # please configure in .env
+      override.ssh.private_key_path = ENV.fetch('SSH_PRIVATE_KEY', nil)
+      digital_ocean.token = ENV.fetch('DO_PROVIDER_TOKEN', nil)
+      digital_ocean.size = ENV.fetch('DO_SIZE', nil)
 
-    #   override.vm.box = 'digital_ocean'
-    #   override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-    #   override.ssh.username = "ubuntu"
-    #   digital_ocean.region = 'nyc2'
-    #   digital_ocean.image = 'Ubuntu 14.04 x64'
-    # end
+      override.vm.box = 'digital_ocean'
+      override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+      override.ssh.username = "ubuntu"
+      digital_ocean.region = 'nyc2'
+      digital_ocean.image = 'Ubuntu 14.04 x64'
+    end
 
     machine.vm.hostname = ENV.fetch('HOSTNAME')
-    machine.vm.network :private_network, ip: ENV.fetch('PRIVATE_IP')
-    config.vm.network :public_network
-    config.vm.synced_folder ".", "/var/www/lagotto/current", id: "vagrant-root"
+    machine.vm.network :private_network, ip: ENV.fetch('PRIVATE_IP', nil)
+    machine.vm.network :public_network
+    machine.vm.synced_folder ".", "/var/www/lagotto/current", id: "vagrant-root"
   end
 end
