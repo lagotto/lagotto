@@ -1,4 +1,4 @@
-set :rails_env, 'staging'
+set :rails_env, ENV['RAILS_ENV']
 
 ENV['SERVERS'].split(",").each_with_index do |s, i|
   # only primary server has db and workers role
