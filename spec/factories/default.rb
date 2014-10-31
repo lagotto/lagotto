@@ -137,7 +137,7 @@ FactoryGirl.define do
         :citations => nil,
         :total => 50 }
     end
-    retrieved_at { Date.today - 1.month }
+    retrieved_at { Time.zone.now.to_date - 1.month }
     sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
 
     association :article

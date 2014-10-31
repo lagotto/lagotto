@@ -2,11 +2,15 @@ require 'spec_helper'
 
 describe History do
 
+  before(:each) do
+    Time.stub(:now).and_return(Time.mktime(2014, 7, 5))
+  end
+
   let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
 
   context "error" do
     let(:data) { { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{retrieval_status.article.doi_escaped}" } }
-    let(:update_interval) { 1.month.ago.end_of_month.day }
+    let(:update_interval) { 30 }
     subject { History.new(retrieval_status.id, data) }
 
     it "should have status error" do
@@ -20,7 +24,7 @@ describe History do
 
   context "success no data" do
     let(:data) { { event_count: 0 } }
-    let(:update_interval) { 1.month.ago.end_of_month.day }
+    let(:update_interval) { 30 }
     subject { History.new(retrieval_status.id, data) }
 
     it "should have status success no data" do
@@ -37,7 +41,7 @@ describe History do
     after(:each) { subject.delete_lagotto_database }
 
     let(:data) { { event_count: 25, events_by_day: [], events_by_month: [] } }
-    let(:update_interval) { 1.month.ago.end_of_month.day }
+    let(:update_interval) { 30 }
     subject { History.new(retrieval_status.id, data) }
 
     it "should have status success" do
