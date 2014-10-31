@@ -150,7 +150,7 @@ class Status
   end
 
   def outdated_version?
-    !Gem::Dependency.new("", "~> #{version}").match?("", current_version)
+    Gem::Version.new(current_version) > Gem::Version.new(version)
   end
 
   def couchdb_size
