@@ -28,12 +28,16 @@ Lagotto requires Ruby 1.9.3 or greater, and has been tested with Ruby 1.9.3, 2.0
 
 #### Configuration options
 
-Starting with the Lagotto 3.7 release all user-specific configuration options for Rails, as well as for the server configuration and deployment tools Vagrant, Chef and Capistrano are environment variables, and can be stored in a single `.env` file. An example file is provided (`.env.example`) and can be used without modifications for a development server. More information regarding ENV variables and `.env` is available [here](https://github.com/bkeepers/dotenv). The following configuration options need to be set:
+Starting with the Lagotto 3.7 release all user-specific configuration options for Rails, as well as for the server configuration and deployment tools Vagrant, Chef and Capistrano are environment variables, and can be stored in a single `.env` file. You can use multiple `.env` files, specify the `.env` file using the `DOTENV` environment variable, e.g. `DOTENV=example` for the `.env.example` example configuration file provided with the application.
+
+More information regarding ENV variables and `.env` is available [here](https://github.com/bkeepers/dotenv). The following configuration options need to be set:
 
 ```sh
 # Example configuration settings for this application
 
 APPLICATION=lagotto
+
+RAILS_ENV=development
 
 # database settings
 DB_NAME=lagotto

@@ -38,7 +38,7 @@ SITE
     phantomjs (1.0.3)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
-    postfix (3.6.0)
+    postfix (3.6.1)
     postgresql (3.4.10)
       apt (>= 1.9.0)
       build-essential (>= 0.0.0)
@@ -50,8 +50,8 @@ SITE
     windows (1.34.6)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
-    yum (3.4.0)
-    yum-epel (0.5.1)
+    yum (3.4.1)
+    yum-epel (0.5.2)
       yum (~> 3.0)
     yum-erlang_solutions (0.2.0)
       yum (~> 3.0)
@@ -69,16 +69,16 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/dotenv-cookbook.git
   ref: master
-  sha: 2e8a1c23c69d2f0e13d035986d398889a26b69ad
+  sha: 069ee5080bebea6c5049462d832503a14a340570
   specs:
-    dotenv (0.1.4)
+    dotenv (0.1.7)
 
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: d1942795dfd4b86bfb5cfb1b7f70f7c9fdf345ee
+  sha: 81caf4628df0122fe89677cb8a5881483d257e7f
   specs:
-    lagotto (3.6.8)
+    lagotto (3.6.11)
       apt (>= 0.0.0)
       capistrano (~> 0.6.0)
       couchdb (>= 0.0.0)
