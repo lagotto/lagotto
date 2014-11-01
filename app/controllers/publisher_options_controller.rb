@@ -28,7 +28,7 @@ class PublisherOptionsController < ApplicationController
 
   def load_source
     @source = Source.find_by_name(params[:source_id])
-    @publisher_option = PublisherOption.find_or_create_by_publisher_id_and_source_id(params[:id], @source.id)
+    @publisher_option = PublisherOption.where(publisher_id: params[:id], source_id: @source.id).first_or_create
 
     # raise error if publisher_option wasn't found
     fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @publisher_option.blank?

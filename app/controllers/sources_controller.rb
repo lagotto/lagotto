@@ -8,7 +8,7 @@ class SourcesController < ApplicationController
   def show
     @doc = Doc.find(@source.name)
     if current_user && current_user.publisher && @source.by_publisher?
-      @publisher_option = PublisherOption.find_or_create_by_publisher_id_and_source_id(current_user.publisher_id, @source.id)
+      @publisher_option = PublisherOption.where(publisher_id: current_user.publisher_id, source_id: @source.id).first_or_create
     end
 
     respond_with(@source) do |format|
