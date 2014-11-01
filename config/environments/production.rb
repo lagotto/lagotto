@@ -4,6 +4,8 @@ Lagotto::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = true
 
+  config.eager_load = true
+
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
@@ -12,23 +14,7 @@ Lagotto::Application.configure do
   config.serve_static_assets = false
 
   # Compress JavaScripts and CSS
-  config.assets.compress = true
-
-  # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
-
-  # Generate digests for assets URLs
-  config.assets.digest = true
-
-  # Defaults to Rails.root.join("public/assets")
-  # config.assets.manifest = YOUR_PATH
-
-  # Specifies the header that your server uses for sending files
-  # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
-
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.assets.js_compressor = :uglifier
 
   # See everything in the log (default is :info)
   config.log_level = :info

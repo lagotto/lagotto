@@ -54,23 +54,12 @@ module Lagotto
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
-    # avoid mass-assignment
-    config.active_record.whitelist_attributes = false
-
     # Configure sensitive parameters which will be filtered from the log file.
     # TODO: do I need to add salt here?
     config.filter_parameters += [:password]
 
     # Use a different cache store
     config.cache_store = :dalli_store, *(ENV['SERVERS'].split(",")), { :namespace => "lagotto", :compress => true }
-
-    # Enable the asset pipeline
-    config.assets.enabled = true
-
-    config.assets.initialize_on_precompile = false
-
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
 
     # Define custom exception handler
     config.exceptions_app = lambda { |env| AlertsController.action(:create).call(env) }
