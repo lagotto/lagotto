@@ -96,7 +96,6 @@ class Article < ActiveRecord::Base
     self.create!(params)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
     # update title and/or date if article exists
-    # this is faster than find_or_create_by_doi for all articles
     # raise an error for other RecordInvalid errors such as missing title
     if e.message.start_with?("Mysql2::Error: Duplicate entry", "Validation failed: Doi has already been taken")
       article = find_by_doi(params[:doi])
@@ -319,7 +318,7 @@ class Article < ActiveRecord::Base
     # when we bulk-upload lots of articles.
 
     Source.installed.each do |source|
-      RetrievalStatus.find_or_create_by_article_id_and_source_id(id, source.id, :scheduled_at => Time.zone.now)
+      RetrievalStatus.where(article_id: id, source_id: source.id).first_or_create(scheduled_at: Time.zone.now)
     end
   end
 end

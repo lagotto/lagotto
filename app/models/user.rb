@@ -12,9 +12,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:persona, :cas]
 
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :role, :authentication_token, :publisher_id
-
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
   validates :email, :uniqueness => true, :allow_blank => true
@@ -60,8 +57,6 @@ class User < ActiveRecord::Base
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
-
-  attr_accessible :login
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup

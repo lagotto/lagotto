@@ -18,7 +18,7 @@ class Filter < ActiveRecord::Base
   validates :display_name, :presence => true
   validate :validate_config_fields
 
-  default_scope order("name")
+  default_scope { order("name") }
   scope :active, where(:active => true)
 
   class << self
@@ -28,7 +28,7 @@ class Filter < ActiveRecord::Base
       end
     end
 
-    def all
+    def run
       # To sync filters
       # Only run filter if we have unresolved API responses
       options = { id: ApiResponse.unresolved.maximum(:id),
