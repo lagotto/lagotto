@@ -181,13 +181,13 @@ FactoryGirl.define do
       end
     end
 
-    initialize_with { RetrievalStatus.find_or_create_by_article_id_and_source_id(article.id, source.id) }
+    initialize_with { RetrievalStatus.where(article_id: article.id, source_id: source.id).find_or_initialize }
   end
 
   factory :delayed_job do
     queue 'citeulike-queue'
 
-    initialize_with { DelayedJob.find_or_create_by_queue(queue) }
+    initialize_with { DelayedJob.where(queue: queue).first_or_initialize }
   end
 
   factory :report do
@@ -309,7 +309,7 @@ FactoryGirl.define do
     other_names ["Public Library of Science", "Public Library of Science (PLoS)"]
     prefixes ["10.1371"]
 
-    initialize_with { Publisher.find_or_create_by_crossref_id(crossref_id) }
+    initialize_with { Publisher.where(crossref_id: crossref_id).first_or_initialize }
   end
 
   factory :publisher_option do
@@ -321,7 +321,7 @@ FactoryGirl.define do
 
     publisher
 
-    initialize_with { PublisherOption.find_or_create_by_id(id) }
+    initialize_with { PublisherOption.where(id: id).first_or_initialize }
 
     factory :publisher_option_for_pmc do
       journals "ajrccm"
@@ -334,7 +334,7 @@ FactoryGirl.define do
     display_name "html ratio too high error"
     active true
 
-    initialize_with { HtmlRatioTooHighError.find_or_create_by_name(name) }
+    initialize_with { HtmlRatioTooHighError.where(name: name).first_or_initialize }
   end
 
   factory :article_not_updated_error, aliases: [:filter], class: ArticleNotUpdatedError do
@@ -343,7 +343,7 @@ FactoryGirl.define do
     display_name "article not updated error"
     active true
 
-    initialize_with { ArticleNotUpdatedError.find_or_create_by_name(name) }
+    initialize_with { ArticleNotUpdatedError.where(name: name).first_or_initialize }
   end
 
   factory :decreasing_event_count_error, class: EventCountDecreasingError do
@@ -353,7 +353,7 @@ FactoryGirl.define do
     source_ids [1]
     active true
 
-    initialize_with { EventCountDecreasingError.find_or_create_by_name(name) }
+    initialize_with { EventCountDecreasingError.where(name: name).first_or_initialize }
   end
 
   factory :increasing_event_count_error, class: EventCountIncreasingTooFastError do
@@ -363,7 +363,7 @@ FactoryGirl.define do
     source_ids [1]
     active true
 
-    initialize_with { EventCountIncreasingTooFastError.find_or_create_by_name(name) }
+    initialize_with { EventCountIncreasingTooFastError.where(name: name).first_or_initialize }
   end
 
   factory :api_too_slow_error, class: ApiResponseTooSlowError do
@@ -372,7 +372,7 @@ FactoryGirl.define do
     display_name "API too slow error"
     active true
 
-    initialize_with { ApiResponseTooSlowError.find_or_create_by_name(name) }
+    initialize_with { ApiResponseTooSlowError.where(name: name).first_or_initialize }
   end
 
   factory :source_not_updated_error, class: SourceNotUpdatedError do
@@ -381,6 +381,6 @@ FactoryGirl.define do
     display_name "source not updated error"
     active true
 
-    initialize_with { SourceNotUpdatedError.find_or_create_by_name(name) }
+    initialize_with { SourceNotUpdatedError.where(name: name).first_or_initialize }
   end
 end

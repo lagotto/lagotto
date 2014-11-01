@@ -22,7 +22,7 @@ describe Filter do
       let(:id) { @api_response.id }
 
       it "should call all active filters" do
-        response = subject.all
+        response = subject.run
         response[:id].should eq(id)
         response[:output].should == 1
         response[:message].should include("Resolved 1 API response")
@@ -33,7 +33,7 @@ describe Filter do
 
     context "no API responses" do
       it "should get nil from all method" do
-        subject.all.should be_nil
+        subject.run.should be_nil
       end
     end
 
@@ -42,8 +42,8 @@ describe Filter do
         @api_response = FactoryGirl.create(:api_response, unresolved: false)
       end
 
-      it "should get nil from all method" do
-        subject.all.should be_nil
+      it "should get nil from run method" do
+        subject.run.should be_nil
       end
     end
 
