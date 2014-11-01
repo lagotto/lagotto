@@ -7,7 +7,7 @@ class Alert < ActiveRecord::Base
   before_create :collect_env_info
   after_create :send_fatal_error_report, if: proc { level == 4 }
 
-  default_scope where("unresolved = ?", true).order("alerts.created_at DESC")
+  default_scope { where("unresolved = ?", true).order("alerts.created_at DESC") }
 
   scope :errors, where("alerts.level > ?", 0)
   scope :query, lambda { |query| includes(:article).where("class_name like ? OR message like ? OR status = ? OR articles.doi = ?", "%#{query}%", "%#{query}%", query, query) }
