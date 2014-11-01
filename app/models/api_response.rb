@@ -8,8 +8,6 @@ class ApiResponse < ActiveRecord::Base
   belongs_to :source
   belongs_to :retrieval_status
 
-  attr_accessible :message
-
   scope :unresolved, where("unresolved = ?", true)
   scope :filter, lambda { |id| where("unresolved = ?", true).where("id <= ?", id) }
   scope :total, lambda { |duration| where("created_at > ?", Time.zone.now - duration.days) }
