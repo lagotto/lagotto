@@ -19,8 +19,8 @@ Lagotto::Application.routes.draw do
   resources :api_requests
   resources :filters
 
-  match "oembed" => "oembed#show"
-  match "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
+  get "oembed" => "oembed#show"
+  get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
 
   namespace :api do
     namespace :v3 do
@@ -46,5 +46,5 @@ Lagotto::Application.routes.draw do
   get "/admin/", to: redirect("/status")
 
   # rescue routing errors
-  match "*path", to: "alerts#routing_error"
+  match "*path", to: "alerts#routing_error", via: [:get, :post]
 end
