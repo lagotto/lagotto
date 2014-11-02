@@ -36,7 +36,7 @@ describe Mendeley do
       subject.expires_at = Time.now
       stub = stub_request(:post, subject.authentication_url).with(:body => "grant_type=client_credentials", :headers => { :authorization => auth })
         .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
-      subject.get_access_token.should be_true
+      subject.get_access_token.should_not be false
       stub.should have_been_requested
       subject.access_token.should eq("MSwxMzk0OTg1MDcyMDk0LCwxOCwsLElEeF9XU256OWgzMDNlMmc4V0JaVkMyVnFtTQ")
       subject.expires_at.should eq(Time.now + 3600.seconds)
@@ -220,9 +220,9 @@ describe Mendeley do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response[:events].should be_true
-      response[:events_url].should be_true
-      response[:event_count].should eq(4)
+      response[:events].should_not be_nil
+      response[:events_url].should_not be_nil
+      response[:event_count].should == 4
     end
 
     it "should report no events and event_count if the Mendeley API returns incomplete response" do

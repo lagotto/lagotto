@@ -203,18 +203,18 @@ describe DelayedJob do
       end
 
       it "few failed queries" do
-        source.check_for_failures.should be_false
+        source.check_for_failures.should be false
       end
 
       it "too many failed queries" do
         source.max_failed_queries = 5
-        source.check_for_failures.should be_true
+        source.check_for_failures.should be true
       end
 
       it "too many failed queries but they are too old" do
         source.max_failed_queries = 5
         source.max_failed_query_time_interval = 500
-        source.check_for_failures.should be_false
+        source.check_for_failures.should be false
       end
     end
   end

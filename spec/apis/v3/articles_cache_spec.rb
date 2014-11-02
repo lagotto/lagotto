@@ -16,7 +16,7 @@ describe "/api/v3/articles" do
       end
 
       it "can cache articles in JSON" do
-        Rails.cache.exist?("rabl/v3/#{cache_key_list}//json").should_not be_true
+        Rails.cache.exist?("rabl/v3/#{cache_key_list}//json").should_not be true
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
@@ -33,7 +33,7 @@ describe "/api/v3/articles" do
       end
 
       it "can cache articles in XML" do
-        Rails.cache.exist?("rabl/v3/#{cache_key_list}//xml").should_not be_true
+        Rails.cache.exist?("rabl/v3/#{cache_key_list}//xml").should_not be true
         get @uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should == 200
 
@@ -59,13 +59,13 @@ describe "/api/v3/articles" do
       let(:event_count) { 75 }
 
       it "can cache an article in JSON" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
+        Rails.cache.exist?("#{key}//json").should_not be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be_true
+        Rails.cache.exist?("#{key}//json").should be true
 
         response = Rails.cache.read("#{key}//json")
         response = JSON.parse(response).first
@@ -77,13 +77,13 @@ describe "/api/v3/articles" do
       end
 
       it "can cache an article in XML" do
-        Rails.cache.exist?("#{key}//xml").should_not be_true
+        Rails.cache.exist?("#{key}//xml").should_not be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should == 200
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//xml").should be_true
+        Rails.cache.exist?("#{key}//xml").should be true
 
         response = Rails.cache.read("#{key}//xml")
         response = Hash.from_xml(response)
@@ -96,24 +96,24 @@ describe "/api/v3/articles" do
       end
 
       it "can cache JSON and XML separately" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
+        Rails.cache.exist?("#{key}//json").should_not be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
         last_response.status.should == 200
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should_not be_true
-        Rails.cache.exist?("#{key}//xml").should be_true
+        Rails.cache.exist?("#{key}//json").should_not be true
+        Rails.cache.exist?("#{key}//xml").should be true
       end
 
       it "can make API requests 2x faster" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
+        Rails.cache.exist?("#{key}//json").should_not be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be_true
+        Rails.cache.exist?("#{key}//json").should be true
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
@@ -122,13 +122,13 @@ describe "/api/v3/articles" do
       end
 
       it "does not use a stale cache when an article is updated" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
+        Rails.cache.exist?("#{key}//json").should_not be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be_true
+        Rails.cache.exist?("#{key}//json").should be true
         response = Rails.cache.read("#{key}//json")
         response = JSON.parse(response).first
         response["title"].should eql(article.title)
@@ -142,7 +142,7 @@ describe "/api/v3/articles" do
         last_response.status.should == 200
         cache_key = "rabl/v3/#{ArticleDecorator.decorate(article).cache_key}"
         cache_key.should_not eql(key)
-        Rails.cache.exist?("#{cache_key}//json").should be_true
+        Rails.cache.exist?("#{cache_key}//json").should be true
         response = Rails.cache.read("#{cache_key}//json")
         response = JSON.parse(response).first
         response["title"].should eql(article.title)
@@ -150,13 +150,13 @@ describe "/api/v3/articles" do
       end
 
       it "does not use a stale cache when a source is updated" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
+        Rails.cache.exist?("#{key}//json").should_not be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be_true
+        Rails.cache.exist?("#{key}//json").should be true
         response = Rails.cache.read("#{key}//json")
         response = JSON.parse(response).first
         update_date = response["update_date"]
@@ -171,20 +171,20 @@ describe "/api/v3/articles" do
         last_response.status.should == 200
         cache_key = "rabl/v3/#{ArticleDecorator.decorate(article).cache_key}"
         cache_key.should_not eql(key)
-        Rails.cache.exist?("#{cache_key}//json").should be_true
+        Rails.cache.exist?("#{cache_key}//json").should be true
         response = Rails.cache.read("#{cache_key}//json")
         response = JSON.parse(response).first
         response["update_date"].should be > update_date
       end
 
       it "does not use a stale cache when the source query parameter changes" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
+        Rails.cache.exist?("#{key}//json").should_not be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be_true
+        Rails.cache.exist?("#{key}//json").should be true
         response = Rails.cache.read("#{key}//json")
         response = JSON.parse(response).first
         response["sources"].size.should eql(1)
@@ -196,13 +196,13 @@ describe "/api/v3/articles" do
       end
 
       it "does not use a stale cache when the info query parameter changes" do
-        Rails.cache.exist?("#{key}//json").should_not be_true
+        Rails.cache.exist?("#{key}//json").should_not be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be_true
+        Rails.cache.exist?("#{key}//json").should be true
 
         history_uri = "#{uri}&info=history"
         get history_uri, nil, 'HTTP_ACCEPT' => 'application/json'

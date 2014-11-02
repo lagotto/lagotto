@@ -11,9 +11,9 @@ describe F1000 do
   context "save f1000 data" do
     it "should fetch and save f1000 data" do
       # stub = stub_request(:get, subject.get_feed_url).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'f1000.xml'), :status => 200)
-      # subject.get_feed.should be_true
+      # subject.get_feed.should be true
       # file = "#{Rails.root}/data/#{subject.filename}.xml"
-      # File.exist?(file).should be_true
+      # File.exist?(file).should be true
       # stub.should have_been_requested
       # Alert.count.should == 0
     end

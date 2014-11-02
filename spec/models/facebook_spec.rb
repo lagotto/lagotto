@@ -7,7 +7,7 @@ describe Facebook do
     it "should make the right API call" do
       subject.access_token = nil
       stub = stub_request(:get, subject.get_authentication_url).to_return(:body => File.read(fixture_path + 'facebook_auth.txt'))
-      subject.get_access_token.should be_true
+      subject.get_access_token.should_not be false
       stub.should have_been_requested
       subject.access_token.should eq("778123482473896|xQ0RGAHG6k8VUZrliyHgIIkwZYM")
     end

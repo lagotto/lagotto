@@ -13,7 +13,7 @@ describe "/api/v5/articles" do
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/v5/articles?ids=#{article_list}&type=doi&api_key=#{api_key}" }
 
       it "can cache articles" do
-        Rails.cache.exist?("rabl/v5/#{cache_key_list}//hash").should_not be_true
+        Rails.cache.exist?("rabl/v5/#{cache_key_list}//hash").should be false
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
@@ -29,7 +29,7 @@ describe "/api/v5/articles" do
       end
 
       # it "can cache an article" do
-      #   Rails.cache.exist?("rabl/v5/#{cache_key_list}//hash").should_not be_true
+      #   Rails.cache.exist?("rabl/v5/#{cache_key_list}//hash").should_not be true
       #   get uri, nil, 'HTTP_ACCEPT' => 'application/json'
       #   last_response.status.should == 200
 
@@ -53,13 +53,13 @@ describe "/api/v5/articles" do
       let(:event_count) { 75 }
 
       it "does not use a stale cache when an article is updated" do
-        Rails.cache.exist?("#{key}//hash").should_not be_true
+        Rails.cache.exist?("#{key}//hash").should be false
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//hash").should be_true
+        Rails.cache.exist?("#{key}//hash").should be true
         response = Rails.cache.read("#{key}//hash").first
         response[:title].should eql(article.title)
         response[:title].should_not eql(title)
@@ -72,20 +72,20 @@ describe "/api/v5/articles" do
         last_response.status.should == 200
         cache_key = "rabl/v5/#{article.decorate(:context => { source: 'citeulike' }).cache_key}"
         cache_key.should_not eql(key)
-        Rails.cache.exist?("#{cache_key}//hash").should be_true
+        Rails.cache.exist?("#{cache_key}//hash").should be true
         response = Rails.cache.read("#{cache_key}//hash").first
         response[:title].should eql(article.title)
         response[:title].should eql(title)
       end
 
       it "does not use a stale cache when a source is updated" do
-        Rails.cache.exist?("#{key}//hash").should_not be_true
+        Rails.cache.exist?("#{key}//hash").should be false
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//hash").should be_true
+        Rails.cache.exist?("#{key}//hash").should be true
         response = Rails.cache.read("#{key}//hash").first
         update_date = response[:update_date]
 
@@ -99,13 +99,13 @@ describe "/api/v5/articles" do
         last_response.status.should == 200
         cache_key = "rabl/v5/#{article.decorate(:context => { source: 'citeulike' }).cache_key}"
         cache_key.should_not eql(key)
-        Rails.cache.exist?("#{cache_key}//hash").should be_true
+        Rails.cache.exist?("#{cache_key}//hash").should be true
         response = Rails.cache.read("#{cache_key}//hash").first
         response[:update_date].should be > update_date
       end
 
       it "does not use a stale cache when the source query parameter changes" do
-        Rails.cache.exist?("#{key}//hash").should_not be_true
+        Rails.cache.exist?("#{key}//hash").should be false
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 
@@ -127,7 +127,7 @@ describe "/api/v5/articles" do
       end
 
       it "does not use a stale cache when the info query parameter changes" do
-        Rails.cache.exist?("#{key}//hash").should_not be_true
+        Rails.cache.exist?("#{key}//hash").should be false
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         last_response.status.should == 200
 

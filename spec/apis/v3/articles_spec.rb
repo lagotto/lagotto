@@ -20,7 +20,7 @@ describe "/api/v3/articles" do
         response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end.should be true
       end
 
       it "JSONP" do
@@ -33,7 +33,7 @@ describe "/api/v3/articles" do
         response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end.should be true
       end
 
       it "XML" do
@@ -46,7 +46,7 @@ describe "/api/v3/articles" do
         response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end.should be true
       end
     end
   end

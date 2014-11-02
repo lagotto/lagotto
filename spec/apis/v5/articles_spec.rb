@@ -21,7 +21,7 @@ describe "/api/v5/articles" do
         data.any? do |article|
           article["doi"] == articles[0].doi
           article["issued"]["date-parts"][0] == [articles[0].year, articles[0].month, articles[0].day]
-        end.should be_true
+        end.should be true
       end
 
       it "JSONP" do
@@ -35,7 +35,7 @@ describe "/api/v5/articles" do
         data.any? do |article|
           article["doi"] == articles[0].doi
           article["issued"]["date-parts"][0] == [articles[0].year, articles[0].month, articles[0].day]
-        end.should be_true
+        end.should be true
       end
     end
 

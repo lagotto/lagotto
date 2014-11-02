@@ -24,7 +24,7 @@ describe "/api/v5/articles" do
         data.any? do |article|
           article["doi"] == articles[0].doi
           article["issued"]["date-parts"][0].should eql([articles[0].year, articles[0].month, articles[0].day])
-        end.should be_true
+        end.should be true
       end
 
       it "JSON" do
@@ -37,7 +37,7 @@ describe "/api/v5/articles" do
         data.any? do |article|
           article["doi"] == articles[0].doi
           article["issued"]["date-parts"][0].should eql([articles[0].year, articles[0].month, articles[0].day])
-        end.should be_true
+        end.should be true
       end
     end
 
@@ -56,7 +56,7 @@ describe "/api/v5/articles" do
         data.length.should == 50
         data.any? do |article|
           article["pmid"] == articles[0].pmid
-        end.should be_true
+        end.should be true
       end
     end
 
@@ -75,7 +75,7 @@ describe "/api/v5/articles" do
         data.length.should == 50
         data.any? do |article|
           article["pmcid"] == "2568856" # articles[0].pmcid
-        end.should be_true
+        end.should be true
       end
     end
 
@@ -94,7 +94,7 @@ describe "/api/v5/articles" do
         data.length.should == 50
         data.any? do |article|
           article["mendeley_uuid"] == articles[0].mendeley_uuid
-        end.should be_true
+        end.should be true
       end
     end
 
@@ -114,13 +114,13 @@ describe "/api/v5/articles" do
         data.any? do |article|
           article["doi"] == articles[0].doi
           article["issued"]["date-parts"][0].should eql([articles[0].year, articles[0].month, articles[0].day])
-        end.should be_true
+        end.should be true
       end
     end
 
     context "no records found" do
       let(:uri) { "/api/v5/articles?ids=xxx&info=summary&api_key=#{api_key}" }
-      let(:nothing_found) { { "total" => 0, "total_pages" => 0, "page" => 0, "error" => nil, "data" => [] } }
+      let(:nothing_found) { { "data" => [], "total" => 0, "total_pages" => 0, "page" => 0, "error" => nil } }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'

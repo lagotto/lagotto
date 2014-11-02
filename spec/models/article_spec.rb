@@ -151,7 +151,7 @@ describe Article do
   end
 
   it "is cited" do
-    Article.is_cited.all? { |article| article.events_count > 0 }.should be_true
+    Article.is_cited.all? { |article| article.events_count > 0 }.should be true
   end
 
   it 'should get_url' do
@@ -159,7 +159,7 @@ describe Article do
     url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
     stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
     stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
-    article.get_url.should be_true
+    article.get_url.should_not be_nil
     article.canonical_url.should eq(url)
   end
 
@@ -167,7 +167,7 @@ describe Article do
     article = FactoryGirl.create(:article, pmid: nil)
     pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{article.doi_escaped}&idtype=doi&format=json"
     stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers.json'), :status => 200)
-    article.get_ids.should be_true
+    article.get_ids.should be true
     article.pmid.should eq("17183658")
     stub.should have_been_requested
   end

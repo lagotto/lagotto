@@ -12,7 +12,7 @@ describe TwitterSearch do
       subject.access_token = nil
       stub = stub_request(:post, subject.authentication_url).with(:body => "grant_type=client_credentials", :headers => { :authorization => auth })
         .to_return(:body => File.read(fixture_path + 'twitter_auth.json'))
-      subject.get_access_token.should be_true
+      subject.get_access_token.should_not be false
       stub.should have_been_requested
       subject.access_token.should eq("AAAAAAAAAAAAAAAAAAAAACS6XQAAAAAAc7aBSzqxeYuzho78VPeXw4md79A%3DuWsDmuGGhl0tOQJuNZAl37MN6tiTiar7U8tHQkBGbkk1rvlNqk")
     end

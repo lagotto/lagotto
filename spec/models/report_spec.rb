@@ -88,7 +88,7 @@ describe Report do
 
         response = subject.zip_file
         response.should eq(zip_filepath)
-        File.exist?(zip_filepath).should be_true
+        File.exist?(zip_filepath).should be true
         File.delete zip_filepath
       end
 
@@ -96,7 +96,7 @@ describe Report do
         zip_filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}.zip"
         response = subject.zip_folder
         response.should eq(zip_filepath)
-        File.exist?(zip_filepath).should be_true
+        File.exist?(zip_filepath).should be true
         File.delete zip_filepath
       end
     end

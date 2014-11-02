@@ -21,7 +21,7 @@ describe "/api/v3/articles" do
         response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end.should be true
       end
 
       it "JSON" do
@@ -33,7 +33,7 @@ describe "/api/v3/articles" do
         response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end.should be true
       end
 
       it "XML" do
@@ -46,7 +46,7 @@ describe "/api/v3/articles" do
         response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end.should be true
       end
     end
 
@@ -62,7 +62,7 @@ describe "/api/v3/articles" do
         response.length.should eql(50)
         response.any? do |article|
           article["pmid"] == articles[0].pmid
-        end.should be_true
+        end.should be true
       end
 
       it "XML" do
@@ -75,7 +75,7 @@ describe "/api/v3/articles" do
         response.any? do |article|
           article["pmid"] == articles[0].pmid
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end.should be true
       end
     end
 
