@@ -12,14 +12,15 @@ Lagotto::Application.routes.draw do
   end
   resources :users
   resources :publishers
-  resources :status, only: [:index]
-  resources :heartbeat, only: [:index]
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :alerts
   resources :api_requests
   resources :filters
 
-  get "oembed" => "oembed#show"
+  get "status", to: "status#show"
+  get "heartbeat", to: "heartbeat#show"
+  get "oembed", to: "oembed#show"
+
   get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
 
   namespace :api do
