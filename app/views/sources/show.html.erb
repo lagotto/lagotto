@@ -18,11 +18,11 @@
   <div class="tab-content">
     <div class="tab-pane active" id="summary">
       <div id="summary-show">
-        <%= render :partial => 'summary-show', :locals => { :name => @source.name } %>
+        <%= render :partial => 'summary_show', :locals => { :name => @source.name } %>
       </div>
     </div>
     <div class="tab-pane" id="most-cited">
-      <%= render :partial => 'most-cited' %>
+      <%= render :partial => 'most_cited' %>
     </div>
     <% if can?(:manage, @source) && @source.state > 0 %>
       <div class="tab-pane" id="configuration">
