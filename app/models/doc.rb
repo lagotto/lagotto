@@ -12,7 +12,7 @@ class Doc
     if name.present?
       new(name)
     else
-      OpenStruct.new(title: "No title", content: "")
+      OpenStruct.new(title: nil, content: nil)
     end
   end
 
