@@ -17,7 +17,7 @@ describe CrossRef do
 
   context "publisher_configs" do
     it "all publisher_configs" do
-      config = subject.publisher_configs.first["config"]
+      config = subject.publisher_configs.first[1]
       config.username.should eq("username")
       config.password.should eq("password")
     end
