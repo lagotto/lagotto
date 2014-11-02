@@ -4,7 +4,7 @@ viewed = Group.where(name: 'viewed').first_or_create(display_name: 'Viewed')
 saved = Group.where(name: 'saved').first_or_create(display_name: 'Saved')
 discussed = Group.where(name: 'discussed').first_or_create(display_name: 'Discussed')
 cited = Group.where(name: 'cited').first_or_create(display_name: 'Cited')
-recommended = where(name: 'recommended').first_or_create(display_name: 'Recommended')
+recommended = Group.where(name: 'recommended').first_or_create(display_name: 'Recommended')
 other = Group.where(name: 'other').first_or_create(display_name: 'Other')
 
 # These sources are installed and activated by default

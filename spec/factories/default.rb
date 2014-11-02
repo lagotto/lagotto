@@ -181,7 +181,7 @@ FactoryGirl.define do
       end
     end
 
-    initialize_with { RetrievalStatus.where(article_id: article.id, source_id: source.id).find_or_initialize }
+    initialize_with { RetrievalStatus.where(article_id: article.id, source_id: source.id).first_or_initialize }
   end
 
   factory :delayed_job do

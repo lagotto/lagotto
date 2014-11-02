@@ -7,6 +7,7 @@ error_report = Report.where(name: 'error_report').first_or_create(
                 :private => true)
 
 stale_source_report = Report.where(name: 'stale_source_report').first_or_create(
+                :display_name => 'Stale Source Report',
                 :description => 'Reports when a source has not been updated',
                 :interval => 1.day,
                 :private => true)
