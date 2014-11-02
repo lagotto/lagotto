@@ -279,14 +279,14 @@ dt, dd { line-height: 1.5; }
 html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
 
 // markdown formatting
-.markdown pre { font-size: 0.75em; border: 0; }
+.markdown pre { font-size: 1em; border: 0; padding: 10px; }
 .markdown code {
   margin: 0 2px;
-  padding: 0px 5px;
+  padding: 0;
   background-color: $gray-light;
   border-radius: 3px;
   color: black;
-  font-size: 0.75em;
+  font-size: 0.8em;
 }
 .markdown table {
     border:1px solid $gray;
@@ -304,8 +304,8 @@ html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
     padding-right: 13px;
 }
 .markdown table tr:nth-child(odd) {
-    background:rgba(248,248,248,0.06)
+    background: $gray;
 }
 .markdown table tr:nth-child(even) {
-    background: $gray-light
+    background: $gray-light;
 }
