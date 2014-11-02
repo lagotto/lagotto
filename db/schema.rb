@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(version: 20141031213833) do
 
   create_table "api_requests", force: true do |t|
     t.string   "format"
-    t.float    "db_duration",   limit: 24
-    t.float    "view_duration", limit: 24
+    t.float    "db_duration"
+    t.float    "view_duration"
     t.datetime "created_at"
     t.string   "api_key"
     t.string   "info"
@@ -62,11 +62,11 @@ ActiveRecord::Schema.define(version: 20141031213833) do
     t.integer  "retrieval_status_id"
     t.integer  "event_count"
     t.integer  "previous_count"
-    t.float    "duration",            limit: 24
+    t.float    "duration"
     t.datetime "created_at"
     t.integer  "update_interval"
-    t.boolean  "unresolved",                     default: true
-    t.boolean  "skipped",                        default: false
+    t.boolean  "unresolved",          default: true
+    t.boolean  "skipped",             default: false
   end
 
   add_index "api_responses", ["created_at"], name: "index_api_responses_created_at", using: :btree
