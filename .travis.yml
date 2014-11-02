@@ -20,7 +20,7 @@ script:
   - bundle exec cucumber
   - bundle exec rake spec:javascript
   - bundle exec rake brakeman:run
-  - bundle exec rubocop -R app config db features lib spec
+  - bundle exec rubocop
 
 env:
   global:
