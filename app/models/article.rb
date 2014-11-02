@@ -25,14 +25,12 @@ class Article < ActiveRecord::Base
   before_validation :sanitize_title
   after_create :create_retrievals
 
-  scope :query, lambda { |query| where("doi like ?", "#{query}%") }
-
-  scope :last_x_days, lambda { |duration| where("published_on >= ?", Date.today - duration.days) }
-  scope :is_cited, lambda { includes(:retrieval_statuses)
+  scope :query, ->(query) { where("doi like ?", "#{query}%") }
+  scope :last_x_days, ->(duration) { where("published_on >= ?", Time.zone.now.to_date - duration.days) }
+  scope :is_cited, -> { joins(:retrieval_statuses)
     .where("retrieval_statuses.event_count > ?", 0) }
-  scope :is_cited_by_source, lambda { |source_id| includes(:retrieval_statuses)
-    .where("retrieval_statuses.source_id = ?", source_id)
-    .where("retrieval_statuses.event_count > ?", 0) }
+  scope :by_source, ->(source_id) { joins(:retrieval_statuses)
+    .where("retrieval_statuses.source_id = ?", source_id) }
 
   def self.from_uri(id)
     return nil if id.nil?
@@ -98,7 +96,7 @@ class Article < ActiveRecord::Base
     # update title and/or date if article exists
     # raise an error for other RecordInvalid errors such as missing title
     if e.message.start_with?("Mysql2::Error: Duplicate entry", "Validation failed: Doi has already been taken")
-      article = find_by_doi(params[:doi])
+      article = Article.where(doi: params[:doi]).first
       article.update_attributes(params)
       article
     else
@@ -222,17 +220,15 @@ class Article < ActiveRecord::Base
   end
 
   def signposts
-    @signposts ||= sources.pluck_all(:name, :event_count, :events_url)
+    @signposts ||= sources.pluck(:name, :event_count, :events_url)
   end
 
   def event_count(name)
-    signposts.reduce(0) do |sum, hash|
-      hash["name"] == name ? hash['event_count'].to_i : sum
-    end
+    signposts.reduce(0) { |sum, source| source[0] == name ? source[1].to_i : sum }
   end
 
   def events_url(name)
-    signposts.reduce(nil) { |sum, hash| hash["name"] == name ? hash['events_url'] : sum }
+    signposts.reduce(nil) { |sum, source| source[0] == name ? source[2] : sum }
   end
 
   def mendeley_url
@@ -256,7 +252,7 @@ class Article < ActiveRecord::Base
   end
 
   def citations
-    @citations ||= Source.installed(name: "scopus").present? ? event_count("scopus") : event_count("crossref")
+    @citations ||= Source.installed.where(name: "scopus").first ? event_count("scopus") : event_count("crossref")
   end
 
   alias_method :viewed, :views

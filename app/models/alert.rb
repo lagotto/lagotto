@@ -9,11 +9,11 @@ class Alert < ActiveRecord::Base
 
   default_scope { where("unresolved = ?", true).order("alerts.created_at DESC") }
 
-  scope :errors, where("alerts.level > ?", 0)
-  scope :query, lambda { |query| includes(:article).where("class_name like ? OR message like ? OR status = ? OR articles.doi = ?", "%#{query}%", "%#{query}%", query, query) }
-  scope :total, lambda { |duration| where("created_at > ?", Time.zone.now - duration.days) }
-  scope :total_errors, lambda { |duration| where("alerts.level > ?", 0).where("created_at > ?", Time.zone.now - duration.days) }
-  scope :from_sources, lambda { |duration| where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now - duration.days) }
+  scope :errors, -> { where("alerts.level > ?", 0) }
+  scope :query, ->(query) { includes(:article).where("class_name like ? OR message like ? OR status = ? OR articles.doi = ?", "%#{query}%", "%#{query}%", query, query) }
+  scope :total, ->(duration) { where("created_at > ?", Time.zone.now - duration.days) }
+  scope :total_errors, ->(duration) { where("alerts.level > ?", 0).where("created_at > ?", Time.zone.now - duration.days) }
+  scope :from_sources, ->(duration) { where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now - duration.days) }
 
   # alert level, default is ERROR
   # adapted from http://www.ruby-doc.org/stdlib-2.1.2/libdoc/logger/rdoc/Logger.html
@@ -42,7 +42,7 @@ class Alert < ActiveRecord::Base
   end
 
   def send_fatal_error_report
-    report = Report.find_by_name("fatal_error_report")
+    report = Report.where(name: "fatal_error_report").first
     report.send_fatal_error_report(message)
   end
 

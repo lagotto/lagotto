@@ -55,21 +55,28 @@ class Source < ActiveRecord::Base
   validates :staleness_all, :numericality => { :only_integer => true, :greater_than => 0 }
   validate :validate_cron_line_format, :allow_blank => true
 
-  scope :available, where("state = ?", 0).order("group_id, sources.display_name")
-  scope :installed, where("state > ?", 0).order("group_id, sources.display_name")
-  scope :retired, where("state = ?", 1).order("group_id, sources.display_name")
-  scope :visible, where("state > ?", 1).order("group_id, sources.display_name")
-  scope :inactive, where("state = ?", 2).order("group_id, sources.display_name")
-  scope :disabled, where("state = ?", 3).order("group_id, sources.display_name")
-  scope :waiting, where("state = ?", 5).order("group_id, sources.display_name")
-  scope :working, where("state = ?", 6).order("group_id, sources.display_name")
-  scope :active, where("state > ?", 2).order("group_id, sources.display_name")
-  scope :for_events, where("state > ?", 2).where("name != ?", 'relativemetric').order("group_id, sources.display_name")
-  scope :queueable, where("state > ?", 2).where("queueable = ?", true).order("group_id, sources.display_name")
+  # filter sources by state
+  scope :by_state, ->(state) { where("state = ?", state) }
+  scope :by_states, ->(state) { where("state > ?", state) }
+  scope :order_by_name, -> { order("group_id, sources.display_name") }
+
+  scope :available, -> { by_state(0).order_by_name }
+  scope :retired, -> { by_state(1).order_by_name }
+  scope :inactive, -> { by_state(2).order_by_name }
+  scope :disabled, -> { by_state(3).order_by_name }
+  scope :waiting, -> { by_state(5).order_by_name }
+  scope :working, -> { by_state(6).order_by_name }
+
+  scope :installed, -> { by_states(0).order_by_name }
+  scope :visible, -> { by_states(1).order_by_name }
+  scope :active, -> { by_states(2).order_by_name }
+
+  scope :for_events, -> { active.where("name != ?", 'relativemetric') }
+  scope :queueable, -> { active.where("queueable = ?", true) }
 
   # some sources cannot be redistributed
-  scope :public_sources, lambda { where("private = ?", false) }
-  scope :private_sources, lambda { where("private = ?", true) }
+  scope :public_sources, -> { where(private: false) }
+  scope :private_sources, -> { where(private: true) }
 
   def to_param  # overridden, use name instead of id
     name
@@ -235,12 +242,12 @@ class Source < ActiveRecord::Base
   def publisher_configs
     return [] unless by_publisher?
 
-    publisher_options.pluck_all(:publisher_id, :config)
+    publisher_options.pluck(:publisher_id, :config)
   end
 
   def publisher_config(publisher_id)
-    conf = publisher_configs.find { |conf| conf["publisher_id"] == publisher_id }
-    conf.nil? ? OpenStruct.new : conf["config"]
+    conf = publisher_configs.find { |conf| conf[0] == publisher_id }
+    conf.nil? ? OpenStruct.new : conf[1]
   end
 
   # all other fields
