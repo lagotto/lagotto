@@ -5,7 +5,9 @@ describe "db:articles:import" do
 
   let(:output) { "Started import of 993 articles in the background...\n" }
 
-  its(:prerequisites) { should include("environment") }
+  it "prerequisites should include environment" do
+    subject.prerequisites.should include("environment")
+  end
 
   it "should run the rake task" do
     import = Import.new
@@ -31,7 +33,9 @@ describe "db:articles:load" do
   # we are not providing a file to import
   let(:output) { "No articles to import.\n" }
 
-  its(:prerequisites) { should include("environment") }
+  it "prerequisites should include environment" do
+    subject.prerequisites.should include("environment")
+  end
 
   it "should run the rake task" do
     capture_stdout { subject.invoke }.should eq(output)

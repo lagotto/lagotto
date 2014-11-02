@@ -5,7 +5,9 @@ describe "couchdb:histories:delete" do
 
   let(:output) { "No CouchDB history documents to delete.\n" }
 
-  its(:prerequisites) { should include("environment") }
+  it "prerequisites should include environment" do
+    subject.prerequisites.should include("environment")
+  end
 
   it "should run the rake task" do
     capture_stdout { subject.invoke }.should eq(output)
