@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class F1000 < Source
-  def parse_data(result, article, options={})
+  def parse_data(result, article)
     # properly handle not found errors
     result = { 'data' => [] } if result[:status] == 404
 

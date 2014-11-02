@@ -1,20 +1,20 @@
-##!/usr/bin/env ruby
-#^syntax detection
+## !/usr/bin/env ruby
+# ^syntax detection
 
 site 'http://community.opscode.com/api/v1'
 
 cookbook "lagotto",
-  :git => "git@github.com:articlemetrics/lagotto-cookbook.git"
+         :git => "git@github.com:articlemetrics/lagotto-cookbook.git"
 cookbook "ruby",
-  :git => "git@github.com:articlemetrics/ruby-cookbook.git"
+         :git => "git@github.com:articlemetrics/ruby-cookbook.git"
 cookbook "passenger_nginx",
-  :git => "git@github.com:articlemetrics/passenger_nginx-cookbook.git"
+         :git => "git@github.com:articlemetrics/passenger_nginx-cookbook.git"
 cookbook "mysql_rails",
-  :git => "git@github.com:articlemetrics/mysql_rails-cookbook.git"
+         :git => "git@github.com:articlemetrics/mysql_rails-cookbook.git"
 cookbook "capistrano",
-  :git => "git@github.com:articlemetrics/capistrano-cookbook.git"
+         :git => "git@github.com:articlemetrics/capistrano-cookbook.git"
 cookbook "dotenv",
-  :git => "git@github.com:articlemetrics/dotenv-cookbook.git"
+         :git => "git@github.com:articlemetrics/dotenv-cookbook.git"
 cookbook "mysql", '~> 5.4.3'
 cookbook 'database', '~> 2.3.0'
 cookbook "memcached"

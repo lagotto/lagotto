@@ -21,7 +21,7 @@ class CrossRef < Source
     { content_type: 'xml' }
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, article)
     return result if result[:error]
 
     events = get_events(result)

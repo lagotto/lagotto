@@ -18,7 +18,7 @@ class Wos < Source
     result.extend Hashie::Extensions::DeepFetch
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, article)
     return result if result[:error]
 
     # Check whether WOS has returned an error status message

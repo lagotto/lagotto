@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class TwitterSearch < Source
-  def get_query_url(article, options={})
+  def get_query_url(article, options = {})
     return nil unless get_access_token && article.doi.present? && article.get_url
 
     params = { q: "#{article.doi_escaped} OR #{article.canonical_url}",
@@ -15,7 +15,7 @@ class TwitterSearch < Source
     { bearer: access_token }
   end
 
-  def parse_data(result, article, options = {})
+  def parse_data(result, article)
     # return early if an error occured
     return result if result[:error]
 
@@ -43,7 +43,7 @@ class TwitterSearch < Source
       end
 
       event_time = get_iso8601_from_time(item['created_at'])
-      url = "http://twitter.com/#{user}/status/#{item["id_str"]}"
+      url = "http://twitter.com/#{user}/status/#{item['id_str']}"
 
       { event: { id: item["id_str"],
                  text: item["text"],
@@ -74,7 +74,7 @@ class TwitterSearch < Source
     data = HashWithIndifferentAccess.new(get_lagotto_data("twitter_search:#{article.doi_escaped}"))
 
     merged_events = Array(data['events']) | events
-    merged_events.group_by { |event| event[:event][:id] }.map { |k, v| v.first }
+    merged_events.group_by { |event| event[:event][:id] }.map { |_, v| v.first }
   end
 
   def get_access_token(options={})

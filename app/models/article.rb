@@ -18,7 +18,7 @@ class Article < ActiveRecord::Base
   has_many :api_responses
 
   validates :uid, :title, :presence => true
-  validates :doi, :uniqueness => true , :format => { :with => DOI_FORMAT }, :allow_nil => true
+  validates :doi, :uniqueness => true, :format => { :with => DOI_FORMAT }, :allow_nil => true
   validates :year, :numericality => { :only_integer => true }, :inclusion => { :in => 1650..(Time.zone.now.year), :message => "should be between 1650 and #{Time.zone.now.year}" }
   validate :validate_published_on, if: proc { |article| article.year.present? }
 

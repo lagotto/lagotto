@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class Pmc < Source
-  def parse_data(result, article, options={})
+  def parse_data(result, article)
     # properly handle not found errors
     result = { 'data' => [] } if result[:status] == 404
 
@@ -36,32 +36,32 @@ class Pmc < Source
     options[:source_id] = id
 
     publisher_configs.each do |publisher|
-      publisher_id = publisher["publisher_id"]
-      journals_array = publisher["config"].journals.to_s.split(" ")
+      publisher_id = publisher[0]
+      journals_array = publisher[1].journals.to_s.split(" ")
 
       journals_array.each do |journal|
         feed_url = get_feed_url(publisher_id, month, year, journal)
         filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
 
-        if save_to_file(feed_url, filename, options).nil?
-          Alert.create(:exception => "",
-                       :class_name => "Net::HTTPInternalServerError",
-                       :message => "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved",
-                       :status => 500,
-                       :source_id => id)
-          journals_with_errors << journal
-        end
+        next if save_to_file(feed_url, filename, options)
+
+        Alert.create(:exception => "",
+                     :class_name => "Net::HTTPInternalServerError",
+                     :message => "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved",
+                     :status => 500,
+                     :source_id => id)
+        journals_with_errors << journal
       end
     end
     journals_with_errors
   end
 
   # Parse usage stats and store in CouchDB. Returns an empty array if no error occured
-  def parse_feed(month, year, options={})
+  def parse_feed(month, year, _options = {})
     journals_with_errors = []
 
     publisher_configs.each do |publisher|
-      pc = publisher["config"]
+      pc = publisher[1]
       next if pc.username.nil? || pc.password.nil?
 
       journals_array = pc.journals.to_s.split(" ")

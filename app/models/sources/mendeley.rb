@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class Mendeley < Source
-  def parse_data(result, article, options={})
+  def parse_data(result, article)
     # When Mendeley doesn't return a proper API response it can return
     # - a 404 status and error hash
     # - an empty array
