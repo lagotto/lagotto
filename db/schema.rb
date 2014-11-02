@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031213833) do
+ActiveRecord::Schema.define(version: 20141102174653) do
 
   create_table "alerts", force: true do |t|
     t.integer  "source_id"
@@ -22,13 +22,13 @@ ActiveRecord::Schema.define(version: 20141031213833) do
     t.string   "user_agent"
     t.integer  "status"
     t.string   "content_type"
-    t.text     "details"
-    t.boolean  "unresolved",                default: true
+    t.text     "details",      limit: 16777215
+    t.boolean  "unresolved",                    default: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remote_ip"
     t.integer  "article_id"
-    t.integer  "level",                     default: 3
+    t.integer  "level",                         default: 3
     t.string   "hostname"
   end
 
