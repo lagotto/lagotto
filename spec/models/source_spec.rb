@@ -16,7 +16,7 @@ describe Source do
   it { should validate_numericality_of(:max_failed_queries).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { should validate_numericality_of(:max_failed_query_time_interval).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { should validate_numericality_of(:job_batch_size).only_integer.with_message("should be between 1 and 1000") }
-  it { should ensure_inclusion_of(:job_batch_size).in_range(1..1000).with_message("should be between 1 and 1000") }
+  it { should validate_inclusion_of(:job_batch_size).in_range(1..1000).with_message("should be between 1 and 1000") }
   it { should validate_numericality_of(:rate_limiting).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { should validate_numericality_of(:staleness_week).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { should validate_numericality_of(:staleness_month).is_greater_than(0).only_integer.with_message("must be greater than 0") }
