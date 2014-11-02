@@ -10,8 +10,9 @@ describe TwitterSearch do
 
     it "should make the right API call" do
       subject.access_token = nil
-      stub = stub_request(:post, subject.authentication_url).with(:body => "grant_type=client_credentials", :headers => { :authorization => auth })
-        .to_return(:body => File.read(fixture_path + 'twitter_auth.json'))
+      stub = stub_request(:post, subject.authentication_url)
+             .with(:body => "grant_type=client_credentials", :headers => { :authorization => auth })
+             .to_return(:body => File.read(fixture_path + 'twitter_auth.json'))
       subject.get_access_token.should_not be false
       stub.should have_been_requested
       subject.access_token.should eq("AAAAAAAAAAAAAAAAAAAAACS6XQAAAAAAc7aBSzqxeYuzho78VPeXw4md79A%3DuWsDmuGGhl0tOQJuNZAl37MN6tiTiar7U8tHQkBGbkk1rvlNqk")
@@ -20,8 +21,9 @@ describe TwitterSearch do
     it "should look up access token if blank" do
       subject.access_token = nil
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
-      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
-        .to_return(:body => File.read(fixture_path + 'twitter_auth.json'))
+      stub_auth = stub_request(:post, subject.authentication_url)
+                  .with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+                  .to_return(:body => File.read(fixture_path + 'twitter_auth.json'))
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
 
       response = subject.get_data(article, source_id: subject.id)

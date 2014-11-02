@@ -16,12 +16,14 @@ describe "pmc:update" do
     pmc.delete_lagotto_data(pmc.url)
   end
 
-  its(:prerequisites) { should include("environment") }
+  it "prerequisites should include environment" do
+    subject.prerequisites.should include("environment")
+  end
 
   it "should run the rake task" do
     config = pmc.publisher_configs.first
-    publisher_id = config["publisher_id"]
-    journal = config["config"].journals.split(" ").first
+    publisher_id = config[0]
+    journal = config[1].journals.split(" ").first
     stub = stub_request(:get, pmc.get_feed_url(publisher_id, month, year, journal)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'pmc.xml'), :status => 200)
     capture_stdout { subject.invoke }.should eq(output)
   end

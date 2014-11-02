@@ -22,12 +22,8 @@ FactoryGirl.define do
     initialize_with { Citeulike.where(name: name).first_or_initialize }
 
     factory :source_with_api_responses do
-      ignore do
-        api_responses_count 5
-      end
-
-      after(:create) do |source, evaluator|
-        FactoryGirl.create_list(:api_response, evaluator.api_responses_count, source: source)
+      after(:create) do |source|
+        FactoryGirl.create_list(:api_response, 5, source: source)
       end
     end
   end

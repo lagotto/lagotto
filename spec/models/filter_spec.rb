@@ -88,7 +88,7 @@ describe Filter do
         alert = Alert.first
         alert.class_name.should eq("EventCountDecreasingError")
         alert.message.should include("Event count decreased")
-        alert.level.should == 2
+        alert.level.should == 1
         alert.source_id.should == 1
       end
     end
@@ -147,7 +147,7 @@ describe Filter do
         alert = Alert.first
         alert.class_name.should eq("EventCountIncreasingTooFastError")
         alert.message.should include("Event count increased")
-        alert.level.should == 2
+        alert.level.should == 1
         alert.source_id.should == 1
       end
     end

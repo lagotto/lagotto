@@ -13,7 +13,7 @@ class RetrievalHistoryJob < Struct.new(:rh_ids)
     rh_ids.each { | rh_id | remove_lagotto_data(rh_id) }
   end
 
-  def error(job, exception)
+  def error(_job, exception)
     Alert.create(:exception => "", :class_name => exception.class.to_s, :message => exception.message)
   end
 

@@ -9,9 +9,7 @@ begin
   # see https://github.com/applicationsonline/librarian/issues/151
   class Librarian::Action::Install < Librarian::Action::Base
     def create_install_path
-      if install_path.exist?
-        FileUtils.rm_rf("#{install_path}/.", secure: true)
-      end
+      FileUtils.rm_rf("#{install_path}/.", secure: true) if install_path.exist?
       install_path.mkpath
     end
   end
@@ -41,7 +39,7 @@ def load_env
 
   # load ENV variables from file specified by DOTENV
   # use .env with DOTENV=default
-  filename = ENV["DOTENV"] == "default" ? ".env" : ".env.#{ENV["DOTENV"]}"
+  filename = ENV["DOTENV"] == "default" ? ".env" : ".env.#{ENV['DOTENV']}"
   Dotenv.load! File.expand_path("../#{filename}", __FILE__)
 rescue LoadError
   $stderr.puts "Please install dotenv plugin with \"vagrant plugin install dotenv\""
@@ -91,21 +89,21 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--memory", "1024"]
       unless Vagrant::Util::Platform.windows?
         # Disable default synced folder before bindfs tries to bind to it
-        override.vm.synced_folder ".", "/var/www/#{ENV["APPLICATION"]}/current", disabled: true
+        override.vm.synced_folder ".", "/var/www/#{ENV['APPLICATION']}/current", disabled: true
         override.vm.synced_folder ".", "/vagrant", id: "vagrant-root", nfs: true
-        override.bindfs.bind_folder "/vagrant", "/var/www/#{ENV["APPLICATION"]}/current",
-          :owner => "900",
-          :group => "900",
-          :"create-as-user" => true,
-          :perms => "u=rwx:g=rwx:o=rwx",
-          :"create-with-perms" => "u=rwx:g=rwx:o=rwx",
-          :"chown-ignore" => true,
-          :"chgrp-ignore" => true,
-          :"chmod-ignore" => true
+        override.bindfs.bind_folder "/vagrant", "/var/www/#{ENV['APPLICATION']}/current",
+                                    :owner => "900",
+                                    :group => "900",
+                                    :"create-as-user" => true,
+                                    :perms => "u=rwx:g=rwx:o=rwx",
+                                    :"create-with-perms" => "u=rwx:g=rwx:o=rwx",
+                                    :"chown-ignore" => true,
+                                    :"chgrp-ignore" => true,
+                                    :"chmod-ignore" => true
       end
     end
 
-    machine.vm.provider :vmware_fusion do |fusion, override|
+    machine.vm.provider :vmware_fusion do |fusion|
       fusion.vmx["memsize"] = "1024"
     end
 
@@ -142,6 +140,6 @@ Vagrant.configure("2") do |config|
     machine.vm.hostname = ENV.fetch('HOSTNAME')
     machine.vm.network :private_network, ip: ENV.fetch('PRIVATE_IP', nil)
     machine.vm.network :public_network
-    machine.vm.synced_folder ".", "/var/www/#{ENV["APPLICATION"]}/current", id: "vagrant-root"
+    machine.vm.synced_folder ".", "/var/www/#{ENV['APPLICATION']}/current", id: "vagrant-root"
   end
 end

@@ -187,7 +187,7 @@ describe Article do
     it "should delete associated retrieval_statuses" do
       @articles = FactoryGirl.create_list(:article_with_events, 2)
       RetrievalStatus.count.should == 2
-      @articles.each { |article| article.destroy }
+      @articles.each(&:destroy)
       RetrievalStatus.count.should == 0
     end
   end

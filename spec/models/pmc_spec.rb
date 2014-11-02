@@ -91,7 +91,7 @@ describe Pmc do
       stub = stub_request(:get, subject.get_feed_url(publisher_id, month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
       subject.get_feed(month, year).should be_empty
       file = "#{Rails.root}/data/pmcstat_#{journal}_#{month}_#{year}.xml"
-      File.exist?(file).should be_true
+      File.exist?(file).should be true
       stub.should have_been_requested
       Alert.count.should == 0
     end

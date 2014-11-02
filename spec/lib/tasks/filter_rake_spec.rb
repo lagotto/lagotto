@@ -3,7 +3,9 @@ require 'spec_helper'
 describe "filter:all" do
   include_context "rake"
 
-  its(:prerequisites) { should include("environment") }
+  it "prerequisites should include environment" do
+    subject.prerequisites.should include("environment")
+  end
 
   context "found no errors" do
 
@@ -109,7 +111,9 @@ end
 describe "filter:unresolve" do
   include_context "rake"
 
-  its(:prerequisites) { should include("environment") }
+  it "prerequisites should include environment" do
+    subject.prerequisites.should include("environment")
+  end
 
   before do
     FactoryGirl.create(:api_response, unresolved: false)

@@ -3,7 +3,7 @@
 namespace :queue do
 
   desc "Queue stale articles"
-  task :stale => :environment do |t, args|
+  task :stale => :environment do |_, args|
     if args.extras.empty?
       sources = Source.active
     else
@@ -32,7 +32,7 @@ namespace :queue do
   end
 
   desc "Queue all articles"
-  task :all => :environment do |t, args|
+  task :all => :environment do |_, args|
     if args.extras.empty?
       sources = Source.active
     else
@@ -61,7 +61,7 @@ namespace :queue do
   end
 
   desc "Queue article with given uid"
-  task :one, [:uid] => :environment do |t, args|
+  task :one, [:uid] => :environment do |_, args|
     if args.uid.nil?
       puts "#{ENV['UID']} is required"
       exit
@@ -92,7 +92,7 @@ namespace :queue do
         exit
       end
 
-      source.queue_article_jobs([rs.id], { priority: 2 })
+      source.queue_article_jobs([rs.id], priority: 2)
       puts "Job for #{ENV['UID']} #{article.uid} and source #{source.display_name} has been queued."
     end
   end

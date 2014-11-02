@@ -12,9 +12,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
 
   include CustomError
 
-  def enqueue(job)
+  def enqueue(_job)
     # keep track of when the article was queued up
-    RetrievalStatus.update_all(["queued_at = ?", Time.zone.now], ["id in (?)", rs_ids])
+    RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: Time.zone.now)
   end
 
   def perform
@@ -43,9 +43,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     end
   end
 
-  def error(job, exception)
+  def error(_job, exception)
     # don't create alert for these errors
-    unless exception.kind_of?(SourceInactiveError) || exception.kind_of?(NotEnoughWorkersError)
+    unless exception.is_a?(SourceInactiveError) || exception.is_a?(NotEnoughWorkersError)
       Alert.create(exception: "", class_name: exception.class.to_s, message: exception.message, source_id: source_id, level: Alert::WARN)
     end
   end
@@ -62,9 +62,9 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     end
   end
 
-  def after(job)
+  def after(_job)
     source = Source.find(source_id)
-    RetrievalStatus.update_all(["queued_at = ?", nil], ["id in (?)", rs_ids])
+    RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
     source.wait_after_check
   end
 

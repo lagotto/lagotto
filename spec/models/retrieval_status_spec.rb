@@ -71,7 +71,7 @@ describe RetrievalStatus do
 
     it "should perform and get data" do
       stub = stub_request(:get, retrieval_status.source.get_query_url(retrieval_status.article))
-        .to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
+             .to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
       result = retrieval_status.perform_get_data
 
       rs_result = retrieval_status.get_lagotto_data(rs_id)

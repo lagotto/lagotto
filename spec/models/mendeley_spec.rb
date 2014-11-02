@@ -35,7 +35,7 @@ describe Mendeley do
       subject.access_token = nil
       subject.expires_at = Time.now
       stub = stub_request(:post, subject.authentication_url).with(:body => "grant_type=client_credentials", :headers => { :authorization => auth })
-        .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
+             .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       subject.get_access_token.should_not be false
       stub.should have_been_requested
       subject.access_token.should eq("MSwxMzk0OTg1MDcyMDk0LCwxOCwsLElEeF9XU256OWgzMDNlMmc4V0JaVkMyVnFtTQ")
@@ -46,9 +46,9 @@ describe Mendeley do
       subject.access_token = nil
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
       stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
-        .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
+                  .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       stub_uuid = stub_request(:get, subject.get_lookup_url(article))
-        .to_return(:body => File.read(fixture_path + 'mendeley.json'))
+                  .to_return(:body => File.read(fixture_path + 'mendeley.json'))
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
 
       response = subject.get_data(article, source_id: subject.id)
@@ -62,9 +62,9 @@ describe Mendeley do
       subject.expires_at = Time.zone.now
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
       stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
-        .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
+                  .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       stub_uuid = stub_request(:get, subject.get_lookup_url(article))
-        .to_return(:body => File.read(fixture_path + 'mendeley.json'))
+                  .to_return(:body => File.read(fixture_path + 'mendeley.json'))
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
 
       response = subject.get_data(article, source_id: subject.id)
@@ -78,7 +78,7 @@ describe Mendeley do
       subject.access_token = nil
       article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007")
       stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
-        .to_return(:body => "Credentials are required to access this resource.", :status => 401)
+             .to_return(:body => "Credentials are required to access this resource.", :status => 401)
       subject.get_data(article, options = { :source_id => subject.id }).should eq({})
       stub.should have_been_requested
       Alert.count.should == 1
