@@ -116,31 +116,31 @@ end
 ### THEN ###
 Then /^I should see the "(.*?)" menu item$/ do |menu_item|
   page.driver.render("tmp/capybara/#{menu_item}.png") if @wip
-  page.has_css?('.dropdown-menu li', :text => menu_item, :visible => true).should be_true
+  page.has_css?('.dropdown-menu li', :text => menu_item, :visible => true).should be true
 end
 
 Then /^I should see the "(.*?)" tab$/ do |tab_title|
   page.driver.render("tmp/capybara/#{tab_title}.png") if @wip
-  page.has_css?('li', :text => tab_title, :visible => true).should be_true
+  page.has_css?('li', :text => tab_title, :visible => true).should be true
 end
 
 Then /^I should not see the "(.*?)" tab$/ do |tab_title|
   page.driver.render("tmp/capybara/#{tab_title}.png") if @wip
-  page.has_css?('li', :text => tab_title, :visible => true).should_not be_true
+  page.has_css?('li', :text => tab_title, :visible => true).should_not be true
 end
 
 Then /^I should see the title "(.*?)"$/ do |title|
-  page.has_css?('h1', :text => title, :visible => true).should be_true
+  page.has_css?('h1', :text => title, :visible => true).should be true
 end
 
 Then /^I should see the subtitle "(.*?)"$/ do |title|
-  page.has_css?('h4', :text => title, :visible => true).should be_true
+  page.has_css?('h4', :text => title, :visible => true).should be true
 end
 
 Then /^the chart should show (\d+) events for "(.*?)"$/ do |number, display_name|
   # page.driver.render("tmp/capybara/#{number}.png")
-  page.has_content?(number).should be_true
-  page.has_content?(display_name).should be_true
+  page.has_content?(number).should be true
+  page.has_content?(display_name).should be true
 end
 
 Then /^I should not see a blog count$/ do
@@ -148,27 +148,27 @@ Then /^I should not see a blog count$/ do
 end
 
 Then /^"(.*?)" should be one option for "(.*?)"$/ do |value, field|
-  page.has_select?('source_staleness_week', :with_options => [value]).should be_true
+  page.has_select?('source_staleness_week', :with_options => [value]).should be true
 end
 
 Then /^I should see the "(.*?)" column$/ do |column_title|
-  page.has_css?('th', :text => column_title, :visible => true).should be_true
+  page.has_css?('th', :text => column_title, :visible => true).should be true
 end
 
 Then /^I should not see the "(.*?)" column$/ do |column_title|
-  page.has_css?('th', :text => column_title, :visible => true).should_not be_true
+  page.has_css?('th', :text => column_title, :visible => true).should_not be true
 end
 
 Then /^I should see the row "(.*?)"$/ do |title|
-  page.has_css?('td', :text => title, :visible => true).should be_true
+  page.has_css?('td', :text => title, :visible => true).should be true
 end
 
 Then /^I should see the donut "(.*?)"$/ do |title|
-  page.find(:xpath, "//div[@id='chart_#{title}']/*[name()='svg']").should be_true
+  page.find(:xpath, "//div[@id='chart_#{title}']/*[name()='svg']").should be true
 end
 
 Then /^I should see the tooltip$/ do
-  page.has_css?('div.tooltip').should be_true
+  page.has_css?('div.tooltip').should be true
 end
 
 Then /^I should see the "(.*?)" settings$/ do |parameter|
@@ -181,15 +181,15 @@ end
 
 Then /^I should not see the "(.*?)" link in the menu bar$/ do |link_text|
   if link_text == "Home"
-    page.has_css?('a', :text => ENV['SITENAME'], :visible => true).should_not be_true
+    page.has_css?('a', :text => ENV['SITENAME'], :visible => true).should_not be true
   else
-    page.has_css?('div.collapse ul li a', :visible => true).should_not be_true
+    page.has_css?('div.collapse ul li a', :visible => true).should_not be true
     page.driver.render("tmp/capybara/#{link_text}_link.png") if @wip
   end
 end
 
 Then /^I should see the image "(.+)"$/ do |image|
-  page.has_css?("img[src='/assets/#{image}']").should be_true
+  page.has_css?("img[src='/assets/#{image}']").should be true
 end
 
 Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|
@@ -200,34 +200,34 @@ Then /^the table "(.*?)" should be:$/ do |table_name, expected_table|
 end
 
 Then /^I should see a row of "(.*?)"$/ do |chart|
-  page.has_css?("div#chart_#{chart} .chart .slice").should be_true
+  page.has_css?("div#chart_#{chart} .chart .slice").should be true
 end
 
 Then /^I should see (\d+) bookmarks$/ do |number|
   page.driver.render("tmp/capybara/#{number}_bookmarks.png") if @wip
-  page.has_css?('#alm-count-citeulike-saved', :text => number).should be_true
+  page.has_css?('#alm-count-citeulike-saved', :text => number).should be true
 end
 
 Then /^I should see (\d+) stale articles? for "(.*?)"$/ do |number, name|
-  source = Source.find_by_name(name.underscore.downcase)
+  source = Source.where(name: name.underscore.downcase).first
   page.driver.render("tmp/capybara/stale_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png") if @wip
-  page.has_css?("#stale_count_#{name.underscore.downcase}", :text => number).should be_true
+  page.has_css?("#stale_count_#{name.underscore.downcase}", :text => number).should be true
 end
 
 Then /^I should not see stale articles? for "(.*?)"$/ do |name|
-  source = Source.find_by_name(name.underscore.downcase)
+  source = Source.where(name: name.underscore.downcase).first
   page.driver.render("tmp/capybara/stale_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png")
-  page.has_no_content?("#stale_count_#{name.underscore.downcase}").should be_true
+  page.has_no_content?("#stale_count_#{name.underscore.downcase}").should be true
 end
 
 Then /^I should see (\d+) queued articles? for "(.*?)"$/ do |number, name|
-  source = Source.find_by_name(name.underscore.downcase)
+  source = Source.where(name: name.underscore.downcase).first
   page.driver.render("tmp/capybara/queued_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png")
-  page.has_css?("#queued_count_#{name.underscore.downcase}", :text => number).should be_true
+  page.has_css?("#queued_count_#{name.underscore.downcase}", :text => number).should be true
 end
 
 Then /^I should not see queued articles? for "(.*?)"$/ do |name|
-  source = Source.find_by_name(name.underscore.downcase)
+  source = Source.where(name: name.underscore.downcase).first
   page.driver.render("tmp/capybara/queued_articles_for_#{name.underscore.downcase}_#{source.human_state_name}.png")
-  page.has_no_content?("#queued_count_#{name.underscore.downcase}").should be_true
+  page.has_no_content?("#queued_count_#{name.underscore.downcase}").should be true
 end

@@ -19,25 +19,25 @@ Then /^I should see that the CouchDB size is "(.*?)"$/ do |size|
 end
 
 Then /^I should see that we have (\d+) articles$/ do |number|
-  page.has_css?('#articles_count', :text => number).should be_true
+  page.has_css?('#articles_count', :text => number).should be true
 end
 
 Then /^I should see that we have (\d+) recent articles$/ do |number|
-  page.has_css?('#articles_last30_count', :text => number).should be_true
+  page.has_css?('#articles_last30_count', :text => number).should be true
 end
 
 Then /^I should see that we have (\d+) events$/ do |number|
-  page.has_css?('#events_count', :text => number).should be_true
+  page.has_css?('#events_count', :text => number).should be true
 end
 
 Then /^I should see that we have (\d+) users?$/ do |number|
-  page.has_css?('#users_count', :text => number).should be_true
+  page.has_css?('#users_count', :text => number).should be true
 end
 
 Then /^I should not see that we have (\d+) users?$/ do |number|
-  page.has_no_content?('#users_count', :text => number).should be_true
+  page.has_no_content?('#users_count', :text => number).should be true
 end
 
 Then /^I should see that we have (\d+) active sources?$/ do |number|
-  page.has_css?('#sources_active_count', :text => number).should be_true
+  page.has_css?('#sources_active_count', :text => number).should be true
 end
