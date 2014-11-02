@@ -6,7 +6,7 @@ class Api::V4::AlertsController < Api::V4::BaseController
     collection = collection.where(unresolved: true) if params[:unresolved]
     if params[:source]
       collection = collection.includes(:source).where("sources.name = ?", params[:source])
-      @source = Source.find_by_name(params[:source])
+      @source = Source.where(name: params[:source]).first
     end
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])

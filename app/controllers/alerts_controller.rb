@@ -8,7 +8,7 @@ class AlertsController < ApplicationController
     collection = Alert
     if params[:source]
       collection = collection.includes(:source).where("sources.name = ?", params[:source])
-      @source = Source.find_by_name(params[:source])
+      @source = Source.where(name: params[:source]).first
     end
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])
@@ -61,7 +61,7 @@ class AlertsController < ApplicationController
     collection = Alert
     if params[:source]
       collection = collection.includes(:source).where("sources.name = ?", params[:source])
-      @source = Source.find_by_name(params[:source])
+      @source = Source.where(name: params[:source]).first
     end
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])

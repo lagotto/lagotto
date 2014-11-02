@@ -4,7 +4,7 @@ class Api::V5::SourcesController < Api::V5::BaseController
   end
 
   def show
-    @source = Source.find_by_name(params[:id])
+    @source = Source.where(name: params[:id]).first
     @source = SourceDecorator.decorate(@source, context: { nocache: params[:nocache] })
   end
 end
