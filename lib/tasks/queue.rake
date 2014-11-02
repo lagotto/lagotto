@@ -85,7 +85,7 @@ namespace :queue do
     end
 
     sources.each do |source|
-      rs = RetrievalStatus.find_by_article_id_and_source_id(article.id, source.id)
+      rs = RetrievalStatus.where(article_id: article.id, source_id: source.id).first
 
       if rs.nil?
         puts "Retrieval Status for article with #{ENV['UID']} #{args.uid} and source with name #{args.source} does not exist"

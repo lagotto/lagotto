@@ -6,7 +6,7 @@ namespace :pmc do
   task :update => :environment do |t, args|
 
     # silently exit if pmc source is not available
-    source = Source.visible.find_by_name("pmc")
+    source = Source.visible.where(name: "pmc").first
     exit if source.nil?
 
     dates = source.date_range(month: ENV['MONTH'], year: ENV['YEAR'])
