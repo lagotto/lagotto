@@ -61,7 +61,7 @@ class Filter < ActiveRecord::Base
     end
 
     def create_review(options)
-      review = Review.find_or_initialize_by_name_and_state_id(name: options[:name], state_id: options[:id])
+      review = Review.where(name: options[:name], state_id: options[:id]).first_or_initialize
       review.update_attributes(message: options[:message],
                                input: options[:input],
                                output: options[:output],
@@ -114,14 +114,14 @@ class Filter < ActiveRecord::Base
   end
 
   def source_ids=(value)
-    config.source_ids = value.map { |e| e.to_i }
+    config.source_ids = value.map(&:to_i)
   end
 
   def status
     (active ? "active" : "inactive")
   end
 
-  def run_filter(options = {})
+  def run_filter(_options = {})
     fail NotImplementedError, 'Children classes should override run_filter method'
   end
 

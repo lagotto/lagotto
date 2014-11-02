@@ -62,7 +62,7 @@ class Alert < ActiveRecord::Base
     self.message        = message || exception.message
     self.hostname       = hostname || ENV['HOSTNAME']
 
-    if exception.kind_of?(String)
+    if exception.is_a?(String)
       self.trace        = nil
     else
       trace             = exception.backtrace.map { |line| line.sub Rails.root.to_s, '' }

@@ -25,7 +25,7 @@ module Statable
       end
 
       state all - [:available, :retired, :inactive] do
-        validate { |source| source.validate_config_fields }
+        validate(&:validate_config_fields)
       end
 
       state all - [:available] do
