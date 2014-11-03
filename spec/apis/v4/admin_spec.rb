@@ -148,7 +148,7 @@ describe "/api/v4/articles" do
 
         Alert.count.should == 1
         alert = Alert.first
-        alert.class_name.should eq("ActionController::UnpermittedParameters")
+        alert.class_name.should eq("ActiveModel::ForbiddenAttributesError")
         alert.status.should == 422
       end
     end
@@ -303,13 +303,13 @@ describe "/api/v4/articles" do
         last_response.status.should == 422
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({"foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"]})
+        response["error"].should eq({ "foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"] })
         response["success"].should be_nil
         response["data"].should be_nil
 
         Alert.count.should == 1
         alert = Alert.first
-        alert.class_name.should eq("ActionController::UnpermittedParameters")
+        alert.class_name.should eq("ActiveModel::ForbiddenAttributesError")
         alert.status.should == 422
       end
     end
