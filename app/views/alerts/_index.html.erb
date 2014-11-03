@@ -49,21 +49,25 @@
     </div>
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @level.nil? ? "All Levels" : @level.titleize %> <span class="caret"></span></a>
-      <ul class="dropdown-menu pull-right">
+      <ul class="dropdown-menu">
         <li><%= link_to "All Levels", alerts_path(class_name: params[:class_name], source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
         <li class="divider"></li>
-        <% Alert::LEVELS[1..-1].each do|level| %>
+        <% Alert::LEVELS[1..-1].each do |level| %>
         <li><%= link_to h(level.titleize), alerts_path(level: level.downcase, class_name: params[:class_name], source: params[:source], hostname: params[:hostname], q: params[:q]) %></li>
         <% end %>
       </ul>
     </div>
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
-      <ul class="dropdown-menu pull-right">
+      <ul class="dropdown-menu">
         <li><%= link_to "All Alerts", alerts_path(source: params[:source], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
         <li class="divider"></li>
-        <% alerts.each do|alert| %>
-        <li><%= link_to h(alert), alerts_path(class_name: alert, source: params[:source], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+        <% alerts.each do |alert| %>
+          <% if alert == "-" %>
+            <li class="divider"></li>
+          <% else %>
+            <li><%= link_to h(alert), alerts_path(class_name: alert, source: params[:source], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+          <% end %>
         <% end %>
       </ul>
     </div>
