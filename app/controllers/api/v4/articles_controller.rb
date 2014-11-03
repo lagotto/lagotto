@@ -46,4 +46,10 @@ class Api::V4::ArticlesController < Api::V4::BaseController
       render "error", :status => :bad_request
     end
   end
+
+  private
+
+  def safe_params
+    params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day)
+  end
 end

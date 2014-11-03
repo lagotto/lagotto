@@ -32,8 +32,8 @@ module Articable
         collection = Article.query(params[:q])
       elsif params[:source] && source = Source.where(name: params[:source]).first
         collection = Article.joins(:retrieval_statuses)
-          .where("retrieval_statuses.source_id = ?", source.id)
-          .where("retrieval_statuses.event_count > 0")
+                     .where("retrieval_statuses.source_id = ?", source.id)
+                     .where("retrieval_statuses.event_count > 0")
       else
         collection = Article
       end
@@ -94,12 +94,6 @@ module Articable
       else
         @article = nil
       end
-    end
-
-    private
-
-    def safe_params
-      params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day)
     end
   end
 end
