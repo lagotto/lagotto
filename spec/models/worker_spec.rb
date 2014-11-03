@@ -27,11 +27,24 @@ describe Worker do
 
     subject { Worker.all[0] }
 
-    its(:id) { should_not be_nil }
-    its(:pid) { should_not be_nil }
-    its(:state) { should eq("S (sleeping)") }
-    its(:memory) { should_not be_nil }
-    its(:created_at) { should_not be_nil }
-  end
+    it "should have id" do
+      subject.id.should_not be_nil
+    end
 
+    it "should have pid" do
+      subject.pid.should_not be_nil
+    end
+
+    it "should have sleeping state" do
+      subject.state.should eq("S (sleeping)")
+    end
+
+    it "should have memory" do
+      subject.memory.should_not be_nil
+    end
+
+    it "should have created_at" do
+      subject.created_at.should_not be_nil
+    end
+  end
 end

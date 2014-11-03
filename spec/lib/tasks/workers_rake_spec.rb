@@ -9,7 +9,9 @@ describe "workers:start" do
 
   let(:output) { "All #{ENV['WORKERS']} workers started.\n" }
 
-  its(:prerequisites) { should include("environment") }
+  it "prerequisites should include environment" do
+    subject.prerequisites.should include("environment")
+  end
 
   it "should run the rake task" do
     capture_stdout { subject.invoke }.should eq(output)
