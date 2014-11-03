@@ -71,7 +71,7 @@ module Authenticable
       render "error", :status => 422
     end
 
-    rescue_from ActionController::UnpermittedParameters do |exception|
+    rescue_from ActiveModel::ForbiddenAttributesError do |exception|
       @error = Hash[exception.params.map { |v| [v, ['unpermitted parameter']] }]
       @article = nil
       create_alert(exception, status: 422)
