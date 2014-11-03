@@ -5,9 +5,11 @@ title: "Releases"
 
 ## [Lagotto 3.8](https://github.com/articlemetrics/lagotto/releases/tag/v.3.8)
 
-Lagotto 3.8 was released on November 3, 2014 with the following changes:
+Lagotto 3.8 was released on November 4, 2014 with the following changes:
 
 * upgraded to Rails 4 and Rspec 3 ([#129](https://github.com/articlemetrics/lagotto/issues/129))
+
+Please change `SECRET_TOKEN` in your `.env` file to `SECRET_KEY_BASE`.
 
 ### [Lagotto 3.7.1](https://github.com/articlemetrics/lagotto/releases/tag/v.3.7.1)
 
