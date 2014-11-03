@@ -114,14 +114,14 @@ class Filter < ActiveRecord::Base
   end
 
   def source_ids=(value)
-    config.source_ids = value.map(&:to_i)
+    config.source_ids = value.map { |e| e.to_i }
   end
 
   def status
     (active ? "active" : "inactive")
   end
 
-  def run_filter(_options = {})
+  def run_filter(options = {})
     fail NotImplementedError, 'Children classes should override run_filter method'
   end
 
