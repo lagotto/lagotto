@@ -24,6 +24,8 @@ require 'webmock/rspec'
 require "rack/test"
 require 'draper/test/rspec_integration'
 
+ActiveRecord::Migration.maintain_test_schema!
+
 include WebMock::API
 allowed_hosts = [/codeclimate.com/, ENV['HOSTNAME']]
 WebMock.disable_net_connect!(allow: allowed_hosts, allow_localhost: true)

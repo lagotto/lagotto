@@ -43,7 +43,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     end
   end
 
-  def error(_job, exception)
+  def error(job, exception)
     # don't create alert for these errors
     unless exception.is_a?(SourceInactiveError) || exception.is_a?(NotEnoughWorkersError)
       Alert.create(exception: "", class_name: exception.class.to_s, message: exception.message, source_id: source_id, level: Alert::WARN)
@@ -62,7 +62,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
     end
   end
 
-  def after(_job)
+  def after(job)
     source = Source.find(source_id)
     RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
     source.wait_after_check
