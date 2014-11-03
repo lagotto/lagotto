@@ -26,32 +26,7 @@ bundle install
 ```
 
 #### Edit deployment configuration
-Edit the deployment configuration for a production server by renaming the file `config/deploy/production.rb.example` to `config/deploy/production.rb` and fill in the following information:
-
-* server for roles :app, :web, :db (name or IP address, could all be the same server)
-* :deploy_user
-* number of background workers, e.g. three workers: :delayed_job_args, "-n 3"
-* SSH keys via :ssh_options
-
-A sample `config/deploy/production.rb` could look like this:
-
-```ruby
-set :stage, :production
-set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
-set :deploy_user, 'ubuntu'
-set :rails_env, :production
-
-server 'EXAMPLE.ORG', roles: %w{web app db}
-
-set :ssh_options, {
-  user: "ubuntu",
-  keys: %w(~/.ssh/id_rsa),
-  auth_methods: %w(publickey)
-}
-
-# Set number of delayed_job workers
-set :delayed_job_args, "-n 6"
-```
+Edit the deployment configuration for a production server in the `.env` file in the local Lagotto root folder. The samae file needs to go to `/var/www/lagotto/shared/.env` on the production server.
 
 #### Deploy
 We deploy Lagotto with
@@ -60,7 +35,7 @@ We deploy Lagotto with
 bundle exec cap production deploy
 ```
 
-You can replace `production` with other environments, e.g. `staging`. You can pass in environment variables, e.g. to deploy a different git branch: `cap production deploy BRANCH_NAME=develop`.
+You can replace `production` with other environments, e.g. `staging`. You can pass in environment variables, e.g. to deploy a different git branch: `cap production deploy BRANCH_NAME=develop`, or to deploy using a different `.env` file: `DOTENV=example cap production deploy`.
 
 The first time this command is run it creates the folder structure required by Capistrano, by default in `/var/www/lagotto`. To make sure the expected folder structure is created successfully you can run:
 
