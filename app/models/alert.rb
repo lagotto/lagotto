@@ -10,7 +10,8 @@ class Alert < ActiveRecord::Base
   default_scope { where("unresolved = ?", true).order("alerts.created_at DESC") }
 
   scope :errors, -> { where("alerts.level > ?", 0) }
-  scope :query, ->(query) { includes(:article).where("class_name like ? OR message like ? OR status = ? OR articles.doi = ?", "%#{query}%", "%#{query}%", query, query) }
+  scope :query, ->(query) { includes(:article).where("class_name like ? OR message like ? OR status = ? OR articles.doi = ?", "%#{query}%", "%#{query}%", query, query)
+                            .references(:article) }
   scope :total, ->(duration) { where("created_at > ?", Time.zone.now - duration.days) }
   scope :total_errors, ->(duration) { where("alerts.level > ?", 0).where("created_at > ?", Time.zone.now - duration.days) }
   scope :from_sources, ->(duration) { where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now - duration.days) }

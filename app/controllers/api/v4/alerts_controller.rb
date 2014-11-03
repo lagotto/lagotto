@@ -5,7 +5,7 @@ class Api::V4::AlertsController < Api::V4::BaseController
     collection = Alert.unscoped.order("alerts.created_at DESC")
     collection = collection.where(unresolved: true) if params[:unresolved]
     if params[:source]
-      collection = collection.includes(:source).where("sources.name = ?", params[:source])
+      collection = collection.joins(:source).where("sources.name = ?", params[:source])
       @source = Source.where(name: params[:source]).first
     end
     if params[:class_name]
