@@ -40,7 +40,7 @@
         <dd><%= l @article.published_on, format: date_format(@article) %></dd>
         <% if @article.publisher %>
           <dt>Publisher</dt>
-          <dd><%= link_to h(@article.publisher.name), publisher_path(@article.publisher) %></dd>
+          <dd><%= link_to h(@article.publisher.name), publisher_path(@article.publisher.crossref_id) %></dd>
         <% end %>
         <% if @article.doi.present? %>
           <dt>DOI</dt>
