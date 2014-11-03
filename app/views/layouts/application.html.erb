@@ -73,7 +73,11 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <% documents.each do |document| %>
-                <li><%= link_to h(document.tr('-', ' ')), document == "Home" ? root_path : doc_path(document.downcase) %></li>
+                <% if document == "-" %>
+                  <li class="divider"></li>
+                <% else %>
+                  <li><%= link_to h(document.tr('-', ' ')), document == "Home" ? root_path : doc_path(document.downcase) %></li>
+                <% end %>
               <% end %>
             </ul>
           </li>
