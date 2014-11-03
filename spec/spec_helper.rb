@@ -41,6 +41,8 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include(MailerMacros)
 
+  config.infer_spec_type_from_file_location!
+
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
