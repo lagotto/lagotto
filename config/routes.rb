@@ -12,15 +12,16 @@ Lagotto::Application.routes.draw do
   end
   resources :users
   resources :publishers
-  resources :status, only: [:index]
-  resources :heartbeat, only: [:index]
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :alerts
   resources :api_requests
   resources :filters
 
-  match "oembed" => "oembed#show"
-  match "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
+  get "status", to: "status#show"
+  get "heartbeat", to: "heartbeat#show"
+  get "oembed", to: "oembed#show"
+
+  get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
 
   namespace :api do
     namespace :v3 do
@@ -46,5 +47,5 @@ Lagotto::Application.routes.draw do
   get "/admin/", to: redirect("/status")
 
   # rescue routing errors
-  match "*path", to: "alerts#routing_error"
+  match "*path", to: "alerts#routing_error", via: [:get, :post]
 end

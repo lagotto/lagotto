@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Wos do
+describe Wos, :type => :model do
   subject { FactoryGirl.create(:wos) }
 
   let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007") }
@@ -8,49 +8,49 @@ describe Wos do
   it "should generate a proper XMl request" do
     article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0043007")
     request = File.read(fixture_path + 'wos_request.xml')
-    subject.get_xml_request(article).should eq(request)
+    expect(subject.get_xml_request(article)).to eq(request)
   end
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       article_without_doi = FactoryGirl.build(:article, :doi => nil)
-      subject.get_data(article_without_doi).should eq({})
+      expect(subject.get_data(article_without_doi)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the Wos API" do
       body = File.read(fixture_path + 'wos_nil.xml')
       stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body)
       response = subject.get_data(article)
-      response.should eq(Hash.from_xml(body))
-      stub.should have_been_requested
+      expect(response).to eq(Hash.from_xml(body))
+      expect(stub).to have_been_requested
     end
 
     it "should report if there are events and event_count returned by the Wos API" do
       body = File.read(fixture_path + 'wos.xml')
       stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body)
       response = subject.get_data(article)
-      response.should eq(Hash.from_xml(body))
-      stub.should have_been_requested
+      expect(response).to eq(Hash.from_xml(body))
+      expect(stub).to have_been_requested
     end
 
     it "should catch IP address errors with the Wos API" do
       body = File.read(fixture_path + 'wos_unauthorized.xml')
       stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body)
       response = subject.get_data(article)
-      response.should eq(Hash.from_xml(body))
-      stub.should have_been_requested
+      expect(response).to eq(Hash.from_xml(body))
+      expect(stub).to have_been_requested
     end
 
     it "should catch timeout errors with the Wos API" do
       stub = stub_request(:post, subject.get_query_url(article)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      response.should eq(error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc", status: 408)
-      stub.should have_been_requested
-      Alert.count.should == 1
+      expect(response).to eq(error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc", status: 408)
+      expect(stub).to have_been_requested
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("Net::HTTPRequestTimeOut")
-      alert.status.should == 408
-      alert.source_id.should == subject.id
+      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(alert.status).to eq(408)
+      expect(alert.source_id).to eq(subject.id)
     end
   end
 
@@ -60,7 +60,7 @@ describe Wos do
       result = {}
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(:events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      expect(response).to eq(:events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
     end
 
     it "should report if there are no events and event_count returned by the Wos API" do
@@ -68,7 +68,7 @@ describe Wos do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(:events => {}, :events_by_day=>[], :events_by_month=>[], :event_count => 0, :events_url => nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      expect(response).to eq(:events => {}, :events_by_day=>[], :events_by_month=>[], :event_count => 0, :events_url => nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Wos API" do
@@ -76,8 +76,8 @@ describe Wos do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response[:event_count].should eq(1005)
-      response[:events_url].should include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
+      expect(response[:event_count]).to eq(1005)
+      expect(response[:events_url]).to include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
     end
 
     it "should catch IP address errors with the Wos API" do
@@ -85,20 +85,20 @@ describe Wos do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(error: "Web of Science error Server.authentication: 'No matches returned for IP Address' for article #{article.doi}")
-      Alert.count.should == 1
+      expect(response).to eq(error: "Web of Science error Server.authentication: 'No matches returned for IP Address' for article #{article.doi}")
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("Net::HTTPUnauthorized")
-      alert.message.should include("Web of Science error Server.authentication")
-      alert.status.should == 401
-      alert.source_id.should == subject.id
+      expect(alert.class_name).to eq("Net::HTTPUnauthorized")
+      expect(alert.message).to include("Web of Science error Server.authentication")
+      expect(alert.status).to eq(401)
+      expect(alert.source_id).to eq(subject.id)
     end
 
     it "should catch timeout errors with the Wos API" do
       article = FactoryGirl.create(:article, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc" }
       response = subject.parse_data(result, article)
-      response.should eq(result)
+      expect(response).to eq(result)
     end
   end
 end

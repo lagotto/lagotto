@@ -1,47 +1,47 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe CrossRef do
+describe CrossRef, :type => :model do
   subject { FactoryGirl.create(:crossref) }
 
   let(:article) { FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007", :publisher_id => 340) }
 
   it "should report that there are no events if the doi is missing" do
     article = FactoryGirl.build(:article, :doi => nil)
-    subject.get_data(article).should eq({})
+    expect(subject.get_data(article)).to eq({})
   end
 
   it "should report that there are no events if article was published on the same day" do
     article = FactoryGirl.build(:article, :published_on => Time.zone.today)
-    subject.get_data(article).should eq({})
+    expect(subject.get_data(article)).to eq({})
   end
 
   context "publisher_configs" do
     it "all publisher_configs" do
-      config = subject.publisher_configs.first["config"]
-      config.username.should eq("username")
-      config.password.should eq("password")
+      config = subject.publisher_configs.first[1]
+      expect(config.username).to eq("username")
+      expect(config.password).to eq("password")
     end
 
     it "for specific publisher" do
       config = subject.publisher_config(article.publisher_id)
-      config.username.should eq("username")
-      config.password.should eq("password")
+      expect(config.username).to eq("username")
+      expect(config.password).to eq("password")
     end
   end
 
   context "get_query_url" do
     it "with username and password" do
-      subject.get_query_url(article).should eq("http://doi.crossref.org/servlet/getForwardLinks?usr=username&pwd=password&doi=10.1371%2Fjournal.pone.0043007")
+      expect(subject.get_query_url(article)).to eq("http://doi.crossref.org/servlet/getForwardLinks?usr=username&pwd=password&doi=10.1371%2Fjournal.pone.0043007")
     end
 
     it "without password" do
       crossref = FactoryGirl.create(:crossref_without_password)
-      crossref.get_query_url(article).should be_nil
+      expect(crossref.get_query_url(article)).to be_nil
     end
 
     it "without publisher" do
       article = FactoryGirl.create(:article, doi: "10.1007/s00248-010-9734-2", canonical_url: "http://link.springer.com/article/10.1007%2Fs00248-010-9734-2#page-1", publisher_id: nil)
-      subject.get_query_url(article).should eq("http://www.crossref.org/openurl/?pid=openurl_username&id=doi:10.1007%2Fs00248-010-9734-2&noredirect=true")
+      expect(subject.get_query_url(article)).to eq("http://www.crossref.org/openurl/?pid=openurl_username&id=doi:10.1007%2Fs00248-010-9734-2&noredirect=true")
     end
   end
 
@@ -51,28 +51,28 @@ describe CrossRef do
       url = subject.get_query_url(article)
       stub = stub_request(:get, url).to_return(:body => body)
       response = subject.get_data(article)
-      response.should eq(Hash.from_xml(body))
-      stub.should have_been_requested
+      expect(response).to eq(Hash.from_xml(body))
+      expect(stub).to have_been_requested
     end
 
     it "should report if there are events and event_count returned by the CrossRef API" do
       body = File.read(fixture_path + 'cross_ref.xml')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
-      response.should eq(Hash.from_xml(body))
-      stub.should have_been_requested
+      expect(response).to eq(Hash.from_xml(body))
+      expect(stub).to have_been_requested
     end
 
     it "should catch timeout errors with the CrossRef API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://doi.crossref.org/servlet/getForwardLinks?usr=username&pwd=password&doi=#{article.doi_escaped}", status: 408)
-      stub.should have_been_requested
-      Alert.count.should == 1
+      expect(response).to eq(error: "the server responded with status 408 for http://doi.crossref.org/servlet/getForwardLinks?usr=username&pwd=password&doi=#{article.doi_escaped}", status: 408)
+      expect(stub).to have_been_requested
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("Net::HTTPRequestTimeOut")
-      alert.status.should == 408
-      alert.source_id.should == subject.id
+      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(alert.status).to eq(408)
+      expect(alert.source_id).to eq(subject.id)
     end
   end
 
@@ -81,7 +81,7 @@ describe CrossRef do
     let(:url) { url = subject.get_query_url(article) }
 
     it "should use the OpenURL API" do
-      url.should eq("http://www.crossref.org/openurl/?pid=openurl_username&id=doi:#{article.doi_escaped}&noredirect=true")
+      expect(url).to eq("http://www.crossref.org/openurl/?pid=openurl_username&id=doi:#{article.doi_escaped}&noredirect=true")
     end
 
     it "should report if there is an event_count of zero returned by the CrossRef OpenURL API" do
@@ -89,28 +89,28 @@ describe CrossRef do
 
       stub = stub_request(:get, url).to_return(:body => body)
       response = subject.get_data(article)
-      response.should eq(Hash.from_xml(body))
-      stub.should have_been_requested
+      expect(response).to eq(Hash.from_xml(body))
+      expect(stub).to have_been_requested
     end
 
     it "should report if there is an event_count greater than zero returned by the CrossRef OpenURL API" do
       body = File.read(fixture_path + 'cross_ref_openurl.xml')
       stub = stub_request(:get, url).to_return(:body => body)
       response = subject.get_data(article)
-      response.should eq(Hash.from_xml(body))
-      stub.should have_been_requested
+      expect(response).to eq(Hash.from_xml(body))
+      expect(stub).to have_been_requested
     end
 
     it "should catch errors with the CrossRef OpenURL API" do
       stub = stub_request(:get, url).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=openurl_username&id=doi:#{article.doi_escaped}&noredirect=true", status: 408)
-      stub.should have_been_requested
-      Alert.count.should == 1
+      expect(response).to eq(error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=openurl_username&id=doi:#{article.doi_escaped}&noredirect=true", status: 408)
+      expect(stub).to have_been_requested
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("Net::HTTPRequestTimeOut")
-      alert.status.should == 408
-      alert.source_id.should == subject.id
+      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(alert.status).to eq(408)
+      expect(alert.source_id).to eq(subject.id)
     end
   end
 
@@ -121,7 +121,7 @@ describe CrossRef do
       article = FactoryGirl.build(:article, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should eq(null_response)
+      expect(subject.parse_data(result, article)).to eq(null_response)
     end
 
     it "should report if there are no events and event_count returned by the CrossRef API" do
@@ -129,7 +129,7 @@ describe CrossRef do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(null_response)
+      expect(response).to eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the CrossRef API" do
@@ -137,16 +137,16 @@ describe CrossRef do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response[:events].length.should eq(31)
-      response[:event_count].should eq(31)
+      expect(response[:events].length).to eq(31)
+      expect(response[:event_count]).to eq(31)
       event = response[:events].first
-      event[:event_url].should eq("http://dx.doi.org/#{event[:event]['doi']}")
+      expect(event[:event_url]).to eq("http://dx.doi.org/#{event[:event]['doi']}")
 
-      event[:event_csl]['author'].should eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      event[:event_csl]['title'].should eq("Audiotactile Interactions In Temporal Perception")
-      event[:event_csl]['container-title'].should eq("Psychonomic Bulletin & Review")
-      event[:event_csl]['issued'].should eq("date-parts"=>[["2011"]])
-      event[:event_csl]['type'].should eq("article-journal")
+      expect(event[:event_csl]['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
+      expect(event[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
+      expect(event[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")
+      expect(event[:event_csl]['issued']).to eq("date-parts"=>[["2011"]])
+      expect(event[:event_csl]['type']).to eq("article-journal")
     end
 
     it "should report if there is one event returned by the CrossRef API" do
@@ -154,22 +154,22 @@ describe CrossRef do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response[:events].length.should eq(1)
-      response[:event_count].should eq(1)
+      expect(response[:events].length).to eq(1)
+      expect(response[:event_count]).to eq(1)
       event = response[:events].first
-      event[:event_url].should eq("http://dx.doi.org/#{event[:event]['doi']}")
+      expect(event[:event_url]).to eq("http://dx.doi.org/#{event[:event]['doi']}")
 
-      event[:event_csl]['author'].should eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      event[:event_csl]['title'].should eq("Audiotactile Interactions In Temporal Perception")
-      event[:event_csl]['container-title'].should eq("Psychonomic Bulletin & Review")
-      event[:event_csl]['issued'].should eq("date-parts"=>[["2011"]])
-      event[:event_csl]['type'].should eq("article-journal")
+      expect(event[:event_csl]['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
+      expect(event[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
+      expect(event[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")
+      expect(event[:event_csl]['issued']).to eq("date-parts"=>[["2011"]])
+      expect(event[:event_csl]['type']).to eq("article-journal")
     end
 
     it "should catch timeout errors with the CrossRef API" do
       result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=username&id=doi:#{article.doi_escaped}&noredirect=true", :status=>408 }
       response = subject.parse_data(result, article)
-      response.should eq(result)
+      expect(response).to eq(result)
     end
   end
 
@@ -180,7 +180,7 @@ describe CrossRef do
     it "should report if the doi is missing" do
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should eq(null_response)
+      expect(subject.parse_data(result, article)).to eq(null_response)
     end
 
     it "should report if there is an event_count of zero returned by the CrossRef OpenURL API" do
@@ -188,7 +188,7 @@ describe CrossRef do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(null_response)
+      expect(response).to eq(null_response)
     end
 
     it "should report if there is an event_count greater than zero returned by the CrossRef OpenURL API" do
@@ -196,13 +196,13 @@ describe CrossRef do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response[:event_count].should eq(13)
+      expect(response[:event_count]).to eq(13)
     end
 
     it "should catch timeout errors with the CrossRef OpenURL API" do
       result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=username&id=doi:#{article.doi_escaped}&noredirect=true", status: 408 }
       response = subject.parse_data(result, article)
-      response.should eq(result)
+      expect(response).to eq(result)
     end
   end
 end

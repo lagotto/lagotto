@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Source do
 
@@ -25,65 +25,65 @@ describe Source do
 
       get_info = subject.get_lagotto_database
       db_name = Addressable::URI.parse(ENV['COUCHDB_URL']).path[1..-1]
-      get_info["db_name"].should eq(db_name)
-      get_info["disk_size"].should be > 0
-      get_info["doc_count"].should be > 1
+      expect(get_info["db_name"]).to eq(db_name)
+      expect(get_info["disk_size"]).to be > 0
+      expect(get_info["doc_count"]).to be > 1
     end
 
     it "put, get and delete data" do
       rev = subject.put_lagotto_data(url, data: data)
-      rev.should_not be_nil
+      expect(rev).not_to be_nil
 
       get_response = subject.get_lagotto_data(id)
-      get_response.should include("_id" => id, "_rev" => rev)
+      expect(get_response).to include("_id" => id, "_rev" => rev)
 
       new_rev = subject.save_lagotto_data(id, data: data)
-      new_rev.should_not be_nil
-      new_rev.should_not eq(rev)
+      expect(new_rev).not_to be_nil
+      expect(new_rev).not_to eq(rev)
 
       delete_rev = subject.remove_lagotto_data(id)
-      delete_rev.should_not be_nil
-      delete_rev.should_not eq(rev)
-      delete_rev.should include("3-")
+      expect(delete_rev).not_to be_nil
+      expect(delete_rev).not_to eq(rev)
+      expect(delete_rev).to include("3-")
     end
 
     it "get correct revision" do
       rev = subject.put_lagotto_data(url, data: data)
-      rev.should_not be_nil
+      expect(rev).not_to be_nil
 
       new_rev = subject.get_lagotto_rev(id)
-      new_rev.should_not be_nil
-      new_rev.should eq(rev)
+      expect(new_rev).not_to be_nil
+      expect(new_rev).to eq(rev)
     end
 
     it "get nil for missing id" do
       rev = subject.get_lagotto_rev("xxx")
-      rev.should be_blank
+      expect(rev).to be_blank
     end
 
     it "handle revisions" do
       rev = subject.save_lagotto_data(id, data: data)
       new_rev = subject.save_lagotto_data(id, data: data)
-      new_rev.should_not be_nil
-      new_rev.should_not eq(rev)
+      expect(new_rev).not_to be_nil
+      expect(new_rev).not_to eq(rev)
       delete_rev = subject.remove_lagotto_data(id)
-      delete_rev.should_not eq(new_rev)
+      expect(delete_rev).not_to eq(new_rev)
     end
 
     it "revision conflict" do
       rev = subject.put_lagotto_data(url, data: data)
       new_rev = subject.put_lagotto_data(url, data: data)
 
-      Alert.count.should == 1
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("Net::HTTPConflict")
-      alert.status.should == 409
+      expect(alert.class_name).to eq("Net::HTTPConflict")
+      expect(alert.status).to eq(409)
     end
 
     it "handle missing data" do
       get_response = subject.get_lagotto_data(id)
-      get_response.should eq(error: "not_found", status: 404)
-      Alert.count.should == 0
+      expect(get_response).to eq(error: "not_found", status: 404)
+      expect(Alert.count).to eq(0)
     end
   end
 end

@@ -49,7 +49,7 @@ class AddReviewsTable < ActiveRecord::Migration
     remove_column :sources, :refreshable
 
     # Make sure no null value exist
-    Source.update_all({:disable_until => Time.zone.now}, {:disable_until => nil})
+    Source.where(disable_until: nil).update_all(disable_until: Time.zone.now)
 
     # Change the column to not allow null
     change_column :sources, :disable_until, :datetime, null: false, default: '1970-01-01 00:00:00'

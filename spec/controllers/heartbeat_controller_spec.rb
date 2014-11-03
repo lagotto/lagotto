@@ -1,30 +1,30 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe HeartbeatController do
+describe HeartbeatController, :type => :controller do
   render_views
 
   context "index", :caching => true do
     it "JSON" do
       get "/heartbeat", nil, 'HTTP_ACCEPT' => 'application/json'
-      last_response.status.should == 200
+      expect(last_response.status).to eq(200)
 
       response = JSON.parse(last_response.body)
-      response["version"].should eq(Rails.application.config.version)
-      response["articles_count"].should == 0
-      response["update_date"].should eq("1970-01-01T00:00:00Z")
-      response["status"].should eq("OK")
+      expect(response["version"]).to eq(Rails.application.config.version)
+      expect(response["articles_count"]).to eq(0)
+      expect(response["update_date"]).to eq("1970-01-01T00:00:00Z")
+      expect(response["status"]).to eq("OK")
     end
 
     it "JSONP", :caching => true do
       get "/heartbeat?callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-      last_response.status.should eql(200)
+      expect(last_response.status).to eql(200)
 
       # remove jsonp wrapper
       response = JSON.parse(last_response.body[6...-1])
-      response["version"].should eq(Rails.application.config.version)
-      response["articles_count"].should == 0
-      response["update_date"].should eq("1970-01-01T00:00:00Z")
-      response["status"].should eq("OK")
+      expect(response["version"]).to eq(Rails.application.config.version)
+      expect(response["articles_count"]).to eq(0)
+      expect(response["update_date"]).to eq("1970-01-01T00:00:00Z")
+      expect(response["status"]).to eq("OK")
     end
   end
 end

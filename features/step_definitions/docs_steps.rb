@@ -6,9 +6,9 @@ end
 ### THEN ###
 Then /^I should see the "(.*?)" title$/ do |title|
   page.driver.render("tmp/capybara/#{title}.png") if @wip
-  page.has_css?('h1', :text => title.tr('-', ' ')).should be_true
+  page.has_css?('h1', :text => title.tr('-', ' ')).should be true
 end
 
 Then /^I should see the documentation$/ do
-  page.has_css?('.markdown').should be_true
+  page.has_css?('.markdown').should be true
 end

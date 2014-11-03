@@ -1,18 +1,16 @@
-# encoding: UTF-8
+require 'rails_helper'
 
-require 'spec_helper'
-
-describe Worker do
+describe Worker, :type => :model do
 
   context "class methods" do
     subject { Worker }
 
-    it { should respond_to :all }
-    it { should respond_to :find }
-    it { should respond_to :count }
-    it { should respond_to :start }
-    it { should respond_to :stop }
-    it { should respond_to :monitor }
+    it { is_expected.to respond_to :all }
+    it { is_expected.to respond_to :find }
+    it { is_expected.to respond_to :count }
+    it { is_expected.to respond_to :start }
+    it { is_expected.to respond_to :stop }
+    it { is_expected.to respond_to :monitor }
   end
 
   context "instance methods" do
@@ -27,11 +25,24 @@ describe Worker do
 
     subject { Worker.all[0] }
 
-    its(:id) { should_not be_nil }
-    its(:pid) { should_not be_nil }
-    its(:state) { should eq("S (sleeping)") }
-    its(:memory) { should_not be_nil }
-    its(:created_at) { should_not be_nil }
-  end
+    it "should have id" do
+      expect(subject.id).not_to be_nil
+    end
 
+    it "should have pid" do
+      expect(subject.pid).not_to be_nil
+    end
+
+    it "should have sleeping state" do
+      expect(subject.state).to eq("S (sleeping)")
+    end
+
+    it "should have memory" do
+      expect(subject.memory).not_to be_nil
+    end
+
+    it "should have created_at" do
+      expect(subject.created_at).not_to be_nil
+    end
+  end
 end

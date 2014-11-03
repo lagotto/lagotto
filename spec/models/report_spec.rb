@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Report do
+describe Report, :type => :model do
   subject { Report }
 
   context "available reports" do
@@ -11,12 +11,12 @@ describe Report do
 
     it "admin users should see one report" do
       response = subject.available("admin")
-      response.length.should == 1
+      expect(response.length).to eq(1)
     end
 
     it "regular users should not see any report" do
       response = subject.available("user")
-      response.length.should == 0
+      expect(response.length).to eq(0)
     end
   end
 
@@ -25,9 +25,9 @@ describe Report do
 
     it "should format the Lagotto data as csv" do
       response = CSV.parse(subject.to_csv)
-      response.length.should == 2
-      response.first.should eq(["doi", "publication_date", "title", "citeulike"])
-      response.last.should eq([article.doi, article.published_on.iso8601, article.title, "50"])
+      expect(response.length).to eq(2)
+      expect(response.first).to eq(["doi", "publication_date", "title", "citeulike"])
+      expect(response.last).to eq([article.doi, article.published_on.iso8601, article.title, "50"])
     end
   end
 
@@ -45,7 +45,7 @@ describe Report do
     it "should write report file" do
       filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}/#{filename}"
       response = subject.write(filename, csv)
-      response.should eq (filepath)
+      expect(response).to eq (filepath)
     end
 
     describe "merge and compress csv file" do
@@ -57,7 +57,7 @@ describe Report do
       it "should read stats" do
         stat = { name: "alm_stats" }
         response = subject.read_stats(stat).to_s
-        response.should eq(csv)
+        expect(response).to eq(csv)
       end
 
       it "should merge stats" do
@@ -69,15 +69,15 @@ describe Report do
         subject.write(filename, csv)
 
         response = CSV.parse(subject.merge_stats)
-        response.length.should == 2
-        response.first.should eq(["doi", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups"])
-        response.last.should eq([article.doi, article.published_on.iso8601, article.title, "50", "1663", "0"])
+        expect(response.length).to eq(2)
+        expect(response.first).to eq(["doi", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups"])
+        expect(response.last).to eq([article.doi, article.published_on.iso8601, article.title, "50", "1663", "0"])
         File.delete filepath
       end
 
       it "should merge stats from single report" do
         response = subject.merge_stats.to_s
-        response.should eq(csv)
+        expect(response).to eq(csv)
       end
 
       it "should zip report file" do
@@ -87,16 +87,16 @@ describe Report do
         subject.write(filename, csv)
 
         response = subject.zip_file
-        response.should eq(zip_filepath)
-        File.exist?(zip_filepath).should be_true
+        expect(response).to eq(zip_filepath)
+        expect(File.exist?(zip_filepath)).to be true
         File.delete zip_filepath
       end
 
       it "should zip report folder" do
         zip_filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}.zip"
         response = subject.zip_folder
-        response.should eq(zip_filepath)
-        File.exist?(zip_filepath).should be_true
+        expect(response).to eq(zip_filepath)
+        expect(File.exist?(zip_filepath)).to be true
         File.delete zip_filepath
       end
     end
@@ -108,22 +108,22 @@ describe Report do
     it "send email" do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
-      mail.to.should == [report.users.map(&:email).join(",")]
-      mail.subject.should == "[#{ENV['SITENAME']}] Error Report"
+      expect(mail.to).to eq([report.users.map(&:email).join(",")])
+      expect(mail.subject).to eq("[#{ENV['SITENAME']}] Error Report")
     end
 
     it "generates a multipart message (plain text and html)" do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
-      mail.body.parts.length.should == 2
-      mail.body.parts.map(&:content_type).should == ["text/plain; charset=UTF-8", "text/html; charset=UTF-8"]
+      expect(mail.body.parts.length).to eq(2)
+      expect(mail.body.parts.map(&:content_type)).to eq(["text/plain; charset=UTF-8", "text/html; charset=UTF-8"])
     end
 
     it "generates proper links to the admin dashboard" do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should include("<a href=\"http://#{ENV['SERVERNAME']}/alerts\">Go to admin dashboard</a>")
+      expect(body_html).to include("<a href=\"http://#{ENV['SERVERNAME']}/alerts\">Go to admin dashboard</a>")
     end
   end
 
@@ -135,22 +135,22 @@ describe Report do
     it "send email" do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
-      mail.to.should == [report.users.map(&:email).join(",")]
-      mail.subject.should == "[#{ENV['SITENAME']}] Stale Source Report"
+      expect(mail.to).to eq([report.users.map(&:email).join(",")])
+      expect(mail.subject).to eq("[#{ENV['SITENAME']}] Stale Source Report")
     end
 
     it "generates a multipart message (plain text and html)" do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
-      mail.body.parts.length.should == 2
-      mail.body.parts.map(&:content_type).should == ["text/plain; charset=UTF-8", "text/html; charset=UTF-8"]
+      expect(mail.body.parts.length).to eq(2)
+      expect(mail.body.parts.map(&:content_type)).to eq(["text/plain; charset=UTF-8", "text/html; charset=UTF-8"])
     end
 
     it "generates proper links to the admin dashboard" do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      body_html.should include("<a href=\"http://#{ENV['SERVERNAME']}/alerts?class=SourceNotUpdatedError\">Go to admin dashboard</a>")
+      expect(body_html).to include("<a href=\"http://#{ENV['SERVERNAME']}/alerts?class=SourceNotUpdatedError\">Go to admin dashboard</a>")
     end
   end
 end

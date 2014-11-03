@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe "/api/v3/articles" do
   let(:user) { FactoryGirl.create(:user) }
@@ -13,40 +13,40 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = JSON.parse(last_response.body)
-        response.length.should eql(50)
-        response.any? do |article|
+        expect(response.length).to eql(50)
+        expect(response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end).to be true
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
-        response.length.should eql(50)
-        response.any? do |article|
+        expect(response.length).to eql(50)
+        expect(response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end).to be true
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
-        response.length.should eql(50)
-        response.any? do |article|
+        expect(response.length).to eql(50)
+        expect(response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end).to be true
       end
     end
   end
@@ -59,34 +59,34 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = JSON.parse(last_response.body)[0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response["sources"].should be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response["sources"]).to be_nil
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])[0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response["sources"].should be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response["sources"]).to be_nil
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response["sources"].should be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response["sources"]).to be_nil
       end
     end
 
@@ -96,41 +96,41 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = JSON.parse(last_response.body)[0]
         response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should_not be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"]["shares"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).not_to be_nil
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])[0]
         response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should_not be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"]["shares"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).not_to be_nil
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"].to_i).to eq(article.retrieval_statuses.first.event_count)
       end
 
     end
@@ -141,41 +141,41 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = JSON.parse(last_response.body)[0]
         response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should_not be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"]["shares"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).not_to be_nil
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])[0]
         response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should_not be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"]["shares"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).not_to be_nil
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"].to_i).to eq(article.retrieval_statuses.first.event_count)
       end
     end
   end

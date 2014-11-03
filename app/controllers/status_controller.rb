@@ -1,5 +1,5 @@
 class StatusController < ApplicationController
-  def index
+  def show
     @status = Status.new
 
     if current_user.try(:is_admin?) && @status.outdated_version?

@@ -7,7 +7,7 @@ class Figshare < Source
     url % { :doi => article.doi }
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, article)
     return result if result[:error]
 
     events = Array(result["items"])

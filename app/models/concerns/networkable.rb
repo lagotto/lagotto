@@ -93,7 +93,7 @@ module Networkable
     end
 
     def rescue_faraday_error(url, error, options={})
-      if error.kind_of?(Faraday::Error::ResourceNotFound)
+      if error.is_a?(Faraday::Error::ResourceNotFound)
         status = 404
         if error.response.blank? && error.response[:body].blank?
           { error: "resource not found", status: status }
@@ -126,7 +126,7 @@ module Networkable
       else
         details = nil
 
-        if error.kind_of?(Faraday::Error::TimeoutError)
+        if error.is_a?(Faraday::Error::TimeoutError)
           status = 408
         elsif error.respond_to?('status')
           status = error[:status]

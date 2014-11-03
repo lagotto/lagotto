@@ -21,13 +21,13 @@ module Countable
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/pending_count/#{update_date}").to_i
       else
-        delayed_jobs.count(:conditions => "locked_at IS NULL")
+        delayed_jobs.where("locked_at IS NULL").count
       end
     end
 
     def pending_count=(timestamp)
       Rails.cache.write("#{name}/pending_count/#{timestamp}",
-                        delayed_jobs.count(:conditions => "locked_at IS NULL"))
+                        delayed_jobs.where("locked_at IS NULL").count)
     end
 
     def delayed_jobs_count
@@ -159,52 +159,52 @@ module Countable
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/with_events_by_day_count/#{update_date}").to_i
       else
-        retrieval_statuses.with_events(1).size
+        retrieval_statuses.with_events.last_x_days(1).size
       end
     end
 
     def with_events_by_day_count=(timestamp)
       Rails.cache.write("#{name}/with_events_by_day_count/#{timestamp}",
-                        retrieval_statuses.with_events(1).size)
+                        retrieval_statuses.with_events.last_x_days(1).size)
     end
 
     def without_events_by_day_count
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/without_events_by_day_count/#{update_date}").to_i
       else
-        retrieval_statuses.without_events(1).size
+        retrieval_statuses.without_events.last_x_days(1).size
       end
     end
 
     def without_events_by_day_count=(timestamp)
       Rails.cache.write("#{name}/without_events_by_day_count/#{timestamp}",
-                        retrieval_statuses.without_events(1).size)
+                        retrieval_statuses.without_events.last_x_days(1).size)
     end
 
     def with_events_by_month_count
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/with_events_by_month_count/#{update_date}").to_i
       else
-        retrieval_statuses.with_events(31).size
+        retrieval_statuses.with_events.last_x_days(31).size
       end
     end
 
     def with_events_by_month_count=(timestamp)
       Rails.cache.write("#{name}/with_events_by_month_count/#{timestamp}",
-                        retrieval_statuses.with_events(31).size)
+                        retrieval_statuses.with_events.last_x_days(31).size)
     end
 
     def without_events_by_month_count
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/without_events_by_month_count/#{update_date}").to_i
       else
-        retrieval_statuses.without_events(31).size
+        retrieval_statuses.without_events.last_x_days(31).size
       end
     end
 
     def without_events_by_month_count=(timestamp)
       Rails.cache.write("#{name}/without_events_by_month_count/#{timestamp}",
-                        retrieval_statuses.without_events(31).size)
+                        retrieval_statuses.without_events.last_x_days(31).size)
     end
   end
 end

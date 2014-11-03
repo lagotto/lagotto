@@ -32,17 +32,17 @@ Given /^that we have (\d+) refreshed articles? for "(.*?)"$/ do |number, name|
 end
 
 Given /^that we have queued all articles for "(.*?)"$/ do |name|
-  source = Source.find_by_name(name.underscore.downcase)
+  source = Source.where(name: name.underscore.downcase).first
   source.queue_all_articles(all: true)
 end
 
 Given /^that we have queued all stale articles for "(.*?)"$/ do |name|
-  source = Source.find_by_name(name.underscore.downcase)
+  source = Source.where(name: name.underscore.downcase).first
   source.queue_all_articles
 end
 
 Given /^that we have queued one article for "(.*?)"$/ do |name|
-  source = Source.find_by_name(name.underscore.downcase)
+  source = Source.where(name: name.underscore.downcase).first
   rs = RetrievalStatus.where(source_id: source.id).first
   source.queue_article_jobs([rs.id], priority: 2)
 end
@@ -120,20 +120,20 @@ end
 
 Then /^I should see an article with title "(.*?)"$/ do |title|
   page.driver.render("tmp/capybara/#{title}")
-  page.has_css?('h4 a', :text => title).should be_true
+  page.has_css?('h4 a', :text => title).should be true
 end
 
 Then /^I should see (\d+) cited articles$/ do |number|
-  page.has_css?('td#article_count', :text => number).should be_true
+  page.has_css?('td#article_count', :text => number).should be true
 end
 
 Then /^I should see a list of (\d+) articles?$/ do |number|
   page.driver.render("tmp/capybara/#{number}_articles.png")
-  page.has_css?('h4.article', :count => number).should be_true
+  page.has_css?('h4.article', :count => number).should be true
 end
 
 Then /^I should see a list of (\d+) events$/ do |number|
-  page.has_css?('h4.article', :count => number).should be_true
+  page.has_css?('h4.article', :count => number).should be true
 end
 
 Then /^I should see a list of (\d+) stale articles?$/ do |number|
@@ -142,39 +142,39 @@ end
 
 Then /^I should see the DOI "(.*?)" as a link$/ do |doi|
   page.driver.render("tmp/capybara/#{doi}.png") if @wip
-  page.has_link?(doi, :href => "http://dx.doi.org/#{doi}").should be_true
+  page.has_link?(doi, :href => "http://dx.doi.org/#{doi}").should be true
 end
 
 Then /^I should see the error message "(.*?)"$/ do |error|
   page.driver.render("tmp/capybara/error.png") if @wip
-  page.has_css?('span.has-error', :text => error).should be_true
+  page.has_css?('span.has-error', :text => error).should be true
 end
 
 Then /^I should see "(.*?)" with the "(.*?)" for the article$/ do |value, label|
   page.driver.render("tmp/capybara/#{label}.png") if @wip
-  page.has_css?('dt', :text => label).should be_true
+  page.has_css?('dt', :text => label).should be true
   case label
   when "Publication Date"
-    page.has_css?('dd', :text => value).should be_true
+    page.has_css?('dd', :text => value).should be true
   when "Mendeley UUID"
-    page.has_css?('dd', :text => value).should be_true
+    page.has_css?('dd', :text => value).should be true
   when "PubMed ID"
-    page.has_link?(value, :href => "http://www.ncbi.nlm.nih.gov/pubmed/#{value}").should be_true
+    page.has_link?(value, :href => "http://www.ncbi.nlm.nih.gov/pubmed/#{value}").should be true
   when "PubMed Central ID"
-    page.has_link?("PMC#{value}", :href => "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{value}").should be_true
+    page.has_link?("PMC#{value}", :href => "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{value}").should be true
   else
-    page.has_link?(value, :href => value).should be_true
+    page.has_link?(value, :href => value).should be true
   end
 end
 
 Then /^I should not see the "(.*?)" for the article$/ do |label|
-  page.has_no_css?('dt', :text => label).should be_true
+  page.has_no_css?('dt', :text => label).should be true
 end
 
 Then /^I should see the "(.*?)" chart$/ do |title|
-  page.find(:xpath, "//div[@id='#{title}']/*[name()='svg']").should be_true
+  page.find(:xpath, "//div[@id='#{title}']/*[name()='svg']").should be true
 end
 
 Then /^I should see the "(.*?)" menu$/ do |id|
-  page.has_css?("div##{id}").should be_true
+  page.has_css?("div##{id}").should be true
 end

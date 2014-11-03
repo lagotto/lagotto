@@ -1,7 +1,7 @@
 namespace :filter do
   desc "Create alerts by filtering API responses"
   task :all => :environment do
-    response = Filter.all
+    response = Filter.run
     if response.nil?
       puts "Found 0 unresolved API responses"
     else

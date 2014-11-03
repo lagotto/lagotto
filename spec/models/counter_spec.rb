@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Counter do
+describe Counter, :type => :model do
 
   subject { FactoryGirl.create(:counter) }
 
@@ -12,17 +12,17 @@ describe Counter do
       start_date = 10.months.ago.to_date
       end_date = Date.today
       response = subject.date_range(month: start_date.month, year: start_date.year)
-      response.count.should == 11
-      response.last.should eq(month: end_date.month, year: end_date.year)
+      expect(response.count).to eq(11)
+      expect(response.last).to eq(month: end_date.month, year: end_date.year)
     end
 
     it "should format the CouchDB report as csv" do
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_report.json'))
       response = CSV.parse(subject.to_csv)
-      response.count.should == 27
-      response.first.should eq(["doi", "html", "pdf", "total"])
-      response.last.should eq(["10.1371/journal.ppat.1000446", "7489", "1147", "8676"])
+      expect(response.count).to eq(27)
+      expect(response.first).to eq(["doi", "html", "pdf", "total"])
+      expect(response.last).to eq(["10.1371/journal.ppat.1000446", "7489", "1147", "8676"])
     end
 
     it "should format the CouchDB HTML report as csv" do
@@ -33,9 +33,9 @@ describe Counter do
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_html_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_html_report.json'))
       response = CSV.parse(subject.to_csv(format: "html", month: 11, year: 2013))
-      response.count.should == 27
-      response.first.should eq(["doi"] + dates)
-      response.last.should eq(row)
+      expect(response.count).to eq(27)
+      expect(response.first).to eq(["doi"] + dates)
+      expect(response.last).to eq(row)
     end
 
     it "should format the CouchDB PDF report as csv" do
@@ -46,9 +46,9 @@ describe Counter do
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_pdf_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_pdf_report.json'))
       response = CSV.parse(subject.to_csv(format: "pdf", month: 11, year: 2013))
-      response.count.should == 27
-      response.first.should eq(["doi"] + dates)
-      response[2].should eq(row)
+      expect(response.count).to eq(27)
+      expect(response.first).to eq(["doi"] + dates)
+      expect(response[2]).to eq(row)
     end
 
     it "should format the CouchDB XML report as csv" do
@@ -59,9 +59,9 @@ describe Counter do
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_xml_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_xml_report.json'))
       response = CSV.parse(subject.to_csv(format: "xml", month: 11, year: 2013))
-      response.count.should == 27
-      response.first.should eq(["doi"] + dates)
-      response[2].should eq(row)
+      expect(response.count).to eq(27)
+      expect(response.first).to eq(["doi"] + dates)
+      expect(response[2]).to eq(row)
     end
 
     it "should format the CouchDB combined report as csv" do
@@ -72,33 +72,33 @@ describe Counter do
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_combined_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_combined_report.json'))
       response = CSV.parse(subject.to_csv(format: "combined", month: 11, year: 2013))
-      response.count.should == 27
-      response.first.should eq(["doi"] + dates)
-      response[3].should eq(row)
+      expect(response.count).to eq(27)
+      expect(response.first).to eq(["doi"] + dates)
+      expect(response[3]).to eq(row)
     end
 
     it "should report an error if the CouchDB design document can't be retrieved" do
       FactoryGirl.create(:fatal_error_report_with_admin_user)
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter"
       stub = stub_request(:get, url).to_return(:status => [404])
-      subject.to_csv.should be_nil
-      Alert.count.should == 1
+      expect(subject.to_csv).to be_nil
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("Faraday::ResourceNotFound")
-      alert.message.should eq("CouchDB report for Counter could not be retrieved.")
-      alert.status.should == 404
+      expect(alert.class_name).to eq("Faraday::ResourceNotFound")
+      expect(alert.message).to eq("CouchDB report for Counter could not be retrieved.")
+      expect(alert.status).to eq(404)
     end
   end
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       article = FactoryGirl.build(:article, :doi => nil)
-      subject.get_data(article).should eq({})
+      expect(subject.get_data(article)).to eq({})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
-      subject.get_data(article).should eq({})
+      expect(subject.get_data(article)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the Counter API" do
@@ -106,30 +106,30 @@ describe Counter do
       body = File.read(fixture_path + 'counter_nil.xml')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
-      response.should eq(Hash.from_xml(body))
-      response['rest']['response']['results']['item'].should be_nil
-      stub.should have_been_requested
+      expect(response).to eq(Hash.from_xml(body))
+      expect(response['rest']['response']['results']['item']).to be_nil
+      expect(stub).to have_been_requested
     end
 
     it "should report if there are events and event_count returned by the Counter API" do
       body = File.read(fixture_path + 'counter.xml')
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
       response = subject.get_data(article)
-      response.should eq(Hash.from_xml(body))
-      response['rest']['response']['results']['item'].length.should eq(37)
-      stub.should have_been_requested
+      expect(response).to eq(Hash.from_xml(body))
+      expect(response['rest']['response']['results']['item'].length).to eq(37)
+      expect(stub).to have_been_requested
     end
 
     it "should catch timeout errors with the Counter API" do
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, source_id: subject.id)
-      response.should eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", :status=>408)
-      stub.should have_been_requested
-      Alert.count.should == 1
+      expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", :status=>408)
+      expect(stub).to have_been_requested
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("Net::HTTPRequestTimeOut")
-      alert.status.should == 408
-      alert.source_id.should == subject.id
+      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(alert.status).to eq(408)
+      expect(alert.source_id).to eq(subject.id)
     end
   end
 
@@ -140,14 +140,14 @@ describe Counter do
       article = FactoryGirl.build(:article, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should eq(null_response)
+      expect(subject.parse_data(result, article)).to eq(null_response)
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      subject.parse_data(result, article).should eq(null_response)
+      expect(subject.parse_data(result, article)).to eq(null_response)
     end
 
     it "should report if there are no events and event_count returned by the Counter API" do
@@ -155,7 +155,7 @@ describe Counter do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response.should eq(null_response)
+      expect(response).to eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the Counter API" do
@@ -163,18 +163,18 @@ describe Counter do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, article)
-      response[:events].length.should eq(37)
-      response[:events_by_month].length.should eq(37)
-      response[:events_by_month].first.should eq(month: 1, year: 2010, html: 299, pdf: 90)
-      response[:events_url].should be_nil
-      response[:event_count].should eq(3387)
-      response[:event_metrics].should eq(pdf: 447, html: 2919, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 3387)
+      expect(response[:events].length).to eq(37)
+      expect(response[:events_by_month].length).to eq(37)
+      expect(response[:events_by_month].first).to eq(month: 1, year: 2010, html: 299, pdf: 90)
+      expect(response[:events_url]).to be_nil
+      expect(response[:event_count]).to eq(3387)
+      expect(response[:event_metrics]).to eq(pdf: 447, html: 2919, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 3387)
     end
 
     it "should catch timeout errors with the Counter API" do
       result = { error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", status: 408 }
       response = subject.parse_data(result, article)
-      response.should eq(result)
+      expect(response).to eq(result)
     end
   end
 end

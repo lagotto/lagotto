@@ -21,22 +21,22 @@ class RetrievalStatus < ActiveRecord::Base
   delegate :display_name, :to => :source
   delegate :group, :to => :source
 
-  scope :most_cited, lambda { where("event_count > ?", 0).order("event_count desc").limit(25) }
-  scope :most_cited_last_x_days, lambda { |duration| joins(:article).where("event_count > ?", 0).where("articles.published_on >= ?", Date.today - duration.days).order("event_count desc").limit(25) }
-  scope :most_cited_last_x_months, lambda { |duration| joins(:article).where("event_count > ?", 0).where("articles.published_on >= ?", Date.today - duration.months).order("event_count desc").limit(25) }
+  scope :with_events, -> { where("event_count > ?", 0) }
+  scope :without_events, -> { where("event_count = ?", 0) }
+  scope :most_cited, -> { with_events.order("event_count desc").limit(25) }
 
-  scope :queued, where("queued_at is NOT NULL")
-  scope :not_queued, where("queued_at is NULL")
-  scope :stale, where("queued_at is NULL").where("scheduled_at IS NOT NULL").where("scheduled_at <= ?", Time.zone.now).order("scheduled_at")
-  scope :published, joins(:article).where("queued_at is NULL").where("articles.published_on <= ?", Date.today)
-  scope :with_sources, joins(:source).where("sources.state > ?", 0).order("group_id, display_name")
+  scope :last_x_days, ->(duration) { where("retrieved_at >= ?", Time.zone.now.to_date - duration.days) }
+  scope :published_last_x_days, ->(duration) { joins(:article).where("articles.published_on >= ?", Time.zone.now.to_date - duration.days) }
+  scope :published_last_x_months, ->(duration) { joins(:article).where("articles.published_on >= ?", Time.zone.now.to_date  - duration.months) }
 
-  scope :total, lambda { |duration| where("retrieved_at > ?", Time.zone.now - duration.days) }
-  scope :with_events, lambda { |duration| where("event_count > ?", 0).where("retrieved_at > ?", Time.zone.now - duration.days) }
-  scope :without_events, lambda { |duration| where("event_count = ?", 0).where("retrieved_at > ?", Time.zone.now - duration.days) }
+  scope :queued, -> { where("queued_at is NOT NULL") }
+  scope :not_queued, -> { where("queued_at is NULL") }
+  scope :stale, -> { not_queued.where("scheduled_at IS NOT NULL").where("scheduled_at <= ?", Time.zone.now).order("scheduled_at") }
+  scope :published, -> { joins(:article).not_queued.where("articles.published_on <= ?", Date.today) }
 
-  scope :by_source, lambda { |source_ids| where(:source_id => source_ids) }
-  scope :by_name, lambda { |source| includes(:source).where("sources.name = ?", source) }
+  scope :by_source, ->(source_ids) { where(:source_id => source_ids) }
+  scope :by_name, ->(source) { joins(:source).where("sources.name = ?", source) }
+  scope :with_sources, -> { joins(:source).where("sources.state > ?", 0).order("group_id, display_name") }
 
   def perform_get_data
     result = source.get_data(article, timeout: source.timeout, article_id: article_id, source_id: source_id)

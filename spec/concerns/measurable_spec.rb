@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Source do
 
@@ -19,18 +19,18 @@ describe Source do
 
       it 'should return citations' do
         result = subject.get_event_metrics(citations: citations)
-        result.should eq(output)
+        expect(result).to eq(output)
       end
 
       it 'should handle strings' do
         result = subject.get_event_metrics(citations: "#{citations}")
-        result.should eq(output)
+        expect(result).to eq(output)
       end
 
       it 'should report a separate total value' do
         result = subject.get_event_metrics(citations: citations, total: 14)
-        result[:citations].should == citations
-        result[:total].should == 14
+        expect(result[:citations]).to eq(citations)
+        expect(result[:total]).to eq(14)
       end
     end
   end

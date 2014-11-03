@@ -1,9 +1,9 @@
-<div class="markdown">
+<% unless @doc.content.blank? %>
   <% cache(@doc) do %>
-    <% unless @doc.content.blank? %>
+    <div class="markdown">
       <%= markdown @doc.content %>
-    <% else %>
-      <div class="alert alert-info">No documentation found</div>
-    <% end %>
+    </div>
   <% end %>
-</div>
+<% else %>
+  <div class="alert alert-info">No documentation for <%= params[:id] %> found</div>
+<% end %>

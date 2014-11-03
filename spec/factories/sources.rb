@@ -1,12 +1,10 @@
-# encoding: UTF-8
-
 FactoryGirl.define do
 
   factory :group do
     name 'saved'
     display_name 'Saved'
 
-    initialize_with { Group.find_or_create_by_name(name) }
+    initialize_with { Group.where(name: name).first_or_initialize }
   end
 
   factory :citeulike, aliases: [:source], class: Citeulike do
@@ -19,15 +17,11 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Citeulike.find_or_create_by_name(name) }
+    initialize_with { Citeulike.where(name: name).first_or_initialize }
 
     factory :source_with_api_responses do
-      ignore do
-        api_responses_count 5
-      end
-
-      after(:create) do |source, evaluator|
-        FactoryGirl.create_list(:api_response, evaluator.api_responses_count, source: source)
+      after(:create) do |source|
+        FactoryGirl.create_list(:api_response, 5, source: source)
       end
     end
   end
@@ -43,7 +37,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Copernicus.find_or_create_by_name(name) }
+    initialize_with { Copernicus.where(name: name).first_or_initialize }
   end
 
   factory :crossref, class: CrossRef do
@@ -74,7 +68,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Nature.find_or_create_by_name(name) }
+    initialize_with { Nature.where(name: name).first_or_initialize }
   end
 
   factory :openedition, class: Openedition do
@@ -85,7 +79,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Openedition.find_or_create_by_name(name) }
+    initialize_with { Openedition.where(name: name).first_or_initialize }
   end
 
   factory :pmc, class: Pmc do
@@ -110,7 +104,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { PubMed.find_or_create_by_name(name) }
+    initialize_with { PubMed.where(name: name).first_or_initialize }
   end
 
   factory :pmc_europe, class: PmcEurope do
@@ -121,7 +115,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { PmcEurope.find_or_create_by_name(name) }
+    initialize_with { PmcEurope.where(name: name).first_or_initialize }
   end
 
   factory :pmc_europe_data, class: PmcEuropeData do
@@ -132,7 +126,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { PmcEuropeData.find_or_create_by_name(name) }
+    initialize_with { PmcEuropeData.where(name: name).first_or_initialize }
   end
 
   factory :researchblogging, class: Researchblogging do
@@ -145,7 +139,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Researchblogging.find_or_create_by_name(name) }
+    initialize_with { Researchblogging.where(name: name).first_or_initialize }
   end
 
   factory :science_seeker, class: ScienceSeeker do
@@ -156,7 +150,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { ScienceSeeker.find_or_create_by_name(name) }
+    initialize_with { ScienceSeeker.where(name: name).first_or_initialize }
   end
 
   factory :datacite, class: Datacite do
@@ -167,7 +161,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Datacite.find_or_create_by_name(name) }
+    initialize_with { Datacite.where(name: name).first_or_initialize }
   end
 
   factory :wordpress, class: Wordpress do
@@ -178,7 +172,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Wordpress.find_or_create_by_name(name) }
+    initialize_with { Wordpress.where(name: name).first_or_initialize }
   end
 
   factory :reddit, class: Reddit do
@@ -189,7 +183,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Reddit.find_or_create_by_name(name) }
+    initialize_with { Reddit.where(name: name).first_or_initialize }
   end
 
   factory :twitter_search, class: TwitterSearch do
@@ -203,7 +197,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { TwitterSearch.find_or_create_by_name(name) }
+    initialize_with { TwitterSearch.where(name: name).first_or_initialize }
   end
 
   factory :wikipedia, class: Wikipedia do
@@ -215,7 +209,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Wikipedia.find_or_create_by_name(name) }
+    initialize_with { Wikipedia.where(name: name).first_or_initialize }
   end
 
   factory :mendeley, class: Mendeley do
@@ -230,7 +224,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Mendeley.find_or_create_by_name(name) }
+    initialize_with { Mendeley.where(name: name).first_or_initialize }
   end
 
   factory :facebook, class: Facebook do
@@ -243,7 +237,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Facebook.find_or_create_by_name(name) }
+    initialize_with { Facebook.where(name: name).first_or_initialize }
   end
 
   factory :scopus, class: Scopus do
@@ -255,7 +249,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Scopus.find_or_create_by_name(name) }
+    initialize_with { Scopus.where(name: name).first_or_initialize }
   end
 
   factory :counter, class: Counter do
@@ -267,7 +261,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Counter.find_or_create_by_name(name) }
+    initialize_with { Counter.where(name: name).first_or_initialize }
   end
 
   factory :biod, class: Biod do
@@ -279,7 +273,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Counter.find_or_create_by_name(name) }
+    initialize_with { Counter.where(name: name).first_or_initialize }
   end
 
   factory :f1000, class: F1000 do
@@ -292,7 +286,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { F1000.find_or_create_by_name(name) }
+    initialize_with { F1000.where(name: name).first_or_initialize }
   end
 
   factory :figshare, class: Figshare do
@@ -304,7 +298,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Figshare.find_or_create_by_name(name) }
+    initialize_with { Figshare.where(name: name).first_or_initialize }
   end
 
   factory :plos_comments, class: PlosComments do
@@ -316,7 +310,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { PlosComments.find_or_create_by_name(name) }
+    initialize_with { PlosComments.where(name: name).first_or_initialize }
   end
 
   factory :twitter, class: Twitter do
@@ -328,7 +322,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Twitter.find_or_create_by_name(name) }
+    initialize_with { Twitter.where(name: name).first_or_initialize }
   end
 
   factory :wos, class: Wos do
@@ -341,7 +335,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { Wos.find_or_create_by_name(name) }
+    initialize_with { Wos.where(name: name).first_or_initialize }
   end
 
   factory :relative_metric, class: RelativeMetric do
@@ -353,7 +347,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { RelativeMetric.find_or_create_by_name(name) }
+    initialize_with { RelativeMetric.where(name: name).first_or_initialize }
   end
 
   factory :article_coverage, class: ArticleCoverage do
@@ -365,7 +359,7 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { ArticleCoverage.find_or_create_by_name(name) }
+    initialize_with { ArticleCoverage.where(name: name).first_or_initialize }
   end
 
   factory :article_coverage_curated, class: ArticleCoverageCurated do
@@ -377,6 +371,6 @@ FactoryGirl.define do
 
     group
 
-    initialize_with { ArticleCoverageCurated.find_or_create_by_name(name) }
+    initialize_with { ArticleCoverageCurated.where(name: name).first_or_initialize }
   end
 end

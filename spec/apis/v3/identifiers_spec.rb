@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe "/api/v3/articles" do
   let(:user) { FactoryGirl.create(:user) }
@@ -14,39 +14,39 @@ describe "/api/v3/articles" do
 
       it "no format" do
         get uri
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = JSON.parse(last_response.body)
-        response.length.should eql(50)
-        response.any? do |article|
+        expect(response.length).to eql(50)
+        expect(response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end).to be true
       end
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = JSON.parse(last_response.body)
-        response.length.should eql(50)
-        response.any? do |article|
+        expect(response.length).to eql(50)
+        expect(response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end).to be true
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
-        response.length.should eql(50)
-        response.any? do |article|
+        expect(response.length).to eql(50)
+        expect(response.any? do |article|
           article["doi"] == articles[0].doi
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end).to be true
       end
     end
 
@@ -56,26 +56,26 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = JSON.parse(last_response.body)
-        response.length.should eql(50)
-        response.any? do |article|
+        expect(response.length).to eql(50)
+        expect(response.any? do |article|
           article["pmid"] == articles[0].pmid
-        end.should be_true
+        end).to be true
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
-        response.length.should eql(50)
-        response.any? do |article|
+        expect(response.length).to eql(50)
+        expect(response.any? do |article|
           article["pmid"] == articles[0].pmid
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end.should be_true
+        end).to be true
       end
     end
 
@@ -84,14 +84,14 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(404)
-        last_response.body.should eq(error.to_json)
+        expect(last_response.status).to eql(404)
+        expect(last_response.body).to eq(error.to_json)
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(404)
-        last_response.body.should eq(error.to_xml)
+        expect(last_response.status).to eql(404)
+        expect(last_response.body).to eq(error.to_xml)
       end
     end
 
@@ -105,39 +105,39 @@ describe "/api/v3/articles" do
 
       it "no format" do
         get uri
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response_article = JSON.parse(last_response.body)[0]
         response_source = response_article["sources"][0]
-        response_article["doi"].should eql(article.doi)
-        response_article["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
+        expect(response_article["doi"]).to eql(article.doi)
+        expect(response_article["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).to be_nil
       end
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = JSON.parse(last_response.body)[0]
         response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).to be_nil
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
-        response["doi"].should_not be_nil
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
+        expect(response["doi"]).not_to be_nil
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"].to_i).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).to be_nil
       end
 
     end
@@ -148,21 +148,21 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = JSON.parse(last_response.body)[0]
-        response["pmid"].should eql(article.pmid.to_s)
+        expect(response["pmid"]).to eql(article.pmid.to_s)
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
-        response["doi"].should_not be_nil
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response["pmid"].should eql(article.pmid.to_s)
+        expect(response["doi"]).not_to be_nil
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response["pmid"]).to eql(article.pmid.to_s)
       end
 
     end
@@ -173,21 +173,21 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = JSON.parse(last_response.body)[0]
-        response["pmcid"].should eql(article.pmcid.to_s)
+        expect(response["pmcid"]).to eql(article.pmcid.to_s)
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
-        response["doi"].should_not be_nil
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response["pmcid"].should eql(article.pmcid.to_s)
+        expect(response["doi"]).not_to be_nil
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response["pmcid"]).to eql(article.pmcid.to_s)
       end
 
     end
@@ -198,21 +198,21 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response_article = JSON.parse(last_response.body)[0]
-        response_article["mendeley"].should eql(article.mendeley_uuid)
+        expect(response_article["mendeley"]).to eql(article.mendeley_uuid)
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         response = Hash.from_xml(last_response.body)
         response = response["articles"]["article"]
-        response["doi"].should_not be_nil
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response["mendeley"].should eql(article.mendeley_uuid)
+        expect(response["doi"]).not_to be_nil
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response["mendeley"]).to eql(article.mendeley_uuid)
       end
 
     end
@@ -223,14 +223,14 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(404)
-        last_response.body.should eq(error.to_json)
+        expect(last_response.status).to eql(404)
+        expect(last_response.body).to eq(error.to_json)
       end
 
       it "XML" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(404)
-        last_response.body.should eq(error.to_xml)
+        expect(last_response.status).to eql(404)
+        expect(last_response.body).to eq(error.to_xml)
       end
     end
 
@@ -240,14 +240,14 @@ describe "/api/v3/articles" do
 
       it "JSON" do
         get "#{uri}.json?api_key=#{api_key}", nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(404)
-        last_response.body.should eq(error.to_json)
+        expect(last_response.status).to eql(404)
+        expect(last_response.body).to eq(error.to_json)
       end
 
       it "XML" do
         get "#{uri}.xml?api_key=#{api_key}", nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should eql(404)
-        last_response.body.should eq(error.to_xml)
+        expect(last_response.status).to eql(404)
+        expect(last_response.body).to eq(error.to_xml)
       end
     end
 

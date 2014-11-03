@@ -15,18 +15,42 @@ CodeClimate::TestReporter.start
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'shoulda-matchers'
-require 'rspec/autorun'
 require 'email_spec'
 require 'factory_girl_rails'
 require 'capybara/rspec'
+require 'capybara/rails'
+require 'capybara/poltergeist'
+require 'capybara-screenshot/rspec'
 require 'database_cleaner'
 require 'webmock/rspec'
 require "rack/test"
 require 'draper/test/rspec_integration'
 
+# include required concerns
+include Networkable
+include Couchable
+
 include WebMock::API
 allowed_hosts = [/codeclimate.com/, ENV['HOSTNAME']]
 WebMock.disable_net_connect!(allow: allowed_hosts, allow_localhost: true)
+
+# Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
+# order to ease the transition to Capybara we set the default here. If you'd
+# prefer to use XPath just remove this line and adjust any selectors in your
+# steps to use the XPath syntax.
+Capybara.default_selector = :css
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, :timeout => 60,
+                                         :js_errors => true,
+                                         :debug => false,
+                                         :inspector => true)
+end
+Capybara.javascript_driver = :poltergeist
+
+Capybara.configure do |config|
+  config.match = :prefer_exact
+  config.ignore_hidden_elements = true
+end
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
@@ -40,6 +64,7 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include FactoryGirl::Syntax::Methods
   config.include(MailerMacros)
+  config.include(IntegrationSpecHelper, :type => :feature)
 
   config.use_transactional_fixtures = false
 
@@ -73,6 +98,31 @@ RSpec.configure do |config|
     Rails.cache.clear
     ActionController::Base.perform_caching = caching
   end
+
+  OmniAuth.config.test_mode = true
+  omni_hash = { :provider => "persona",
+                :uid => "12345",
+                :info => { "email" => "joe@example.com",
+                           "username" => "joe@example.com" }}
+  OmniAuth.config.mock_auth[:persona] = OmniAuth::AuthHash.new(omni_hash)
+
+# Before('@couchdb') do
+#   put_lagotto_database
+# end
+
+# After('@couchdb') do
+#   delete_lagotto_database
+# end
+
+# Before('@delayed') do
+#   Delayed::Worker.delay_jobs = true
+#   system "RAILS_ENV=test script/delayed_job -n 2 start"
+# end
+
+# After('@delayed') do
+#   Delayed::Worker.delay_jobs = false
+#   system "RAILS_ENV=test script/delayed_job stop"
+# end
 
   def capture_stdout(&block)
     original_stdout = $stdout

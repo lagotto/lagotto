@@ -68,7 +68,7 @@ class Worker
     return status if count == 0
 
     # stop all workers
-    unless system({'RAILS_ENV' => Rails.env}, *%W(script/delayed_job stop))
+    unless system({'RAILS_ENV' => Rails.env}, *%w(script/delayed_job stop))
       message = "Error stopping workers, #{count} workers still running"
       Alert.create(:exception => "",
                    :class_name => "StandardError",
@@ -86,7 +86,7 @@ class Worker
       Alert.create(:exception => "",
                    :class_name => "StandardError",
                    :message => message)
-      report = Report.find_by_name("missing_workers_report")
+      report = Report.where(name: "missing_workers_report").first
       report.send_missing_workers_report
 
       # restart workers

@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe "/api/v4/alerts" do
   let(:error) { { "total" => 0, "total_pages" => 0, "page" => 0, "error" => "You are not authorized to access this page.", "data" => [] } }
@@ -14,14 +14,14 @@ describe "/api/v4/alerts" do
 
       it "JSON" do
         get uri, nil, headers
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 50
+        expect(data.length).to eq(50)
         alert = data.first
-        alert["level"].should eq ("WARN")
-        alert["message"].should eq ("The request timed out.")
+        expect(alert["level"]).to eq ("WARN")
+        expect(alert["message"]).to eq ("The request timed out.")
       end
     end
 
@@ -36,13 +36,13 @@ describe "/api/v4/alerts" do
 
       it "JSON" do
         get uri, nil, headers
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 1
+        expect(data.length).to eq(1)
         alert = data.first
-        alert["unresolved"].should be true
+        expect(alert["unresolved"]).to be true
       end
     end
 
@@ -57,13 +57,13 @@ describe "/api/v4/alerts" do
 
       it "JSON" do
         get uri, nil, headers
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 1
+        expect(data.length).to eq(1)
         alert = data.first
-        alert["source"].should eq ("citeulike")
+        expect(alert["source"]).to eq ("citeulike")
       end
     end
 
@@ -78,13 +78,13 @@ describe "/api/v4/alerts" do
 
       it "JSON" do
         get uri, nil, headers
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 1
+        expect(data.length).to eq(1)
         alert = data.first
-        alert["class_name"].should eq ("NoMethodError")
+        expect(alert["class_name"]).to eq ("NoMethodError")
       end
     end
 
@@ -99,13 +99,13 @@ describe "/api/v4/alerts" do
 
       it "JSON" do
         get uri, nil, headers
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 1
+        expect(data.length).to eq(1)
         alert = data.first
-        alert["level"].should eq ("ERROR")
+        expect(alert["level"]).to eq ("ERROR")
       end
     end
 
@@ -120,13 +120,13 @@ describe "/api/v4/alerts" do
 
       it "JSON" do
         get uri, nil, headers
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 1
+        expect(data.length).to eq(1)
         alert = data.first
-        alert["class_name"].should eq ("NoMethodError")
+        expect(alert["class_name"]).to eq ("NoMethodError")
       end
     end
 
@@ -138,11 +138,11 @@ describe "/api/v4/alerts" do
 
       it "JSON" do
         get uri, nil, headers
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 5
+        expect(data.length).to eq(5)
       end
     end
 
@@ -152,10 +152,10 @@ describe "/api/v4/alerts" do
 
       it "JSON" do
         get uri, nil, headers
-        last_response.status.should == 401
+        expect(last_response.status).to eq(401)
 
         response = JSON.parse(last_response.body)
-        response.should eq (error)
+        expect(response).to eq (error)
       end
     end
   end

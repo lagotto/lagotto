@@ -1,17 +1,15 @@
-# encoding: UTF-8
+require 'rails_helper'
 
-require 'spec_helper'
-
-describe Filter do
+describe Filter, :type => :model do
 
   context "class methods" do
     subject { Filter }
 
-    it { should respond_to(:all) }
-    it { should respond_to(:formatted_message) }
-    it { should respond_to(:create_review) }
-    it { should respond_to(:resolve) }
-    it { should respond_to(:unresolve) }
+    it { is_expected.to respond_to(:all) }
+    it { is_expected.to respond_to(:formatted_message) }
+    it { is_expected.to respond_to(:create_review) }
+    it { is_expected.to respond_to(:resolve) }
+    it { is_expected.to respond_to(:unresolve) }
 
     context "API responses" do
       before do
@@ -22,18 +20,18 @@ describe Filter do
       let(:id) { @api_response.id }
 
       it "should call all active filters" do
-        response = subject.all
-        response[:id].should eq(id)
-        response[:output].should == 1
-        response[:message].should include("Resolved 1 API response")
-        response[:review_messages].size.should == Filter.active.count
-        response[:review_messages].first.should include("Found 1 decreasing event count error in 1 API response")
+        response = subject.run
+        expect(response[:id]).to eq(id)
+        expect(response[:output]).to eq(1)
+        expect(response[:message]).to include("Resolved 1 API response")
+        expect(response[:review_messages].size).to eq(Filter.active.count)
+        expect(response[:review_messages].first).to include("Found 1 decreasing event count error in 1 API response")
       end
     end
 
     context "no API responses" do
       it "should get nil from all method" do
-        subject.all.should be_nil
+        expect(subject.run).to be_nil
       end
     end
 
@@ -42,8 +40,8 @@ describe Filter do
         @api_response = FactoryGirl.create(:api_response, unresolved: false)
       end
 
-      it "should get nil from all method" do
-        subject.all.should be_nil
+      it "should get nil from run method" do
+        expect(subject.run).to be_nil
       end
     end
 
@@ -52,7 +50,7 @@ describe Filter do
       let(:options) { { id: api_response.id } }
 
       it "should resolve API responses" do
-        subject.resolve(options)[:output].should == 1
+        expect(subject.resolve(options)[:output]).to eq(1)
       end
     end
 
@@ -62,7 +60,7 @@ describe Filter do
       end
 
       it "should unresolve API responses" do
-        subject.unresolve[:output].should == 1
+        expect(subject.unresolve[:output]).to eq(1)
       end
     end
   end
@@ -70,9 +68,9 @@ describe Filter do
   context "instance methods" do
     subject { FactoryGirl.create(:filter) }
 
-    it { should validate_uniqueness_of(:name) }
-    it { should validate_presence_of(:display_name) }
-    it { should respond_to(:raise_alerts) }
+    it { is_expected.to validate_uniqueness_of(:name) }
+    it { is_expected.to validate_presence_of(:display_name) }
+    it { is_expected.to respond_to(:raise_alerts) }
   end
 
   context "decreasing event count" do
@@ -83,13 +81,13 @@ describe Filter do
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
-        subject.run_filter(options).should == 1
-        Alert.count.should == 1
+        expect(subject.run_filter(options)).to eq(1)
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("EventCountDecreasingError")
-        alert.message.should include("Event count decreased")
-        alert.level.should == 2
-        alert.source_id.should == 1
+        expect(alert.class_name).to eq("EventCountDecreasingError")
+        expect(alert.message).to include("Event count decreased")
+        expect(alert.level).to eq(1)
+        expect(alert.source_id).to eq(1)
       end
     end
 
@@ -98,8 +96,8 @@ describe Filter do
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
-        subject.run_filter(options).should == 1
-        Alert.count.should == 1
+        expect(subject.run_filter(options)).to eq(1)
+        expect(Alert.count).to eq(1)
       end
     end
 
@@ -108,8 +106,8 @@ describe Filter do
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
-        subject.run_filter(options).should == 1
-        Alert.count.should == 1
+        expect(subject.run_filter(options)).to eq(1)
+        expect(Alert.count).to eq(1)
       end
     end
 
@@ -118,8 +116,8 @@ describe Filter do
       let(:options) { { id: api_response.id } }
 
       it "should not raise errors" do
-        subject.run_filter(options).should == 0
-        Alert.count.should == 0
+        expect(subject.run_filter(options)).to eq(0)
+        expect(Alert.count).to eq(0)
       end
     end
 
@@ -128,8 +126,8 @@ describe Filter do
       let(:options) { { id: api_response.id } }
 
       it "should not raise errors" do
-        subject.run_filter(options).should == 0
-        Alert.count.should == 0
+        expect(subject.run_filter(options)).to eq(0)
+        expect(Alert.count).to eq(0)
       end
     end
   end
@@ -142,13 +140,13 @@ describe Filter do
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
-        subject.run_filter(options).should == 1
-        Alert.count.should == 1
+        expect(subject.run_filter(options)).to eq(1)
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("EventCountIncreasingTooFastError")
-        alert.message.should include("Event count increased")
-        alert.level.should == 2
-        alert.source_id.should == 1
+        expect(alert.class_name).to eq("EventCountIncreasingTooFastError")
+        expect(alert.message).to include("Event count increased")
+        expect(alert.level).to eq(1)
+        expect(alert.source_id).to eq(1)
       end
     end
 
@@ -157,12 +155,12 @@ describe Filter do
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
-        subject.run_filter(options).should == 1
-        Alert.count.should == 1
+        expect(subject.run_filter(options)).to eq(1)
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("EventCountIncreasingTooFastError")
-        alert.message.should include("Event count increased")
-        alert.source_id.should == 1
+        expect(alert.class_name).to eq("EventCountIncreasingTooFastError")
+        expect(alert.message).to include("Event count increased")
+        expect(alert.source_id).to eq(1)
       end
     end
   end
@@ -207,13 +205,13 @@ describe Filter do
     let(:options) { { id: api_response.id } }
 
     it "should raise errors" do
-      subject.run_filter(options).should == 1
-      Alert.count.should == 1
+      expect(subject.run_filter(options)).to eq(1)
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("ApiResponseTooSlowError")
-      alert.message.should include("API response took #{duration} ms")
-      alert.level.should == 2
-      alert.source_id.should == 1
+      expect(alert.class_name).to eq("ApiResponseTooSlowError")
+      expect(alert.message).to include("API response took #{duration} ms")
+      expect(alert.level).to eq(2)
+      expect(alert.source_id).to eq(1)
     end
   end
 
@@ -225,13 +223,13 @@ describe Filter do
     let(:options) { { id: api_response.id } }
 
     it "should raise errors" do
-      subject.run_filter(options).should == 1
-      Alert.count.should == 1
+      expect(subject.run_filter(options)).to eq(1)
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("ArticleNotUpdatedError")
-      alert.message.should include("Article not updated for #{days}")
-      alert.level.should == 3
-      alert.source_id.should == 1
+      expect(alert.class_name).to eq("ArticleNotUpdatedError")
+      expect(alert.message).to include("Article not updated for #{days}")
+      expect(alert.level).to eq(3)
+      expect(alert.source_id).to eq(1)
     end
   end
 
@@ -248,13 +246,13 @@ describe Filter do
     let(:options) { { id: api_response.id } }
 
     it "should raise errors" do
-      subject.run_filter(options).should == 1
-      Alert.count.should == 1
+      expect(subject.run_filter(options)).to eq(1)
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("SourceNotUpdatedError")
-      alert.message.should include("Source not updated for 24 hours")
-      alert.level.should == 3
-      alert.source_id.should == @mendeley.id
+      expect(alert.class_name).to eq("SourceNotUpdatedError")
+      expect(alert.message).to include("Source not updated for 24 hours")
+      expect(alert.level).to eq(3)
+      expect(alert.source_id).to eq(@mendeley.id)
     end
   end
 end

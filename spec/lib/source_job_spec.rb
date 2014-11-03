@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe SourceJob do
 
@@ -17,24 +17,24 @@ describe SourceJob do
       exception = StandardError.new
       subject.error(job, exception)
 
-      Alert.count.should == 1
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("StandardError")
-      alert.source_id.should == source.id
+      expect(alert.class_name).to eq("StandardError")
+      expect(alert.source_id).to eq(source.id)
     end
 
     it "should not create an alert if source is not in working state" do
       exception = SourceInactiveError.new
       subject.error(job, exception)
 
-      Alert.count.should == 0
+      expect(Alert.count).to eq(0)
     end
 
     it "should not create an alert if not enough workers available for source" do
       exception = NotEnoughWorkersError.new
       subject.error(job, exception)
 
-      Alert.count.should == 0
+      expect(Alert.count).to eq(0)
     end
   end
 
@@ -49,7 +49,7 @@ describe SourceJob do
 
       subject.failure(job)
 
-      Alert.count.should == 0
+      expect(Alert.count).to eq(0)
     end
   end
 
@@ -58,24 +58,24 @@ describe SourceJob do
     it "should clean up after the job" do
       subject.after(job)
 
-      source.should be_waiting
+      expect(source).to be_waiting
     end
   end
 
   context "reschedule jobs" do
-    before(:each) { Time.stub(:now).and_return(Time.mktime(2013, 9, 5)) }
+    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
     let(:time) { Time.now - 30.minutes }
 
     it "should reschedule a job after 0 attempts" do
-      subject.reschedule_at(time, 0).should eq(time + 1.minute)
+      expect(subject.reschedule_at(time, 0)).to eq(time + 1.minute)
     end
 
     it "should reschedule a job after 5 attempts" do
-      subject.reschedule_at(time, 5).should eq(time + 5.minutes)
+      expect(subject.reschedule_at(time, 5)).to eq(time + 5.minutes)
     end
 
     it "should reschedule a job after 8 attempts" do
-      subject.reschedule_at(time, 8).should eq(time + 10.minutes)
+      expect(subject.reschedule_at(time, 8)).to eq(time + 10.minutes)
     end
   end
 end

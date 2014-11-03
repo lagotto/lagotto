@@ -12,7 +12,7 @@ NETWORKABLE_EXCEPTIONS = [Faraday::Error::ClientError,
 
 # Format used for DOI validation
 # The prefix is 10.x where x is 4-5 digits. The suffix can be anything, but can't be left off
-DOI_FORMAT = %r(^10\.\d{4,5}/.+)
+DOI_FORMAT = %r(\A10\.\d{4,5}/.+)
 
 # Form interval options
 INTERVAL_OPTIONS = [['½ hour', 30.minutes],

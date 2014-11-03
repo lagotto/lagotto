@@ -1,19 +1,19 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe MemberList do
+describe MemberList, :type => :model do
 
   context "query_url" do
     it "should have query string" do
       query = "elife"
       url = "http://api.crossref.org/members?offset=0&query=#{query}&rows=15"
       subject = MemberList.new(query: query, no_network: true)
-      subject.query_url.should eq(url)
+      expect(subject.query_url).to eq(url)
     end
 
     it "should have empty query string" do
       url = "http://api.crossref.org/members?offset=0&query=&rows=15"
       subject = MemberList.new(no_network: true)
-      subject.query_url.should eq(url)
+      expect(subject.query_url).to eq(url)
     end
   end
 
@@ -24,8 +24,8 @@ describe MemberList do
       subject = MemberList.new(query: query, no_network: true)
       stub = stub_request(:get, subject.query_url).to_return(:body => body)
       response = subject.get_data
-      response.should eq(JSON.parse(body))
-      stub.should have_been_requested
+      expect(response).to eq(JSON.parse(body))
+      expect(stub).to have_been_requested
     end
 
     it "should get_data empty query string" do
@@ -33,8 +33,8 @@ describe MemberList do
       subject = MemberList.new(no_network: true)
       stub = stub_request(:get, subject.query_url).to_return(:body => body)
       response = subject.get_data
-      response.should eq(JSON.parse(body))
-      stub.should have_been_requested
+      expect(response).to eq(JSON.parse(body))
+      expect(stub).to have_been_requested
     end
 
     it "should get_data access denied error" do
@@ -43,27 +43,27 @@ describe MemberList do
       subject = MemberList.new(no_network: true)
       stub = stub_request(:get, subject.query_url).to_return(:body => body, :status => 401)
       response = subject.get_data
-      response.should eq(error: "the server responded with status 401 for http://api.crossref.org/members?offset=0&query=&rows=15", status: 401)
-      stub.should have_been_requested
+      expect(response).to eq(error: "the server responded with status 401 for http://api.crossref.org/members?offset=0&query=&rows=15", status: 401)
+      expect(stub).to have_been_requested
 
-      Alert.count.should == 1
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("Net::HTTPUnauthorized")
-      alert.message.should eq(error)
-      alert.status.should == 401
+      expect(alert.class_name).to eq("Net::HTTPUnauthorized")
+      expect(alert.message).to eq(error)
+      expect(alert.status).to eq(401)
     end
 
     it "should get_data timeout error" do
       subject = MemberList.new(no_network: true)
       stub = stub_request(:get, subject.query_url).to_return(:status => 408)
       response = subject.get_data
-      response.should eq(error: "the server responded with status 408 for http://api.crossref.org/members?offset=0&query=&rows=15", status: 408)
-      stub.should have_been_requested
+      expect(response).to eq(error: "the server responded with status 408 for http://api.crossref.org/members?offset=0&query=&rows=15", status: 408)
+      expect(stub).to have_been_requested
 
-      Alert.count.should == 1
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("Net::HTTPRequestTimeOut")
-      alert.status.should == 408
+      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(alert.status).to eq(408)
     end
   end
 
@@ -74,14 +74,14 @@ describe MemberList do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = import.parse_data(result)
-      response.length.should eq(10)
+      expect(response.length).to eq(10)
 
       article = response.first
-      article[:doi].should eq("10.1787/gen_papers-v2008-art6-en")
-      article[:title].should eq("Investment climate, capabilities and firm performance")
-      article[:year].should == 2008
-      article[:month].should == 7
-      article[:day].should ==26
+      expect(article[:doi]).to eq("10.1787/gen_papers-v2008-art6-en")
+      expect(article[:title]).to eq("Investment climate, capabilities and firm performance")
+      expect(article[:year]).to eq(2008)
+      expect(article[:month]).to eq(7)
+      expect(article[:day]).to eq(26)
     end
 
     it "should parse_data incomplete date" do
@@ -90,14 +90,14 @@ describe MemberList do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = import.parse_data(result)
-      response.length.should eq(10)
+      expect(response.length).to eq(10)
 
       article = response[5]
-      article[:doi].should eq("10.1007/bf02975686")
-      article[:title].should eq("Sanitary and meteorological notes")
-      article[:year].should == 1884
-      article[:month].should == 8
-      article[:day].should be_nil
+      expect(article[:doi]).to eq("10.1007/bf02975686")
+      expect(article[:title]).to eq("Sanitary and meteorological notes")
+      expect(article[:year]).to eq(1884)
+      expect(article[:month]).to eq(8)
+      expect(article[:day]).to be_nil
     end
   end
 
@@ -109,9 +109,9 @@ describe MemberList do
       result.extend Hashie::Extensions::DeepFetch
       items = import.parse_data(result)
       response = import.import_data(items)
-      response.length.should eq(10)
-      response.should eq((1..10).to_a)
-      Alert.count.should == 0
+      expect(response.length).to eq(10)
+      expect(response).to eq((1..10).to_a)
+      expect(Alert.count).to eq(0)
     end
 
     it "should import_data with one existing article" do
@@ -122,9 +122,9 @@ describe MemberList do
       result.extend Hashie::Extensions::DeepFetch
       items = import.parse_data(result)
       response = import.import_data(items)
-      response.compact.length.should eq(10)
-      response.should eq((1..10).to_a)
-      Alert.count.should == 0
+      expect(response.compact.length).to eq(10)
+      expect(response).to eq((1..10).to_a)
+      expect(Alert.count).to eq(0)
     end
 
     it "should import_data with missing title" do
@@ -135,13 +135,13 @@ describe MemberList do
       items = import.parse_data(result)
       items[0][:title] = nil
       response = import.import_data(items)
-      response.compact.length.should eq(9)
-      response.compact.should eq((1..9).to_a)
-      Alert.count.should == 1
+      expect(response.compact.length).to eq(9)
+      expect(response.compact).to eq((1..9).to_a)
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      alert.class_name.should eq("ActiveRecord::RecordInvalid")
-      alert.message.should eq("Validation failed: Title can't be blank for doi 10.1787/gen_papers-v2008-art6-en.")
-      alert.target_url.should eq("http://api.crossref.org/works/10.1787/gen_papers-v2008-art6-en")
+      expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
+      expect(alert.message).to eq("Validation failed: Title can't be blank for doi 10.1787/gen_papers-v2008-art6-en.")
+      expect(alert.target_url).to eq("http://api.crossref.org/works/10.1787/gen_papers-v2008-art6-en")
     end
   end
 end

@@ -3,7 +3,7 @@
 namespace :db do
   namespace :articles do
     desc "Bulk-load articles from Crossref API"
-    task :import => :environment do |t, args|
+    task :import => :environment do
       # only run if configuration option :import
       case ENV['IMPORT']
       when "member", "member_sample"
@@ -73,7 +73,7 @@ namespace :db do
     end
 
     desc "Add missing sources"
-    task :add_sources, [:date] => :environment do |t, args|
+    task :add_sources, [:date] => :environment do |_, args|
       if args.date.nil?
         puts "Date in format YYYY-MM-DD required"
         exit
@@ -135,22 +135,22 @@ namespace :db do
   namespace :alerts do
     desc "Resolve all alerts with level INFO and WARN"
     task :resolve => :environment do
-      Alert.unscoped {
+      Alert.unscoped do
         before = Alert.count
         Alert.where("level < 3").update_all(resolved: true)
         after = Alert.count
         puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
-      }
+      end
     end
 
     desc "Delete all resolved alerts"
     task :delete => :environment do
-      Alert.unscoped {
+      Alert.unscoped do
         before = Alert.count
         Alert.where(:unresolved => false).delete_all
         after = Alert.count
         puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
-      }
+      end
     end
   end
 
@@ -182,7 +182,7 @@ namespace :db do
   namespace :sources do
 
     desc "Activate sources"
-    task :activate => :environment do |t, args|
+    task :activate => :environment do |_, args|
       if args.extras.empty?
         sources = Source.inactive
       else
@@ -205,7 +205,7 @@ namespace :db do
     end
 
     desc "Inactivate sources"
-    task :inactivate => :environment do |t, args|
+    task :inactivate => :environment do |_, args|
       if args.extras.empty?
         sources = Source.active
       else
@@ -228,7 +228,7 @@ namespace :db do
     end
 
     desc "Install sources"
-    task :install => :environment do |t, args|
+    task :install => :environment do |_, args|
       if args.extras.empty?
         sources = Source.available
       else
@@ -251,7 +251,7 @@ namespace :db do
     end
 
     desc "Uninstall sources"
-    task :uninstall => :environment do |t, args|
+    task :uninstall => :environment do |_, args|
       if args.extras.empty?
         puts "No source name provided."
         exit

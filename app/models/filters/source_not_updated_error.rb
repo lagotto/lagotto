@@ -7,7 +7,7 @@ class SourceNotUpdatedError < Filter
 
     if responses.count > 0
       # send additional report, listing all stale sources by name
-      report = Report.find_by_name("stale_source_report")
+      report = Report.where(name: "stale_source_report").first
       report.send_stale_source_report(responses)
 
       responses = responses.map do |response|

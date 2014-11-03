@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe "/api/v5/sources" do
   context "index" do
@@ -15,25 +15,25 @@ describe "/api/v5/sources" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
         item = data.first
-        item["name"].should eq(@source.name)
-        item["status"]["stale"].should == 10
+        expect(item["name"]).to eq(@source.name)
+        expect(item["status"]["stale"]).to eq(10)
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
         item = data.first
-        item["name"].should eq(@source.name)
-        item["status"]["stale"].should == 10
+        expect(item["name"]).to eq(@source.name)
+        expect(item["status"]["stale"]).to eq(10)
       end
     end
 
@@ -45,27 +45,27 @@ describe "/api/v5/sources" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
         item = data.first
-        item["name"].should eq(@source.name)
-        item["responses"]["count"].should == 5
-        item["responses"]["average"].should == 200
+        expect(item["name"]).to eq(@source.name)
+        expect(item["responses"]["count"]).to eq(5)
+        expect(item["responses"]["average"]).to eq(200)
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
         item = data.first
-        item["name"].should eq(@source.name)
-        item["responses"]["count"].should == 5
-        item["responses"]["average"].should == 200
+        expect(item["name"]).to eq(@source.name)
+        expect(item["responses"]["count"]).to eq(5)
+        expect(item["responses"]["average"]).to eq(200)
       end
     end
 
@@ -78,27 +78,27 @@ describe "/api/v5/sources" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
         item = data.first
-        item["name"].should eq(@source.name)
-        item["article_count"].should == 10
-        item["event_count"].should == 500
+        expect(item["name"]).to eq(@source.name)
+        expect(item["article_count"]).to eq(10)
+        expect(item["event_count"]).to eq(500)
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
         item = data.first
-        item["name"].should eq(@source.name)
-        item["article_count"].should == 10
-        item["event_count"].should == 500
+        expect(item["name"]).to eq(@source.name)
+        expect(item["article_count"]).to eq(10)
+        expect(item["event_count"]).to eq(500)
       end
     end
   end
@@ -117,31 +117,31 @@ describe "/api/v5/sources" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data["name"].should eq(@source.name)
-        data["article_count"].should == 5
-        data["event_count"].should == 250
-        data["responses"]["count"].should == 5
-        data["responses"]["average"].should == 200
-        data["status"]["stale"].should == 5
+        expect(data["name"]).to eq(@source.name)
+        expect(data["article_count"]).to eq(5)
+        expect(data["event_count"]).to eq(250)
+        expect(data["responses"]["count"]).to eq(5)
+        expect(data["responses"]["average"]).to eq(200)
+        expect(data["status"]["stale"]).to eq(5)
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
-        data["name"].should eq(@source.name)
-        data["article_count"].should == 5
-        data["event_count"].should == 250
-        data["responses"]["count"].should == 5
-        data["responses"]["average"].should == 200
-        data["status"]["stale"].should == 5
+        expect(data["name"]).to eq(@source.name)
+        expect(data["article_count"]).to eq(5)
+        expect(data["event_count"]).to eq(250)
+        expect(data["responses"]["count"]).to eq(5)
+        expect(data["responses"]["average"]).to eq(200)
+        expect(data["status"]["stale"]).to eq(5)
       end
     end
   end

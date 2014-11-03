@@ -130,16 +130,16 @@
         <div class="panel-body text-center">
           <p>
             <% if @status.sources_working_count > 0 %>
-              <span class="label label-success"><%= @status.sources_working_count %> working</span>
+              <span class="label label-success" id="sources_working_count"><%= @status.sources_working_count %> working</span>
             <% end %>
             <% if @status.sources_waiting_count > 0 %>
-              <span class="label label-default"><%= @status.sources_waiting_count %> waiting</span>
+              <span class="label label-default" id="sources_waiting_count"><%= @status.sources_waiting_count %> waiting</span>
             <% end %>
             <% if @status.sources_disabled_count > 0 %>
-              <span class="label label-warning"><%= @status.sources_disabled_count %> disabled</span>
+              <span class="label label-warning" id="sources_disabled_count"><%= @status.sources_disabled_count %> disabled</span>
             <% end %>
             <% if @status.sources_inactive_count > 0 %>
-              <span class="label label-info"><%= @status.sources_inactive_count %> inactive</span>
+              <span class="label label-info" id="sources_inactive_count"><%= @status.sources_inactive_count %> inactive</span>
             <% end %>
           </p>
         </div>

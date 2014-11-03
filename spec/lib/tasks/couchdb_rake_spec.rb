@@ -1,13 +1,15 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "couchdb:histories:delete" do
   include_context "rake"
 
   let(:output) { "No CouchDB history documents to delete.\n" }
 
-  its(:prerequisites) { should include("environment") }
+  it "prerequisites should include environment" do
+    expect(subject.prerequisites).to include("environment")
+  end
 
   it "should run the rake task" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end

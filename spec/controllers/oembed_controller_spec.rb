@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe OembedController do
+describe OembedController, :type => :controller do
   render_views
 
   let(:article) { FactoryGirl.create(:article_with_events) }
@@ -9,68 +9,68 @@ describe OembedController do
   context "discovery" do
     it "correct oembed link" do
       get article_path(article)
-      last_response.status.should == 200
-      last_response.body.should have_css(%Q(link[rel="alternate"][type="application/json+oembed"][title="Article oEmbed Profile"][href="#{uri}"]), visible: false)
-      Alert.count.should == 0
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to have_css(%Q(link[rel="alternate"][type="application/json+oembed"][title="Article oEmbed Profile"][href="#{uri}"]), visible: false)
+      expect(Alert.count).to eq(0)
     end
   end
 
   context "show" do
     it "GET oembed" do
       get uri
-      last_response.status.should == 200
+      expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
-      response["type"].should eq("rich")
-      response["title"].should eq(article.title)
-      response["url"].should eq(article.doi_as_url)
-      response["html"].should include("<blockquote class=\"alm\">")
+      expect(response["type"]).to eq("rich")
+      expect(response["title"]).to eq(article.title)
+      expect(response["url"]).to eq(article.doi_as_url)
+      expect(response["html"]).to include("<blockquote class=\"alm\">")
     end
 
     it "GET oembed escaped" do
       get "http://#{ENV['SERVERNAME']}/oembed?url=maxwidth=474&maxheight=711&url=#{CGI.escape(article_url(article))}&format=json"
-      last_response.status.should == 200
+      expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
-      response["type"].should eq("rich")
-      response["title"].should eq(article.title)
-      response["url"].should eq(article.doi_as_url)
-      response["html"].should include("<blockquote class=\"alm\">")
+      expect(response["type"]).to eq("rich")
+      expect(response["title"]).to eq(article.title)
+      expect(response["url"]).to eq(article.doi_as_url)
+      expect(response["html"]).to include("<blockquote class=\"alm\">")
     end
 
     it "GET oembed JSON" do
       get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-      last_response.status.should == 200
+      expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
-      response["type"].should eq("rich")
-      response["title"].should eq(article.title)
-      response["url"].should eq(article.doi_as_url)
-      response["html"].should include("<blockquote class=\"alm\">")
+      expect(response["type"]).to eq("rich")
+      expect(response["title"]).to eq(article.title)
+      expect(response["url"]).to eq(article.doi_as_url)
+      expect(response["html"]).to include("<blockquote class=\"alm\">")
     end
 
     it "GET oembed XML" do
       get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-      last_response.status.should == 200
+      expect(last_response.status).to eq(200)
       response = Hash.from_xml(last_response.body)
       response = response["oembed"]
-      response["type"].should eq("rich")
-      response["title"].should eq(article.title)
-      response["url"].should eq(article.doi_as_url)
-      response["html"].should include("<blockquote class=\"alm\">")
+      expect(response["type"]).to eq("rich")
+      expect(response["title"]).to eq(article.title)
+      expect(response["url"]).to eq(article.doi_as_url)
+      expect(response["html"]).to include("<blockquote class=\"alm\">")
     end
   end
 
   context "errors" do
     it "Not found JSON" do
       get "/oembed?url=x", 'HTTP_ACCEPT' => 'application/json'
-      last_response.status.should eql(404)
+      expect(last_response.status).to eql(404)
       response = JSON.parse(last_response.body)
-      response.should eq("error" => "No article found.")
+      expect(response).to eq("error" => "No article found.")
     end
 
     it "Not found XML" do
       get "/oembed?url=x", nil, 'HTTP_ACCEPT' => 'application/xml'
-      last_response.status.should eql(404)
+      expect(last_response.status).to eql(404)
       response = Hash.from_xml(last_response.body)
-      response.should eq("hash" => { "error" => "No article found." })
+      expect(response).to eq("hash" => { "error" => "No article found." })
     end
   end
 end

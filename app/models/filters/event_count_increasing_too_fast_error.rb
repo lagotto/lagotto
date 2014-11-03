@@ -5,7 +5,7 @@ class EventCountIncreasingTooFastError < Filter
     responses = ApiResponse.filter(state[:id]).increasing(limit, source_ids)
 
     if responses.count > 0
-      responses = responses.all.map do |response|
+      responses = responses.to_a.map do |response|
         { source_id: response.source_id,
           article_id: response.article_id,
           level: Alert::INFO,

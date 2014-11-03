@@ -3,7 +3,7 @@
 namespace :queue do
 
   desc "Queue stale articles"
-  task :stale => :environment do |t, args|
+  task :stale => :environment do |_, args|
     if args.extras.empty?
       sources = Source.active
     else
@@ -32,7 +32,7 @@ namespace :queue do
   end
 
   desc "Queue all articles"
-  task :all => :environment do |t, args|
+  task :all => :environment do |_, args|
     if args.extras.empty?
       sources = Source.active
     else
@@ -61,7 +61,7 @@ namespace :queue do
   end
 
   desc "Queue article with given uid"
-  task :one, [:uid] => :environment do |t, args|
+  task :one, [:uid] => :environment do |_, args|
     if args.uid.nil?
       puts "#{ENV['UID']} is required"
       exit
@@ -85,14 +85,14 @@ namespace :queue do
     end
 
     sources.each do |source|
-      rs = RetrievalStatus.find_by_article_id_and_source_id(article.id, source.id)
+      rs = RetrievalStatus.where(article_id: article.id, source_id: source.id).first
 
       if rs.nil?
         puts "Retrieval Status for article with #{ENV['UID']} #{args.uid} and source with name #{args.source} does not exist"
         exit
       end
 
-      source.queue_article_jobs([rs.id], { priority: 2 })
+      source.queue_article_jobs([rs.id], priority: 2)
       puts "Job for #{ENV['UID']} #{article.uid} and source #{source.display_name} has been queued."
     end
   end

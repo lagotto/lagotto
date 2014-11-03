@@ -5,7 +5,7 @@ namespace :f1000 do
   desc "Bulk-import F1000Prime data"
   task :update => :environment do
     # silently exit if f1000 source is not available
-    source = Source.active.find_by_name("f1000")
+    source = Source.active.where(name: "f1000").first
     exit if source.nil?
 
     unless source.get_feed

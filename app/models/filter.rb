@@ -18,8 +18,8 @@ class Filter < ActiveRecord::Base
   validates :display_name, :presence => true
   validate :validate_config_fields
 
-  default_scope order("name")
-  scope :active, where(:active => true)
+  default_scope { order("name") }
+  scope :active, -> { where(:active => true) }
 
   class << self
     def validates_not_blank(*attrs)
@@ -28,7 +28,7 @@ class Filter < ActiveRecord::Base
       end
     end
 
-    def all
+    def run
       # To sync filters
       # Only run filter if we have unresolved API responses
       options = { id: ApiResponse.unresolved.maximum(:id),
@@ -61,7 +61,7 @@ class Filter < ActiveRecord::Base
     end
 
     def create_review(options)
-      review = Review.find_or_initialize_by_name_and_state_id(name: options[:name], state_id: options[:id])
+      review = Review.where(name: options[:name], state_id: options[:id]).first_or_initialize
       review.update_attributes(message: options[:message],
                                input: options[:input],
                                output: options[:output],
@@ -128,9 +128,9 @@ class Filter < ActiveRecord::Base
   def raise_alerts(responses)
     responses.each do |response|
       level = response[:level] || 3
-      alert = Alert.find_or_initialize_by_class_name_and_article_id_and_source_id(class_name: name,
-                                                                                  source_id: response[:source_id],
-                                                                                  article_id: response[:article_id])
+      alert = Alert.where(class_name: name,
+                          source_id: response[:source_id],
+                          article_id: response[:article_id]).first_or_initialize
       alert.update_attributes(exception: "", level: level, message: response[:message] ? response[:message] : "An API response error occured")
     end
   end

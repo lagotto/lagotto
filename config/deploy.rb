@@ -7,7 +7,7 @@ begin
 
   # load ENV variables from file specified by APP_ENV, fallback to .env
   require "dotenv"
-  filename = ENV["APP_ENV"] ? ".env.#{ENV["APP_ENV"]}" : ".env"
+  filename = ENV["APP_ENV"] ? ".env.#{ENV['APP_ENV']}" : ".env"
   Dotenv.load! filename
 
   # make sure ENV variables required for capistrano are set

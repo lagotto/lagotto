@@ -16,7 +16,7 @@ module Authenticable
 
     def authenticate_user_from_token!
       user_token = params[:api_key].presence
-      user       = user_token && User.find_by_authentication_token(user_token.to_s)
+      user       = user_token && User.where(authentication_token: user_token.to_s).first
 
       if user
         sign_in user, store: false
@@ -28,7 +28,7 @@ module Authenticable
 
     def authenticate_user_via_basic_authentication!
       authenticate_or_request_with_http_basic do |username, password|
-        resource = User.find_by_username(username)
+        resource = User.where(username: username).first
         if resource && resource.valid_password?(password)
           sign_in :user, resource
         else
@@ -71,7 +71,7 @@ module Authenticable
       render "error", :status => 422
     end
 
-    rescue_from ActionController::UnpermittedParameters do |exception|
+    rescue_from ActiveModel::ForbiddenAttributesError do |exception|
       @error = Hash[exception.params.map { |v| [v, ['unpermitted parameter']] }]
       @article = nil
       create_alert(exception, status: 422)

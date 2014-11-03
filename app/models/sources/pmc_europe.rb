@@ -7,7 +7,7 @@ class PmcEurope < Source
     url % { :pmid => article.pmid }
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, article)
     return result if result[:error]
 
     event_count = result["hitCount"] || 0

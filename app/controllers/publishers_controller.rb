@@ -52,7 +52,7 @@ class PublishersController < ApplicationController
   protected
 
   def load_publisher
-    @publisher = Publisher.find_by_crossref_id(params[:id])
+    @publisher = Publisher.where(crossref_id: params[:id]).first
   end
 
   def load_index

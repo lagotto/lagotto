@@ -3,10 +3,9 @@ require 'addressable/uri'
 
 namespace :pmc do
   desc "Bulk-import PMC usage stats by month and journal"
-  task :update => :environment do |t, args|
-
+  task :update => :environment do
     # silently exit if pmc source is not available
-    source = Source.visible.find_by_name("pmc")
+    source = Source.visible.where(name: "pmc").first
     exit if source.nil?
 
     dates = source.date_range(month: ENV['MONTH'], year: ENV['YEAR'])

@@ -2,14 +2,14 @@
 
 class HtmlRatioTooHighError < Filter
   def run_filter(state)
-    source = Source.find_by_name("counter")
+    source = Source.where(name: "counter").first
     first_response = ApiResponse.filter(state[:id]).first
     responses = first_response.get_html_ratio
 
     if responses.count > 0
       responses = responses.map do |response|
         doi = response['id'] && response['id'][8..-1]
-        article = Article.find_by_doi(doi)
+        article = Article.where(doi: doi).first
         article_id = article && article.id
         date = Date.today.to_formatted_s(:short)
 

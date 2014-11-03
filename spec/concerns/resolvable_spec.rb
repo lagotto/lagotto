@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Article do
 
@@ -16,9 +16,9 @@ describe Article do
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
-        response.should eq(url)
-        Alert.count.should == 0
-        stub.should have_been_requested
+        expect(response).to eq(url)
+        expect(Alert.count).to eq(0)
+        expect(stub).to have_been_requested
       end
 
       it "get_canonical_url with jsessionid" do
@@ -28,9 +28,9 @@ describe Article do
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
-        response.should eq(clean_url)
-        Alert.count.should == 0
-        stub.should have_been_requested
+        expect(response).to eq(clean_url)
+        expect(Alert.count).to eq(0)
+        expect(stub).to have_been_requested
       end
 
       it "get_canonical_url with cookies" do
@@ -39,9 +39,9 @@ describe Article do
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
-        response.should eq(url)
-        Alert.count.should == 0
-        stub.should have_been_requested
+        expect(response).to eq(url)
+        expect(Alert.count).to eq(0)
+        expect(stub).to have_been_requested
       end
 
       it "get_canonical_url with <link rel='canonical'/>" do
@@ -50,9 +50,9 @@ describe Article do
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'article_canonical.html'))
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
-        response.should eq(url)
-        Alert.count.should == 0
-        stub.should have_been_requested
+        expect(response).to eq(url)
+        expect(Alert.count).to eq(0)
+        expect(stub).to have_been_requested
       end
 
       it "get_canonical_url with <meta property='og:url'/>" do
@@ -61,9 +61,9 @@ describe Article do
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'article_opengraph.html'))
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
-        response.should eq(url)
-        Alert.count.should == 0
-        stub.should have_been_requested
+        expect(response).to eq(url)
+        expect(Alert.count).to eq(0)
+        expect(stub).to have_been_requested
       end
 
       it "get_canonical_url with <link rel='canonical'/> mismatch" do
@@ -72,13 +72,13 @@ describe Article do
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'article.html'))
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
-        response.should eq(error: "Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for http://www.plosone.org/article/info:doi/#{article.doi}", status: 404)
-        Alert.count.should == 1
+        expect(response).to eq(error: "Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for http://www.plosone.org/article/info:doi/#{article.doi}", status: 404)
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("Faraday::ResourceNotFound")
-        alert.status.should == 404
-        alert.message.should eq("Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for #{url}")
-        stub.should have_been_requested
+        expect(alert.class_name).to eq("Faraday::ResourceNotFound")
+        expect(alert.status).to eq(404)
+        expect(alert.message).to eq("Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for #{url}")
+        expect(stub).to have_been_requested
       end
 
       it "get_canonical_url with landing page" do
@@ -87,12 +87,12 @@ describe Article do
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
-        response.should eq(error: "DOI #{article.doi} could not be resolved", status: 404)
-        Alert.count.should == 1
+        expect(response).to eq(error: "DOI #{article.doi} could not be resolved", status: 404)
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("Faraday::ResourceNotFound")
-        alert.status.should == 404
-        stub.should have_been_requested
+        expect(alert.class_name).to eq("Faraday::ResourceNotFound")
+        expect(alert.status).to eq(404)
+        expect(stub).to have_been_requested
       end
 
       it "get_canonical_url with not found error" do
@@ -100,36 +100,36 @@ describe Article do
         report = FactoryGirl.create(:fatal_error_report_with_admin_user)
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 404, :body => File.read(fixture_path + 'doi_not_found.html'))
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
-        response.should eq(error: "DOI #{article.doi} could not be resolved", status: 404)
-        Alert.count.should == 1
+        expect(response).to eq(error: "DOI #{article.doi} could not be resolved", status: 404)
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("Faraday::ResourceNotFound")
-        alert.status.should == 404
-        stub.should have_been_requested
+        expect(alert.class_name).to eq("Faraday::ResourceNotFound")
+        expect(alert.status).to eq(404)
+        expect(stub).to have_been_requested
       end
 
       it "get_canonical_url unauthorized error" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => 401)
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
-        response.should eq(error: "the server responded with status 401 for http://dx.doi.org/#{article.doi}", status: 401)
-        Alert.count.should == 1
+        expect(response).to eq(error: "the server responded with status 401 for http://dx.doi.org/#{article.doi}", status: 401)
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("Net::HTTPUnauthorized")
-        alert.status.should == 401
-        stub.should have_been_requested
+        expect(alert.class_name).to eq("Net::HTTPUnauthorized")
+        expect(alert.status).to eq(401)
+        expect(stub).to have_been_requested
       end
 
       it "get_canonical_url with timeout error" do
         article = FactoryGirl.create(:article_with_events, :doi => "10.1371/journal.pone.0000030")
         stub = stub_request(:get, "http://dx.doi.org/#{article.doi}").to_return(:status => [408])
         response = subject.get_canonical_url(article.doi_as_url, article_id: article.id)
-        response.should eq(error: "the server responded with status 408 for http://dx.doi.org/#{article.doi}", status: 408)
-        Alert.count.should == 1
+        expect(response).to eq(error: "the server responded with status 408 for http://dx.doi.org/#{article.doi}", status: 408)
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("Net::HTTPRequestTimeOut")
-        alert.status.should == 408
-        stub.should have_been_requested
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.status).to eq(408)
+        expect(stub).to have_been_requested
       end
     end
 
@@ -141,18 +141,18 @@ describe Article do
         ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030" }
         stub = stub_request(:get, pubmed_url).to_return(:body => File.read(fixture_path + 'persistent_identifiers.json'))
         response = subject.get_persistent_identifiers(article.doi)
-        response.should include(ids)
-        response.should_not include("errmsg")
-        stub.should have_been_requested
+        expect(response).to include(ids)
+        expect(response).not_to include("errmsg")
+        expect(stub).to have_been_requested
       end
 
       it "get_persistent_identifiers with not found error" do
         ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030" }
         stub = stub_request(:get, pubmed_url).to_return(:body => File.read(fixture_path + 'persistent_identifiers_nil.json'))
         response = subject.get_persistent_identifiers(article.doi)
-        response.should_not include(ids)
-        response.should include("errmsg")
-        stub.should have_been_requested
+        expect(response).not_to include(ids)
+        expect(response).to include("errmsg")
+        expect(stub).to have_been_requested
       end
     end
   end

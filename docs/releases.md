@@ -3,6 +3,12 @@ layout: page
 title: "Releases"
 ---
 
+## [Lagotto 3.8](https://github.com/articlemetrics/lagotto/releases/tag/v.3.8)
+
+Lagotto 3.8 was released on November 3, 2014 with the following changes:
+
+* upgraded to Rails 4 and Rspec 3 ([#129](https://github.com/articlemetrics/lagotto/issues/129))
+
 ### [Lagotto 3.7.1](https://github.com/articlemetrics/lagotto/releases/tag/v.3.7.1)
 
 Lagotto 3.7.1 was released on October 31, 2014 with the following features and bug fixes:

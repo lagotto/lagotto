@@ -1,3 +1,29 @@
+# Common configuration.
+AllCops:
+  # Include gemspec and Rakefile
+  Include:
+    - '**/*.gemspec'
+    - '**/*.podspec'
+    - '**/*.jbuilder'
+    - '**/*.rake'
+    - '**/*.opal'
+    - '**/Gemfile'
+    - '**/Rakefile'
+    - '**/Capfile'
+    - '**/Guardfile'
+    - '**/Podfile'
+    - '**/Thorfile'
+    - '**/Vagrantfile'
+    - '**/Berksfile'
+    - '**/Cheffile'
+    - '**/Vagabondfile'
+  Exclude:
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+  # By default, the rails cops are not run. Override in project or home
+  # directory .rubocop.yml files, or by giving the -R/--rails option.
+  RunRailsCops: false
+
 AccessModifierIndentation:
   Description: Check indentation of private/protected visibility modifiers.
   Enabled: true
@@ -157,17 +183,13 @@ EmptyLinesAroundAccessModifier:
   Description: "Keep blank lines around access modifiers."
   Enabled: true
 
-EmptyLinesAroundBody:
-  Description: "Keeps track of empty lines around expression bodies."
-  Enabled: true
-
 EmptyLiteral:
   Description: 'Prefer literals to Array.new/Hash.new/String.new.'
   Enabled: true
 
 Encoding:
   Description: 'Use UTF-8 as the source file encoding.'
-  Enabled: true
+  Enabled: false
 
 EndBlock:
   Description: 'Avoid the use of END blocks.'
@@ -702,7 +724,7 @@ ActionFilter:
 
 DefaultScope:
   Description: 'Checks if the argument passed to default_scope is a block.'
-  Enabled: false
+  Enabled: true
 
 HasAndBelongsToMany:
   Description: 'Prefer has_many :through to has_and_belongs_to_many.'

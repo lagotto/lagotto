@@ -36,13 +36,13 @@ class Publisher < ActiveRecord::Base
     if ActionController::Base.perform_caching
       Rails.cache.read("publisher/#{crossref_id}/#{source_id}/article_count/#{update_date}").to_i
     else
-      articles.is_cited_by_source(source_id).size
+      articles.is_cited.by_source(source_id).size
     end
   end
 
   def article_count_by_source=(source_id, timestamp)
     Rails.cache.write("publisher/#{crossref_id}/#{source_id}/article_count/#{timestamp}",
-                      articles.is_cited_by_source(source_id).size)
+                      articles.is_cited.by_source(source_id).size)
   end
 
   def cache_key

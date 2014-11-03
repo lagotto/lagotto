@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Status do
+describe Status, :type => :model do
   subject { Status.new }
 
   before(:each) do
@@ -16,34 +16,34 @@ describe Status do
   end
 
   it "articles_count" do
-    subject.articles_count.should == 5
+    expect(subject.articles_count).to eq(5)
   end
 
   it "articles_last30_count" do
-    subject.articles_last30_count.should == 5
+    expect(subject.articles_last30_count).to eq(5)
   end
 
   it "events_count" do
-    subject.events_count.should == 250
+    expect(subject.events_count).to eq(250)
   end
 
   it "alerts_count" do
-    subject.alerts_count.should ==2
+    expect(subject.alerts_count).to eq(2)
   end
 
   it "delayed_jobs_active_count" do
-    subject.delayed_jobs_active_count.should == 1
+    expect(subject.delayed_jobs_active_count).to eq(1)
   end
 
   it "responses_count" do
-    subject.responses_count.should == 6
+    expect(subject.responses_count).to eq(6)
   end
 
   it "requests_count" do
-    subject.requests_count.should == 4
+    expect(subject.requests_count).to eq(4)
   end
 
   it "current_version" do
-    subject.current_version.should == "3.6.3"
+    expect(subject.current_version).to eq("3.6.3")
   end
 end

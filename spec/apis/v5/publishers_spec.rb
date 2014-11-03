@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe "/api/v5/publishers" do
   context "index" do
@@ -12,32 +12,32 @@ describe "/api/v5/publishers" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
         item = data.first
-        item["name"].should eq(@publisher.name)
-        item["other_names"].should eq(["Public Library of Science",
+        expect(item["name"]).to eq(@publisher.name)
+        expect(item["other_names"]).to eq(["Public Library of Science",
                                        "Public Library of Science (PLoS)"])
-        item["prefixes"].should eq(["10.1371"])
-        item["crossref_id"].should == 340
+        expect(item["prefixes"]).to eq(["10.1371"])
+        expect(item["crossref_id"]).to eq(340)
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil,
             "HTTP_ACCEPT" => "application/javascript"
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
         item = data.first
-        item["name"].should eq(@publisher.name)
-        item["other_names"].should eq(["Public Library of Science",
+        expect(item["name"]).to eq(@publisher.name)
+        expect(item["other_names"]).to eq(["Public Library of Science",
                                        "Public Library of Science (PLoS)"])
-        item["prefixes"].should eq(["10.1371"])
-        item["crossref_id"].should == 340
+        expect(item["prefixes"]).to eq(["10.1371"])
+        expect(item["crossref_id"]).to eq(340)
       end
     end
   end

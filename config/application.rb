@@ -19,7 +19,7 @@ begin
 
   # load ENV variables from file specified by DOTENV
   # use .env with DOTENV=default
-  filename = ENV["DOTENV"] == "default" ? ".env" : ".env.#{ENV["DOTENV"]}"
+  filename = ENV["DOTENV"] == "default" ? ".env" : ".env.#{ENV['DOTENV']}"
   Dotenv.load! File.expand_path("../../#{filename}", __FILE__)
 rescue Errno::ENOENT
   $stderr.puts "Please create #{filename} file, or use DOTENV=example for example configuration"
@@ -51,11 +51,8 @@ module Lagotto
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # Configure the default encoding used in templates for Ruby 1.9.
+    # Configure the default encoding used in templates for Ruby.
     config.encoding = "utf-8"
-
-    # avoid mass-assignment
-    config.active_record.whitelist_attributes = false
 
     # Configure sensitive parameters which will be filtered from the log file.
     # TODO: do I need to add salt here?
@@ -63,14 +60,6 @@ module Lagotto
 
     # Use a different cache store
     config.cache_store = :dalli_store, *(ENV['SERVERS'].split(",")), { :namespace => "lagotto", :compress => true }
-
-    # Enable the asset pipeline
-    config.assets.enabled = true
-
-    config.assets.initialize_on_precompile = false
-
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
 
     # Define custom exception handler
     config.exceptions_app = lambda { |env| AlertsController.action(:create).call(env) }

@@ -6,7 +6,7 @@ shared_context "rake" do
   let(:task_name) { self.class.top_level_description.split("[").first }
   let(:regexp)    { Regexp.new('\[([\w,]+)\]') }
   let(:task_args) { regexp.match(self.class.top_level_description)[1].split(",") }
-  let(:task_path) { "lib/tasks/#{task_name.split(":").first}" }
+  let(:task_path) { "lib/tasks/#{task_name.split(':').first}" }
   subject         { rake[task_name] }
 
   def loaded_files_excluding_current_rake_file

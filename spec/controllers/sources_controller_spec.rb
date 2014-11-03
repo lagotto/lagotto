@@ -1,13 +1,13 @@
-require "spec_helper"
+require "rails_helper"
 
-describe SourcesController do
+describe SourcesController, :type => :controller do
   render_views
 
   context "show" do
     it "redirects to the home page for an unknown source" do
       get source_path("x")
-      last_response.status.should == 302
-      last_response.body.should include("redirected")
+      expect(last_response.status).to eq(302)
+      expect(last_response.body).to include("redirected")
     end
   end
 
@@ -21,67 +21,67 @@ describe SourcesController do
 
     it "returns an RSS feed for most-cited (7 days)" do
       get source_path(source, format: "rss", days: 7)
-      last_response.status.should == 200
-      last_response.should render_template("sources/show")
-      last_response.content_type.should eq("application/rss+xml; charset=utf-8")
+      expect(last_response.status).to eq(200)
+      expect(last_response).to render_template("sources/show")
+      expect(last_response.content_type).to eq("application/rss+xml; charset=utf-8")
 
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
-      response["version"].should eq("2.0")
-      response["channel"]["title"].should eq("Lagotto: most-cited articles in #{source.display_name}")
-      Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
-      response["channel"]["item"].should_not be_nil
+      expect(response["version"]).to eq("2.0")
+      expect(response["channel"]["title"]).to eq("Lagotto: most-cited articles in #{source.display_name}")
+      expect(Addressable::URI.parse(response["channel"]["link"]).path).to eq(source_path(source))
+      expect(response["channel"]["item"]).not_to be_nil
     end
 
     it "returns an RSS feed for most-cited (30 days)" do
       get source_path(source, format: "rss", days: 30)
-      last_response.status.should == 200
-      last_response.should render_template("sources/show")
-      last_response.content_type.should eq("application/rss+xml; charset=utf-8")
+      expect(last_response.status).to eq(200)
+      expect(last_response).to render_template("sources/show")
+      expect(last_response.content_type).to eq("application/rss+xml; charset=utf-8")
 
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
-      response["version"].should eq("2.0")
-      response["channel"]["title"].should eq("Lagotto: most-cited articles in #{source.display_name}")
-      Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
-      response["channel"]["item"].should_not be_nil
+      expect(response["version"]).to eq("2.0")
+      expect(response["channel"]["title"]).to eq("Lagotto: most-cited articles in #{source.display_name}")
+      expect(Addressable::URI.parse(response["channel"]["link"]).path).to eq(source_path(source))
+      expect(response["channel"]["item"]).not_to be_nil
     end
 
     it "returns an RSS feed for most-cited (12 months)" do
       get source_path(source, format: "rss", months: 12)
-      last_response.status.should == 200
-      last_response.should render_template("sources/show")
-      last_response.content_type.should eq("application/rss+xml; charset=utf-8")
+      expect(last_response.status).to eq(200)
+      expect(last_response).to render_template("sources/show")
+      expect(last_response.content_type).to eq("application/rss+xml; charset=utf-8")
 
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
-      response["version"].should eq("2.0")
-      response["channel"]["title"].should eq("Lagotto: most-cited articles in #{source.display_name}")
-      Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
-      response["channel"]["item"].should_not be_nil
+      expect(response["version"]).to eq("2.0")
+      expect(response["channel"]["title"]).to eq("Lagotto: most-cited articles in #{source.display_name}")
+      expect(Addressable::URI.parse(response["channel"]["link"]).path).to eq(source_path(source))
+      expect(response["channel"]["item"]).not_to be_nil
     end
 
     it "returns an RSS feed for most-cited" do
       get source_path(source, format: "rss")
-      last_response.status.should == 200
-      last_response.should render_template("sources/show")
-      last_response.content_type.should eq("application/rss+xml; charset=utf-8")
+      expect(last_response.status).to eq(200)
+      expect(last_response).to render_template("sources/show")
+      expect(last_response.content_type).to eq("application/rss+xml; charset=utf-8")
 
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
-      response["version"].should eq("2.0")
-      response["channel"]["title"].should eq("Lagotto: most-cited articles in #{source.display_name}")
-      Addressable::URI.parse(response["channel"]["link"]).path.should eq(source_path(source))
-      response["channel"]["item"].should_not be_nil
+      expect(response["version"]).to eq("2.0")
+      expect(response["channel"]["title"]).to eq("Lagotto: most-cited articles in #{source.display_name}")
+      expect(Addressable::URI.parse(response["channel"]["link"]).path).to eq(source_path(source))
+      expect(response["channel"]["item"]).not_to be_nil
     end
 
     it "returns a proper RSS error for an unknown source" do
       get source_path("x"), format: "rss"
-      last_response.status.should == 404
+      expect(last_response.status).to eq(404)
       response = Hash.from_xml(last_response.body)
       response = response["rss"]["channel"]
-      response["title"].should eq("Lagotto: source not found")
-      response["link"].should eq("http://example.org/")
+      expect(response["title"]).to eq("Lagotto: source not found")
+      expect(response["link"]).to eq("http://example.org/")
     end
   end
 end

@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Alert do
+describe Alert, :type => :model do
 
   let(:alert) { FactoryGirl.create(:alert) }
 

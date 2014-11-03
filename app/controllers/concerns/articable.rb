@@ -30,10 +30,10 @@ module Articable
         collection = Article.where(:articles => { type.to_sym => ids })
       elsif params[:q]
         collection = Article.query(params[:q])
-      elsif params[:source] && source = Source.find_by_name(params[:source])
+      elsif params[:source] && source = Source.where(name: params[:source]).first
         collection = Article.joins(:retrieval_statuses)
-          .where("retrieval_statuses.source_id = ?", source.id)
-          .where("retrieval_statuses.event_count > 0")
+                     .where("retrieval_statuses.source_id = ?", source.id)
+                     .where("retrieval_statuses.event_count > 0")
       else
         collection = Article
       end
@@ -52,7 +52,7 @@ module Articable
       # we can't filter and sort by two different sources
       if params[:order] && source && params[:order] == params[:source]
         collection = collection.order("retrieval_statuses.event_count DESC")
-      elsif params[:order] && !source && order = Source.find_by_name(params[:order])
+      elsif params[:order] && !source && order = Source.where(name: params[:order]).first
         collection = collection.joins(:retrieval_statuses)
           .where("retrieval_statuses.source_id = ?", order.id)
           .order("retrieval_statuses.event_count DESC")
@@ -60,7 +60,7 @@ module Articable
         collection = collection.order("published_on DESC")
       end
 
-      if params[:publisher] && publisher = Publisher.find_by_crossref_id(params[:publisher])
+      if params[:publisher] && publisher = Publisher.where(crossref_id: params[:publisher]).first
         collection = collection.where(publisher_id: params[:publisher])
       end
 
@@ -94,12 +94,6 @@ module Articable
       else
         @article = nil
       end
-    end
-
-    private
-
-    def safe_params
-      params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day)
     end
   end
 end

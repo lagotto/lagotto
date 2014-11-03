@@ -10,12 +10,11 @@ Lagotto::Application.configure do
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_assets = true
 
-  # Log error messages when you accidentally call methods on nil
-  config.whiny_nils = true
-
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
+
+  config.eager_load = false
 
   # Raise exceptions instead of rendering exception templates
   config.action_dispatch.show_exceptions = false
@@ -34,13 +33,7 @@ Lagotto::Application.configure do
   # config.active_record.schema_format = :sql
 
   # Print deprecation notices to the stderr
-  config.active_support.deprecation = :stderr
-
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
-
-  # strong_parameters gem, default in Rails 4
-  config.action_controller.action_on_unpermitted_parameters = :raise
+  config.active_support.deprecation = :stder
 
   config.action_mailer.default_url_options = { :host => "#{ENV['MAIL_ADDRESS']}:#{ENV['MAIL_PORT']}" }
 end

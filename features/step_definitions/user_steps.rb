@@ -79,12 +79,12 @@ When /^I go to my account page$/ do
 end
 
 When /^I click on user "(.*?)"$/ do |username|
-  user = User.find_by_username(username)
+  user = User.where(username: username).first
   click_link "link_#{user.id}"
 end
 
 When /^I click on the Delete button for user "(.*?)" and confirm$/ do |username|
-  user = User.find_by_username(username)
+  user = User.where(username: username).first
   within("#user_#{user.id}") do
     click_link "#{user.id}-delete"
   end
@@ -92,7 +92,7 @@ end
 
 When /^I click on the "(.*?)" submenu of button Edit for user "(.*?)"$/ do |menu_item, username|
   role = menu_item.split.last.downcase
-  user = User.find_by_username(username)
+  user = User.where(username: username).first
   within("#user_#{user.id}") do
     click_link "#{user.id}-update"
     click_link "#{user.id}-update-#{role}"
@@ -106,12 +106,12 @@ Then /^I should see (\d+) user[s]?$/ do |number|
 end
 
 Then /^I should see user "(.*?)"$/ do |username|
-  user = User.find_by_username(username)
+  user = User.where(username: username).first
   page.should have_css("a#link_#{user.id}")
 end
 
 Then /^I should not see user "(.*?)"$/ do |username|
-  user = User.find_by_username(username)
+  user = User.where(username: username).first
   page.should_not have_css("a#link_#{user.id}")
 end
 
@@ -144,7 +144,7 @@ Then(/^I should see the API key$/) do
 end
 
 Then /^I should see the "(.*?)" role for user "(.*?)"$/ do |role, username|
-  user = User.find_by_username(username)
+  user = User.where(username: username).first
   within("#user_#{user.id}") do
     page.should have_content role
   end

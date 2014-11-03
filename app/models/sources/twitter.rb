@@ -23,7 +23,7 @@ class Twitter < Source
       end
 
       event_time = get_iso8601_from_time(data['created_at'])
-      url = "http://twitter.com/#{user}/status/#{data["id_str"]}"
+      url = "http://twitter.com/#{user}/status/#{data['id_str']}"
 
       { event: { id: data["id_str"],
                  text: data["text"],

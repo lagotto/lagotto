@@ -13,9 +13,9 @@ end
 
 ### THEN ###
 Then /^I should see (\d+) API requests were made$/ do |number|
-  page.has_css?('span#total', :text => number.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse).should be_true
+  page.has_css?('span#total', :text => number.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse).should be true
 end
 
 Then /^I should see that no API requests were made$/ do
-  page.has_css?('div.alert-info', :text => "No API requests found").should be_true
+  page.has_css?('div.alert-info', :text => "No API requests found").should be true
 end

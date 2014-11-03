@@ -8,15 +8,17 @@ class SourcesController < ApplicationController
   def show
     @doc = Doc.find(@source.name)
     if current_user && current_user.publisher && @source.by_publisher?
-      @publisher_option = PublisherOption.find_or_create_by_publisher_id_and_source_id(current_user.publisher_id, @source.id)
+      @publisher_option = PublisherOption.where(publisher_id: current_user.publisher_id, source_id: @source.id).first_or_create
     end
 
     respond_with(@source) do |format|
       format.rss do
         if params[:days]
-          @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_days(params[:days].to_i)
+          @retrieval_statuses = @source.retrieval_statuses.most_cited
+                                .published_last_x_days(params[:days].to_i)
         elsif params[:months]
-          @retrieval_statuses = @source.retrieval_statuses.most_cited_last_x_months(params[:months].to_i)
+          @retrieval_statuses = @source.retrieval_statuses.most_cited
+                                .published_last_x_months(params[:months].to_i)
         else
           @retrieval_statuses = @source.retrieval_statuses.most_cited
         end
@@ -59,7 +61,7 @@ class SourcesController < ApplicationController
   protected
 
   def load_source
-    @source = Source.find_by_name(params[:id])
+    @source = Source.where(name: params[:id]).first
 
     # raise error if source wasn't found
     fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
