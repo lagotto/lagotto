@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe PubMed do
   subject { FactoryGirl.create(:pub_med) }

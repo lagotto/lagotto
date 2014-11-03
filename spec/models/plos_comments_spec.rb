@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe PlosComments do
   subject { FactoryGirl.create(:plos_comments) }

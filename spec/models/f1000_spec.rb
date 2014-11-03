@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe F1000 do
   subject { FactoryGirl.create(:f1000) }

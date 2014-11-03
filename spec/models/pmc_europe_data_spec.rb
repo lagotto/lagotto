@@ -1,6 +1,4 @@
-# encoding: UTF-8
-
-require 'spec_helper'
+require 'rails_helper'
 
 describe PmcEuropeData do
   subject { FactoryGirl.create(:pmc_europe_data) }

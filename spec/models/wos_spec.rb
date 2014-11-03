@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Wos do
   subject { FactoryGirl.create(:wos) }

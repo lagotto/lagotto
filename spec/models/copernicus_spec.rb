@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Copernicus do
   subject { FactoryGirl.create(:copernicus) }

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Nature do
   subject { FactoryGirl.create(:nature) }

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ArticleCoverageCurated do
   subject { FactoryGirl.create(:article_coverage_curated) }

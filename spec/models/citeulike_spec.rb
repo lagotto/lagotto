@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Citeulike do
   subject { FactoryGirl.create(:citeulike) }

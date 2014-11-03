@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe RetrievalStatus do
   before(:each) { Date.stub(:today).and_return(Date.new(2013, 9, 5)) }

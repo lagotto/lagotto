@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe ReportMailer do
   describe "error report" do

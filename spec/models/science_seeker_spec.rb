@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ScienceSeeker do
   subject { FactoryGirl.create(:science_seeker) }

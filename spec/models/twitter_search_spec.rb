@@ -1,6 +1,4 @@
-# encoding: UTF-8
-
-require 'spec_helper'
+require 'rails_helper'
 
 describe TwitterSearch do
   subject { FactoryGirl.create(:twitter_search) }

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 FactoryGirl.define do
 
   factory :group do
