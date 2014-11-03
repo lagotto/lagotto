@@ -11,7 +11,7 @@ class Copernicus < Source
     { username: username, password: password }
   end
 
-  def parse_data(result, article)
+  def parse_data(result, article, options={})
     return result if result[:error]
 
     events = result.fetch('counter') { {} }

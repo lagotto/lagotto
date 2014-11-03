@@ -16,7 +16,7 @@ class Facebook < Source
     { bearer: access_token }
   end
 
-  def parse_data(result, article)
+  def parse_data(result, article, options={})
     return result if result[:error]
 
     result.extend Hashie::Extensions::DeepFetch

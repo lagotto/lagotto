@@ -13,7 +13,7 @@ class PmcEuropeData < Source
     end
   end
 
-  def parse_data(result, article)
+  def parse_data(result, article, options={})
     return result if result[:error]
     result = result["responseWrapper"] || result
 

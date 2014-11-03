@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class Reddit < Source
-  def parse_data(result, article)
+  def parse_data(result, article, options={})
     return result if result[:error]
 
     events = result.deep_fetch('data', 'children') { [] }

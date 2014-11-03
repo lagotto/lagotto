@@ -7,7 +7,7 @@ class PlosComments < Source
     url % { :doi => article.doi }
   end
 
-  def parse_data(result, article)
+  def parse_data(result, article, options={})
     return result if result[:error]
 
     events = get_events(result, article)

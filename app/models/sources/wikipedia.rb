@@ -28,7 +28,7 @@ class Wikipedia < Source
     end
   end
 
-  def parse_data(result, article)
+  def parse_data(result, article, options={})
     events = result
     events['total'] = events.values.reduce(0) { |sum, x| x.nil? ? sum : sum + x } unless events.empty?
     event_count = events['total'].to_i

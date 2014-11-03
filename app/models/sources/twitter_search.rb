@@ -15,7 +15,7 @@ class TwitterSearch < Source
     { bearer: access_token }
   end
 
-  def parse_data(result, article)
+  def parse_data(result, article, options={})
     # return early if an error occured
     return result if result[:error]
 
