@@ -10,7 +10,7 @@ class OembedController < ApplicationController
     # proceed if url was recognized
     if url["action"] != "routing_error"
       id_hash = Article.from_uri(url[:id])
-      article = Article.includes(:sources).where(id_hash).first
+      article = Article.joins(:sources).where(id_hash).first
     end
 
     # proceed if article was found

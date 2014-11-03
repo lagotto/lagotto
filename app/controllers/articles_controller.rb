@@ -69,7 +69,7 @@ class ArticlesController < ApplicationController
     id_hash = Article.from_uri(params[:id])
     if id_hash.respond_to?("key")
       key, value = id_hash.first
-      @article = Article.includes(:sources).where(key => value).first
+      @article = Article.joins(:sources).where(key => value).first
     else
       @article = nil
     end
@@ -88,4 +88,3 @@ class ArticlesController < ApplicationController
     params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day, :publisher_id)
   end
 end
-
