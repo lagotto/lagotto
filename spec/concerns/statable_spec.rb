@@ -7,30 +7,30 @@ describe Source do
   describe "states" do
     describe ":waiting" do
       it "should be an initial state" do
-        subject.should be_waiting
+        expect(subject).to be_waiting
       end
 
       it "should change to :working on :work" do
         subject.work
-        subject.should be_working
+        expect(subject).to be_working
       end
 
       it "should change to :inactive on :inactivate" do
-        subject.should receive(:remove_queues)
+        expect(subject).to receive(:remove_queues)
         subject.inactivate
-        subject.should be_inactive
+        expect(subject).to be_inactive
       end
 
       it "should change to :disabled on :disable" do
         report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
         subject.disable
-        subject.should be_disabled
-        Alert.count.should == 1
+        expect(subject).to be_disabled
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("TooManyErrorsBySourceError")
-        alert.message.should eq("#{subject.display_name} has exceeded maximum failed queries. Disabling the source.")
-        alert.source_id.should == subject.id
+        expect(alert.class_name).to eq("TooManyErrorsBySourceError")
+        expect(alert.message).to eq("#{subject.display_name} has exceeded maximum failed queries. Disabling the source.")
+        expect(alert.source_id).to eq(subject.id)
       end
     end
 
@@ -38,26 +38,26 @@ describe Source do
       before(:each) { subject.work }
 
       it "should change to :inactive on :inactivate" do
-        subject.should receive(:remove_queues)
+        expect(subject).to receive(:remove_queues)
         subject.inactivate
-        subject.should be_inactive
+        expect(subject).to be_inactive
       end
 
       it "should change to :disabled on :disable" do
         report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
         subject.disable
-        subject.should be_disabled
-        Alert.count.should == 1
+        expect(subject).to be_disabled
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("TooManyErrorsBySourceError")
-        alert.message.should eq("#{subject.display_name} has exceeded maximum failed queries. Disabling the source.")
-        alert.source_id.should == subject.id
+        expect(alert.class_name).to eq("TooManyErrorsBySourceError")
+        expect(alert.message).to eq("#{subject.display_name} has exceeded maximum failed queries. Disabling the source.")
+        expect(alert.source_id).to eq(subject.id)
       end
 
       it "should change to :waiting on :wait" do
         subject.wait
-        subject.should be_waiting
+        expect(subject).to be_waiting
       end
     end
 
@@ -65,9 +65,9 @@ describe Source do
       subject { FactoryGirl.create(:source, state_event: "install") }
 
       it "should change to :waiting on :activate" do
-        subject.should be_inactive
+        expect(subject).to be_inactive
         subject.activate
-        subject.should be_waiting
+        expect(subject).to be_waiting
       end
 
       describe "invalid source" do
@@ -75,8 +75,8 @@ describe Source do
 
         it "should not change to :waiting on :activate" do
           subject.activate
-          subject.should be_inactive
-          subject.errors.full_messages.first.should eq("Url can't be blank")
+          expect(subject).to be_inactive
+          expect(subject.errors.full_messages.first).to eq("Url can't be blank")
         end
       end
     end
@@ -86,7 +86,7 @@ describe Source do
 
       it "should change to :inactive on :install" do
         subject.install
-        subject.should be_inactive
+        expect(subject).to be_inactive
       end
     end
 
@@ -99,7 +99,7 @@ describe Source do
 
       it "should change to :retired on :install" do
         subject.install
-        subject.should be_retired
+        expect(subject).to be_retired
       end
     end
   end

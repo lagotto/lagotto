@@ -10,22 +10,22 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        response["total"].should == 1
+        expect(response["total"]).to eq(1)
         item = response["data"].first
-        item["doi"].should eql(article.doi)
-        item["issued"]["date-parts"][0].should eql([article.year, article.month, article.day])
+        expect(item["doi"]).to eql(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eql([article.year, article.month, article.day])
         item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"].should include("comments")
-        item_source["metrics"].should include("likes")
-        item_source["metrics"].should include("html")
-        item_source["metrics"].should include("pdf")
-        item_source["metrics"].should_not include("citations")
-        item_source["events"].should be_nil
+        expect(item_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["readers"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]).to include("comments")
+        expect(item_source["metrics"]).to include("likes")
+        expect(item_source["metrics"]).to include("html")
+        expect(item_source["metrics"]).to include("pdf")
+        expect(item_source["metrics"]).not_to include("citations")
+        expect(item_source["events"]).to be_nil
       end
     end
 
@@ -36,22 +36,22 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        response["total"].should == 1
+        expect(response["total"]).to eq(1)
         item = response["data"].first
-        item["doi"].should eql(article.doi)
-        item["issued"]["date-parts"][0].should eql([article.year, article.month, article.day])
+        expect(item["doi"]).to eql(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eql([article.year, article.month, article.day])
         item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"].should include("comments")
-        item_source["metrics"].should include("likes")
-        item_source["metrics"].should include("html")
-        item_source["metrics"].should include("pdf")
-        item_source["metrics"].should_not include("citations")
-        item_source["events"].should be_nil
+        expect(item_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["readers"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]).to include("comments")
+        expect(item_source["metrics"]).to include("likes")
+        expect(item_source["metrics"]).to include("html")
+        expect(item_source["metrics"]).to include("pdf")
+        expect(item_source["metrics"]).not_to include("citations")
+        expect(item_source["events"]).to be_nil
       end
     end
 
@@ -62,14 +62,14 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        response["total"].should == 1
+        expect(response["total"]).to eq(1)
         item = response["data"].first
-        item["doi"].should eql(article.doi)
-        item["issued"]["date-parts"][0].should eql([article.year, article.month, article.day])
-        item["sources"].should be_empty
+        expect(item["doi"]).to eql(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eql([article.year, article.month, article.day])
+        expect(item["sources"]).to be_empty
       end
     end
   end

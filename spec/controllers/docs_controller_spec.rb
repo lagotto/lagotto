@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe DocsController do
+describe DocsController, :type => :controller do
 
   it "GET 'index'" do
     get ""
-    last_response.status.should == 200
+    expect(last_response.status).to eq(200)
   end
 
 end

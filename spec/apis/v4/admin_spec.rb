@@ -20,12 +20,12 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should == 201
+        expect(last_response.status).to eq(201)
 
         response = JSON.parse(last_response.body)
-        response["success"].should eq ("Article created.")
-        response["error"].should be_nil
-        response["data"]["doi"].should eq (params["article"]["doi"])
+        expect(response["success"]).to eq ("Article created.")
+        expect(response["error"]).to be_nil
+        expect(response["data"]["doi"]).to eq (params["article"]["doi"])
       end
     end
 
@@ -34,12 +34,12 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should == 201
+        expect(last_response.status).to eq(201)
 
         response = JSON.parse(last_response.body)
-        response["success"].should eq ("Article created.")
-        response["error"].should be_nil
-        response["data"]["doi"].should eq (params["article"]["doi"])
+        expect(response["success"]).to eq ("Article created.")
+        expect(response["error"]).to be_nil
+        expect(response["data"]["doi"]).to eq (params["article"]["doi"])
       end
     end
 
@@ -48,10 +48,10 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should == 401
+        expect(last_response.status).to eq(401)
 
         response = JSON.parse(last_response.body)
-        response.should eq (error)
+        expect(response).to eq (error)
       end
     end
 
@@ -61,10 +61,10 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should == 401
+        expect(last_response.status).to eq(401)
 
         response = JSON.parse(last_response.body)
-        response.should eq (error)
+        expect(response).to eq (error)
       end
     end
 
@@ -81,12 +81,12 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should == 400
+        expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({"doi"=>["has already been taken"]})
-        response["success"].should be_nil
-        response["data"]["doi"].should eq (params["article"]["doi"])
+        expect(response["error"]).to eq ({"doi"=>["has already been taken"]})
+        expect(response["success"]).to be_nil
+        expect(response["data"]["doi"]).to eq (params["article"]["doi"])
       end
     end
 
@@ -102,17 +102,17 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should == 422
+        expect(last_response.status).to eq(422)
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({ "article" => ["parameter is required"] })
-        response["success"].should be_nil
-        response["data"].should be_nil
+        expect(response["error"]).to eq ({ "article" => ["parameter is required"] })
+        expect(response["success"]).to be_nil
+        expect(response["data"]).to be_nil
       end
     end
 
     context "with missing title and year params" do
-      before(:each) { Date.stub(:today).and_return(Date.new(2013, 9, 5)) }
+      before(:each) { allow(Date).to receive(:today).and_return(Date.new(2013, 9, 5)) }
 
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) do
@@ -122,13 +122,13 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should == 400
+        expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({ "title"=>["can't be blank"], "year"=>["is not a number", "should be between 1650 and 2014"] })
-        response["success"].should be_nil
-        response["data"]["doi"].should eq (params["article"]["doi"])
-        response["data"]["title"].should be_nil
+        expect(response["error"]).to eq ({ "title"=>["can't be blank"], "year"=>["is not a number", "should be between 1650 and 2014"] })
+        expect(response["success"]).to be_nil
+        expect(response["data"]["doi"]).to eq (params["article"]["doi"])
+        expect(response["data"]["title"]).to be_nil
       end
     end
 
@@ -138,18 +138,18 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should == 422
+        expect(last_response.status).to eq(422)
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({ "foo" => ["unpermitted parameter"],
+        expect(response["error"]).to eq ({ "foo" => ["unpermitted parameter"],
                                        "baz" => ["unpermitted parameter"] })
-        response["success"].should be_nil
-        response["data"].should be_nil
+        expect(response["success"]).to be_nil
+        expect(response["data"]).to be_nil
 
-        Alert.count.should == 1
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("ActiveModel::ForbiddenAttributesError")
-        alert.status.should == 422
+        expect(alert.class_name).to eq("ActiveModel::ForbiddenAttributesError")
+        expect(alert.status).to eq(422)
       end
     end
 
@@ -159,16 +159,16 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         post uri, params, headers
-        last_response.status.should == 422
+        expect(last_response.status).to eq(422)
         response = JSON.parse(last_response.body)
-        response["error"].should eq ("Undefined method.")
-        response["success"].should be_nil
-        response["data"].should be_nil
+        expect(response["error"]).to eq ("Undefined method.")
+        expect(response["success"]).to be_nil
+        expect(response["data"]).to be_nil
 
-        Alert.count.should == 1
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("NoMethodError")
-        alert.status.should == 422
+        expect(alert.class_name).to eq("NoMethodError")
+        expect(alert.status).to eq(422)
       end
     end
   end
@@ -189,12 +189,12 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         put uri, params, headers
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        response["success"].should eq ("Article updated.")
-        response["error"].should be_nil
-        response["data"]["doi"].should eq (article.doi)
+        expect(response["success"]).to eq ("Article updated.")
+        expect(response["error"]).to be_nil
+        expect(response["data"]["doi"]).to eq (article.doi)
       end
     end
 
@@ -203,10 +203,10 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         put uri, params, headers
-        last_response.status.should == 401
+        expect(last_response.status).to eq(401)
 
         response = JSON.parse(last_response.body)
-        response.should eq (error)
+        expect(response).to eq (error)
       end
     end
 
@@ -215,10 +215,10 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         put uri, params, headers
-        last_response.status.should == 401
+        expect(last_response.status).to eq(401)
 
         response = JSON.parse(last_response.body)
-        response.should eq (error)
+        expect(response).to eq (error)
       end
     end
 
@@ -228,10 +228,10 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         put uri, params, headers
-        last_response.status.should == 401
+        expect(last_response.status).to eq(401)
 
         response = JSON.parse(last_response.body)
-        response.should eq (error)
+        expect(response).to eq (error)
       end
     end
 
@@ -241,12 +241,12 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         put uri, params, headers
-        last_response.status.should == 404
+        expect(last_response.status).to eq(404)
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ("No article found.")
-        response["success"].should be_nil
-        response["data"].should be_nil
+        expect(response["error"]).to eq ("No article found.")
+        expect(response["success"]).to be_nil
+        expect(response["data"]).to be_nil
       end
     end
 
@@ -262,35 +262,35 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         put uri, params, headers
-        last_response.status.should == 422
+        expect(last_response.status).to eq(422)
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ({"article"=>["parameter is required"]})
-        response["success"].should be_nil
-        response["data"].should be_nil
+        expect(response["error"]).to eq ({"article"=>["parameter is required"]})
+        expect(response["success"]).to be_nil
+        expect(response["data"]).to be_nil
 
-        Alert.count.should == 1
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("ActionController::ParameterMissing")
-        alert.status.should == 422
+        expect(alert.class_name).to eq("ActionController::ParameterMissing")
+        expect(alert.status).to eq(422)
       end
     end
 
     context "with missing title and year params" do
-      before(:each) { Date.stub(:today).and_return(Date.new(2013, 9, 5)) }
+      before(:each) { allow(Date).to receive(:today).and_return(Date.new(2013, 9, 5)) }
 
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) { { "article" => { "doi" => "10.1371/journal.pone.0036790", "title" => nil, "year" => nil } } }
 
       it "JSON" do
         put uri, params, headers
-        last_response.status.should == 400
+        expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq("title"=>["can't be blank"], "year"=>["is not a number", "should be between 1650 and 2014"])
-        response["success"].should be_nil
-        response["data"]["doi"].should eq (params["article"]["doi"])
-        response["data"]["title"].should be_nil
+        expect(response["error"]).to eq("title"=>["can't be blank"], "year"=>["is not a number", "should be between 1650 and 2014"])
+        expect(response["success"]).to be_nil
+        expect(response["data"]["doi"]).to eq (params["article"]["doi"])
+        expect(response["data"]["title"]).to be_nil
       end
     end
 
@@ -300,17 +300,17 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         put uri, params, headers
-        last_response.status.should == 422
+        expect(last_response.status).to eq(422)
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq({ "foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"] })
-        response["success"].should be_nil
-        response["data"].should be_nil
+        expect(response["error"]).to eq({ "foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"] })
+        expect(response["success"]).to be_nil
+        expect(response["data"]).to be_nil
 
-        Alert.count.should == 1
+        expect(Alert.count).to eq(1)
         alert = Alert.first
-        alert.class_name.should eq("ActiveModel::ForbiddenAttributesError")
-        alert.status.should == 422
+        expect(alert.class_name).to eq("ActiveModel::ForbiddenAttributesError")
+        expect(alert.status).to eq(422)
       end
     end
   end
@@ -324,12 +324,12 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         delete uri, nil, headers
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        response["success"].should eq ("Article deleted.")
-        response["error"].should be_nil
-        response["data"]["doi"].should eq (article.doi)
+        expect(response["success"]).to eq ("Article deleted.")
+        expect(response["error"]).to be_nil
+        expect(response["data"]["doi"]).to eq (article.doi)
       end
     end
 
@@ -338,10 +338,10 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         delete uri, nil, headers
-        last_response.status.should == 401
+        expect(last_response.status).to eq(401)
 
         response = JSON.parse(last_response.body)
-        response.should eq (error)
+        expect(response).to eq (error)
       end
     end
 
@@ -350,10 +350,10 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         delete uri, nil, headers
-        last_response.status.should == 401
+        expect(last_response.status).to eq(401)
 
         response = JSON.parse(last_response.body)
-        response.should eq (error)
+        expect(response).to eq (error)
       end
     end
 
@@ -363,10 +363,10 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         delete uri, nil, headers
-        last_response.status.should == 401
+        expect(last_response.status).to eq(401)
 
         response = JSON.parse(last_response.body)
-        response.should eq (error)
+        expect(response).to eq (error)
       end
     end
 
@@ -376,12 +376,12 @@ describe "/api/v4/articles" do
 
       it "JSON" do
         delete uri, nil, headers
-        last_response.status.should == 404
+        expect(last_response.status).to eq(404)
 
         response = JSON.parse(last_response.body)
-        response["error"].should eq ("No article found.")
-        response["success"].should be_nil
-        response["data"].should be_nil
+        expect(response["error"]).to eq ("No article found.")
+        expect(response["success"]).to be_nil
+        expect(response["data"]).to be_nil
       end
     end
   end

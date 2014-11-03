@@ -16,28 +16,28 @@ describe "/api/v5/articles" do
 
       it "no format" do
         get @uri
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 50
-        data.any? do |article|
+        expect(data.length).to eq(50)
+        expect(data.any? do |article|
           article["doi"] == articles[0].doi
-          article["issued"]["date-parts"][0].should eql([articles[0].year, articles[0].month, articles[0].day])
-        end.should be true
+          expect(article["issued"]["date-parts"][0]).to eql([articles[0].year, articles[0].month, articles[0].day])
+        end).to be true
       end
 
       it "JSON" do
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 50
-        data.any? do |article|
+        expect(data.length).to eq(50)
+        expect(data.any? do |article|
           article["doi"] == articles[0].doi
-          article["issued"]["date-parts"][0].should eql([articles[0].year, articles[0].month, articles[0].day])
-        end.should be true
+          expect(article["issued"]["date-parts"][0]).to eql([articles[0].year, articles[0].month, articles[0].day])
+        end).to be true
       end
     end
 
@@ -49,14 +49,14 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 50
-        data.any? do |article|
+        expect(data.length).to eq(50)
+        expect(data.any? do |article|
           article["pmid"] == articles[0].pmid
-        end.should be true
+        end).to be true
       end
     end
 
@@ -68,14 +68,14 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 50
-        data.any? do |article|
+        expect(data.length).to eq(50)
+        expect(data.any? do |article|
           article["pmcid"] == "2568856" # articles[0].pmcid
-        end.should be true
+        end).to be true
       end
     end
 
@@ -87,14 +87,14 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 50
-        data.any? do |article|
+        expect(data.length).to eq(50)
+        expect(data.any? do |article|
           article["mendeley_uuid"] == articles[0].mendeley_uuid
-        end.should be true
+        end).to be true
       end
     end
 
@@ -107,14 +107,14 @@ describe "/api/v5/articles" do
       it "JSON" do
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
         response = JSON.parse(last_response.body)
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         data = response["data"]
-        data.length.should == 50
-        data.any? do |article|
+        expect(data.length).to eq(50)
+        expect(data.any? do |article|
           article["doi"] == articles[0].doi
-          article["issued"]["date-parts"][0].should eql([articles[0].year, articles[0].month, articles[0].day])
-        end.should be true
+          expect(article["issued"]["date-parts"][0]).to eql([articles[0].year, articles[0].month, articles[0].day])
+        end).to be true
       end
     end
 
@@ -124,8 +124,8 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
-        last_response.body.should eq(nothing_found.to_json)
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq(nothing_found.to_json)
       end
     end
   end

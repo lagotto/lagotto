@@ -16,9 +16,9 @@ describe "/api/v3/articles" do
       end
 
       it "can cache articles in JSON" do
-        Rails.cache.exist?("rabl/v3/#{cache_key_list}//json").should_not be true
+        expect(Rails.cache.exist?("rabl/v3/#{cache_key_list}//json")).not_to be true
         get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         sleep 1
 
@@ -26,16 +26,16 @@ describe "/api/v3/articles" do
         response = Rails.cache.read("rabl/v3/#{cache_key_list}//json")
         response = JSON.parse(response).first
         response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eql(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eql(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).to be_nil
       end
 
       it "can cache articles in XML" do
-        Rails.cache.exist?("rabl/v3/#{cache_key_list}//xml").should_not be true
+        expect(Rails.cache.exist?("rabl/v3/#{cache_key_list}//xml")).not_to be true
         get @uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         sleep 1
 
@@ -44,10 +44,10 @@ describe "/api/v3/articles" do
         response = Hash.from_xml(response)
         response = response["articles"]["article"][0]
         response_source = response["sources"]["source"]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"].to_i).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).to be_nil
       end
     end
 
@@ -59,104 +59,104 @@ describe "/api/v3/articles" do
       let(:event_count) { 75 }
 
       it "can cache an article in JSON" do
-        Rails.cache.exist?("#{key}//json").should_not be true
+        expect(Rails.cache.exist?("#{key}//json")).not_to be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be true
+        expect(Rails.cache.exist?("#{key}//json")).to be true
 
         response = Rails.cache.read("#{key}//json")
         response = JSON.parse(response).first
         response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eql(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eql(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).to be_nil
       end
 
       it "can cache an article in XML" do
-        Rails.cache.exist?("#{key}//xml").should_not be true
+        expect(Rails.cache.exist?("#{key}//xml")).not_to be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//xml").should be true
+        expect(Rails.cache.exist?("#{key}//xml")).to be true
 
         response = Rails.cache.read("#{key}//xml")
         response = Hash.from_xml(response)
         response = response["articles"]["article"]
         response_source = response["sources"]["source"]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].to_i.should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"].to_i).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).to be_nil
       end
 
       it "can cache JSON and XML separately" do
-        Rails.cache.exist?("#{key}//json").should_not be true
+        expect(Rails.cache.exist?("#{key}//json")).not_to be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should_not be true
-        Rails.cache.exist?("#{key}//xml").should be true
+        expect(Rails.cache.exist?("#{key}//json")).not_to be true
+        expect(Rails.cache.exist?("#{key}//xml")).to be true
       end
 
       it "can make API requests 2x faster" do
-        Rails.cache.exist?("#{key}//json").should_not be true
+        expect(Rails.cache.exist?("#{key}//json")).not_to be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be true
+        expect(Rails.cache.exist?("#{key}//json")).to be true
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
-        ApiRequest.count.should eql(2)
-        ApiRequest.last.view_duration.should be < 0.5 * ApiRequest.first.view_duration
+        expect(last_response.status).to eq(200)
+        expect(ApiRequest.count).to eql(2)
+        expect(ApiRequest.last.view_duration).to be < 0.5 * ApiRequest.first.view_duration
       end
 
       it "does not use a stale cache when an article is updated" do
-        Rails.cache.exist?("#{key}//json").should_not be true
+        expect(Rails.cache.exist?("#{key}//json")).not_to be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be true
+        expect(Rails.cache.exist?("#{key}//json")).to be true
         response = Rails.cache.read("#{key}//json")
         response = JSON.parse(response).first
-        response["title"].should eql(article.title)
-        response["title"].should_not eql(title)
+        expect(response["title"]).to eql(article.title)
+        expect(response["title"]).not_to eql(title)
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
         article.update_attributes!(title: title)
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
         cache_key = "rabl/v3/#{ArticleDecorator.decorate(article).cache_key}"
-        cache_key.should_not eql(key)
-        Rails.cache.exist?("#{cache_key}//json").should be true
+        expect(cache_key).not_to eql(key)
+        expect(Rails.cache.exist?("#{cache_key}//json")).to be true
         response = Rails.cache.read("#{cache_key}//json")
         response = JSON.parse(response).first
-        response["title"].should eql(article.title)
-        response["title"].should eql(title)
+        expect(response["title"]).to eql(article.title)
+        expect(response["title"]).to eql(title)
       end
 
       it "does not use a stale cache when a source is updated" do
-        Rails.cache.exist?("#{key}//json").should_not be true
+        expect(Rails.cache.exist?("#{key}//json")).not_to be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be true
+        expect(Rails.cache.exist?("#{key}//json")).to be true
         response = Rails.cache.read("#{key}//json")
         response = JSON.parse(response).first
         update_date = response["update_date"]
@@ -168,62 +168,62 @@ describe "/api/v3/articles" do
         article.touch
 
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
         cache_key = "rabl/v3/#{ArticleDecorator.decorate(article).cache_key}"
-        cache_key.should_not eql(key)
-        Rails.cache.exist?("#{cache_key}//json").should be true
+        expect(cache_key).not_to eql(key)
+        expect(Rails.cache.exist?("#{cache_key}//json")).to be true
         response = Rails.cache.read("#{cache_key}//json")
         response = JSON.parse(response).first
-        response["update_date"].should be > update_date
+        expect(response["update_date"]).to be > update_date
       end
 
       it "does not use a stale cache when the source query parameter changes" do
-        Rails.cache.exist?("#{key}//json").should_not be true
+        expect(Rails.cache.exist?("#{key}//json")).not_to be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be true
+        expect(Rails.cache.exist?("#{key}//json")).to be true
         response = Rails.cache.read("#{key}//json")
         response = JSON.parse(response).first
-        response["sources"].size.should eql(1)
+        expect(response["sources"].size).to eql(1)
 
         source_uri = "#{uri}&source=crossref"
         get source_uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should eql(404)
-        JSON.parse(last_response.body).should eql("error" => "Source not found.")
+        expect(last_response.status).to eql(404)
+        expect(JSON.parse(last_response.body)).to eql("error" => "Source not found.")
       end
 
       it "does not use a stale cache when the info query parameter changes" do
-        Rails.cache.exist?("#{key}//json").should_not be true
+        expect(Rails.cache.exist?("#{key}//json")).not_to be true
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         sleep 1
 
-        Rails.cache.exist?("#{key}//json").should be true
+        expect(Rails.cache.exist?("#{key}//json")).to be true
 
         history_uri = "#{uri}&info=history"
         get history_uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)[0]
         response_source = response["sources"][0]
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
-        response_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["metrics"]["shares"].should eq(article.retrieval_statuses.first.event_count)
-        response_source["events"].should be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"]["shares"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(response_source["events"]).to be_nil
 
         summary_uri = "#{uri}&info=summary"
         get summary_uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)[0]
-        response["sources"].should be_nil
-        response["doi"].should eql(article.doi)
-        response["publication_date"].should eql(article.published_on.to_time.utc.iso8601)
+        expect(response["sources"]).to be_nil
+        expect(response["doi"]).to eql(article.doi)
+        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
       end
     end
   end

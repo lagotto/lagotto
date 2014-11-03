@@ -13,29 +13,29 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data.length.should == 50
-        data.any? do |article|
+        expect(data.length).to eq(50)
+        expect(data.any? do |article|
           article["doi"] == articles[0].doi
           article["issued"]["date-parts"][0] == [articles[0].year, articles[0].month, articles[0].day]
-        end.should be true
+        end).to be true
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
-        data.length.should == 50
-        data.any? do |article|
+        expect(data.length).to eq(50)
+        expect(data.any? do |article|
           article["doi"] == articles[0].doi
           article["issued"]["date-parts"][0] == [articles[0].year, articles[0].month, articles[0].day]
-        end.should be true
+        end).to be true
       end
     end
 
@@ -45,37 +45,37 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        response["total"].should == 1
+        expect(response["total"]).to eq(1)
         item = response["data"].first
-        item["doi"].should eq(article.doi)
-        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
+        expect(item["doi"]).to eq(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eq([article.year, article.month, article.day])
         item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["by_day"].should_not be_nil
-        item_source["by_month"].should_not be_nil
-        item_source["by_year"].should_not be_nil
+        expect(item_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["readers"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["by_day"]).not_to be_nil
+        expect(item_source["by_month"]).not_to be_nil
+        expect(item_source["by_year"]).not_to be_nil
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
-        response["total"].should == 1
+        expect(response["total"]).to eq(1)
         item = response["data"].first
-        item["doi"].should eq(article.doi)
-        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
+        expect(item["doi"]).to eq(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eq([article.year, article.month, article.day])
         item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["by_day"].should_not be_nil
-        item_source["by_month"].should_not be_nil
-        item_source["by_year"].should_not be_nil
+        expect(item_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["readers"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["by_day"]).not_to be_nil
+        expect(item_source["by_month"]).not_to be_nil
+        expect(item_source["by_year"]).not_to be_nil
       end
     end
 
@@ -85,27 +85,27 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        response["total"].should == 1
+        expect(response["total"]).to eq(1)
         item = response["data"].first
-        item["doi"].should eq(article.doi)
-        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
-        item["sources"].should be_nil
+        expect(item["doi"]).to eq(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eq([article.year, article.month, article.day])
+        expect(item["sources"]).to be_nil
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
-        response["total"].should == 1
+        expect(response["total"]).to eq(1)
         item = response["data"].first
-        item["doi"].should eq(article.doi)
-        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
-        item["sources"].should be_nil
+        expect(item["doi"]).to eq(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eq([article.year, article.month, article.day])
+        expect(item["sources"]).to be_nil
       end
     end
 
@@ -115,41 +115,41 @@ describe "/api/v5/articles" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        response["total"].should == 1
+        expect(response["total"]).to eq(1)
         item = response["data"].first
-        item["doi"].should eq(article.doi)
-        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
+        expect(item["doi"]).to eq(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eq([article.year, article.month, article.day])
 
         item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["events"].should_not be_nil
-        item_source["by_day"].should_not be_nil
-        item_source["by_month"].should_not be_nil
-        item_source["by_year"].should_not be_nil
+        expect(item_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["readers"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["events"]).not_to be_nil
+        expect(item_source["by_day"]).not_to be_nil
+        expect(item_source["by_month"]).not_to be_nil
+        expect(item_source["by_year"]).not_to be_nil
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
-        response["total"].should == 1
+        expect(response["total"]).to eq(1)
         item = response["data"].first
-        item["doi"].should eq(article.doi)
-        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
+        expect(item["doi"]).to eq(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eq([article.year, article.month, article.day])
 
         item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["events"].should_not be_nil
-        item_source["by_day"].should_not be_nil
-        item_source["by_month"].should_not be_nil
-        item_source["by_year"].should_not be_nil
+        expect(item_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["readers"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["events"]).not_to be_nil
+        expect(item_source["by_day"]).not_to be_nil
+        expect(item_source["by_month"]).not_to be_nil
+        expect(item_source["by_year"]).not_to be_nil
       end
     end
 
@@ -161,39 +161,39 @@ describe "/api/v5/articles" do
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         article = articles.first
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        response["total"].should == 10
+        expect(response["total"]).to eq(10)
         item = response["data"].first
-        item["doi"].should eq(article.doi)
-        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
+        expect(item["doi"]).to eq(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eq([article.year, article.month, article.day])
         item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["by_day"].should_not be_nil
-        item_source["by_month"].should_not be_nil
-        item_source["by_year"].should_not be_nil
+        expect(item_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["readers"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["by_day"]).not_to be_nil
+        expect(item_source["by_month"]).not_to be_nil
+        expect(item_source["by_year"]).not_to be_nil
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
         article = articles.first
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
-        response["total"].should == 10
+        expect(response["total"]).to eq(10)
         item = response["data"].first
         item = response["data"].first
-        item["doi"].should eq(article.doi)
-        item["issued"]["date-parts"][0].should eq([article.year, article.month, article.day])
+        expect(item["doi"]).to eq(article.doi)
+        expect(item["issued"]["date-parts"][0]).to eq([article.year, article.month, article.day])
         item_source = item["sources"][0]
-        item_source["metrics"]["total"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["metrics"]["readers"].should eq(article.retrieval_statuses.first.event_count)
-        item_source["by_day"].should_not be_nil
-        item_source["by_month"].should_not be_nil
-        item_source["by_year"].should_not be_nil
+        expect(item_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["readers"]).to eq(article.retrieval_statuses.first.event_count)
+        expect(item_source["by_day"]).not_to be_nil
+        expect(item_source["by_month"]).not_to be_nil
+        expect(item_source["by_year"]).not_to be_nil
       end
     end
   end

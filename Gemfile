@@ -43,6 +43,7 @@ gem "will_paginate-bootstrap", "~> 1.0.1"
 gem "simple_form", "~> 3.0.2"
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.7.2"
+gem 'dotiw', '~> 2.0'
 
 gem 'sprockets-rails', '~> 2.2.0', :require => 'sprockets/railtie'
 gem 'sass-rails', '~> 4.0.4'
@@ -79,7 +80,7 @@ group :test do
 end
 
 group :test, :development do
-  gem "rspec-rails", "~> 3.1.0"
+  gem "rspec-rails", "~> 2.99.0"
   gem 'jasmine-rails', '~> 0.10.2'
   gem "brakeman", "~> 2.6.0", :require => false
   gem 'rubocop', '~> 0.27.0'

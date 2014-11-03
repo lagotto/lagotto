@@ -1,24 +1,24 @@
 require 'rails_helper'
 
-describe RetrievalStatus do
-  before(:each) { Date.stub(:today).and_return(Date.new(2013, 9, 5)) }
+describe RetrievalStatus, :type => :model do
+  before(:each) { allow(Date).to receive(:today).and_return(Date.new(2013, 9, 5)) }
 
-  it { should belong_to(:article) }
-  it { should belong_to(:source) }
+  it { is_expected.to belong_to(:article) }
+  it { is_expected.to belong_to(:source) }
 
   describe "use stale_at" do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
 
     it "stale_at should be a datetime" do
-      retrieval_status.stale_at.should be_a_kind_of Time
+      expect(retrieval_status.stale_at).to be_a_kind_of Time
     end
 
     it "stale_at should be in the future" do
-      (retrieval_status.stale_at - Time.zone.now).should be > 0
+      expect(retrieval_status.stale_at - Time.zone.now).to be > 0
     end
 
     it "stale_at should be after article publication date" do
-      (retrieval_status.stale_at - retrieval_status.article.published_on.to_datetime).should be > 0
+      expect(retrieval_status.stale_at - retrieval_status.article.published_on.to_datetime).to be > 0
     end
   end
 
@@ -28,7 +28,7 @@ describe RetrievalStatus do
       article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[0]
-      (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
+      expect(retrieval_status.stale_at - Time.zone.now).to be_within(0.11 * duration).of(duration)
     end
 
     it "published 8 days ago" do
@@ -36,7 +36,7 @@ describe RetrievalStatus do
       article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[1]
-      (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
+      expect(retrieval_status.stale_at - Time.zone.now).to be_within(0.11 * duration).of(duration)
     end
 
     it "published 32 days ago" do
@@ -44,7 +44,7 @@ describe RetrievalStatus do
       article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[2]
-      (retrieval_status.stale_at - Time.zone.now).should be_within(0.11 * duration).of(duration)
+      expect(retrieval_status.stale_at - Time.zone.now).to be_within(0.11 * duration).of(duration)
     end
 
     it "published 370 days ago" do
@@ -52,7 +52,7 @@ describe RetrievalStatus do
       article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
       duration = retrieval_status.source.staleness[3]
-      (retrieval_status.stale_at - Time.zone.now).should be_within(0.15 * duration).of(duration)
+      expect(retrieval_status.stale_at - Time.zone.now).to be_within(0.15 * duration).of(duration)
     end
   end
 
@@ -95,7 +95,7 @@ describe RetrievalStatus do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status, :with_crossref_histories) }
 
     it "should get past events by month" do
-      retrieval_status.get_past_events_by_month.should eq([{:year=>2013, :month=>4, :total=>800}, {:year=>2013, :month=>5, :total=>820}, {:year=>2013, :month=>6, :total=>870}, {:year=>2013, :month=>7, :total=>910}, {:year=>2013, :month=>8, :total=>950}])
+      expect(retrieval_status.get_past_events_by_month).to eq([{:year=>2013, :month=>4, :total=>800}, {:year=>2013, :month=>5, :total=>820}, {:year=>2013, :month=>6, :total=>870}, {:year=>2013, :month=>7, :total=>910}, {:year=>2013, :month=>8, :total=>950}])
     end
   end
 end

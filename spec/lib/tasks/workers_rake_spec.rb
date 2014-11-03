@@ -10,11 +10,11 @@ describe "workers:start" do
   let(:output) { "All #{ENV['WORKERS']} workers started.\n" }
 
   it "prerequisites should include environment" do
-    subject.prerequisites.should include("environment")
+    expect(subject.prerequisites).to include("environment")
   end
 
   it "should run the rake task" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -28,7 +28,7 @@ describe "workers:stop" do
   let(:output) { "All workers stopped.\n" }
 
   it "should run" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -48,11 +48,11 @@ describe "workers:monitor" do
   let(:output) { "#{message}\n#{ENV['WORKERS']} workers expected, #{ENV['WORKERS']} workers running.\n" }
 
   it "should run" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
 
-    Alert.count.should == 1
+    expect(Alert.count).to eq(1)
     alert = Alert.first
-    alert.class_name.should eq("StandardError")
-    alert.message.should eq(message)
+    expect(alert.class_name).to eq("StandardError")
+    expect(alert.message).to eq(message)
   end
 end

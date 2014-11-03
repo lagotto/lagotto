@@ -22,29 +22,29 @@ describe "/api/v5/status" do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => "application/json"
-        last_response.status.should == 200
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        data["update_date"].should_not eq("1970-01-01T00:00:00Z")
-        data["articles_count"].should == 5
-        data["responses_count"].should == 6
-        data["users_count"].should == 1
-        data["version"].should == Rails.application.config.version
+        expect(data["update_date"]).not_to eq("1970-01-01T00:00:00Z")
+        expect(data["articles_count"]).to eq(5)
+        expect(data["responses_count"]).to eq(6)
+        expect(data["users_count"]).to eq(1)
+        expect(data["version"]).to eq(Rails.application.config.version)
       end
 
       it "JSONP" do
         get "#{uri}&callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-        last_response.status.should eql(200)
+        expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
-        data["update_date"].should_not eq("1970-01-01T00:00:00Z")
-        data["articles_count"].should == 5
-        data["responses_count"].should == 6
-        data["users_count"].should == 1
-        data["version"].should == Rails.application.config.version
+        expect(data["update_date"]).not_to eq("1970-01-01T00:00:00Z")
+        expect(data["articles_count"]).to eq(5)
+        expect(data["responses_count"]).to eq(6)
+        expect(data["users_count"]).to eq(1)
+        expect(data["version"]).to eq(Rails.application.config.version)
       end
     end
   end

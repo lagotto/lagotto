@@ -6,7 +6,7 @@ describe "db:articles:import" do
   let(:output) { "Started import of 993 articles in the background...\n" }
 
   it "prerequisites should include environment" do
-    subject.prerequisites.should include("environment")
+    expect(subject.prerequisites).to include("environment")
   end
 
   it "should run the rake task" do
@@ -14,7 +14,7 @@ describe "db:articles:import" do
     stub_request(:get, import.query_url(offset = 0, rows = 0)).to_return(:body => File.read(fixture_path + 'import_no_rows_single.json'))
     stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'import.json'))
     stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 
   it "should run the rake task for a sample" do
@@ -23,7 +23,7 @@ describe "db:articles:import" do
     import = Import.new(sample: 50)
     stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'import.json'))
     stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -34,11 +34,11 @@ describe "db:articles:load" do
   let(:output) { "No articles to import.\n" }
 
   it "prerequisites should include environment" do
-    subject.prerequisites.should include("environment")
+    expect(subject.prerequisites).to include("environment")
   end
 
   it "should run the rake task" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -53,7 +53,7 @@ describe "db:articles:delete" do
 
   it "should run" do
     ENV['MEMBER'] = "all"
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -67,7 +67,7 @@ describe "db:articles:sanitize_title" do
   let(:output) { "5 article titles sanitized\n" }
 
   it "should run" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -81,7 +81,7 @@ describe "db:alerts:delete" do
   let(:output) { "Deleted 5 resolved alerts, 0 unresolved alerts remaining\n" }
 
   it "should run" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -95,7 +95,7 @@ describe "db:api_requests:delete" do
   let(:output) { "Deleted 0 API requests, 5 API requests remaining\n" }
 
   it "should run" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -109,7 +109,7 @@ describe "db:api_responses:delete" do
   let(:output) { "Deleted 5 API responses, 0 API responses remaining\n" }
 
   it "should run" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -123,7 +123,7 @@ describe "db:sources:activate" do
   let(:output) { "Source CiteULike has been activated and is now waiting.\n" }
 
   it "should run" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -137,7 +137,7 @@ describe "db:sources:inactivate" do
   let(:output) { "Source CiteULike has been inactivated.\n" }
 
   it "should run" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -151,7 +151,7 @@ describe "db:sources:install" do
   let(:output) { "Source CiteULike has been installed.\n" }
 
   it "should run" do
-    capture_stdout { subject.invoke }.should eq(output)
+    expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
 
@@ -166,6 +166,6 @@ describe "db:sources:uninstall[citeulike,pmc]" do
   let(:output) { "Source CiteULike has been uninstalled.\nSource PubMed Central Usage Stats has been uninstalled.\n" }
 
   it "should run" do
-    capture_stdout { subject.invoke(*task_args) }.should eq(output)
+    expect(capture_stdout { subject.invoke(*task_args) }).to eq(output)
   end
 end

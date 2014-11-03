@@ -4,7 +4,7 @@ describe "filter:all" do
   include_context "rake"
 
   it "prerequisites should include environment" do
-    subject.prerequisites.should include("environment")
+    expect(subject.prerequisites).to include("environment")
   end
 
   context "found no errors" do
@@ -17,7 +17,7 @@ describe "filter:all" do
     let(:output) { "Found 0 decreasing event count errors" }
 
     it "should run the rake task" do
-      capture_stdout { subject.invoke }.should include(output)
+      expect(capture_stdout { subject.invoke }).to include(output)
     end
   end
 
@@ -30,7 +30,7 @@ describe "filter:all" do
     let(:output) { "Resolved 1 API response" }
 
     it "should run the rake task" do
-      capture_stdout { subject.invoke }.should include(output)
+      expect(capture_stdout { subject.invoke }).to include(output)
     end
   end
 
@@ -44,7 +44,7 @@ describe "filter:all" do
     let(:output) { "Found 1 decreasing event count error" }
 
     it "should run the rake task" do
-      capture_stdout { subject.invoke }.should include(output)
+      expect(capture_stdout { subject.invoke }).to include(output)
     end
   end
 
@@ -58,7 +58,7 @@ describe "filter:all" do
     let(:output) { "Found 1 increasing event count error" }
 
     it "should run the rake task" do
-      capture_stdout { subject.invoke }.should include(output)
+      expect(capture_stdout { subject.invoke }).to include(output)
     end
   end
 
@@ -72,7 +72,7 @@ describe "filter:all" do
     let(:output) { "Found 1 API too slow error" }
 
     it "should run the rake task" do
-      capture_stdout { subject.invoke }.should include(output)
+      expect(capture_stdout { subject.invoke }).to include(output)
     end
   end
 
@@ -86,7 +86,7 @@ describe "filter:all" do
     let(:output) { "Found 1 article not updated error" }
 
     it "should run the rake task" do
-      capture_stdout { subject.invoke }.should include(output)
+      expect(capture_stdout { subject.invoke }).to include(output)
     end
   end
 
@@ -103,7 +103,7 @@ describe "filter:all" do
     let(:output) { "Found 1 source not updated error" }
 
     it "should run the rake task" do
-      capture_stdout { subject.invoke }.should include(output)
+      expect(capture_stdout { subject.invoke }).to include(output)
     end
   end
 end
@@ -112,7 +112,7 @@ describe "filter:unresolve" do
   include_context "rake"
 
   it "prerequisites should include environment" do
-    subject.prerequisites.should include("environment")
+    expect(subject.prerequisites).to include("environment")
   end
 
   before do
@@ -122,6 +122,6 @@ describe "filter:unresolve" do
   let(:output) { "Unresolved 1 API response" }
 
   it "should run the rake task" do
-    capture_stdout { subject.invoke }.should include(output)
+    expect(capture_stdout { subject.invoke }).to include(output)
   end
 end
