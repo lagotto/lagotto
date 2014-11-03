@@ -74,6 +74,10 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-screenshot (1.0.3)
+      capybara (>= 1.0, < 3)
+      colored
+      launchy
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
@@ -87,6 +91,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    colored (1.2)
     colorize (0.7.3)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
@@ -369,6 +374,7 @@ DEPENDENCIES
   capistrano-bundler (~> 1.1.2)
   capistrano-rails (~> 1.1.1)
   capybara (~> 2.4.4)
+  capybara-screenshot (~> 1.0.3)
   codeclimate-test-reporter (~> 0.4.1)
   coffee-rails (~> 4.1.0)
   crossfilter-rails (~> 1.3.5)

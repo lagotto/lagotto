@@ -64,6 +64,7 @@ group :test do
   gem "factory_girl_rails", "~> 4.5.0", :require => false
   gem "cucumber-rails", "~> 1.4.0", :require => false
   gem "capybara", "~> 2.4.4"
+  gem 'capybara-screenshot', '~> 1.0.3'
   gem "database_cleaner", "~> 1.3.0"
   gem "launchy", "~> 2.4.2"
   gem "email_spec", "~> 1.6.0"
