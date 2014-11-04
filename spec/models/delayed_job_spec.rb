@@ -68,7 +68,7 @@ describe DelayedJob, :type => :model do
 
       it "only stale articles" do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
-        retrieval_status = FactoryGirl.create(:retrieval_status, source_id: source.id)
+        retrieval_status = FactoryGirl.create(:retrieval_status, source_id: source.id, scheduled_at: Date.today + 1.day)
         expect(source.queue_all_articles).to eq(10)
         Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end

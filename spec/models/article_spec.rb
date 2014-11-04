@@ -150,8 +150,8 @@ describe Article, :type => :model do
     end
   end
 
-  it "with events" do
-    expect(Article.with_events.all? { |article| article.events_count > 0 }).to be true
+  it "has events" do
+    expect(Article.has_events.all? { |article| article.events_count > 0 }).to be true
   end
 
   it 'should get_url' do

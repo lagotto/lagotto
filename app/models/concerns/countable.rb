@@ -69,13 +69,13 @@ module Countable
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/article_count/#{update_date}").to_i
       else
-        articles.with_events.size
+        articles.has_events.size
       end
     end
 
     def article_count=(timestamp)
       Rails.cache.write("#{name}/article_count/#{timestamp}",
-                        articles.with_events.size)
+                        articles.has_events.size)
     end
 
     def relative_article_count
