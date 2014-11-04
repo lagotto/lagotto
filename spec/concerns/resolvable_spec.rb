@@ -75,7 +75,7 @@ describe Article do
         expect(response).to eq(error: "Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for http://www.plosone.org/article/info:doi/#{article.doi}", status: 404)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Faraday::ResourceNotFound")
+        expect(alert.class_name).to eq("Net::HTTPNotFound")
         expect(alert.status).to eq(404)
         expect(alert.message).to eq("Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for #{url}")
         expect(stub).to have_been_requested
@@ -90,7 +90,7 @@ describe Article do
         expect(response).to eq(error: "DOI #{article.doi} could not be resolved", status: 404)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Faraday::ResourceNotFound")
+        expect(alert.class_name).to eq("Net::HTTPNotFound")
         expect(alert.status).to eq(404)
         expect(stub).to have_been_requested
       end
@@ -103,7 +103,7 @@ describe Article do
         expect(response).to eq(error: "DOI #{article.doi} could not be resolved", status: 404)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Faraday::ResourceNotFound")
+        expect(alert.class_name).to eq("Net::HTTPNotFound")
         expect(alert.status).to eq(404)
         expect(stub).to have_been_requested
       end

@@ -58,12 +58,12 @@ module Resolvable
       if body_url.present? && ![url, path].include?(body_url)
         options[:doi_mismatch] = true
         response.env[:message] = "Canonical URL mismatch: #{body_url} for #{url}"
-        fail Faraday::Error::ResourceNotFound, response.env
+        fail Faraday::ResourceNotFound, response.env
       end
 
       # URL must be a string that contains at least one number
       # we don't want to store publisher landing or error pages
-      fail Faraday::Error::ResourceNotFound, response.env unless url =~ /\d/
+      fail Faraday::ResourceNotFound, response.env unless url =~ /\d/
 
       url
     rescue *NETWORKABLE_EXCEPTIONS => e

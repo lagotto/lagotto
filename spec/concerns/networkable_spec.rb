@@ -179,7 +179,7 @@ describe Source do
         expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPClientError")
+        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
         expect(alert.status).to eq(429)
       end
 
@@ -189,7 +189,7 @@ describe Source do
         expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPClientError")
+        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
         expect(alert.status).to eq(429)
       end
 
@@ -199,7 +199,7 @@ describe Source do
         expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPClientError")
+        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
         expect(alert.status).to eq(429)
       end
 
@@ -208,7 +208,7 @@ describe Source do
         subject.get_result(url, content_type: 'xml', data: post_data.to_xml) { |response| expect(response).to be_nil }
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPClientError")
+        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
         expect(alert.status).to eq(429)
       end
     end
@@ -220,7 +220,7 @@ describe Source do
         expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPClientError")
+        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
         expect(alert.status).to eq(429)
         expect(alert.source_id).to eq(1)
       end
@@ -231,7 +231,7 @@ describe Source do
         expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPClientError")
+        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
         expect(alert.source_id).to eq(1)
       end
 
@@ -241,7 +241,7 @@ describe Source do
         expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPClientError")
+        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
         expect(alert.status).to eq(429)
         expect(alert.source_id).to eq(1)
       end
@@ -251,7 +251,7 @@ describe Source do
         subject.get_result(url, content_type: 'xml', data: post_data.to_xml, source_id: 1) { |response| expect(response).to be_nil }
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPClientError")
+        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
         expect(alert.source_id).to eq(1)
       end
     end

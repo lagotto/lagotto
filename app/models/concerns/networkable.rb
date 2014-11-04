@@ -93,7 +93,7 @@ module Networkable
     end
 
     def rescue_faraday_error(url, error, options={})
-      if error.is_a?(Faraday::Error::ResourceNotFound)
+      if error.is_a?(Faraday::ResourceNotFound)
         status = 404
         if error.response.blank? && error.response[:body].blank?
           { error: "resource not found", status: status }
@@ -101,7 +101,7 @@ module Networkable
         elsif options[:doi_mismatch]
           article = Article.where(id: options[:article_id]).first
           Alert.create(exception: error.exception,
-                       class_name: error.class.to_s,
+                       class_name: "Net::HTTPNotFound",
                        message: error.response[:message],
                        details: error.response[:body],
                        status: status,
@@ -112,7 +112,7 @@ module Networkable
         elsif options[:doi_lookup]
           article = Article.where(id: options[:article_id]).first
           Alert.create(exception: error.exception,
-                       class_name: error.class.to_s,
+                       class_name: "Net::HTTPNotFound",
                        message: "DOI #{article.doi} could not be resolved",
                        details: error.response[:body],
                        status: status,
@@ -139,6 +139,9 @@ module Networkable
 
         if error.respond_to?('exception')
           exception = error.exception
+
+          # no backtrace for network errors
+          exception.backtrace = nil if defined?(exception.backtrace = nil)
         else
           exception = ""
         end
@@ -174,7 +177,7 @@ module Networkable
         when 408 then Net::HTTPRequestTimeOut
         when 409 then Net::HTTPConflict
         when 417 then Net::HTTPExpectationFailed
-        when 429 then Net::HTTPClientError
+        when 429 then Net::HTTPTooManyRequests
         when 500 then Net::HTTPInternalServerError
         when 502 then Net::HTTPBadGateway
         when 503 then Net::HTTPServiceUnavailable
