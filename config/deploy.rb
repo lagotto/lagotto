@@ -26,6 +26,8 @@ rescue ArgumentError
   exit
 end
 
+set :default_env, { 'DOTENV' => ENV["DOTENV"] }
+
 set :application, ENV["APPLICATION"]
 set :repo_url, 'https://github.com/articlemetrics/lagotto.git'
 set :stage, ENV["STAGE"]
