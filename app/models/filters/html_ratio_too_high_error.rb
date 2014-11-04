@@ -16,7 +16,7 @@ class HtmlRatioTooHighError < Filter
         { source_id: source.id,
           article_id: article_id,
           level: Alert::INFO,
-          message: "HTML/PDF ratio is #{response['value']['ratio']} with #{response['value']['html']} HTML views on #{date} (Counter)" }
+          message: "HTML/PDF ratio is #{response['value']['ratio']} with #{response['value']['html']} HTML views on #{date}" }
       end
       raise_alerts(responses)
     end
