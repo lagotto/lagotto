@@ -59,7 +59,7 @@ module Lagotto
     config.filter_parameters += [:password]
 
     # Use a different cache store
-    config.cache_store = :dalli_store, *(ENV['SERVERS'].split(",")), { :namespace => "lagotto", :compress => true }
+    config.cache_store = :dalli_store, *(ENV['SERVERS'].split(",")), { :namespace => ENV['APPLICATION'], :compress => true }
 
     # Define custom exception handler
     config.exceptions_app = lambda { |env| AlertsController.action(:create).call(env) }
