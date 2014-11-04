@@ -43,7 +43,7 @@
         <% end %>
         <% if can?(:create, User) && @user.publisher %>
           <dt>Publisher</dt>
-          <dd><%= link_to h(@user.publisher.name), publisher_path(@user.publisher) %></dd>
+          <dd><%= link_to h(@user.publisher.name), publisher_path(@user.publisher.crossref_id) %></dd>
         <% end %>
         <dt>API Key</dt>
         <dd><%= @user.authentication_token %></dd>
