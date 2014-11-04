@@ -63,13 +63,13 @@
           <%= controller.controller_name == "articles" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", articles_path %></li>
           <%= controller.controller_name == "sources" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Sources", sources_path %></li>
           <% if can?(:read, Alert) || publishers.length > 1 %>
-            <%= controller.controller_name == "publishers" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Publishers", publishers_path %></li>
+            <%= controller.controller_name == "publishers" ? '<li class="active hidden-sm">'.html_safe : '<li class="hidden-sm">'.html_safe %><%= link_to "Publishers", publishers_path %></li>
           <% end %>
           <% if can?(:read, Alert) %>
             <%= controller.controller_name == "users" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Users", users_path %></li>
             <%= controller.controller_name == "alerts" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Alerts", alerts_path %></li>
           <% end %>
-          <%= controller.controller_name == "docs" ? '<li class="dropdown active">'.html_safe : '<li class="dropdown">'.html_safe %>
+          <%= controller.controller_name == "docs" ? '<li class="dropdown active hidden-sm hidden-md">'.html_safe : '<li class="dropdown hidden-sm hidden-md">'.html_safe %>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <% documents.each do |document| %>
