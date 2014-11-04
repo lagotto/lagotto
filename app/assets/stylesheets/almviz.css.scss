@@ -209,7 +209,8 @@
 }
 
 .axis text {
-  font: 10px sans-serif;
+  font-size: 0.85em;
+  font: $font-family-base;
 }
 
 .brush rect.extent {
