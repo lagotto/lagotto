@@ -49,7 +49,7 @@ set :log_level, :info
 
 # Default value for :linked_files is []
 # link .env file
-set :linked_files, %W{ .env }
+set :linked_files, %w{ .env }
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{ bin log data tmp/pids tmp/sockets vendor/bundle public/files }
