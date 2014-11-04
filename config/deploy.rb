@@ -2,12 +2,13 @@
 lock '3.2.1'
 
 begin
-  # make sure file .env exists
-  fail Errno::ENOENT unless File.exist?(File.expand_path('../../.env', __FILE__))
+  # make sure file specified by APP_ENV exists
+  filename = ENV["DOTENV"] ? ".env.#{ENV['DOTENV']}" : ".env"
+
+  fail Errno::ENOENT unless File.exist?(File.expand_path("../../#{filename}", __FILE__))
 
   # load ENV variables from file specified by APP_ENV, fallback to .env
   require "dotenv"
-  filename = ENV["APP_ENV"] ? ".env.#{ENV['APP_ENV']}" : ".env"
   Dotenv.load! filename
 
   # make sure ENV variables required for capistrano are set
@@ -49,7 +50,7 @@ set :log_level, :info
 
 # Default value for :linked_files is []
 # link .env file
-set :linked_files, %w{ .env }
+set :linked_files, %W{ #{filename} }
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{ bin log data tmp/pids tmp/sockets vendor/bundle public/files }
