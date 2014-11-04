@@ -31,10 +31,10 @@ class RetrievalStatus < ActiveRecord::Base
 
   scope :queued, -> { where("queued_at is NOT NULL") }
   scope :not_queued, -> { where("queued_at is NULL") }
-  scope :stale, -> { not_queued.where("scheduled_at IS NOT NULL").where("scheduled_at <= ?", Time.zone.now).order("scheduled_at") }
+  scope :stale, -> { not_queued.where("scheduled_at <= ?", Time.zone.now).order("scheduled_at") }
   scope :published, -> { joins(:article).not_queued.where("articles.published_on <= ?", Date.today) }
 
-  scope :by_source, ->(source_ids) { where(:source_id => source_ids) }
+  scope :by_source, ->(source_id) { where(:source_id => source_id) }
   scope :by_name, ->(source) { joins(:source).where("sources.name = ?", source) }
   scope :with_sources, -> { joins(:source).where("sources.state > ?", 0).order("group_id, display_name") }
 

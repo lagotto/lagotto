@@ -27,7 +27,7 @@ class Article < ActiveRecord::Base
 
   scope :query, ->(query) { where("doi like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("published_on >= ?", Time.zone.now.to_date - duration.days) }
-  scope :is_cited, -> { joins(:retrieval_statuses)
+  scope :with_events, -> { joins(:retrieval_statuses)
     .where("retrieval_statuses.event_count > ?", 0) }
   scope :by_source, ->(source_id) { joins(:retrieval_statuses)
     .where("retrieval_statuses.source_id = ?", source_id) }
@@ -144,16 +144,6 @@ class Article < ActiveRecord::Base
 
   def events_count
     @events_count ||= retrieval_statuses.reduce(0) { |sum, r| sum + r.event_count }
-  end
-
-  # Filter retrieval_statuses by source
-  def retrieval_statuses_by_source(options={})
-    if options[:source]
-      source_ids = Source.where("lower(name) in (?)", options[:source].split(",")).order("name").pluck(:id)
-      retrieval_statuses.by_source(source_ids)
-    else
-      retrieval_statuses
-    end
   end
 
   def doi_escaped
