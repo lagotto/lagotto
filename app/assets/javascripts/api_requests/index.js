@@ -72,14 +72,14 @@ function crossfilterViz(data) {
         .dimension(db_duration)
         .group(db_durations)
         .x(d3.scale.linear()
-        .domain([0, 5000])
+        .domain([0, 6000])
         .rangeRound([0, 10 * 30])),
 
       barChart()
         .dimension(view_duration)
         .group(view_durations)
         .x(d3.scale.linear()
-        .domain([0, 5000])
+        .domain([0, 6000])
         .rangeRound([0, 10 * 30]))
   ];
 
@@ -190,13 +190,12 @@ function crossfilterViz(data) {
         x,
         y = d3.scale.linear().range([100, 0]),
         id = barChart.id++,
-        axis = d3.svg.axis().orient("bottom"),
+        axis = d3.svg.axis().orient("bottom").ticks(6),
         brush = d3.svg.brush(),
         brushDirty,
         dimension,
         group,
         round;
-
 
     function chart(div) {
       var width = x.range()[1],
