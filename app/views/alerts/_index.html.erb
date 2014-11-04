@@ -174,7 +174,7 @@
 
             <% unless alert.details.blank? %>
               <h5>Details</h5>
-              <%= h(alert.details) %>
+              <%= sanitize alert.details %>
             <% end %>
 
             <% unless alert.trace.blank? %>
