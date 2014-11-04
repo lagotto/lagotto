@@ -90,7 +90,7 @@ namespace :db do
       retrieval_statuses = []
       articles.each do |article|
         sources.each do |source|
-          retrieval_status = RetrievalStatus.find_or_initialize_by_article_id_and_source_id(article.id, source.id, :scheduled_at => Time.zone.now)
+          retrieval_status = RetrievalStatus.where(article_id: article.id, source_id: source.id).find_or_initialize
           if retrieval_status.new_record?
             retrieval_status.save!
             retrieval_statuses << retrieval_status

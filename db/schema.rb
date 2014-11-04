@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102174653) do
+ActiveRecord::Schema.define(version: 20141104094510) do
 
   create_table "alerts", force: true do |t|
     t.integer  "source_id"
@@ -192,18 +192,20 @@ ActiveRecord::Schema.define(version: 20141102174653) do
     t.integer  "event_count",   default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "scheduled_at"
+    t.datetime "scheduled_at",  default: '1970-01-01 00:00:00', null: false
     t.string   "events_url"
     t.string   "event_metrics"
     t.text     "other"
   end
 
   add_index "retrieval_statuses", ["article_id", "event_count"], name: "index_retrieval_statuses_on_article_id_and_event_count", using: :btree
+  add_index "retrieval_statuses", ["article_id", "source_id", "event_count"], name: "index_rs_on_article_id_soure_id_event_count", using: :btree
   add_index "retrieval_statuses", ["article_id", "source_id"], name: "index_retrieval_statuses_on_article_id_and_source_id", unique: true, using: :btree
   add_index "retrieval_statuses", ["article_id"], name: "index_retrieval_statuses_on_article_id", using: :btree
   add_index "retrieval_statuses", ["source_id", "article_id", "event_count"], name: "index_retrieval_statuses_source_id_article_id_event_count_desc", using: :btree
   add_index "retrieval_statuses", ["source_id", "event_count", "retrieved_at"], name: "index_retrieval_statuses_source_id_event_count_retr_at_desc", using: :btree
   add_index "retrieval_statuses", ["source_id", "event_count"], name: "index_retrieval_statuses_source_id_event_count_desc", using: :btree
+  add_index "retrieval_statuses", ["source_id", "queued_at", "scheduled_at"], name: "index_rs_on_soure_id_queued_at_scheduled_at", using: :btree
   add_index "retrieval_statuses", ["source_id"], name: "index_retrieval_statuses_on_source_id", using: :btree
 
   create_table "reviews", force: true do |t|

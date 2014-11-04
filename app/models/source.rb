@@ -333,7 +333,7 @@ class Source < ActiveRecord::Base
   end
 
   def insert_retrievals(ids)
-    sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at, scheduled_at) select id, #{id}, now(), now(), now() from articles"
+    sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from articles"
     sql += " where articles.id not in (#{article_ids.join(',')})" if ids.any?
 
     ActiveRecord::Base.connection.execute sql
