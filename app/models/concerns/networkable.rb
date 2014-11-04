@@ -139,9 +139,6 @@ module Networkable
 
         if error.respond_to?('exception')
           exception = error.exception
-
-          # no backtrace for network errors
-          exception.backtrace = nil if defined?(exception.backtrace = nil)
         else
           exception = ""
         end
