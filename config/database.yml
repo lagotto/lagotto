@@ -9,6 +9,7 @@ postgresql: &postgres
 defaults: &defaults
   pool: 5
   timeout: 5000
+  encoding: utf8
   database: <%= ENV['DB_NAME'] %>
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
