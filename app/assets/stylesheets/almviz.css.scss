@@ -52,7 +52,7 @@
   left: 0;
 	padding: 5px;
 	text-align: center;
-	background: $wet-asphalt;
+	background: white;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -71,8 +71,12 @@
   fill: darken($peter-river, 15%);
 }
 
+.alm-label.viewed p, .alm-label.viewed a {
+  color: $peter-river;
+}
+
 .saved {
-  background: $emerald;
+  border: 2px solid $emerald;
 }
 
 .bar.saved {
@@ -83,8 +87,12 @@
   fill: darken($emerald, 15%);
 }
 
+.alm-label.saved p, .alm-label.saved a {
+  color: $emerald;
+}
+
 .discussed {
-  background: $turquoise;
+  border: 2px solid $turquoise;
 }
 
 .bar.discussed {
@@ -99,8 +107,12 @@
   fill: darken($turquoise, 15%);
 }
 
+.alm-label.discussed p, .alm-label.discussed a {
+  color: $turquoise;
+}
+
 .cited {
-  background: $amethyst;
+  border: 2px solid $amethyst;
 }
 
 .bar.cited {
@@ -111,19 +123,25 @@
   fill: darken($amethyst, 15%);
 }
 
+.alm-label.cited p, .alm-label.cited a {
+  color: $amethyst;
+}
+
+.alm-label p, .alm-label a {
+  color: $wet-asphalt;
+}
+
 .alm-label p {
   line-height: 18px;
 }
 
 .alm-label a {
   line-height: 18px;
-  color: #fff;
   text-decoration: none;
 }
 
 .alm-label a:hover {
 	background-color: transparent !important;
-	color: #fff !important;
 }
 
 .alm-count {
