@@ -28,7 +28,8 @@ class Article < ActiveRecord::Base
   scope :query, ->(query) { where("doi like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("published_on >= ?", Time.zone.now.to_date - duration.days) }
   scope :has_events, -> { includes(:retrieval_statuses)
-    .where("retrieval_statuses.event_count > ?", 0) }
+    .where("retrieval_statuses.event_count > ?", 0)
+    .references(:retrieval_statuses) }
   scope :by_source, ->(source_id) { joins(:retrieval_statuses)
     .where("retrieval_statuses.source_id = ?", source_id) }
 
