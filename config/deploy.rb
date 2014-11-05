@@ -2,8 +2,12 @@
 lock '3.2.1'
 
 begin
-  # make sure file specified by APP_ENV exists
-  filename = ENV["DOTENV"] ? ".env.#{ENV['DOTENV']}" : ".env"
+  # make sure DOTENV is set
+  ENV["DOTENV"] ||= "default"
+
+  # load ENV variables from file specified by DOTENV
+  # use .env with DOTENV=default
+  filename = ENV["DOTENV"] == "default" ? ".env" : ".env.#{ENV['DOTENV']}"
 
   fail Errno::ENOENT unless File.exist?(File.expand_path("../../#{filename}", __FILE__))
 
@@ -45,7 +49,8 @@ set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
 # set :format, :pretty
 
 # Default value for :log_level is :debug
-set :log_level, :info
+log_level = ENV["LOG_LEVEL"] ? ENV["LOG_LEVEL"].to_sym : :info
+set :log_level, log_level
 
 # Default value for :pty is false
 # set :pty, true

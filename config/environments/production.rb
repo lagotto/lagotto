@@ -17,7 +17,8 @@ Lagotto::Application.configure do
   config.assets.js_compressor = :uglifier
 
   # See everything in the log (default is :info)
-  config.log_level = :info
+  log_level = ENV["LOG_LEVEL"] ? ENV["LOG_LEVEL"].to_sym : :info
+  config.log_level = log_level
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
