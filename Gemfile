@@ -34,7 +34,7 @@ gem 'cancancan', '~> 1.9.2'
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.4.0"
-gem 'rabl', '~> 0.11.2'
+gem 'rabl', '= 0.11.0'
 gem "dalli", "~> 2.7.0"
 gem "cache_digests", "~> 0.3.1"
 gem "turbolinks", "~> 2.5.1"
