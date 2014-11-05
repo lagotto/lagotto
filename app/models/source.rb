@@ -262,7 +262,7 @@ class Source < ActiveRecord::Base
       # Some fields can be blank
       next if name == "crossref" && [:username, :password, :openurl_username].include?(field)
       next if name == "pmc" && [:journals, :username, :password].include?(field)
-      next if name == "facebook" && [:linkstat_url, :access_token].include?(field)
+      next if name == "facebook" && [:client_id, :client_secret, :linkstat_url, :access_token].include?(field)
       next if name == "mendeley" && field == :access_token
       next if name == "twitter_search" && field == :access_token
       next if name == "scopus" && field == :insttoken
