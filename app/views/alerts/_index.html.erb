@@ -132,12 +132,12 @@
                                                                             level: params[:level],
                                                                             hostname: params[:hostname],
                                                                             q: params[:q]) %></p>
-            <% unless alert.source_id.blank? %>
+            <% if alert.source %>
               <h5>Source</h5>
               <%= link_to alert.source.display_name, source_path(alert.source) %>
             <% end %>
 
-            <% unless alert.article_id.blank? %>
+            <% if alert.article %>
               <h5>Article</h5>
               <%= link_to alert.article.uid, article_path(alert.article) %>
             <% end %>

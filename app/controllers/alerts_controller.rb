@@ -69,7 +69,9 @@ class AlertsController < ApplicationController
 
     collection = Alert
     if params[:source]
-      collection = collection.includes(:source).where("sources.name = ?", params[:source])
+      collection = collection.includes(:source)
+                   .where("sources.name = ?", params[:source])
+                   .references(:source)
       @source = Source.where(name: params[:source]).first
     end
     if params[:class_name]
