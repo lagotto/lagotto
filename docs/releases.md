@@ -3,6 +3,14 @@ layout: page
 title: "Releases"
 ---
 
+## [Lagotto 3.8.1](https://github.com/articlemetrics/lagotto/releases/tag/v.3.8.1)
+
+Lagotto 3.8.1 was released on November 5, 2014 with the following changes:
+
+* fixed a bug precompiling assets: `...public/assets/manifest*': No such file or directory`
+* many other small bug fixes
+* added new `LOG_LEVEL` option for rails and capistrano to `.env`
+
 ## [Lagotto 3.8](https://github.com/articlemetrics/lagotto/releases/tag/v.3.8)
 
 Lagotto 3.8 was released on November 4, 2014 with the following changes:
