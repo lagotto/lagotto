@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141104094510) do
+ActiveRecord::Schema.define(version: 20141105084632) do
 
   create_table "alerts", force: true do |t|
     t.integer  "source_id"
@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 20141104094510) do
     t.string   "pmcid"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "canonical_url"
+    t.text     "canonical_url"
     t.string   "mendeley_uuid"
     t.integer  "year",          default: 1970
     t.integer  "month"
