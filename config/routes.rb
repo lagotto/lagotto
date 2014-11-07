@@ -18,7 +18,7 @@ Lagotto::Application.routes.draw do
   resources :filters
 
   get "status", to: "status#show"
-  get "heartbeat", to: "heartbeat#show"
+  get "heartbeat", to: "heartbeat#show", defaults: { format: "json" }
   get "oembed", to: "oembed#show"
 
   get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
