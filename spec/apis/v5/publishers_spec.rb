@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "/api/v5/publishers" do
+describe "/api/v5/publishers", :type => :api do
   context "index" do
     let(:user) { FactoryGirl.create(:admin_user) }
     let(:uri) { "/api/v5/publishers?api_key=#{user.authentication_token}" }

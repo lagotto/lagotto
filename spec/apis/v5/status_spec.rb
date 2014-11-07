@@ -1,9 +1,9 @@
 require "rails_helper"
 
-describe "/api/v5/status" do
+describe "/api/v5/status", :type => :api do
   subject { Status.new }
 
-  context "index" do
+  context "show" do
     let(:user) { FactoryGirl.create(:admin_user) }
     let(:uri) { "/api/v5/status?api_key=#{user.authentication_token}" }
 

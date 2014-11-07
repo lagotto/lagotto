@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "/api/v3/articles" do
+describe "/api/v3/articles", :type => :api do
   let(:user) { FactoryGirl.create(:user) }
   let(:api_key) { user.authentication_token }
 
@@ -35,19 +35,6 @@ describe "/api/v3/articles" do
           article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
         end).to be true
       end
-
-      it "XML" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        expect(last_response.status).to eql(200)
-
-        response = Hash.from_xml(last_response.body)
-        response = response["articles"]["article"]
-        expect(response.length).to eql(50)
-        expect(response.any? do |article|
-          article["doi"] == articles[0].doi
-          article["publication_date"] == articles[0].published_on.to_time.utc.iso8601
-        end).to be true
-      end
     end
   end
 
@@ -73,17 +60,6 @@ describe "/api/v3/articles" do
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])[0]
-        expect(response["doi"]).to eql(article.doi)
-        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
-        expect(response["sources"]).to be_nil
-      end
-
-      it "XML" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        expect(last_response.status).to eql(200)
-
-        response = Hash.from_xml(last_response.body)
-        response = response["articles"]["article"]
         expect(response["doi"]).to eql(article.doi)
         expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
         expect(response["sources"]).to be_nil
@@ -120,19 +96,6 @@ describe "/api/v3/articles" do
         expect(response_source["metrics"]["shares"]).to eq(article.retrieval_statuses.first.event_count)
         expect(response_source["events"]).not_to be_nil
       end
-
-      it "XML" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        expect(last_response.status).to eql(200)
-
-        response = Hash.from_xml(last_response.body)
-        response = response["articles"]["article"]
-        response_source = response["sources"]["source"]
-        expect(response["doi"]).to eql(article.doi)
-        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"].to_i).to eq(article.retrieval_statuses.first.event_count)
-      end
-
     end
 
     context "show event information" do
@@ -164,18 +127,6 @@ describe "/api/v3/articles" do
         expect(response_source["metrics"]["total"]).to eq(article.retrieval_statuses.first.event_count)
         expect(response_source["metrics"]["shares"]).to eq(article.retrieval_statuses.first.event_count)
         expect(response_source["events"]).not_to be_nil
-      end
-
-      it "XML" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
-        expect(last_response.status).to eql(200)
-
-        response = Hash.from_xml(last_response.body)
-        response = response["articles"]["article"]
-        response_source = response["sources"]["source"]
-        expect(response["doi"]).to eql(article.doi)
-        expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"].to_i).to eq(article.retrieval_statuses.first.event_count)
       end
     end
   end

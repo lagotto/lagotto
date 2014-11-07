@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "/api/v5/articles" do
+describe "/api/v5/articles", :type => :api do
   let(:user) { FactoryGirl.create(:user) }
   let(:api_key) { user.authentication_token }
   let(:error) { { "error" => "Article not found."} }
@@ -120,7 +120,7 @@ describe "/api/v5/articles" do
 
     context "no records found" do
       let(:uri) { "/api/v5/articles?ids=xxx&info=summary&api_key=#{api_key}" }
-      let(:nothing_found) { { "data" => [], "total" => 0, "total_pages" => 0, "page" => 0, "error" => nil } }
+      let(:nothing_found) { { "total" => 0, "total_pages" => 0, "page" => 0, "error" => nil, "data" => [] } }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'

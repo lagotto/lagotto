@@ -1,7 +1,7 @@
 require "rails_helper"
 
-describe "/api/v4/articles" do
-  let(:error) { { "total" => 0, "total_pages" => 0, "page" => 0, "success" => nil, "error" => "You are not authorized to access this page.", "data" => nil } }
+describe "/api/v4/articles", :type => :api do
+  let(:error) { { "total" => 0, "total_pages" => 0, "page" => 0, "success" => nil, "error" => "You are not authorized to access this page.", "data" => [] } }
   let(:password) { user.password }
   let(:headers) { { 'HTTP_ACCEPT' => 'application/json', 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, password) } }
 
@@ -86,7 +86,7 @@ describe "/api/v4/articles" do
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq ({"doi"=>["has already been taken"]})
         expect(response["success"]).to be_nil
-        expect(response["data"]["doi"]).to eq (params["article"]["doi"])
+        expect(response["data"]).to be_empty
       end
     end
 
@@ -107,7 +107,7 @@ describe "/api/v4/articles" do
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq ({ "article" => ["parameter is required"] })
         expect(response["success"]).to be_nil
-        expect(response["data"]).to be_nil
+        expect(response["data"]).to be_empty
       end
     end
 
@@ -127,8 +127,7 @@ describe "/api/v4/articles" do
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq ({ "title"=>["can't be blank"], "year"=>["is not a number", "should be between 1650 and 2014"] })
         expect(response["success"]).to be_nil
-        expect(response["data"]["doi"]).to eq (params["article"]["doi"])
-        expect(response["data"]["title"]).to be_nil
+        expect(response["data"]).to be_empty
       end
     end
 
@@ -144,7 +143,7 @@ describe "/api/v4/articles" do
         expect(response["error"]).to eq ({ "foo" => ["unpermitted parameter"],
                                        "baz" => ["unpermitted parameter"] })
         expect(response["success"]).to be_nil
-        expect(response["data"]).to be_nil
+        expect(response["data"]).to be_empty
 
         expect(Alert.count).to eq(1)
         alert = Alert.first
@@ -163,7 +162,7 @@ describe "/api/v4/articles" do
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq ("Undefined method.")
         expect(response["success"]).to be_nil
-        expect(response["data"]).to be_nil
+        expect(response["data"]).to be_empty
 
         expect(Alert.count).to eq(1)
         alert = Alert.first
@@ -246,7 +245,7 @@ describe "/api/v4/articles" do
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq ("No article found.")
         expect(response["success"]).to be_nil
-        expect(response["data"]).to be_nil
+        expect(response["data"]).to be_empty
       end
     end
 
@@ -267,7 +266,7 @@ describe "/api/v4/articles" do
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq ({"article"=>["parameter is required"]})
         expect(response["success"]).to be_nil
-        expect(response["data"]).to be_nil
+        expect(response["data"]).to be_empty
 
         expect(Alert.count).to eq(1)
         alert = Alert.first
@@ -289,8 +288,7 @@ describe "/api/v4/articles" do
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq("title"=>["can't be blank"], "year"=>["is not a number", "should be between 1650 and 2014"])
         expect(response["success"]).to be_nil
-        expect(response["data"]["doi"]).to eq (params["article"]["doi"])
-        expect(response["data"]["title"]).to be_nil
+        expect(response["data"]).to be_empty
       end
     end
 
@@ -305,7 +303,7 @@ describe "/api/v4/articles" do
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq({ "foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"] })
         expect(response["success"]).to be_nil
-        expect(response["data"]).to be_nil
+        expect(response["data"]).to be_empty
 
         expect(Alert.count).to eq(1)
         alert = Alert.first
@@ -381,7 +379,7 @@ describe "/api/v4/articles" do
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq ("No article found.")
         expect(response["success"]).to be_nil
-        expect(response["data"]).to be_nil
+        expect(response["data"]).to be_empty
       end
     end
   end

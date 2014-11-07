@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "/api/v5/articles" do
+describe "/api/v5/articles", :type => :api do
 
   context "private source" do
     context "as admin user" do

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "/api/v5/articles" do
+describe "/api/v5/articles", :type => :api do
   let(:user) { FactoryGirl.create(:user) }
   let(:api_key) { user.authentication_token }
 
