@@ -23,15 +23,16 @@ function eventViz(data) {
 
   var data = data[0]['sources'];
   data = data.map( function(d) { return d.events_csl });
-  data = d3.merge(data);
 
-  if (data.length == 0) {
+  if (typeof data != 'undefined') {
     d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
       .text("No formatted events found");
     return;
   }
+
+  data = d3.merge(data);
 
   d3.select("#content").insert("div")
     .attr("id", "results");
