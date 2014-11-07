@@ -10,7 +10,7 @@ module Authenticable
     def set_jsonp_format
       if params[:callback] && request.get?
         self.response_body = "#{params[:callback]}(#{response.body})"
-        headers["Content-Type"] = 'application/javascript'
+        # headers["Content-Type"] = 'application/javascript'
       end
     end
 
