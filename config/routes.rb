@@ -23,7 +23,7 @@ Lagotto::Application.routes.draw do
 
   get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
 
-  namespace :api do
+  namespace :api, defaults: { format: "json" } do
     namespace :v3 do
       resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index, :show]
     end
@@ -34,11 +34,11 @@ Lagotto::Application.routes.draw do
     end
 
     namespace :v5 do
-      resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index]
-      resources :sources, :constraints => { :format=> false }, only: [:index, :show]
-      resources :status, :constraints => { :format=> false }, only: [:index]
-      resources :api_requests, :constraints => { :format=> false }, only: [:index]
-      resources :publishers, :constraints => { :format=> false }, only: [:index]
+      resources :articles, :constraints => { :id => /.+?/ }, only: [:index]
+      resources :sources, only: [:index, :show]
+      get "status", to: "status#show"
+      resources :api_requests, only: [:index]
+      resources :publishers, only: [:index]
     end
   end
 
