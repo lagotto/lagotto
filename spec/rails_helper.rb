@@ -54,14 +54,9 @@ end
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
-def app
-  Rails.application
-end
-
 RSpec.configure do |config|
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers
-  config.include Rack::Test::Methods
   config.include FactoryGirl::Syntax::Methods
   config.include(MailerMacros)
   config.include(IntegrationSpecHelper, :type => :feature)
