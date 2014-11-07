@@ -44,7 +44,7 @@ The API supports queries for DOI, PubMed ID and PubMed Central ID. The default `
 ### info=summary|detail
 With the **summary** parameter no source information or metrics are provided, only article metadata such as DOI, PubMed ID, title or publication date. The only exception are summary statistics, aggregating metrics from several sources (views, shares, bookmarks and citations).
 
-With the **detail** parameter all raw data sent by the source are provided (`event` is an alias for `detail`). The **history** parameter has been depreciated with the ALM 3.0 release, you can use the `by day`, `by month` and `by year`response instead.
+With the **detail** parameter all raw data sent by the source are provided. The **history** parameter has been depreciated with the ALM 3.0 release, you can use the `by day`, `by month` and `by year`response instead.
 
 ```sh
 /api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail
