@@ -7,7 +7,9 @@ module Articable
 
       # Load one article given query params
       id_hash = { :articles => Article.from_uri(params[:id]) }
-      @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash)
+      @article = ArticleDecorator.includes(:retrieval_statuses)
+        .references(:retrieval_statuses)
+        .where(id_hash).first
         .decorate(context: { info: params[:info], source_id: source_id })
 
       # Return 404 HTTP status code and error message if article wasn't found
@@ -90,7 +92,7 @@ module Articable
       id_hash = Article.from_uri(params[:id])
       if id_hash.respond_to?("key")
         key, value = id_hash.first
-        @article = Article.where(key => value).decorate.first
+        @article = Article.where(key => value).first.decorate
       else
         @article = nil
       end

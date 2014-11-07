@@ -12,7 +12,9 @@ class Api::V3::ArticlesController < Api::V3::BaseController
 
     ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| Article.clean_id(id) }
     id_hash = { :articles => { type => ids }, :retrieval_statuses => { :source_id => source_ids }}
-    @articles = ArticleDecorator.where(id_hash).includes(:retrieval_statuses).order("articles.updated_at DESC").decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
+    @articles = ArticleDecorator.includes(:retrieval_statuses).references(:retrieval_statuses)
+                .where(id_hash)
+                .order("articles.updated_at DESC")
 
     # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
     if @articles.blank?
@@ -22,6 +24,8 @@ class Api::V3::ArticlesController < Api::V3::BaseController
         @error = "Source not found."
       end
       render "error", :status => :not_found
+    else
+      @articles = @articles.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
     end
   end
 
@@ -30,7 +34,9 @@ class Api::V3::ArticlesController < Api::V3::BaseController
     source_ids = get_source_ids(params[:source])
 
     id_hash = { :articles => Article.from_uri(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
-    @article = ArticleDecorator.includes(:retrieval_statuses).where(id_hash).decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
+    @article = Article.includes(:retrieval_statuses).references(:retrieval_statuses)
+               .where(id_hash).first
+
 
     # Return 404 HTTP status code and error message if article wasn't found, or no valid source specified
     if @article.blank?
@@ -40,6 +46,8 @@ class Api::V3::ArticlesController < Api::V3::BaseController
         @error = "Source not found."
       end
       render "error", :status => :not_found
+    else
+      @article = @article.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
     end
   end
 
