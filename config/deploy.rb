@@ -60,7 +60,7 @@ set :log_level, log_level
 set :linked_files, %W{ #{filename} }
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{ bin log data tmp/pids tmp/sockets vendor/bundle public/files }
+set :linked_dirs, %w{ log data tmp/pids tmp/sockets vendor/bundle public/files }
 
 # Default value for keep_releases is 5
 set :keep_releases, 5
