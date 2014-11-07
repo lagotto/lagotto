@@ -2,7 +2,7 @@ class Api::V5::BaseController < ActionController::Base
   # include base controller methods
   include Authenticable
 
-  respond_to :json
+  respond_to :json, :js
 
   before_filter :miniprofiler,
                 :default_format_json,
