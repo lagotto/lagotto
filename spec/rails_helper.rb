@@ -25,6 +25,7 @@ require 'database_cleaner'
 require 'webmock/rspec'
 require "rack/test"
 require 'draper/test/rspec_integration'
+require 'devise'
 
 # include required concerns
 include Networkable
@@ -57,9 +58,21 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 RSpec.configure do |config|
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers
+  config.include MailerMacros
+
   config.include FactoryGirl::Syntax::Methods
-  config.include(MailerMacros)
-  config.include(IntegrationSpecHelper, :type => :feature)
+
+  config.include Rack::Test::Methods, :type => :api
+
+
+  config.include Devise::TestHelpers, :type => :controller
+  config.include Rack::Test::Methods, :type => :controller
+
+  config.include IntegrationSpecHelper, :type => :feature
+
+  def app
+    Rails.application
+  end
 
   config.use_transactional_fixtures = false
 
