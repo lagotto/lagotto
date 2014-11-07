@@ -37,7 +37,7 @@ describe OembedController, :type => :controller do
     end
 
     it "GET oembed JSON" do
-      get uri, nil, 'HTTP_ACCEPT' => 'application/json'
+      get "#{uri}&format=json"
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
       expect(response["type"]).to eq("rich")
@@ -47,7 +47,7 @@ describe OembedController, :type => :controller do
     end
 
     it "GET oembed XML" do
-      get uri, nil, 'HTTP_ACCEPT' => 'application/xml'
+      get "#{uri}&format=xml"
       expect(last_response.status).to eq(200)
       response = Hash.from_xml(last_response.body)
       response = response["oembed"]
@@ -60,17 +60,17 @@ describe OembedController, :type => :controller do
 
   context "errors" do
     it "Not found JSON" do
-      get "/oembed?url=x", 'HTTP_ACCEPT' => 'application/json'
+      get "/oembed?url=x"
       expect(last_response.status).to eql(404)
       response = JSON.parse(last_response.body)
       expect(response).to eq("error" => "No article found.")
     end
 
     it "Not found XML" do
-      get "/oembed?url=x", nil, 'HTTP_ACCEPT' => 'application/xml'
+      get "/oembed?url=x&format=xml"
       expect(last_response.status).to eql(404)
       response = Hash.from_xml(last_response.body)
-      expect(response).to eq("hash" => { "error" => "No article found." })
+      expect(response).to eq("error" => "No article found.")
     end
   end
 end
