@@ -30,7 +30,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(article.doi)
         expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"].to_i).to eql(article.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"][:total].to_i).to eql(article.retrieval_statuses.first.event_count)
         expect(response_source["events"]).to be_nil
       end
     end
@@ -55,7 +55,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(article.doi)
         expect(response["publication_date"]).to eql(article.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"].to_i).to eql(article.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"][:total].to_i).to eql(article.retrieval_statuses.first.event_count)
         expect(response_source["events"]).to be_nil
       end
 

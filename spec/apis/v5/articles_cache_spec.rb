@@ -27,7 +27,7 @@ describe "/api/v5/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(article.doi)
         expect(response["issued"]["date-parts"][0]).to eql([article.year, article.month, article.day])
-        expect(response_source["metrics"]["total"].to_i).to eql(article.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"][:total].to_i).to eql(article.retrieval_statuses.first.event_count)
         expect(response_source["events"]).to be_nil
       end
 
