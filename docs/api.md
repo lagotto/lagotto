@@ -3,24 +3,22 @@ layout: page
 title: "API"
 ---
 
-* Version 3 of the API was released October 30, 2012 (ALM 2.3). It is depreceated and will be discontinued in
-  favor of version 5 of the API September 1st.
 * Version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11).
 * Version 5 of the API was released April 24, 2014 (ALM 2.14).
 
 ## Base URL
-* API calls to the version 4 APIs start with ``/api/v4/articles``
-* API calls to the version 5 APIs start with ``/api/v5/articles``
+* API calls to the version 4 APIs start with `/api/v4/`
+* API calls to the version 5 APIs start with `/api/v5/`
 
 ## Supported Media Types
 * JSON
 
-The media type is set in the header, e.g. "Accept: application/json". Media type negotiation via file extension (e.g. ".json") is not supported. The API defaults to JSON if no media type is given, e.g. to test the API with a browser.
+The media type is set in the header, e.g. "Accept: application/json", but defaults to this format anyway. Media type negotiation via file extension (e.g. ".json") is not supported.
 
 ## API Key
 All v5 API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
 
-The v4 API uses a username/password pair and HTTP Basic authentication for article create, update, and delete. You can GET article information from the v4 endpoint using an API key as for API v3.
+The v4 API uses a username/password pair and HTTP Basic authentication. Only admin and staff users can use this API.
 
 ## Query for one or several Articles
 Specify one or more articles by a comma-separated list of DOIs in the `ids` parameter. These DOIs have to be URL-escaped, e.g. `%2F` for `/`:
