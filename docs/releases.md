@@ -7,7 +7,7 @@ title: "Releases"
 
 Lagotto 3.9 was released on November 7, 2014 with the following changes:
 
-* switched from **rabl** to **jbuilder** for generating JSON in the API, fixing [#179](https://github.com/articlemetrics/lagotto/issues/179)
+* switched from **rabl** to **jbuilder** for generating JSON in the API, fixing [#179](https://github.com/articlemetrics/lagotto/issues/179), and discontinuing XML support in the depreciated v3 API
 * moved `SECRET_KEY_BASE` into the Rails 4.1 `secrets.yml` file
 
 ### [Lagotto 3.8.1](https://github.com/articlemetrics/lagotto/releases/tag/v.3.8.1)
