@@ -137,7 +137,7 @@ namespace :db do
     task :resolve => :environment do
       Alert.unscoped do
         before = Alert.count
-        Alert.where("level < 3").update_all(resolved: true)
+        Alert.where("level < 3").update_all(unresolved: false)
         after = Alert.count
         puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
       end
