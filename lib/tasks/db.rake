@@ -6,13 +6,13 @@ namespace :db do
     task :import => :environment do
       # only run if configuration option :import
       case ENV['IMPORT']
-      when "member", "member_sample"
+      when "MEMBER", "MEMBER_SAMPLE"
         member = ENV['MEMBER'] || Publisher.pluck(:crossref_id).join(",")
         sample = ENV['SAMPLE']
-      when "all", "sample"
+      when "ALL", "SAMPLE"
         member = ENV['MEMBER']
         sample = ENV['SAMPLE']
-      when "sample", "member_sample"
+      when "SAMPLE", "MEMBER_SAMPLE"
         sample ||= 20
       else
         member = ENV['MEMBER']
