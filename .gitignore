@@ -16,7 +16,6 @@ capybara-*.html
 /.bundle
 /vendor/bundle/*
 /vendor/cookbooks/*
-/bin/*
 /log/*
 /data/*
 /tmp/*
