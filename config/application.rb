@@ -61,9 +61,6 @@ module Lagotto
     # Use a different cache store
     config.cache_store = :dalli_store, *(ENV['SERVERS'].split(",")), { :namespace => ENV['APPLICATION'], :compress => true }
 
-    # Define custom exception handler
-    config.exceptions_app = lambda { |env| AlertsController.action(:create).call(env) }
-
     # Skip validation of locale
     I18n.enforce_available_locales = false
 

@@ -36,7 +36,6 @@ gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.4.0"
 gem 'jbuilder', '~> 2.2.4'
 gem "dalli", "~> 2.7.0"
-gem "cache_digests", "~> 0.3.1"
 gem "turbolinks", "~> 2.5.1"
 gem 'will_paginate', '3.0.7'
 gem "will_paginate-bootstrap", "~> 1.0.1"
@@ -55,6 +54,9 @@ gem 'coffee-rails', '~> 4.1.0'
 gem "uglifier", "~> 2.5.3"
 
 group :development do
+  gem 'pry-rails', '~> 0.3.2'
+  gem 'better_errors', '~> 2.0.0'
+  gem 'binding_of_caller', '~> 0.7.2'
   gem 'capistrano-rails', '~> 1.1.1', :require => false
   gem 'capistrano-bundler', '~> 1.1.2', :require => false
   gem 'spring', '~> 1.1.2'
@@ -73,11 +75,9 @@ group :test do
   gem 'codeclimate-test-reporter', '~> 0.4.1', :require => nil
   gem "shoulda-matchers", "~> 2.7.0", :require => false
   gem "webmock", "~> 1.20.0"
-  gem "rest-client", "~> 1.7.2"
   gem "aruba", "~> 0.6.1", :require => false
   gem "poltergeist", "~> 1.5.0"
   gem 'phantomjs', '~> 1.9.7.1', :require => 'phantomjs/poltergeist'
-  gem "mocha", "~> 1.1.0", :require => false
 end
 
 group :test, :development do
