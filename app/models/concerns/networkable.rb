@@ -2,7 +2,6 @@
 
 require 'faraday'
 require 'faraday_middleware'
-require 'faraday-cookie_jar'
 require 'typhoeus'
 require 'typhoeus/adapters/faraday'
 require 'net/http'
@@ -75,7 +74,7 @@ module Networkable
     def faraday_conn(content_type = 'json')
       accept_header =
         case content_type
-        when 'html' then 'text/html'
+        when 'html' then 'text/html; charset=UTF-8'
         when 'xml' then 'application/xml'
         else 'application/json'
         end
@@ -84,7 +83,6 @@ module Networkable
         c.headers['Accept'] = accept_header
         c.headers['User-Agent'] = "Lagotto #{Rails.application.config.version} - http://#{ENV['SERVERNAME']}"
         c.use      FaradayMiddleware::FollowRedirects, :limit => 10, :cookie => :all
-        c.use      :cookie_jar
         c.request  :multipart
         c.request  :json if accept_header == 'application/json'
         c.use      Faraday::Response::RaiseError
