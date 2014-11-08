@@ -77,13 +77,13 @@ DOI Date(YYYY-MM-DD) Title
 The date can also be incomplete, i.e. `YYYY-MMM` or `YYYY`. The rake taks loads all these articles at once, ignoring (but counting) invalid ones and those that already exist in the database:
 
 ```sh
-bundle exec rake db:articles:load <IMPORT.TXT
+bin/rake db:articles:load <IMPORT.TXT
 ```
 
 In a production environment this rake task (like all other rake tasks used in production) has to be slightly modified to:
 
 ```sh
-bundle exec rake db:articles:load <IMPORT.TXT RAILS_ENV=production
+bin/rake db:articles:load <IMPORT.TXT RAILS_ENV=production
 ```
 
 The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
@@ -117,11 +117,11 @@ RAILS_ENV=development
 You then have to decide what articles you want updated. This can be either a specific DOI, all articles, all articles for a list of specified sources, or all articles published in a specific time interval. Issue one of the following commands (and include `RAILS_ENV=production` in production mode):
 
 ```sh
-bundle exec rake queue:one[10.1371/journal.pone.0036790]
-bundle exec rake queue:all
-bundle exec rake queue:all[pubmed,mendeley]
-bundle exec rake queue:all START_DATE=2013-02-01 END_DATE=2014-02-08
-bundle exec rake queue:all[pubmed,mendeley] START_DATE=2013-02-01 END_DATE=2014-02-08
+bin/rake queue:one[10.1371/journal.pone.0036790]
+bin/rake queue:all
+bin/rake queue:all[pubmed,mendeley]
+bin/rake queue:all START_DATE=2013-02-01 END_DATE=2014-02-08
+bin/rake queue:all[pubmed,mendeley] START_DATE=2013-02-01 END_DATE=2014-02-08
 ```
 
 You can then start the workers with:
@@ -158,7 +158,7 @@ Lagotto uses a number of maintenance tasks in production mode - they are not nec
 Many of the maintenance taks are `rake` tasks, and they are listed on a [separate page](/docs/rake). All rake tasks are issued from the application root folder. You want to prepend your rake command with `bundle exec` and `RAILS_ENV=production` should be appended to the rake command when running in production, e.g.
 
 ```sh
-bundle exec rake db:articles:load <IMPORT.TXT RAILS_ENV=production
+bin/rake db:articles:load <IMPORT.TXT RAILS_ENV=production
 ```
 
 ### Cron jobs
@@ -255,7 +255,7 @@ curl -X PUT -d @design_doc/reports.json 'http://localhost:5984/lagotto/_design/r
 The reports are generated via the cron jobs mentioned above. Make sure you have correct write permissions for the Article Statistics Report, it is recommended to run the rake task at least once to test for this:
 
 ```sh
-bundle exec rake report:all_stats RAILS_ENV=production
+bin/rake report:all_stats RAILS_ENV=production
 ```
 
 This rake task generates the monthly report file at `/public/files/alm_report.zip` and this file is then available for download at `/files/alm_report.zip`. Users who have signed up for this report will see a download link in their account preferences. Additional reports are stored as zip file in the `/data` folder.
