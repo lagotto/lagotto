@@ -16,14 +16,12 @@ describe DelayedJob, :type => :model do
       it "queue" do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_all_articles).to eq(10)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "with rate_limiting" do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         source.rate_limiting = 5
         expect(source.queue_all_articles).to eq(10)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "with inactive source" do
@@ -55,7 +53,6 @@ describe DelayedJob, :type => :model do
 
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_all_articles(start_date: Date.today - 2.days, end_date: Date.today - 2.days)).to eq(0)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
     end
 
@@ -63,21 +60,18 @@ describe DelayedJob, :type => :model do
       it "queue" do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_all_articles).to eq(10)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "only stale articles" do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         retrieval_status = FactoryGirl.create(:retrieval_status, source_id: source.id, scheduled_at: Date.today + 1.day)
         expect(source.queue_all_articles).to eq(10)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "not queued articles" do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         retrieval_status = FactoryGirl.create(:retrieval_status, source_id: source.id, queued_at: Time.zone.now)
         expect(source.queue_all_articles).to eq(10)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "with rate-limiting" do
@@ -85,7 +79,6 @@ describe DelayedJob, :type => :model do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         source.rate_limiting = rate_limiting
         expect(source.queue_all_articles).to eq(10)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...rate_limiting], source.id))
       end
 
       it "with job_batch_size" do
@@ -94,7 +87,6 @@ describe DelayedJob, :type => :model do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids[job_batch_size..10], source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         source.job_batch_size = job_batch_size
         expect(source.queue_all_articles).to eq(10)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids[0...job_batch_size], source.id))
       end
 
       it "with inactive source" do
@@ -110,7 +102,6 @@ describe DelayedJob, :type => :model do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_all_articles).to eq(10)
         expect(source).to be_disabled
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "with waiting source" do
@@ -118,7 +109,6 @@ describe DelayedJob, :type => :model do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_all_articles).to eq(10)
         expect(source).to be_waiting
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "with too many failed queries" do
@@ -129,14 +119,12 @@ describe DelayedJob, :type => :model do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_all_articles).to eq(10)
         expect(source).not_to be_disabled
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "with queued jobs" do
         allow(Delayed::Job).to receive(:count).and_return(1)
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_all_articles).to eq(10)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
     end
 
@@ -144,7 +132,6 @@ describe DelayedJob, :type => :model do
       it "multiple articles" do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_article_jobs(rs_ids)).to eq(10)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "single article" do
@@ -152,7 +139,6 @@ describe DelayedJob, :type => :model do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new([retrieval_status.id], source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         allow(Delayed::Job).to receive(:perform).with(SourceJob.new([retrieval_status.id], source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_article_jobs([retrieval_status.id])).to eq(1)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new([retrieval_status.id], source.id))
       end
     end
 
@@ -161,7 +147,6 @@ describe DelayedJob, :type => :model do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         allow(Delayed::Job).to receive(:perform).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_article_jobs(rs_ids)).to eq(10)
-        Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id))
       end
 
       it "perform callback without workers" do
@@ -169,7 +154,6 @@ describe DelayedJob, :type => :model do
         allow(Delayed::Job).to receive(:perform).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         source.workers = 0
         expect(source.queue_article_jobs(rs_ids)).to eq(10)
-        Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id)).once.returns(0)
       end
 
       it "perform callback without enough workers" do
@@ -181,15 +165,12 @@ describe DelayedJob, :type => :model do
         source.job_batch_size = job_batch_size
         source.workers = 1
         expect(source.queue_article_jobs(rs_ids)).to eq(10)
-        Delayed::Job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id)).twice
-        Delayed::Job.expects(:perform).with(SourceJob.new(rs_ids, source.id)).once
       end
 
       it "after callback" do
         allow(Delayed::Job).to receive(:enqueue).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         allow(Delayed::Job).to receive(:after).with(SourceJob.new(rs_ids, source.id), queue: source.name, run_at: Time.zone.now, priority: 5)
         expect(source.queue_article_jobs(rs_ids)).to eq(10)
-        Delayed::Job.expects(:after).with(SourceJob.new(rs_ids, source.id))
       end
     end
 
