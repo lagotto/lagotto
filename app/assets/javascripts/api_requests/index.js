@@ -7,9 +7,14 @@ var params = d3.select("#api_key"),
 // construct query string
 if (!params.empty()) {
     var api_key = params.attr('data-api_key');
+    var q = params.attr('data-query');
     var key = params.attr('data-key');
     var query = encodeURI("/api/v5/api_requests?api_key=" + api_key);
-    if (key !== "") { query += "&key=" + key; };
+    if (q !== "") {
+      query += "&q=" + q;
+    } else if (key !== "") {
+      query += "&key=" + key;
+    };
 }
 
 // load the data from the Lagotto API
