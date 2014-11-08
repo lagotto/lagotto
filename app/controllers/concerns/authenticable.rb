@@ -58,6 +58,10 @@ module Authenticable
       end
     end
 
+    def disable_devise_trackable
+      request.env["devise.skip_trackable"] = true
+    end
+
     rescue_from CanCan::AccessDenied do |exception|
       @error = exception.message
       @article = nil

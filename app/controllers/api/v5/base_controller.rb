@@ -4,6 +4,7 @@ class Api::V5::BaseController < ActionController::Base
 
   respond_to :json, :js
 
+  prepend_before_filter :disable_devise_trackable
   before_filter :miniprofiler,
                 :default_format_json,
                 :authenticate_user_from_token!,
