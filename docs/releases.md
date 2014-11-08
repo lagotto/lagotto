@@ -3,6 +3,16 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.9.1 (November 8, 2014)
+
+[Lagotto 3.9.1](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.1) was released on November 8, 2014 with the following changes:
+
+* added support for the [better_errors](https://rubygems.org/gems/better_errors) gem in development mode ([#181](https://github.com/articlemetrics/lagotto/issues/181))
+* use Rails 4 binstubs for `rake`, `rails`, `cap` and `whenever` ([#182](https://github.com/articlemetrics/lagotto/issues/182))
+* changed the layout of the static markdown files to resemble the rest of the site layout ([#183](https://github.com/articlemetrics/lagotto/issues/183))
+* fixed a bug in the CrossRef automatic import rake task ([#184](https://github.com/articlemetrics/lagotto/issues/184))
+* removed the [faraday_cookie_jar](https://github.com/miyagawa/faraday-cookie_jar) gem, as it is a possible reason for utf-8 errors that can kill background workers ([#185](https://github.com/articlemetrics/lagotto/issues/185))
+
 ## Lagotto 3.9 (November 7, 2014)
 
 [Lagotto 3.9](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9) was released on November 7, 2014 with the following changes:
@@ -568,7 +578,7 @@ In this release we added a new source ([ScienceSeeker](http://scienceseeker.org/
 * added Wikipedia source
 * Rails 3.2.7
 
-# ALM 2.0 (July 31, 2012)
+## ALM 2.0 (July 31, 2012)
 
 [ALM 2.0](https://github.com/articlemetrics/alm/releases/tag/v.2.0) was released on July 31, 2012.
 
