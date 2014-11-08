@@ -4,19 +4,23 @@ namespace :db do
   namespace :articles do
     desc "Bulk-load articles from Crossref API"
     task :import => :environment do
-      # only run if configuration option :import
+      # only run if configuration option ENV['IMPORT'],
+      # or ENV['MEMBER'] and/or ENV['SAMPLE'] are provided
+      exit unless ENV['IMPORT'] || ENV['MEMBER'] || ENV['SAMPLE']
+
       case ENV['IMPORT']
-      when "MEMBER", "MEMBER_SAMPLE"
+      when "MEMBER"
         member = ENV['MEMBER'] || Publisher.pluck(:crossref_id).join(",")
         sample = ENV['SAMPLE']
-      when "ALL", "SAMPLE"
-        member = ENV['MEMBER']
-        sample = ENV['SAMPLE']
-      when "SAMPLE", "MEMBER_SAMPLE"
-        sample ||= 20
-      else
+      when "MEMBER_SAMPLE"
+        member = ENV['MEMBER'] || Publisher.pluck(:crossref_id).join(",")
+        sample = ENV['SAMPLE'] || 20
+      when "SAMPLE"
         member = ENV['MEMBER']
         sample = ENV['SAMPLE'] || 20
+      else
+        member = ENV['MEMBER']
+        sample = ENV['SAMPLE']
       end
 
       options = { from_update_date: ENV['FROM_UPDATE_DATE'],
