@@ -1,9 +1,9 @@
 ---
-layout: page
+layout: card_list
 title: "Roadmap"
 ---
 
-## Data-Push Model (4.0 - November 2014)
+## 4.0 Data-Push Model (November 2014)
 
 In order for the Lagotto application to scale to millions of articles - e.g. the more than 10 million in the [CrossRef Labs DET Server](http://det.labs.crossref.org/) - it makes more sense that third-parties are pushing data into the application (**push**) rather than Lagotto collecting data from external sources (**pull**). We have identified the following architecture and implementation steps:
 
@@ -32,7 +32,7 @@ Once we have separated out the agent functionality from sources in we can start 
 
 Use the [standard webmention format](http://webmention.io/), feed in data around events.
 
-## Data-Level Metrics (4.1 - December 2014)
+## 4.1 Data-Level Metrics (December 2014)
 
 To fully support data-level metrics, the following changes need to be done in the Lagotto software:
 
@@ -60,12 +60,12 @@ There are several options, ideally this should use a standard protocol and allow
 
 We want to make the software more flexible in that we should be able to track all scholarly outputs including datasets. We should therefore rename the **Article** model to **Work**, and use **works** in the web interface and API. Only [75% of CrossRef DOIs are of type *journal-article*](http://search.crossref.org/help/status), and they also use the term *works* in their API.
 
-## Server-to-Server Replication (4.2 - January 2015)
+## 4.2 Server-to-Server Replication (January 2015)
 
 As the number of Lagotto installations increases, we need to start thinking about server-to-server replication, so that multiple Lagotto servers are not all collecting the same information from external data sources.
 
 To make this replication performant, we ideally want to use a native database replication tool. Part of the implementation should therefore be a re-evaluation of MySQL and CouchDB as databases used in Lagotto.
 
-## Archiving and Auditing of Raw Data (4.3 - February 2015)
+## 4.3 Archiving and Auditing of Raw Data (February 2015)
 
 We want to make all data collected by Lagotto available publicly. While monthly reports can be generated as CSV files and [uploaded to a data repository such as figshare](http://figshare.com/articles/Cumulative_PLOS_ALM_Report_February_2014/1189396), we need a different mechanism to include the raw data collected from external sources. A database is not the best place for this kind of data and we need to look at other services to handle this, e.g. [fluentd](http://www.fluentd.org/) and [Amazon Glacier](http://aws.amazon.com/glacier/).

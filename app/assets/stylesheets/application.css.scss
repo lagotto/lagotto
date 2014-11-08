@@ -273,13 +273,16 @@ dt, dd { line-height: 1.5; }
 .border-bottom { border-bottom: 1px solid #eee; }
 .alert-inner { min-height: 120px; }
 .remote { color: #88A2BD; }
-#results, .markdown { background-color: white; border: 1px solid $gray; padding: 1.5em; }
+#results { background-color: white; border: 1px solid $gray; padding: 1.5em; }
 #rss { padding: 1em; }
 
 // make the scrollbar always visible
 html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
 
 // markdown formatting
+body#home { background-color: white; }
+div.home { font-size: 1.25em; }
+div.home .col-md-6 { padding-left: 0; }
 .markdown pre { font-size: 1em; border: 0; padding: 10px; }
 .markdown code {
   margin: 0 2px;

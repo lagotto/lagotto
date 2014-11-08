@@ -1,8 +1,6 @@
 <% unless @doc.content.blank? %>
   <% cache(@doc) do %>
-    <div class="markdown">
-      <%= markdown @doc.content %>
-    </div>
+    <%= render partial: "docs/#{@doc.layout}" %>
   <% end %>
 <% else %>
   <div class="alert alert-info">No documentation for <%= params[:id] %> found</div>

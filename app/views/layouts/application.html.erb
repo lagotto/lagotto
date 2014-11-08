@@ -45,7 +45,11 @@
     <% end %>
   </head>
 
-  <body>
+  <% if controller.controller_name == 'docs' && controller.action_name == "index" %>
+    <body id="home">
+  <% else %>
+    <body>
+  <% end %>
     <nav class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
@@ -55,7 +59,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#"><%= ENV['SITENAME'] %></a>
+        <%= link_to ENV['SITENAME'], root_path, class: "navbar-brand" %>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
@@ -69,16 +73,18 @@
             <%= controller.controller_name == "users" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Users", users_path %></li>
             <%= controller.controller_name == "alerts" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Alerts", alerts_path %></li>
           <% end %>
-          <%= controller.controller_name == "docs" ? '<li class="dropdown active hidden-sm hidden-md">'.html_safe : '<li class="dropdown hidden-sm hidden-md">'.html_safe %>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <span class="caret"></span></a>
+          <%= controller.controller_name == "docs" && controller.action_name != "index" ? '<li class="dropdown active hidden-sm hidden-md">'.html_safe : '<li class="dropdown hidden-sm hidden-md">'.html_safe %>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <% documents.each do |document| %>
                 <% if document == "-" %>
                   <li class="divider"></li>
                 <% else %>
-                  <li><%= link_to h(document.tr('-', ' ')), document == "Home" ? root_path : doc_path(document.downcase) %></li>
+                  <li><%= link_to h(document.tr('-', ' ')), doc_path(document.downcase) %></li>
                 <% end %>
               <% end %>
+              <li class="divider"></li>
+              <li><%= link_to "Support Forum", "http://discuss.lagotto.io" %></li>
             </ul>
           </li>
         </ul>

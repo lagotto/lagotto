@@ -1,15 +1,7 @@
 ---
-layout: page
+layout: card_list
 title: Setup
 ---
-
-To configure Lagotto, the following steps are necessary:
-
-* add users (we need at least one admin user)
-* configure sources
-* add articles
-* start workers (start collecting data from external APIs)
-* configure maintenance tasks (only in production system)
 
 ## Adding Users
 Lagotto supports the following user roles:
@@ -26,7 +18,7 @@ Lagotto supports the following forms of authentication:
 
 The first user created in the system automatically has an admin role, and this user can be created with any of the authentication methods listed above. From then on all user accounts are created with an API user role, and users have to create their own account using third-party authentication with Persona (or CAS). Admin users can change the user role after an account has been created, but can't create user accounts
 
-Third-party authentication is configured in `.env`. By default authentication via username/password and Persona is enabled enabled, by enabling a CAS server with `ENV['CAS_URL']` we disable Persona.
+Third-party authentication is configured in `.env`. By default authentication via username/password and Persona is enabled, by enabling a CAS server with `ENV['CAS_URL']` we disable Persona.
 
 Users automatically obtain an API key, and they can sign up to the monthly report in CSV format. Admin users can sign up for additional reports (error report, status report, disabled source report).
 

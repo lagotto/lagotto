@@ -1,7 +1,9 @@
 ---
-layout: page
+layout: card_list
 title: "Rake"
 ---
+
+## Introduction
 
 There are several ALM-specific rake tasks that help with administration of the ALM application. They can be listed with the following command:
 
@@ -9,9 +11,9 @@ There are several ALM-specific rake tasks that help with administration of the A
 bin/rake -T
 ```
 
-Please append `RAILS_ENV=production` to all rake commands when running Rails in `production` mode.
+Please prepend `RAILS_ENV=production` to all rake commands when running Rails in `production` mode.
 
-### db.rake
+## db.rake
 
 Bulk-load articles via the CrossRef API:
 
@@ -114,7 +116,7 @@ bin/rake db:api_responses:delete
 
 The last three rake tasks should run regularly, and can be set up to run as a daily cron task with `bundle exec whenever -w`.
 
-### queue.rake
+## queue.rake
 
 Queue all articles
 
@@ -146,7 +148,7 @@ By default the rake tasks above run for all sources. Do have them run for one or
 bin/rake queue:all[mendeley,citeulike]
 ```
 
-### pmc.rake
+## pmc.rake
 
 Import latest (i.e. last month's) PubMed Central usage stats.
 
@@ -160,7 +162,7 @@ Import all PubMed Central usage stats since month/year.
 bin/rake pmc:update MONTH=1 YEAR=2013
 ```
 
-### report.rake
+## report.rake
 
 Generate all article stats reports.
 
@@ -270,7 +272,7 @@ Zip reports.
 bin/rake report:zip
 ```
 
-### workers.rake
+## workers.rake
 
 Start all the workers.
 
@@ -284,7 +286,7 @@ Stop all the workers.
 bin/rake workers:stop_all
 ```
 
-### filter.rake
+## filter.rake
 
 Create alerts by filtering API responses
 
@@ -298,7 +300,7 @@ Unresolve all alerts that have been filtered (e.g. to re-run filters with new se
 bin/rake filter:unresolve
 ```
 
-### mailer.rake
+## mailer.rake
 
 Send all reports
 

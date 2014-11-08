@@ -1,26 +1,28 @@
 ---
-layout: page
+layout: card_list
 title: "API"
 ---
+
+## Basic information
 
 * Version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11).
 * Version 5 of the API was released April 24, 2014 (ALM 2.14).
 
-## Base URL
+### Base URL
 * API calls to the version 4 APIs start with `/api/v4/`
 * API calls to the version 5 APIs start with `/api/v5/`
 
-## Supported Media Types
+### Supported Media Types
 * JSON
 
-The media type is set in the header, e.g. "Accept: application/json", but defaults to this format anyway. Media type negotiation via file extension (e.g. ".json") is not supported.
+The media type is set in the header, e.g. "Accept: application/json", but defaults to this format anyway. Media type negotiation via file extension (e.g. ".json") is not supported. `JSONP` and `CORS` are supported.
 
-## API Key
+### API Key
 All v5 API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
 
 The v4 API uses a username/password pair and HTTP Basic authentication. Only admin and staff users can use this API.
 
-## Query for one or several Articles
+### Query for one or several Articles
 Specify one or more articles by a comma-separated list of DOIs in the `ids` parameter. These DOIs have to be URL-escaped, e.g. `%2F` for `/`:
 
 ```sh
@@ -29,6 +31,48 @@ Specify one or more articles by a comma-separated list of DOIs in the `ids` para
 ```
 
 Queries for up to 50 articles at a time are supported.
+
+### Metrics
+The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `readers` for bookmarking services, and `likes` and `comments` for social media. The same 5 categories are always returned for every source to simplify parsing of API responses:
+
+* **CiteULike**: readers
+
+* **Mendeley**: readers
+
+* **Twitter**: comments
+
+* **Facebook**: likes, comments
+
+* **Reddit**: likes, comments
+
+* **Counter, PubMed Central**: html, pdf
+
+### Search
+Search is not supported by the API, users have to provide specific identifiers or retrieve batches of 50 documents, sorted by descending date or source event count.
+
+### Signposts
+Several metrics are aggregated and available in all API queries:
+
+* Viewed: counter + pmc (PLOS only)
+* Discussed: facebook (+ twitter at PLOS)
+* Saved: mendeley + citeulike
+* Cited: crossref (scopus at PLOS)
+
+### Date and Time Format
+All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``. `date-parts` uses the Citeproc convention to allow incomplete dates (e.g. year only):
+
+```json
+"date-parts": [
+    [
+      2008,
+      10,
+      31
+    ]
+```
+`date-parts` is a nested array of year, month, day, with only the year being required.
+
+### Null
+The API returns `null` if no query was made, and `0` if the external API returns 0 events.
 
 ## Additional Parameters
 
@@ -61,54 +105,18 @@ Only provide metrics for a given source. The response format is the same as the 
 
 Results are sorted by descending event count when given the source name, e.g. `&order=wikipedia`. Otherwise (the default) results are sorted by date descending. When using `&source=x`, we can only sort by data or that source, not a different source.
 
+### publisher=x
+Only provide metrics for articles by a given publisher, using the `crossref_id`. The response format is the same as the default response.
+
+```sh
+/api/v5/articles?api_key=API_KEY&publisher=340
+```
+
 ### page|per_page
 
 Results of the v5 API are paged with 50 results per page. Use `per_page` to pick a smaller number (1-50) of results per page, and use `page` to page through the results.
 
-## Metrics
-The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `readers` for bookmarking services, and `likes` and `comments` for social media. The same 5 categories are always returned for every source to simplify parsing of API responses:
-
-* **CiteULike**: readers
-
-* **Mendeley**: readers
-
-* **Twitter**: comments
-
-* **Facebook**: likes, comments
-
-* **Reddit**: likes, comments
-
-* **Counter, PubMed Central**: html, pdf
-
-## Search
-Search is not supported by the API, users have to provide specific identifiers or retrieve batches of 50 documents, sorted by descending date or source event count.
-
-## Signposts
-Several metrics are aggregated and available in all API queries:
-
-* Viewed: counter + pmc (PLOS only)
-* Discussed: facebook (+ twitter at PLOS)
-* Saved: mendeley + citeulike
-* Cited: crossref (scopus at PLOS)
-
-## Date and Time Format
-All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``. `date-parts` uses the Citeproc convention to allow incomplete dates (e.g. year only):
-
-```json
-"date-parts": [
-    [
-      2008,
-      10,
-      31
-    ]
-```
-`date-parts` is a nested array of year, month, day, with only the year being required.
-
-## Null
-The API returns `null` if no query was made, and `0` if the external API returns 0 events.
-
 ## Example Response
-### JSON
 
 ```json
 {

@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: card_list
 title: "Installation"
 ---
 
@@ -26,7 +26,14 @@ Lagotto requires Ruby 1.9.3 or greater, and has been tested with Ruby 1.9.3, 2.0
 [RVM]: http://rvm.io/
 [Rbenv]: https://github.com/sstephenson/rbenv
 
-#### Configuration options
+#### Installation Options
+
+* automated installation via Vagrant/Chef (recommended)
+* manual installation
+
+Hosting Lagotto at a Platform as a Service (PaaS) provider such as Heroku or OpenShift is possible, but has not been tested.
+
+## Configuration options
 
 Starting with the Lagotto 3.7 release all user-specific configuration options for Rails, as well as for the server configuration and deployment tools Vagrant, Chef and Capistrano are environment variables, and can be stored in a single `.env` file. You can use multiple `.env` files, specify the `.env` file using the `DOTENV` environment variable, e.g. `DOTENV=example` for the `.env.example` example configuration file provided with the application.
 
@@ -104,13 +111,6 @@ DEPLOY_GROUP=vagrant
 # mysql server root password for chef
 DB_SERVER_ROOT_PASSWORD=EZ$zspyxF2
 ```
-
-#### Installation Options
-
-* automated installation via Vagrant/Chef (recommended)
-* manual installation
-
-Hosting Lagotto at a Platform as a Service (PaaS) provider such as Heroku or OpenShift is possible, but has not been tested.
 
 ## Automated Installation
 This is the recommended way to install Lagotto. The required applications and libraries will automatically be installed in a self-contained virtual machine running Ubuntu 14.04, using [Vagrant] and [Chef Solo].
@@ -345,7 +345,7 @@ sudo service nginx restart
 You can now access the Lagotto application with your web browser at the name or IP address of your Ubuntu installation.
 
 ## Using PostgreSQL instead of MySQL
-The instructions above are for using MySQL, but Lagotto can also be installed with PostgreSQL by changing the database adapter in `config/database.yml` to use PostgreSQL instead of MySQL (change the line in defaults to `<<:postgres`):
+The instructions above are for using MySQL, but Lagotto can also be installed with PostgreSQL. Change the database adapter in `config/database.yml` to use PostgreSQL by adding `DB=postgres` to your `.env` file.
 
 ```yaml
 mysql: &mysql
