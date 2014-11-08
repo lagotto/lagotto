@@ -32,10 +32,6 @@ Once we have separated out the agent functionality from sources in we can start 
 
 Use the [standard webmention format](http://webmention.io/), feed in data around events.
 
-### Rails 4
-
-Rails 4 has been released more than a year ago, Rails 3.2.x will not receive any further bug fixes. In addition we are increasingly seeing Ruby gems that have Rails 4 as a dependency in the latest versions. And Rails 4.2 comes with [Active Job](http://edgeguides.rubyonrails.org/active_job_basics.html), a generic implementation of background workers.
-
 ## Data-Level Metrics (4.1 - December 2014)
 
 To fully support data-level metrics, the following changes need to be done in the Lagotto software:
