@@ -6,7 +6,7 @@ class Facebook < Source
 
     # use depreciated v2.0 API if linkstat_url is used
     if linkstat_url.present?
-      URI.escape(url % { access_token: access_token, query_url: article.canonical_url_escaped })
+      URI.escape(linkstat_url % { access_token: access_token, query_url: article.canonical_url })
     else
       url % { access_token: access_token, query_url: article.canonical_url_escaped }
     end
@@ -27,6 +27,7 @@ class Facebook < Source
       total = result.deep_fetch('data', 0, 'total_count') { 0 }
     else
       total = result.deep_fetch('share', 'share_count') { 0 }
+
     end
 
     # don't trust results if event count is above preset limit
