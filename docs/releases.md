@@ -3,6 +3,12 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.9.3 (November 26, 2014)
+
+[Lagotto 3.9.3](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.3) was released on November 26, 2014 with the following change:
+
+* improved HTTP caching by adding `rack::deflater` middleware and better use of `Last-Modified` header in v5 API ([#187](https://github.com/articlemetrics/lagotto/issues/187))
+
 ## Lagotto 3.9.2 (November 26, 2014)
 
 [Lagotto 3.9.2](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.2) was released on November 26, 2014 with the following change:
