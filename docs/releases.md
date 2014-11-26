@@ -3,6 +3,12 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.9.2 (November 26, 2014)
+
+[Lagotto 3.9.2](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.2) was released on November 26, 2014 with the following change:
+
+* fixed Facebook URL for installations using the depreciated Graph API ([#186](https://github.com/articlemetrics/lagotto/issues/186))
+
 ## Lagotto 3.9.1 (November 8, 2014)
 
 [Lagotto 3.9.1](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.1) was released on November 8, 2014 with the following changes:
