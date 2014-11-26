@@ -71,7 +71,7 @@ Vagrant.configure("2") do |config|
 
   # Enable provisioning with chef solo
   config.vm.provision :chef_solo do |chef|
-    chef.json = { "dotenv" => ENV["DOTENV"] }
+    chef.json = { "dotenv" => ENV["DOTENV"], "application" => ENV["APPLICATION"] }
     chef.custom_config_path = "Vagrantfile.chef"
     chef.cookbooks_path = "vendor/cookbooks"
     dna = JSON.parse(File.read(File.expand_path("../node.json", __FILE__)))
