@@ -17,6 +17,7 @@ module Articable
         @error = "Article not found."
         render "error", :status => :not_found
       else
+        fresh_when last_modified: @article.updated_at
         @success = "Article found."
       end
     end
@@ -80,6 +81,8 @@ module Articable
       collection = collection.paginate(per_page: per_page,
                                        page: params[:page],
                                        total_entries: total_entries)
+
+      fresh_when last_modified: collection.maximum(:updated_at)
       @articles = collection.decorate(context: { info: params[:info],
                                                  source: params[:source],
                                                  user: current_user.cache_key })
