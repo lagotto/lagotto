@@ -3,6 +3,12 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.9.4 (December 2, 2014)
+
+[Lagotto 3.9.4](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.4) was released on December 2, 2014 with the following change:
+
+* set `Delayed::Worker.sleep_delay` (the delayed_jobs polling interval of MySQL) via ENV["DJ_SLEEP_DELAY"], defaulting to 5 sec ([#188](https://github.com/articlemetrics/lagotto/issues/188))
+
 ## Lagotto 3.9.3 (November 26, 2014)
 
 [Lagotto 3.9.3](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.3) was released on November 26, 2014 with the following change:

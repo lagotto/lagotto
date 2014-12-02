@@ -1,1 +1,1 @@
-Rails.application.config.version = "3.9.3"
+Rails.application.config.version = "3.9.4"
