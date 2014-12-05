@@ -158,6 +158,7 @@ Lagotto uses the [Whenever](https://github.com/javan/whenever) gem to make it ea
 
 ```ruby
 env :PATH, ENV['PATH']
+env :DOTENV, ENV['DOTENV']
 set :environment, ENV['RAILS_ENV']
 set :output, "log/cron.log"
 
@@ -169,37 +170,22 @@ set :output, "log/cron.log"
 # Delete API response information, keeping responses from the last 24 hours
 # Generate a monthly report
 
-every 60.minutes do
-  rake "queue:stale"
+# every hour at 10 min past the hour
+every "10 * * * *" do
+  rake "cron:hourly"
 end
 
-every 4.hours do
-  rake "workers:monitor"
+every 1.day, at: "1:20 AM" do
+  rake "cron:daily"
 end
 
-every 1.day, at: "1:00 AM" do
-  rake "filter:all"
-  rake "mailer:error_report"
-  rake "mailer:stale_source_report"
-
-  rake "db:api_requests:delete"
-  rake "db:api_responses:delete"
-  rake "db:alerts:delete"
+every :monday, at: "1:40 AM" do
+  rake "cron:weekly"
 end
 
-every :monday, at: "1:30 AM" do
-  rake "mailer:status_report"
-end
-
-# every 9th of the month at 2 AM
-every '0 2 9 * *' do
-  rake "pmc:update"
-end
-
-# every 10th of the month at 5 AM
-every '0 5 10 * *' do
-  rake "report:all_stats"
-  rake "mailer:article_statistics_report"
+# every 10th of the month at 2:10 AM
+every "50 2 10 * *" do
+  rake "cron:monthly"
 end
 ```
 
