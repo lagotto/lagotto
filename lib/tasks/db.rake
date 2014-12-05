@@ -6,21 +6,21 @@ namespace :db do
     task :import => :environment do
       # only run if configuration option ENV['IMPORT'],
       # or ENV['MEMBER'] and/or ENV['SAMPLE'] are provided
-      exit unless ENV['IMPORT'] || ENV['MEMBER'] || ENV['SAMPLE']
+      exit unless ENV['IMPORT'].present? || ENV['MEMBER'].present? || ENV['SAMPLE'].present?
 
-      case ENV['IMPORT']
-      when "MEMBER"
-        member = ENV['MEMBER'] || Publisher.pluck(:crossref_id).join(",")
-        sample = ENV['SAMPLE']
-      when "MEMBER_SAMPLE"
-        member = ENV['MEMBER'] || Publisher.pluck(:crossref_id).join(",")
-        sample = ENV['SAMPLE'] || 20
-      when "SAMPLE"
-        member = ENV['MEMBER']
-        sample = ENV['SAMPLE'] || 20
+      case ENV['IMPORT'].downcase
+      when "member"
+        member = ENV['MEMBER'].presence || Publisher.pluck(:crossref_id).join(",")
+        sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
+      when "member_sample"
+        member = ENV['MEMBER'].presence || Publisher.pluck(:crossref_id).join(",")
+        sample = (ENV['SAMPLE'].presence || 20).to_i
+      when "sample"
+        member = ENV['MEMBER'].presence
+        sample = (ENV['SAMPLE'].presence || 20).to_i
       else
-        member = ENV['MEMBER']
-        sample = ENV['SAMPLE']
+        member = ENV['MEMBER'].presence
+        sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
       end
 
       options = { from_update_date: ENV['FROM_UPDATE_DATE'],
