@@ -16,6 +16,12 @@ Lagotto::Application.configure do
 
   config.eager_load = false
 
+  # See everything in the log (default is :info)
+  config.log_level = :debug
+
+  # log to file, using logstash JSON format
+  config.logstash.type = :file
+
   # Raise exceptions instead of rendering exception templates
   config.action_dispatch.show_exceptions = false
 
