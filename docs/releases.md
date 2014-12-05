@@ -3,6 +3,12 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.9.5 (December 4, 2014)
+
+[Lagotto 3.9.5](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.5) was released on December 4, 2014 with the following change:
+
+* use logstash json format for logging. Optionally store logs in redis using `ENV["LOGSTASH_TYPE"]=redis` and `ENV["LOGSTASH_HOST"]=example.com`.
+
 ## Lagotto 3.9.4 (December 2, 2014)
 
 [Lagotto 3.9.4](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.4) was released on December 2, 2014 with the following change:
