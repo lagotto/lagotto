@@ -37,38 +37,21 @@ set :output, "log/cron.log"
 # Delete API response information, keeping responses from the last 24 hours
 # Generate a monthly report
 
-every 60.minutes do
-  rake "queue:stale"
-  rake "cache:update"
-  rake "workers:monitor"
+every "10 * * * *" do
+  rake "cron:hourly"
 end
 
-every 1.day, at: "1:00 AM" do
-  rake "db:articles:import" if ENV['MEMBER']
-  rake "filter:all"
-  rake "mailer:error_report"
-  rake "mailer:stale_source_report"
-
-  rake "db:api_requests:delete"
-  rake "db:api_responses:delete"
-  rake "db:alerts:resolve"
+every 1.day, at: "1:20 AM" do
+  rake "cron:daily"
 end
 
-every :monday, at: "1:30 AM" do
-  rake "mailer:status_report"
-  rake "f1000:update"
-  rake "db:alerts:delete"
+every :monday, at: "1:40 AM" do
+  rake "cron:weekly"
 end
 
-# every 9th of the month at 2 AM
-every '0 2 9 * *' do
-  rake "pmc:update"
-end
-
-# every 10th of the month at 5 AM
-every '0 5 10 * *' do
-  rake "report:all_stats"
-  rake "mailer:article_statistics_report"
+# every 10th of the month at 2:10 AM
+every "50 2 10 * *" do
+  rake "cron:monthly"
 end
 
 # Learn more: http://github.com/javan/whenever
