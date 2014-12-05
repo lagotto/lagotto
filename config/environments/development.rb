@@ -25,9 +25,6 @@ Lagotto::Application.configure do
   # See everything in the log (default is :info)
   config.log_level = :debug
 
-  # log to file, using logstash JSON format
-  config.logstash.type = :file
-
   # Expands the lines which load the assets
   config.assets.debug = true
   config.assets.raise_runtime_errors = true
