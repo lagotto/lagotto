@@ -3,6 +3,14 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.9.6 (December 5, 2014)
+
+[Lagotto 3.9.6](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.6) was released on December 5, 2014 with the following changes:
+
+* use logstash json format for logging only in production environment.
+* consolidated cron jobs into one rake task each for hourly, daily, weekly and monthly tasks
+* bugfix in automated CrossRef import
+
 ## Lagotto 3.9.5 (December 4, 2014)
 
 [Lagotto 3.9.5](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.5) was released on December 4, 2014 with the following change:
