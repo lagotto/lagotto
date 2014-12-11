@@ -3,6 +3,24 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.9.7 (December 11, 2014)
+
+[Lagotto 3.9.7](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.7) was released on December 11, 2014 with the following change:
+
+* use more specific search string in `twitter_search`, and make the search string configurable in the source settings ([#189](https://github.com/articlemetrics/lagotto/issues/189))
+
+Please change `url` in the `twitter_search` source to
+
+```
+https://api.twitter.com/1.1/search/tweets.json?q="%{doi}" OR "%{query_url}"&count=100&include_entities=1&result_type=recent
+```
+
+Change `events_url` to
+
+```
+https://twitter.com/search?q="%{doi}" OR "%{query_url}"&f=realtime
+```
+
 ## Lagotto 3.9.6 (December 5, 2014)
 
 [Lagotto 3.9.6](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.6) was released on December 5, 2014 with the following changes:
