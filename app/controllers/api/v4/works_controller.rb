@@ -1,44 +1,44 @@
-class Api::V4::ArticlesController < Api::V4::BaseController
-  # include article controller methods
-  include Articable
+class Api::V4::WorksController < Api::V4::BaseController
+  # include works controller methods
+  include Workable
 
-  before_filter :load_article, only: [:update, :destroy]
+  before_filter :load_work, only: [:update, :destroy]
 
   def create
-    @article = Article.new(safe_params)
-    authorize! :create, @article
+    @work = Article.new(safe_params)
+    authorize! :create, @work
 
-    if @article.save
+    if @work.save
       @success = "Article created."
       render "success", :status => :created
     else
-      @error = @article.errors
+      @error = @work.errors
       render "error", :status => :bad_request
     end
   end
 
   def update
-    authorize! :update, @article
+    authorize! :update, @work
 
-    if @article.blank?
+    if @work.blank?
       @error = "No article found."
       render "error", :status => :not_found
-    elsif @article.update_attributes(safe_params)
+    elsif @work.update_attributes(safe_params)
       @success = "Article updated."
       render "success", :status => :ok
     else
-      @error = @article.errors
+      @error = @work.errors
       render "error", :status => :bad_request
     end
   end
 
   def destroy
-    authorize! :destroy, @article
+    authorize! :destroy, @work
 
-    if @article.blank?
+    if @work.blank?
       @error = "No article found."
       render "error", :status => :not_found
-    elsif @article.destroy
+    elsif @work.destroy
       @success = "Article deleted."
       render "success", :status => :ok
     else
@@ -50,6 +50,6 @@ class Api::V4::ArticlesController < Api::V4::BaseController
   private
 
   def safe_params
-    params.require(:article).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day)
   end
 end

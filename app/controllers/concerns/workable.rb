@@ -1,44 +1,44 @@
-module Articable
+module Workable
   extend ActiveSupport::Concern
 
   included do
     def show
       source_id = Source.where(name: params[:source]).pluck(:id).first
 
-      # Load one article given query params
-      id_hash = { :articles => Article.from_uri(params[:id]) }
-      @article = ArticleDecorator.includes(:retrieval_statuses)
+      # Load one work given query params
+      id_hash = { :works => Work.from_uri(params[:id]) }
+      @work = WorkDecorator.includes(:retrieval_statuses)
         .references(:retrieval_statuses)
         .where(id_hash).first
         .decorate(context: { info: params[:info], source_id: source_id })
 
-      # Return 404 HTTP status code and error message if article wasn't found
-      if @article.blank?
+      # Return 404 HTTP status code and error message if work wasn't found
+      if @work.blank?
         @error = "Article not found."
         render "error", :status => :not_found
       else
-        fresh_when last_modified: @article.updated_at
+        fresh_when last_modified: @work.updated_at
         @success = "Article found."
       end
     end
 
     def index
-      # Load articles from ids listed in query string, use type parameter if present
+      # Load works from ids listed in query string, use type parameter if present
       # Translate type query parameter into column name
-      # Paginate query results, default is 50 articles per page
+      # Paginate query results, default is 50 works per page
 
       if params[:ids]
-        type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Article.uid
-        ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Article.clean_id(id) }
-        collection = Article.where(:articles => { type.to_sym => ids })
+        type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Work.uid
+        ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Work.clean_id(id) }
+        collection = Work.where(:works => { type.to_sym => ids })
       elsif params[:q]
-        collection = Article.query(params[:q])
+        collection = Work.query(params[:q])
       elsif params[:source] && source = Source.where(name: params[:source]).first
-        collection = Article.joins(:retrieval_statuses)
+        collection = Work.joins(:retrieval_statuses)
                      .where("retrieval_statuses.source_id = ?", source.id)
                      .where("retrieval_statuses.event_count > 0")
       else
-        collection = Article
+        collection = Work
       end
 
       if params[:class_name]
@@ -72,10 +72,10 @@ module Articable
       # use cached counts for total number of results
       total_entries = case
                       when params[:ids] || params[:q] || params[:class_name] then nil # can't be cached
-                      when source && publisher then publisher.article_count_by_source(source.id)
-                      when source then source.article_count
-                      when publisher then publisher.article_count
-                      else Article.count_all
+                      when source && publisher then publisher.work_count_by_source(source.id)
+                      when source then source.work_count
+                      when publisher then publisher.work_count
+                      else Work.count_all
                       end
 
       collection = collection.paginate(per_page: per_page,
@@ -83,21 +83,21 @@ module Articable
                                        total_entries: total_entries)
 
       fresh_when last_modified: collection.maximum(:updated_at)
-      @articles = collection.decorate(context: { info: params[:info],
+      @works = collection.decorate(context: { info: params[:info],
                                                  source: params[:source],
                                                  user: current_user.cache_key })
     end
 
     protected
 
-    def load_article
-      # Load one article given query params
-      id_hash = Article.from_uri(params[:id])
+    def load_work
+      # Load one work given query params
+      id_hash = Work.from_uri(params[:id])
       if id_hash.respond_to?("key")
         key, value = id_hash.first
-        @article = Article.where(key => value).first.decorate
+        @work = Work.where(key => value).first.decorate
       else
-        @article = nil
+        @work = nil
       end
     end
   end

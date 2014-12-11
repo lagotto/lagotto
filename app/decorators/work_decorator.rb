@@ -1,4 +1,4 @@
-class ArticleDecorator < Draper::Decorator
+class WorkDecorator < Draper::Decorator
   delegate_all
   decorates_finders
 
@@ -32,7 +32,7 @@ class ArticleDecorator < Draper::Decorator
   end
 
   def cache_key
-    { article_id: id,
+    { work_id: id,
       update_date: update_date,
       source_ids: source_ids,
       info: context[:info] }
