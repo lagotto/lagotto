@@ -2,7 +2,7 @@ require 'cgi'
 require 'addressable/uri'
 require "builder"
 
-class Article < ActiveRecord::Base
+class Work < ActiveRecord::Base
   strip_attributes
 
   # include HTTP request helpers
@@ -20,7 +20,7 @@ class Article < ActiveRecord::Base
   validates :uid, :title, :presence => true
   validates :doi, :uniqueness => true, :format => { :with => DOI_FORMAT }, :allow_nil => true
   validates :year, :numericality => { :only_integer => true }, :inclusion => { :in => 1650..(Time.zone.now.year), :message => "should be between 1650 and #{Time.zone.now.year}" }
-  validate :validate_published_on, if: proc { |article| article.year.present? }
+  validate :validate_published_on, if: proc { |work| work.year.present? }
 
   before_validation :sanitize_title
   after_create :create_retrievals
@@ -94,12 +94,12 @@ class Article < ActiveRecord::Base
   def self.find_or_create(params)
     self.create!(params)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
-    # update title and/or date if article exists
+    # update title and/or date if work exists
     # raise an error for other RecordInvalid errors such as missing title
     if e.message.start_with?("Mysql2::Error: Duplicate entry", "Validation failed: Doi has already been taken")
-      article = Article.where(doi: params[:doi]).first
-      article.update_attributes(params)
-      article
+      work = Work.where(doi: params[:doi]).first
+      work.update_attributes(params)
+      work
     else
       Alert.create(:exception => "",
                    :class_name => "ActiveRecord::RecordInvalid",
@@ -116,17 +116,17 @@ class Article < ActiveRecord::Base
   def self.count_all
     if ActionController::Base.perform_caching
       status_update_date = Rails.cache.read('status:timestamp')
-      Rails.cache.read("status/articles_count/#{status_update_date}").to_i
+      Rails.cache.read("status/works_count/#{status_update_date}").to_i
     else
-      Article.count
+      Work.count
     end
   end
 
-  def self.queue_article_delete(publisher_id)
+  def self.queue_work_delete(publisher_id)
     if publisher_id == "all"
-      delay(priority: 2, queue: "article-delete-queue").destroy_all
+      delay(priority: 2, queue: "work-delete-queue").destroy_all
     elsif publisher_id.present?
-      delay(priority: 2, queue: "article-delete-queue")
+      delay(priority: 2, queue: "work-delete-queue")
         .destroy_all(publisher_id: publisher_id)
     end
   end
@@ -163,7 +163,7 @@ class Article < ActiveRecord::Base
     return true if canonical_url.present?
     return false unless doi.present?
 
-    url = get_canonical_url(doi_as_url, article_id: id)
+    url = get_canonical_url(doi_as_url, work_id: id)
 
     if url.present? && url.is_a?(String)
       update_attributes(:canonical_url => url)
@@ -173,7 +173,7 @@ class Article < ActiveRecord::Base
   end
 
   # call Pubmed API to get missing identifiers
-  # update article if we find a new identifier
+  # update work if we find a new identifier
   def get_ids
     ids = { doi: doi, pmid: pmid, pmcid: pmcid }
     missing_ids = ids.reject { |k, v| v.present? }
@@ -299,9 +299,9 @@ class Article < ActiveRecord::Base
   end
 
   def create_retrievals
-    # Create an empty retrieval record for every installed source for the new article
+    # Create an empty retrieval record for every installed source for the new work
     Source.installed.each do |source|
-      RetrievalStatus.where(article_id: id, source_id: source.id).first_or_create
+      RetrievalStatus.where(work_id: id, source_id: source.id).first_or_create
     end
   end
 end
