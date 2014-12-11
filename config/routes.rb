@@ -25,16 +25,16 @@ Lagotto::Application.routes.draw do
 
   namespace :api, defaults: { format: "json" } do
     namespace :v3 do
-      resources :articles, :constraints => { :id => /.+?/, :format=> false }, only: [:index, :show]
+      resources :works, path: "articles", constraints: { :id => /.+?/, :format=> false }, only: [:index, :show]
     end
 
     namespace :v4 do
       resources :alerts, :constraints => { :format=> false }
-      resources :articles, :constraints => { :id => /.+?/, :format=> false }
+      resources :works, path: "articles", constraints: { :id => /.+?/, :format=> false }
     end
 
     namespace :v5 do
-      resources :articles, :constraints => { :id => /.+?/ }, only: [:index]
+      resources :works, path: "articles", constraints: { :id => /.+?/ }, only: [:index]
       resources :sources, only: [:index, :show]
       get "status", to: "status#show"
       resources :api_requests, only: [:index]
