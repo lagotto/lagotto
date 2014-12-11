@@ -19,7 +19,13 @@ curl -u API_KEY:API_SECRET -d grant_type=client_credentials https://api.twitter.
 * **api_key** and **api_secret**: available via https://dev.twitter.com/apps.
 
 ## Query
-The source searches the Twitter Search API by DOI and URL, e.g. `10.1371/journal.pmed.0020124 OR http://www.plosmedicine.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124`. The Search API will find shortened URLs with this query.
+The source searches the Twitter Search API by DOI and URL, e.g.
+
+```
+https://api.twitter.com/1.1/search/tweets.json?q=\"%{doi}\" OR \"%{query_url}\"&count=100&include_entities=1&result_type=recent"
+```
+
+The Search API will find shortened URLs with this query.
 
 ## Rate-Limiting
 The rate-limits for application-only authentication and search are 450 requests per 15 min or 1,800 requests per hour. Depending on the number of articles we might have to adjust how often we contact Twitter, the default settings are every 12 hours the first 7 days after publication, then daily for the first month, and then weekly.

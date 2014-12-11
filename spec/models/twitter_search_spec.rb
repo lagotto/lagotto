@@ -78,7 +78,7 @@ describe TwitterSearch, :type => :model do
       article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000001", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0000001")
       stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
       response = subject.get_data(article, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=10.1371%252Fjournal.pone.0000001+OR+http%3A%2F%2Fwww.plosone.org%2Farticle%2Finfo%253Adoi%252F10.1371%252Fjournal.pmed.0000001&result_type=recent", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?q=%2210.1371%252Fjournal.pone.0000001%22%20OR%20%22http://www.plosone.org/article/info%253Adoi%252F10.1371%252Fjournal.pmed.0000001%22&count=100&include_entities=1&result_type=recent", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
@@ -90,10 +90,10 @@ describe TwitterSearch, :type => :model do
 
   context "parse_data" do
     it "should report if there are no events and event_count returned by the Twitter Search API" do
-      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000000")
+      article = FactoryGirl.create(:article_with_tweets, :doi => "10.1371/journal.pone.0000000", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, article)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: "https://twitter.com/search?q=#{article.doi_escaped}", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 })
+      expect(subject.parse_data(result, article)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: "https://twitter.com/search?q=%2210.1371%252Fjournal.pone.0000000%22%20OR%20%22http://www.plosone.org/article/info%253Adoi%252F10.1371%252Fjournal.pmed.0000000%22&f=realtime", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Twitter Search API" do
@@ -104,7 +104,7 @@ describe TwitterSearch, :type => :model do
       expect(response[:events].length).to eq(8)
       expect(response[:event_count]).to eq(8)
       expect(response[:event_metrics][:comments]).to eq(8)
-      expect(response[:events_url]).to eq("https://twitter.com/search?q=#{article.doi_escaped}")
+      expect(response[:events_url]).to eq("https://twitter.com/search?q=%2210.1371%252Fjournal.pmed.0020124%22%20OR%20%22%22&f=realtime")
 
       expect(response[:events_by_day].length).to eq(6)
       expect(response[:events_by_day].first).to eq(year: 2014, month: 1, day: 6, total: 1)
