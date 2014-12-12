@@ -17,10 +17,6 @@ before_script:
 script:
   - bin/rake db:setup RAILS_ENV=test
   - bin/rspec
-  - bin/cucumber
-  - bin/rake spec:javascript
-  - bin/rake brakeman:run
-  - bin/rubocop
 
 env:
   global:
