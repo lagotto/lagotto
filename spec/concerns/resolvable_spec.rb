@@ -12,7 +12,7 @@ describe Work do
 
       it "get_canonical_url" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/work/info:doi/10.1371/journal.pone.0000030"
+        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
         stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
@@ -24,7 +24,7 @@ describe Work do
       it "get_canonical_url with jsessionid" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
         url = "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pone.0000030;jsessionid=5362E4D61F1953ADA2CB3F746E58AAC2.f01t03"
-        clean_url = "http://www.plosone.org/work/info:doi/10.1371/journal.pone.0000030"
+        clean_url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
         stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
@@ -46,7 +46,7 @@ describe Work do
 
       it "get_canonical_url with <link rel='canonical'/>" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/work/info:doi/10.1371/journal.pone.0000030"
+        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
         stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work_canonical.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
@@ -57,7 +57,7 @@ describe Work do
 
       it "get_canonical_url with <meta property='og:url'/>" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/work/info:doi/10.1371/journal.pone.0000030"
+        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
         stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work_opengraph.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
@@ -68,11 +68,11 @@ describe Work do
 
       it "get_canonical_url with <link rel='canonical'/> mismatch" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/work/info:doi/10.1371/journal.pone.0000030"
+        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
         stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
-        expect(response).to eq(error: "Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for http://www.plosone.org/work/info:doi/#{work.doi}", status: 404)
+        expect(response).to eq(error: "Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for http://www.plosone.org/article/info:doi/#{work.doi}", status: 404)
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPNotFound")

@@ -16,7 +16,7 @@ describe "/api/v5/status", :type => :api do
         FactoryGirl.create_list(:api_request, 4)
         FactoryGirl.create_list(:api_response, 6)
         body = File.read(fixture_path + 'releases.json')
-        stub_request(:get, "https://api.github.com/repos/workmetrics/lagotto/releases").to_return(body: body)
+        stub_request(:get, "https://api.github.com/repos/articlemetrics/lagotto/releases").to_return(body: body)
         subject.update_cache
       end
 

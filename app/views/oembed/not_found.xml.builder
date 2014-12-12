@@ -1,2 +1,2 @@
 xml.instruct! :xml, :version => "1.0"
-xml.error "No article found."
+xml.error "No work found."

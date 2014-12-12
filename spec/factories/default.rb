@@ -6,9 +6,9 @@ FactoryGirl.define do
     sequence(:pmcid) { |n| "256885#{n}" }
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
-    year { Date.today.year - 1 }
-    month { Date.today.month }
-    day { Date.today.day }
+    year { Time.zone.now.to_date.year - 1 }
+    month { Time.zone.now.to_date.month }
+    day { Time.zone.now.to_date.day }
     publisher_id 340
 
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
@@ -59,7 +59,7 @@ FactoryGirl.define do
 
     factory :work_published_today do
       year { Time.zone.now.year }
-      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: Time.zone.today)] }
+      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: Time.zone.now)] }
     end
 
     factory :work_with_errors do
@@ -135,7 +135,7 @@ FactoryGirl.define do
         :citations => nil,
         :total => 50 }
     end
-    retrieved_at { Time.zone.now.to_date - 1.month }
+    retrieved_at { Time.zone.now - 1.month }
     sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
 
     association :work
@@ -279,7 +279,7 @@ FactoryGirl.define do
   end
 
   factory :review do
-    name "ArticleNotUpdatedError"
+    name "WorkNotUpdatedError"
     message "Found 0 work not updated errors in 29,899 API responses, taking 29.899 ms"
     input 10
     created_at { Time.zone.now }
@@ -341,7 +341,7 @@ FactoryGirl.define do
     display_name "work not updated error"
     active true
 
-    initialize_with { ArticleNotUpdatedError.where(name: name).first_or_initialize }
+    initialize_with { WorkNotUpdatedError.where(name: name).first_or_initialize }
   end
 
   factory :decreasing_event_count_error, class: EventCountDecreasingError do

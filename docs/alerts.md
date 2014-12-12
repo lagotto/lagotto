@@ -17,21 +17,21 @@ Almots are created when errors are raised by the application. The only exception
 
 The number of error messages received in the last 24 hours is reported in various places in the admin dashboard.
 
-Since ALM 2.9 we not only collect errors messages, but also other unusual activities, and have therefore renamed error messages to alerts. Also since ALM 2.9 alerts are also shown next to the articles they belong to. This makes it easier to resolve errors.
+Since ALM 2.9 we not only collect errors messages, but also other unusual activities, and have therefore renamed error messages to alerts. Also since ALM 2.9 alerts are also shown next to the works they belong to. This makes it easier to resolve errors.
 
 ![Article Alert](/images/alert-article.png)
 
 ## Filters
 
-Filters are used to detect unusual actiivty in the data collected from external APIs. These includes errors, suspicious gaming activity, but also highly unusual articles. For performance reasons filters are only applied to recently collected data (24 hours by default). The following filters are currently available:
+Filters are used to detect unusual actiivty in the data collected from external APIs. These includes errors, suspicious gaming activity, but also highly unusual works For performance reasons filters are only applied to recently collected data (24 hours by default). The following filters are currently available:
 
 * **ApiResponseTooSlowError**. Raise an error if successful API responses took longer than the specified time in seconds.
-* **ArticleNotUpdatedError**. Raises an error if articles have not been updated within the specified interval in days
+* **ArticleNotUpdatedError**. Raises an error if works have not been updated within the specified interval in days
 * **EventCountDecreasingError**. Raises an error if the event count decreases.
 * **EventCountIncreasingTooFastError**. Raises an error if the event count increases faster than the specified value per day.
-* **CitationMilestoneAlert**. Creates an alert if an article has been cited the specified number of times.
+* **CitationMilestoneAlert**. Creates an alert if an work has been cited the specified number of times.
 
-The last filter detects milestones reached by articles, all other filters listed here detect errors with the application. Some filters can be configured, and all filters can be disabled.
+The last filter detects milestones reached by works, all other filters listed here detect errors with the application. Some filters can be configured, and all filters can be disabled.
 
 ![Filters](/images/filters.png)
 
@@ -54,9 +54,9 @@ Reports can be manually sent by using `bin/rake mailer:all`.
 
 * **execution expired in [SOURCE]** Timeout error in a source, probably because of intermittent network problems. This can be ignored unless it happens frequently.
 
-* **execution expired (Delayed::Worker.max_run_time is only 3000 seconds) in [SOURCE]** A background job could not be processed in `max_run_time`. This typically happens when queries for individual articles took too long, depending on the following settings in the source configuration:
+* **execution expired (Delayed::Worker.max_run_time is only 3000 seconds) in [SOURCE]** A background job could not be processed in `max_run_time`. This typically happens when queries for individual works took too long, depending on the following settings in the source configuration:
 
-  - job_batch_size: number of articles per job (default 200)
+  - job_batch_size: number of works per job (default 200)
   - timeout (default 30 sec)
 
   If all 200 jobs take close to 3000 sec, and they will not be done within an hour, and before we process the next batch. Decrease `job_batch_size` or increase `timeout` if you see to many of these errors for a source.

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe RetrievalStatus, :type => :model do
-  before(:each) { allow(Date).to receive(:today).and_return(Date.new(2013, 9, 5)) }
+  before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
   it { is_expected.to belong_to(:work) }
   it { is_expected.to belong_to(:source) }
@@ -24,7 +24,7 @@ describe RetrievalStatus, :type => :model do
 
   describe "staleness intervals" do
     it "published a day ago" do
-      date = Date.today - 1.day
+      date = Time.zone.now - 1.day
       work = FactoryGirl.create(:work, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :work => work)
       duration = retrieval_status.source.staleness[0]
@@ -32,7 +32,7 @@ describe RetrievalStatus, :type => :model do
     end
 
     it "published 8 days ago" do
-      date = Date.today - 8.days
+      date = Time.zone.now - 8.days
       work = FactoryGirl.create(:work, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :work => work)
       duration = retrieval_status.source.staleness[1]
@@ -40,7 +40,7 @@ describe RetrievalStatus, :type => :model do
     end
 
     it "published 32 days ago" do
-      date = Date.today - 32.days
+      date = Time.zone.now - 32.days
       work = FactoryGirl.create(:work, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :work => work)
       duration = retrieval_status.source.staleness[2]
@@ -48,7 +48,7 @@ describe RetrievalStatus, :type => :model do
     end
 
     it "published 370 days ago" do
-      date = Date.today - 370.days
+      date = Time.zone.now - 370.days
       work = FactoryGirl.create(:work, year: date.year, month: date.month, day: date.day)
       retrieval_status = FactoryGirl.create(:retrieval_status, :work => work)
       duration = retrieval_status.source.staleness[3]

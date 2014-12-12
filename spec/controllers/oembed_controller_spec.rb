@@ -3,12 +3,12 @@ require 'rails_helper'
 describe OembedController, :type => :controller do
   render_views
 
-  let(:article) { FactoryGirl.create(:article_with_events) }
-  let(:uri) { "/oembed?url=#{article_path(article)}" }
+  let(:work) { FactoryGirl.create(:work_with_events) }
+  let(:uri) { "/oembed?url=#{work_path(work)}" }
 
   context "discovery" do
     it "correct oembed link" do
-      get article_path(article)
+      get work_path(work)
       expect(last_response.status).to eq(200)
       expect(last_response.body).to have_css(%Q(link[rel="alternate"][type="application/json+oembed"][title="Article oEmbed Profile"][href="#{uri}"]), visible: false)
       expect(Alert.count).to eq(0)
@@ -21,18 +21,18 @@ describe OembedController, :type => :controller do
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
       expect(response["type"]).to eq("rich")
-      expect(response["title"]).to eq(article.title)
-      expect(response["url"]).to eq(article.doi_as_url)
+      expect(response["title"]).to eq(work.title)
+      expect(response["url"]).to eq(work.doi_as_url)
       expect(response["html"]).to include("<blockquote class=\"alm\">")
     end
 
     it "GET oembed escaped" do
-      get "http://#{ENV['SERVERNAME']}/oembed?url=maxwidth=474&maxheight=711&url=#{CGI.escape(article_url(article))}&format=json"
+      get "http://#{ENV['SERVERNAME']}/oembed?url=maxwidth=474&maxheight=711&url=#{CGI.escape(work_url(work))}&format=json"
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
       expect(response["type"]).to eq("rich")
-      expect(response["title"]).to eq(article.title)
-      expect(response["url"]).to eq(article.doi_as_url)
+      expect(response["title"]).to eq(work.title)
+      expect(response["url"]).to eq(work.doi_as_url)
       expect(response["html"]).to include("<blockquote class=\"alm\">")
     end
 
@@ -41,8 +41,8 @@ describe OembedController, :type => :controller do
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
       expect(response["type"]).to eq("rich")
-      expect(response["title"]).to eq(article.title)
-      expect(response["url"]).to eq(article.doi_as_url)
+      expect(response["title"]).to eq(work.title)
+      expect(response["url"]).to eq(work.doi_as_url)
       expect(response["html"]).to include("<blockquote class=\"alm\">")
     end
 
@@ -52,8 +52,8 @@ describe OembedController, :type => :controller do
       response = Hash.from_xml(last_response.body)
       response = response["oembed"]
       expect(response["type"]).to eq("rich")
-      expect(response["title"]).to eq(article.title)
-      expect(response["url"]).to eq(article.doi_as_url)
+      expect(response["title"]).to eq(work.title)
+      expect(response["url"]).to eq(work.doi_as_url)
       expect(response["html"]).to include("<blockquote class=\"alm\">")
     end
   end
@@ -63,14 +63,14 @@ describe OembedController, :type => :controller do
       get "/oembed?url=x"
       expect(last_response.status).to eql(404)
       response = JSON.parse(last_response.body)
-      expect(response).to eq("error" => "No article found.")
+      expect(response).to eq("error" => "No work found.")
     end
 
     it "Not found XML" do
       get "/oembed?url=x&format=xml"
       expect(last_response.status).to eql(404)
       response = Hash.from_xml(last_response.body)
-      expect(response).to eq("error" => "No article found.")
+      expect(response).to eq("error" => "No work found.")
     end
   end
 end

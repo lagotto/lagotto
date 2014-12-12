@@ -1,8 +1,8 @@
 # encoding: UTF-8
 
 namespace :db do
-  namespace :articles do
-    desc "Bulk-load articles from Crossref API"
+  namespace :works do
+    desc "Bulk-load works from Crossref API"
     task :import => :environment do
       # only run if configuration option ENV['IMPORT'],
       # or ENV['MEMBER'] and/or ENV['SAMPLE'] are provided
@@ -33,11 +33,11 @@ namespace :db do
                   sample: sample }
       import = Import.new(options)
       number = ENV['SAMPLE'] || import.total_results
-      import.queue_article_import if number.to_i > 0
-      puts "Started import of #{number} articles in the background..."
+      import.queue_work_import if number.to_i > 0
+      puts "Started import of #{number} works in the background..."
     end
 
-    desc "Bulk-load articles from standard input"
+    desc "Bulk-load works from standard input"
     task :load => :environment do
       input = []
       $stdin.each_line { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) } unless $stdin.tty?
@@ -50,29 +50,29 @@ namespace :db do
       end
 
       if number > 0
-        # import in batches of 1,000 articles
+        # import in batches of 1,000 works
         input.each_slice(1000) do |batch|
           import = Import.new(file: batch, member: member)
-          import.queue_article_import
+          import.queue_work_import
         end
-        puts "Started import of #{number} articles in the background..."
+        puts "Started import of #{number} works in the background..."
       else
-        puts "No articles to import."
+        puts "No works to import."
       end
     end
 
-    desc "Delete articles"
+    desc "Delete works"
     task :delete => :environment do
       if ENV['MEMBER'].blank?
-        puts "Please use MEMBER environment variable. No article deleted."
+        puts "Please use MEMBER environment variable. No work deleted."
         exit
       end
 
-      Article.queue_article_delete(ENV['MEMBER'])
+      Work.queue_work_delete(ENV['MEMBER'])
       if ENV['MEMBER'] == "all"
-        puts "Started deleting all articles in the background..."
+        puts "Started deleting all works in the background..."
       else
-        puts "Started deleting all articles from MEMBER #{ENV['MEMBER']} in the background..."
+        puts "Started deleting all works from MEMBER #{ENV['MEMBER']} in the background..."
       end
     end
 
@@ -83,7 +83,7 @@ namespace :db do
         exit
       end
 
-      articles = Article.where("published_on >= ?", args.date)
+      works = Work.where("published_on >= ?", args.date)
 
       if args.extras.empty?
         sources = Source.all
@@ -92,9 +92,9 @@ namespace :db do
       end
 
       retrieval_statuses = []
-      articles.each do |article|
+      works.each do |work|
         sources.each do |source|
-          retrieval_status = RetrievalStatus.where(article_id: article.id, source_id: source.id).find_or_initialize
+          retrieval_status = RetrievalStatus.where(work_id: work.id, source_id: source.id).find_or_initialize
           if retrieval_status.new_record?
             retrieval_status.save!
             retrieval_statuses << retrieval_status
@@ -102,13 +102,13 @@ namespace :db do
         end
       end
 
-      puts "#{retrieval_statuses.count} retrieval status(es) added for #{sources.count} source(s) and #{articles.count} articles"
+      puts "#{retrieval_statuses.count} retrieval status(es) added for #{sources.count} source(s) and #{works.count} works"
     end
 
-    desc "Remove all HTML and XML tags from article titles"
+    desc "Remove all HTML and XML tags from work titles"
     task :sanitize_title => :environment do
-      Article.all.each { |article| article.save }
-      puts "#{Article.count} article titles sanitized"
+      Work.all.each { |work| work.save }
+      puts "#{Work.count} work titles sanitized"
     end
 
     desc "Add publication year, month and day"
@@ -122,17 +122,17 @@ namespace :db do
       end
 
       if start_date
-        puts "Adding date parts for all articles published since #{start_date}."
-        articles = Article.where("published_on >= ?", start_date)
+        puts "Adding date parts for all works published since #{start_date}."
+        works = Work.where("published_on >= ?", start_date)
       else
-        articles = Article.all
+        works = Work.all
       end
 
-      articles.each do |article|
-        article.update_date_parts
-        article.save
+      works.each do |work|
+        work.update_date_parts
+        work.save
       end
-      puts "Date parts for #{articles.count} articles added"
+      puts "Date parts for #{works.count} works added"
     end
   end
 

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ArticleCoverage, :type => :model do
-  subject { FactoryGirl.create(:work_coverage) }
+  subject { FactoryGirl.create(:article_coverage) }
 
   let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0047712", published_on: "2013-11-01") }
 
@@ -25,7 +25,7 @@ describe ArticleCoverage, :type => :model do
 
     it "should report if there are no events and event_count returned by the Article Coverage API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008775")
-      body = File.read(fixture_path + 'work_coverage_curated_nil.json')
+      body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
       expect(response).to eq(JSON.parse(body))
@@ -33,7 +33,7 @@ describe ArticleCoverage, :type => :model do
     end
 
     it "should report if there are events and event_count returned by the Article Coverage API" do
-      body = File.read(fixture_path + 'work_coverage.json')
+      body = File.read(fixture_path + 'article_coverage.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
       expect(response).to eq(JSON.parse(body))
@@ -61,20 +61,20 @@ describe ArticleCoverage, :type => :model do
     end
 
     it "should report if work doesn't exist in Article Coverage source" do
-      result = { error: "{\"error\":\"Article not found\"}" }
+      result = { error: "{\"error\":\"Work not found\"}" }
       response = subject.parse_data(result, work)
       expect(response).to eq(result)
     end
 
     it "should report if there are no events and event_count returned by the Article Coverage API" do
-      body = File.read(fixture_path + 'work_coverage_curated_nil.json')
+      body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the Article Coverage API" do
-      body = File.read(fixture_path + 'work_coverage.json')
+      body = File.read(fixture_path + 'article_coverage.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:events].length).to eq(2)

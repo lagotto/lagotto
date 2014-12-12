@@ -1,1 +1,1 @@
-json.set! :error, "No article found."
+json.set! :error, "No work found."

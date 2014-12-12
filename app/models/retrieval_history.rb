@@ -8,7 +8,7 @@ class RetrievalHistory < ActiveRecord::Base
   include Couchable
 
   belongs_to :retrieval_status
-  belongs_to :article
+  belongs_to :work
   belongs_to :source
 
   default_scope { order("retrieved_at DESC") }

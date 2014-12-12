@@ -1,7 +1,7 @@
 <p>This is the Lagotto status report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.</p>
 
-<p><%= number_with_delimiter(@status.articles_count) %> Articles<br/>
-<%= number_with_delimiter(@status.articles_last30_count) %> Articles last 30 days<br/>
+<p><%= number_with_delimiter(@status.works_count) %> Works<br/>
+<%= number_with_delimiter(@status.works_last30_count) %> Works last 30 days<br/>
 <%= number_with_delimiter(@status.events_count) %> Events<br/>
 <%= number_with_delimiter(@status.alerts_count) %> Unresolved alerts<br/>
 </br>

@@ -21,7 +21,7 @@ describe Copernicus, :type => :model do
     it "should report if there are no events and event_count returned by the Copernicus API" do
       work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012")
       body = File.read(fixture_path + 'copernicus_nil.json')
-      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/workStatisticsDoi/doi:#{work.doi}").with(:headers => { :authorization => auth }).to_return(:body => body)
+      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{work.doi}").with(:headers => { :authorization => auth }).to_return(:body => body)
       response = subject.get_data(work)
       expect(response).to eq('data' => JSON.parse(body))
       expect(stub).to have_been_requested
@@ -29,16 +29,16 @@ describe Copernicus, :type => :model do
 
     it "should report if there are events and event_count returned by the Copernicus API" do
       body = File.read(fixture_path + 'copernicus.json')
-      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/workStatisticsDoi/doi:#{work.doi}").with(:headers => { :authorization => auth }).to_return(:body => body)
+      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{work.doi}").with(:headers => { :authorization => auth }).to_return(:body => body)
       response = subject.get_data(work)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
     end
 
     it "should catch authentication errors with the Copernicus API" do
-      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/workStatisticsDoi/doi:#{work.doi}").with(:headers => { :authorization => auth }).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'copernicus_unauthorized.json'), :status => [401, "Unauthorized: You are not authorized to access this resource."])
+      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{work.doi}").with(:headers => { :authorization => auth }).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'copernicus_unauthorized.json'), :status => [401, "Unauthorized: You are not authorized to access this resource."])
       response = subject.get_data(work, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 401 for http://harvester.copernicus.org/api/v1/workStatisticsDoi/doi:#{work.doi}", status: 401)
+      expect(response).to eq(error: "the server responded with status 401 for http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{work.doi}", status: 401)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
@@ -48,9 +48,9 @@ describe Copernicus, :type => :model do
     end
 
     it "should catch timeout errors with the Copernicus API" do
-      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/workStatisticsDoi/doi:#{work.doi}").with(:headers => { :authorization => auth }).to_return(:status => [408])
+      stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{work.doi}").with(:headers => { :authorization => auth }).to_return(:status => [408])
       response = subject.get_data(work, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://harvester.copernicus.org/api/v1/workStatisticsDoi/doi:#{work.doi}", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{work.doi}", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first

@@ -57,7 +57,7 @@ describe ReportMailer, :type => :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to include("This is the Lagotto article statistics report")
+      expect(mail.body.encoded).to include("This is the Lagotto work statistics report")
     end
 
     it "provides a link to the admin dashboard" do

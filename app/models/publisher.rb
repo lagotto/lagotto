@@ -3,7 +3,7 @@ class Publisher < ActiveRecord::Base
   include Networkable
 
   has_many :users, primary_key: :crossref_id
-  has_many :articles, primary_key: :crossref_id
+  has_many :works, primary_key: :crossref_id
   has_many :publisher_options, primary_key: :crossref_id, :dependent => :destroy
   has_many :sources, :through => :publisher_options
 
@@ -19,30 +19,30 @@ class Publisher < ActiveRecord::Base
     crossref_id
   end
 
-  def article_count
+  def work_count
     if ActionController::Base.perform_caching
-      Rails.cache.read("publisher/#{crossref_id}/article_count/#{update_date}").to_i
+      Rails.cache.read("publisher/#{crossref_id}/work_count/#{update_date}").to_i
     else
-      articles.size
+      works.size
     end
   end
 
-  def article_count=(timestamp)
-    Rails.cache.write("publisher/#{crossref_id}/article_count/#{timestamp}",
-                      articles.size)
+  def work_count=(timestamp)
+    Rails.cache.write("publisher/#{crossref_id}/work_count/#{timestamp}",
+                      works.size)
   end
 
-  def article_count_by_source(source_id)
+  def work_count_by_source(source_id)
     if ActionController::Base.perform_caching
-      Rails.cache.read("publisher/#{crossref_id}/#{source_id}/article_count/#{update_date}").to_i
+      Rails.cache.read("publisher/#{crossref_id}/#{source_id}/work_count/#{update_date}").to_i
     else
-      articles.has_events.by_source(source_id).size
+      works.has_events.by_source(source_id).size
     end
   end
 
-  def article_count_by_source=(source_id, timestamp)
-    Rails.cache.write("publisher/#{crossref_id}/#{source_id}/article_count/#{timestamp}",
-                      articles.has_events.by_source(source_id).size)
+  def work_count_by_source=(source_id, timestamp)
+    Rails.cache.write("publisher/#{crossref_id}/#{source_id}/work_count/#{timestamp}",
+                      works.has_events.by_source(source_id).size)
   end
 
   def cache_key
@@ -63,8 +63,8 @@ class Publisher < ActiveRecord::Base
     now = Time.zone.now
     timestamp = now.utc.iso8601
 
-    send("article_count=", timestamp)
-    Source.visible.each { |source| send("article_count_by_source=", source.id, timestamp) }
+    send("work_count=", timestamp)
+    Source.visible.each { |source| send("work_count_by_source=", source.id, timestamp) }
 
     update_column(:cached_at, now)
   end

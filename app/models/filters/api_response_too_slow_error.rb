@@ -7,7 +7,7 @@ class ApiResponseTooSlowError < Filter
     if responses.count > 0
       responses = responses.to_a.map do |response|
         { source_id: response.source_id,
-          article_id: response.article_id,
+          work_id: response.work_id,
           level: Alert::WARN,
           message: "API response took #{response.duration} ms" }
       end

@@ -112,12 +112,12 @@ describe "/api/v4/articles", :type => :api do
     end
 
     context "with missing title and year params" do
-      before(:each) { allow(Date).to receive(:today).and_return(Date.new(2013, 9, 5)) }
+      before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) do
         { "work" => { "doi" => "10.1371/journal.pone.0036790",
-                         "title" => nil, "year" => nil } }
+                      "title" => nil, "year" => nil } }
       end
 
       it "JSON" do
@@ -276,7 +276,7 @@ describe "/api/v4/articles", :type => :api do
     end
 
     context "with missing title and year params" do
-      before(:each) { allow(Date).to receive(:today).and_return(Date.new(2013, 9, 5)) }
+      before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) { { "work" => { "doi" => "10.1371/journal.pone.0036790", "title" => nil, "year" => nil } } }

@@ -54,7 +54,7 @@ describe Work, :type => :model do
   end
 
   context "validate date " do
-    before(:each) { allow(Date).to receive(:today).and_return(Date.new(2013, 9, 5)) }
+    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     it 'validate date' do
       work = FactoryGirl.build(:work)
@@ -84,7 +84,7 @@ describe Work, :type => :model do
     end
 
     it 'don\'t validate date in the future' do
-      date = Date.today + 1.day
+      date = Time.zone.now.to_date + 1.day
       work = FactoryGirl.build(:work, year: date.year, month: date.month, day: date.day)
       expect(work).not_to be_valid
       expect(work.errors.messages).to eq(published_on: ["is a date in the future"])

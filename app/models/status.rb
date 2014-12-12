@@ -2,31 +2,31 @@ class Status
   # include HTTP request helpers
   include Networkable
 
-  RELEASES_URL = "https://api.github.com/repos/workmetrics/lagotto/releases"
+  RELEASES_URL = "https://api.github.com/repos/articlemetrics/lagotto/releases"
 
   def works_count
     if ActionController::Base.perform_caching
       Rails.cache.read("status/works_count/#{update_date}").to_i
     else
-      Article.count
+      Work.count
     end
   end
 
   def works_count=(timestamp)
-    Rails.cache.write("status/works_count/#{timestamp}", Article.count)
+    Rails.cache.write("status/works_count/#{timestamp}", Work.count)
   end
 
   def works_last30_count
     if ActionController::Base.perform_caching
       Rails.cache.read("status/works_last30_count/#{update_date}").to_i
     else
-      Article.last_x_days(30).count
+      Work.last_x_days(30).count
     end
   end
 
   def works_last30_count=(timestamp)
     Rails.cache.write("status/works_last30_count/#{timestamp}",
-                      Article.last_x_days(30).count)
+                      Work.last_x_days(30).count)
   end
 
   def events_count

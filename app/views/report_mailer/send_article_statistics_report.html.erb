@@ -1,5 +1,0 @@
-<p>This is the Lagotto article statistics report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.</p>
-
-<p><%= number_with_delimiter(@articles_count) %> Articles<br/>
-
-<p><%= link_to "Download report", "http://#{ENV['SERVERNAME']}/files/alm_report.zip" %></p>

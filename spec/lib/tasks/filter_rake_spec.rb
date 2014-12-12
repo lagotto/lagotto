@@ -76,14 +76,14 @@ describe "filter:all" do
     end
   end
 
-  context "report article not updated errors" do
+  context "report work not updated errors" do
 
     before do
       FactoryGirl.create(:api_response, event_count: nil, update_interval: 42)
-      FactoryGirl.create(:article_not_updated_error)
+      FactoryGirl.create(:work_not_updated_error)
     end
 
-    let(:output) { "Found 1 article not updated error" }
+    let(:output) { "Found 1 work not updated error" }
 
     it "should run the rake task" do
       expect(capture_stdout { subject.invoke }).to include(output)

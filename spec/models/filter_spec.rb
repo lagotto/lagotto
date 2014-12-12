@@ -226,8 +226,8 @@ describe Filter, :type => :model do
       expect(subject.run_filter(options)).to eq(1)
       expect(Alert.count).to eq(1)
       alert = Alert.first
-      expect(alert.class_name).to eq("ArticleNotUpdatedError")
-      expect(alert.message).to include("Article not updated for #{days}")
+      expect(alert.class_name).to eq("WorkNotUpdatedError")
+      expect(alert.message).to include("Work not updated for #{days}")
       expect(alert.level).to eq(3)
       expect(alert.source_id).to eq(1)
     end

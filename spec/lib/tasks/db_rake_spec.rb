@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe "db:articles:import" do
+describe "db:works:import" do
   include_context "rake"
 
-  let(:output) { "Started import of 993 articles in the background...\n" }
+  let(:output) { "Started import of 993 works in the background...\n" }
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")
@@ -19,7 +19,7 @@ describe "db:articles:import" do
 
   it "should run the rake task for a sample" do
     ENV['SAMPLE'] = "50"
-    output = "Started import of 50 articles in the background...\n"
+    output = "Started import of 50 works in the background...\n"
     import = Import.new(sample: 50)
     stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'import.json'))
     stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
@@ -27,11 +27,11 @@ describe "db:articles:import" do
   end
 end
 
-describe "db:articles:load" do
+describe "db:works:load" do
   include_context "rake"
 
   # we are not providing a file to import
-  let(:output) { "No articles to import.\n" }
+  let(:output) { "No works to import.\n" }
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")
@@ -42,14 +42,14 @@ describe "db:articles:load" do
   end
 end
 
-describe "db:articles:delete" do
+describe "db:works:delete" do
   include_context "rake"
 
   before do
-    FactoryGirl.create_list(:article, 5)
+    FactoryGirl.create_list(:work, 5)
   end
 
-  let(:output) { "Started deleting all articles in the background...\n" }
+  let(:output) { "Started deleting all works in the background...\n" }
 
   it "should run" do
     ENV['MEMBER'] = "all"
@@ -57,14 +57,14 @@ describe "db:articles:delete" do
   end
 end
 
-describe "db:articles:sanitize_title" do
+describe "db:works:sanitize_title" do
   include_context "rake"
 
   before do
-    FactoryGirl.create_list(:article, 5)
+    FactoryGirl.create_list(:work, 5)
   end
 
-  let(:output) { "5 article titles sanitized\n" }
+  let(:output) { "5 work titles sanitized\n" }
 
   it "should run" do
     expect(capture_stdout { subject.invoke }).to eq(output)

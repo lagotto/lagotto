@@ -8,7 +8,7 @@ class RetrievalStatus < ActiveRecord::Base
   # include methods for calculating metrics
   include Measurable
 
-  belongs_to :article, :touch => true
+  belongs_to :work, :touch => true
   belongs_to :source
   has_many :retrieval_histories
 
@@ -26,27 +26,27 @@ class RetrievalStatus < ActiveRecord::Base
   scope :most_cited, -> { with_events.order("event_count desc").limit(25) }
 
   scope :last_x_days, ->(duration) { where("retrieved_at >= ?", Time.zone.now.to_date - duration.days) }
-  scope :published_last_x_days, ->(duration) { joins(:article).where("articles.published_on >= ?", Time.zone.now.to_date - duration.days) }
-  scope :published_last_x_months, ->(duration) { joins(:article).where("articles.published_on >= ?", Time.zone.now.to_date  - duration.months) }
+  scope :published_last_x_days, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date - duration.days) }
+  scope :published_last_x_months, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date  - duration.months) }
 
   scope :queued, -> { where("queued_at is NOT NULL") }
   scope :not_queued, -> { where("queued_at is NULL") }
   scope :stale, -> { not_queued.where("scheduled_at < ?", Time.zone.now).order("scheduled_at") }
-  scope :published, -> { joins(:article).not_queued.where("articles.published_on <= ?", Time.zone.now.to_date) }
+  scope :published, -> { joins(:work).not_queued.where("works.published_on <= ?", Time.zone.now.to_date) }
 
   scope :by_source, ->(source_id) { where(:source_id => source_id) }
   scope :by_name, ->(source) { joins(:source).where("sources.name = ?", source) }
   scope :with_sources, -> { joins(:source).where("sources.state > ?", 0).order("group_id, display_name") }
 
   def perform_get_data
-    result = source.get_data(article, timeout: source.timeout, article_id: article_id, source_id: source_id)
-    data = source.parse_data(result, article, article_id: article_id, source_id: source_id)
+    result = source.get_data(work, timeout: source.timeout, work_id: work_id, source_id: source_id)
+    data = source.parse_data(result, work, work_id: work_id, source_id: source_id)
     history = History.new(id, data)
     history.to_hash
   end
 
   def data
-    @data ||= event_count > 0 ? get_lagotto_data("#{source.name}:#{article.uid_escaped}") : nil
+    @data ||= event_count > 0 ? get_lagotto_data("#{source.name}:#{work.pid}") : nil
   end
 
   def events
@@ -117,7 +117,7 @@ class RetrievalStatus < ActiveRecord::Base
       return cron_parser.next(Time.zone.now)
     end
 
-    age_in_days = Date.today - article.published_on
+    age_in_days = Date.today - work.published_on
     if (0..7).include?(age_in_days)
       random_time(source.staleness[0])
     elsif (8..31).include?(age_in_days)
@@ -136,7 +136,7 @@ class RetrievalStatus < ActiveRecord::Base
   private
 
   def delete_couchdb_document
-    couchdb_id = "#{source.name}:#{article.uid_escaped}"
+    couchdb_id = "#{source.name}:#{work.pid}"
     remove_lagotto_data(couchdb_id)
   end
 end
