@@ -5,42 +5,42 @@ describe ScienceSeeker, :type => :model do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article_without_doi = FactoryGirl.build(:article, :doi => "")
-      expect(subject.get_data(article_without_doi)).to eq({})
+      work_without_doi = FactoryGirl.build(:work, :doi => "")
+      expect(subject.get_data(work_without_doi)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the ScienceSeeker API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'science_seeker_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
     end
 
     it "should report if there is an incomplete response returned by the ScienceSeeker API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124")
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'science_seeker_incomplete.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
     end
 
     it "should report if there are events and event_count returned by the ScienceSeeker API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0035869")
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0035869")
       body = File.read(fixture_path + 'science_seeker.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
     end
 
     it "should catch errors with the ScienceSeeker API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      response = subject.get_data(article, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=#{article.doi_escaped}", :status=>408)
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      response = subject.get_data(work, options = { :source_id => subject.id })
+      expect(response).to eq(error: "the server responded with status 408 for http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
@@ -51,39 +51,39 @@ describe ScienceSeeker, :type => :model do
   end
 
   context "parse_data" do
-    let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pmed.0020124") }
+    let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pmed.0020124") }
 
     it "should report if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => "")
+      work = FactoryGirl.build(:work, :doi => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, article)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are no events and event_count returned by the ScienceSeeker API" do
       body = File.read(fixture_path + 'science_seeker_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, article)
-      expect(response).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi_escaped}")
+      response = subject.parse_data(result, work)
+      expect(response).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
     end
 
     it "should report if there is an incomplete response returned by the ScienceSeeker API" do
       body = File.read(fixture_path + 'science_seeker_incomplete.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, article)
-      expect(response).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi_escaped}")
+      response = subject.parse_data(result, work)
+      expect(response).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
     end
 
     it "should report if there are events and event_count returned by the ScienceSeeker API" do
-      article = FactoryGirl.build(:article, doi: "10.1371/journal.pone.0035869", published_on: "2012-05-03")
+      work = FactoryGirl.build(:work, doi: "10.1371/journal.pone.0035869", published_on: "2012-05-03")
       body = File.read(fixture_path + 'science_seeker.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, article)
+      response = subject.parse_data(result, work)
       expect(response[:event_count]).to eq(3)
-      expect(response[:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi_escaped}")
+      expect(response[:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
 
       expect(response[:events_by_day].length).to eq(3)
       expect(response[:events_by_day].first).to eq(year: 2012, month: 5, day: 11, total: 1)
@@ -103,13 +103,13 @@ describe ScienceSeeker, :type => :model do
     end
 
     it "should report if there is one event returned by the ScienceSeeker API" do
-      article = FactoryGirl.build(:article, doi: "10.1371/journal.pone.0035869", published_on: "2012-05-03")
+      work = FactoryGirl.build(:work, doi: "10.1371/journal.pone.0035869", published_on: "2012-05-03")
       body = File.read(fixture_path + 'science_seeker_one.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, article)
+      response = subject.parse_data(result, work)
       expect(response[:event_count]).to eq(1)
-      expect(response[:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{article.doi_escaped}")
+      expect(response[:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
 
       expect(response[:events_by_day].length).to eq(1)
       expect(response[:events_by_day].first).to eq(year: 2012, month: 5, day: 18, total: 1)
@@ -129,9 +129,9 @@ describe ScienceSeeker, :type => :model do
     end
 
     it "should catch timeout errors with the ScienceSeeker API" do
-      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=#{article.doi_escaped}", status: 408 }
-      response = subject.parse_data(result, article)
+      work = FactoryGirl.create(:work, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=#{work.doi_escaped}", status: 408 }
+      response = subject.parse_data(result, work)
       expect(response).to eq(result)
     end
   end

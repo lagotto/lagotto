@@ -3,7 +3,7 @@ require 'rails_helper'
 describe RetrievalStatus, :type => :model do
   before(:each) { allow(Date).to receive(:today).and_return(Date.new(2013, 9, 5)) }
 
-  it { is_expected.to belong_to(:article) }
+  it { is_expected.to belong_to(:work) }
   it { is_expected.to belong_to(:source) }
 
   describe "use stale_at" do
@@ -17,40 +17,40 @@ describe RetrievalStatus, :type => :model do
       expect(retrieval_status.stale_at - Time.zone.now).to be > 0
     end
 
-    it "stale_at should be after article publication date" do
-      expect(retrieval_status.stale_at - retrieval_status.article.published_on.to_datetime).to be > 0
+    it "stale_at should be after work publication date" do
+      expect(retrieval_status.stale_at - retrieval_status.work.published_on.to_datetime).to be > 0
     end
   end
 
   describe "staleness intervals" do
     it "published a day ago" do
       date = Date.today - 1.day
-      article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
-      retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
+      work = FactoryGirl.create(:work, year: date.year, month: date.month, day: date.day)
+      retrieval_status = FactoryGirl.create(:retrieval_status, :work => work)
       duration = retrieval_status.source.staleness[0]
       expect(retrieval_status.stale_at - Time.zone.now).to be_within(0.11 * duration).of(duration)
     end
 
     it "published 8 days ago" do
       date = Date.today - 8.days
-      article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
-      retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
+      work = FactoryGirl.create(:work, year: date.year, month: date.month, day: date.day)
+      retrieval_status = FactoryGirl.create(:retrieval_status, :work => work)
       duration = retrieval_status.source.staleness[1]
       expect(retrieval_status.stale_at - Time.zone.now).to be_within(0.11 * duration).of(duration)
     end
 
     it "published 32 days ago" do
       date = Date.today - 32.days
-      article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
-      retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
+      work = FactoryGirl.create(:work, year: date.year, month: date.month, day: date.day)
+      retrieval_status = FactoryGirl.create(:retrieval_status, :work => work)
       duration = retrieval_status.source.staleness[2]
       expect(retrieval_status.stale_at - Time.zone.now).to be_within(0.11 * duration).of(duration)
     end
 
     it "published 370 days ago" do
       date = Date.today - 370.days
-      article = FactoryGirl.create(:article, year: date.year, month: date.month, day: date.day)
-      retrieval_status = FactoryGirl.create(:retrieval_status, :article => article)
+      work = FactoryGirl.create(:work, year: date.year, month: date.month, day: date.day)
+      retrieval_status = FactoryGirl.create(:retrieval_status, :work => work)
       duration = retrieval_status.source.staleness[3]
       expect(retrieval_status.stale_at - Time.zone.now).to be_within(0.15 * duration).of(duration)
     end
@@ -58,7 +58,7 @@ describe RetrievalStatus, :type => :model do
 
   describe "CouchDB" do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status) }
-    let(:rs_id) { "#{retrieval_status.source.name}:#{retrieval_status.article.doi_escaped}" }
+    let(:rs_id) { "#{retrieval_status.source.name}:#{retrieval_status.work.doi_escaped}" }
     let(:error) { { "error" => "not_found", "reason" => "deleted" } }
 
     before(:each) do
@@ -70,22 +70,22 @@ describe RetrievalStatus, :type => :model do
     end
 
     it "should perform and get data" do
-      stub = stub_request(:get, retrieval_status.source.get_query_url(retrieval_status.article))
+      stub = stub_request(:get, retrieval_status.source.get_query_url(retrieval_status.work))
              .to_return(:body => File.read(fixture_path + 'citeulike.xml'), :status => 200)
       result = retrieval_status.perform_get_data
 
       rs_result = retrieval_status.get_lagotto_data(rs_id)
       # rs_result.should include("source" => retrieval_status.source.name,
-      #                          "doi" => retrieval_status.article.doi,
+      #                          "doi" => retrieval_status.work.doi,
       #                          "doc_type" => "current",
-      #                          "_id" =>  "#{retrieval_status.source.name}:#{retrieval_status.article.doi}")
+      #                          "_id" =>  "#{retrieval_status.source.name}:#{retrieval_status.work.doi}")
       # rh_result = retrieval_status.get_lagotto_data(rh_id)
       # rh_result.should include("source" => retrieval_status.source.name,
-      #                          "doi" => retrieval_status.article.doi,
+      #                          "doi" => retrieval_status.work.doi,
       #                          "doc_type" => "history",
       #                          "_id" => "#{rh_id}")
 
-      # retrieval_status.article.destroy
+      # retrieval_status.work.destroy
       # subject.get_lagotto_data(rs_id).should eq(error)
       # subject.get_lagotto_data(rh_id).should eq(error)
     end

@@ -5,38 +5,38 @@ describe RelativeMetric, :type => :model do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => nil)
-      expect(subject.get_data(article)).to eq({})
+      work = FactoryGirl.build(:work, :doi => nil)
+      expect(subject.get_data(work)).to eq({})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
-      article = FactoryGirl.build(:article, :doi => "10.4084/MJHID.2013.016")
-      expect(subject.get_data(article)).to eq({})
+      work = FactoryGirl.build(:work, :doi => "10.4084/MJHID.2013.016")
+      expect(subject.get_data(work)).to eq({})
     end
 
     it "should get relative metric average usage data" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
       body = File.read(fixture_path + "relative_metric.json")
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
     end
 
     it "should get empty relative metric average usage data" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000000", :published_on => Date.new(2009, 5, 19))
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000000", :published_on => Date.new(2009, 5, 19))
       body = File.read(fixture_path + "relative_metric_nodata.json")
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
     end
 
     it "should catch timeout errors with the relative metric API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0047712")
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      response = subject.get_data(article, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", :status=>408)
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0047712")
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      response = subject.get_data(work, options = { :source_id => subject.id })
+      expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
@@ -50,22 +50,22 @@ describe RelativeMetric, :type => :model do
     let(:null_response) { { :events=>{:start_date=>"2009-01-01T00:00:00Z", :end_date=>"2009-12-31T00:00:00Z", :subject_areas=>[]}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0} } }
 
     it "should report if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => nil, :published_on => Date.new(2009, 5, 19))
+      work = FactoryGirl.build(:work, :doi => nil, :published_on => Date.new(2009, 5, 19))
       result = {}
-      expect(subject.parse_data(result, article)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(null_response)
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
-      article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012", :published_on => Date.new(2009, 5, 19))
+      work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012", :published_on => Date.new(2009, 5, 19))
       result = {}
-      expect(subject.parse_data(result, article)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(null_response)
     end
 
     it "should get relative metric average usage data" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
       body = File.read(fixture_path + "relative_metric.json")
       result = JSON.parse(body)
-      response = subject.parse_data(result, article)
+      response = subject.parse_data(result, work)
       expect(response[:events]).to eq(
         :start_date => "2009-01-01T00:00:00Z",
         :end_date => "2009-12-31T00:00:00Z",
@@ -85,10 +85,10 @@ describe RelativeMetric, :type => :model do
     end
 
     it "should get empty relative metric average usage data" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000000", :published_on => Date.new(2009, 5, 19))
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000000", :published_on => Date.new(2009, 5, 19))
       body = File.read(fixture_path + "relative_metric_nodata.json")
       result = JSON.parse(body)
-      response = subject.parse_data(result, article)
+      response = subject.parse_data(result, work)
       expect(response[:events]).to eq(:start_date => "2009-01-01T00:00:00Z",
                                   :end_date => "2009-12-31T00:00:00Z",
                                   :subject_areas => [])
@@ -103,9 +103,9 @@ describe RelativeMetric, :type => :model do
     end
 
     it "should catch timeout errors with the relative metric API" do
-      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", status: 408 }
-      response = subject.parse_data(result, article)
+      work = FactoryGirl.create(:work, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", status: 408 }
+      response = subject.parse_data(result, work)
       expect(response).to eq(result)
     end
   end

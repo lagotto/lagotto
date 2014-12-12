@@ -4,7 +4,7 @@ describe Counter, :type => :model do
 
   subject { FactoryGirl.create(:counter) }
 
-  let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776") }
+  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776") }
 
   context "CSV report" do
     it "should provide a date range" do
@@ -92,20 +92,20 @@ describe Counter, :type => :model do
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => nil)
-      expect(subject.get_data(article)).to eq({})
+      work = FactoryGirl.build(:work, :doi => nil)
+      expect(subject.get_data(work)).to eq({})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
-      article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
-      expect(subject.get_data(article)).to eq({})
+      work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012")
+      expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the Counter API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'counter_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq(Hash.from_xml(body))
       expect(response['rest']['response']['results']['item']).to be_nil
       expect(stub).to have_been_requested
@@ -113,17 +113,17 @@ describe Counter, :type => :model do
 
     it "should report if there are events and event_count returned by the Counter API" do
       body = File.read(fixture_path + 'counter.xml')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq(Hash.from_xml(body))
       expect(response['rest']['response']['results']['item'].length).to eq(37)
       expect(stub).to have_been_requested
     end
 
     it "should catch timeout errors with the Counter API" do
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      response = subject.get_data(article, source_id: subject.id)
-      expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", :status=>408)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      response = subject.get_data(work, source_id: subject.id)
+      expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
@@ -137,24 +137,24 @@ describe Counter, :type => :model do
     let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 } } }
 
     it "should report if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => nil)
+      work = FactoryGirl.build(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, article)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(null_response)
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
-      article = FactoryGirl.build(:article, :doi => "10.5194/acp-12-12021-2012")
+      work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, article)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(null_response)
     end
 
     it "should report if there are no events and event_count returned by the Counter API" do
       body = File.read(fixture_path + 'counter_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, article)
+      response = subject.parse_data(result, work)
       expect(response).to eq(null_response)
     end
 
@@ -162,7 +162,7 @@ describe Counter, :type => :model do
       body = File.read(fixture_path + 'counter.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, article)
+      response = subject.parse_data(result, work)
       expect(response[:events].length).to eq(37)
       expect(response[:events_by_month].length).to eq(37)
       expect(response[:events_by_month].first).to eq(month: 1, year: 2010, html: 299, pdf: 90)
@@ -172,8 +172,8 @@ describe Counter, :type => :model do
     end
 
     it "should catch timeout errors with the Counter API" do
-      result = { error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", status: 408 }
-      response = subject.parse_data(result, article)
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", status: 408 }
+      response = subject.parse_data(result, work)
       expect(response).to eq(result)
     end
   end

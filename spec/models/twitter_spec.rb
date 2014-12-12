@@ -3,35 +3,35 @@ require 'rails_helper'
 describe Twitter, :type => :model do
   subject { FactoryGirl.create(:twitter) }
 
-  let(:article) { FactoryGirl.build(:article, canonical_url: "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124", published_on: "2012-05-03") }
+  let(:work) { FactoryGirl.build(:work, canonical_url: "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124", published_on: "2012-05-03") }
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => nil)
-      expect(subject.get_data(article)).to eq({})
+      work = FactoryGirl.build(:work, :doi => nil)
+      expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the Twitter API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'twitter_nil.json', encoding: 'UTF-8')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
     end
 
     it "should report if there are events and event_count returned by the Twitter API" do
       body = File.read(fixture_path + 'twitter.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
     end
 
     it "should catch errors with the Twitter API" do
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      response = subject.get_data(article, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", :status=>408)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      response = subject.get_data(work, options = { :source_id => subject.id })
+      expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
@@ -45,14 +45,14 @@ describe Twitter, :type => :model do
     it "should report if there are no events and event_count returned by the Twitter API" do
       body = File.read(fixture_path + 'twitter_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      response = subject.parse_data(result, article)
+      response = subject.parse_data(result, work)
       expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the Twitter API" do
       body = File.read(fixture_path + 'twitter.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, article)
+      response = subject.parse_data(result, work)
       expect(response[:event_count]).to eq(2)
 
       expect(response[:events_by_day].length).to eq(2)
@@ -81,9 +81,9 @@ describe Twitter, :type => :model do
     end
 
     it "should catch timeout errors with the Twitter API" do
-      article = FactoryGirl.create(:article, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for http://example.org?doi=#{article.doi_escaped}", status: 408 }
-      response = subject.parse_data(result, article)
+      work = FactoryGirl.create(:work, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", status: 408 }
+      response = subject.parse_data(result, work)
       expect(response).to eq(result)
     end
   end

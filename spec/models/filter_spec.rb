@@ -177,15 +177,15 @@ describe Filter, :type => :model do
     end
 
     context "ratio too high" do
-      let(:article) { FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0008776") }
+      let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776") }
       let(:counter) { FactoryGirl.create(:counter) }
       let(:api_response) { FactoryGirl.create(:api_response) }
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
         # body = File.read(fixture_path + 'counter_too_many_html.xml')
-        # stub = stub_request(:get, counter.get_query_url(article)).to_return(:body => body, :status => 200)
-        # response = counter.get_data(article)
+        # stub = stub_request(:get, counter.get_query_url(work)).to_return(:body => body, :status => 200)
+        # response = counter.get_data(work)
         # subject.get_lagotto_data("_design/filter/_view/html_ratio").should eq(2)
         # subject.run_filter(options).should == 1
         # Alert.count.should == 1
@@ -215,8 +215,8 @@ describe Filter, :type => :model do
     end
   end
 
-  context "article not updated" do
-    subject { FactoryGirl.create(:article_not_updated_error) }
+  context "work not updated" do
+    subject { FactoryGirl.create(:work_not_updated_error) }
 
     let(:days) { 42 }
     let(:api_response) { FactoryGirl.create(:api_response, event_count: nil, update_interval: days) }

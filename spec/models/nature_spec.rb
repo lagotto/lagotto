@@ -3,36 +3,36 @@ require 'rails_helper'
 describe Nature, :type => :model do
   subject { FactoryGirl.create(:nature) }
 
-  let(:article) { FactoryGirl.build(:article, doi: "10.1371/journal.pone.0008776", published_on: "2009-09-01") }
+  let(:work) { FactoryGirl.build(:work, doi: "10.1371/journal.pone.0008776", published_on: "2009-09-01") }
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => nil)
-      expect(subject.get_data(article)).to eq({})
+      work = FactoryGirl.build(:work, :doi => nil)
+      expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the Nature Blogs API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0044294")
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'nature_nil.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq('data' => JSON.parse(body))
       expect(stub).to have_been_requested
     end
 
     it "should report if there are events and event_count returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature.json')
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:body => body)
-      response = subject.get_data(article)
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      response = subject.get_data(work)
       expect(response).to eq('data' => JSON.parse(body))
       expect(stub).to have_been_requested
     end
 
     it "should catch timeout errors with the Nature Blogs API" do
-      article = FactoryGirl.build(:article, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, subject.get_query_url(article)).to_return(:status => [408])
-      response = subject.get_data(article, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://blogs.nature.com/posts.json?doi=#{article.doi_escaped}", :status=>408)
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      response = subject.get_data(work, options = { :source_id => subject.id })
+      expect(response).to eq(error: "the server responded with status 408 for http://blogs.nature.com/posts.json?doi=#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
@@ -46,22 +46,22 @@ describe Nature, :type => :model do
     let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 } } }
 
     it "should report if the doi is missing" do
-      article = FactoryGirl.build(:article, :doi => nil)
+      work = FactoryGirl.build(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, article)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(null_response)
     end
 
     it "should report if there are no events and event_count returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature_nil.json')
       result = { 'data' => JSON.parse(body) }
-      response = subject.parse_data(result, article)
+      response = subject.parse_data(result, work)
       expect(response).to eq(null_response)
     end
 
     it "should report if there are events and event_count returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature.json')
       result = { 'data' => JSON.parse(body) }
-      response = subject.parse_data(result, article)
+      response = subject.parse_data(result, work)
       expect(response[:event_count]).to eq(10)
 
       expect(response[:events_by_day].length).to eq(1)
@@ -82,9 +82,9 @@ describe Nature, :type => :model do
     end
 
     it "should catch timeout errors with the Nature Blogs APi" do
-      article = FactoryGirl.create(:article, :doi => "10.1371/journal.pone.0000001")
-      result = { error: "the server responded with status 408 for http://blogs.nature.com/posts.json?doi=#{article.doi_escaped}", status: 408 }
-      response = subject.parse_data(result, article)
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
+      result = { error: "the server responded with status 408 for http://blogs.nature.com/posts.json?doi=#{work.doi_escaped}", status: 408 }
+      response = subject.parse_data(result, work)
       expect(response).to eq(result)
     end
   end

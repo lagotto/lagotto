@@ -92,7 +92,7 @@ describe Import, :type => :model do
     end
 
     it "should get_data file" do
-      input = File.readlines(fixture_path + 'articles.txt')
+      input = File.readlines(fixture_path + 'works.txt')
       import = Import.new(file: input)
       response = import.get_data
       expect(response["message"]["items"].length).to eq(2)
@@ -104,7 +104,7 @@ describe Import, :type => :model do
     end
 
     it "should get_data file missing day" do
-      input = File.readlines(fixture_path + 'articles_year_month.txt')
+      input = File.readlines(fixture_path + 'works_year_month.txt')
       import = Import.new(file: input)
       response = import.get_data
       expect(response["message"]["items"].length).to eq(2)
@@ -116,7 +116,7 @@ describe Import, :type => :model do
     end
 
     it "should get_data file missing month and day" do
-      input = File.readlines(fixture_path + 'articles_year.txt')
+      input = File.readlines(fixture_path + 'works_year.txt')
       import = Import.new(file: input)
       response = import.get_data
       expect(response["message"]["items"].length).to eq(2)
@@ -128,7 +128,7 @@ describe Import, :type => :model do
     end
 
     it "should get_data file missing dates" do
-      input = File.readlines(fixture_path + 'articles_nil_dates.txt')
+      input = File.readlines(fixture_path + 'works_nil_dates.txt')
       import = Import.new(file: input)
       response = import.get_data
       expect(response["message"]["items"].length).to eq(1)
@@ -141,7 +141,7 @@ describe Import, :type => :model do
 
     it "should get_data file non-utf-8 characters" do
       input = []
-      File.readlines(fixture_path + 'articles_not_utf8.txt').each { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) }
+      File.readlines(fixture_path + 'works_not_utf8.txt').each { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) }
       import = Import.new(file: input)
       response = import.get_data
       expect(response["message"]["items"].length).to eq(5)
@@ -190,13 +190,13 @@ describe Import, :type => :model do
       response = import.parse_data(result)
       expect(response.length).to eq(10)
 
-      article = response.first
-      expect(article[:doi]).to eq("10.1787/gen_papers-v2008-art6-en")
-      expect(article[:title]).to eq("Investment climate, capabilities and firm performance")
-      expect(article[:year]).to eq(2008)
-      expect(article[:month]).to eq(7)
-      expect(article[:day]).to eq(26)
-      expect(article[:publisher_id]).to eq(1963)
+      work = response.first
+      expect(work[:doi]).to eq("10.1787/gen_papers-v2008-art6-en")
+      expect(work[:title]).to eq("Investment climate, capabilities and firm performance")
+      expect(work[:year]).to eq(2008)
+      expect(work[:month]).to eq(7)
+      expect(work[:day]).to eq(26)
+      expect(work[:publisher_id]).to eq(1963)
     end
 
     it "should parse_data incomplete date" do
@@ -206,13 +206,13 @@ describe Import, :type => :model do
       response = import.parse_data(result)
       expect(response.length).to eq(10)
 
-      article = response[5]
-      expect(article[:doi]).to eq("10.1007/bf02975686")
-      expect(article[:title]).to eq("Sanitary and meteorological notes")
-      expect(article[:year]).to eq(1884)
-      expect(article[:month]).to eq(8)
-      expect(article[:day]).to be_nil
-      expect(article[:publisher_id]).to eq(297)
+      work = response[5]
+      expect(work[:doi]).to eq("10.1007/bf02975686")
+      expect(work[:title]).to eq("Sanitary and meteorological notes")
+      expect(work[:year]).to eq(1884)
+      expect(work[:month]).to eq(8)
+      expect(work[:day]).to be_nil
+      expect(work[:publisher_id]).to eq(297)
     end
 
     it "should parse_data title as second item" do
@@ -222,9 +222,9 @@ describe Import, :type => :model do
       response = import.parse_data(result)
       expect(response.length).to eq(10)
 
-      article = response[2]
-      expect(article[:doi]).to eq("10.1787/gen_papers-v2008-art4-en")
-      expect(article[:title]).to eq("Human capital formation and foreign direct")
+      work = response[2]
+      expect(work[:doi]).to eq("10.1787/gen_papers-v2008-art4-en")
+      expect(work[:title]).to eq("Human capital formation and foreign direct")
     end
 
     it "should parse_data missing title" do
@@ -235,9 +235,9 @@ describe Import, :type => :model do
       response = import.parse_data(result)
       expect(response.length).to eq(10)
 
-      article = response[5]
-      expect(article[:doi]).to eq("10.1007/bf02975686")
-      expect(article[:title]).to be_nil
+      work = response[5]
+      expect(work[:doi]).to eq("10.1007/bf02975686")
+      expect(work[:title]).to be_nil
     end
 
     it "should parse_data missing title journal-issue" do
@@ -250,9 +250,9 @@ describe Import, :type => :model do
       response = import.parse_data(result)
       expect(response.length).to eq(10)
 
-      article = response[5]
-      expect(article[:doi]).to eq("10.1007/bf02975686")
-      expect(article[:title]).to eq("The Dublin Journal of Medical Science")
+      work = response[5]
+      expect(work[:doi]).to eq("10.1007/bf02975686")
+      expect(work[:title]).to eq("The Dublin Journal of Medical Science")
     end
 
     it "should parse_data missing title missing container-title journal-issue" do
@@ -266,9 +266,9 @@ describe Import, :type => :model do
       response = import.parse_data(result)
       expect(response.length).to eq(10)
 
-      article = response[5]
-      expect(article[:doi]).to eq("10.1007/bf02975686")
-      expect(article[:title]).to eq("No title")
+      work = response[5]
+      expect(work[:doi]).to eq("10.1007/bf02975686")
+      expect(work[:title]).to eq("No title")
     end
   end
 
@@ -284,8 +284,8 @@ describe Import, :type => :model do
       expect(Alert.count).to eq(0)
     end
 
-    it "should import_data with one existing article" do
-      article = FactoryGirl.create(:article, :doi => "10.1787/gen_papers-v2008-art6-en")
+    it "should import_data with one existing work" do
+      work = FactoryGirl.create(:work, :doi => "10.1787/gen_papers-v2008-art6-en")
       import = Import.new
       body = File.read(fixture_path + 'import.json')
       result = JSON.parse(body)

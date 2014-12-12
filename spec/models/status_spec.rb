@@ -5,7 +5,7 @@ describe Status, :type => :model do
 
   before(:each) do
     date = Date.today - 1.day
-    FactoryGirl.create_list(:article_with_events, 5, year: date.year, month: date.month, day: date.day)
+    FactoryGirl.create_list(:work_with_events, 5, year: date.year, month: date.month, day: date.day)
     FactoryGirl.create_list(:alert, 2)
     FactoryGirl.create(:delayed_job)
     FactoryGirl.create_list(:api_request, 4)
@@ -15,12 +15,12 @@ describe Status, :type => :model do
     subject.update_cache
   end
 
-  it "articles_count" do
-    expect(subject.articles_count).to eq(5)
+  it "works_count" do
+    expect(subject.works_count).to eq(5)
   end
 
-  it "articles_last30_count" do
-    expect(subject.articles_last30_count).to eq(5)
+  it "works_last30_count" do
+    expect(subject.works_last30_count).to eq(5)
   end
 
   it "events_count" do
