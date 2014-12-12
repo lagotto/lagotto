@@ -1,8 +1,8 @@
-<% unless @article.alerts.empty? %>
+<% unless @work.alerts.empty? %>
   <div class="alert alert-warning">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <h4>Alerts</h4>
-    <% @article.alerts.limit(20).each do |alert| %>
+    <% @work.alerts.limit(20).each do |alert| %>
       <%= alert.message %><%= alert.source.nil? ? "" : " (#{alert.source.display_name})" %></br>
     <% end %>
   </div>

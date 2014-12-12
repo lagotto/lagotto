@@ -1,6 +1,6 @@
-<% unless @article.alerts.empty? %>
+<% unless @work.alerts.empty? %>
   <div class="panel-group" id="alert">
-    <% @article.alerts.limit(20).each do |alert| %>
+    <% @work.alerts.limit(20).each do |alert| %>
       <div class="panel panel-default">
         <div class="panel-heading panel-title panel-list">
           <% if alert.level != 3 %><span class="pull-right"><%= level_label(alert.level).html_safe %></span><% end %>
@@ -14,23 +14,23 @@
                   <span class="glyphicon glyphicon-trash"></span> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><%= link_to "by Message", alert_path(alert, :article_id => @article.uid),
+                  <li><%= link_to "by Message", alert_path(alert, :work_id => @work.uid),
                                                                   :method => :delete,
                                                                   :data => { :confirm => 'Are you sure?' },
                                                                   :remote => true,
                                                                   :id => "#{alert.id}-delete-message" %></li>
-                  <li><%= link_to "by Class", alert_path(alert,   :article_id => @article.uid,
+                  <li><%= link_to "by Class", alert_path(alert,   :work_id => @work.uid,
                                                                   :filter => "class_name"),
                                                                   :method => :delete,
                                                                   :data => { :confirm => 'Are you sure?' },
                                                                   :remote => true,
                                                                   :id => "#{alert.id}-delete-class" %></li>
-                  <li><%= link_to "by Article", alert_path(alert, :article_id => @article.uid,
-                                                                  :filter => "article_id"),
+                  <li><%= link_to "by Article", alert_path(alert, :work_id => @work.uid,
+                                                                  :filter => "work_id"),
                                                                   :method => :delete,
                                                                   :data => { :confirm => 'Are you sure?' },
                                                                   :remote => true,
-                                                                  :id => "#{alert.id}-delete-article" %></li>
+                                                                  :id => "#{alert.id}-delete-work" %></li>
                 </ul>
               </div>
             <% end %>

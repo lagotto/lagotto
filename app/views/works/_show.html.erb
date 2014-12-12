@@ -1,20 +1,20 @@
 <div class="panel panel-default">
-  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-uid="<%= @article.uid %>">
-    <% if can?(:manage, Article) && controller.action_name != "edit" && !(controller.action_name == "update" && !@article.errors.empty?) %>
+  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-uid="<%= @work.uid %>">
+    <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
-          <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_article_path(@article), { :remote => true, :class => 'btn btn-default' } %>
+          <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_work_path(@work), { :remote => true, :class => 'btn btn-default' } %>
         </div>
         <div class="btn-group btn-group-sm">
-          <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, article_path(@article), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
+          <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, work_path(@work), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
         </div>
         </div>
     <% end %>
-    <%= @article.title %>
+    <%= @work.title %>
   </div>
   <div class="panel-body">
-    <% if can?(:manage, Article) && (controller.action_name == "edit" || (controller.action_name == "update" && !@article.errors.empty?)) %>
-      <%= simple_form_for @article, :url => article_path(@article), :html => { :role => "form", :remote => true } do |f| %>
+    <% if can?(:manage, Work) && (controller.action_name == "edit" || (controller.action_name == "update" && !@work.errors.empty?)) %>
+      <%= simple_form_for @work, :url => work_path(@work), :html => { :role => "form", :remote => true } do |f| %>
         <%= f.input :title, :input_html => { :rows => 2 } %>
         <%= f.input :doi, :label => 'DOI', :disabled => ENV['UID'] == "doi" %>
         <%= f.input :pmid, :label => 'PubMed ID', :disabled => ENV['UID'] == "pmid" %>
@@ -31,42 +31,42 @@
 
         <div class="form-group">
           <%= f.submit "Save ", class: "btn btn-default" %>
-          <%= link_to 'Cancel', article_path(@article), { :remote => true, :class => 'btn' } %>
+          <%= link_to 'Cancel', work_path(@work), { :remote => true, :class => 'btn' } %>
         </div>
       <% end %>
     <% else %>
       <dl class="dl-horizontal">
         <dt>Publication Date</dt>
-        <dd><%= l @article.published_on, format: date_format(@article) %></dd>
-        <% if @article.publisher %>
+        <dd><%= l @work.published_on, format: date_format(@work) %></dd>
+        <% if @work.publisher %>
           <dt>Publisher</dt>
-          <dd><%= link_to h(@article.publisher.name), publisher_path(@article.publisher.crossref_id) %></dd>
+          <dd><%= link_to h(@work.publisher.name), publisher_path(@work.publisher.crossref_id) %></dd>
         <% end %>
-        <% if @article.doi.present? %>
+        <% if @work.doi.present? %>
           <dt>DOI</dt>
-          <dd class="doi" %><%= link_to h(@article.doi), @article.doi_as_url %></dd>
+          <dd class="doi" %><%= link_to h(@work.doi), @work.doi_as_url %></dd>
         <% end %>
-        <% if @article.pmid.present? %>
+        <% if @work.pmid.present? %>
           <dt>PubMed ID</dt>
-          <dd id="pmid" data-pmid="<%= @article.pmid %>"><%= link_to @article.pmid, "http://www.ncbi.nlm.nih.gov/pubmed/#{@article.pmid}" %></dd>
+          <dd id="pmid" data-pmid="<%= @work.pmid %>"><%= link_to @work.pmid, "http://www.ncbi.nlm.nih.gov/pubmed/#{@work.pmid}" %></dd>
         <% end %>
-        <% if @article.pmcid.present? %>
+        <% if @work.pmcid.present? %>
           <dt>PubMed Central ID</dt>
-          <dd id="pmcid" data-pmcid="<%= @article.pmcid %>"><%= link_to "PMC#{@article.pmcid}", "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{@article.pmcid}" %></dd>
+          <dd id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to "PMC#{@work.pmcid}", "http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{@work.pmcid}" %></dd>
         <% end %>
         <dt>URLs</dt>
         <dd>
-          <% if @article.canonical_url.present? %>
-            <%= link_to h(@article.canonical_url), @article.canonical_url %><br/>
+          <% if @work.canonical_url.present? %>
+            <%= link_to h(@work.canonical_url), @work.canonical_url %><br/>
           <% end %>
-          <% if @article.pmid.present? %>
-            <%= link_to "http://europepmc.org/abstract/MED/#{@article.pmid}", "http://europepmc.org/abstract/MED/#{@article.pmid}" %><br/>
+          <% if @work.pmid.present? %>
+            <%= link_to "http://europepmc.org/abstract/MED/#{@work.pmid}", "http://europepmc.org/abstract/MED/#{@work.pmid}" %><br/>
           <% end %>
-          <% if @article.mendeley_url.present? %>
-            <%= link_to h(@article.mendeley_url), @article.mendeley_url %><br/>
+          <% if @work.mendeley_url.present? %>
+            <%= link_to h(@work.mendeley_url), @work.mendeley_url %><br/>
           <% end %>
-          <% if @article.citeulike_url.present? %>
-            <%= link_to h(@article.citeulike_url), @article.citeulike_url %><br/>
+          <% if @work.citeulike_url.present? %>
+            <%= link_to h(@work.citeulike_url), @work.citeulike_url %><br/>
           <% end %>
         </dd>
       </dl>
