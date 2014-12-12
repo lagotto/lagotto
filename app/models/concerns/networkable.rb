@@ -97,26 +97,26 @@ module Networkable
           { error: "resource not found", status: status }
         # we raise an error if we find a canonical URL mismatch
         elsif options[:doi_mismatch]
-          article = Article.where(id: options[:article_id]).first
+          work = Work.where(id: options[:work_id]).first
           Alert.create(exception: error.exception,
                        class_name: "Net::HTTPNotFound",
                        message: error.response[:message],
                        details: error.response[:body],
                        status: status,
-                       article_id: article.id,
+                       work_id: work.id,
                        target_url: url)
           { error: error.response[:message], status: status }
         # we raise an error if a DOI can't be resolved
         elsif options[:doi_lookup]
-          article = Article.where(id: options[:article_id]).first
+          work = Work.where(id: options[:work_id]).first
           Alert.create(exception: error.exception,
                        class_name: "Net::HTTPNotFound",
-                       message: "DOI #{article.doi} could not be resolved",
+                       message: "DOI #{work.doi} could not be resolved",
                        details: error.response[:body],
                        status: status,
-                       article_id: article.id,
+                       work_id: work.id,
                        target_url: url)
-          { error: "DOI #{article.doi} could not be resolved", status: status }
+          { error: "DOI #{work.doi} could not be resolved", status: status }
         else
           error = parse_error_response(error.response[:body])
           { error: error, status: status }
@@ -155,7 +155,7 @@ module Networkable
                      status: status,
                      target_url: url,
                      level: level,
-                     article_id: options[:article_id],
+                     work_id: options[:work_id],
                      source_id: options[:source_id])
         { error: message, status: status }
       end

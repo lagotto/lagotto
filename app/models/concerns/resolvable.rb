@@ -70,10 +70,10 @@ module Resolvable
       rescue_faraday_error(url, e, options.merge(doi_lookup: true))
     end
 
-    def get_persistent_identifiers(uid, options = { timeout: 120 })
+    def get_persistent_identifiers(doi, options = { timeout: 120 })
       conn = faraday_conn('json')
-      params = { 'ids' => uid,
-                 'idtype' => ENV['UID'],
+      params = { 'ids' => doi,
+                 'idtype' => "doi",
                  'format' => 'json' }
       url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?" + params.to_query
 

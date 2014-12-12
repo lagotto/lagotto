@@ -7,7 +7,7 @@ class CitationMilestoneAlert < Filter
     if responses.count > 0
       responses = responses.to_a.map do |response|
         { source_id: response.source_id,
-          article_id: response.article_id,
+          work_id: response.work_id,
           level: Alert::INFO,
           message: "Article has been cited #{response.event_count} times" }
       end
@@ -19,7 +19,7 @@ class CitationMilestoneAlert < Filter
 
   def get_config_fields
     [{ field_name: "source_ids" },
-     { field_name: "limit", field_type: "text_field", field_hint: "Creates an alert if an article has been cited the specified number of times." }]
+     { field_name: "limit", field_type: "text_field", field_hint: "Creates an alert if an work has been cited the specified number of times." }]
   end
 
   def limit

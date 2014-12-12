@@ -130,7 +130,7 @@ class Filter < ActiveRecord::Base
       level = response[:level] || 3
       alert = Alert.where(class_name: name,
                           source_id: response[:source_id],
-                          article_id: response[:article_id]).first_or_initialize
+                          work_id: response[:work_id]).first_or_initialize
       alert.update_attributes(exception: "", level: level, message: response[:message] ? response[:message] : "An API response error occured")
     end
   end

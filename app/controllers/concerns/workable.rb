@@ -28,7 +28,7 @@ module Workable
       # Paginate query results, default is 50 works per page
 
       if params[:ids]
-        type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || Work.uid
+        type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || "doi"
         ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Work.clean_id(id) }
         collection = Work.where(:works => { type.to_sym => ids })
       elsif params[:q]

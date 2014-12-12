@@ -15,6 +15,6 @@ class AlertDecorator < Draper::Decorator
   end
 
   def work
-    work_id ? model.work.uid : nil
+    work_id ? model.work.to_param : nil
   end
 end
