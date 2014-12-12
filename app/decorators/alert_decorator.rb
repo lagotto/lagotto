@@ -14,7 +14,7 @@ class AlertDecorator < Draper::Decorator
     source_id ? model.source.name : nil
   end
 
-  def article
-    article_id ? model.article.uid : nil
+  def work
+    work_id ? model.work.uid : nil
   end
 end

@@ -61,8 +61,8 @@ class AlertsController < ApplicationController
       Alert.where(:class_name => @alert.class_name).update_all(:unresolved => false)
     elsif params[:filter] == "source"
       Alert.where(:source_id => @alert.source_id).update_all(:unresolved => false)
-    elsif params[:filter] == "article_id"
-      Alert.where(:article_id => @alert.article_id).update_all(:unresolved => false)
+    elsif params[:filter] == "work_id"
+      Alert.where(:work_id => @alert.work_id).update_all(:unresolved => false)
     else
       Alert.where(:message => @alert.message).update_all(:unresolved => false)
     end
@@ -82,10 +82,10 @@ class AlertsController < ApplicationController
 
     @alerts = collection.paginate(:page => params[:page])
     respond_with(@alerts) do |format|
-      if params[:article_id]
-        id_hash = Article.from_uri(params[:article_id])
+      if params[:work_id]
+        id_hash = Work.from_uri(params[:work_id])
         key, value = id_hash.first
-        @article = Article.where(key => value).first
+        @work = Work.where(key => value).first
         format.js { render :alert }
       else
         format.js { render :index }

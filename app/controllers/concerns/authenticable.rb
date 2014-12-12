@@ -64,27 +64,27 @@ module Authenticable
 
     rescue_from CanCan::AccessDenied do |exception|
       @error = exception.message
-      @article = nil
+      @work = nil
       render "error", :status => 401
     end
 
     rescue_from ActionController::ParameterMissing do |exception|
       @error = { exception.param => ['parameter is required'] }
-      @article = nil
+      @work = nil
       create_alert(exception, status: 422)
       render "error", :status => 422
     end
 
     rescue_from ActiveModel::ForbiddenAttributesError do |exception|
       @error = Hash[exception.params.map { |v| [v, ['unpermitted parameter']] }]
-      @article = nil
+      @work = nil
       create_alert(exception, status: 422)
       render "error", :status => 422
     end
 
     rescue_from NoMethodError do |exception|
       @error = "Undefined method."
-      @article = nil
+      @work = nil
       create_alert(exception, status: 422)
       render "error", :status => 422
     end

@@ -66,7 +66,7 @@ module ApplicationHelper
     %w(Net::HTTPUnauthorized Net::HTTPForbidden Net::HTTPRequestTimeOut Net::HTTPGatewayTimeOut Net::HTTPConflict Net::HTTPServiceUnavailable - Faraday::ResourceNotFound ActiveRecord::RecordInvalid - Delayed::WorkerTimeout DelayedJobError TooManyErrorsBySourceError SourceInactiveError TooManyWorkersError - EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end
 
-  def article_statistics_report_path
+  def work_statistics_report_path
     path = "/files/alm_report.zip"
     if File.exist?("#{Rails.root}/public#{path}")
       path
@@ -75,10 +75,10 @@ module ApplicationHelper
     end
   end
 
-  def date_format(article)
-    if article.day
+  def date_format(work)
+    if work.day
       :long
-    elsif article.month
+    elsif work.month
       :month
     else
       :year
@@ -90,14 +90,14 @@ module ApplicationHelper
   end
 
   def description_with_link(report)
-    if report.name == 'article_statistics_report' && article_statistics_report_path
-      h(report.description) + link_to("Download", article_statistics_report_path, :class => 'pull-right')
+    if report.name == 'work_statistics_report' && work_statistics_report_path
+      h(report.description) + link_to("Download", work_statistics_report_path, :class => 'pull-right')
     else
       h(report.description)
     end
   end
 
-  def article_alerts
+  def work_alerts
     %w(EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError ArticleNotUpdatedError CitationMilestoneAlert)
   end
 

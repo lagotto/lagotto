@@ -94,7 +94,7 @@ class SourcesController < ApplicationController
                                    :url,
                                    :url_with_type,
                                    :url_with_title,
-                                   :related_articles_url,
+                                   :related_works_url,
                                    :api_key,
                                    *@source.config_fields)
   end
