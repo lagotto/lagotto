@@ -19,19 +19,19 @@ if (query) {
     if (error) { return console.warn(error); }
     var data = json.data;
 
-    articlesViz(data);
+    worksViz(data);
     eventsViz(data);
   });
 }
 
-// articles bar chart
-function articlesViz(data) {
+// works bar chart
+function worksViz(data) {
 
   // remove source not needed for the following visualizations
   data = data.filter(function(d) { return d.name !== "relativemetric"; });
 
   // Articles tab
-  var chart = d3.select("div#articles-body").append("svg")
+  var chart = d3.select("div#works-body").append("svg")
     .attr("width", w + l + r)
     .attr("height", data.length * (h + 2 * s) + 30)
     .attr("class", "chart")
@@ -39,7 +39,7 @@ function articlesViz(data) {
     .attr("transform", "translate(330,20)");
 
   var x = d3.scale.linear()
-    .domain([0, d3.max(data, function(d) { return d.article_count; })])
+    .domain([0, d3.max(data, function(d) { return d.work_count; })])
     .range([0, w]);
   var y = d3.scale.ordinal()
     .domain(data.map(function(d) { return d.display_name; }))
@@ -62,17 +62,17 @@ function articlesViz(data) {
     .attr("fill", function(d) { return z(d.group); })
     .attr("y", function(d) { return y(d.display_name); })
     .attr("height", h)
-    .attr("width", function(d) { return x(d.article_count); });
+    .attr("width", function(d) { return x(d.work_count); });
   chart.selectAll("text.values")
     .data(data)
     .enter().append("text")
-    .attr("x", function(d) { return x(d.article_count); })
+    .attr("x", function(d) { return x(d.work_count); })
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
     .attr("dx", 5) // padding-right
     .attr("dy", ".35em") // vertical-align: middle
-    .text(function(d) { return numberWithDelimiter(d.article_count); });
+    .text(function(d) { return numberWithDelimiter(d.work_count); });
 
-  d3.select("#articles-loading").remove();
+  d3.select("#works-loading").remove();
 }
 
 // events bar chart

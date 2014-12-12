@@ -28,9 +28,9 @@ var options = {
 var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
-  var uid_type = params.attr('data-uid_type');
-  var uid = params.attr('data-uid');
-  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + uid + "&type=" + uid_type);
+  var pid_type = params.attr('data-pid_type');
+  var pid = params.attr('data-pid');
+  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + pid + "&type=" + pid_type);
 }
 
 // load the data from the ALM API

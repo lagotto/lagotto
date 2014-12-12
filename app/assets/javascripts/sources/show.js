@@ -61,7 +61,7 @@ function donutViz(data, div, title, subtitle) {
     .attr("fill", function(d, i) { return color(i); } )
     .attr("d", arc);
   arcs.each(
-    function(d){ $(this).tooltip({title: formatFixed(d.data.value) + " articles " + d.data.key.replace("_", " "), container: "body"});
+    function(d){ $(this).tooltip({title: formatFixed(d.data.value) + " works " + d.data.key.replace("_", " "), container: "body"});
   });
 
   chart.append("text")
