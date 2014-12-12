@@ -64,7 +64,7 @@
     <% if @publishers.size > 0 %>
       <div id="results">
         <% @publishers.each do |publisher| %>
-          <h4 class="article"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></h4>
+          <h4 class="work"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></h4>
           <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
         <% end %>
       </div>
