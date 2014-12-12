@@ -5,10 +5,10 @@ class History
   # - hash with error          : ERROR
   #
   # SUCCESS NO DATA
-  # The source knows about the article identifier, but returns an event_count of 0
+  # The source knows about the work identifier, but returns an event_count of 0
   #
   # SUCCESS
-  # The source knows about the article identifier, and returns an event_count > 0
+  # The source knows about the work identifier, and returns an event_count > 0
   #
   # ERROR
   # An error occured, typically 408 (Request Timeout), 403 (Too Many Requests) or 401 (Unauthorized)
@@ -102,8 +102,8 @@ class History
     event_arr = Array(event_arr)
 
     # track daily events only the first 30 days after publication
-    # return entry for older articles
-    return event_arr if today - retrieval_status.article.published_on > 30
+    # return entry for older works
+    return event_arr if today - retrieval_status.work.published_on > 30
 
     # count entries not including the current day
     event_arr.delete_if { |item| item['day'] == today.day && item['month'] == today.month && item['year'] == today.year }
@@ -162,7 +162,7 @@ class History
   end
 
   def couchdb_id
-    "#{retrieval_status.source.name}:#{retrieval_status.article.uid_escaped}"
+    "#{retrieval_status.source.name}:#{retrieval_status.work.pid}"
   end
 
   def skipped
@@ -187,7 +187,7 @@ class History
   end
 
   def data
-    { ENV['UID'].to_sym => retrieval_status.article.uid,
+    { pid: retrieval_status.work.pid,
       retrieved_at: retrieved_at,
       source: retrieval_status.source.name,
       events: events,

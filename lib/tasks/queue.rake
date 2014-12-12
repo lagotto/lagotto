@@ -60,16 +60,16 @@ namespace :queue do
     end
   end
 
-  desc "Queue article with given uid"
-  task :one, [:uid] => :environment do |_, args|
-    if args.uid.nil?
-      puts "#{ENV['UID']} is required"
+  desc "Queue article with given pid"
+  task :one, [:pid] => :environment do |_, args|
+    if args.pid.nil?
+      puts "pid is required"
       exit
     end
 
-    article = Article.where(ENV['UID'].to_sym => args.uid).first
+    article = Article.where(pid: args.pid).first
     if article.nil?
-      puts "Article with #{ENV['UID']} #{args.uid} does not exist"
+      puts "Article with pid #{args.pid} does not exist"
       exit
     end
 
@@ -88,12 +88,12 @@ namespace :queue do
       rs = RetrievalStatus.where(article_id: article.id, source_id: source.id).first
 
       if rs.nil?
-        puts "Retrieval Status for article with #{ENV['UID']} #{args.uid} and source with name #{args.source} does not exist"
+        puts "Retrieval Status for article with pid #{args.pid} and source with name #{args.source} does not exist"
         exit
       end
 
       source.queue_article_jobs([rs.id], priority: 2)
-      puts "Job for #{ENV['UID']} #{article.uid} and source #{source.display_name} has been queued."
+      puts "Job for pid #{article.pid} and source #{source.display_name} has been queued."
     end
   end
 

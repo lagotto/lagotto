@@ -79,9 +79,6 @@ WORKERS=3
 # Use 'all', 'member', 'sample', 'member_sample', or leave empty
 IMPORT=
 
-# persistent identifier used
-UID=doi
-
 # keys
 # run `rake secret` to generate these keys
 API_KEY=8897f9349100728d66d64d56bc21254bb346a9ed21954933

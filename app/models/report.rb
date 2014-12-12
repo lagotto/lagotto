@@ -19,7 +19,7 @@ class Report < ActiveRecord::Base
     end
   end
 
-  # Generate CSV with event counts for all articles and installed sources
+  # Generate CSV with event counts for all works and installed sources
   def self.to_csv(options = {})
     if options[:include_private_sources]
       sources = Source.installed
@@ -27,16 +27,16 @@ class Report < ActiveRecord::Base
       sources = Source.installed.where(:private => false)
     end
 
-    sql = "SELECT a.#{ENV['UID']}, a.published_on, a.title"
+    sql = "SELECT w.pid_type, w.pid, w.published_on, w.title"
     sources.each do |source|
       sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.event_count END) AS #{source.name}"
     end
-    sql += " FROM articles a LEFT JOIN retrieval_statuses rs ON a.id = rs.article_id GROUP BY a.id"
+    sql += " FROM works w LEFT JOIN retrieval_statuses rs ON w.id = rs.work_id GROUP BY w.id"
     sanitized_sql = sanitize_sql_for_conditions(sql)
     results = ActiveRecord::Base.connection.exec_query(sanitized_sql)
 
     CSV.generate do |csv|
-      csv << [ENV['UID'], "publication_date", "title"] + sources.map(&:name)
+      csv << ["pid_type", "pid", "publication_date", "title"] + sources.map(&:name)
       results.each { |row| csv << row.values }
     end
   end
@@ -75,9 +75,9 @@ class Report < ActiveRecord::Base
     end
     return nil if alm_stats.blank?
 
-    stats = [{ name: "mendeley_stats", headers: [ENV['UID'], "mendeley_readers", "mendeley_groups", "mendeley"] },
-             { name: "pmc_stats", headers: [ENV['UID'], "pmc_html", "pmc_pdf", "pmc"] },
-             { name: "counter_stats", headers: [ENV['UID'], "counter_html", "counter_pdf", "counter"] }]
+    stats = [{ name: "mendeley_stats", headers: ["pid_type", "pid", "mendeley_readers", "mendeley_groups", "mendeley"] },
+             { name: "pmc_stats", headers: ["pid_type", "pid", "pmc_html", "pmc_pdf", "pmc"] },
+             { name: "counter_stats", headers: ["pid_type", "pid", "counter_html", "counter_pdf", "counter"] }]
     stats.each do |stat|
       stat[:csv] = read_stats(stat, options).to_a
     end
@@ -90,7 +90,7 @@ class Report < ActiveRecord::Base
       alm_stats.each do |row|
         stats.each do |stat|
           # find row based on uid, and discard the first and last item (uid and total). Otherwise pad with zeros
-          match = stat[:csv].assoc(row.field(ENV['UID']))
+          match = stat[:csv].assoc(row.field("pid"))
           match = match.present? ? match[1..-2] : [0, 0]
           row.push(*match)
         end
@@ -146,8 +146,8 @@ class Report < ActiveRecord::Base
     ReportMailer.delay(queue: 'mailer', priority: 6).send_status_report(self)
   end
 
-  def send_article_statistics_report
-    ReportMailer.delay(queue: 'mailer', priority: 6).send_article_statistics_report(self)
+  def send_work_statistics_report
+    ReportMailer.delay(queue: 'mailer', priority: 6).send_work_statistics_report(self)
   end
 
   def send_fatal_error_report(message)

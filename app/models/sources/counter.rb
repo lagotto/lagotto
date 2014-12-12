@@ -75,15 +75,15 @@ class Counter < Source
 
     if view == "counter"
       CSV.generate do |csv|
-        csv << [ENV['UID'], "html", "pdf", "total"]
-        result["rows"].each { |row| csv << [row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
+        csv << ["pid_type", "pid", "html", "pdf", "total"]
+        result["rows"].each { |row| csv << ["doi", row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
       end
     else
       dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
 
       CSV.generate do |csv|
-        csv << [ENV['UID']] + dates
-        result["rows"].each { |row| csv << [row["key"]] + dates.map { |date| row["value"][date] || 0 } }
+        csv << ["pid_type", "pid"] + dates
+        result["rows"].each { |row| csv << ["doi", row["key"]] + dates.map { |date| row["value"][date] || 0 } }
       end
     end
   end

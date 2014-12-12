@@ -32,9 +32,9 @@ class Import
     @member_list = member.to_s.split(",")
 
     unless @file
-      from_update_date = Date.yesterday.to_s(:db) if from_update_date.blank?
-      until_update_date= Date.today.to_s(:db) if until_update_date.blank?
-      until_pub_date= Date.today.to_s(:db) if until_pub_date.blank?
+      from_update_date = (Time.zone.now.to_date - 1.day).to_s(:db) if from_update_date.blank?
+      until_update_date= Time.zone.now.to_date.to_s(:db) if until_update_date.blank?
+      until_pub_date= Time.zone.now.to_date.to_s(:db) if until_pub_date.blank?
 
       @filter = "from-update-date:#{from_update_date}"
       @filter += ",until-update-date:#{until_update_date}"
@@ -99,9 +99,9 @@ class Import
     text = @file.slice(offset...(offset + rows))
     items = text.map do |line|
       line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
-      raw_uid, raw_published_on, raw_title = line.strip.split(" ", 3)
+      raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
 
-      uid = Article.from_uri(raw_uid.strip).values.first
+      doi = Work.from_uri(raw_doi.strip).values.first
       if raw_published_on
         # date_parts is an array of non-null integers: [year, month, day]
         # everything else should be nil and thrown away with compact
@@ -112,7 +112,7 @@ class Import
       end
       title = raw_title ? raw_title.strip.chomp('.') : ""
 
-      { Article.uid => uid,
+      { "doi" => doi,
         "issued" => { "date-parts" => [date_parts] },
         "title" => [title],
         "type" => "standard",
@@ -129,7 +129,7 @@ class Import
 
     items = result.fetch('message', {}).fetch('items', nil)
     Array(items).map do |item|
-      uid = item.fetch("DOI", nil) || item.fetch(Article.uid, nil)
+      doi = item.fetch("DOI", nil)
       date_parts = item["issued"]["date-parts"][0]
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
@@ -145,7 +145,7 @@ class Import
       member = item.fetch("member", nil)
       member = member[30..-1].to_i if member
 
-      { Work.uid_as_sym => uid,
+      { doi: doi,
         title: title,
         year: year,
         month: month,

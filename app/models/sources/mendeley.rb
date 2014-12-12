@@ -124,8 +124,8 @@ class Mendeley < Source
     end
 
     CSV.generate do |csv|
-      csv << [ENV['UID'], "readers", "groups", "total"]
-      result["rows"].each { |row| csv << [row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
+      csv << ["pid_type", "pid", "readers", "groups", "total"]
+      result["rows"].each { |row| csv << ["doi", row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
     end
   end
 

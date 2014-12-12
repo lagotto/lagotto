@@ -19,46 +19,46 @@ describe Pmc, :type => :model do
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_report.json'))
       response = CSV.parse(subject.to_csv)
       expect(response.count).to eq(25)
-      expect(response.first).to eq(["doi", "html", "pdf", "total"])
-      expect(response.last).to eq(["10.1371/journal.ppat.1000446", "9", "6", "15"])
+      expect(response.first).to eq(["pid_type", "pid", "html", "pdf", "total"])
+      expect(response.last).to eq(["doi", "10.1371/journal.ppat.1000446", "9", "6", "15"])
     end
 
     it "should format the CouchDB HTML report as csv" do
       start_date = Date.new(2013, 11, 1)
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["10.1371/journal.ppat.1000446", "5", "4"]
+      row = ["doi", "10.1371/journal.ppat.1000446", "5", "4"]
       row.fill("0", 3..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_html_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_html_report.json'))
       response = CSV.parse(subject.to_csv(format: "html", month: 11, year: 2013))
       expect(response.count).to eq(25)
-      expect(response.first).to eq(["doi"] + dates)
+      expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response.last).to eq(row)
     end
 
     it "should format the CouchDB PDF report as csv" do
       start_date = Date.new(2013, 11, 1)
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["10.1371/journal.pbio.0030137", "0", "0"]
+      row = ["doi", "10.1371/journal.pbio.0030137", "0", "0"]
       row.fill("0", 3..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_pdf_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_pdf_report.json'))
       response = CSV.parse(subject.to_csv(format: "pdf", month: 11, year: 2013))
       expect(response.count).to eq(25)
-      expect(response.first).to eq(["doi"] + dates)
+      expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response[2]).to eq(row)
     end
 
     it "should format the CouchDB combined report as csv" do
       start_date = Date.new(2013, 11, 1)
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["10.1371/journal.pbio.0040015", "9", "10"]
+      row = ["doi", "10.1371/journal.pbio.0040015", "9", "10"]
       row.fill("0", 3..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_combined_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_combined_report.json'))
       response = CSV.parse(subject.to_csv(format: "combined", month: 11, year: 2013))
       expect(response.count).to eq(25)
-      expect(response.first).to eq(["doi"] + dates)
+      expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response[3]).to eq(row)
     end
 
@@ -81,8 +81,9 @@ describe Pmc, :type => :model do
   end
 
   context "save PMC data" do
-    let(:month) { 1.month.ago.month }
-    let(:year) { 1.month.ago.year }
+    let(:a_month_ago) { Time.zone.now - 1.month }
+    let(:month) { a_month_ago.month }
+    let(:year) { a_month_ago.year }
 
     it "should fetch and save PMC data" do
       config = subject.publisher_configs.first
@@ -98,8 +99,9 @@ describe Pmc, :type => :model do
   end
 
   context "parse PMC data" do
-    let(:month) { 1.month.ago.month }
-    let(:year) { 1.month.ago.year }
+    let(:a_month_ago) { Time.zone.now - 1.month }
+    let(:month) { a_month_ago.month }
+    let(:year) { a_month_ago.year }
 
     before(:each) do
       subject.put_lagotto_data(subject.db_url)
@@ -171,7 +173,7 @@ describe Pmc, :type => :model do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/works/PMC2568856", :event_count=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
+      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{work.pmcid}", :event_count=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0})
     end
 
     it "should report if there are no events and event_count returned by the PMC API" do
@@ -179,7 +181,7 @@ describe Pmc, :type => :model do
       body = File.read(fixture_path + 'pmc_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], :events_by_day=>[], events_by_month: [{ month: 10, year: 2013, html: 0, pdf: 0 }], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/works/PMC2568856", event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
+      expect(response).to eq(events: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }], :events_by_day=>[], events_by_month: [{ month: 10, year: 2013, html: 0, pdf: 0 }], :events_url=>"http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{work.pmcid}", event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the PMC API" do

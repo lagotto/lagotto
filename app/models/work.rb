@@ -34,6 +34,8 @@ class Work < ActiveRecord::Base
   scope :by_source, ->(source_id) { joins(:retrieval_statuses)
     .where("retrieval_statuses.source_id = ?", source_id) }
 
+  serialize :csl, JSON
+
   def self.from_uri(id)
     return nil if id.nil?
 
@@ -42,21 +44,21 @@ class Work < ActiveRecord::Base
 
     case
     when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
+    when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]) }
+    when id.starts_with?("pmid/")              then { pmid: id[5..-1] }
+    when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
+    when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
     when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]) }
-    when id.starts_with?("info:pmid/")         then { pmid: id[10..-1] }
-    when id.starts_with?("info:pmcid/PMC")     then { pmcid: id[14..-1] }
-    when id.starts_with?("info:pmcid/")        then { pmcid: id[11..-1] }
-    when id.starts_with?("info:mendeley/")     then { mendeley_uuid: id[14..-1] }
-    else { uid.to_sym => id }
+    else { doi: id }
     end
   end
 
   def self.to_uri(id, escaped=true)
     return nil if id.nil?
-    unless id.starts_with? "info:"
-      id = "info:#{uid}/" + from_uri(id).values.first
-    end
-    id
+
+    id_hash = from_uri(id)
+
+    id_hash.keys.first.to_s + "/" + id_hash.values.first
   end
 
   def self.to_url(doi)
@@ -72,23 +74,6 @@ class Work < ActiveRecord::Base
       id[3..-1]
     else
       id
-    end
-  end
-
-  def self.uid
-    ENV['UID']
-  end
-
-  def self.uid_as_sym
-    uid.to_sym
-  end
-
-  def self.validate_format(id)
-    case ENV['UID']
-    when "doi"
-      id =~ DOI_FORMAT
-    else
-      true
     end
   end
 
@@ -132,16 +117,16 @@ class Work < ActiveRecord::Base
     end
   end
 
-  def uid
-    send(self.class.uid)
-  end
-
-  def uid_escaped
-    CGI.escape(uid)
+  def url
+    case pid_type
+    when "doi" then "http://dx.doi.org/#{doi}"
+    when "pmic" then "http://www.ncbi.nlm.nih.gov/pubmed/#{pmid}"
+    when "pmcid" then "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}"
+    end
   end
 
   def to_param
-    self.class.to_uri(uid)
+    "#{pid_type}/#{pid}"
   end
 
   def events_count
@@ -180,7 +165,7 @@ class Work < ActiveRecord::Base
     missing_ids = ids.reject { |k, v| v.present? }
     return true if missing_ids.empty?
 
-    result = get_persistent_identifiers(uid)
+    result = get_persistent_identifiers(doi)
     return true if result.blank?
 
     # remove PMC prefix
@@ -301,6 +286,7 @@ class Work < ActiveRecord::Base
     self.title = ActionController::Base.helpers.sanitize(title)
   end
 
+  # pid is required, use doi, pmid, pmcid, or canonical url in that order
   def set_pid
     if doi.present?
       write_attribute(:pid, doi)
@@ -308,6 +294,12 @@ class Work < ActiveRecord::Base
     elsif pmid.present?
       write_attribute(:pid, pmid)
       write_attribute(:pid_type, "pmid")
+    elsif pmcid.present?
+      write_attribute(:pid, pmcid)
+      write_attribute(:pid_type, "pmcid")
+    elsif canonical_url.present?
+      write_attribute(:pid, canonical_url)
+      write_attribute(:pid_type, "url")
     end
   end
 

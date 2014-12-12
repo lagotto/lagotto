@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-uid_type="<%= ENV['UID'] %>" data-uid="<%= @work.uid %>">
+  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-pid_type="<%= @work.pid_type %>" data-pid="<%= @work.pid %>">
     <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
@@ -16,9 +16,9 @@
     <% if can?(:manage, Work) && (controller.action_name == "edit" || (controller.action_name == "update" && !@work.errors.empty?)) %>
       <%= simple_form_for @work, :url => work_path(@work), :html => { :role => "form", :remote => true } do |f| %>
         <%= f.input :title, :input_html => { :rows => 2 } %>
-        <%= f.input :doi, :label => 'DOI', :disabled => ENV['UID'] == "doi" %>
-        <%= f.input :pmid, :label => 'PubMed ID', :disabled => ENV['UID'] == "pmid" %>
-        <%= f.input :pmcid, :label => 'PubMed Central ID', :disabled => ENV['UID'] == "pmcid" %>
+        <%= f.input :doi, :label => 'DOI', :disabled => @work.pid_type == "doi" %>
+        <%= f.input :pmid, :label => 'PubMed ID', :disabled => @work.pid_type == "pmid" %>
+        <%= f.input :pmcid, :label => 'PubMed Central ID', :disabled => @work.pid_type == "pmcid" %>
         <%= f.input :canonical_url, :label => 'Canonical URL' %>
         <% if publishers.length > 1 %>
           <%= f.association :publisher, collection: Publisher.order('name').map { |publisher| [publisher.name, publisher.crossref_id] }, input_html: { class: "form-user" } %>

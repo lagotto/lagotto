@@ -11,8 +11,8 @@ describe Mendeley, :type => :model do
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'))
       response = CSV.parse(subject.to_csv)
       expect(response.count).to eq(31)
-      expect(response.first).to eq(["doi", "readers", "groups", "total"])
-      expect(response.last).to eq(["10.5194/se-1-1-2010", "6", "0", "6"])
+      expect(response.first).to eq(["pid_type", "pid", "readers", "groups", "total"])
+      expect(response.last).to eq(["doi", "10.5194/se-1-1-2010", "6", "0", "6"])
     end
 
     it "should report an error if the CouchDB design document can't be retrieved" do

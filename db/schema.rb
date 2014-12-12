@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141105084632) do
+ActiveRecord::Schema.define(version: 20141211234526) do
 
   create_table "alerts", force: true do |t|
     t.integer  "source_id"
@@ -27,12 +27,11 @@ ActiveRecord::Schema.define(version: 20141105084632) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remote_ip"
-    t.integer  "article_id"
+    t.integer  "work_id"
     t.integer  "level",                         default: 3
     t.string   "hostname"
   end
 
-  add_index "alerts", ["article_id", "created_at"], name: "index_alerts_on_article_id_and_created_at", using: :btree
   add_index "alerts", ["class_name"], name: "index_alerts_on_class_name", using: :btree
   add_index "alerts", ["created_at"], name: "index_alerts_on_created_at", using: :btree
   add_index "alerts", ["level", "created_at"], name: "index_alerts_on_level_and_created_at", using: :btree
@@ -40,6 +39,7 @@ ActiveRecord::Schema.define(version: 20141105084632) do
   add_index "alerts", ["source_id", "unresolved", "updated_at"], name: "index_alerts_on_source_id_and_unresolved_and_updated_at", using: :btree
   add_index "alerts", ["unresolved", "updated_at"], name: "index_alerts_on_unresolved_and_updated_at", using: :btree
   add_index "alerts", ["updated_at"], name: "index_alerts_on_updated_at", using: :btree
+  add_index "alerts", ["work_id", "created_at"], name: "index_alerts_on_work_id_and_created_at", using: :btree
 
   create_table "api_requests", force: true do |t|
     t.string   "format"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20141105084632) do
   add_index "api_requests", ["created_at"], name: "index_api_requests_on_created_at", using: :btree
 
   create_table "api_responses", force: true do |t|
-    t.integer  "article_id"
+    t.integer  "work_id"
     t.integer  "source_id"
     t.integer  "retrieval_status_id"
     t.integer  "event_count"
@@ -72,27 +72,6 @@ ActiveRecord::Schema.define(version: 20141105084632) do
   add_index "api_responses", ["created_at"], name: "index_api_responses_created_at", using: :btree
   add_index "api_responses", ["event_count"], name: "index_api_responses_on_event_count", using: :btree
   add_index "api_responses", ["unresolved", "id"], name: "index_api_responses_unresolved_id", using: :btree
-
-  create_table "articles", force: true do |t|
-    t.string   "doi"
-    t.text     "title"
-    t.date     "published_on"
-    t.string   "pmid"
-    t.string   "pmcid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "canonical_url"
-    t.string   "mendeley_uuid"
-    t.integer  "year",          default: 1970
-    t.integer  "month"
-    t.integer  "day"
-    t.integer  "publisher_id"
-  end
-
-  add_index "articles", ["doi", "published_on", "id"], name: "index_articles_doi_published_on_article_id", using: :btree
-  add_index "articles", ["doi"], name: "index_articles_on_doi", unique: true, using: :btree
-  add_index "articles", ["published_on"], name: "index_articles_on_published_on", using: :btree
-  add_index "articles", ["publisher_id", "published_on"], name: "index_articles_on_publisher_id_and_published_on", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",                    default: 0
@@ -112,6 +91,15 @@ ActiveRecord::Schema.define(version: 20141105084632) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   add_index "delayed_jobs", ["queue"], name: "index_delayed_jobs_queue", using: :btree
   add_index "delayed_jobs", ["run_at", "locked_at", "locked_by", "failed_at", "priority"], name: "index_delayed_jobs_run_at_locked_at_failed_at_priority", using: :btree
+
+  create_table "events", force: true do |t|
+    t.integer  "work_id",          null: false
+    t.integer  "citation_id",      null: false
+    t.integer  "source_id"
+    t.integer  "relation_type_id", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
 
   create_table "filters", force: true do |t|
     t.string  "type",                        null: false
@@ -151,6 +139,12 @@ ActiveRecord::Schema.define(version: 20141105084632) do
 
   add_index "publishers", ["crossref_id"], name: "index_publishers_on_crossref_id", unique: true, using: :btree
 
+  create_table "relation_types", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "reports", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -171,7 +165,7 @@ ActiveRecord::Schema.define(version: 20141105084632) do
 
   create_table "retrieval_histories", force: true do |t|
     t.integer  "retrieval_status_id",             null: false
-    t.integer  "article_id",                      null: false
+    t.integer  "work_id",                         null: false
     t.integer  "source_id",                       null: false
     t.datetime "retrieved_at"
     t.string   "status"
@@ -185,7 +179,7 @@ ActiveRecord::Schema.define(version: 20141105084632) do
   add_index "retrieval_histories", ["source_id", "status", "updated_at"], name: "index_retrieval_histories_on_source_id_and_status_and_updated", using: :btree
 
   create_table "retrieval_statuses", force: true do |t|
-    t.integer  "article_id",                                    null: false
+    t.integer  "work_id",                                       null: false
     t.integer  "source_id",                                     null: false
     t.datetime "queued_at"
     t.datetime "retrieved_at",  default: '1970-01-01 00:00:00', null: false
@@ -198,15 +192,15 @@ ActiveRecord::Schema.define(version: 20141105084632) do
     t.text     "other"
   end
 
-  add_index "retrieval_statuses", ["article_id", "event_count"], name: "index_retrieval_statuses_on_article_id_and_event_count", using: :btree
-  add_index "retrieval_statuses", ["article_id", "source_id", "event_count"], name: "index_rs_on_article_id_soure_id_event_count", using: :btree
-  add_index "retrieval_statuses", ["article_id", "source_id"], name: "index_retrieval_statuses_on_article_id_and_source_id", unique: true, using: :btree
-  add_index "retrieval_statuses", ["article_id"], name: "index_retrieval_statuses_on_article_id", using: :btree
-  add_index "retrieval_statuses", ["source_id", "article_id", "event_count"], name: "index_retrieval_statuses_source_id_article_id_event_count_desc", using: :btree
   add_index "retrieval_statuses", ["source_id", "event_count", "retrieved_at"], name: "index_retrieval_statuses_source_id_event_count_retr_at_desc", using: :btree
   add_index "retrieval_statuses", ["source_id", "event_count"], name: "index_retrieval_statuses_source_id_event_count_desc", using: :btree
   add_index "retrieval_statuses", ["source_id", "queued_at", "scheduled_at"], name: "index_rs_on_soure_id_queued_at_scheduled_at", using: :btree
+  add_index "retrieval_statuses", ["source_id", "work_id", "event_count"], name: "index_retrieval_statuses_source_id_article_id_event_count_desc", using: :btree
   add_index "retrieval_statuses", ["source_id"], name: "index_retrieval_statuses_on_source_id", using: :btree
+  add_index "retrieval_statuses", ["work_id", "event_count"], name: "index_retrieval_statuses_on_work_id_and_event_count", using: :btree
+  add_index "retrieval_statuses", ["work_id", "source_id", "event_count"], name: "index_rs_on_article_id_soure_id_event_count", using: :btree
+  add_index "retrieval_statuses", ["work_id", "source_id"], name: "index_retrieval_statuses_on_work_id_and_source_id", unique: true, using: :btree
+  add_index "retrieval_statuses", ["work_id"], name: "index_retrieval_statuses_on_work_id", using: :btree
 
   create_table "reviews", force: true do |t|
     t.string   "name"
@@ -272,11 +266,41 @@ ActiveRecord::Schema.define(version: 20141105084632) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_username", unique: true, using: :btree
 
+  create_table "work_types", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "workers", force: true do |t|
     t.integer  "identifier", null: false
     t.string   "queue",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "works", force: true do |t|
+    t.string   "doi"
+    t.text     "title"
+    t.date     "published_on"
+    t.string   "pmid"
+    t.string   "pmcid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "canonical_url"
+    t.string   "mendeley_uuid"
+    t.integer  "year",          default: 1970
+    t.integer  "month"
+    t.integer  "day"
+    t.integer  "publisher_id"
+    t.string   "pid_type",                     null: false
+    t.string   "pid",                          null: false
+    t.text     "csl"
+    t.integer  "work_type_id"
+    t.integer  "response_id"
+  end
+
+  add_index "works", ["published_on"], name: "index_works_on_published_on", using: :btree
+  add_index "works", ["publisher_id", "published_on"], name: "index_works_on_publisher_id_and_published_on", using: :btree
 
 end
