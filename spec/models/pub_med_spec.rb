@@ -68,7 +68,7 @@ describe PubMed, :type => :model do
       expect(response[:events].length).to eq(13)
       expect(response[:event_count]).to eq(13)
       event = response[:events].first
-      expect(event[:event_url]).to eq("http://www.pubmedcentral.nih.gov/workrender.fcgi?artid=" + event[:event])
+      expect(event[:event_url]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + event[:event])
     end
 
     it "should report if there is a single event returned by the PubMed API" do
@@ -79,7 +79,7 @@ describe PubMed, :type => :model do
       expect(response[:events].length).to eq(1)
       expect(response[:event_count]).to eq(1)
       event = response[:events].first
-      expect(event[:event_url]).to eq("http://www.pubmedcentral.nih.gov/workrender.fcgi?artid=" + event[:event])
+      expect(event[:event_url]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + event[:event])
     end
 
     it "should catch timeout errors with the PubMed API" do

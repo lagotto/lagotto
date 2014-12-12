@@ -45,9 +45,9 @@ describe ReportMailer, :type => :mailer do
     end
   end
 
-  describe "article statistics report" do
-    let(:report) { FactoryGirl.create(:article_statistics_report_with_admin_user) }
-    let(:mail) { ReportMailer.send_article_statistics_report(report) }
+  describe "work statistics report" do
+    let(:report) { FactoryGirl.create(:work_statistics_report_with_admin_user) }
+    let(:mail) { ReportMailer.send_work_statistics_report(report) }
 
     it "sends email" do
       expect(mail.subject).to eq("[#{ENV['SITENAME']}] Article Statistics Report")

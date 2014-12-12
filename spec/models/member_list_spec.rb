@@ -76,12 +76,12 @@ describe MemberList, :type => :model do
       response = import.parse_data(result)
       expect(response.length).to eq(10)
 
-      article = response.first
-      expect(article[:doi]).to eq("10.1787/gen_papers-v2008-art6-en")
-      expect(article[:title]).to eq("Investment climate, capabilities and firm performance")
-      expect(article[:year]).to eq(2008)
-      expect(article[:month]).to eq(7)
-      expect(article[:day]).to eq(26)
+      work = response.first
+      expect(work[:doi]).to eq("10.1787/gen_papers-v2008-art6-en")
+      expect(work[:title]).to eq("Investment climate, capabilities and firm performance")
+      expect(work[:year]).to eq(2008)
+      expect(work[:month]).to eq(7)
+      expect(work[:day]).to eq(26)
     end
 
     it "should parse_data incomplete date" do
@@ -92,12 +92,12 @@ describe MemberList, :type => :model do
       response = import.parse_data(result)
       expect(response.length).to eq(10)
 
-      article = response[5]
-      expect(article[:doi]).to eq("10.1007/bf02975686")
-      expect(article[:title]).to eq("Sanitary and meteorological notes")
-      expect(article[:year]).to eq(1884)
-      expect(article[:month]).to eq(8)
-      expect(article[:day]).to be_nil
+      work = response[5]
+      expect(work[:doi]).to eq("10.1007/bf02975686")
+      expect(work[:title]).to eq("Sanitary and meteorological notes")
+      expect(work[:year]).to eq(1884)
+      expect(work[:month]).to eq(8)
+      expect(work[:day]).to be_nil
     end
   end
 
@@ -114,8 +114,8 @@ describe MemberList, :type => :model do
       expect(Alert.count).to eq(0)
     end
 
-    it "should import_data with one existing article" do
-      article = FactoryGirl.create(:article, :doi => "10.1787/gen_papers-v2008-art6-en")
+    it "should import_data with one existing work" do
+      work = FactoryGirl.create(:work, :doi => "10.1787/gen_papers-v2008-art6-en")
       import = Import.new
       body = File.read(fixture_path + 'import.json')
       result = JSON.parse(body)

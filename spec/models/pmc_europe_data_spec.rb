@@ -143,7 +143,7 @@ describe PmcEuropeData, :type => :model do
       expect(event[:event_csl]['title']).to eq("Who shares? Who doesn't? Factors associated with openly archiving raw research data.")
       expect(event[:event_csl]['container-title']).to eq("PLoS One")
       expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2011]])
-      expect(event[:event_csl]['type']).to eq("work-journal")
+      expect(event[:event_csl]['type']).to eq("article-journal")
 
       expect(event[:event_url]).to eq("http://europepmc.org/abstract/MED/21765886")
     end

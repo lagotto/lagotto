@@ -1,9 +1,9 @@
 FactoryGirl.define do
 
-  factory :article do
+  factory :work do
     sequence(:doi) { |n| "10.1371/journal.pone.00000#{n}" }
     sequence(:pmid) { |n| "1897483#{n}" }
-    pmcid 2568856
+    sequence(:pmcid) { |n| "256885#{n}" }
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
     year { Date.today.year - 1 }
@@ -16,109 +16,109 @@ FactoryGirl.define do
     trait(:not_publisher) { doi '10.1007/s00248-010-9734-2' }
     trait(:missing_mendeley) { mendeley_uuid nil }
 
-    factory :article_with_events do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, article: article)
+    factory :work_with_events do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, work: work)
       end
     end
 
-    factory :article_with_events_and_alerts do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, article: article)
-        FactoryGirl.create(:alert, :article => article)
+    factory :work_with_events_and_alerts do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, work: work)
+        FactoryGirl.create(:alert, :work => work)
       end
     end
 
-    factory :stale_articles do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :stale, article: article)
+    factory :stale_works do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :stale, work: work)
       end
     end
 
-    factory :queued_articles do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :queued, article: article)
+    factory :queued_works do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :queued, work: work)
       end
     end
 
-    factory :refreshed_articles do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :refreshed, article: article)
+    factory :refreshed_works do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :refreshed, work: work)
       end
     end
 
-    factory :article_for_feed do
+    factory :work_for_feed do
       date = Date.today - 1.day
       year { date.year }
       month { date.month }
       day { date.day }
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :refreshed, retrieved_at: date, article: article)
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :refreshed, retrieved_at: date, work: work)
       end
     end
 
-    factory :article_published_today do
+    factory :work_published_today do
       year { Time.zone.now.year }
-      retrieval_statuses { |article| [article.association(:retrieval_status, retrieved_at: Time.zone.today)] }
+      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: Time.zone.today)] }
     end
 
-    factory :article_with_errors do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_errors, article: article)
+    factory :work_with_errors do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_errors, work: work)
       end
     end
 
-    factory :article_with_private_citations do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_private, article: article)
+    factory :work_with_private_citations do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_private, work: work)
       end
     end
 
-    factory :article_with_crossref_citations do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_crossref, article: article)
+    factory :work_with_crossref_citations do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_crossref, work: work)
       end
     end
 
-    factory :article_with_pubmed_citations do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_pubmed, article: article)
+    factory :work_with_pubmed_citations do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_pubmed, work: work)
       end
     end
 
-    factory :article_with_mendeley_events do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_mendeley, article: article)
+    factory :work_with_mendeley_events do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_mendeley, work: work)
       end
     end
 
-    factory :article_with_nature_citations do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_nature, article: article)
+    factory :work_with_nature_citations do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_nature, work: work)
       end
     end
 
-    factory :article_with_researchblogging_citations do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_researchblogging, article: article)
+    factory :work_with_researchblogging_citations do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_researchblogging, work: work)
       end
     end
 
-    factory :article_with_wos_citations do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_wos, article: article)
+    factory :work_with_wos_citations do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_wos, work: work)
       end
     end
 
-    factory :article_with_counter_citations do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_counter, article: article)
+    factory :work_with_counter_citations do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_counter, work: work)
       end
     end
 
-    factory :article_with_tweets do
-      after :create do |article|
-        FactoryGirl.create(:retrieval_status, :with_twitter_search, article: article)
+    factory :work_with_tweets do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_twitter_search, work: work)
       end
     end
   end
@@ -138,11 +138,11 @@ FactoryGirl.define do
     retrieved_at { Time.zone.now.to_date - 1.month }
     sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
 
-    association :article
+    association :work
     association :source, factory: :citeulike
 
     trait(:missing_mendeley) do
-      association :article, :missing_mendeley, factory: :article
+      association :work, :missing_mendeley, factory: :work
       association :source, factory: :mendeley
     end
     trait(:stale) { scheduled_at 1.month.ago }
@@ -161,25 +161,25 @@ FactoryGirl.define do
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
     trait(:with_counter) { association :source, factory: :counter }
     trait(:with_twitter_search) { association :source, factory: :twitter_search }
-    trait(:with_article_published_today) { association :article, factory: :article_published_today }
-    trait(:with_counter_and_article_published_today) do
-      association :article, factory: :article_published_today
+    trait(:with_work_published_today) { association :work, factory: :work_published_today }
+    trait(:with_counter_and_work_published_today) do
+      association :work, factory: :work_published_today
       association :source, factory: :counter
     end
-    trait(:with_crossref_and_article_published_today) do
-      association :article, factory: :article_published_today
+    trait(:with_crossref_and_work_published_today) do
+      association :work, factory: :work_published_today
       association :source, factory: :crossref
     end
 
     trait(:with_crossref_histories) do
       before(:create) do |retrieval_status|
         FactoryGirl.create_list(:retrieval_history, 20, retrieval_status: retrieval_status,
-                                                        article: retrieval_status.article,
+                                                        work: retrieval_status.work,
                                                         source: retrieval_status.source)
       end
     end
 
-    initialize_with { RetrievalStatus.where(article_id: article.id, source_id: source.id).first_or_initialize }
+    initialize_with { RetrievalStatus.where(work_id: work.id, source_id: source.id).first_or_initialize }
   end
 
   factory :delayed_job do
@@ -204,10 +204,10 @@ FactoryGirl.define do
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
-    factory :article_statistics_report_with_admin_user do
-      name 'article_statistics_report'
+    factory :work_statistics_report_with_admin_user do
+      name 'work_statistics_report'
       display_name 'Article Statistics Report'
-      description 'Generates CSV file with ALM for all articles'
+      description 'Generates CSV file with ALM for all works'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
@@ -280,7 +280,7 @@ FactoryGirl.define do
 
   factory :review do
     name "ArticleNotUpdatedError"
-    message "Found 0 article not updated errors in 29,899 API responses, taking 29.899 ms"
+    message "Found 0 work not updated errors in 29,899 API responses, taking 29.899 ms"
     input 10
     created_at { Time.zone.now }
   end
@@ -335,10 +335,10 @@ FactoryGirl.define do
     initialize_with { HtmlRatioTooHighError.where(name: name).first_or_initialize }
   end
 
-  factory :article_not_updated_error, aliases: [:filter], class: ArticleNotUpdatedError do
-    type "ArticleNotUpdatedError"
-    name "ArticleNotUpdatedError"
-    display_name "article not updated error"
+  factory :work_not_updated_error, aliases: [:filter], class: WorkNotUpdatedError do
+    type "WorkNotUpdatedError"
+    name "WorkNotUpdatedError"
+    display_name "work not updated error"
     active true
 
     initialize_with { ArticleNotUpdatedError.where(name: name).first_or_initialize }

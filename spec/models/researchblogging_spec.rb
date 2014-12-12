@@ -14,7 +14,7 @@ describe Researchblogging, :type => :model do
     it "should report if there are no events and event_count returned by the ResearchBlogging API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'researchblogging_nil.xml')
-      stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?work=doi:#{work.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:body => body)
+      stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{work.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:body => body)
       response = subject.get_data(work)
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
@@ -23,7 +23,7 @@ describe Researchblogging, :type => :model do
     it "should report if there are events and event_count returned by the ResearchBlogging API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0035869")
       body = File.read(fixture_path + 'researchblogging.xml')
-      stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?work=doi:#{work.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:body => body)
+      stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{work.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:body => body)
       response = subject.get_data(work)
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
@@ -31,9 +31,9 @@ describe Researchblogging, :type => :model do
 
     it "should catch errors with the ResearchBlogging API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?work=doi:#{work.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:status => [408])
+      stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{work.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:status => [408])
       response = subject.get_data(work, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://researchbloggingconnect.com/blogposts?count=100&work=doi:#{work.doi_escaped}", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for http://researchbloggingconnect.com/blogposts?count=100&article=doi:#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first

@@ -3,8 +3,8 @@ require 'rails_helper'
 describe Source do
 
   context "HTTP" do
-    let(:article) { FactoryGirl.create(:article_with_events) }
-    let(:url) { "http://127.0.0.1/api/v3/articles/info:doi/#{article.doi}" }
+    let(:work) { FactoryGirl.create(:work_with_events) }
+    let(:url) { "http://127.0.0.1/api/v3/articles/info:doi/#{work.doi}" }
     let(:data) { { "name" => "Fred" } }
     let(:post_data) { { "name" => "Jack" } }
 

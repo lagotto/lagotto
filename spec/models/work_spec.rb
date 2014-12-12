@@ -132,7 +132,7 @@ describe Work, :type => :model do
   end
 
   it 'to_uri' do
-    expect(Work.to_uri(work.doi)).to eq "info:doi/#{work.doi}"
+    expect(Work.to_uri(work.doi)).to eq "doi/#{work.doi}"
   end
 
   it 'to_url' do

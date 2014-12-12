@@ -26,8 +26,8 @@ describe Report, :type => :model do
     it "should format the Lagotto data as csv" do
       response = CSV.parse(subject.to_csv)
       expect(response.length).to eq(2)
-      expect(response.first).to eq(["doi", "publication_date", "title", "citeulike"])
-      expect(response.last).to eq([work.doi, work.published_on.iso8601, work.title, "50"])
+      expect(response.first).to eq(["pid_type", "pid", "publication_date", "title", "citeulike"])
+      expect(response.last).to eq([work.pid_type, work.pid, work.published_on.iso8601, work.title, "50"])
     end
   end
 
@@ -70,8 +70,8 @@ describe Report, :type => :model do
 
         response = CSV.parse(subject.merge_stats)
         expect(response.length).to eq(2)
-        expect(response.first).to eq(["doi", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups"])
-        expect(response.last).to eq([work.doi, work.published_on.iso8601, work.title, "50", "1663", "0"])
+        expect(response.first).to eq(["pid_type", "pid", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups"])
+        expect(response.last).to eq([work.pid_type, work.pid, work.published_on.iso8601, work.title, "50", "1663", "0"])
         File.delete filepath
       end
 
