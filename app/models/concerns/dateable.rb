@@ -7,9 +7,11 @@ module Dateable
 
     # Array of hashes in format [{ month: 12, year: 2013 },{ month: 1, year: 2014 }]
     # Provide starting month and year as input, otherwise defaults to this month
+    # we use Time.zone.now instead of Date.today because of time zone differences
+    # in dates, and for more consistent mocking in tests
     # PMC is only providing stats until the previous month
     def date_range(options = {})
-      end_date = Date.today
+      end_date = Time.zone.now.to_date
       end_date -= 1.month if self.class.name == 'Pmc'
 
       return [{ month: end_date.month, year: end_date.year }] unless options[:month] && options[:year]

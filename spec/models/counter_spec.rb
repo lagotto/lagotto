@@ -7,10 +7,12 @@ describe Counter, :type => :model do
   let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776") }
 
   context "CSV report" do
+    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+
     it "should provide a date range" do
       # array of hashes for the 10 last months, including the current month
-      start_date = 10.months.ago.to_date
-      end_date = Date.today
+      start_date = Time.zone.now.to_date - 10.months
+      end_date = Time.zone.now.to_date
       response = subject.date_range(month: start_date.month, year: start_date.year)
       expect(response.count).to eq(11)
       expect(response.last).to eq(month: end_date.month, year: end_date.year)
@@ -26,7 +28,7 @@ describe Counter, :type => :model do
     end
 
     it "should format the CouchDB HTML report as csv" do
-      start_date = Date.new(2013, 11, 1)
+      start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.ppat.1000446", "112", "95", "45"]
       row.fill("0", 4..(dates.length))
@@ -39,7 +41,7 @@ describe Counter, :type => :model do
     end
 
     it "should format the CouchDB PDF report as csv" do
-      start_date = Date.new(2013, 11, 1)
+      start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.pbio.0020413", "0", "0", "1"]
       row.fill("0", 4..(dates.length))
@@ -52,7 +54,7 @@ describe Counter, :type => :model do
     end
 
     it "should format the CouchDB XML report as csv" do
-      start_date = Date.new(2013, 11, 1)
+      start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.pbio.0020413", "0", "0", "0"]
       row.fill("0", 4..(dates.length))
@@ -65,7 +67,7 @@ describe Counter, :type => :model do
     end
 
     it "should format the CouchDB combined report as csv" do
-      start_date = Date.new(2013, 11, 1)
+      start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.pbio.0030137", "165", "149", "61"]
       row.fill("0", 4..(dates.length))

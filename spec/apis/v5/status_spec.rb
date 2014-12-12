@@ -9,7 +9,7 @@ describe "/api/v5/status", :type => :api do
 
     context "get response" do
       before(:each) do
-        date = Date.today - 1.day
+        date = Time.zone.now - 1.day
         FactoryGirl.create_list(:work_with_events, 5, year: date.year, month: date.month, day: date.day)
         FactoryGirl.create_list(:alert, 2)
         FactoryGirl.create(:delayed_job)

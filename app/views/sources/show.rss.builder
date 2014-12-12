@@ -5,7 +5,7 @@ xml.rss :version => "2.0" do
       xml.title "Lagotto: source not found"
       xml.link root_url
     else
-      xml.title "Lagotto: most-cited articles in #{@source.display_name}"
+      xml.title "Lagotto: most-cited works in #{@source.display_name}"
       xml.link source_url(@source)
 
       @retrieval_statuses.each do |retrieval_status|

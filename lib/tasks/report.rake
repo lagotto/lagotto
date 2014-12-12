@@ -216,7 +216,7 @@ namespace :report do
 
   desc 'Zip reports'
   task :zip => :environment do
-    folderpath = "#{Rails.root}/data/report_#{Date.today.iso8601}"
+    folderpath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.to_s(:db)}"
     if !Dir.exist? folderpath
       puts "No reports to compress."
     elsif Report.zip_file && Report.zip_folder

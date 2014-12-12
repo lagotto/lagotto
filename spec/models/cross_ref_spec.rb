@@ -146,7 +146,7 @@ describe CrossRef, :type => :model do
       expect(event[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
       expect(event[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")
       expect(event[:event_csl]['issued']).to eq("date-parts"=>[["2011"]])
-      expect(event[:event_csl]['type']).to eq("work-journal")
+      expect(event[:event_csl]['type']).to eq("article-journal")
     end
 
     it "should report if there is one event returned by the CrossRef API" do
@@ -163,7 +163,7 @@ describe CrossRef, :type => :model do
       expect(event[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
       expect(event[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")
       expect(event[:event_csl]['issued']).to eq("date-parts"=>[["2011"]])
-      expect(event[:event_csl]['type']).to eq("work-journal")
+      expect(event[:event_csl]['type']).to eq("article-journal")
     end
 
     it "should catch timeout errors with the CrossRef API" do

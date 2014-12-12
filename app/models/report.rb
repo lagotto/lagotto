@@ -45,7 +45,7 @@ class Report < ActiveRecord::Base
   def self.write(filename, content, options = {})
     return nil unless filename && content
 
-    date = options[:date] || Date.today.iso8601
+    date = options[:date] || Time.zone.now.to_date.to_s(:db)
     folderpath = "#{Rails.root}/data/report_#{date}"
     Dir.mkdir folderpath unless Dir.exist? folderpath
     filepath = "#{folderpath}/#{filename}"
@@ -57,7 +57,7 @@ class Report < ActiveRecord::Base
   end
 
   def self.read_stats(stat, options = {})
-    date = options[:date] || Date.today.iso8601
+    date = options[:date] || Time.zone.now.to_date.to_s(:db)
     filename = "#{stat[:name]}.csv"
     filepath = "#{Rails.root}/data/report_#{date}/#{filename}"
     if File.exist?(filepath)
@@ -100,7 +100,7 @@ class Report < ActiveRecord::Base
   end
 
   def self.zip_file(options = {})
-    date = options[:date] || Date.today.iso8601
+    date = options[:date] || Time.zone.now.to_date.to_s(:db)
     filename = "alm_report_#{date}.csv"
     filepath = "#{Rails.root}/data/report_#{date}/alm_report.csv"
     zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
@@ -114,7 +114,7 @@ class Report < ActiveRecord::Base
   end
 
   def self.zip_folder(options = {})
-    date = options[:date] || Date.today.iso8601
+    date = options[:date] || Time.zone.now.to_date.to_s(:db)
     folderpath = "#{Rails.root}/data/report_#{date}"
     zip_filepath = "#{Rails.root}/data/report_#{date}.zip"
     return nil unless File.exist? folderpath

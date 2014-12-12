@@ -11,7 +11,7 @@ class HtmlRatioTooHighError < Filter
         doi = response['id'] && response['id'][8..-1]
         work = Work.where(doi: doi).first
         work_id = work && work.id
-        date = Date.today.to_formatted_s(:short)
+        date = Time.zone.now.to_date.to_formatted_s(:short)
 
         { source_id: source.id,
           work_id: work_id,

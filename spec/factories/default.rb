@@ -48,7 +48,7 @@ FactoryGirl.define do
     end
 
     factory :work_for_feed do
-      date = Date.today - 1.day
+      date = Time.zone.now - 1.day
       year { date.year }
       month { date.month }
       day { date.day }
@@ -235,7 +235,7 @@ FactoryGirl.define do
 
   factory :retrieval_history do
     sequence(:retrieved_at) do |n|
-      Date.today - n.weeks
+      Time.zone.now - n.weeks
     end
     sequence(:event_count) { |n| 1000 - 10 * n }
   end

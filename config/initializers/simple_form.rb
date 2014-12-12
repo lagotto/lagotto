@@ -27,19 +27,19 @@ end
 
 class DayInput < SimpleForm::Inputs::Base
   def input
-    @builder.template.select_day(object.day, { include_blank: true }, name: "article[day]", id: "article_day")
+    @builder.template.select_day(object.day, { include_blank: true }, name: "work[day]", id: "work_day")
   end
 end
 
 class MonthInput < SimpleForm::Inputs::Base
   def input
-    @builder.template.select_month(object.month, { include_blank: true }, name: "article[month]", id: "article_month")
+    @builder.template.select_month(object.month, { include_blank: true }, name: "work[month]", id: "work_month")
   end
 end
 
 class YearInput < SimpleForm::Inputs::Base
   def input
-    @builder.template.select_year(object.year, { start_year: 1650, end_year: Date.today.year }, name: "article[year]", id: "article_year")
+    @builder.template.select_year(object.year, { start_year: 1650, end_year: Time.zone.now.year }, name: "work[year]", id: "work_year")
   end
 end
 

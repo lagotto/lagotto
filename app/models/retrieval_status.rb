@@ -117,7 +117,7 @@ class RetrievalStatus < ActiveRecord::Base
       return cron_parser.next(Time.zone.now)
     end
 
-    age_in_days = Date.today - work.published_on
+    age_in_days = Time.zone.now.to_date - work.published_on
     if (0..7).include?(age_in_days)
       random_time(source.staleness[0])
     elsif (8..31).include?(age_in_days)

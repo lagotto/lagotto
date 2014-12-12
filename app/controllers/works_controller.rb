@@ -25,9 +25,8 @@ class WorksController < ApplicationController
     end
   end
 
-  # GET /works/new
   def new
-    @work = Work.new(day: Date.today.day, month: Date.today.month, year: Date.today.year)
+    @work = Work.new(day: Time.zone.now.day, month: Time.zone.now.month, year: Time.zone.now.year)
     respond_with(@work) do |format|
       format.js { render :index }
     end

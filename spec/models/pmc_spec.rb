@@ -5,10 +5,12 @@ describe Pmc, :type => :model do
   subject { FactoryGirl.create(:pmc) }
 
   context "CSV report" do
+    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+
     it "should provide a date range" do
       # array of hashes for the 10 last months, excluding the current month
-      start_date = 10.months.ago.to_date
-      end_date = 1.month.ago.to_date
+      start_date = Time.zone.now.to_date - 10.months
+      end_date = Time.zone.now.to_date - 1.month
       response = subject.date_range(month: start_date.month, year: start_date.year)
       expect(response.count).to eq(10)
       expect(response.last).to eq(month: end_date.month, year: end_date.year)
@@ -24,7 +26,7 @@ describe Pmc, :type => :model do
     end
 
     it "should format the CouchDB HTML report as csv" do
-      start_date = Date.new(2013, 11, 1)
+      start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.ppat.1000446", "5", "4"]
       row.fill("0", 3..(dates.length))
@@ -37,7 +39,7 @@ describe Pmc, :type => :model do
     end
 
     it "should format the CouchDB PDF report as csv" do
-      start_date = Date.new(2013, 11, 1)
+      Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.pbio.0030137", "0", "0"]
       row.fill("0", 3..(dates.length))
@@ -50,7 +52,7 @@ describe Pmc, :type => :model do
     end
 
     it "should format the CouchDB combined report as csv" do
-      start_date = Date.new(2013, 11, 1)
+      Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.pbio.0040015", "9", "10"]
       row.fill("0", 3..(dates.length))
