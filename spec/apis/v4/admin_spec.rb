@@ -6,9 +6,9 @@ describe "/api/v4/articles", :type => :api do
   let(:headers) { { 'HTTP_ACCEPT' => 'application/json', 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, password) } }
 
   context "create" do
-    let(:uri) { "/api/v4/articles" }
+    let(:uri) { "/api/v4/works" }
     let(:params) do
-      { "article" => { "doi" => "10.1371/journal.pone.0036790",
+      { "work" => { "doi" => "10.1371/journal.pone.0036790",
                        "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                        "year" => 2012,
                        "month" => 5,
@@ -25,7 +25,7 @@ describe "/api/v4/articles", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["success"]).to eq ("Article created.")
         expect(response["error"]).to be_nil
-        expect(response["data"]["doi"]).to eq (params["article"]["doi"])
+        expect(response["data"]["doi"]).to eq (params["work"]["doi"])
       end
     end
 
@@ -39,7 +39,7 @@ describe "/api/v4/articles", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["success"]).to eq ("Article created.")
         expect(response["error"]).to be_nil
-        expect(response["data"]["doi"]).to eq (params["article"]["doi"])
+        expect(response["data"]["doi"]).to eq (params["work"]["doi"])
       end
     end
 
@@ -68,11 +68,11 @@ describe "/api/v4/articles", :type => :api do
       end
     end
 
-    context "article exists" do
+    context "work exists" do
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:article) { FactoryGirl.create(:article) }
+      let(:work) { FactoryGirl.create(:work) }
       let(:params) do
-        { "article" => { "doi" => article.doi,
+        { "work" => { "doi" => work.doi,
                          "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                          "year" => 2012,
                          "month" => 5,
@@ -90,7 +90,7 @@ describe "/api/v4/articles", :type => :api do
       end
     end
 
-    context "with missing article param" do
+    context "with missing work param" do
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) do
         { "data" => { "doi" => "10.1371/journal.pone.0036790",
@@ -105,7 +105,7 @@ describe "/api/v4/articles", :type => :api do
         expect(last_response.status).to eq(422)
 
         response = JSON.parse(last_response.body)
-        expect(response["error"]).to eq ({ "article" => ["parameter is required"] })
+        expect(response["error"]).to eq ({ "work" => ["parameter is required"] })
         expect(response["success"]).to be_nil
         expect(response["data"]).to be_empty
       end
@@ -116,7 +116,7 @@ describe "/api/v4/articles", :type => :api do
 
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) do
-        { "article" => { "doi" => "10.1371/journal.pone.0036790",
+        { "work" => { "doi" => "10.1371/journal.pone.0036790",
                          "title" => nil, "year" => nil } }
       end
 
@@ -133,7 +133,7 @@ describe "/api/v4/articles", :type => :api do
 
     context "with unpermitted params" do
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:params) { { "article" => { "foo" => "bar", "baz" => "biz" } } }
+      let(:params) { { "work" => { "foo" => "bar", "baz" => "biz" } } }
 
       it "JSON" do
         post uri, params, headers
@@ -154,7 +154,7 @@ describe "/api/v4/articles", :type => :api do
 
     context "with params in wrong format" do
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:params) { { "article" => "10.1371/journal.pone.0036790 2012-05-15 New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail" } }
+      let(:params) { { "work" => "10.1371/journal.pone.0036790 2012-05-15 New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail" } }
 
       it "JSON" do
         post uri, params, headers
@@ -173,10 +173,10 @@ describe "/api/v4/articles", :type => :api do
   end
 
   context "update" do
-    let(:article) { FactoryGirl.create(:article) }
-    let(:uri) { "/api/v4/articles/info:doi/#{article.doi}" }
+    let(:work) { FactoryGirl.create(:work) }
+    let(:uri) { "/api/v4/articles/info:doi/#{work.doi}" }
     let(:params) do
-      { "article" => { "doi" => article.doi,
+      { "work" => { "doi" => work.doi,
                        "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                        "year" => 2012,
                        "month" => 5,
@@ -193,7 +193,7 @@ describe "/api/v4/articles", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["success"]).to eq ("Article updated.")
         expect(response["error"]).to be_nil
-        expect(response["data"]["doi"]).to eq (article.doi)
+        expect(response["data"]["doi"]).to eq (work.doi)
       end
     end
 
@@ -234,9 +234,9 @@ describe "/api/v4/articles", :type => :api do
       end
     end
 
-    context "article not found" do
+    context "work not found" do
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:uri) { "/api/v4/articles/info:doi/#{article.doi}x" }
+      let(:uri) { "/api/v4/articles/info:doi/#{work.doi}x" }
 
       it "JSON" do
         put uri, params, headers
@@ -249,7 +249,7 @@ describe "/api/v4/articles", :type => :api do
       end
     end
 
-    context "with missing article param" do
+    context "with missing work param" do
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:params) do
         { "data" => { "doi" => "10.1371/journal.pone.0036790",
@@ -264,7 +264,7 @@ describe "/api/v4/articles", :type => :api do
         expect(last_response.status).to eq(422)
 
         response = JSON.parse(last_response.body)
-        expect(response["error"]).to eq ({"article"=>["parameter is required"]})
+        expect(response["error"]).to eq ({"work"=>["parameter is required"]})
         expect(response["success"]).to be_nil
         expect(response["data"]).to be_empty
 
@@ -279,7 +279,7 @@ describe "/api/v4/articles", :type => :api do
       before(:each) { allow(Date).to receive(:today).and_return(Date.new(2013, 9, 5)) }
 
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:params) { { "article" => { "doi" => "10.1371/journal.pone.0036790", "title" => nil, "year" => nil } } }
+      let(:params) { { "work" => { "doi" => "10.1371/journal.pone.0036790", "title" => nil, "year" => nil } } }
 
       it "JSON" do
         put uri, params, headers
@@ -294,7 +294,7 @@ describe "/api/v4/articles", :type => :api do
 
     context "with unpermitted params" do
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:params) { { "article" => { "foo" => "bar", "baz" => "biz" } } }
+      let(:params) { { "work" => { "foo" => "bar", "baz" => "biz" } } }
 
       it "JSON" do
         put uri, params, headers
@@ -314,8 +314,8 @@ describe "/api/v4/articles", :type => :api do
   end
 
   context "destroy" do
-    let(:article) { FactoryGirl.create(:article) }
-    let(:uri) { "/api/v4/articles/info:doi/#{article.doi}" }
+    let(:work) { FactoryGirl.create(:work) }
+    let(:uri) { "/api/v4/articles/info:doi/#{work.doi}" }
 
     context "as admin user" do
       let(:user) { FactoryGirl.create(:admin_user) }
@@ -327,7 +327,7 @@ describe "/api/v4/articles", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["success"]).to eq ("Article deleted.")
         expect(response["error"]).to be_nil
-        expect(response["data"]["doi"]).to eq (article.doi)
+        expect(response["data"]["doi"]).to eq (work.doi)
       end
     end
 
@@ -368,16 +368,16 @@ describe "/api/v4/articles", :type => :api do
       end
     end
 
-    context "article not found" do
+    context "work not found" do
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:uri) { "/api/v4/articles/info:doi/#{article.doi}x" }
+      let(:uri) { "/api/v4/articles/info:doi/#{work.doi}x" }
 
       it "JSON" do
         delete uri, nil, headers
         expect(last_response.status).to eq(404)
 
         response = JSON.parse(last_response.body)
-        expect(response["error"]).to eq ("No article found.")
+        expect(response["error"]).to eq ("No work found.")
         expect(response["success"]).to be_nil
         expect(response["data"]).to be_empty
       end

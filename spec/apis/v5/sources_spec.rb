@@ -9,7 +9,7 @@ describe "/api/v5/sources", :type => :api do
       before(:each) do
         @source = FactoryGirl.create(:source)
         @delayed_job = FactoryGirl.create(:delayed_job)
-        @articles = FactoryGirl.create_list(:article_with_events, 10)
+        @works = FactoryGirl.create_list(:work_with_events, 10)
         @source.update_cache
       end
 
@@ -72,7 +72,7 @@ describe "/api/v5/sources", :type => :api do
     context "get events" do
       before(:each) do
         @source = FactoryGirl.create(:source)
-        @articles = FactoryGirl.create_list(:article_with_events, 10)
+        @works = FactoryGirl.create_list(:work_with_events, 10)
         @source.update_cache
       end
 
@@ -84,7 +84,7 @@ describe "/api/v5/sources", :type => :api do
         data = response["data"]
         item = data.first
         expect(item["name"]).to eq(@source.name)
-        expect(item["article_count"]).to eq(10)
+        expect(item["work_count"]).to eq(10)
         expect(item["event_count"]).to eq(500)
       end
 
@@ -97,7 +97,7 @@ describe "/api/v5/sources", :type => :api do
         data = response["data"]
         item = data.first
         expect(item["name"]).to eq(@source.name)
-        expect(item["article_count"]).to eq(10)
+        expect(item["work_count"]).to eq(10)
         expect(item["event_count"]).to eq(500)
       end
     end
@@ -108,7 +108,7 @@ describe "/api/v5/sources", :type => :api do
       before(:each) do
         @source = FactoryGirl.create(:source_with_api_responses)
         @delayed_job = FactoryGirl.create(:delayed_job)
-        @articles = FactoryGirl.create_list(:article_with_events, 5)
+        @works = FactoryGirl.create_list(:work_with_events, 5)
         @source.update_cache
       end
 
@@ -122,7 +122,7 @@ describe "/api/v5/sources", :type => :api do
         response = JSON.parse(last_response.body)
         data = response["data"]
         expect(data["name"]).to eq(@source.name)
-        expect(data["article_count"]).to eq(5)
+        expect(data["work_count"]).to eq(5)
         expect(data["event_count"]).to eq(250)
         expect(data["responses"]["count"]).to eq(5)
         expect(data["responses"]["average"]).to eq(200)
@@ -137,7 +137,7 @@ describe "/api/v5/sources", :type => :api do
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
         expect(data["name"]).to eq(@source.name)
-        expect(data["article_count"]).to eq(5)
+        expect(data["work_count"]).to eq(5)
         expect(data["event_count"]).to eq(250)
         expect(data["responses"]["count"]).to eq(5)
         expect(data["responses"]["average"]).to eq(200)
