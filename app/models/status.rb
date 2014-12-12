@@ -2,30 +2,30 @@ class Status
   # include HTTP request helpers
   include Networkable
 
-  RELEASES_URL = "https://api.github.com/repos/articlemetrics/lagotto/releases"
+  RELEASES_URL = "https://api.github.com/repos/workmetrics/lagotto/releases"
 
-  def articles_count
+  def works_count
     if ActionController::Base.perform_caching
-      Rails.cache.read("status/articles_count/#{update_date}").to_i
+      Rails.cache.read("status/works_count/#{update_date}").to_i
     else
       Article.count
     end
   end
 
-  def articles_count=(timestamp)
-    Rails.cache.write("status/articles_count/#{timestamp}", Article.count)
+  def works_count=(timestamp)
+    Rails.cache.write("status/works_count/#{timestamp}", Article.count)
   end
 
-  def articles_last30_count
+  def works_last30_count
     if ActionController::Base.perform_caching
-      Rails.cache.read("status/articles_last30_count/#{update_date}").to_i
+      Rails.cache.read("status/works_last30_count/#{update_date}").to_i
     else
       Article.last_x_days(30).count
     end
   end
 
-  def articles_last30_count=(timestamp)
-    Rails.cache.write("status/articles_last30_count/#{timestamp}",
+  def works_last30_count=(timestamp)
+    Rails.cache.write("status/works_last30_count/#{timestamp}",
                       Article.last_x_days(30).count)
   end
 
@@ -183,8 +183,8 @@ class Status
     timestamp = Time.zone.now.utc.iso8601
 
     # loop through cached attributes we want to update
-    [:articles_count,
-     :articles_last30_count,
+    [:works_count,
+     :works_last30_count,
      :events_count,
      :alerts_count,
      :delayed_jobs_active_count,

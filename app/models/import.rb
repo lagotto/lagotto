@@ -60,12 +60,12 @@ class Import
     end
   end
 
-  def queue_article_import
+  def queue_work_import
     if @sample > 0
-      delay(priority: 2, queue: "article-import-queue").process_data
+      delay(priority: 2, queue: "work-import-queue").process_data
     else
       (0...total_results).step(1000) do |offset|
-        delay(priority: 2, queue: "article-import").process_data(offset)
+        delay(priority: 2, queue: "work-import").process_data(offset)
       end
     end
   end
@@ -145,7 +145,7 @@ class Import
       member = item.fetch("member", nil)
       member = member[30..-1].to_i if member
 
-      { Article.uid_as_sym => uid,
+      { Work.uid_as_sym => uid,
         title: title,
         year: year,
         month: month,
@@ -156,8 +156,8 @@ class Import
 
   def import_data(items)
     Array(items).map do |item|
-      article = Article.find_or_create(item)
-      article ? article.id : nil
+      work = Work.find_or_create(item)
+      work ? work.id : nil
     end
   end
 end

@@ -29,7 +29,7 @@ class Source < ActiveRecord::Base
   include Hashie::Extensions::DeepFetch
 
   has_many :retrieval_statuses, :dependent => :destroy
-  has_many :articles, :through => :retrieval_statuses
+  has_many :works, :through => :retrieval_statuses
   has_many :publishers, :through => :publisher_options
   has_many :publisher_options
   has_many :alerts
@@ -87,25 +87,25 @@ class Source < ActiveRecord::Base
     retrieval_statuses.update_all(["queued_at = ?", nil])
   end
 
-  def queue_all_articles(options = {})
+  def queue_all_works(options = {})
     return 0 unless active?
 
-    # find articles that need to be updated. Not queued currently, scheduled_at doesn't matter
+    # find works that need to be updated. Not queued currently, scheduled_at doesn't matter
     rs = retrieval_statuses
 
-    # optionally limit to articles scheduled_at in the past
+    # optionally limit to works scheduled_at in the past
     rs = rs.stale unless options[:all]
 
     # optionally limit by publication date
     if options[:start_date] && options[:end_date]
-      rs = rs.joins(:article).where("articles.published_on" => options[:start_date]..options[:end_date])
+      rs = rs.joins(:work).where("works.published_on" => options[:start_date]..options[:end_date])
     end
 
     rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
-    count = queue_article_jobs(rs, priority: priority)
+    count = queue_work_jobs(rs, priority: priority)
   end
 
-  def queue_article_jobs(rs, options = {})
+  def queue_work_jobs(rs, options = {})
     return 0 unless active?
 
     if rs.length == 0
@@ -142,8 +142,8 @@ class Source < ActiveRecord::Base
     working_count > 1
   end
 
-  def get_data(article, options={})
-    query_url = get_query_url(article)
+  def get_data(work, options={})
+    query_url = get_query_url(work)
     if query_url.nil?
       result = {}
     else
@@ -157,7 +157,7 @@ class Source < ActiveRecord::Base
     result.extend Hashie::Extensions::DeepFetch
   end
 
-  def parse_data(result, article, options = {})
+  def parse_data(result, work, options = {})
     # turn result into a hash for easier parsing later
     result = { 'data' => result } unless result.is_a?(Hash)
 
@@ -173,15 +173,15 @@ class Source < ActiveRecord::Base
     events = get_events(result)
 
     { events: events,
-      events_by_day: get_events_by_day(events, article),
+      events_by_day: get_events_by_day(events, work),
       events_by_month: get_events_by_month(events),
-      events_url: get_events_url(article),
+      events_url: get_events_url(work),
       event_count: events.length,
       event_metrics: get_event_metrics(metrics => events.length) }
   end
 
-  def get_events_by_day(events, article)
-    events = events.reject { |event| event[:event_time].nil? || Date.iso8601(event[:event_time]) - article.published_on > 30 }
+  def get_events_by_day(events, work)
+    events = events.reject { |event| event[:event_time].nil? || Date.iso8601(event[:event_time]) - work.published_on > 30 }
 
     events.group_by { |event| event[:event_time][0..9] }.sort.map do |k, v|
       { year: k[0..3].to_i,
@@ -209,15 +209,15 @@ class Source < ActiveRecord::Base
     {}
   end
 
-  def get_query_url(article)
-    if url.present? && article.doi.present?
-      url % { :doi => article.doi_escaped }
+  def get_query_url(work)
+    if url.present? && work.doi.present?
+      url % { :doi => work.doi_escaped }
     end
   end
 
-  def get_events_url(article)
-    if events_url.present? && article.doi.present?
-      events_url % { :doi => article.doi_escaped }
+  def get_events_url(work)
+    if events_url.present? && work.doi.present?
+      events_url % { :doi => work.doi_escaped }
     end
   end
 
@@ -299,7 +299,7 @@ class Source < ActiveRecord::Base
 
     # loop through cached attributes we want to update
     [:event_count,
-     :article_count,
+     :work_count,
      :working_count,
      :pending_count,
      :queued_count,
@@ -322,19 +322,19 @@ class Source < ActiveRecord::Base
     retrieval_statuses.count == 0
   end
 
-  # Create an empty retrieval record for every article for the new source
+  # Create an empty retrieval record for every work for the new source
   def create_retrievals
-    article_ids = RetrievalStatus.where(:source_id => id).pluck(:article_id)
+    work_ids = RetrievalStatus.where(:source_id => id).pluck(:work_id)
 
-    (0...article_ids.length).step(1000) do |offset|
-      ids = article_ids[offset...offset + 1000]
+    (0...work_ids.length).step(1000) do |offset|
+      ids = work_ids[offset...offset + 1000]
       delay(priority: 2, queue: "retrieval-status").insert_retrievals(ids)
     end
   end
 
   def insert_retrievals(ids)
-    sql = "insert into retrieval_statuses (article_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from articles"
-    sql += " where articles.id not in (#{article_ids.join(',')})" if ids.any?
+    sql = "insert into retrieval_statuses (work_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from works"
+    sql += " where works.id not in (#{work_ids.join(',')})" if ids.any?
 
     ActiveRecord::Base.connection.execute sql
   end

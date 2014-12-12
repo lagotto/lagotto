@@ -43,10 +43,10 @@ module Countable
                         delayed_jobs.count)
     end
 
-    def articles_count
+    def works_count
       if ActionController::Base.perform_caching
         status_update_date = Rails.cache.read('status:timestamp')
-        Rails.cache.read("status/articles_count/#{status_update_date}").to_i
+        Rails.cache.read("status/works_count/#{status_update_date}").to_i
       else
         Article.count
       end
@@ -65,22 +65,22 @@ module Countable
                         retrieval_statuses.sum(:event_count))
     end
 
-    def article_count
+    def work_count
       if ActionController::Base.perform_caching
-        Rails.cache.read("#{name}/article_count/#{update_date}").to_i
+        Rails.cache.read("#{name}/work_count/#{update_date}").to_i
       else
-        articles.has_events.size
+        works.has_events.size
       end
     end
 
-    def article_count=(timestamp)
-      Rails.cache.write("#{name}/article_count/#{timestamp}",
-                        articles.has_events.size)
+    def work_count=(timestamp)
+      Rails.cache.write("#{name}/work_count/#{timestamp}",
+                        works.has_events.size)
     end
 
-    def relative_article_count
-      if articles_count > 0
-        article_count * 100.0 / articles_count
+    def relative_work_count
+      if works_count > 0
+        work_count * 100.0 / works_count
       else
         0
       end

@@ -17,12 +17,13 @@ class Work < ActiveRecord::Base
   has_many :alerts
   has_many :api_responses
 
-  validates :uid, :title, :presence => true
-  validates :doi, :uniqueness => true, :format => { :with => DOI_FORMAT }, :allow_nil => true
-  validates :year, :numericality => { :only_integer => true }, :inclusion => { :in => 1650..(Time.zone.now.year), :message => "should be between 1650 and #{Time.zone.now.year}" }
-  validate :validate_published_on, if: proc { |work| work.year.present? }
+  validates :pid_type, :pid, :title, presence: true
+  validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_nil: true
+  validates :pmid, :pmcid, uniqueness: true, allow_nil: true
+  validates :year, numericality: { only_integer: true }
+  validate :validate_published_on
 
-  before_validation :sanitize_title
+  before_validation :sanitize_title, :set_pid
   after_create :create_retrievals
 
   scope :query, ->(query) { where("doi like ?", "#{query}%") }
@@ -285,8 +286,10 @@ class Work < ActiveRecord::Base
   def validate_published_on
     date_parts = [year, month, day].reject(&:blank?)
     published_on = Date.new(*date_parts)
-    if published_on > Date.today
+    if published_on > Time.zone.now.to_date
       errors.add :published_on, "is a date in the future"
+    elsif published_on < Date.new(1650)
+      errors.add :published_on, "is before 1650"
     else
       write_attribute(:published_on, published_on)
     end
@@ -296,6 +299,16 @@ class Work < ActiveRecord::Base
 
   def sanitize_title
     self.title = ActionController::Base.helpers.sanitize(title)
+  end
+
+  def set_pid
+    if doi.present?
+      write_attribute(:pid, doi)
+      write_attribute(:pid_type, "doi")
+    elsif pmid.present?
+      write_attribute(:pid, pmid)
+      write_attribute(:pid_type, "pmid")
+    end
   end
 
   def create_retrievals

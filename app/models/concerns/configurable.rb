@@ -131,7 +131,7 @@ module Configurable
 
     def languages
       # Default is 25 largest Wikipedias:
-      # https://meta.wikimedia.org/wiki/List_of_Wikipedias#All_Wikipedias_ordered_by_number_of_articles
+      # https://meta.wikimedia.org/wiki/List_of_Wikipedias#All_Wikipedias_ordered_by_number_of_works
       config.languages || "en nl de sv fr it ru es pl war ceb ja vi pt zh uk ca no fi fa id cs ko hu ar commons"
     end
 
@@ -227,7 +227,7 @@ module Configurable
       config.batch_time_interval = value.to_i
     end
 
-    # The update interval for articles depends on article age. We use 4 different intervals that have default settings, but can also be configured individually per source:
+    # The update interval for works depends on work age. We use 4 different intervals that have default settings, but can also be configured individually per source:
     # * first week: update daily
     # * first month: update daily
     # * first year: update every ¼ month

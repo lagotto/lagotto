@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class Pmc < Source
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     # properly handle not found errors
     result = { 'data' => [] } if result[:status] == 404
 
@@ -16,7 +16,7 @@ class Pmc < Source
     { events: events,
       events_by_day: [],
       events_by_month: get_events_by_month(events),
-      events_url: get_events_url(article),
+      events_url: get_events_url(work),
       event_count: total,
       event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
   end
@@ -80,20 +80,20 @@ class Pmc < Source
                        :source_id => id)
           journals_with_errors << journal
         else
-          # go through all the articles in the xml document
-          document.xpath("//article").each do |article|
-            article = article.to_hash
-            article = article["article"]
+          # go through all the works in the xml document
+          document.xpath("//work").each do |work|
+            work = work.to_hash
+            work = work["work"]
 
-            doi = article["meta-data"]["doi"]
+            doi = work["meta-data"]["doi"]
             # sometimes doi metadata are missing
             break unless doi
 
-            view = article["usage"]
+            view = work["usage"]
             view['year'] = year.to_s
             view['month'] = month.to_s
 
-            # try to get the existing information about the given article
+            # try to get the existing information about the given work
             data = get_result(db_url + CGI.escape(doi))
 
             if data['views'].nil?
@@ -124,11 +124,11 @@ class Pmc < Source
     feed_url % { year: year, month: month, journal: journal, username: pc.username, password: pc.password }
   end
 
-  def get_events_url(article)
-    events_url % { :pmcid => article.pmcid } if article.pmcid.present?
+  def get_events_url(work)
+    events_url % { :pmcid => work.pmcid } if work.pmcid.present?
   end
 
-  # Format Pmc events for all articles as csv
+  # Format Pmc events for all works as csv
   # Show historical data if options[:format] is used
   # options[:format] can be "html", "pdf" or "combined"
   # options[:month] and options[:year] are the starting month and year, default to last month
@@ -179,7 +179,7 @@ class Pmc < Source
   end
 
   def events_url
-    config.events_url  || "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC%{pmcid}"
+    config.events_url  || "http://www.ncbi.nlm.nih.gov/pmc/works/PMC%{pmcid}"
   end
 
   def cron_line
