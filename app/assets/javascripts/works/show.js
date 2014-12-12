@@ -81,11 +81,11 @@ function showEvents(data, page) {
         formattedDate(event["date"], event["issued"]["date-parts"][0].length)  + ". ";
 
       var sel_title = d3.select("#results").append("h4")
-        .attr("class", "article")
+        .attr("class", "work")
         .append("text")
         .html(event["title"]);
 
-      sel_title.classed('discussed_event', function(d) { return event["type"] != "article-journal"; });
+      sel_title.classed('discussed_event', function(d) { return event["type"] != "work-journal"; });
 
       d3.select("#results").append("p")
         .html(event_text)
@@ -181,8 +181,8 @@ function formattedAuthor(author) {
 
 // format event type
 function formattedType(type) {
-  var types = { "article-journal": "Journal article",
-                "article-newspaper": "News",
+  var types = { "work-journal": "Journal work",
+                "work-newspaper": "News",
                 "post": "Blog post",
                 "webpage": "Web page",
                 "broadcast": "Podcast/Video",

@@ -29,13 +29,13 @@ if (!params.empty()) {
 if (query) {
   d3.json(query, function(error, json) {
     if (error) { return console.warn(error); }
-    articlesViz(json);
+    worksViz(json);
     paginate(json);
   });
 }
 
 // add data to page
-function articlesViz(json) {
+function worksViz(json) {
   data = json["data"];
 
   json["href"] = "?page={{number}}";
@@ -51,7 +51,7 @@ function articlesViz(json) {
     d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
-      .text("No articles found");
+      .text("No works found");
     if (page == "") d3.select("div#rss").remove();
     return;
   }
@@ -60,35 +60,35 @@ function articlesViz(json) {
     .attr("id", "results");
 
   for (var i=0; i<data.length; i++) {
-    var article = data[i];
-    var date_parts = article["issued"]["date-parts"][0];
+    var work = data[i];
+    var date_parts = work["issued"]["date-parts"][0];
     var date = datePartsToDate(date_parts);
 
     d3.select("#results").append("h4")
-      .attr("class", "article")
+      .attr("class", "work")
       .append("a")
-      .attr("href", function(d) { return "/articles/info:" + uid_type + "/" + article[uid_type]; })
-      .text(article["title"]);
+      .attr("href", function(d) { return "/works/info:" + uid_type + "/" + work[uid_type]; })
+      .text(work["title"]);
     d3.select("#results").append("p")
       .text(formattedDate(date, date_parts.length) + ". ")
       .append("a")
-      .attr("href", function(d) { return url_for(article); })
+      .attr("href", function(d) { return url_for(work); })
       .append("text")
-      .text(url_for(article));
+      .text(url_for(work));
     d3.select("#results").append("p")
-      .text(signpostsToString(article));
+      .text(signpostsToString(work));
   };
 };
 
-// link to individual article
-function url_for(article) {
+// link to individual work
+function url_for(work) {
   switch (uid_type) {
   case 'doi':
-    return "http://dx.doi.org/" + article["doi"];
+    return "http://dx.doi.org/" + work["doi"];
   case 'pmid':
-    return "http://www.ncbi.nlm.nih.gov/pubmed/" + article["pmid"];
+    return "http://www.ncbi.nlm.nih.gov/pubmed/" + work["pmid"];
   case 'pmcid':
-    return "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC" + article["pmcid"];
+    return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work["pmcid"];
   }
 };
 
@@ -153,21 +153,21 @@ function formattedDate(date, len) {
   }
 };
 
-function signpostsToString(article) {
+function signpostsToString(work) {
   if (source != "") {
-    s = article["sources"].filter(function(d) { return d.name == source })[0];
+    s = work["sources"].filter(function(d) { return d.name == source })[0];
     a = [s.display_name + ": " + formatFixed(s.metrics.total)];
   } else if (order != "") {
-    s = article["sources"].filter(function(d) { return d.name == order })[0];
+    s = work["sources"].filter(function(d) { return d.name == order })[0];
     a = [s.display_name + ": " + formatFixed(s.metrics.total)];
   } else {
     a = [];
   }
   var b = []
-  if (article["viewed"] > 0) b.push("Viewed: " + formatFixed(article["viewed"]));
-  if (article["cited"] > 0) b.push("Cited: " + formatFixed(article["cited"]));
-  if (article["saved"] > 0) b.push("Saved: " + formatFixed(article["saved"]));
-  if (article["discussed"] > 0) b.push("Discussed: " + formatFixed(article["discussed"]));
+  if (work["viewed"] > 0) b.push("Viewed: " + formatFixed(work["viewed"]));
+  if (work["cited"] > 0) b.push("Cited: " + formatFixed(work["cited"]));
+  if (work["saved"] > 0) b.push("Saved: " + formatFixed(work["saved"]));
+  if (work["discussed"] > 0) b.push("Discussed: " + formatFixed(work["discussed"]));
   if (b.length > 0) {
     a.push(b.join(" • "));
     return a.join(" | ");
