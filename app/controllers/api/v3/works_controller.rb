@@ -8,7 +8,7 @@ class Api::V3::WorksController < Api::V3::BaseController
     # Limit number of ids to 50
     source_ids = get_source_ids(params[:source])
 
-    type = { "doi" => :doi, "pmid" => :pmid, "pmcid" => :pmcid, "mendeley" => :mendeley_uuid }.values_at(params[:type]).first || Work.uid_as_sym
+    type = { "doi" => :doi, "pmid" => :pmid, "pmcid" => :pmcid, "mendeley" => :mendeley_uuid }.values_at(params[:type]).first || :doi
 
     ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| Work.clean_id(id) }
     id_hash = { :works => { type => ids }, :retrieval_statuses => { :source_id => source_ids }}
@@ -23,7 +23,7 @@ class Api::V3::WorksController < Api::V3::BaseController
       else
         @error = "Source not found."
       end
-      render "error", :status => :not_found
+      render json: { error: @error }, :status => :not_found
     else
       @works = @works.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
     end
@@ -45,7 +45,7 @@ class Api::V3::WorksController < Api::V3::BaseController
       else
         @error = "Source not found."
       end
-      render "error", :status => :not_found
+      render json: { error: @error }, :status => :not_found
     else
       @work = @work.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
     end

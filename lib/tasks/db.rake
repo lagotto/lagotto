@@ -111,6 +111,13 @@ namespace :db do
       puts "#{Work.count} work titles sanitized"
     end
 
+    desc "Load pids from persistent identifiers"
+    task :load_pids => :environment do
+      Work.update_all("pid = doi")
+      Work.update_all(pid_type: "doi")
+      puts "#{Work.count} work pids loaded"
+    end
+
     desc "Add publication year, month and day"
     task :date_parts => :environment do
       begin

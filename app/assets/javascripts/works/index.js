@@ -2,7 +2,6 @@
 var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
-  var pid_type = params.attr('data-pid_type');
   var page = params.attr('data-page');
   var per_page = params.attr('data-per_page');
   var q = params.attr('data-q');
@@ -67,7 +66,7 @@ function worksViz(json) {
     d3.select("#results").append("h4")
       .attr("class", "work")
       .append("a")
-      .attr("href", function(d) { return "/works/" + pid_type + "/" + work[pid_type]; })
+      .attr("href", function(d) { return "/works/" + work["id"]; })
       .text(work["title"]);
     d3.select("#results").append("p")
       .text(formattedDate(date, date_parts.length) + ". ")
@@ -82,13 +81,14 @@ function worksViz(json) {
 
 // link to individual work
 function url_for(work) {
-  switch (pid_type) {
-  case 'doi':
+  if (work["doi"].length > 0) {
     return "http://dx.doi.org/" + work["doi"];
-  case 'pmid':
+  } else if (work["pmid"].length > 0) {
     return "http://www.ncbi.nlm.nih.gov/pubmed/" + work["pmid"];
-  case 'pmcid':
+  } else if (work["pmcid"].length > 0) {
     return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work["pmcid"];
+  } else {
+    return ""
   }
 };
 

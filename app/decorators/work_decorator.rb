@@ -6,6 +6,10 @@ class WorkDecorator < Draper::Decorator
     PaginatingDecorator
   end
 
+  def id
+    to_param
+  end
+
   def source_ids
     collection = Source
     collection = collection.where(name: context[:source]) \
@@ -113,7 +117,7 @@ class WorkDecorator < Draper::Decorator
   end
 
   def coins
-    "<span class=\"Z3988\" title=\"ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft_id=info:doi/#{doi_escaped}&amp;rft.genre=article&amp;rft.atitle=#{title_escaped}&amp;rft_date=#{published_on.to_s(:db)}\"></span>"
+    "<span class=\"Z3988\" title=\"ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft_id=info:doi/#{doi_escaped}&amp;rft.genre=work&amp;rft.atitle=#{title_escaped}&amp;rft_date=#{published_on.to_s(:db)}\"></span>"
   end
 
   def viewed_span
