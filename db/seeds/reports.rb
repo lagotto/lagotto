@@ -18,9 +18,9 @@ status_report = Report.where(name: 'status_report').first_or_create(
                 :interval => 1.week,
                 :private => true)
 
-article_statistics_report = Report.where(name: 'article_statistics_report').first_or_create(
-                :display_name => 'Article Statistics Report',
-                :description => 'Generates CSV file with ALM for all articles',
+work_statistics_report = Report.where(name: 'work_statistics_report').first_or_create(
+                :display_name => 'Work Statistics Report',
+                :description => 'Generates CSV file with ALM for all works',
                 :interval => 1.month,
                 :private => false)
 
