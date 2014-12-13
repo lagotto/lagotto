@@ -1,10 +1,10 @@
 # encoding: UTF-8
 
 class ArticleCoverage < Source
-  def get_query_url(article)
-    return nil unless article.doi =~ /^10.1371/
+  def get_query_url(work)
+    return nil unless work.doi =~ /^10.1371/
 
-    url % { :doi => article.doi_escaped }
+    url % { :doi => work.doi_escaped }
   end
 
   def response_options

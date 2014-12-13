@@ -1,28 +1,28 @@
 # encoding: UTF-8
 
 class Wos < Source
-  def get_query_url(article)
-    return nil unless article.doi.present?
+  def get_query_url(work)
+    return nil unless work.doi.present?
 
     url
   end
 
-  def get_data(article, options={})
-    query_url = get_query_url(article)
+  def get_data(work, options={})
+    query_url = get_query_url(work)
     if query_url.nil?
       result = {}
     else
-      data = get_xml_request(article)
+      data = get_xml_request(work)
       result = get_result(query_url, options.merge(content_type: 'xml', data: data))
     end
     result.extend Hashie::Extensions::DeepFetch
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     return result if result[:error]
 
     # Check whether WOS has returned an error status message
-    error_status = check_error_status(result, article)
+    error_status = check_error_status(result, work)
     return { error: error_status } if error_status
 
     values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
@@ -39,7 +39,7 @@ class Wos < Source
       event_metrics: get_event_metrics(citations: event_count) }
   end
 
-  def check_error_status(result, article)
+  def check_error_status(result, work)
     status = result.deep_fetch('response', 'fn', 'rc') { 'OK' }
 
     if status.casecmp('OK') == 0
@@ -53,7 +53,7 @@ class Wos < Source
         status_code = 404
       end
       error = result.deep_fetch('response', 'fn', 'error') { 'an error occured' }
-      message = "Web of Science error #{status}: '#{error}' for article #{article.doi}"
+      message = "Web of Science error #{status}: '#{error}' for work #{work.doi}"
       Alert.create(exception: '',
                    message: message,
                    class_name: class_name,
@@ -63,7 +63,7 @@ class Wos < Source
     end
   end
 
-  def get_xml_request(article)
+  def get_xml_request(work)
     xml = ::Builder::XmlMarkup.new(indent: 2)
     xml.instruct!
     xml.request(xmlns: 'http://www.isinet.com/xrpc42',
@@ -80,7 +80,7 @@ class Wos < Source
           end
           xml.map do
             xml.map(name: 'cite_id') do
-              xml.val article.doi, name: 'doi'
+              xml.val work.doi, name: 'doi'
             end
           end
         end

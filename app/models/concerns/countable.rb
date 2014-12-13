@@ -48,7 +48,7 @@ module Countable
         status_update_date = Rails.cache.read('status:timestamp')
         Rails.cache.read("status/works_count/#{status_update_date}").to_i
       else
-        Article.count
+        Work.count
       end
     end
 

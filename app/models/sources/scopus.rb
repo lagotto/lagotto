@@ -5,7 +5,7 @@ class Scopus < Source
     { :headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken } }
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     return result if result[:error]
 
     events = result.deep_fetch('search-results', 'entry', 0) { {} }

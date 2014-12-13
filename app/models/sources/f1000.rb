@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class F1000 < Source
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     # properly handle not found errors
     result = { 'data' => [] } if result[:status] == 404
 
@@ -73,7 +73,7 @@ class F1000 < Source
                          'classifications' => classifications,
                          'updated_at' => Time.now.utc.iso8601 }
 
-      # try to get the existing information about the given article
+      # try to get the existing information about the given work
       data = get_result(db_url + CGI.escape(doi))
 
       if data['recommendations'].nil?

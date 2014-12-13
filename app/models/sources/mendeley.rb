@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class Mendeley < Source
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     # When Mendeley doesn't return a proper API response it can return
     # - a 404 status and error hash
     # - an empty array
@@ -23,35 +23,35 @@ class Mendeley < Source
       event_metrics: get_event_metrics(shares: readers, groups: groups, total: total) }
   end
 
-  def get_mendeley_uuid(article, options={})
+  def get_mendeley_uuid(work, options={})
     # get Mendeley uuid, try pmid first, then doi
     # Otherwise search by title
     # Only use uuid if we also get mendeley_url, otherwise the uuid is broken and we return nil
     # The Mendeley uuid is not persistent, so we need to get it every time
 
-    unless article.pmid.blank?
-      result = get_result(get_lookup_url(article), options.merge(bearer: access_token))
+    unless work.pmid.blank?
+      result = get_result(get_lookup_url(work), options.merge(bearer: access_token))
       if result.is_a?(Hash) && result['mendeley_url']
-        article.update_attributes(:mendeley_uuid => result['uuid'])
+        work.update_attributes(:mendeley_uuid => result['uuid'])
         return result['uuid']
       end
     end
 
-    unless article.doi.nil?
-      result = get_result(get_lookup_url(article, "doi"), options.merge(bearer: access_token))
+    unless work.doi.nil?
+      result = get_result(get_lookup_url(work, "doi"), options.merge(bearer: access_token))
       if result.is_a?(Hash) && result['mendeley_url']
-        article.update_attributes(:mendeley_uuid => result['uuid'])
+        work.update_attributes(:mendeley_uuid => result['uuid'])
         return result['uuid']
       end
     end
 
     # search by title if we can't get the uuid using the pmid or doi
-    unless article.title.blank?
-      results = get_result(get_lookup_url(article, "title"), options.merge(bearer: access_token))
+    unless work.title.blank?
+      results = get_result(get_lookup_url(work, "title"), options.merge(bearer: access_token))
       if results.is_a?(Hash) && results['documents']
-        documents = results["documents"].select { |document| document["doi"] == article.doi }
+        documents = results["documents"].select { |document| document["doi"] == work.doi }
         if documents && documents.length == 1 && documents[0]['mendeley_url']
-          article.update_attributes(:mendeley_uuid => documents[0]['uuid'])
+          work.update_attributes(:mendeley_uuid => documents[0]['uuid'])
           return documents[0]['uuid']
         end
       end
@@ -61,24 +61,24 @@ class Mendeley < Source
     nil
   end
 
-  def get_query_url(article)
+  def get_query_url(work)
     # First check that we have a valid OAuth2 access token, and a refreshed uuid
-    return nil unless get_access_token && get_mendeley_uuid(article)
+    return nil unless get_access_token && get_mendeley_uuid(work)
 
-    url % { :id => article.mendeley_uuid, :api_key => api_key }
+    url % { :id => work.mendeley_uuid, :api_key => api_key }
   end
 
-  def get_lookup_url(article, id_type = 'pmid')
+  def get_lookup_url(work, id_type = 'pmid')
     # First check that we have a valid OAuth2 access token
     return nil unless get_access_token
 
     case id_type
     when "pmid"
-      url_with_type % { :id => article.pmid, :doc_type => id_type, :api_key => api_key }
+      url_with_type % { :id => work.pmid, :doc_type => id_type, :api_key => api_key }
     when "doi"
-      url_with_type % { :id => CGI.escape(article.doi_escaped), :doc_type => id_type, :api_key => api_key }
+      url_with_type % { :id => CGI.escape(work.doi_escaped), :doc_type => id_type, :api_key => api_key }
     when "title"
-      url_with_title % { :title => CGI.escape("title:#{article.title}"), :api_key => api_key }
+      url_with_title % { :title => CGI.escape("title:#{work.title}"), :api_key => api_key }
     else
       nil
     end
@@ -109,7 +109,7 @@ class Mendeley < Source
     { bearer: access_token }
   end
 
-  # Format Mendeley events for all articles as csv
+  # Format Mendeley events for all works as csv
   def to_csv(options = {})
     service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley"
 

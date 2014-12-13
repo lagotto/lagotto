@@ -50,7 +50,7 @@ describe ReportMailer, :type => :mailer do
     let(:mail) { ReportMailer.send_work_statistics_report(report) }
 
     it "sends email" do
-      expect(mail.subject).to eq("[#{ENV['SITENAME']}] Article Statistics Report")
+      expect(mail.subject).to eq("[#{ENV['SITENAME']}] Work Statistics Report")
       expect(mail.bcc).to eq([report.users.map(&:email).join(",")])
       expect(mail.to).to eq([ENV['ADMIN_EMAIL']])
       expect(mail.from).to eq([ENV['ADMIN_EMAIL']])

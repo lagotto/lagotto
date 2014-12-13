@@ -1,17 +1,17 @@
 # encoding: UTF-8
 
 class Copernicus < Source
-  def get_query_url(article)
-    return nil unless article.doi =~ /^10.5194/
+  def get_query_url(work)
+    return nil unless work.doi =~ /^10.5194/
 
-    url % { :doi => article.doi }
+    url % { :doi => work.doi }
   end
 
   def request_options
     { username: username, password: password }
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     return result if result[:error]
 
     events = result.fetch('counter') { {} }

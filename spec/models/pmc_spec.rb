@@ -39,10 +39,9 @@ describe Pmc, :type => :model do
     end
 
     it "should format the CouchDB PDF report as csv" do
-      Time.zone.now.to_date - 2.months
+      start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.pbio.0030137", "0", "0"]
-      row.fill("0", 3..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_pdf_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_pdf_report.json'))
       response = CSV.parse(subject.to_csv(format: "pdf", month: 11, year: 2013))
@@ -52,10 +51,9 @@ describe Pmc, :type => :model do
     end
 
     it "should format the CouchDB combined report as csv" do
-      Time.zone.now.to_date - 2.months
+      start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.pbio.0040015", "9", "10"]
-      row.fill("0", 3..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_combined_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_combined_report.json'))
       response = CSV.parse(subject.to_csv(format: "combined", month: 11, year: 2013))

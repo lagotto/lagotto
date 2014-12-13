@@ -1,17 +1,17 @@
 # encoding: UTF-8
 
 class Counter < Source
-  def get_query_url(article)
-    return nil unless article.doi =~ /^10.1371/
+  def get_query_url(work)
+    return nil unless work.doi =~ /^10.1371/
 
-    url % { :doi => article.doi_escaped }
+    url % { :doi => work.doi_escaped }
   end
 
   def request_options
     { content_type: "xml"}
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     return result if result[:error]
 
     events = get_events(result)
@@ -50,7 +50,7 @@ class Counter < Source
     end
   end
 
-  # Format Counter events for all articles as csv
+  # Format Counter events for all works as csv
   # Show historical data if options[:format] is used
   # options[:format] can be "html", "pdf" or "combined"
   # options[:month] and options[:year] are the starting month and year, default to last month

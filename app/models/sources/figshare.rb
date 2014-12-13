@@ -1,13 +1,13 @@
 # encoding: UTF-8
 
 class Figshare < Source
-  def get_query_url(article)
-    return nil unless article.doi =~ /^10.1371/
+  def get_query_url(work)
+    return nil unless work.doi =~ /^10.1371/
 
-    url % { :doi => article.doi }
+    url % { :doi => work.doi }
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     return result if result[:error]
 
     events = Array(result["items"])

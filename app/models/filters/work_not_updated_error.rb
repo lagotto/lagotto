@@ -9,7 +9,7 @@ class WorkNotUpdatedError < Filter
         { source_id: response.source_id,
           work_id: response.work_id,
           level: Alert::ERROR,
-          message: "Article not updated for #{response.update_interval} days" }
+          message: "Work not updated for #{response.update_interval} days" }
       end
       raise_alerts(responses)
     end

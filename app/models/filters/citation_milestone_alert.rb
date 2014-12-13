@@ -9,7 +9,7 @@ class CitationMilestoneAlert < Filter
         { source_id: response.source_id,
           work_id: response.work_id,
           level: Alert::INFO,
-          message: "Article has been cited #{response.event_count} times" }
+          message: "Work has been cited #{response.event_count} times" }
       end
       raise_alerts(responses)
     end

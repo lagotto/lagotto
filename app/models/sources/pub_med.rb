@@ -1,10 +1,10 @@
 # encoding: UTF-8
 
 class PubMed < Source
-  def get_query_url(article)
-    return nil unless article.get_ids && article.pmid.present?
+  def get_query_url(work)
+    return nil unless work.get_ids && work.pmid.present?
 
-    url % { :pmid => article.pmid }
+    url % { :pmid => work.pmid }
   end
 
   def request_options
@@ -20,9 +20,9 @@ class PubMed < Source
     end
   end
 
-  def get_events_url(article)
-    if article.pmid.present?
-      events_url % { :pmid => article.pmid }
+  def get_events_url(work)
+    if work.pmid.present?
+      events_url % { :pmid => work.pmid }
     else
       nil
     end

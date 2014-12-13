@@ -19,7 +19,7 @@ class Work < ActiveRecord::Base
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_nil: true
-  validates :pmid, :pmcid, uniqueness: true, allow_nil: true
+  validates :pid, :pmid, :pmcid, :canonical_url, uniqueness: true, allow_nil: true
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
 
@@ -45,10 +45,12 @@ class Work < ActiveRecord::Base
     case
     when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
     when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]) }
-    when id.starts_with?("pmid/")              then { pmid: id[5..-1] }
-    when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
-    when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
     when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]) }
+    when id.starts_with?("pmid/")              then { pmid: id[5..-1] }
+    when id.starts_with?("info:pmid/")         then { pmid: id[10..-1] }
+    when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
+    when id.starts_with?("info:pmcid/PMC")     then { pmcid: id[14..-1] }
+    when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
     else { doi: id }
     end
   end
@@ -288,6 +290,8 @@ class Work < ActiveRecord::Base
 
   # pid is required, use doi, pmid, pmcid, or canonical url in that order
   def set_pid
+    return nil if pid.present?
+
     if doi.present?
       write_attribute(:pid, doi)
       write_attribute(:pid_type, "doi")

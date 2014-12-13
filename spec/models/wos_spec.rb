@@ -85,7 +85,7 @@ describe Wos, :type => :model do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(error: "Web of Science error Server.authentication: 'No matches returned for IP Address' for article #{work.doi}")
+      expect(response).to eq(error: "Web of Science error Server.authentication: 'No matches returned for IP Address' for work #{work.doi}")
       expect(Alert.count).to eq(1)
       alert = Alert.first
       expect(alert.class_name).to eq("Net::HTTPUnauthorized")

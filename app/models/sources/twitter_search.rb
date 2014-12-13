@@ -1,33 +1,33 @@
 # encoding: UTF-8
 
 class TwitterSearch < Source
-  def get_query_url(article, options = {})
-    return nil unless get_access_token && article.doi.present? && article.get_url
+  def get_query_url(work, options = {})
+    return nil unless get_access_token && work.doi.present? && work.get_url
 
-    URI.escape(url % { :doi => article.doi_escaped, :query_url => article.canonical_url })
+    URI.escape(url % { :doi => work.doi_escaped, :query_url => work.canonical_url })
   end
 
-  def get_events_url(article)
-    return nil unless events_url.present? && article.doi.present?
+  def get_events_url(work)
+    return nil unless events_url.present? && work.doi.present?
 
-    URI.escape(events_url % { :doi => article.doi_escaped, :query_url => article.canonical_url })
+    URI.escape(events_url % { :doi => work.doi_escaped, :query_url => work.canonical_url })
   end
 
   def request_options
     { bearer: access_token }
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     # return early if an error occured
     return result if result[:error]
 
     events = get_events(result)
-    events = update_events(article, events)
+    events = update_events(work, events)
 
     { events: events,
-      events_by_day: get_events_by_day(events, article),
+      events_by_day: get_events_by_day(events, work),
       events_by_month: get_events_by_month(events),
-      events_url: get_events_url(article),
+      events_url: get_events_url(work),
       event_count: events.length,
       event_metrics: get_event_metrics(:comments => events.length) }
   end
@@ -72,8 +72,8 @@ class TwitterSearch < Source
   # check whether we have stored additional tweets in the past
   # merge with new tweets, using tweet URL as unique key
   # we need hash with indifferent access to compare string and symbol keys
-  def update_events(article, events)
-    data = HashWithIndifferentAccess.new(get_lagotto_data("twitter_search:#{article.doi_escaped}"))
+  def update_events(work, events)
+    data = HashWithIndifferentAccess.new(get_lagotto_data("twitter_search:#{work.doi_escaped}"))
 
     merged_events = Array(data['events']) | events
     merged_events.group_by { |event| event[:event][:id] }.map { |_, v| v.first }

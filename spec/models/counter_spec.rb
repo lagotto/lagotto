@@ -31,7 +31,6 @@ describe Counter, :type => :model do
       start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.ppat.1000446", "112", "95", "45"]
-      row.fill("0", 4..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_html_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_html_report.json'))
       response = CSV.parse(subject.to_csv(format: "html", month: 11, year: 2013))
@@ -44,7 +43,6 @@ describe Counter, :type => :model do
       start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.pbio.0020413", "0", "0", "1"]
-      row.fill("0", 4..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_pdf_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_pdf_report.json'))
       response = CSV.parse(subject.to_csv(format: "pdf", month: 11, year: 2013))
@@ -57,7 +55,6 @@ describe Counter, :type => :model do
       start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.pbio.0020413", "0", "0", "0"]
-      row.fill("0", 4..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_xml_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_xml_report.json'))
       response = CSV.parse(subject.to_csv(format: "xml", month: 11, year: 2013))
@@ -70,7 +67,6 @@ describe Counter, :type => :model do
       start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
       row = ["doi", "10.1371/journal.pbio.0030137", "165", "149", "61"]
-      row.fill("0", 4..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_combined_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_combined_report.json'))
       response = CSV.parse(subject.to_csv(format: "combined", month: 11, year: 2013))

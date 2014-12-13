@@ -1,13 +1,13 @@
 # encoding: UTF-8
 
 class PmcEurope < Source
-  def get_query_url(article)
-    return nil unless article.get_ids && article.pmid.present?
+  def get_query_url(work)
+    return nil unless work.get_ids && work.pmid.present?
 
-    url % { :pmid => article.pmid }
+    url % { :pmid => work.pmid }
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     return result if result[:error]
 
     event_count = result["hitCount"] || 0
@@ -15,15 +15,15 @@ class PmcEurope < Source
     { events: [],
       events_by_day: [],
       events_by_month: [],
-      events_url: get_events_url(article),
+      events_url: get_events_url(work),
       event_count: event_count,
       event_metrics: get_event_metrics(citations: event_count) }
   end
 
-  def get_events_url(article)
-    return nil unless article.pmid.present?
+  def get_events_url(work)
+    return nil unless work.pmid.present?
 
-    events_url % { :pmid => article.pmid }
+    events_url % { :pmid => work.pmid }
   end
 
   def config_fields

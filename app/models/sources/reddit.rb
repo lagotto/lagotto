@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class Reddit < Source
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     return result if result[:error]
 
     events = result.deep_fetch('data', 'children') { [] }
@@ -13,9 +13,9 @@ class Reddit < Source
     events = get_events(events)
 
     { events: events,
-      events_by_day: get_events_by_day(events, article),
+      events_by_day: get_events_by_day(events, work),
       events_by_month: get_events_by_month(events),
-      events_url: get_events_url(article),
+      events_url: get_events_url(work),
       event_count: total,
       event_metrics: get_event_metrics(comments: comments, likes: likes, total: total) }
   end

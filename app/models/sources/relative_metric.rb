@@ -1,14 +1,14 @@
 class RelativeMetric < Source
-  def get_query_url(article)
-    return nil unless article.doi =~ /^10.1371/
+  def get_query_url(work)
+    return nil unless work.doi =~ /^10.1371/
 
-    url % { :doi => article.doi_escaped }
+    url % { :doi => work.doi_escaped }
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     return result if result[:error]
 
-    events = get_events(result, article.published_on.year)
+    events = get_events(result, work.published_on.year)
 
     total = events[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }
 

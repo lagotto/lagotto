@@ -1,14 +1,14 @@
 # encoding: UTF-8
 
 class Facebook < Source
-  def get_query_url(article, options = {})
-    return nil unless get_access_token && article.get_url
+  def get_query_url(work, options = {})
+    return nil unless get_access_token && work.get_url
 
     # use depreciated v2.0 API if linkstat_url is used
     if linkstat_url.present?
-      URI.escape(linkstat_url % { access_token: access_token, query_url: article.canonical_url_escaped })
+      URI.escape(linkstat_url % { access_token: access_token, query_url: work.canonical_url_escaped })
     else
-      url % { access_token: access_token, query_url: article.canonical_url_escaped }
+      url % { access_token: access_token, query_url: work.canonical_url_escaped }
     end
   end
 
@@ -16,7 +16,7 @@ class Facebook < Source
     { bearer: access_token }
   end
 
-  def parse_data(result, article, options={})
+  def parse_data(result, work, options={})
     return result if result[:error]
 
     result.extend Hashie::Extensions::DeepFetch
