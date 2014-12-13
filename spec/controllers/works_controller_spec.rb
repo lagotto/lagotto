@@ -7,19 +7,19 @@ describe WorksController, :type => :controller do
     let(:work) { FactoryGirl.create(:work_with_events) }
 
     it "GET DOI" do
-      get "/works/info:doi/#{work.doi}"
+      get "/works/doi/#{work.doi}"
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include(work.doi)
     end
 
     it "GET pmid" do
-      get "/works/info:pmid/#{work.pmid}"
+      get "/works/pmid/#{work.pmid}"
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include(work.pmid)
     end
 
     it "GET pmcid" do
-      get "/works/info:pmcid/PMC#{work.pmcid}"
+      get "/works/pmcid/PMC#{work.pmcid}"
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include(work.pmcid.to_s)
     end
@@ -27,7 +27,7 @@ describe WorksController, :type => :controller do
 
   context "errors" do
     it "redirects to the home page for an unknown work" do
-      get "/works/info:doi/x"
+      get "/works/doi/x"
       expect(last_response.status).to eq(302)
       expect(last_response.body).to include("redirected")
     end

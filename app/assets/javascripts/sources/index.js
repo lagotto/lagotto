@@ -30,7 +30,7 @@ function worksViz(data) {
   // remove source not needed for the following visualizations
   data = data.filter(function(d) { return d.name !== "relativemetric"; });
 
-  // Articles tab
+  // Works tab
   var chart = d3.select("div#works-body").append("svg")
     .attr("width", w + l + r)
     .attr("height", data.length * (h + 2 * s) + 30)

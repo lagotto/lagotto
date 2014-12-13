@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "/api/v4/articles", :type => :api do
-  let(:error) { { "total" => 0, "total_pages" => 0, "page" => 0, "success" => nil, "error" => "You are not authorized to access this page.", "data" => [] } }
+  let(:error) { { "error"=>"You are not authorized to access this page." } }
   let(:password) { user.password }
   let(:headers) { { 'HTTP_ACCEPT' => 'application/json', 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, password) } }
 
@@ -9,10 +9,10 @@ describe "/api/v4/articles", :type => :api do
     let(:uri) { "/api/v4/works" }
     let(:params) do
       { "work" => { "doi" => "10.1371/journal.pone.0036790",
-                       "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
-                       "year" => 2012,
-                       "month" => 5,
-                       "day" => 15 } }
+                    "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
+                    "year" => 2012,
+                    "month" => 5,
+                    "day" => 15 } }
     end
 
     context "as admin user" do
@@ -23,7 +23,7 @@ describe "/api/v4/articles", :type => :api do
         expect(last_response.status).to eq(201)
 
         response = JSON.parse(last_response.body)
-        expect(response["success"]).to eq ("Article created.")
+        expect(response["success"]).to eq ("Work created.")
         expect(response["error"]).to be_nil
         expect(response["data"]["doi"]).to eq (params["work"]["doi"])
       end
@@ -37,7 +37,7 @@ describe "/api/v4/articles", :type => :api do
         expect(last_response.status).to eq(201)
 
         response = JSON.parse(last_response.body)
-        expect(response["success"]).to eq ("Article created.")
+        expect(response["success"]).to eq ("Work created.")
         expect(response["error"]).to be_nil
         expect(response["data"]["doi"]).to eq (params["work"]["doi"])
       end
@@ -73,10 +73,10 @@ describe "/api/v4/articles", :type => :api do
       let(:work) { FactoryGirl.create(:work) }
       let(:params) do
         { "work" => { "doi" => work.doi,
-                         "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
-                         "year" => 2012,
-                         "month" => 5,
-                         "day" => 15 } }
+                      "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
+                      "year" => 2012,
+                      "month" => 5,
+                      "day" => 15 } }
       end
 
       it "JSON" do
@@ -177,10 +177,10 @@ describe "/api/v4/articles", :type => :api do
     let(:uri) { "/api/v4/articles/info:doi/#{work.doi}" }
     let(:params) do
       { "work" => { "doi" => work.doi,
-                       "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
-                       "year" => 2012,
-                       "month" => 5,
-                       "day" => 15 } }
+                    "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
+                    "year" => 2012,
+                    "month" => 5,
+                    "day" => 15 } }
     end
 
     context "as admin user" do
@@ -191,7 +191,7 @@ describe "/api/v4/articles", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["success"]).to eq ("Article updated.")
+        expect(response["success"]).to eq ("Work updated.")
         expect(response["error"]).to be_nil
         expect(response["data"]["doi"]).to eq (work.doi)
       end
@@ -244,8 +244,6 @@ describe "/api/v4/articles", :type => :api do
 
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq ("No article found.")
-        expect(response["success"]).to be_nil
-        expect(response["data"]).to be_empty
       end
     end
 
@@ -264,9 +262,7 @@ describe "/api/v4/articles", :type => :api do
         expect(last_response.status).to eq(422)
 
         response = JSON.parse(last_response.body)
-        expect(response["error"]).to eq ({"work"=>["parameter is required"]})
-        expect(response["success"]).to be_nil
-        expect(response["data"]).to be_empty
+        expect(response["error"]).to eq ("param is missing or the value is empty: work")
 
         expect(Alert.count).to eq(1)
         alert = Alert.first
@@ -286,9 +282,7 @@ describe "/api/v4/articles", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response["error"]).to eq("title"=>["can't be blank"], "year"=>["is not a number", "should be between 1650 and 2014"])
-        expect(response["success"]).to be_nil
-        expect(response["data"]).to be_empty
+        expect(response["error"]).to eq("title"=>["can't be blank"], "year"=>["is not a number"], "published_on"=>["is before 1650"])
       end
     end
 
@@ -325,9 +319,7 @@ describe "/api/v4/articles", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["success"]).to eq ("Article deleted.")
-        expect(response["error"]).to be_nil
-        expect(response["data"]["doi"]).to eq (work.doi)
+        expect(response["success"]).to eq ("Work deleted.")
       end
     end
 

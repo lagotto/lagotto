@@ -2,7 +2,7 @@
 
 namespace :queue do
 
-  desc "Queue stale articles"
+  desc "Queue stale works"
   task :stale => :environment do |_, args|
     if args.extras.empty?
       sources = Source.active
@@ -23,15 +23,15 @@ namespace :queue do
       puts "Error: #{e.message}"
       exit
     end
-    puts "Queueing stale articles published from #{start_date} to #{end_date}." if start_date && end_date
+    puts "Queueing stale works published from #{start_date} to #{end_date}." if start_date && end_date
 
     sources.each do |source|
-      count = source.queue_all_articles(start_date: start_date, end_date: end_date)
-      puts "#{count} stale articles for source #{source.display_name} have been queued."
+      count = source.queue_all_works(start_date: start_date, end_date: end_date)
+      puts "#{count} stale works for source #{source.display_name} have been queued."
     end
   end
 
-  desc "Queue all articles"
+  desc "Queue all works"
   task :all => :environment do |_, args|
     if args.extras.empty?
       sources = Source.active
@@ -52,23 +52,23 @@ namespace :queue do
       puts "Error: #{e.message}"
       exit
     end
-    puts "Queueing all articles published from #{start_date} to #{end_date}." if start_date && end_date
+    puts "Queueing all works published from #{start_date} to #{end_date}." if start_date && end_date
 
     sources.each do |source|
-      count = source.queue_all_articles(all: true, start_date: start_date, end_date: end_date)
-      puts "#{count} articles for source #{source.display_name} have been queued."
+      count = source.queue_all_works(all: true, start_date: start_date, end_date: end_date)
+      puts "#{count} works for source #{source.display_name} have been queued."
     end
   end
 
-  desc "Queue article with given pid"
+  desc "Queue work with given pid"
   task :one, [:pid] => :environment do |_, args|
     if args.pid.nil?
       puts "pid is required"
       exit
     end
 
-    article = Article.where(pid: args.pid).first
-    if article.nil?
+    work = Article.where(pid: args.pid).first
+    if work.nil?
       puts "Article with pid #{args.pid} does not exist"
       exit
     end
@@ -85,15 +85,15 @@ namespace :queue do
     end
 
     sources.each do |source|
-      rs = RetrievalStatus.where(article_id: article.id, source_id: source.id).first
+      rs = RetrievalStatus.where(work_id: work.id, source_id: source.id).first
 
       if rs.nil?
-        puts "Retrieval Status for article with pid #{args.pid} and source with name #{args.source} does not exist"
+        puts "Retrieval Status for work with pid #{args.pid} and source with name #{args.source} does not exist"
         exit
       end
 
-      source.queue_article_jobs([rs.id], priority: 2)
-      puts "Job for pid #{article.pid} and source #{source.display_name} has been queued."
+      source.queue_work_jobs([rs.id], priority: 2)
+      puts "Job for pid #{work.pid} and source #{source.display_name} has been queued."
     end
   end
 
