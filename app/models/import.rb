@@ -4,17 +4,6 @@ class Import
   # include HTTP request helpers
   include Networkable
 
-  TYPES_WITH_TITLE = %w(journal-article
-                        proceedings-article
-                        dissertation
-                        standard
-                        report
-                        book
-                        monograph
-                        edited-book
-                        reference-book
-                        dataset)
-
   attr_accessor :filter, :sample, :rows, :member_list
 
   def initialize(options = {})
@@ -130,6 +119,9 @@ class Import
     items = result.fetch('message', {}).fetch('items', nil)
     Array(items).map do |item|
       doi = item.fetch("DOI", nil)
+      pmid = item.fetch("PMID", nil)
+      pmcid = item.fetch("PMCID", nil)
+      canonical_url = item.fetch("URL", nil)
       date_parts = item["issued"]["date-parts"][0]
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
@@ -146,6 +138,9 @@ class Import
       member = member[30..-1].to_i if member
 
       { doi: doi,
+        pmid: pmid,
+        pmcid: pmcid,
+        canonical_url: canonical_url,
         title: title,
         year: year,
         month: month,

@@ -2,39 +2,41 @@
 
 namespace :db do
   namespace :works do
-    desc "Bulk-load works from Crossref API"
-    task :import => :environment do
-      # only run if configuration option ENV['IMPORT'],
-      # or ENV['MEMBER'] and/or ENV['SAMPLE'] are provided
-      exit unless ENV['IMPORT'].present? || ENV['MEMBER'].present? || ENV['SAMPLE'].present?
+    namespace :import do
+      desc "Import works from Crossref REST API"
+      task :crossref => :environment do
+        # only run if configuration option ENV['IMPORT'],
+        # or ENV['MEMBER'] and/or ENV['SAMPLE'] are provided
+        exit unless ENV['IMPORT'].present? || ENV['MEMBER'].present? || ENV['SAMPLE'].present?
 
-      case ENV['IMPORT'].downcase
-      when "member"
-        member = ENV['MEMBER'].presence || Publisher.pluck(:crossref_id).join(",")
-        sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
-      when "member_sample"
-        member = ENV['MEMBER'].presence || Publisher.pluck(:crossref_id).join(",")
-        sample = (ENV['SAMPLE'].presence || 20).to_i
-      when "sample"
-        member = ENV['MEMBER'].presence
-        sample = (ENV['SAMPLE'].presence || 20).to_i
-      else
-        member = ENV['MEMBER'].presence
-        sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
+        case ENV['IMPORT'].downcase
+        when "member"
+          member = ENV['MEMBER'].presence || Publisher.pluck(:crossref_id).join(",")
+          sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
+        when "member_sample"
+          member = ENV['MEMBER'].presence || Publisher.pluck(:crossref_id).join(",")
+          sample = (ENV['SAMPLE'].presence || 20).to_i
+        when "sample"
+          member = ENV['MEMBER'].presence
+          sample = (ENV['SAMPLE'].presence || 20).to_i
+        else
+          member = ENV['MEMBER'].presence
+          sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
+        end
+
+        options = { from_update_date: ENV['FROM_UPDATE_DATE'],
+                    until_update_date: ENV['UNTIL_UPDATE_DATE'],
+                    from_pub_date: ENV['FROM_PUB_DATE'],
+                    until_pub_date: ENV['UNTIL_PUB_DATE'],
+                    type: ENV['TYPE'],
+                    member: member,
+                    issn: ENV['ISSN'],
+                    sample: sample }
+        import = CrossRefImport.new(options)
+        number = ENV['SAMPLE'] || import.total_results
+        import.queue_work_import if number.to_i > 0
+        puts "Started import of #{number} works in the background..."
       end
-
-      options = { from_update_date: ENV['FROM_UPDATE_DATE'],
-                  until_update_date: ENV['UNTIL_UPDATE_DATE'],
-                  from_pub_date: ENV['FROM_PUB_DATE'],
-                  until_pub_date: ENV['UNTIL_PUB_DATE'],
-                  type: ENV['TYPE'],
-                  member: member,
-                  issn: ENV['ISSN'],
-                  sample: sample }
-      import = Import.new(options)
-      number = ENV['SAMPLE'] || import.total_results
-      import.queue_work_import if number.to_i > 0
-      puts "Started import of #{number} works in the background..."
     end
 
     desc "Bulk-load works from standard input"
