@@ -77,7 +77,7 @@ namespace :report do
 
   desc 'Generate CSV file with PMC HTML usage stats over time'
   task :pmc_html_stats => :environment do
-    date = 1.year.ago.to_date
+    date = Time.zone.now - 1.year
     ENV['FORMAT'] = "html"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
@@ -87,7 +87,7 @@ namespace :report do
 
   desc 'Generate CSV file with PMC PDF usage stats over time'
   task :pmc_pdf_stats => :environment do
-    date = 1.year.ago.to_date
+    date = Time.zone.now - 1.year
     ENV['FORMAT'] = "pdf"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
@@ -97,7 +97,7 @@ namespace :report do
 
   desc 'Generate CSV file with PMC combined usage stats over time'
   task :pmc_combined_stats => :environment do
-    date = 1.year.ago.to_date
+    date = Time.zone.now - 1.year
     ENV['FORMAT'] = "combined"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
@@ -139,7 +139,7 @@ namespace :report do
 
   desc 'Generate CSV file with Counter HTML usage stats over time'
   task :counter_html_stats => :environment do
-    date = 1.year.ago.to_date
+    date = Time.zone.now - 1.year
     ENV['FORMAT'] = "html"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
@@ -149,7 +149,7 @@ namespace :report do
 
   desc 'Generate CSV file with Counter PDF usage stats over time'
   task :counter_pdf_stats => :environment do
-    date = 1.year.ago.to_date
+    date = Time.zone.now - 1.year
     ENV['FORMAT'] = "pdf"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
@@ -159,7 +159,7 @@ namespace :report do
 
   desc 'Generate CSV file with Counter XML usage stats over time'
   task :counter_xml_stats => :environment do
-    date = 1.year.ago.to_date
+    date = Time.zone.now - 1.year
     ENV['FORMAT'] = "xml"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
@@ -169,7 +169,7 @@ namespace :report do
 
   desc 'Generate CSV file with Counter combined usage stats over time'
   task :counter_combined_stats => :environment do
-    date = 1.year.ago.to_date
+    date = Time.zone.now - 1.year
     ENV['FORMAT'] = "combined"
     ENV['MONTH'] = date.month.to_s
     ENV['YEAR'] = date.year.to_s
