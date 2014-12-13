@@ -121,19 +121,6 @@ describe "/api/v3/articles", :type => :api do
       end
     end
 
-    context "Mendeley" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v3/articles/info:mendeley/#{work.mendeley_uuid}?api_key=#{api_key}" }
-
-      it "JSON" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        expect(last_response.status).to eql(200)
-
-        response_work = JSON.parse(last_response.body)
-        expect(response_work["mendeley"]).to eql(work.mendeley_uuid)
-      end
-    end
-
     context "wrong DOI" do
       let(:work) { FactoryGirl.create(:work_with_events) }
       let(:uri) { "/api/v3/articles/info:doi/#{work.doi}xx?api_key=#{api_key}" }
