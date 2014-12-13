@@ -137,9 +137,9 @@
               <%= link_to alert.source.display_name, source_path(alert.source) %>
             <% end %>
 
-            <% if alert.article %>
-              <h5>Article</h5>
-              <%= link_to alert.article.uid, article_path(alert.article) %>
+            <% if alert.work %>
+              <h5>Work</h5>
+              <%= link_to alert.work.pid, work_path(alert.work) %>
             <% end %>
 
             <h5>Time</h5>

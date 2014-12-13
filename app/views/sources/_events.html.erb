@@ -1,8 +1,8 @@
-<% if Article.first && Source.visible.any? %>
+<% if Work.first && Source.visible.any? %>
   <div class="panel panel-default">
-    <div class="panel-heading panel-title">Articles with events<small class="pull-right">linear scale</small></div>
-    <div class="panel-body" id="articles-body">
-      <div class="text-muted" id="articles-loading">Loading … <%= image_tag "spinner.gif" %></div>
+    <div class="panel-heading panel-title">Works with events<small class="pull-right">linear scale</small></div>
+    <div class="panel-body" id="works-body">
+      <div class="text-muted" id="works-loading">Loading … <%= image_tag "spinner.gif" %></div>
     </div>
   </div>
 

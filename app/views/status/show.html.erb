@@ -5,18 +5,18 @@
 <div class="content">
   <div class="row">
   <div class="col-md-4">
-    <div class="panel <%= @status.articles_count > 0 ? 'panel-default' : 'panel-warning' %>">
-      <div class="panel-heading">Articles</div>
+    <div class="panel <%= @status.works_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">Works</div>
       <div class="panel-body text-center">
-        <h2 id="articles_count"><%= link_to_if @status.articles_count > 0, number_with_delimiter(@status.articles_count), articles_path %></h2>
+        <h2 id="works_count"><%= link_to_if @status.works_count > 0, number_with_delimiter(@status.works_count), works_path %></h2>
       </div>
     </div>
   </div>
   <div class="col-md-4">
-    <div class="panel <%= @status.articles_last30_count > 0 ? 'panel-default' : 'panel-warning' %>">
-      <div class="panel-heading">Articles <small class="pull-right">last 30 days</small></div>
+    <div class="panel <%= @status.works_last30_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">Works <small class="pull-right">last 30 days</small></div>
       <div class="panel-body text-center">
-        <h2 id="articles_last30_count"><%= link_to_if @status.articles_last30_count > 0, number_with_delimiter(@status.articles_last30_count), articles_path %></h2>
+        <h2 id="works_last30_count"><%= link_to_if @status.works_last30_count > 0, number_with_delimiter(@status.works_last30_count), works_path %></h2>
       </div>
     </div>
   </div>

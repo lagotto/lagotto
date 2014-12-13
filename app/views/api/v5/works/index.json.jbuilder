@@ -5,7 +5,7 @@ json.error @error
 
 json.data @works do |work|
   json.cache! ['v5', work], skip_digest: true do
-    json.(work, :doi, :title, :issued, :canonical_url, :pmid, :pmcid, :mendeley_uuid, :viewed, :saved, :discussed, :cited, :update_date)
+    json.(work, :id, :title, :issued, :doi, :pmid, :pmcid, :canonical_url, :viewed, :saved, :discussed, :cited, :update_date)
 
     unless params[:info] == "summary"
       json.sources work.filtered_retrieval_statuses do |rs|

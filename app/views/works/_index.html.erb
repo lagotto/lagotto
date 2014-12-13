@@ -1,6 +1,6 @@
-<% if can?(:manage, Article) and (controller.action_name == "new" or (controller.action_name == "create" and !@work.errors.empty?)) %>
+<% if can?(:manage, Work) and (controller.action_name == "new" or (controller.action_name == "create" and !@work.errors.empty?)) %>
   <div class="panel panel-default">
-    <div class="panel-heading panel-title">New Article</div>
+    <div class="panel-heading panel-title">New Work</div>
     <div class="panel-body">
       <%= simple_form_for @work, :url => works_path, :html => { :remote => true } do |f| %>
         <%= f.input :title, :input_html => { :rows => 2 } %>
@@ -28,14 +28,14 @@
 <% else %>
   <div class="page-header">
     <div class="btn-toolbar pull-right">
-      <% if can?(:manage, Article) %>
+      <% if can?(:manage, Work) %>
         <div class="btn-group btn-group-sm">
           <%= link_to '<span class="glyphicon glyphicon-plus"></span>'.html_safe, new_work_path, { :remote => true, :id => "new_work", :class => 'btn btn-default' } %>
         </div>
       <% end %>
     </div>
     <h1 class="pull-left" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher.present? ? @publisher.crossref_id : nil %>" data-source="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">
-      Articles
+      Works
     </h1>
 
     <%= form_tag(works_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
@@ -53,9 +53,9 @@
     <div class="btn-toolbar pull-left">
       <% if can?(:read, Alert) %>
         <div class="btn-group btn-group-sm" id="work-alerts">
-          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Articles" : h(@class_name) %> <span class="caret"></span></a>
+          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @class_name.nil? ? "All Works" : h(@class_name) %> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><%= link_to "All Articles", works_path(:q => params[:q], publisher: params[:publisher], source: params[:source], order: params[:order]) %></li>
+            <li><%= link_to "All Works", works_path(:q => params[:q], publisher: params[:publisher], source: params[:source], order: params[:order]) %></li>
             <li class="divider"></li>
             <li><%= link_to "All Alerts", works_path(:class_name => "All Alerts", :q => params[:q], publisher: params[:publisher], source: params[:source], order: params[:order]) %></li>
             <li class="divider"></li>

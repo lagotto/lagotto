@@ -40,7 +40,7 @@
         <%= f.input :workers, :as => :numeric, label: "Workers",
                                                       hint: "Max. number of workers" %>
         <%= f.input :job_batch_size, :as => :numeric, label: "Job queue",
-                                                      hint: "Number of articles queued per job" %>
+                                                      hint: "Number of works queued per job" %>
         <%= f.input :rate_limiting, :as => :numeric, label: false,
                                                       hint: "Max. requests per hour" %>
 
@@ -118,14 +118,14 @@
             <%= @source.rate_limiting %> per hour rate-limiting</br>
             <%= @source.priority %> is the priority of jobs</br>
             <%= pluralize(@source.workers, "worker") %></br>
-            <%= @source.job_batch_size %> articles per job</br>
+            <%= @source.job_batch_size %> works per job</br>
             <%= @source.wait_time %> seconds before more jobs can be added</br>
           </td>
         </tr>
         <tr>
           <th>Update interval</th>
           <% if @source.queueable %>
-            <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " for articles published #{i}" }.join("</br>").html_safe %></td>
+            <td><%= @source.staleness_with_limits.map { |i, j| distance_of_time(j) + " for works published #{i}" }.join("</br>").html_safe %></td>
           <% else %>
             <td>Next update <%= @source.cron_line ? CronParser.new(@source.cron_line).next(Time.zone.now).to_s(:short) + " UTC" : "N/A" %></td>
           <% end %>

@@ -5,6 +5,6 @@ json.error @error
 
 json.data @alerts do |alert|
   json.cache! ['v5', alert], skip_digest: true do
-    json.(alert, :id, :level, :class_name, :message, :status, :hostname, :target_url, :source, :article, :unresolved, :create_date)
+    json.(alert, :id, :level, :class_name, :message, :status, :hostname, :target_url, :source, :work, :unresolved, :create_date)
   end
 end

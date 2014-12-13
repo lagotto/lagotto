@@ -13,7 +13,7 @@
     <![endif]-->
 
     <% if controller.controller_name == "works" && controller.action_name == "show" %>
-    <link rel="alternate" type="application/json+oembed" href="/oembed?url=<%= work_path(@work) %>" title="Article oEmbed Profile" />
+    <link rel="alternate" type="application/json+oembed" href="/oembed?url=<%= work_path(@work) %>" title="Work oEmbed Profile" />
     <% end %>
 
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic' rel='stylesheet' type='text/css'>
@@ -64,7 +64,7 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <%= controller.controller_name == "status" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Status", status_path %></li>
-          <%= controller.controller_name == "works" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Articles", works_path %></li>
+          <%= controller.controller_name == "works" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Works", works_path %></li>
           <%= controller.controller_name == "sources" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Sources", sources_path %></li>
           <% if can?(:read, Alert) || publishers.length > 1 %>
             <%= controller.controller_name == "publishers" ? '<li class="active hidden-sm">'.html_safe : '<li class="hidden-sm">'.html_safe %><%= link_to "Publishers", publishers_path %></li>
