@@ -10,7 +10,7 @@ describe OembedController, :type => :controller do
     it "correct oembed link" do
       get work_path(work)
       expect(last_response.status).to eq(200)
-      expect(last_response.body).to have_css(%Q(link[rel="alternate"][type="application/json+oembed"][title="Article oEmbed Profile"][href="#{uri}"]), visible: false)
+      expect(last_response.body).to have_css(%Q(link[rel="alternate"][type="application/json+oembed"][title="Work oEmbed Profile"][href="#{uri}"]), visible: false)
       expect(Alert.count).to eq(0)
     end
   end

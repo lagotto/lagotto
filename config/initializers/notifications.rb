@@ -22,7 +22,7 @@ end
 
 ActiveSupport::Notifications.subscribe "api_response.get" do |name, start, finish, id, payload|
   ApiResponse.create! do |api_response|
-    api_response.article_id = payload[:article_id]
+    api_response.work_id = payload[:work_id]
     api_response.source_id = payload[:source_id]
     api_response.retrieval_status_id = payload[:retrieval_status_id]
     api_response.skipped = payload[:skipped]

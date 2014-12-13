@@ -32,7 +32,7 @@ class ReportMailer < ActionMailer::Base
 
     mail(to: ENV['ADMIN_EMAIL'],
          bcc: report.users.map(&:email).join(","),
-         subject: "[#{ENV['SITENAME']}] Article Statistics Report")
+         subject: "[#{ENV['SITENAME']}] Work Statistics Report")
   end
 
   def send_stale_source_report(report, source_ids)

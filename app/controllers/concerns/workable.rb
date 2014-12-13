@@ -14,11 +14,11 @@ module Workable
 
       # Return 404 HTTP status code and error message if work wasn't found
       if @work.blank?
-        @error = "Article not found."
+        @error = "Work not found."
         render "error", :status => :not_found
       else
         fresh_when last_modified: @work.updated_at
-        @success = "Article found."
+        @success = "Work found."
       end
     end
 
