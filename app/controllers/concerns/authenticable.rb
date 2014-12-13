@@ -21,8 +21,7 @@ module Authenticable
       if user
         sign_in user, store: false
       else
-        @error = "Missing or wrong API key."
-        render "error", :status => 401
+        render json: { error: "Missing or wrong API key." }, status: 401
       end
     end
 
@@ -32,8 +31,7 @@ module Authenticable
         if resource && resource.valid_password?(password)
           sign_in :user, resource
         else
-          @error = "You are not authorized to access this page."
-          render "error", :status => 401
+          render json: { error: "You are not authorized to access this page." }, status: 401
         end
       end
     end
@@ -63,30 +61,22 @@ module Authenticable
     end
 
     rescue_from CanCan::AccessDenied do |exception|
-      @error = exception.message
-      @work = nil
-      render "error", :status => 401
+      render json: { error: exception.message }, status: 401
     end
 
     rescue_from ActionController::ParameterMissing do |exception|
-      @error = { exception.param => ['parameter is required'] }
-      @work = nil
       create_alert(exception, status: 422)
-      render "error", :status => 422
+      render json: { error: exception.message }, status: 422
     end
 
     rescue_from ActiveModel::ForbiddenAttributesError do |exception|
-      @error = Hash[exception.params.map { |v| [v, ['unpermitted parameter']] }]
-      @work = nil
       create_alert(exception, status: 422)
-      render "error", :status => 422
+      render json: { error: exception.message }, status: 422
     end
 
     rescue_from NoMethodError do |exception|
-      @error = "Undefined method."
-      @work = nil
       create_alert(exception, status: 422)
-      render "error", :status => 422
+      render json: { error: exception.message }, status: 422
     end
   end
 end

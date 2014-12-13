@@ -5,15 +5,14 @@ class Api::V4::WorksController < Api::V4::BaseController
   before_filter :load_work, only: [:update, :destroy]
 
   def create
-    @work = Article.new(safe_params)
+    @work = Work.new(safe_params)
     authorize! :create, @work
 
     if @work.save
-      @success = "Article created."
-      render "success", :status => :created
+      @success = "Work created."
+      render "show", :status => :created
     else
-      @error = @work.errors
-      render "error", :status => :bad_request
+      render json: { error: @work.errors }, status: :bad_request
     end
   end
 
@@ -21,14 +20,12 @@ class Api::V4::WorksController < Api::V4::BaseController
     authorize! :update, @work
 
     if @work.blank?
-      @error = "No article found."
-      render "error", :status => :not_found
+      render json: { error: "No work found." }, status: :not_found
     elsif @work.update_attributes(safe_params)
-      @success = "Article updated."
-      render "success", :status => :ok
+      @success = "Work updated."
+      render "show", :status => :ok
     else
-      @error = @work.errors
-      render "error", :status => :bad_request
+      render json: { error: @work.errors }, status: :bad_request
     end
   end
 
@@ -36,14 +33,11 @@ class Api::V4::WorksController < Api::V4::BaseController
     authorize! :destroy, @work
 
     if @work.blank?
-      @error = "No article found."
-      render "error", :status => :not_found
+      render json: { error: "No work found." }, status: :not_found
     elsif @work.destroy
-      @success = "Article deleted."
-      render "success", :status => :ok
+      render json: { success: "Work deleted." }, :status => :ok
     else
-      @error = "An error occured."
-      render "error", :status => :bad_request
+      render json: { error: "An error occured." }, status: :bad_request
     end
   end
 
