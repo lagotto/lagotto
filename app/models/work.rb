@@ -12,6 +12,7 @@ class Work < ActiveRecord::Base
   include Resolvable
 
   belongs_to :publisher, primary_key: :crossref_id
+  belongs_to :work_type
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :sources, :through => :retrieval_statuses
   has_many :alerts
