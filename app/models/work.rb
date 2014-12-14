@@ -93,7 +93,7 @@ class Work < ActiveRecord::Base
       Alert.create(:exception => "",
                    :class_name => "ActiveRecord::RecordInvalid",
                    :message => "#{e.message} for doi #{params[:doi]}.",
-                   :target_url => "http://api.crossref.org/works/#{params[:doi]}")
+                   :target_url => "http://dx.doi.org/#{params[:doi]}")
       nil
     end
   end

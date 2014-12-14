@@ -10,7 +10,7 @@ describe "db:works:import:crossref" do
   end
 
   it "should run the rake task" do
-    import = Import.new
+    import = CrossrefImport.new
     stub_request(:get, import.query_url(offset = 0, rows = 0)).to_return(:body => File.read(fixture_path + 'crossref_import_no_rows_single.json'))
     stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'crossref_import.json'))
     stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
@@ -20,7 +20,7 @@ describe "db:works:import:crossref" do
   it "should run the rake task for a sample" do
     ENV['SAMPLE'] = "50"
     output = "Started import of 50 works in the background...\n"
-    import = Import.new(sample: 50)
+    import = CrossrefImport.new(sample: 50)
     stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'crossref_import.json'))
     stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
     expect(capture_stdout { subject.invoke }).to eq(output)
@@ -37,17 +37,8 @@ describe "db:works:import:datacite" do
   end
 
   it "should run the rake task" do
-    import = Import.new
+    import = DataciteImport.new
     stub_request(:get, import.query_url(offset = 0, rows = 0)).to_return(:body => File.read(fixture_path + 'datacite_import_no_rows_single.json'))
-    stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'datacite_import.json'))
-    stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
-    expect(capture_stdout { subject.invoke }).to eq(output)
-  end
-
-  it "should run the rake task for a sample" do
-    ENV['SAMPLE'] = "50"
-    output = "Started import of 50 works in the background...\n"
-    import = Import.new(sample: 50)
     stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'datacite_import.json'))
     stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
     expect(capture_stdout { subject.invoke }).to eq(output)
