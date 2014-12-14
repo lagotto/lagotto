@@ -34,7 +34,7 @@
         </div>
       <% end %>
     </div>
-    <h1 class="pull-left" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher.present? ? @publisher.crossref_id : nil %>" data-source="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">
+    <h1 class="pull-left" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher.present? ? @publisher.member_id : nil %>" data-source="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">
       Works
     </h1>
 
@@ -67,12 +67,12 @@
       <% end %>
       <% if publishers.length > 1 %>
         <div class="btn-group btn-group-sm" id="work-publishers">
-          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @publisher.nil? ? "All Publishers" : h(@publisher.name) %> <span class="caret"></span></a>
+          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @publisher.nil? ? "All Publishers" : h(@publisher.title) %> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><%= link_to "All Publishers", works_path(:q => params[:q], class_name: params[:class_name], source: params[:source], order: params[:order]) %></li>
             <li class="divider"></li>
             <% publishers.each do |publisher| %>
-              <li><%= link_to publisher.name, works_path(:publisher => publisher.crossref_id, :q => params[:q], class_name: params[:class_name], source: params[:source], order: params[:order]) %></li>
+              <li><%= link_to publisher.title, works_path(:publisher => publisher.member_id, :q => params[:q], class_name: params[:class_name], source: params[:source], order: params[:order]) %></li>
             <% end %>
           </ul>
         </div>

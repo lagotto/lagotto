@@ -2,51 +2,51 @@ class Publisher < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
 
-  has_many :users, primary_key: :crossref_id
-  has_many :works, primary_key: :crossref_id
-  has_many :publisher_options, primary_key: :crossref_id, :dependent => :destroy
+  has_many :users, primary_key: :member_id
+  has_many :works, primary_key: :member_id
+  has_many :publisher_options, primary_key: :member_id, :dependent => :destroy
   has_many :sources, :through => :publisher_options
 
   serialize :prefixes
   serialize :other_names
 
-  validates :name, :presence => true
-  validates :crossref_id, :presence => true, :uniqueness => true
+  validates :title, :presence => true
+  validates :name, :member_id, :presence => true, :uniqueness => true
 
   after_create :update_cache
 
-  def to_param  # overridden, use crossref_id instead of id
-    crossref_id
+  def to_param  # overridden, use member_id instead of id
+    member_id
   end
 
   def work_count
     if ActionController::Base.perform_caching
-      Rails.cache.read("publisher/#{crossref_id}/work_count/#{update_date}").to_i
+      Rails.cache.read("publisher/#{member_id}/work_count/#{update_date}").to_i
     else
       works.size
     end
   end
 
   def work_count=(timestamp)
-    Rails.cache.write("publisher/#{crossref_id}/work_count/#{timestamp}",
+    Rails.cache.write("publisher/#{member_id}/work_count/#{timestamp}",
                       works.size)
   end
 
   def work_count_by_source(source_id)
     if ActionController::Base.perform_caching
-      Rails.cache.read("publisher/#{crossref_id}/#{source_id}/work_count/#{update_date}").to_i
+      Rails.cache.read("publisher/#{member_id}/#{source_id}/work_count/#{update_date}").to_i
     else
       works.has_events.by_source(source_id).size
     end
   end
 
   def work_count_by_source=(source_id, timestamp)
-    Rails.cache.write("publisher/#{crossref_id}/#{source_id}/work_count/#{timestamp}",
+    Rails.cache.write("publisher/#{member_id}/#{source_id}/work_count/#{timestamp}",
                       works.has_events.by_source(source_id).size)
   end
 
   def cache_key
-    "publisher/#{crossref_id}/#{update_date}"
+    "publisher/#{member_id}/#{update_date}"
   end
 
   def update_date
@@ -54,8 +54,8 @@ class Publisher < ActiveRecord::Base
   end
 
   def update_cache
-    DelayedJob.delete_all(queue: "publisher-#{crossref_id}-cache")
-    delay(priority: 1, queue: "publisher-#{crossref_id}-cache").write_cache
+    DelayedJob.delete_all(queue: "publisher-#{member_id}-cache")
+    delay(priority: 1, queue: "publisher-#{member_id}-cache").write_cache
   end
 
   def write_cache

@@ -45,7 +45,7 @@
               <%= simple_form_for user, url: user_path(user), html: { role: "form", remote: true } do |f| %>
                 <%= f.input :authentication_token, label: "API key", input_html: { class: "form-user" } %>
                 <%= f.input :role, collection: roles.map { |role| [role.titleize, role] }, include_blank: false, input_html: { class: "form-user" } %>
-                <%= f.association :publisher, collection: Publisher.order('name').map { |publisher| [publisher.name, publisher.crossref_id] }, input_html: { class: "form-user" } %>
+                <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
 
                 <div class="form-group">
                   <%= f.submit "Save ", class: "btn btn-default" %>
@@ -84,7 +84,7 @@
 
               <% if user.publisher %>
                 <h5>Publisher</h5>
-                <%= link_to h(user.publisher.name), publisher_path(user.publisher_id) %>
+                <%= link_to h(user.publisher.title), publisher_path(user.publisher_id) %>
               <% end %>
 
               <h5>Account created</h5>

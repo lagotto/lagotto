@@ -5,6 +5,6 @@ json.error @error
 
 json.data @publishers do |publisher|
   json.cache! ['v5', publisher], skip_digest: true do
-    json.(publisher, :name, :other_names, :crossref_id, :prefixes, :update_date)
+    json.(publisher, :name, :title, :other_names, :member_id, :prefixes, :service, :update_date)
   end
 end

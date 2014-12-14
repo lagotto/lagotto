@@ -19,9 +19,9 @@ class PublishersController < ApplicationController
 
   def new
     if params[:query]
-      ids = Publisher.pluck(:crossref_id)
+      ids = Publisher.pluck(:member_id)
       publishers = MemberList.new(query: params[:query], per_page: 10).publishers
-      @publishers = publishers.reject { |publisher| ids.include?(publisher.crossref_id) }
+      @publishers = publishers.reject { |publisher| ids.include?(publisher.member_id) }
     else
       @publishers = []
     end
@@ -52,16 +52,16 @@ class PublishersController < ApplicationController
   protected
 
   def load_publisher
-    @publisher = Publisher.where(crossref_id: params[:id]).first
+    @publisher = Publisher.where(member_id: params[:id]).first
   end
 
   def load_index
-    @publishers = Publisher.order(:name).paginate(:page => params[:page]).all
+    @publishers = Publisher.order(:title).paginate(:page => params[:page]).all
   end
 
   private
 
   def safe_params
-    params.require(:publisher).permit(:name, :crossref_id, :other_names=> [], :prefixes => [])
+    params.require(:publisher).permit(:title, :name, :member_id, :other_names=> [], :prefixes => [])
   end
 end

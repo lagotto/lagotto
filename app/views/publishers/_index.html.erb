@@ -23,13 +23,13 @@
         <%= form_tag(publishers_path, :method => "post", :remote => true) do %>
           <% @publishers.each_with_index do |publisher, i| %>
             <div class="panel panel-default">
-              <div class="panel-heading"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></div>
+              <div class="panel-heading"><%= link_to h(publisher.title), publisher_path(publisher.member_id) %></div>
               <div class="panel-body">
                 <% if publisher.other_names.size > 1 %>
-                  <p><%= publisher.other_names.reject { |name| name == publisher.name }.join("</br>").html_safe %></p>
+                  <p><%= publisher.other_names.reject { |name| name == publisher.title }.join("</br>").html_safe %></p>
                 <% end %>
                 <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
-                <%= radio_button_tag "publisher", publisher.to_json(:only => [:crossref_id, :name, :other_names, :prefixes]), (i == 0), class: "radio_tag",tabindex: i %>Select
+                <%= radio_button_tag "publisher", publisher.to_json(:only => [:member_id, :title, :name, :other_names, :prefixes]), (i == 0), class: "radio_tag",tabindex: i %>Select
               </div>
             </div>
           <% end %>
@@ -64,7 +64,7 @@
     <% if @publishers.size > 0 %>
       <div id="results">
         <% @publishers.each do |publisher| %>
-          <h4 class="work"><%= link_to h(publisher.name), publisher_path(publisher.crossref_id) %></h4>
+          <h4 class="work"><%= link_to h(publisher.title), publisher_path(publisher.member_id) %></h4>
           <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
         <% end %>
       </div>

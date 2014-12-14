@@ -49,15 +49,16 @@ class MemberList
     # return array of unsaved ActiveRecord objects
     Array(items).map do |item|
       Publisher.new do |publisher|
-        publisher.name = item["primary-name"]
-        publisher.crossref_id = item["id"]
+        publisher.title = item["primary-name"]
+        publisher.name = item["id"]
+        publisher.member_id = item["id"]
         publisher.prefixes = item["prefixes"]
         publisher.other_names = item["names"]
       end
     end
   end
 
-  def to_param  # overridden, use crossref_id instead of id
-    crossref_id
+  def to_param  # overridden, use member_id instead of id
+    member_id
   end
 end

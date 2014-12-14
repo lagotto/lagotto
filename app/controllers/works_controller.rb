@@ -10,7 +10,7 @@ class WorksController < ApplicationController
     @page = params[:page] || 1
     @q = params[:q]
     @class_name = params[:class_name]
-    @publisher = Publisher.where(crossref_id: params[:publisher]).first
+    @publisher = Publisher.where(name: params[:publisher]).first
     @source = Source.visible.where(name: params[:source]).first
     @order = Source.visible.where(name: params[:order]).first
   end
@@ -32,7 +32,6 @@ class WorksController < ApplicationController
     end
   end
 
-  # POST /works
   def create
     @work.save
     respond_with(@work) do |format|
@@ -40,7 +39,6 @@ class WorksController < ApplicationController
     end
   end
 
-  # GET /works/:id/edit
   def edit
     respond_with(@work) do |format|
       format.js { render :show }
@@ -55,7 +53,6 @@ class WorksController < ApplicationController
     end
   end
 
-  # DELETE /works/:id(.:format)
   def destroy
     @work.destroy
     redirect_to works_path

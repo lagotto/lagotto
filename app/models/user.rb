@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
 
-  belongs_to :publisher, primary_key: :crossref_id
+  belongs_to :publisher, primary_key: :member_id
   has_and_belongs_to_many :reports
 
   before_save :ensure_authentication_token

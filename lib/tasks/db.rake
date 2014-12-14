@@ -11,10 +11,10 @@ namespace :db do
 
         case ENV['IMPORT'].downcase
         when "member"
-          member = ENV['MEMBER'].presence || Publisher.pluck(:crossref_id).join(",")
+          member = ENV['MEMBER'].presence || Publisher.pluck(:name).join(",")
           sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
         when "member_sample"
-          member = ENV['MEMBER'].presence || Publisher.pluck(:crossref_id).join(",")
+          member = ENV['MEMBER'].presence || Publisher.pluck(:name).join(",")
           sample = (ENV['SAMPLE'].presence || 20).to_i
         when "sample"
           member = ENV['MEMBER'].presence
@@ -32,10 +32,36 @@ namespace :db do
                     member: member,
                     issn: ENV['ISSN'],
                     sample: sample }
-        import = CrossRefImport.new(options)
+        import = CrossrefImport.new(options)
         number = ENV['SAMPLE'] || import.total_results
         import.queue_work_import if number.to_i > 0
         puts "Started import of #{number} works in the background..."
+      end
+
+      desc "Import works from DataCite API"
+      task :datacite => :environment do
+        # only run if configuration option ENV['IMPORT']
+        # or ENV['MEMBER'] are provided
+        exit unless ENV['IMPORT'].present? || ENV['MEMBER'].present?
+
+        case ENV['IMPORT'].downcase
+        when "member"
+          member = ENV['MEMBER'].presence || Publisher.pluck(:name).join(",")
+        else
+          member = ENV['MEMBER'].presence
+        end
+
+        options = { from_update_date: ENV['FROM_UPDATE_DATE'],
+                    until_update_date: ENV['UNTIL_UPDATE_DATE'],
+                    from_pub_date: ENV['FROM_PUB_DATE'],
+                    until_pub_date: ENV['UNTIL_PUB_DATE'],
+                    type: ENV['TYPE'],
+                    member: member }
+        import = DataciteImport.new(options)
+        number = import.total_results
+        import.queue_work_import if number.to_i > 0
+        puts "Started import of #{number} works in the background..."
+        puts import.query_url
       end
     end
 
@@ -46,9 +72,9 @@ namespace :db do
 
       number = input.length
       member = ENV['MEMBER']
-      if member.nil? && Publisher.pluck(:crossref_id).length == 1
+      if member.nil? && Publisher.pluck(:name).length == 1
         # if we have only configured a single publisher
-        member = Publisher.pluck(:crossref_id).first
+        member = Publisher.pluck(:name).first
       end
 
       if number > 0

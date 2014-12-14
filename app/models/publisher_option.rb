@@ -2,7 +2,7 @@ class PublisherOption < ActiveRecord::Base
   # include config methods
   include Configurable
 
-  belongs_to :publisher, primary_key: :crossref_id
+  belongs_to :publisher, primary_key: :member_id
   belongs_to :source
 
   serialize :config, OpenStruct

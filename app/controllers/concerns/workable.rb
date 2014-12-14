@@ -63,8 +63,8 @@ module Workable
         collection = collection.order("published_on DESC")
       end
 
-      if params[:publisher] && publisher = Publisher.where(crossref_id: params[:publisher]).first
-        collection = collection.where(publisher_id: params[:publisher])
+      if params[:publisher_id] && publisher = Publisher.where(member_id: params[:publisher_id]).first
+        collection = collection.where(publisher_id: params[:publisher_id])
       end
 
       per_page = params[:per_page] && (1..50).include?(params[:per_page].to_i) ? params[:per_page].to_i : 50
