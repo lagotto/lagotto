@@ -32,8 +32,8 @@ class PlosComments < Source
 
         # the rest is CSL (citation style language)
         event_csl: {
-          'author' => get_author(item['creatorFormattedName']),
-          'title' => item.fetch('title') { '' },
+          'author' => get_authors([item.fetch('creatorFormattedName', "")]),
+          'title' => item.fetch('title', ""),
           'container-title' => 'PLOS Comments',
           'issued' => get_date_parts(event_time),
           'url' => work.doi_as_url,

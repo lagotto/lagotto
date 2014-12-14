@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 require 'cgi'
 require "addressable/uri"
 
@@ -19,7 +17,10 @@ class Source < ActiveRecord::Base
   # include CouchDB helpers
   include Couchable
 
-  # include date methods concern
+  # include author methods
+  include Authorable
+
+  # include date methods
   include Dateable
 
   # include summary counts
@@ -219,17 +220,6 @@ class Source < ActiveRecord::Base
     if events_url.present? && work.doi.present?
       events_url % { :doi => work.doi_escaped }
     end
-  end
-
-  def get_author(author)
-    return '' if author.blank?
-
-    name_parts = author.split(' ')
-    family = name_parts.last
-    given = name_parts.length > 1 ? name_parts[0..-2].join(' ') : ''
-
-    [{ 'family' => String(family).titleize,
-       'given' => String(given).titleize }]
   end
 
   # fields with publisher-specific settings such as API keys,

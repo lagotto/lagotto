@@ -60,7 +60,7 @@ class CrossRef < Source
 
           # the rest is CSL (citation style language)
           event_csl: {
-            'author' => get_author(item.fetch('contributors', {}).fetch('contributor', [])),
+            'author' => get_authors(item.fetch('contributors', {}).fetch('contributor', [])),
             'title' => String(item.fetch('article_title') { '' }).titleize,
             'container-title' => item.fetch('journal_title') { '' },
             'issued' => get_date_parts_from_parts(item['year']),
@@ -70,7 +70,7 @@ class CrossRef < Source
     end.compact
   end
 
-  def get_author(contributors)
+  def get_authors(contributors)
     contributors = [contributors] if contributors.is_a?(Hash)
     contributors.map do |contributor|
       { 'family' => String(contributor['surname']).titleize,

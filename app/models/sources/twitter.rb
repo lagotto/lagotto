@@ -25,8 +25,8 @@ class Twitter < Source
       event_time = get_iso8601_from_time(data['created_at'])
       url = "http://twitter.com/#{user}/status/#{data['id_str']}"
 
-      { event: { id: data["id_str"],
-                 text: data["text"],
+      { event: { id: data.fetch("id_str", nil),
+                 text: data.fetch("text", nil),
                  created_at: event_time,
                  user: user,
                  user_name: user_name,
@@ -36,7 +36,7 @@ class Twitter < Source
 
         # the rest is CSL (citation style language)
         event_csl: {
-          'author' => get_author(user_name),
+          'author' => get_authors([user_name]),
           'title' => data.fetch('text') { '' },
           'container-title' => 'Twitter',
           'issued' => get_date_parts(event_time),

@@ -19,9 +19,9 @@ class ScienceSeeker < Source
 
         # the rest is CSL (citation style language)
         event_csl: {
-          'author' => get_author(item.deep_fetch('author', 'name') { '' }),
-          'title' => item.fetch('title') { '' },
-          'container-title' => item.deep_fetch('source', 'title') { '' },
+          'author' => get_authors([item.fetch('author', {}).fetch('name', "")]),
+          'title' => item.fetch('title', ""),
+          'container-title' => item.fetch('source', {}).fetch('title', ""),
           'issued' => get_date_parts(event_time),
           'url' => url,
           'type' => 'post'

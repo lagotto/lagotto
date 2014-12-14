@@ -42,9 +42,9 @@ class PmcEuropeData < Source
 
           # the rest is CSL (citation style language)
           event_csl: {
-            'author' => get_author(item['authorString']),
-            'title' => item.fetch('title') { '' },
-            'container-title' => item.fetch('journalTitle') { '' },
+            'author' => get_authors([item.fetch('authorString', "")]),
+            'title' => item.fetch('title', ""),
+            'container-title' => item.fetch('journalTitle', ""),
             'issued' => get_date_parts_from_parts((item['pubYear']).to_i),
             'url' => url,
             'type' => 'article-journal' }

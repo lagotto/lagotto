@@ -13,7 +13,7 @@ class Wordpress < Source
 
         # the rest is CSL (citation style language)
         event_csl: {
-          'author' => get_author(item['author']),
+          'author' => get_authors([item.fetch('author', "")]),
           'title' => item.fetch('title') { '' },
           'container-title' => '',
           'issued' => get_date_parts(event_time),

@@ -58,8 +58,8 @@ class TwitterSearch < Source
 
         # the rest is CSL (citation style language)
         event_csl: {
-          'author' => get_author(user_name),
-          'title' => item.fetch('text') { '' },
+          'author' => get_authors([user_name]),
+          'title' => item.fetch('text', ""),
           'container-title' => 'Twitter',
           'issued' => get_date_parts(event_time),
           'url' => url,

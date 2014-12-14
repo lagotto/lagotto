@@ -32,8 +32,8 @@ class Reddit < Source
 
         # the rest is CSL (citation style language)
         event_csl: {
-          'author' => get_author(data['author']),
-          'title' => data.fetch('title') { '' },
+          'author' => get_authors([data.fetch('author', "")]),
+          'title' => data.fetch('title', ""),
           'container-title' => 'Reddit',
           'issued' => get_date_parts(event_time),
           'url' => url,

@@ -18,9 +18,9 @@ class Researchblogging < Source
 
         # the rest is CSL (citation style language)
         event_csl: {
-          'author' => get_author(item['blogger_name']),
-          'title' => item.fetch('post_title') { '' },
-          'container-title' => item.fetch('blog_name') { '' },
+          'author' => get_authors([item.fetch('blogger_name', "")]),
+          'title' => item.fetch('post_title', ""),
+          'container-title' => item.fetch('blog_name', ""),
           'issued' => get_date_parts(event_time),
           'url' => url,
           'type' => 'post'
