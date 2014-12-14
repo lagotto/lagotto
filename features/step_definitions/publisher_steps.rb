@@ -30,7 +30,7 @@ end
 
 When /^I go to the page of publisher "(.*?)"$/ do |name|
   publisher = Publisher.where(name: name).first
-  visit publisher_path(publisher.crossref_id)
+  visit publisher_path(publisher.member_id)
 end
 
 ### THEN ###

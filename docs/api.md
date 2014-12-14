@@ -106,7 +106,7 @@ Only provide metrics for a given source. The response format is the same as the 
 Results are sorted by descending event count when given the source name, e.g. `&order=wikipedia`. Otherwise (the default) results are sorted by date descending. When using `&source=x`, we can only sort by data or that source, not a different source.
 
 ### publisher=x
-Only provide metrics for articles by a given publisher, using the `crossref_id`. The response format is the same as the default response.
+Only provide metrics for articles by a given publisher, using the `member_id`. The response format is the same as the default response.
 
 ```sh
 /api/v5/articles?api_key=API_KEY&publisher=340

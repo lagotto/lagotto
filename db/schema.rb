@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141211234526) do
+ActiveRecord::Schema.define(version: 20141214121757) do
 
   create_table "alerts", force: true do |t|
     t.integer  "source_id"
@@ -128,16 +128,18 @@ ActiveRecord::Schema.define(version: 20141211234526) do
   add_index "publisher_options", ["publisher_id", "source_id"], name: "index_publisher_options_on_publisher_id_and_source_id", unique: true, using: :btree
 
   create_table "publishers", force: true do |t|
-    t.string   "name"
-    t.integer  "crossref_id"
+    t.string   "title"
+    t.integer  "member_id"
     t.text     "prefixes"
     t.text     "other_names"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "cached_at",   default: '1970-01-01 00:00:00', null: false
+    t.string   "name",                                        null: false
+    t.string   "service"
   end
 
-  add_index "publishers", ["crossref_id"], name: "index_publishers_on_crossref_id", unique: true, using: :btree
+  add_index "publishers", ["member_id"], name: "index_publishers_on_member_id", unique: true, using: :btree
 
   create_table "relation_types", force: true do |t|
     t.string   "name",       null: false

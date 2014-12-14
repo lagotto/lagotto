@@ -15,7 +15,7 @@ namespace :cache do
 
     Publisher.all.each do |publisher|
       publisher.update_cache
-      puts "Cache update for publisher #{publisher.name} has been queued."
+      puts "Cache update for publisher #{publisher.title} has been queued."
     end
   end
 
