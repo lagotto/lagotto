@@ -1,0 +1,253 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 2
+  },
+  "response": {
+    "numFound": 2636,
+    "start": 0,
+    "docs": [
+      {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "updated": "2014-11-05T07:33:11Z",
+        "prefix": "10.5061",
+        "doi": "10.5061/DRYAD.47SD5",
+        "relatedIdentifier": [
+          "HasPart:DOI:10.5061/DRYAD.47SD5/1",
+          "IsReferencedBy:DOI:10.1111/MEC.12069",
+          "IsReferencedBy:DOI:"
+        ],
+        "creator": [
+          "Crawford, Lindsay A.",
+          "Koscinski, Daria",
+          "Keyghobadi, Nusha"
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research"
+        ],
+        "publicationYear": "2012",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "updated": "2014-11-05T07:33:09Z",
+        "prefix": "10.5061",
+        "doi": "10.5061/DRYAD.47SD5/1",
+        "relatedIdentifier": [
+          "IsPartOf:DOI:10.5061/DRYAD.47SD5"
+        ],
+        "creator": [
+          "Crawford, Lindsay A.",
+          "Koscinski, Daria",
+          "Keyghobadi, Nusha"
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "Extracted information from AFLP studies"
+        ],
+        "publicationYear": "2012",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "updated": "2014-11-06T07:34:02Z",
+        "prefix": "10.5061",
+        "doi": "10.5061/DRYAD.H22N9",
+        "relatedIdentifier": [
+          "HasPart:DOI:10.5061/DRYAD.H22N9/1",
+          "HasPart:DOI:10.5061/DRYAD.H22N9/2",
+          "IsReferencedBy:DOI:10.1002/ECE3.563",
+          "IsReferencedBy:DOI:"
+        ],
+        "creator": [
+          "Camacho, Carlos",
+          "Canal, David",
+          "Potti, Jaime"
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "Data from: Nonrandom dispersal drives phenotypic divergence within a bird population"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "updated": "2014-11-06T07:33:27Z",
+        "prefix": "10.5061",
+        "doi": "10.5061/DRYAD.NK151",
+        "relatedIdentifier": [
+          "HasPart:DOI:10.5061/DRYAD.NK151/1",
+          "HasPart:DOI:10.5061/DRYAD.NK151/2",
+          "IsReferencedBy:DOI:10.1111/MEC.12533",
+          "IsReferencedBy:DOI:"
+        ],
+        "creator": [
+          "Pellino, Marco",
+          "Hojsgaard, Diego",
+          "Schmutzer, Thomas",
+          "Scholz, Uwe",
+          "Hörandl, Elvira",
+          "Vogel, Heiko",
+          "Sharbel, Timothy F."
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "Data from: Asexual genome evolution in the apomictic Ranunculus auricomus complex: examining the effects of hybridization and mutation accumulation"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "updated": "2014-11-06T07:33:25Z",
+        "prefix": "10.5061",
+        "doi": "10.5061/DRYAD.NK151/1",
+        "relatedIdentifier": [
+          "IsPartOf:DOI:10.5061/DRYAD.NK151"
+        ],
+        "creator": [
+          "Pellino, Marco",
+          "Hojsgaard, Diego",
+          "Schmutzer, Thomas",
+          "Scholz, Uwe",
+          "Vogel, Heiko",
+          "Hörandl, Elvira",
+          "Sharbel, Tim"
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "Asexual genome evolution in the apomictic Ranunculus auricomus complex: examining the effects of hybridization and mutation accumulation."
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "updated": "2014-11-06T07:33:06Z",
+        "prefix": "10.5061",
+        "doi": "10.5061/DRYAD.NK151/2",
+        "relatedIdentifier": [
+          "IsPartOf:DOI:10.5061/DRYAD.NK151"
+        ],
+        "creator": [
+          "Pellino, Marco",
+          "Hojsgaard, Diego",
+          "Schmutzer, Thomas",
+          "Scholz, Uwe",
+          "Vogel, Heiko",
+          "Hörandl, Elvira",
+          "Sharbel, Tim"
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "Presence/absence SNPs matrix"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "updated": "2014-11-06T07:34:00Z",
+        "prefix": "10.5061",
+        "doi": "10.5061/DRYAD.H22N9/1",
+        "relatedIdentifier": [
+          "IsPartOf:DOI:10.5061/DRYAD.H22N9"
+        ],
+        "creator": [
+          "Camacho, Carlos",
+          "Canal, David",
+          "Potti, Jaime"
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "INDIV_DATA"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "updated": "2014-11-06T07:33:42Z",
+        "prefix": "10.5061",
+        "doi": "10.5061/DRYAD.H22N9/2",
+        "relatedIdentifier": [
+          "IsPartOf:DOI:10.5061/DRYAD.H22N9"
+        ],
+        "creator": [
+          "Camacho, Carlos",
+          "Canal, David",
+          "Potti, Jaime"
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "NB OCCUPATION_DATA"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "updated": "2014-11-06T16:06:02Z",
+        "prefix": "10.5061",
+        "doi": "10.5061/DRYAD.QT984",
+        "relatedIdentifier": [
+          "HasPart:DOI:10.5061/DRYAD.QT984/1",
+          "IsReferencedBy:DOI:10.1371/JOURNAL.PONE.0111985"
+        ],
+        "creator": [
+          "Eggers, Florian",
+          "Slotte, Aril",
+          "Libungan, Lísa Anne",
+          "Johannessen, Arne",
+          "Kvamme, Cecilie",
+          "Moland, Even",
+          "Olsen, Esben Moland",
+          "Nash, Richard D. M."
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "Data from: Seasonal dynamics of Atlantic herring (Clupea harengus L.) populations spawning in the vicinity of marginal habitats"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "updated": "2014-11-06T16:06:15Z",
+        "prefix": "10.5061",
+        "doi": "10.5061/DRYAD.QT984/1",
+        "relatedIdentifier": [
+          "IsPartOf:DOI:10.5061/DRYAD.QT984"
+        ],
+        "creator": [
+          "Eggers, Florian",
+          "Slotte, Aril",
+          "Libungan, Lisa Anne",
+          "Johannessen, Arne",
+          "Kvamme, Cecilie",
+          "Moland, Even",
+          "Olsen, Esben Moland",
+          "Nash, Richard D. M."
+        ],
+        "publisher": "Dryad Digital Repository",
+        "title": [
+          "Data 2012 Landvik"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      }
+    ]
+  }
+}

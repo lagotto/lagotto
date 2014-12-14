@@ -302,12 +302,14 @@ FactoryGirl.define do
   end
 
   factory :publisher do
-    crossref_id 340
-    name 'Public Library of Science (PLoS)'
+    name "340"
+    member_id 340
+    title 'Public Library of Science (PLoS)'
     other_names ["Public Library of Science", "Public Library of Science (PLoS)"]
     prefixes ["10.1371"]
+    service "crossref"
 
-    initialize_with { Publisher.where(crossref_id: crossref_id).first_or_initialize }
+    initialize_with { Publisher.where(member_id: member_id).first_or_initialize }
   end
 
   factory :publisher_option do

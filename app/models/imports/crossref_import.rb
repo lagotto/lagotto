@@ -40,9 +40,58 @@ class CrossrefImport < Import
     "book-set" => nil
   }
 
+  def initialize(options = {})
+    from_update_date = options.fetch(:from_update_date, nil)
+    until_update_date = options.fetch(:until_update_date, nil)
+    from_pub_date = options.fetch(:from_pub_date, nil)
+    until_pub_date = options.fetch(:until_pub_date, nil)
+    type = options.fetch(:type, nil)
+    member = options.fetch(:member, nil)
+    issn = options.fetch(:issn, nil)
+    sample = options.fetch(:sample, 0)
+    @sample = sample.to_i
+    @member_list = member.to_s.split(",")
+
+    from_update_date = (Time.zone.now.to_date - 1.day).iso8601 if from_update_date.blank?
+    until_update_date = Time.zone.now.to_date.iso8601 if until_update_date.blank?
+    until_pub_date = Time.zone.now.to_date.iso8601 if until_pub_date.blank?
+
+    @filter = "from-update-date:#{from_update_date}"
+    @filter += ",until-update-date:#{until_update_date}"
+    @filter += ",until-pub-date:#{until_pub_date}"
+    @filter += ",from-pub-date:#{from_pub_date}" if from_pub_date
+    @filter += ",type:#{type}" if type
+    @filter += ",issn:#{issn}" if issn
+
+    if @member_list.present?
+      @filter += member_list.reduce("") do |sum, member|
+        sum + ",member:#{member}"
+      end
+    end
+  end
+
+  def total_results
+    result = get_result(query_url(offset = 0, rows = 0))
+    result.fetch('message', {}).fetch('total-results', 0)
+  end
+
+  def query_url(offset = 0, rows = 1000)
+    url = "http://api.crossref.org/works?"
+    if @sample > 0
+      params = { filter: @filter, sample: @sample }
+    else
+      params = { filter: @filter, offset: offset, rows: rows }
+    end
+    url + params.to_query
+  end
+
+  def get_data(offset = 0, options={})
+    get_result(query_url(offset), options)
+  end
+
   def parse_data(result)
     # return early if an error occured
-    return [] unless result && result["status"] == "ok"
+    return [] unless result && result.fetch('status', nil) == "ok"
 
     items = result.fetch('message', {}).fetch('items', nil)
     Array(items).map do |item|

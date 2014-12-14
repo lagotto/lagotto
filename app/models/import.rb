@@ -1,8 +1,9 @@
-# encoding: UTF-8
-
 class Import
   # include HTTP request helpers
   include Networkable
+
+  # include author methods
+  include Authorable
 
   attr_accessor :filter, :sample, :rows, :member_list
 
@@ -40,17 +41,17 @@ class Import
     end
   end
 
-  def total_results(options={})
+  def total_results
     if @file
       @file.length
     else
-      result = get_result(query_url(offset = 0, rows = 0), options)
+      result = get_result(query_url(offset = 0, rows = 0))
       result.fetch('message', {}).fetch('total-results', 0)
     end
   end
 
   def queue_work_import
-    if @sample > 0
+    if @sample && @sample > 0
       delay(priority: 2, queue: "work-import-queue").process_data
     else
       (0...total_results).step(1000) do |offset|
