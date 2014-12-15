@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+  # include base controller methods
+  include Authenticable
+
   # include helper module for DOI resolution
   include Resolvable
 
