@@ -53,6 +53,28 @@ describe Work, :type => :model do
     end
   end
 
+  context "validate url format" do
+    it "http://example.com/1234" do
+      work = FactoryGirl.build(:work, :canonical_url => "http://example.com/1234")
+      expect(work).to be_valid
+    end
+
+    it "https://example.com/1234" do
+      work = FactoryGirl.build(:work, :canonical_url => "https://example.com/1234")
+      expect(work).to be_valid
+    end
+
+    it "http://" do
+      work = FactoryGirl.build(:work, :canonical_url => "http://")
+      expect(work).not_to be_valid
+    end
+
+    it "asdfasdfasdf" do
+      work = FactoryGirl.build(:work, :canonical_url => "asdfasdfasdf")
+      expect(work).not_to be_valid
+    end
+  end
+
   context "validate date " do
     before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 

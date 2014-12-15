@@ -20,7 +20,8 @@ class Work < ActiveRecord::Base
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_nil: true
-  validates :pid, :pmid, :pmcid, :canonical_url, uniqueness: true, allow_nil: true
+  validates :canonical_url, uniqueness: true, format: { with: URL_FORMAT }, allow_nil: true
+  validates :pid, :pmid, :pmcid, uniqueness: true, allow_nil: true
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
 
@@ -52,6 +53,7 @@ class Work < ActiveRecord::Base
     when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
     when id.starts_with?("info:pmcid/PMC")     then { pmcid: id[14..-1] }
     when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
+    when id.starts_with?("url/")              then { canonical_url: CGI.unescape(id[4..-1]) }
     else { doi: id }
     end
   end
@@ -303,8 +305,10 @@ class Work < ActiveRecord::Base
       write_attribute(:pid, pmcid)
       write_attribute(:pid_type, "pmcid")
     elsif canonical_url.present?
-      write_attribute(:pid, canonical_url)
+      write_attribute(:pid, canonical_url_escaped)
       write_attribute(:pid_type, "url")
+    else
+      errors.add :doi, "must provide at least one persistent identifier"
     end
   end
 
