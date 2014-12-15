@@ -38,50 +38,6 @@ class Work < ActiveRecord::Base
 
   serialize :csl, JSON
 
-  def self.from_uri(id)
-    return nil if id.nil?
-
-    id = id.gsub("%2F", "/")
-    id = id.gsub("%3A", ":")
-
-    case
-    when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
-    when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]) }
-    when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]) }
-    when id.starts_with?("pmid/")              then { pmid: id[5..-1] }
-    when id.starts_with?("info:pmid/")         then { pmid: id[10..-1] }
-    when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
-    when id.starts_with?("info:pmcid/PMC")     then { pmcid: id[14..-1] }
-    when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
-    when id.starts_with?("url/")              then { canonical_url: CGI.unescape(id[4..-1]) }
-    else { doi: id }
-    end
-  end
-
-  def self.to_uri(id, escaped=true)
-    return nil if id.nil?
-
-    id_hash = from_uri(id)
-
-    id_hash.keys.first.to_s + "/" + id_hash.values.first
-  end
-
-  def self.to_url(doi)
-    return nil if doi.nil?
-    return doi if doi.starts_with? "http://dx.doi.org/"
-    "http://dx.doi.org/#{from_uri(doi).values.first}"
-  end
-
-  def self.clean_id(id)
-    if id.starts_with? "10."
-      Addressable::URI.unencode(id)
-    elsif id.starts_with? "PMC"
-      id[3..-1]
-    else
-      id
-    end
-  end
-
   def self.find_or_create(params)
     self.create!(params)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
@@ -302,7 +258,7 @@ class Work < ActiveRecord::Base
       write_attribute(:pid, pmid)
       write_attribute(:pid_type, "pmid")
     elsif pmcid.present?
-      write_attribute(:pid, pmcid)
+      write_attribute(:pid, "PMC#{pmcid}")
       write_attribute(:pid_type, "pmcid")
     elsif canonical_url.present?
       write_attribute(:pid, canonical_url_escaped)

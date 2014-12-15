@@ -10,7 +10,7 @@ class WorksController < ApplicationController
     @page = params[:page] || 1
     @q = params[:q]
     @class_name = params[:class_name]
-    @publisher = Publisher.where(name: params[:publisher]).first
+    @publisher = Publisher.where(name: params[:publisher_id]).first
     @source = Source.visible.where(name: params[:source]).first
     @order = Source.visible.where(name: params[:order]).first
   end
@@ -62,16 +62,13 @@ class WorksController < ApplicationController
 
   def load_work
     # Load one work given query params
-    id_hash = Work.from_uri(params[:id])
+    id_hash = get_id_hash(params[:id])
     if id_hash.respond_to?("key")
       key, value = id_hash.first
       @work = Work.where(key => value).first
     else
-      @work = nil
+      fail ActiveRecord::RecordNotFound
     end
-
-    # raise error if work wasn't found
-    fail ActiveRecord::RecordNotFound if @work.blank?
   end
 
   def new_work
@@ -81,6 +78,6 @@ class WorksController < ApplicationController
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day, :publisher_id)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day, :publisher_id, :work_type_id)
   end
 end

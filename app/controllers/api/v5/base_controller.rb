@@ -2,6 +2,9 @@ class Api::V5::BaseController < ActionController::Base
   # include base controller methods
   include Authenticable
 
+  # include helper module for DOI resolution
+  include Resolvable
+
   respond_to :json, :js
 
   prepend_before_filter :disable_devise_trackable

@@ -1,4 +1,7 @@
 class Api::V3::WorksController < Api::V3::BaseController
+  # include helper module for DOI resolution
+  include Resolvable
+
   before_filter :load_work, only: [:update, :destroy]
 
   def index
@@ -10,7 +13,7 @@ class Api::V3::WorksController < Api::V3::BaseController
 
     type = { "doi" => :doi, "pmid" => :pmid, "pmcid" => :pmcid, "mendeley" => :mendeley_uuid }.values_at(params[:type]).first || :doi
 
-    ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| Work.clean_id(id) }
+    ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| get_clean_id(id) }
     id_hash = { :works => { type => ids }, :retrieval_statuses => { :source_id => source_ids }}
     @works = WorkDecorator.includes(:retrieval_statuses).references(:retrieval_statuses)
                 .where(id_hash)
@@ -33,7 +36,7 @@ class Api::V3::WorksController < Api::V3::BaseController
     # Load one work given query params
     source_ids = get_source_ids(params[:source])
 
-    id_hash = { :works => Work.from_uri(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
+    id_hash = { :works => get_id_hash(params[:id]), :retrieval_statuses => { :source_id => source_ids }}
     @work = Work.includes(:retrieval_statuses).references(:retrieval_statuses)
                .where(id_hash).first
 
@@ -55,7 +58,7 @@ class Api::V3::WorksController < Api::V3::BaseController
 
   def load_work
     # Load one work given query params
-    id_hash = Work.from_uri(params[:id])
+    id_hash = get_id_hash(params[:id])
     if id_hash.respond_to?("key")
       key, value = id_hash.first
       @work = Work.where(key => value).first

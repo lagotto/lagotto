@@ -6,7 +6,7 @@ module Workable
       source_id = Source.where(name: params[:source]).pluck(:id).first
 
       # Load one work given query params
-      id_hash = { :works => Work.from_uri(params[:id]) }
+      id_hash = { :works => get_id_hash(params[:id]) }
       @work = WorkDecorator.includes(:retrieval_statuses)
         .references(:retrieval_statuses)
         .where(id_hash).first
@@ -29,7 +29,7 @@ module Workable
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || "doi"
-        ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| Work.clean_id(id) }
+        ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
         collection = Work.where(:works => { type.to_sym => ids })
       elsif params[:q]
         collection = Work.query(params[:q])
@@ -92,7 +92,7 @@ module Workable
 
     def load_work
       # Load one work given query params
-      id_hash = Work.from_uri(params[:id])
+      id_hash = get_id_hash(params[:id])
       if id_hash.respond_to?("key")
         key, value = id_hash.first
         @work = Work.where(key => value).first.decorate

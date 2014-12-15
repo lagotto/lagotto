@@ -5,6 +5,9 @@ class Import
   # include author methods
   include Authorable
 
+  # include DOI helper methods
+  include Resolvable
+
   attr_accessor :filter, :sample, :rows, :member_list
 
   def queue_work_import

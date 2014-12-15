@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class CrossRef < Source
   def get_query_url(work)
     return nil if work.doi.nil? || Time.zone.now - work.published_on.to_time < 1.day
@@ -53,7 +51,7 @@ class CrossRef < Source
       if item.empty?
         nil
       else
-        url = Work.to_url(item['doi'])
+        url = get_url_from_doi(item.fetch('doi', nil))
 
         { event: item,
           event_url: url,

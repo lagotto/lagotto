@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 module Resolvable
   extend ActiveSupport::Concern
 
@@ -70,6 +68,10 @@ module Resolvable
       rescue_faraday_error(url, e, options.merge(doi_lookup: true))
     end
 
+    def get_url_from_doi(doi)
+      Addressable::URI.encode("http://dx.doi.org/#{doi}")
+    end
+
     def get_persistent_identifiers(doi, options = { timeout: 120 })
       conn = faraday_conn('json')
       params = { 'ids' => doi,
@@ -91,5 +93,34 @@ module Resolvable
       rescue_faraday_error(url, e, options)
     end
 
+    def get_id_hash(id)
+      return nil if id.nil?
+
+      id = id.gsub("%2F", "/")
+      id = id.gsub("%3A", ":")
+
+      case
+      when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
+      when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]) }
+      when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]) }
+      when id.starts_with?("pmid/")              then { pmid: id[5..-1] }
+      when id.starts_with?("info:pmid/")         then { pmid: id[10..-1] }
+      when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
+      when id.starts_with?("info:pmcid/PMC")     then { pmcid: id[14..-1] }
+      when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
+      when id.starts_with?("url/")              then { canonical_url: CGI.unescape(id[4..-1]) }
+      else {}
+      end
+    end
+
+    def get_clean_id(id)
+      if id.starts_with? "10."
+        Addressable::URI.unencode(id)
+      elsif id.starts_with? "PMC"
+        id[3..-1]
+      else
+        id
+      end
+    end
   end
 end

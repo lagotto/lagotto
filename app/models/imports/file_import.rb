@@ -1,5 +1,4 @@
 class FileImport < Import
-
   def initialize(options = {})
     @file = options.fetch(:file, nil)
     member = options.fetch(:member, nil)
@@ -19,8 +18,9 @@ class FileImport < Import
     items = text.map do |line|
       line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
       raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)
+      next if raw_doi.nil?
 
-      doi = Work.from_uri(raw_doi.strip).values.first
+      doi = get_id_hash(raw_doi.strip).values.first
       if raw_published_on
         # date_parts is an array of non-null integers: [year, month, day]
         # everything else should be nil and thrown away with compact

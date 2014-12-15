@@ -1,9 +1,6 @@
 require 'cgi'
 
 class OembedController < ApplicationController
-  # include base controller methods
-  include Authenticable
-
   before_filter :default_format_json
   respond_to :json, :xml
 
@@ -17,7 +14,7 @@ class OembedController < ApplicationController
 
     # proceed if url was recognized
     if url["action"] && url["action"] != "routing_error"
-      id_hash = Work.from_uri(url[:id])
+      id_hash = get_id_hash(url[:id])
       work = Work.where(id_hash)
     end
 
