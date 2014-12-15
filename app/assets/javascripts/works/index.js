@@ -6,7 +6,7 @@ if (!params.empty()) {
   var per_page = params.attr('data-per_page');
   var q = params.attr('data-q');
   var class_name = params.attr('data-class_name');
-  var publisher = params.attr('data-publisher');
+  var publisher_id = params.attr('data-publisher_id');
   var source = params.attr('data-source');
   var order = params.attr('data-order');
   var model = params.attr('data-model');
@@ -16,7 +16,7 @@ if (!params.empty()) {
   if (per_page != "") query += "&per_page=" + per_page;
   if (q != "") query += "&q=" + q;
   if (class_name != "") query += "&class_name=" + class_name;
-  if (publisher != "") query += "&publisher=" + publisher;
+  if (publisher_id != "") query += "&publisher_id=" + publisher_id;
   if (source != "") query += "&source=" + source;
   if (order != "") query += "&order=" + order;
   if (source == "" && order == "") {
@@ -40,7 +40,7 @@ function worksViz(json) {
   json["href"] = "?page={{number}}";
   if (q != "") json["href"] += "&q=" + q;
   if (class_name != "") json["href"] += "&class_name=" + class_name;
-  if (publisher != "" && model != "publisher") json["href"] += "&publisher=" + publisher;
+  if (publisher_id != "" && model != "publisher") json["href"] += "&publisher_id=" + publisher_id;
   if (source != "") json["href"] += "&source=" + source;
   if (order != "") json["href"] += "&order=" + order;
 
@@ -81,12 +81,14 @@ function worksViz(json) {
 
 // link to individual work
 function url_for(work) {
-  if (work["doi"].length > 0) {
+  if (!!work["doi"]) {
     return "http://dx.doi.org/" + work["doi"];
-  } else if (work["pmid"].length > 0) {
+  } else if (!!work["pmid"]) {
     return "http://www.ncbi.nlm.nih.gov/pubmed/" + work["pmid"];
-  } else if (work["pmcid"].length > 0) {
+  } else if (!!work["pmcid"]) {
     return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work["pmcid"];
+  } else if (!!work["canonical_url"]) {
+    return work["canonical_url"];
   } else {
     return ""
   }

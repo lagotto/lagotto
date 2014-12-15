@@ -20,6 +20,7 @@
         <%= f.input :pmid, :label => 'PubMed ID', :disabled => @work.pid_type == "pmid" %>
         <%= f.input :pmcid, :label => 'PubMed Central ID', :disabled => @work.pid_type == "pmcid" %>
         <%= f.input :canonical_url, :label => 'Canonical URL' %>
+        <%= f.association :work_type, :include_blank => false %>
         <% if publishers.length > 1 %>
           <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
         <% end %>

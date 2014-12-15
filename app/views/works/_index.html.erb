@@ -9,8 +9,9 @@
         <%= f.input :pmcid, :label => 'PubMed Central ID' %>
         <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
         <%= f.input :canonical_url, :label => 'Canonical URL' %>
+        <%= f.association :work_type, :include_blank => false %>
         <% if publishers.length > 1 %>
-          <%= f.association :publisher %>
+          <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
         <% end %>
         <%= f.input :published_on, label: "Publication Date" do %>
           <%= f.input_field :day, as: :day %>
@@ -34,7 +35,7 @@
         </div>
       <% end %>
     </div>
-    <h1 class="pull-left" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher="<%= @publisher.present? ? @publisher.member_id : nil %>" data-source="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">
+    <h1 class="pull-left" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher_id="<%= @publisher.present? ? @publisher.member_id : nil %>" data-source="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">
       Works
     </h1>
 
