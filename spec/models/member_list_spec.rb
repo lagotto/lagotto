@@ -69,7 +69,7 @@ describe MemberList, :type => :model do
 
   context "parse_data" do
     it "should parse_data default" do
-      import = Import.new
+      import = CrossrefImport.new
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
@@ -85,7 +85,7 @@ describe MemberList, :type => :model do
     end
 
     it "should parse_data incomplete date" do
-      import = Import.new
+      import = CrossrefImport.new
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
@@ -103,7 +103,7 @@ describe MemberList, :type => :model do
 
   context "import_data" do
     it "should import_data" do
-      import = Import.new
+      import = CrossrefImport.new
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
@@ -116,7 +116,7 @@ describe MemberList, :type => :model do
 
     it "should import_data with one existing work" do
       work = FactoryGirl.create(:work, :doi => "10.1787/gen_papers-v2008-art6-en")
-      import = Import.new
+      import = CrossrefImport.new
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
@@ -128,7 +128,7 @@ describe MemberList, :type => :model do
     end
 
     it "should import_data with missing title" do
-      import = Import.new
+      import = CrossrefImport.new
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch

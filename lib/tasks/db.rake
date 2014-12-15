@@ -61,7 +61,6 @@ namespace :db do
         number = import.total_results
         import.queue_work_import if number.to_i > 0
         puts "Started import of #{number} works in the background..."
-        puts import.query_url
       end
     end
 
@@ -72,15 +71,15 @@ namespace :db do
 
       number = input.length
       member = ENV['MEMBER']
-      if member.nil? && Publisher.pluck(:name).length == 1
+      if member.nil? && Publisher.pluck(:member_id).length == 1
         # if we have only configured a single publisher
-        member = Publisher.pluck(:name).first
+        member = Publisher.pluck(:member_id).first
       end
 
       if number > 0
         # import in batches of 1,000 works
         input.each_slice(1000) do |batch|
-          import = Import.new(file: batch, member: member)
+          import = FileImport.new(file: batch, member: member_id)
           import.queue_work_import
         end
         puts "Started import of #{number} works in the background..."

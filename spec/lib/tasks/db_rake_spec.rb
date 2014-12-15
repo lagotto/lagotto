@@ -30,7 +30,7 @@ end
 describe "db:works:import:datacite" do
   include_context "rake"
 
-  let(:output) { "Started import of 993 works in the background...\n" }
+  let(:output) { "Started import of 636 works in the background...\n" }
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")
