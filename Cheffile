@@ -15,7 +15,8 @@ cookbook "capistrano",
          :git => "git@github.com:articlemetrics/capistrano-cookbook.git"
 cookbook "dotenv",
          :git => "git@github.com:articlemetrics/dotenv-cookbook.git"
-cookbook "mysql", '~> 5.4.3'
+cookbook "mysql",
+         :git => "git@github.com:articlemetrics/mysql.git"
 cookbook 'database', '~> 2.3.0'
 cookbook "memcached"
 cookbook "phantomjs"
