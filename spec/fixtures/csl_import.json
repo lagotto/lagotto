@@ -1,0 +1,312 @@
+[
+  {
+    "id": 1383,
+    "type": "article-journal",
+    "title": "Screening for Epidermal Growth FactorReceptor Mutations in Lung Cancer",
+    "page": "1–10",
+    "DOI": "10.1056/NEJMoa0904554",
+    "issued": {
+      "date-parts": [
+        [
+          2009,
+          9,
+          3
+        ]
+      ]
+    }
+  },
+  {
+    "id": 1530,
+    "type": "article-journal",
+    "title": "Who Will Pay for Public Access to Research Data?",
+    "container-title": "Science",
+    "page": "616–617",
+    "volume": "341",
+    "issue": "6146",
+    "URL": "http://www.sciencemag.org/cgi/doi/10.1126/science.1241625",
+    "DOI": "10.1126/science.1241625",
+    "language": "English",
+    "author": [
+      {
+        "family": "Berman",
+        "given": "F"
+      },
+      {
+        "family": "Cerf",
+        "given": "V"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "2013",
+          8
+        ]
+      ]
+    }
+  },
+  {
+    "id": 520,
+    "type": "article-journal",
+    "title": "The contribution of mouse models to understanding the pathogenesis of spinal muscular atrophy",
+    "container-title": "Dis Model Mech",
+    "page": "457-67",
+    "volume": "4",
+    "issue": "4",
+    "abstract": "Spinal muscular atrophy (SMA), which is caused by inactivating mutations in the survival motor neuron 1 (SMN1) gene, is characterized by loss of lower motor neurons in the spinal cord. The gene encoding SMN is very highly conserved in evolution, allowing the disease to be modeled in a range of species. The similarities in anatomy and physiology to the human neuromuscular system, coupled with the ease of genetic manipulation, make the mouse the most suitable model for exploring the basic pathogenesis of motor neuron loss and for testing potential treatments. Therapies that increase SMN levels, either through direct viral delivery or by enhancing full-length SMN protein expression from the SMN1 paralog, SMN2, are approaching the translational stage of development. It is therefore timely to consider the role of mouse models in addressing aspects of disease pathogenesis that are most relevant to SMA therapy. Here, we review evidence suggesting that the apparent selective vulnerability of motor neurons to SMN deficiency is relative rather than absolute, signifying that therapies will need to be delivered systemically. We also consider evidence from mouse models suggesting that SMN has its predominant action on the neuromuscular system in early postnatal life, during a discrete phase of development. Data from these experiments suggest that the timing of therapy to increase SMN levels might be crucial. The extent to which SMN is required for the maintenance of motor neurons in later life and whether augmenting its levels could treat degenerative motor neuron diseases, such as amyotrophic lateral sclerosis (ALS), requires further exploration.",
+    "DOI": "10.1242/dmm.007245",
+    "ISSN": "1754-8403 (Print) 1754-8411 (Electronic)",
+    "shortTitle": "The contribution of mouse models to understanding the pathogenesis of spinal muscular atrophy",
+    "author": [
+      {
+        "family": "Sleigh",
+        "given": "J. N."
+      },
+      {
+        "family": "Gillingwater",
+        "given": "T. H."
+      },
+      {
+        "family": "Talbot",
+        "given": "K."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "2011"
+        ]
+      ]
+    }
+  },
+  {
+    "id": 1294,
+    "type": "report",
+    "title": "Wie kann die Bibliothek die Sichtbarkeit ihrer Wissenschaftler erhöhen?",
+    "publisher": "German Medical Science GMS Publishing House",
+    "URL": "http://dx.doi.org/10.3205/12AGMB03",
+    "author": [
+      {
+        "family": "Fenner",
+        "given": "Martin H"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "2012"
+        ]
+      ]
+    }
+  },
+  {
+    "id": 1641,
+    "type": "article-journal",
+    "title": "Interleukin-2 in combination with interferon-α and 5-fluorouracil for metastatic renal cell cancer",
+    "container-title": "European Journal of Cancer",
+    "page": "S6–S8",
+    "volume": "29",
+    "abstract": "Abstract Recent clinical trials for the biological therapy of solid tumours have used recombinant human cytokines in combination with conventional chemotherapy. In patients with progressive metastatic renal cell carcinoma, we established a three-drug combination ...",
+    "URL": "http://linkinghub.elsevier.com/retrieve/pii/095980499390617O",
+    "DOI": "10.1016/0959-8049(93)90617-O",
+    "language": "English",
+    "author": [
+      {
+        "family": "Atzpodien",
+        "given": "Jens"
+      },
+      {
+        "family": "Kirchner",
+        "given": "Hartmut"
+      },
+      {
+        "family": "Lopez Hänninen",
+        "given": "Enrique"
+      },
+      {
+        "family": "Deckert",
+        "given": "Markus"
+      },
+      {
+        "family": "Fenner",
+        "given": "Martin H"
+      },
+      {
+        "family": "Poliwoda",
+        "given": "Hubert"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "1993",
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "id": 454,
+    "type": "article-journal",
+    "title": "Differentiated evolutionary rates in alternative exons and the implications for splicing regulation",
+    "container-title": "BMC Evol Biol",
+    "page": "50",
+    "volume": "6",
+    "abstract": "Background: Alternatively spliced exons play an important role in the diversification of gene function in most metazoans and are highly regulated by conserved motifs in exons and introns. Two contradicting properties have been associated to evolutionary conserved alternative exons: higher sequence conservation and higher rate of non-synonymous substitutions, relative to constitutive exons. In order to clarify this issue, we have performed an analysis of the evolution of alternative and constitutive exons, using a large set of protein coding exons conserved between human and mouse and taking into account the conservation of the transcript exonic structure. Further, we have also defined a measure of the variation of the arrangement of exonic splicing enhancers (ESE-conservation score) to study the evolution of splicing regulatory sequences. We have used this measure to correlate the changes in the arrangement of ESEs with the divergence of exon and intron sequences. Results: We find evidence for a relation between the lack of conservation of the exonic structure and the weakening of the sequence evolutionary constraints in alternative and constitutive exons. Exons in transcripts with non-conserved exonic structures have higher synonymous (dS) and non-synonymous (dN) substitution rates than exons in conserved structures. Moreover, alternative exons in transcripts with non-conserved exonic structure are the least constrained in sequence evolution, and at high EST-inclusion levels they are found to be very similar to constitutive exons, whereas alternative exons in transcripts with conserved exonic structure have a dS significantly lower than average at all EST-inclusion levels. We also find higher conservation in the arrangement of ESEs in constitutive exons compared to alternative ones. Additionally, the sequence conservation at flanking introns remains constant for constitutive exons at all ESE-conservation values, but increases for alternative exons at high ESE-conservation values. Conclusion: We conclude that most of the differences in dN observed between alternative and constitutive exons can be explained by the conservation of the transcript exonic structure. Low dS values are more characteristic of alternative exons with conserved exonic structure, but not of those with non-conserved exonic structure. Additionally, constitutive exons are characterized by a higher conservation in the arrangement of ESEs, and alternative exons with an ESE-conservation similar to that of constitutive exons are characterized by a conservation of the flanking intron sequences higher than average, indicating the presence of more intronic regulatory signals.",
+    "DOI": "10.1186/1471-2148-6-50",
+    "ISSN": "1471-2148 (Electronic)",
+    "shortTitle": "Differentiated evolutionary rates in alternative exons and the implications for splicing regulation",
+    "author": [
+      {
+        "family": "Plass",
+        "given": "M."
+      },
+      {
+        "family": "Eyras",
+        "given": "E."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "2006"
+        ]
+      ]
+    }
+  },
+  {
+    "id": 1126,
+    "type": "article-journal",
+    "title": "The New Bioinformatics: Integrating Ecological Data from the Gene to the Biosphere",
+    "container-title": "Annual Review of Ecology, Evolution, and Systematics",
+    "page": "519-54",
+    "volume": "37",
+    "issue": "1",
+    "URL": "http://dx.doi.org/10.1146/annurev.ecolsys.37.091305.110031",
+    "author": [
+      {
+        "family": "Jones",
+        "given": "Matthew B."
+      },
+      {
+        "family": "Schildhauer",
+        "given": "Mark P."
+      },
+      {
+        "family": "Reichman",
+        "given": "O.J."
+      },
+      {
+        "family": "Bowers",
+        "given": "Shawn"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "2006",
+          12
+        ]
+      ]
+    }
+  },
+  {
+    "id": 1715,
+    "type": "article-journal",
+    "title": "Nuclear processes controlled by molecular machines",
+    "container-title": "Genome Biol",
+    "page": "reports4016 1–3",
+    "volume": "3",
+    "issue": "6",
+    "abstract": "A report on the 'Nuclear Structure and Function' symposium at the joint spring meeting of the British Society for Cell Biology, British Society for Developmental Biology and Genetics Society, York, UK, 20-23 March 2002.",
+    "author": [
+      {
+        "family": "Fox",
+        "given": "A H"
+      },
+      {
+        "family": "Lamond",
+        "given": "A I"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "2002"
+        ]
+      ]
+    }
+  },
+  {
+    "id": 462,
+    "type": "article-journal",
+    "title": "A Drosophila melanogaster model of spinal muscular atrophy reveals a function for SMN in striated muscle",
+    "container-title": "J Cell Biol",
+    "page": "831-41",
+    "volume": "176",
+    "issue": "6",
+    "abstract": "Mutations in human survival motor neurons 1 (SMN1) cause spinal muscular atrophy (SMA) and are associated with defects in assembly of small nuclear ribonucleoproteins (snRNPs) in vitro. However, the etiological link between snRNPs and SMA is unclear. We have developed a Drosophila melanogaster system to model SMA in vivo. Larval-lethal Smn-null mutations show no detectable snRNP reduction, making it unlikely that these animals die from global snRNP deprivation. Hypomorphic mutations in Smn reduce dSMN protein levels in the adult thorax, causing flightlessness and acute muscular atrophy. Mutant flight muscle motoneurons display pronounced axon routing and arborization defects. Moreover, Smn mutant myofibers fail to form thin filaments and phenocopy null mutations in Act88F, which is the flight muscle–specific actin isoform. In wild-type muscles, dSMN colocalizes with sarcomeric actin and forms a complex with α-actinin, the thin filament crosslinker. The sarcomeric localization of Smn is conserved in mouse myofibrils. These observations suggest a muscle-specific function for SMN and underline the importance of this tissue in modulating SMA severity.",
+    "DOI": "10.1083/jcb.200610053",
+    "ISSN": "0021-9525 (Print) 1540-8140 (Electronic)",
+    "shortTitle": "A Drosophila melanogaster model of spinal muscular atrophy reveals a function for SMN in striated muscle",
+    "author": [
+      {
+        "family": "Rajendra",
+        "given": "T."
+      },
+      {
+        "family": "Gonsalvez",
+        "given": "G. B."
+      },
+      {
+        "family": "Walker",
+        "given": "M. P."
+      },
+      {
+        "family": "Shpargel",
+        "given": "K. B."
+      },
+      {
+        "family": "Salz",
+        "given": "H. K."
+      },
+      {
+        "family": "Matera",
+        "given": "A. G."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "2007"
+        ]
+      ]
+    }
+  },
+  {
+    "id": 1140,
+    "type": "article-journal",
+    "title": "Data reuse and the open data citation advantage",
+    "container-title": "PeerJ PrePrints",
+    "page": "e1",
+    "volume": "1",
+    "URL": "http://dx.doi.org/10.7287/peerj.preprints.1",
+    "author": [
+      {
+        "family": "Piwowar",
+        "given": "Heather A"
+      },
+      {
+        "family": "Vision",
+        "given": "Todd J"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "2013"
+        ]
+      ]
+    }
+  }
+]

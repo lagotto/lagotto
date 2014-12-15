@@ -45,18 +45,31 @@ describe "db:works:import:datacite" do
   end
 end
 
-describe "db:works:load" do
-  include_context "rake"
+describe "db:works:import:csl" do
+  # we are not providing a file to import, so this should raise an error
 
-  # we are not providing a file to import
-  let(:output) { "No works to import.\n" }
+  include_context "rake"
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")
   end
 
   it "should run the rake task" do
-    expect(capture_stdout { subject.invoke }).to eq(output)
+    expect{ subject.invoke }.to raise_error SystemExit
+  end
+end
+
+describe "db:works:load" do
+  # we are not providing a file to import, so this should raise an error
+
+  include_context "rake"
+
+  it "prerequisites should include environment" do
+    expect(subject.prerequisites).to include("environment")
+  end
+
+  it "should run the rake task" do
+    expect{ subject.invoke }.to raise_error SystemExit
   end
 end
 

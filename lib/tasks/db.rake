@@ -62,30 +62,58 @@ namespace :db do
         import.queue_work_import if number.to_i > 0
         puts "Started import of #{number} works in the background..."
       end
+
+      desc "Import works from CSL file"
+      task :csl => :environment do
+        begin
+          csl = $stdin.read unless $stdin.tty?
+          fail Errno::ENOENT, "No works to import." if csl.nil?
+
+          file = JSON.parse(csl)
+        rescue Errno::ENOENT, JSON::ParserError => e
+          puts e.message
+          exit
+        end
+
+        member = ENV['MEMBER']
+        if member.nil? && Publisher.pluck(:member_id).length == 1
+          # if we have only configured a single publisher
+          member = Publisher.pluck(:member_id).first
+        end
+
+        options = { file: file,
+                    member: member }
+        import = CslImport.new(options)
+        number = import.total_results
+        import.queue_work_import if number.to_i > 0
+        puts "Started import of #{number} works in the background..."
+      end
     end
 
     desc "Bulk-load works from standard input"
     task :load => :environment do
-      input = []
-      $stdin.each_line { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) } unless $stdin.tty?
+      begin
+        input = []
+        $stdin.each_line { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) } unless $stdin.tty?
 
-      number = input.length
+        fail Errno::ENOENT, "No works to import." if input.empty?
+      rescue Errno::ENOENT => e
+        puts e.message
+        exit
+      end
+
       member = ENV['MEMBER']
       if member.nil? && Publisher.pluck(:member_id).length == 1
         # if we have only configured a single publisher
         member = Publisher.pluck(:member_id).first
       end
 
-      if number > 0
-        # import in batches of 1,000 works
-        input.each_slice(1000) do |batch|
-          import = FileImport.new(file: batch, member: member_id)
-          import.queue_work_import
-        end
-        puts "Started import of #{number} works in the background..."
-      else
-        puts "No works to import."
+      # import in batches of 1,000 works
+      input.each_slice(1000) do |batch|
+        import = FileImport.new(file: batch, member: member)
+        import.queue_work_import
       end
+      puts "Started import of #{input.length} works in the background..."
     end
 
     desc "Delete works"

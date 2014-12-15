@@ -10,7 +10,7 @@ class FileImport < Import
     @file.length
   end
 
-  def get_data(offset = 0, options={})
+  def get_data(offset = 0)
     result = get_text(offset)
   end
 
