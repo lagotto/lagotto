@@ -64,6 +64,11 @@ describe Work, :type => :model do
       expect(work).to be_valid
     end
 
+    it "ftp://example.com/1234" do
+      work = FactoryGirl.build(:work, :canonical_url => "ftp://example.com/1234")
+      expect(work).to be_valid
+    end
+
     it "http://" do
       work = FactoryGirl.build(:work, :canonical_url => "http://")
       expect(work).not_to be_valid
@@ -153,12 +158,25 @@ describe Work, :type => :model do
     expect(Addressable::URI.encode("http://dx.doi.org/#{work.doi}")).to eq(work.doi_as_url)
   end
 
-  it 'to_uri' do
-    expect(Work.to_uri(work.doi)).to eq "doi/#{work.doi}"
-  end
+  context "pid" do
+    it 'for doi' do
+      expect(work.to_param).to eq "doi/#{work.doi}"
+    end
 
-  it 'to_url' do
-    expect(Work.to_url(work.doi)).to eq "http://dx.doi.org/#{work.doi}"
+    it 'for pmid' do
+      work = FactoryGirl.create(:work, doi: nil)
+      expect(work.to_param).to eq "pmid/#{work.pmid}"
+    end
+
+    it 'for pmcid' do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil)
+      expect(work.to_param).to eq "pmcid/PMC#{work.pmcid}"
+    end
+
+    it 'for canonical_url' do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
+      expect(work.to_param).to eq "url/#{work.canonical_url_escaped}"
+    end
   end
 
   it 'to title escaped' do
