@@ -18,7 +18,7 @@ describe Facebook, :type => :model do
 
     it "should look up access token if blank" do
       subject.access_token = nil
-      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
       stub_auth = stub_request(:get, subject.get_authentication_url).to_return(:body => File.read(fixture_path + 'facebook_auth.txt'))
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
 
@@ -39,7 +39,7 @@ describe Facebook, :type => :model do
     end
 
     it "should not look up canonical URL if there is work url" do
-      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
       lookup_stub = stub_request(:get, work.canonical_url)
                     .with(:headers => headers)
                     .to_return(:status => 200, :headers => { 'Location' => work.canonical_url })
@@ -57,7 +57,7 @@ describe Facebook, :type => :model do
     end
 
     it "should report if there are no events and event_count returned by the Facebook API" do
-      work = FactoryGirl.build(:work, :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
+      work = FactoryGirl.build(:work, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
       body = File.read(fixture_path + 'facebook_nil.json')
       stub = stub_request(:get, subject.get_query_url(work))
              .with(:headers => headers).to_return(:body => body)
@@ -67,7 +67,7 @@ describe Facebook, :type => :model do
     end
 
     it "should report if there are events and event_count returned by the Facebook API" do
-      work = FactoryGirl.build(:work, :canonical_url => "http://www.plosmedicine.org/work/info:doi/10.1371/journal.pmed.0020124")
+      work = FactoryGirl.build(:work, :canonical_url => "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'facebook.json')
       stub = stub_request(:get, subject.get_query_url(work))
              .with(:headers => headers).to_return(:body => body)
@@ -77,7 +77,7 @@ describe Facebook, :type => :model do
     end
 
     it "should catch authorization errors with the Facebook API" do
-      work = FactoryGirl.build(:work, :canonical_url => "http://www.plosmedicine.org/work/info:doi/10.1371/journal.pmed.0020124")
+      work = FactoryGirl.build(:work, :canonical_url => "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124")
       stub = stub_request(:get, subject.get_query_url(work))
              .with(:headers => headers)
              .to_return(:body => File.read(fixture_path + 'facebook_error.json'), :status => [401])

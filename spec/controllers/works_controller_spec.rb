@@ -4,9 +4,9 @@ describe WorksController, :type => :controller do
   render_views
 
   context "show" do
-    let(:work) { FactoryGirl.create(:work_with_events) }
+    let(:work) { FactoryGirl.create(:work_with_events, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007") }
 
-    it "GET DOI" do
+    it "GET doi" do
       get "/works/doi/#{work.doi}"
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include(work.doi)
@@ -22,6 +22,12 @@ describe WorksController, :type => :controller do
       get "/works/pmcid/PMC#{work.pmcid}"
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include(work.pmcid.to_s)
+    end
+
+    it "GET canonical_url" do
+      get "/works/url/#{work.canonical_url_escaped}"
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to include(work.canonical_url)
     end
   end
 
