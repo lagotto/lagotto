@@ -1,2 +1,1 @@
-# use memcached for session store
-Rails.application.config.session_store ActionDispatch::Session::CacheStore, :expire_after => 24.hours
+Lagotto::Application.config.session_store :cookie_store, key: "_lagotto"
