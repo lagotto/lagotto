@@ -164,8 +164,8 @@ namespace :db do
 
     desc "Load pids from persistent identifiers"
     task :load_pids => :environment do
-      Work.update_all("pid = doi", "doi IS NOT NULL")
-      Work.update_all(pid_type: "doi", "doi IS NOT NULL")
+      Work.where("doi IS NOT NULL").update_all("pid = doi")
+      Work.where("doi IS NOT NULL").update_all(pid_type: "doi")
       puts "#{Work.count} work pids loaded"
     end
 
