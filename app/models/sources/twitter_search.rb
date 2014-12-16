@@ -4,13 +4,13 @@ class TwitterSearch < Source
   def get_query_url(work, options = {})
     return nil unless get_access_token && work.get_url
 
-    URI.escape(url % { :doi => work.doi_escaped, :query_url => work.canonical_url })
+    URI.escape(url % { :doi => work.doi, :query_url => work.canonical_url })
   end
 
   def get_events_url(work)
     return nil unless events_url.present? && work.doi.present?
 
-    URI.escape(events_url % { :doi => work.doi_escaped, :query_url => work.canonical_url })
+    URI.escape(events_url % { :doi => work.doi, :query_url => work.canonical_url })
   end
 
   def request_options
