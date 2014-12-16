@@ -71,7 +71,7 @@ class CrossrefImport < Import
   end
 
   def total_results
-    result = get_result(query_url(offset = 0, rows = 0))
+    result = get_result(query_url(offset = 0, rows = 0)) || {}
     result.fetch('message', {}).fetch('total-results', 0)
   end
 

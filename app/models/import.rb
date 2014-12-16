@@ -8,7 +8,7 @@ class Import
   # include DOI helper methods
   include Resolvable
 
-  attr_accessor :filter, :sample, :rows, :member_list
+  attr_accessor :filter, :sample, :rows, :member_list, :from_update_date, :until_update_date, :from_pub_date, :until_pub_date, :type
 
   def queue_work_import
     if @sample && @sample > 0

@@ -25,7 +25,7 @@ class DataciteImport < Import
     @from_pub_date = options.fetch(:from_pub_date, nil)
     @until_pub_date = options.fetch(:until_pub_date, nil)
     @type = options.fetch(:type, nil)
-    @member_list = options.fetch(:member, "").split(",")
+    @member_list = options.fetch(:member, nil).to_s.split(",")
 
     @from_update_date = (Time.zone.now.to_date - 1.day).iso8601 if @from_update_date.blank?
     @until_update_date = Time.zone.now.to_date.iso8601 if @until_update_date.blank?
@@ -34,7 +34,7 @@ class DataciteImport < Import
   end
 
   def total_results
-    result = get_result(query_url(offset = 0, rows = 0))
+    result = get_result(query_url(offset = 0, rows = 0)) || {}
     result.fetch('response', {}).fetch('numFound', 0)
   end
 
@@ -45,19 +45,15 @@ class DataciteImport < Import
     datacentre_symbol = @member_list.empty? ? nil : "datacentre_symbol:" + @member_list.reduce { |sum, member| "#{sum} OR #{member}" }
     has_metadata = "has_metadata:true"
     is_active = "is_active:true"
+    fq_list = [updated, publication_year, resource_type_general, datacentre_symbol, has_metadata, is_active] #.reject(&:nil?)
 
     url = "http://search.datacite.org/api?"
-    params = {
-      q: "*:*",
-      start: offset,
-      rows: rows,
-      fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated",
-      wt: "json"
-    }
-
-    url += params.to_query
-    fq_params = [updated, publication_year, resource_type_general, datacentre_symbol, has_metadata, is_active]
-    fq_params.reduce(url) { |sum, fq| fq.nil? ? sum : sum + "&fq=" + URI.escape(fq) }
+    url + URI.encode_www_form("q" => "*:*",
+                              "start" => offset,
+                              "rows" => rows,
+                              "fl" => "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated",
+                              "fq" => fq_list,
+                              "wt" => "json")
   end
 
   def get_data(offset = 0, options={})
