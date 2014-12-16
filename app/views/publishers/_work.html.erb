@@ -7,7 +7,7 @@
         <% Group.order("id").each do |group| %>
           <% group.sources.visible.each_with_index do |source, i| %>
             <%= '<li class="divider"></li>'.html_safe if i == 0 %>
-            <li><%= link_to "Filter by #{source.display_name}", publisher_path(@publisher.member_id, source: source.name) %></li>
+            <li><%= link_to "Filter by #{source.display_name}", publisher_path(@publisher.member_id, source_id: source.name) %></li>
           <% end %>
         <% end %>
       </ul>
@@ -17,17 +17,17 @@
     <div class="btn-group btn-group-sm" id="publisher-order">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-sort"></span> <%= @order.nil? ? "Sort by Date" : "Sort by #{@order.display_name}" %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
-        <li><%= link_to "Date", publisher_path(@publisher.member_id, source: params[:source]) %></li>
+        <li><%= link_to "Date", publisher_path(@publisher.member_id, source_id: params[:source_id]) %></li>
         <% if @source.nil? %>
           <% Group.order("id").each do |group| %>
             <% group.sources.visible.each_with_index do |source, i| %>
               <%= '<li class="divider"></li>'.html_safe if i == 0 %>
-              <li><%= link_to "Sort by #{source.display_name}", publisher_path(@publisher.member_id, source: params[:source], order: source.name) %></li>
+              <li><%= link_to "Sort by #{source.display_name}", publisher_path(@publisher.member_id, source_id: params[:source_id], order: source.name) %></li>
             <% end %>
           <% end %>
         <% else %>
           <li class="divider"></li>
-          <li><%= link_to "Sort by #{@source.display_name}", publisher_path(@publisher.member_id, source: @source.name, order: @source.name) %></li>
+          <li><%= link_to "Sort by #{@source.display_name}", publisher_path(@publisher.member_id, source_id: @source.name, order: @source.name) %></li>
         <% end %>
       </ul>
     </div>

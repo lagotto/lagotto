@@ -7,7 +7,7 @@ if (!params.empty()) {
   var q = params.attr('data-q');
   var class_name = params.attr('data-class_name');
   var publisher_id = params.attr('data-publisher_id');
-  var source = params.attr('data-source');
+  var source_id = params.attr('data-source_id');
   var order = params.attr('data-order');
   var model = params.attr('data-model');
 
@@ -17,9 +17,9 @@ if (!params.empty()) {
   if (q != "") query += "&q=" + q;
   if (class_name != "") query += "&class_name=" + class_name;
   if (publisher_id != "") query += "&publisher_id=" + publisher_id;
-  if (source != "") query += "&source=" + source;
+  if (source_id != "") query += "&source_id=" + source_id;
   if (order != "") query += "&order=" + order;
-  if (source == "" && order == "") {
+  if (source_id == "" && order == "") {
     query += "&info=summary";
   }
 };
@@ -41,7 +41,7 @@ function worksViz(json) {
   if (q != "") json["href"] += "&q=" + q;
   if (class_name != "") json["href"] += "&class_name=" + class_name;
   if (publisher_id != "" && model != "publisher") json["href"] += "&publisher_id=" + publisher_id;
-  if (source != "") json["href"] += "&source=" + source;
+  if (source_id != "") json["href"] += "&source_id=" + source_id;
   if (order != "") json["href"] += "&order=" + order;
 
   d3.select("#loading-results").remove();
@@ -156,8 +156,8 @@ function formattedDate(date, len) {
 };
 
 function signpostsToString(work) {
-  if (source != "") {
-    s = work["sources"].filter(function(d) { return d.name == source })[0];
+  if (source_id != "") {
+    s = work["sources"].filter(function(d) { return d.name == source_id })[0];
     a = [s.display_name + ": " + formatFixed(s.metrics.total)];
   } else if (order != "") {
     s = work["sources"].filter(function(d) { return d.name == order })[0];

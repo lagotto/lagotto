@@ -117,7 +117,7 @@ describe "/api/v5/articles", :type => :api do
         response = Rails.cache.read(key)
         expect(response["sources"].size).to eq(1)
 
-        source_uri = "#{uri}&source=crossref"
+        source_uri = "#{uri}&source_id=crossref"
         get source_uri, nil, 'HTTP_ACCEPT' => 'application/json'
         expect(last_response.status).to eq(200)
 
