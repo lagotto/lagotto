@@ -99,6 +99,9 @@ module Resolvable
       id = id.gsub("%2F", "/")
       id = id.gsub("%3A", ":")
 
+      # workaround, as nginx and the rails router swallow double backslashes
+      id = id.gsub(/(http|https|ftp):\//, '\1://')
+
       case
       when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
       when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]) }
