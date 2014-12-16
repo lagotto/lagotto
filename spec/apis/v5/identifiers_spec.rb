@@ -82,7 +82,7 @@ describe "/api/v5/articles", :type => :api do
     context "works found via URL" do
       before(:each) do
         work_list = works.map { |work| "#{work.canonical_url}" }.join(",")
-        @uri = "/api/v5/articles?ids=#{work_list}&type=canonical_url&info=summary&api_key=#{api_key}"
+        @uri = "/api/v5/articles?ids=#{work_list}&type=url&info=summary&api_key=#{api_key}"
       end
 
       it "JSON" do
