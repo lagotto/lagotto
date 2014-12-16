@@ -16,43 +16,43 @@ describe DataciteImport, :type => :model do
   context "query_url" do
     it "should have default query_url" do
       import = DataciteImport.new
-      url = "http://search.datacite.org/api?fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&q=%2A%3A%2A&rows=1000&start=0&wt=json&fq=updated:[2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z]&fq=publicationYear:[1650%20TO%202013]&fq=has_metadata:true&fq=is_active:true"
+      url = "http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D&fq=publicationYear%3A%5B1650+TO+2013%5D&&&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json"
       expect(import.query_url).to eq(url)
     end
 
     it "should have query_url with from_update_date" do
       import = DataciteImport.new(from_update_date: "2013-09-01")
-      url = "http://search.datacite.org/api?fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&q=%2A%3A%2A&rows=1000&start=0&wt=json&fq=updated:[2013-09-01T00:00:00Z%20TO%202013-09-05T23:59:59Z]&fq=publicationYear:[1650%20TO%202013]&fq=has_metadata:true&fq=is_active:true"
+      url = "http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2013-09-01T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D&fq=publicationYear%3A%5B1650+TO+2013%5D&&&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json"
       expect(import.query_url).to eq(url)
     end
 
     it "should have query_url with until_update_date" do
       import = DataciteImport.new(until_update_date: "2013-09-05")
-      url = "http://search.datacite.org/api?fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&q=%2A%3A%2A&rows=1000&start=0&wt=json&fq=updated:[2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z]&fq=publicationYear:[1650%20TO%202013]&fq=has_metadata:true&fq=is_active:true"
+      url = "http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D&fq=publicationYear%3A%5B1650+TO+2013%5D&&&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json"
       expect(import.query_url).to eq(url)
     end
 
     it "should have query_url with member_id" do
       import = DataciteImport.new(member: "340")
-      url = "http://search.datacite.org/api?fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&q=%2A%3A%2A&rows=1000&start=0&wt=json&fq=updated:[2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z]&fq=publicationYear:[1650%20TO%202013]&fq=datacentre_symbol:340&fq=has_metadata:true&fq=is_active:true"
+      url = "http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D&fq=publicationYear%3A%5B1650+TO+2013%5D&&fq=datacentre_symbol%3A340&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json"
       expect(import.query_url).to eq(url)
     end
 
     it "should have query_url with type" do
       import = DataciteImport.new(type: "Dataset")
-      url = "http://search.datacite.org/api?fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&q=%2A%3A%2A&rows=1000&start=0&wt=json&fq=updated:[2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z]&fq=publicationYear:[1650%20TO%202013]&fq=resourceTypeGeneral:Dataset&fq=has_metadata:true&fq=is_active:true"
+      url = "http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D&fq=publicationYear%3A%5B1650+TO+2013%5D&fq=resourceTypeGeneral%3ADataset&&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json"
       expect(import.query_url).to eq(url)
     end
 
     it "should have query_url with offset" do
       import = DataciteImport.new
-      url = "http://search.datacite.org/api?fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&q=%2A%3A%2A&rows=1000&start=250&wt=json&fq=updated:[2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z]&fq=publicationYear:[1650%20TO%202013]&fq=has_metadata:true&fq=is_active:true"
+      url = "http://search.datacite.org/api?q=*%3A*&start=250&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D&fq=publicationYear%3A%5B1650+TO+2013%5D&&&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json"
       expect(import.query_url(offset = 250)).to eq(url)
     end
 
     it "should have query_url with rows" do
       import = DataciteImport.new
-      url = "http://search.datacite.org/api?fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&q=%2A%3A%2A&rows=250&start=0&wt=json&fq=updated:[2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z]&fq=publicationYear:[1650%20TO%202013]&fq=has_metadata:true&fq=is_active:true"
+      url = "http://search.datacite.org/api?q=*%3A*&start=0&rows=250&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D&fq=publicationYear%3A%5B1650+TO+2013%5D&&&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json"
       expect(import.query_url(offset = 0, rows = 250)).to eq(url)
     end
   end
@@ -79,7 +79,7 @@ describe DataciteImport, :type => :model do
     it "should get_data access denied error" do
       import = DataciteImport.new
       body = File.read(fixture_path + "access_denied.txt")
-      error = "the server responded with status 401 for http://search.datacite.org/api?fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&q=%2A%3A%2A&rows=1000&start=0&wt=json&fq=updated:[2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z]&fq=publicationYear:[1650%20TO%202013]&fq=has_metadata:true&fq=is_active:true"
+      error = "the server responded with status 401 for http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D&fq=publicationYear%3A%5B1650+TO+2013%5D&&&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json"
       stub = stub_request(:get, import.query_url).to_return(:body => body, :status => 401)
       response = import.get_data
       expect(response).to eq(error: error, status: 401)
@@ -96,7 +96,7 @@ describe DataciteImport, :type => :model do
       import = DataciteImport.new
       stub = stub_request(:get, import.query_url).to_return(:status => 408)
       response = import.get_data
-      expect(response).to eq(error: "the server responded with status 408 for http://search.datacite.org/api?fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&q=%2A%3A%2A&rows=1000&start=0&wt=json&fq=updated:[2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z]&fq=publicationYear:[1650%20TO%202013]&fq=has_metadata:true&fq=is_active:true", status: 408)
+      expect(response).to eq(error: "the server responded with status 408 for http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D&fq=publicationYear%3A%5B1650+TO+2013%5D&&&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json", status: 408)
       expect(stub).to have_been_requested
 
       expect(Alert.count).to eq(1)
