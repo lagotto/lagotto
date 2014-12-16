@@ -251,7 +251,9 @@ namespace :db do
 
         publisher = Publisher.create!(name: ENV['NAME'],
                                       title: ENV['TITLE'],
-                                      member_id: ENV['NAME'].to_i(36))
+                                      member_id: ENV['NAME'].to_i(36),
+                                      prefixes: [],
+                                      other_names: [])
         puts "Publisher #{publisher.title} created"
       rescue ArgumentError => e
         puts e.message
