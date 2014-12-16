@@ -15,10 +15,10 @@ Please prepend `RAILS_ENV=production` to all rake commands when running Rails in
 
 ## db.rake
 
-Bulk-load articles via the CrossRef API:
+Bulk-load works via the CrossRef API:
 
 ```sh
-bin/rake db:articles:import
+bin/rake db:works:import:crossref
 ```
 
 The command takes the following optional parameters via ENV variables
@@ -29,17 +29,17 @@ UNTIL_UPDATE_DATE=2014-03
 FROM_PUB_DATE=2014-01-01
 UNTIL_UPDATE_DATE=2014-07-01
 MEMBER=340
-TYPE=journal-article
+TYPE=journal-work
 ISSN=1545-7885
 SAMPLE=50
 ```
 
 * `FROM_UPDATE_DATE` means metadata updated since (inclusive) `{date}`, `UNTIL_UPDATE_DATE` means metadata updated until (inclusive) `{date}`, it defaults to today.
-* `FROM_PUB_DATE` means article published since (inclusive) `{date}`, `UNTIL_PUB_DATE` published until (inclusive) `{date}`.
+* `FROM_PUB_DATE` means work published since (inclusive) `{date}`, `UNTIL_PUB_DATE` published until (inclusive) `{date}`.
 * `MEMBER` is the CrossRef member_id, which you find by searching the member database, e.g. `http://api.crossref.org/members?query=elife`.
    If you have `import=member` in `.env`, then the rake task will use the CrossRef member_id of all publishers added via the web interface.
    Using `MEMBER` as ENV variable will instead import DOIs for that CrossRef member.
-* `TYPE` is the type of the resource, e.g. `journal-article`, a listing of available types can be found at `http://api.crossref.org/types`.
+* `TYPE` is the type of the resource, e.g. `journal-work`, a listing of available types can be found at `http://api.crossref.org/types`.
 * `SAMPLE` returns a random sample of x DOIs and can be combined with the other parameters.
 
 For more information please see the [CrossRef API documentation](https://github.com/CrossRef/rest-api-doc/blob/master/funder_kpi_api.md).
@@ -47,7 +47,7 @@ For more information please see the [CrossRef API documentation](https://github.
 To load for example all eLife content created or updated in 2014, use the following command:
 
 ```sh
-bin/rake db:articles:import MEMBER=4374 FROM_UPDATE_DATE=2014 UNTIL_UPDATE_DATE=2014-12
+bin/rake db:works:import:crossref MEMBER=4374 FROM_UPDATE_DATE=2014 UNTIL_UPDATE_DATE=2014-12
 ```
 
 When `import=member` or `import=member_sample` is set in the configuration, the `MEMBER` parameter can be ignored.
@@ -55,7 +55,7 @@ When `import=member` or `import=member_sample` is set in the configuration, the 
 Bulk-load a file consisting of DOIs, one per line. It'll ignore (but count) invalid ones and those that already exist in the database:
 
 ```sh
-bin/rake db:articles:load <DOI_DUMP
+bin/rake db:works:load <DOI_DUMP
 ```
 
 Format for import file
@@ -66,22 +66,22 @@ DOI Date(YYYY-MM-DD) Title
 
 The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
 
-Loads 25 sample articles
+Loads 25 sample works
 
 ```sh
-bin/rake db:articles:seed
+bin/rake db:works:seed
 ```
 
-Deletes articles and associated rows in the retrieval_statuses table. Use `MEMBER` to delete articles from a particular publisher, or `MEMBER=all" to delete all articles.
+Deletes works and associated rows in the retrieval_statuses table. Use `MEMBER` to delete works from a particular publisher, or `MEMBER=all" to delete all works.
 
 ```sh
-bin/rake db:articles:delete MEMBER=340
+bin/rake db:works:delete MEMBER=340
 ```
 
 Removes all HTML and XML tags from title field (for legacy data).
 
 ```sh
-bin/rake db:articles:sanitize_title
+bin/rake db:works:sanitize_title
 ```
 
 Isnstall sources. Provide one or more source names as arguments, e.g. `rake db:sources:install[pmc]` or install all available sources without arguments:
@@ -118,13 +118,13 @@ The last three rake tasks should run regularly, and can be set up to run as a da
 
 ## queue.rake
 
-Queue all articles
+Queue all works
 
 ```sh
 bin/rake queue:all
 ```
 
-Queue article with given DOI:
+Queue work with given DOI:
 
 ```sh
 bin/rake queue:one[DOI]
@@ -164,7 +164,7 @@ bin/rake pmc:update MONTH=1 YEAR=2013
 
 ## report.rake
 
-Generate all article stats reports.
+Generate all work stats reports.
 
 ```sh
 bin/rake report:all_stats

@@ -35,8 +35,8 @@ The following addiotional configuration options are available via the web interf
 * whether the source is automatically queueing jobs and not running via cron job (default true)
 * whether the results can be shared via the API (default true)
 * number of max. workers for the job queue (default 1)
-* job_batch_size: number of articles per job (default 200)
-* staleness: update interval depending on article publication date (default daily the first 31 days, then 4 times a month up until one year, then monthly)
+* job_batch_size: number of works per job (default 200)
+* staleness: update interval depending on work publication date (default daily the first 31 days, then 4 times a month up until one year, then monthly)
 * rate-limiting (default 10,000)
 * timeout (default 30 sec)
 * maximum number of failed queries allowed before being disabled (default 200)
@@ -57,56 +57,56 @@ Articles can be added in one of several ways:
 * API
 * CrossRef API
 
-Adding or changing articles via the admin dashboard is mainly for testing purposes, or to fix errors in the title or publication date of specific articles.
+Adding or changing works via the admin dashboard is mainly for testing purposes, or to fix errors in the title or publication date of specific works.
 
 ### Command line rake task
-We can use a rake command line task to automate the import of a large number of articles. The import file (e.g. IMPORT.TXT) is a text file with one article per line, and the required fields DOI, publication date and title separated by a space:
+We can use a rake command line task to automate the import of a large number of works. The import file (e.g. IMPORT.TXT) is a text file with one work per line, and the required fields DOI, publication date and title separated by a space:
 
 ```sh
 DOI Date(YYYY-MM-DD) Title
 ```
 
-The date can also be incomplete, i.e. `YYYY-MMM` or `YYYY`. The rake taks loads all these articles at once, ignoring (but counting) invalid ones and those that already exist in the database:
+The date can also be incomplete, i.e. `YYYY-MMM` or `YYYY`. The rake taks loads all these works at once, ignoring (but counting) invalid ones and those that already exist in the database:
 
 ```sh
-bin/rake db:articles:load <IMPORT.TXT
+bin/rake db:works:load <IMPORT.TXT
 ```
 
 In a production environment this rake task (like all other rake tasks used in production) has to be slightly modified to:
 
 ```sh
-bin/rake db:articles:load <IMPORT.TXT RAILS_ENV=production
+bin/rake db:works:load <IMPORT.TXT RAILS_ENV=production
 ```
 
 The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
 
-Most users will automate the importing of articles via a cron job, and will integrate the rake task into a larger workflow.
+Most users will automate the importing of works via a cron job, and will integrate the rake task into a larger workflow.
 
 ### API
 
-Articles can also be added (and updated or deleted) via the v4 [API](/docs/api). The v4 API uses basic authentication and is only available to admin and staff users. A sample curl API call to create a new article would look like this:
+Articles can also be added (and updated or deleted) via the v4 [API](/docs/api). The v4 API uses basic authentication and is only available to admin and staff users. A sample curl API call to create a new work would look like this:
 
 ```sh
-curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"article":{"doi":"10.1371/journal.pone.0036790","published_on":"2012-05-15","title":"Test title"}}' http://HOST/api/v4/articles
+curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"work":{"doi":"10.1371/journal.pone.0036790","published_on":"2012-05-15","title":"Test title"}}' http://HOST/api/v4/works
 ```
 
-The DOI, publication date and title are again all required fields, but you can also include other fields such as the Pubmed ID. See the [API](/docs/api) page for more information, e.g. how to update or delete articles.
+The DOI, publication date and title are again all required fields, but you can also include other fields such as the Pubmed ID. See the [API](/docs/api) page for more information, e.g. how to update or delete works.
 
 ### CrossRef API
 
-This is the preferred option. You need so set the configuration option `IMPORT` in `.env` to either `member`, `member_sample`, `all` or `sample`. `member` imports all articles from the publishers added in the admin interface, `member_sample` imports a random subset with 20 articles for that publisher.
+This is the preferred option. You need so set the configuration option `IMPORT` in `.env` to either `member`, `member_sample`, `all` or `sample`. `member` imports all works from the publishers added in the admin interface, `member_sample` imports a random subset with 20 works for that publisher.
 
 ## Starting Workers
-Lagotto talks to external data sources to collect metrics about a set of articles. Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. This can be done in one of two ways:
+Lagotto talks to external data sources to collect metrics about a set of works. Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. This can be done in one of two ways:
 
 ### Ad-hoc workers
-To collect metrics once for a set of articles, or for testing purposes the workers can be run ad-hoc using the [foreman](https://github.com/ddollar/foreman) utility that is installed with Lagotto. To make sure foreman detects the correct environment you are running (`development` or `production`), make sure the file `.env` in the root folder of your application has the correct information:
+To collect metrics once for a set of works, or for testing purposes the workers can be run ad-hoc using the [foreman](https://github.com/ddollar/foreman) utility that is installed with Lagotto. To make sure foreman detects the correct environment you are running (`development` or `production`), make sure the file `.env` in the root folder of your application has the correct information:
 
 ```sh
 RAILS_ENV=development
 ```
 
-You then have to decide what articles you want updated. This can be either a specific DOI, all articles, all articles for a list of specified sources, or all articles published in a specific time interval. Issue one of the following commands (and include `RAILS_ENV=production` in production mode):
+You then have to decide what works you want updated. This can be either a specific DOI, all works, all works for a list of specified sources, or all works published in a specific time interval. Issue one of the following commands (and include `RAILS_ENV=production` in production mode):
 
 ```sh
 bin/rake queue:one[10.1371/journal.pone.0036790]
@@ -131,7 +131,7 @@ script/delayed_job stop
 ### Background workers
 In a continously updating production system we want to run the workers in the background with the above command. You can monitor the status of your workers in the admin dashboard (`/status`).
 
-When we have to update the metrics for an article (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We need to run at least one delayed_job to do this.
+When we have to update the metrics for a work (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We need to run at least one delayed_job to do this.
 
 ### List of background jobs that Lagotto uses
 
@@ -139,7 +139,7 @@ The default priority for jobs is 5. We have the following background jobs sorted
 
 * **Disabled source alert**. Queue name is `mailer`, priority is 1.
 * **Updating sources and status cache**. Queue names are `{name of source}-cache` and `status-cache`, priority is 1.
-* **Article imports**. Queue name is `article-import`, priority is 2.
+* **Article imports**. Queue name is `work-import`, priority is 2.
 * **Deleting CouchDB documents**. A one-time maintenance task, queue name is `couchdb`, default priority is 4.
 * **Updating sources**. Queue name is name of the source, priority can be any integer greater than 0, default priority is 5.
 * **Email reports**. Queue name is `mailer`, default priority is 6.
@@ -150,7 +150,7 @@ Lagotto uses a number of maintenance tasks in production mode - they are not nec
 Many of the maintenance taks are `rake` tasks, and they are listed on a [separate page](/docs/rake). All rake tasks are issued from the application root folder. You want to prepend your rake command with `bundle exec` and `RAILS_ENV=production` should be appended to the rake command when running in production, e.g.
 
 ```sh
-bin/rake db:articles:load <IMPORT.TXT RAILS_ENV=production
+bin/rake db:works:load <IMPORT.TXT RAILS_ENV=production
 ```
 
 ### Cron jobs

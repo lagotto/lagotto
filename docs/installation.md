@@ -18,7 +18,7 @@ Lagotto is a typical Ruby on Rails web application with one unusual feature: it 
 
 Lagotto is Open Source software licensed with a [MIT License](https://github.com/articlemetrics/lagotto/blob/master/LICENSE.md), all dependencies (software and libraries) are also Open Source.
 
-Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of articles. As a rule of thumb you need one worker per 5,000 - 20,000 articles, and 1 Gb of RAM per 10 workers - the exact numbers depend on how often you plan to update articles, e.g. you need more workers if you plan on update your usage stats every day.
+Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of works. As a rule of thumb you need one worker per 5,000 - 20,000 works, and 1 Gb of RAM per 10 workers - the exact numbers depend on how often you plan to update works, e.g. you need more workers if you plan on update your usage stats every day.
 
 #### Ruby
 Lagotto requires Ruby 1.9.3 or greater, and has been tested with Ruby 1.9.3, 2.0 and 2.1. Not all Linux distributions include Ruby 1.9 as a standard install. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby, unfortunately they also introduce additional dependencies, making them not the best choices in a production environment. The Chef script below installs Ruby 2.1.
@@ -321,7 +321,7 @@ bundle install
 ```
 
 #### Install Lagotto databases
-We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including sample articles and a default user account (`DB_USERNAME` from your `.env` file). Use `RAILS_ENV=production` in your `.env` file if you set up Passenger to run in the production environment.
+We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including a default user account (`DB_USERNAME` from your `.env` file). Use `RAILS_ENV=production` in your `.env` file if you set up Passenger to run in the production environment.
 
 It is possible to connect Lagotto to MySQL and/or CouchDB running on a different server, please change `DB_HOST` and `COUCHDB_URL` in your `.env` file accordingly.
 

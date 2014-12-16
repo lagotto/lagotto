@@ -13,7 +13,7 @@ Traditionally, the impact of research articles has been measured by the publicat
 
 ## Lagotto
 
-Lagotto is an Open Source application started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). Lagotto retrieves data from a wide set of services ([sources](/docs/sources)). Some of these sources represent the actual channels where users are directly viewing, sharing, discussing, citing, recommending the articles (e.g., Twitter and Mendeley). Others are third-party vendors which provide this information (e.g., CrossRef for citations).
+Lagotto is an Open Source application started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). Lagotto retrieves data from a wide set of services ([sources](/docs/sources)). Some of these sources represent the actual channels where users are directly viewing, sharing, discussing, citing, recommending the works (e.g., Twitter and Mendeley). Others are third-party vendors which provide this information (e.g., CrossRef for citations).
 
 ## For Publishers and Providers
 Detailed instructions on how to [install](/docs/installation) and [setup](/docs/setup) Lagotto are available in the documentation, and the installation and setup can be done in under an hour.
