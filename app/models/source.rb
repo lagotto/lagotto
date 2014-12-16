@@ -23,6 +23,9 @@ class Source < ActiveRecord::Base
   # include date methods
   include Dateable
 
+  # include DOI helper methods
+  include Resolvable
+
   # include summary counts
   include Countable
 

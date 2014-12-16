@@ -261,7 +261,7 @@ class Work < ActiveRecord::Base
       write_attribute(:pid, "PMC#{pmcid}")
       write_attribute(:pid_type, "pmcid")
     elsif canonical_url.present?
-      write_attribute(:pid, canonical_url_escaped)
+      write_attribute(:pid, canonical_url)
       write_attribute(:pid_type, "url")
     else
       errors.add :doi, "must provide at least one persistent identifier"

@@ -175,7 +175,7 @@ describe Work, :type => :model do
 
     it 'for canonical_url' do
       work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
-      expect(work.to_param).to eq "url/#{work.canonical_url_escaped}"
+      expect(work.to_param).to eq "url/#{work.canonical_url}"
     end
   end
 
