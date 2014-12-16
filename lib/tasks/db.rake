@@ -9,7 +9,7 @@ namespace :db do
         # or ENV['MEMBER'] and/or ENV['SAMPLE'] are provided
         exit unless ENV['IMPORT'].present? || ENV['MEMBER'].present? || ENV['SAMPLE'].present?
 
-        case ENV['IMPORT'].downcase
+        case ENV['IMPORT'].to_s.downcase
         when "member"
           member = ENV['MEMBER'].presence || Publisher.pluck(:name).join(",")
           sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
@@ -40,11 +40,7 @@ namespace :db do
 
       desc "Import works from DataCite API"
       task :datacite => :environment do
-        # only run if configuration option ENV['IMPORT']
-        # or ENV['MEMBER'] are provided
-        exit unless ENV['IMPORT'].present? || ENV['MEMBER'].present?
-
-        case ENV['IMPORT'].downcase
+        case ENV['IMPORT'].to_s.downcase
         when "member"
           member = ENV['MEMBER'].presence || Publisher.pluck(:name).join(",")
         else
@@ -242,6 +238,25 @@ namespace :db do
       ApiResponse.where("created_at < ?", Time.zone.now - 1.day).delete_all
       after = ApiResponse.count
       puts "Deleted #{before - after} API responses, #{after} API responses remaining"
+    end
+  end
+
+  namespace :publishers do
+
+    desc "Create publisher"
+    task :create => :environment do
+      begin
+        fail ArgumentError, "Please provide publisher name via ENV['NAME']" if ENV['NAME'].blank?
+        fail ArgumentError, "Please provide publisher title via ENV['TITLE']" if ENV['TITLE'].blank?
+
+        publisher = Publisher.create!(name: ENV['NAME'],
+                                      title: ENV['TITLE'],
+                                      member_id: ENV['NAME'].to_i(36))
+        puts "Publisher #{publisher.title} created"
+      rescue ArgumentError => e
+        puts e.message
+        exit
+      end
     end
   end
 
