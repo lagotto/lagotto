@@ -13,7 +13,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
   include CustomError
 
   def enqueue(_job)
-    # keep track of when the article was queued up
+    # keep track of when the work was queued up
     RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: Time.zone.now)
   end
 
@@ -30,7 +30,7 @@ class SourceJob < Struct.new(:rs_ids, :source_id)
       rs = RetrievalStatus.find(rs_id)
 
       # Track API response result and duration in api_responses table
-      response = { article_id: rs.article_id, source_id: rs.source_id, retrieval_status_id: rs_id }
+      response = { work_id: rs.work_id, source_id: rs.source_id, retrieval_status_id: rs_id }
       start_time = Time.zone.now
       ActiveSupport::Notifications.instrument("api_response.get") do |payload|
         response.merge!(rs.perform_get_data)
