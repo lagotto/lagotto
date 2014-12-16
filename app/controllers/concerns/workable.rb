@@ -26,7 +26,7 @@ module Workable
       # Paginate query results, default is 50 works per page
 
       if params[:ids]
-        type = ["doi", "pmid", "pmcid", "url"].find { |t| t == params[:type] } || "doi"
+        type = ["doi", "pmid", "pmcid", "canonical_url"].find { |t| t == params[:type] } || "doi"
         ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
         collection = Work.where(:works => { type.to_sym => ids })
       elsif params[:q]
@@ -51,7 +51,7 @@ module Workable
 
       # sort by source event_count
       # we can't filter and sort by two different sources
-      if params[:order] && source && params[:order] == params[:source]
+      if params[:order] && source && params[:order] == params[:source_id]
         collection = collection.order("retrieval_statuses.event_count DESC")
       elsif params[:order] && !source && order = Source.where(name: params[:order]).first
         collection = collection.joins(:retrieval_statuses)
@@ -82,8 +82,8 @@ module Workable
 
       fresh_when last_modified: collection.maximum(:updated_at)
       @works = collection.decorate(context: { info: params[:info],
-                                                 source: params[:source_id],
-                                                 user: current_user.cache_key })
+                                              source_id: params[:source_id],
+                                              user: current_user.cache_key })
     end
 
     protected
