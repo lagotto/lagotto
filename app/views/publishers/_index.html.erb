@@ -65,7 +65,9 @@
       <div id="results">
         <% @publishers.each do |publisher| %>
           <h4 class="work"><%= link_to h(publisher.title), publisher_path(publisher.member_id) %></h4>
-          <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
+          <% if publisher.prefixes.present? %>
+            <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
+          <% end %>
         <% end %>
       </div>
       <div class="text-center">
