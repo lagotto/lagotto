@@ -84,9 +84,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: b23ec664023397ebc15e7ea18c66c248a236fee2
+  sha: ab65bd8a5d459ef9b7b9c56f0e6cb08091b2f996
   specs:
-    lagotto (4.2.3)
+    lagotto (4.2.4)
       apt (>= 0.0.0)
       capistrano (~> 0.7.0)
       couchdb (>= 0.0.0)
@@ -121,9 +121,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/passenger_nginx-cookbook.git
   ref: master
-  sha: 2354c9e62c5c1ae49c311b4e28581a5edb2fc682
+  sha: a53bb990328e0e920a88bce09ca06a155cfa61ec
   specs:
-    passenger_nginx (0.4.0)
+    passenger_nginx (0.4.1)
       apt (>= 0.0.0)
       ruby (~> 0.6.0)
 
