@@ -2,7 +2,7 @@
 
 class TwitterSearch < Source
   def get_query_url(work, options = {})
-    return nil unless get_access_token && work.doi.present? && work.get_url
+    return nil unless get_access_token && work.get_url
 
     URI.escape(url % { :doi => work.doi_escaped, :query_url => work.canonical_url })
   end
