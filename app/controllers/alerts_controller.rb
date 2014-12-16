@@ -6,11 +6,11 @@ class AlertsController < ApplicationController
     @servers = ENV['SERVERS'].split(",")
 
     collection = Alert
-    if params[:source]
+    if params[:source_id]
       collection = collection.includes(:source)
-                   .where("sources.name = ?", params[:source])
+                   .where("sources.name = ?", params[:source_id])
                    .references(:source)
-      @source = Source.where(name: params[:source]).first
+      @source = Source.where(name: params[:source_id]).first
     end
 
     if params[:hostname]
@@ -68,11 +68,11 @@ class AlertsController < ApplicationController
     end
 
     collection = Alert
-    if params[:source]
+    if params[:source_id]
       collection = collection.includes(:source)
-                   .where("sources.name = ?", params[:source])
+                   .where("sources.name = ?", params[:source_id])
                    .references(:source)
-      @source = Source.where(name: params[:source]).first
+      @source = Source.where(name: params[:source_id]).first
     end
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])

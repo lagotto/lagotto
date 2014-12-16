@@ -11,7 +11,7 @@ class WorksController < ApplicationController
     @q = params[:q]
     @class_name = params[:class_name]
     @publisher = Publisher.where(name: params[:publisher_id]).first
-    @source = Source.visible.where(name: params[:source]).first
+    @source = Source.visible.where(name: params[:source_id]).first
     @order = Source.visible.where(name: params[:order]).first
   end
 

@@ -4,9 +4,9 @@ class Api::V4::AlertsController < Api::V4::BaseController
   def index
     collection = Alert.unscoped.order("alerts.created_at DESC")
     collection = collection.where(unresolved: true) if params[:unresolved]
-    if params[:source]
-      collection = collection.joins(:source).where("sources.name = ?", params[:source])
-      @source = Source.where(name: params[:source]).first
+    if params[:source_id]
+      collection = collection.joins(:source).where("sources.name = ?", params[:source_id])
+      @source = Source.where(name: params[:source_id]).first
     end
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])

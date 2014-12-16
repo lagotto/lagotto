@@ -3,14 +3,12 @@ module Workable
 
   included do
     def show
-      source_id = Source.where(name: params[:source]).pluck(:id).first
-
       # Load one work given query params
       id_hash = { :works => get_id_hash(params[:id]) }
       @work = WorkDecorator.includes(:retrieval_statuses)
         .references(:retrieval_statuses)
         .where(id_hash).first
-        .decorate(context: { info: params[:info], source_id: source_id })
+        .decorate(context: { info: params[:info], source_id: params[:source_id] })
 
       # Return 404 HTTP status code and error message if work wasn't found
       if @work.blank?
@@ -28,12 +26,12 @@ module Workable
       # Paginate query results, default is 50 works per page
 
       if params[:ids]
-        type = ["doi", "pmid", "pmcid", "mendeley_uuid"].find { |t| t == params[:type] } || "doi"
+        type = ["doi", "pmid", "pmcid", "url"].find { |t| t == params[:type] } || "doi"
         ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
         collection = Work.where(:works => { type.to_sym => ids })
       elsif params[:q]
         collection = Work.query(params[:q])
-      elsif params[:source] && source = Source.where(name: params[:source]).first
+      elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
         collection = Work.joins(:retrieval_statuses)
                      .where("retrieval_statuses.source_id = ?", source.id)
                      .where("retrieval_statuses.event_count > 0")
@@ -84,7 +82,7 @@ module Workable
 
       fresh_when last_modified: collection.maximum(:updated_at)
       @works = collection.decorate(context: { info: params[:info],
-                                                 source: params[:source],
+                                                 source: params[:source_id],
                                                  user: current_user.cache_key })
     end
 
