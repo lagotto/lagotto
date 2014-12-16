@@ -79,10 +79,10 @@ describe "/api/v5/articles", :type => :api do
       end
     end
 
-    context "works found via Mendeley" do
+    context "works found via URL" do
       before(:each) do
-        work_list = works.map { |work| "#{work.mendeley_uuid}" }.join(",")
-        @uri = "/api/v5/articles?ids=#{work_list}&type=mendeley_uuid&info=summary&api_key=#{api_key}"
+        work_list = works.map { |work| "#{work.canonical_url}" }.join(",")
+        @uri = "/api/v5/articles?ids=#{work_list}&type=url&info=summary&api_key=#{api_key}"
       end
 
       it "JSON" do
@@ -93,7 +93,7 @@ describe "/api/v5/articles", :type => :api do
         data = response["data"]
         expect(data.length).to eq(50)
         expect(data.any? do |work|
-          work["mendeley_uuid"] == works[0].mendeley_uuid
+          work["canonical_url"] == works[0].canonical_url
         end).to be true
       end
     end
