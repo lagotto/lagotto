@@ -54,6 +54,7 @@ class MemberList
         publisher.member_id = item["id"]
         publisher.prefixes = item["prefixes"]
         publisher.other_names = item["names"]
+        publisher.service = "crossref"
       end
     end
   end
