@@ -68,6 +68,10 @@ module Resolvable
       rescue_faraday_error(url, e, options.merge(doi_lookup: true))
     end
 
+    def get_normalized_url(url)
+      PostRank::URI.normalize(url)
+    end
+
     def get_url_from_doi(doi)
       Addressable::URI.encode("http://dx.doi.org/#{doi}")
     end

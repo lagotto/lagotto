@@ -18,6 +18,7 @@ gem "faraday", "~> 0.9.0"
 gem "faraday_middleware", "~> 0.9.1"
 gem "typhoeus", "~> 0.6.7"
 gem 'addressable', "~> 2.3.5"
+gem 'postrank-uri', '~> 1.0.18'
 gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.10.1"

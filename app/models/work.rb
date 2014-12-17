@@ -25,7 +25,7 @@ class Work < ActiveRecord::Base
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
 
-  before_validation :sanitize_title, :set_pid
+  before_validation :sanitize_title, :normalize_url, :set_pid
   after_create :create_retrievals
 
   scope :query, ->(query) { where("doi like ?", "#{query}%") }
@@ -78,13 +78,13 @@ class Work < ActiveRecord::Base
     end
   end
 
-  def url
-    case pid_type
-    when "doi" then "http://dx.doi.org/#{doi}"
-    when "pmic" then "http://www.ncbi.nlm.nih.gov/pubmed/#{pmid}"
-    when "pmcid" then "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}"
-    end
-  end
+  # def url
+  #   case pid_type
+  #   when "doi" then "http://dx.doi.org/#{doi}"
+  #   when "pmic" then "http://www.ncbi.nlm.nih.gov/pubmed/#{pmid}"
+  #   when "pmcid" then "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}"
+  #   end
+  # end
 
   def to_param
     "#{pid_type}/#{pid}"
@@ -245,6 +245,10 @@ class Work < ActiveRecord::Base
 
   def sanitize_title
     self.title = ActionController::Base.helpers.sanitize(title)
+  end
+
+  def normalize_url
+    self.canonical_url = get_normalized_url(canonical_url)
   end
 
   # pid is required, use doi, pmid, pmcid, or canonical url in that order
