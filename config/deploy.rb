@@ -1,5 +1,5 @@
 # config valid only for Capistrano 3.2
-lock '3.3.3'
+lock '3.3.5'
 
 begin
   # make sure DOTENV is set

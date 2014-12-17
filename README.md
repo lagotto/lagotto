@@ -1,3 +1,5 @@
+# Lagotto
+
 [![Build Status](https://travis-ci.org/articlemetrics/lagotto.png?branch=master)](https://travis-ci.org/articlemetrics/lagotto)
 [![Code Climate](https://codeclimate.com/github/articlemetrics/lagotto.png)](https://codeclimate.com/github/articlemetrics/lagotto)
 [![Code Climate Test Coverage](https://codeclimate.com/github/articlemetrics/lagotto/coverage.png)](https://codeclimate.com/github/articlemetrics/lagotto)
