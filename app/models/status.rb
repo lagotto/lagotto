@@ -59,7 +59,7 @@ class Status
 
   def workers
     if ActionController::Base.perform_caching
-      Rails.cache.read("status/workers/#{update_date}")
+      Rails.cache.read("status/workers/#{update_date}") || []
     else
       Worker.all
     end
