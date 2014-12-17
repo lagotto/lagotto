@@ -3,36 +3,29 @@
 require 'csv'
 
 class Worker
-  include Comparable
-  include Enumerable
-
-  attr_reader :id, :pid, :state, :memory, :locked_at, :created_at
-
-  def self.files
-    Dir[Rails.root.join("tmp/pids/delayed_job*pid")]
-  end
-
-  def self.count
-    active.count
-  end
+  PROC_STATS = { "D" => "sleeping",
+                 "R" => "running",
+                 "S" => "waiting",
+                 "T" => "stopped",
+                 "Z" => "defunct" }
 
   def self.all
-    files.map { |file| Worker.new(file) }
+    ps = `ps ux | grep delayed_jo[b] | awk '{ print $2,$3,$4,$8,$11 }'`
+    ps.split("\n").map do |proc|
+      p = proc.split(" ")
+      state = PROC_STATS.fetch(p[3][0], "unknown")
+      id = p[4].split(".").length == 1 ? "0" : p[4].split(".").last
+
+      OpenStruct.new(pid: p[0].to_i, cpu: p[1].to_f, memory: p[2].to_f, state: state, id: id)
+    end
   end
 
   def self.find(param)
     all.find { |f| f.id == param } || fail(ActiveRecord::RecordNotFound)
   end
 
-  def self.active
-    files.reduce([]) do |sum, file|
-      w = Worker.new(file)
-      if w.state.present?
-        sum << w
-      else
-        sum
-      end
-    end
+  def self.count
+    all.length
   end
 
   def self.start
@@ -94,48 +87,5 @@ class Worker
     end
 
     status = { expected: expected, running: count, message: message }
-  end
-
-  def initialize(file)
-    name = File.basename(file).split(".")
-    @id = name.length == 3 ? name[1] : "n/a"
-    @pid = IO.read(file).strip
-    @memory = memory
-    @state = state
-    @locked_at = locked_at
-    @created_at = File.ctime(file).utc
-  end
-
-  def <=>(other)
-    id <=> other.id
-  end
-
-  def each(&block)
-    @workers.each do |worker|
-      if block_given?
-        block.call worker
-      else
-        yield worker
-      end
-    end
-  end
-
-  def proc
-    proc = IO.read("/proc/#{pid}/status")
-    proc = CSV.parse(proc, :col_sep => ":\t")
-    proc = proc.reduce({}) do |h, nvp|
-      h[nvp[0]] = nvp[1]
-      h
-    end
-  rescue
-    {}
-  end
-
-  def state
-    proc["State"]
-  end
-
-  def memory
-    proc["VmRSS"] ? proc["VmRSS"].strip : nil
   end
 end

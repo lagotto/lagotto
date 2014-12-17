@@ -94,8 +94,8 @@
               <tr>
                 <th>Identifier</th>
                 <th>PID</th>
-                <th>Memory</th>
-                <th>Start Worker</th>
+                <th class="number">Memory</th>
+                <th>CPU</th>
                 <th>State</th>
               </tr>
             </thead>
@@ -104,8 +104,8 @@
               <tr>
                 <td><%= worker.id %></td>
                 <td><%= worker.pid %></td>
-                <td><%= worker.memory %></td>
-                <td><%= worker.created_at.to_s(:short) + " UTC" %></td>
+                <td><%= number_to_percentage(worker.memory, precision: 1) %></td>
+                <td><%= number_to_percentage(worker.cpu, precision: 1) %></td>
                 <td><%= worker.state %></td>
               </tr>
             <% end %>

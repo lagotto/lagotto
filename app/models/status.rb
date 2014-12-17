@@ -58,11 +58,11 @@ class Status
   end
 
   def workers
-    Worker.active
+    Worker.all
   end
 
   def workers_count
-    Worker.active.length
+    Worker.count
   end
 
   def delayed_jobs_active_count

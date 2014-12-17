@@ -3,6 +3,12 @@ layout: card_list
 title: "Releases"
 ---
 
+# Lagotto 3.9.8 (December 17, 2014)
+
+[Lagotto 3.9.8](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.8) was released on December 18, 2014 with the following change:
+
+* monitor worker processes directly instead of checking the PID file ([#194](https://github.com/articlemetrics/lagotto/issues/194))
+
 ## Lagotto 3.9.7 (December 11, 2014)
 
 [Lagotto 3.9.7](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.7) was released on December 11, 2014 with the following change:
