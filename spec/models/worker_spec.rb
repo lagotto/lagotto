@@ -33,16 +33,16 @@ describe Worker, :type => :model do
       expect(subject.pid).not_to be_nil
     end
 
-    it "should have sleeping state" do
-      expect(subject.state).to eq("S (sleeping)")
+    it "should have waiting state" do
+      expect(subject.state).to eq("waiting")
     end
 
     it "should have memory" do
       expect(subject.memory).not_to be_nil
     end
 
-    it "should have created_at" do
-      expect(subject.created_at).not_to be_nil
+    it "should have cpu" do
+      expect(subject.cpu).not_to be_nil
     end
   end
 end
