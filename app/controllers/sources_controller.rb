@@ -61,10 +61,10 @@ class SourcesController < ApplicationController
   protected
 
   def load_source
-    @source = Source.where(name: params[:id]).first
+    @source = Source.where(name: params[:name]).first
 
     # raise error if source wasn't found
-    fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @source.blank?
+    fail ActiveRecord::RecordNotFound, "No record for \"#{params[:name]}\" found" if @source.blank?
   end
 
   private

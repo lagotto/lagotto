@@ -4,7 +4,7 @@ class Api::V5::SourcesController < Api::V5::BaseController
   end
 
   def show
-    @source = Source.where(name: params[:id]).first
+    @source = Source.where(name: params[:name]).first
     @source = SourceDecorator.decorate(@source)
   end
 end

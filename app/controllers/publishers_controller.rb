@@ -52,7 +52,7 @@ class PublishersController < ApplicationController
   protected
 
   def load_publisher
-    @publisher = Publisher.where(member_id: params[:id]).first
+    @publisher = Publisher.where(member_id: params[:member_id]).first
   end
 
   def load_index
