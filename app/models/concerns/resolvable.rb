@@ -21,11 +21,8 @@ module Resolvable
       end
 
       if body_url
-        # remove percent encoding
-        body_url = CGI.unescape(body_url)
-
-        # make URL lowercase
-        body_url = body_url.downcase
+        # normalize URL, e.g. remove percent encoding and make URL lowercase
+        body_url = PostRank::URI.clean(body_url)
 
         # remove parameter used by IEEE
         body_url = body_url.sub("reload=true&", "")
@@ -33,14 +30,8 @@ module Resolvable
 
       url = response.env[:url].to_s
       if url
-        # remove percent encoding
-        url = CGI.unescape(url)
-
-        # make URL lowercase
-        url = url.downcase
-
-        # remove jsessionid used by J2EE servers
-        url = url.gsub(/(.*);jsessionid=.*/, '\1')
+        # normalize URL, e.g. remove percent encoding and make URL lowercase
+        url = PostRank::URI.clean(url)
 
         # remove parameter used by IEEE
         url = url.sub("reload=true&", "")
@@ -70,6 +61,8 @@ module Resolvable
 
     def get_normalized_url(url)
       PostRank::URI.clean(url)
+    rescue Addressable::URI::InvalidURIError => e
+      { error: e.message }
     end
 
     def get_url_from_doi(doi)

@@ -250,7 +250,13 @@ class Work < ActiveRecord::Base
   def normalize_url
     return nil if canonical_url.blank?
 
-    self.canonical_url = get_normalized_url(canonical_url)
+    url = get_normalized_url(canonical_url)
+    if url.is_a?(Hash)
+      self.canonical_url = canonical_url
+      errors.add :canonical_url, url.fetch(:error)
+    else
+      self.canonical_url = url
+    end
   end
 
   # pid is required, use doi, pmid, pmcid, or canonical url in that order

@@ -21,6 +21,18 @@ describe Work do
         expect(stub).to have_been_requested
       end
 
+      it "get_canonical_url with trailing slash" do
+        work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
+        clean_url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
+        url = "#{clean_url}/"
+        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
+        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
+        expect(response).to eq(clean_url)
+        expect(Alert.count).to eq(0)
+        expect(stub).to have_been_requested
+      end
+
       it "get_canonical_url with jsessionid" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
         url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030;jsessionid=5362E4D61F1953ADA2CB3F746E58AAC2.f01t03"
