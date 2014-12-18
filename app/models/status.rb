@@ -58,11 +58,20 @@ class Status
   end
 
   def workers
-    Worker.all
+    if ActionController::Base.perform_caching
+      Rails.cache.read("status/workers/#{update_date}") || []
+    else
+      Worker.all
+    end
+  end
+
+  def workers=(timestamp)
+    Rails.cache.write("status/workers/#{timestamp}",
+                      Worker.all)
   end
 
   def workers_count
-    Worker.count
+    workers.length
   end
 
   def delayed_jobs_active_count
@@ -191,6 +200,7 @@ class Status
      :responses_count,
      :requests_count,
      :current_version,
+     :workers,
      :update_date].each { |cached_attr| send("#{cached_attr}=", timestamp) }
   end
 end
