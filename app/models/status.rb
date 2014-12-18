@@ -58,7 +58,7 @@ class Status
   end
 
   def workers
-    if ActionController::Base.perform_caching
+    if ActionController::Base.perform_caching && ENV["APP_WORKERS"].present?
       Rails.cache.read("status/workers/#{update_date}") || []
     else
       Worker.all
