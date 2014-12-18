@@ -27,10 +27,6 @@ class Import
     result.length
   end
 
-  def get_data(offset = 0, options={})
-    result = get_result(query_url(offset), options)
-  end
-
   def import_data(items)
     Array(items).map do |item|
       work = Work.find_or_create(item)

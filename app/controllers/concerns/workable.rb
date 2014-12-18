@@ -27,7 +27,7 @@ module Workable
 
       if params[:ids]
         type = ["doi", "pmid", "pmcid", "url"].find { |t| t == params[:type] } || "doi"
-        type = "canonical_url" if type = "url"
+        type = "canonical_url" if type == "url"
         ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
         collection = Work.where(:works => { type.to_sym => ids })
       elsif params[:q]

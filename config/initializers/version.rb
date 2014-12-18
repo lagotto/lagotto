@@ -1,1 +1,1 @@
-Rails.application.config.version = "3.10-beta"
+Rails.application.config.version = "3.10"

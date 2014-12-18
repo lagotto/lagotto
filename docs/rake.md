@@ -124,10 +124,10 @@ Queue all works
 bin/rake queue:all
 ```
 
-Queue work with given DOI:
+Queue work with given pid:
 
 ```sh
-bin/rake queue:one[DOI]
+bin/rake queue:one[pid]
 ```
 
 Start job queue
