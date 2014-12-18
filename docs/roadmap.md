@@ -3,7 +3,7 @@ layout: card_list
 title: "Roadmap"
 ---
 
-## 4.0 Data-Push Model (November 2014)
+## 4.0 Data-Push Model (December 2014)
 
 In order for the Lagotto application to scale to millions of articles - e.g. the more than 10 million in the [CrossRef Labs DET Server](http://det.labs.crossref.org/) - it makes more sense that third-parties are pushing data into the application (**push**) rather than Lagotto collecting data from external sources (**pull**). We have identified the following architecture and implementation steps:
 
@@ -36,29 +36,13 @@ Use the [standard webmention format](http://webmention.io/), feed in data around
 
 To fully support data-level metrics, the following changes need to be done in the Lagotto software:
 
-* renaming of pages that use article-specific language
-* support for any unique identifier, and for different unique identiifiers in the same database
 * support for relationships between resources (*isNewVersionOf*, *isPartOf*, etc.)
-* support for resource type (e.g. DataCite *resourceTypeGeneral*: *dataset*, *software*, *text*)
-* support for (some of) the functionality we have in the CrossRef integration (e.g. resources by publisher, automatic import)
 * configuration changes to some sources, e.g. Europe PMC database links
 * additional sources (e.g. usage stats for data)
-
-### Support for any unique identifier
-
-Lagotto supports multiple identifiers, but all resources in the service have to use the same identifier, e.g. DOI or PMCID. For datasets we need more generic functionality: a standardized identifier for all records to allow listing of resources and opening up a page for a resource. We can use URLs for this, and keep the support for multiple identifiers per resource that we have now.
 
 ### Support for relationships between resources
 
 This is an important feature for data because of versioning and subsets of data (*isPartOf*). This functionality is also needed for journal articles, allowing us to describe the relationship between different versions of an article, and related content such as corrections, as well as component DOIs for figures and tables.
-
-### Automatic import of dataset metadata
-
-There are several options, ideally this should use a standard protocol and allow the bulk import of data.
-
-### Rename articles to works
-
-We want to make the software more flexible in that we should be able to track all scholarly outputs including datasets. We should therefore rename the **Article** model to **Work**, and use **works** in the web interface and API. Only [75% of CrossRef DOIs are of type *journal-article*](http://search.crossref.org/help/status), and they also use the term *works* in their API.
 
 ## 4.2 Server-to-Server Replication (January 2015)
 

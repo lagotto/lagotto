@@ -3,7 +3,21 @@ layout: card_list
 title: "Releases"
 ---
 
-# Lagotto 3.9.8 (December 17, 2014)
+## Lagotto 3.10 (December 18, 2014)
+
+[Lagotto 3.10](https://github.com/articlemetrics/lagotto/releases/tag/v.3.10) was released on December 18, 2014 with the following changes:
+
+* renamed `articles` to `works` to make it clear that the software can track all scholarly outputs ([#190](https://github.com/articlemetrics/lagotto/issues/190))
+* support for any unique identifier, including URLs ([#130](https://github.com/articlemetrics/lagotto/issues/130))
+* made import of works more modular, and added automatic import from DataCite ([#191](https://github.com/articlemetrics/lagotto/issues/191))
+
+If you are upgrading and have used DOIs as persistent identifier, please run the following rake task to fill in the new `pid_type` and `pid` fields:
+
+```sh
+RAILS_ENV=production bundle exec rake db:works:load_pids
+```
+
+## Lagotto 3.9.8 (December 17, 2014)
 
 [Lagotto 3.9.8](https://github.com/articlemetrics/lagotto/releases/tag/v.3.9.8) was released on December 18, 2014 with the following change:
 
