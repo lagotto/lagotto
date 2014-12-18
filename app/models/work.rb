@@ -248,13 +248,13 @@ class Work < ActiveRecord::Base
   end
 
   def normalize_url
+    return nil if canonical_url.blank?
+
     self.canonical_url = get_normalized_url(canonical_url)
   end
 
   # pid is required, use doi, pmid, pmcid, or canonical url in that order
   def set_pid
-    return nil if pid.present?
-
     if doi.present?
       write_attribute(:pid, doi)
       write_attribute(:pid_type, "doi")
