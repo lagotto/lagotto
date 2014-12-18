@@ -13,8 +13,8 @@ namespace :cron do
 
   desc 'Daily cron task'
   task :daily => :environment do
-    Rake::Task["db:articles:import"].invoke
-    Rake::Task["db:articles:import"].reenable
+    Rake::Task["db:works:import:crossref"].invoke
+    Rake::Task["db:works:import:crossref"].reenable
 
     Rake::Task["filter:all"].invoke
     Rake::Task["filter:all"].reenable
@@ -52,7 +52,7 @@ namespace :cron do
     Rake::Task["report:all_stats"].invoke
     Rake::Task["report:all_stats"].reenable
 
-    Rake::Task["mailer:article_statistics_report"].invoke
-    Rake::Task["mailer:article_statistics_report"].reenable
+    Rake::Task["mailer:work_statistics_report"].invoke
+    Rake::Task["mailer:work_statistics_report"].reenable
   end
 end
