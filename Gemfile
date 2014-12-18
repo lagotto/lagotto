@@ -89,4 +89,4 @@ group :test, :development do
   gem 'bullet', '~> 4.14.0'
 end
 
-gem 'rack-mini-profiler', '~> 0.9.1'
+gem 'rack-mini-profiler', '~> 0.9.1', require: false

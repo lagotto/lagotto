@@ -70,6 +70,6 @@ module Lagotto
     config.action_dispatch.ip_spoofing_check = false
 
     # compress responses with deflate or gzip
-    config.middleware.use Rack::Deflater unless ENV['NO_DEFLATER']
+    config.middleware.use Rack::Deflater
   end
 end
