@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141214121757) do
+ActiveRecord::Schema.define(version: 20141218231947) do
 
   create_table "alerts", force: true do |t|
     t.integer  "source_id"
@@ -302,6 +302,8 @@ ActiveRecord::Schema.define(version: 20141214121757) do
     t.integer  "response_id"
   end
 
+  add_index "works", ["doi", "published_on", "id"], name: "index_articles_doi_published_on_article_id", using: :btree
+  add_index "works", ["doi"], name: "index_works_on_doi", unique: true, using: :btree
   add_index "works", ["published_on"], name: "index_works_on_published_on", using: :btree
   add_index "works", ["publisher_id", "published_on"], name: "index_works_on_publisher_id_and_published_on", using: :btree
 
