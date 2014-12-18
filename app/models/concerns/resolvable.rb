@@ -21,11 +21,8 @@ module Resolvable
       end
 
       if body_url
-        # remove percent encoding
-        body_url = CGI.unescape(body_url)
-
-        # make URL lowercase
-        body_url = body_url.downcase
+        # normalize URL, e.g. remove percent encoding and make URL lowercase
+        body_url = PostRank::URI.clean(body_url)
 
         # remove parameter used by IEEE
         body_url = body_url.sub("reload=true&", "")
@@ -35,9 +32,6 @@ module Resolvable
       if url
         # normalize URL, e.g. remove percent encoding and make URL lowercase
         url = PostRank::URI.clean(url)
-
-        # remove jsessionid used by J2EE servers
-        url = url.gsub(/(.*);jsessionid=.*/, '\1')
 
         # remove parameter used by IEEE
         url = url.sub("reload=true&", "")
