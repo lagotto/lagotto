@@ -35,10 +35,10 @@ Lagotto::Application.routes.draw do
 
     namespace :v5 do
       resources :works, path: "articles", constraints: { :id => /.+?/ }, only: [:index]
-      resources :sources, only: [:index, :show]
+      resources :sources, only: [:index, :show], param: :name
       get "status", to: "status#show"
       resources :api_requests, only: [:index]
-      resources :publishers, only: [:index]
+      resources :publishers, only: [:index], param: :member_id
     end
   end
 
