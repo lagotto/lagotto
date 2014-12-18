@@ -67,9 +67,9 @@ namespace :queue do
       exit
     end
 
-    work = Article.where(pid: args.pid).first
+    work = Work.where(pid: args.pid).first
     if work.nil?
-      puts "Article with pid #{args.pid} does not exist"
+      puts "Work with pid #{args.pid} does not exist"
       exit
     end
 
