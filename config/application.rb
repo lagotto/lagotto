@@ -59,7 +59,9 @@ module Lagotto
     config.filter_parameters += [:password]
 
     # Use a different cache store
-    config.cache_store = :dalli_store, *(ENV['SERVERS'].split(",")), { :namespace => ENV['APPLICATION'], :compress => true }
+    # dalli uses ENV['MEMCACHE_SERVERS']
+    ENV['MEMCACHE_SERVERS'] ||= ENV['HOSTNAME']
+    config.cache_store = :dalli_store, nil, { :namespace => ENV['APPLICATION'], :compress => true }
 
     # Skip validation of locale
     I18n.enforce_available_locales = false
