@@ -71,7 +71,7 @@ describe Work, :type => :model do
 
     it "http://" do
       work = FactoryGirl.build(:work, :canonical_url => "http://")
-      expect(work).not_to be_valid
+      expect{work}.to raise_error(Addressable::URI::InvalidURIError)
     end
 
     it "asdfasdfasdf" do
