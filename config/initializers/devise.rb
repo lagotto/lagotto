@@ -213,12 +213,20 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  if ENV['CAS_URL']
+  case ENV['OMNIAUTH']
+  when "cas"
     config.omniauth :cas, url: ENV['CAS_URL'],
                           login_url: "#{ENV['CAS_PREFIX']}/login",
                           logout_url: "#{ENV['CAS_PREFIX']}/logout",
                           service_validate_url: "#{ENV['CAS_PREFIX']}/serviceValidate",
                           ssl: true
+  when "github"
+    config.omniauth :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: "user,repo"
+  when "orcid"
+    config.omniauth :orcid, ENV['ORCID_CLIENT_ID'], ENV['ORCID_CLIENT_SECRET'],
+                            scope: "/authenticate",
+                            token_url: "https://pub.orcid.org/oauth/token"
+                            # callback_path: "/users/omniauth_callbacks/auth/orcid/callback"
   else
     config.omniauth :persona
   end

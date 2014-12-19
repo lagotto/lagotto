@@ -5,7 +5,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def persona
-    @user = User.find_for_persona_oauth(request.env["omniauth.auth"], current_user) if request.env["omniauth.auth"]
+    @user = User.find_for_oauth(request.env["omniauth.auth"], current_user) if request.env["omniauth.auth"]
 
     if @user.persisted?
       sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
@@ -22,6 +22,28 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
     else
       session["devise.cas_data"] = request.env["omniauth.auth"]
+      redirect_to root_path
+    end
+  end
+
+  def github
+    @user = User.find_for_oauth(request.env["omniauth.auth"], current_user) if request.env["omniauth.auth"]
+
+    if @user.persisted?
+      sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
+    else
+      session["devise.github_data"] = request.env["omniauth.auth"]
+      redirect_to root_path
+    end
+  end
+
+  def orcid
+    @user = User.find_for_oauth(request.env["omniauth.auth"], current_user) if request.env["omniauth.auth"]
+
+    if @user.persisted?
+      sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
+    else
+      session["devise.orcid_data"] = request.env["omniauth.auth"]
       redirect_to root_path
     end
   end

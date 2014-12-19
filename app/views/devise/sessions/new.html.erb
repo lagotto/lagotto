@@ -17,8 +17,12 @@
     </fieldset>
   <% end %>
 
-  <% if ENV['CAS_URL'] %>
+  <% if ENV['OMNIAUTH'] == "cas" %>
     <%= link_to "Sign in with PLOS ID", user_omniauth_authorize_path(:cas), class: "btn btn-info" %>
+  <% elsif ENV['OMNIAUTH'] == "github" %>
+    <%= link_to "Sign in with Github", user_omniauth_authorize_path(:github), class: "btn btn-info" %>
+  <% elsif ENV['OMNIAUTH'] == "orcid" %>
+    <%= link_to "Sign in with ORCID", user_omniauth_authorize_path(:orcid), class: "btn btn-info" %>
   <% else %>
     <%= form_tag '/users/auth/persona/callback', :id => 'persona_form' do %>
       <%= hidden_field_tag('assertion') %>

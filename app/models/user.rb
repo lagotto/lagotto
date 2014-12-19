@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:persona, :cas]
+         :omniauthable, :omniauth_providers => [:persona, :cas, :github, :orcid]
 
   validates :username, :presence => true, :uniqueness => true
   validates :name, :presence => true
@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
     user
   end
 
-  def self.find_for_persona_oauth(auth, signed_in_resource=nil)
+  def self.find_for_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     unless user
       user = User.create!(:username => auth.info.email,
