@@ -71,6 +71,17 @@ FactoryGirl.define do
     initialize_with { Nature.where(name: name).first_or_initialize }
   end
 
+  factory :github, class: Github do
+    type "Github"
+    name "github"
+    display_name "Github"
+    state_event "activate"
+
+    group
+
+    initialize_with { Github.where(name: name).first_or_initialize }
+  end
+
   factory :openedition, class: Openedition do
     type "Openedition"
     name "openedition"

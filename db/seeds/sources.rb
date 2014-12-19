@@ -64,6 +64,10 @@ openedition = Openedition.where(name: 'openedition').first_or_create(
                   'Revues.org, Hypotheses and Calenda in the humanities and ' \
                   'social sciences.',
   :group_id => discussed.id)
+github = Github.where(name: 'github').first_or_create(
+  :display_name => 'Github',
+  :description => 'GitHub is a web-based Git repository hosting service.',
+  :group_id => saved.id)
 
 # The following sources require passwords/API keys and are installed by default
 crossref = CrossRef.where(name: 'crossref').first_or_create(
