@@ -1,3 +1,5 @@
+require "cgi"
+
 class History
   # we can get data_from_source in 3 different formats
   # - hash with event_count = 0: SUCCESS NO DATA
@@ -162,7 +164,8 @@ class History
   end
 
   def couchdb_id
-    "#{retrieval_status.source.name}:#{retrieval_status.work.pid}"
+    pid = CGI.escape(retrieval_status.work.pid)
+    "#{retrieval_status.source.name}:#{pid}"
   end
 
   def skipped
