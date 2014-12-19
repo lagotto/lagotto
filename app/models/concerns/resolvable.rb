@@ -33,6 +33,9 @@ module Resolvable
         # normalize URL, e.g. remove percent encoding and make URL lowercase
         url = PostRank::URI.clean(url)
 
+        # remove jsessionid used by J2EE servers
+        url = url.gsub(/(.*);jsessionid=.*/, '\1')
+
         # remove parameter used by IEEE
         url = url.sub("reload=true&", "")
 
