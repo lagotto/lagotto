@@ -317,18 +317,18 @@ class Source < ActiveRecord::Base
 
   # Create an empty retrieval record for every work for the new source
   def create_retrievals
-    work_ids = RetrievalStatus.where(:source_id => id).pluck(:work_id)
+    work_ids = Work.pluck(:id)
+    existing_ids = RetrievalStatus.where(:source_id => id).pluck(:work_id)
 
     (0...work_ids.length).step(1000) do |offset|
-      ids = work_ids[offset...offset + 1000]
+      ids = work_ids[offset...offset + 1000] & existing_ids
       delay(priority: 2, queue: "retrieval-status").insert_retrievals(ids)
-    end
+     end
   end
 
-  def insert_retrievals(ids)
+  def insert_retrievals(ids = [])
     sql = "insert into retrieval_statuses (work_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from works"
-    sql += " where works.id not in (#{work_ids.join(',')})" if ids.any?
-
+    sql += " where works.id not in (#{work_ids.join(',')})" unless ids.empty?
     ActiveRecord::Base.connection.execute sql
   end
 end

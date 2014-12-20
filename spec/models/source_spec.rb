@@ -62,4 +62,26 @@ describe Source, :type => :model do
       expect(subject.get_events_by_month(events)).to eq([{ year: 2013, month: 8, total: 1 }])
     end
   end
+
+  describe "manage retrieval_statuses" do
+    subject { FactoryGirl.create(:source) }
+
+    it "should create retrievals for new works" do
+      expect(subject.retrieval_statuses.count).to eq(0)
+      works = FactoryGirl.create_list(:work, 3)
+      expect(subject.retrieval_statuses.count).to eq(3)
+    end
+
+    it "should create retrievals for new source" do
+      works = FactoryGirl.create_list(:work, 3)
+      expect(subject.retrieval_statuses.count).to eq(3)
+    end
+
+    it "should remove all retrievals" do
+      FactoryGirl.create_list(:retrieval_status, 3)
+      expect(subject.retrieval_statuses.count).to eq(3)
+      subject.remove_all_retrievals
+      expect(subject.retrieval_statuses.count).to eq(0)
+    end
+  end
 end
