@@ -1,7 +1,4 @@
 class Api::V4::WorksController < Api::V4::BaseController
-  # include works controller methods
-  include Workable
-
   before_filter :load_work, only: [:update, :destroy]
 
   def create
@@ -19,9 +16,7 @@ class Api::V4::WorksController < Api::V4::BaseController
   def update
     authorize! :update, @work
 
-    if @work.blank?
-      render json: { error: "No work found." }, status: :not_found
-    elsif @work.update_attributes(safe_params)
+    if @work.update_attributes(safe_params)
       @success = "Work updated."
       render "show", :status => :ok
     else
@@ -32,13 +27,22 @@ class Api::V4::WorksController < Api::V4::BaseController
   def destroy
     authorize! :destroy, @work
 
-    if @work.blank?
-      render json: { error: "No work found." }, status: :not_found
-    elsif @work.destroy
+    if @work.destroy
       render json: { success: "Work deleted." }, :status => :ok
     else
       render json: { error: "An error occured." }, status: :bad_request
     end
+  end
+
+  protected
+
+  def load_work
+    # Load one work given query params
+    id_hash = get_id_hash(params[:id])
+    key, value = id_hash.first
+    @work = Work.where(key => value).first
+
+    render json: { error: "Work not found." }.to_json, status: :not_found if @work.nil?
   end
 
   private

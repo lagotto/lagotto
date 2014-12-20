@@ -243,7 +243,7 @@ describe "/api/v4/articles", :type => :api do
         expect(last_response.status).to eq(404)
 
         response = JSON.parse(last_response.body)
-        expect(response["error"]).to eq ("No article found.")
+        expect(response["error"]).to eq ("Work not found.")
       end
     end
 
@@ -369,7 +369,7 @@ describe "/api/v4/articles", :type => :api do
         expect(last_response.status).to eq(404)
 
         response = JSON.parse(last_response.body)
-        expect(response["error"]).to eq ("No work found.")
+        expect(response["error"]).to eq ("Work not found.")
         expect(response["success"]).to be_nil
         expect(response["data"]).to be_empty
       end
