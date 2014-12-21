@@ -5,18 +5,17 @@ class Import
   # include author methods
   include Authorable
 
+  # include date helper methods
+  include Dateable
+
   # include DOI helper methods
   include Resolvable
 
-  attr_accessor :filter, :sample, :rows, :member_list, :from_update_date, :until_update_date, :from_pub_date, :until_pub_date, :type
+  attr_accessor :filter, :sample, :rows, :member, :from_update_date, :until_update_date, :from_pub_date, :until_pub_date, :type
 
   def queue_work_import
-    if @sample && @sample > 0
-      delay(priority: 2, queue: "work-import-queue").process_data
-    else
-      (0...total_results).step(1000) do |offset|
-        delay(priority: 2, queue: "work-import").process_data(offset)
-      end
+    (0...total_results).step(1000) do |offset|
+      delay(priority: 2, queue: "work-import").process_data(offset)
     end
   end
 
