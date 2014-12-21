@@ -300,8 +300,8 @@ ActiveRecord::Schema.define(version: 20141219222023) do
     t.integer  "response_id"
   end
 
-  add_index "works", ["canonical_url", "published_on", "id"], name: "index_works_on_url_published_on_id", length: {"canonical_url"=>50, "published_on"=>nil, "id"=>nil}, using: :btree
-  add_index "works", ["canonical_url"], name: "index_works_on_url", unique: true, length: {"canonical_url"=>50}, using: :btree
+  add_index "works", ["canonical_url", "published_on", "id"], name: "index_works_on_url_published_on_id", length: {"canonical_url"=>100, "published_on"=>nil, "id"=>nil}, using: :btree
+  add_index "works", ["canonical_url"], name: "index_works_on_url", unique: true, length: {"canonical_url"=>100}, using: :btree
   add_index "works", ["doi", "published_on", "id"], name: "index_articles_doi_published_on_article_id", using: :btree
   add_index "works", ["doi"], name: "index_works_on_doi", unique: true, using: :btree
   add_index "works", ["pmcid", "published_on", "id"], name: "index_works_on_pmcid_published_on_id", using: :btree

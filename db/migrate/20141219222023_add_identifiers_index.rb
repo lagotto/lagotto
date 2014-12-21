@@ -7,8 +7,8 @@ class AddIdentifiersIndex < ActiveRecord::Migration
     add_index "works", ["pmid"], name: "index_works_on_pmid", unique: true
     add_index "works", ["pmcid", "published_on", "id"], name: "index_works_on_pmcid_published_on_id"
     add_index "works", ["pmcid"], name: "index_works_on_pmcid", unique: true
-    add_index "works", ["canonical_url", "published_on", "id"], name: "index_works_on_url_published_on_id", length: { "canonical_url" => 50 }
-    add_index "works", ["canonical_url"], name: "index_works_on_url", length: 50, unique: true
+    add_index "works", ["canonical_url", "published_on", "id"], name: "index_works_on_url_published_on_id", length: { "canonical_url" => 100 }
+    add_index "works", ["canonical_url"], name: "index_works_on_url", length: 100, unique: true
   end
 
   def down
