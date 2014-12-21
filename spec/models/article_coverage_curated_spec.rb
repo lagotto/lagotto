@@ -90,7 +90,7 @@ describe ArticleCoverageCurated, :type => :model do
       expect(event[:event_csl]['author']).to eq("")
       expect(event[:event_csl]['title']).to eq("Project Description @ Belly Button Biodiversity")
       expect(event[:event_csl]['container-title']).to eq("")
-      expect(event[:event_csl]['issued']).to be_nil
+      expect(event[:event_csl]['issued']).to eq("date_parts" => [[]])
       expect(event[:event_csl]['type']).to eq("post")
 
       event_data = event[:event]
