@@ -3,7 +3,7 @@ require "rails_helper"
 describe "/api/v4/articles", :type => :api do
   let(:error) { { "error"=>"You are not authorized to access this page." } }
   let(:password) { user.password }
-  let(:headers) { { 'HTTP_ACCEPT' => 'application/json', 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, password) } }
+  let(:headers) { { 'HTTP_ACCEPT' => 'application/json', 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.email, password) } }
 
   context "create" do
     let(:uri) { "/api/v4/works" }

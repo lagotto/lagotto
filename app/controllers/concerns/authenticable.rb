@@ -26,8 +26,8 @@ module Authenticable
     end
 
     def authenticate_user_via_basic_authentication!
-      authenticate_or_request_with_http_basic do |username, password|
-        resource = User.where(username: username).first
+      authenticate_or_request_with_http_basic do |email, password|
+        resource = User.where(email: email).first
         if resource && resource.valid_password?(password)
           sign_in :user, resource
         else
