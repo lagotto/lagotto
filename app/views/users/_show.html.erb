@@ -12,8 +12,10 @@
       <%= simple_form_for @user, :url => user_path(@user), :html => { :remote => true } do |f| %>
           <%= f.input :name, input_html: { class: "form-user" } %>
           <%= f.input :authentication_token, label: "API key", input_html: { class: "form-user" } %>
-          <%= f.input :password, input_html: { class: "form-user" } %>
-          <%= f.input :password_confirmation, input_html: { class: "form-user" } %>
+          <% if @user.email.present? %>
+            <%= f.input :password, input_html: { class: "form-user" } %>
+            <%= f.input :password_confirmation, input_html: { class: "form-user" } %>
+          <% end %>
           <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
 
           <div class="form-group">
@@ -23,12 +25,8 @@
       <% end %>
     <% else %>
       <dl class="dl-horizontal">
-        <% if @user.name != @user.username %>
-          <dt>Name</dt>
-          <dd><%= @user.name %></dd>
-        <% end %>
-        <dt>Username</dt>
-        <dd><%= @user.username %></dd>
+        <dt>Name</dt>
+        <dd><%= @user.name %></dd>
         <% if @user.email.present? %>
           <dt>Email</dt>
           <dd><%= @user.email %></dd>

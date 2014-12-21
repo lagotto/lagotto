@@ -112,7 +112,6 @@ class UsersController < ApplicationController
 
   def safe_params
     params.require(:user).permit(:name,
-                                 :username,
                                  :email,
                                  :password,
                                  :password_confirmation,

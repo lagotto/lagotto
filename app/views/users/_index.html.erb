@@ -68,9 +68,6 @@
                 </div>
               <% end %>
 
-              <h5>Username</h5>
-              <%= h(user.username) %>
-
               <% if user.email.present? %>
                 <h5>Email</h5>
                 <%= link_to h(user.email), "mailto:#{user.email}" %>
@@ -107,7 +104,7 @@
         with role "<%= @role.capitalize %>"
     <% end %>
     <% unless params[:query].blank? %>
-        with <em><%= params[:query] %></em> in the name, username or API key
+        with <em><%= params[:query] %></em> in the name, email or API key
     <% end %>
   </div>
 <% end %>

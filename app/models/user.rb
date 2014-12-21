@@ -12,56 +12,32 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:persona, :cas, :github, :orcid]
 
-  validates :username, :presence => true, :uniqueness => true
-  validates :name, :presence => true
-  validates :email, :uniqueness => true, :allow_blank => true
+  validates :name, presence: true
+  validates :email, uniqueness: true, allow_blank: true
 
-  scope :query, ->(query) { where("name like ? OR username like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
+  scope :query, ->(query) { where("name like ? OR email like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
   scope :ordered, -> { order("current_sign_in_at DESC") }
 
-  def self.find_for_cas_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    unless user
-      # We obtain the email address from a second call to the CAS server
-      url = "#{ENV['CAS_URL']}/cas/email?guid=#{auth.uid}"
-      result = User.new.get_result(url, content_type: 'html')
-      email = result.blank? ? "" : result
-      name = email.present? ? email : auth.uid
-      username = email.present? ? email : auth.uid
-
-      user = User.create!(:username => username,
-                          :name => name,
-                          :authentication_token => auth.token,
-                          :provider => auth.provider,
-                          :uid => auth.uid,
-                          :email => email)
+  def self.from_omniauth(auth)
+    Rails.logger.debug auth
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.name = auth.info.name
     end
-
-    user
   end
 
-  def self.find_for_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    unless user
-      user = User.create!(:username => auth.info.email,
-                          :name => auth.info.name,
-                          :authentication_token => auth.token,
-                          :provider => auth.provider,
-                          :uid => auth.uid,
-                          :email => auth.info.email)
-    end
-
-    user
+  # fetch additional user information for cas strategy
+  def self.fetch_raw_info(uid)
+    url = "#{ENV['CAS_INFO_URL']}/#{uid}"
+    profile = User.new.get_result(url) || {}
+    { name: profile.fetch("realName", uid),
+      email: profile.fetch("email", nil) }
   end
-
-  # Virtual attribute for authenticating by either username or email
-  # This is in addition to a real persisted field like 'username'
-  attr_accessor :login
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     login = conditions.delete(:login)
-    where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.strip.downcase }]).first
+    where(conditions).where(["lower(email) = :value", { :value => login.strip.downcase }]).first
   end
 
   def self.per_page
