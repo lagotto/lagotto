@@ -241,7 +241,7 @@ ActiveRecord::Schema.define(version: 20141219222023) do
   add_index "sources", ["type"], name: "index_sources_on_type", unique: true, using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",     null: false
+    t.string   "email",                  default: ""
     t.string   "encrypted_password",     default: "",     null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -254,7 +254,6 @@ ActiveRecord::Schema.define(version: 20141219222023) do
     t.string   "password_salt"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username"
     t.string   "provider"
     t.string   "uid"
     t.string   "name"
@@ -266,7 +265,6 @@ ActiveRecord::Schema.define(version: 20141219222023) do
   add_index "users", ["authentication_token"], name: "index_users_authentication_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["username"], name: "index_users_username", unique: true, using: :btree
 
   create_table "work_types", force: true do |t|
     t.string   "name",       null: false
@@ -306,6 +304,10 @@ ActiveRecord::Schema.define(version: 20141219222023) do
   add_index "works", ["canonical_url"], name: "index_works_on_url", unique: true, length: {"canonical_url"=>50}, using: :btree
   add_index "works", ["doi", "published_on", "id"], name: "index_articles_doi_published_on_article_id", using: :btree
   add_index "works", ["doi"], name: "index_works_on_doi", unique: true, using: :btree
+  add_index "works", ["pmcid", "published_on", "id"], name: "index_works_on_pmcid_published_on_id", using: :btree
+  add_index "works", ["pmcid"], name: "index_works_on_pmcid", unique: true, using: :btree
+  add_index "works", ["pmid", "published_on", "id"], name: "index_works_on_pmid_published_on_id", using: :btree
+  add_index "works", ["pmid"], name: "index_works_on_pmid", unique: true, using: :btree
   add_index "works", ["published_on"], name: "index_works_on_published_on", using: :btree
   add_index "works", ["publisher_id", "published_on"], name: "index_works_on_publisher_id_and_published_on", using: :btree
 
