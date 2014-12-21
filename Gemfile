@@ -31,7 +31,7 @@ gem "devise", "~> 3.4.1"
 gem "omniauth-persona"
 gem "omniauth-cas", "~> 1.1.0"
 gem 'omniauth-github', '~> 1.1.2'
-gem 'omniauth-orcid', '~> 0.6'
+gem "omniauth-orcid", "~> 0.6", :git => "https://github.com/mfenner/omniauth-orcid.git"
 gem 'omniauth', '~> 1.2.2'
 gem 'cancancan', '~> 1.9.2'
 gem "validates_timeliness", "~> 3.0.14"
