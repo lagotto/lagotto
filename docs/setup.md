@@ -14,11 +14,13 @@ Lagotto supports the following forms of authentication:
 
 * username/password ([Login](/users/sign_in)) for admin and staff users
 * authentication with [Mozilla Persona](http://www.mozilla.org/en-US/persona/) for all user roles
+* authentication with [ORCID](http://www.orcid.org/) for all user roles
+* authentication with [Github](https://developer.github.com/guides/basics-of-authentication/) for all user roles
 * authentication with CAS for all user roles (currently PLOS only)
 
-The first user created in the system automatically has an admin role, and this user can be created with any of the authentication methods listed above. From then on all user accounts are created with an API user role, and users have to create their own account using third-party authentication with Persona (or CAS). Admin users can change the user role after an account has been created, but can't create user accounts
+Only one authentication method can ab enabled at a time. The first user created in the system automatically has an admin role, and this user can be created with any of the authentication methods listed above. From then on all user accounts are created with an API user role, and users have to create their own account using third-party authentication with Persona (or CAS). Admin users can change the user role after an account has been created, but can't create user accounts
 
-Third-party authentication is configured in `.env`. By default authentication via username/password and Persona is enabled, by enabling a CAS server with `ENV['CAS_URL']` we disable Persona.
+Third-party authentication is configured in `.env`, using the `OMNIAUTH` variable - by default authentication via username/password and Persona is enabled. Configuration settings for ORCID, CAS and Persona are also provided via ENV variables.
 
 Users automatically obtain an API key, and they can sign up to the monthly report in CSV format. Admin users can sign up for additional reports (error report, status report, disabled source report).
 

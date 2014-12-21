@@ -141,7 +141,7 @@ describe "/api/v4/articles", :type => :api do
 
         response = JSON.parse(last_response.body)
         expect(response["error"]).to eq ({ "foo" => ["unpermitted parameter"],
-                                       "baz" => ["unpermitted parameter"] })
+                                           "baz" => ["unpermitted parameter"] })
         expect(response["success"]).to be_nil
         expect(response["data"]).to be_empty
 
