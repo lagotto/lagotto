@@ -12,10 +12,11 @@
       <%= simple_form_for @user, :url => user_path(@user), :html => { :remote => true } do |f| %>
           <%= f.input :name, input_html: { class: "form-user" } %>
           <%= f.input :authentication_token, label: "API key", input_html: { class: "form-user" } %>
-          <% if @user.email.present? %>
-            <%= f.input :password, input_html: { class: "form-user" } %>
-            <%= f.input :password_confirmation, input_html: { class: "form-user" } %>
+          <% if ENV['OMNIAUTH'] == "orcid" %>
+            <%= f.input :email, input_html: { class: "form-user" } %>
           <% end %>
+          <%= f.input :password, input_html: { class: "form-user" } %>
+          <%= f.input :password_confirmation, input_html: { class: "form-user" } %>
           <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
 
           <div class="form-group">

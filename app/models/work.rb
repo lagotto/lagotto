@@ -3,8 +3,6 @@ require 'addressable/uri'
 require "builder"
 
 class Work < ActiveRecord::Base
-  strip_attributes
-
   # include HTTP request helpers
   include Networkable
 
