@@ -6,18 +6,16 @@ describe CslImport, :type => :model do
 
   context "total_results" do
     it "should have total_results" do
-      json = File.read(fixture_path + 'csl_import.json')
-      input = JSON.parse(json)
-      import = CslImport.new(file: input)
+      filepath = fixture_path + "csl_import.json"
+      import = CslImport.new(filepath: filepath)
       expect(import.total_results).to eq(10)
     end
   end
 
   context "get_data" do
     it "should get_data file" do
-      json = File.read(fixture_path + 'csl_import.json')
-      input = JSON.parse(json)
-      import = CslImport.new(file: input)
+      filepath = fixture_path + "csl_import.json"
+      import = CslImport.new(filepath: filepath)
       response = import.get_data
       expect(response.length).to eq(10)
 
@@ -28,9 +26,8 @@ describe CslImport, :type => :model do
     end
 
     it "should get_data file missing day" do
-      json = File.read(fixture_path + 'csl_import.json')
-      input = JSON.parse(json)
-      import = CslImport.new(file: input)
+      filepath = fixture_path + "csl_import.json"
+      import = CslImport.new(filepath: filepath)
       response = import.get_data
       expect(response.length).to eq(10)
 
@@ -41,9 +38,8 @@ describe CslImport, :type => :model do
     end
 
     it "should get_data file missing month and day" do
-      json = File.read(fixture_path + 'csl_import.json')
-      input = JSON.parse(json)
-      import = CslImport.new(file: input)
+      filepath = fixture_path + "csl_import.json"
+      import = CslImport.new(filepath: filepath)
       response = import.get_data
       expect(response.length).to eq(10)
 

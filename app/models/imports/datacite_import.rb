@@ -25,7 +25,7 @@ class DataciteImport < Import
     @from_pub_date = options.fetch(:from_pub_date, nil)
     @until_pub_date = options.fetch(:until_pub_date, nil)
     @type = options.fetch(:type, nil)
-    @member_list = options.fetch(:member, nil).to_s.split(",")
+    @member = options.fetch(:member, nil).to_s.split(",")
 
     @from_update_date = (Time.zone.now.to_date - 1.day).iso8601 if @from_update_date.blank?
     @until_update_date = Time.zone.now.to_date.iso8601 if @until_update_date.blank?
@@ -42,7 +42,7 @@ class DataciteImport < Import
     updated = "updated:[#{@from_update_date}T00:00:00Z TO #{@until_update_date}T23:59:59Z]"
     publication_year = "publicationYear:[#{Date.parse(@from_pub_date).year} TO #{Date.parse(@until_pub_date).year}]"
     resource_type_general = @type.nil? ? nil : "resourceTypeGeneral:#{@type}"
-    datacentre_symbol = @member_list.empty? ? nil : "datacentre_symbol:" + @member_list.reduce { |sum, member| "#{sum} OR #{member}" }
+    datacentre_symbol = @member.empty? ? nil : "datacentre_symbol:" + @member.reduce { |sum, m| "#{sum} OR #{m}" }
     has_metadata = "has_metadata:true"
     is_active = "is_active:true"
     fq_list = [updated, publication_year, resource_type_general, datacentre_symbol, has_metadata, is_active] #.reject(&:nil?)

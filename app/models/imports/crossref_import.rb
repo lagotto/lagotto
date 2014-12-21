@@ -50,7 +50,7 @@ class CrossrefImport < Import
     issn = options.fetch(:issn, nil)
     sample = options.fetch(:sample, 0)
     @sample = sample.to_i
-    @member_list = member.to_s.split(",")
+    @member = member.to_s.split(",")
 
     from_update_date = (Time.zone.now.to_date - 1.day).iso8601 if from_update_date.blank?
     until_update_date = Time.zone.now.to_date.iso8601 if until_update_date.blank?
@@ -63,9 +63,9 @@ class CrossrefImport < Import
     @filter += ",type:#{type}" if type
     @filter += ",issn:#{issn}" if issn
 
-    if @member_list.present?
-      @filter += member_list.reduce("") do |sum, member|
-        sum + ",member:#{member}"
+    if @member.present?
+      @filter += member.reduce("") do |sum, m|
+        sum + ",member:#{m}"
       end
     end
   end

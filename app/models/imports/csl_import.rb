@@ -1,17 +1,23 @@
 class CslImport < Import
-
   def initialize(options = {})
-    @file = options.fetch(:file, nil)
+    @filepath = options.fetch(:filepath, nil)
     member = options.fetch(:member, nil)
-    @member_list = member.to_s.split(",")
+    @member = member.to_s.split(",")
   end
 
   def total_results
-    @file.length
+    begin
+      content = File.open(@filepath, 'r') { |f| f.read }
+      JSON.parse(content).length
+    rescue Errno::ENOENT, JSON::ParserError
+      0
+    end
   end
 
-  def get_data(offset = 0)
-    @file
+  def get_data(offset = 0, rows = 1000)
+    content = File.open(@filepath, 'r') { |f| f.read }
+    json = JSON.parse(content)
+    json[offset...offset + rows]
   end
 
   def parse_data(result)
@@ -23,7 +29,7 @@ class CslImport < Import
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
       title = item.fetch("title", nil)
-      member_id = @member_list.first
+      member_id = @member.first
       if member_id
         publisher = Publisher.where(member_id: member_id).first
       else

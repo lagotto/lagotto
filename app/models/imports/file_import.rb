@@ -2,7 +2,7 @@ class FileImport < Import
   def initialize(options = {})
     @file = options.fetch(:file, nil)
     member = options.fetch(:member, nil)
-    @member_list = member.to_s.split(",")
+    @member = member.to_s.split(",")
   end
 
   def total_results
@@ -13,7 +13,7 @@ class FileImport < Import
     result = get_text(offset)
   end
 
-  def get_text(offset = 0, rows = 1000)
+  def get_text(offset = 0, rows = 500)
     text = @file.slice(offset...(offset + rows))
     items = text.map do |line|
       line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
@@ -35,7 +35,7 @@ class FileImport < Import
         "issued" => { "date-parts" => [date_parts] },
         "title" => [title],
         "type" => "article-journal",
-        "member" => @member_list.first }
+        "member" => @member.first }
     end
 
     { "items" => items }

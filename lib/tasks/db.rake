@@ -59,30 +59,55 @@ namespace :db do
         puts "Started import of #{number} works in the background..."
       end
 
-      desc "Import works from CSL file"
+      desc "Import works from CSL JSON file"
       task :csl => :environment do
-        begin
-          csl = $stdin.read unless $stdin.tty?
-          fail Errno::ENOENT, "No works to import." if csl.nil?
+        file = ENV['FILE']
+        if file.blank?
+          puts "Please use FILE environment variable to specify import file."
+          exit
+        end
 
-          file = JSON.parse(csl)
-        rescue Errno::ENOENT, JSON::ParserError => e
+        member = ENV['MEMBER']
+        if member.blank? && Publisher.pluck(:member_id).length == 1
+          # if we have only configured a single publisher
+          member = Publisher.pluck(:member_id).first
+        end
+
+        import = SciencetoolboxImport.new(file: file, member: member)
+        number = import.total_results
+
+        if number > 0
+          import.queue_work_import
+          puts "Started import of #{number} works in the background..."
+        else
+          puts "No works to import."
+        end
+      end
+
+      desc "Import works from Sciencetoolbox JSON file"
+      task :sciencetoolbox => :environment do
+        begin
+          filepath = "#{Rails.root}/#{ENV['FILE']}"
+        rescue Errno::ENOENT, Errno::EISDIR => e
           puts e.message
           exit
         end
 
         member = ENV['MEMBER']
-        if member.nil? && Publisher.pluck(:member_id).length == 1
+        if member.blank? && Publisher.pluck(:member_id).length == 1
           # if we have only configured a single publisher
           member = Publisher.pluck(:member_id).first
         end
 
-        options = { file: file,
-                    member: member }
-        import = CslImport.new(options)
+        import = SciencetoolboxImport.new(filepath: filepath, member: member)
         number = import.total_results
-        import.queue_work_import if number.to_i > 0
-        puts "Started import of #{number} works in the background..."
+
+        if number > 0
+          import.queue_work_import
+          puts "Started import of #{number} works in the background..."
+        else
+          puts "No works to import."
+        end
       end
     end
 
