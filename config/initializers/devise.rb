@@ -26,7 +26,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  config.authentication_keys = [:login]
+  # config.authentication_keys = [:login]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -163,7 +163,7 @@ Devise.setup do |config|
   # ==> Configuration for :recoverable
   #
   # Defines which key will be used when recovering the password for an account
-  config.reset_password_keys = [:login]
+  config.reset_password_keys = [:email]
 
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
@@ -219,14 +219,14 @@ Devise.setup do |config|
                           login_url: "#{ENV['CAS_PREFIX']}/login",
                           logout_url: "#{ENV['CAS_PREFIX']}/logout",
                           service_validate_url: "#{ENV['CAS_PREFIX']}/serviceValidate",
-                          ssl: true
+                          ssl: true,
+                          fetch_raw_info: lambda { |strategy, options, ticket, user_info|
+                            User.fetch_raw_info(user_info.fetch('user'))
+                          }
   when "github"
     config.omniauth :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: "user,repo"
   when "orcid"
-    config.omniauth :orcid, ENV['ORCID_CLIENT_ID'], ENV['ORCID_CLIENT_SECRET'],
-                            scope: "/authenticate",
-                            token_url: "https://pub.orcid.org/oauth/token"
-                            # callback_path: "/users/omniauth_callbacks/auth/orcid/callback"
+    config.omniauth :orcid, ENV['ORCID_CLIENT_ID'], ENV['ORCID_CLIENT_SECRET']
   else
     config.omniauth :persona
   end

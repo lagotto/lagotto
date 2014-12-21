@@ -1,11 +1,13 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  # redirect to home page if login fails
+  redirect to home page if login fails
   rescue_from ActiveRecord::RecordInvalid do |exception|
     redirect_to root_path, :alert => exception.message
   end
 
   def persona
-    @user = User.find_for_oauth(request.env["omniauth.auth"], current_user) if request.env["omniauth.auth"]
+    auth = request.env["omniauth.auth"]
+    auth.info.name = auth.info.email
+    @user = User.from_omniauth(auth)
 
     if @user.persisted?
       sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
@@ -16,7 +18,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def cas
-    @user = User.find_for_cas_oauth(request.env["omniauth.auth"], current_user) if request.env["omniauth.auth"]
+    auth = request.env["omniauth.auth"]
+    auth.info.name = auth.extra.name
+    auth.info.email = auth.extra.email
+    @user = User.from_omniauth(auth)
 
     if @user.persisted?
       sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
@@ -27,7 +32,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def github
-    @user = User.find_for_oauth(request.env["omniauth.auth"], current_user) if request.env["omniauth.auth"]
+    @user = User.from_omniauth(request.env["omniauth.auth"])
 
     if @user.persisted?
       sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
@@ -38,7 +43,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def orcid
-    @user = User.find_for_oauth(request.env["omniauth.auth"], current_user) if request.env["omniauth.auth"]
+    @user = User.from_omniauth(request.env["omniauth.auth"])
 
     if @user.persisted?
       sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
