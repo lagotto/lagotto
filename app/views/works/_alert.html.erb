@@ -14,18 +14,18 @@
                   <span class="glyphicon glyphicon-trash"></span> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><%= link_to "by Message", alert_path(alert, :work_id => @work.uid),
+                  <li><%= link_to "by Message", alert_path(alert, :work_id => @work.id),
                                                                   :method => :delete,
                                                                   :data => { :confirm => 'Are you sure?' },
                                                                   :remote => true,
                                                                   :id => "#{alert.id}-delete-message" %></li>
-                  <li><%= link_to "by Class", alert_path(alert,   :work_id => @work.uid,
+                  <li><%= link_to "by Class", alert_path(alert,   :work_id => @work.id,
                                                                   :filter => "class_name"),
                                                                   :method => :delete,
                                                                   :data => { :confirm => 'Are you sure?' },
                                                                   :remote => true,
                                                                   :id => "#{alert.id}-delete-class" %></li>
-                  <li><%= link_to "by Work", alert_path(alert, :work_id => @work.uid,
+                  <li><%= link_to "by Work", alert_path(alert, :work_id => @work.id,
                                                                   :filter => "work_id"),
                                                                   :method => :delete,
                                                                   :data => { :confirm => 'Are you sure?' },
