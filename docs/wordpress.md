@@ -44,7 +44,7 @@ Wordpress.com is a blog hosting platform by the makers of the Wordpress blogging
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>http://en.search.wordpress.com/?q="DOI"&t=post&f=json&size=20</td>
+<td valign="top" width=80%>http://en.search.wordpress.com/?q="DOI"+OR+"URL"&t=post&f=json&size=20</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>License</strong></td>

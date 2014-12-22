@@ -24,12 +24,18 @@ class Wordpress < Source
     end
   end
 
+  def get_query_url(work, options = {})
+    return nil unless work.doi.present? || work.canonical_url.present?
+
+    url % { doi: work.doi, url: work.canonical_url }
+  end
+
   def config_fields
     [:url, :events_url]
   end
 
   def url
-    config.url || "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post&f=json&size=20"
+    config.url || "http://en.search.wordpress.com/?q=\"%{doi}\"+OR+\"%{url}\"&t=post&f=json&size=20"
   end
 
   def events_url
