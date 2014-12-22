@@ -83,9 +83,7 @@ class AlertsController < ApplicationController
     @alerts = collection.paginate(:page => params[:page])
     respond_with(@alerts) do |format|
       if params[:work_id]
-        id_hash = get_id_hash(params[:work_id])
-        key, value = id_hash.first
-        @work = Work.where(key => value).first
+        @work = Work.where(id: work_id).first
         format.js { render :alert }
       else
         format.js { render :index }
