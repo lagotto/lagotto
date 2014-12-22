@@ -27,7 +27,7 @@ class Wordpress < Source
   def get_query_url(work, options = {})
     return nil unless work.doi.present? || work.canonical_url.present?
 
-    query_string = ["\"#{work.doi}\"", "\"#{work.canonical_url}\""].join("+OR+")
+    query_string = [work.doi, work.canonical_url].reject { |i| i.nil? }.map { |i| "\"#{i}\"" }.join("+OR+")
     url % { query_string: query_string }
   end
 
