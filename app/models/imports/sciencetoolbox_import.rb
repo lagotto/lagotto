@@ -25,7 +25,7 @@ class SciencetoolboxImport < Import
       doi = item.fetch("doi", nil)
       canonical_url = item.fetch("url", nil)
 
-      updated_at = item.fetch("metadata", {}).fetch("updated_at", nil)
+      updated_at = item.fetch("metadata", {}).fetch("updated_at", nil) || item.fetch("metadata", {}).fetch("utc_last_updated", nil)
       date_parts = get_date_parts(updated_at)
       parts = date_parts.fetch("date-parts", [[]]).first
       year, month, day = parts[0], parts[1], parts[2]

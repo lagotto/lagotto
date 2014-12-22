@@ -36,20 +36,31 @@ class Work < ActiveRecord::Base
 
   serialize :csl, JSON
 
+  # this is faster than first_or_create
   def self.find_or_create(params)
     self.create!(params)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
     # update title and/or date if work exists
     # raise an error for other RecordInvalid errors such as missing title
-    if e.message.start_with?("Mysql2::Error: Duplicate entry", "Validation failed: Doi has already been taken")
+    if e.message.start_with?("Validation failed: Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
-      work.update_attributes(params)
+      work.update_attributes(params.except(:canonical_url)) unless work.nil?
       work
-    else
+    elsif e.message.start_with?("Validation failed: Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
+      work = Work.where(canonical_url: params[:canonical_url]).first
+      work.update_attributes(params.except(:canonical_url)) unless work.nil?
+      work
+    elsif params[:doi].present?
       Alert.create(:exception => "",
                    :class_name => "ActiveRecord::RecordInvalid",
                    :message => "#{e.message} for doi #{params[:doi]}.",
                    :target_url => "http://dx.doi.org/#{params[:doi]}")
+      nil
+    else
+      Alert.create(:exception => "",
+                   :class_name => "ActiveRecord::RecordInvalid",
+                   :message => "#{e.message} for url #{params[:canonical_url]}.",
+                   :target_url => params[:canonical_url])
       nil
     end
   end

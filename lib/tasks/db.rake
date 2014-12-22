@@ -61,9 +61,10 @@ namespace :db do
 
       desc "Import works from CSL JSON file"
       task :csl => :environment do
-        file = ENV['FILE']
-        if file.blank?
-          puts "Please use FILE environment variable to specify import file."
+        begin
+          filepath = "#{Rails.root}/#{ENV['FILE']}"
+        rescue Errno::ENOENT, Errno::EISDIR => e
+          puts e.message
           exit
         end
 
@@ -73,7 +74,7 @@ namespace :db do
           member = Publisher.pluck(:member_id).first
         end
 
-        import = SciencetoolboxImport.new(file: file, member: member)
+        import = CslImport.new(filepath: filepath, member: member)
         number = import.total_results
 
         if number > 0

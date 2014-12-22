@@ -25,7 +25,7 @@ class CslImport < Import
       doi = item.fetch("DOI", nil)
       canonical_url = item.fetch("URL", nil)
 
-      date_parts = item["issued"]["date-parts"][0]
+      date_parts = item.fetch("issued", {}).fetch("date-parts", [])[0]
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
       title = item.fetch("title", nil)
