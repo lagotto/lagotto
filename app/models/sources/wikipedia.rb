@@ -3,9 +3,12 @@
 class Wikipedia < Source
   # MediaWiki API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
   def get_query_url(work, options={})
+    return nil unless work.doi.present? || work.canonical_url.present?
+
     host = options[:host] || "en.wikipedia.org"
     namespace = options[:namespace] || "0"
-    url % { host: host, namespace: namespace, doi: CGI.escape("\"#{work.doi}\"") }
+    query_string = [work.doi, work.canonical_url].reject { |i| i.nil? }.map { |i| "\"#{i}\"" }.join("+OR+")
+    url % { host: host, namespace: namespace, query_string: query_string }
   end
 
   def get_data(work, options={})
@@ -46,7 +49,7 @@ class Wikipedia < Source
   end
 
   def url
-    config.url || "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{doi}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
+    config.url || "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{query_string}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1"
   end
 
   def events_url

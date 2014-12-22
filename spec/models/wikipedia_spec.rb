@@ -6,6 +6,18 @@ describe Wikipedia, :type => :model do
 
   let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294") }
 
+  context "query_url" do
+    it "should return nil if the doi and canonical_url are missing" do
+      work = FactoryGirl.build(:work, :doi => nil, canonical_url: nil)
+      expect(subject.get_query_url(work)).to be_nil
+    end
+
+    it "should return a query without doi if the doi is missing" do
+      work = FactoryGirl.build(:work, :doi => nil)
+      expect(subject.get_query_url(work)).to eq("http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=\"#{work.canonical_url}\"&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
+    end
+  end
+
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
