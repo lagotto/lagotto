@@ -3,9 +3,9 @@ layout: card_list
 title: "Releases"
 ---
 
-## Lagotto 3.11 (December 31, 2014)
+## Lagotto 3.11 (December 22, 2014)
 
-[Lagotto 3.11](https://github.com/articlemetrics/lagotto/releases/tag/v.3.11) was released on December 21, 2014 with the following changes:
+[Lagotto 3.11](https://github.com/articlemetrics/lagotto/releases/tag/v.3.11) was released on December 22, 2014 with the following changes:
 
 * added Github source (stars and forks for Github repos as works) ([#195](https://github.com/articlemetrics/lagotto/issues/195))
 * added authentication options ORCID and Github ([#196](https://github.com/articlemetrics/lagotto/issues/196))
