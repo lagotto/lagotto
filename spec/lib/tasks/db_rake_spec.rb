@@ -55,7 +55,7 @@ describe "db:works:import:csl" do
   end
 
   it "should run the rake task" do
-    expect{ subject.invoke }.to raise_error SystemExit
+    expect{ subject.invoke }.to raise_error Errno::EISDIR
   end
 end
 

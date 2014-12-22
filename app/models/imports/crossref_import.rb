@@ -46,11 +46,10 @@ class CrossrefImport < Import
     from_pub_date = options.fetch(:from_pub_date, nil)
     until_pub_date = options.fetch(:until_pub_date, nil)
     type = options.fetch(:type, nil)
-    member = options.fetch(:member, nil)
+    @member = options.fetch(:member, nil).to_s.split(",")
     issn = options.fetch(:issn, nil)
     sample = options.fetch(:sample, 0)
     @sample = sample.to_i
-    @member = member.to_s.split(",")
 
     from_update_date = (Time.zone.now.to_date - 1.day).iso8601 if from_update_date.blank?
     until_update_date = Time.zone.now.to_date.iso8601 if until_update_date.blank?

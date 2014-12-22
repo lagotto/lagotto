@@ -1,8 +1,7 @@
 class SciencetoolboxImport < Import
   def initialize(options = {})
     @filepath = options.fetch(:filepath, nil)
-    member = options.fetch(:member, nil)
-    @member = member.to_s.split(",")
+    @member = options.fetch(:member, nil).to_s.split(",")
   end
 
   def total_results
