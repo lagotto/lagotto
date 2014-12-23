@@ -103,6 +103,10 @@ class Work < ActiveRecord::Base
     @events_count ||= retrieval_statuses.reduce(0) { |sum, r| sum + r.event_count }
   end
 
+  def pid_escaped
+    CGI.escape(pid) if pid.present?
+  end
+
   def doi_escaped
     CGI.escape(doi) if doi.present?
   end

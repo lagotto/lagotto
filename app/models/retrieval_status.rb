@@ -46,7 +46,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def data
-    @data ||= event_count > 0 ? get_lagotto_data("#{source.name}:#{work.pid}") : nil
+    @data ||= event_count > 0 ? get_lagotto_data("#{source.name}:#{work.pid_escaped}") : nil
   end
 
   def events
