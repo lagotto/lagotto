@@ -3,14 +3,16 @@ layout: card_list
 title: "Releases"
 ---
 
-## Lagotto 3.11 (December 22, 2014)
+## Lagotto 3.11 (December 24, 2014)
 
-[Lagotto 3.11](https://github.com/articlemetrics/lagotto/releases/tag/v.3.11) was released on December 22, 2014 with the following changes:
+[Lagotto 3.11](https://github.com/articlemetrics/lagotto/releases/tag/v.3.11) was released on December 24, 2014 with the following changes:
 
 * added Github source (stars and forks for Github repos as works) ([#195](https://github.com/articlemetrics/lagotto/issues/195))
 * added authentication options ORCID and Github ([#196](https://github.com/articlemetrics/lagotto/issues/196))
 * fixed bug where retrieval_statuses were not created properly for newly added sources ([#197](https://github.com/articlemetrics/lagotto/issues/197))
 * import additional CAS attributes (e.g. name) via a second API call ([#198](https://github.com/articlemetrics/lagotto/issues/198))
+* fixed a bug introduced in Lagotto 3.10 fetching data from CouchDB ([#203](https://github.com/articlemetrics/lagotto/issues/203))
+* fixed a v3 API caching bug ([#204](https://github.com/articlemetrics/lagotto/issues/204))
 
 ## Lagotto 3.10 (December 18, 2014)
 
