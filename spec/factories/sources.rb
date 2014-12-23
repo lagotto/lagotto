@@ -75,7 +75,7 @@ FactoryGirl.define do
     type "Github"
     name "github"
     display_name "Github"
-    state_event "activate"
+    personal_access_token "EXAMPLE"
 
     group
 

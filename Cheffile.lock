@@ -51,11 +51,11 @@ SITE
       apt (>= 1.9.0)
       build-essential (>= 0.0.0)
       openssl (>= 0.0.0)
-    runit (1.5.10)
+    runit (1.5.12)
       build-essential (>= 0.0.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
-    windows (1.34.8)
+    windows (1.36.1)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
     yum (3.5.1)
@@ -63,7 +63,7 @@ SITE
       yum (~> 3.0)
     yum-erlang_solutions (0.2.0)
       yum (~> 3.0)
-    yum-mysql-community (0.1.10)
+    yum-mysql-community (0.1.11)
       yum (>= 3.0)
 
 GIT
@@ -84,9 +84,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: ab65bd8a5d459ef9b7b9c56f0e6cb08091b2f996
+  sha: fab90f6f3fdb6de0a93d5541d3a628fe322597f3
   specs:
-    lagotto (4.2.4)
+    lagotto (4.2.5)
       apt (>= 0.0.0)
       capistrano (~> 0.7.0)
       couchdb (>= 0.0.0)

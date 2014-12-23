@@ -9,6 +9,10 @@ class Github < Source
     url % { owner: owner, repo: repo }
   end
 
+  def request_options
+    { bearer: personal_access_token }
+  end
+
   def parse_data(result, work, options={})
     return result if result[:error]
 
@@ -25,10 +29,23 @@ class Github < Source
   end
 
   def config_fields
-    [:url]
+    [:url, :personal_access_token]
   end
 
   def url
     config.url || "https://api.github.com/repos/%{owner}/%{repo}"
+  end
+
+  # More info at https://github.com/blog/1509-personal-api-tokens
+  def personal_access_token
+    config.personal_access_token
+  end
+
+  def personal_access_token=(value)
+    config.personal_access_token = value
+  end
+
+  def rate_limiting
+    config.rate_limiting || 5000
   end
 end
