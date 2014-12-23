@@ -14,6 +14,23 @@ title: "Releases"
 * fixed a bug introduced in Lagotto 3.10 fetching data from CouchDB ([#203](https://github.com/articlemetrics/lagotto/issues/203))
 * fixed a v3 API caching bug ([#204](https://github.com/articlemetrics/lagotto/issues/204))
 
+By default Lagotto uses Mozilla Persona for authentication. To use any of the other authentication options (cas, orcid, github), provide the options in the `.env` file:
+
+```sh
+# authentication via orcid, github, cas or persona. Defaults to persona
+OMNIAUTH=
+
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+ORCID_CLIENT_ID=
+ORCID_CLIENT_SECRET=
+
+CAS_URL=
+CAS_INFO_URL=
+CAS_PREFIX=
+```
+
 ## Lagotto 3.10 (December 18, 2014)
 
 [Lagotto 3.10](https://github.com/articlemetrics/lagotto/releases/tag/v.3.10) was released on December 18, 2014 with the following changes:
