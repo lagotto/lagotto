@@ -2,45 +2,37 @@ class Api::V3::WorksController < Api::V3::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
-  before_filter :load_work, only: [:show]
-  before_filter :load_works, only: [:index]
-
   def index
-    source_ids = get_source_ids(params[:source])
+    type = ["doi", "pmid", "pmcid"].find { |t| t == params[:type] } || "doi"
+    ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| get_clean_id(id) }
+    collection = Work.where(works: { type => ids })
 
-    @works = @works.where(retrieval_statuses: { source_id: source_ids })
-                   .includes(:retrieval_statuses).references(:retrieval_statuses)
-                   .order("works.updated_at DESC")
-                   .decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
+    source_ids = get_source_ids(params[:source])
+    collection = collection.where(retrieval_statuses: { source_id: source_ids })
+                           .includes(:retrieval_statuses).references(:retrieval_statuses)
+                           .order("works.updated_at DESC")
+
+    fail ActiveRecord::RecordNotFound, "Article not found." if collection.blank?
+
+    @works = collection.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
   end
 
   def show
-    source_ids = get_source_ids(params[:source])
+    id_hash = get_id_hash(params[:id])
+    key, value = id_hash.first
+    work = Work.where(key => value)
 
-    @work = @work.where(retrieval_statuses: { source_id: source_ids })
-                 .includes(:retrieval_statuses).references(:retrieval_statuses)
-                 .first
-                 .decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source: params[:source] })
+    source_ids = get_source_ids(params[:source])
+    work = work.where(retrieval_statuses: { source_id: source_ids })
+               .includes(:retrieval_statuses).references(:retrieval_statuses)
+               .first
+
+    fail ActiveRecord::RecordNotFound, "Article not found." if work.blank?
+
+    @work = work.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
   end
 
   protected
-
-  def load_work
-    # Load one work given query params
-    id_hash = get_id_hash(params[:id])
-    key, value = id_hash.first
-    @work = Work.where(key => value)
-
-    render json: { error: "Article not found." }.to_json, status: :not_found if @work.empty?
-  end
-
-  def load_works
-    type = { "doi" => :doi, "pmid" => :pmid, "pmcid" => :pmcid }.values_at(params[:type]).first || :doi
-    ids = params[:ids].nil? ? nil : params[:ids].split(",")[0...50].map { |id| get_clean_id(id) }
-    @works = Work.where(works: { type => ids })
-
-    render json: { error: "Article not found." }.to_json, status: :not_found if @works.empty?
-  end
 
   # Filter by source parameter, filter out private sources unless admin
   def get_source_ids(source_names)

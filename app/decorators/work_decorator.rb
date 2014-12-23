@@ -11,6 +11,9 @@ class WorkDecorator < Draper::Decorator
   end
 
   def source_ids
+    # v3 API
+    return context[:source_ids] if context[:source_ids]
+
     collection = Source
     collection = collection.where(name: context[:source_id]) \
       if context[:source_id]

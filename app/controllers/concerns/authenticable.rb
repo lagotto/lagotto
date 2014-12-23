@@ -64,6 +64,10 @@ module Authenticable
       render json: { error: exception.message }, status: 401
     end
 
+    rescue_from ActiveRecord::RecordNotFound do |exception|
+      render json: { error: exception.message }, status: 404
+    end
+
     rescue_from ActionController::ParameterMissing do |exception|
       create_alert(exception, status: 422)
       render json: { error: exception.message }, status: 422

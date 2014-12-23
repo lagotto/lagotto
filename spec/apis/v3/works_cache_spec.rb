@@ -140,7 +140,7 @@ describe "/api/v3/articles", :type => :api do
         source_uri = "#{uri}&source=crossref"
         get source_uri, nil, 'HTTP_ACCEPT' => 'application/json'
         expect(last_response.status).to eql(404)
-        expect(JSON.parse(last_response.body)).to eql("error" => "Source not found.")
+        expect(JSON.parse(last_response.body)).to eql("error" => "Article not found.")
       end
 
       it "does not use a stale cache when the info query parameter changes" do
