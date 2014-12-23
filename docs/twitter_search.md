@@ -69,7 +69,7 @@ The rate-limits for application-only authentication and search are 450 requests 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>https://api.twitter.com/1.1/search/tweets.json?q=URL</td>
+<td valign="top" width=80%>https://api.twitter.com/1.1/search/tweets.json?q=\"DOI\"+OR+\"URL\"</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>License</strong></td>
