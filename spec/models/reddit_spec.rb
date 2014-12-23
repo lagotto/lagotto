@@ -4,8 +4,8 @@ describe Reddit, :type => :model do
   subject { FactoryGirl.create(:reddit) }
 
   context "get_data" do
-    it "should report that there are no events if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+    it "should report that there are no events if the doi and canonical_url are missing" do
+      work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       expect(subject.get_data(work)).to eq({})
     end
 
@@ -42,8 +42,8 @@ describe Reddit, :type => :model do
   end
 
   context "parse_data" do
-    it "should report if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+    it "should report if the doi and canonical_url are missing" do
+      work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
       expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>0, :citations=>nil, :total=>0})
