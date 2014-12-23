@@ -4,13 +4,13 @@ class TwitterSearch < Source
   def get_query_url(work, options = {})
     return nil unless get_access_token && work.get_url
 
-    URI.escape(url % { :doi => work.doi, :query_url => work.canonical_url })
+    url % { :query_string => work.query_string }
   end
 
   def get_events_url(work)
-    return nil unless events_url.present? && work.doi.present?
+    return nil unless events_url.present? && work.query_string.present?
 
-    URI.escape(events_url % { :doi => work.doi, :query_url => work.canonical_url })
+    events_url % { :query_string => work.query_string }
   end
 
   def request_options
@@ -105,11 +105,11 @@ class TwitterSearch < Source
   end
 
   def url
-    config.url || "https://api.twitter.com/1.1/search/tweets.json?q=\"%{doi}\" OR \"%{query_url}\"&count=100&include_entities=1&result_type=recent"
+    config.url || "https://api.twitter.com/1.1/search/tweets.json?q=%{query_string}&count=100&include_entities=1&result_type=recent"
   end
 
   def events_url
-    config.events_url || "https://twitter.com/search?q=\"%{doi}\" OR \"%{query_url}\"&f=realtime"
+    config.events_url || "https://twitter.com/search?q=%{query_string}&f=realtime"
   end
 
   def authentication_url
