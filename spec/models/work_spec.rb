@@ -159,6 +159,22 @@ describe Work, :type => :model do
     expect(Addressable::URI.encode("http://dx.doi.org/#{work.doi}")).to eq(work.doi_as_url)
   end
 
+  context "query_string" do
+    it "generates query" do
+      expect(work.query_string).to eq "\"#{work.doi}\"+OR+\"#{work.canonical_url}\""
+    end
+
+    it "generates query without doi" do
+      work = FactoryGirl.create(:work, doi: nil)
+      expect(work.query_string).to eq "\"#{work.canonical_url}\""
+    end
+
+    it "returns nil without doi and canonical_url" do
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
+      expect(work.query_string).to be_nil
+    end
+  end
+
   context "pid" do
     it 'for doi' do
       expect(work.to_param).to eq "doi/#{work.doi}"

@@ -55,8 +55,8 @@ describe Wordpress, :type => :model do
   end
 
   context "parse_data" do
-    it "should report that there are no events if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+    it "should report that there are no events if the doi and canonical_url are missing" do
+      work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       result = {}
       response = subject.parse_data(result, work)
       expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
@@ -66,14 +66,14 @@ describe Wordpress, :type => :model do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       result = { 'data' => "null\n" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>"http://en.search.wordpress.com/?q=\"#{work.doi_escaped}\"&t=post", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>"http://en.search.wordpress.com/?q=#{work.query_string}&t=post", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the Wordpress API" do
       body = File.read(fixture_path + 'wordpress.json', encoding: 'UTF-8')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
-      expect(response[:events_url]).to eq("http://en.search.wordpress.com/?q=\"#{work.doi_escaped}\"&t=post")
+      expect(response[:events_url]).to eq("http://en.search.wordpress.com/?q=#{work.query_string}&t=post")
 
       expect(response[:events_by_day].length).to eq(1)
       expect(response[:events_by_day].first).to eq(year: 2007, month: 7, day: 12, total: 1)

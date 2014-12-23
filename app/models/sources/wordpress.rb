@@ -25,10 +25,15 @@ class Wordpress < Source
   end
 
   def get_query_url(work, options = {})
-    return nil unless work.doi.present? || work.canonical_url.present?
+    return nil unless url.present? && work.query_string.present?
 
-    query_string = [work.doi, work.canonical_url].reject { |i| i.nil? }.map { |i| "\"#{i}\"" }.join("+OR+")
-    url % { query_string: query_string }
+    url % { query_string: work.query_string }
+  end
+
+  def get_events_url(work)
+    return nil unless events_url.present? && work.query_string.present?
+
+    events_url % { :query_string => work.query_string }
   end
 
   def config_fields
@@ -40,7 +45,7 @@ class Wordpress < Source
   end
 
   def events_url
-    config.events_url || "http://en.search.wordpress.com/?q=\"%{doi}\"&t=post"
+    config.events_url || "http://en.search.wordpress.com/?q=%{query_string}&t=post"
   end
 
   def job_batch_size

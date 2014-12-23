@@ -115,6 +115,12 @@ class Work < ActiveRecord::Base
     doi[/^10\.\d{4,5}/]
   end
 
+  def query_string
+    return nil unless doi.present? || canonical_url.present?
+
+    [doi, canonical_url].reject { |i| i.nil? }.map { |i| "\"#{i}\"" }.join("+OR+")
+  end
+
   def get_url
     return true if canonical_url.present?
     return false unless doi.present?
