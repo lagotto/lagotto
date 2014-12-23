@@ -42,16 +42,28 @@ class Reddit < Source
     end
   end
 
+  def get_query_url(work, options = {})
+    return nil unless url.present? && work.query_string.present?
+
+    url % { query_string: work.query_string }
+  end
+
+  def get_events_url(work)
+    return nil unless events_url.present? && work.query_string.present?
+
+    events_url % { :query_string => work.query_string }
+  end
+
   def config_fields
     [:url, :events_url]
   end
 
   def url
-    config.url || "http://www.reddit.com/search.json?q=\"%{doi}\"&limit=100"
+    config.url || "http://www.reddit.com/search.json?q=%{query_string}&limit=100"
   end
 
   def events_url
-    config.events_url || "http://www.reddit.com/search?q=\"%{doi}\""
+    config.events_url || "http://www.reddit.com/search?q=%{query_string}"
   end
 
   def job_batch_size
