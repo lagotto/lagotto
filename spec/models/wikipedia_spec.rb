@@ -14,7 +14,7 @@ describe Wikipedia, :type => :model do
 
     it "should return a query without doi if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
-      expect(subject.get_query_url(work)).to eq("http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=\"#{work.canonical_url}\"&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
+      expect(subject.get_query_url(work)).to eq("http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=#{work.query_string}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1")
     end
   end
 
@@ -84,15 +84,15 @@ describe Wikipedia, :type => :model do
   end
 
   context "parse_data" do
-    it "should report if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+    it "should report if the doi and canonical_url are missing" do
+      work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       result = {}
       expect(subject.parse_data(result, work)).to eq(events: {}, :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are no events and event_count returned by the Wikipedia API" do
       result = { "en"=>0 }
-      expect(subject.parse_data(result, work)).to eq(events: {"en"=>0, "total"=>0}, :events_by_day=>[], :events_by_month=>[], events_url: "http://en.wikipedia.org/w/index.php?search=\"#{work.doi_escaped}\"", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      expect(subject.parse_data(result, work)).to eq(events: {"en"=>0, "total"=>0}, :events_by_day=>[], :events_by_month=>[], events_url: "http://en.wikipedia.org/w/index.php?search=#{work.query_string}", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Wikipedia API" do
@@ -115,7 +115,7 @@ describe Wikipedia, :type => :model do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { "en"=>nil }
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>{"en"=>nil, "total"=>0}, :events_by_day=>[], :events_by_month=>[], :events_url=>"http://en.wikipedia.org/w/index.php?search=\"#{work.doi_escaped}\"", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      expect(response).to eq(:events=>{"en"=>nil, "total"=>0}, :events_by_day=>[], :events_by_month=>[], :events_url=>"http://en.wikipedia.org/w/index.php?search=#{work.query_string}", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
     end
   end
 end

@@ -54,7 +54,7 @@ Because of the extensive load-balancing on Wikipedia's servers, pagination (for 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>http://HOST/w/api.php?action=query&list=search&format=json&srsearch=%22DOI%22+OR+%22URL%22&srnamespace=NAMESPACE&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1</td>
+<td valign="top" width=80%>http://HOST/w/api.php?action=query&list=search&format=json&srsearch=\"DOI\"+OR+\"URL\"&srnamespace=NAMESPACE&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1</td>
 </tr>
 </tbody>
 </table>

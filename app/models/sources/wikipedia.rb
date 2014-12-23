@@ -3,12 +3,17 @@
 class Wikipedia < Source
   # MediaWiki API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
   def get_query_url(work, options={})
-    return nil unless work.doi.present? || work.canonical_url.present?
+    return nil unless url.present? && work.query_string.present?
 
     host = options[:host] || "en.wikipedia.org"
     namespace = options[:namespace] || "0"
-    query_string = [work.doi, work.canonical_url].reject { |i| i.nil? }.map { |i| "\"#{i}\"" }.join("+OR+")
-    url % { host: host, namespace: namespace, query_string: query_string }
+    url % { host: host, namespace: namespace, query_string: work.query_string }
+  end
+
+  def get_events_url(work)
+    return nil unless events_url.present? && work.query_string.present?
+
+    events_url % { :query_string => work.query_string }
   end
 
   def get_data(work, options={})
@@ -53,7 +58,7 @@ class Wikipedia < Source
   end
 
   def events_url
-    config.events_url || "http://en.wikipedia.org/w/index.php?search=\"%{doi}\""
+    config.events_url || "http://en.wikipedia.org/w/index.php?search=%{query_string}"
   end
 
   def job_batch_size
