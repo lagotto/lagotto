@@ -38,8 +38,6 @@ class Api::V5::WorksController < Api::V5::BaseController
       end
     end
 
-    fail ActiveRecord::RecordNotFound, "Work not found." if collection.blank?
-
     # sort by source event_count
     # we can't filter and sort by two different sources
     if params[:order] && source && params[:order] == params[:source_id]
