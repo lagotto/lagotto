@@ -14,7 +14,7 @@
         <div class="panel-heading">Responses <small class="pull-right">last 24 hours</small></div>
         <div class="panel-body">
           <p><%= pluralize(number_with_delimiter(@source.response_count), "response") %> with
-          <%= link_to_if(@source.error_count > 0 && can?(:manage, @source), pluralize(number_with_delimiter(@source.error_count), "error"), alerts_path(:source => @source.name)) %></p>
+          <%= link_to_if(@source.error_count > 0 && can?(:manage, @source), pluralize(number_with_delimiter(@source.error_count), "error"), alerts_path(:source_id => @source.name)) %></p>
           <p>Average <%= number_with_delimiter(@source.average_count) %> ms</br>
           Maximum <%= number_with_delimiter(@source.maximum_count) %> ms</p>
         </div>
