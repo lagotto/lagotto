@@ -46,7 +46,7 @@ describe Github, :type => :model do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0} } }
+    let(:null_response) { { :events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0} } }
 
     it "should report if the canonical_url is missing" do
       work = FactoryGirl.build(:work, :canonical_url => nil)
@@ -64,7 +64,7 @@ describe Github, :type => :model do
       body = File.read(fixture_path + 'github_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(null_response)
+      expect(response).to eq(:events=>result, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the Github API" do
@@ -72,7 +72,7 @@ describe Github, :type => :model do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:event_count]).to eq(7)
-      expect(response[:events].length).to eq(0)
+      expect(response[:events]["stargazers_count"]).to eq(5)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: 2, groups: nil, comments: nil, likes: 5, citations: nil, total: 7)
     end
 

@@ -20,7 +20,7 @@ class Github < Source
     likes = result.fetch("stargazers_count", 0)
     total = shares + likes
 
-    { events: [],
+    { events: result,
       events_by_day: [],
       events_by_month: [],
       events_url: nil,
