@@ -57,7 +57,7 @@ class Source < ActiveRecord::Base
   validates :staleness_month, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :staleness_year, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :staleness_all, :numericality => { :only_integer => true, :greater_than => 0 }
-  validate :validate_cron_line_format, :allow_blank => true
+  validate :validate_cron_line_format, if: Proc.new { |source| source.cron_line.present? }
 
   # filter sources by state
   scope :by_state, ->(state) { where("state = ?", state) }
