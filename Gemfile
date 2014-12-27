@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 4.1.7'
+gem 'rails', '~> 4.2.0'
 gem 'mysql2', '0.3.16'
 
 gem "dotenv", '~> 1.0.2'
@@ -11,7 +11,7 @@ gem "rake", "~> 10.3.2"
 gem "whenever", "~> 0.9.0", :require => false
 gem 'parse-cron', '~> 0.1.4'
 gem "mail", "~> 2.6.1"
-gem "state_machine", "~> 1.2.0"
+gem "state_machine", "~> 1.2.0", :git => 'https://github.com/fly1tkg/state_machine.git', :branch => 'issue/334'
 gem "logstash-logger", "~> 0.7.0"
 
 gem "faraday", "~> 0.9.0"
