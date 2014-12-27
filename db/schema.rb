@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141219222023) do
+ActiveRecord::Schema.define(version: 20141227154334) do
 
   create_table "alerts", force: true do |t|
     t.integer  "source_id"
@@ -189,7 +189,7 @@ ActiveRecord::Schema.define(version: 20141219222023) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "scheduled_at",  default: '1970-01-01 00:00:00', null: false
-    t.string   "events_url"
+    t.text     "events_url"
     t.string   "event_metrics"
     t.text     "other"
   end
