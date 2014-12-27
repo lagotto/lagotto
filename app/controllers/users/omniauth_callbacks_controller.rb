@@ -3,51 +3,24 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     redirect_to root_path, :alert => exception.message
   end
 
-  def persona
+  # generic handler for all omniauth providers
+  def action_missing(provider)
     auth = request.env["omniauth.auth"]
-    auth.info.name = auth.info.email
+
+    # provider-specific tweaks to standard omniauth hash
+    case provider
+    when "cas"
+      auth.info.name = auth.extra.name
+      auth.info.email = auth.extra.email
+    end
+
     @user = User.from_omniauth(auth)
 
     if @user.persisted?
-      sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
+      sign_in_and_redirect @user, :event => :authentication
     else
-      session["devise.persona_data"] = request.env["omniauth.auth"]
-      redirect_to root_path
-    end
-  end
-
-  def cas
-    auth = request.env["omniauth.auth"]
-    auth.info.name = auth.extra.name
-    auth.info.email = auth.extra.email
-    @user = User.from_omniauth(auth)
-
-    if @user.persisted?
-      sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
-    else
-      session["devise.cas_data"] = request.env["omniauth.auth"]
-      redirect_to root_path
-    end
-  end
-
-  def github
-    @user = User.from_omniauth(request.env["omniauth.auth"])
-
-    if @user.persisted?
-      sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
-    else
-      session["devise.github_data"] = request.env["omniauth.auth"]
-      redirect_to root_path
-    end
-  end
-
-  def orcid
-    @user = User.from_omniauth(request.env["omniauth.auth"])
-
-    if @user.persisted?
-      sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated
-    else
-      session["devise.orcid_data"] = request.env["omniauth.auth"]
+      session["devise.#{provider}_data"] = request.env["omniauth.auth"]
+      flash[:alert] = @user.errors.map{ |k,v| "#{k}: #{v}"}.join("<br />").html_safe || "Error signing in with #{provider}"
       redirect_to root_path
     end
   end

@@ -182,7 +182,7 @@ Devise.setup do |config|
   # Defines name of the authentication token params key
   # config.token_authentication_key = :api_key
 
-  config.secret_key = ENV['SECRET_TOKEN']
+  config.secret_key = ENV['SECRET_KEY_BASE']
 
   # ==> Scopes configuration
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
@@ -213,8 +213,7 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  case ENV['OMNIAUTH']
-  when "cas"
+  if ENV['CAS_URL']
     config.omniauth :cas, url: ENV['CAS_URL'],
                           login_url: "#{ENV['CAS_PREFIX']}/login",
                           logout_url: "#{ENV['CAS_PREFIX']}/logout",
@@ -223,13 +222,15 @@ Devise.setup do |config|
                           fetch_raw_info: lambda { |strategy, options, ticket, user_info|
                             User.fetch_raw_info(user_info.fetch('user'))
                           }
-  when "github"
-    config.omniauth :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: "user,repo"
-  when "orcid"
-    config.omniauth :orcid, ENV['ORCID_CLIENT_ID'], ENV['ORCID_CLIENT_SECRET']
-  else
-    config.omniauth :persona
   end
+
+  config.omniauth :github, ENV['GITHUB_CLIENT_ID'],
+                           ENV['GITHUB_CLIENT_SECRET'],
+                           scope: "user,repo" if ENV['GITHUB_CLIENT_ID']
+  config.omniauth :orcid, ENV['ORCID_CLIENT_ID'],
+                          ENV['ORCID_CLIENT_SECRET'] if ENV['ORCID_CLIENT_ID']
+  config.omniauth :persona
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

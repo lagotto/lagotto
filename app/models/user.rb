@@ -27,11 +27,19 @@ class User < ActiveRecord::Base
   end
 
   # fetch additional user information for cas strategy
+  # use Auth Hash Schema https://github.com/intridea/omniauth/wiki/Auth-Hash-Schema
   def self.fetch_raw_info(uid)
+    return { error: "no uid provided" } if uid.nil?
+
     url = "#{ENV['CAS_INFO_URL']}/#{uid}"
-    profile = User.new.get_result(url) || {}
+    profile = User.new.get_result(url)
+    return profile if profile[:error]
+
     { name: profile.fetch("realName", uid),
-      email: profile.fetch("email", nil) }
+      email: profile.fetch("email", nil),
+      nickname: profile.fetch("displayName", nil),
+      first_name: profile.fetch("givenNames", nil),
+      last_name: profile.fetch("surname", nil) }
   end
 
   def self.find_for_database_authentication(warden_conditions)

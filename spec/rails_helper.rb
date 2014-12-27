@@ -1,5 +1,6 @@
 # set ENV variables for testing
 ENV["RAILS_ENV"] = "test"
+ENV["OMNIAUTH"] = "cas"
 ENV["API_KEY"] = "12345"
 ENV["ADMIN_EMAIL"] = "info@example.org"
 ENV["WORKERS"] = "1"
@@ -27,6 +28,10 @@ require "rack/test"
 require 'draper/test/rspec_integration'
 require 'devise'
 
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
 # include required concerns
 include Networkable
 include Couchable
@@ -53,8 +58,6 @@ Capybara.configure do |config|
   config.ignore_hidden_elements = true
 end
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
-
 RSpec.configure do |config|
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers
@@ -64,14 +67,18 @@ RSpec.configure do |config|
 
   config.include Rack::Test::Methods, :type => :api
 
-
   config.include Devise::TestHelpers, :type => :controller
   config.include Rack::Test::Methods, :type => :controller
 
-  config.include IntegrationSpecHelper, :type => :feature
-
   def app
     Rails.application
+  end
+
+  config.order = "random"
+
+  # restore application-specific ENV variables after each example
+  config.after(:each) do
+    ENV_VARS.each { |k,v| ENV[k] = v }
   end
 
   config.use_transactional_fixtures = false
@@ -108,11 +115,16 @@ RSpec.configure do |config|
   end
 
   OmniAuth.config.test_mode = true
-  omni_hash = { :provider => "persona",
-                :uid => "12345",
-                :info => { "email" => "joe@example.com",
-                           "username" => "joe@example.com" }}
-  OmniAuth.config.mock_auth[:persona] = OmniAuth::AuthHash.new(omni_hash)
+  config.before(:each) do
+    OmniAuth.config.mock_auth[:default] = OmniAuth::AuthHash.new({
+      provider: ENV["OMNIAUTH"],
+      uid: "12345",
+      info: { "email" => "joe_#{ENV["OMNIAUTH"]}@example.com",
+              "name" => "Joe Smith" },
+      extra: { "email" => "joe_#{ENV["OMNIAUTH"]}@example.com",
+               "name" => "Joe Smith" }
+    })
+  end
 
 # Before('@couchdb') do
 #   put_lagotto_database
