@@ -8,7 +8,7 @@ Lagotto::Application.configure do
   config.cache_classes = false
 
   # Configure static asset server for tests with Cache-Control for performance
-  config.serve_static_assets = true
+  config.serve_static_files = true
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
