@@ -1,6 +1,32 @@
-# encoding: UTF-8
-
 namespace :db do
+  namespace :articles do
+    desc "Bulk-load works from standard input"
+    task :load => :environment do
+      begin
+        input = []
+        $stdin.each_line { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) } unless $stdin.tty?
+        number = input.length
+        fail Errno::ENOENT, "No works to import." if input.empty?
+      rescue Errno::ENOENT => e
+        puts e.message
+        exit
+      end
+
+      member = ENV['MEMBER']
+      if member.nil? && Publisher.pluck(:member_id).length == 1
+        # if we have only configured a single publisher
+        member = Publisher.pluck(:member_id).join(",")
+      end
+
+      # import in batches of 1,000 works
+      input.each_slice(1000) do |batch|
+        import = FileImport.new(file: batch, member: member)
+        import.queue_work_import
+      end
+      puts "Started import of #{number} works in the background..."
+    end
+  end
+
   namespace :works do
     namespace :import do
       desc "Import works from Crossref REST API"
@@ -11,10 +37,10 @@ namespace :db do
 
         case ENV['IMPORT'].to_s.downcase
         when "member"
-          member = ENV['MEMBER'].presence || Publisher.pluck(:name).join(",")
+          member = ENV['MEMBER'].presence || Publisher.pluck(:member_id).join(",")
           sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
         when "member_sample"
-          member = ENV['MEMBER'].presence || Publisher.pluck(:name).join(",")
+          member = ENV['MEMBER'].presence || Publisher.pluck(:member_id).join(",")
           sample = (ENV['SAMPLE'].presence || 20).to_i
         when "sample"
           member = ENV['MEMBER'].presence
@@ -24,18 +50,22 @@ namespace :db do
           sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
         end
 
-        options = { from_update_date: ENV['FROM_UPDATE_DATE'],
-                    until_update_date: ENV['UNTIL_UPDATE_DATE'],
-                    from_pub_date: ENV['FROM_PUB_DATE'],
-                    until_pub_date: ENV['UNTIL_PUB_DATE'],
-                    type: ENV['TYPE'],
-                    member: member,
-                    issn: ENV['ISSN'],
-                    sample: sample }
-        import = CrossrefImport.new(options)
+        import = CrossrefImport.new(
+          from_update_date: ENV['FROM_UPDATE_DATE'],
+          until_update_date: ENV['UNTIL_UPDATE_DATE'],
+          from_pub_date: ENV['FROM_PUB_DATE'],
+          until_pub_date: ENV['UNTIL_PUB_DATE'],
+          type: ENV['TYPE'],
+          member: member,
+          issn: ENV['ISSN'],
+          sample: sample)
         number = ENV['SAMPLE'] || import.total_results
-        import.queue_work_import if number.to_i > 0
-        puts "Started import of #{number} works in the background..."
+        if number.to_i > 0
+          import.queue_work_import
+          puts "Started import of #{number} works in the background..."
+        else
+          puts "No works to import."
+        end
       end
 
       desc "Import works from DataCite API"
@@ -47,16 +77,20 @@ namespace :db do
           member = ENV['MEMBER'].presence
         end
 
-        options = { from_update_date: ENV['FROM_UPDATE_DATE'],
-                    until_update_date: ENV['UNTIL_UPDATE_DATE'],
-                    from_pub_date: ENV['FROM_PUB_DATE'],
-                    until_pub_date: ENV['UNTIL_PUB_DATE'],
-                    type: ENV['TYPE'],
-                    member: member }
-        import = DataciteImport.new(options)
+        import = DataciteImport.new(
+          from_update_date: ENV['FROM_UPDATE_DATE'],
+          until_update_date: ENV['UNTIL_UPDATE_DATE'],
+          from_pub_date: ENV['FROM_PUB_DATE'],
+          until_pub_date: ENV['UNTIL_PUB_DATE'],
+          type: ENV['TYPE'],
+          member: member)
         number = import.total_results
-        import.queue_work_import if number.to_i > 0
-        puts "Started import of #{number} works in the background..."
+        if number > 0
+          import.queue_work_import
+          puts "Started import of #{number} works in the background..."
+        else
+          puts "No works to import."
+        end
       end
 
       desc "Import works from CSL JSON file"
@@ -69,14 +103,13 @@ namespace :db do
         end
 
         member = ENV['MEMBER']
-        if member.blank? && Publisher.pluck(:member_id).length == 1
+        if member.nil? && Publisher.pluck(:member_id).length == 1
           # if we have only configured a single publisher
-          member = Publisher.pluck(:member_id).first
+          member = Publisher.pluck(:member_id).join(",")
         end
 
         import = CslImport.new(filepath: filepath, member: member)
         number = import.total_results
-
         if number > 0
           import.queue_work_import
           puts "Started import of #{number} works in the background..."
@@ -95,14 +128,13 @@ namespace :db do
         end
 
         member = ENV['MEMBER']
-        if member.blank? && Publisher.pluck(:member_id).length == 1
+        if member.nil? && Publisher.pluck(:member_id).length == 1
           # if we have only configured a single publisher
-          member = Publisher.pluck(:member_id).first
+          member = Publisher.pluck(:member_id).join(",")
         end
 
         import = SciencetoolboxImport.new(filepath: filepath, member: member)
         number = import.total_results
-
         if number > 0
           import.queue_work_import
           puts "Started import of #{number} works in the background..."
@@ -112,32 +144,6 @@ namespace :db do
       end
     end
 
-    desc "Bulk-load works from standard input"
-    task :load => :environment do
-      begin
-        input = []
-        $stdin.each_line { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) } unless $stdin.tty?
-
-        fail Errno::ENOENT, "No works to import." if input.empty?
-      rescue Errno::ENOENT => e
-        puts e.message
-        exit
-      end
-
-      member = ENV['MEMBER']
-      if member.nil? && Publisher.pluck(:member_id).length == 1
-        # if we have only configured a single publisher
-        member = Publisher.pluck(:member_id).first
-      end
-
-      # import in batches of 1,000 works
-      input.each_slice(1000) do |batch|
-        import = FileImport.new(file: batch, member: member)
-        import.queue_work_import
-      end
-      puts "Started import of #{input.length} works in the background..."
-    end
-
     desc "Delete works"
     task :delete => :environment do
       if ENV['MEMBER'].blank?
@@ -145,7 +151,8 @@ namespace :db do
         exit
       end
 
-      Work.queue_work_delete(ENV['MEMBER'])
+      DeleteWorkJob.perform_later(ENV['MEMBER'])
+
       if ENV['MEMBER'] == "all"
         puts "Started deleting all works in the background..."
       else
