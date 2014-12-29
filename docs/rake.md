@@ -55,7 +55,7 @@ When `import=member` or `import=member_sample` is set in the configuration, the 
 Bulk-load a file consisting of DOIs, one per line. It'll ignore (but count) invalid ones and those that already exist in the database:
 
 ```sh
-bin/rake db:works:load <DOI_DUMP
+bin/rake db:articles:load <DOI_DUMP
 ```
 
 Format for import file
@@ -65,12 +65,6 @@ DOI Date(YYYY-MM-DD) Title
 ```
 
 The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
-
-Loads 25 sample works
-
-```sh
-bin/rake db:works:seed
-```
 
 Deletes works and associated rows in the retrieval_statuses table. Use `MEMBER` to delete works from a particular publisher, or `MEMBER=all" to delete all works.
 
