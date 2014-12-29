@@ -39,7 +39,7 @@ function donutViz(data, div, title, subtitle) {
     .data([data])
     .attr("width", w)
     .attr("height", h)
-    .attr("class", "chart")
+    .attr("class", "chart donut")
     .append("svg:g")
     .attr("transform", "translate(150,100)");
 
