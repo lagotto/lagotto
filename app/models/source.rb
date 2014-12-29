@@ -29,6 +29,9 @@ class Source < ActiveRecord::Base
   # include summary counts
   include Countable
 
+  # include Active Job helpers
+  include Jobable
+
   # include hash helper
   include Hashie::Extensions::DeepFetch
 
@@ -38,7 +41,6 @@ class Source < ActiveRecord::Base
   has_many :publisher_options
   has_many :alerts
   has_many :api_responses
-  has_many :delayed_jobs, primary_key: "name", foreign_key: "queue", :dependent => :destroy
   belongs_to :group
 
   serialize :config, OpenStruct
@@ -87,8 +89,8 @@ class Source < ActiveRecord::Base
   end
 
   def remove_queues
-    delayed_jobs.delete_all
-    retrieval_statuses.update_all(["queued_at = ?", nil])
+    delete_jobs(name)
+    retrieval_statuses.update_all(queued_at: nil)
   end
 
   def queue_all_works(options = {})
@@ -118,14 +120,15 @@ class Source < ActiveRecord::Base
     end
 
     rs.each_slice(job_batch_size) do |rs_ids|
-      Delayed::Job.enqueue SourceJob.new(rs_ids, id), queue: name, run_at: schedule_at, priority: priority
+      RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: Time.zone.now)
+      SourceJob.set(queue: name, wait_until: schedule_at).perform_later(rs_ids, self)
     end
 
     rs.length
   end
 
   def schedule_at
-    last_job = DelayedJob.where(queue: name).maximum(:run_at)
+    last_job = get_last_job(name)
     return Time.zone.now if last_job.nil?
 
     last_job + batch_interval
@@ -139,11 +142,11 @@ class Source < ActiveRecord::Base
 
   # limit the number of workers per source
   def check_for_available_workers
-    workers >= working_count
+    workers >= worker_count
   end
 
   def check_for_active_workers
-    working_count > 1
+    worker_count > 1
   end
 
   def get_data(work, options={})
@@ -281,8 +284,7 @@ class Source < ActiveRecord::Base
   end
 
   def update_cache
-    DelayedJob.delete_all(queue: "#{name}-cache")
-    delay(priority: 1, queue: "#{name}-cache").write_cache
+    CacheJob.perform_later(self)
   end
 
   def write_cache
@@ -293,8 +295,7 @@ class Source < ActiveRecord::Base
     # loop through cached attributes we want to update
     [:event_count,
      :work_count,
-     :working_count,
-     :pending_count,
+     :job_count,
      :queued_count,
      :stale_count,
      :response_count,
@@ -322,7 +323,7 @@ class Source < ActiveRecord::Base
 
     (0...work_ids.length).step(1000) do |offset|
       ids = work_ids[offset...offset + 1000] & existing_ids
-      delay(priority: 2, queue: "retrieval-status").insert_retrievals(ids)
+      InsertRetrievalJob.perform_later(self, ids)
      end
   end
 

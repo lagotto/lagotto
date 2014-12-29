@@ -8,8 +8,8 @@ module CustomError
   # we don't have enough available workers for this source
   class NotEnoughWorkersError < StandardError; end
 
-  # something went wrong with Delayed Job
-  class DelayedJobError < StandardError; end
+  # something went wrong with Active Job
+  class ActiveJobError < StandardError; end
 
   # Default filter error
   class ApiResponseError < StandardError; end

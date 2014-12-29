@@ -8,7 +8,7 @@ gem "delayed_job", "~> 4.0.0"
 gem "delayed_job_active_record", "~> 4.0.0"
 gem "daemons", "~> 1.1.9"
 gem "rake", "~> 10.3.2"
-gem "whenever", "~> 0.9.0", :require => false
+gem "whenever", "~> 0.9.0", require: false
 gem 'parse-cron', '~> 0.1.4'
 gem "mail", "~> 2.6.1"
 gem "state_machine", "~> 1.2.0", :git => 'https://github.com/fly1tkg/state_machine.git', :branch => 'issue/334'

@@ -42,6 +42,7 @@ module Statable
 
       after_transition :available => any - [:available, :retired] do |source|
         source.create_retrievals
+        CacheJob.perform_later(source)
       end
 
       after_transition :to => :inactive do |source|

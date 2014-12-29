@@ -71,5 +71,8 @@ module Lagotto
 
     # compress responses with deflate or gzip
     config.middleware.use Rack::Deflater
+
+    # set Active Job queueing backend
+    config.active_job.queue_adapter = :delayed_job
   end
 end

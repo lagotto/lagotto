@@ -184,7 +184,7 @@ FactoryGirl.define do
   end
 
   factory :delayed_job do
-    queue 'citeulike-queue'
+    queue 'citeulike'
 
     initialize_with { DelayedJob.where(queue: queue).first_or_initialize }
   end
@@ -239,6 +239,10 @@ FactoryGirl.define do
       Time.zone.now - n.weeks
     end
     sequence(:event_count) { |n| 1000 - 10 * n }
+
+    retrieval_status
+    work
+    source
   end
 
   factory :alert do

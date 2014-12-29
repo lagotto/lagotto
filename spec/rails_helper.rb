@@ -86,6 +86,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with :truncation
+    FactoryGirl.lint
   end
 
   config.before(:each) do
@@ -125,24 +126,6 @@ RSpec.configure do |config|
                "name" => "Joe Smith" }
     })
   end
-
-# Before('@couchdb') do
-#   put_lagotto_database
-# end
-
-# After('@couchdb') do
-#   delete_lagotto_database
-# end
-
-# Before('@delayed') do
-#   Delayed::Worker.delay_jobs = true
-#   system "RAILS_ENV=test script/delayed_job -n 2 start"
-# end
-
-# After('@delayed') do
-#   Delayed::Worker.delay_jobs = false
-#   system "RAILS_ENV=test script/delayed_job stop"
-# end
 
   def capture_stdout(&block)
     original_stdout = $stdout

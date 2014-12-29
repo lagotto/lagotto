@@ -4,43 +4,30 @@ module Countable
   extend ActiveSupport::Concern
 
   included do
-    def working_count
+    def worker_count
       if ActionController::Base.perform_caching
-        Rails.cache.read("#{name}/working_count/#{update_date}").to_i
+        Rails.cache.read("#{name}/worker_count/#{update_date}").to_i
       else
-        delayed_jobs.count(:locked_at)
+        get_worker_count(name)
       end
     end
 
-    def working_count=(timestamp)
-      Rails.cache.write("#{name}/working_count/#{timestamp}",
-                        delayed_jobs.count(:locked_at))
+    def worker_count=(timestamp)
+      Rails.cache.write("#{name}/worker_count/#{timestamp}",
+                        get_worker_count(name))
     end
 
-    def pending_count
+    def job_count
       if ActionController::Base.perform_caching
-        Rails.cache.read("#{name}/pending_count/#{update_date}").to_i
+        Rails.cache.read("#{name}/job_count/#{update_date}").to_i
       else
-        delayed_jobs.where("locked_at IS NULL").count
+        get_job_count(name)
       end
     end
 
-    def pending_count=(timestamp)
-      Rails.cache.write("#{name}/pending_count/#{timestamp}",
-                        delayed_jobs.where("locked_at IS NULL").count)
-    end
-
-    def delayed_jobs_count
-      if ActionController::Base.perform_caching
-        Rails.cache.read("#{name}/delayed_jobs_count/#{update_date}").to_i
-      else
-        delayed_jobs.count
-      end
-    end
-
-    def delayed_jobs_count=(timestamp)
-      Rails.cache.write("#{name}/delayed_jobs_count/#{timestamp}",
-                        delayed_jobs.count)
+    def job_count=(timestamp)
+      Rails.cache.write("#{name}/job_count/#{timestamp}",
+                        get_job_count(name))
     end
 
     def works_count
