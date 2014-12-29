@@ -12,7 +12,7 @@ describe Status, :type => :model do
     FactoryGirl.create_list(:api_response, 6)
     body = File.read(fixture_path + 'releases.json')
     stub_request(:get, "https://api.github.com/repos/articlemetrics/lagotto/releases").to_return(body: body)
-    subject.update_cache
+    StatusCacheJob.perform_later
   end
 
   it "works_count" do
@@ -31,8 +31,8 @@ describe Status, :type => :model do
     expect(subject.alerts_count).to eq(2)
   end
 
-  it "delayed_jobs_active_count" do
-    expect(subject.delayed_jobs_active_count).to eq(1)
+  it "job_count" do
+    expect(subject.job_count).to eq(1)
   end
 
   it "responses_count" do

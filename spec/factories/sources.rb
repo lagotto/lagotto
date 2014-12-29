@@ -58,6 +58,8 @@ FactoryGirl.define do
         FactoryGirl.create(:publisher_option, source: source, password: nil)
       end
     end
+
+    initialize_with { CrossRef.where(name: name).first_or_initialize }
   end
 
   factory :nature, class: Nature do
@@ -267,18 +269,6 @@ FactoryGirl.define do
     type "Counter"
     name "counter"
     display_name "Counter"
-    state_event "activate"
-    url "http://example.org?doi=%{doi}"
-
-    group
-
-    initialize_with { Counter.where(name: name).first_or_initialize }
-  end
-
-  factory :biod, class: Biod do
-    type "Biod"
-    name "biod"
-    display_name "Biod"
     state_event "activate"
     url "http://example.org?doi=%{doi}"
 

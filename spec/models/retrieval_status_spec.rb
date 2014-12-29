@@ -95,7 +95,7 @@ describe RetrievalStatus, :type => :model do
     let(:retrieval_status) { FactoryGirl.create(:retrieval_status, :with_crossref_histories) }
 
     it "should get past events by month" do
-      expect(retrieval_status.get_past_events_by_month).to eq([{:year=>2013, :month=>4, :total=>800}, {:year=>2013, :month=>5, :total=>820}, {:year=>2013, :month=>6, :total=>870}, {:year=>2013, :month=>7, :total=>910}, {:year=>2013, :month=>8, :total=>950}])
+      expect(retrieval_status.get_past_events_by_month).to eq([{:year=>2013, :month=>4, :total=>790}, {:year=>2013, :month=>5, :total=>820}, {:year=>2013, :month=>6, :total=>870}, {:year=>2013, :month=>7, :total=>910}, {:year=>2013, :month=>8, :total=>950}])
     end
   end
 end

@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
     return { error: "no uid provided" } if uid.nil?
 
     url = "#{ENV['CAS_INFO_URL']}/#{uid}"
-    profile = User.new.get_result(url)
+    profile = User.new.get_result(url) || { error: "no profile returned" }
     return profile if profile[:error]
 
     { name: profile.fetch("realName", uid),
