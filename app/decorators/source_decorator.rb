@@ -10,11 +10,6 @@ class SourceDecorator < Draper::Decorator
     object.group.name
   end
 
-  def jobs
-    { "working" => working_count,
-      "pending" => pending_count }
-  end
-
   def responses
     { "count" => response_count,
       "average" => average_count,

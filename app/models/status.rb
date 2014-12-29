@@ -2,6 +2,9 @@ class Status
   # include HTTP request helpers
   include Networkable
 
+  # include Active Job helpers
+  include Jobable
+
   RELEASES_URL = "https://api.github.com/repos/articlemetrics/lagotto/releases"
 
   def works_count
@@ -74,17 +77,17 @@ class Status
     workers.length
   end
 
-  def delayed_jobs_active_count
+  def job_count
     if ActionController::Base.perform_caching
-      Rails.cache.read("status/delayed_jobs_active_count/#{update_date}").to_i
+      Rails.cache.read("status/job_count/#{update_date}").to_i
     else
-      DelayedJob.count
+      get_job_count
     end
   end
 
-  def delayed_jobs_active_count=(timestamp)
-    Rails.cache.write("status/delayed_jobs_active_count/#{timestamp}",
-                      DelayedJob.count)
+  def job_count=(timestamp)
+    Rails.cache.write("status/job_count/#{timestamp}",
+                      get_job_count)
   end
 
   def responses_count
@@ -182,11 +185,6 @@ class Status
     "status/#{update_date}"
   end
 
-  def update_cache
-    DelayedJob.delete_all(queue: "status-cache")
-    delay(priority: 1, queue: "status-cache").write_cache
-  end
-
   def write_cache
     # update cache_key as last step so that old version works until we are done
     timestamp = Time.zone.now.utc.iso8601
@@ -196,7 +194,7 @@ class Status
      :works_last30_count,
      :events_count,
      :alerts_count,
-     :delayed_jobs_active_count,
+     :job_count,
      :responses_count,
      :requests_count,
      :current_version,

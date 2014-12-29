@@ -13,7 +13,7 @@ class Publisher < ActiveRecord::Base
   validates :title, :presence => true
   validates :name, :member_id, :presence => true, :uniqueness => true
 
-  after_create :update_cache
+  after_create { |publisher| CacheJob.perform_later(publisher) }
 
   def to_param  # overridden, use member_id instead of id
     member_id
@@ -51,11 +51,6 @@ class Publisher < ActiveRecord::Base
 
   def update_date
     cached_at.utc.iso8601
-  end
-
-  def update_cache
-    DelayedJob.delete_all(queue: "publisher-#{member_id}-cache")
-    delay(priority: 1, queue: "publisher-#{member_id}-cache").write_cache
   end
 
   def write_cache

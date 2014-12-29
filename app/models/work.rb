@@ -78,15 +78,6 @@ class Work < ActiveRecord::Base
     end
   end
 
-  def self.queue_work_delete(publisher_id)
-    if publisher_id == "all"
-      delay(priority: 2, queue: "work-delete-queue").destroy_all
-    elsif publisher_id.present?
-      delay(priority: 2, queue: "work-delete-queue")
-        .destroy_all(publisher_id: publisher_id)
-    end
-  end
-
   # def url
   #   case pid_type
   #   when "doi" then "http://dx.doi.org/#{doi}"

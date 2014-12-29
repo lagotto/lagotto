@@ -212,7 +212,7 @@ module Configurable
     end
 
     def job_interval
-      3600 * working_count / rate_limiting
+      3600 * worker_count / rate_limiting
     end
 
     def batch_interval

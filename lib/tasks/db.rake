@@ -13,7 +13,7 @@ namespace :db do
       end
 
       member = ENV['MEMBER']
-      if member.nil? && Publisher.pluck(:member_id).length == 1
+      if member.blank? && Publisher.pluck(:member_id).length == 1
         # if we have only configured a single publisher
         member = Publisher.pluck(:member_id).join(",")
       end
@@ -103,7 +103,7 @@ namespace :db do
         end
 
         member = ENV['MEMBER']
-        if member.nil? && Publisher.pluck(:member_id).length == 1
+        if member.blank? && Publisher.pluck(:member_id).length == 1
           # if we have only configured a single publisher
           member = Publisher.pluck(:member_id).join(",")
         end
@@ -128,7 +128,7 @@ namespace :db do
         end
 
         member = ENV['MEMBER']
-        if member.nil? && Publisher.pluck(:member_id).length == 1
+        if member.blank? && Publisher.pluck(:member_id).length == 1
           # if we have only configured a single publisher
           member = Publisher.pluck(:member_id).join(",")
         end

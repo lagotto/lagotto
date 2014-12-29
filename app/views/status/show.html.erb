@@ -113,16 +113,16 @@
           </table>
         <% else %>
           <div class="panel-body">
-            No <strong>delayed_job</strong> workers found
+            No workers found
           </div>
         <% end %>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="panel <%= @status.delayed_jobs_active_count > 0 ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">Pending and working jobs</div>
+      <div class="panel <%= @status.job_count > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">Jobs</div>
         <div class="panel-body text-center">
-          <h2 id="delayed_jobs_active_count"><%= link_to_if @status.delayed_jobs_active_count > 0, number_with_delimiter(@status.delayed_jobs_active_count), sources_path %></h2>
+          <h2 id="active_job_count"><%= link_to_if @status.job_count > 0, number_with_delimiter(@status.job_count), sources_path %></h2>
         </div>
       </div>
       <div class="panel <%= @status.sources_disabled_count > 0 ? 'panel-warning' : 'panel-default' %>">

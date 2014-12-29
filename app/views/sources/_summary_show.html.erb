@@ -4,7 +4,7 @@
       <div class="panel panel-source <%= @source.human_state_name == 'working' ? 'panel-success' : 'panel-default' %>">
         <div class="panel-heading">Jobs</div>
         <div class="panel-body">
-          <p><%= @source.pending_count %> pending, <%= @source.working_count %> working</p>
+          <p><%= number_with_delimiter(@source.worker_count) %> workers, <%= number_with_delimiter(@source.job_count) %> jobs</p>
           <p>&nbsp;</br>&nbsp;</p>
         </div>
       </div>
