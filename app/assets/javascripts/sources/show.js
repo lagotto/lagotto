@@ -1,5 +1,5 @@
 var d3,
-    w = 300,
+    w = 250,
     h = 200,
     radius = Math.min(w, h) / 2,
     color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#95a5a6"]),
@@ -41,7 +41,7 @@ function donutViz(data, div, title, subtitle) {
     .attr("height", h)
     .attr("class", "chart donut")
     .append("svg:g")
-    .attr("transform", "translate(150,100)");
+    .attr("transform", "translate(" + w/2 + "," + h/2 + ")");
 
   var arc = d3.svg.arc()
     .outerRadius(radius - 10)
