@@ -42,7 +42,7 @@ class DataciteImport < Import
     updated = "updated:[#{@from_update_date}T00:00:00Z TO #{@until_update_date}T23:59:59Z]"
     publication_year = "publicationYear:[#{Date.parse(@from_pub_date).year} TO #{Date.parse(@until_pub_date).year}]"
     resource_type_general = @type.nil? ? nil : "resourceTypeGeneral:#{@type}"
-    datacentre_symbol = @member.empty? ? nil : "datacentre_symbol:" + @member.reduce { |sum, m| "#{sum} OR #{m}" }
+    datacentre_symbol = @member.blank? ? nil : "datacentre_symbol:" + @member.reduce("") { |sum, m| "#{sum}+OR+#{m}" }
     has_metadata = "has_metadata:true"
     is_active = "is_active:true"
     fq_list = [updated, publication_year, resource_type_general, datacentre_symbol, has_metadata, is_active] #.reject(&:nil?)

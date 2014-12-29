@@ -15,7 +15,15 @@ class Import
 
   def queue_work_import
     (0...total_results).step(1000) do |offset|
-      delay(priority: 2, queue: "work-import").process_data(offset)
+      options = {
+        from_update_date: from_update_date,
+        until_update_date: until_update_date,
+        from_pub_date: from_pub_date,
+        until_pub_date: until_pub_date,
+        member: member,
+        sample: sample,
+        offset: offset }
+      ImportJob.perform_later(self.class.to_s, options)
     end
   end
 
