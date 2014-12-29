@@ -1,6 +1,34 @@
 # encoding: UTF-8
 
 namespace :db do
+  namespace :articles do
+    desc "Bulk-load works from standard input"
+    task :load => :environment do
+      begin
+        input = []
+        $stdin.each_line { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) } unless $stdin.tty?
+
+        fail Errno::ENOENT, "No works to import." if input.empty?
+      rescue Errno::ENOENT => e
+        puts e.message
+        exit
+      end
+
+      member = ENV['MEMBER']
+      if member.nil? && Publisher.pluck(:member_id).length == 1
+        # if we have only configured a single publisher
+        member = Publisher.pluck(:member_id).first
+      end
+
+      # import in batches of 1,000 works
+      input.each_slice(1000) do |batch|
+        import = FileImport.new(file: batch, member: member)
+        import.queue_work_import
+      end
+      puts "Started import of #{input.length} works in the background..."
+    end
+  end
+
   namespace :works do
     namespace :import do
       desc "Import works from Crossref REST API"
@@ -110,32 +138,6 @@ namespace :db do
           puts "No works to import."
         end
       end
-    end
-
-    desc "Bulk-load works from standard input"
-    task :load => :environment do
-      begin
-        input = []
-        $stdin.each_line { |line| input << ActiveSupport::Multibyte::Unicode.tidy_bytes(line) } unless $stdin.tty?
-
-        fail Errno::ENOENT, "No works to import." if input.empty?
-      rescue Errno::ENOENT => e
-        puts e.message
-        exit
-      end
-
-      member = ENV['MEMBER']
-      if member.nil? && Publisher.pluck(:member_id).length == 1
-        # if we have only configured a single publisher
-        member = Publisher.pluck(:member_id).first
-      end
-
-      # import in batches of 1,000 works
-      input.each_slice(1000) do |batch|
-        import = FileImport.new(file: batch, member: member)
-        import.queue_work_import
-      end
-      puts "Started import of #{input.length} works in the background..."
     end
 
     desc "Delete works"

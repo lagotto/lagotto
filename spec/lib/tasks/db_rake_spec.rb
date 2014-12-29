@@ -59,7 +59,7 @@ describe "db:works:import:csl" do
   end
 end
 
-describe "db:works:load" do
+describe "db:articles:load" do
   # we are not providing a file to import, so this should raise an error
 
   include_context "rake"
