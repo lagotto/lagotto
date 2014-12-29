@@ -15,8 +15,8 @@ before_script:
   - mkdir -p tmp/pids
 
 script:
-  - bin/rake db:setup RAILS_ENV=test
-  - bin/rspec
+  - bundle exec rake db:setup RAILS_ENV=test
+  - bundle exec rspec
 
 env:
   global:
