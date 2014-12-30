@@ -17,9 +17,9 @@ class Work < ActiveRecord::Base
   has_many :api_responses
 
   validates :pid_type, :pid, :title, presence: true
-  validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_nil: true
-  validates :canonical_url, uniqueness: true, format: { with: URL_FORMAT }, allow_nil: true
-  validates :pid, :pmid, :pmcid, uniqueness: true, allow_nil: true
+  validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
+  validates :canonical_url, uniqueness: true, format: { with: URL_FORMAT }, allow_blank: true
+  validates :pid, :pmid, :pmcid, uniqueness: true, allow_blank: true
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
 

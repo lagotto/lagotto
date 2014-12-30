@@ -24,7 +24,7 @@ describe Work, :type => :model do
 
     it "10.1386//crre.4.1.53_1" do
       work = FactoryGirl.build(:work, :doi => " 10.1386//crre.4.1.53_1")
-      expect(work).to be_valid
+      expect(work).not_to be_valid
     end
 
     it "10.555/12345678" do

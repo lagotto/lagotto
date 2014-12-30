@@ -25,7 +25,7 @@ describe WorksController, :type => :controller do
     end
 
     it "GET canonical_url" do
-      get "/works/url/#{work.canonical_url_escaped}"
+      get "/works/url/#{work.canonical_url}"
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include(work.canonical_url)
     end
