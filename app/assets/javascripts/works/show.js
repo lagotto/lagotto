@@ -85,7 +85,7 @@ function showEvents(data, page) {
         .append("text")
         .html(event["title"]);
 
-      sel_title.classed('discussed_event', function(d) { return event["type"] != "work-journal"; });
+      sel_title.classed('discussed_event', function(d) { return event["type"] != "article-journal"; });
 
       d3.select("#results").append("p")
         .html(event_text)
@@ -181,8 +181,8 @@ function formattedAuthor(author) {
 
 // format event type
 function formattedType(type) {
-  var types = { "work-journal": "Journal work",
-                "work-newspaper": "News",
+  var types = { "article-journal": "Journal article",
+                "article-newspaper": "News",
                 "post": "Blog post",
                 "webpage": "Web page",
                 "broadcast": "Podcast/Video",
