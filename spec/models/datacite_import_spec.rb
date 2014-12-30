@@ -141,7 +141,7 @@ describe DataciteImport, :type => :model do
       result = JSON.parse(body)
       result["response"]["docs"][5]["title"] = []
       response = import.parse_data(result)
-      expect(response.length).to eq(10)
+      expect(response.compact.length).to eq(10)
 
       work = response[5]
       expect(work[:doi]).to eq("10.5061/DRYAD.NK151/2")
@@ -156,8 +156,7 @@ describe DataciteImport, :type => :model do
       result = JSON.parse(body)
       items = import.parse_data(result)
       response = import.import_data(items)
-      expect(response.length).to eq(10)
-      expect(response).to eq((1..10).to_a)
+      expect(response.compact.length).to eq(10)
       expect(Alert.count).to eq(0)
     end
 
@@ -168,8 +167,7 @@ describe DataciteImport, :type => :model do
       result = JSON.parse(body)
       items = import.parse_data(result)
       response = import.import_data(items)
-      expect(response.length).to eq(10)
-      expect(response).to eq((1..10).to_a)
+      expect(response.compact.length).to eq(10)
       expect(Alert.count).to eq(0)
     end
 
@@ -181,7 +179,6 @@ describe DataciteImport, :type => :model do
       items[0][:title] = nil
       response = import.import_data(items)
       expect(response.compact.length).to eq(9)
-      expect(response.compact).to eq((1..9).to_a)
       expect(Alert.count).to eq(1)
       alert = Alert.first
       expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")

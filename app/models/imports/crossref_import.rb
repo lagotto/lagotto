@@ -62,11 +62,7 @@ class CrossrefImport < Import
     @filter += ",type:#{type}" if type
     @filter += ",issn:#{issn}" if issn
 
-    if @member.present?
-      @filter += @member.reduce("") do |sum, m|
-        sum + ",member:#{m}"
-      end
-    end
+    @filter += @member.reduce("") { |sum, m| sum + ",member:#{m}" } if @member.present?
   end
 
   def total_results

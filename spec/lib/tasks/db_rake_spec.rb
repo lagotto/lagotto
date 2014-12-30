@@ -24,6 +24,7 @@ describe "db:works:import:crossref" do
     stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'crossref_import.json'))
     stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
     expect(capture_stdout { subject.invoke }).to eq(output)
+    ENV['SAMPLE'] = nil
   end
 end
 
@@ -85,6 +86,7 @@ describe "db:works:delete" do
   it "should run" do
     ENV['MEMBER'] = "all"
     expect(capture_stdout { subject.invoke }).to eq(output)
+    ENV['MEMBER'] = nil
   end
 end
 
