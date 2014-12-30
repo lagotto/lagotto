@@ -113,7 +113,7 @@ class Work < ActiveRecord::Base
   def query_string
     return nil unless doi.present? || canonical_url.present?
 
-    [doi, canonical_url].reject { |i| i.nil? }.map { |i| "\"#{i}\"" }.join("+OR+")
+    [doi, canonical_url].compact.map { |i| "\"#{i}\"" }.join("+OR+")
   end
 
   def get_url

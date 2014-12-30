@@ -68,6 +68,10 @@ github = Github.where(name: 'github').first_or_create(
   :display_name => 'Github',
   :description => 'GitHub is a web-based Git repository hosting service.',
   :group_id => saved.id)
+plos_fulltext = PlosFulltext.where(name: 'plos_fulltext').first_or_create(
+  :display_name => 'PLOS Fulltext Search',
+  :description => 'Search the PLOS corpus for citations.',
+  :group_id => cited.id)
 
 # The following sources require passwords/API keys and are installed by default
 crossref = CrossRef.where(name: 'crossref').first_or_create(

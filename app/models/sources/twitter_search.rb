@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class TwitterSearch < Source
   def get_query_url(work, options = {})
     return nil unless get_access_token && work.get_url

@@ -1,0 +1,23 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "docs": [
+      {
+        "id": "10.1371/journal.pcbi.1003833",
+        "cross_published_journal_name": [
+          "PLOS Computational Biology",
+          "PLOS Collections"
+        ],
+        "publication_date": "2014-09-11T00:00:00Z",
+        "article_type": "Editorial",
+        "author_display": [
+          "Nicolas P. Rougier",
+          "Michael Droettboom",
+          "Philip E. Bourne"
+        ],
+        "title": "Ten Simple Rules for Better Figures"
+      }
+    ]
+  }
+}

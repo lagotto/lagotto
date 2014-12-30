@@ -63,7 +63,8 @@ class CrossRef < Source
             'container-title' => item.fetch('journal_title') { '' },
             'issued' => get_date_parts_from_parts(item['year']),
             'url' => url,
-            'type' => 'article-journal' } }
+            'type' => 'article-journal' }
+        }
       end
     end.compact
   end
