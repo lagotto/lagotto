@@ -7,7 +7,7 @@ class RetrievalHistoryJob < ActiveJob::Base
 
   queue_as :low_priority
 
-  def perform(*args)
+  def perform(rh_ids)
     rh_ids.each { | rh_id | remove_lagotto_data(rh_id) }
   end
 end

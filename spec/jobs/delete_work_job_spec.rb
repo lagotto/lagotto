@@ -1,5 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe DeleteWorkJob, :type => :job do
-  pending "add some examples to (or delete) #{__FILE__}"
+  include ActiveJob::TestHelper
+
+  let(:publisher) { FactoryGirl.create(:publisher) }
+
+  it "enqueue jobs" do
+    expect(enqueued_jobs.size).to eq(0)
+    DeleteWorkJob.perform_later(publisher.member_id)
+    expect(enqueued_jobs.size).to eq(1)
+  end
 end

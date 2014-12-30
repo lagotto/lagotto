@@ -1,5 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe InsertRetrievalJob, :type => :job do
-  pending "add some examples to (or delete) #{__FILE__}"
+  include ActiveJob::TestHelper
+
+  let(:source) { FactoryGirl.create(:source) }
+
+  it "enqueue jobs" do
+    expect(enqueued_jobs.size).to eq(0)
+    InsertRetrievalJob.perform_later(source)
+    expect(enqueued_jobs.size).to eq(1)
+  end
 end
