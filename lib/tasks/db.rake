@@ -45,7 +45,7 @@ namespace :db do
         when "sample"
           member = ENV['MEMBER'].presence
           sample = (ENV['SAMPLE'].presence || 20).to_i
-        else
+        when "crossref"
           member = ENV['MEMBER'].presence
           sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
         end
