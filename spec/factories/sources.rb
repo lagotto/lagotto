@@ -380,7 +380,7 @@ FactoryGirl.define do
     name "article_coverage"
     display_name "Article Coverage"
     state_event "activate"
-    url "http://example.org?doi=%{doi}"
+    url "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all"
 
     group
 
@@ -392,7 +392,7 @@ FactoryGirl.define do
     name "article_coverage_curated"
     display_name "Article Coverage Curated"
     state_event "activate"
-    url "http://example.org?doi=%{doi}"
+    url "http://mediacuration.plos.org/api/v1?doi=%{doi}"
 
     group
 
