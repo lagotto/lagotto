@@ -5,6 +5,8 @@ describe Mendeley, :type => :model do
   subject { FactoryGirl.create(:mendeley) }
 
   context "CSV report" do
+    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+
     let(:url) { "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley" }
 
     it "should format the CouchDB report as csv" do
