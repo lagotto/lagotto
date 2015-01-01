@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://mediacuration.plos.org/api/v1?doi=10.1371/journal.pone.0047712&state=all
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 01 Jan 2015 16:44:02 GMT
+      Server:
+      - Apache/2.2.15 (CentOS)
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Etag:
+      - '"3eaa680e20365244e2b880a48c7c13bc"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 45c1a674e902d8612eebc0f9a9df0b58
+      X-Runtime:
+      - '0.018166'
+      X-Rack-Cache:
+      - miss
+      X-Powered-By:
+      - Phusion Passenger 4.0.41
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"doi":"10.1371/journal.pone.0047712","referrals":[{"referral":"http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html","language":"","title":"Everything
+        You Know About Your Personal Hygiene Is Wrong ","type":"News","publication":"Huffington
+        Post","published_on":"2013-11-26T00:00:00Z","link_state":"APPROVED"},{"referral":"http://news.nationalgeographic.com/news/2012/11/121114-belly-button-bacteria-science-health-dunn/","language":"English","title":"What
+        Lives in Your Belly Button? Study Finds \"Rain Forest\" of Species","type":"News","publication":"National
+        Geographic Society","published_on":"","link_state":""},{"referral":"http://www.wildlifeofyourbody.org/?page_id=1348","language":"English","title":"Project
+        Description @ Belly Button Biodiversity","type":"Blog","publication":"","published_on":"","link_state":""},{"referral":"http://www.yourwildlife.org/?p=2230","language":"English","title":"Your
+        Wild Life \u2013 Welcome to the Jungle","type":"Blog","publication":"","published_on":"","link_state":""},{"referral":"http://www.iflscience.com/node/582","language":"English","title":"The
+        Organisms That Make Us Who We Are | I Fucking Love Science","type":"Blog","publication":"","published_on":"","link_state":""},{"referral":"http://www.theatlantic.com/health/archive/2012/12/1-458-bacteria-species-new-to-science-found-in-our-belly-buttons/266360/","language":"English","title":"1,458
+        Bacteria Species ''New to Science'' Found in Our Belly Buttons - James Hamblin
+        - The Atlantic","type":"Blog","publication":"","published_on":"","link_state":""},{"referral":"http://navels.yourwildlife.org/?p=444","language":"English","title":"Belly
+        Button Biodiversity \u2013 Results & Data","type":"Blog","publication":"","published_on":"","link_state":""},{"referral":"http://www.huffingtonpost.fr/2013/11/11/avoir-bonne-hygiene_n_4252624.html","language":"French","title":"Bonne
+        hygi\u00e8ne personnelle : tout ce que vous croyez savoir est faux","type":"Discussion
+        board","publication":"","published_on":"","link_state":""}]}'
+    http_version: 
+  recorded_at: Thu, 01 Jan 2015 16:41:58 GMT
+recorded_with: VCR 2.9.3
