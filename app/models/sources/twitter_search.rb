@@ -1,6 +1,6 @@
 class TwitterSearch < Source
   def get_query_url(work, options = {})
-    return nil unless get_access_token && work.get_url
+    return nil unless get_access_token && url.present? && work.get_url
 
     url % { :query_string => work.query_string }
   end
