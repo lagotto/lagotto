@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RetrievalStatus, :type => :model do
+describe RetrievalStatus, type: :model, vcr: true do
   before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
   it { is_expected.to belong_to(:work) }

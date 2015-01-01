@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Wos < Source
   def get_query_url(work)
     return nil unless work.doi.present?

@@ -1,7 +1,7 @@
 require 'rails_helper'
 require "cancan/matchers"
 
-describe User, :type => :model do
+describe User, type: :model, vcr: true do
 
   subject { FactoryGirl.create(:user) }
 

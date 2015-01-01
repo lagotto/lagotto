@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Status, :type => :model do
+describe Status, type: :model, vcr: true do
   subject { Status.new }
 
   before(:each) do
@@ -10,8 +10,6 @@ describe Status, :type => :model do
     FactoryGirl.create(:delayed_job)
     FactoryGirl.create_list(:api_request, 4)
     FactoryGirl.create_list(:api_response, 6)
-    body = File.read(fixture_path + 'releases.json')
-    stub_request(:get, "https://api.github.com/repos/articlemetrics/lagotto/releases").to_return(body: body)
     StatusCacheJob.perform_later
   end
 
@@ -44,6 +42,6 @@ describe Status, :type => :model do
   end
 
   it "current_version" do
-    expect(subject.current_version).to eq("3.6.3")
+    expect(subject.current_version).to eq("3.11")
   end
 end
