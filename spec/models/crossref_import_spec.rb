@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CrossrefImport, :type => :model do
+describe CrossrefImport, type: :model, vcr: true do
 
   before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
@@ -72,36 +72,16 @@ describe CrossrefImport, :type => :model do
   context "get_data" do
     it "should get_data default" do
       import = CrossrefImport.new
-      body = File.read(fixture_path + 'crossref_import.json')
-      stub = stub_request(:get, import.query_url).to_return(:body => body)
       response = import.get_data
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["message"]["total-results"]).to eq(55855)
+      item = response["message"]["items"].first
+      expect(item["DOI"]).to eq("10.3138/9781442618077_8")
     end
 
     it "should get_data default no data" do
-      import = CrossrefImport.new
-      body = File.read(fixture_path + 'crossref_import_nil.json')
-      stub = stub_request(:get, import.query_url).to_return(:body => body)
+      import = CrossrefImport.new(type: "xxx")
       response = import.get_data
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
-    end
-
-    it "should get_data access denied error" do
-      import = CrossrefImport.new
-      body = File.read(fixture_path + 'access_denied.txt')
-      error = "the server responded with status 401 for http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-05%2Cuntil-pub-date%3A2013-09-05&offset=0&rows=1000"
-      stub = stub_request(:get, import.query_url).to_return(:body => body, :status => 401)
-      response = import.get_data
-      expect(response).to eq(error: error, status: 401)
-      expect(stub).to have_been_requested
-
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPUnauthorized")
-      expect(alert.message).to eq(error)
-      expect(alert.status).to eq(401)
+      expect(response["message"]["total-results"]).to eq(0)
     end
 
     it "should get_data timeout error" do
@@ -215,8 +195,7 @@ describe CrossrefImport, :type => :model do
       result = JSON.parse(body)
       items = import.parse_data(result)
       response = import.import_data(items)
-      expect(response.length).to eq(10)
-      expect(response).to eq((1..10).to_a)
+      expect(response.compact.length).to eq(10)
       expect(Alert.count).to eq(0)
     end
 
@@ -227,8 +206,7 @@ describe CrossrefImport, :type => :model do
       result = JSON.parse(body)
       items = import.parse_data(result)
       response = import.import_data(items)
-      expect(response.length).to eq(10)
-      expect(response).to eq((1..10).to_a)
+      expect(response.compact.length).to eq(10)
       expect(Alert.count).to eq(0)
     end
 
@@ -240,7 +218,6 @@ describe CrossrefImport, :type => :model do
       items[0][:title] = nil
       response = import.import_data(items)
       expect(response.compact.length).to eq(9)
-      expect(response.compact).to eq((1..9).to_a)
       expect(Alert.count).to eq(1)
       alert = Alert.first
       expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
