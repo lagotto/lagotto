@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.000001036%22&srwhat=text
+    uri: http://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000023%22&srwhat=text
     body:
       encoding: US-ASCII
       string: ''
@@ -31,19 +31,19 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Varnish:
-      - 2729968701, 3175528755, 3176157612
+      - 2799572443, 3182049803, 3188553593
       Via:
       - 1.1 varnish, 1.1 varnish, 1.1 varnish
       Transfer-Encoding:
       - chunked
       Date:
-      - Thu, 01 Jan 2015 13:49:17 GMT
+      - Thu, 01 Jan 2015 17:01:58 GMT
       Age:
       - '0'
       Connection:
       - keep-alive
       X-Cache:
-      - cp1054 miss (0), cp4017 miss (0), cp4008 frontend miss (0)
+      - cp1068 miss (0), cp4017 miss (0), cp4008 frontend miss (0)
       X-Analytics:
       - php=hhvm
       Set-Cookie:
@@ -55,10 +55,10 @@ http_interactions:
         formatting, use the ''rawcontinue'' parameter. To begin using the new format,
         pass an empty string for ''continue'' in the initial query."}},"query":{"searchinfo":{"totalhits":2},"search":[{"ns":0,"title":"Lesula","timestamp":"2014-05-24T12:54:07Z"}]}}'
     http_version: 
-  recorded_at: Thu, 01 Jan 2015 13:48:09 GMT
+  recorded_at: Thu, 01 Jan 2015 16:59:54 GMT
 - request:
     method: get
-    uri: http://commons.wikimedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=6&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.000001036%22&srwhat=text
+    uri: http://commons.wikimedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=6&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000023%22&srwhat=text
     body:
       encoding: US-ASCII
       string: ''
@@ -87,19 +87,19 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Varnish:
-      - 3685309328, 2628948941, 936768403
+      - 632766440, 3885301217, 949132547
       Via:
       - 1.1 varnish, 1.1 varnish, 1.1 varnish
       Transfer-Encoding:
       - chunked
       Date:
-      - Thu, 01 Jan 2015 13:49:23 GMT
+      - Thu, 01 Jan 2015 17:02:04 GMT
       Age:
       - '0'
       Connection:
       - keep-alive
       X-Cache:
-      - cp1067 miss (0), cp4010 miss (0), cp4009 frontend miss (0)
+      - cp1052 miss (0), cp4016 miss (0), cp4009 frontend miss (0)
       X-Analytics:
       - php=hhvm
       Set-Cookie:
@@ -112,5 +112,5 @@ http_interactions:
         pass an empty string for ''continue'' in the initial query."}},"query":{"searchinfo":{"totalhits":8},"search":[{"ns":6,"title":"File:Cercopithecus
         lomamiensis Female.jpg","timestamp":"2013-08-29T21:27:22Z"}]}}'
     http_version: 
-  recorded_at: Thu, 01 Jan 2015 13:48:15 GMT
+  recorded_at: Thu, 01 Jan 2015 17:00:00 GMT
 recorded_with: VCR 2.9.3
