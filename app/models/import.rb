@@ -8,6 +8,9 @@ class Import
   # include date helper methods
   include Dateable
 
+  # include time helper methods
+  include Measurable
+
   # include DOI helper methods
   include Resolvable
 

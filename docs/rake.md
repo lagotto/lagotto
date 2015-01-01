@@ -52,6 +52,36 @@ bin/rake db:works:import:crossref MEMBER=4374 FROM_UPDATE_DATE=2014 UNTIL_UPDATE
 
 When `import=member` or `import=member_sample` is set in the configuration, the `MEMBER` parameter can be ignored.
 
+Bulk-load works via the DataCite API:
+
+```sh
+bin/rake db:works:import:datacite
+```
+
+The command takes the following optional parameters via ENV variables
+
+```sh
+FROM_UPDATE_DATE=2014-02-05
+UNTIL_UPDATE_DATE=2014-03
+FROM_PUB_DATE=2014-01-01
+UNTIL_UPDATE_DATE=2014-07-01
+MEMBER=CDL.DRYAD
+TYPE=Dataset
+```
+
+Bulk-load works via the PLOS Search API:
+
+```sh
+bin/rake db:works:import:plos
+```
+
+The command takes the following optional parameters via ENV variables
+
+```sh
+FROM_PUB_DATE=2014-01-01
+UNTIL_UPDATE_DATE=2014-07-01
+```
+
 Bulk-load a file consisting of DOIs, one per line. It'll ignore (but count) invalid ones and those that already exist in the database:
 
 ```sh
