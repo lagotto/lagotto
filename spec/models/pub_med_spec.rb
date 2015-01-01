@@ -1,33 +1,26 @@
 require 'rails_helper'
 
-describe PubMed, :type => :model do
+describe PubMed, type: :model, vcr: true do
   subject { FactoryGirl.create(:pub_med) }
 
   let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001", :pmid => "17183631", :pmcid => "1762328") }
 
   context "get_data" do
-    it "should report that there are no events if the pmid is missing" do
-      work = FactoryGirl.build(:work, :pmid => "")
-      pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{work.doi_escaped}&idtype=doi&format=json"
-      stub = stub_request(:get, pubmed_url).to_return(:body => File.read(fixture_path + 'persistent_identifiers_nil.json'))
+    it "should report that there are no events if the doi and pmid are missing" do
+      work = FactoryGirl.build(:work, doi: nil, pmid: nil)
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PubMed API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776", :pmid => "1897483599", :pmcid => "2808249")
-      body = File.read(fixture_path + 'pub_med_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(Hash.from_xml(body))
-      expect(stub).to have_been_requested
+      expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"]).to be_nil
     end
 
     it "should report if there are events and event_count returned by the PubMed API" do
-      body = File.read(fixture_path + 'pub_med.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(Hash.from_xml(body))
-      expect(stub).to have_been_requested
+      expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].length).to eq(16)
+      expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].first).to eq("1976277")
     end
 
     it "should catch errors with the PubMed API" do

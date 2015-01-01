@@ -2,7 +2,7 @@
 
 class PubMed < Source
   def get_query_url(work)
-    return nil unless work.get_ids && work.pmid.present?
+    return nil unless url.present? && work.get_ids && work.pmid.present?
 
     url % { :pmid => work.pmid }
   end
