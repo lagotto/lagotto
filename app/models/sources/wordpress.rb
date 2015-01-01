@@ -25,7 +25,7 @@ class Wordpress < Source
   end
 
   def get_query_url(work, options = {})
-    return nil unless url.present? && work.query_string.present?
+    return nil unless url.present? && work.get_url
 
     url % { query_string: work.query_string }
   end
@@ -53,6 +53,6 @@ class Wordpress < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 2500
+    config.rate_limiting || 1000
   end
 end
