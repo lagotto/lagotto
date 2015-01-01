@@ -13,14 +13,15 @@ class PlosImport < Import
   end
 
   def query_url(offset = 0, rows = 1000)
-    date_range = "publication_date:[#{@from_pub_date}T00:00:00Z TO #{@until_pub_date}T23:59:59Z]"
     url = "http://api.plos.org/search?"
-    url + URI.encode_www_form("q" => "*:*",
-                              "start" => offset,
-                              "rows" => rows,
-                              "fl" => "id,publication_date,title,cross_published_journal_name,author_display",
-                              "fq" => ["doc_type:full", date_range],
-                              "wt" => "json")
+    date_range = "publication_date:[#{@from_pub_date}T00:00:00Z TO #{@until_pub_date}T23:59:59Z]"
+    params = { q: "*:*",
+               start: offset,
+               rows: rows,
+               fl: "id,publication_date,title,cross_published_journal_name,author_display",
+               fq: "+#{date_range}+doc_type:full",
+               wt: "json" }
+    url + params.to_query
   end
 
   def get_data(offset = 0, options={})
