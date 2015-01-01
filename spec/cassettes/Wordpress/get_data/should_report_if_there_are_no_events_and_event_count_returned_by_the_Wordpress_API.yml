@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://en.search.wordpress.com/?f=json&q=%2210.1371/journal.pone.0044294%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000023%22&size=20&t=post
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 01 Jan 2015 16:24:32 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      X-Hacker:
+      - If you're reading this, you should visit automattic.com/jobs and apply to
+        join the fun, mention this header.
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Ac:
+      - 1.fra _sat
+    body:
+      encoding: UTF-8
+      string: 'null'
+    http_version: 
+  recorded_at: Thu, 01 Jan 2015 16:22:27 GMT
+recorded_with: VCR 2.9.3

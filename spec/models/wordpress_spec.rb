@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe Wordpress, :type => :model do
+describe Wordpress, type: :model, vcr: true do
   subject { FactoryGirl.create(:wordpress) }
 
-  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776", published_on: "2007-07-01") }
+  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pbio.1002020", canonical_url: "", published_on: "2007-07-01") }
 
   context "query_url" do
     it "should return nil if the doi and canonical_url are missing" do
@@ -25,19 +25,15 @@ describe Wordpress, :type => :model do
 
     it "should report if there are no events and event_count returned by the Wordpress API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
-      body = File.read(fixture_path + 'wordpress_nil.json', encoding: 'UTF-8')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq('data' => body)
-      expect(stub).to have_been_requested
+      expect(response).to eq("data"=>"null")
     end
 
     it "should report if there are events and event_count returned by the Wordpress API" do
-      body = File.read(fixture_path + 'wordpress.json', encoding: 'UTF-8')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq('data' => JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["data"].length).to eq(1)
+      data = response["data"].first
+      expect(data["title"]).to eq("Are microbes vital on earth?")
     end
 
     it "should catch errors with the Wordpress API" do
