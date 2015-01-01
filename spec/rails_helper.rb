@@ -37,8 +37,10 @@ include Networkable
 include Couchable
 
 include WebMock::API
-allowed_hosts = [/codeclimate.com/, ENV['HOSTNAME']]
-WebMock.disable_net_connect!(allow: allowed_hosts, allow_localhost: true)
+WebMock.disable_net_connect!(
+  allow: ['codeclimate.com', '10.2.2.4', ENV['HOSTNAME']],
+  allow_localhost: true
+)
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd
@@ -56,6 +58,15 @@ Capybara.javascript_driver = :poltergeist
 Capybara.configure do |config|
   config.match = :prefer_exact
   config.ignore_hidden_elements = true
+end
+
+VCR.configure do |c|
+  c.cassette_library_dir = "spec/cassettes"
+  c.hook_into :webmock
+  c.ignore_localhost = true
+  c.ignore_hosts "codeclimate.com"
+  c.filter_sensitive_data("<API_KEY>") { ENV["API_KEY"] }
+  c.configure_rspec_metadata!
 end
 
 RSpec.configure do |config|

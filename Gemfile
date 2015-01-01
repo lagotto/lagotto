@@ -79,6 +79,7 @@ group :test do
   gem 'codeclimate-test-reporter', '~> 0.4.1', :require => nil
   gem "shoulda-matchers", "~> 2.7.0", :require => false
   gem "webmock", "~> 1.20.0"
+  gem 'vcr', '~> 2.9.3'
   gem "aruba", "~> 0.6.1", :require => false
   gem "poltergeist", "~> 1.5.0"
   gem 'phantomjs', '~> 1.9.7.1', :require => 'phantomjs/poltergeist'

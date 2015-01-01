@@ -1,0 +1,60 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=0&srprop=timestamp&srsearch=%2210.1371/journal.pcbi.1002445%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.000001041%22&srwhat=text
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache
+      X-Powered-By:
+      - HHVM/3.3.1
+      Cache-Control:
+      - private
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Vary:
+      - Accept-Encoding,X-Forwarded-Proto,Cookie
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Varnish:
+      - 461333463, 3878292247, 936770294
+      Via:
+      - 1.1 varnish, 1.1 varnish, 1.1 varnish
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Thu, 01 Jan 2015 13:49:24 GMT
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+      X-Cache:
+      - cp1053 miss (0), cp4016 miss (0), cp4009 frontend miss (0)
+      X-Analytics:
+      - php=hhvm
+      Set-Cookie:
+      - GeoIP=US:San_Francisco:37.7697:-122.3933:v4; Path=/; Domain=.wikipedia.org
+    body:
+      encoding: UTF-8
+      string: '{"query-continue":{"search":{"sroffset":1}},"warnings":{"query":{"*":"Formatting
+        of continuation data will be changing soon. To continue using the current
+        formatting, use the ''rawcontinue'' parameter. To begin using the new format,
+        pass an empty string for ''continue'' in the initial query."}},"query":{"searchinfo":{"totalhits":2},"search":[{"ns":0,"title":"Circular
+        permutation in proteins","timestamp":"2014-06-02T10:47:45Z"}]}}'
+    http_version: 
+  recorded_at: Thu, 01 Jan 2015 13:48:16 GMT
+recorded_with: VCR 2.9.3
