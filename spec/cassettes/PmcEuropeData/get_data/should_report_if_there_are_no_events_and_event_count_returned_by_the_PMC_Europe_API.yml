@@ -1,0 +1,34 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.ebi.ac.uk/europepmc/webservices/rest/MED/20098740/databaseLinks//1/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=C31EEC7CBFB299B2529A647313E195E4; Path=/europepmc
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Thu, 01 Jan 2015 17:48:54 GMT
+    body:
+      encoding: UTF-8
+      string: '{"version":"3.0.1","hitCount":0,"request":{"id":"20098740","source":"MED","database":"","page":0}}'
+    http_version: 
+  recorded_at: Thu, 01 Jan 2015 17:46:51 GMT
+recorded_with: VCR 2.9.3

@@ -1,33 +1,27 @@
 require 'rails_helper'
 
-describe PmcEuropeData, :type => :model do
+describe PmcEuropeData, type: :model, vcr: true do
   subject { FactoryGirl.create(:pmc_europe_data) }
 
   let(:work) { FactoryGirl.build(:work, :pmid => "14624247") }
 
   context "get_data" do
-    it "should report that there are no events if the pmid is missing" do
-      work = FactoryGirl.build(:work, :pmid => "")
-      pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{work.doi_escaped}&idtype=doi&format=json"
-      stub = stub_request(:get, pubmed_url).to_return(:body => File.read(fixture_path + 'persistent_identifiers_nil.json'))
+    it "should report that there are no events if the doi and pmid are missing" do
+      work = FactoryGirl.build(:work, doi: nil, pmid: nil)
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.build(:work, :pmid => "20098740")
-      body = File.read(fixture_path + 'pmc_europe_data_nil.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["hitCount"]).to eq(0)
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
-      body = File.read(fixture_path + 'pmc_europe_data.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["hitCount"]).to eq(27737)
+      cross_reference = response["dbCrossReferenceList"]["dbCrossReference"].first
+      expect(cross_reference["dbCrossReferenceInfo"][0]["info1"]).to eq("CAAC03005225")
     end
 
     it "should catch errors with the PMC Europe API" do

@@ -3,7 +3,7 @@
 class PmcEuropeData < Source
   def get_query_url(work)
     if url.starts_with?("http://www.ebi.ac.uk/europepmc/webservices/rest/MED/")
-      return nil unless work.get_ids && work.pmid.present?
+      return nil unless url.present? && work.get_ids && work.pmid.present?
 
       url % { :pmid => work.pmid }
     elsif url.starts_with?("http://www.ebi.ac.uk/europepmc/webservices/rest/search/query")
