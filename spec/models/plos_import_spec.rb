@@ -1,15 +1,13 @@
 require 'rails_helper'
 
-describe PlosImport, :type => :model do
+describe PlosImport, type: :model, vcr: true do
 
   before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
   context "query_url" do
     it "should have total_results" do
       import = PlosImport.new
-      body = File.read(fixture_path + 'plos_import_no_rows.json')
-      stub = stub_request(:get, import.query_url(offset = 0, rows = 0)).to_return(:body => body)
-      expect(import.total_results).to eq(141711)
+      expect(import.total_results).to eq(3384)
     end
   end
 
@@ -48,20 +46,17 @@ describe PlosImport, :type => :model do
   context "get_data" do
     it "should get_data default" do
       import = PlosImport.new
-      body = File.read(fixture_path + 'plos_import.json')
-      stub = stub_request(:get, import.query_url).to_return(:body => body)
       response = import.get_data
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["response"]["numFound"]).to eq(3384)
+      work = response["response"]["docs"].first
+      expect(work["id"]).to eq("10.1371/journal.pone.0075114")
+      expect(work["title"]).to eq("Fine Tuning of Spatial Arrangement of Enzymes in a PCNA-Mediated Multienzyme Complex Using a Rigid Poly-L-Proline Linker")
     end
 
     it "should get_data default no data" do
-      import = PlosImport.new
-      body = File.read(fixture_path + 'plos_import_nil.json')
-      stub = stub_request(:get, import.query_url).to_return(:body => body)
+      import = PlosImport.new(from_pub_date: "2013-09-01", until_pub_date: "2013-09-01")
       response = import.get_data
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response).to eq("response"=>{"numFound"=>0, "start"=>0, "docs"=>[]})
     end
 
     it "should get_data timeout error" do
