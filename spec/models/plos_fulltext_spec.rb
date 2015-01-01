@@ -8,7 +8,6 @@ describe PlosFulltext, :type => :model do
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => nil)
-      report = FactoryGirl.create(:fatal_error_report_with_admin_user)
       lookup_stub = stub_request(:get, work.doi_as_url).to_return(:status => 404)
       response = subject.get_data(work)
       expect(lookup_stub).to have_been_requested
@@ -67,13 +66,13 @@ describe PlosFulltext, :type => :model do
       expect(subject.parse_data(result, work)).to eq({})
     end
 
-    it "should report if there are no events and event_count returned by the PLOS comments API" do
+    it "should report if there are no events and event_count returned by the PLOS Search API" do
       body = File.read(fixture_path + 'plos_fulltext_nil.json')
       result = JSON.parse(body)
       expect(subject.parse_data(result, work)).to eq(null_response)
     end
 
-    it "should report if there are events and event_count returned by the PLOS comments API" do
+    it "should report if there are events and event_count returned by the PLOS Search API" do
       work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
       body = File.read(fixture_path + 'plos_fulltext.json')
       result = JSON.parse(body)
@@ -97,7 +96,7 @@ describe PlosFulltext, :type => :model do
       expect(event[:event_time]).to eq("2014-09-11T00:00:00Z")
     end
 
-    it "should catch timeout errors with the PLOS comments API" do
+    it "should catch timeout errors with the PLOS Search API" do
       result = { error: "the server responded with status 408 for http://example.org?doi={doi}", status: 408 }
       response = subject.parse_data(result, work)
       expect(response).to eq(result)

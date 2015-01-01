@@ -13,7 +13,7 @@ describe Wordpress, :type => :model do
 
     it "should return a query without doi if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
-      expect(subject.get_query_url(work)).to eq("http://en.search.wordpress.com/?q=\"#{work.canonical_url}\"&t=post&f=json&size=20")
+      expect(subject.get_query_url(work)).to eq("http://en.search.wordpress.com/?q=#{work.query_string}&t=post&f=json&size=20")
     end
   end
 
@@ -44,7 +44,7 @@ describe Wordpress, :type => :model do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
       response = subject.get_data(work, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://en.search.wordpress.com/?q=\"#{work.doi}\"+OR+\"#{work.canonical_url}\"&t=post&f=json&size=20", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for http://en.search.wordpress.com/?q=#{work.query_string}&t=post&f=json&size=20", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first

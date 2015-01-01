@@ -161,12 +161,12 @@ describe Work, :type => :model do
 
   context "query_string" do
     it "generates query" do
-      expect(work.query_string).to eq "\"#{work.doi}\"+OR+\"#{work.canonical_url}\""
+      expect(work.query_string).to eq "%22#{work.doi}\"+OR+\"#{work.canonical_url}%22
     end
 
     it "generates query without doi" do
       work = FactoryGirl.create(:work, doi: nil)
-      expect(work.query_string).to eq "\"#{work.canonical_url}\""
+      expect(work.query_string).to eq "%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.000001245%22"
     end
 
     it "returns nil without doi and canonical_url" do

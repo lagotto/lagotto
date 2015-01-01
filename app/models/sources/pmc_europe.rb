@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class PmcEurope < Source
   def get_query_url(work)
     return nil unless work.get_ids && work.pmid.present?
