@@ -281,7 +281,7 @@ FactoryGirl.define do
     name "counter"
     display_name "Counter"
     state_event "activate"
-    url "http://example.org?doi=%{doi}"
+    url "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
 
     group
 

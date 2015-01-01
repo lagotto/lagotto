@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Counter, :type => :model do
+describe Counter, type: :model, vcr: true do
 
   subject { FactoryGirl.create(:counter) }
 
@@ -30,10 +30,10 @@ describe Counter, :type => :model do
     it "should format the CouchDB HTML report as csv" do
       start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.ppat.1000446", "112", "95", "45"]
+      row = ["doi", "10.1371/journal.ppat.1000446", "92", "58", "82"]
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_html_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_html_report.json'))
-      response = CSV.parse(subject.to_csv(format: "html", month: 11, year: 2013))
+      response = CSV.parse(subject.to_csv(format: "html", month: 7, year: 2013))
       expect(response.count).to eq(27)
       expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response.last).to eq(row)
@@ -42,10 +42,10 @@ describe Counter, :type => :model do
     it "should format the CouchDB PDF report as csv" do
       start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.pbio.0020413", "0", "0", "1"]
+      row = ["doi", "10.1371/journal.pbio.0020413", "0", "1", "3"]
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_pdf_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_pdf_report.json'))
-      response = CSV.parse(subject.to_csv(format: "pdf", month: 11, year: 2013))
+      response = CSV.parse(subject.to_csv(format: "pdf", month: 7, year: 2013))
       expect(response.count).to eq(27)
       expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response[2]).to eq(row)
@@ -57,7 +57,7 @@ describe Counter, :type => :model do
       row = ["doi", "10.1371/journal.pbio.0020413", "0", "0", "0"]
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_xml_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_xml_report.json'))
-      response = CSV.parse(subject.to_csv(format: "xml", month: 11, year: 2013))
+      response = CSV.parse(subject.to_csv(format: "xml", month: 7, year: 2013))
       expect(response.count).to eq(27)
       expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response[2]).to eq(row)
@@ -66,10 +66,10 @@ describe Counter, :type => :model do
     it "should format the CouchDB combined report as csv" do
       start_date = Time.zone.now.to_date - 2.months
       dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.pbio.0030137", "165", "149", "61"]
+      row = ["doi", "10.1371/journal.pbio.0030137", "68", "87", "112"]
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_combined_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_combined_report.json'))
-      response = CSV.parse(subject.to_csv(format: "combined", month: 11, year: 2013))
+      response = CSV.parse(subject.to_csv(format: "combined", month: 7, year: 2013))
       expect(response.count).to eq(27)
       expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response[3]).to eq(row)
@@ -79,7 +79,7 @@ describe Counter, :type => :model do
       FactoryGirl.create(:fatal_error_report_with_admin_user)
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter"
       stub = stub_request(:get, url).to_return(:status => [404])
-      expect(subject.to_csv).to be_nil
+      expect(subject.to_csv).to be_blank
       expect(Alert.count).to eq(1)
       alert = Alert.first
       expect(alert.class_name).to eq("Faraday::ResourceNotFound")
@@ -110,18 +110,16 @@ describe Counter, :type => :model do
     end
 
     it "should report if there are events and event_count returned by the Counter API" do
-      body = File.read(fixture_path + 'counter.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(Hash.from_xml(body))
-      expect(response['rest']['response']['results']['item'].length).to eq(37)
-      expect(stub).to have_been_requested
+      expect(response["rest"]["response"]["criteria"]).to eq("year"=>"all", "month"=>"all", "journal"=>"all", "doi"=>work.doi)
+      expect(response["rest"]["response"]["results"]["total"]["total"]).to eq("5514")
+      expect(response["rest"]["response"]["results"]["item"].length).to eq(60)
     end
 
     it "should catch timeout errors with the Counter API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
       response = subject.get_data(work, source_id: subject.id)
-      expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for http://www.plosreports.org/services/rest?method=usage.stats&doi=#{work.doi_escaped}", status: 408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first

@@ -70,7 +70,7 @@ class Counter < Source
                    source_id: id,
                    status: 404,
                    level: Alert::FATAL)
-      return nil
+      return ""
     end
 
     if view == "counter"
