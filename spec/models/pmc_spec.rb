@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Pmc, :type => :model do
+describe Pmc, type: :model, vcr: true do
 
   subject { FactoryGirl.create(:pmc) }
 
@@ -32,7 +32,7 @@ describe Pmc, :type => :model do
       row.fill("0", 3..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_html_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_html_report.json'))
-      response = CSV.parse(subject.to_csv(format: "html", month: 11, year: 2013))
+      response = CSV.parse(subject.to_csv(format: "html", month: 7, year: 2013))
       expect(response.count).to eq(25)
       expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response.last).to eq(row)
@@ -44,7 +44,7 @@ describe Pmc, :type => :model do
       row = ["doi", "10.1371/journal.pbio.0030137", "0", "0"]
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_pdf_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_pdf_report.json'))
-      response = CSV.parse(subject.to_csv(format: "pdf", month: 11, year: 2013))
+      response = CSV.parse(subject.to_csv(format: "pdf", month: 7, year: 2013))
       expect(response.count).to eq(25)
       expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response[2]).to eq(row)
@@ -56,7 +56,7 @@ describe Pmc, :type => :model do
       row = ["doi", "10.1371/journal.pbio.0040015", "9", "10"]
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_combined_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_combined_report.json'))
-      response = CSV.parse(subject.to_csv(format: "combined", month: 11, year: 2013))
+      response = CSV.parse(subject.to_csv(format: "combined", month: 7, year: 2013))
       expect(response.count).to eq(25)
       expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response[3]).to eq(row)
