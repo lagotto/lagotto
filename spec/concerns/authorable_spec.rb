@@ -16,7 +16,7 @@ describe Source do
 
     it 'should handle author in comma-delimited format' do
       author = "Zaranek, Alexander W."
-      result = subject.get_one_author(author, sep = ", ", reversed = true)
+      result = subject.get_one_author(author, sep: ", ", reversed: true)
       expect(result).to eq("family"=>"Zaranek", "given"=>"Alexander W.")
     end
   end
@@ -30,7 +30,7 @@ describe Source do
 
     it 'should handle author in comma-delimited format' do
       authors = ["Ball, Madeline P.", "Zaranek, Alexander W."]
-      result = subject.get_authors(authors, sep = ", ", reversed = true)
+      result = subject.get_authors(authors, sep: ", ", reversed: true)
       expect(result).to eq([{"family"=>"Ball", "given"=>"Madeline P."}, {"family"=>"Zaranek", "given"=>"Alexander W."}])
     end
   end

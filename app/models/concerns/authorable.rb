@@ -3,11 +3,11 @@ module Authorable
 
   included do
     # parse author string into CSL format
-    def get_one_author(author, sep = " ", reversed = false)
+    def get_one_author(author, options = { sep: " " })
       return "" if author.blank?
 
-      name_parts = author.split(sep)
-      if reversed
+      name_parts = author.split(options[:sep])
+      if options[:reversed]
         family = name_parts.first
         given = name_parts.length > 1 ? name_parts[1..-1].join(" ") : ""
       else
@@ -20,8 +20,8 @@ module Authorable
     end
 
     # parse array of author strings into CSL format
-    def get_authors(authors, sep = " ", reversed = false)
-      authors.map { |author| get_one_author(author, sep, reversed) }
+    def get_authors(authors, options = { sep: " " })
+      authors.map { |author| get_one_author(author, options) }
     end
   end
 end
