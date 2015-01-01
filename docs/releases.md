@@ -13,6 +13,7 @@ title: "Releases"
 * added PLOS Fulltext Search as new source ([#209](https://github.com/articlemetrics/lagotto/issues/209))
 * added Europe PMC Fulltext Search as new source ([#210](https://github.com/articlemetrics/lagotto/issues/210))
 * added import of works via the PLOS Search API ([#211](https://github.com/articlemetrics/lagotto/issues/211))
+* added tests of external APIs using [vcr](https://github.com/vcr/vcr) ([#212](https://github.com/articlemetrics/lagotto/issues/212))
 
 The automatic import of works - configured in the `.env` file - has changed:
 
