@@ -1,33 +1,27 @@
 require 'rails_helper'
 
-describe PmcEurope, :type => :model do
+describe PmcEurope, type: :model, vcr: true do
   subject { FactoryGirl.create(:pmc_europe) }
 
   let(:work) { FactoryGirl.build(:work, :pmid => "17183631") }
 
   context "get_data" do
-    it "should report that there are no events if the pmid is missing" do
-      work = FactoryGirl.build(:work, :pmid => "")
-      pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{work.doi_escaped}&idtype=doi&format=json"
-      stub = stub_request(:get, pubmed_url).to_return(:body => File.read(fixture_path + 'persistent_identifiers_nil.json'))
+    it "should report that there are no events if the pmid and doi are missing" do
+      work = FactoryGirl.build(:work, doi: nil, :pmid => nil)
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.build(:work, :pmid => "20098740")
-      body = File.read(fixture_path + 'pmc_europe_nil.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["hitCount"]).to eq(0)
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
-      body = File.read(fixture_path + 'pmc_europe.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["hitCount"]).to eq(28)
+      citation = response["citationList"]["citation"].first
+      expect(citation["title"]).to eq("Central neural pathways for thermoregulation.")
     end
 
     it "should catch errors with the PMC Europe API" do

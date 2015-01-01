@@ -1,0 +1,115 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.ebi.ac.uk/europepmc/webservices/rest/MED/17183631/citations/1/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=97F098C520BE33F11451FE81E64E81B5; Path=/europepmc
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Thu, 01 Jan 2015 17:30:28 GMT
+    body:
+      encoding: UTF-8
+      string: '{"version":"3.0.1","hitCount":28,"request":{"id":"17183631","source":"MED","page":0},"citationList":{"citation":[{"id":"21196160","source":"MED","citationType":"Journal
+        Article","title":"Central neural pathways for thermoregulation.","authorString":"Morrison
+        SF, Nakamura K.","journalAbbreviation":"Front Biosci (Landmark Ed)","pubYear":2011,"volume":"16","pageInfo":"74-104","citedByCount":59},{"id":"19749171","source":"MED","citationType":"Journal
+        Article","title":"The transient receptor potential vanilloid-1 channel in
+        thermoregulation: a thermosensor it is not.","authorString":"Romanovsky AA,
+        Almeida MC, Garami A, Steiner AA, Norman MH, Morrison SF, Nakamura K, Burmeister
+        JJ, Nucci TB.","journalAbbreviation":"Pharmacol. Rev.","pubYear":2009,"volume":"61","issue":"3","pageInfo":"228-261","citedByCount":51},{"id":"19776281","source":"MED","citationType":"Journal
+        Article","title":"Parallel preoptic pathways for thermoregulation.","authorString":"Yoshida
+        K, Li X, Cano G, Lazarus M, Saper CB.","journalAbbreviation":"J. Neurosci.","pubYear":2009,"volume":"29","issue":"38","pageInfo":"11954-11964","citedByCount":44},{"id":"20107070","source":"MED","citationType":"Journal
+        Article","title":"Contributions of different modes of TRPV1 activation to
+        TRPV1 antagonist-induced hyperthermia.","authorString":"Garami A, Shimansky
+        YP, Pakai E, Oliveira DL, Gavva NR, Romanovsky AA.","journalAbbreviation":"J.
+        Neurosci.","pubYear":2010,"volume":"30","issue":"4","pageInfo":"1435-1440","citedByCount":30},{"id":"17275915","source":"MED","citationType":"Journal
+        Article","title":"Leptin: at the crossroads of energy balance and systemic
+        inflammation.","authorString":"Steiner AA, Romanovsky AA.","journalAbbreviation":"Prog.
+        Lipid Res.","pubYear":2007,"volume":"46","issue":"2","pageInfo":"89-107","citedByCount":21},{"id":"21270352","source":"MED","citationType":"Lectures","title":"2010
+        Carl Ludwig Distinguished Lectureship of the APS Neural Control and Autonomic
+        Regulation Section: Central neural pathways for thermoregulatory cold defense.","authorString":"Morrison
+        SF.","journalAbbreviation":"J. Appl. Physiol.","pubYear":2011,"volume":"110","issue":"5","pageInfo":"1137-1149","citedByCount":21},{"id":"21116297","source":"MED","citationType":"Journal
+        Article","title":"Stress responses: the contribution of prostaglandin E(2)
+        and its receptors.","authorString":"Furuyashiki T, Narumiya S.","journalAbbreviation":"Nat
+        Rev Endocrinol","pubYear":2011,"volume":"7","issue":"3","pageInfo":"163-175","citedByCount":20},{"id":"17927775","source":"MED","citationType":"Journal
+        Article","title":"Stress- and lipopolysaccharide-induced c-fos expression
+        and nNOS in hypothalamic neurons projecting to medullary raphe in rats: a
+        triple immunofluorescent labeling study.","authorString":"Sarkar S, Zaretskaia
+        MV, Zaretsky DV, Moreno M, DiMicco JA.","journalAbbreviation":"Eur. J. Neurosci.","pubYear":2007,"volume":"26","issue":"8","pageInfo":"2228-2238","citedByCount":14},{"id":"19252922","source":"MED","citationType":"Journal
+        Article","title":"Proliferation of neuronal progenitor cells and neuronal
+        differentiation in the hypothalamus are enhanced in heat-acclimated rats.","authorString":"Matsuzaki
+        K, Katakura M, Hara T, Li G, Hashimoto M, Shido O.","journalAbbreviation":"Pflugers
+        Arch.","pubYear":2009,"volume":"458","issue":"4","pageInfo":"661-673","citedByCount":13},{"id":"19949811","source":"MED","citationType":"Journal
+        Article","title":"Multiple thermoregulatory effectors with independent central
+        controls.","authorString":"McAllen RM, Tanaka M, Ootsuka Y, McKinley MJ.","journalAbbreviation":"Eur.
+        J. Appl. Physiol.","pubYear":2010,"volume":"109","issue":"1","pageInfo":"27-33","citedByCount":12},{"id":"18413319","source":"MED","citationType":"Journal
+        Article","title":"Complete sequence of the floR-carrying multiresistance plasmid
+        pAB5S9 from freshwater Aeromonas bestiarum.","authorString":"Gordon L, Cloeckaert
+        A, Doublet B, Schwarz S, Bouju-Albert A, Ganiere JP, Le Bris H, Le Fleche-Mateos
+        A, Giraud E.","journalAbbreviation":"J. Antimicrob. Chemother.","pubYear":2008,"volume":"62","issue":"1","pageInfo":"65-71","citedByCount":11},{"id":"19515980","source":"MED","citationType":"Journal
+        Article","title":"Cyclooxygenase-1 or -2--which one mediates lipopolysaccharide-induced
+        hypothermia?","authorString":"Steiner AA, Hunter JC, Phipps SM, Nucci TB,
+        Oliveira DL, Roberts JL, Scheck AC, Simmons DL, Romanovsky AA.","journalAbbreviation":"Am.
+        J. Physiol. Regul. Integr. Comp. Physiol.","pubYear":2009,"volume":"297","issue":"2","pageInfo":"R485-94","citedByCount":11},{"id":"18386391","source":"MED","citationType":"Journal
+        Article","title":"The preoptic anterior hypothalamic area mediates initiation
+        of the hypotensive response induced by LPS in male rats.","authorString":"Yilmaz
+        MS, Millington WR, Feleder C.","journalAbbreviation":"Shock","pubYear":2008,"volume":"29","issue":"2","pageInfo":"232-237","citedByCount":6},{"id":"18617624","source":"MED","citationType":"Journal
+        Article","title":"Nicotine administration and withdrawal affect survival in
+        systemic inflammation models.","authorString":"Steiner AA, Oliveira DL, Roberts
+        JL, Petersen SR, Romanovsky AA.","journalAbbreviation":"J. Appl. Physiol.","pubYear":2008,"volume":"105","issue":"4","pageInfo":"1028-1034","citedByCount":6},{"id":"22389645","source":"MED","citationType":"Journal
+        Article","title":"Central control of brown adipose tissue thermogenesis.","authorString":"Morrison
+        SF, Madden CJ, Tupone D.","journalAbbreviation":"Front Endocrinol (Lausanne)","pubYear":2012,"volume":"3","issue":"5","citedByCount":6},{"id":"19703527","source":"MED","citationType":"Journal
+        Article","title":"Thermoregulation in the cold changes depending on the time
+        of day and feeding condition: physiological and anatomical analyses of involved
+        circadian mechanisms.","authorString":"Tokizawa K, Uchida Y, Nagashima K.","journalAbbreviation":"Neuroscience","pubYear":2009,"volume":"164","issue":"3","pageInfo":"1377-1386","citedByCount":5},{"id":"20393159","source":"MED","citationType":"Journal
+        Article","title":"Food deprivation alters thermoregulatory responses to lipopolysaccharide
+        by enhancing cryogenic inflammatory signaling via prostaglandin D2.","authorString":"Krall
+        CM, Yao X, Hass MA, Feleder C, Steiner AA.","journalAbbreviation":"Am. J.
+        Physiol. Regul. Integr. Comp. Physiol.","pubYear":2010,"volume":"298","issue":"6","pageInfo":"R1512-21","citedByCount":5},{"id":"23327512","source":"MED","citationType":"Journal
+        Article","title":"Stem cell biology is population biology: differentiation
+        of hematopoietic multipotent progenitors to common lymphoid and myeloid progenitors.","authorString":"Mangel
+        M, Bonsall MB.","journalAbbreviation":"Theor Biol Med Model","pubYear":2013,"volume":"10","pageInfo":"5","citedByCount":3},{"id":"23872331","source":"MED","citationType":"Journal
+        Article","title":"Modulation of body temperature and LH secretion by hypothalamic
+        KNDy (kisspeptin, neurokinin B and dynorphin) neurons: a novel hypothesis
+        on the mechanism of hot flushes.","authorString":"Rance NE, Dacks PA, Mittelman-Smith
+        MA, Romanovsky AA, Krajewski-Hall SJ.","journalAbbreviation":"Front Neuroendocrinol","pubYear":2013,"volume":"34","issue":"3","pageInfo":"211-227","citedByCount":3},{"id":"18686574","source":"MED","citationType":"Journal
+        Article","title":"The oasis effect: response of birds to exurban development
+        in a southwestern savanna.","authorString":"Bock CE, Jones ZF, Bock JH.","journalAbbreviation":"Ecol
+        Appl","pubYear":2008,"volume":"18","issue":"5","pageInfo":"1093-1106","citedByCount":2},{"id":"20416284","source":"MED","citationType":"Journal
+        Article","title":"Estrogen in the medial preoptic nucleus of the hypothalamus
+        modulates cold responses in female rats.","authorString":"Uchida Y, Tokizawa
+        K, Nakamura M, Mori H, Nagashima K.","journalAbbreviation":"Brain Res.","pubYear":2010,"volume":"1339","pageInfo":"49-59","citedByCount":2},{"id":"21142998","source":"MED","citationType":"Journal
+        Article","title":"Real behavior in virtual environments: psychology experiments
+        in a simple virtual-reality paradigm using video games.","authorString":"Kozlov
+        MD, Johansen MK.","journalAbbreviation":"Cyberpsychol Behav Soc Netw","pubYear":2010,"volume":"13","issue":"6","pageInfo":"711-714","citedByCount":2},{"id":"23207106","source":"MED","citationType":"Journal
+        Article","title":"Lipopolysaccharide-induced hypothermia and hypotension are
+        associated with inflammatory signaling that is triggered outside the brain.","authorString":"Al-Saffar
+        H, Lewis K, Liu E, Schober A, Corrigan JJ, Shibata K, Steiner AA.","journalAbbreviation":"Brain
+        Behav. Immun.","pubYear":2013,"volume":"28","pageInfo":"188-195","citedByCount":2},{"id":"19937527","source":"MED","citationType":"Journal
+        Article","title":"Characterization of an intravenous lipopolysaccharide inflammation
+        model in broiler chickens.","authorString":"De Boever S, Croubels S, Meyer
+        E, Sys S, Beyaert R, Ducatelle R, De Backer P.","journalAbbreviation":"Avian
+        Pathol.","pubYear":2009,"volume":"38","issue":"5","pageInfo":"403-411","citedByCount":1},{"id":"22823405","source":"MED","citationType":"Journal
+        Article","title":"A novel hierarchical clustering algorithm for gene sequences.","authorString":"Wei
+        D, Jiang Q, Wei Y, Wang S.","journalAbbreviation":"BMC Bioinformatics","pubYear":2012,"volume":"13","pageInfo":"174","citedByCount":1}]}}'
+    http_version: 
+  recorded_at: Thu, 01 Jan 2015 17:28:25 GMT
+recorded_with: VCR 2.9.3
