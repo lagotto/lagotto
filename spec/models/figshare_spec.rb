@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Figshare, :type => :model do
+describe Figshare, type: :model, vcr: true do
   subject { FactoryGirl.create(:figshare) }
 
   let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0067729") }
@@ -17,19 +17,16 @@ describe Figshare, :type => :model do
     end
 
     it "should report if there are no events and event_count returned by the figshare API" do
-      body = File.read(fixture_path + 'figshare_nil.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response).to eq("count"=>0, "items"=>[])
     end
 
     it "should report if there are events and event_count returned by the figshare API" do
-      body = File.read(fixture_path + 'figshare.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["count"]).to eq(6)
+      item = response["items"].first
+      expect(item["title"]).to eq("<p>Genetic distances among the <i>Physolychnis a</i>- and <i>b-</i>copies.</p>")
     end
 
     it "should catch timeout errors with the figshare API" do
