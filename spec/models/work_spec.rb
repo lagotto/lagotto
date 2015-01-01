@@ -161,7 +161,7 @@ describe Work, :type => :model do
 
   context "query_string" do
     it "generates query" do
-      expect(work.query_string).to eq "%22#{work.doi}\"+OR+\"#{work.canonical_url}%22
+      expect(work.query_string).to eq "%22#{work.doi}%22+OR+%22#{work.canonical_url}%22"
     end
 
     it "generates query without doi" do
@@ -248,5 +248,4 @@ describe Work, :type => :model do
       expect(RetrievalStatus.count).to eq(0)
     end
   end
-
 end

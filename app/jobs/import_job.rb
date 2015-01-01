@@ -1,5 +1,5 @@
 class ImportJob < ActiveJob::Base
-  queue_as :default
+  queue_as :critical
 
   def perform(klass, options)
     import = klass.constantize.new(options)

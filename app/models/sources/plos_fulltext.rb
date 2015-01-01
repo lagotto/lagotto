@@ -61,7 +61,7 @@ class PlosFulltext < Source
   end
 
   def url
-    config.url || "http://api.plos.org/search?q=%{query_string}&fq=doc_type:full&fl=id,publication_date,title,cross_published_journal_name,author_display,article_type&wt=json&facet=false&rows=100&hl=false"
+    config.url || "http://api.plos.org/search?q=%{query_string}&fq=doc_type:full&fl=id,publication_date,title,cross_published_journal_name,author_display&wt=json&rows=1000"
   end
 
   def events_url
