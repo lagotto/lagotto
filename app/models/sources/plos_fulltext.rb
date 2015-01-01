@@ -18,7 +18,7 @@ class PlosFulltext < Source
   def get_query_string(work)
     return nil unless work.doi.present? || work.canonical_url.present?
 
-    [work.doi, work.canonical_url].compact.map { |i| "everything:\"#{i}\"" }.join("+OR+")
+    [work.doi, work.canonical_url].compact.map { |i| "everything:%22#{i}%22" }.join("+OR+")
   end
 
   def parse_data(result, work, options={})

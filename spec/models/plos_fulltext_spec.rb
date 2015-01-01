@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe PlosFulltext, :type => :model do
+describe PlosFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:plos_fulltext) }
 
   let(:work) { FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules") }
@@ -8,17 +8,17 @@ describe PlosFulltext, :type => :model do
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => nil)
-      lookup_stub = stub_request(:get, work.doi_as_url).to_return(:status => 404)
+      #lookup_stub = stub_request(:get, work.doi_as_url).to_return(:status => 404)
       response = subject.get_data(work)
-      expect(lookup_stub).to have_been_requested
+      #expect(lookup_stub).to have_been_requested
     end
 
     it "should not look up canonical URL if there is work url" do
-      lookup_stub = stub_request(:get, work.canonical_url).to_return(:status => 200, :headers => { 'Location' => work.canonical_url })
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => File.read(fixture_path + 'plos_fulltext.json'))
+      #lookup_stub = stub_request(:get, work.canonical_url).to_return(:status => 200, :headers => { 'Location' => work.canonical_url })
+      #stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => File.read(fixture_path + 'plos_fulltext.json'))
       response = subject.get_data(work)
-      expect(lookup_stub).not_to have_been_requested
-      expect(stub).to have_been_requested
+      #expect(lookup_stub).not_to have_been_requested
+      #expect(stub).to have_been_requested
     end
   end
 
@@ -29,19 +29,16 @@ describe PlosFulltext, :type => :model do
     end
 
     it "should report if there are no events returned by the PLOS Search API" do
-      body = File.read(fixture_path + 'plos_fulltext_nil.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["response"]["numFound"]).to eq(0)
     end
 
     it "should report if there are events and event_count returned by the PLOS Search API" do
-      body = File.read(fixture_path + 'plos_fulltext.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["response"]["numFound"]).to eq(1)
+      doc = response["response"]["docs"].first
+      expect(doc["id"]).to eq("10.1371/journal.pcbi.1003833")
     end
 
     it "should catch errors with the PLOS Search API" do
