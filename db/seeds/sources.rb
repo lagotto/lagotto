@@ -50,6 +50,10 @@ pmc_europe_data = PmcEuropeData.where(name: 'pmceuropedata').first_or_create(
   :description => 'Europe PubMed Central (Europe PMC) Database is an archive of ' \
                   'life sciences journal data.',
   :group_id => cited.id)
+europe_pmc_fulltext = EuropePmcFulltext.where(name: 'europe_pmc_fulltext').first_or_create(
+  :display_name => 'Europe PMC Fulltext Search',
+  :description => 'Search the Europe PMC fulltext corpus for citations.',
+  :group_id => cited.id)
 scienceseeker = ScienceSeeker.where(name: 'scienceseeker').first_or_create(
   :display_name => 'ScienceSeeker',
   :description => 'Research Blogging is a science blog aggregator.',
