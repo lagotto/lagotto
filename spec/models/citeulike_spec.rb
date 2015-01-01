@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe Citeulike, :type => :model do
+describe Citeulike, type: :model, vcr: true do
   subject { FactoryGirl.create(:citeulike) }
 
-  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776", published_on: "2006-06-01") }
+  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0115074", published_on: "2006-06-01") }
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
@@ -12,11 +12,9 @@ describe Citeulike, :type => :model do
     end
 
     it "should report if there are no events and event_count returned by the CiteULike API" do
-      body = File.read(fixture_path + 'citeulike_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0116034")
       response = subject.get_data(work)
-      expect(response).to eq(Hash.from_xml(body))
-      expect(stub).to have_been_requested
+      expect(response).to eq("posts"=>nil)
     end
 
     it "should report if there is an incomplete response returned by the CiteULike API" do
@@ -28,11 +26,10 @@ describe Citeulike, :type => :model do
     end
 
     it "should report if there are events and event_count returned by the CiteULike API" do
-      body = File.read(fixture_path + 'citeulike.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(Hash.from_xml(body))
-      expect(stub).to have_been_requested
+      expect(response["posts"]["post"].length).to eq(2)
+      post = response["posts"]["post"].first
+      expect(post["linkout"]["url"]).to eq(2)
     end
 
     it "should catch errors with the CiteULike API" do
