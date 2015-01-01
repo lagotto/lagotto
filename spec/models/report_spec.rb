@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Report, :type => :model do
+describe Report, type: :model, vcr: true do
   subject { Report }
 
   context "available reports" do

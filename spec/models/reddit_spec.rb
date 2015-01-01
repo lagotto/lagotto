@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Reddit, :type => :model do
+describe Reddit, type: :model, vcr: true do
   subject { FactoryGirl.create(:reddit) }
 
   context "get_data" do

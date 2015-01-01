@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Openedition, :type => :model do
+describe Openedition, type: :model, vcr: true do
   subject { FactoryGirl.create(:openedition) }
 
   context "get_data" do
@@ -11,20 +11,14 @@ describe Openedition, :type => :model do
 
     it "should report if there are no events and event_count returned by the Openedition API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
-      body = File.read(fixture_path + 'openedition_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(Hash.from_xml(body))
-      expect(stub).to have_been_requested
+      expect(response).to eq(1)
     end
 
     it "should report if there are events and event_count returned by the Openedition API" do
       work = FactoryGirl.build(:work, :doi => "10.2307/683422")
-      body = File.read(fixture_path + 'openedition.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(Hash.from_xml(body))
-      expect(stub).to have_been_requested
+      expect(response).to eq(1)
     end
 
     it "should catch errors with the Openedition API" do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Work, :type => :model do
+describe Work, type: :model, vcr: true do
 
   let(:work) { FactoryGirl.create(:work) }
 
@@ -211,22 +211,31 @@ describe Work, :type => :model do
     expect(Work.has_events.all? { |work| work.events_count > 0 }).to be true
   end
 
-  it 'should get_url' do
-    work = FactoryGirl.create(:work, canonical_url: nil)
-    url = "http://www.plosone.org/work/info:doi/10.1371/journal.pone.0000030"
-    stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
-    stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
-    expect(work.get_url).not_to be_nil
-    expect(work.canonical_url).to eq(url)
+  context "get_url" do
+    it 'should get_url' do
+      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", canonical_url: nil)
+      url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
+      expect(work.get_url).not_to be_nil
+      expect(work.canonical_url).to eq(url)
+    end
+
+    it "with canonical_url" do
+      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030")
+      expect(work.get_url).to be true
+    end
+
+    it "without doi" do
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
+      expect(work.get_url).to be false
+      expect(work.canonical_url).to be_nil
+    end
   end
 
   it 'should get_ids' do
-    work = FactoryGirl.create(:work, pmid: nil)
+    work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", pmid: nil)
     pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{work.doi_escaped}&idtype=doi&format=json"
-    stub = stub_request(:get, pubmed_url).to_return(:headers => { "Content-Type" => "application/json" }, :body => File.read(fixture_path + 'persistent_identifiers.json'), :status => 200)
     expect(work.get_ids).to be true
     expect(work.pmid).to eq("17183658")
-    expect(stub).to have_been_requested
   end
 
   it "should get all_urls" do

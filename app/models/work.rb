@@ -118,7 +118,7 @@ class Work < ActiveRecord::Base
 
   def get_url
     return true if canonical_url.present?
-    return false unless doi.present?
+    return false if doi.blank?
 
     url = get_canonical_url(doi_as_url, work_id: id)
 
@@ -137,19 +137,20 @@ class Work < ActiveRecord::Base
     return true if missing_ids.empty?
 
     result = get_persistent_identifiers(doi)
-    return true if result.blank?
 
-    # remove PMC prefix
-    result['pmcid'] = result['pmcid'][3..-1] if result['pmcid']
+    if result.present? && result.is_a?(Hash)
+      # remove PMC prefix
+      result['pmcid'] = result['pmcid'][3..-1] if result['pmcid']
 
-    new_ids = missing_ids.reduce({}) do |hash, (k, v)|
-      val = result[k.to_s]
-      hash[k] = val if val.present? && val != "0"
-      hash
+      new_ids = missing_ids.reduce({}) do |hash, (k, v)|
+        val = result[k.to_s]
+        hash[k] = val if val.present? && val != "0"
+        hash
+      end
+      update_attributes(new_ids)
+    else
+      false
     end
-    return true if new_ids.empty?
-
-    update_attributes(new_ids)
   end
 
   def all_urls

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Nature, :type => :model do
+describe Nature, type: :model, vcr: true do
   subject { FactoryGirl.create(:nature) }
 
   let(:work) { FactoryGirl.build(:work, doi: "10.1371/journal.pone.0008776", published_on: "2009-09-01") }

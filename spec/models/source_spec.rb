@@ -123,15 +123,6 @@ describe Source, :type => :model do
           expect(subject.queue_all_works).to eq(0)
         end
 
-        # it "within time interval" do
-        #   retrieval_statuses = FactoryGirl.create_list(:retrieval_status, 10, :with_work_published_today, source_id: source.id)
-        #   rs_ids = retrieval_statuses.map(&:id)
-
-        #   job.stub(:enqueue).with(SourceJob.new(rs_ids, source.id), { queue: source.name, wait_until: Time.zone.now, priority: 2 })
-        #   source.queue_all_works({ start_date: Time.zone.now, end_date: Time.zone.now }).should == 10
-        #   job.expects(:enqueue).with(SourceJob.new(rs_ids, source.id))
-        # end
-
         it "outside time interval" do
           retrieval_statuses = FactoryGirl.create_list(:retrieval_status, 10, :with_work_published_today, source_id: subject.id)
           rs_ids = retrieval_statuses.map(&:id)

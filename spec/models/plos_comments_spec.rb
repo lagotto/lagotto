@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe PlosComments, :type => :model do
+describe PlosComments, type: :model, vcr: true do
   subject { FactoryGirl.create(:plos_comments) }
 
   let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0067729") }

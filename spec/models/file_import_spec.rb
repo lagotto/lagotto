@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe FileImport, :type => :model do
+describe FileImport, type: :model, vcr: true do
 
   before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 

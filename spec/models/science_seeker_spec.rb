@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ScienceSeeker, :type => :model do
+describe ScienceSeeker, type: :model, vcr: true do
   subject { FactoryGirl.create(:science_seeker) }
 
   context "get_data" do
