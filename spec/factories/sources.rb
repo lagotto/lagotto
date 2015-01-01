@@ -107,6 +107,8 @@ FactoryGirl.define do
     after(:create) do |source|
       FactoryGirl.create(:publisher_option_for_pmc, source: source)
     end
+
+    initialize_with { Pmc.where(name: name).first_or_initialize }
   end
 
   factory :pub_med, class: PubMed do
