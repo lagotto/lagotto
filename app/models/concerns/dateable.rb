@@ -31,7 +31,7 @@ module Dateable
     end
 
     def get_date_parts_from_parts(year, month = nil, day = nil)
-      { 'date-parts' => [[year, month, day].reject(&:blank?)] }
+      { 'date-parts' => [[year.to_i, month.to_i, day.to_i].reject { |part| part == 0 }] }
     end
   end
 end
