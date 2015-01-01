@@ -47,7 +47,7 @@ describe PlosFulltext, :type => :model do
     it "should catch errors with the PLOS Search API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
       response = subject.get_data(work, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://api.plos.org/search?q=#{subject.get_query_string(work)}&fq=doc_type:full&fl=id,publication_date,title,cross_published_journal_name,author_display,article_type&wt=json&facet=false&rows=100&hl=false", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for http://api.plos.org/search?q=#{subject.get_query_string(work)}&fq=doc_type:full&fl=id,publication_date,title,cross_published_journal_name,author_display&wt=json&rows=1000", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first

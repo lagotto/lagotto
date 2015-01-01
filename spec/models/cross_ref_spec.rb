@@ -145,7 +145,7 @@ describe CrossRef, :type => :model do
       expect(event[:event_csl]['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
       expect(event[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
       expect(event[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[["2011"]])
+      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2011]])
       expect(event[:event_csl]['type']).to eq("article-journal")
     end
 
@@ -162,7 +162,7 @@ describe CrossRef, :type => :model do
       expect(event[:event_csl]['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
       expect(event[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
       expect(event[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[["2011"]])
+      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2011]])
       expect(event[:event_csl]['type']).to eq("article-journal")
     end
 
