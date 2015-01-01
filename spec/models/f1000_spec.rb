@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe F1000, :type => :model do
+describe F1000, type: :model, vcr: true do
   subject { FactoryGirl.create(:f1000) }
 
   it "should report that there are no events if the doi is missing" do

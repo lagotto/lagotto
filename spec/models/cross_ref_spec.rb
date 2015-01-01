@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CrossRef, :type => :model do
+describe CrossRef, type: :model, vcr: true do
   subject { FactoryGirl.create(:crossref) }
 
   let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pone.0043007", :publisher_id => 340) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Copernicus, :type => :model do
+describe Copernicus, type: :model, vcr: true do
   subject { FactoryGirl.create(:copernicus) }
 
   let(:work) { FactoryGirl.build(:work, :doi => "10.5194/ms-2-175-2011") }

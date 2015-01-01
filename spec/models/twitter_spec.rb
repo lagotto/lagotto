@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Twitter, :type => :model do
+describe Twitter, type: :model, vcr: true do
   subject { FactoryGirl.create(:twitter) }
 
   let(:work) { FactoryGirl.build(:work, canonical_url: "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124", published_on: "2012-05-03") }

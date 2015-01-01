@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TwitterSearch, :type => :model do
+describe TwitterSearch, type: :model, vcr: true do
   subject { FactoryGirl.create(:twitter_search) }
 
   context "lookup access token" do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Github, :type => :model do
+describe Github, type: :model, vcr: true do
   subject { FactoryGirl.create(:github) }
 
   let(:work) { FactoryGirl.create(:work, :canonical_url => "https://github.com/ropensci/alm") }

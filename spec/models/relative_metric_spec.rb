@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RelativeMetric, :type => :model do
+describe RelativeMetric, type: :model, vcr: true do
   subject { FactoryGirl.create(:relative_metric) }
 
   context "get_data" do
