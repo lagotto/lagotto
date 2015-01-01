@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe EuropePmcFulltext, :type => :model do
+describe EuropePmcFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:europe_pmc_fulltext) }
 
   let(:work) { FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/lh3/seqtk") }
@@ -29,19 +29,16 @@ describe EuropePmcFulltext, :type => :model do
     end
 
     it "should report if there are no events returned by the Europe PMC Search API" do
-      body = File.read(fixture_path + 'europe_pmc_fulltext_nil.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["hitCount"]).to eq(0)
     end
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
-      body = File.read(fixture_path + 'europe_pmc_fulltext.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["hitCount"]).to eq(13)
+      result = response["resultList"]["result"].first
+      expect(result["doi"]).to eq("10.1038/srep05994")
     end
 
     it "should catch errors with the Europe PMC Search API" do

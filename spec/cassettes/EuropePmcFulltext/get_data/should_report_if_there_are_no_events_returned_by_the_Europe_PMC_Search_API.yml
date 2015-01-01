@@ -1,0 +1,34 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%22https://github.com/pymor/pymor%22&dataset=fulltext&format=json&resultType=lite
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=49D96EC760DCF74F54148B9E3DE96509; Path=/europepmc
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Thu, 01 Jan 2015 17:16:43 GMT
+    body:
+      encoding: UTF-8
+      string: '{"version":"3.0.1","hitCount":0,"request":{"dataSet":"fulltext","resultType":"lite","synonym":true,"query":"\"https://github.com/pymor/pymor\"","page":1},"resultList":{"result":[]}}'
+    http_version: 
+  recorded_at: Thu, 01 Jan 2015 17:14:39 GMT
+recorded_with: VCR 2.9.3
