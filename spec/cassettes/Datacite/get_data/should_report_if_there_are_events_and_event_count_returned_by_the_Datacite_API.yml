@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://search.datacite.org/api?fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=has_metadata:true&indent=true&q=relatedIdentifier:10.1371/journal.ppat.1000446&rows=100&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.1.19
+      Date:
+      - Thu, 01 Jan 2015 15:40:00 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        ewogICJyZXNwb25zZUhlYWRlciI6ewogICAgInN0YXR1cyI6MCwKICAgICJR
+        VGltZSI6MjJ9LAogICJyZXNwb25zZSI6eyJudW1Gb3VuZCI6MSwic3RhcnQi
+        OjAsImRvY3MiOlsKICAgICAgewogICAgICAgICJkb2kiOiIxMC41MDYxL0RS
+        WUFELjg1MTUiLAogICAgICAgICJyZWxhdGVkSWRlbnRpZmllciI6WyJIYXNQ
+        YXJ0OkRPSToxMC41MDYxL0RSWUFELjg1MTUvMSIsCiAgICAgICAgICAiSGFz
+        UGFydDpET0k6MTAuNTA2MS9EUllBRC44NTE1LzIiLAogICAgICAgICAgIklz
+        UmVmZXJlbmNlZEJ5OkRPSToxMC4xMzcxL0pPVVJOQUwuUFBBVC4xMDAwNDQ2
+        IiwKICAgICAgICAgICJJc1JlZmVyZW5jZWRCeTpET0k6Il0sCiAgICAgICAg
+        ImNyZWF0b3IiOlsiT2xsb21vLCBCZW5qYW1pbiIsCiAgICAgICAgICAiRHVy
+        YW5kLCBQYXRyaWNrIiwKICAgICAgICAgICJQcnVnbm9sbGUsIEZyYW5jayIs
+        CiAgICAgICAgICAiRG91emVyeSwgRW1tYW51ZWwgSi4gUC4iLAogICAgICAg
+        ICAgIkFybmF0aGF1LCBDw6lsaW5lIiwKICAgICAgICAgICJOa29naGUsIERp
+        ZXVkb25uw6kiLAogICAgICAgICAgIkxlcm95LCBFcmljIiwKICAgICAgICAg
+        ICJSZW5hdWQsIEZyYW7Dp29pcyJdLAogICAgICAgICJwdWJsaXNoZXIiOiJE
+        cnlhZCBEaWdpdGFsIFJlcG9zaXRvcnkiLAogICAgICAgICJ0aXRsZSI6WyJE
+        YXRhIGZyb206IEEgbmV3IG1hbGFyaWEgYWdlbnQgaW4gQWZyaWNhbiBob21p
+        bmlkcy4iXSwKICAgICAgICAicHVibGljYXRpb25ZZWFyIjoiMjAxMSJ9XQog
+        IH19Cg==
+    http_version: 
+  recorded_at: Thu, 01 Jan 2015 15:45:50 GMT
+recorded_with: VCR 2.9.3

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Datacite, :type => :model do
+describe Datacite, type: :model, vcr: true do
   subject { FactoryGirl.create(:datacite) }
 
   let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.ppat.1000446") }
@@ -13,19 +13,16 @@ describe Datacite, :type => :model do
 
     it "should report if there are no events and event_count returned by the Datacite API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0043007")
-      body = File.read(fixture_path + 'datacite_nil.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["response"]["numFound"]).to eq(0)
+      expect(response["response"]["docs"]).to be_empty
     end
 
     it "should report if there are events and event_count returned by the Datacite API" do
-      body = File.read(fixture_path + 'datacite.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response["response"]["numFound"]).to eq(1)
+      doc = response["response"]["docs"].first
+      expect(doc["doi"]).to eq("10.5061/DRYAD.8515")
     end
 
     it "should catch timeout errors with the Datacite API" do
