@@ -3,6 +3,32 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.12 (January 1, 2015)
+
+[Lagotto 3.12](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12) was released on January 1, 2015 with the following changes:
+
+* increased size of `retrieval_statuses.events_url` database column to handle URLs longer than 255 characters ([#205](https://github.com/articlemetrics/lagotto/issues/205))
+* upgraded to Rails 4.2 ([#206](https://github.com/articlemetrics/lagotto/issues/206)), and migrated the background worker functionality to the new [ActiveJob](http://edgeguides.rubyonrails.org/active_job_basics.html) library ([#208](https://github.com/articlemetrics/lagotto/issues/208))
+* kept `db:articles:load` task for backwards compatibility ([#207](https://github.com/articlemetrics/lagotto/issues/207))
+* added PLOS Fulltext Search as new source ([#209](https://github.com/articlemetrics/lagotto/issues/209))
+* added Europe PMC Fulltext Search as new source ([#210](https://github.com/articlemetrics/lagotto/issues/210))
+* added import of works via the PLOS Search API ([#211](https://github.com/articlemetrics/lagotto/issues/211))
+
+The automatic import of works - configured in the `.env` file - has changed:
+
+```sh
+# automatic import of works published on current or previous day
+# using CrossRef, DataCite, or PLOS Search API, or no automatic import if left empty
+# Possible parameters:
+# crossref - all works in CrossRef REST API
+# member - all works in CrossRef REST API for publishers registered in application
+# sample - sample of 20 works from CrossRef REST API
+# member_sample - sample of 20 works from CrossRef REST API for publishers registered in application
+# datacite - all works in DataCite metadata index
+# plos - all PLOS articles
+IMPORT=
+```
+
 ## Lagotto 3.11 (December 24, 2014)
 
 [Lagotto 3.11](https://github.com/articlemetrics/lagotto/releases/tag/v.3.11) was released on December 24, 2014 with the following changes:
