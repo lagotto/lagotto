@@ -13,7 +13,7 @@ class Work < ActiveRecord::Base
   belongs_to :work_type
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :sources, :through => :retrieval_statuses
-  has_many :alerts
+  has_many :alerts, :dependent => :destroy
   has_many :api_responses
 
   validates :pid_type, :pid, :title, presence: true

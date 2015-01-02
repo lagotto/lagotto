@@ -9,7 +9,7 @@ Europe PubMed Central ([Europe PMC](http://europepmc.org/)) is an archive of lif
 <tbody>
 <tr>
 <td valign="top" width=20%><strong>ALM Name</strong></td>
-<td valign="top" width=80%>pmceurope</td>
+<td valign="top" width=80%>pmceuropedata</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
