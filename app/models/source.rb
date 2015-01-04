@@ -219,7 +219,7 @@ class Source < ActiveRecord::Base
 
   def get_query_url(work)
     if url.present? && work.doi.present?
-      url % { :doi => work.doi_escaped }
+      url % { doi: work.doi_escaped }
     end
   end
 

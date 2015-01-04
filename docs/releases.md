@@ -3,6 +3,18 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.12.3 (January 4, 2015)
+
+[Lagotto 3.12.3](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.3) was released on January 4, 2015 with the following change:
+
+* added ORCID as new source ([#220](https://github.com/articlemetrics/lagotto/issues/220))
+
+To load the new source please run
+
+```sh
+RAILS_ENV=production bundle exec rake db:seed
+```
+
 ## Lagotto 3.12.2 (January 4, 2015)
 
 [Lagotto 3.12.2](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.2) was released on January 4, 2015 with the following changes:
