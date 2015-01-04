@@ -12,11 +12,12 @@ class Pmc < Source
     pdf = get_sum(events, 'pdf')
     html = get_sum(events, 'full-text')
     total = pdf + html
+    events_url = total > 0 ? get_events_url(work) : nil
 
     { events: events,
       events_by_day: [],
       events_by_month: get_events_by_month(events),
-      events_url: get_events_url(work),
+      events_url: events_url,
       event_count: total,
       event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
   end

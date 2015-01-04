@@ -55,7 +55,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>"http://europepmc.org/search?scope=fulltext&query=#{work.query_string}", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pmed.0020124")

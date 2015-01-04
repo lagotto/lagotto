@@ -9,11 +9,12 @@ class PmcEurope < Source
     return result if result[:error]
 
     event_count = result["hitCount"] || 0
+    events_url = event_count > 0 ? get_events_url(work) : nil
 
     { events: [],
       events_by_day: [],
       events_by_month: [],
-      events_url: get_events_url(work),
+      events_url: events_url,
       event_count: event_count,
       event_metrics: get_event_metrics(citations: event_count) }
   end

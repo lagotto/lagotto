@@ -19,11 +19,12 @@ class PmcEuropeData < Source
 
     event_count = (result["hitCount"]).to_i
     events = get_events(result)
+    events_url = event_count > 0 ? get_events_url(work) : nil
 
     { events: events,
       events_by_day: [],
       events_by_month: [],
-      events_url: get_events_url(work),
+      events_url: events_url,
       event_count: event_count,
       event_metrics: get_event_metrics(citations: event_count) }
   end

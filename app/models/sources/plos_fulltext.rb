@@ -26,11 +26,12 @@ class PlosFulltext < Source
 
     events = get_events(result, work)
     total = events.length
+    events_url = total > 0 ? get_events_url(work) : nil
 
     { events: events,
       events_by_day: get_events_by_day(events, work),
       events_by_month: get_events_by_month(events),
-      events_url: nil,
+      events_url: events_url,
       event_count: total,
       event_metrics: get_event_metrics(citations: total) }
   end

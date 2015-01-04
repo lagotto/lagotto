@@ -16,11 +16,12 @@ class EuropePmcFulltext < Source
 
     events = get_events(result, work)
     total = events.length
+    events_url = total > 0 ? get_events_url(work) : nil
 
     { events: events,
       events_by_day: [],
       events_by_month: [],
-      events_url: get_events_url(work),
+      events_url: events_url,
       event_count: total,
       event_metrics: get_event_metrics(citations: total) }
   end

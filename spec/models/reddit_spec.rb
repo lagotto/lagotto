@@ -55,7 +55,7 @@ describe Reddit, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: [], event_count: 0, :events_by_day=>[], :events_by_month=>[], events_url: "http://www.reddit.com/search?q=#{work.query_string}", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: 0, citations: nil, total: 0 })
+      expect(response).to eq(events: [], event_count: 0, :events_by_day=>[], :events_by_month=>[], events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: 0, citations: nil, total: 0 })
     end
 
     it "should report if there are events and event_count returned by the Reddit API" do
