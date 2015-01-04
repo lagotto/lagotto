@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Wordpress, type: :model, vcr: true do
   subject { FactoryGirl.create(:wordpress) }
 
-  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pbio.1002020", canonical_url: "", published_on: "2007-07-01") }
+  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pbio.1002020", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.1002020", published_on: "2007-07-01") }
 
   context "query_url" do
     it "should return nil if the doi and canonical_url are missing" do
@@ -24,7 +24,7 @@ describe Wordpress, type: :model, vcr: true do
     end
 
     it "should report if there are no events and event_count returned by the Wordpress API" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294")
       response = subject.get_data(work)
       expect(response).to eq("data"=>"null")
     end
@@ -37,7 +37,7 @@ describe Wordpress, type: :model, vcr: true do
     end
 
     it "should catch errors with the Wordpress API" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
+      work = FactoryGirl.build(:work, doi: "10.1371/journal.pone.0000001", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
       response = subject.get_data(work, options = { :source_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://en.search.wordpress.com/?q=#{work.query_string}&t=post&f=json&size=20", :status=>408)
@@ -62,7 +62,7 @@ describe Wordpress, type: :model, vcr: true do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       result = { 'data' => "null\n" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>"http://en.search.wordpress.com/?q=#{work.query_string}&t=post", :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the Wordpress API" do

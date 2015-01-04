@@ -30,7 +30,7 @@ describe Wikipedia, type: :model, vcr: true do
     end
 
     it "should report if there are events and event_count returned by the Wikipedia API" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pcbi.1002445", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pcbi.1002445")
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pcbi.1002445", canonical_url: "http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1002445")
       response = subject.get_data(work)
       expect(response).to eq("en"=>2)
     end
@@ -54,7 +54,7 @@ describe Wikipedia, type: :model, vcr: true do
     subject { FactoryGirl.create(:wikipedia, languages: "en commons") }
 
     it "should report if there are events and event_count returned by the Wikimedia Commons API" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044271")
+      work = FactoryGirl.build(:work, doi: "10.1371/journal.pone.0044271", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044271")
       response = subject.get_data(work)
       expect(response).to eq("en"=>2, "commons"=>8)
     end

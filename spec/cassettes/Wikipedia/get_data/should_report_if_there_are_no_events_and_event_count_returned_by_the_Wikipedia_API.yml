@@ -31,23 +31,23 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Varnish:
-      - 134831453, 1703645459, 749789972
+      - 145458653, 1830213538, 3304810885
       Via:
       - 1.1 varnish, 1.1 varnish, 1.1 varnish
       Transfer-Encoding:
       - chunked
       Date:
-      - Sun, 04 Jan 2015 11:15:40 GMT
+      - Sun, 04 Jan 2015 13:27:25 GMT
       Age:
       - '0'
       Connection:
       - keep-alive
       X-Cache:
-      - cp1065 miss (0), cp4018 miss (0), cp4018 frontend miss (0)
+      - cp1065 miss (0), amssq51 miss (0), amssq40 frontend miss (0)
       X-Analytics:
       - php=hhvm
       Set-Cookie:
-      - GeoIP=US:San_Francisco:37.7697:-122.3933:v4; Path=/; Domain=.wikipedia.org
+      - GeoIP=DE:Hanover:52.3751:9.7094:v4; Path=/; Domain=.wikipedia.org
     body:
       encoding: UTF-8
       string: '{"warnings":{"query":{"*":"Formatting of continuation data will be
@@ -55,5 +55,5 @@ http_interactions:
         parameter. To begin using the new format, pass an empty string for ''continue''
         in the initial query."}},"query":{"searchinfo":{"totalhits":0},"search":[]}}'
     http_version: 
-  recorded_at: Sun, 04 Jan 2015 11:15:40 GMT
+  recorded_at: Sun, 04 Jan 2015 13:27:25 GMT
 recorded_with: VCR 2.9.3

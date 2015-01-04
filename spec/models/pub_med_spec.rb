@@ -50,7 +50,7 @@ describe PubMed, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: [], event_count: 0, :events_by_day=>[], :events_by_month=>[], events_url: "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=1897483599", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0})
+      expect(response).to eq(events: [], event_count: 0, :events_by_day=>[], :events_by_month=>[], events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0})
     end
 
     it "should report if there are events and event_count returned by the PubMed API" do

@@ -37,7 +37,7 @@ describe Openedition, type: :model, vcr: true do
 
   context "parse_data" do
     let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001") }
-    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: "http://search.openedition.org/index.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org", event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 } } }
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 } } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
