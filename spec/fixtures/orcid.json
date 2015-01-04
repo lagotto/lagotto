@@ -1,0 +1,109 @@
+{
+  "message-version": "1.1",
+  "orcid-search-results": {
+    "orcid-search-result": [
+      {
+        "relevancy-score": {
+          "value": 0.7290998
+        },
+        "orcid-profile": {
+          "orcid": null,
+          "orcid-identifier": {
+            "value": null,
+            "uri": "http://orcid.org/0000-0002-0159-2197",
+            "path": "0000-0002-0159-2197",
+            "host": "orcid.org"
+          },
+          "orcid-bio": {
+            "personal-details": {
+              "given-names": {
+                "value": "Jonathan A."
+              },
+              "family-name": {
+                "value": "Eisen"
+              }
+            },
+            "biography": {
+              "value": "",
+              "visibility": null
+            },
+            "researcher-urls": {
+              "researcher-url": [
+                {
+                  "url-name": {
+                    "value": "microBEnet"
+                  },
+                  "url": {
+                    "value": "http://microBE.net"
+                  }
+                },
+                {
+                  "url-name": {
+                    "value": "Tree of Life Blog"
+                  },
+                  "url": {
+                    "value": "http://phylogenomics.blogspot.com"
+                  }
+                },
+                {
+                  "url-name": {
+                    "value": "Lab Page"
+                  },
+                  "url": {
+                    "value": "http://phylogenomics.wordpress.com"
+                  }
+                },
+                {
+                  "url-name": {
+                    "value": "Twitter"
+                  },
+                  "url": {
+                    "value": "http://twitter.com/phylogenomics"
+                  }
+                }
+              ],
+              "visibility": null
+            },
+            "keywords": {
+              "keyword": [
+                {
+                  "value": "evolution, genomics, microbiology, ecology, microbial diversity, citizen science, "
+                }
+              ],
+              "visibility": null
+            },
+            "external-identifiers": {
+              "external-identifier": [
+                {
+                  "external-id-common-name": {
+                    "value": "Scopus Author ID"
+                  },
+                  "external-id-reference": {
+                    "value": "35247902700"
+                  },
+                  "external-id-url": {
+                    "value": "http://www.scopus.com/inward/authorDetails.url?authorID=35247902700&partnerID=MN8TOARS"
+                  },
+                  "external-id-source": {
+                    "value": null,
+                    "uri": "http://orcid.org/0000-0002-5982-8983",
+                    "path": "0000-0002-5982-8983",
+                    "host": "orcid.org"
+                  }
+                }
+              ],
+              "visibility": null
+            },
+            "delegation": null,
+            "applications": null,
+            "scope": null
+          },
+          "type": null,
+          "group-type": null,
+          "client-type": null
+        }
+      }
+    ],
+    "num-found": 1
+  }
+}

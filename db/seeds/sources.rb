@@ -76,6 +76,10 @@ plos_fulltext = PlosFulltext.where(name: 'plos_fulltext').first_or_create(
   :display_name => 'PLOS Fulltext Search',
   :description => 'Search the PLOS corpus for citations.',
   :group_id => cited.id)
+orcid = Orcid.where(name: 'orcid').first_or_create(
+  :display_name => 'ORCID',
+  :description => 'ORCID is a persistent author identifier for connecting research and researchers.',
+  :group_id => saved.id)
 
 # The following sources require passwords/API keys and are installed by default
 crossref = CrossRef.where(name: 'crossref').first_or_create(

@@ -398,4 +398,15 @@ FactoryGirl.define do
 
     initialize_with { ArticleCoverageCurated.where(name: name).first_or_initialize }
   end
+
+  factory :orcid, class: Orcid do
+    type "Orcid"
+    name "orcid"
+    display_name "ORCID"
+    state_event "activate"
+
+    group
+
+    initialize_with { Orcid.where(name: name).first_or_initialize }
+  end
 end
