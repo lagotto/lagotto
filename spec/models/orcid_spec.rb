@@ -28,7 +28,7 @@ describe Orcid, type: :model, vcr: true do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
       response = subject.get_data(work, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://pub.orcid.org/v1.1/search/orcid-bio/?q=digital-object-ids:\"#{work.doi_escaped}\"", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for http://pub.orcid.org/v1.1/search/orcid-bio/?q=digital-object-ids:\"#{work.doi_escaped}\"&rows=100", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
