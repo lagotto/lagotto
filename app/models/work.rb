@@ -107,7 +107,15 @@ class Work < ActiveRecord::Base
   end
 
   def pmid_as_url
+    "http://www.ncbi.nlm.nih.gov/pubmed/#{pmid}" if pmid.present?
+  end
+
+  def pmid_as_europepmc_url
     "http://europepmc.org/abstract/MED/#{pmid}" if pmid.present?
+  end
+
+  def pmcid_as_url
+    "http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{pmcid}" if pmcid.present?
   end
 
   def doi_prefix
@@ -158,7 +166,7 @@ class Work < ActiveRecord::Base
   end
 
   def all_urls
-    [canonical_url, pmid_as_url, mendeley_url, citeulike_url].reject(&:blank?)
+    ([canonical_url, pmid_as_europepmc_url] + events_urls).compact
   end
 
   def canonical_url_escaped
@@ -171,6 +179,10 @@ class Work < ActiveRecord::Base
 
   def signposts
     @signposts ||= sources.pluck(:name, :event_count, :events_url)
+  end
+
+  def events_urls
+    signposts.map { |source| source[2] }.compact
   end
 
   def event_count(name)
