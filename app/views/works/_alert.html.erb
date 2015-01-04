@@ -25,7 +25,7 @@
                                                                   :data => { :confirm => 'Are you sure?' },
                                                                   :remote => true,
                                                                   :id => "#{alert.id}-delete-class" %></li>
-                  <li><%= link_to "by Work", alert_path(alert, :work_id => @work.id,
+                  <li><%= link_to "by Work", alert_path(alert,    :work_id => @work.id,
                                                                   :filter => "work_id"),
                                                                   :method => :delete,
                                                                   :data => { :confirm => 'Are you sure?' },
