@@ -3,6 +3,36 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3..1 (January 4, 2015)
+
+[Lagotto 3.12.1](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.1) was released on January 4, 2015 with the following changes:
+
+* log responses from external APIs to JSON file in logstash format ([#214](https://github.com/articlemetrics/lagotto/issues/214))
+* better handling of ActiveJob errors ([#215](https://github.com/articlemetrics/lagotto/issues/215))
+* run daily works import at the end of the day using a new `cron:nightly`rake task, and write to separate `cron_import.log` ([#216](https://github.com/articlemetrics/lagotto/issues/216))
+* show all URLs associated with a work (and don't show the citeulike URL if there are no events) ([#217](https://github.com/articlemetrics/lagotto/issues/217))
+
+Starting with this release, the raw responses from external sources are stored in a JSON file `log/agent.log` in logstash format, using the source name and work pid as tags:
+
+```sh
+{
+  "message": "{\"total_rows\"=>328331, \"offset\"=>121903, \"rows\"=>[{\"id\"=>\"232944431433666561\", \"key\"=>\"10.1371/journal.pone.0042231\", \"value\"=>{\"_id\"=>\"232944431433666561\", \"_rev\"=>\"1-40047ae514c178f154fa7b0f877f146a\", \"text\"=>\"Role of the Irr Protein in the Regulation of Iron Metabolism in Rhodobacter sphaeroides http://t.co/JbOupbjK\", \"from_user_id\"=>38951828, \"from_user_name\"=>\"Test\", \"geo\"=>nil, \"profile_image_url_https\"=>\"https://si0.twimg.com/sticky/default_profile_images/default_profile_6_normal.png\", \"iso_language_code\"=>\"en\", \"to_user_name\"=>nil, \"entities\"=>{\"urls\"=>[{\"expanded_url\"=>\"http://bit.ly/O0DVOi\", \"indices\"=>[88, 108], \"display_url\"=>\"bit.ly/O0DVOi\", \"url\"=>\"http://t.co/JbOupbjK\"}, {\"expanded_url\"=>\"http://www.plosone.org/article/info:doi%2F10.1371%2Fjournal.pone.0042231\", \"display_url\"=>\"http://www.plosone.org/article/info:doi%2F10.1371%2Fjournal.pone.0042231\", \"url\"=>\"http://www.plosone.org/article/info:doi%2F10.1371%2Fjournal.pone.0042231\"}], \"hashtags\"=>[], \"user_mentions\"=>[]}, \"to_user_id\"=>0, \"id\"=>232944431433666560, \"to_user_id_str\"=>\"0\", \"source\"=>\"&lt;a href=&quot;http://twitterfeed.com&quot; rel=&quot;nofollow&quot;&gt;twitterfeed&lt;/a&gt;\", \"from_user_id_str\"=>\"38951828\", \"from_user\"=>\"TestCellBio\", \"created_at\"=>\"Tue, 07 Aug 2012 21:00:55 +0000\", \"to_user\"=>nil, \"id_str\"=>\"232944431433666561\", \"profile_image_url\"=>\"http://a0.twimg.com/sticky/default_profile_images/default_profile_6_normal.png\", \"metadata\"=>{\"result_type\"=>\"recent\"}}}]}",
+  "@timestamp": "2015-01-04T01:13:53.387-08:00",
+  "@version": "1",
+  "severity": "INFO",
+  "host": "rwc-prod-alm03",
+  "tags": [
+    "ActiveJob",
+    "SourceJob",
+    "2822afb7-1a37-4084-b3c2-b0b87f0370a0",
+    "twitter",
+    "10.1371/journal.pone.0042231"
+  ]
+}
+```
+
+This file can be further processed with logstash and made available for download.
+
 ## Lagotto 3.12 (January 1, 2015)
 
 [Lagotto 3.12](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12) was released on January 1, 2015 with the following changes:
