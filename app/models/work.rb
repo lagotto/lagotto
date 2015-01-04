@@ -106,6 +106,10 @@ class Work < ActiveRecord::Base
     Addressable::URI.encode("http://dx.doi.org/#{doi}")  if doi.present?
   end
 
+  def pmid_as_url
+    "http://europepmc.org/abstract/MED/#{pmid}" if pmid.present?
+  end
+
   def doi_prefix
     doi[/^10\.\d{4,5}/]
   end
@@ -154,10 +158,7 @@ class Work < ActiveRecord::Base
   end
 
   def all_urls
-    urls = []
-    urls << doi_as_url if doi.present?
-    urls << canonical_url if canonical_url.present?
-    urls
+    [canonical_url, pmid_as_url, mendeley_url, citeulike_url].reject(&:blank?)
   end
 
   def canonical_url_escaped

@@ -59,21 +59,23 @@
           <dt>PubMed Central ID</dt>
           <dd id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to "PMC#{@work.pmcid}", "http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{@work.pmcid}" %></dd>
         <% end %>
-        <dt>URLs</dt>
-        <dd>
-          <% if @work.canonical_url.present? %>
-            <%= link_to h(@work.canonical_url), @work.canonical_url %><br/>
-          <% end %>
-          <% if @work.pmid.present? %>
-            <%= link_to "http://europepmc.org/abstract/MED/#{@work.pmid}", "http://europepmc.org/abstract/MED/#{@work.pmid}" %><br/>
-          <% end %>
-          <% if @work.mendeley_url.present? %>
-            <%= link_to h(@work.mendeley_url), @work.mendeley_url %><br/>
-          <% end %>
-          <% if @work.citeulike_url.present? %>
-            <%= link_to h(@work.citeulike_url), @work.citeulike_url %><br/>
-          <% end %>
-        </dd>
+        <% if @work.all_urls.present? %>
+          <dt>URLs</dt>
+          <dd>
+            <% if @work.canonical_url.present? %>
+              <%= link_to h(@work.canonical_url), @work.canonical_url %><br/>
+            <% end %>
+            <% if @work.pmid.present? %>
+              <%= link_to "http://europepmc.org/abstract/MED/#{@work.pmid}", "http://europepmc.org/abstract/MED/#{@work.pmid}" %><br/>
+            <% end %>
+            <% if @work.mendeley_url.present? %>
+              <%= link_to h(@work.mendeley_url), @work.mendeley_url %><br/>
+            <% end %>
+            <% if @work.citeulike_url.present? %>
+              <%= link_to h(@work.citeulike_url), @work.citeulike_url %><br/>
+            <% end %>
+          </dd>
+        <% end %>
       </dl>
     <% end %>
   </div>

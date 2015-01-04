@@ -178,11 +178,12 @@ class Source < ActiveRecord::Base
     metrics = options[:metrics] || :citations
 
     events = get_events(result)
+    events_url = events.length > 0 ? get_events_url(work) : nil
 
     { events: events,
       events_by_day: get_events_by_day(events, work),
       events_by_month: get_events_by_month(events),
-      events_url: get_events_url(work),
+      events_url: events_url,
       event_count: events.length,
       event_metrics: get_event_metrics(metrics => events.length) }
   end
@@ -224,7 +225,7 @@ class Source < ActiveRecord::Base
 
   def get_events_url(work)
     if events_url.present? && work.doi.present?
-      events_url % { :doi => work.doi_escaped }
+      events_url % { doi: work.doi_escaped }
     end
   end
 

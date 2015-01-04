@@ -240,7 +240,7 @@ describe Work, type: :model, vcr: true do
 
   it "should get all_urls" do
     work = FactoryGirl.build(:work, :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
-    expect(work.all_urls).to eq([work.doi_as_url, work.canonical_url])
+    expect(work.all_urls).to eq([work.canonical_url, work.pmid_as_url])
   end
 
   context "associations" do

@@ -29,7 +29,7 @@ describe Citeulike, type: :model, vcr: true do
       response = subject.get_data(work)
       expect(response["posts"]["post"].length).to eq(2)
       post = response["posts"]["post"].first
-      expect(post["linkout"]["url"]).to eq(2)
+      expect(post["linkout"]["url"]).to eq("http://dx.doi.org/10.1371/journal.pone.0115074")
     end
 
     it "should catch errors with the CiteULike API" do
@@ -46,7 +46,7 @@ describe Citeulike, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: subject.get_events_url(work), event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 } } }
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 } } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
