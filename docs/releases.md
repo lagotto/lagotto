@@ -3,7 +3,7 @@ layout: card_list
 title: "Releases"
 ---
 
-## Lagotto 3..1 (January 4, 2015)
+## Lagotto 3.12.1 (January 4, 2015)
 
 [Lagotto 3.12.1](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.1) was released on January 4, 2015 with the following changes:
 
