@@ -16,9 +16,9 @@ module Jobable
 
     def get_worker_count(queue = nil)
       if queue
-        DelayedJob.where(queue: queue).where("locked_by IS NOT NULL").count
+        DelayedJob.where(queue: queue).where("locked_at IS NOT NULL").count
       else
-        DelayedJob.where("locked_by IS NOT NULL").count
+        DelayedJob.where("locked_at IS NOT NULL").count
       end
     end
 

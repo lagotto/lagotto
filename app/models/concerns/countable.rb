@@ -5,16 +5,7 @@ module Countable
 
   included do
     def worker_count
-      if ActionController::Base.perform_caching
-        Rails.cache.read("#{name}/worker_count/#{update_date}").to_i
-      else
-        get_worker_count(name)
-      end
-    end
-
-    def worker_count=(timestamp)
-      Rails.cache.write("#{name}/worker_count/#{timestamp}",
-                        get_worker_count(name))
+      get_worker_count(name)
     end
 
     def job_count
