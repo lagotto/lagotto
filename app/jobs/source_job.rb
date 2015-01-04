@@ -35,11 +35,24 @@ class SourceJob < ActiveJob::Base
       sleep_interval = start_time + source.job_interval - Time.zone.now
       sleep(sleep_interval) if sleep_interval > 0
     end
+  end
 
+  after_perform do |job|
+    rs_ids, source = job.arguments
+    RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: "1970-01-01")
     source.wait_after_check
   end
 
   rescue_from SourceInactiveError, NotEnoughWorkersError do |exception|
     # don't raise error, just postpone perform_later
+  end
+
+  rescue_from StandardError do |exception|
+    rs_ids, source = self.arguments
+
+    Alert.create(exception: exception,
+                 class_name: exception.class.to_s,
+                 message: exception.message,
+                 source_id: source.id)
   end
 end

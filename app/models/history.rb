@@ -65,7 +65,6 @@ class History
     # save data to retrieval_status table
     retrieval_status.update_attributes(retrieved_at: retrieved_at,
                                        scheduled_at: retrieval_status.stale_at,
-                                       queued_at: nil,
                                        event_count: event_count,
                                        event_metrics: event_metrics,
                                        events_url: events_url)
