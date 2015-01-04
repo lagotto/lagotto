@@ -19,8 +19,9 @@ class Github < Source
     shares = result.fetch("forks_count", 0)
     likes = result.fetch("stargazers_count", 0)
     total = shares + likes
+    events = result.slice("stargazers_count", "stargazers_url", "forks_count", "forks_url")
 
-    { events: result,
+    { events: events,
       events_by_day: [],
       events_by_month: [],
       events_url: nil,
