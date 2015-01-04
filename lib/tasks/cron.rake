@@ -13,18 +13,6 @@ namespace :cron do
 
   desc 'Daily cron task'
   task :daily => :environment do
-    case ENV['IMPORT']
-    when "crossref", "member", "sample", "member_sample"
-      Rake::Task["db:works:import:crossref"].invoke
-      Rake::Task["db:works:import:crossref"].reenable
-    when "datacite"
-      Rake::Task["db:works:import:datacite"].invoke
-      Rake::Task["db:works:import:datacite"].reenable
-    when "plos"
-      Rake::Task["db:works:import:plos"].invoke
-      Rake::Task["db:works:import:plos"].reenable
-    end
-
     Rake::Task["filter:all"].invoke
     Rake::Task["filter:all"].reenable
 
@@ -39,6 +27,21 @@ namespace :cron do
 
     Rake::Task["db:alerts:resolve"].invoke
     Rake::Task["db:alerts:resolve"].reenable
+  end
+
+  desc 'Daily cron task'
+  task :nightly => :environment do
+    case ENV['IMPORT']
+    when "crossref", "member", "sample", "member_sample"
+      Rake::Task["db:works:import:crossref"].invoke
+      Rake::Task["db:works:import:crossref"].reenable
+    when "datacite"
+      Rake::Task["db:works:import:datacite"].invoke
+      Rake::Task["db:works:import:datacite"].reenable
+    when "plos"
+      Rake::Task["db:works:import:plos"].invoke
+      Rake::Task["db:works:import:plos"].reenable
+    end
   end
 
   desc 'Weekly cron task'
