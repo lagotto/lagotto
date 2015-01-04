@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044294%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000025%22&srwhat=text
+    uri: http://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044294%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294%22&srwhat=text
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      - Lagotto 3.12.1 - http://lagotto-bugfixes.local
       Accept:
       - application/json
   response:
@@ -31,19 +31,19 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Varnish:
-      - 2743068069, 1187685584, 500704854
+      - 134831453, 1703645459, 749789972
       Via:
       - 1.1 varnish, 1.1 varnish, 1.1 varnish
       Transfer-Encoding:
       - chunked
       Date:
-      - Thu, 01 Jan 2015 17:02:05 GMT
+      - Sun, 04 Jan 2015 11:15:40 GMT
       Age:
       - '0'
       Connection:
       - keep-alive
       X-Cache:
-      - cp1054 miss (0), cp4008 miss (0), cp4018 frontend miss (0)
+      - cp1065 miss (0), cp4018 miss (0), cp4018 frontend miss (0)
       X-Analytics:
       - php=hhvm
       Set-Cookie:
@@ -55,5 +55,5 @@ http_interactions:
         parameter. To begin using the new format, pass an empty string for ''continue''
         in the initial query."}},"query":{"searchinfo":{"totalhits":0},"search":[]}}'
     http_version: 
-  recorded_at: Thu, 01 Jan 2015 17:00:01 GMT
+  recorded_at: Sun, 04 Jan 2015 11:15:40 GMT
 recorded_with: VCR 2.9.3

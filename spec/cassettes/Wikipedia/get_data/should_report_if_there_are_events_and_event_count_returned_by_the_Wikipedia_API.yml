@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=0&srprop=timestamp&srsearch=%2210.1371/journal.pcbi.1002445%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000024%22&srwhat=text
+    uri: http://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=0&srprop=timestamp&srsearch=%2210.1371/journal.pcbi.1002445%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pcbi.1002445%22&srwhat=text
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      - Lagotto 3.12.1 - http://lagotto-bugfixes.local
       Accept:
       - application/json
   response:
@@ -31,19 +31,19 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Varnish:
-      - 474827480, 3001193884, 500704325
+      - 1897627811, 2779600166, 749789402
       Via:
       - 1.1 varnish, 1.1 varnish, 1.1 varnish
       Transfer-Encoding:
       - chunked
       Date:
-      - Thu, 01 Jan 2015 17:02:04 GMT
+      - Sun, 04 Jan 2015 11:15:39 GMT
       Age:
       - '0'
       Connection:
       - keep-alive
       X-Cache:
-      - cp1053 miss (0), cp4018 miss (0), cp4018 frontend miss (0)
+      - cp1066 miss (0), cp4010 miss (0), cp4018 frontend miss (0)
       X-Analytics:
       - php=hhvm
       Set-Cookie:
@@ -56,5 +56,5 @@ http_interactions:
         pass an empty string for ''continue'' in the initial query."}},"query":{"searchinfo":{"totalhits":2},"search":[{"ns":0,"title":"Circular
         permutation in proteins","timestamp":"2014-06-02T10:47:45Z"}]}}'
     http_version: 
-  recorded_at: Thu, 01 Jan 2015 17:00:00 GMT
+  recorded_at: Sun, 04 Jan 2015 11:15:39 GMT
 recorded_with: VCR 2.9.3

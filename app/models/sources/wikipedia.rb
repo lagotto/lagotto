@@ -27,7 +27,11 @@ class Wikipedia < Source
         query_url = get_query_url(work, host: host, namespace: namespace)
         result = get_result(query_url, options)
 
-        sum[lang] = result.fetch("query", {}).fetch("searchinfo", {}).fetch("totalhits", nil)
+        if result.is_a?(Hash)
+          sum[lang] = result.fetch("query", {}).fetch("searchinfo", {}).fetch("totalhits", nil)
+        else
+          sum[lang] = nil
+        end
         sum
       end
     end
