@@ -1,6 +1,6 @@
 class PlosComments < Source
   def get_query_url(work)
-    return nil unless work.doi =~ /^10.1371/
+    return nil unless work.doi =~ /^10.1371\/journal/
 
     url % { :doi => work.doi }
   end

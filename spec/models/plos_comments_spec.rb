@@ -16,6 +16,11 @@ describe PlosComments, type: :model, vcr: true do
       expect(subject.get_data(work)).to eq({})
     end
 
+    it "should report that there are no events if the doi is for PLOS Currents" do
+      work = FactoryGirl.build(:work, :doi => "10.1371/currents.md.411a8332d61e22725e6937b97e6d0ef8")
+      expect(subject.get_data(work)).to eq({})
+    end
+
     it "should report if the work was not found by the PLOS comments API" do
       body = File.read(fixture_path + 'plos_comments_error.txt')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body, :status => 404)
