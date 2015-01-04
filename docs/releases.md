@@ -3,6 +3,13 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.12.2 (January 4, 2015)
+
+[Lagotto 3.12.2](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.2) was released on January 4, 2015 with the following changes:
+
+* store blank values for works as `nil`, using the [nilify_blanks](https://github.com/rubiety/nilify_blanks) gem ([#218](https://github.com/articlemetrics/lagotto/issues/218))
+* Don't cache worker_count for sources, as otherwise the rate-limiting functionality doesn't work properly ([#219](https://github.com/articlemetrics/lagotto/issues/219))
+
 ## Lagotto 3.12.1 (January 4, 2015)
 
 [Lagotto 3.12.1](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.1) was released on January 4, 2015 with the following changes:
