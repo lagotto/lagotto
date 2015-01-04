@@ -3,6 +3,12 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.12.4 (January 5, 2015)
+
+[Lagotto 3.12.4](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.4) was released on January 5, 2015 with the following change:
+
+* Store and display Scopus and Web of Science identifiers ([#221](https://github.com/articlemetrics/lagotto/issues/221))
+
 ## Lagotto 3.12.3 (January 4, 2015)
 
 [Lagotto 3.12.3](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.3) was released on January 4, 2015 with the following change:
