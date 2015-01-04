@@ -5,10 +5,11 @@
       <%= simple_form_for @work, :url => works_path, :html => { :remote => true } do |f| %>
         <%= f.input :title, :input_html => { :rows => 2 } %>
         <%= f.input :doi, :label => 'DOI' %>
+        <%= f.input :canonical_url, :label => 'Canonical URL' %>
         <%= f.input :pmid, :label => 'PubMed ID' %>
         <%= f.input :pmcid, :label => 'PubMed Central ID' %>
-        <%= f.input :mendeley_uuid, :label => 'Mendeley UUID' %>
-        <%= f.input :canonical_url, :label => 'Canonical URL' %>
+        <%= f.input :wos, :label => 'Web of Science ID' %>
+        <%= f.input :scp, :label => 'Scopus ID' %>
         <%= f.association :work_type, :include_blank => false %>
         <% if publishers.length > 1 %>
           <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>

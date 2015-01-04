@@ -17,9 +17,11 @@
       <%= simple_form_for @work, :url => work_path(@work), :html => { :role => "form", :remote => true } do |f| %>
         <%= f.input :title, :input_html => { :rows => 2 } %>
         <%= f.input :doi, :label => 'DOI', :disabled => @work.pid_type == "doi" %>
+        <%= f.input :canonical_url, :label => 'Canonical URL', :disabled => @work.pid_type == "url" %>
         <%= f.input :pmid, :label => 'PubMed ID', :disabled => @work.pid_type == "pmid" %>
         <%= f.input :pmcid, :label => 'PubMed Central ID', :disabled => @work.pid_type == "pmcid" %>
-        <%= f.input :canonical_url, :label => 'Canonical URL', :disabled => @work.pid_type == "url" %>
+        <%= f.input :wos, :label => 'Web of Science ID', :disabled => @work.pid_type == "wos" %>
+        <%= f.input :scp, :label => 'Scopus ID', :disabled => @work.pid_type == "scp" %>
         <%= f.association :work_type, :include_blank => false %>
         <% if publishers.length > 1 %>
           <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
@@ -51,6 +53,10 @@
           <dt>DOI</dt>
           <dd class="doi" %><%= link_to h(@work.doi), @work.doi_as_url %></dd>
         <% end %>
+        <% if @work.canonical_url.present? %>
+          <dt>Publisher URL</dt>
+          <dd><%= link_to h(@work.canonical_url), @work.canonical_url %></dd>
+        <% end %>
         <% if @work.pmid.present? %>
           <dt>PubMed ID</dt>
           <dd id="pmid" data-pmid="<%= @work.pmid %>"><%= link_to @work.pmid, @work.pmid_as_url %></dd>
@@ -59,17 +65,13 @@
           <dt>PubMed Central ID</dt>
           <dd id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to "PMC#{@work.pmcid}", @work.pmcid_as_url %></dd>
         <% end %>
-        <% if @work.canonical_url.present? %>
-          <dt>Publisher Link</dt>
-          <dd><%= link_to h(@work.canonical_url), @work.canonical_url %></dd>
+        <% if @work.wos.present? && @work.wos_url.present? %>
+          <dt>Web of Science ID</dt>
+          <dd><%= link_to @work.wos, @work.wos_url %></dd>
         <% end %>
-        <% if @work.wos_url.present? %>
-          <dt>Web of Science</dt>
-          <dd><%= link_to truncate(@work.wos_url, length: 80), @work.wos_url %></dd>
-        <% end %>
-        <% if @work.scopus_url.present? %>
-          <dt>Scopus</dt>
-          <dd><%= link_to @work.scopus_url, @work.scopus_url %></dd>
+        <% if @work.scp.present? && @work.scopus_url.present? %>
+          <dt>Scopus ID</dt>
+          <dd><%= link_to @work.scp, @work.scopus_url %></dd>
         <% end %>
         <% if @work.mendeley_url.present? %>
           <dt>Mendeley</dt>

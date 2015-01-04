@@ -14,6 +14,12 @@ class Scopus < Source
       event_count = events['citedby-count'].to_i
       link = events["link"].find { |link| link["@ref"] == "scopus-citedby" }
       events_url = link["@href"]
+
+      # store Scopus ID if we haven't done this already
+      unless work.scp.present?
+        scp = events['dc:identifier']
+        work.update_attributes(:scp => scp[10..-1]) if scp.present?
+      end
     else
       event_count = 0
       events_url = nil

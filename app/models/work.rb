@@ -121,6 +121,10 @@ class Work < ActiveRecord::Base
     "http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{pmcid}" if pmcid.present?
   end
 
+  def scp_as_url
+    "http://www.ncbi.nlm.nih.gov/pubmed/#{scp}" if scp.present?
+  end
+
   def doi_prefix
     doi[/^10\.\d{4,5}/]
   end

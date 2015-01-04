@@ -25,6 +25,13 @@ class Wos < Source
 
     values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
     event_count = values[0].to_i
+
+    # store Web of Science ID if we haven't done this already
+    unless work.wos.present?
+      wos = values[1]
+      work.update_attributes(:wos => wos) if wos.present?
+    end
+
     # fix for parsing error
     event_count = 0 if event_count > 100000
     events_url = values[2]

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Scopus, type: :model, vcr: true do
   subject { FactoryGirl.create(:scopus) }
 
-  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pmed.0030442") }
+  let(:work) { FactoryGirl.build(:work, doi: "10.1371/journal.pmed.0030442", scp: nil) }
 
   context "get_data" do
     it "should report that there are no events if the DOI is missing" do
@@ -64,6 +64,7 @@ describe Scopus, type: :model, vcr: true do
         events = JSON.parse(body)["search-results"]["entry"][0]
         response = subject.parse_data(result, work)
         expect(response).to eq(events: events, :events_by_day=>[], :events_by_month=>[], event_count: 1814, events_url: "http://www.scopus.com/inward/citedby.url?partnerID=HzOxMe3b&scp=33845338724", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 1814, total: 1814 })
+        expect(work.scp).to eq("33845338724")
       end
 
       it "should catch timeout errors with the Scopus API" do

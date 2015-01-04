@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Wos, type: :model, vcr: true do
   subject { FactoryGirl.create(:wos) }
 
-  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0043007") }
+  let(:work) { FactoryGirl.build(:work, doi: "10.1371/journal.pone.0043007", wos: nil) }
 
   it "should generate a proper XMl request" do
     work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0043007")
@@ -78,6 +78,7 @@ describe Wos, type: :model, vcr: true do
       response = subject.parse_data(result, work)
       expect(response[:event_count]).to eq(1005)
       expect(response[:events_url]).to include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
+      expect(work.wos).to eq("000237966900006")
     end
 
     it "should catch IP address errors with the Wos API" do
