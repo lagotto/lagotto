@@ -9,6 +9,9 @@ class Work < ActiveRecord::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  # store blank values as nil
+  nilify_blanks
+
   belongs_to :publisher, primary_key: :member_id
   belongs_to :work_type
   has_many :retrieval_statuses, :dependent => :destroy
