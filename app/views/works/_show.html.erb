@@ -63,20 +63,20 @@
           <dt>Publisher Link</dt>
           <dd><%= link_to h(@work.canonical_url), @work.canonical_url %></dd>
         <% end %>
-        <% if @work.mendeley_url.present? %>
-          <dt>Mendeley</dt>
-          <dd><%= link_to @work.mendeley_url, @work.mendeley_url %></dd>
-        <% end %>
         <% if @work.wos_url.present? %>
           <dt>Web of Science</dt>
-          <dd><%= link_to truncate(@work.wos_url), @work.wos_url %></dd>
+          <dd><%= link_to truncate(@work.wos_url, length: 80), @work.wos_url %></dd>
         <% end %>
         <% if @work.scopus_url.present? %>
           <dt>Scopus</dt>
           <dd><%= link_to @work.scopus_url, @work.scopus_url %></dd>
         <% end %>
+        <% if @work.mendeley_url.present? %>
+          <dt>Mendeley</dt>
+          <dd><%= link_to @work.mendeley_url, @work.mendeley_url %></dd>
+        <% end %>
         <% if @work.pmid.present? %>
-          <dt>Other URLs</dt>
+          <dt>Europe PMC</dt>
           <dd><%= link_to h(@work.pmid_as_europepmc_url), @work.pmid_as_europepmc_url %></dd>
         <% end %>
       </dl>
