@@ -303,6 +303,8 @@ FactoryGirl.define do
       role "admin"
       authentication_token "12345"
     end
+
+    initialize_with { User.where(authentication_token: authentication_token).first_or_initialize }
   end
 
   factory :publisher do
