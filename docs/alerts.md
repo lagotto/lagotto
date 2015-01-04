@@ -26,7 +26,7 @@ Since ALM 2.9 we not only collect errors messages, but also other unusual activi
 Filters are used to detect unusual actiivty in the data collected from external APIs. These includes errors, suspicious gaming activity, but also highly unusual works For performance reasons filters are only applied to recently collected data (24 hours by default). The following filters are currently available:
 
 * **ApiResponseTooSlowError**. Raise an error if successful API responses took longer than the specified time in seconds.
-* **ArticleNotUpdatedError**. Raises an error if works have not been updated within the specified interval in days
+* **WorkNotUpdatedError**. Raises an error if works have not been updated within the specified interval in days
 * **EventCountDecreasingError**. Raises an error if the event count decreases.
 * **EventCountIncreasingTooFastError**. Raises an error if the event count increases faster than the specified value per day.
 * **CitationMilestoneAlert**. Creates an alert if an work has been cited the specified number of times.

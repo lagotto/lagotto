@@ -60,6 +60,12 @@ The automatic import of works - configured in the `.env` file - has changed:
 IMPORT=
 ```
 
+To load the new sources please run
+
+```sh
+RAILS_ENV=production bundle exec rake db:seed
+```
+
 ## Lagotto 3.11 (December 24, 2014)
 
 [Lagotto 3.11](https://github.com/articlemetrics/lagotto/releases/tag/v.3.11) was released on December 24, 2014 with the following changes:
@@ -88,6 +94,12 @@ CAS_INFO_URL=
 CAS_PREFIX=
 ```
 
+To load the new Github source please run
+
+```sh
+RAILS_ENV=production bundle exec rake db:seed
+```
+
 ## Lagotto 3.10 (December 18, 2014)
 
 [Lagotto 3.10](https://github.com/articlemetrics/lagotto/releases/tag/v.3.10) was released on December 18, 2014 with the following changes:
@@ -100,6 +112,12 @@ If you are upgrading and have used DOIs as persistent identifier, please run the
 
 ```sh
 RAILS_ENV=production bundle exec rake db:works:load_pids
+```
+
+To load the renamed filters, please run
+
+```sh
+RAILS_ENV=production bundle exec rake db:seed
 ```
 
 ## Lagotto 3.9.8 (December 17, 2014)

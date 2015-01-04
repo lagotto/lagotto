@@ -1,6 +1,8 @@
-# encoding: UTF-8
 # Load filters
-article_not_updated_error = WorkNotUpdatedError.where(name: 'WorkNotUpdatedError').first_or_create(
+
+obsolete_filters = Filter.where(name: 'ArticleNotUpdatedError').delete_all
+
+work_not_updated_error = WorkNotUpdatedError.where(name: 'WorkNotUpdatedError').first_or_create(
   :display_name => 'work not updated error',
   :description => 'Raises an error if articles have not been updated within the specified interval in days.')
 event_count_decreasing_error = EventCountDecreasingError.where(name: 'EventCountDecreasingError').first_or_create(
