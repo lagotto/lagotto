@@ -169,7 +169,7 @@ class Work < ActiveRecord::Base
   end
 
   def all_urls
-    ([canonical_url, pmid_as_europepmc_url] + events_urls).compact
+    [canonical_url, pmid_as_europepmc_url].compact
   end
 
   def canonical_url_escaped
@@ -194,6 +194,14 @@ class Work < ActiveRecord::Base
 
   def events_url(name)
     signposts.reduce(nil) { |sum, source| source[0] == name ? source[2] : sum }
+  end
+
+  def scopus_url
+    @scopus_url ||= events_url("scopus")
+  end
+
+  def wos_url
+    @wos_url ||= events_url("wos")
   end
 
   def mendeley_url
