@@ -81,14 +81,6 @@ class Work < ActiveRecord::Base
     end
   end
 
-  # def url
-  #   case pid_type
-  #   when "doi" then "http://dx.doi.org/#{doi}"
-  #   when "pmic" then "http://www.ncbi.nlm.nih.gov/pubmed/#{pmid}"
-  #   when "pmcid" then "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}"
-  #   end
-  # end
-
   def to_param
     "#{pid_type}/#{pid}"
   end
@@ -298,7 +290,7 @@ class Work < ActiveRecord::Base
     end
   end
 
-  # pid is required, use doi, pmid, pmcid, or canonical url in that order
+  # pid is required, use doi, pmid, pmcid, wos, scp or canonical url in that order
   def set_pid
     if doi.present?
       write_attribute(:pid, doi)
@@ -309,6 +301,12 @@ class Work < ActiveRecord::Base
     elsif pmcid.present?
       write_attribute(:pid, "PMC#{pmcid}")
       write_attribute(:pid_type, "pmcid")
+    elsif wos.present?
+      write_attribute(:pid, wos)
+      write_attribute(:pid_type, "wos")
+    elsif scp.present?
+      write_attribute(:pid, scp)
+      write_attribute(:pid_type, "scp")
     elsif canonical_url.present?
       write_attribute(:pid, canonical_url)
       write_attribute(:pid_type, "url")

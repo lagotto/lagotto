@@ -79,6 +79,44 @@ describe "/api/v5/articles", :type => :api do
       end
     end
 
+    context "works found via wos" do
+      before(:each) do
+        work_list = works.map { |work| "#{work.wos}" }.join(",")
+        @uri = "/api/v5/articles?ids=#{work_list}&type=wos&info=summary&api_key=#{api_key}"
+      end
+
+      it "JSON" do
+        get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
+        expect(last_response.status).to eq(200)
+
+        response = JSON.parse(last_response.body)
+        data = response["data"]
+        expect(data.length).to eq(50)
+        expect(data.any? do |work|
+          work["wos"] == works[0].wos
+        end).to be true
+      end
+    end
+
+    context "works found via scp" do
+      before(:each) do
+        work_list = works.map { |work| "#{work.scp}" }.join(",")
+        @uri = "/api/v5/articles?ids=#{work_list}&type=scp&info=summary&api_key=#{api_key}"
+      end
+
+      it "JSON" do
+        get @uri, nil, 'HTTP_ACCEPT' => 'application/json'
+        expect(last_response.status).to eq(200)
+
+        response = JSON.parse(last_response.body)
+        data = response["data"]
+        expect(data.length).to eq(50)
+        expect(data.any? do |work|
+          work["scp"] == works[0].scp
+        end).to be true
+      end
+    end
+
     context "works found via URL" do
       before(:each) do
         work_list = works.map { |work| "#{work.canonical_url}" }.join(",")
