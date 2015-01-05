@@ -26,7 +26,7 @@ class Import
         member: member,
         sample: sample,
         offset: offset }
-      ImportJob.perform_later(self.class.to_s, options)
+      ImportJob.perform_now(self.class.to_s, options)
     end
   end
 

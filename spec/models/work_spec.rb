@@ -190,8 +190,18 @@ describe Work, type: :model, vcr: true do
       expect(work.to_param).to eq "pmcid/PMC#{work.pmcid}"
     end
 
+    it 'for wos' do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil)
+      expect(work.to_param).to eq "wos/#{work.wos}"
+    end
+
+    it 'for scp' do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil)
+      expect(work.to_param).to eq "scp/#{work.scp}"
+    end
+
     it 'for canonical_url' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, pmcid: nil, wos: nil, scp: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
       expect(work.to_param).to eq "url/#{work.canonical_url}"
     end
   end

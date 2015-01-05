@@ -285,7 +285,7 @@ class Source < ActiveRecord::Base
   end
 
   def update_cache
-    CacheJob.perform_later(self)
+    CacheJob.perform_now(self)
   end
 
   def write_cache

@@ -4,16 +4,16 @@ namespace :cache do
 
   desc "Update cached API responses for admin dashboard"
   task :update => :environment do
-    StatusCacheJob.perform_later
+    StatusCacheJob.perform_now
     puts "Cache update for status page has been queued."
 
     Source.visible.each do |source|
-      CacheJob.perform_later(source)
+      CacheJob.perform_now(source)
       puts "Cache update for source #{source.display_name} has been queued."
     end
 
     Publisher.all.each do |publisher|
-      CacheJob.perform_later(publisher)
+      CacheJob.perform_now(publisher)
       puts "Cache update for publisher #{publisher.title} has been queued."
     end
   end
