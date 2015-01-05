@@ -29,8 +29,8 @@ namespace :cron do
     Rake::Task["db:alerts:resolve"].reenable
   end
 
-  desc 'Daily cron task'
-  task :nightly => :environment do
+  desc 'Daily cron import task'
+  task :import => :environment do
     case ENV['IMPORT']
     when "crossref", "member", "sample", "member_sample"
       Rake::Task["db:works:import:crossref"].invoke

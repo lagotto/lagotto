@@ -46,8 +46,8 @@ every 1.day, at: "1:20 AM" do
   rake "cron:daily"
 end
 
-every 1.day, at: "5:20 PM" do
-  rake "cron:nightly", :output => "log/cron_import.log"
+every "20 11,16 * * *" do
+  rake "cron:import", :output => "log/cron_import.log"
 end
 
 every :monday, at: "1:40 AM" do
