@@ -41,8 +41,10 @@ class RetrievalStatus < ActiveRecord::Base
   def perform_get_data
     result = source.get_data(work, timeout: source.timeout, work_id: work_id, source_id: source_id)
 
-    # write API response from external source to log/agent.log, using source name and work pid as tags
-    AGENT_LOGGER.tagged(source.name, work.pid) { AGENT_LOGGER.info "#{result.inspect}" }
+    if ENV["LOGSTASH_PATH"].present?
+      # write API response from external source to log/agent.log, using source name and work pid as tags
+      AGENT_LOGGER.tagged(source.name, work.pid) { AGENT_LOGGER.info "#{result.inspect}" }
+    end
 
     data = source.parse_data(result, work, work_id: work_id, source_id: source_id)
     history = History.new(id, data)
