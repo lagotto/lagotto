@@ -19,17 +19,17 @@ class Status
     Rails.cache.write("status/works_count/#{timestamp}", Work.count)
   end
 
-  def works_last30_count
+  def works_last_day_count
     if ActionController::Base.perform_caching
-      Rails.cache.read("status/works_last30_count/#{update_date}").to_i
+      Rails.cache.read("status/works_last_day_count/#{update_date}").to_i
     else
-      Work.last_x_days(30).count
+      Work.last_x_days(1).count
     end
   end
 
-  def works_last30_count=(timestamp)
-    Rails.cache.write("status/works_last30_count/#{timestamp}",
-                      Work.last_x_days(30).count)
+  def works_last_day_count=(timestamp)
+    Rails.cache.write("status/works_last_day_count/#{timestamp}",
+                      Work.last_x_days(1).count)
   end
 
   def events_count
@@ -191,7 +191,7 @@ class Status
 
     # loop through cached attributes we want to update
     [:works_count,
-     :works_last30_count,
+     :works_last_day_count,
      :events_count,
      :alerts_count,
      :job_count,

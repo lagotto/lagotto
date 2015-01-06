@@ -10,7 +10,7 @@ class ApiResponse < ActiveRecord::Base
 
   scope :unresolved, -> { where("unresolved = ?", true) }
   scope :filter, ->(id) { where("unresolved = ?", true).where("id <= ?", id) }
-  scope :total, ->(duration) { where("created_at > ?", Time.zone.now.to_date - duration.days) }
+  scope :total, ->(duration) { where("created_at > ?", Time.zone.now - duration.hours) }
   scope :decreasing, ->(source_ids) { where("event_count < previous_count").where(skipped: false).where(source_id: source_ids) }
   scope :increasing, ->(number, source_ids) { where("update_interval IS NOT NULL").where("((event_count - previous_count) / update_interval) >= ?", number).where(source_id: source_ids) }
   scope :slow, ->(number) { where("duration >= ?", number * 1000).where(skipped: false) }

@@ -1,5 +1,5 @@
 class ApiRequest < ActiveRecord::Base
-  scope :total, ->(duration) { where("created_at > ?", Time.zone.now.to_date - duration.days) }
+  scope :total, ->(duration) { where("created_at > ?", Time.zone.now - duration.hours) }
 
   def self.per_page
     1000

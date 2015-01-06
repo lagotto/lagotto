@@ -13,10 +13,10 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="panel <%= @status.works_last30_count > 0 ? 'panel-default' : 'panel-warning' %>">
-      <div class="panel-heading">Works <small class="pull-right">last 30 days</small></div>
+    <div class="panel <%= @status.works_last_day_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">Works <small class="pull-right">last day</small></div>
       <div class="panel-body text-center">
-        <h2 id="works_last30_count"><%= link_to_if @status.works_last30_count > 0, number_with_delimiter(@status.works_last30_count), works_path %></h2>
+        <h2 id="works_last30_count"><%= link_to_if @status.works_last_day_count > 0, number_with_delimiter(@status.works_last_day_count), works_path %></h2>
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@
 <div class="row">
   <div class="col-md-4">
     <div class="panel <%= @status.responses_count > 0 ? 'panel-default' : 'panel-warning' %>">
-      <div class="panel-heading">API responses <small class="pull-right">last 24 hours</small></div>
+      <div class="panel-heading">API responses <small class="pull-right">last hour</small></div>
       <div class="panel-body text-center">
         <h2 id="responses_count"><%= link_to_if @status.responses_count > 0 && can?(:read, Alert), number_with_delimiter(@status.responses_count), sources_path %></h2>
       </div>
@@ -41,7 +41,7 @@
   </div>
   <div class="col-md-4">
     <div class="panel <%= @status.requests_count > 0 ? 'panel-default' : 'panel-warning' %>">
-      <div class="panel-heading">API requests <small class="pull-right">last 24 hours</small></div>
+      <div class="panel-heading">API requests <small class="pull-right">last hour</small></div>
       <div class="panel-body text-center">
         <h2 id="requests_count"><%= link_to_if @status.requests_count > 0 && can?(:read, Alert), number_with_delimiter(@status.requests_count), api_requests_path %></h2>
       </div>
