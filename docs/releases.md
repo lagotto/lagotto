@@ -3,6 +3,12 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.12.6 (January 6, 2015)
+
+[Lagotto 3.12.6](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.6) was released on January 6, 2015 with the following change:
+
+* added **works published last day**, **api responses last hour**, and **api requests last hour** to `/heartbeat` API endpoint, and changed status page accordingly ([#226](https://github.com/articlemetrics/lagotto/issues/226))
+
 ## Lagotto 3.12.5 (January 6, 2015)
 
 [Lagotto 3.12.5](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.5) was released on January 6, 2015 with the following change:
