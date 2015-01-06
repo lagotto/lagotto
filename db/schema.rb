@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150104210301) do
+ActiveRecord::Schema.define(version: 20150106224131) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20150104210301) do
     t.string   "info",          limit: 255
     t.string   "source",        limit: 255
     t.text     "ids",           limit: 65535
+    t.float    "duration",      limit: 24
   end
 
   add_index "api_requests", ["api_key", "created_at"], name: "index_api_requests_api_key_created_at", using: :btree

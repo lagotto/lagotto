@@ -116,6 +116,19 @@ class Status
                       ApiRequest.total(1).count)
   end
 
+  def requests_average
+    if ActionController::Base.perform_caching
+      Rails.cache.fetch("status/requests_average/#{update_date}").to_i
+    else
+      ApiRequest.total(1).average("duration").to_i
+    end
+  end
+
+  def requests_average=(timestamp)
+    Rails.cache.write("status/requests_average/#{timestamp}",
+                      ApiRequest.total(1).average("duration").to_i)
+  end
+
   def users_count
     User.count
   end
@@ -197,6 +210,7 @@ class Status
      :job_count,
      :responses_count,
      :requests_count,
+     :requests_average,
      :current_version,
      :workers,
      :update_date].each { |cached_attr| send("#{cached_attr}=", timestamp) }
