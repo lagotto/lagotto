@@ -146,9 +146,18 @@ describe Work, type: :model, vcr: true do
     end
   end
 
-  it 'sanitize title' do
-    work = FactoryGirl.create(:work, title: "<italic>Test</italic>")
-    expect(work.title).to eq("Test")
+  context "sanitize title" do
+    it "strips tags and attributes" do
+      title = '<span id="date">2013-12-05</span'
+      work = FactoryGirl.create(:work, title: title)
+      expect(work.title).to eq("2013-12-05")
+    end
+
+    it "keeps allowed tags" do
+      title = "Characterization of the Na<sup>+</sup>/H<sup>+</sup> Antiporter from <i>Yersinia pestis</i>"
+      work = FactoryGirl.create(:work, title: title)
+      expect(work.title).to eq(title)
+    end
   end
 
   it 'to doi escaped' do

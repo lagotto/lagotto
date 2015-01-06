@@ -275,7 +275,7 @@ class Work < ActiveRecord::Base
   end
 
   def sanitize_title
-    self.title = ActionController::Base.helpers.sanitize(title)
+    self.title = ActionController::Base.helpers.sanitize(title, tags: %w(b i sc sub sup))
   end
 
   def normalize_url
