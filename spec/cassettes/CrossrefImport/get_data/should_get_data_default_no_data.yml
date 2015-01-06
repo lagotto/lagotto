@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      - Lagotto 3.12.4 - http://lagotto-bugfixes.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 01 Jan 2015 23:15:24 GMT
+      - Tue, 06 Jan 2015 10:26:03 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
