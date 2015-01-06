@@ -67,7 +67,7 @@ function worksViz(json) {
       .attr("class", "work")
       .append("a")
       .attr("href", function(d) { return "/works/" + work["id"]; })
-      .text(work["title"]);
+      .html(work["title"]);
     d3.select("#results").append("p")
       .text(formattedDate(date, date_parts.length) + ". ")
       .append("a")
