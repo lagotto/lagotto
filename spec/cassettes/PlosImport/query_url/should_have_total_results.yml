@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.plos.org/search?fl=id,publication_date,title,cross_published_journal_name,author_display&fq=%2Bpublication_date:%5B2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=0&start=0&wt=json
+    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display&fq=%2Bpublication_date:%5B2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=0&start=0&wt=json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      - Lagotto 3.12.4 - http://lagotto-bugfixes.local
       Accept:
       - application/json
   response:
@@ -17,13 +17,13 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 01 Jan 2015 20:50:39 GMT
+      - Tue, 06 Jan 2015 08:53:30 GMT
       Server:
       - Apache-Coyote/1.1
       Last-Modified:
-      - Thu, 01 Jan 2015 06:23:50 GMT
+      - Tue, 06 Jan 2015 07:27:48 GMT
       Etag:
-      - '"ZmYyNjg4MDAwMDAwMDAwMFNvbHI="'
+      - '"Mjk4NGM4MDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -31,7 +31,7 @@ http_interactions:
       Transfer-Encoding:
       - chunked
       Set-Cookie:
-      - Coyote-2-9514450c=95144521:0; path=/
+      - Coyote-2-9514450c=95144522:0; path=/
     body:
       encoding: UTF-8
       string: |

@@ -18,7 +18,7 @@ class PlosImport < Import
     params = { q: "*:*",
                start: offset,
                rows: rows,
-               fl: "id,publication_date,title,cross_published_journal_name,author_display",
+               fl: "id,publication_date,title_display,cross_published_journal_name,author_display",
                fq: "+#{date_range}+doc_type:full",
                wt: "json" }
     url + params.to_query
@@ -43,7 +43,7 @@ class PlosImport < Import
       publication_date = get_iso8601_from_time(item.fetch("publication_date", nil))
       date_parts = get_date_parts(publication_date)
       year, month, day = date_parts.fetch("date-parts", []).first
-      title = item.fetch("title", nil)
+      title = item.fetch("title_display", nil)
 
       csl = {
         "issued" => date_parts,
