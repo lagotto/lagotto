@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106224131) do
+ActiveRecord::Schema.define(version: 20150107223244) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -73,25 +73,6 @@ ActiveRecord::Schema.define(version: 20150106224131) do
   add_index "api_responses", ["created_at"], name: "index_api_responses_created_at", using: :btree
   add_index "api_responses", ["event_count"], name: "index_api_responses_on_event_count", using: :btree
   add_index "api_responses", ["unresolved", "id"], name: "index_api_responses_unresolved_id", using: :btree
-
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   limit: 4,        default: 0
-    t.integer  "attempts",   limit: 4,        default: 0
-    t.text     "handler",    limit: 16777215
-    t.text     "last_error", limit: 65535
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by",  limit: 255
-    t.string   "queue",      limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "delayed_jobs", ["locked_at", "locked_by", "failed_at"], name: "index_delayed_jobs_locked_at_locked_by_failed_at", using: :btree
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
-  add_index "delayed_jobs", ["queue"], name: "index_delayed_jobs_queue", using: :btree
-  add_index "delayed_jobs", ["run_at", "locked_at", "locked_by", "failed_at", "priority"], name: "index_delayed_jobs_run_at_locked_at_failed_at_priority", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.integer  "work_id",          limit: 4, null: false
