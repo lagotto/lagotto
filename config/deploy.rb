@@ -36,6 +36,10 @@ set :application, ENV["APPLICATION"]
 set :repo_url, 'https://github.com/articlemetrics/lagotto.git'
 set :stage, ENV["STAGE"]
 
+# Sidekiq
+set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
+set :pty, false
+
 # Default branch is :master
 set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
 
@@ -71,12 +75,7 @@ set :bundle_path, -> { shared_path.join('vendor/bundle') }
 # Use system libraries for Nokogiri
 # set :bundle_env_variables, 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1
 
-# number of background workers
-set :delayed_job_args, "-n #{ENV['WORKERS']}"
-
 namespace :deploy do
-
-  before :starting, "delayed_job:stop"
 
   desc 'Restart application'
   task :restart do
@@ -88,5 +87,4 @@ namespace :deploy do
   after :publishing, :restart
 
   after :finishing, "deploy:cleanup"
-  after :finishing, "delayed_job:start"
 end
