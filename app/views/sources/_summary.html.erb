@@ -8,6 +8,10 @@
             <th class="name">Source</th>
             <th>Status</th>
             <th class="description">Description</th>
+            <% if can?(:read, Alert) %>
+              <th class="number">Queued&nbsp;Works</th>
+              <th class="number">Stale&nbsp;Works</th>
+            <% end %>
           </tr>
         </thead>
         <tbody>
@@ -16,6 +20,10 @@
               <td><%= link_to source.display_name, source_path(source) %></td>
               <td><%= state_label(source.human_state_name).html_safe %></td>
               <td><%= h(source.description) %></td>
+              <% if can?(:read, Alert) %>
+                <td class="number" id="queued_count_<%= source.name %>"><%= number_hiding_zero(source.queued_count) %></td>
+                <td class="number" id="stale_count_<%= source.name %>"><%= number_hiding_zero(source.stale_count) %></td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>

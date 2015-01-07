@@ -7,6 +7,7 @@
           <tr>
             <th class="name">Source</th>
             <th>Status</th>
+            <th class="description">Description</th>
             <% if can?(:manage, Alert) %>
               <th class="status">Actions</th>
             <% end %>
@@ -17,6 +18,7 @@
             <tr>
               <td><%= link_to_if source.installed?, source.display_name, source_path(source) %></td>
               <td><%= state_label(source.human_state_name).html_safe %></td>
+              <td><%= h(source.description) %></td>
               <% if can?(:manage, Alert) %>
                 <td>
                   <% if source.human_state_name == "available" %>

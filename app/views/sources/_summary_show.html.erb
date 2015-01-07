@@ -1,15 +1,6 @@
 <div class="content">
   <div class="row">
     <div class="col-md-4">
-      <div class="panel panel-source <%= @source.human_state_name == 'working' ? 'panel-success' : 'panel-default' %>">
-        <div class="panel-heading">Jobs</div>
-        <div class="panel-body">
-          <p><%= number_with_delimiter(@source.worker_count) %> workers, <%= number_with_delimiter(@source.job_count) %> jobs</p>
-          <p>&nbsp;</br>&nbsp;</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
       <div class="panel panel-source <%= @source.response_count > 0 ? 'panel-default' : 'panel-warning' %>">
         <div class="panel-heading">Responses <small class="pull-right">last 24 hours</small></div>
         <div class="panel-body">

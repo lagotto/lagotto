@@ -6,7 +6,6 @@
   <ul class="nav nav-pills" id="nav_index">
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
     <% if can?(:read, Alert) %>
-      <li><a href="#jobs" data-toggle="tab" title="Jobs">Jobs</a></li>
       <li><a href="#responses" data-toggle="tab" title="Responses">Responses</a></li>
     <% end %>
     <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
@@ -20,9 +19,6 @@
       <%= render :partial => 'summary' %>
     </div>
     <% if can?(:read, Alert) %>
-      <div class="tab-pane" id="jobs">
-        <%= render :partial => 'jobs' %>
-      </div>
       <div class="tab-pane" id="responses">
         <%= render :partial => 'responses' %>
       </div>

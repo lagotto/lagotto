@@ -7,8 +7,6 @@
           <tr>
             <th class="name">Source</th>
             <th>Status</th>
-            <th class="number">Workers</th>
-            <th class="number">Jobs</th>
             <th class="number">Queued&nbsp;Works</th>
             <th class="number">Stale&nbsp;Works</th>
           </tr>
@@ -18,8 +16,6 @@
             <tr>
               <td><%= link_to source.display_name, source_path(source) %></td>
               <td><%= state_label(source.human_state_name).html_safe %></td>
-              <td class="number" id="worker_count_<%= source.name %>"><%= number_hiding_zero(source.worker_count) %></td>
-              <td class="number" id="job_count_<%= source.name %>"><%= number_hiding_zero(source.job_count) %></td>
               <td class="number" id="queued_count_<%= source.name %>"><%= number_hiding_zero(source.queued_count) %></td>
               <td class="number" id="stale_count_<%= source.name %>"><%= number_hiding_zero(source.stale_count) %></td>
             </tr>

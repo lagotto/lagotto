@@ -1,12 +1,10 @@
 This is the Lagotto status report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.
 
 <%= number_with_delimiter(@status.works_count) %> Works
-<%= number_with_delimiter(@status.works_last30_count) %> Works last 30 days
+<%= number_with_delimiter(@status.works_last_day_count) %> Works last 30 days
 <%= number_with_delimiter(@status.events_count) %> Events
 <%= number_with_delimiter(@status.alerts_count) %> Unresolved alerts
 
-<%= number_with_delimiter(@status.workers_count) %> Active workers
-<%= number_with_delimiter(@status.job_count) %> Jobs
 <%= number_with_delimiter(@status.responses_count) %> API responses in the last 24 hours
 <%= number_with_delimiter(@status.requests_count) %> API requests in the last 24 hours
 

@@ -76,59 +76,10 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="panel <%= @status.couchdb_size > 0 ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">CouchDB database size</div>
-        <div class="panel-body text-center">
-          <h2 id="couchdb_size"><%= number_to_human_size(@status.couchdb_size) %></h2>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-8">
-      <div class="panel <%= @status.workers_count > 0 ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">Workers</div>
-        <% if @status.workers_count > 0 %>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Identifier</th>
-                <th>PID</th>
-                <th>Memory</th>
-                <th>CPU</th>
-                <th>State</th>
-              </tr>
-            </thead>
-            <tbody>
-            <% @status.workers.each do |worker| %>
-              <tr>
-                <td><%= worker.id %></td>
-                <td><%= worker.pid %></td>
-                <td><%= number_to_percentage(worker.memory, precision: 1) %></td>
-                <td><%= number_to_percentage(worker.cpu, precision: 1) %></td>
-                <td><%= worker.state %></td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
-        <% else %>
-          <div class="panel-body">
-            No workers found
-          </div>
-        <% end %>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="panel <%= @status.job_count > 0 ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">Jobs</div>
-        <div class="panel-body text-center">
-          <h2 id="active_job_count"><%= link_to_if @status.job_count > 0, number_with_delimiter(@status.job_count), sources_path %></h2>
-        </div>
-      </div>
       <div class="panel <%= @status.sources_disabled_count > 0 ? 'panel-warning' : 'panel-default' %>">
         <div class="panel-heading">Sources</div>
         <div class="panel-body text-center">
-          <p>
+          <h2><small>
             <% if @status.sources_working_count > 0 %>
               <span class="label label-success" id="sources_working_count"><%= @status.sources_working_count %> working</span>
             <% end %>
@@ -141,9 +92,42 @@
             <% if @status.sources_inactive_count > 0 %>
               <span class="label label-info" id="sources_inactive_count"><%= @status.sources_inactive_count %> inactive</span>
             <% end %>
-          </p>
+            </small>
+          </h2>
         </div>
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel <%= @status.current_status == 'idle' ? 'panel-default' : 'panel-success' %>">
+        <div class="panel-heading">Jobs</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="jobs">Processed</th>
+              <th class="jobs">Failed</th>
+              <th class="jobs">Busy</th>
+              <th class="jobs">Enqueued</th>
+              <th class="jobs">Retries</th>
+              <th class="jobs">Scheduled</th>
+              <th class="jobs">Dead</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="jobs"><%= link_to_if @status.stats.processed > 0 && can?(:manage, Alert), number_with_delimiter(@status.stats.processed), sidekiq_web_path, target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @status.stats.failed > 0 && can?(:manage, Alert), number_with_delimiter(@status.stats.failed), sidekiq_web_path, target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @status.workers_size > 0 && can?(:manage, Alert), number_with_delimiter(@status.workers_size), "/sidekiq/busy", target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @status.stats.enqueued > 0 && can?(:manage, Alert), number_with_delimiter(@status.stats.enqueued), "/sidekiq/queues", target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @status.stats.retry_size > 0 && can?(:manage, Alert), number_with_delimiter(@status.stats.retry_size), "/sidekiq/retries", target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @status.stats.scheduled_size > 0 && can?(:manage, Alert), number_with_delimiter(@status.stats.scheduled_size), "/sidekiq/scheduled", target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @status.stats.dead_size > 0 && can?(:manage, Alert), number_with_delimiter(@status.stats.dead_size), "/sidekiq/morgue", target: "_blank" %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 <% end %>
+</div>

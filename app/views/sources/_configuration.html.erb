@@ -35,15 +35,12 @@
           <% end %>
         <% end %>
 
-        <%= f.input :workers, :as => :numeric, label: "Workers",
-                                                      hint: "Max. number of workers" %>
-        <%= f.input :job_batch_size, :as => :numeric, label: "Job queue",
-                                                      hint: "Number of works queued per job" %>
+        <%= f.input :queue,             collection: QUEUE_OPTIONS,
+                                        label: "Job queue",
+                                        include_blank: false,
+                                        hint: "Job queue for workers" %>
         <%= f.input :rate_limiting, :as => :numeric, label: false,
                                                       hint: "Max. requests per hour" %>
-
-        <%= f.input :wait_time, label: false,
-                                hint: "Time interval before more jobs can be added to the job queue (seconds)" %>
         <% if @source.queueable %>
           <%= f.input :staleness_week,  collection: INTERVAL_OPTIONS,
                                         label: "Update interval",
@@ -70,12 +67,6 @@
 
         <%= f.input :max_failed_queries, label: "Failed queries",
                                          hint: "Maximum number of failed queries allowed before being disabled" %>
-        <%= f.input :max_failed_query_time_interval, collection: INTERVAL_OPTIONS,
-                                                     label: false,
-                                                     include_blank: false,
-                                                     hint: "Time interval for maximum number of failed queries" %>
-        <%= f.input :disable_delay, label: false,
-                                    hint: "Time interval before source is disabled after maximum number of failed queries is reached (seconds)" %>
 
         <div class="form-group">
           <%= f.submit "Save ", class: "btn btn-default" %>
@@ -114,9 +105,7 @@
           <th>Job queue</th>
           <td>
             <%= @source.rate_limiting %> per hour rate-limiting</br>
-            <%= pluralize(@source.workers, "worker") %></br>
-            <%= @source.job_batch_size %> works per job</br>
-            <%= @source.wait_time %> seconds before more jobs can be added</br>
+            job queue <%= @source.queue %>
           </td>
         </tr>
         <tr>
@@ -135,8 +124,6 @@
           <th>Failed queries</th>
           <td>
             <%= @source.max_failed_queries %> failed queries allowed before source is disabled</br>
-            <%= distance_of_time(@source.max_failed_query_time_interval) %> interval for checking maximum number of failed queries</br>
-            <%= @source.disable_delay %> seconds before source is disabled after maximum number of failed queries is reached
           </td>
         </tr>
       </tbody>
