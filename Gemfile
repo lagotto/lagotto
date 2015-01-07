@@ -4,9 +4,8 @@ gem 'rails', '~> 4.2.0'
 gem 'mysql2', '0.3.16'
 
 gem "dotenv", '~> 1.0.2'
-gem "delayed_job", "~> 4.0.0"
-gem "delayed_job_active_record", "~> 4.0.0"
-gem "daemons", "~> 1.1.9"
+gem 'sidekiq', '~> 3.3.0'
+gem 'sinatra', :require => nil
 gem 'rake', '~> 10.4.2'
 gem "whenever", "~> 0.9.0", require: false
 gem 'parse-cron', '~> 0.1.4'
@@ -64,6 +63,7 @@ group :development do
   gem 'capistrano', '~> 3.3.5'
   gem 'capistrano-rails', '~> 1.1.1', :require => false
   gem 'capistrano-bundler', '~> 1.1.2', :require => false
+  gem 'capistrano-sidekiq'
   gem 'spring', '~> 1.1.2'
 end
 
