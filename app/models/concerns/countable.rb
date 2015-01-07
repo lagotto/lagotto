@@ -4,23 +4,6 @@ module Countable
   extend ActiveSupport::Concern
 
   included do
-    def worker_count
-      get_worker_count(name)
-    end
-
-    def job_count
-      if ActionController::Base.perform_caching
-        Rails.cache.read("#{name}/job_count/#{update_date}").to_i
-      else
-        get_job_count(name)
-      end
-    end
-
-    def job_count=(timestamp)
-      Rails.cache.write("#{name}/job_count/#{timestamp}",
-                        get_job_count(name))
-    end
-
     def works_count
       if ActionController::Base.perform_caching
         status_update_date = Rails.cache.read('status:timestamp')
@@ -101,6 +84,10 @@ module Countable
     def response_count=(timestamp)
       Rails.cache.write("#{name}/response_count/#{timestamp}",
                         api_responses.total(1).size)
+    end
+
+    def current_response_count
+      @current_response_count ||= api_responses.total(1).size
     end
 
     def average_count

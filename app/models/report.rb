@@ -136,7 +136,7 @@ class Report < ActiveRecord::Base
     config.interval = value
   end
 
-  # Reports are sent via delayed_job
+  # Reports are sent via ActiveJob
 
   def send_error_report
     ReportMailer.send_error_report(self).deliver_later
