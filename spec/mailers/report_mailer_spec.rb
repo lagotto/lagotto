@@ -111,24 +111,4 @@ describe ReportMailer, :type => :mailer do
       expect(body_html).to have_link('Go to admin dashboard', href: alerts_url(host: ENV['SERVERNAME'], :class => "SourceNotUpdatedError"))
     end
   end
-
-  describe "missing workers report" do
-    let(:report) { FactoryGirl.create(:missing_workers_report_with_admin_user) }
-    let(:mail) { ReportMailer.send_missing_workers_report(report) }
-
-    it "sends email" do
-      expect(mail.subject).to eq("[#{ENV['SITENAME']}] Missing Workers Report")
-      expect(mail.to).to eq([report.users.map(&:email).join(",")])
-      expect(mail.from).to eq([ENV['ADMIN_EMAIL']])
-    end
-
-    it "renders the body" do
-      expect(mail.body.encoded).to include("Some workers are missing")
-    end
-
-    it "provides a link to the admin dashboard" do
-      body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      expect(body_html).to have_link('Go to admin dashboard', href: status_url(host: ENV['SERVERNAME']))
-    end
-  end
 end

@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe "db:works:import:crossref" do
+  ENV['FROM_UPDATE_DATE'] = "2013-09-04"
+  ENV['UNTIL_UPDATE_DATE'] = "2013-09-05"
+  ENV['FROM_PUB_DATE'] = "2013-09-04"
+  ENV['UNTIL_PUB_DATE'] = "2013-09-05"
+
   include_context "rake"
 
   let(:output) { "Started import of 993 works in the background...\n" }
@@ -29,6 +34,11 @@ describe "db:works:import:crossref" do
 end
 
 describe "db:works:import:datacite" do
+  ENV['FROM_UPDATE_DATE'] = "2013-09-04"
+  ENV['UNTIL_UPDATE_DATE'] = "2013-09-05"
+  ENV['FROM_PUB_DATE'] = "2013-09-04"
+  ENV['UNTIL_PUB_DATE'] = "2013-09-05"
+
   include_context "rake"
 
   let(:output) { "Started import of 636 works in the background...\n" }
@@ -47,6 +57,9 @@ describe "db:works:import:datacite" do
 end
 
 describe "db:works:import:plos" do
+  ENV['FROM_PUB_DATE'] = "2013-09-04"
+  ENV['UNTIL_PUB_DATE'] = "2013-09-05"
+
   include_context "rake"
 
   let(:output) { "Started import of 29 works in the background...\n" }

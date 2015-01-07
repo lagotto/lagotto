@@ -7,14 +7,9 @@ describe Source, :type => :model do
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:display_name) }
-  it { is_expected.to validate_numericality_of(:priority).is_greater_than(0).only_integer.with_message("must be greater than 0") }
-  it { is_expected.to validate_numericality_of(:workers).is_greater_than(0).only_integer.with_message("must be greater than 0") }
+  it { is_expected.to validate_presence_of(:queue) }
   it { is_expected.to validate_numericality_of(:timeout).is_greater_than(0).only_integer.with_message("must be greater than 0") }
-  it { is_expected.to validate_numericality_of(:wait_time).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { is_expected.to validate_numericality_of(:max_failed_queries).is_greater_than(0).only_integer.with_message("must be greater than 0") }
-  it { is_expected.to validate_numericality_of(:max_failed_query_time_interval).is_greater_than(0).only_integer.with_message("must be greater than 0") }
-  it { is_expected.to validate_numericality_of(:job_batch_size).only_integer.with_message("should be between 1 and 1000") }
-  it { is_expected.to validate_inclusion_of(:job_batch_size).in_range(1..1000).with_message("should be between 1 and 1000") }
   it { is_expected.to validate_numericality_of(:rate_limiting).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { is_expected.to validate_numericality_of(:staleness_week).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { is_expected.to validate_numericality_of(:staleness_month).is_greater_than(0).only_integer.with_message("must be greater than 0") }
@@ -157,14 +152,6 @@ describe Source, :type => :model do
           expect(subject.queue_all_works).to eq(10)
         end
 
-        it "with job_batch_size" do
-          job_batch_size = 5
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids[0...job_batch_size], subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids[job_batch_size..10], subject.id), queue: subject.name, wait_until: Time.zone.now)
-          subject.job_batch_size = job_batch_size
-          expect(subject.queue_all_works).to eq(10)
-        end
-
         it "with inactive source" do
           subject.inactivate
           expect(subject.queue_all_works).to eq(0)
@@ -225,24 +212,6 @@ describe Source, :type => :model do
           expect(subject.queue_work_jobs(rs_ids)).to eq(10)
         end
 
-        it "perform callback without workers" do
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:perform).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          subject.workers = 0
-          expect(subject.queue_work_jobs(rs_ids)).to eq(10)
-        end
-
-        it "perform callback without enough workers" do
-          job_batch_size = 5
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids[0...job_batch_size], subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids[job_batch_size..10], subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:perform).with(SourceJob.new(rs_ids[0...job_batch_size], subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:perform).with(SourceJob.new(rs_ids[job_batch_size..10], subject.id), queue: subject.name, wait_until: Time.zone.now)
-          subject.job_batch_size = job_batch_size
-          subject.workers = 1
-          expect(subject.queue_work_jobs(rs_ids)).to eq(10)
-        end
-
         it "after callback" do
           allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
           allow(job).to receive(:after).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
@@ -264,12 +233,6 @@ describe Source, :type => :model do
         it "too many failed queries" do
           subject.max_failed_queries = 5
           expect(subject.check_for_failures).to be true
-        end
-
-        it "too many failed queries but they are too old" do
-          subject.max_failed_queries = 5
-          subject.max_failed_query_time_interval = 500
-          expect(subject.check_for_failures).to be false
         end
       end
     end

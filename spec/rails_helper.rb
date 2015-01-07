@@ -27,6 +27,7 @@ require 'webmock/rspec'
 require "rack/test"
 require 'draper/test/rspec_integration'
 require 'devise'
+require 'sidekiq/testing'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -136,6 +137,21 @@ RSpec.configure do |config|
       extra: { "email" => "joe_#{ENV["OMNIAUTH"]}@example.com",
                "name" => "Joe Smith" }
     })
+  end
+
+  config.before(:each) do | example |
+    # Clears out the jobs for tests using the fake testing
+    Sidekiq::Worker.clear_all
+
+    if example.metadata[:sidekiq] == :fake
+      Sidekiq::Testing.fake!
+    elsif example.metadata[:sidekiq] == :inline
+      Sidekiq::Testing.inline!
+    elsif example.metadata[:type] == :feature
+      Sidekiq::Testing.inline!
+    else
+      Sidekiq::Testing.fake!
+    end
   end
 
   def capture_stdout(&block)
