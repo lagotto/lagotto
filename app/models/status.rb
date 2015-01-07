@@ -2,9 +2,6 @@ class Status
   # include HTTP request helpers
   include Networkable
 
-  # include Active Job helpers
-  include Jobable
-
   RELEASES_URL = "https://api.github.com/repos/articlemetrics/lagotto/releases"
 
   def works_count
@@ -60,34 +57,20 @@ class Status
                       Alert.errors.count)
   end
 
+  def workers_size
+    @workers_size ||= workers.size
+  end
+
   def workers
-    if ActionController::Base.perform_caching && ENV["APP_WORKERS"].present?
-      Rails.cache.read("status/workers/#{update_date}") || []
-    else
-      Worker.all
-    end
+    @workers ||= Sidekiq::Workers.new
   end
 
-  def workers=(timestamp)
-    Rails.cache.write("status/workers/#{timestamp}",
-                      Worker.all)
+  def stats
+    @stats ||= Sidekiq::Stats.new
   end
 
-  def workers_count
-    workers.length
-  end
-
-  def job_count
-    if ActionController::Base.perform_caching
-      Rails.cache.read("status/job_count/#{update_date}").to_i
-    else
-      get_job_count
-    end
-  end
-
-  def job_count=(timestamp)
-    Rails.cache.write("status/job_count/#{timestamp}",
-                      get_job_count)
+  def current_status
+    workers_size == 0 ? 'idle' : 'active'
   end
 
   def responses_count
@@ -207,12 +190,10 @@ class Status
      :works_last_day_count,
      :events_count,
      :alerts_count,
-     :job_count,
      :responses_count,
      :requests_count,
      :requests_average,
      :current_version,
-     :workers,
      :update_date].each { |cached_attr| send("#{cached_attr}=", timestamp) }
   end
 end

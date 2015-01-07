@@ -5,7 +5,7 @@ class RetrievalHistoryJob < ActiveJob::Base
   # include CouchDB helpers
   include Couchable
 
-  queue_as :low_priority
+  queue_as :low
 
   def perform(rh_ids)
     rh_ids.each { | rh_id | remove_lagotto_data(rh_id) }
