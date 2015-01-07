@@ -147,20 +147,8 @@ module Configurable
       config.count_limit = value
     end
 
-    def workers
-      config.workers || 1000
-    end
-
-    def workers=(value)
-      config.workers = value.to_i
-    end
-
     def disable_delay
-      config.disable_delay || 10
-    end
-
-    def disable_delay=(value)
-      config.disable_delay = value.to_i
+      10
     end
 
     def timeout
@@ -169,14 +157,6 @@ module Configurable
 
     def timeout=(value)
       config.timeout = value.to_i
-    end
-
-    def wait_time
-      config.wait_time || 300
-    end
-
-    def wait_time=(value)
-      config.wait_time = value.to_i
     end
 
     def max_failed_queries
@@ -188,19 +168,11 @@ module Configurable
     end
 
     def max_failed_query_time_interval
-      config.max_failed_query_time_interval || 86400
-    end
-
-    def max_failed_query_time_interval=(value)
-      config.max_failed_query_time_interval = value.to_i
+      86400
     end
 
     def job_batch_size
-      config.job_batch_size || 200
-    end
-
-    def job_batch_size=(value)
-      config.job_batch_size = value.to_i
+      200
     end
 
     def rate_limiting
@@ -212,7 +184,7 @@ module Configurable
     end
 
     def job_interval
-      3600 * worker_count / rate_limiting
+      3600 / rate_limiting
     end
 
     def batch_interval
@@ -220,11 +192,7 @@ module Configurable
     end
 
     def batch_time_interval
-      config.batch_time_interval || 1.hour
-    end
-
-    def batch_time_interval=(value)
-      config.batch_time_interval = value.to_i
+      1.hour
     end
 
     # The update interval for works depends on work age. We use 4 different intervals that have default settings, but can also be configured individually per source:
@@ -280,12 +248,12 @@ module Configurable
       config.cron_line = value
     end
 
-    def priority
-      config.priority || Delayed::Worker.default_priority
+    def queue
+      config.queue || "default"
     end
 
-    def priority=(value)
-      config.priority = value.to_i
+    def queue=(value)
+      config.queue = value
     end
 
     # is this source no longer accepting new data?

@@ -81,9 +81,10 @@ module Statable
       end
 
       event :work_after_check do
-        transition [:available, :inactive] => same
+        transition [:available, :retired, :inactive] => same
         transition any => :disabled, :if => :check_for_failures
-        transition any => :working
+        transition any => :working, :if => :check_for_rate_limits
+        transition any => :waiting
       end
 
       event :work do
@@ -92,7 +93,6 @@ module Statable
       end
 
       event :wait_after_check do
-        transition :working => same, :if => :check_for_active_workers
         transition :disabled => same
         transition any => :waiting
       end

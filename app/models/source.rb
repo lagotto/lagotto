@@ -29,9 +29,6 @@ class Source < ActiveRecord::Base
   # include summary counts
   include Countable
 
-  # include Active Job helpers
-  include Jobable
-
   # include hash helper
   include Hashie::Extensions::DeepFetch
 
@@ -47,13 +44,9 @@ class Source < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
-  validates :priority, :numericality => { :only_integer => true, :greater_than => 0 }
-  validates :workers, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :queue, :presence => true
   validates :timeout, :numericality => { :only_integer => true, :greater_than => 0 }
-  validates :wait_time, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :max_failed_queries, :numericality => { :only_integer => true, :greater_than => 0 }
-  validates :max_failed_query_time_interval, :numericality => { :only_integer => true, :greater_than => 0 }
-  validates :job_batch_size, :numericality => { :only_integer => true }, :inclusion => { :in => 1..1000, :message => "should be between 1 and 1000" }
   validates :rate_limiting, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :staleness_week, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :staleness_month, :numericality => { :only_integer => true, :greater_than => 0 }
@@ -89,7 +82,7 @@ class Source < ActiveRecord::Base
   end
 
   def remove_queues
-    delete_jobs(name)
+    # delete_jobs(name)
     retrieval_statuses.update_all(queued_at: nil)
   end
 
@@ -108,7 +101,7 @@ class Source < ActiveRecord::Base
     end
 
     rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
-    count = queue_work_jobs(rs, priority: priority)
+    count = queue_work_jobs(rs)
   end
 
   def queue_work_jobs(rs, options = {})
@@ -121,17 +114,18 @@ class Source < ActiveRecord::Base
 
     rs.each_slice(job_batch_size) do |rs_ids|
       RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: Time.zone.now)
-      SourceJob.set(queue: name, wait_until: schedule_at).perform_later(rs_ids, self)
+      SourceJob.set(queue: queue, wait_until: schedule_at).perform_later(rs_ids, self)
     end
 
     rs.length
   end
 
-  def schedule_at
-    last_job = get_last_job(name)
-    return Time.zone.now if last_job.nil?
+  def last_response
+    @last_response ||= api_responses.maximum(:created_at) || Time.zone.now
+  end
 
-    last_job + batch_interval
+  def schedule_at
+    last_response + batch_interval
   end
 
   # condition for not adding more jobs and disabling the source
@@ -140,13 +134,19 @@ class Source < ActiveRecord::Base
     failed_queries > max_failed_queries
   end
 
-  # limit the number of workers per source
-  def check_for_available_workers
-    workers >= worker_count
+  def check_for_rate_limits
+    current_response_count + job_batch_size < rate_limiting
   end
 
-  def check_for_active_workers
-    worker_count > 1
+  # calculate wait time based on rate-limiting settings
+  def wait_time
+    if current_response_count > rate_limiting
+      # wait until we fall below rate-limits if we are over the rate-limits
+      [((rate_limiting - 200) / 3600 * current_response_count) - 3600, 0].sort.last
+    else
+      # wait rate-limiting interval, unless it has passed already
+      [last_response + job_interval - Time.zone.now, 0].sort.last
+    end
   end
 
   def get_data(work, options={})
@@ -285,7 +285,7 @@ class Source < ActiveRecord::Base
   end
 
   def update_cache
-    CacheJob.perform_now(self)
+    CacheJob.perform_later(self)
   end
 
   def write_cache
@@ -296,7 +296,6 @@ class Source < ActiveRecord::Base
     # loop through cached attributes we want to update
     [:event_count,
      :work_count,
-     :job_count,
      :queued_count,
      :stale_count,
      :response_count,
