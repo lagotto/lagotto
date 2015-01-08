@@ -6,7 +6,7 @@ ActiveSupport::Notifications.subscribe "process_action.action_controller" do |na
       api_request.format = payload[:format] || "html"
       api_request.view_duration = payload[:view_runtime]
       api_request.db_duration = payload[:db_runtime]
-      api_request.duration = payload[:view_runtime].to_f + payload[:db_runtime].to_f
+      api_request.duration = payload[:view_runtime] #.to_f + payload[:db_runtime].to_f
       params = payload[:params].except(*INTERNAL_PARAMS)
       api_request.api_key = params["api_key"]
       api_request.info = params["info"]
