@@ -12,6 +12,18 @@ class SourceJob < ActiveJob::Base
 
   queue_as :default
 
+  rescue_from StandardError do |exception|
+    return nil if exception.class.to_s == "CustomError::SourceInactiveError"
+
+    rs_ids, source = self.arguments
+    RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
+
+    Alert.create(exception: exception,
+                 class_name: exception.class.to_s,
+                 message: "Rescued #{exception.message}",
+                 source_id: source.id)
+  end
+
   def perform(rs_ids, source)
     source.work_after_check
 
@@ -38,16 +50,5 @@ class SourceJob < ActiveJob::Base
     rs_ids, source = job.arguments
     RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
     source.wait_after_check
-  end
-
-  rescue_from StandardError do |exception|
-    return nil if exception.class.to_s == "CustomError::SourceInactiveError"
-
-    rs_ids, source = self.arguments
-
-    Alert.create(exception: exception,
-                 class_name: exception.class.to_s,
-                 message: exception.message,
-                 source_id: source.id)
   end
 end
