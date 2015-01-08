@@ -66,7 +66,7 @@
         <%= f.input :timeout, hint: "Time to wait for response from the source (seconds)"  %>
 
         <%= f.input :max_failed_queries, label: "Failed queries",
-                                         hint: "Maximum number of failed queries allowed before being disabled" %>
+                                         hint: "Maximum number of failed queries allowed per 24 hours before being disabled" %>
 
         <div class="form-group">
           <%= f.submit "Save ", class: "btn btn-default" %>
@@ -123,7 +123,7 @@
         <tr>
           <th>Failed queries</th>
           <td>
-            <%= @source.max_failed_queries %> failed queries allowed before source is disabled</br>
+            <%= @source.max_failed_queries %> failed queries allowed per 24 hours before source is disabled</br>
           </td>
         </tr>
       </tbody>
