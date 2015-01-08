@@ -38,6 +38,7 @@ set :stage, ENV["STAGE"]
 
 # Sidekiq
 set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
+set :sidekiq_role, :db
 set :pty, false
 
 # Default branch is :master

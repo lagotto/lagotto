@@ -1,13 +1,8 @@
 set :rails_env, ENV['RAILS_ENV']
 
 ENV['SERVERS'].split(",").each_with_index do |s, i|
-
-  # define servers that don't run db and workers
-  if ENV['APP_SERVERS'].to_s.split(",").include?(s)
-    r = %w(web app)
-  else
-    r = %w(web app db workers)
-  end
+  # only primary server has db role
+  r = i > 0 ? %w(web app) : %w(web app db)
 
   server s, user: ENV['DEPLOY_USER'], roles: r
 end
