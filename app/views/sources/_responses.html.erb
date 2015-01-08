@@ -19,7 +19,7 @@
               <td><%= state_label(source.human_state_name).html_safe %></td>
               <td class="number" id="response_count_<%= source.name %>"><%= number_hiding_zero(source.response_count) %></td>
               <td class="number" id="average_count_<%= source.name %>"><%= number_hiding_zero(source.average_count) %></td>
-              <td class="number" id="error_count_<%= source.name %>"><%= source.error_count > 0 ? link_to(number_hiding_zero(source.error_count), alerts_path(source: source.name)) : "" %></td>
+              <td class="number" id="error_count_<%= source.name %>"><%= source.error_count > 0 ? link_to(number_hiding_zero(source.error_count), alerts_path(source_id: source.name)) : "" %></td>
             </tr>
           <% end %>
         </tbody>
