@@ -50,10 +50,18 @@ module Statable
       end
 
       after_transition any - [:disabled] => :disabled do |source|
-        Alert.create(:exception => "", :class_name => "TooManyErrorsBySourceError",
-                     :message => "#{source.display_name} has exceeded maximum failed queries. Disabling the source.",
-                     :source_id => source.id,
-                     :level => Alert::FATAL)
+        if source.check_for_rate_limits
+          class_name = "Net::HTTPTooManyRequests"
+          message = "#{source.display_name} has exceeded the rate-limiting of requests. Disabling the source."
+        else
+          class_name = "TooManyErrorsBySourceError"
+          message = "#{source.display_name} has exceeded maximum failed queries. Disabling the source."
+        end
+        Alert.create(exception: "",
+                     class_name: class_name,
+                     message: message,
+                     source_id: source.id,
+                     level: Alert::FATAL)
       end
 
       event :install do
@@ -80,11 +88,16 @@ module Statable
         transition any => :disabled
       end
 
-      event :work_after_check do
+      event :work_after_failures_check do
         transition [:available, :retired, :inactive] => same
         transition any => :disabled, :if => :check_for_failures
-        transition any => :working, :if => :check_for_rate_limits
-        transition any => :waiting
+        transition any => :working
+      end
+
+      event :work_after_rate_limiting_check do
+        transition [:available, :retired, :inactive] => same
+        transition any => :disabled, :if => :check_for_rate_limits
+        transition any => :working
       end
 
       event :work do

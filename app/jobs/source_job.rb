@@ -25,17 +25,19 @@ class SourceJob < ActiveJob::Base
   end
 
   def perform(rs_ids, source)
-    source.work_after_check
-
-    # Check that source is working and we have workers for this source
-    # Otherwise raise an error and reschedule the job
+    # check for failed queries
+    source.work_after_failures_check
     fail SourceInactiveError, "#{source.display_name} is not in working state" unless source.working?
 
     rs_ids.each do |rs_id|
-      rs = RetrievalStatus.find(rs_id)
+      # check for rate-limiting
+      source.work_after_rate_limiting_check
+      fail SourceInactiveError, "#{source.display_name} is not in working state" unless source.working?
 
       # observe rate-limiting settings
       sleep source.wait_time
+
+      rs = RetrievalStatus.find(rs_id)
 
       # store API response result and duration in api_responses table
       response = { work_id: rs.work_id, source_id: rs.source_id, retrieval_status_id: rs_id }

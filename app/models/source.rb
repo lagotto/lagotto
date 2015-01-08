@@ -44,7 +44,6 @@ class Source < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
   validates :display_name, :presence => true
-  validates :queue, :presence => true
   validates :timeout, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :max_failed_queries, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :rate_limiting, :numericality => { :only_integer => true, :greater_than => 0 }
@@ -128,25 +127,30 @@ class Source < ActiveRecord::Base
     last_response + batch_interval
   end
 
-  # condition for not adding more jobs and disabling the source
+  # disable source if more than max_failed_queries (default: 200) in 24 hrs
   def check_for_failures
     failed_queries = Alert.where("source_id = ? AND level > 1 AND updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count
     failed_queries > max_failed_queries
   end
 
+  # disable source if wait time at least 10 sec because of rate-limiting
   def check_for_rate_limits
-    current_response_count + job_batch_size < rate_limiting
+    future_response_count < 360
   end
 
-  # calculate wait time based on rate-limiting settings
+  # API responses last 60 min
+  def current_response_count
+    @current_response_count ||= api_responses.total(1).size
+  end
+
+  # expected API responses next 60 min, should be larger than zero
+  def future_response_count
+    @future_response_count ||= [rate_limiting * 2 - current_response_count, 0.001].sort.last
+  end
+
+  # calculate wait time until next API call
   def wait_time
-    if current_response_count > rate_limiting
-      # wait until we fall below rate-limits if we are over the rate-limits
-      [((rate_limiting - 200) / 3600 * current_response_count) - 3600, 0].sort.last
-    else
-      # wait rate-limiting interval, unless it has passed already
-      [last_response + job_interval - Time.zone.now, 0].sort.last
-    end
+    3600 / future_response_count
   end
 
   def get_data(work, options={})

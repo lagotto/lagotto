@@ -86,10 +86,6 @@ module Countable
                         api_responses.total(24).size)
     end
 
-    def current_response_count
-      @current_response_count ||= api_responses.total(1).size
-    end
-
     def average_count
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/average_count/#{update_date}").to_i
