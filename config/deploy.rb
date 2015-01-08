@@ -16,8 +16,7 @@ begin
   Dotenv.load! filename
 
   # make sure ENV variables required for capistrano are set
-  fail ArgumentError if ENV['WORKERS'].to_s.empty? ||
-                        ENV['SERVERS'].to_s.empty? ||
+  fail ArgumentError if ENV['SERVERS'].to_s.empty? ||
                         ENV['DEPLOY_USER'].to_s.empty?
 rescue Errno::ENOENT
   $stderr.puts "Please create file .env in the Rails root folder"
@@ -26,7 +25,7 @@ rescue LoadError
   $stderr.puts "Please install dotenv with \"gem install dotenv\""
   exit
 rescue ArgumentError
-  $stderr.puts "Please set WORKERS, SERVERS and DEPLOY_USER in the .env file"
+  $stderr.puts "Please set SERVERS and DEPLOY_USER in the .env file"
   exit
 end
 
