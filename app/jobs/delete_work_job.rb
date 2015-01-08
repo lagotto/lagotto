@@ -1,5 +1,5 @@
 class DeleteWorkJob < ActiveJob::Base
-  queue_as :critical
+  queue_as :high
 
   def perform(publisher_id)
     if publisher_id == "all"
