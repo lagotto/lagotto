@@ -40,7 +40,7 @@ class SourceJob < ActiveJob::Base
     source.wait_after_check
   end
 
-  rescue_from SourceInactiveError do |exception|
+  rescue_from CustomError::SourceInactiveError do |exception|
     # don't raise error, just postpone perform_later
   end
 
