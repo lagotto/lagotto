@@ -36,7 +36,7 @@ class SourceJob < ActiveJob::Base
 
   after_perform do |job|
     rs_ids, source = job.arguments
-    RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: "1970-01-01")
+    RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
     source.wait_after_check
   end
 
