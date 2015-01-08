@@ -77,13 +77,13 @@ module Countable
       if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/response_count/#{update_date}").to_i
       else
-        api_responses.total(1).size
+        api_responses.total(24).size
       end
     end
 
     def response_count=(timestamp)
       Rails.cache.write("#{name}/response_count/#{timestamp}",
-                        api_responses.total(1).size)
+                        api_responses.total(24).size)
     end
 
     def current_response_count
