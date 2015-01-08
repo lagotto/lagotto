@@ -12,7 +12,6 @@ describe "/api/v5/status", :type => :api do
         date = Time.zone.now - 1.day
         FactoryGirl.create_list(:work_with_events, 5, year: date.year, month: date.month, day: date.day)
         FactoryGirl.create_list(:alert, 2)
-        FactoryGirl.create(:delayed_job)
         FactoryGirl.create_list(:api_request, 4)
         FactoryGirl.create_list(:api_response, 6)
         body = File.read(fixture_path + 'releases.json')
