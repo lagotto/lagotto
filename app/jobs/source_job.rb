@@ -40,11 +40,9 @@ class SourceJob < ActiveJob::Base
     source.wait_after_check
   end
 
-  rescue_from CustomError::SourceInactiveError do |exception|
-    # don't raise error, just postpone perform_later
-  end
-
   rescue_from StandardError do |exception|
+    return nil if exception.class.to_s == "CustomError::SourceInactiveError"
+
     rs_ids, source = self.arguments
 
     Alert.create(exception: exception,
