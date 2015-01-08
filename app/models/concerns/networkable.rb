@@ -127,6 +127,7 @@ module Networkable
         end
       else
         details = nil
+        headers = {}
 
         if error.is_a?(Faraday::Error::TimeoutError)
           status = 408
@@ -135,6 +136,7 @@ module Networkable
         elsif error.respond_to?('response') && error.response.present?
           status = error.response[:status]
           details = error.response[:body]
+          headers = error.response[:headers]
         else
           status = 400
         end
@@ -151,6 +153,7 @@ module Networkable
         message = parse_error_response(error.message)
         message = "#{message} for #{url}"
         message = "#{message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
+        message = rate_limiting_info(message, headers) if class_name == Net::HTTPTooManyRequests
 
         Alert.create(exception: exception,
                      class_name: class_name.to_s,
@@ -192,6 +195,15 @@ module Networkable
         when 408, 502, 503, 504 then 2
         else 3
         end
+    end
+
+    def rate_limiting_info(message, headers)
+      # currently supported by twitter and github sources with slightly different header names
+      rate_limit_limit = headers["X-Rate-Limit-Limit"] || headers["X-RateLimit-Limit"]
+      rate_limit_remaining = headers["X-Rate-Limit-Remaining"] || headers["X-RateLimit-Remaining"]
+      rate_limit_reset = headers["X-Rate-Limit-Reset"]
+
+      "#{message}. Rate-limit #{rate_limit_limit.to_s}, remaining #{rate_limit_remaining.to_s}"
     end
 
     def parse_error_response(string)
