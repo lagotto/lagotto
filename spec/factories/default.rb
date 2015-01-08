@@ -185,12 +185,6 @@ FactoryGirl.define do
     initialize_with { RetrievalStatus.where(work_id: work.id, source_id: source.id).first_or_initialize }
   end
 
-  factory :delayed_job do
-    queue 'citeulike'
-
-    initialize_with { DelayedJob.where(queue: queue).first_or_initialize }
-  end
-
   factory :report do
     name 'error_report'
     display_name 'Error Report'

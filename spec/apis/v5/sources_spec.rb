@@ -8,7 +8,6 @@ describe "/api/v5/sources", :type => :api do
     context "get jobs" do
       before(:each) do
         @source = FactoryGirl.create(:source)
-        @delayed_job = FactoryGirl.create(:delayed_job)
         @works = FactoryGirl.create_list(:work_with_events, 10)
         @source.update_cache
       end
@@ -107,7 +106,6 @@ describe "/api/v5/sources", :type => :api do
     context "get response" do
       before(:each) do
         @source = FactoryGirl.create(:source_with_api_responses)
-        @delayed_job = FactoryGirl.create(:delayed_job)
         @works = FactoryGirl.create_list(:work_with_events, 5)
         @source.update_cache
       end
