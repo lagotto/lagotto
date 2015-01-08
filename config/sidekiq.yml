@@ -1,5 +1,4 @@
 :logfile: ./log/sidekiq.log
-:concurrency: 25
 :queues:
   - [critical, 7]
   - [high, 5]
