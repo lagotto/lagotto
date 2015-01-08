@@ -1,5 +1,5 @@
 :logfile: ./log/sidekiq.log
-:concurrency: <%= ENV["CONCURRENCY"].to_i %>
+:concurrency: 25
 :queues:
   - [critical, 7]
   - [high, 5]
