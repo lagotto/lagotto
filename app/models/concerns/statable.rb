@@ -88,14 +88,9 @@ module Statable
         transition any => :disabled
       end
 
-      event :work_after_failures_check do
+      event :work_after_check do
         transition [:available, :retired, :inactive] => same
         transition any => :disabled, :if => :check_for_failures
-        transition any => :working
-      end
-
-      event :work_after_rate_limiting_check do
-        transition [:available, :retired, :inactive] => same
         transition any => :disabled, :if => :check_for_rate_limits
         transition any => :working
       end

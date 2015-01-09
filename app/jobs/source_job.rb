@@ -27,13 +27,9 @@ class SourceJob < ActiveJob::Base
   end
 
   def perform(rs_ids, source)
-    # check for failed queries
-    source.work_after_failures_check
-    fail SourceInactiveError, "#{source.display_name} is not in working state" unless source.working?
-
     rs_ids.each do |rs_id|
-      # check for rate-limiting
-      source.work_after_rate_limiting_check
+      # check for failed queries and rate-limiting
+      source.work_after_check
       fail SourceInactiveError, "#{source.display_name} is not in working state" unless source.working?
 
       # observe rate-limiting settings
