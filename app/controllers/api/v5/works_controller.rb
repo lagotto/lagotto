@@ -68,11 +68,12 @@ class Api::V5::WorksController < Api::V5::BaseController
     collection = collection.paginate(per_page: per_page,
                                      page: params[:page],
                                      total_entries: total_entries)
+    user = current_user ? current_user.cache_key : "2"
 
     fresh_when last_modified: collection.maximum(:updated_at)
     @works = collection.decorate(context: { info: params[:info],
                                             source_id: params[:source_id],
-                                            user: current_user.cache_key })
+                                            user: user })
   end
 
   protected

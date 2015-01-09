@@ -72,5 +72,22 @@ describe "/api/v5/articles", :type => :api do
         expect(item["sources"]).to be_empty
       end
     end
+
+    context "without API key" do
+      let(:work) { FactoryGirl.create(:work_with_private_citations) }
+      let(:uri) { "/api/v5/articles?ids=#{work.doi_escaped}" }
+
+      it "JSON" do
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
+        expect(last_response.status).to eq(200)
+
+        response = JSON.parse(last_response.body)
+        expect(response["total"]).to eq(1)
+        item = response["data"].first
+        expect(item["doi"]).to eql(work.doi)
+        expect(item["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
+        expect(item["sources"]).to be_empty
+      end
+    end
   end
 end
