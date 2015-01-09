@@ -176,7 +176,7 @@ describe Source do
       it "get json" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url)
-        expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
+        expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
@@ -186,7 +186,7 @@ describe Source do
       it "get xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, content_type: 'xml')
-        expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
+        expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
@@ -196,7 +196,7 @@ describe Source do
       it "get html" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, content_type: 'html')
-        expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
+        expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
@@ -217,7 +217,7 @@ describe Source do
       it "get json" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, source_id: 1)
-        expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
+        expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
@@ -228,7 +228,7 @@ describe Source do
       it "get xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, content_type: 'xml', source_id: 1)
-        expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
+        expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
@@ -238,7 +238,7 @@ describe Source do
       it "get html" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, content_type: 'html', source_id: 1)
-        expect(response).to eq(error: "the server responded with status 429 for #{url}", status: 429)
+        expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
