@@ -53,7 +53,7 @@ module ApplicationHelper
   def worker_label(status)
     case status
     when "working" then "panel-success"
-    when "idle" then "panel-default"
+    when "waiting" then "panel-default"
     else "panel-warning"
     end
   end
