@@ -203,7 +203,7 @@ module Networkable
       rate_limit_remaining = headers["X-Rate-Limit-Remaining"] || headers["X-RateLimit-Remaining"]
       rate_limit_reset = headers["X-Rate-Limit-Reset"]
 
-      "#{message}. Rate-limit #{rate_limit_limit.to_s}, remaining #{rate_limit_remaining.to_s}, reset #{rate_limit_reset.to_s}"
+      "#{message}. Rate-limit #{rate_limit_limit.to_s} exceeded."
     end
 
     def parse_error_response(string)
