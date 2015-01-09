@@ -73,6 +73,24 @@ class Status
     workers_size == 0 ? 'idle' : 'active'
   end
 
+  def process_set
+    @process_set ||= Sidekiq::ProcessSet.new
+  end
+
+  def process_monitor
+    ps = process_set.first
+    if ps.nil?
+      message = "No Sidekiq process running."
+      Alert.create(:exception => "",
+                   :class_name => "StandardError",
+                   :message => message,
+                   :level => Alert::FATAL)
+    else
+      message = "Sidekiq process started at #{Time.at(ps['started_at']).utc.iso8601}"
+    end
+    { message: message }
+  end
+
   def responses_count
     if ActionController::Base.perform_caching
       Rails.cache.read("status/responses_count/#{update_date}").to_i
