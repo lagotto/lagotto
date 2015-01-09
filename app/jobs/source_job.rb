@@ -12,15 +12,17 @@ class SourceJob < ActiveJob::Base
 
   queue_as :default
 
-  rescue_from StandardError do |exception|
-    return nil if exception.class.to_s == "CustomError::SourceInactiveError"
+  rescue_from SourceInactiveError do |exception|
+    # ignore this error
+  end
 
+  rescue_from StandardError do |exception|
     rs_ids, source = self.arguments
     RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
 
     Alert.create(exception: exception,
                  class_name: exception.class.to_s,
-                 message: "Rescued #{exception.message}",
+                 message: exception.message,
                  source_id: source.id)
   end
 
