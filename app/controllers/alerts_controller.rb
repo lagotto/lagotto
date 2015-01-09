@@ -95,6 +95,7 @@ class AlertsController < ApplicationController
   end
 
   def routing_error
-    redirect_to root_path, :alert => "The page you are looking for doesn't exist."
+    @alert = Alert.new(message: "The page you are looking for doesn't exist.", status: 404)
+    render "alerts/show", status: 404
   end
 end

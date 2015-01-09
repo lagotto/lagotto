@@ -34,14 +34,14 @@ describe WorksController, :type => :controller do
   context "errors" do
     it "redirects to the home page for an unknown work" do
       get "/works/doi/x"
-      expect(last_response.status).to eq(302)
-      expect(last_response.body).to include("redirected")
+      expect(last_response.status).to eq(404)
+      expect(last_response.body).to include("The page you are looking for doesn&#39;t exist.")
     end
 
     it "redirects to the home page for an unknown path" do
       get "/x"
-      expect(last_response.status).to eq(302)
-      expect(last_response.body).to include("redirected")
+      expect(last_response.status).to eq(404)
+      expect(last_response.body).to include("The page you are looking for doesn&#39;t exist.")
     end
   end
 end
