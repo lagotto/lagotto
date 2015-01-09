@@ -70,7 +70,13 @@ class Status
   end
 
   def current_status
-    workers_size == 0 ? 'idle' : 'active'
+    if workers_size > 0
+      "active"
+    elsif process_set.first
+      "idle"
+    else
+      "stopped"
+    end
   end
 
   def process_set

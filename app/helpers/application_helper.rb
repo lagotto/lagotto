@@ -50,6 +50,14 @@ module ApplicationHelper
     end
   end
 
+  def worker_label(status)
+    case status
+    when "working" then "panel-success"
+    when "idle" then "panel-default"
+    else "panel-warning"
+    end
+  end
+
   def number_hiding_zero(number)
     (number.nil? || number == 0 ? "" : number_with_delimiter(number))
   end
