@@ -15,7 +15,14 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordNotFound, CanCan::AccessDenied do |exception|
     respond_with do |format|
-      format.html { redirect_to root_path, alert: "The page you are looking for doesn't exist." }
+      format.html do
+        if /(jpe?g|png|gif)/i === request.path
+          render text: "404 Not Found", status: 404
+        else
+          @alert = Alert.new(message: "The page you are looking for doesn't exist.", status: 404)
+          render "alerts/show", status: 404
+        end
+      end
       format.json { render json: { error: "The page you are looking for doesn't exist." }.to_json, status: 404 }
       format.rss { render :show, status: 404, layout: false }
     end

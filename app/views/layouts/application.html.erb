@@ -12,7 +12,7 @@
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
     <![endif]-->
 
-    <% if controller.controller_name == "works" && controller.action_name == "show" %>
+    <% if controller.controller_name == "works" && controller.action_name == "show" && @work %>
     <link rel="alternate" type="application/json+oembed" href="/oembed?url=<%= work_path(@work) %>" title="Work oEmbed Profile" />
     <% end %>
 
