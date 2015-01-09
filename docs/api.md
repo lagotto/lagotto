@@ -7,6 +7,7 @@ title: "API"
 
 * Version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11).
 * Version 5 of the API was released April 24, 2014 (ALM 2.14).
+* Since the 3.10 release (December 18, 2014) Lagotto uses `works` instead of `articles` internally. The v4 and v5 API still use `articles` to not break existing integrations.
 
 ### Base URL
 * API calls to the version 4 APIs start with `/api/v4/`
@@ -18,19 +19,19 @@ title: "API"
 The media type is set in the header, e.g. "Accept: application/json", but defaults to this format anyway. Media type negotiation via file extension (e.g. ".json") is not supported. `JSONP` and `CORS` are supported.
 
 ### API Key
-All v5 API calls require an API key, use the format `?api_key=API_KEY`. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
+Almost all information regarding works (with the exception of sources that don't allow redistribution of data) is available without API keys since the Lagotto 3.12.7 release (January 9, 2015). An API key is required to add/update works, and to access some of the internal data of the application. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
 
-The v4 API uses a username/password pair and HTTP Basic authentication. Only admin and staff users can use this API.
+For the v5 API the API key shoould be part of the URL in the format `?api_key=API_KEY`. The v4 API uses a username/password pair and HTTP Basic authentication. Only admin and staff users can use this API.
 
-### Query for one or several Articles
-Specify one or more articles by a comma-separated list of DOIs in the `ids` parameter. These DOIs have to be URL-escaped, e.g. `%2F` for `/`:
+### Query for one or several works
+Specify one or more works by a comma-separated list of DOIs in the `ids` parameter. These DOIs have to be URL-escaped, e.g. `%2F` for `/`:
 
 ```sh
-/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240
-/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413
+/api/v5/articles?ids=10.1371%2Fjournal.pone.0036240
+/api/v5/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413
 ```
 
-Queries for up to 50 articles at a time are supported.
+Queries for up to 50 works at a time are supported.
 
 ### Metrics
 The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `readers` for bookmarking services, and `likes` and `comments` for social media. The same 5 categories are always returned for every source to simplify parsing of API responses:
@@ -59,7 +60,7 @@ Several metrics are aggregated and available in all API queries:
 * Cited: crossref (scopus at PLOS)
 
 ### Date and Time Format
-All dates and times are in ISO 8601, e.g. ``2003-10-13T07:00:00Z``. `date-parts` uses the Citeproc convention to allow incomplete dates (e.g. year only):
+All dates and times with the exception of publication dates are in ISO 8601 format, e.g. ``2003-10-13T07:00:00Z``. `date-parts` uses the Citeproc convention to allow incomplete dates (e.g. year only):
 
 ```json
 "date-parts": [
@@ -77,28 +78,32 @@ The API returns `null` if no query was made, and `0` if the external API returns
 ## Additional Parameters
 
 ### type=doi|pmid|pmcid
-The API supports queries for DOI, PubMed ID and PubMed Central ID. The default `doi` is used if no type is given in the query. The following queries are all for the same article:
+The API supports queries for DOI, PubMed ID, PubMed Central ID, Scopus ID, Web of Science ID, and publisher URL. The default `doi` is used if no type is given in the query. The following queries are all for the same work:
 
 ```sh
-/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pmed.1001361
-/api/v5/articles?api_key=API_KEY&ids=23300388&type=pmid
-/api/v5/articles?api_key=API_KEY&ids=PMC3531501&type=pmcid
+/api/v5/articles?ids=10.1371%2Fjournal.pmed.1001361
+/api/v5/articles?ids=23300388&type=pmid
+/api/v5/articles?ids=PMC3531501&type=pmcid
+/api/v5/articles?ids=84871667565&type=scp
+/api/v5/articles?ids=000312934200011&type=wos
+/api/v5/articles?ids=http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.1001361&type=url
 ```
 
+
 ### info=summary|detail
-With the **summary** parameter no source information or metrics are provided, only article metadata such as DOI, PubMed ID, title or publication date. The only exception are summary statistics, aggregating metrics from several sources (views, shares, bookmarks and citations).
+With the **summary** parameter no source information or metrics are provided, only work metadata such as DOI, other unique identifiers, URL, title or publication date. The only exception are summary statistics, aggregating metrics from several sources (views, shares, bookmarks and citations).
 
 With the **detail** parameter all raw data sent by the source are provided. The **history** parameter has been depreciated with the ALM 3.0 release, you can use the `by day`, `by month` and `by year`response instead.
 
 ```sh
-/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail
+/api/v5/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&info=detail
 ```
 
 ### source_id=x
-Only provide metrics for a given source. The response format is the same as the default response.
+Only provide metrics for a given source, using the source name. Only one source name can be given. The response format is the same as the default response.
 
 ```sh
-/api/v5/articles?api_key=API_KEY&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source_id=mendeley
+/api/v5/articles&ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&source_id=mendeley
 ```
 
 ### order=x
@@ -106,10 +111,10 @@ Only provide metrics for a given source. The response format is the same as the 
 Results are sorted by descending event count when given the source name, e.g. `&order=wikipedia`. Otherwise (the default) results are sorted by date descending. When using `&source=x`, we can only sort by data or that source, not a different source.
 
 ### publisher_id=x
-Only provide metrics for articles by a given publisher, using the `member_id`. The response format is the same as the default response.
+Only provide metrics for works by a given publisher, using the `publisher_id`. The response format is the same as the default response.
 
 ```sh
-/api/v5/articles?api_key=API_KEY&publisher_id=340
+/api/v5/articles?publisher_id=340
 ```
 
 ### page|per_page
@@ -128,10 +133,11 @@ Results of the v5 API are paged with 50 results per page. Use `per_page` to pick
     {
       "doi": "10.1371/journal.pcbi.1000204",
       "title": "Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web",
-      "canonical_url": "http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1000204",
-      "mendeley_uuid": "0cf5702b-0e74-37f3-b54d-79496d754a90",
+      "canonical_url": "http://www.ploscompbiol.org/article/info:doi/10.1371/journal.pcbi.1000204",
       "pmid": "18974831",
       "pmcid": "2568856",
+      "scp": "55449101991",
+      "wos": "000261480700019",
       "issued": {
         "date-parts": [
           [
@@ -497,16 +503,16 @@ The v4 API is only available to users with admin prileges and uses basic authent
 </tbody>
 </table>
 
-The API response to get a list of articles or a single article is the same as for the v5 API. You can also use one of the other supported identifiers (pmid or pmcid) instead of the DOI.
+The API response to get a list of works or a single work is the same as for the v5 API. You can also use one of the other supported identifiers instead of the DOI.
 
-### Create article
-A sample curl API call to create a new article would look like this:
+### Create work
+A sample curl API call to create a new work would look like this:
 
 ```sh
 curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"article":{"doi":"10.1371/journal.pone.0036790","year":2012,"month":5,"day":15,"title":"Test title"}}' http://HOST/api/v4/articles
 ```
 
-When an article has been created successfully, the server reponds with `Status 201 Created` and the following JSON (the `data` object will include all article attributes):
+When a work has been created successfully, the server reponds with `Status 201 Created` and the following JSON (the `data` object will include all work attributes):
 
 ```sh
 $ curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -u login:pwd -d '{"article":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://alm.example.org/api/v4/articles
@@ -518,7 +524,7 @@ Content-Type: application/json; charset=utf-8
  ... more ...
 ```
 
-When an article with the specified DOI already exists, the server returns HTTP 400 error with a JSON body indicating the article exists:
+When a work with the specified DOI already exists, the server returns HTTP 400 error with a JSON body indicating the work exists:
 
 ```sh
 $ curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -u login:pwd -d '{"article":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://alm.example.org/api/v4/articles
@@ -546,27 +552,27 @@ In order to be accepted the following conditions must hold:
 * The DOI must not already exist in the database.
 
 
-### Update article
-A sample curl API call to update an article would look like this:
+### Update work
+A sample curl API call to update a work would look like this:
 
 ```sh
-curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"article":{"pmid":"22615813"}}' http://HOST/api/v4/articles/info:doi/10.1371/journal.pone.0036790
+curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"article":{"pmid":"22615813"}}' http://HOST/api/v4/articles/doi/10.1371/journal.pone.0036790
 ```
 
-When an article has been updated successfully, the server reponds with `Status 200 Ok` and the following JSON (the `data` object will include all article attributes):
+When a work has been updated successfully, the server reponds with `Status 200 Ok` and the following JSON (the `data` object will include all work attributes):
 
 ```sh
 {"success":"Article updated.","error":null,"data":{ ... }
 ```
 
-### Delete article
-A sample curl API call to delete an article would look like this:
+### Delete work
+A sample curl API call to delete a work would look like this:
 
 ```sh
-curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"article":{"pmid":"22615813"}}' http://HOST/api/v4/articles/info:doi/10.1371/journal.pone.0036790
+curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"work":{"pmid":"22615813"}}' http://HOST/api/v4/articles/doi/10.1371/journal.pone.0036790
 ```
 
-When an article has been deleted successfully, the server reponds with `Status 200 Ok` and the following JSON (the `data` object will include all article attributes):
+When a work has been deleted successfully, the server reponds with `Status 200 Ok` and the following JSON (the `data` object will include all work attributes):
 
 ```sh
 {"success":"Article deleted.","error":null,"data":{ ... }
@@ -599,7 +605,7 @@ By default the API returns all alerts, add `&unresolved=1` to only retrieve unre
       "hostname": "example.org",
       "target_url": null,
       "source": null,
-      "article": null,
+      "work": null,
       "unresolved": true,
       "create_date": "2014-08-19T20:23:05Z"
     }

@@ -16,12 +16,13 @@ module Authenticable
 
     def authenticate_user_from_token!
       user_token = params[:api_key].presence
-      user       = user_token && User.where(authentication_token: user_token.to_s).first
-
-      if user
-        sign_in user, store: false
-      else
-        render json: { error: "Missing or wrong API key." }, status: 401
+      if user_token
+        user = User.where(authentication_token: user_token.to_s).first
+        if user
+          sign_in user, store: false
+        else
+          render json: { error: "wrong API key." }, status: 401
+        end
       end
     end
 

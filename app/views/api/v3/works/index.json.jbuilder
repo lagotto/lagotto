@@ -3,7 +3,7 @@ json.array! @works do |work|
     json.(work, :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date, :views, :shares, :bookmarks, :citations)
 
     unless params[:info] == "summary"
-      json.sources work.retrieval_statuses do |rs|
+      json.sources work.filtered_retrieval_statuses do |rs|
         json.cache! ['v3', rs, params[:info]], skip_digest: true do
           json.(rs, :name, :display_name, :events_url, :metrics, :update_date)
           json.events rs.events if ["detail","event"].include?(params[:info])

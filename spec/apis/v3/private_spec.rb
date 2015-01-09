@@ -67,5 +67,19 @@ describe "/api/v3/articles", :type => :api do
         expect(response).to eq (error)
       end
     end
+
+    context "without API key" do
+      let(:work) { FactoryGirl.create(:work_with_private_citations) }
+      let(:uri) { "/api/v3/articles/info:doi/#{work.doi}" }
+      let(:error) { { "error"=>"Article not found." } }
+
+      it "JSON" do
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json'
+        expect(last_response.status).to eql(404)
+
+        response = JSON.parse(last_response.body)
+        expect(response).to eq (error)
+      end
+    end
   end
 end
