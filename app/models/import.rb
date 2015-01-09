@@ -14,7 +14,7 @@ class Import
   # include DOI helper methods
   include Resolvable
 
-  attr_accessor :filter, :sample, :rows, :member, :from_update_date, :until_update_date, :from_pub_date, :until_pub_date, :type
+  attr_accessor :filter, :sample, :rows, :member, :from_update_date, :until_update_date, :from_pub_date, :until_pub_date, :file, :type
 
   def queue_work_import
     (0...total_results).step(1000) do |offset|
@@ -23,6 +23,7 @@ class Import
         until_update_date: until_update_date,
         from_pub_date: from_pub_date,
         until_pub_date: until_pub_date,
+        file: file,
         member: member,
         sample: sample,
         offset: offset }
