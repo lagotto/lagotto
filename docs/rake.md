@@ -296,18 +296,12 @@ Zip reports.
 bin/rake report:zip
 ```
 
-## workers.rake
+## sidekiq.rake
 
-Start all the workers.
-
-```sh
-bin/rake workers:start_all
-```
-
-Stop all the workers.
+Check status of Sidekiq background processes.
 
 ```sh
-bin/rake workers:stop_all
+bin/rake sidekiq:monitor
 ```
 
 ## filter.rake
