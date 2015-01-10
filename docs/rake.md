@@ -298,6 +298,24 @@ bin/rake report:zip
 
 ## sidekiq.rake
 
+Start Sidekiq background processes.
+
+```sh
+bin/rake sidekiq:start
+```
+
+Stop Sidekiq background processes.
+
+```sh
+bin/rake sidekiq:stop
+```
+
+Stop Sidekiq background processes to accept new work.
+
+```sh
+bin/rake sidekiq:quiet
+```
+
 Check status of Sidekiq background processes.
 
 ```sh

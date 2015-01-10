@@ -83,18 +83,63 @@ class Status
     @process_set ||= Sidekiq::ProcessSet.new
   end
 
+  def process_pid
+    process_set.first ? process_set.first["pid"] : nil
+  end
+
+  def process_pidfile
+    "/var/www/#{ENV['APPLICATION']}/shared/tmp/pids/sidekiq.pid"
+  end
+
+  def process_logfile
+    "/var/www/#{ENV['APPLICATION']}/shared/log/sidekiq.log"
+  end
+
+  def process_configfile
+    "/var/www/#{ENV['APPLICATION']}/current/config/sidekiq.yml"
+  end
+
+  def process_stop
+    if process_pid
+      IO.write(process_pidfile, process_pid) unless File.exist? process_pidfile
+      message = `/usr/bin/env bundle exec sidekiqctl stop #{process_pidfile} 10`
+    else
+      message = "No Sidekiq process running."
+    end
+  end
+
+  def process_quiet
+    if process_pid
+      IO.write(process_pidfile, process_pid) unless File.exist? process_pidfile
+      `/usr/bin/env bundle exec sidekiqctl quiet #{process_pidfile}`
+      message = "Sidekiq turned quiet."
+    else
+      message = "No Sidekiq process running."
+    end
+  end
+
+  def process_start
+    if process_pid
+      ps = process_set.first
+      message = "Sidekiq process running, Sidekiq process started at #{Time.at(ps['started_at']).utc.iso8601}."
+    else
+      `/usr/bin/env bundle exec sidekiq --pidfile #{process_pidfile} --environment #{ENV['RAILS_ENV']} --logfile #{process_logfile} --config #{process_configfile} --daemon`
+      message = "No Sidekiq process running, Sidekiq process started at #{Time.zone.now.utc.iso8601}."
+    end
+  end
+
   def process_monitor
     ps = process_set.first
     if ps.nil?
-      message = "No Sidekiq process running."
+      process_start
       Alert.create(:exception => "",
                    :class_name => "StandardError",
                    :message => message,
                    :level => Alert::FATAL)
+      message = "No Sidekiq process running, Sidekiq process started at #{Time.zone.now.utc.iso8601}."
     else
-      message = "Sidekiq process started at #{Time.at(ps['started_at']).utc.iso8601}"
+      message = "Sidekiq process running, Sidekiq process started at #{Time.at(ps['started_at']).utc.iso8601}."
     end
-    { message: message }
   end
 
   def responses_count
