@@ -39,6 +39,7 @@ class History
 
     @status = case
               when data[:error] then :error
+              when data[:event_count].nil? then :error
               when data[:event_count] > 0 then :success
               when data[:event_count] == 0 then :success_no_data
               end
