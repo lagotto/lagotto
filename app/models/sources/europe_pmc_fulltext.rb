@@ -2,13 +2,27 @@ class EuropePmcFulltext < Source
   def get_query_url(work, options = {})
     return nil unless work.get_url
 
-    url % { :query_string => work.query_string }
+    query_string = get_query_string(work)
+    return nil unless url.present? && query_string.present?
+
+    url % { query_string: query_string }
   end
 
   def get_events_url(work)
-    return nil unless events_url.present? && work.query_string.present?
+    query_string = get_query_string(work)
+    return nil unless events_url.present? && query_string.present?
 
-    events_url % { :query_string => work.query_string }
+    events_url % { query_string: query_string }
+  end
+
+  def get_query_string(work)
+    if work.doi.present?
+      "%22#{work.doi}%22"
+    elsif work.canonical_url.present?
+      "%22#{work.canonical_url}%22"
+    else
+      nil
+    end
   end
 
   def parse_data(result, work, options={})
