@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :miniprofiler
 
-  respond_to :json, :html, :rss
+  respond_to :json, :html, :rss, :xml
 
   layout 'application'
 
