@@ -30,10 +30,10 @@ You should follow [@plosalm][follow] on Twitter for announcements and updates.
 
 [follow]: https://twitter.com/plosalm
 
-## Mailing List
-Please direct questions about the application to the [mailing list].
+## Discussion Forum
+Please direct questions about the application to the [discussion forum].
 
-[mailing list]: https://groups.google.com/group/plos-api-developers
+[discussion forum]: http://discuss.lagotto.io
 
 ## Note on Patches/Pull Requests
 
