@@ -132,11 +132,12 @@ class Status
     ps = process_set.first
     if ps.nil?
       process_start
+      message = "No Sidekiq process running, Sidekiq process started at #{Time.zone.now.utc.iso8601}."
       Alert.create(:exception => "",
                    :class_name => "StandardError",
                    :message => message,
                    :level => Alert::FATAL)
-      message = "No Sidekiq process running, Sidekiq process started at #{Time.zone.now.utc.iso8601}."
+      message
     else
       message = "Sidekiq process running, Sidekiq process started at #{Time.at(ps['started_at']).utc.iso8601}."
     end
