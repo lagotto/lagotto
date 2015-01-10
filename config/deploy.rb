@@ -36,7 +36,7 @@ set :repo_url, 'https://github.com/articlemetrics/lagotto.git'
 set :stage, ENV["STAGE"]
 
 # Sidekiq
-set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
+set :sidekiq_config, -> { File.join(current_path, 'config', 'sidekiq.yml') }
 set :sidekiq_role, :db
 set :pty, false
 
