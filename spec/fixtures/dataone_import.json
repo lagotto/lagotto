@@ -1,0 +1,507 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 6,
+    "params": {
+      "fl": "id,title,author,datePublished,authoritativeMN,dateModified",
+      "start": "0",
+      "q": "datePublished:[1914-09-05T00:00:00Z TO 2014-09-05T23:59:59Z]+dateModified:[2014-09-04T00:00:00Z TO 2014-09-05T23:59:59Z]+formatType:METADATA",
+      "wt": "json",
+      "rows": "1000"
+    }
+  },
+  "response": {
+    "numFound": 61,
+    "start": 0,
+    "docs": [
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.tm8k3?ver=2014-09-03T10:52:03.591-04:00",
+        "dateModified": "2014-09-04T04:00:16.729Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Matosiuk, Maciej",
+        "datePublished": "2014-09-03T14:51:59Z",
+        "title": "Data from: Evolutionary neutrality of mtDNA introgression: evidence from complete mitogenome analysis in roe deer"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.0r7g4?ver=2014-09-03T13:03:52.788-04:00",
+        "dateModified": "2014-09-04T04:00:19.327Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Ferrer, Esperanza",
+        "datePublished": "2014-09-03T17:03:49Z",
+        "title": "Data from: Individual genetic diversity and probability of infection by avian malaria parasites in blue tits (Cyanistes caeruleus)"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.nh437?ver=2014-09-03T14:24:17.564-04:00",
+        "dateModified": "2014-09-04T04:00:25.866Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dugué, Guillaume P.",
+        "datePublished": "2014-09-03T18:24:13Z",
+        "title": "Data from: Optogenetic recruitment of dorsal raphe serotonergic neurons acutely decreases mechanosensory responsivity in behaving mice"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.fg7ps?ver=2014-09-03T13:19:06.932-04:00",
+        "dateModified": "2014-09-04T04:00:22.589Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Flanagan, Sarah",
+        "datePublished": "2014-09-03T17:19:03Z",
+        "title": "Data from: Sexual selection on female ornaments in the sex-role-reversed Gulf pipefish (Syngnathus scovelli)"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.74b31?ver=2014-09-03T13:13:11.087-04:00",
+        "dateModified": "2014-09-04T04:00:20.97Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Cramp, Rebecca",
+        "datePublished": "2014-09-03T17:13:07Z",
+        "title": "Data from: Synergistic interaction between UVB and temperature increases susceptibility to parasitic infection in a fish"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.1v8kj/1?ver=2014-09-03T10:21:04.914-04:00",
+        "dateModified": "2014-09-04T04:00:32.021Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Angielczyk, Kenneth D.",
+        "datePublished": "2014-08-07T14:28:56Z",
+        "title": "Scleral ring and orbit morphology"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.jn3rr?ver=2014-09-03T15:57:41.369-04:00",
+        "dateModified": "2014-09-04T04:00:30.397Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Marks, Christian O.",
+        "datePublished": "2014-09-03T19:57:37Z",
+        "title": "Data from: Quantifying flooding regime in floodplain forests to guide river restoration"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.ss7kp/1?ver=2014-09-03T13:52:52.414-04:00",
+        "dateModified": "2014-09-04T04:00:49.268Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dines, James P.",
+        "datePublished": "2014-08-29T19:23:15Z",
+        "title": "Whale pelvics"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.dg85v/1?ver=2014-09-03T10:36:04.214-04:00",
+        "dateModified": "2014-09-04T04:00:39.318Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Milla, Rubén",
+        "datePublished": "2014-08-08T11:52:48Z",
+        "title": "Traits of herbaceous crop species and their wild progenitors"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.5hk2h/1?ver=2014-09-03T10:41:18.008-04:00",
+        "dateModified": "2014-09-04T04:00:40.628Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Auersperg, Alice M. I.",
+        "datePublished": "2014-08-07T14:35:57Z",
+        "title": "STT Raw Data"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.1v8kj/2?ver=2014-09-03T10:21:41.580-04:00",
+        "dateModified": "2014-09-04T04:00:33.671Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Angielczyk, Kenneth D.",
+        "datePublished": "2014-08-07T14:28:59Z",
+        "title": "Phylogeny"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.jg43t/1?ver=2014-09-03T10:25:33.155-04:00",
+        "dateModified": "2014-09-04T04:00:34.989Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Schwab, Daniel B.",
+        "datePublished": "2014-08-12T15:43:41Z",
+        "title": "Schwab and Moczek All Data"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.nh437/2?ver=2014-09-03T14:24:24.345-04:00",
+        "dateModified": "2014-09-04T04:00:54.768Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dugué, Guillaume P.",
+        "datePublished": "2014-09-03T18:24:20Z",
+        "title": "Spike times at twice the photostimulation threshold"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.nh437/3?ver=2014-09-03T14:24:27.559-04:00",
+        "dateModified": "2014-09-04T04:00:56.26Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dugué, Guillaume P.",
+        "datePublished": "2014-09-03T18:24:24Z",
+        "title": "Spike times at maximal irradiance"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.nh437/5?ver=2014-09-03T14:24:34.087-04:00",
+        "dateModified": "2014-09-04T04:00:59.041Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dugué, Guillaume P.",
+        "datePublished": "2014-09-03T18:24:30Z",
+        "title": "Light transmission in DRN"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.nh437/1?ver=2014-09-03T14:24:20.850-04:00",
+        "dateModified": "2014-09-04T04:00:53.272Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dugué, Guillaume P.",
+        "datePublished": "2014-09-03T18:24:17Z",
+        "title": "Spike probability vs irradiance"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.nh437/4?ver=2014-09-03T14:24:30.729-04:00",
+        "dateModified": "2014-09-04T04:00:57.73Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dugué, Guillaume P.",
+        "datePublished": "2014-09-03T18:24:27Z",
+        "title": "Number of spikes vs pulse duration"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.nh437/6?ver=2014-09-03T14:24:37.343-04:00",
+        "dateModified": "2014-09-04T04:01:00.282Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dugué, Guillaume P.",
+        "datePublished": "2014-09-03T18:24:34Z",
+        "title": "Linear pixel intensity profiles"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.gt86f/1?ver=2014-09-03T13:56:41.432-04:00",
+        "dateModified": "2014-09-04T04:00:50.578Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Fourcade, Yoan",
+        "datePublished": "2014-07-08T15:30:37Z",
+        "title": "Infection status of corncrake samples"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.nh437/11?ver=2014-09-03T14:24:53.456-04:00",
+        "dateModified": "2014-09-04T04:01:06.846Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dugué, Guillaume P.",
+        "datePublished": "2014-09-03T18:24:50Z",
+        "title": "OLFP recovery"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.nh437/10?ver=2014-09-03T14:24:50.252-04:00",
+        "dateModified": "2014-09-04T04:01:05.469Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dugué, Guillaume P.",
+        "datePublished": "2014-09-03T18:24:47Z",
+        "title": "OLFP amplitude and latency vs frequency"
+      },
+      {
+        "author": "Prill, Nadine",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-04T04:00:52.076Z",
+        "id": "http://dx.doi.org/10.5061/dryad.36746/1?ver=2014-09-03T14:15:10.568-04:00",
+        "datePublished": "2014-09-03T18:15:07Z",
+        "title": "Common garden data"
+      },
+      {
+        "author": "Prill, Nadine",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-04T04:00:23.909Z",
+        "id": "http://dx.doi.org/10.5061/dryad.36746?ver=2014-09-03T14:15:07.059-04:00",
+        "datePublished": "2014-09-03T18:15:03Z",
+        "title": "Data from: Loss of heterosis and family-dependent inbreeding depression in plant performance and resistance against multiple herbivores under drought stress"
+      },
+      {
+        "author": "Huang, Ni",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-04T04:00:27.082Z",
+        "id": "http://dx.doi.org/10.5061/dryad.12528?ver=2014-09-03T14:31:26.797-04:00",
+        "datePublished": "2014-09-03T18:31:23Z",
+        "title": "Data from: Modeling spatial patterns of soil respiration in maize fields from vegetation and soil property factors with the use of remote sensing and geographical information system"
+      },
+      {
+        "author": "Huang, Ni",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-04T04:01:09.547Z",
+        "id": "http://dx.doi.org/10.5061/dryad.12528/1?ver=2014-09-03T14:31:29.983-04:00",
+        "datePublished": "2014-09-03T18:31:26Z",
+        "title": "soil respiration and related factors in maize fields in three counties in North China"
+      },
+      {
+        "author": "Roquet, Cristina",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-04T04:01:13.71Z",
+        "id": "http://dx.doi.org/10.5061/dryad.11609/3?ver=2014-09-03T15:02:12.499-04:00",
+        "datePublished": "2014-09-03T19:02:09Z",
+        "title": "100 dated phylogenetic trees of European Birds"
+      },
+      {
+        "author": "Roquet, Cristina",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-04T04:01:10.892Z",
+        "id": "http://dx.doi.org/10.5061/dryad.11609/1?ver=2014-09-03T15:02:06.115-04:00",
+        "datePublished": "2014-09-03T19:02:02Z",
+        "title": "100 dated supertrees of European Tetrapoda"
+      },
+      {
+        "author": "Roquet, Cristina",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-04T04:01:12.208Z",
+        "id": "http://dx.doi.org/10.5061/dryad.11609/2?ver=2014-09-03T15:02:09.309-04:00",
+        "datePublished": "2014-09-03T19:02:06Z",
+        "title": "100 dated phylogenetic trees of European Squamata and Testudinae"
+      },
+      {
+        "author": "Roquet, Cristina",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-04T04:01:14.813Z",
+        "id": "http://dx.doi.org/10.5061/dryad.11609/4?ver=2014-09-03T15:02:15.774-04:00",
+        "datePublished": "2014-09-03T19:02:12Z",
+        "title": "100 dated phylogenetic trees of European Amphibians"
+      },
+      {
+        "author": "Roquet, Cristina",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-04T04:00:29.012Z",
+        "id": "http://dx.doi.org/10.5061/dryad.11609?ver=2014-09-03T15:02:02.865-04:00",
+        "datePublished": "2014-09-03T19:01:59Z",
+        "title": "Data from: One tree to link them all: a phylogenetic dataset for the European Tetrapoda"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.11609/5?ver=2014-09-03T15:02:19.180-04:00",
+        "dateModified": "2014-09-04T04:01:16.344Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Roquet, Cristina",
+        "datePublished": "2014-09-03T19:02:15Z",
+        "title": "100 dated supertrees of European Mammals"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.rt31g?ver=2014-09-04T10:37:36.904-04:00",
+        "dateModified": "2014-09-05T04:00:23.751Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Huntley, John Warren",
+        "datePublished": "2014-09-04T14:37:33Z",
+        "title": "Data from: Geographic variation of parasitic and predatory traces on mollusks in the northern Adriatic Sea, Italy: implications for the stratigraphic paleobiology of biotic interactions"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.39q83?ver=2014-09-04T10:29:27.930-04:00",
+        "dateModified": "2014-09-05T04:00:22.052Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Marino, Ilaria",
+        "datePublished": "2014-09-04T14:29:24Z",
+        "title": "Data from: New molecular tools for the identification of two endangered smooth-hound sharks, Mustelus mustelus and Mustelus punctulatus"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.j04r6?ver=2014-09-04T10:23:04.369-04:00",
+        "dateModified": "2014-09-05T04:00:21.012Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Arbour, Jessica",
+        "datePublished": "2014-09-04T14:23:00Z",
+        "title": "Data from: Adaptive landscape and functional diversity of Neotropical cichlids: implications for the ecology and evolution of Cichlinae (Cichlidae; Cichliformes)"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.mv332?ver=2014-09-04T11:28:36.929-04:00",
+        "dateModified": "2014-09-05T04:00:28.85Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Tollenaere, Charlotte",
+        "datePublished": "2014-09-04T15:28:33Z",
+        "title": "Data from: A hyperparasite affects the population dynamics of a wild plant pathogen"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.b35td?ver=2014-09-04T12:06:52.781-04:00",
+        "dateModified": "2014-09-05T04:00:33.604Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Malenfant, René M.",
+        "datePublished": "2014-09-04T16:06:49Z",
+        "title": "Data from: Design of a 9K SNP chip for polar bears (Ursus maritimus) from RAD and transcriptome sequencing"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.4b4rb?ver=2014-09-04T12:54:24.731-04:00",
+        "dateModified": "2014-09-05T04:00:38.712Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Zimmer, Alex",
+        "datePublished": "2014-09-04T16:54:21Z",
+        "title": "Data from: What is the primary function of the early teleost gill? Evidence for Na+/NH4+ exchange in developing rainbow trout (Oncorhynchus mykiss)"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.n56t9?ver=2014-09-04T11:24:34.614-04:00",
+        "dateModified": "2014-09-05T04:00:27.095Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Wang, Xin-Cun",
+        "datePublished": "2014-09-04T15:20:39Z",
+        "title": "Data from: ITS1: a DNA barcode better than ITS2 in eukaryotes?"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.j6kd3?ver=2014-09-04T12:22:43.241-04:00",
+        "dateModified": "2014-09-05T04:00:37.184Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Ghosh, Arko",
+        "datePublished": "2014-09-04T16:22:39Z",
+        "title": "Data from: Using voluntary motor commands to inhibit involuntarily arm movements"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.m49k6?ver=2014-09-04T12:58:01.189-04:00",
+        "dateModified": "2014-09-05T04:00:40.091Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Turner, Wendy C.",
+        "datePublished": "2014-09-04T16:57:57Z",
+        "title": "Data from: Fatal attraction: vegetation responses to nutrient inputs attract herbivores to infectious anthrax carcass sites"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.r0m2f?ver=2014-09-04T14:19:23.173-04:00",
+        "dateModified": "2014-09-05T04:00:46.497Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Huang, Pu",
+        "datePublished": "2014-09-04T18:19:19Z",
+        "title": "Data from: Population genetics of Setaria viridis, a new model system"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.018g4?ver=2014-09-04T14:28:59.432-04:00",
+        "dateModified": "2014-09-05T04:00:48.214Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Kreisinger, Jakub",
+        "datePublished": "2014-09-04T18:28:55Z",
+        "title": "Data from: Gastrointestinal microbiota of wild and inbred individuals of two house mouse subspecies assessed using high throughput parallel pyrosequencing"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.ct121?ver=2014-09-04T14:40:36.193-04:00",
+        "dateModified": "2014-09-05T04:00:51.449Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Crino, Ondi",
+        "datePublished": "2014-09-04T18:40:32Z",
+        "title": "Data from: Developmental stress increases reproductive success in male zebra finches"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.5tp2v?ver=2014-09-04T13:40:07.518-04:00",
+        "dateModified": "2014-09-05T04:00:44.979Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Wong, Janine",
+        "datePublished": "2014-09-04T17:40:04Z",
+        "title": "Data from: Effects of food restriction across stages of juvenile and early adult development on body weight, survival, and adult life history"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.4bm76?ver=2014-09-04T14:36:48.876-04:00",
+        "dateModified": "2014-09-05T04:00:49.534Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Gordon, Shira",
+        "datePublished": "2014-09-04T18:36:45Z",
+        "title": "Data from: Listening to the environment: hearing differences from an epigenetic effect in solitarious and gregarious locusts"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.pv5tq?ver=2014-09-04T13:30:30.138-04:00",
+        "dateModified": "2014-09-05T04:00:43.349Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Rahman, Moshiur",
+        "datePublished": "2014-09-04T17:30:26Z",
+        "title": "Data from: Experimental reduction in dietary omega-3 polyunsaturated fatty acids depresses sperm competitiveness"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.t8011?ver=2014-09-04T13:07:52.712-04:00",
+        "dateModified": "2014-09-05T04:00:41.746Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Zhou, Jiawei",
+        "datePublished": "2014-09-04T17:07:49Z",
+        "title": "Data from: Real-time modulation of perceptual eye dominance in humans"
+      },
+      {
+        "author": "Dąbrowski, Michał J.",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:00:30.419Z",
+        "id": "http://dx.doi.org/10.5061/dryad.s571g?ver=2014-09-04T11:36:53.721-04:00",
+        "datePublished": "2014-09-04T15:36:50Z",
+        "title": "Data from: ‘True’ null allele detection in microsatellite loci: a comparison of methods, assessment of difficulties, and survey of possible improvements"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.v8q6c/2?ver=2014-09-04T02:30:11.776-04:00",
+        "dateModified": "2014-09-05T04:01:32.627Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Harrison, Xavier A.",
+        "datePublished": "2013-08-30T21:08:45Z",
+        "title": "White-Browed Sparrow Weaver Genotypes"
+      },
+      {
+        "id": "http://dx.doi.org/10.5061/dryad.s571g/1?ver=2014-09-04T11:36:56.731-04:00",
+        "dateModified": "2014-09-05T04:01:43.975Z",
+        "authoritativeMN": "urn:node:DRYAD",
+        "author": "Dąbrowski, Michał J.",
+        "datePublished": "2014-09-04T15:36:53Z",
+        "title": "Populations_with_simulated_null_alleles"
+      },
+      {
+        "author": "Mikheyev, Alexander",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:01:46.289Z",
+        "id": "http://dx.doi.org/10.5061/dryad.5p0c3/2?ver=2014-09-04T11:50:57.539-04:00",
+        "datePublished": "2014-09-04T15:42:37Z",
+        "title": "Reads for snake transcriptome data"
+      },
+      {
+        "author": "Mikheyev, Alexander",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:01:44.989Z",
+        "id": "http://dx.doi.org/10.5061/dryad.5p0c3/1?ver=2014-09-04T11:50:50.175-04:00",
+        "datePublished": "2014-09-04T15:42:35Z",
+        "title": "Raw reads"
+      },
+      {
+        "author": "Mikheyev, Alexander",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:01:50.447Z",
+        "id": "http://dx.doi.org/10.5061/dryad.5p0c3/5?ver=2014-09-04T11:51:32.245-04:00",
+        "datePublished": "2014-09-04T15:42:47Z",
+        "title": "Illumina reverse reads for the Protobothrops flavoviridis transcriptome"
+      },
+      {
+        "author": "Mikheyev, Alexander",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:01:48.925Z",
+        "id": "http://dx.doi.org/10.5061/dryad.5p0c3/4?ver=2014-09-04T11:51:26.579-04:00",
+        "datePublished": "2014-09-04T15:42:44Z",
+        "title": "Illumina forward reads for the Protobothrops flavoviridis transcriptome"
+      },
+      {
+        "author": "Mikheyev, Alexander S.",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:00:32.141Z",
+        "id": "http://dx.doi.org/10.5061/dryad.5p0c3?ver=2014-09-04T11:51:32.282-04:00",
+        "datePublished": "2014-09-04T15:42:31Z",
+        "title": "Data from: A first look at the Oxford Nanopore MinION sequencer"
+      },
+      {
+        "author": "Mikheyev, Alexander",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:01:47.872Z",
+        "id": "http://dx.doi.org/10.5061/dryad.5p0c3/3?ver=2014-09-04T11:51:10.603-04:00",
+        "datePublished": "2014-09-04T15:42:40Z",
+        "title": "processed_data.tar.gz"
+      },
+      {
+        "author": "Phuong, Mark",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:01:36.979Z",
+        "id": "http://dx.doi.org/10.5061/dryad.s4h2j/1?ver=2014-09-04T10:48:19.862-04:00",
+        "datePublished": "2014-09-04T14:48:16Z",
+        "title": "Phuongetal_BJLS_Squirrel_species_delimitation"
+      },
+      {
+        "author": "Phuong, Mark",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:00:25.463Z",
+        "id": "http://dx.doi.org/10.5061/dryad.s4h2j?ver=2014-09-04T10:48:16.891-04:00",
+        "datePublished": "2014-09-04T14:48:12Z",
+        "title": "Data from: Delimiting species in the genus Otospermophilus (Rodentia: Sciuridae) using genetics, ecology, and morphology"
+      },
+      {
+        "author": "Sangster, George",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:00:35.584Z",
+        "id": "http://dx.doi.org/10.5061/dryad.m4g2n?ver=2014-09-04T12:13:25.461-04:00",
+        "datePublished": "2014-09-04T16:13:21Z",
+        "title": "Data from: Declining rates of species described per taxonomist: slowdown of progress or a side-effect of improved quality in taxonomy?"
+      },
+      {
+        "author": "Sangster, George",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:01:53.045Z",
+        "id": "http://dx.doi.org/10.5061/dryad.m4g2n/2?ver=2014-09-04T12:13:31.470-04:00",
+        "datePublished": "2014-09-04T16:13:28Z",
+        "title": "Data file"
+      },
+      {
+        "author": "Sangster, George",
+        "authoritativeMN": "urn:node:DRYAD",
+        "dateModified": "2014-09-05T04:01:51.775Z",
+        "id": "http://dx.doi.org/10.5061/dryad.m4g2n/1?ver=2014-09-04T12:13:28.455-04:00",
+        "datePublished": "2014-09-04T16:13:25Z",
+        "title": "Fig. S1"
+      }
+    ]
+  }
+}

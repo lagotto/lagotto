@@ -72,6 +72,13 @@ module Resolvable
       Addressable::URI.encode("http://dx.doi.org/#{doi}")
     end
 
+    def get_doi_from_url(url)
+      return nil unless url.starts_with?("http://dx.doi.org/")
+
+      uri = URI.parse(url)
+      uri.path[1..-1]
+    end
+
     def get_persistent_identifiers(doi, options = { timeout: 120 })
       conn = faraday_conn('json')
       params = { 'ids' => doi,

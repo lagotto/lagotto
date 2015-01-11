@@ -1,0 +1,35 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cn.dataone.org/cn/v1/query/solr/?fl=id,title,author,datePublished,authoritativeMN,dateModified&q=datePublished:%5B1914-09-05T00:00:00Z%20TO%202014-09-05T23:59:59Z%5D%2BdateModified:%5B2014-09-04T00:00:00Z%20TO%202014-09-05T23:59:59Z%5D%2BformatType:METADATA&rows=0&start=0&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.13 - http://lagotto-bugfixes.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 10 Jan 2015 23:56:44 GMT
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"responseHeader":{"status":0,"QTime":7,"params":{"fl":"id,title,author,datePublished,authoritativeMN,dateModified","start":"0","q":"datePublished:[1914-09-05T00:00:00Z
+        TO 2014-09-05T23:59:59Z]+dateModified:[2014-09-04T00:00:00Z TO 2014-09-05T23:59:59Z]+formatType:METADATA","wt":"json","rows":"0"}},"response":{"numFound":61,"start":0,"docs":[]}}'
+    http_version: 
+  recorded_at: Fri, 05 Sep 2014 00:00:00 GMT
+recorded_with: VCR 2.9.3
