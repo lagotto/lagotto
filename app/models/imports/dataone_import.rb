@@ -9,7 +9,6 @@ class DataoneImport < Import
     @until_pub_date = until_pub_date.presence || Time.zone.now.to_date.iso8601
     @from_update_date = from_update_date.presence || (Time.zone.now.to_date - 1.day).iso8601
     @until_update_date = until_update_date.presence || Time.zone.now.to_date.iso8601
-    @member = options.fetch(:member, nil).to_s.split(",")
   end
 
   def total_results
@@ -21,8 +20,7 @@ class DataoneImport < Import
     url = "https://cn.dataone.org/cn/v1/query/solr/?"
     pub_date_range = "datePublished:[#{@from_pub_date}T00:00:00Z TO #{@until_pub_date}T23:59:59Z]"
     update_date_range = "dateModified:[#{@from_update_date}T00:00:00Z TO #{@until_update_date}T23:59:59Z]"
-    member_string = @member.present? ? "authoritativeMN:#{@member}" : nil
-    params = { q: [pub_date_range, update_date_range, member_string, "formatType:METADATA"].compact.join("+"),
+    params = { q: [pub_date_range, update_date_range, "formatType:METADATA"].compact.join("+"),
                start: offset,
                rows: rows,
                fl: "id,title,author,datePublished,authoritativeMN,dateModified",

@@ -77,6 +77,27 @@ describe "db:works:import:plos" do
   end
 end
 
+describe "db:works:import:dataone" do
+  ENV['FROM_PUB_DATE'] = "2013-09-04"
+  ENV['UNTIL_PUB_DATE'] = "2013-09-05"
+
+  include_context "rake"
+
+  let(:output) { "Started import of 29 works in the background...\n" }
+
+  it "prerequisites should include environment" do
+    expect(subject.prerequisites).to include("environment")
+  end
+
+  it "should run the rake task" do
+    import = PlosImport.new
+    stub_request(:get, import.query_url(offset = 0, rows = 0)).to_return(:body => File.read(fixture_path + 'plos_import_no_rows_single.json'))
+    stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'dataone_import.json'))
+    stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
+    expect(capture_stdout { subject.invoke }).to eq(output)
+  end
+end
+
 describe "db:works:import:csl" do
   # we are not providing a file to import, so this should raise an error
 

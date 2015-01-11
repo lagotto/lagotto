@@ -30,12 +30,6 @@ describe DataoneImport, type: :model, vcr: true do
       expect(import.query_url).to eq(url)
     end
 
-    it "should have query_url with member_id" do
-      import = DataoneImport.new(member: "urn:node:KNB")
-      url = "https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B1914-09-05T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-04T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BauthoritativeMN%3A%5B%22urn%3Anode%3AKNB%22%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json"
-      expect(import.query_url).to eq(url)
-    end
-
     it "should have query_url with from_pub_date" do
       import = DataoneImport.new(from_pub_date: "2014-09-01")
       url = "https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B1914-09-05T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-04T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json"

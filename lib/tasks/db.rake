@@ -107,6 +107,22 @@ namespace :db do
         end
       end
 
+      desc "Import works from DataONE Solr API"
+      task :dataone => :environment do
+        import = DataoneImport.new(
+          from_pub_date: ENV['FROM_PUB_DATE'],
+          until_pub_date: ENV['UNTIL_PUB_DATE'],
+          from_update_date: ENV['FROM_UPDATE_DATE'],
+          until_update_date: ENV['UNTIL_UPDATE_DATE'])
+        number = import.total_results
+        if number > 0
+          import.queue_work_import
+          puts "Started import of #{number} works in the background..."
+        else
+          puts "No works to import."
+        end
+      end
+
       desc "Import works from CSL JSON file"
       task :csl => :environment do
         begin
