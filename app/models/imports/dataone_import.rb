@@ -41,7 +41,8 @@ class DataoneImport < Import
     items = result.fetch('response', {}).fetch('docs', nil)
     Array(items).map do |item|
       id = item.fetch("id", nil)
-      doi = get_doi_from_url(id)
+      doi = get_doi_from_id(id)
+      ark = id.starts_with?("ark:/") ? id : nil
       url = doi ? nil : get_normalized_url(id)
 
       publication_date = get_iso8601_from_time(item.fetch("datePublished", nil))
@@ -76,6 +77,7 @@ class DataoneImport < Import
       }
 
       { doi: doi,
+        ark: ark,
         canonical_url: url,
         title: title,
         year: year,

@@ -22,6 +22,7 @@
         <%= f.input :pmcid, :label => 'PubMed Central', :disabled => @work.pid_type == "pmcid" %>
         <%= f.input :wos, :label => 'Web of Science', :disabled => @work.pid_type == "wos" %>
         <%= f.input :scp, :label => 'Scopus', :disabled => @work.pid_type == "scp" %>
+        <%= f.input :ark, :label => 'Ark', :disabled => @work.pid_type == "ark" %>
         <%= f.association :work_type, :include_blank => false %>
         <% if publishers.length > 1 %>
           <%= f.association :publisher, collection: Publisher.order("title").map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
@@ -76,6 +77,10 @@
         <% if @work.scp.present? && @work.scopus_url.present? %>
           <dt>Scopus</dt>
           <dd><%= link_to @work.scp, @work.scopus_url %></dd>
+        <% end %>
+        <% if @work.ark.present? %>
+          <dt>Ark</dt>
+          <dd><%= link_to @work.ark, @work.ark_as_url %></dd>
         <% end %>
         <% if @work.mendeley_url.present? %>
           <dt>Mendeley</dt>

@@ -72,11 +72,13 @@ module Resolvable
       Addressable::URI.encode("http://dx.doi.org/#{doi}")
     end
 
-    def get_doi_from_url(url)
-      return nil unless url.starts_with?("http://dx.doi.org/")
-
-      uri = URI.parse(url)
-      uri.path[1..-1]
+    def get_doi_from_id(id)
+      if id.starts_with?("http://dx.doi.org/")
+        uri = URI.parse(id)
+        uri.path[1..-1]
+      elsif id.starts_with?("doi:")
+        id[4..-1]
+      end
     end
 
     def get_persistent_identifiers(doi, options = { timeout: 120 })

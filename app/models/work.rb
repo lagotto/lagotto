@@ -113,8 +113,8 @@ class Work < ActiveRecord::Base
     "http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{pmcid}" if pmcid.present?
   end
 
-  def scp_as_url
-    "http://www.ncbi.nlm.nih.gov/pubmed/#{scp}" if scp.present?
+  def ark_as_url
+    "http://n2t.net/#{ark}" if ark.present?
   end
 
   def doi_prefix
@@ -307,6 +307,9 @@ class Work < ActiveRecord::Base
     elsif scp.present?
       write_attribute(:pid, scp)
       write_attribute(:pid_type, "scp")
+    elsif ark.present?
+      write_attribute(:pid, ark)
+      write_attribute(:pid_type, "ark")
     elsif canonical_url.present?
       write_attribute(:pid, canonical_url)
       write_attribute(:pid_type, "url")
