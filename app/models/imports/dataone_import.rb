@@ -41,7 +41,13 @@ class DataoneImport < Import
       id = item.fetch("id", nil)
       doi = get_doi_from_id(id)
       ark = id.starts_with?("ark:/") ? id : nil
-      url = doi ? nil : get_normalized_url(id)
+      if doi.present?
+        url = nil
+      elsif id.starts_with?("http://")
+        url = get_normalized_url(id)
+      else
+        url = nil
+      end
 
       publication_date = get_iso8601_from_time(item.fetch("datePublished", nil))
       date_parts = get_date_parts(publication_date)
