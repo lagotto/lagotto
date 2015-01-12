@@ -41,6 +41,9 @@ namespace :cron do
     when "plos"
       Rake::Task["db:works:import:plos"].invoke
       Rake::Task["db:works:import:plos"].reenable
+    when "dataone"
+      Rake::Task["db:works:import:dataone"].invoke
+      Rake::Task["db:works:import:dataone"].reenable
     end
   end
 

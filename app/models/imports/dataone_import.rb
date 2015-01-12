@@ -40,13 +40,19 @@ class DataoneImport < Import
     Array(items).map do |item|
       id = item.fetch("id", nil)
       doi = get_doi_from_id(id)
-      ark = id.starts_with?("ark:/") ? id : nil
+      ark = id.starts_with?("ark:/") ? id.split("/")[0..2].join("/") : nil
       if doi.present?
         url = nil
       elsif id.starts_with?("http://")
         url = get_normalized_url(id)
       else
         url = nil
+      end
+
+      if doi.nil? && ark.nil? && url.nil?
+        Alert.create(exception: "",
+                     class_name: "ActiveModel::MissingAttributeError",
+                     message: "No known identifier found in #{id}" )
       end
 
       publication_date = get_iso8601_from_time(item.fetch("datePublished", nil))

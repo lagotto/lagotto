@@ -131,6 +131,39 @@ describe DataoneImport, type: :model, vcr: true do
       expect(work[:doi]).to eq("10.5061/dryad.1v8kj/1")
       expect(work[:title]).to be_nil
     end
+
+    it "should parse_data ark identifier" do
+      import = DataoneImport.new
+      body = File.read(fixture_path + 'dataone_import.json')
+      result = JSON.parse(body)
+      result["response"]["docs"][5]["id"] = "ark:/13030/m5dz07w9/2/cadwsap-s4010832-002.xml"
+      response = import.parse_data(result)
+      expect(response.length).to eq(61)
+
+      work = response[5]
+      expect(work[:doi]).to be_nil
+      expect(work[:ark]).to eq("ark:/13030/m5dz07w9")
+      expect(work[:title]).to eq("Scleral ring and orbit morphology")
+    end
+
+    it "should raise error on unknown identifier" do
+      import = DataoneImport.new
+      body = File.read(fixture_path + 'dataone_import.json')
+      result = JSON.parse(body)
+      result["response"]["docs"][5]["id"] = "knb-lter-arc.10353.1"
+      response = import.parse_data(result)
+      expect(response.length).to eq(61)
+
+      work = response[5]
+      expect(work[:doi]).to be_nil
+      expect(work[:ark]).to be_nil
+      expect(work[:title]).to eq("Scleral ring and orbit morphology")
+
+      expect(Alert.count).to eq(1)
+      alert = Alert.first
+      expect(alert.class_name).to eq("ActiveModel::MissingAttributeError")
+      expect(alert.message).to eq("No known identifier found in knb-lter-arc.10353.1")
+    end
   end
 
   context "import_data" do
