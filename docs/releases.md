@@ -5,7 +5,7 @@ title: "Releases"
 
 ## Lagotto 3.13 (January 15, 2015)
 
-[Lagotto 3.13](https://github.com/articlemetrics/lagotto/releases/tag/v.3.13) was released on January 15, 2015 with the following change:
+[Lagotto 3.13](https://github.com/articlemetrics/lagotto/releases/tag/v.3.13) was released on January 15, 2015 with the following changes:
 
 * mention [Lagotto Support Forum](http://discuss.lagotto.io) in `README.md` ([#224](https://github.com/articlemetrics/lagotto/issues/224))
 * updated Chef cookbooks to use `shared` folder instead of `current` for better compatibility with Capistrano ([#227](https://github.com/articlemetrics/lagotto/issues/227))
