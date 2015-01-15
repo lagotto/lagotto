@@ -11,17 +11,14 @@ Configuring Lagotto consists of three steps:
 * [Deployment](/docs/deployment) if you are using Lagotto in a production system
 * [Setup](/docs/setup)
 
-Lagotto is a typical Ruby on Rails web application with one unusual feature: it requires the CouchDB database. CouchDB is used to store the responses from external API calls, MySQL (or PostgreSQL, see below) is used for everything else. The application is used in production systems with Apache/Passenger, Nginx/Passenger and Nginx/Puma. Lagotto uses Ruby on Rails 4.x. The application has extensive test coverage using [Rspec] and [Cucumber].
+Lagotto is a typical Ruby on Rails web application with one unusual feature: it requires the CouchDB database. CouchDB is used to store the responses from external API calls, MySQL (or PostgreSQL, see below) is used for everything else. The application is used in production systems with Apache/Passenger, Nginx/Passenger and Nginx/Puma. Lagotto uses Ruby 2.x and Ruby on Rails 4.x. The application has extensive test coverage using [Rspec].
 
 [Rspec]: http://rspec.info/
-[Cucumber]: http://cukes.info/
 
-Lagotto is Open Source software licensed with a [MIT License](https://github.com/articlemetrics/lagotto/blob/master/LICENSE.md), all dependencies (software and libraries) are also Open Source.
-
-Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of works. As a rule of thumb you need one worker per 5,000 - 20,000 works, and 1 Gb of RAM per 10 workers - the exact numbers depend on how often you plan to update works, e.g. you need more workers if you plan on update your usage stats every day.
+Lagotto is Open Source software licensed with a [MIT License](https://github.com/articlemetrics/lagotto/blob/master/LICENSE.md), all dependencies (software and libraries) are also Open Source. Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of works.
 
 #### Ruby
-Lagotto requires Ruby 1.9.3 or greater, and has been tested with Ruby 1.9.3, 2.0 and 2.1. Not all Linux distributions include Ruby 1.9 as a standard install. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby, unfortunately they also introduce additional dependencies, making them not the best choices in a production environment. The Chef script below installs Ruby 2.1.
+Lagotto requires Ruby 2.x. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby, unfortunately they also introduce additional dependencies, making them not the best choices in a production environment. The Chef script below installs Ruby 2.1 using a PPA for Ubuntu.
 
 [RVM]: http://rvm.io/
 [Rbenv]: https://github.com/sstephenson/rbenv
@@ -72,11 +69,11 @@ COUCHDB_URL=http://localhost:5984/lagotto
 # email address for sending emails
 ADMIN_EMAIL=admin@example.com
 
-# number of background workers
-WORKERS=3
+# number of background processes
+CONCURRENCY=25
 
 # automatic import via CrossRef API.
-# Use 'all', 'member', 'sample', 'member_sample', or leave empty
+# Use 'crossref', 'member', 'sample', 'member_sample', 'datacite', 'dataone', 'plos', or leave empty
 IMPORT=
 
 # keys
@@ -107,6 +104,21 @@ DEPLOY_GROUP=vagrant
 
 # mysql server root password for chef
 DB_SERVER_ROOT_PASSWORD=EZ$zspyxF2
+
+LOG_LEVEL=info
+
+# authentication via orcid, github, cas or persona
+OMNIAUTH=persona
+
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+ORCID_CLIENT_ID=
+ORCID_CLIENT_SECRET=
+
+CAS_URL=
+CAS_INFO_URL=
+CAS_PREFIX=
 ```
 
 ## Automated Installation
@@ -227,7 +239,7 @@ This uses the private SSH key provided by you in the `Vagrantfile` (the default 
 ## Manual installation
 These instructions assume a fresh installation of Ubuntu 14.04 and a user with sudo privileges. Installation on other Unix/Linux platforms should be similar, and Lagotto runs on several production systems with RHEL and CentOS.
 
-#### Add PPAs to install more recent versions of Ruby and CouchDB, and Nginx/Passeger
+#### Add PPAs to install more recent versions of Ruby and CouchDB, and Nginx/Passenger
 We only need one Ruby version and manage gems with bundler, so there is no need to install `rvm` or `rbenv`. We want to install the latest CouchDB version from the official PPA, and we want to install Nginx precompiled with Passenger.
 
 ```sh
@@ -261,7 +273,7 @@ sudo apt-get install ruby2.1 ruby2.1-dev curl git libmysqlclient-dev nodejs avah
 #### Install databases
 
 ```sh
-sudo apt-get install couchdb mysql-server -y
+sudo apt-get install couchdb mysql-server redis-server -y
 ```
 
 #### Install Memcached
@@ -323,7 +335,7 @@ bundle install
 #### Install Lagotto databases
 We just setup an empty database for CouchDB. With MySQL we also include all data to get started, including a default user account (`DB_USERNAME` from your `.env` file). Use `RAILS_ENV=production` in your `.env` file if you set up Passenger to run in the production environment.
 
-It is possible to connect Lagotto to MySQL and/or CouchDB running on a different server, please change `DB_HOST` and `COUCHDB_URL` in your `.env` file accordingly.
+It is possible to connect Lagotto to MySQL and/or CouchDB running on a different server, please change `DB_HOST` and `COUCHDB_URL` in your `.env` file accordingly. We are using the default installation for redis.
 
 ```sh
 cd /var/www/lagotto
@@ -384,7 +396,7 @@ sudo apt-get install postgresql libpq-dev -y
 Lagotto was developed to run on a single server, but most components scale to multiple servers. When running Lagotto on multiple servers, make sure that:
 
 * the name of load balancer is set as `SERVERNAME` in `.env`
-* memcached should be set up as a cluster by adding a `SERVERS` comma-separated list with all Lagotto servers behind the load balancer to `.env`, e.g. `SERVERS=example1.org,example2.org`
-* workers should run on only one server (work is in progress to scale to multiple servers), e.g. the server with the capistrano `:db` role
+* memcached should be set up as a cluster by adding a `MEMCACHE_SERVERS` comma-separated list with all Lagotto servers behind the load balancer to `.env`, e.g. `MEMCACHE_SERVERS=example1.org,example2.org`
+* workers should run on only one server, e.g. the server with the capistrano `:db` role
 * database maintenance rake tasks should run on only one server, capistrano defaults to install the cron jobs only for the `:db` role.
 * mail services (sending emails) should run on only one server. They are part of the database maintenance tasks, so by default run only on the server with the `:db` role.

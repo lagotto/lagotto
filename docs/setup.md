@@ -36,14 +36,10 @@ The following addiotional configuration options are available via the web interf
 
 * whether the source is automatically queueing jobs and not running via cron job (default true)
 * whether the results can be shared via the API (default true)
-* number of max. workers for the job queue (default 1)
-* job_batch_size: number of works per job (default 200)
 * staleness: update interval depending on work publication date (default daily the first 31 days, then 4 times a month up until one year, then monthly)
 * rate-limiting (default 10,000)
 * timeout (default 30 sec)
 * maximum number of failed queries allowed before being disabled (default 200)
-* maximum number of failed queries allowed in a time interval (default 24 hours)
-* disable delay after too many failed queries (default 10 sec)
 
 ![Configuration](/images/configuration.png)
 
@@ -96,17 +92,13 @@ The DOI, publication date and title are again all required fields, but you can a
 
 ### CrossRef API
 
-This is the preferred option. You need so set the configuration option `IMPORT` in `.env` to either `member`, `member_sample`, `all` or `sample`. `member` imports all works from the publishers added in the admin interface, `member_sample` imports a random subset with 20 works for that publisher.
+This is the preferred option. You need so set the configuration option `IMPORT` in `.env` to either `member`, `member_sample`, `crossref` or `sample`. `member` imports all works from the publishers added in the admin interface, `member_sample` imports a random subset with 20 works for that publisher.
 
 ## Starting Workers
-Lagotto talks to external data sources to collect metrics about a set of works. Metrics are added by calling external APIs in the background, using the [delayed_job](https://github.com/collectiveidea/delayed_job) queuing system. The results are stored in CouchDB. This can be done in one of two ways:
+Lagotto talks to external data sources to collect metrics about a set of works. Metrics are added by calling external APIs in the background, using the [sidekiq](https://github.com/mperham/sidekiq) queuing system and Rails ActiveJob framework. The results are stored in CouchDB. This can be done in one of two ways:
 
 ### Ad-hoc workers
-To collect metrics once for a set of works, or for testing purposes the workers can be run ad-hoc using the [foreman](https://github.com/ddollar/foreman) utility that is installed with Lagotto. To make sure foreman detects the correct environment you are running (`development` or `production`), make sure the file `.env` in the root folder of your application has the correct information:
-
-```sh
-RAILS_ENV=development
-```
+To collect metrics once for a set of works, or for testing purposes the workers can be run ad-hoc using the `bundle exec sidekiq` command.
 
 You then have to decide what works you want updated. This can be either a specific DOI, all works, all works for a list of specified sources, or all works published in a specific time interval. Issue one of the following commands (and include `RAILS_ENV=production` in production mode):
 
@@ -121,30 +113,25 @@ bin/rake queue:all[pubmed,mendeley] START_DATE=2013-02-01 END_DATE=2014-02-08
 You can then start the workers with:
 
 ```sh
-script/delayed_job -n 3 start
-```
-
-You might have to run this command with `sudo`. `-n` tells you the number of workers you want to run in parallel. To stop the workers:
-
-```sh
-script/delayed_job stop
+bundle exec sidekiq
 ```
 
 ### Background workers
-In a continously updating production system we want to run the workers in the background with the above command. You can monitor the status of your workers in the admin dashboard (`/status`).
+In a continously updating production system we want to run Sidekiq in the background with the above command. You can monitor the Sidekiq status in the admin dashboard (`/status`).
 
-When we have to update the metrics for a work (determined by the staleness interval), a job is added to the background queue for that source. A delayed_job worker will then process this job in the background. We need to run at least one delayed_job to do this.
+When we have to update the metrics for a work (determined by the staleness interval), a job is added to the background queue for that source. Sidekiq will then process this job in the background. By default Sidekiq runs 25 processes in parallel.
 
 ### List of background jobs that Lagotto uses
 
-The default priority for jobs is 5. We have the following background jobs sorted by decreasing priority:
+We have the following background queues sorted by decreasing priority:
 
-* **Disabled source alert**. Queue name is `mailer`, priority is 1.
-* **Updating sources and status cache**. Queue names are `{name of source}-cache` and `status-cache`, priority is 1.
-* **Article imports**. Queue name is `work-import`, priority is 2.
-* **Deleting CouchDB documents**. A one-time maintenance task, queue name is `couchdb`, default priority is 4.
-* **Updating sources**. Queue name is name of the source, priority can be any integer greater than 0, default priority is 5.
-* **Email reports**. Queue name is `mailer`, default priority is 6.
+* **critical**
+* **high**
+* **default**
+* **low**
+* **mailers**
+
+Jobs for sources go into the `default` queue, unless the source was configured to use the `high` or `low` queue.
 
 ## Configuring Maintenance Tasks
 Lagotto uses a number of maintenance tasks in production mode - they are not necessary for a development instance.
@@ -179,6 +166,10 @@ end
 
 every 1.day, at: "1:20 AM" do
   rake "cron:daily"
+end
+
+every "20 11,16 * * *" do
+  rake "cron:import", :output => "log/cron_import.log"
 end
 
 every :monday, at: "1:40 AM" do
