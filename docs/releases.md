@@ -18,6 +18,13 @@ The big change in this release is the switch from [delayed_job](https://github.c
 sudo apt-get install redis-server
 ```
 
+Also, make sure the following ENV variable is set in your `.env` file:
+
+```sh
+# number of threads Sidekiq uses
+CONCURRENCY=25
+```
+
 No redis or sidekiq configuration is necessary, but make sure all `delayed_job` worker processes are killed when upgrading.
 
 ## Lagotto 3.12.7 (January 9, 2015)
