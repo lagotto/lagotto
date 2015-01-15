@@ -3,6 +3,13 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.12.7 (January 9, 2015)
+
+[Lagotto 3.12.7](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.7) was released on January 9, 2015 with the following change:
+
+* proper handling of HTML `Page Not Found` errors ([#229](https://github.com/articlemetrics/lagotto/issues/229))
+* API keys are no longer required for non-admin API calls ([#230](https://github.com/articlemetrics/lagotto/issues/230))
+
 ## Lagotto 3.12.6 (January 6, 2015)
 
 [Lagotto 3.12.6](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.6) was released on January 6, 2015 with the following change:

@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
         end
       end
       format.json { render json: { error: "The page you are looking for doesn't exist." }.to_json, status: 404 }
+      format.xml { render xml: { error: "The page you are looking for doesn't exist." }.to_xml, status: 404 }
       format.rss { render :show, status: 404, layout: false }
     end
   end

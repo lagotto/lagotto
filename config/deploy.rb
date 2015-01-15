@@ -29,7 +29,7 @@ rescue ArgumentError
   exit
 end
 
-set :default_env, { 'DOTENV' => ENV["DOTENV"] }
+# set :default_env, { 'DOTENV' => ENV["DOTENV"] }
 
 set :application, ENV["APPLICATION"]
 set :repo_url, 'https://github.com/articlemetrics/lagotto.git'
@@ -61,7 +61,8 @@ set :log_level, log_level
 
 # Default value for :linked_files is []
 # link .env file
-set :linked_files, %W{ #{filename} }
+#set :linked_files, %W{ #{filename} }
+set :linked_files, %W{ .env }
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{ log data tmp/pids tmp/sockets vendor/bundle public/files }
