@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1 id="api_key" data-api_key="<%= ENV['API_KEY'] %>">Status <small id="update_date"><%= date_from_iso8601(@status.update_date) + ' UTC' %></small></h1>
+  <h1 id="api_key" data-api_key="<%= current_user && current_user.api_key %>">Status <small id="update_date"><%= date_from_iso8601(@status.update_date) + ' UTC' %></small></h1>
 </div>
 
 <div class="content">

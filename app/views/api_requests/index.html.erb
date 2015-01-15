@@ -21,7 +21,7 @@
       </ul>
     </div>
   </div>
-  <h1 class="pull-left" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-key="<%= params[:key] %>" data-query="<%= params[:q] %>">API Requests</h1>
+  <h1 class="pull-left" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-key="<%= params[:key] %>" data-query="<%= params[:q] %>">API Requests</h1>
 
   <% if params[:key].blank? %>
     <%= form_tag(api_requests_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>

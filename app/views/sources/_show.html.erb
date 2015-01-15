@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading panel-title" id="api_key" data-name="<%= @source.name %>" data-api_key="<%= ENV['API_KEY'] %>" data-page="" data-per_page="15" data-q="" data-publisher_id="" data-source_id="<%= @source.name %>" data-class_name="" data-order="<%= @source.name %>">
+  <div class="panel-heading panel-title" id="api_key" data-name="<%= @source.name %>" data-api_key="<%= current_user && current_user.api_key %>" data-page="" data-per_page="15" data-q="" data-publisher_id="" data-source_id="<%= @source.name %>" data-class_name="" data-order="<%= @source.name %>">
     <%= @source.display_name %> <small class="pull-right" id="update_date"><%= date_from_iso8601(@source.update_date) + ' UTC' %> <%= state_label(@source.human_state_name).html_safe %></small>
   </div>
   <div class="panel-body">

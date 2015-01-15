@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= ENV['API_KEY'] %>" data-pid_type="<%= @work.pid_type %>" data-pid="<%= @work.pid %>">
+  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid_type="<%= @work.pid_type %>" data-pid="<%= @work.pid %>">
     <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
