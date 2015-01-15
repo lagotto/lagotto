@@ -3,6 +3,23 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.13 (January 15, 2015)
+
+[Lagotto 3.13](https://github.com/articlemetrics/lagotto/releases/tag/v.3.13) was released on January 15, 2015 with the following change:
+
+* mention [Lagotto Support Forum](http://discuss.lagotto.io) in `README.md` ([#224](https://github.com/articlemetrics/lagotto/issues/224))
+* updated Chef cookbooks to use `shared` folder instead of `current` for better compatibility with Capistrano ([#227](https://github.com/articlemetrics/lagotto/issues/227))
+* display rate-limiting information from headers sent by Twitter and Github ([#228](https://github.com/articlemetrics/lagotto/issues/228))
+* added automated import from the DataONE ([#231](https://github.com/articlemetrics/lagotto/issues/231))
+
+The big change in this release is the switch from [delayed_job](https://github.com/collectiveidea/delayed_job) to [Sidekiq](https://github.com/mperham/sidekiq) for background processing. Sidekiq requires the `redis` database that can be installed either via the updated Chef scripts, or manually, e.g. on Ubuntu:
+
+```sh
+sudo apt-get install redis-server
+```
+
+No redis or sidekiq configuration is necessary, but make sure all `delayed_job` worker processes are killed when upgrading.
+
 ## Lagotto 3.12.7 (January 9, 2015)
 
 [Lagotto 3.12.7](https://github.com/articlemetrics/lagotto/releases/tag/v.3.12.7) was released on January 9, 2015 with the following change:
