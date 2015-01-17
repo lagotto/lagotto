@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150111105117) do
+ActiveRecord::Schema.define(version: 20150117102107) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -221,6 +221,23 @@ ActiveRecord::Schema.define(version: 20150111105117) do
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree
   add_index "sources", ["state"], name: "index_sources_on_state", using: :btree
   add_index "sources", ["type"], name: "index_sources_on_type", unique: true, using: :btree
+
+  create_table "statuses", force: :cascade do |t|
+    t.integer  "works_count",            limit: 4,   default: 0
+    t.integer  "events_count",           limit: 4,   default: 0
+    t.integer  "responses_count",        limit: 4,   default: 0
+    t.integer  "requests_count",         limit: 4,   default: 0
+    t.integer  "alerts_count",           limit: 4,   default: 0
+    t.integer  "sources_working_count",  limit: 4,   default: 0
+    t.integer  "sources_waiting_count",  limit: 4,   default: 0
+    t.integer  "sources_disabled_count", limit: 4,   default: 0
+    t.integer  "users_count",            limit: 4,   default: 0
+    t.string   "version",                limit: 255
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+  end
+
+  add_index "statuses", ["created_at"], name: "index_statuses_created_at", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: ""
