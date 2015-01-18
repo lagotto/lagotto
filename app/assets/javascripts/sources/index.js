@@ -1,10 +1,10 @@
 var d3,
     colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e","#95a6a6"],
-    l = 250, // left margin
-    r = 175, // right margin
-    w = 475, // width of drawing area
-    h = 36,  // bar height
-    s = 2;   // spacing between bars
+    l = 120, // left margin
+    r = 150, // right margin
+    w = 250, // width of drawing area
+    h = 20,  // bar height
+    s = 4;   // spacing between bars
 
 // construct query string
 var params = d3.select("h1#api_key");
@@ -36,7 +36,7 @@ function worksViz(data) {
     .attr("height", data.length * (h + 2 * s) + 30)
     .attr("class", "chart")
     .append("g")
-    .attr("transform", "translate(330,20)");
+    .attr("transform", "translate(150,20)");
 
   var x = d3.scale.linear()
     .domain([0, d3.max(data, function(d) { return d.work_count; })])
@@ -53,8 +53,8 @@ function worksViz(data) {
     .enter().append("a").attr("xlink:href", function(d) { return "/sources/" + d.name; }).append("text")
     .attr("x", 0)
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
-    .attr("dx", -330) // padding-right
-    .attr("dy", ".35em") // vertical-align: middle
+    .attr("dx", -150) // padding-right
+    .attr("dy", ".18em") // vertical-align: middle
     .text(function(d) { return d.display_name; });
   chart.selectAll("rect")
     .data(data)
@@ -69,7 +69,7 @@ function worksViz(data) {
     .attr("x", function(d) { return x(d.work_count); })
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
     .attr("dx", 5) // padding-right
-    .attr("dy", ".35em") // vertical-align: middle
+    .attr("dy", ".18em") // vertical-align: middle
     .text(function(d) { return numberWithDelimiter(d.work_count); });
 
   d3.select("#works-loading").remove();
@@ -87,7 +87,7 @@ function eventsViz(data) {
     .attr("height", data.length * (h + 2 * s) + 30)
     .attr("class", "chart")
     .append("g")
-    .attr("transform", "translate(330,20)");
+    .attr("transform", "translate(150,20)");
 
   var x = d3.scale.log()
     .domain([0.1, d3.max(data, function(d) { return d.event_count; })])
@@ -104,8 +104,8 @@ function eventsViz(data) {
     .enter().append("a").attr("xlink:href", function(d) { return "/sources/" + d.name; }).append("text")
     .attr("x", 0)
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
-    .attr("dx", -330) // padding-right
-    .attr("dy", ".35em") // vertical-align: middle
+    .attr("dx", -150) // padding-right
+    .attr("dy", ".18em") // vertical-align: middle
     .text(function(d) { return d.display_name; });
   chart.selectAll("rect")
     .data(data)
@@ -120,7 +120,7 @@ function eventsViz(data) {
     .attr("x", function(d) { return x(d.event_count); })
     .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
     .attr("dx", 5) // padding-right
-    .attr("dy", ".35em") // vertical-align: middle
+    .attr("dy", ".18em") // vertical-align: middle
     .text(function(d) { return numberWithDelimiter(d.event_count); });
 
   d3.select("#events-loading").remove();
