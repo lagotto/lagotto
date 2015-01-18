@@ -1,10 +1,22 @@
 class StatusController < ApplicationController
-  def show
-    @status = Status.new
+  def index
+    Status.create(current_version: Rails.application.config.version) if Rails.env == "development" || Status.count == 0
 
-    if current_user.try(:is_admin?) && @status.outdated_version?
-      flash.now[:alert] = "Your Lagotto software is outdated, please install <a href='https://github.com/articlemetrics/lagotto/releases'>version #{@status.current_version}</a>.".html_safe
+    collection = Status.order("created_at ASC")
+    @current_status = collection.last
+    @status = collection.paginate(:page => params[:page])
+
+    @process = SidekiqProcess.new
+
+    if current_user.try(:is_admin?) && @current_status.outdated_version?
+      flash.now[:alert] = "Your Lagotto software is outdated, please install <a href='https://github.com/articlemetrics/lagotto/releases'>version #{@current_status.current_version}</a>.".html_safe
       @flash = flash
     end
+  end
+
+  private
+
+  def safe_params
+    params.require(:status).permit(:current_version)
   end
 end

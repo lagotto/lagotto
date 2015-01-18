@@ -1,0 +1,147 @@
+<div class="page-header">
+  <h1 id="api_key" data-api_key="<%= current_user && current_user.api_key %>">Status <small id="update_date"><%= date_from_iso8601(@current_status.update_date) + ' UTC' %></small></h1>
+</div>
+
+<div class="content">
+  <div class="row">
+  <div class="col-md-4">
+    <div class="panel <%= @current_status.works_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">Works</div>
+      <div class="panel-body">
+        <h2 class="graphs"><%= link_to_if @current_status.works_count > 0, number_with_delimiter(@current_status.works_count), works_path %></h2>
+        <div class="graphs" id="chart_works"></div>
+        <div class="text-muted" id="chart_works-loading">Loading … <%= image_tag "spinner.gif" %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel <%= @current_status.events_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">Events</div>
+      <div class="panel-body">
+        <h2 class="graphs"><%= link_to_if @current_status.events_count > 0, number_with_delimiter(@current_status.events_count), sources_path %></h2>
+        <div class="graphs" id="chart_events"></div>
+        <div class="text-muted" id="chart_events-loading">Loading … <%= image_tag "spinner.gif" %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel <%= @current_status.sources_disabled_count > 0 ? 'panel-warning' : 'panel-default' %>">
+      <div class="panel-heading">Sources</div>
+      <div class="panel-body" id="chart_sources">
+        <div class="text-muted" id="chart_sources-loading">Loading … <%= image_tag "spinner.gif" %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel <%= @current_status.responses_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">API responses <small class="pull-right">last hour</small></div>
+      <div class="panel-body">
+        <h2 class="graphs"><%= link_to_if @current_status.responses_count > 0, number_with_delimiter(@current_status.responses_count), sources_path %></h2>
+        <div class="graphs" id="chart_responses"></div>
+        <div class="text-muted" id="chart_responses-loading">Loading … <%= image_tag "spinner.gif" %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel <%= @current_status.requests_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">API requests <small class="pull-right">last hour</small></div>
+      <div class="panel-body">
+        <h2 class="graphs"><%= link_to_if @current_status.requests_count > 0, number_with_delimiter(@current_status.requests_count), api_requests_path %></h2>
+        <div class="graphs" id="chart_requests"></div>
+        <div class="text-muted" id="chart_requests-loading">Loading … <%= image_tag "spinner.gif" %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel <%= @current_status.requests_average > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">API requests (average) <small class="pull-right">last hour</small></div>
+      <div class="panel-body">
+        <h2 class="graphs"><%= link_to_if @current_status.requests_average > 0, number_with_delimiter(@current_status.requests_average) + " ms", api_requests_path %></h2>
+        <div class="graphs" id="chart_average"></div>
+        <div class="text-muted" id="chart_average-loading">Loading … <%= image_tag "spinner.gif" %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if can?(:read, Alert) %>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="panel <%= @current_status.alerts_count > 0 ? 'panel-default' : 'panel-success' %>">
+        <div class="panel-heading">Unresolved alerts <small class="pull-right">last 30 days</small></div>
+        <div class="panel-body">
+          <h2 class="graphs"><%= link_to_if @current_status.alerts_count > 0, number_with_delimiter(@current_status.alerts_count), alerts_path %></h2>
+          <div class="graphs" id="chart_alerts"></div>
+          <div class="text-muted" id="chart_alerts-loading">Loading … <%= image_tag "spinner.gif" %></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel <%= @current_status.db_size > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">Database size <small class="pull-right">last 30 days</small></div>
+        <div class="panel-body text-center">
+          <h2 class="graphs" id="db_size"><%= number_to_human_size(@current_status.db_size) %></h2>
+          <div class="graphs" id="chart_db_size"></div>
+          <div class="text-muted" id="chart_db_size-loading">Loading … <%= image_tag "spinner.gif" %></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel <%= @current_status.outdated_version? ? 'panel-warning' : 'panel-default' %>">
+        <div class="panel-heading">Lagotto version</div>
+        <div class="panel-body text-center">
+          <h2 class="graphs" id="version"><%= @current_status.version %></h2>
+          <div class="texts"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel <%= worker_label(@process.current_status) %>">
+        <div class="panel-heading">Jobs</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="jobs">Processed</th>
+              <th class="jobs">Failed</th>
+              <th class="jobs">Busy</th>
+              <th class="jobs">Enqueued</th>
+              <th class="jobs">Retries</th>
+              <th class="jobs">Scheduled</th>
+              <th class="jobs">Dead</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            <% if can?(:manage, Alert) %>
+              <td class="jobs"><%= link_to_if @process.stats.processed > 0, number_with_delimiter(@process.stats.processed), sidekiq_web_path, target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @process.stats.failed > 0, number_with_delimiter(@process.stats.failed), sidekiq_web_path, target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @process.workers_size > 0, number_with_delimiter(@process.workers_size), "/sidekiq/busy", target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @process.stats.enqueued > 0, number_with_delimiter(@process.stats.enqueued), "/sidekiq/queues", target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @process.stats.retry_size > 0, number_with_delimiter(@process.stats.retry_size), "/sidekiq/retries", target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @process.stats.scheduled_size > 0, number_with_delimiter(@process.stats.scheduled_size), "/sidekiq/scheduled", target: "_blank" %></td>
+              <td class="jobs"><%= link_to_if @process.stats.dead_size > 0, number_with_delimiter(@process.stats.dead_size), "/sidekiq/morgue", target: "_blank" %></td>
+            <% else %>
+              <td class="jobs"><%= number_with_delimiter(@process.stats.processed) %></td>
+              <td class="jobs"><%= number_with_delimiter(@process.stats.failed) %></td>
+              <td class="jobs"><%= number_with_delimiter(@process.workers_size) %></td>
+              <td class="jobs"><%= number_with_delimiter(@process.stats.enqueued) %></td>
+              <td class="jobs"><%= number_with_delimiter(@process.stats.retry_size) %></td>
+              <td class="jobs"><%= number_with_delimiter(@process.stats.scheduled_size) %></td>
+              <td class="jobs"><%= number_with_delimiter(@process.stats.dead_size) %></td>
+            <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+</div>
+
+<%= javascript_include_tag 'status/index' %>

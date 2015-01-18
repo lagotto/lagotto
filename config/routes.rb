@@ -22,8 +22,8 @@ Lagotto::Application.routes.draw do
   resources :alerts
   resources :api_requests
   resources :filters
+  resources :status, :only => [:index]
 
-  get "status", to: "status#show"
   get "heartbeat", to: "heartbeat#show", defaults: { format: "json" }
   get "oembed", to: "oembed#show"
 
@@ -42,7 +42,7 @@ Lagotto::Application.routes.draw do
     namespace :v5 do
       resources :works, path: "articles", constraints: { :id => /.+?/ }, only: [:index]
       resources :sources, only: [:index, :show], param: :name
-      get "status", to: "status#show"
+      resources :status, only: [:index]
       resources :api_requests, only: [:index]
       resources :publishers, only: [:index], param: :member_id
     end

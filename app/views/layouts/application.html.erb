@@ -67,7 +67,7 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <%= controller.controller_name == "status" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Status", status_path %></li>
+          <%= controller.controller_name == "status" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Status", status_index_path %></li>
           <%= controller.controller_name == "works" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Works", works_path %></li>
           <%= controller.controller_name == "sources" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Sources", sources_path %></li>
           <% if can?(:read, Alert) || publishers.length > 1 %>
