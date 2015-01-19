@@ -30,7 +30,7 @@ class Work < ActiveRecord::Base
   after_create :create_retrievals
 
   scope :query, ->(query) { where("doi like ?", "#{query}%") }
-  scope :last_x_days, ->(duration) { where("published_on >= ?", Time.zone.now.to_date - duration.days) }
+  scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
   scope :has_events, -> { includes(:retrieval_statuses)
     .where("retrieval_statuses.event_count > ?", 0)
     .references(:retrieval_statuses) }
@@ -73,12 +73,7 @@ class Work < ActiveRecord::Base
   end
 
   def self.count_all
-    if ActionController::Base.perform_caching
-      status_update_date = Rails.cache.read('status:timestamp')
-      Rails.cache.read("status/works_count/#{status_update_date}").to_i
-    else
-      Work.count
-    end
+    Status.last && Status.last.works_count
   end
 
   def to_param

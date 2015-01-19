@@ -1,16 +1,9 @@
-# encoding: UTF-8
-
 module Countable
   extend ActiveSupport::Concern
 
   included do
     def works_count
-      if ActionController::Base.perform_caching
-        status_update_date = Rails.cache.read('status:timestamp')
-        Rails.cache.read("status/works_count/#{status_update_date}").to_i
-      else
-        Work.count
-      end
+      Status.last.works_count
     end
 
     def event_count

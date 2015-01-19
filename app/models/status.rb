@@ -56,20 +56,4 @@ class Status < ActiveRecord::Base
   def cache_key
     "status/#{update_date}"
   end
-
-  def write_cache
-    # update cache_key as last step so that old version works until we are done
-    timestamp = Time.zone.now.utc.iso8601
-
-    # loop through cached attributes we want to update
-    [:works_count,
-     :works_last_day_count,
-     :events_count,
-     :alerts_count,
-     :responses_count,
-     :requests_count,
-     :requests_average,
-     :current_version,
-     :update_date].each { |cached_attr| send("#{cached_attr}=", timestamp) }
-  end
 end

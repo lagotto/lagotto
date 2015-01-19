@@ -1,16 +1,15 @@
 <p>This is the Lagotto status report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.</p>
 
 <p><%= number_with_delimiter(@status.works_count) %> Works<br/>
-<%= number_with_delimiter(@status.works_last_day_count) %> Works last 30 days<br/>
+<%= number_with_delimiter(@status.works_new_count) %> Works added today<br/>
 <%= number_with_delimiter(@status.events_count) %> Events<br/>
 <%= number_with_delimiter(@status.alerts_count) %> Unresolved alerts<br/>
 </br>
 <%= number_with_delimiter(@status.responses_count) %> API responses in the last 24 hours<br/>
 <%= number_with_delimiter(@status.requests_count) %> API requests in the last 24 hours<br/>
 <br/>
-<%= number_with_delimiter(@status.users_count) %> Users<br/>
-<%= number_with_delimiter(@status.sources_active_count) %> Active sources<br/>
+<%= number_with_delimiter(@status.sources_disabled_count) %> Disabled sources<br/>
 Lagotto Version <%= @status.version %><br/>
-CouchDB database size <%= number_to_human_size(@status.couchdb_size) %><br/></p>
+Database size <%= number_to_human_size(@status.db_size) %>br/></p>
 
 <p><%= link_to "Go to admin dashboard", status_url(host: ENV['SERVERNAME']) %></p>
