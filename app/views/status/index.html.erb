@@ -71,7 +71,7 @@
   <div class="row">
     <div class="col-md-4">
       <div class="panel <%= @current_status.alerts_count > 0 ? 'panel-default' : 'panel-success' %>">
-        <div class="panel-heading">Unresolved alerts <small class="pull-right">last 30 days</small></div>
+        <div class="panel-heading">Unresolved alerts <small class="pull-right">last day</small></div>
         <div class="panel-body panel-chart">
           <h2 class="graphs"><%= link_to_if @current_status.alerts_count > 0, number_with_delimiter(@current_status.alerts_count), alerts_path %></h2>
           <div class="graphs" id="chart_alerts"></div>
@@ -81,7 +81,7 @@
     </div>
     <div class="col-md-4">
       <div class="panel <%= @current_status.db_size > 0 ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">Database size <small class="pull-right">last 30 days</small></div>
+        <div class="panel-heading">Database size</div>
         <div class="panel-body panel-chart text-center">
           <h2 class="graphs" id="db_size"><%= number_to_human_size(@current_status.db_size) %></h2>
           <div class="graphs" id="chart_db_size"></div>
