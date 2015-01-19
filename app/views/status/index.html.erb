@@ -7,7 +7,7 @@
   <div class="col-md-4">
     <div class="panel <%= @current_status.works_count > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">Works</div>
-      <div class="panel-body">
+      <div class="panel-body panel-chart">
         <h2 class="graphs"><%= link_to_if @current_status.works_count > 0, number_with_delimiter(@current_status.works_count), works_path %></h2>
         <div class="graphs" id="chart_works"></div>
         <div class="text-muted" id="chart_works-loading">Loading … <%= image_tag "spinner.gif" %></div>
@@ -17,7 +17,7 @@
   <div class="col-md-4">
     <div class="panel <%= @current_status.events_count > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">Events</div>
-      <div class="panel-body">
+      <div class="panel-body panel-chart">
         <h2 class="graphs"><%= link_to_if @current_status.events_count > 0, number_with_delimiter(@current_status.events_count), sources_path %></h2>
         <div class="graphs" id="chart_events"></div>
         <div class="text-muted" id="chart_events-loading">Loading … <%= image_tag "spinner.gif" %></div>
@@ -27,7 +27,7 @@
   <div class="col-md-4">
     <div class="panel <%= @current_status.sources_disabled_count > 0 ? 'panel-warning' : 'panel-default' %>">
       <div class="panel-heading">Sources</div>
-      <div class="panel-body" id="chart_sources">
+      <div class="panel-body panel-chart" id="chart_sources">
         <div class="text-muted" id="chart_sources-loading">Loading … <%= image_tag "spinner.gif" %></div>
       </div>
     </div>
@@ -38,7 +38,7 @@
   <div class="col-md-4">
     <div class="panel <%= @current_status.responses_count > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">API responses <small class="pull-right">last hour</small></div>
-      <div class="panel-body">
+      <div class="panel-body panel-chart">
         <h2 class="graphs"><%= link_to_if @current_status.responses_count > 0, number_with_delimiter(@current_status.responses_count), sources_path %></h2>
         <div class="graphs" id="chart_responses"></div>
         <div class="text-muted" id="chart_responses-loading">Loading … <%= image_tag "spinner.gif" %></div>
@@ -48,7 +48,7 @@
   <div class="col-md-4">
     <div class="panel <%= @current_status.requests_count > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">API requests <small class="pull-right">last hour</small></div>
-      <div class="panel-body">
+      <div class="panel-body panel-chart">
         <h2 class="graphs"><%= link_to_if @current_status.requests_count > 0, number_with_delimiter(@current_status.requests_count), api_requests_path %></h2>
         <div class="graphs" id="chart_requests"></div>
         <div class="text-muted" id="chart_requests-loading">Loading … <%= image_tag "spinner.gif" %></div>
@@ -58,7 +58,7 @@
   <div class="col-md-4">
     <div class="panel <%= @current_status.requests_average > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">API requests (average) <small class="pull-right">last hour</small></div>
-      <div class="panel-body">
+      <div class="panel-body panel-chart">
         <h2 class="graphs"><%= link_to_if @current_status.requests_average > 0, number_with_delimiter(@current_status.requests_average) + " ms", api_requests_path %></h2>
         <div class="graphs" id="chart_average"></div>
         <div class="text-muted" id="chart_average-loading">Loading … <%= image_tag "spinner.gif" %></div>
@@ -72,7 +72,7 @@
     <div class="col-md-4">
       <div class="panel <%= @current_status.alerts_count > 0 ? 'panel-default' : 'panel-success' %>">
         <div class="panel-heading">Unresolved alerts <small class="pull-right">last 30 days</small></div>
-        <div class="panel-body">
+        <div class="panel-body panel-chart">
           <h2 class="graphs"><%= link_to_if @current_status.alerts_count > 0, number_with_delimiter(@current_status.alerts_count), alerts_path %></h2>
           <div class="graphs" id="chart_alerts"></div>
           <div class="text-muted" id="chart_alerts-loading">Loading … <%= image_tag "spinner.gif" %></div>
@@ -82,7 +82,7 @@
     <div class="col-md-4">
       <div class="panel <%= @current_status.db_size > 0 ? 'panel-default' : 'panel-warning' %>">
         <div class="panel-heading">Database size <small class="pull-right">last 30 days</small></div>
-        <div class="panel-body text-center">
+        <div class="panel-body panel-chart text-center">
           <h2 class="graphs" id="db_size"><%= number_to_human_size(@current_status.db_size) %></h2>
           <div class="graphs" id="chart_db_size"></div>
           <div class="text-muted" id="chart_db_size-loading">Loading … <%= image_tag "spinner.gif" %></div>
@@ -92,9 +92,8 @@
     <div class="col-md-4">
       <div class="panel <%= @current_status.outdated_version? ? 'panel-warning' : 'panel-default' %>">
         <div class="panel-heading">Lagotto version</div>
-        <div class="panel-body text-center">
+        <div class="panel-body panel-chart text-center">
           <h2 class="graphs" id="version"><%= @current_status.version %></h2>
-          <div class="texts"></div>
         </div>
       </div>
     </div>

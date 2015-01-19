@@ -3,7 +3,7 @@
     <div class="col-md-4">
       <div class="panel panel-source <%= @source.response_count > 0 ? 'panel-default' : 'panel-warning' %>">
         <div class="panel-heading">Responses <small class="pull-right">last 24 hours</small></div>
-        <div class="panel-body">
+        <div class="panel-body panel-chart">
           <p><%= pluralize(number_with_delimiter(@source.response_count), "response") %> with
           <%= link_to_if(@source.error_count > 0 && can?(:manage, @source), pluralize(number_with_delimiter(@source.error_count), "error"), alerts_path(:source_id => @source.name)) %></p>
           <p>Average <%= number_with_delimiter(@source.average_count) %> ms</br>
@@ -14,7 +14,7 @@
     <div class="col-md-4">
       <div class="panel panel-source <%= @source.work_count > 0 ? 'panel-default' : 'panel-warning' %>">
         <div class="panel-heading">Events</div>
-        <div class="panel-body">
+        <div class="panel-body panel-chart">
           <p><%= pluralize(number_with_delimiter(@source.work_count), "work") %> or <%= number_to_percentage(@source.relative_work_count, precision: 0) %> with events</p>
           <p><%= pluralize(number_with_delimiter(@source.event_count), "events") %> for these works</br>&nbsp;</p>
         </div>
@@ -26,7 +26,7 @@
       <div class="col-md-4">
         <div class="panel panel-source panel-default">
           <div class="panel-heading">Status</div>
-          <div class="panel-body" id="chart_status">
+          <div class="panel-body panel-chart" id="chart_status">
             <div class="text-muted" id="chart_status-loading">Loading … <%= image_tag "spinner.gif" %></div>
           </div>
         </div>
@@ -34,7 +34,7 @@
       <div class="col-md-4">
         <div class="panel panel-source panel-default">
           <div class="panel-heading">Events <small class="pull-right">last 24 hours</small></div>
-          <div class="panel-body" id="chart_day">
+          <div class="panel-body panel-chart" id="chart_day">
             <div class="text-muted" id="chart_day-loading">Loading … <%= image_tag "spinner.gif" %></div>
           </div>
         </div>
@@ -42,7 +42,7 @@
       <div class="col-md-4">
         <div class="panel panel-source panel-default">
           <div class="panel-heading">Events <small class="pull-right">last 31 days</small></div>
-          <div class="panel-body" id="chart_month">
+          <div class="panel-body panel-chart" id="chart_month">
             <div class="text-muted" id="chart_month-loading">Loading … <%= image_tag "spinner.gif" %></div>
           </div>
         </div>

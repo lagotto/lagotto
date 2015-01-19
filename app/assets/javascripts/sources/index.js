@@ -3,8 +3,8 @@ var d3,
     l = 250, // left margin
     r = 150, // right margin
     w = 400, // width of drawing area
-    h = 20,  // bar height
-    s = 4;   // spacing between bars
+    h = 24,  // bar height
+    s = 2;   // spacing between bars
 
 // construct query string
 var params = d3.select("h1#api_key");

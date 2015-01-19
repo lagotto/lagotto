@@ -1,7 +1,5 @@
 var d3,
-    w = 250,
-    h = 200,
-    radius = Math.min(w, h) / 2,
+    radius = 80,
     color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#95a5a6"]),
     formatFixed = d3.format(",.0f"),
     formatPercent = d3.format(",.0%");
@@ -37,15 +35,15 @@ if (query) {
 function donutViz(data, div, title, subtitle) {
   var chart = d3.select(div).append("svg")
     .data([data])
-    .attr("width", w)
-    .attr("height", h)
+    .attr("width", radius * 2 + 50)
+    .attr("height", radius * 2)
     .attr("class", "chart donut")
     .append("svg:g")
-    .attr("transform", "translate(" + w/2 + "," + h/2 + ")");
+    .attr("transform", "translate(" + (radius + 20) + "," + radius + ")");
 
   var arc = d3.svg.arc()
-    .outerRadius(radius - 10)
-    .innerRadius(radius - 40);
+    .outerRadius(radius - 5)
+    .innerRadius(radius - 30);
 
   var pie = d3.layout.pie()
     .sort(null)
@@ -61,7 +59,7 @@ function donutViz(data, div, title, subtitle) {
     .attr("fill", function(d, i) { return color(i); } )
     .attr("d", arc);
   arcs.each(
-    function(d){ $(this).tooltip({title: formatFixed(d.data.value) + " works " + d.data.key.replace("_", " "), container: "body"});
+    function(d){ $(this).tooltip({title: formatFixed(d.data.value) + " sources " + d.data.key.replace("_", " "), container: "body"});
   });
 
   chart.append("text")
