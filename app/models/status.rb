@@ -6,6 +6,8 @@ class Status < ActiveRecord::Base
 
   before_create :collect_status_info
 
+  default_scope { order("status.created_at DESC") }
+
   def self.per_page
     1000
   end
