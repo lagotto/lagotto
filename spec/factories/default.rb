@@ -390,6 +390,6 @@ FactoryGirl.define do
     works_count 5
     responses_count 5
     requests_count 5
-    current_version "3.1.3"
+    current_version "3.13"
   end
 end
