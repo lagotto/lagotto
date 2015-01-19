@@ -2,8 +2,8 @@ class StatusController < ApplicationController
   def index
     Status.create(current_version: Rails.application.config.version) if Rails.env == "development" || Status.count == 0
 
-    collection = Status.order("created_at ASC")
-    @current_status = collection.last
+    collection = Status.order("created_at DESC")
+    @current_status = collection.first
     @status = collection.paginate(:page => params[:page])
 
     @process = SidekiqProcess.new
