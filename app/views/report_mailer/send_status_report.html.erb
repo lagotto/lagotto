@@ -12,4 +12,4 @@
 Lagotto Version <%= @status.version %><br/>
 Database size <%= number_to_human_size(@status.db_size) %>br/></p>
 
-<p><%= link_to "Go to admin dashboard", status_url(host: ENV['SERVERNAME']) %></p>
+<p><%= link_to "Go to admin dashboard", status_index_url(host: ENV['SERVERNAME']) %></p>

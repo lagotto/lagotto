@@ -12,4 +12,4 @@ This is the Lagotto status report, generated <%= Time.zone.now.to_formatted_s(:l
 Lagotto Version <%= @status.version %>
 Database size <%= number_to_human_size(@status.db_size) %>
 
-Go to admin dashboard: <%= status_url(host: ENV['SERVERNAME']) %>
+Go to admin dashboard: <%= status_index_url(host: ENV['SERVERNAME']) %>

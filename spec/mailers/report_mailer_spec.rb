@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe ReportMailer, :type => :mailer do
+  before(:each) { FactoryGirl.create(:status) }
+
   describe "error report" do
     let(:report) { FactoryGirl.create(:error_report_with_admin_user) }
     let(:mail) { ReportMailer.send_error_report(report) }
@@ -41,7 +43,7 @@ describe ReportMailer, :type => :mailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      expect(body_html).to have_link('Go to admin dashboard', href: status_url(host: ENV['SERVERNAME']))
+      expect(body_html).to have_link('Go to admin dashboard', href: status_index_url(host: ENV['SERVERNAME']))
     end
   end
 

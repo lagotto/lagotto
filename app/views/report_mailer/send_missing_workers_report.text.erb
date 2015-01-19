@@ -2,4 +2,4 @@ Some workers are missing at <%= Time.zone.now.to_formatted_s(:long) %> UTC:
 
 Expected <%= pluralize(ENV['WORKERS'], 'worker') %>, but only <%= pluralize(@workers_count, 'worker') %> running.
 
-Go to admin dashboard: <%= status_url(host: ENV['SERVERNAME']) %>
+Go to admin dashboard: <%= status_index_url(host: ENV['SERVERNAME']) %>
