@@ -131,33 +131,33 @@ describe Source do
       it "get json" do
         stub = stub_request(:get, url).to_timeout
         response = subject.get_result(url)
-        expect(response).to eq(error: "request timed out for #{url}", status: 408)
+        expect(response).to eq(error: "Excon::Errors::Timeout for #{url}", status: 408)
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.message).to include("request timed out")
+        expect(alert.message).to include("Excon::Errors::Timeout")
         expect(alert.status).to eq(408)
       end
 
       it "get xml" do
         stub = stub_request(:get, url).to_timeout
         response = subject.get_result(url, content_type: 'xml')
-        expect(response).to eq(error: "request timed out for #{url}", status: 408)
+        expect(response).to eq(error: "Excon::Errors::Timeout for #{url}", status: 408)
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.message).to include("request timed out")
+        expect(alert.message).to include("Excon::Errors::Timeout")
         expect(alert.status).to eq(408)
       end
 
       it "get html" do
         stub = stub_request(:get, url).to_timeout
         response = subject.get_result(url, content_type: 'html')
-        expect(response).to eq(error: "request timed out for #{url}", status: 408)
+        expect(response).to eq(error: "Excon::Errors::Timeout for #{url}", status: 408)
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.message).to include("request timed out")
+        expect(alert.message).to include("Excon::Errors::Timeout")
         expect(alert.status).to eq(408)
       end
 
@@ -167,7 +167,7 @@ describe Source do
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.message).to include("request timed out")
+        expect(alert.message).to include("Excon::Errors::Timeout")
         expect(alert.status).to eq(408)
       end
     end

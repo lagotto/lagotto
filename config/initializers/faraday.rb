@@ -1,1 +1,1 @@
-Faraday.default_adapter = :typhoeus
+Faraday.default_adapter = :excon
