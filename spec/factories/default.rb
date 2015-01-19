@@ -385,4 +385,11 @@ FactoryGirl.define do
 
     initialize_with { SourceNotUpdatedError.where(name: name).first_or_initialize }
   end
+
+  factory :status do
+    works_count 5
+    responses_count 5
+    requests_count 5
+    current_version "3.1.3"
+  end
 end
