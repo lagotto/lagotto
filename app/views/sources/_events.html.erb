@@ -1,21 +1,15 @@
 <% if Work.first && Source.visible.any? %>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading panel-title">Works with events<small class="pull-right">linear scale</small></div>
-        <div class="panel-body" id="works-body">
-          <div class="text-muted" id="works-loading">Loading … <%= image_tag "spinner.gif" %></div>
-        </div>
-      </div>
+  <div class="panel panel-default">
+    <div class="panel-heading panel-title">Works with events<small class="pull-right">linear scale</small></div>
+    <div class="panel-body" id="works-body">
+      <div class="text-muted" id="works-loading">Loading … <%= image_tag "spinner.gif" %></div>
     </div>
+  </div>
 
-    <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading panel-title">Total number of events <small class="pull-right">logarithmic scale</small></div>
-        <div class="panel-body" id="events-body">
-          <div class="text-muted" id="events-loading">Loading … <%= image_tag "spinner.gif" %></div>
-        </div>
-      </div>
+  <div class="panel panel-default">
+    <div class="panel-heading panel-title">Total number of events <small class="pull-right">logarithmic scale</small></div>
+    <div class="panel-body" id="events-body">
+      <div class="text-muted" id="events-loading">Loading … <%= image_tag "spinner.gif" %></div>
     </div>
   </div>
 <% else %>

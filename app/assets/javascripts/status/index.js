@@ -1,5 +1,5 @@
 var d3,
-    width = 300,
+    width = 250,
     height = 100,
     radius = 80,
     margin = { top: 7, right: 10, bottom: 5, left: 5 },
