@@ -3,6 +3,12 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.14 (January 19, 2015)
+
+[Lagotto 3.14](https://github.com/articlemetrics/lagotto/releases/tag/v.3.14) was released on January 19, 2015 with the following change:
+
+* Turned status model into ActiveRecord model, added visualizations of status stats over time ([#233](https://github.com/articlemetrics/lagotto/issues/233))
+
 ## Lagotto 3.13 (January 15, 2015)
 
 [Lagotto 3.13](https://github.com/articlemetrics/lagotto/releases/tag/v.3.13) was released on January 15, 2015 with the following changes:
