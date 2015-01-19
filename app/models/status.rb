@@ -11,20 +11,20 @@ class Status < ActiveRecord::Base
   end
 
   def collect_status_info
-    self.works_count = works_count || Work.count
-    self.works_new_count = works_new_count || Work.last_x_days(0).count
-    self.events_count = events_count || RetrievalStatus.joins(:source).where("state > ?", 0)
+    self.works_count = Work.count
+    self.works_new_count = Work.last_x_days(0).count
+    self.events_count = RetrievalStatus.joins(:source).where("state > ?", 0)
       .where("name != ?", "relativemetric").sum(:event_count)
-    self.responses_count = responses_count || ApiResponse.total(0).count
-    self.requests_count = requests_count || ApiRequest.total(0).count
-    self.requests_average = requests_average || ApiRequest.total(0).average("duration").to_i
-    self.alerts_count = alerts_count || Alert.total_errors(0).count
-    self.db_size = db_size || get_db_size
-    self.sources_working_count = sources_working_count || Source.working.count
-    self.sources_waiting_count = sources_waiting_count || Source.waiting.count
-    self.sources_disabled_count = sources_disabled_count || Source.disabled.count
-    self.version = version || Rails.application.config.version
-    self.current_version = current_version || get_current_version
+    self.responses_count = ApiResponse.total(0).count
+    self.requests_count = ApiRequest.total(0).count
+    self.requests_average = ApiRequest.total(0).average("duration").to_i
+    self.alerts_count = Alert.total_errors(0).count
+    self.db_size = get_db_size
+    self.sources_working_count = Source.working.count
+    self.sources_waiting_count = Source.waiting.count
+    self.sources_disabled_count = Source.disabled.count
+    self.version = Rails.application.config.version
+    self.current_version = get_current_version unless current_version.present?
   end
 
   def sources
