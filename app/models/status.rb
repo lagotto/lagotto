@@ -41,10 +41,11 @@ class Status < ActiveRecord::Base
     result.fetch("tag_name", "v.#{version}")[2..-1]
   end
 
+  # get combined data and index size for all tables
   def get_db_size
-    sql = " SELECT table_rows FROM information_schema.TABLES where table_name='retrieval_statuses';"
-    result = ActiveRecord::Base.connection.exec_query(sql).first
-    result && result.is_a?(Hash) && result.fetch("table_rows", 0)
+    sql = "SELECT DATA_LENGTH + INDEX_LENGTH as size FROM information_schema.TABLES where TABLE_SCHEMA = '#{ENV['DB_NAME'].to_s}';"
+    result = ActiveRecord::Base.connection.exec_query(sql)
+    result.rows.first.reduce(:+)
   end
 
   def outdated_version?
