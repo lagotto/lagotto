@@ -3,7 +3,7 @@ module Countable
 
   included do
     def works_count
-      Status.last.works_count
+      Status.first.works_count
     end
 
     def event_count

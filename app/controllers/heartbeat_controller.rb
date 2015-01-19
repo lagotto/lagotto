@@ -8,7 +8,7 @@ class HeartbeatController < ApplicationController
   after_filter :cors_set_access_control_headers, :set_jsonp_format
 
   def show
-    @status = Status.last
+    @status = Status.first
     fail ActiveRecord::RecordNotFound if @status.nil?
 
     @process = SidekiqProcess.new

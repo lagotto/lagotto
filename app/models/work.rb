@@ -73,7 +73,7 @@ class Work < ActiveRecord::Base
   end
 
   def self.count_all
-    Status.last && Status.last.works_count
+    Status.first && Status.first.works_count
   end
 
   def to_param

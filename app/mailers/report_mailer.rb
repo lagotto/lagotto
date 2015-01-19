@@ -20,7 +20,7 @@ class ReportMailer < ActionMailer::Base
   def send_status_report(report)
     return if report.users.empty?
 
-    @status = Status.last
+    @status = Status.first
 
     mail(to: report.users.map(&:email).join(","), subject: "[#{ENV['SITENAME']}] Status Report")
   end
@@ -28,7 +28,7 @@ class ReportMailer < ActionMailer::Base
   def send_work_statistics_report(report)
     return if report.users.empty?
 
-    @works_count = Status.last.works_count
+    @works_count = Status.first.works_count
 
     mail(to: ENV['ADMIN_EMAIL'],
          bcc: report.users.map(&:email).join(","),
