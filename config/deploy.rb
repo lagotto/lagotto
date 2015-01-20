@@ -77,7 +77,7 @@ set :bundle_path, -> { shared_path.join('vendor/bundle') }
 # set :bundle_env_variables, 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1
 
 namespace :deploy do
-  before :starting, "sidekiq:stop"
+  before :starting, "sidekiq:quiet"
 
   desc 'Restart application'
   task :restart do
@@ -89,5 +89,6 @@ namespace :deploy do
   after :publishing, :restart
 
   after :finishing, "deploy:cleanup"
+  after :finishing, "sidekiq:stop"
   after :finished, "sidekiq:start"
 end

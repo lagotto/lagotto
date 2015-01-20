@@ -1,5 +1,16 @@
 namespace :sidekiq do
 
+  desc 'Quiet the sidekiq process'
+  task :quiet do
+    on roles(:db) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          rake 'sidekiq:quiet'
+        end
+      end
+    end
+  end
+
   desc 'Stop the sidekiq process'
   task :stop do
     on roles(:db) do
