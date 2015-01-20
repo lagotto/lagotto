@@ -17,9 +17,9 @@ class Status < ActiveRecord::Base
     self.works_new_count = Work.last_x_days(0).count
     self.events_count = RetrievalStatus.joins(:source).where("state > ?", 0)
       .where("name != ?", "relativemetric").sum(:event_count)
-    self.responses_count = ApiResponse.total(0).count
-    self.requests_count = ApiRequest.total(0).count
-    self.requests_average = ApiRequest.total(0).average("duration").to_i
+    self.responses_count = ApiResponse.total(1).count
+    self.requests_count = ApiRequest.total(1).count
+    self.requests_average = ApiRequest.total(1).average("duration").to_i
     self.alerts_count = Alert.total_errors(0).count
     self.db_size = get_db_size
     self.sources_working_count = Source.working.count
