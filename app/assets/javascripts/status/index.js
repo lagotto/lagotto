@@ -109,7 +109,7 @@ function barViz(data, div, count, format) {
         var weekNumber = formatWeek(new Date(timestamp));
         return (weekNumber % 2 == 0) ? "bar viewed" : "bar viewed-alt";
       } else {
-        var timestamp = Date.parse(d.key + ':00:00Z');
+        var timestamp = Date.parse(d.key + ':00:01Z');
         var daytime = formatDaytime(new Date(timestamp));
         return (daytime == "AM") ? "bar viewed" : "bar viewed-alt";
       }})
