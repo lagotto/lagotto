@@ -470,7 +470,7 @@ DEPENDENCIES
   faraday (~> 0.9.0)
   faraday_middleware (~> 0.9.1)
   github-markdown (~> 0.6.3)
-  hashie (~> 3.3.1)
+  hashie (~> 3.3.2)
   jasmine-rails (~> 0.10.2)
   jbuilder (~> 2.2.4)
   jquery-rails (~> 3.1.2)
