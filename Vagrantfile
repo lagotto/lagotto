@@ -53,7 +53,7 @@ Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here.
 
   # Check if required plugins are installed.
-  required_plugins = %w{ vagrant-omnibus vagrant-librarian-chef vagrant-bindfs dotenv }
+  required_plugins = %w{ vagrant-omnibus vagrant-librarian-chef vagrant-bindfs vagrant-capistrano-push dotenv }
 
   unless installed_plugins(required_plugins).empty?
     puts "Plugins have been installed, please rerun vagrant."
@@ -141,5 +141,9 @@ Vagrant.configure("2") do |config|
     machine.vm.network :private_network, ip: ENV.fetch('PRIVATE_IP', nil)
     machine.vm.network :public_network
     machine.vm.synced_folder ".", "/var/www/#{ENV['APPLICATION']}/shared", id: "vagrant-root"
+  end
+
+  config.push.define "capistrano" do |push|
+    push.stage = ENV["STAGE"]
   end
 end

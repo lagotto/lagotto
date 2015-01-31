@@ -76,6 +76,15 @@ set :bundle_path, -> { shared_path.join('vendor/bundle') }
 # Use system libraries for Nokogiri
 # set :bundle_env_variables, 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1
 
+set :rails_env, ENV['RAILS_ENV']
+
+ENV['SERVERS'].split(",").each_with_index do |s, i|
+  # only primary server has db role
+  r = i > 0 ? %w(web app) : %w(web app db)
+
+  server s, user: ENV['DEPLOY_USER'], roles: r
+end
+
 namespace :deploy do
   before :starting, "sidekiq:quiet"
 
