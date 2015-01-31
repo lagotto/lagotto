@@ -133,7 +133,7 @@ class Report < ActiveRecord::Base
   end
 
   def interval=(value)
-    config.interval = value
+    config.interval = value.to_i
   end
 
   # Reports are sent via ActiveJob

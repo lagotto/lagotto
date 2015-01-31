@@ -17,7 +17,7 @@ cookbook "dotenv",
          :git => "git@github.com:articlemetrics/dotenv-cookbook.git"
 cookbook "mysql",
          :git => "git@github.com:articlemetrics/mysql.git"
-cookbook 'database', '~> 2.3.0'
+cookbook "database", "~> 2.3.1"
 cookbook "memcached"
 cookbook "phantomjs"
 cookbook "couchdb"

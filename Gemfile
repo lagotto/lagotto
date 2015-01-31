@@ -23,7 +23,7 @@ gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.10.1"
 gem "oj", "~> 2.10.4"
 gem 'safe_yaml', '~> 1.0.4'
-gem 'hashie', '~> 3.3.1'
+gem 'hashie', '~> 3.3.2'
 gem 'rubyzip',  "~> 1.1", :require => 'zip'
 
 gem "devise", "~> 3.4.1"

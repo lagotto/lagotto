@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :reports
 
   before_save :ensure_authentication_token
-  # after_create :set_first_user
+  after_create :set_first_user
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
