@@ -3,6 +3,19 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.15 (February 4, 2015)
+
+[Lagotto 3.15](https://github.com/articlemetrics/lagotto/releases/tag/v.3.15) was released on February 4, 2015 with the following changes:
+
+* added sidekiq capistrano tasks ([#235](https://github.com/articlemetrics/lagotto/issues/235))
+* added capistrano integration with `vagrant push` command, using [vagrant-capistrano-push](https://github.com/mfenner/vagrant-capistrano-push) plugin ([#238](https://github.com/articlemetrics/lagotto/issues/238))
+* updated Mendeley source to use new Mendeley v.1 API ([#239](https://github.com/articlemetrics/lagotto/issues/239))
+
+Make sure the following settings for the Mendeley source are corect:
+
+* **Url**: https://api.mendeley.com/catalog?%{query_string}&view=stats
+* **Authentication Url**: https://api.mendeley.com/oauth/token
+
 ## Lagotto 3.14 (January 19, 2015)
 
 [Lagotto 3.14](https://github.com/articlemetrics/lagotto/releases/tag/v.3.14) was released on January 19, 2015 with the following change:
