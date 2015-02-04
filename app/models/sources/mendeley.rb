@@ -1,87 +1,35 @@
-# encoding: UTF-8
-
 class Mendeley < Source
   def parse_data(result, work, options={})
-    # When Mendeley doesn't return a proper API response it can return
-    # - a 404 status and error hash
-    # - an empty array
-    # - an incomplete hash with just the Mendeley uuid
-    # We should handle all 3 cases, but return an error otherwise
     return result if result[:error].is_a?(String)
 
-    events = result.fetch('stats') { {} }
+    result = result.fetch("data", []).first || {}
 
-    readers = result.deep_fetch('stats', 'readers') { 0 }
-    groups = Array(result['groups']).length
+    readers = result.fetch("reader_count", 0)
+    groups = result.fetch("group_count", 0)
     total = readers + groups
+    events_url = result.fetch("link", nil)
 
-    { events: events,
+    { events: result,
       events_by_day: [],
       events_by_month: [],
-      events_url: result['mendeley_url'],
+      events_url: events_url,
       event_count: total,
       event_metrics: get_event_metrics(shares: readers, groups: groups, total: total) }
   end
 
-  def get_mendeley_uuid(work, options={})
-    # get Mendeley uuid, try pmid first, then doi
-    # Otherwise search by title
-    # Only use uuid if we also get mendeley_url, otherwise the uuid is broken and we return nil
-    # The Mendeley uuid is not persistent, so we need to get it every time
-
-    unless work.pmid.blank?
-      result = get_result(get_lookup_url(work), options.merge(bearer: access_token))
-      if result.is_a?(Hash) && result['mendeley_url']
-        work.update_attributes(:mendeley_uuid => result['uuid'])
-        return result['uuid']
-      end
-    end
-
-    unless work.doi.nil?
-      result = get_result(get_lookup_url(work, "doi"), options.merge(bearer: access_token))
-      if result.is_a?(Hash) && result['mendeley_url']
-        work.update_attributes(:mendeley_uuid => result['uuid'])
-        return result['uuid']
-      end
-    end
-
-    # search by title if we can't get the uuid using the pmid or doi
-    unless work.title.blank?
-      results = get_result(get_lookup_url(work, "title"), options.merge(bearer: access_token))
-      if results.is_a?(Hash) && results['documents']
-        documents = results["documents"].select { |document| document["doi"] == work.doi }
-        if documents && documents.length == 1 && documents[0]['mendeley_url']
-          work.update_attributes(:mendeley_uuid => documents[0]['uuid'])
-          return documents[0]['uuid']
-        end
-      end
-    end
-
-    # return nil if we can't get the correct uuid
-    nil
-  end
-
   def get_query_url(work)
     # First check that we have a valid OAuth2 access token, and a refreshed uuid
-    return nil unless get_access_token && get_mendeley_uuid(work)
+    return nil unless get_access_token && (work.doi.present? || work.pmid.present? || work.scp.present?)
 
-    url % { :id => work.mendeley_uuid, :api_key => api_key }
-  end
-
-  def get_lookup_url(work, id_type = 'pmid')
-    # First check that we have a valid OAuth2 access token
-    return nil unless get_access_token
-
-    case id_type
-    when "pmid"
-      url_with_type % { :id => work.pmid, :doc_type => id_type, :api_key => api_key }
-    when "doi"
-      url_with_type % { :id => CGI.escape(work.doi_escaped), :doc_type => id_type, :api_key => api_key }
-    when "title"
-      url_with_title % { :title => CGI.escape("title:#{work.title}"), :api_key => api_key }
+    if work.doi.present?
+      query_string = "doi=#{work.doi}"
+    elsif work.pmid.present?
+      query_string = "pmid=#{work.pmid}"
     else
-      nil
+      query_string = "scopus=#{work.scp}"
     end
+
+    url % { :query_string => query_string }
   end
 
   def get_access_token(options={})
@@ -130,30 +78,14 @@ class Mendeley < Source
   end
 
   def config_fields
-    [:url, :url_with_type, :url_with_title, :authentication_url, :client_id, :client_secret, :access_token, :expires_at]
+    [:url, :authentication_url, :client_id, :client_secret, :access_token, :expires_at]
   end
 
   def url
-    config.url || "https://api-oauth2.mendeley.com/oapi/documents/details/%{id}"
-  end
-
-  def url_with_type
-    config.url_with_type || "https://api-oauth2.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}"
-  end
-
-  def url_with_type=(value)
-    config.url_with_type = value
-  end
-
-  def url_with_title
-    config.url_with_title || "https://api-oauth2.mendeley.com/oapi/documents/search/title:%{title}/?items=10"
-  end
-
-  def url_with_title=(value)
-    config.url_with_title = value
+    config.url || "https://api.mendeley.com/catalog?%{query_string}&view=stats"
   end
 
   def authentication_url
-    config.authentication_url || "https://api-oauth2.mendeley.com/oauth/token"
+    config.authentication_url || "https://api.mendeley.com/oauth/token"
   end
 end

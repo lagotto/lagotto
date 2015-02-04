@@ -5,12 +5,6 @@ title: "Mendeley"
 
 [Mendeley](http://www.mendeley.com) is a reference manager and social bookmarking tool.
 
-The Mendeley API returns incomplete API responses for articles where they don't have enough information, and we ignore those:
-
-```json
-    { uuid: "182cf980-6d0c-11df-a2b2-0026b95e3eb7" }
-```
-
 Mendeley uses OAuth2 authentification, we automatically obtain the access token using the **client_id** and **secret**.
 
 ## Required configuration fields
@@ -56,7 +50,7 @@ Mendeley uses OAuth2 authentification, we automatically obtain the access token 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>https://api-oauth2.mendeley.com/oapi/documents/details/DOI/?type=doi&consumer_key=API_KEY</td>
+<td valign="top" width=80%>https://api.mendeley.com/catalog?doi=DOI&view=stats</td>
 </tr>
 </tbody>
 </table>
@@ -64,77 +58,72 @@ Mendeley uses OAuth2 authentification, we automatically obtain the access token 
 ## Example Response
 
 ```json
-{ abstract: "Background: The whole blood interferon-gamma assay (QuantiFERON-TB-2G; QFT) has not been fully evaluated as a baseline tuberculosis screening test in Japanese healthcare students commencing clinical contact. The aim of this study was to compare the results from the QFT with those from the tuberculin skin test (TST) in a population deemed to be at a low risk for infection with Mycobacterium tuberculosis. Methodology/Principal Findings: Healthcare students recruited at Okayama University received both the TST and the QFT to assess the level of agreement between these two tests. The interleukin-10 levels before and after exposure to M tuberculosis-specific antigens (early-secreted antigenic target 6-kDa protein ESAT-6 and culture filtrate protein 10 CFP-10) were also measured. Of the 536 healthcare students, most of whom had been vaccinated with bacillus-Calmette-Guérin (BCG), 207 (56%) were enrolled in this study. The agreement between the QFT and the TST results was poor, with positive result rates of 1.4% vs. 27.5%, respectively. A multivariate analysis also revealed that the induration diameter of the TST was not affected by the interferon-gamma concentration after exposure to either of the antigens but was influenced by the number of BCG needle scars (p=0.046). The whole blood interleukin-10 assay revealed that after antigen exposure, the median increases in interleukin-10 concentration was higher in the subgroup with the small increase in interferon-gamma concentration than in the subgroup with the large increase in interferon-gamma concentration (0.3 vs. 0 pg/mL; p=0.004). Conclusions/Significance: As a baseline screening test for low-risk Japanese healthcare students at their course entry, QFT yielded quite discordant results, compared with the TST, probably because of the low specificity of the TST results in the BCG-vaccinated population. We also found, for the first time, that the change in the interleukin-10 level after exposure to specific antigens was inversely associated with that in the interferon-gamma level in a low-risk population.",
-website: "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=1950083&tool=pmcentrez&rendertype=abstract",
-identifiers: {
-  oai_id: "oai:pubmedcentral.nih.gov:1950083",
-  other: "07-PONE-RA-00987R2",
-  pmid: "17726533",
-  pmc_id: "1950083",
-  doi: "10.1371/journal.pone.0000803"
-},
-stats: {
-  readers: 5,
-  discipline: [
+[
   {
-    id: 19,
-    name: "Medicine",
-    value: 80
-  },
-  {
-    id: 3,
-    name: "Biological Sciences",
-    value: 20
+    "id": "0f9144ee-87c1-3295-b317-dd32957ebaed",
+    "title": "The \"island rule\" and deep-sea gastropods: Re-examining the evidence",
+    "type": "journal",
+    "authors": [
+      {
+        "first_name": "John J.",
+        "last_name": "Welch"
+      }
+    ],
+    "year": 2010,
+    "source": "PLoS ONE",
+    "identifiers": {
+      "doi": "10.1371/journal.pone.0008776",
+      "scopus": "2-s2.0-77649287097",
+      "isbn": "1932-6203",
+      "issn": "19326203",
+      "pmid": "20098740"
+    },
+    "link": "http://www.mendeley.com/research/island-rule-deepsea-gastropods-reexamining-evidence",
+    "reader_count": 34,
+    "reader_count_by_academic_status": {
+      "Professor": 2,
+      "Associate Professor": 1,
+      "Post Doc": 3,
+      "Ph.D. Student": 8,
+      "Researcher (at an Academic Institution)": 5,
+      "Researcher (at a non-Academic Institution)": 2,
+      "Student (Postgraduate)": 1,
+      "Student (Master)": 6,
+      "Student (Bachelor)": 5,
+      "Doctoral Student": 1
+    },
+    "reader_count_by_subdiscipline": {
+      "Environmental Sciences": {
+        "Ecology": 3,
+        "Miscellaneous": 1
+      },
+      "Earth Sciences": {
+        "Miscellaneous": 1,
+        "Paleontology": 1
+      },
+      "Biological Sciences": {
+        "Zoology and Animal Science": 2,
+        "Miscellaneous": 22,
+        "Marine Biology": 3,
+        "Ornithology": 1
+      }
+    },
+    "reader_count_by_country": {
+      "Portugal": 2,
+      "United States": 3,
+      "Mexico": 1,
+      "Brazil": 2,
+      "United Kingdom": 1
+    },
+    "group_count": 0,
+    "abstract": "BACKGROUND: One of the most intriguing patterns in mammalian biogeography is the \"island rule\", which states that colonising species have a tendency to converge in body size, with larger species evolving decreased sizes and smaller species increased sizes. It has recently been suggested that an analogous pattern holds for the colonisation of the deep-sea benthos by marine Gastropoda. In particular, a pioneering study showed that gastropods from the Western Atlantic showed the same graded trend from dwarfism to gigantism that is evident in island endemic mammals. However, subsequent to the publication of the gastropod study, the standard tests of the island rule have been shown to yield false positives at a very high rate, leaving the result open to doubt. METHODOLOGY/PRINCIPAL FINDINGS: The evolution of gastropod body size in the deep sea is reexamined. Using an extended and updated data set, and improved statistical methods, it is shown that some results of the previous study may have been artifactual, but that its central conclusion is robust. It is further shown that the effect is not restricted to a single gastropod clade, that its strength increases markedly with depth, but that it applies even in the mesopelagic zone. CONCLUSIONS/SIGNIFICANCE: The replication of the island rule in a distant taxonomic group and a partially analogous ecological situation could help to uncover the causes of the patterns observed--which are currently much disputed. The gastropod pattern is evident at intermediate depths, and so cannot be attributed to the unique features of abyssal ecology."
   }
-  ],
-  country: [
-  {
-    name: "United Kingdom",
-    value: 20
-  },
-  {
-    name: "Germany",
-    value: 20
-  },
-  {
-    name: "Australia",
-    value: 20
-  }
-  ],
-  status: [
-  {
-    name: "Post Doc",
-    value: 60
-  },
-  {
-    name: "Senior Lecturer",
-    value: 20
-  },
-  {
-    name: "Researcher (at a non-Academic Institution)",
-    value: 20
-  }
-  ]
-  },
-  issue: "8",
-  pages: "7",
-  public_file_hash: "66a757a2f75fa5434b3cdd8a36d743d4a808416e",
-  editors: [
-  {
-    forename: "Madhukar",
-    surname: "Pai"
-  }
-  ],
-  publication_outlet: "PLoS ONE",
-  type: "Journal Article",
-  mendeley_url: "http://api.mendeley.com/research/whole-blood-interferongamma-assay-for-baseline-tuberculosis-screening-among-japanese-healthcare-students/",
-  publisher: "Public Library of Science",
-  uuid: "182cf980-6d0c-11df-a2b2-0026b95e3eb7",
+]
 ```
 
 ## Source Code
 The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/mendeley.rb).
 
 ## Further Documentation
-* [Mendeley API Documentation](http://apidocs.mendeley.com)
+* [Mendeley API Documentation](http://dev.mendeley.com/methods/)
 * [Mendeley Open API Developers Google Group](https://groups.google.com/forum/?fromgroups#!forum/mendeley-open-api-developers)
