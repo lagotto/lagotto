@@ -113,7 +113,7 @@ function barViz(data, div, count, format) {
       } else {
         var timestamp = Date.parse(d.key + ':00:01Z');
         var hour = formatHour(new Date(timestamp));
-        return (hour > 11) ? "bar viewed-alt" : "bar viewed";
+        return (hour >= 12 && hour <= 23) ? "bar viewed-alt" : "bar viewed";
       }})
     .attr("x", function(d) {
       if (format == "days") {
