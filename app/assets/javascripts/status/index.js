@@ -9,7 +9,7 @@ var d3,
     formatDate = d3.time.format("%d %b %y"),
     formatTime = d3.time.format("%H:%M"),
     formatWeek = d3.time.format.utc("%U"),
-    formatDaytime = d3.time.format.utc("%p"),
+    formatHour = d3.time.format.utc("%H"),
     endDate = new Date(),
     startDate = d3.time.day.offset(endDate, -29),
     endTime = endDate.setHours(23, 00, 00),
@@ -77,15 +77,17 @@ function barViz(data, div, count, format) {
     var x = d3.time.scale.utc()
       .domain([startDate, endDate])
       .rangeRound([0, width]);
+    var y = d3.scale.linear()
+      .domain([d3.min(data, function(d) { return d.values[count]; }), d3.max(data, function(d) { return d.values[count]; })])
+      .rangeRound([height, 0]);
   } else {
     var x = d3.time.scale.utc()
       .domain([startTime, endDate])
       .rangeRound([0, width]);
+    var y = d3.scale.linear()
+      .domain([0, d3.max(data, function(d) { return d.values[count]; })])
+      .rangeRound([height, 0]);
   }
-
-  var y = d3.scale.linear()
-    .domain([0, d3.max(data, function(d) { return d.values[count]; })])
-    .rangeRound([height, 0]);
 
   var xAxis = d3.svg.axis()
     .scale(x)
@@ -110,8 +112,8 @@ function barViz(data, div, count, format) {
         return (weekNumber % 2 == 0) ? "bar viewed" : "bar viewed-alt";
       } else {
         var timestamp = Date.parse(d.key + ':00:01Z');
-        var daytime = formatDaytime(new Date(timestamp));
-        return (daytime == "AM") ? "bar viewed" : "bar viewed-alt";
+        var hour = formatHour(new Date(timestamp));
+        return (hour > 11) ? "bar viewed-alt" : "bar viewed";
       }})
     .attr("x", function(d) {
       if (format == "days") {
