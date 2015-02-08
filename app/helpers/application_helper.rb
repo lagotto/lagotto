@@ -110,7 +110,7 @@ module ApplicationHelper
   end
 
   def documents
-    %w(Installation Deployment Setup - Sources API Rake Alerts - Releases Roadmap Contributors)
+    %w(Installation Deployment Setup - Sources API Rake Alerts Styleguide - Releases Roadmap Contributors)
   end
 
   def roles

@@ -1,7 +1,13 @@
-/*
- * GitHub style for Pygments
- * Courtesy of GitHub.com
- */
+/*doc
+---
+title: Syntax highlighting
+name: syntax
+category: Styleguide
+---
+
+Using the [rogue](https://github.com/jneen/rouge) gem and Github style for syntax highlighting.
+
+*/
 
 .hll { background-color: #f7f7f7; padding: 6px 10px; border-radius: 3px; }
 .c { color: #999988; font-style: italic; }

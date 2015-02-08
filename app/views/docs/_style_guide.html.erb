@@ -1,0 +1,21 @@
+<div class="content markdown">
+  <div class="page-header">
+    <h1><%= @doc.title %></h1>
+  </div>
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <% @doc.style_list.each_with_index do |card, i| %>
+      <div class="panel panel-default">
+        <div class="panel-heading panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#panel_<%= i %>" aria-expanded="true">
+            <%= card[:subtitle].html_safe %>
+          </a>
+        </div>
+        <div id="panel_<%= i %>" class="panel-collapse collapse <%= i > 0 ? '' : 'in' %>" role="tabpanel">
+          <div class="panel-body">
+            <%= markdown card[:content] %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

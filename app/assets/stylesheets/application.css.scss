@@ -1,5 +1,108 @@
-// Colors
-// -------------------------
+/*doc
+---
+title: Colors
+name: colors
+category: Styleguide
+---
+
+Lagotto uses a color palette from [Flat UI Colors](http://flatuicolors.com/). **wet-asphalt** is used as primary color (body text, navbar, etc.), <span style="color:#3498db"><b>peter-river</b></span> for links, and <span style="color:#f1c40f"><b>sun-flower</b></span> as warning color.
+
+<div class="row">
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#1abc9c">
+      <div class="caption">
+        <h4 style="color:white">turquoise</h4>
+        <p style="color:white">#1abc9c</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#2ecc71">
+      <div class="caption">
+        <h4 style="color:white">emerald</h4>
+        <p style="color:white">#2ecc71</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#3498db">
+      <div class="caption">
+        <h4 style="color:white">peter-river</h4>
+        <p style="color:white">#3498db</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#9b59b6">
+      <div class="caption">
+        <h4 style="color:white">amethyst</h4>
+        <p style="color:white">#9b59b6</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#f1c40f">
+      <div class="caption">
+        <h4 style="color:white">sun-flower</h4>
+        <p style="color:white">#f1c40f</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#e67e22">
+      <div class="caption">
+        <h4 style="color:white">carrot</h4>
+        <p style="color:white">#e67e22</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#e74c3c">
+      <div class="caption">
+        <h4 style="color:white">alizarin</h4>
+        <p style="color:white">#e74c3c</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#f4f6f7">
+      <div class="caption">
+        <h4>clouds</h4>
+        <p>#f4f6f7</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#bfc5c9">
+      <div class="caption">
+        <h4 style="color:white">silver</h4>
+        <p style="color:white">#bfc5c9</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#6c797a">
+      <div class="caption">
+        <h4 style="color:white">asbestos</h4>
+        <p style="color:white">#6c797a</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="thumbnail" style="background-color:#34495e">
+      <div class="caption">
+        <h4 style="color:white">wet-asphalt</h4>
+        <p style="color:white">#34495e</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+*/
 
 $turquoise:     #1abc9c;
 $emerald:       #2ecc71;
@@ -35,12 +138,31 @@ $link-hover-color:      mix($peter-river, black, 85%);
 
 $hr-border:             $gray;
 
-// Typography
-// -------------------------
+/*doc
+---
+title: Typography
+name: typography
+category: Styleguide
+---
+
+Lagotto uses the Adobe open source font [Source Sans Pro](https://www.google.com/fonts/specimen/Source+Sans+Pro) as base font with a 18px base font size. [Source Code Pro](https://www.google.com/fonts/specimen/Source+Code+Pro) is used for monospaced text.
+
+### Headings
+
+```html_example
+<h1>h1.Heading <small>36 px</small></h1>
+<h2>h2.Heading <small>32.4 px</small></h2>
+<h3>h3.Heading <small>28.8 px</small></h3>
+<h4>h4.Heading <small>25.2 px</small></h4>
+<h5>h5.Heading <small>18 px</small></h5>
+<h6>h6.Heading <small>18 px</small></h6>
+```
+
+*/
 
 $font-family-base:      'Source Sans Pro', Helvetica, Arial, sans-serif;
 $font-family-demo:      'Helvetica Neue', Helvetica, Arial, sans-serif;
-$font-family-monospace: Monaco, Menlo, Consolas, "Courier New", monospace;
+$font-family-monospace: 'Source Code Pro', Monaco, "Courier New", monospace;
 $font-size-base:        18px;
 $font-size-large:       ceil(($font-size-base * 1.278));
 $font-size-small:       ceil(($font-size-base * 0.853));
@@ -112,22 +234,34 @@ $btn-inverse-active-bg: mix($brand-primary, black, 85%);
 
 $btn-link-disabled-color: $gray-lighter;
 
-// Navbar
-// -------------------------
+/*doc
+---
+title: Navigation
+name: navigation
+category: Styleguide
+---
+
+Lagotto uses a fixed navbar on top, avoiding submenus if possible. For navigation within a page we are using pills.
+
+### Pills
+
+```html_example
+<ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="#">Home</a></li>
+  <li role="presentation"><a href="#">Profile</a></li>
+  <li role="presentation"><a href="#">Messages</a></li>
+</ul>
+```
+
+*/
 
 $navbar-link-space:    20px;
 $navbar-sublink-space: 9px;
 $navbar-height:        50px;
 $navbar-inverse-bg:    $brand-primary;
 
-// Nav
-// -------------------------
-
 $nav-tabs-border-color: $gray;
 $nav-tabs-active-link-hover-color: $gray-dark;
-
-// Dropdown Menu
-// -------------------------
 
 $dropdown-bg: $inverse;
 $dropdown-caret-color: $brand-primary;
@@ -143,8 +277,83 @@ $close-color:       $inverse;
 $close-text-shadow: 0;
 
 
-// Panels, alerts and labels
-// -------------------------
+/*doc
+---
+title: Panels
+name: panels
+category: Styleguide
+---
+
+Panels are the primary way in which content is organized in Lagotto.
+
+### Panels
+
+```html_example
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title">Panel title</h3></div>
+  <div class="panel-body">Panel content</div>
+</div>
+```
+
+### Panels with context
+
+```html_example
+<div class="panel panel-success">
+  <div class="panel-heading"><h3 class="panel-title">Panel title</h3></div>
+  <div class="panel-body">Panel content</div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h3 class="panel-title">Panel title</h3></div>
+  <div class="panel-body">Panel content</div>
+</div>
+<div class="panel panel-warning">
+  <div class="panel-heading"><h3 class="panel-title">Panel title</h3></div>
+  <div class="panel-body">Panel content</div>
+</div>
+<div class="panel panel-danger">
+  <div class="panel-heading"><h3 class="panel-title">Panel title</h3></div>
+  <div class="panel-body">Panel content</div>
+</div>
+```
+
+### Panel with tables
+
+```html_example
+<div class="panel panel-default">
+  <div class="panel-heading">Panel heading</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Larry</td>
+        <td>the Bird</td>
+        <td>@twitter</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+*/
 
 $panel-footer-bg:                $gray;
 $panel-inner-border:             $gray;
@@ -156,6 +365,47 @@ $panel-default-border:           $gray;
 $panel-warning-text:             $brand-primary;
 $panel-warning-border:           $brand-warning;
 $panel-warning-heading-bg:       $brand-warning;
+
+/*doc
+---
+title: Labels, badges and alerts
+name: labels
+category: Styleguide
+---
+
+### Labels
+
+```html_example
+<span class="label label-default">Default</span>
+<span class="label label-primary">Primary</span>
+<span class="label label-success">Success</span>
+<span class="label label-info">Info</span>
+<span class="label label-warning">Warning</span>
+<span class="label label-danger">Danger</span>
+```
+
+### Badges
+
+```html_example
+<a href="#">Inbox <span class="badge">42</span></a>
+```
+
+```html_example
+<button class="btn btn-primary" type="button">
+  Messages <span class="badge">4</span>
+</button>
+```
+
+### Alerts
+
+```html_example
+<div class="alert alert-success" role="alert">You successfully read this important alert message.</div>
+<div class="alert alert-info" role="alert">This alert needs your attention, but it&#39;s not super important.</div>
+<div class="alert alert-warning" role="alert">Better check yourself, you&#39;re not looking too good.</div>
+<div class="alert alert-danger" role="alert">Change a few things up and try submitting again.</div>
+```
+
+*/
 
 $state-warning-text:             $brand-primary;
 $state-warning-border:           $brand-warning;
@@ -173,16 +423,13 @@ $state-danger-text:              $inverse;
 $state-danger-border:            $brand-danger;
 $state-danger-bg:                $brand-danger;
 
+$badge-bg:                       $gray-dark;
+
 $label-default-bg:               $gray-dark;
 $label-info-bg:                  $brand-info;
 $label-warning-bg:               $brand-warning;
 
 $alert-padding:                  10px;
-
-// Badges
-// -------------------------
-
-$badge-bg:                       $gray-dark;
 
 // Tables
 // -------------------------
@@ -190,6 +437,13 @@ $badge-bg:                       $gray-dark;
 $table-cell-padding:             10px;
 $table-bg-hover:                 lighten($brand-primary, 65%);
 $table-bg-accent:                lighten($brand-primary, 65%);
+
+.table .number { text-align: right; width: 180px;}
+.table .name { width: 300px;}
+.table .description { width: 500px;}
+.table .group { width: 190px;}
+.table .status { width: 95px;}
+.table .jobs { text-align: center;}
 
 // Forms
 // -------------------------
@@ -200,8 +454,6 @@ $input-height-small:             (floor($font-size-small * $line-height-small) +
 $input-color:                    black;
 $input-color-placeholder:        $gray-dark;
 
-// Charts
-// -------------------------
 
 $bar-color-1: $turquoise;
 $bar-color-2: $emerald;
@@ -233,12 +485,6 @@ body { padding-top: 70px; padding-bottom: 20px; }
 .configuration-edit { margin-bottom: 1em; }
 a { text-decoration: none; }
 
-.table .number { text-align: right; width: 180px;}
-.table .name { width: 300px;}
-.table .description { width: 500px;}
-.table .group { width: 190px;}
-.table .status { width: 95px;}
-.table .jobs { text-align: center;}
 .checkbox input.check_boxes { margin-left: 0; }
 .section { padding-bottom: 4px; }
 .form_tag { padding-top: 20px; }
@@ -278,14 +524,15 @@ dt, dd { line-height: 1.5; }
 .remote { color: #88A2BD; }
 #results { background-color: white; border: 1px solid $gray; padding: 1.5em; }
 #rss { padding: 1em; }
+.exampleOutput { padding-bottom: 10px; }
 
 // make the scrollbar always visible
 html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
 
-// markdown formatting
+
 body#home { background-color: white; }
 div.home { font-size: 1.25em; }
-.markdown pre { font-size: 1em; border: 0; padding: 10px; }
+.markdown pre { font-size: 1em; border: 0; padding: 10px; line-height: 1.1; }
 .markdown code {
   margin: 0 2px;
   padding: 0;
@@ -314,4 +561,8 @@ div.home { font-size: 1.25em; }
 }
 .markdown table tr:nth-child(even) {
     background: $gray-light;
+}
+
+.markdown .panel table tr {
+    background: white;
 }
