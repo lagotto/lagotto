@@ -33,8 +33,6 @@ SITE
       runit (~> 1.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
-    mysql (5.6.1)
-      yum-mysql-community (>= 0.0.0)
     mysql-chef_gem (0.0.5)
       build-essential (>= 0.0.0)
       mysql (>= 0.0.0)
@@ -75,9 +73,9 @@ SITE
 GIT
   remote: git@github.com:articlemetrics/capistrano-cookbook.git
   ref: master
-  sha: 4019524bf33243d4b52c49eefdc19152e3d91233
+  sha: 3aff643740ae9f6fea286ceef468bd24abe30551
   specs:
-    capistrano (0.8.1)
+    capistrano (0.8.15)
       ruby (~> 0.6.0)
 
 GIT
@@ -90,7 +88,7 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: b6b59b050df5c13e4e9f77a4fa40d7ba3cd922b7
+  sha: ca62cea423a5fbea31de47de1d2caeb730e28ad6
   specs:
     lagotto (4.4.6)
       apt (>= 0.0.0)
@@ -99,7 +97,7 @@ GIT
       database (~> 2.3.1)
       dotenv (~> 0.2.0)
       memcached (>= 0.0.0)
-      mysql (~> 5.6.1)
+      mysql (>= 0.0.0)
       mysql_rails (~> 0.3.0)
       nodejs (>= 0.0.0)
       passenger_nginx (~> 0.5.0)
@@ -108,11 +106,19 @@ GIT
       ruby (~> 0.6.0)
 
 GIT
+  remote: git@github.com:articlemetrics/mysql.git
+  ref: master
+  sha: e306cddd572ca4c1906aa533c70092528bb77532
+  specs:
+    mysql (5.6.1)
+      yum-mysql-community (>= 0.0.0)
+
+GIT
   remote: git@github.com:articlemetrics/mysql_rails-cookbook.git
   ref: master
-  sha: 7209a9de6dd94bbe4db72410e23a036aaaa9c977
+  sha: 30c6ea6346f4a86df1b95b4756299189911695a8
   specs:
-    mysql_rails (0.3.27)
+    mysql_rails (0.3.30)
       database (~> 2.3.1)
       mysql (~> 5.6.1)
       ruby (~> 0.6.0)
@@ -137,10 +143,11 @@ GIT
 DEPENDENCIES
   capistrano (>= 0)
   couchdb (>= 0)
-  database (>= 0)
+  database (~> 2.3.1)
   dotenv (>= 0)
   lagotto (>= 0)
   memcached (>= 0)
+  mysql (>= 0)
   mysql_rails (>= 0)
   passenger_nginx (>= 0)
   phantomjs (>= 0)
