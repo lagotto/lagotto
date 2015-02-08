@@ -3,10 +3,10 @@
     <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
-          <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_work_path(@work), { :remote => true, :class => 'btn btn-default' } %>
+          <%= link_to icon("pencil").html_safe, edit_work_path(@work), { :remote => true, :class => 'btn btn-default' } %>
         </div>
         <div class="btn-group btn-group-sm">
-          <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, work_path(@work), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
+          <%= link_to icon("trash").html_safe, work_path(@work), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
         </div>
         </div>
     <% end %>

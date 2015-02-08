@@ -3,7 +3,7 @@
     <% if can?(:update, @source) && @source.state > 1 && controller.action_name != "edit" && !(controller.action_name == "update" && !@publisher_option.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
-          <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_source_publisher_option_path(@source.name, current_user.publisher.member_id), { :remote => true, :class => 'btn btn-default btn-sm pull-right configuration-edit', :title => "Edit" } %>
+          <%= link_to icon("edit").html_safe, edit_source_publisher_option_path(@source.name, current_user.publisher.member_id), { :remote => true, :class => 'btn btn-default btn-sm pull-right configuration-edit', :title => "Edit" } %>
         </div>
       </div>
     <% end %>

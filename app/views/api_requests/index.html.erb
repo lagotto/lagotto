@@ -1,7 +1,7 @@
 <div class="page-header clearfix">
   <div class="btn-toolbar pull-right">
     <div class="btn-group btn-group-sm">
-      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span>
+      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %>
       <% if params[:key] == "internal" %>
         Internal
       <% elsif params[:key] == "external" %>
@@ -28,7 +28,7 @@
       <div class="form-group">
         <%= search_field_tag :q, params[:q], :placeholder => "Search by API Key", :class => "form-control" %>
       </div>
-      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+      <button type="submit" class="btn btn-default"><%= icon("search") %></button>
       <% unless params[:q].blank? %>
         <%= link_to "clear", api_requests_path(key: params[:key]), class: "btn" %>
       <% end %>

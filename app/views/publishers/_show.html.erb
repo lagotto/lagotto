@@ -3,7 +3,7 @@
     <% if can?(:manage, Publisher) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
-          <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, publisher_path(@publisher.member_id), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
+          <%= link_to icon("trash").html_safe, publisher_path(@publisher.member_id), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
         </div>
       </div>
     <% end %>

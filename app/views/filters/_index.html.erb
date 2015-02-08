@@ -52,7 +52,7 @@
                 <div class="btn-toolbar pull-right">
                   <% unless filter.get_config_fields.empty? %>
                     <div class="btn-group btn-group-sm">
-                      <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
+                      <%= link_to icon("pencil").html_safe, edit_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
                     </div>
                   <% end %>
                   <div class="btn-group btn-group-sm">

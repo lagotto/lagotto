@@ -2,7 +2,7 @@
   <div class="panel-heading panel-title">
     <% if can?(:create, User) && controller.action_name != "edit" && !(controller.action_name == "update" && !@user.errors.empty?) %>
       <span class="pull-right">
-         <%= link_to '<span class="glyphicon glyphicon-pencil"></span>'.html_safe, edit_user_path(@user), { remote: true, class: 'btn btn-default btn-sm', id: 'edit' } %>
+         <%= link_to icon("pencil").html_safe, edit_user_path(@user), { remote: true, class: 'btn btn-default btn-sm', id: 'edit' } %>
       </span>
     <% end %>
     Your Account

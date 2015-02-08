@@ -145,7 +145,7 @@ name: typography
 category: Styleguide
 ---
 
-Lagotto uses the Adobe open source font [Source Sans Pro](https://www.google.com/fonts/specimen/Source+Sans+Pro) as base font with a 18px base font size. [Source Code Pro](https://www.google.com/fonts/specimen/Source+Code+Pro) is used for monospaced text.
+Lagotto uses the Adobe open source font [Source Sans Pro](https://www.google.com/fonts/specimen/Source+Sans+Pro) as base font with a 18px base font size. [Source Code Pro](https://www.google.com/fonts/specimen/Source+Code+Pro) is used for monospaced text, and [Font-Awesome](http://fortawesome.github.io/Font-Awesome/) for icons.
 
 ### Headings
 
@@ -161,7 +161,7 @@ Lagotto uses the Adobe open source font [Source Sans Pro](https://www.google.com
 */
 
 $font-family-base:      'Source Sans Pro', Helvetica, Arial, sans-serif;
-$font-family-demo:      'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family-demo:      'Source Sans Pro', Helvetica, Arial, sans-serif;
 $font-family-monospace: 'Source Code Pro', Monaco, "Courier New", monospace;
 $font-size-base:        18px;
 $font-size-large:       ceil(($font-size-base * 1.278));
@@ -366,6 +366,12 @@ $panel-warning-text:             $brand-primary;
 $panel-warning-border:           $brand-warning;
 $panel-warning-heading-bg:       $brand-warning;
 
+.panel-heading { font-weight: bold; line-height: 1.33; }
+.panel-heading small { font-weight: normal; margin-top: 3px; }
+.panel-heading .label-report { border: 1px solid white; font-size: $font-size-base; }
+.panel-list { font-weight: normal; }
+.panel-source { min-height: 284px; }
+
 /*doc
 ---
 title: Labels, badges and alerts
@@ -466,17 +472,13 @@ $bar-color-7: lighten($bar-color-1, 20%);
 
 @import "almviz";
 @import "github";
-@import "bootstrap-sprockets";
 @import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 body { padding-top: 70px; padding-bottom: 20px; }
 
 // Fix inconsistencies
-.panel-heading { font-weight: bold; line-height: 1.33; }
-.panel-heading small { font-weight: normal; margin-top: 3px; }
-.panel-heading .label-report { border: 1px solid white; font-size: $font-size-base; }
-.panel-list { font-weight: normal; }
-.panel-source { min-height: 284px; }
 // small span.label { vertical-align: bottom; font-size: 66%; margin-left: 0.5em; }
 .label { font-weight: normal; }
 .label-fatal { background-color: $alizarin; }
@@ -528,7 +530,6 @@ dt, dd { line-height: 1.5; }
 
 // make the scrollbar always visible
 html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
-
 
 body#home { background-color: white; }
 div.home { font-size: 1.25em; }

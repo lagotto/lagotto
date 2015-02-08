@@ -1,7 +1,7 @@
 <div class="page-header clearfix">
    <div class="btn-toolbar pull-right">
     <div class="btn-group btn-group-sm">
-      <%= link_to '<span class="glyphicon glyphicon-dashboard"> API Requests</span>'.html_safe, api_requests_path, { id: "api_requests", class: 'btn btn-default' } %>
+      <%= link_to "#{icon("dashboard")} API Requests".html_safe, api_requests_path, { id: "api_requests", class: 'btn btn-default' } %>
     </div>
   </div>
   <h1 class="pull-left">Users</h1>
@@ -10,7 +10,7 @@
     <div class="form-group">
       <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "form-control" %>
     </div>
-    <button type="submit" class="btn btn-default hidden-xs"><span class="glyphicon glyphicon-search"></span></button>
+    <button type="submit" class="btn btn-default hidden-xs"><%= icon("search") %></button>
     <% unless params[:query].blank? %>
       <%= link_to "clear", users_path(:role => params[:role]), :class => "btn" %>
     <% end %>
@@ -20,7 +20,7 @@
 <div class="work">&nbsp;
   <div class="btn-toolbar pull-left">
     <div class="btn-group btn-group-sm">
-      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-filter"></span> <%= @role.nil? ? "All Roles" : @role.capitalize %> <span class="caret"></span></a>
+      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @role.nil? ? "All Roles" : @role.capitalize %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li><%= link_to "All Roles", users_path(:query => params[:query]) %></li>
         <li class="divider"></li>
@@ -60,10 +60,10 @@
               <% if can?(:manage, user) && user.id != current_user.id %>
                 <div class="btn-toolbar pull-right">
                   <div class="btn-group btn-group-sm">
-                    <%= link_to "<span class=\"glyphicon glyphicon-pencil\"></span>".html_safe, edit_user_path(user, query: params[:query], role: params[:role]), remote: true, class: 'btn btn-default btn-sm', id: "#{user.id}-edit" %>
+                    <%= link_to icon("pencil").html_safe, edit_user_path(user, query: params[:query], role: params[:role]), remote: true, class: 'btn btn-default btn-sm', id: "#{user.id}-edit" %>
                   </div>
                   <div class="btn-group btn-group-sm">
-                    <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe, user_path(user, query: params[:query], role: params[:role]), method: :delete, data: { confirm: 'Are you sure?' }, remote: true, class: 'btn btn-default btn-sm', id: "#{user.id}-delete" %>
+                    <%= link_to icon("trash").html_safe, user_path(user, query: params[:query], role: params[:role]), method: :delete, data: { confirm: 'Are you sure?' }, remote: true, class: 'btn btn-default btn-sm', id: "#{user.id}-delete" %>
                   </div>
                 </div>
               <% end %>
