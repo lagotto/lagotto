@@ -19,7 +19,7 @@ describe "/api/v5/status", :type => :api do
         expect(item["works_count"]).to eq(5)
         expect(item["responses_count"]).to eq(5)
         expect(item["requests_count"]).to eq(5)
-        expect(item["version"]).to eq(Rails.application.config.version)
+        expect(item["version"]).to eq(Lagotto::VERSION)
       end
 
       it "JSONP" do
@@ -34,7 +34,7 @@ describe "/api/v5/status", :type => :api do
         expect(item["works_count"]).to eq(5)
         expect(item["responses_count"]).to eq(6)
         expect(item["requests_count"]).to eq(1)
-        expect(item["version"]).to eq(Rails.application.config.version)
+        expect(item["version"]).to eq(Lagotto::VERSION)
       end
     end
   end

@@ -1,4 +1,4 @@
-# config valid only for Capistrano 3.2
+# config valid only for Capistrano 3.3.x
 lock '3.3.5'
 
 begin
@@ -34,10 +34,6 @@ end
 set :application, ENV["APPLICATION"]
 set :repo_url, 'https://github.com/articlemetrics/lagotto.git'
 set :stage, ENV["STAGE"]
-
-# Sidekiq
-set :sidekiq_config, -> { File.join(current_path, 'config', 'sidekiq.yml') }
-set :sidekiq_role, :db
 set :pty, false
 
 # Default branch is :master

@@ -25,7 +25,7 @@ class Status < ActiveRecord::Base
     self.sources_working_count = Source.working.count
     self.sources_waiting_count = Source.waiting.count
     self.sources_disabled_count = Source.disabled.count
-    self.version = Rails.application.config.version
+    self.version = Lagotto::VERSION
     self.current_version = get_current_version unless current_version.present?
   end
 

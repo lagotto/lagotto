@@ -1,6 +1,6 @@
 class StatusController < ApplicationController
   def index
-    Status.create(current_version: Rails.application.config.version) if Rails.env == "development" || Status.count == 0
+    Status.create(current_version: Lagotto::VERSION) if Rails.env == "development" || Status.count == 0
 
     collection = Status.order("created_at DESC")
     @current_status = collection.first
