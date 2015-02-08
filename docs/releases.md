@@ -3,6 +3,19 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.16 (February 8, 2015)
+
+[Lagotto 3.16](https://github.com/articlemetrics/lagotto/releases/tag/v.3.16) was released on February 8, 2015 with the following changes:
+
+* added CSS style guide ([#240](https://github.com/articlemetrics/lagotto/issues/240))
+* switched from glyphicons to font-awesome as icon font ([#241](https://github.com/articlemetrics/lagotto/issues/241))
+* correctly show number of new works per day on status page ([#242](https://github.com/articlemetrics/lagotto/issues/242))
+
+Make sure the following settings for the Mendeley source are corect:
+
+* **Url**: https://api.mendeley.com/catalog?%{query_string}&view=stats
+* **Authentication Url**: https://api.mendeley.com/oauth/token
+
 ## Lagotto 3.15 (February 4, 2015)
 
 [Lagotto 3.15](https://github.com/articlemetrics/lagotto/releases/tag/v.3.15) was released on February 4, 2015 with the following changes:
