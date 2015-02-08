@@ -11,10 +11,7 @@ title: "Releases"
 * switched from glyphicons to font-awesome as icon font ([#241](https://github.com/articlemetrics/lagotto/issues/241))
 * correctly show number of new works per day on status page ([#242](https://github.com/articlemetrics/lagotto/issues/242))
 
-Make sure the following settings for the Mendeley source are corect:
-
-* **Url**: https://api.mendeley.com/catalog?%{query_string}&view=stats
-* **Authentication Url**: https://api.mendeley.com/oauth/token
+The style guide is available at `/docs/styleguide`.
 
 ## Lagotto 3.15 (February 4, 2015)
 
