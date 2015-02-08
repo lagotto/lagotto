@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150117102107) do
+ActiveRecord::Schema.define(version: 20150208170323) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -233,7 +233,7 @@ ActiveRecord::Schema.define(version: 20150117102107) do
     t.integer  "sources_working_count",  limit: 4,   default: 0
     t.integer  "sources_waiting_count",  limit: 4,   default: 0
     t.integer  "sources_disabled_count", limit: 4,   default: 0
-    t.integer  "db_size",                limit: 4,   default: 0
+    t.integer  "db_size",                limit: 8,   default: 0
     t.string   "version",                limit: 255
     t.string   "current_version",        limit: 255
     t.datetime "created_at",                                     null: false
