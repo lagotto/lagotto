@@ -44,7 +44,7 @@ Search the Europe PMC fulltext corpus for scholarly works.
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>http://www.ebi.ac.uk/europepmc/webservices/rest/search/query="DOI"+OR+"URL"&dataset=fulltext&format=json&resultType=lite</td>
+<td valign="top" width=80%>http://www.ebi.ac.uk/europepmc/webservices/rest/search/query="DOI"+OR+"URL"&format=json&resultType=lite</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>License</strong></td>

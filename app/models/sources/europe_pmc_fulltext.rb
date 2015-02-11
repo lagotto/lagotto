@@ -69,7 +69,7 @@ class EuropePmcFulltext < Source
   end
 
   def url
-    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%{query_string}&dataset=fulltext&format=json&resultType=lite"
+    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%{query_string}&format=json&resultType=lite"
   end
 
   def events_url
