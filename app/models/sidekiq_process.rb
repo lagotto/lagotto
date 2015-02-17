@@ -30,15 +30,15 @@ class SidekiqProcess
   end
 
   def pidfile
-    "/var/www/#{ENV['APPLICATION']}/shared/tmp/pids/sidekiq.pid"
+    "#{Rails.root}/tmp/pids/sidekiq.pid"
   end
 
   def logfile
-    "/var/www/#{ENV['APPLICATION']}/shared/log/sidekiq.log"
+    "#{Rails.root}/log/sidekiq.log"
   end
 
   def configfile
-    "/var/www/#{ENV['APPLICATION']}/current/config/sidekiq.yml"
+    "#{Rails.root}/config/sidekiq.yml"
   end
 
   def stop
