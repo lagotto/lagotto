@@ -1,7 +1,7 @@
 class FileImport < Import
   def initialize(options = {})
     @file = options.fetch(:file, nil)
-    @member = options.fetch(:member, nil).to_s.split(",")
+    @member = options.fetch(:member, nil)
   end
 
   def total_results
@@ -34,7 +34,7 @@ class FileImport < Import
         "issued" => { "date-parts" => [date_parts] },
         "title" => [title],
         "type" => "article-journal",
-        "member" => @member.first }
+        "member" => member }
     end
 
     { "items" => items }

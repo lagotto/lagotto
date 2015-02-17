@@ -46,7 +46,8 @@ class CrossrefImport < Import
     from_pub_date = options.fetch(:from_pub_date, nil)
     until_pub_date = options.fetch(:until_pub_date, nil)
     type = options.fetch(:type, nil)
-    @member = options.fetch(:member, nil).to_s.split(",")
+    @member = options.fetch(:member, nil)
+    @member = @member.to_s.split(",") if @member.present?
     issn = options.fetch(:issn, nil)
     sample = options.fetch(:sample, 0)
     @sample = sample.to_i
