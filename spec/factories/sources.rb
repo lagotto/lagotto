@@ -338,6 +338,17 @@ FactoryGirl.define do
     initialize_with { PlosFulltext.where(name: name).first_or_initialize }
   end
 
+  factory :bmc_fulltext, class: BmcFulltext do
+    type "BmcFulltext"
+    name "bmc_fulltext"
+    display_name "BMC Fulltext Search"
+    state_event "activate"
+
+    group
+
+    initialize_with { BmcFulltext.where(name: name).first_or_initialize }
+  end
+
   factory :twitter, class: Twitter do
     type "Twitter"
     name "twitter"
