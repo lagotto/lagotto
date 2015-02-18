@@ -37,7 +37,8 @@ class BmcFulltext < Source
   def get_events(result, work)
     result.fetch("entries", []).map do |item|
       event_time = get_iso8601_from_time(item.fetch("published Date", nil))
-      doi = item.fetch("doi")
+      # workaround since the "doi" attribute is sometimes empty
+      doi = "10.1186/#{item.fetch("arxId")}"
       author = Nokogiri::HTML::fragment(item.fetch("authorNames", ""))
       title = Nokogiri::HTML::fragment(item.fetch("bibliograhyTitle", ""))
       container_title = Nokogiri::HTML::fragment(item.fetch("longCitation", ""))
