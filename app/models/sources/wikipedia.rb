@@ -3,7 +3,7 @@
 class Wikipedia < Source
   # MediaWiki API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
   def get_query_url(work, options={})
-    return nil unless url.present? && work.get_url
+    return nil unless work.get_url
 
     host = options[:host] || "en.wikipedia.org"
     namespace = options[:namespace] || "0"
