@@ -3,6 +3,24 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.17 (February 19, 2015)
+
+[Lagotto 3.17](https://github.com/articlemetrics/lagotto/releases/tag/v.3.17) was released on February 19, 2015 with the following changes:
+
+* removed obsolete `dataset` parameter from Europe PMC fulltext search ([#245](https://github.com/articlemetrics/lagotto/issues/245))
+* fixed issue with sidekiq paths in some configurations ([#246](https://github.com/articlemetrics/lagotto/issues/246))
+* added make dependency to manual install doc ([#247](https://github.com/articlemetrics/lagotto/issues/247))
+* fix in CrossRef import when no member is given ([#248](https://github.com/articlemetrics/lagotto/issues/248))
+* added BMC fulltext source ([#249](https://github.com/articlemetrics/lagotto/issues/249))
+* small fix in Wikipedia source ([#251](https://github.com/articlemetrics/lagotto/issues/251))
+* added Bitbucket source ([#252](https://github.com/articlemetrics/lagotto/issues/252))
+
+To load the new sources please run
+
+```sh
+RAILS_ENV=production bundle exec rake db:seed
+```
+
 ## Lagotto 3.16 (February 8, 2015)
 
 [Lagotto 3.16](https://github.com/articlemetrics/lagotto/releases/tag/v.3.16) was released on February 8, 2015 with the following changes:
