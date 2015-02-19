@@ -84,6 +84,16 @@ FactoryGirl.define do
     initialize_with { Github.where(name: name).first_or_initialize }
   end
 
+  factory :bitbucket, class: Bitbucket do
+    type "Bitbucket"
+    name "bitbucket"
+    display_name "Bitbucket"
+
+    group
+
+    initialize_with { Bitbucket.where(name: name).first_or_initialize }
+  end
+
   factory :openedition, class: Openedition do
     type "Openedition"
     name "openedition"
