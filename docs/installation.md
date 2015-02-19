@@ -264,10 +264,10 @@ sudo apt-get update
 ```
 
 #### Install Ruby and required packages
-Also install the `curl` and `git` packages, the `libmysqlclient-dev` library required by the `myslq2` gem, and `nodejs` as Javascript runtime. When running Lagotto on a local machine we also want to install `avahi-daemon` and `libnss-mdns`for zeroconf networking - this allows us to reach the server at `http://lagotto.local`.
+Also install the `make`, `curl` and `git` packages, the `libmysqlclient-dev` library required by the `myslq2` gem, and `nodejs` as Javascript runtime. When running Lagotto on a local machine we also want to install `avahi-daemon` and `libnss-mdns`for zeroconf networking - this allows us to reach the server at `http://lagotto.local`.
 
 ```sh
-sudo apt-get install ruby2.1 ruby2.1-dev curl git libmysqlclient-dev nodejs avahi-daemon libnss-mdns -y
+sudo apt-get install ruby2.1 ruby2.1-dev make curl git libmysqlclient-dev nodejs avahi-daemon libnss-mdns -y
 ```
 
 #### Install databases
