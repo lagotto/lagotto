@@ -36,7 +36,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
       response = subject.get_data(work)
-      expect(response["hitCount"]).to eq(13)
+      expect(response["hitCount"]).to eq(18)
       result = response["resultList"]["result"].first
       expect(result["doi"]).to eq("10.1038/srep05994")
     end
@@ -44,7 +44,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
     it "should catch errors with the Europe PMC Search API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
       response = subject.get_data(work, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=#{work.query_string}&dataset=fulltext&format=json&resultType=lite", status: 408)
+      expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%22#{work.canonical_url}%22%20OR%20REF:%22#{work.canonical_url}%22&format=json", status: 408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first

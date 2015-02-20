@@ -16,10 +16,11 @@ class EuropePmcFulltext < Source
   end
 
   def get_query_string(work)
+    # fulltext search doesn't search in the reference list
     if work.doi.present?
-      "%22#{work.doi}%22"
+      "%22#{work.doi}%22%20OR%20REF:%22#{work.doi}%22"
     elsif work.canonical_url.present?
-      "%22#{work.canonical_url}%22"
+      "%22#{work.canonical_url}%22%20OR%20REF:%22#{work.canonical_url}%22"
     else
       nil
     end
@@ -69,10 +70,10 @@ class EuropePmcFulltext < Source
   end
 
   def url
-    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%{query_string}&format=json&resultType=lite"
+    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%{query_string}&format=json"
   end
 
   def events_url
-    config.events_url || "http://europepmc.org/search?scope=fulltext&query=%{query_string}"
+    config.events_url || "http://europepmc.org/search?query=%{query_string}"
   end
 end
