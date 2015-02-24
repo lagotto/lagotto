@@ -5,7 +5,9 @@ class EuropePmcFulltext < Source
     query_string = get_query_string(work)
     return nil unless url.present? && query_string.present?
 
-    url % { query_string: query_string }
+    page = options[:page] || 1
+
+    url % { query_string: query_string, page: page }
   end
 
   def get_events_url(work)
@@ -24,6 +26,31 @@ class EuropePmcFulltext < Source
     else
       nil
     end
+  end
+
+  def get_data(work, options={})
+    query_url = get_query_url(work, options)
+    if query_url.nil?
+      result = {}
+    else
+      result = get_result(query_url, options)
+      total = (result.fetch("hitCount", nil)).to_i
+
+      if total > rows
+        # walk through paginated results
+        total_pages = (total.to_f / rows).ceil
+
+        (2..total_pages).each do |page|
+          options[:page] = page
+          query_url = get_query_url(work, options)
+          paged_result = get_result(query_url, options)
+          result["resultList"]["result"] = result["resultList"]["result"] | paged_result.fetch("resultList", {}).fetch("result", [])
+        end
+      end
+    end
+
+    # extend hash fetch method to nested hashes
+    result.extend Hashie::Extensions::DeepFetch
   end
 
   def parse_data(result, work, options={})
@@ -70,10 +97,14 @@ class EuropePmcFulltext < Source
   end
 
   def url
-    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%{query_string}&format=json"
+    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%{query_string}&format=json&page=%{page}"
   end
 
   def events_url
     config.events_url || "http://europepmc.org/search?query=%{query_string}"
+  end
+
+  def rows
+    25
   end
 end

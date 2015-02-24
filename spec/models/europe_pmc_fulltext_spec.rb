@@ -3,7 +3,7 @@ require 'rails_helper'
 describe EuropePmcFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:europe_pmc_fulltext) }
 
-  let(:work) { FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/lh3/seqtk") }
+  let(:work) { FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
@@ -36,15 +36,16 @@ describe EuropePmcFulltext, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
       response = subject.get_data(work)
-      expect(response["hitCount"]).to eq(18)
+      expect(response["hitCount"]).to eq(54)
+      expect(response["resultList"]["result"].length).to eq(54)
       result = response["resultList"]["result"].first
-      expect(result["doi"]).to eq("10.1038/srep05994")
+      expect(result["doi"]).to eq("10.1128/mbio.02400-14")
     end
 
     it "should catch errors with the Europe PMC Search API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
       response = subject.get_data(work, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%22#{work.canonical_url}%22%20OR%20REF:%22#{work.canonical_url}%22&format=json", status: 408)
+      expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%22#{work.canonical_url}%22%20OR%20REF:%22#{work.canonical_url}%22&format=json&page=1", status: 408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first

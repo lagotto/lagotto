@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%22https://github.com/pymor/pymor%22%20OR%20REF:%22https://github.com/pymor/pymor%22&format=json
+    uri: http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%22https://github.com/pymor/pymor%22%20OR%20REF:%22https://github.com/pymor/pymor%22&format=json&page=1
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.16 - http://lagotto-bugfixes.local
+      - Lagotto 3.17 - http://lagotto-bugfixes.local
       Accept:
       - application/json
   response:
@@ -19,15 +19,15 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Set-Cookie:
-      - JSESSIONID=5039902CC2D72BDD823958B9B4A65D8D; Path=/europepmc/webservices
+      - JSESSIONID=8CE9F53B3CE946F5B6DA2F5174AD11B0; Path=/europepmc/webservices
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 20 Feb 2015 10:45:37 GMT
+      - Tue, 24 Feb 2015 10:45:54 GMT
     body:
       encoding: UTF-8
       string: '{"version":"4.0","hitCount":0,"request":{"resultType":"LITE","synonym":false,"query":"\"https://github.com/pymor/pymor\"
         OR REF:\"https://github.com/pymor/pymor\"","page":1},"resultList":{"result":[]}}'
     http_version: 
-  recorded_at: Fri, 20 Feb 2015 10:36:04 GMT
+  recorded_at: Tue, 24 Feb 2015 10:45:55 GMT
 recorded_with: VCR 2.9.3
