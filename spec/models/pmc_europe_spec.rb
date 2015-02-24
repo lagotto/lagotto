@@ -3,7 +3,7 @@ require 'rails_helper'
 describe PmcEurope, type: :model, vcr: true do
   subject { FactoryGirl.create(:pmc_europe) }
 
-  let(:work) { FactoryGirl.build(:work, :pmid => "17183631") }
+  let(:work) { FactoryGirl.build(:work, :pmid => "15723116") }
 
   context "get_data" do
     it "should report that there are no events if the pmid and doi are missing" do
@@ -19,9 +19,10 @@ describe PmcEurope, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       response = subject.get_data(work)
-      expect(response["hitCount"]).to eq(28)
+      expect(response["hitCount"]).to eq(748)
+      expect(response["citationList"]["citation"].length).to eq(748)
       citation = response["citationList"]["citation"].first
-      expect(citation["title"]).to eq("Central neural pathways for thermoregulation.")
+      expect(citation["title"]).to eq("MicroRNAs: target recognition and regulatory functions.")
     end
 
     it "should catch errors with the PMC Europe API" do
@@ -39,9 +40,9 @@ describe PmcEurope, type: :model, vcr: true do
 
   context "parse_data" do
     it "should report that there are no events if the pmid is missing" do
-      work = FactoryGirl.build(:work, :pmid => "")
+      work = FactoryGirl.build(:work, :pmid => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      expect(subject.parse_data(result, work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
@@ -54,7 +55,19 @@ describe PmcEurope, type: :model, vcr: true do
     it "should report if there are events and event_count returned by the PMC Europe API" do
       body = File.read(fixture_path + 'pmc_europe.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 23, events_url: "http://europepmc.org/abstract/MED/#{work.pmid}#fragment-related-citations", event_metrics: {pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 23, total: 23 })
+      response = subject.parse_data(result, work)
+      expect(response[:event_count]).to eq(23)
+      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 23, total: 23)
+      expect(response[:events_by_day]).to be_empty
+      expect(response[:events_by_month]).to be_empty
+
+      event = response[:events].last
+      expect(event[:event_csl]['author']).to eq([{"family"=>"Wei", "given"=>"D"}, {"family"=>"Jiang", "given"=>"Q"}, {"family"=>"Wei", "given"=>"Y"}, {"family"=>"Wang", "given"=>"S"}])
+      expect(event[:event_csl]['title']).to eq("A novel hierarchical clustering algorithm for gene sequences")
+      expect(event[:event_csl]['container-title']).to eq("BMC Bioinformatics")
+      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2012]])
+      expect(event[:event_csl]['type']).to eq("article-journal")
+      expect(event[:event_csl]['url']).to eq("http://europepmc.org/abstract/MED/22823405")
     end
 
     it "should catch timeout errors with the PMC Europe API" do
