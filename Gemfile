@@ -56,6 +56,7 @@ gem "d3_rails", "~> 3.4.1"
 gem "crossfilter-rails", "~> 1.3.5"
 gem 'coffee-rails', '~> 4.1.0'
 gem "uglifier", "~> 2.5.3"
+gem 'lodash-rails', '~> 3.3.0'
 
 group :development do
   gem 'pry-rails', '~> 0.3.2'

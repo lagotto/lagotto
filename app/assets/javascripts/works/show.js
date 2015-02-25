@@ -36,6 +36,9 @@ function eventViz(data) {
   d3.select("#content").insert("div")
     .attr("id", "results");
 
+  // remove duplicate events based on URL
+  data = _.uniq(data, "url");
+
   // generate iso8601 datetime for sorting, year for nesting
   data = data.map(function(d) {
     d["date"] = datePartsToDate(d["issued"]["date-parts"][0]);

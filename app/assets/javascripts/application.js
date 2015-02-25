@@ -11,6 +11,9 @@
 //= require jquery.bootpag.min.js
 //= require turbolinks
 //
+// Load Lodash
+//= require lodash
+//
 // Load the D3 visualization library
 //= require d3
 //
