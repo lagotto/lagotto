@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Wordpress < Source
   def get_events(result)
     result['data'] = nil if result['data'].is_a?(String)
