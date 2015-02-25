@@ -2,19 +2,19 @@
 http_interactions:
 - request:
     method: get
-    uri: http://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044271%22&srwhat=text
+    uri: http://en.wikipedia.org/w/api.php?action=query&continue=&format=json&list=search&srinfo=totalhits&srlimit=50&srnamespace=0&sroffset=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044271%22&srwhat=text
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.12.1 - http://lagotto-bugfixes.local
+      - Lagotto 3.17 - http://lagotto-bugfixes.local
       Accept:
       - application/json
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Server:
       - Apache
@@ -31,46 +31,40 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Varnish:
-      - 3024356081, 3946002121, 2558769915
+      - 2734897520, 3088146591, 1008422474
       Via:
       - 1.1 varnish, 1.1 varnish, 1.1 varnish
-      Transfer-Encoding:
-      - chunked
       Date:
-      - Sun, 04 Jan 2015 13:27:19 GMT
+      - Wed, 25 Feb 2015 07:22:51 GMT
       Age:
       - '0'
       Connection:
       - keep-alive
       X-Cache:
-      - cp1054 miss (0), amssq61 miss (0), amssq36 frontend miss (0)
-      X-Analytics:
-      - php=hhvm
+      - cp1065 miss (0), amssq43 miss (0), amssq58 frontend miss (0)
       Set-Cookie:
-      - GeoIP=DE:Hanover:52.3751:9.7094:v4; Path=/; Domain=.wikipedia.org
+      - GeoIP=DE:Hanover:52.3751:9.7094:v4; Path=/; Domain=.wikipedia.org:80
     body:
       encoding: UTF-8
-      string: '{"query-continue":{"search":{"sroffset":1}},"warnings":{"query":{"*":"Formatting
-        of continuation data will be changing soon. To continue using the current
-        formatting, use the ''rawcontinue'' parameter. To begin using the new format,
-        pass an empty string for ''continue'' in the initial query."}},"query":{"searchinfo":{"totalhits":2},"search":[{"ns":0,"title":"Lesula","timestamp":"2014-05-24T12:54:07Z"}]}}'
+      string: '{"batchcomplete":"","query":{"searchinfo":{"totalhits":2},"search":[{"ns":0,"title":"Lesula","timestamp":"2014-05-24T12:54:07Z"},{"ns":0,"title":"Primates
+        described in the 2010s","timestamp":"2015-02-16T20:05:03Z"}]}}'
     http_version: 
-  recorded_at: Sun, 04 Jan 2015 13:27:19 GMT
+  recorded_at: Wed, 25 Feb 2015 07:22:53 GMT
 - request:
     method: get
-    uri: http://commons.wikimedia.org/w/api.php?action=query&format=json&list=search&srinfo=totalhits&srlimit=1&srnamespace=6&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044271%22&srwhat=text
+    uri: http://commons.wikimedia.org/w/api.php?action=query&continue=&format=json&list=search&srinfo=totalhits&srlimit=50&srnamespace=6&sroffset=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044271%22&srwhat=text
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.12.1 - http://lagotto-bugfixes.local
+      - Lagotto 3.17 - http://lagotto-bugfixes.local
       Accept:
       - application/json
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Server:
       - Apache
@@ -87,30 +81,29 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Varnish:
-      - 765237333, 3946006477, 3070073314
+      - 520541144, 2996033693, 2813777388
       Via:
       - 1.1 varnish, 1.1 varnish, 1.1 varnish
-      Transfer-Encoding:
-      - chunked
       Date:
-      - Sun, 04 Jan 2015 13:27:25 GMT
+      - Wed, 25 Feb 2015 07:22:51 GMT
       Age:
       - '0'
       Connection:
       - keep-alive
       X-Cache:
-      - cp1053 miss (0), amssq61 miss (0), amssq42 frontend miss (0)
-      X-Analytics:
-      - php=hhvm
+      - cp1067 miss (0), amssq49 miss (0), amssq49 frontend miss (0)
       Set-Cookie:
-      - GeoIP=DE:Hanover:52.3751:9.7094:v4; Path=/; Domain=.wikimedia.org
+      - GeoIP=DE:Hanover:52.3751:9.7094:v4; Path=/; Domain=.wikimedia.org:80
     body:
       encoding: UTF-8
-      string: '{"query-continue":{"search":{"sroffset":1}},"warnings":{"query":{"*":"Formatting
-        of continuation data will be changing soon. To continue using the current
-        formatting, use the ''rawcontinue'' parameter. To begin using the new format,
-        pass an empty string for ''continue'' in the initial query."}},"query":{"searchinfo":{"totalhits":8},"search":[{"ns":6,"title":"File:Cercopithecus
-        lomamiensis Juv.jpg","timestamp":"2013-08-29T21:28:03Z"}]}}'
+      string: '{"batchcomplete":"","query":{"searchinfo":{"totalhits":8},"search":[{"ns":6,"title":"File:Cercopithecus
+        lomamiensis Female.jpg","timestamp":"2013-08-29T21:27:22Z"},{"ns":6,"title":"File:Cercopithecus
+        lomamiensis Juv.jpg","timestamp":"2013-08-29T21:28:03Z"},{"ns":6,"title":"File:Cercopithecus
+        lomamiensis (Lesula).png","timestamp":"2013-08-29T21:25:48Z"},{"ns":6,"title":"File:Cercopithecus
+        lomamiensis MaleP.jpg","timestamp":"2013-08-29T21:29:00Z"},{"ns":6,"title":"File:Cercopithecus
+        lomamiensis Male.jpg","timestamp":"2013-08-29T21:28:22Z"},{"ns":6,"title":"File:Journal.pone.0044271.g001.png","timestamp":"2013-08-29T21:14:47Z"},{"ns":6,"title":"File:Cercopithecus
+        hamlyni booms - journal.pone.0044271.s015.ogg","timestamp":"2015-02-24T14:34:48Z"},{"ns":6,"title":"File:Cercopithecus
+        lomamiensis booms - journal.pone.0044271.s016.ogg","timestamp":"2015-02-24T14:34:48Z"}]}}'
     http_version: 
-  recorded_at: Sun, 04 Jan 2015 13:27:25 GMT
+  recorded_at: Wed, 25 Feb 2015 07:22:53 GMT
 recorded_with: VCR 2.9.3

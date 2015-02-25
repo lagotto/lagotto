@@ -11,9 +11,7 @@ We are collecting the number of Wikipedia articles (`namespace=0`) in the [25 mo
 en nl de sv fr it ru es pl war ceb ja vi pt zh uk ca no fi fa id cs ko hu ar commons
 ```
 
-We would for example use `en.wikipedia.org` as `HOST` in the `API URL` below.
-
-Because of the extensive load-balancing on Wikipedia's servers, pagination (for more than 50 results) is not reliable and we therefore don't collect links to individual Wikipedia pages. We are not counting the number of hits in the user or file namespaces.
+We would for example use `en.wikipedia.org` as `HOST` in the `API URL` below. We are not counting the number of hits in the user or file namespaces.
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
@@ -23,7 +21,7 @@ Because of the extensive load-balancing on Wikipedia's servers, pagination (for 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>job_batch_size: 100</td>
+<td valign="top" width=80%>default</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
@@ -54,7 +52,7 @@ Because of the extensive load-balancing on Wikipedia's servers, pagination (for 
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>http://HOST/w/api.php?action=query&list=search&format=json&srsearch=\"DOI\"+OR+\"URL\"&srnamespace=NAMESPACE&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1</td>
+<td valign="top" width=80%>http://HOST/w/api.php?action=query&list=search&format=json&srsearch=\"DOI\"+OR+\"URL\"&srnamespace=NAMESPACE&srwhat=text&srinfo=totalhits&srprop=timestamp&rlimit=50&sroffset=0&continue=</td>
 </tr>
 </tbody>
 </table>
@@ -63,20 +61,51 @@ Because of the extensive load-balancing on Wikipedia's servers, pagination (for 
 
 ```json
 {
-  "query-continue": {
-    "search": {
-      "sroffset": 1
-    }
-  },
+  "batchcomplete": "",
   "query": {
     "searchinfo": {
-      "totalhits": 685
+      "totalhits": 8
     },
     "search": [
       {
-        "ns": 0,
-        "title": "Calliotropis tiara",
-        "timestamp": "2013-04-14T14:52:39Z"
+        "ns": 6,
+        "title": "File:Cercopithecus lomamiensis Female.jpg",
+        "timestamp": "2013-08-29T21:27:22Z"
+      },
+      {
+        "ns": 6,
+        "title": "File:Cercopithecus lomamiensis Juv.jpg",
+        "timestamp": "2013-08-29T21:28:03Z"
+      },
+      {
+        "ns": 6,
+        "title": "File:Cercopithecus lomamiensis (Lesula).png",
+        "timestamp": "2013-08-29T21:25:48Z"
+      },
+      {
+        "ns": 6,
+        "title": "File:Cercopithecus lomamiensis MaleP.jpg",
+        "timestamp": "2013-08-29T21:29:00Z"
+      },
+      {
+        "ns": 6,
+        "title": "File:Cercopithecus lomamiensis Male.jpg",
+        "timestamp": "2013-08-29T21:28:22Z"
+      },
+      {
+        "ns": 6,
+        "title": "File:Journal.pone.0044271.g001.png",
+        "timestamp": "2013-08-29T21:14:47Z"
+      },
+      {
+        "ns": 6,
+        "title": "File:Cercopithecus hamlyni booms - journal.pone.0044271.s015.ogg",
+        "timestamp": "2015-02-24T14:34:48Z"
+      },
+      {
+        "ns": 6,
+        "title": "File:Cercopithecus lomamiensis booms - journal.pone.0044271.s016.ogg",
+        "timestamp": "2015-02-24T14:34:48Z"
       }
     ]
   }
