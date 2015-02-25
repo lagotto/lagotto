@@ -1,0 +1,84 @@
+{
+  "comment": "nature.com OpenSearch: urn:uuid:af6ff362-d3ce-47aa-8252-a5e6c6c2ddb9",
+  "namespaces": {
+    "_": "http://www.w3.org/2005/Atom",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "diag": "http://docs.oasis-open.org/ns/search-ws/sru-2-0-diagnostic",
+    "entry": "http://ns.nature.com/entry/",
+    "medline": "http://ns.nature.com/entry/medline/",
+    "npg": "http://www.nature.com/opensearch/ns/sru/",
+    "opensearch": "http://a9.com/-/spec/opensearch/1.1/",
+    "pam": "http://prismstandard.org/namespaces/pam/2.0/",
+    "prism": "http://prismstandard.org/namespaces/basic/2.1/",
+    "sru": "info:srw/xmlns/1/sru-2-0-v1",
+    "xhtml": "http://www.w3.org/1999/xhtml"
+  },
+  "feed": {
+    "title": "nature.com OpenSearch: \"https://github.com/pymor/pymor\"",
+    "subtitle": "The nature.com OpenSearch service provides a structured resource discovery facility for content hosted on nature.com.",
+    "id": "urn:uuid:af6ff362-d3ce-47aa-8252-a5e6c6c2ddb9",
+    "author": {
+      "name": "nature.com",
+      "uri": "http://www.nature.com",
+      "email": "interfaces@nature.com"
+    },
+    "updated": "2015-02-25T18:54:38+00:00",
+    "rights": "Â© 2015 Nature Publication Group",
+    "icon": "http://www.nature.com/opensearch/common/imgs/npg_icon.jpg",
+    "link": [
+      {
+        "rel": "self",
+        "href": "http://www.nature.com/opensearch/request?version=1.1&operation=searchRetrieve&query=%22https%3A%2F%2Fgithub.com%2Fpymor%2Fpymor%22&httpAccept=application/json&recordPacking=packed&sortKeys=,pam,0&maximumRecords=0&startRecord=&collection=journals_nature,journals_palgrave,lab_animal,-international_abstracts_in_operations_research&context=false",
+        "type": "application/json"
+      },
+      {
+        "rel": "first",
+        "href": "http://www.nature.com/opensearch/request?version=1.1&operation=searchRetrieve&query=%22https%3A%2F%2Fgithub.com%2Fpymor%2Fpymor%22&httpAccept=application/json&recordPacking=packed&sortKeys=,pam,0&maximumRecords=0&startRecord=1&collection=journals_nature,journals_palgrave,lab_animal,-international_abstracts_in_operations_research&context=false",
+        "type": "application/json"
+      },
+      {
+        "rel": "last",
+        "href": "http://www.nature.com/opensearch/request?version=1.1&operation=searchRetrieve&query=%22https%3A%2F%2Fgithub.com%2Fpymor%2Fpymor%22&httpAccept=application/json&recordPacking=packed&sortKeys=,pam,0&maximumRecords=0&startRecord=0&collection=journals_nature,journals_palgrave,lab_animal,-international_abstracts_in_operations_research&context=false",
+        "type": "application/json"
+      },
+      {
+        "rel": "search",
+        "href": "http://www.nature.com/opensearch/opensearch.xml",
+        "type": "application/opensearchdescription+xml"
+      }
+    ],
+    "dc:publisher": "Nature Publishing Group",
+    "dc:language": "en",
+    "dc:rights": "Â© 2015 Nature Publication Group",
+    "prism:copyright": "Â© 2015 Nature Publication Group",
+    "prism:rightsAgent": "permissions@nature.com",
+    "opensearch:totalResults": 0,
+    "opensearch:itemsPerPage": 0,
+    "opensearch:Query": [
+      {
+        "opensearch:role": "request",
+        "opensearch:searchTerms": "%22https%3A%2F%2Fgithub.com%2Fpymor%2Fpymor%22"
+      }
+    ],
+    "sru:numberOfRecords": 0,
+    "sru:echoedSearchRetrieveRequest": {
+      "sru:version": null,
+      "sru:query": "\"https://github.com/pymor/pymor\"",
+      "sru:startRecord": "1",
+      "sru:maximumRecords": "25",
+      "sru:recordPacking": "packed",
+      "sru:recordSchema": "pam",
+      "sru:sortKeys": ",pam,0"
+    },
+    "sru:extraResponseData": {
+      "npg:collection": "journals_nature,journals_palgrave,lab_animal,-international_abstracts_in_operations_research",
+      "npg:context": "false",
+      "npg:copyright": "Â© 2015 Nature Publication Group",
+      "npg:entry": "",
+      "npg:databaseTitle": "nature.com OpenSearch",
+      "npg:datetime": "2015-02-25T18:54:38+00:00",
+      "npg:httpAccept": "application/json",
+      "npg:responseId": "af6ff362-d3ce-47aa-8252-a5e6c6c2ddb9"
+    }
+  }
+}

@@ -165,6 +165,17 @@ FactoryGirl.define do
     initialize_with { EuropePmcFulltext.where(name: name).first_or_initialize }
   end
 
+  factory :nature_opensearch, class: NatureOpensearch do
+    type "NatureOpensearch"
+    name "nature_opensearch"
+    display_name "Nature.com OpenSearch"
+    state_event "activate"
+
+    group
+
+    initialize_with { NatureOpensearch.where(name: name).first_or_initialize }
+  end
+
   factory :researchblogging, class: Researchblogging do
     type "Researchblogging"
     name "researchblogging"
