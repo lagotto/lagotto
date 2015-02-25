@@ -58,12 +58,6 @@ describe EuropePmcFulltext, type: :model, vcr: true do
   context "parse_data" do
     let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
 
-    it "should report that there are no events if the doi has the wrong prefix" do
-      work = FactoryGirl.build(:work, doi: "10.1371/journal.pmed.0020124")
-      result = {}
-      expect(subject.parse_data(result, work)).to eq({})
-    end
-
     it "should report if there are no events and event_count returned by the Europe PMC Search API" do
       body = File.read(fixture_path + 'europe_pmc_fulltext_nil.json')
       result = JSON.parse(body)
