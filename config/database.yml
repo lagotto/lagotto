@@ -13,7 +13,8 @@ defaults: &defaults
   database: <%= ENV['DB_NAME'] %>
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['DB_HOST'] %>
+  host: <%= ENV['DB_HOST'] || 127.0.0.1 %>
+  port: <%= ENV['DB_PORT'] || 3306 %>
 
   <<: *<%= ENV['DB'] || "mysql" %>
 
