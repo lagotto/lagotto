@@ -31,7 +31,11 @@ Specify one or more works by a comma-separated list of DOIs in the `ids` paramet
 /api/v5/articles?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413
 ```
 
-Queries for up to 50 works at a time are supported.
+Queries for up to 50 works at a time are supported. With many ids, in particular DOIs or URLs, the size limit of the query URL might be reached. It is therefore advisable to put the ids into the body of a POST, and include an `X-HTTP-Method-Override: GET` header:
+
+```sh
+curl -X POST -d "ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413" -H "X-HTTP-Method-Override: GET" "http://alm.plos.org/api/v5/articles"
+```
 
 ### Metrics
 The metrics for every source are returned as total number, and separated in categories, e.g. `html` and `pdf` views for usage data, `readers` for bookmarking services, and `likes` and `comments` for social media. The same 5 categories are always returned for every source to simplify parsing of API responses:
