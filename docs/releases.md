@@ -3,6 +3,27 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.18 (March 2, 2015)
+
+[Lagotto 3.18](https://github.com/articlemetrics/lagotto/releases/tag/v.3.18) was released on March 2, 2015 with the following changes:
+
+* updated europe pmc fulltext source to also search in reference lists ([#253](https://github.com/articlemetrics/lagotto/issues/253))
+* added support for pagination in sources `pmc_europe`, `europe_pmc_fulltext, and `wikipedia` sources ([#255](https://github.com/articlemetrics/lagotto/issues/255))
+* added [Nature OpenSearch](http://www.nature.com/developers/documentation/api-references/opensearch-api/) source ([#257](https://github.com/articlemetrics/lagotto/issues/257))
+* removed duplicate events in display on article pages ([#256](https://github.com/articlemetrics/lagotto/issues/256))
+* specify mysql port in database.yml using `DB_PORT` ENV variable, defaults to `3306` ([#258](https://github.com/articlemetrics/lagotto/issues/258))
+* updated documentation for API calls with many IDs, using POST instead of GET ([#259](https://github.com/articlemetrics/lagotto/issues/259))
+* added live API documentation using the [swagger](http://swagger.io) framework ([#260](https://github.com/articlemetrics/lagotto/issues/260))
+* removed cucumber tests, as we switched to rspec acceptance tests ([#262](https://github.com/articlemetrics/lagotto/issues/262))
+
+The live API documentation is available at `/api`.
+
+To load the new `nature_opensearch` source please run
+
+```sh
+RAILS_ENV=production bundle exec rake db:seed
+```
+
 ## Lagotto 3.17 (February 19, 2015)
 
 [Lagotto 3.17](https://github.com/articlemetrics/lagotto/releases/tag/v.3.17) was released on February 19, 2015 with the following changes:
