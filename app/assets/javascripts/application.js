@@ -19,6 +19,3 @@
 //
 // Load the Crossfilter library
 //= require crossfilter
-//
-// Load Swagger
-// require swagger-ui
