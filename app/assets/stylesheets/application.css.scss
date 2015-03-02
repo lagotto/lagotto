@@ -529,14 +529,14 @@ dt, dd { line-height: 1.5; }
 #rss { padding: 1em; }
 .exampleOutput { padding-bottom: 10px; }
 // customize swagger-ui formatting
-.swagger-ui-wrap, .swagger-ui-wrap p, form.sandbox table, form.sandbox table .model-signature, .swagger-ui-wrap .container #resources .resource .heading h2, .swagger-ui-wrap .container #resources .resource .heading .options{ font-family: $font-family-base; }
+.swagger-ui-wrap, .swagger-ui-wrap p, form.sandbox table, form.sandbox table .model-signature, .swagger-ui-wrap .container #resources .resource .heading h2, .swagger-ui-wrap .container #resources .resource .heading .options { font-family: $font-family-base; }
 .container .container { padding: 0; }
 .container #swagger-ui-container { margin: 0; }
 #api_info .info_title { font-size: $font-size-h1; }
 #api_info .info_description { font-size: $font-size-base; line-height: $line-height-base; }
 #api_info .info_description a { color: $link-color; }
 .swagger-ui-wrap .code, form.sandbox table .code { font-family: $font-family-monospace; }
-form.sandbox input { font-size: 0.9em; }
+form.sandbox input { font-family: $font-family-base; font-size: 0.9em; }
 
 // make the scrollbar always visible
 html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }

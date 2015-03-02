@@ -4,7 +4,9 @@ namespace :swagger do
   task :docs do
     on roles(:app) do
       within release_path do
-        rake 'swagger:docs'
+        with rails_env: fetch(:rails_env) do
+          rake 'swagger:docs'
+        end
       end
     end
   end
