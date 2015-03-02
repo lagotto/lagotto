@@ -14,11 +14,11 @@
 // Load Lodash
 //= require lodash
 //
-// Load Swagger
-//= require swagger-ui
-//
 // Load the D3 visualization library
 //= require d3
 //
 // Load the Crossfilter library
 //= require crossfilter
+//
+// Load Swagger
+//= require swagger-ui
