@@ -36,7 +36,9 @@ gem 'cancancan', '~> 1.9.2'
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
 gem "draper", "~> 1.4.0"
-gem 'jbuilder', '~> 2.2.4'
+gem "jbuilder", "~> 2.2.4"
+gem "swagger-docs", "~> 0.1.9"
+gem 'swagger-ui_rails', '~> 0.1.7'
 gem "dalli", "~> 2.7.0"
 gem "turbolinks", "~> 2.5.1"
 gem 'will_paginate', '3.0.7'

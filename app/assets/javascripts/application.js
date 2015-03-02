@@ -14,6 +14,9 @@
 // Load Lodash
 //= require lodash
 //
+// Load Swagger
+//= require swagger-ui
+//
 // Load the D3 visualization library
 //= require d3
 //

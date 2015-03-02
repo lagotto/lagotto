@@ -92,6 +92,7 @@ namespace :deploy do
   end
 
   after :publishing, :restart
+  after :publishing, "swagger:docs"
 
   after :finishing, "deploy:cleanup"
   after :finishing, "sidekiq:stop"

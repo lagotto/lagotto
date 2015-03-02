@@ -5,9 +5,10 @@ title: "API"
 
 ## Basic information
 
-* Version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11).
-* Version 5 of the API was released April 24, 2014 (ALM 2.14).
-* Since the 3.10 release (December 18, 2014) Lagotto uses `works` instead of `articles` internally. The v4 and v5 API still use `articles` to not break existing integrations.
+* a live version of the API (using [Swagger](http://swagger.io/)) is [here](/api)
+* version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11).
+* version 5 of the API was released April 24, 2014 (ALM 2.14).
+* since the 3.10 release (December 18, 2014) Lagotto uses `works` instead of `articles` internally. The v4 and v5 API still use `articles` to not break existing integrations.
 
 ### Base URL
 * API calls to the version 4 APIs start with `/api/v4/`
