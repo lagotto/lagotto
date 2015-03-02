@@ -21,4 +21,4 @@
 //= require crossfilter
 //
 // Load Swagger
-//= require swagger-ui
+// require swagger-ui
