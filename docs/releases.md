@@ -8,7 +8,7 @@ title: "Releases"
 [Lagotto 3.18](https://github.com/articlemetrics/lagotto/releases/tag/v.3.18) was released on March 2, 2015 with the following changes:
 
 * updated europe pmc fulltext source to also search in reference lists ([#253](https://github.com/articlemetrics/lagotto/issues/253))
-* added support for pagination in sources `pmc_europe`, `europe_pmc_fulltext, and `wikipedia` sources ([#255](https://github.com/articlemetrics/lagotto/issues/255))
+* added support for pagination in sources `pmc_europe`, `europe_pmc_fulltext`, and `wikipedia` sources ([#255](https://github.com/articlemetrics/lagotto/issues/255))
 * added [Nature OpenSearch](http://www.nature.com/developers/documentation/api-references/opensearch-api/) source ([#257](https://github.com/articlemetrics/lagotto/issues/257))
 * removed duplicate events in display on article pages ([#256](https://github.com/articlemetrics/lagotto/issues/256))
 * specify mysql port in database.yml using `DB_PORT` ENV variable, defaults to `3306` ([#258](https://github.com/articlemetrics/lagotto/issues/258))
