@@ -553,27 +553,32 @@ div.home { font-size: 1.25em; }
   font-size: 0.8em;
 }
 .markdown table {
-    border:1px solid $gray;
-    border-collapse:collapse;
-    display:table;
-    empty-cells:hide;
-    margin:-1px 0 23px;
-    padding:0;
-    table-layout:fixed
+  border:1px solid $gray;
+  border-collapse:collapse;
+  display:table;
+  empty-cells:hide;
+  margin:-1px 0 23px;
+  padding:0;
+  table-layout:fixed
 }
 .markdown td,th {
-    padding-top: 6px;
-    padding-bottom: 6px;
-    padding-left: 13px;
-    padding-right: 13px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 13px;
+  padding-right: 13px;
 }
 .markdown table tr:nth-child(odd) {
-    background: $gray;
+  background: $gray;
 }
 .markdown table tr:nth-child(even) {
-    background: $gray-light;
+  background: $gray-light;
 }
 
 .markdown .panel table tr {
-    background: white;
+  background: white;
+}
+
+.markdown .panel-body ul {
+  list-style: disc outside none;
+  margin-left: 1.1em;
 }
