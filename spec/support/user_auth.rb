@@ -9,15 +9,13 @@ module UserAuth
       click_link "Sign in with ORCID"
     when "github"
       click_link "Sign in with Github"
-    else
-      click_button "Sign in with Persona"
+    when "persona"
+      click_on "Sign in with Persona"
     end
   end
 
-  def sign_out(account_name)
-    visit "/"
-    click_link account_name
-    click_link "Sign Out"
+  def sign_out
+    visit "/users/sign_out"
   end
 end
 

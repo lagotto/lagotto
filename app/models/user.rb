@@ -19,7 +19,6 @@ class User < ActiveRecord::Base
   scope :ordered, -> { order("current_sign_in_at DESC") }
 
   def self.from_omniauth(auth)
-    Rails.logger.debug auth
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.name = auth.info.name
@@ -82,9 +81,8 @@ class User < ActiveRecord::Base
   protected
 
   def set_first_user
-    # The first user we create has an admin role and uses the configuration
-    # API key, unless it is in the test environment
-    if User.count == 0 && !Rails.env.test?
+    # The first user we create has an admin role and uses the configuration API key
+    if User.count == 0
       self.role = "admin"
       self.authentication_token = ENV['API_KEY']
     end

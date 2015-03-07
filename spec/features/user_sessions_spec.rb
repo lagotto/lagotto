@@ -12,16 +12,16 @@ describe "user sessions", :type => :feature do
 
     sign_in
     expect(page).to have_content "Sign in with PLOS ID"
-    expect(page).to have_content "Could not authorize you from CAS because \"Invalid credentials\""
+    expect(page).to have_content "Error signing in with cas"
 
     OmniAuth.config.mock_auth[:default] = auth
   end
 
-  it "signs in as Persona user", js: true do
-    ENV["OMNIAUTH"] = "persona"
-    sign_in
-    expect(page).to have_content "Joe Smith"
-  end
+  # it "signs in as Persona user", js: true do
+  #   ENV["OMNIAUTH"] = "persona"
+  #   sign_in
+  #   expect(page).to have_content "Joe Smith"
+  # end
 
   it "signs in as ORCID user", js: true do
     ENV["OMNIAUTH"] = "orcid"
@@ -38,7 +38,7 @@ describe "user sessions", :type => :feature do
   it "signs out as user", js: true do
     sign_in
     expect(page).to have_content "Joe Smith"
-    sign_out("Joe Smith")
+    sign_out
     expect(page).to have_content "Sign in with PLOS ID"
   end
 end
