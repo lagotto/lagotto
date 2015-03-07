@@ -11,6 +11,10 @@ Traditionally, the impact of research articles has been measured by the publicat
 
 *From: Fenner M, Lin J (2013). Altmetrics in Evolution: Defining & Redefining the Ontology of Article-Level Metrics. [http://dx.doi.org/10.3789/isqv25no2.2013.04](http://dx.doi.org/10.3789/isqv25no2.2013.04).*
 
+## Data-Level Metrics
+
+The collection of metrics shouldn't be limited to journal articles, but should include all relevant research outputs, e.g. datasets (data-level metrics) and software (software-level metrics).
+
 ## Lagotto
 
 Lagotto is an Open Source application started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). Lagotto retrieves data from a wide set of services ([sources](/docs/sources)). Some of these sources represent the actual channels where users are directly viewing, sharing, discussing, citing, recommending the works (e.g., Twitter and Mendeley). Others are third-party vendors which provide this information (e.g., CrossRef for citations).
