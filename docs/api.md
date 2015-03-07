@@ -3,7 +3,7 @@ layout: card_list
 title: "API"
 ---
 
-## Basic information
+## Basic Information
 
 * a live version of the API (using [Swagger](http://swagger.io/)) is [here](/api)
 * version 4 of the API (write/update/delete for admin users) was released January 22, 2014 (ALM 2.11).
