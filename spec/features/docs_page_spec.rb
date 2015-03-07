@@ -1,6 +1,12 @@
 require "rails_helper"
 
 describe "docs", type: :feature do
+  it "show homepage", js: true do
+    visit "/"
+
+    expect(page).to have_css "h2", text: "Article-Level Metrics"
+  end
+
   it "show installation", js: true do
     visit "/docs/installation"
 
