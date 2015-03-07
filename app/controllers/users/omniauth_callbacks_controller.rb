@@ -3,6 +3,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     redirect_to root_path, :alert => exception.message
   end
 
+  def failure
+    flash[:alert] = "Error signing in with #{ENV['OMNIAUTH']}"
+    redirect_to root_path
+  end
+
   # generic handler for all omniauth providers
   def action_missing(provider)
     auth = request.env["omniauth.auth"]
