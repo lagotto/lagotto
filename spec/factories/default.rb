@@ -262,6 +262,7 @@ FactoryGirl.define do
   factory :api_request do
     db_duration 100
     view_duration 700
+    duration 800
     api_key "67890"
     info "history"
     source nil
@@ -384,6 +385,12 @@ FactoryGirl.define do
     active true
 
     initialize_with { SourceNotUpdatedError.where(name: name).first_or_initialize }
+  end
+
+  factory :work_type do
+    name "article-journal"
+
+    initialize_with { WorkType.where(name: name).first_or_initialize }
   end
 
   factory :status do
