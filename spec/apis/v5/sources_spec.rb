@@ -9,7 +9,6 @@ describe "/api/v5/sources", :type => :api do
       before(:each) do
         @source = FactoryGirl.create(:source)
         @works = FactoryGirl.create_list(:work_with_events, 10)
-        @source.update_cache
       end
 
       it "JSON" do
@@ -37,10 +36,7 @@ describe "/api/v5/sources", :type => :api do
     end
 
     context "get responses" do
-      before(:each) do
-        @source = FactoryGirl.create(:source_with_api_responses)
-        @source.update_cache
-      end
+      let!(:source) { FactoryGirl.create(:source_with_api_responses) }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -49,7 +45,7 @@ describe "/api/v5/sources", :type => :api do
         response = JSON.parse(last_response.body)
         data = response["data"]
         item = data.first
-        expect(item["name"]).to eq(@source.name)
+        expect(item["name"]).to eq(source.name)
         expect(item["responses"]["count"]).to eq(5)
         expect(item["responses"]["average"]).to eq(200)
       end
@@ -62,7 +58,7 @@ describe "/api/v5/sources", :type => :api do
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
         item = data.first
-        expect(item["name"]).to eq(@source.name)
+        expect(item["name"]).to eq(source.name)
         expect(item["responses"]["count"]).to eq(5)
         expect(item["responses"]["average"]).to eq(200)
       end
@@ -72,7 +68,6 @@ describe "/api/v5/sources", :type => :api do
       before(:each) do
         @source = FactoryGirl.create(:source)
         @works = FactoryGirl.create_list(:work_with_events, 10)
-        @source.update_cache
       end
 
       it "JSON" do
@@ -104,14 +99,10 @@ describe "/api/v5/sources", :type => :api do
 
   context "show" do
     context "get response" do
-      before(:each) do
-        @source = FactoryGirl.create(:source_with_api_responses)
-        @works = FactoryGirl.create_list(:work_with_events, 5)
-        @source.update_cache
-      end
-
+      let(:source) { FactoryGirl.create(:source_with_api_responses) }
+      let!(:works) { FactoryGirl.create_list(:work_with_events, 5) }
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:uri) { "/api/v5/sources/#{@source.name}?api_key=#{user.authentication_token}" }
+      let(:uri) { "/api/v5/sources/#{source.name}?api_key=#{user.authentication_token}" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -119,7 +110,7 @@ describe "/api/v5/sources", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        expect(data["name"]).to eq(@source.name)
+        expect(data["name"]).to eq(source.name)
         expect(data["work_count"]).to eq(5)
         expect(data["event_count"]).to eq(250)
         expect(data["responses"]["count"]).to eq(5)
@@ -134,7 +125,7 @@ describe "/api/v5/sources", :type => :api do
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
-        expect(data["name"]).to eq(@source.name)
+        expect(data["name"]).to eq(source.name)
         expect(data["work_count"]).to eq(5)
         expect(data["event_count"]).to eq(250)
         expect(data["responses"]["count"]).to eq(5)

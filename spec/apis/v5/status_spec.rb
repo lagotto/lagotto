@@ -1,9 +1,9 @@
 require "rails_helper"
 
 describe "/api/v5/status", :type => :api do
-  subject { FactoryGirl.create(:status) }
-
   context "index" do
+    let!(:works) { FactoryGirl.create_list(:work_published_today, 5) }
+    let!(:status) { FactoryGirl.create(:status) }
     let(:user) { FactoryGirl.create(:admin_user) }
     let(:uri) { "/api/v5/status?api_key=#{user.authentication_token}" }
 
@@ -16,9 +16,7 @@ describe "/api/v5/status", :type => :api do
         data = response["data"]
         item = data.first
         expect(item["update_date"]).not_to eq("1970-01-01T00:00:00Z")
-        expect(item["works_count"]).to eq(5)
-        expect(item["responses_count"]).to eq(5)
-        expect(item["requests_count"]).to eq(5)
+        expect(item["works_count"]).to eq(10)
         expect(item["version"]).to eq(Lagotto::VERSION)
       end
 
@@ -31,9 +29,7 @@ describe "/api/v5/status", :type => :api do
         data = response["data"]
         item = data.first
         expect(item["update_date"]).not_to eq("1970-01-01T00:00:00Z")
-        expect(item["works_count"]).to eq(5)
-        expect(item["responses_count"]).to eq(6)
-        expect(item["requests_count"]).to eq(1)
+        expect(item["works_count"]).to eq(10)
         expect(item["version"]).to eq(Lagotto::VERSION)
       end
     end
