@@ -514,13 +514,13 @@ The API response to get a list of works or a single work is the same as for the 
 A sample curl API call to create a new work would look like this:
 
 ```sh
-curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"article":{"doi":"10.1371/journal.pone.0036790","year":2012,"month":5,"day":15,"title":"Test title"}}' http://HOST/api/v4/articles
+curl -X POST -H "Content-Type: application/json" -u EMAIL:PASSWORD -d '{"work":{"doi":"10.1371/journal.pone.0036790","year":2012,"month":5,"day":15,"title":"Test title"}}' http://HOST/api/v4/articles
 ```
 
 When a work has been created successfully, the server reponds with `Status 201 Created` and the following JSON (the `data` object will include all work attributes):
 
 ```sh
-$ curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -u login:pwd -d '{"article":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://alm.example.org/api/v4/articles
+$ curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -u EMAIL:PASSWORD -d '{"work":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://alm.example.org/api/v4/articles
 HTTP/1.1 201 Created
 Status: 201 Created
 Content-Type: application/json; charset=utf-8
@@ -532,7 +532,7 @@ Content-Type: application/json; charset=utf-8
 When a work with the specified DOI already exists, the server returns HTTP 400 error with a JSON body indicating the work exists:
 
 ```sh
-$ curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -u login:pwd -d '{"article":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://alm.example.org/api/v4/articles
+$ curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -u EMAIL:PASSWORD -d '{"work":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://alm.example.org/api/v4/articles
 HTTP/1.1 400 Bad Request
 Status: 400 Bad Request
 Content-Type: application/json; charset=utf-8
@@ -552,7 +552,7 @@ In order to be accepted the following conditions must hold:
 
 * The login details must be correct and at must be a local login, not a third-party login such as Persona.
 
-* The login must have the 'Admin' role assigned.
+* The user must have the 'admin' role assigned.
 
 * The DOI must not already exist in the database.
 
@@ -561,26 +561,26 @@ In order to be accepted the following conditions must hold:
 A sample curl API call to update a work would look like this:
 
 ```sh
-curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"article":{"pmid":"22615813"}}' http://HOST/api/v4/articles/doi/10.1371/journal.pone.0036790
+curl -X POST -H "Content-Type: application/json" -u EMAIL:PASSWORD -d '{"work":{"pmid":"22615813"}}' http://HOST/api/v4/articles/doi/10.1371/journal.pone.0036790
 ```
 
 When a work has been updated successfully, the server reponds with `Status 200 Ok` and the following JSON (the `data` object will include all work attributes):
 
 ```sh
-{"success":"Article updated.","error":null,"data":{ ... }
+{"success":"Work updated.","error":null,"data":{ ... }
 ```
 
 ### Delete work
 A sample curl API call to delete a work would look like this:
 
 ```sh
-curl -X POST -H "Content-Type: application/json" -u USERNAME:PASSWORD -d '{"work":{"pmid":"22615813"}}' http://HOST/api/v4/articles/doi/10.1371/journal.pone.0036790
+curl -X POST -H "Content-Type: application/json" -u EMAIL:PASSWORD -d '{"work":{"pmid":"22615813"}}' http://HOST/api/v4/articles/doi/10.1371/journal.pone.0036790
 ```
 
 When a work has been deleted successfully, the server reponds with `Status 200 Ok` and the following JSON (the `data` object will include all work attributes):
 
 ```sh
-{"success":"Article deleted.","error":null,"data":{ ... }
+{"success":"Work deleted.","error":null,"data":{ ... }
 ```
 
 ### Get alerts
