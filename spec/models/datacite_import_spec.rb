@@ -7,7 +7,7 @@ describe DataciteImport, type: :model, vcr: true do
   context "query_url" do
     it "should have total_results" do
       import = DataciteImport.new
-      expect(import.total_results).to eq(3721239)
+      expect(import.total_results).to eq(4492496)
     end
   end
 
@@ -59,10 +59,10 @@ describe DataciteImport, type: :model, vcr: true do
     it "should get_data default" do
       import = DataciteImport.new
       response = import.get_data
-      expect(response["response"]["numFound"]).to eq(3721239)
+      expect(response["response"]["numFound"]).to eq(4492496)
       work = response["response"]["docs"].first
-      expect(work["doi"]).to eq("10.5681/BI.2011.031")
-      expect(work["title"]).to eq(["Rosa canina L. Fruit Hydro-Alcoholic Extract Effects on Some Immunological and Biochemical Parameters in Rats"])
+      expect(work["doi"]).to eq("10.6084/M9.FIGSHARE.93067")
+      expect(work["title"]).to eq(["Correlations between different stages of neurogenesis emerge after learning"])
     end
 
     it "should get_data default no data" do
