@@ -12,13 +12,13 @@ describe Openedition, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the Openedition API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
       response = subject.get_data(work)
-      expect(response).to eq(1)
+      expect(response["RDF"]["item"]).to be_nil
     end
 
     it "should report if there are events and event_count returned by the Openedition API" do
       work = FactoryGirl.build(:work, :doi => "10.2307/683422")
       response = subject.get_data(work)
-      expect(response).to eq(1)
+      expect(response["RDF"]["item"]).to eq("link"=>"http://ruedesfacs.hypotheses.org/?p=1666", "title"=>"Saartjie Baartman : la Vénus Hottentote", "date"=>"2013-05-27", "creator"=>"ruedesfacs", "isPartOf"=>"Rue des facs", "description"=>"\n\n ... , no 3 (1 septembre 2000): 606 607. doi:<em>10.2307</em>/<em>683422</em>. « The Hottentot Venus Is Going Home ». The Journal of Blacks in Higher Education no 35 (1 avril 2002): 63. doi:<em>10.2307</em>/3133845. Vous trouverez toutes\n ... \n\n", "about"=>"http://ruedesfacs.hypotheses.org/?p=1666")
     end
 
     it "should catch errors with the Openedition API" do
