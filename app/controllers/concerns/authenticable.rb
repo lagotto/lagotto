@@ -70,8 +70,8 @@ module Authenticable
     end
 
     rescue_from ActionController::ParameterMissing do |exception|
-      create_alert(exception, status: 422)
-      render json: { error: exception.message }, status: 422
+      create_alert(exception, status: 400)
+      render json: { error: exception.message }, status: 400
     end
 
     rescue_from ActiveModel::ForbiddenAttributesError do |exception|

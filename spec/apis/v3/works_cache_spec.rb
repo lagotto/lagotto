@@ -71,7 +71,7 @@ describe "/api/v3/articles", :type => :api do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         expect(last_response.status).to eq(200)
         expect(ApiRequest.count).to eql(2)
-        expect(ApiRequest.last.view_duration).to be < 0.67 * ApiRequest.first.view_duration
+        expect(ApiRequest.last.view_duration).to be < 0.75 * ApiRequest.first.view_duration
       end
 
       it "does not use a stale cache when an work is updated" do

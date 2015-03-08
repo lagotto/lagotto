@@ -48,7 +48,7 @@ describe "/api/v4/alerts", :type => :api do
 
     context "with source" do
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:uri) { "/api/v4/alerts?source=citeulike" }
+      let(:uri) { "/api/v4/alerts?source_id=citeulike" }
 
       before(:each) do
         FactoryGirl.create_list(:alert, 2)
