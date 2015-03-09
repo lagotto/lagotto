@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sun, 08 Mar 2015 12:54:43 GMT
+      - Sun, 08 Mar 2015 12:54:37 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -27,7 +27,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoyMTY4fSwi
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxNzM5fSwi
         cmVzcG9uc2UiOnsibnVtRm91bmQiOjQ0OTI0OTYsInN0YXJ0IjowLCJkb2Nz
         IjpbeyJkYXRhY2VudHJlX3N5bWJvbCI6IkNETC5ESUdTQ0kiLCJkYXRhY2Vu
         dHJlIjoiQ0RMLkRJR1NDSSAtIERpZ2l0YWwgU2NpZW5jZSIsInVwZGF0ZWQi

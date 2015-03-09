@@ -1,0 +1,76 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://search.datacite.org/api?fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=has_metadata:true&indent=true&q=relatedIdentifier:10.1371/journal.ppat.1000446&rows=100&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.18 - http://lagotto-bugfixes.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 302
+      message: ''
+    headers:
+      Date:
+      - Tue, 03 Mar 2015 09:36:58 GMT
+      Location:
+      - http://2nd.railnet.train/
+      Content-Type:
+      - text/html;charset=UTF-8
+      Content-Length:
+      - '0'
+      Server:
+      - Apache/2.0.143 (Win2010 SP2)
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 03 Mar 2015 09:36:58 GMT
+- request:
+    method: get
+    uri: http://2nd.railnet.train/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.18 - http://lagotto-bugfixes.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - text/html
+      Date:
+      - Tue, 03 Mar 2015 09:36:59 GMT
+    body:
+      encoding: UTF-8
+      string: |+
+        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+        <html>
+          <head>
+            <meta http-equiv="refresh" content="0; URL=/railnet/de_DE/start/index.html">
+          </head>
+          <body>
+          </body>
+        </html>
+
+    http_version: 
+  recorded_at: Tue, 03 Mar 2015 09:36:58 GMT
+recorded_with: VCR 2.9.3

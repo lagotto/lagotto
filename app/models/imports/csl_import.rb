@@ -14,6 +14,8 @@ class CslImport < Import
   end
 
   def get_data(offset = 0, rows = 1000)
+    return [] if @filepath.nil?
+
     content = File.open(@filepath, 'r') { |f| f.read }
     json = JSON.parse(content)
     json[offset...offset + rows]
@@ -53,6 +55,7 @@ class CslImport < Import
       }
 
       { doi: doi,
+        canonical_url: canonical_url,
         title: title,
         year: year.to_i,
         month: month.to_i,

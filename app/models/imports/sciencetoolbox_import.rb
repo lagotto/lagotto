@@ -14,6 +14,8 @@ class SciencetoolboxImport < Import
   end
 
   def get_data(offset = 0, rows = 1000)
+    return [] if @filepath.nil?
+
     content = File.open(@filepath, 'r') { |f| f.read }
     json = JSON.parse(content)
     json[offset...offset + rows]
