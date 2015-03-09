@@ -84,13 +84,13 @@ group :test do
   gem "shoulda-matchers", "~> 2.7.0", :require => false
   gem "webmock", "~> 1.20.0"
   gem 'vcr', '~> 2.9.3'
-  gem "aruba", "~> 0.6.1", :require => false
   gem "poltergeist", "~> 1.5.0"
   gem 'phantomjs', '~> 1.9.7.1', :require => 'phantomjs/poltergeist'
 end
 
 group :test, :development do
   gem "rspec-rails", "~> 3.1.0"
+  gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'jasmine-rails', '~> 0.10.2'
   gem "brakeman", "~> 2.6.0", :require => false
   gem 'rubocop', '~> 0.27.0'
