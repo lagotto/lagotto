@@ -210,7 +210,7 @@ describe Work, type: :model, vcr: true do
     end
 
     it 'for canonical_url' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, pmcid: nil, wos: nil, scp: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil, scp: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
       expect(work.to_param).to eq "url/#{work.canonical_url}"
     end
   end

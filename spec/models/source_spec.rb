@@ -113,7 +113,7 @@ describe Source, :type => :model do
     context "use background jobs" do
       let(:retrieval_statuses) { FactoryGirl.create_list(:retrieval_status, 10, source_id: subject.id) }
       let(:rs_ids) { retrieval_statuses.map(&:id) }
-      let(:job) { ActiveJob }
+      let(:job) { SourceJob }
 
       context "queue all works" do
         it "queue" do

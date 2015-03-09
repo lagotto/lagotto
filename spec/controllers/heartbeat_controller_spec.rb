@@ -5,8 +5,8 @@ describe HeartbeatController, :type => :controller do
 
   context "index", :caching => true do
     it "JSON" do
-      get "/heartbeat", nil, 'HTTP_ACCEPT' => 'application/json'
-      expect(last_response.status).to eq(200)
+      get "http://#{ENV['SERVERNAME']}/heartbeat", nil, 'HTTP_ACCEPT' => 'application/json'
+      expect(last_response).to eq(200)
 
       response = JSON.parse(last_response.body)
       expect(response["version"]).to eq(Lagotto::VERSION)
@@ -16,8 +16,8 @@ describe HeartbeatController, :type => :controller do
     end
 
     it "JSONP", :caching => true do
-      get "/heartbeat?callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
-      expect(last_response.status).to eql(200)
+      get "http://#{ENV['SERVERNAME']}/heartbeat?callback=_func", nil, 'HTTP_ACCEPT' => 'application/javascript'
+      expect(last_response).to eql(200)
 
       # remove jsonp wrapper
       response = JSON.parse(last_response.body[6...-1])

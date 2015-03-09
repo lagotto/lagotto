@@ -50,7 +50,7 @@ function worksViz(json) {
     d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
-      .text("No works found");
+      .text("There are currently no works");
     if (page == "") d3.select("div#rss").remove();
     return;
   }
@@ -68,11 +68,11 @@ function worksViz(json) {
       .append("a")
       .attr("href", function(d) { return "/works/" + work["id"]; })
       .html(work["title"]);
-    d3.select("#results").append("p")
-      .text(formattedDate(date, date_parts.length) + ". ")
-      .append("a")
+    d3.select("#results").append("span")
+      .attr("class", "date")
+      .text(formattedDate(date, date_parts.length) + ". ");
+    d3.select("#results").append("a")
       .attr("href", function(d) { return url_for(work); })
-      .append("text")
       .text(url_for(work));
     d3.select("#results").append("p")
       .text(signpostsToString(work));

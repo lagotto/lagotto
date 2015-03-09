@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, CanCan::AccessDenied do |exception|
     respond_with do |format|
       format.html do
-        if /(jpe?g|png|gif)/i === request.path
+        if /(jpe?g|png|gif|css)/i === request.path
           render text: "404 Not Found", status: 404
         else
           @alert = Alert.new(message: "The page you are looking for doesn't exist.", status: 404)

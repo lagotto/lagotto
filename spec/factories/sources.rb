@@ -21,7 +21,7 @@ FactoryGirl.define do
 
     factory :source_with_api_responses do
       after(:create) do |source|
-        FactoryGirl.create_list(:api_response, 5, source: source)
+        FactoryGirl.create_list(:api_response, 5, source: source, created_at: Time.zone.now - 1.hour)
       end
     end
   end

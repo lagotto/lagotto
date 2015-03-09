@@ -4,13 +4,13 @@
   </div>
 
   <ul class="nav nav-pills" id="nav_index">
-    <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
+    <li class="active"><a href="#summary" id="summary-pill" data-toggle="tab" title="Summary">Summary</a></li>
     <% if can?(:read, Alert) %>
-      <li><a href="#responses" data-toggle="tab" title="Responses">Responses</a></li>
+      <li><a href="#responses" id="responses-pill" data-toggle="tab" title="Responses">Responses</a></li>
     <% end %>
-    <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
+    <li><a href="#events" id="events-pill" data-toggle="tab" title="Events">Events</a></li>
     <% if can?(:read, Alert) %>
-      <li><a href="#installation" data-toggle="tab" title="Installation">Installation</a></li>
+      <li><a href="#installation" id="installation-pill"  data-toggle="tab" title="Installation">Installation</a></li>
     <% end %>
   </ul>
 

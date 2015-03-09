@@ -21,8 +21,8 @@
         <% end %>
 
         <div class="form-group">
-          <%= f.submit "Save ", class: "btn btn-default" %>
-          <%= link_to 'Cancel', works_path, { :remote => true, :class => 'btn' } %>
+          <%= f.submit "Save", class: "btn btn-default" %>
+          <%= link_to "Cancel", works_path, { remote: true, class: "btn" } %>
         </div>
       <% end %>
     </div>
@@ -32,7 +32,7 @@
     <div class="btn-toolbar pull-right">
       <% if can?(:manage, Work) %>
         <div class="btn-group btn-group-sm">
-          <%= link_to icon("plus").html_safe, new_work_path, { :remote => true, :id => "new_work", :class => 'btn btn-default' } %>
+          <%= link_to icon("plus").html_safe, new_work_path, { remote: true, id: "new-work", class: "btn btn-default" } %>
         </div>
       <% end %>
     </div>

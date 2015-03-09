@@ -48,6 +48,6 @@ class Api::V4::WorksController < Api::V4::BaseController
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :mendeley_uuid, :canonical_url, :year, :month, :day, :wos, :scp, :ark)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :wos, :scp, :ark, :year, :month, :day, :wos, :scp, :ark)
   end
 end
