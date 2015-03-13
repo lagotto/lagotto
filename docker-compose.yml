@@ -1,0 +1,14 @@
+# env_file:
+#   - .env
+web:
+  build: .
+  links:
+   - db
+   - redis
+   - couchdb
+db:
+  image: percona
+redis:
+  image: redis
+couchdb:
+  image: lagotto/couchdb
