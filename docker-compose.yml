@@ -4,11 +4,8 @@ web:
   build: .
   links:
    - db
-   - redis
    - couchdb
 db:
-  image: percona
-redis:
-  image: redis
+  image: lagotto/percona
 couchdb:
   image: lagotto/couchdb

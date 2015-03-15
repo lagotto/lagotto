@@ -1,1 +1,8 @@
+.env
 .git
+log/*
+tmp/*
+vendor/bundle/*
+vendor/cookbooks/*
+public/api/*
+public/api-docs.json
