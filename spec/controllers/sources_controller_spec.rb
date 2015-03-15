@@ -4,10 +4,10 @@ describe SourcesController, :type => :controller do
   render_views
 
   context "show" do
-    it "redirects to the home page for an unknown source" do
+    it "raises not found error for an unknown source" do
       get source_path("x")
-      expect(last_response.status).to eq(302)
-      expect(last_response.body).to include("redirected")
+      expect(last_response.status).to eq(404)
+      expect(last_response.body).to include("The page you are looking for doesn&#39;t exist.")
     end
   end
 

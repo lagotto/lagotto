@@ -239,22 +239,18 @@ This uses the private SSH key provided by you in the `Vagrantfile` (the default 
 ## Manual installation
 These instructions assume a fresh installation of Ubuntu 14.04 and a user with sudo privileges. Installation on other Unix/Linux platforms should be similar, and Lagotto runs on several production systems with RHEL and CentOS.
 
-#### Add PPAs to install more recent versions of Ruby and CouchDB, and Nginx/Passenger
+#### Add PPAs/repositories to install more recent versions of Ruby and CouchDB, and Nginx/Passenger
 We only need one Ruby version and manage gems with bundler, so there is no need to install `rvm` or `rbenv`. We want to install the latest CouchDB version from the official PPA, and we want to install Nginx precompiled with Passenger.
 
 ```sh
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
+sudo apt-get install apt-transport-https ca-certificates -y
 sudo apt-get install python-software-properties -y
+
 sudo apt-add-repository ppa:brightbox/ruby-ng
 sudo add-apt-repository ppa:couchdb/stable
 
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
-sudo apt-get install apt-transport-https ca-certificates -y
-
-# Create a file /etc/apt/sources.list.d/passenger.list and insert the following line:
-deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main
-
-sudo chown root: /etc/apt/sources.list.d/passenger.list
-sudo chmod 600 /etc/apt/sources.list.d/passenger.list
+echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main" >> sudo /etc/apt/sources.list
 ```
 
 #### Update package lists

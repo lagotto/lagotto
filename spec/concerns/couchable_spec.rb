@@ -73,19 +73,19 @@ describe Source do
     it "revision conflict" do
       rev = subject.put_lagotto_data(url, data: data)
       new_rev = subject.put_lagotto_data(url, data: data)
-
-      #expect(Alert.count).to eq(1)
+      expect(Alert.count).to eq(1)
       alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPConflict")
+      expect(alert.class_name).to eq("Net::HTTPBadRequest")
       expect(alert.status).to eq(409)
     end
 
     it "handle missing data" do
       get_response = subject.get_lagotto_data(id)
       expect(get_response).to eq(error: "not_found", status: 404)
-      #expect(Alert.count).to eq(0)
+      expect(Alert.count).to eq(0)
       alert = Alert.first
-      expect(alert.message).to eq("Net::HTTPConflict")
+
+      expect(alert.message).to eq("the server responded with status 400 for http://localhost:5984/lagotto/_design/reports")
     end
   end
 end

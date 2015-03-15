@@ -1,5 +1,11 @@
 module UserAuth
-  def sign_in
+  def sign_in(role = "admin")
+    user = FactoryGirl.create(:user,
+                               provider: ENV["OMNIAUTH"],
+                               uid: "12345",
+                               name: "Joe Smith",
+                               email: "joe_#{ENV["OMNIAUTH"]}@example.com",
+                               role: role)
     visit "/"
 
     case ENV["OMNIAUTH"]
