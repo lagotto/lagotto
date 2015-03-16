@@ -2,22 +2,22 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.crossref.org/works?filter=from-update-date:2013-09-04,until-update-date:2013-09-05,until-pub-date:2013-09-05,type:xxx&offset=0&rows=1000
+    uri: http://api.crossref.org/works?filter=from-update-date:2013-09-04,until-update-date:2013-09-05,until-pub-date:2013-09-05,type:standard-series&offset=0&rows=1000
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.12.5 - http://lagotto-bugfixes.local
+      - Lagotto 3.18 - http://lagotto-bugfixes.local
       Accept:
       - application/json
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Date:
-      - Tue, 06 Jan 2015 22:00:17 GMT
+      - Mon, 16 Mar 2015 09:23:32 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:

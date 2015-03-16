@@ -43,14 +43,15 @@ describe PlosImport, type: :model, vcr: true do
     end
   end
 
+
   context "get_data" do
     it "should get_data default" do
       import = PlosImport.new
       response = import.get_data
       expect(response["response"]["numFound"]).to eq(394)
       work = response["response"]["docs"][1]
-      expect(work["id"]).to eq("10.1371/annotation/c8463645-79f3-4d9b-bc55-d5d53e43a9ba")
-      expect(work["title_display"]).to eq("Correction: Duplication of <i>C7orf58</i>, <i>WNT16</i> and <i>FAM3C</i> in an Obese Female with a t(7;22)(q32.1;q11.2) Chromosomal Translocation and Clinical Features Resembling Coffin-Siris Syndrome")
+      expect(work["id"]).to eq("10.1371/annotation/5f08fe1e-8868-421c-92ea-1a4aa987d11f")
+      expect(work["title_display"]).to eq("Correction: Targeting Caspase-3 as Dual Therapeutic Benefits by RNAi Facilitating Brain-Targeted Nanoparticles in a Rat Model of Parkinson’s Disease")
     end
 
     it "should get_data default no data" do

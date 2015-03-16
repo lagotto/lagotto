@@ -8,30 +8,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.12.4 - http://lagotto-bugfixes.local
+      - Lagotto 3.18 - http://lagotto-bugfixes.local
       Accept:
       - application/json
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Date:
-      - Tue, 06 Jan 2015 08:53:30 GMT
+      - Mon, 16 Mar 2015 09:14:53 GMT
       Server:
       - Apache-Coyote/1.1
       Last-Modified:
-      - Tue, 06 Jan 2015 07:27:48 GMT
+      - Mon, 16 Mar 2015 09:11:31 GMT
       Etag:
-      - '"Mjk4NGM4MDAwMDAwMDAwMFNvbHI="'
+      - '"NGFkOWQwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
       - close
-      Transfer-Encoding:
-      - chunked
       Set-Cookie:
-      - Coyote-2-9514450c=95144522:0; path=/
+      - Coyote-2-9514450c=9514451d:0; path=/
     body:
       encoding: UTF-8
       string: |
