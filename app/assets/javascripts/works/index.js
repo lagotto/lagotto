@@ -1,3 +1,5 @@
+/*global d3 */
+
 // construct query string
 var params = d3.select("#api_key");
 if (!params.empty()) {
@@ -12,17 +14,15 @@ if (!params.empty()) {
   var model = params.attr('data-model');
 
   var query = encodeURI("/api/v5/articles?api_key=" + api_key);
-  if (page != "") query += "&page=" + page;
-  if (per_page != "") query += "&per_page=" + per_page;
-  if (q != "") query += "&q=" + q;
-  if (class_name != "") query += "&class_name=" + class_name;
-  if (publisher_id != "") query += "&publisher_id=" + publisher_id;
-  if (source_id != "") query += "&source_id=" + source_id;
-  if (order != "") query += "&order=" + order;
-  if (source_id == "" && order == "") {
-    query += "&info=summary";
-  }
-};
+  if (page !== "") { query += "&page=" + page; }
+  if (per_page !== "") { query += "&per_page=" + per_page; }
+  if (q !== "") { query += "&q=" + q; }
+  if (class_name !== "") { query += "&class_name=" + class_name; }
+  if (publisher_id !== "") { query += "&publisher_id=" + publisher_id; }
+  if (source_id !== "") { query += "&source_id=" + source_id; }
+  if (order !== "") { query += "&order=" + order; }
+  if (source_id === "" && order === "") { query += "&info=summary"; }
+}
 
 // load the data from the Lagotto API
 if (query) {
@@ -35,14 +35,14 @@ if (query) {
 
 // add data to page
 function worksViz(json) {
-  data = json["data"];
+  data = json.data;
 
-  json["href"] = "?page={{number}}";
-  if (q != "") json["href"] += "&q=" + q;
-  if (class_name != "") json["href"] += "&class_name=" + class_name;
-  if (publisher_id != "" && model != "publisher") json["href"] += "&publisher_id=" + publisher_id;
-  if (source_id != "") json["href"] += "&source_id=" + source_id;
-  if (order != "") json["href"] += "&order=" + order;
+  json.href = "?page={{number}}";
+  if (q !== "") json.href += "&q=" + q;
+  if (class_name !== "") json.href += "&class_name=" + class_name;
+  if (publisher_id !== "" && model != "publisher") json.href += "&publisher_id=" + publisher_id;
+  if (source_id !== "") json.href += "&source_id=" + source_id;
+  if (order !== "") json.href += "&order=" + order;
 
   d3.select("#loading-results").remove();
 
@@ -51,7 +51,7 @@ function worksViz(json) {
       .insert("div")
       .attr("class", "alert alert-info")
       .text("There are currently no works");
-    if (page == "") d3.select("div#rss").remove();
+    if (page == "") { d3.select("div#rss").remove(); }
     return;
   }
 
@@ -67,7 +67,7 @@ function worksViz(json) {
       .attr("class", "work")
       .append("a")
       .attr("href", function(d) { return "/works/" + work["id"]; })
-      .html(work["title"]);
+      .html(work.title);
     d3.select("#results").append("span")
       .attr("class", "date")
       .text(formattedDate(date, date_parts.length) + ". ");
@@ -76,19 +76,19 @@ function worksViz(json) {
       .text(url_for(work));
     d3.select("#results").append("p")
       .text(signpostsToString(work));
-  };
-};
+  }
+}
 
 // link to individual work
 function url_for(work) {
-  if (!!work["doi"]) {
-    return "http://dx.doi.org/" + work["doi"];
-  } else if (!!work["pmid"]) {
-    return "http://www.ncbi.nlm.nih.gov/pubmed/" + work["pmid"];
-  } else if (!!work["pmcid"]) {
-    return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work["pmcid"];
-  } else if (!!work["canonical_url"]) {
-    return work["canonical_url"];
+  if (!!work.doi) {
+    return "http://dx.doi.org/" + work.doi;
+  } else if (!!work.pmid) {
+    return "http://www.ncbi.nlm.nih.gov/pubmed/" + work.pmid;
+  } else if (!!work.pmcid) {
+    return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work.pmcid;
+  } else if (!!work.canonical_url) {
+    return work.canonical_url;
   } else {
     return ""
   }
@@ -96,25 +96,25 @@ function url_for(work) {
 
 // pagination
 function paginate(json) {
-  if ((page != "") & json["total_pages"] > 1) {
-    var prev = (json["page"] > 1) ? "«" : null;
-    var next = (json["page"] < json["total_pages"]) ? "»" : null;
+  if ((page !== "") & json.total_pages > 1) {
+    var prev = (json.page > 1) ? "«" : null;
+    var next = (json.page < json.total_pages) ? "»" : null;
 
     d3.select("#content").append("div")
       .attr("id", "paginator")
       .attr("class", "text-center");
 
     $('#paginator').bootpag({
-      total: json["total_pages"],
-      page: json["page"],
+      total: json.total_pages,
+      page: json.page,
       maxVisible: 10,
-      href: json["href"],
+      href: json.href,
       leaps: false,
       prev: prev,
       next: next
     });
   }
-};
+}
 
 // d3 helper functions
  var formatDate = d3.time.format("%B %d, %Y"),
@@ -141,7 +141,7 @@ function datePartsToDate(date_parts) {
   // convert to date, workaround for different time zones
   var timestamp = Date.parse(date_parts.join('-') + 'T12:00');
   return new Date(timestamp);
-};
+}
 
 // format date
 function formattedDate(date, len) {
@@ -153,14 +153,14 @@ function formattedDate(date, len) {
     case 3:
       return formatDate(date);
   }
-};
+}
 
 function signpostsToString(work) {
-  if (source_id != "") {
-    s = work["sources"].filter(function(d) { return d.name == source_id })[0];
+  if (source_id !== "") {
+    s = work.sources.filter(function(d) { return d.name == source_id })[0];
     a = [s.display_name + ": " + formatFixed(s.metrics.total)];
-  } else if (order != "") {
-    s = work["sources"].filter(function(d) { return d.name == order })[0];
+  } else if (order !== "") {
+    s = work.sources.filter(function(d) { return d.name == order })[0];
     a = [s.display_name + ": " + formatFixed(s.metrics.total)];
   } else {
     a = [];
@@ -176,4 +176,4 @@ function signpostsToString(work) {
   } else {
     return a;
   }
-};
+}

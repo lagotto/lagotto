@@ -1,8 +1,11 @@
+/*global d3 */
+
 var params = d3.select("#api_key"),
     formatNumber = d3.format(",d"),
     formatFixed = d3.format(",.0f"),
     formatDate = d3.time.format.utc("%B %d, %Y"),
-    formatTime = d3.time.format.utc("%H:%M UTC");
+    formatTime = d3.time.format.utc("%H:%M UTC"),
+    reset_text = div.attr("id");
 
 // construct query string
 if (!params.empty()) {
@@ -14,7 +17,7 @@ if (!params.empty()) {
       query += "&q=" + q;
     } else if (key !== "") {
       query += "&key=" + key;
-    };
+    }
 }
 
 // load the data from the Lagotto API
@@ -189,7 +192,7 @@ function crossfilterViz(data) {
   }
 
   function barChart() {
-    if (!barChart.id) { barChart.id = 0; };
+    if (!barChart.id) { barChart.id = 0; }
 
     var margin = {top: 10, right: 20, bottom: 20, left: 10},
         x,
@@ -214,7 +217,6 @@ function crossfilterViz(data) {
 
       // Create the skeletal chart.
       if (g.empty()) {
-        var reset_text = div.attr("id");
         d3.select("#reset-" + reset_text).append("a")
             .attr("href", "javascript:reset(" + id + ")")
             .attr("class", "reset")
@@ -257,7 +259,6 @@ function crossfilterViz(data) {
       if (brushDirty) {
         brushDirty = false;
         g.selectAll(".brush").call(brush);
-        var reset_text = div.attr("id");
         d3.select("#reset-" + reset_text + " a").style("display", brush.empty() ? "none" : null);
         if (brush.empty()) {
           g.selectAll("#clip-" + id + " rect")
@@ -293,7 +294,7 @@ function crossfilterViz(data) {
       return "M" + (0.5 * x) + "," + y
         + "A6,6 0 0 " + e + " " + (6.5 * x) + "," + (y + 6)
         + "V" + (2 * y - 6)
-        + "A6,6 0 0 " + e + " " + (.5 * x) + "," + (2 * y)
+        + "A6,6 0 0 " + e + " " + (0.5 * x) + "," + (2 * y)
         + "Z"
         + "M" + (2.5 * x) + "," + (y + 8)
         + "V" + (2 * y - 8)
@@ -304,7 +305,6 @@ function crossfilterViz(data) {
 
     brush.on("brushstart.req-chart", function() {
       var div = d3.select(this.parentNode.parentNode.parentNode);
-      var reset_text = div.attr("id");
       d3.select("#reset-" + reset_text + " a").style("display", null);
     });
 
@@ -324,7 +324,6 @@ function crossfilterViz(data) {
     brush.on("brushend.req-chart", function() {
         if (brush.empty()) {
             var div = d3.select(this.parentNode.parentNode.parentNode);
-            var reset_text = div.attr("id");
             d3.select("#reset-" + reset_text + " a").style("display", "none");
             div.select("#clip-" + id + " rect").attr("x", null).attr("width", "100%");
             dimension.filterAll();

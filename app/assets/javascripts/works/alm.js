@@ -6,6 +6,8 @@
  * @brief Article level metrics visualization controller.
  */
 
+/*global d3 */
+
 var options = {
   baseUrl: '',
   minItemsToShowGraph: {
@@ -142,7 +144,7 @@ function AlmViz(options) {
       if (source.group_name !== group.name) return;
 
       var total = source.metrics.total;
-      if (total === 0) { return; };
+      if (total === 0) { return; }
 
       // Only add the group row the first time
       if (!$groupRow) {
@@ -349,8 +351,8 @@ function AlmViz(options) {
             }
           );
         }
-      };
-    };
+      }
+    }
 
     return $row;
   };

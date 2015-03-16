@@ -1,5 +1,6 @@
-var d3,
-    radius = 80,
+/*global d3 */
+
+var radius = 80,
     color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#95a5a6"]),
     formatFixed = d3.format(",.0f"),
     formatPercent = d3.format(",.0%");

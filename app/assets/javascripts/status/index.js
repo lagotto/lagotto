@@ -1,5 +1,6 @@
-var d3,
-    width = 250,
+/*global d3 */
+
+var width = 250,
     height = 100,
     radius = 80,
     margin = { top: 7, right: 10, bottom: 5, left: 5 },
@@ -73,7 +74,7 @@ if (query) {
 
 // bar chart
 function barViz(data, div, count, format) {
-  if (format == "days") {
+  if (format === "days") {
     var x = d3.time.scale.utc()
       .domain([startDate, endDate])
       .rangeRound([0, width]);
@@ -106,7 +107,7 @@ function barViz(data, div, count, format) {
     .data(data)
     .enter().append("rect")
     .attr("class", function(d) {
-      if (format == "days") {
+      if (format === "days") {
         var timestamp = Date.parse(d.key + 'T12:00:00Z');
         var weekNumber = formatWeek(new Date(timestamp));
         return (weekNumber % 2 == 0) ? "bar viewed" : "bar viewed-alt";
@@ -116,7 +117,7 @@ function barViz(data, div, count, format) {
         return (hour >= 11 && hour <= 22) ? "bar viewed-alt" : "bar viewed";
       }})
     .attr("x", function(d) {
-      if (format == "days") {
+      if (format === "days") {
         return x(new Date(Date.parse(d.key + 'T12:00:00Z')));
       } else {
         return x(new Date(Date.parse(d.key + ':00:00Z')));
@@ -140,7 +141,7 @@ function barViz(data, div, count, format) {
         var title = formatFixed(d.values[count]);
       }
 
-      if (format == "days") {
+      if (format === "days") {
         var timestamp = Date.parse(d.key + 'T12:00:00Z');
         var date_string = " on " + formatDate(new Date(timestamp));
       } else {

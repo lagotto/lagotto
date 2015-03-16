@@ -1,5 +1,6 @@
-var d3,
-    colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e","#95a6a6"],
+/*global d3 */
+
+var colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e","#95a6a6"],
     l = 250, // left margin
     r = 150, // right margin
     w = 400, // width of drawing area
