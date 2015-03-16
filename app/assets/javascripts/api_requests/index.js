@@ -5,7 +5,7 @@ var params = d3.select("#api_key"),
     formatFixed = d3.format(",.0f"),
     formatDate = d3.time.format.utc("%B %d, %Y"),
     formatTime = d3.time.format.utc("%H:%M UTC"),
-    reset_text = div.attr("id");
+    reset_text;
 
 // construct query string
 if (!params.empty()) {
@@ -37,7 +37,7 @@ function crossfilterViz(data) {
     d3.select("#description").text("")
       .insert("div")
       .attr("class", "alert alert-info")
-      .text("No API requests found");
+      .text("There are currently no API requests");
     d3.select("div#charts").remove();
     d3.select("div#lists").remove();
     return;
@@ -217,6 +217,7 @@ function crossfilterViz(data) {
 
       // Create the skeletal chart.
       if (g.empty()) {
+        reset_text = div.attr("id");
         d3.select("#reset-" + reset_text).append("a")
             .attr("href", "javascript:reset(" + id + ")")
             .attr("class", "reset")
@@ -259,6 +260,7 @@ function crossfilterViz(data) {
       if (brushDirty) {
         brushDirty = false;
         g.selectAll(".brush").call(brush);
+        reset_text = div.attr("id");
         d3.select("#reset-" + reset_text + " a").style("display", brush.empty() ? "none" : null);
         if (brush.empty()) {
           g.selectAll("#clip-" + id + " rect")
@@ -305,16 +307,19 @@ function crossfilterViz(data) {
 
     brush.on("brushstart.req-chart", function() {
       var div = d3.select(this.parentNode.parentNode.parentNode);
+      reset_text = div.attr("id");
       d3.select("#reset-" + reset_text + " a").style("display", null);
     });
 
     brush.on("brush.req-chart", function() {
       var g = d3.select(this.parentNode),
         extent = brush.extent();
-      if (round) g.select(".brush")
+      if (round) {
+        g.select(".brush")
         .call(brush.extent(extent = extent.map(round)))
         .selectAll(".resize")
         .style("display", null);
+      }
       g.select("#clip-" + id + " rect")
         .attr("x", x(extent[0]))
         .attr("width", x(extent[1]) - x(extent[0]));
@@ -324,6 +329,7 @@ function crossfilterViz(data) {
     brush.on("brushend.req-chart", function() {
         if (brush.empty()) {
             var div = d3.select(this.parentNode.parentNode.parentNode);
+            reset_text = div.attr("id");
             d3.select("#reset-" + reset_text + " a").style("display", "none");
             div.select("#clip-" + id + " rect").attr("x", null).attr("width", "100%");
             dimension.filterAll();
@@ -331,13 +337,13 @@ function crossfilterViz(data) {
     });
 
     chart.margin = function(_) {
-      if (!arguments.length) return margin;
+      if (!arguments.length) { return margin; }
       margin = _;
       return chart;
     };
 
     chart.x = function(_) {
-      if (!arguments.length) return x;
+      if (!arguments.length) { return x; }
       x = _;
       axis.scale(x);
       brush.x(x);
@@ -345,13 +351,13 @@ function crossfilterViz(data) {
     };
 
     chart.y = function(_) {
-      if (!arguments.length) return y;
+      if (!arguments.length) { return y; }
       y = _;
       return chart;
     };
 
     chart.dimension = function(_) {
-      if (!arguments.length) return dimension;
+      if (!arguments.length) { return dimension; }
       dimension = _;
       return chart;
     };

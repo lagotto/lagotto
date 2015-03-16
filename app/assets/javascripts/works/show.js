@@ -1,7 +1,10 @@
 /*global d3 */
 
-// construct query string
-var params = d3.select("#api_key");
+var formatDate = d3.time.format("%B %d, %Y"),
+    formatMonthYear = d3.time.format("%B %Y"),
+    formatYear = d3.time.format("%Y"),
+    params = d3.select("#api_key");
+
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var pid_type = params.attr('data-pid_type');
@@ -88,16 +91,16 @@ function showEvents(data, page) {
       var sel_title = d3.select("#results").append("h4")
         .attr("class", "work")
         .append("text")
-        .html(event["title"]);
+        .html(event.title);
 
-      sel_title.classed('discussed_event', function(d) { return event.type !== "article-journal"; });
+      sel_title.classed('discussed_event', function() { return event.type !== "article-journal"; });
 
       d3.select("#results").append("p")
         .html(event_text)
         .append("a")
-        .attr("href", function(d) { return event.url; })
+        .attr("href", function() { return event.url; })
         .append("text")
-        .text(event["url"]);
+        .text(event.url);
     }
   }
 
@@ -130,20 +133,15 @@ function paginate(data, page) {
   }
 }
 
-// d3 helper functions
- var formatDate = d3.time.format("%B %d, %Y"),
-     formatMonthYear = d3.time.format("%B %Y"),
-     formatYear = d3.time.format("%Y");
-
 // construct date object from date parts
 function datePartsToDate(date_parts) {
   var len = date_parts.length;
 
   // not in expected format
-  if (len == 0 || len > 3) return null;
+  if (len === 0 || len > 3) { return null; }
 
   // turn numbers to strings and pad with 0
-  for (i = 0; i < len; ++i) {
+  for (var i = 0; i < len; ++i) {
     if (date_parts[i] < 10) {
       date_parts[i] = "0" + date_parts[i];
     } else {

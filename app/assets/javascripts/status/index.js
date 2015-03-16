@@ -13,7 +13,7 @@ var width = 250,
     formatHour = d3.time.format.utc("%H"),
     endDate = new Date(),
     startDate = d3.time.day.offset(endDate, -29),
-    endTime = endDate.setHours(23, 00, 00),
+    endTime = endDate.setHours(23),
     startTime = d3.time.hour.offset(endTime, -23);
 
 // construct query string
@@ -81,7 +81,7 @@ function barViz(data, div, count, format) {
     var y = d3.scale.linear()
       .domain([d3.min(data, function(d) { return d.values[count]; }), d3.max(data, function(d) { return d.values[count]; })])
       .rangeRound([height, 0]);
-  } else {
+  } else {
     var x = d3.time.scale.utc()
       .domain([startTime, endDate])
       .rangeRound([0, width]);
@@ -135,7 +135,7 @@ function barViz(data, div, count, format) {
     function(d) {
       if (count == "db_size") {
         var title = numberToHumanSize(d.values[count]);
-      } else if (count == "requests_average") {
+      } else if (count === "requests_average") {
         var title = formatFixed(d.values[count]) + " ms";
       } else {
         var title = formatFixed(d.values[count]);

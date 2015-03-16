@@ -76,7 +76,7 @@ function AlmViz(options) {
   // Construct date object from date parts, using "1" for missing day and month
   var date_parts = data[0]["issued"]["date-parts"][0];
   var len = date_parts.length;
-  while (date_parts.length < 3) date_parts.push(1);
+  while (date_parts.length < 3) { date_parts.push(1); }
 
   // turn numbers to strings and pad with 0
   for (var i = 0; i < date_parts.length; ++i) {
@@ -141,7 +141,7 @@ function AlmViz(options) {
 
     // Loop through sources to add statistics data to the group.
     data[0]["sources"].forEach(function(source) {
-      if (source.group_name !== group.name) return;
+      if (source.group_name !== group.name) { return; }
 
       var total = source.metrics.total;
       if (total === 0) { return; }
@@ -156,8 +156,12 @@ function AlmViz(options) {
 
       // Some sources have multiple data
       if (source.group_name === "viewed") {
-        if (source.metrics.html > 0) addSource_(source, source.display_name + " HTML", source.metrics.html, group, "html", $groupRow);
-        if (source.metrics.pdf > 0) addSource_(source, source.display_name + " PDF", source.metrics.pdf, group, "pdf", $groupRow);
+        if (source.metrics.html > 0) {
+          addSource_(source, source.display_name + " HTML", source.metrics.html, group, "html", $groupRow);
+        }
+        if (source.metrics.pdf > 0) {
+          addSource_(source, source.display_name + " PDF", source.metrics.pdf, group, "pdf", $groupRow);
+        }
       } else {
         var label = source.display_name;
         addSource_(source, label, total, group, "total", $groupRow);
@@ -322,7 +326,7 @@ function AlmViz(options) {
             .attr("href", "javascript:void(0)")
             .classed("alm-control", true)
             .classed("disabled", !showMonthly || !showYearly)
-            .classed("active", (level == 'month'))
+            .classed("active", (level === 'month'))
             .text("monthly")
             .on("click", function() { if (showMonthly && !$(this).hasClass('active')) {
               loadData_(viz, 'month');
@@ -502,7 +506,7 @@ function AlmViz(options) {
     var end_date = new Date();
     // use only first 29 days if using day view
     // close out the year otherwise
-    if (level == 'day') {
+    if (level === 'day') {
       end_date = timeInterval.offset(pub_date, 29);
     } else {
       end_date = d3.time.year.utc.ceil(end_date);
@@ -556,7 +560,7 @@ function AlmViz(options) {
 
     bars
       .enter().append("rect")
-      .attr("class", function(d) { return "bar " + viz.z((level == 'day' ? d3.time.weekOfYear(getDate_(level, d)) : d.year)); })
+      .attr("class", function(d) { return "bar " + viz.z((level === 'day' ? d3.time.weekOfYear(getDate_(level, d)) : d.year)); })
       .attr("y", viz.height)
       .attr("height", 0);
 
