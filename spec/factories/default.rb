@@ -22,6 +22,7 @@ FactoryGirl.define do
     factory :work_with_events do
       after :create do |work|
         FactoryGirl.create(:retrieval_status, work: work)
+        FactoryGirl.create(:retrieval_status, :with_mendeley, work: work)
       end
     end
 

@@ -26,52 +26,52 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
     it "should format the Lagotto data as csv" do
       response = CSV.parse(subject.to_csv)
       expect(response.length).to eq(2)
-      expect(response.first).to eq(["pid_type", "pid", "publication_date", "title", "citeulike"])
-      expect(response.last).to eq([work.pid_type, work.pid, work.published_on.iso8601, work.title, "50"])
+      expect(response.first).to eq(["pid_type", "pid", "publication_date", "title", "citeulike", "mendeley"])
+      expect(response.last).to eq([work.pid_type, work.pid, work.published_on.iso8601, work.title, "50", "50"])
     end
   end
 
   context "write csv to file" do
 
     before(:each) do
-      FileUtils.rm_rf("#{Rails.root}/data/report_#{Date.today.iso8601}")
+      FileUtils.rm_rf("#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}")
     end
 
     let!(:work) { FactoryGirl.create(:work_with_events, doi: "10.1371/journal.pcbi.1000204") }
     let(:csv) { subject.to_csv }
-    let(:filename) { "alm_stats.csv" }
+    let(:filename) { "alm_stats" }
     let(:mendeley) { FactoryGirl.create(:mendeley) }
 
     it "should write report file" do
-      filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}/#{filename}"
-      response = subject.write(filename, csv)
+      filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}/#{filename}.csv"
+      response = subject.write("#{filename}.csv", csv)
       expect(response).to eq (filepath)
     end
 
     describe "merge and compress csv file" do
 
       before(:each) do
-        subject.write(filename, csv)
+        subject.write("#{filename}.csv", csv)
       end
 
       it "should read stats" do
-        stat = { name: "alm_stats" }
-        response = subject.read_stats(stat).to_s
+        response = subject.read_stats(filename).to_s
         expect(response).to eq(csv)
       end
 
       it "should merge stats" do
         url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley"
         stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
-        filename = "mendeley_stats.csv"
-        filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}/#{filename}"
+        filename = "mendeley_stats"
+        filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}/#{filename}.csv"
         csv = mendeley.to_csv
-        subject.write(filename, csv)
+        subject.write("#{filename}.csv", csv)
 
         response = CSV.parse(subject.merge_stats)
         expect(response.length).to eq(2)
-        expect(response.first).to eq(["pid_type", "pid", "publication_date", "title", "citeulike", "mendeley_readers", "mendeley_groups"])
-        expect(response.last).to eq([work.pid_type, work.pid, work.published_on.iso8601, work.title, "50", "1663", "0"])
+
+        expect(response.first).to eq(["pid_type", "pid", "publication_date", "title", "citeulike", "mendeley", "mendeley_readers", "mendeley_groups"])
+        expect(response.last).to eq([work.pid_type, work.pid, work.published_on.iso8601, work.title, "50", "50", "1663", "0"])
         File.delete filepath
       end
 
@@ -82,9 +82,9 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
 
       it "should zip report file" do
         csv = subject.merge_stats
-        filename = "alm_report.csv"
-        zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
-        subject.write(filename, csv)
+        filename = "alm_report"
+        zip_filepath = "#{Rails.root}/public/files/#{filename}.zip"
+        subject.write("#{filename}.csv", csv)
 
         response = subject.zip_file
         expect(response).to eq(zip_filepath)
@@ -93,7 +93,7 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
       end
 
       it "should zip report folder" do
-        zip_filepath = "#{Rails.root}/data/report_#{Date.today.iso8601}.zip"
+        zip_filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}.zip"
         response = subject.zip_folder
         expect(response).to eq(zip_filepath)
         expect(File.exist?(zip_filepath)).to be true

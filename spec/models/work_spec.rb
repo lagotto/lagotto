@@ -266,12 +266,12 @@ describe Work, type: :model, vcr: true do
     it "should create associated retrieval_statuses" do
       expect(RetrievalStatus.count).to eq(0)
       @works = FactoryGirl.create_list(:work_with_events, 2)
-      expect(RetrievalStatus.count).to eq(2)
+      expect(RetrievalStatus.count).to eq(4)
     end
 
     it "should delete associated retrieval_statuses" do
       @works = FactoryGirl.create_list(:work_with_events, 2)
-      expect(RetrievalStatus.count).to eq(2)
+      expect(RetrievalStatus.count).to eq(4)
       @works.each(&:destroy)
       expect(RetrievalStatus.count).to eq(0)
     end

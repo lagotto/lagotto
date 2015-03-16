@@ -56,42 +56,44 @@ class Report < ActiveRecord::Base
     end
   end
 
-  def self.read_stats(stat, options = {})
+  def self.read_stats(filename, options = {})
+    return nil unless filename
+
     date = options[:date] || Time.zone.now.to_date.to_s(:db)
-    filename = "#{stat[:name]}.csv"
-    filepath = "#{Rails.root}/data/report_#{date}/#{filename}"
+    filepath = "#{Rails.root}/data/report_#{date}/#{filename}.csv"
     if File.exist?(filepath)
-      CSV.read(filepath, headers: stat[:headers] ? stat[:headers] : :first_row, return_headers: true)
+      CSV.read(filepath, headers: true, encoding: "UTF-8" )
     else
       nil
     end
   end
 
   def self.merge_stats(options = {})
-    if options[:include_private_sources]
-      alm_stats = read_stats(name: "alm_private_stats")
-    else
-      alm_stats = read_stats(name: "alm_stats")
-    end
+    filename = options[:include_private_sources] ? "alm_private_stats" : "alm_stats"
+    alm_stats = read_stats(filename, options)
     return nil if alm_stats.blank?
 
-    stats = [{ name: "mendeley_stats", headers: ["pid_type", "pid", "mendeley_readers", "mendeley_groups", "mendeley"] },
-             { name: "pmc_stats", headers: ["pid_type", "pid", "pmc_html", "pmc_pdf", "pmc"] },
-             { name: "counter_stats", headers: ["pid_type", "pid", "counter_html", "counter_pdf", "counter"] }]
+    stats = [{ name: "mendeley_stats", headers: ["mendeley_readers", "mendeley_groups"] },
+             { name: "pmc_stats", headers: ["pmc_html", "pmc_pdf"] },
+             { name: "counter_stats", headers: ["counter_html", "counter_pdf"] }]
     stats.each do |stat|
-      stat[:csv] = read_stats(stat, options).to_a
+      stat[:csv] = read_stats(stat[:name], options).to_a
     end
 
     # return alm_stats if no additional stats are found
     stats.reject! { |stat| stat[:csv].blank? }
     return alm_stats if stats.empty?
 
+
     CSV.generate do |csv|
+      csv << alm_stats.headers + stats.reduce([]) { |sum, stat| sum + stat[:headers] }
       alm_stats.each do |row|
         stats.each do |stat|
-          # find row based on uid, and discard the first and last item (uid and total). Otherwise pad with zeros
-          match = stat[:csv].assoc(row.field("pid"))
-          match = match.present? ? match[1..-2] : [0, 0]
+          # find row based on pid, and discard the first two and last item (pid_type, pid and total).
+          # otherwise pad with zeros
+          # use rassoc as pid is second item
+          match = stat[:csv].rassoc(row.field("pid"))
+          match = match.present? ? match[2..3] : [0, 0]
           row.push(*match)
         end
         csv << row

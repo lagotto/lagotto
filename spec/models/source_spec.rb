@@ -91,9 +91,17 @@ describe Source, :type => :model do
     end
 
     it "should create retrievals for new source" do
+      expect(subject.retrieval_statuses.count).to eq(0)
       works = FactoryGirl.create_list(:work, 3)
       expect(subject.retrieval_statuses.count).to eq(3)
     end
+
+    # it "should create retrievals" do
+    #   FactoryGirl.create_list(:work, 3)
+    #   expect(subject.retrieval_statuses.count).to eq(0)
+    #   subject.create_retrievals
+    #   expect(subject.retrieval_statuses.count).to eq(3)
+    # end
 
     it "should remove all retrievals" do
       FactoryGirl.create_list(:retrieval_status, 3)
