@@ -1,0 +1,191 @@
+/*global d3 */
+
+// bar chart
+function barViz(data, div, count, format) {
+  if (format === "days") {
+    var x = d3.time.scale.utc()
+      .domain([startDate, endDate])
+      .rangeRound([0, width]);
+    var y = d3.scale.linear()
+      .domain([d3.min(data, function(d) { return d.values[count]; }), d3.max(data, function(d) { return d.values[count]; })])
+      .rangeRound([height, 0]);
+  } else {
+    var x = d3.time.scale.utc()
+      .domain([startTime, endDate])
+      .rangeRound([0, width]);
+    var y = d3.scale.linear()
+      .domain([0, d3.max(data, function(d) { return d.values[count]; })])
+      .rangeRound([height, 0]);
+  }
+
+  var xAxis = d3.svg.axis()
+    .scale(x)
+    .tickSize(0)
+    .ticks(0);
+
+  var chart = d3.select(div).append("svg")
+    .data([data])
+    .attr("width", margin.left + width + margin.right)
+    .attr("height", margin.top + height + margin.bottom)
+    .attr("class", "chart barchart")
+    .append("svg:g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var bar = chart.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+    .attr("class", function(d) {
+      if (format === "days") {
+        var timestamp = Date.parse(d.key + 'T12:00:00Z');
+        var weekNumber = formatWeek(new Date(timestamp));
+        return (weekNumber % 2 == 0) ? "bar viewed" : "bar viewed-alt";
+      } else {
+        var timestamp = Date.parse(d.key + ':00:01Z');
+        var hour = formatHour(new Date(timestamp));
+        return (hour >= 11 && hour <= 22) ? "bar viewed-alt" : "bar viewed";
+      }})
+    .attr("x", function(d) {
+      if (format === "days") {
+        return x(new Date(Date.parse(d.key + 'T12:00:00Z')));
+      } else {
+        return x(new Date(Date.parse(d.key + ':00:00Z')));
+      }})
+    .attr("width", width/30 - 1)
+    .attr("y", function(d) { return y(d.values[count]); })
+    .attr("height", function(d) { return height - y(d.values[count]); });
+
+  chart.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis);
+
+  chart.selectAll("rect").each(
+    function(d) {
+      if (count == "db_size") {
+        var title = numberToHumanSize(d.values[count]);
+      } else if (count === "requests_average") {
+        var title = formatFixed(d.values[count]) + " ms";
+      } else {
+        var title = formatFixed(d.values[count]);
+      }
+
+      if (format === "days") {
+        var timestamp = Date.parse(d.key + 'T12:00:00Z');
+        var date_string = " on " + formatDate(new Date(timestamp));
+      } else {
+        var timestamp = Date.parse(d.key + ':00:00Z');
+        var date_string = " at " + formatTime(new Date(timestamp));
+      }
+
+      $(this).tooltip({ title: title + date_string, container: "body"});
+    }
+  );
+
+  d3.select(div + "-loading").remove();
+
+  // return chart object
+  return chart;
+}
+
+// works bar chart
+function worksViz(data) {
+
+  // remove source not needed for the following visualizations
+  data = data.filter(function(d) { return d.name !== "relativemetric"; });
+
+  // Works tab
+  var chart = d3.select("div#works-body").append("svg")
+    .attr("width", w + l + r)
+    .attr("height", data.length * (h + 2 * s) + 30)
+    .attr("class", "chart")
+    .append("g")
+    .attr("transform", "translate(" + l + "," + h + ")");
+
+  var x = d3.scale.linear()
+    .domain([0, d3.max(data, function(d) { return d.work_count; })])
+    .range([0, w]);
+  var y = d3.scale.ordinal()
+    .domain(data.map(function(d) { return d.display_name; }))
+    .rangeBands([0, (h + 2 * s) * data.length]);
+  var z = d3.scale.ordinal()
+    .domain(data.map(function(d) { return d.group; }))
+    .range(colors);
+
+  chart.selectAll("text.labels")
+    .data(data)
+    .enter().append("a").attr("xlink:href", function(d) { return "/sources/" + d.name; }).append("text")
+    .attr("x", 0)
+    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
+    .attr("dx", 0 - l) // padding-right
+    .attr("dy", ".18em") // vertical-align: middle
+    .text(function(d) { return d.display_name; });
+  chart.selectAll("rect")
+    .data(data)
+    .enter().append("rect")
+    .attr("fill", function(d) { return z(d.group); })
+    .attr("y", function(d) { return y(d.display_name); })
+    .attr("height", h)
+    .attr("width", function(d) { return x(d.work_count); });
+  chart.selectAll("text.values")
+    .data(data)
+    .enter().append("text")
+    .attr("x", function(d) { return x(d.work_count); })
+    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
+    .attr("dx", 5) // padding-right
+    .attr("dy", ".18em") // vertical-align: middle
+    .text(function(d) { return numberWithDelimiter(d.work_count); });
+
+  d3.select("#works-loading").remove();
+}
+
+
+// events bar chart
+function eventsViz(data) {
+
+  // remove source not needed for the following visualizations
+  data = data.filter(function(d) { return d.name !== "relativemetric"; });
+
+  // Events tab
+  var chart = d3.select("div#events-body").append("svg")
+    .attr("width", w + l + r)
+    .attr("height", data.length * (h + 2 * s) + 30)
+    .attr("class", "chart")
+    .append("g")
+    .attr("transform", "translate(" + l + "," + h + ")");
+
+  var x = d3.scale.log()
+    .domain([0.1, d3.max(data, function(d) { return d.event_count; })])
+    .range([1, w]);
+  var y = d3.scale.ordinal()
+    .domain(data.map(function(d) { return d.display_name; }))
+    .rangeBands([0, (h + 2 * s) * data.length]);
+  var z = d3.scale.ordinal()
+    .domain(data.map(function(d) { return d.group; }))
+    .range(colors);
+
+  chart.selectAll("text.labels")
+    .data(data)
+    .enter().append("a").attr("xlink:href", function(d) { return "/sources/" + d.name; }).append("text")
+    .attr("x", 0)
+    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
+    .attr("dx", 0 - l) // padding-right
+    .attr("dy", ".18em") // vertical-align: middle
+    .text(function(d) { return d.display_name; });
+  chart.selectAll("rect")
+    .data(data)
+    .enter().append("rect")
+    .attr("fill", function(d) { return z(d.group); })
+    .attr("y", function(d) { return y(d.display_name); })
+    .attr("height", h)
+    .attr("width", function(d) { return x(d.event_count); });
+  chart.selectAll("text.values")
+    .data(data)
+    .enter().append("text")
+    .attr("x", function(d) { return x(d.event_count); })
+    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
+    .attr("dx", 5) // padding-right
+    .attr("dy", ".18em") // vertical-align: middle
+    .text(function(d) { return numberWithDelimiter(d.event_count); });
+
+  d3.select("#events-loading").remove();
+}
