@@ -1,10 +1,11 @@
-module UserAuth
+module UserAuthMacros
   def sign_in(role = "admin")
     user = FactoryGirl.create(:user,
                                provider: ENV["OMNIAUTH"],
                                uid: "12345",
                                name: "Joe Smith",
                                email: "joe_#{ENV["OMNIAUTH"]}@example.com",
+                               authentication_token: "12345",
                                role: role)
     visit "/"
 
@@ -26,5 +27,5 @@ module UserAuth
 end
 
 RSpec.configure do |config|
-  config.include UserAuth, type: :feature
+  config.include UserAuthMacros, type: :feature
 end
