@@ -8,9 +8,9 @@ describe "access for staff user", type: :feature, js: true do
     expect(page).to have_css ".panel-heading a", text: "Joe Smith"
   end
 
-  it "show API requests" do
+  it "show api_requests" do
     visit "/api_requests"
-    expect(page).to have_css ".alert-warning", text: "404 The page you are looking for doesn't exist."
+    expect(page).to have_css ".alert-info", text: "There are currently no API requests"
   end
 
   it "show alerts" do
@@ -20,12 +20,12 @@ describe "access for staff user", type: :feature, js: true do
 
   it "show filters" do
     visit "/filters"
-    expect(page).to have_css ".alert-warning", text: "404 The page you are looking for doesn't exist."
+    expect(page).to have_css ".alert-info", text: "There are currently no filters"
   end
 
   it "show user profile" do
     visit "/users/me"
-    expect(page).to have_css ".alert-warning", text: "404 The page you are looking for doesn't exist."
+    expect(page).to have_css ".panel-heading", text: /Your Account/
   end
 end
 
@@ -42,8 +42,17 @@ describe "no button for staff user", type: :feature, js: true do
     expect(page).to_not have_css "#new-publisher"
   end
 
-  it "don't show source installation button" do
+  it "don't show source action button" do
+    source = FactoryGirl.create(:source)
     visit "/sources"
-    expect(page).to_not have_css "#installation-pill"
+    click_link "Events"
+    expect(page).to_not have_css ".status", text: "Actions"
+  end
+
+  it "don't show alert delete button" do
+    alert = FactoryGirl.create(:alert)
+    visit "/alerts"
+    click_link "[408] The request timed out."
+    expect(page).to_not have_css "#alert_#{alert.id}-delete"
   end
 end

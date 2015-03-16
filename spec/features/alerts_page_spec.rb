@@ -19,7 +19,7 @@ describe "alerts", type: :feature, js: true do
     expect(page).to have_css ".class-name a", text: alert.class_name
 
     # delete alert
-    click_link "#{alert.id}-delete"
+    click_link "alert_#{alert.id}-delete"
     click_link "by Message"
     expect(page).to have_css ".alert-info", text: "There are currently no alerts"
   end

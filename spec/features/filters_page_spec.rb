@@ -5,6 +5,6 @@ describe "filters", type: :feature, js: true do
 
   it "show filters" do
     visit "/filters"
-    expect(page).to have_css ".alert-info", text: "There are currently no alerts"
+    expect(page).to have_css ".alert-info", text: "There are currently no filters"
   end
 end

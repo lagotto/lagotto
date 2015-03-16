@@ -25,7 +25,7 @@ describe "no access for regular user", type: :feature, js: true do
 
   it "show user profile" do
     visit "/users/me"
-    expect(page).to have_css ".alert-warning", text: "404 The page you are looking for doesn't exist."
+    expect(page).to have_css ".panel-heading", text: /Your Account/
   end
 end
 

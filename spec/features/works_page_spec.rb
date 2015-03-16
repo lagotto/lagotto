@@ -1,9 +1,9 @@
 require "rails_helper"
 
-feature "works", type: :feature, js: true do
+describe "works", type: :feature, js: true do
   before(:each) { sign_in }
 
-  scenario "show no works" do
+  it "show no works" do
     visit "/works"
 
     expect(page).to have_css ".alert-info", text: "There are currently no works"
@@ -15,14 +15,14 @@ feature "works", type: :feature, js: true do
     let(:doi) { "10.1371/journal.pone.0116892" }
     let!(:work_type) { FactoryGirl.create(:work_type) }
 
-    scenario "new work" do
+    it "new work" do
       visit "/works"
       click_link "new-work"
 
       expect(page).to have_css ".panel-heading", text: "New Work"
     end
 
-    scenario "create work" do
+    it "create work" do
       visit "/works"
       click_link "new-work"
 
@@ -33,7 +33,7 @@ feature "works", type: :feature, js: true do
       expect(page).to have_css "h4.work a", text: title
     end
 
-    scenario "create work with incomplete date" do
+    it "create work with incomplete date" do
       visit "/works"
       click_link "new-work"
 
@@ -47,7 +47,7 @@ feature "works", type: :feature, js: true do
       expect(page).to have_css ".date", text: "2013."
     end
 
-    scenario "create dataset" do
+    it "create dataset" do
       work_type = FactoryGirl.create(:work_type, name: "dataset")
       visit "/works"
       click_link "new-work"
@@ -60,7 +60,7 @@ feature "works", type: :feature, js: true do
       expect(page).to have_css "h4.work a", text: "a"
     end
 
-    scenario "missing title error" do
+    it "missing title error" do
       visit "/works"
       click_link "new-work"
 
@@ -70,7 +70,7 @@ feature "works", type: :feature, js: true do
       expect(page).to have_css ".work_title .has-error", text: "can't be blank"
     end
 
-    scenario "missing doi error" do
+    it "missing doi error" do
       visit "/works"
       click_link "new-work"
 
@@ -80,7 +80,7 @@ feature "works", type: :feature, js: true do
       expect(page).to have_css ".work_doi .has-error", text: "must provide at least one persistent identifier"
     end
 
-    scenario "date in future error" do
+    it "date in future error" do
       visit "/works"
       click_link "new-work"
 

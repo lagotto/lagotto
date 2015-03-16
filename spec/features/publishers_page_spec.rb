@@ -18,8 +18,15 @@ describe "publishers", type: :feature, vcr: true, js: true do
 
     fill_in "query", with: "plos"
     click_button "submit"
+    sleep 3
     expect(page).to have_css ".panel-heading a", text: "Public Library of Science (PLoS)"
   end
-end
 
-# expect(page).to have_css "h4.work a", text: "Public Library of Science (PLoS)"
+  it "show publishers" do
+    publisher = FactoryGirl.create(:publisher)
+    visit "/publishers"
+
+    expect(page).to have_css "h4.work a", text: "Public Library of Science (PLoS)"
+    expect(page).to have_css "#new-publisher"
+  end
+end
