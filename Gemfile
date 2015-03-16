@@ -53,7 +53,7 @@ gem 'sprockets-rails', '~> 2.2.0', :require => 'sprockets/railtie'
 gem 'sass-rails', '~> 4.0.4'
 gem "jquery-rails", "~> 3.1.2"
 gem 'bootstrap-sass', '~> 3.3.3'
-gem 'font-awesome-sass', '~> 4.3.0'
+gem 'font-awesome-sass', '= 4.3.0'
 gem "d3_rails", "~> 3.4.1"
 gem "crossfilter-rails", "~> 1.3.5"
 gem 'coffee-rails', '~> 4.1.0'
