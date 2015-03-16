@@ -21,6 +21,6 @@
 //= require crossfilter
 //
 // Load common d3 helper functions
-//= require bubble_chart
+//= require bar_chart
 //= require donut_chart
 //= require d3_helpers

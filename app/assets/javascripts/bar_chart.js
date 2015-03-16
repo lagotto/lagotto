@@ -1,5 +1,17 @@
 /*global d3 */
 
+var width = 250,
+    height = 100,
+    radius = 80,
+    margin = { top: 7, right: 10, bottom: 5, left: 5 },
+    color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#f1c40f"]),
+    colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e","#95a6a6"],
+    l = 250, // left margin
+    r = 150, // right margin
+    w = 400, // width of drawing area
+    h = 24,  // bar height
+    s = 2;   // spacing between bars
+
 // bar chart
 function barViz(data, div, count, format) {
   if (format === "days") {
@@ -89,6 +101,11 @@ function barViz(data, div, count, format) {
 
 // works bar chart
 function worksViz(data) {
+  // make sure we have data for the chart
+  if (typeof data !== "undefined") {
+    d3.select("#works-loading").remove();
+    return;
+  }
 
   // remove source not needed for the following visualizations
   data = data.filter(function(d) { return d.name !== "relativemetric"; });
@@ -141,6 +158,11 @@ function worksViz(data) {
 
 // events bar chart
 function eventsViz(data) {
+  // make sure we have data for the chart
+  if (typeof data !== "undefined") {
+    d3.select("#events-loading").remove();
+    return;
+  }
 
   // remove source not needed for the following visualizations
   data = data.filter(function(d) { return d.name !== "relativemetric"; });

@@ -1,10 +1,6 @@
 /*global d3 */
 
 var params = d3.select("#api_key"),
-    formatNumber = d3.format(",d"),
-    formatFixed = d3.format(",.0f"),
-    formatDate = d3.time.format.utc("%B %d, %Y"),
-    formatTime = d3.time.format.utc("%H:%M UTC"),
     reset_text;
 
 // construct query string

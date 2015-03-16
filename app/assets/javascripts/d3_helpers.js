@@ -1,5 +1,15 @@
 /*global d3 */
 
+var formatDate = d3.time.format.utc("%B %d, %Y"),
+    formatMonthYear = d3.time.format.utc("%B %Y"),
+    formatYear = d3.time.format.utc("%Y"),
+    formatTime = d3.time.format.utc("%H:%M UTC"),
+    formatWeek = d3.time.format.utc("%U"),
+    formatHour = d3.time.format.utc("%H"),
+    formatNumber = d3.format(",d"),
+    formatFixed = d3.format(",.0f"),
+    formatPercent = d3.format(",.0%");
+
 function numberWithDelimiter(number) {
   if(number !== 0) {
     return formatFixed(number);

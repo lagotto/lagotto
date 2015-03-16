@@ -1,9 +1,6 @@
 /*global d3 */
 
-var formatDate = d3.time.format("%B %d, %Y"),
-    formatMonthYear = d3.time.format("%B %Y"),
-    formatYear = d3.time.format("%Y"),
-    params = d3.select("#api_key");
+var params = d3.select("#api_key");
 
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');

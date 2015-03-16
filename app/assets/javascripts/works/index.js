@@ -1,10 +1,6 @@
 /*global d3 */
 
-var formatDate = d3.time.format("%B %d, %Y"),
-    formatMonthYear = d3.time.format("%B %Y"),
-    formatYear = d3.time.format("%Y"),
-    formatFixed = d3.format(",.0f"),
-    params = d3.select("#api_key");
+var params = d3.select("#api_key");
 
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
@@ -50,7 +46,7 @@ function worksViz(json) {
 
   d3.select("#loading-results").remove();
 
-  if (data.length === 0) {
+  if (typeof data === "undefined" || data.length === 0) {
     d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")

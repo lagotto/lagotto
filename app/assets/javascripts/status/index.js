@@ -1,17 +1,6 @@
 /*global d3 */
 
-var width = 250,
-    height = 100,
-    radius = 80,
-    margin = { top: 7, right: 10, bottom: 5, left: 5 },
-    color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#f1c40f"]),
-    formatFixed = d3.format(",.0f"),
-    formatPercent = d3.format(",.0%"),
-    formatDate = d3.time.format("%d %b %y"),
-    formatTime = d3.time.format("%H:%M"),
-    formatWeek = d3.time.format.utc("%U"),
-    formatHour = d3.time.format.utc("%H"),
-    endDate = new Date(),
+var endDate = new Date(),
     startDate = d3.time.day.offset(endDate, -29),
     endTime = endDate.setHours(23),
     startTime = d3.time.hour.offset(endTime, -23);
@@ -71,16 +60,3 @@ if (query) {
     donutViz(sources, "#chart_sources", sources_title, "active");
   });
 }
-
-// Format file size into human-readable format
-function numberToHumanSize(bytes) {
-  var thresh = 1000;
-  if(bytes < thresh) return bytes + ' B';
-  var units = ['KB','MB','GB','TB','PB'];
-  var u = -1;
-  do {
-      bytes /= thresh;
-      ++u;
-  } while(bytes >= thresh);
-  return bytes.toFixed(1)+' '+units[u];
-};

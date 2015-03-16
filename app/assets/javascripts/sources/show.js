@@ -1,10 +1,5 @@
 /*global d3 */
 
-var radius = 80,
-    color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#95a5a6"]),
-    formatFixed = d3.format(",.0f"),
-    formatPercent = d3.format(",.0%");
-
 // construct query string
 var params = d3.select("#api_key");
 if (!params.empty()) {
