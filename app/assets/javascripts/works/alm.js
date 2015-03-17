@@ -214,7 +214,7 @@ function AlmViz(options) {
         .attr("class", "alm-count")
         .attr("id", "alm-count-" + source.name + "-" + group.name)
         .append("a")
-        .attr("href", function(d) { return source.events_url; });
+        .attr("href", function() { return source.events_url; });
     } else {
       // if no events_url, we just put in the count
       $count = $countLabel.append("p")

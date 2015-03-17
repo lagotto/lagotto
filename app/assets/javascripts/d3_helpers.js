@@ -21,14 +21,14 @@ function numberWithDelimiter(number) {
 // Format file size into human-readable format
 function numberToHumanSize(bytes) {
   var thresh = 1000;
-  if(bytes < thresh) return bytes + ' B';
+  if(bytes < thresh) { return bytes + ' B'; }
   var units = ['KB','MB','GB','TB','PB'];
   var u = -1;
   do {
       bytes /= thresh;
       ++u;
   } while(bytes >= thresh);
-  return bytes.toFixed(1)+' '+units[u];
+  return bytes.toFixed(1) + ' ' + units[u];
 }
 
 // construct date object from date parts
@@ -39,7 +39,7 @@ function datePartsToDate(date_parts) {
   if (len === 0 || len > 3) { return null; }
 
   // turn numbers to strings and pad with 0
-  for (i = 0; i < len; ++i) {
+  for (var i = 0; i < len; ++i) {
     if (date_parts[i] < 10) {
       date_parts[i] = "0" + date_parts[i];
     } else {
@@ -126,15 +126,15 @@ function url_for(work) {
   }
 }
 
-function signpostsToString(work) {
+function signpostsToString(work, source_id, order) {
   if (source_id !== "") {
-    s = work.sources.filter(function(d) { return d.name === source_id; })[0];
-    a = [s.display_name + ": " + formatFixed(s.metrics.total)];
+    var s = work.sources.filter(function(d) { return d.name === source_id; })[0];
+    var a = [s.display_name + ": " + formatFixed(s.metrics.total)];
   } else if (order !== "") {
-    s = work.sources.filter(function(d) { return d.name === order; })[0];
-    a = [s.display_name + ": " + formatFixed(s.metrics.total)];
+    var s = work.sources.filter(function(d) { return d.name === order; })[0];
+    var a = [s.display_name + ": " + formatFixed(s.metrics.total)];
   } else {
-    a = [];
+    var a = [];
   }
   var b = [];
   if (work.viewed > 0) { b.push("Viewed: " + formatFixed(work.viewed)); }

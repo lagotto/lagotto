@@ -1,4 +1,4 @@
-/*global d3 */
+/*global d3, crossfilter, formatNumber, formatDate, formatTime, formatFixed */
 
 var params = d3.select("#api_key"),
     reset_text;
@@ -38,8 +38,6 @@ function crossfilterViz(data) {
     d3.select("div#lists").remove();
     return;
   }
-
-  var today = new Date();
 
   // A nest operator, for grouping the request list.
   var nestByDate = d3.nest()
@@ -371,13 +369,13 @@ function crossfilterViz(data) {
     };
 
     chart.group = function(_) {
-      if (!arguments.length) return group;
+      if (!arguments.length) { return group; }
       group = _;
       return chart;
     };
 
     chart.round = function(_) {
-      if (!arguments.length) return round;
+      if (!arguments.length) { return round; }
       round = _;
       return chart;
     };

@@ -1,4 +1,4 @@
-/*global d3 */
+/*global d3, barViz, donutViz */
 
 var endDate = new Date(),
     startDate = d3.time.day.offset(endDate, -29),

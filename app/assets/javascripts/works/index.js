@@ -40,7 +40,7 @@ function worksViz(json) {
   json.href = "?page={{number}}";
   if (q !== "") { json.href += "&q=" + q; }
   if (class_name !== "") { json.href += "&class_name=" + class_name; }
-  if (publisher_id !== "" && model != "publisher") { json.href += "&publisher_id=" + publisher_id; }
+  if (publisher_id !== "" && model !== "publisher") { json.href += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
   if (order !== "") { json.href += "&order=" + order; }
 
@@ -66,15 +66,15 @@ function worksViz(json) {
     d3.select("#results").append("h4")
       .attr("class", "work")
       .append("a")
-      .attr("href", function(d) { return "/works/" + work["id"]; })
+      .attr("href", function() { return "/works/" + work.id; })
       .html(work.title);
     d3.select("#results").append("span")
       .attr("class", "date")
       .text(formattedDate(date, date_parts.length) + ". ");
     d3.select("#results").append("a")
-      .attr("href", function(d) { return url_for(work); })
+      .attr("href", function() { return url_for(work); })
       .text(url_for(work));
     d3.select("#results").append("p")
-      .text(signpostsToString(work));
+      .text(signpostsToString(work, source_id, order));
   }
 }

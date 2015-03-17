@@ -1,10 +1,8 @@
-/*global d3 */
+/*global d3, startDate, endDate, startTime, endTime, formatWeek, formatHour, numberToHumanSize, formatFixed, formatDate, formatTime, numberWithDelimiter */
 
 var width = 250,
     height = 100,
-    radius = 80,
     margin = { top: 7, right: 10, bottom: 5, left: 5 },
-    color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#f1c40f"]),
     colors = ["#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e","#95a6a6"],
     l = 250, // left margin
     r = 150, // right margin
@@ -50,7 +48,7 @@ function barViz(data, div, count, format) {
       if (format === "days") {
         var timestamp = Date.parse(d.key + 'T12:00:00Z');
         var weekNumber = formatWeek(new Date(timestamp));
-        return (weekNumber % 2 == 0) ? "bar viewed" : "bar viewed-alt";
+        return (weekNumber % 2 === 0) ? "bar viewed" : "bar viewed-alt";
       } else {
         var timestamp = Date.parse(d.key + ':00:01Z');
         var hour = formatHour(new Date(timestamp));
@@ -83,13 +81,13 @@ function barViz(data, div, count, format) {
 
       if (format === "days") {
         var timestamp = Date.parse(d.key + 'T12:00:00Z');
-        var date_string = " on " + formatDate(new Date(timestamp));
+        var dateString = " on " + formatDate(new Date(timestamp));
       } else {
         var timestamp = Date.parse(d.key + ':00:00Z');
-        var date_string = " at " + formatTime(new Date(timestamp));
+        var dateString = " at " + formatTime(new Date(timestamp));
       }
 
-      $(this).tooltip({ title: title + date_string, container: "body"});
+      $(this).tooltip({ title: title + dateString, container: "body"});
     }
   );
 
@@ -102,7 +100,7 @@ function barViz(data, div, count, format) {
 // works bar chart
 function worksViz(data) {
   // make sure we have data for the chart
-  if (typeof data !== "undefined") {
+  if (typeof data === "undefined") {
     d3.select("#works-loading").remove();
     return;
   }
@@ -159,7 +157,7 @@ function worksViz(data) {
 // events bar chart
 function eventsViz(data) {
   // make sure we have data for the chart
-  if (typeof data !== "undefined") {
+  if (typeof data === "undefined") {
     d3.select("#events-loading").remove();
     return;
   }
