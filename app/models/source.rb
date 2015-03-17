@@ -308,7 +308,7 @@ class Source < ActiveRecord::Base
      :with_events_by_day_count,
      :without_events_by_day_count,
      :with_events_by_month_count,
-     :without_events_by_month_count].each { |cached_attr| send("#{cached_attr}=", timestamp) }
+     :without_events_by_month_count].each { |cached_attr| send("#{cached_attr}=") }
 
     update_column(:cached_at, now)
   end
