@@ -97,11 +97,11 @@ function barViz(data, div, count, format) {
   return chart;
 }
 
-// works bar chart
-function worksViz(data) {
+// horizontal bar chart
+function hBarViz(data, name) {
   // make sure we have data for the chart
   if (typeof data === "undefined") {
-    d3.select("#works-loading").remove();
+    d3.select("#" + name + "-loading").remove();
     return;
   }
 
@@ -109,16 +109,22 @@ function worksViz(data) {
   data = data.filter(function(d) { return d.name !== "relativemetric"; });
 
   // Works tab
-  var chart = d3.select("div#works-body").append("svg")
+  var chart = d3.select("div#" + name + "-body").append("svg")
     .attr("width", w + l + r)
     .attr("height", data.length * (h + 2 * s) + 30)
     .attr("class", "chart")
     .append("g")
     .attr("transform", "translate(" + l + "," + h + ")");
 
-  var x = d3.scale.linear()
-    .domain([0, d3.max(data, function(d) { return d.work_count; })])
-    .range([0, w]);
+  if (name === "works") {
+    var x = d3.scale.linear()
+      .domain([0, d3.max(data, function(d) { return d.work_count; })])
+      .range([0, w]);
+  } else {
+    var x = d3.scale.log()
+      .domain([0.1, d3.max(data, function(d) { return d.event_count; })])
+      .range([1, w]);
+  }
   var y = d3.scale.ordinal()
     .domain(data.map(function(d) { return d.display_name; }))
     .rangeBands([0, (h + 2 * s) * data.length]);
@@ -150,62 +156,5 @@ function worksViz(data) {
     .attr("dy", ".18em") // vertical-align: middle
     .text(function(d) { return numberWithDelimiter(d.work_count); });
 
-  d3.select("#works-loading").remove();
-}
-
-
-// events bar chart
-function eventsViz(data) {
-  // make sure we have data for the chart
-  if (typeof data === "undefined") {
-    d3.select("#events-loading").remove();
-    return;
-  }
-
-  // remove source not needed for the following visualizations
-  data = data.filter(function(d) { return d.name !== "relativemetric"; });
-
-  // Events tab
-  var chart = d3.select("div#events-body").append("svg")
-    .attr("width", w + l + r)
-    .attr("height", data.length * (h + 2 * s) + 30)
-    .attr("class", "chart")
-    .append("g")
-    .attr("transform", "translate(" + l + "," + h + ")");
-
-  var x = d3.scale.log()
-    .domain([0.1, d3.max(data, function(d) { return d.event_count; })])
-    .range([1, w]);
-  var y = d3.scale.ordinal()
-    .domain(data.map(function(d) { return d.display_name; }))
-    .rangeBands([0, (h + 2 * s) * data.length]);
-  var z = d3.scale.ordinal()
-    .domain(data.map(function(d) { return d.group; }))
-    .range(colors);
-
-  chart.selectAll("text.labels")
-    .data(data)
-    .enter().append("a").attr("xlink:href", function(d) { return "/sources/" + d.name; }).append("text")
-    .attr("x", 0)
-    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
-    .attr("dx", 0 - l) // padding-right
-    .attr("dy", ".18em") // vertical-align: middle
-    .text(function(d) { return d.display_name; });
-  chart.selectAll("rect")
-    .data(data)
-    .enter().append("rect")
-    .attr("fill", function(d) { return z(d.group); })
-    .attr("y", function(d) { return y(d.display_name); })
-    .attr("height", h)
-    .attr("width", function(d) { return x(d.event_count); });
-  chart.selectAll("text.values")
-    .data(data)
-    .enter().append("text")
-    .attr("x", function(d) { return x(d.event_count); })
-    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
-    .attr("dx", 5) // padding-right
-    .attr("dy", ".18em") // vertical-align: middle
-    .text(function(d) { return numberWithDelimiter(d.event_count); });
-
-  d3.select("#events-loading").remove();
+  d3.select("#" + name + "-loading").remove();
 }
