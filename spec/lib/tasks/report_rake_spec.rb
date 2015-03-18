@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "report:alm_stats" do
   include_context "rake"
 
+  let!(:source) { FactoryGirl.create(:source) }
   let(:output) { "Report \"alm_stats.csv\" has been written.\n" }
 
   it "prerequisites should include environment" do
@@ -17,6 +18,7 @@ end
 describe "report:alm_private_stats" do
   include_context "rake"
 
+  let!(:source) { FactoryGirl.create(:source) }
   let(:output) { "Report \"alm_private_stats.csv\" has been written.\n" }
 
   it "prerequisites should include environment" do
@@ -201,6 +203,7 @@ end
 describe "report:combined_stats" do
   include_context "rake"
 
+  let!(:source) { FactoryGirl.create(:source) }
   let(:output) { "Report \"alm_report.csv\" has been written.\n" }
 
   it "prerequisites should include environment" do
@@ -216,6 +219,7 @@ end
 describe "report:combined_private_stats" do
   include_context "rake"
 
+  let!(:source) { FactoryGirl.create(:source) }
   let(:output) { "Report \"alm_private_report.csv\" has been written.\n" }
 
   it "prerequisites should include environment" do
@@ -236,6 +240,7 @@ describe "report:zip" do
     FileUtils.touch("#{folderpath}/alm_report.csv")
   end
 
+  let!(:source) { FactoryGirl.create(:source) }
   let(:output) { "Reports have been compressed.\n" }
 
   it "prerequisites should include environment" do

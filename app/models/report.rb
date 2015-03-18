@@ -21,19 +21,10 @@ class Report < ActiveRecord::Base
 
   # Generate CSV with event counts for all works and installed sources
   def self.to_csv(options = {})
-    if options[:include_private_sources]
-      sources = Source.installed
-    else
-      sources = Source.installed.where(:private => false)
-    end
+    sources = Source.installed
+    sources = sources.where(:private => false) unless options[:include_private_sources]
 
-    sql = "SELECT w.pid_type, w.pid, w.published_on, w.title"
-    sources.each do |source|
-      sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.event_count END) AS #{source.name}"
-    end
-    sql += " FROM works w LEFT JOIN retrieval_statuses rs ON w.id = rs.work_id GROUP BY w.id"
-    sanitized_sql = sanitize_sql_for_conditions(sql)
-    results = ActiveRecord::Base.connection.exec_query(sanitized_sql)
+    results = self.from_sql(sources: sources)
 
     CSV.generate do |csv|
       csv << ["pid_type", "pid", "publication_date", "title"] + sources.map(&:name)
@@ -41,11 +32,21 @@ class Report < ActiveRecord::Base
     end
   end
 
+  def self.from_sql(options = {})
+    sql = "SELECT w.pid_type, w.pid, w.published_on, w.title"
+    options[:sources].each do |source|
+      sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.event_count END) AS #{source.name}"
+    end
+    sql += " FROM works w LEFT JOIN retrieval_statuses rs ON w.id = rs.work_id GROUP BY w.id"
+    sanitized_sql = sanitize_sql_for_conditions(sql)
+    results = ActiveRecord::Base.connection.exec_query(sanitized_sql)
+  end
+
   # write report into folder with current date in name
   def self.write(filename, content, options = {})
     return nil unless filename && content
 
-    date = options[:date] || Time.zone.now.to_date.to_s(:db)
+    date = options[:date] || Time.zone.now.to_date
     folderpath = "#{Rails.root}/data/report_#{date}"
     Dir.mkdir folderpath unless Dir.exist? folderpath
     filepath = "#{folderpath}/#{filename}"
@@ -59,7 +60,7 @@ class Report < ActiveRecord::Base
   def self.read_stats(filename, options = {})
     return nil unless filename
 
-    date = options[:date] || Time.zone.now.to_date.to_s(:db)
+    date = options[:date] || Time.zone.now.to_date
     filepath = "#{Rails.root}/data/report_#{date}/#{filename}.csv"
     if File.exist?(filepath)
       CSV.read(filepath, headers: true, encoding: "UTF-8" )
@@ -84,7 +85,10 @@ class Report < ActiveRecord::Base
     stats.reject! { |stat| stat[:csv].blank? }
     return alm_stats if stats.empty?
 
+    generate_stats(alm_stats, stats)
+  end
 
+  def self.generate_stats(alm_stats, stats)
     CSV.generate do |csv|
       csv << alm_stats.headers + stats.reduce([]) { |sum, stat| sum + stat[:headers] }
       alm_stats.each do |row|
@@ -102,7 +106,7 @@ class Report < ActiveRecord::Base
   end
 
   def self.zip_file(options = {})
-    date = options[:date] || Time.zone.now.to_date.to_s(:db)
+    date = options[:date] || Time.zone.now.to_date
     filename = "alm_report_#{date}.csv"
     filepath = "#{Rails.root}/data/report_#{date}/alm_report.csv"
     zip_filepath = "#{Rails.root}/public/files/alm_report.zip"
@@ -116,7 +120,7 @@ class Report < ActiveRecord::Base
   end
 
   def self.zip_folder(options = {})
-    date = options[:date] || Time.zone.now.to_date.to_s(:db)
+    date = options[:date] || Time.zone.now.to_date
     folderpath = "#{Rails.root}/data/report_#{date}"
     zip_filepath = "#{Rails.root}/data/report_#{date}.zip"
     return nil unless File.exist? folderpath
