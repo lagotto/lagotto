@@ -185,6 +185,10 @@ class Work < ActiveRecord::Base
     signposts.reduce(0) { |sum, source| source[0] == name ? source[1].to_i : sum }
   end
 
+  def event_counts(names)
+    names.reduce(0) { |sum, source| event_count(source) }
+  end
+
   def events_url(name)
     signposts.reduce(nil) { |sum, source| source[0] == name ? source[2] : sum }
   end
@@ -201,24 +205,24 @@ class Work < ActiveRecord::Base
     @mendeley_url ||= events_url("mendeley")
   end
 
-  def citeulike_url
-    @citeulike_url ||= events_url("citeulike")
-  end
-
   def views
-    @views || event_count("pmc") + event_count("counter")
+    names = ENV["VIEWED"] ? ENV["VIEWED"].split(",") : ["pmc", "counter"]
+    @views || event_counts(names)
   end
 
   def shares
-    @shares ||= event_count("facebook") + event_count("twitter") + event_count("twitter_search")
+    names = ENV["DISCUSSED"] ? ENV["DISCUSSED"].split(",") : ["facebook", "twitter", "twitter_search"]
+    @shares ||= event_counts(names)
   end
 
   def bookmarks
-    @bookmarks ||= event_count("citeulike") + event_count("mendeley")
+    names = ENV["SAVED"] ? ENV["SAVED"].split(",") : ["citeulike", "mendeley"]
+    @bookmarks ||= event_counts(names)
   end
 
   def citations
-    @citations ||= Source.installed.where(name: "scopus").first ? event_count("scopus") : event_count("crossref")
+    name = ENV["CITED"] ? ENV["CITED"] : "crossref"
+    @citations ||= event_count(name)
   end
 
   alias_method :viewed, :views
