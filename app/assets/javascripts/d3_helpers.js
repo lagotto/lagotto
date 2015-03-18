@@ -127,15 +127,16 @@ function url_for(work) {
 }
 
 function signpostsToString(work, source_id, order) {
-  if (source_id !== "") {
-    var s = work.sources.filter(function(d) { return d.name === source_id; })[0];
-    var a = [s.display_name + ": " + formatFixed(s.metrics.total)];
-  } else if (order !== "") {
-    var s = work.sources.filter(function(d) { return d.name === order; })[0];
-    var a = [s.display_name + ": " + formatFixed(s.metrics.total)];
-  } else {
+  if (source_id === "" && order === "") {
     var a = [];
+  } else {
+    if (order !== "") { var name = order }
+    if (source_id !== "") { var name = source_id }
+
+    var s = work.sources.filter(function(d) { return d.name === name; })[0];
+    var a = [s.display_name + ": " + formatFixed(s.metrics.total)];
   }
+
   var b = [];
   if (work.viewed > 0) { b.push("Viewed: " + formatFixed(work.viewed)); }
   if (work.cited > 0) { b.push("Cited: " + formatFixed(work.cited)); }
