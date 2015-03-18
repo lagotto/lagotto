@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/articlemetrics/lagotto.png?branch=master)](https://travis-ci.org/articlemetrics/lagotto)
 [![Code Climate](https://codeclimate.com/github/articlemetrics/lagotto.png)](https://codeclimate.com/github/articlemetrics/lagotto)
 [![Code Climate Test Coverage](https://codeclimate.com/github/articlemetrics/lagotto/coverage.png)](https://codeclimate.com/github/articlemetrics/lagotto)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/articlemetrics/lagotto?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Lagotto allows a user to aggregate relevant performance data on research articles, including how often an article has been viewed, cited, saved, discussed and recommended. The application was called Article-Level Metrics (ALM) until September 2014 and was started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). We are continuing to expand Lagotto because we believe that articles should be considered on their own merits, and that the impact of an individual article should not be determined by the journal in which it happened to be published. As a result, we hope that new ways of measuring and evaluating research quality (or ‘impact’) can and will evolve. To learn more about Article-Level Metrics, see the [SPARC ALM primer](http://www.sparc.arl.org/resource/sparc-article-level-metrics-primer).
 
