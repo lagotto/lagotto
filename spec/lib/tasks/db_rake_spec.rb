@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "db:works:import:crossref" do
+describe "db:works:import:crossref", vcr: true do
   ENV['FROM_UPDATE_DATE'] = "2013-09-04"
   ENV['UNTIL_UPDATE_DATE'] = "2013-09-05"
   ENV['FROM_PUB_DATE'] = "2013-09-04"
@@ -8,7 +8,7 @@ describe "db:works:import:crossref" do
 
   include_context "rake"
 
-  let(:output) { "Started import of 993 works in the background...\n" }
+  let(:output) { "Started import of 1361 works in the background...\n" }
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")
@@ -33,7 +33,8 @@ describe "db:works:import:crossref" do
   end
 end
 
-describe "db:works:import:datacite" do
+
+describe "db:works:import:datacite", vcr: true do
   ENV['FROM_UPDATE_DATE'] = "2013-09-04"
   ENV['UNTIL_UPDATE_DATE'] = "2013-09-05"
   ENV['FROM_PUB_DATE'] = "2013-09-04"
@@ -56,13 +57,13 @@ describe "db:works:import:datacite" do
   end
 end
 
-describe "db:works:import:plos" do
+describe "db:works:import:plos", vcr: true do
   ENV['FROM_PUB_DATE'] = "2013-09-04"
   ENV['UNTIL_PUB_DATE'] = "2013-09-05"
 
   include_context "rake"
 
-  let(:output) { "Started import of 29 works in the background...\n" }
+  let(:output) { "Started import of 394 works in the background...\n" }
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")
@@ -77,13 +78,13 @@ describe "db:works:import:plos" do
   end
 end
 
-describe "db:works:import:dataone" do
+describe "db:works:import:dataone", vcr: true do
   ENV['FROM_PUB_DATE'] = "2013-09-04"
   ENV['UNTIL_PUB_DATE'] = "2013-09-05"
 
   include_context "rake"
 
-  let(:output) { "Started import of 29 works in the background...\n" }
+  let(:output) { "No works to import.\n" }
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")
