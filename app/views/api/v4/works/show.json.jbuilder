@@ -2,7 +2,7 @@ json.success @success
 json.error nil
 
 json.data do
-  json.(@work, :doi, :title, :issued, :canonical_url, :pmid, :pmcid, :mendeley_uuid, :viewed, :saved, :discussed, :cited, :update_date)
+  json.(@work, :id, :doi, :title, :issued, :publisher_id, :canonical_url, :pmid, :pmcid, :scp, :wos, :ark, :viewed, :saved, :discussed, :cited, :update_date)
 
   unless params[:info] == "summary"
     json.sources @work.retrieval_statuses do |rs|

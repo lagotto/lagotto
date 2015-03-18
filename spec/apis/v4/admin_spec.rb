@@ -10,6 +10,7 @@ describe "/api/v4/articles", :type => :api do
     let(:params) do
       { "work" => { "doi" => "10.1371/journal.pone.0036790",
                     "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
+                    "publisher_id" => 340,
                     "year" => 2012,
                     "month" => 5,
                     "day" => 15 } }
@@ -26,6 +27,7 @@ describe "/api/v4/articles", :type => :api do
         expect(response["success"]).to eq ("Work created.")
         expect(response["error"]).to be_nil
         expect(response["data"]["doi"]).to eq (params["work"]["doi"])
+        expect(response["data"]["publisher_id"]).to eq (params["work"]["publisher_id"])
       end
     end
 
@@ -34,12 +36,10 @@ describe "/api/v4/articles", :type => :api do
 
       it "JSON" do
         post uri, params, headers
-        expect(last_response.status).to eq(201)
+        expect(last_response.status).to eq(401)
 
         response = JSON.parse(last_response.body)
-        expect(response["success"]).to eq ("Work created.")
-        expect(response["error"]).to be_nil
-        expect(response["data"]["doi"]).to eq (params["work"]["doi"])
+        expect(response).to eq (error)
       end
     end
 
