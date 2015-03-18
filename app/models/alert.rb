@@ -11,7 +11,7 @@ class Alert < ActiveRecord::Base
 
   scope :errors, -> { where("alerts.level > ?", 1) }
   scope :query, ->(query) { includes(:work).where("class_name like ? OR message like ? OR status = ? OR works.pid = ?", "%#{query}%", "%#{query}%", query, "%#{query}%")
-                            .references(:work) }
+    .references(:work) }
   scope :total, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
   scope :total_errors, ->(duration) { where("alerts.level > ?", 1).where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
   scope :from_sources, ->(duration) { where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }

@@ -5,12 +5,10 @@ class CslImport < Import
   end
 
   def total_results
-    begin
-      content = File.open(@filepath, 'r') { |f| f.read }
-      JSON.parse(content).length
-    rescue Errno::ENOENT, JSON::ParserError
-      0
-    end
+    content = File.open(@filepath, 'r') { |f| f.read }
+    JSON.parse(content).length
+  rescue Errno::ENOENT, JSON::ParserError
+    0
   end
 
   def get_data(offset = 0, rows = 1000)

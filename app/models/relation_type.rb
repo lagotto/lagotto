@@ -1,3 +1,1 @@
-class RelationType < ActiveRecord::Base
-
-end
+class RelationType < ActiveRecord::Base; end

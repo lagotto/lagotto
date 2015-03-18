@@ -63,7 +63,7 @@ class Report < ActiveRecord::Base
     date = options[:date] || Time.zone.now.to_date
     filepath = "#{Rails.root}/data/report_#{date}/#{filename}.csv"
     if File.exist?(filepath)
-      CSV.read(filepath, headers: true, encoding: "UTF-8" )
+      CSV.read(filepath, headers: true, encoding: "UTF-8")
     else
       nil
     end

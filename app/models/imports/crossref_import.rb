@@ -1,15 +1,15 @@
 class CrossrefImport < Import
 
   TYPES_WITH_TITLE = %w(journal-article
-                      proceedings-article
-                      dissertation
-                      standard
-                      report
-                      book
-                      monograph
-                      edited-book
-                      reference-book
-                      dataset)
+                        proceedings-article
+                        dissertation
+                        standard
+                        report
+                        book
+                        monograph
+                        edited-book
+                        reference-book
+                        dataset)
 
   # CrossRef types from http://api.crossref.org/types
   TYPE_TRANSLATIONS = {

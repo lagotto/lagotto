@@ -25,7 +25,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user, :event => :authentication
     else
       session["devise.#{provider}_data"] = request.env["omniauth.auth"]
-      flash[:alert] = @user.errors.map{ |k,v| "#{k}: #{v}"}.join("<br />").html_safe || "Error signing in with #{provider}"
+      flash[:alert] = @user.errors.map { |k,v| "#{k}: #{v}" }.join("<br />").html_safe || "Error signing in with #{provider}"
       redirect_to root_path
     end
   end

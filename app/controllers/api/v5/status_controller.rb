@@ -1,5 +1,4 @@
 class Api::V5::StatusController < Api::V5::BaseController
-
   swagger_controller :status, "Status"
 
   swagger_api :index do

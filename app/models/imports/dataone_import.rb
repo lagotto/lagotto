@@ -52,7 +52,7 @@ class DataoneImport < Import
       if doi.nil? && ark.nil? && url.nil?
         Alert.create(exception: "",
                      class_name: "ActiveModel::MissingAttributeError",
-                     message: "No known identifier found in #{id}" )
+                     message: "No known identifier found in #{id}")
       end
 
       publication_date = get_iso8601_from_time(item.fetch("datePublished", nil))
@@ -77,7 +77,7 @@ class DataoneImport < Import
 
       csl = {
         "issued" => date_parts,
-        "author" => get_authors([item.fetch("author", nil)], ),
+        "author" => get_authors([item.fetch("author", nil)]),
         "container-title" => nil,
         "title" => title,
         "type" => type,
