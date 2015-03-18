@@ -53,17 +53,19 @@ class Work < ActiveRecord::Base
       work = Work.where(canonical_url: params[:canonical_url]).first
       work.update_attributes(params.except(:canonical_url)) unless work.nil?
       work
-    elsif params[:doi].present?
-      Alert.create(:exception => "",
-                   :class_name => "ActiveRecord::RecordInvalid",
-                   :message => "#{e.message} for doi #{params[:doi]}.",
-                   :target_url => "http://dx.doi.org/#{params[:doi]}")
-      nil
     else
+      if params[:doi].present?
+        message = "#{e.message} for doi #{params[:doi]}."
+        target_url = "http://dx.doi.org/#{params[:doi]}"
+      else
+        message = "#{e.message} for url #{target_url}."
+        target_url = params[:canonical_url]
+      end
+
       Alert.create(:exception => "",
                    :class_name => "ActiveRecord::RecordInvalid",
-                   :message => "#{e.message} for url #{params[:canonical_url]}.",
-                   :target_url => params[:canonical_url])
+                   :message => message,
+                   :target_url => target_url)
       nil
     end
   end
