@@ -24,10 +24,7 @@ function numberToHumanSize(bytes) {
   if(bytes < thresh) { return bytes + ' B'; }
   var units = ['KB','MB','GB','TB','PB'];
   var u = -1;
-  do {
-      bytes /= thresh;
-      ++u;
-  } while(bytes >= thresh);
+  do { bytes /= thresh; ++u; } while(bytes >= thresh);
   return bytes.toFixed(1) + ' ' + units[u];
 }
 
@@ -132,7 +129,6 @@ function signpostsToString(work, source_id, order) {
   } else {
     if (order !== "") { var name = order }
     if (source_id !== "") { var name = source_id }
-
     var s = work.sources.filter(function(d) { return d.name === name; })[0];
     var a = [s.display_name + ": " + formatFixed(s.metrics.total)];
   }
