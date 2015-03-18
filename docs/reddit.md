@@ -44,7 +44,7 @@ title: "Reddit"
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>"http://www.reddit.com/search?q=\"DOI\"+OR+\"URL\""</td>
+<td valign="top" width=80%>"http://www.reddit.com/search.json?q=\"DOI\"+OR+\"URL\"&limit=100</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>License</strong></td>

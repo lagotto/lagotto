@@ -52,7 +52,7 @@ We would for example use `en.wikipedia.org` as `HOST` in the `API URL` below. We
 </tr>
 <tr>
 <td valign="top" width=20%><strong>API URL</strong></td>
-<td valign="top" width=80%>http://HOST/w/api.php?action=query&list=search&format=json&srsearch=\"DOI\"+OR+\"URL\"&srnamespace=NAMESPACE&srwhat=text&srinfo=totalhits&srprop=timestamp&rlimit=50&sroffset=0&continue=</td>
+<td valign="top" width=80%>http://HOST/w/api.php?action=query&list=search&format=json&srsearch=\"DOI\"+OR+\"URL\"&srnamespace=NAMESPACE&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=%{sroffset}&continue=</td>
 </tr>
 </tbody>
 </table>
