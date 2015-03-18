@@ -97,11 +97,11 @@ class EuropePmcFulltext < Source
   end
 
   def url
-    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%{query_string}&format=json&page=%{page}"
+    "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%{query_string}&format=json&page=%{page}"
   end
 
   def events_url
-    config.events_url || "http://europepmc.org/search?query=%{query_string}"
+    "http://europepmc.org/search?query=%{query_string}"
   end
 
   def rows

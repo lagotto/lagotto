@@ -64,10 +64,10 @@ class BmcFulltext < Source
   end
 
   def url
-    config.url || "http://www.biomedcentral.com/search/results?terms=%{query_string}&format=json"
+    "http://www.biomedcentral.com/search/results?terms=%{query_string}&format=json"
   end
 
   def events_url
-    config.events_url || "http://www.biomedcentral.com/search/results?terms=%{query_string}"
+    "http://www.biomedcentral.com/search/results?terms=%{query_string}"
   end
 end

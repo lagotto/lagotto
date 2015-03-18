@@ -103,15 +103,15 @@ class TwitterSearch < Source
   end
 
   def url
-    config.url || "https://api.twitter.com/1.1/search/tweets.json?q=%{query_string}&count=100&include_entities=1&result_type=recent"
+    "https://api.twitter.com/1.1/search/tweets.json?q=%{query_string}&count=100&include_entities=1&result_type=recent"
   end
 
   def events_url
-    config.events_url || "https://twitter.com/search?q=%{query_string}&f=realtime"
+    "https://twitter.com/search?q=%{query_string}&f=realtime"
   end
 
   def authentication_url
-    config.authentication_url || "https://api.twitter.com/oauth2/token"
+    "https://api.twitter.com/oauth2/token"
   end
 
   def job_batch_size

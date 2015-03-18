@@ -69,10 +69,10 @@ class PmcEuropeData < Source
   end
 
   def url
-    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pmid}/databaseLinks//1/json"
+    "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pmid}/databaseLinks//1/json"
   end
 
   def events_url
-    config.events_url || "http://europepmc.org/abstract/MED/%{pmid}#fragment-related-bioentities"
+    "http://europepmc.org/abstract/MED/%{pmid}#fragment-related-bioentities"
   end
 end

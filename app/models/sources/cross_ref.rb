@@ -82,15 +82,11 @@ class CrossRef < Source
   end
 
   def url
-    config.url || "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
+    "http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}"
   end
 
   def openurl
-    config.openurl || "http://www.crossref.org/openurl/?pid=%{openurl_username}&id=doi:%{doi}&noredirect=true"
-  end
-
-  def openurl=(value)
-    config.openurl = value
+    "http://www.crossref.org/openurl/?pid=%{openurl_username}&id=doi:%{doi}&noredirect=true"
   end
 
   def timeout

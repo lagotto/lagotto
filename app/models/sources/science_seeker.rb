@@ -35,11 +35,11 @@ class ScienceSeeker < Source
   end
 
   def url
-    config.url || "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
+    "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
   end
 
   def events_url
-    config.events_url || "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=%{doi}"
+    "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=%{doi}"
   end
 
   def staleness_year

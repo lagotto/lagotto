@@ -31,7 +31,7 @@ FactoryGirl.define do
     name "copernicus"
     display_name "Copernicus"
     state_event "activate"
-    url "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:%{doi}"
+    url_private "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:%{doi}"
     username "EXAMPLE"
     password "EXAMPLE"
 
@@ -110,7 +110,7 @@ FactoryGirl.define do
     name "pmc"
     display_name "PubMed Central Usage Stats"
     state_event "activate"
-    db_url "http://127.0.0.1:5984/pmc_usage_stats_test/"
+    url_db "http://127.0.0.1:5984/pmc_usage_stats_test/"
 
     group
 
@@ -304,7 +304,7 @@ FactoryGirl.define do
     name "counter"
     display_name "Counter"
     state_event "activate"
-    url "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
+    url_private "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
 
     group
 
@@ -316,8 +316,8 @@ FactoryGirl.define do
     name "f1000"
     display_name "F1000Prime"
     state_event "activate"
-    db_url "http://127.0.0.1:5984/f1000_test/"
-    feed_url "http://example.org/example.xml"
+    url_db "http://127.0.0.1:5984/f1000_test/"
+    url_feed "http://example.org/example.xml"
 
     group
 
@@ -329,7 +329,7 @@ FactoryGirl.define do
     name "figshare"
     display_name "Figshare"
     state_event "activate"
-    url "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}"
+    url_private "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}"
 
     group
 
@@ -341,7 +341,7 @@ FactoryGirl.define do
     name "plos_comments"
     display_name "PLOS Comments"
     state_event "activate"
-    url "http://example.org?doi={doi}"
+    url_private "http://example.org?doi={doi}"
 
     group
 
@@ -375,7 +375,7 @@ FactoryGirl.define do
     name "twitter"
     display_name "Twitter"
     state_event "activate"
-    url "http://example.org?doi=%{doi}"
+    url_private "http://example.org?doi=%{doi}"
 
     group
 
@@ -388,7 +388,7 @@ FactoryGirl.define do
     display_name "Web of Science"
     state_event "activate"
     private true
-    url "https://ws.isiknowledge.com:80/cps/xrpc"
+    url_private "https://ws.isiknowledge.com:80/cps/xrpc"
 
     group
 
@@ -400,7 +400,7 @@ FactoryGirl.define do
     name "relative_metric"
     display_name "Relative Metric"
     state_event "activate"
-    url "http://example.org?doi=%{doi}"
+    url_private "http://example.org?doi=%{doi}"
 
     group
 
@@ -412,7 +412,7 @@ FactoryGirl.define do
     name "article_coverage"
     display_name "Article Coverage"
     state_event "activate"
-    url "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all"
+    url_private "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all"
 
     group
 
@@ -424,7 +424,7 @@ FactoryGirl.define do
     name "article_coverage_curated"
     display_name "Article Coverage Curated"
     state_event "activate"
-    url "http://mediacuration.plos.org/api/v1?doi=%{doi}"
+    url_private "http://mediacuration.plos.org/api/v1?doi=%{doi}"
 
     group
 

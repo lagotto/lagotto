@@ -18,10 +18,10 @@ class Orcid < Source
   end
 
   def url
-    config.url || "http://pub.orcid.org/v1.1/search/orcid-bio/?q=digital-object-ids:\"%{doi}\"&rows=100"
+    "http://pub.orcid.org/v1.1/search/orcid-bio/?q=digital-object-ids:\"%{doi}\"&rows=100"
   end
 
   def events_url
-    config.events_url || "https://orcid.org/orcid-search/quick-search/?searchQuery=\"%{doi}\"&rows=100"
+    "https://orcid.org/orcid-search/quick-search/?searchQuery=\"%{doi}\"&rows=100"
   end
 end

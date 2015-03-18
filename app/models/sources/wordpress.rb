@@ -39,11 +39,11 @@ class Wordpress < Source
   end
 
   def url
-    config.url || "http://en.search.wordpress.com/?q=%{query_string}&t=post&f=json&size=20"
+    "http://en.search.wordpress.com/?q=%{query_string}&t=post&f=json&size=20"
   end
 
   def events_url
-    config.events_url || "http://en.search.wordpress.com/?q=%{query_string}&t=post"
+    "http://en.search.wordpress.com/?q=%{query_string}&t=post"
   end
 
   def job_batch_size

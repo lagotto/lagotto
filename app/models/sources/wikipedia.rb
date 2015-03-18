@@ -105,11 +105,11 @@ class Wikipedia < Source
   end
 
   def url
-    config.url || "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{query_string}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=%{sroffset}&continue=%{continue}"
+    "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{query_string}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=%{sroffset}&continue=%{continue}"
   end
 
   def events_url
-    config.events_url || "http://en.wikipedia.org/w/index.php?search=%{query_string}"
+    "http://en.wikipedia.org/w/index.php?search=%{query_string}"
   end
 
   def job_batch_size

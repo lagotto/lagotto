@@ -4,7 +4,7 @@ class Counter < Source
   def get_query_url(work)
     return nil unless work.doi =~ /^10.1371/
 
-    url % { :doi => work.doi_escaped }
+    url_private % { :doi => work.doi_escaped }
   end
 
   def request_options
@@ -89,7 +89,7 @@ class Counter < Source
   end
 
   def config_fields
-    [:url]
+    [:url_private]
   end
 
   def cron_line

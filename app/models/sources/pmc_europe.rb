@@ -80,11 +80,11 @@ class PmcEurope < Source
   end
 
   def url
-    config.url || "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pmid}/citations/%{page}/json"
+    "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pmid}/citations/%{page}/json"
   end
 
   def events_url
-    config.events_url || "http://europepmc.org/abstract/MED/%{pmid}#fragment-related-citations"
+    "http://europepmc.org/abstract/MED/%{pmid}#fragment-related-citations"
   end
 
   def rows

@@ -11,10 +11,10 @@ class Datacite < Source
   end
 
   def url
-    config.url || "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&rows=100&wt=json"
+    "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&rows=100&wt=json"
   end
 
   def events_url
-    config.events_url || "http://search.datacite.org/ui?q=relatedIdentifier:%{doi}"
+    "http://search.datacite.org/ui?q=relatedIdentifier:%{doi}"
   end
 end

@@ -25,11 +25,11 @@ class Citeulike < Source
   end
 
   def url
-    config.url  || "http://www.citeulike.org/api/posts/for/doi/%{doi}"
+    "http://www.citeulike.org/api/posts/for/doi/%{doi}"
   end
 
   def events_url
-    config.events_url  || "http://www.citeulike.org/doi/%{doi}"
+    "http://www.citeulike.org/doi/%{doi}"
   end
 
   def rate_limiting

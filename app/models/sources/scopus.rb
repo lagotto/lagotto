@@ -38,7 +38,7 @@ class Scopus < Source
   end
 
   def url
-    config.url  || "https://api.elsevier.com/content/search/index:SCOPUS?query=DOI(%{doi})"
+    "https://api.elsevier.com/content/search/index:SCOPUS?query=DOI(%{doi})"
   end
 
   def insttoken

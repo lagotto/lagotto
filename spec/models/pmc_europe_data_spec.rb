@@ -37,45 +37,45 @@ describe PmcEuropeData, type: :model, vcr: true do
     end
   end
 
-  context "get_data via accession_id" do
-    it "should report that there are no events if the doi is missing" do
-      subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
-      work = FactoryGirl.build(:work, :doi => "")
-      expect(subject.get_data(work)).to eq({})
-    end
+  # context "get_data via accession_id" do
+  #   it "should report that there are no events if the doi is missing" do
+  #     subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
+  #     work = FactoryGirl.build(:work, :doi => "")
+  #     expect(subject.get_data(work)).to eq({})
+  #   end
 
-    it "should report if there are no events and event_count returned by the PMC Europe API" do
-      subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
-      work = FactoryGirl.build(:work, :pmid => "20098740")
-      body = File.read(fixture_path + 'pmc_europe_data_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
-      response = subject.get_data(work)
-      expect(response).to eq(Hash.from_xml(body))
-      expect(stub).to have_been_requested
-    end
+  #   it "should report if there are no events and event_count returned by the PMC Europe API" do
+  #     subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
+  #     work = FactoryGirl.build(:work, :pmid => "20098740")
+  #     body = File.read(fixture_path + 'pmc_europe_data_nil.xml')
+  #     stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+  #     response = subject.get_data(work)
+  #     expect(response).to eq(Hash.from_xml(body))
+  #     expect(stub).to have_been_requested
+  #   end
 
-    it "should report if there are events and event_count returned by the PMC Europe API" do
-      subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
-      body = File.read(fixture_path + 'pmc_europe_data.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
-      response = subject.get_data(work)
-      expect(response).to eq(Hash.from_xml(body))
-      expect(stub).to have_been_requested
-    end
+  #   it "should report if there are events and event_count returned by the PMC Europe API" do
+  #     subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
+  #     body = File.read(fixture_path + 'pmc_europe_data.xml')
+  #     stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+  #     response = subject.get_data(work)
+  #     expect(response).to eq(Hash.from_xml(body))
+  #     expect(stub).to have_been_requested
+  #   end
 
-    it "should catch errors with the PMC Europe API" do
-      subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, source_id: subject.id)
-      expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:#{work.doi}", status: 408)
-      expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
-    end
-  end
+  #   it "should catch errors with the PMC Europe API" do
+  #     subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
+  #     stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+  #     response = subject.get_data(work, source_id: subject.id)
+  #     expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:#{work.doi}", status: 408)
+  #     expect(stub).to have_been_requested
+  #     expect(Alert.count).to eq(1)
+  #     alert = Alert.first
+  #     expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+  #     expect(alert.status).to eq(408)
+  #     expect(alert.source_id).to eq(subject.id)
+  #   end
+  # end
 
   context "parse_data" do
     it "should report that there are no events if the pmid is missing" do

@@ -29,7 +29,7 @@ class Nature < Source
   end
 
   def url
-    config.url || "http://blogs.nature.com/posts.json?doi=%{doi}"
+    "http://blogs.nature.com/posts.json?doi=%{doi}"
   end
 
   def staleness_year

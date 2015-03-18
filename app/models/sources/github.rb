@@ -34,7 +34,7 @@ class Github < Source
   end
 
   def url
-    config.url || "https://api.github.com/repos/%{owner}/%{repo}"
+    "https://api.github.com/repos/%{owner}/%{repo}"
   end
 
   # More info at https://github.com/blog/1509-personal-api-tokens

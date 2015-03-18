@@ -18,11 +18,11 @@ class Openedition < Source
   end
 
   def url
-    config.url || "http://search.openedition.org/feed.php?op[]=AND&q[]=%{doi}&field[]=All&pf=Hypotheses.org"
+    "http://search.openedition.org/feed.php?op[]=AND&q[]=%{doi}&field[]=All&pf=Hypotheses.org"
   end
 
   def events_url
-    config.events_url || "http://search.openedition.org/index.php?op[]=AND&q[]=%{doi}&field[]=All&pf=Hypotheses.org"
+    "http://search.openedition.org/index.php?op[]=AND&q[]=%{doi}&field[]=All&pf=Hypotheses.org"
   end
 
   def staleness_year

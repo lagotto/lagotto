@@ -95,7 +95,7 @@ class Pmc < Source
             view['month'] = month.to_s
 
             # try to get the existing information about the given work
-            data = get_result(db_url + CGI.escape(doi))
+            data = get_result(url_db + CGI.escape(doi))
 
             if data['views'].nil?
               data = { 'views' => [view] }
@@ -105,7 +105,7 @@ class Pmc < Source
               data['views'] << view
             end
 
-            put_lagotto_data(db_url + CGI.escape(doi), data: data)
+            put_lagotto_data(url_db + CGI.escape(doi), data: data)
           end
         end
       end
@@ -114,7 +114,7 @@ class Pmc < Source
   end
 
   def put_database
-    put_lagotto_data(db_url)
+    put_lagotto_data(url_db)
   end
 
   def get_feed_url(publisher_id, month, year, journal)
@@ -168,19 +168,19 @@ class Pmc < Source
   end
 
   def url
-    db_url + "%{doi}"
+    url_db + "%{doi}"
   end
 
   def config_fields
-    [:db_url, :feed_url, :events_url, :journals, :username, :password]
+    [:url_db, :feed_url, :events_url, :journals, :username, :password]
   end
 
   def feed_url
-    config.feed_url || "http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=%{year}&month=%{month}&jrid=%{journal}&user=%{username}&password=%{password}"
+    "http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=%{year}&month=%{month}&jrid=%{journal}&user=%{username}&password=%{password}"
   end
 
   def events_url
-    config.events_url  || "http://www.ncbi.nlm.nih.gov/pmc/works/PMC%{pmcid}"
+    "http://www.ncbi.nlm.nih.gov/pmc/works/PMC%{pmcid}"
   end
 
   def cron_line

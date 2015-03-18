@@ -104,11 +104,11 @@ describe Pmc, type: :model, vcr: true do
     let(:year) { a_month_ago.year }
 
     before(:each) do
-      subject.put_lagotto_data(subject.db_url)
+      subject.put_lagotto_data(subject.url_db)
     end
 
     after(:each) do
-      subject.delete_lagotto_data(subject.db_url)
+      subject.delete_lagotto_data(subject.url_db)
     end
 
     it "should parse PMC data" do
@@ -125,11 +125,11 @@ describe Pmc, type: :model, vcr: true do
 
   context "get_data" do
     before(:each) do
-      subject.put_lagotto_data(subject.db_url)
+      subject.put_lagotto_data(subject.url_db)
     end
 
     after(:each) do
-      subject.delete_lagotto_data(subject.db_url)
+      subject.delete_lagotto_data(subject.url_db)
     end
 
     it "should report that there are no events if the doi is missing" do

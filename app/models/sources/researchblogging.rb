@@ -34,11 +34,11 @@ class Researchblogging < Source
   end
 
   def url
-    config.url || "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
+    "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
   end
 
   def events_url
-    config.events_url || "http://researchblogging.org/post-search/list?article=%{doi}"
+    "http://researchblogging.org/post-search/list?article=%{doi}"
   end
 
   def staleness_year

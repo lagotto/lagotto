@@ -8,28 +8,16 @@ module Configurable
       []
     end
 
-    def url
-      config.url
+    def url_private
+      config.url_private
     end
 
-    def url=(value)
-      config.url = value
+    def url_private=(value)
+      config.url_private = value
     end
 
     def events_url
-      config.events_url
-    end
 
-    def events_url=(value)
-      config.events_url = value
-    end
-
-    def feed_url
-      config.feed_url
-    end
-
-    def feed_url=(value)
-      config.feed_url = value
     end
 
     def username
@@ -104,21 +92,13 @@ module Configurable
       config.access_token = value
     end
 
-    def db_url
-      config.db_url || "http://127.0.0.1:5984/#{name}/"
+    def url_db
+      config.url_db || "http://127.0.0.1:5984/#{name}/"
     end
 
-    def db_url=(value)
+    def url_db=(value)
       # make sure we have trailing slash
-      config.db_url = value ? value.chomp("/") + "/" : nil
-    end
-
-    def authentication_url
-      config.authentication_url
-    end
-
-    def authentication_url=(value)
-      config.authentication_url = value
+      config.url_db = value ? value.chomp("/") + "/" : nil
     end
 
     def journals

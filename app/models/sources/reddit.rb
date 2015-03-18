@@ -60,11 +60,11 @@ class Reddit < Source
   end
 
   def url
-    config.url || "http://www.reddit.com/search.json?q=%{query_string}&limit=100"
+    "http://www.reddit.com/search.json?q=%{query_string}&limit=100"
   end
 
   def events_url
-    config.events_url || "http://www.reddit.com/search?q=%{query_string}"
+    "http://www.reddit.com/search?q=%{query_string}"
   end
 
   def job_batch_size

@@ -236,7 +236,7 @@ class Source < ActiveRecord::Base
   # fields with publisher-specific settings such as API keys,
   # i.e. everything that is not a URL
   def publisher_fields
-    config_fields.select { |field| field !~ /url/ }
+    config_fields.select { |field| field !~ /url\z/ }
   end
 
   # all publisher-specific configurations
@@ -253,7 +253,7 @@ class Source < ActiveRecord::Base
 
   # all other fields
   def url_fields
-    config_fields.select { |field| field =~ /url/ }
+    config_fields.select { |field| field =~ /url\z/ }
   end
 
   # Custom validations that are triggered in state machine
@@ -263,7 +263,7 @@ class Source < ActiveRecord::Base
       # Some fields can be blank
       next if name == "crossref" && [:username, :password, :openurl_username].include?(field)
       next if name == "pmc" && [:journals, :username, :password].include?(field)
-      next if name == "facebook" && [:client_id, :client_secret, :linkstat_url, :access_token].include?(field)
+      next if name == "facebook" && [:client_id, :client_secret, :url_linkstat, :access_token].include?(field)
       next if name == "mendeley" && field == :access_token
       next if name == "twitter_search" && field == :access_token
       next if name == "scopus" && field == :insttoken

@@ -36,7 +36,7 @@ class F1000 < Source
 
   # Retrieve f1000 XML feed and store in /data directory.
   def get_feed(options={})
-    save_to_file(feed_url, filename, options.merge(source_id: id))
+    save_to_file(url_feed, filename, options.merge(source_id: id))
   end
 
   def get_events_by_month(events)
@@ -74,7 +74,7 @@ class F1000 < Source
                          'updated_at' => Time.now.utc.iso8601 }
 
       # try to get the existing information about the given work
-      data = get_result(db_url + CGI.escape(doi))
+      data = get_result(url_db + CGI.escape(doi))
 
       if data['recommendations'].nil?
         data = { 'recommendations' => [recommendation] }
@@ -85,28 +85,36 @@ class F1000 < Source
       end
 
       # store updated information in CouchDB
-      put_lagotto_data(db_url + CGI.escape(doi), data: data)
+      put_lagotto_data(url_db + CGI.escape(doi), data: data)
     end
   end
 
   def put_database
-    put_lagotto_data(db_url)
+    put_lagotto_data(url_db)
   end
 
   def get_feed_url
-    feed_url
+    url_feed
   end
 
   def filename
-    String(feed_url).split("/").last
+    String(url_feed).split("/").last
   end
 
   def url
-    db_url + "%{doi}"
+    url_db + "%{doi}"
   end
 
   def config_fields
-    [:db_url, :feed_url]
+    [:url_db, :url_feed]
+  end
+
+  def url_feed
+    config.url_feed
+  end
+
+  def url_feed=(value)
+    config.url_feed = value
   end
 
   def cron_line

@@ -30,7 +30,7 @@ class Bitbucket < Source
   end
 
   def url
-    config.url || "https://api.bitbucket.org/1.0/repositories/%{owner}/%{repo}"
+    "https://api.bitbucket.org/1.0/repositories/%{owner}/%{repo}"
   end
 
   def rate_limiting

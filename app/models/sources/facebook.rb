@@ -4,9 +4,9 @@ class Facebook < Source
   def get_query_url(work, options = {})
     return nil unless get_access_token && work.get_url
 
-    # use depreciated v2.0 API if linkstat_url is used
-    if linkstat_url.present?
-      URI.escape(linkstat_url % { access_token: access_token, query_url: work.canonical_url_escaped })
+    # use depreciated v2.0 API if url_linkstat is used
+    if url_linkstat.present?
+      URI.escape(url_linkstat % { access_token: access_token, query_url: work.canonical_url_escaped })
     else
       url % { access_token: access_token, query_url: work.canonical_url_escaped }
     end
@@ -21,9 +21,9 @@ class Facebook < Source
 
     result.extend Hashie::Extensions::DeepFetch
 
-    # use depreciated v2.0 API if linkstat_url is used
+    # use depreciated v2.0 API if url_linkstat is used
     # requires user account registerd before August 2014
-    if linkstat_url.present?
+    if url_linkstat.present?
       total = result.deep_fetch('data', 0, 'total_count') { 0 }
     else
       total = result.deep_fetch('share', 'share_count') { 0 }
@@ -35,7 +35,7 @@ class Facebook < Source
     if total > count_limit.to_i
       shares, comments, likes, total = 0, 0, 0, 0
       events = {}
-    elsif linkstat_url.blank?
+    elsif url_linkstat.blank?
       shares, comments, likes = 0, 0, 0
       events = result
     else
@@ -75,25 +75,25 @@ class Facebook < Source
   end
 
   def config_fields
-    [:url, :linkstat_url, :authentication_url, :client_id, :client_secret, :access_token, :count_limit]
+    [:url, :url_linkstat, :authentication_url, :client_id, :client_secret, :access_token, :count_limit]
   end
 
   def authentication_url
-    config.authentication_url || "https://graph.facebook.com/oauth/access_token?client_id=%{client_id}&client_secret=%{client_secret}&grant_type=client_credentials"
+    "https://graph.facebook.com/oauth/access_token?client_id=%{client_id}&client_secret=%{client_secret}&grant_type=client_credentials"
   end
 
   def url
-    config.url || "https://graph.facebook.com/v2.1/?access_token=%{access_token}&id=%{query_url}"
+    "https://graph.facebook.com/v2.1/?access_token=%{access_token}&id=%{query_url}"
   end
 
-  # use depreciated v2.0 API if linkstat_url is used
+  # use depreciated v2.0 API if url_linkstat is used
   # requires user account registerd before August 2014
   # https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'
-  def linkstat_url
-    config.linkstat_url
+  def url_linkstat
+    config.url_linkstat
   end
 
-  def linkstat_url=(value)
-    config.linkstat_url = value
+  def url_linkstat=(value)
+    config.url_linkstat = value
   end
 end

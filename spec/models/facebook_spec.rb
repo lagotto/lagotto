@@ -92,8 +92,8 @@ describe Facebook, type: :model, vcr: true do
     end
   end
 
-  context "get_data with linkstat_url" do
-    subject { FactoryGirl.create(:facebook, linkstat_url: "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'") }
+  context "get_data with url_linkstat" do
+    subject { FactoryGirl.create(:facebook, url_linkstat: "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'") }
 
     it "should report if there are no events and event_count returned by the Facebook API" do
       work = FactoryGirl.build(:work, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
@@ -184,8 +184,8 @@ describe Facebook, type: :model, vcr: true do
     end
   end
 
-  context "parse_data with linkstat_url" do
-    subject { FactoryGirl.create(:facebook, linkstat_url: "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'") }
+  context "parse_data with url_linkstat" do
+    subject { FactoryGirl.create(:facebook, url_linkstat: "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'") }
     let(:work) { FactoryGirl.build(:work, :canonical_url => "http://www.plosmedicine.org/work/info:doi/10.1371/journal.pmed.0020124") }
 
     it "should report if there are no events and event_count returned by the Facebook API" do

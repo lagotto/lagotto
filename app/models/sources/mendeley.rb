@@ -82,10 +82,10 @@ class Mendeley < Source
   end
 
   def url
-    config.url || "https://api.mendeley.com/catalog?%{query_string}&view=stats"
+    "https://api.mendeley.com/catalog?%{query_string}&view=stats"
   end
 
   def authentication_url
-    config.authentication_url || "https://api.mendeley.com/oauth/token"
+    "https://api.mendeley.com/oauth/token"
   end
 end

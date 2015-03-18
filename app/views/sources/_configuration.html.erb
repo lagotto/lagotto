@@ -19,10 +19,6 @@
         <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
         <%= f.input :description, :input_html => { :rows => 3 } %>
 
-        <% @source.url_fields.each do |field| %>
-          <%= f.input field %>
-        <% end %>
-
         <% unless @source.by_publisher? %>
           <% @source.publisher_fields.each do |field| %>
             <% if field == "password" %>

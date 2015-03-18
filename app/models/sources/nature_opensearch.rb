@@ -84,11 +84,11 @@ class NatureOpensearch < Source
   end
 
   def url
-    config.url || "http://www.nature.com/opensearch/request?query=%{query_string}&httpAccept=application/json&startRecord=%{start_record}"
+    "http://www.nature.com/opensearch/request?query=%{query_string}&httpAccept=application/json&startRecord=%{start_record}"
   end
 
   def events_url
-    config.events_url || "http://www.nature.com/search?q=%{query_string}"
+    "http://www.nature.com/search?q=%{query_string}"
   end
 
   def rate_limiting

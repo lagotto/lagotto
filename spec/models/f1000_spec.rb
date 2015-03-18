@@ -21,13 +21,13 @@ describe F1000, type: :model, vcr: true do
 
   context "parse f1000 data" do
     before(:each) do
-      subject.put_lagotto_data(subject.db_url)
+      subject.put_lagotto_data(subject.url_db)
       body = File.read(fixture_path + 'f1000.xml')
       File.open("#{Rails.root}/data/#{subject.filename}", 'w') { |file| file.write(body) }
     end
 
     after(:each) do
-      subject.delete_lagotto_data(subject.db_url)
+      subject.delete_lagotto_data(subject.url_db)
     end
 
     it "should parse f1000 data" do
@@ -38,11 +38,11 @@ describe F1000, type: :model, vcr: true do
 
   context "get_data from the f1000 internal database" do
     before(:each) do
-      subject.put_lagotto_data(subject.db_url)
+      subject.put_lagotto_data(subject.url_db)
     end
 
     after(:each) do
-      subject.delete_lagotto_data(subject.db_url)
+      subject.delete_lagotto_data(subject.url_db)
     end
 
     it "should report if there are no events and event_count returned by f1000" do

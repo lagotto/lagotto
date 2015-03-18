@@ -4,7 +4,7 @@ class Copernicus < Source
   def get_query_url(work)
     return nil unless work.doi =~ /^10.5194/
 
-    url % { :doi => work.doi }
+    url_private % { :doi => work.doi }
   end
 
   def request_options
@@ -31,6 +31,6 @@ class Copernicus < Source
   end
 
   def config_fields
-    [:url, :username, :password]
+    [:url_private, :username, :password]
   end
 end

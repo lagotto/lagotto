@@ -2,7 +2,7 @@ class Wos < Source
   def get_query_url(work)
     return nil unless work.doi.present?
 
-    url
+    url_private
   end
 
   def get_data(work, options={})
@@ -94,6 +94,6 @@ class Wos < Source
   end
 
   def config_fields
-    [:url]
+    [:url_private]
   end
 end

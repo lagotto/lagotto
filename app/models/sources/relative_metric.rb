@@ -2,7 +2,7 @@ class RelativeMetric < Source
   def get_query_url(work)
     return nil unless work.doi =~ /^10.1371/
 
-    url % { :doi => work.doi_escaped }
+    url_private % { :doi => work.doi_escaped }
   end
 
   def parse_data(result, work, options={})
@@ -29,6 +29,6 @@ class RelativeMetric < Source
   end
 
   def config_fields
-    [:url]
+    [:url_private]
   end
 end

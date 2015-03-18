@@ -62,10 +62,10 @@ class PlosFulltext < Source
   end
 
   def url
-    config.url || "http://api.plos.org/search?q=%{query_string}&fq=doc_type:full&fl=id,publication_date,title,cross_published_journal_name,author_display&wt=json&rows=1000"
+    "http://api.plos.org/search?q=%{query_string}&fq=doc_type:full&fl=id,publication_date,title,cross_published_journal_name,author_display&wt=json&rows=1000"
   end
 
   def events_url
-    config.events_url || "http://www.plosone.org/search/advanced?unformattedQuery=%{query_string}"
+    "http://www.plosone.org/search/advanced?unformattedQuery=%{query_string}"
   end
 end
