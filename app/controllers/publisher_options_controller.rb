@@ -2,26 +2,18 @@ class PublisherOptionsController < ApplicationController
   before_filter :load_source, only: [:show, :edit, :update]
   # load_and_authorize_resource
 
-  respond_to :js
-
   def show
     @publisher_option.config = @source.publisher_fields if @publisher_option.config.nil?
-    respond_with(@publisher_option) do |format|
-      format.js { render :show }
-    end
+    render :show
   end
 
   def edit
-    respond_with(@publisher_option) do |format|
-      format.js { render :show }
-    end
+    render :show
   end
 
   def update
     @publisher_option.update_attributes(safe_params)
-    respond_with(@publisher_option) do |format|
-      format.js { render :show }
-    end
+    render :show
   end
 
   protected

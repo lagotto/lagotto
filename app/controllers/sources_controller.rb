@@ -3,15 +3,13 @@ class SourcesController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:show, :index]
 
-  respond_to :html, :js, :rss
-
   def show
     @doc = Doc.find(@source.name)
     if current_user && current_user.publisher && @source.by_publisher?
       @publisher_option = PublisherOption.where(publisher_id: current_user.publisher_id, source_id: @source.id).first_or_create
     end
 
-    respond_with(@source) do |format|
+    respond_to do |format|
       format.rss do
         if params[:days]
           @retrieval_statuses = @source.retrieval_statuses.most_cited
@@ -34,9 +32,7 @@ class SourcesController < ApplicationController
   end
 
   def edit
-    respond_with(@source) do |format|
-      format.js { render :show }
-    end
+    render :show
   end
 
   def update
@@ -48,13 +44,12 @@ class SourcesController < ApplicationController
       flash.now[:alert] = "Please configure source #{@source.display_name}: #{error_messages}"
       @flash = flash
     end
-    respond_with(@source) do |format|
-      if params[:state_event]
-        @groups = Group.includes(:sources).order("groups.id, sources.display_name")
-        format.js { render :index }
-      else
-        format.js { render :show }
-      end
+
+    if params[:state_event]
+      @groups = Group.includes(:sources).order("groups.id, sources.display_name")
+      render :index
+    else
+      render :show
     end
   end
 

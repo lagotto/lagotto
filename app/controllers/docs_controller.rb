@@ -1,6 +1,4 @@
 class DocsController < ApplicationController
-  respond_to :html
-
   def index
     @doc = Doc.find("index")
     render :show

@@ -2,34 +2,28 @@ class UsersController < ApplicationController
   before_filter :load_user, only: [:show, :edit, :destroy]
   load_and_authorize_resource
 
-  respond_to :html, :js
-
   def show
-    respond_with(@user) do |format|
+    respond_to do |format|
       format.js { render :show }
+      format.html
     end
   end
 
   def index
     load_index
-    respond_with @users
   end
 
   def edit
     if params[:id].to_i == current_user.id
       # user updates his account
-      respond_with(@user) do |format|
-        format.js { render :show }
-      end
+      render :show
     else
       # admin updates user account
       @user = User.find(params[:id])
       @reports = Report.available(@user.role)
       @doc = Doc.find("api")
       load_index
-      respond_with(@users) do |format|
-        format.js { render :index }
-      end
+      render :index
     end
   end
 
@@ -49,18 +43,14 @@ class UsersController < ApplicationController
         sign_in @user, :bypass => true if @user.update_attributes(safe_params)
       end
 
-      respond_with(@user) do |format|
-        format.js { render :show }
-      end
+      render :show
     else
       # admin updates user account
       @user = User.find(params[:id])
       @user.update_attributes(safe_params)
 
       load_index
-      respond_with(@users) do |format|
-        format.js { render :index }
-      end
+      render :index
     end
   end
 
@@ -68,9 +58,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.destroy
     load_index
-    respond_with(@users) do |format|
-      format.js { render :index }
-    end
+    render :index
   end
 
   def update_password

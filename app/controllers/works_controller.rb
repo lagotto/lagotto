@@ -4,8 +4,6 @@ class WorksController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:show, :index]
 
-  respond_to :html, :js
-
   def index
     @page = params[:page] || 1
     @q = params[:q]
@@ -19,38 +17,27 @@ class WorksController < ApplicationController
     format_options = params.slice :events, :source
 
     @groups = Group.order("id")
-
-    respond_with(@work) do |format|
-      format.js { render :show }
-    end
+    render :show
   end
 
   def new
     @work = Work.new(day: Time.zone.now.day, month: Time.zone.now.month, year: Time.zone.now.year)
-    respond_with(@work) do |format|
-      format.js { render :index }
-    end
+    render :index
   end
 
   def create
     @work.save
-    respond_with(@work) do |format|
-      format.js { render :index }
-    end
+    render :index
   end
 
   def edit
-    respond_with(@work) do |format|
-      format.js { render :show }
-    end
+    render :show
   end
 
   # PUT /works/:id(.:format)
   def update
     @work.update_attributes(safe_params)
-    respond_with(@work) do |format|
-      format.js { render :show }
-    end
+    render :show
   end
 
   def destroy

@@ -4,11 +4,8 @@ class PublishersController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:show, :index]
 
-  respond_to :html, :js
-
   def index
     load_index
-    respond_with @publishers
   end
 
   def show
@@ -26,17 +23,13 @@ class PublishersController < ApplicationController
       @publishers = []
     end
 
-    respond_with(@publishers) do |format|
-      format.js { render :index }
-    end
+    render :index
   end
 
   def create
     @publisher.save
     load_index
-    respond_with(@publishers) do |format|
-      format.js { render :index }
-    end
+    render :index
   end
 
   def destroy

@@ -9,12 +9,10 @@ class ApplicationController < ActionController::Base
 
   before_filter :miniprofiler
 
-  respond_to :json, :html, :rss, :xml
-
   layout 'application'
 
   rescue_from ActiveRecord::RecordNotFound, CanCan::AccessDenied do
-    respond_with do |format|
+    respond_to do |format|
       format.html do
         if /(jpe?g|png|gif|css)/i == request.path
           render text: "404 Not Found", status: 404
@@ -26,6 +24,7 @@ class ApplicationController < ActionController::Base
       format.json { render json: { error: "The page you are looking for doesn't exist." }.to_json, status: 404 }
       format.xml { render xml: { error: "The page you are looking for doesn't exist." }.to_xml, status: 404 }
       format.rss { render :show, status: 404, layout: false }
+      format.all { render text: "404 Not Found", status: 404 }
     end
   end
 
