@@ -104,7 +104,8 @@ Vagrant.configure("2") do |config|
     end
 
     machine.vm.provider :vmware_fusion do |fusion|
-      fusion.vmx["memsize"] = "1024"
+      fusion.vmx["memsize"] = "2048"
+      fusion.vmx["numvcpus"] = "2"
     end
 
     machine.vm.provider :aws do |aws, override|
