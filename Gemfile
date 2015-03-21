@@ -43,7 +43,7 @@ gem "dalli", "~> 2.7.0"
 gem "turbolinks", "~> 2.5.1"
 gem 'will_paginate', '3.0.7'
 gem "will_paginate-bootstrap", "~> 1.0.1"
-gem "simple_form", "~> 3.0.2"
+gem "simple_form", "~> 3.1.0"
 gem 'nilify_blanks', '~> 1.2.0'
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.7.2"
