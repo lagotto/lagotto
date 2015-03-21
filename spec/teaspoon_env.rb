@@ -169,7 +169,7 @@ Teaspoon.configure do |config|
     # Which coverage reports Istanbul should generate. Correlates directly to what Istanbul supports.
     #
     # Available: text-summary, text, html, lcov, lcovonly, cobertura, teamcity
-    coverage.reports = ["text-summary", "html", "lcov"]
+    coverage.reports = ["text-summary", "lcov"]
 
     # The path that the coverage should be written to - when there's an artifact to write to disk.
     # Note: Relative to `config.root`.
