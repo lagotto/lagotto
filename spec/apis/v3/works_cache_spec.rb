@@ -135,7 +135,7 @@ describe "/api/v3/articles", :type => :api do
 
         expect(Rails.cache.exist?(key)).to be true
         response = Rails.cache.read(key)
-        expect(response["sources"].size).to eql(1)
+        expect(response["sources"].length).to eql(2)
 
         source_uri = "#{uri}&source=crossref"
         get source_uri, nil, 'HTTP_ACCEPT' => 'application/json'
