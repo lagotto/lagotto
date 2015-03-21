@@ -85,7 +85,6 @@ group :test do
   gem "webmock", "~> 1.20.0"
   gem 'vcr', '~> 2.9.3'
   gem "poltergeist", "~> 1.5.0"
-  gem 'phantomjs', '~> 1.9.7.1', :require => 'phantomjs/poltergeist'
 end
 
 group :test, :development do
