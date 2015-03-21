@@ -10,6 +10,7 @@ class SourcesController < ApplicationController
     end
 
     respond_to do |format|
+      format.html
       format.rss do
         if params[:days]
           @retrieval_statuses = @source.retrieval_statuses.most_cited
