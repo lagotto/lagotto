@@ -64,7 +64,7 @@ namespace :report do
     source = Source.visible.where(name: "pmc").first
     next if source.nil?
 
-    csv = source.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    csv = source.to_csv(name: "pmc", format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
@@ -126,7 +126,7 @@ namespace :report do
     source = Source.visible.where(name: "counter").first
     next if source.nil?
 
-    csv = source.to_csv(format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    csv = source.to_csv(name: "counter", format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."

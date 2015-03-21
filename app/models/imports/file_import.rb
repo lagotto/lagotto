@@ -1,9 +1,4 @@
 class FileImport < Import
-  def initialize(options = {})
-    @file = options.fetch(:file, nil)
-    @member = options.fetch(:member, nil)
-  end
-
   def total_results
     @file.length
   end

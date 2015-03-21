@@ -1,24 +1,4 @@
 class SciencetoolboxImport < Import
-  def initialize(options = {})
-    @filepath = options.fetch(:filepath, nil)
-    @member = options.fetch(:member, nil).to_s.split(",")
-  end
-
-  def total_results
-    content = File.open(@filepath, 'r') { |f| f.read }
-    JSON.parse(content).length
-  rescue Errno::ENOENT, JSON::ParserError
-    0
-  end
-
-  def get_data(offset = 0, rows = 1000)
-    return [] if @filepath.nil?
-
-    content = File.open(@filepath, 'r') { |f| f.read }
-    json = JSON.parse(content)
-    json[offset...offset + rows]
-  end
-
   def parse_data(result)
     Array(result).map do |item|
       doi = item.fetch("doi", nil)

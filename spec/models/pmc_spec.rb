@@ -19,7 +19,7 @@ describe Pmc, type: :model, vcr: true do
     it "should format the CouchDB report as csv" do
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_report.json'))
-      response = CSV.parse(subject.to_csv)
+      response = CSV.parse(subject.to_csv(name: "pmc"))
       expect(response.count).to eq(25)
       expect(response.first).to eq(["pid_type", "pid", "html", "pdf", "total"])
       expect(response.last).to eq(["doi", "10.1371/journal.ppat.1000446", "9", "6", "15"])
@@ -32,7 +32,7 @@ describe Pmc, type: :model, vcr: true do
       row.fill("0", 3..(dates.length))
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_html_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_html_report.json'))
-      response = CSV.parse(subject.to_csv(format: "html", month: 7, year: 2013))
+      response = CSV.parse(subject.to_csv(name: "pmc", format: "html", month: 7, year: 2013))
       expect(response.count).to eq(25)
       expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response.last).to eq(row)
@@ -44,7 +44,7 @@ describe Pmc, type: :model, vcr: true do
       row = ["doi", "10.1371/journal.pbio.0030137", "0", "0"]
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_pdf_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_pdf_report.json'))
-      response = CSV.parse(subject.to_csv(format: "pdf", month: 7, year: 2013))
+      response = CSV.parse(subject.to_csv(name: "pmc", format: "pdf", month: 7, year: 2013))
       expect(response.count).to eq(25)
       expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response[2]).to eq(row)
@@ -56,7 +56,7 @@ describe Pmc, type: :model, vcr: true do
       row = ["doi", "10.1371/journal.pbio.0040015", "9", "10"]
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_combined_views"
       stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_combined_report.json'))
-      response = CSV.parse(subject.to_csv(format: "combined", month: 7, year: 2013))
+      response = CSV.parse(subject.to_csv(name: "pmc", format: "combined", month: 7, year: 2013))
       expect(response.count).to eq(25)
       expect(response.first).to eq(["pid_type", "pid"] + dates)
       expect(response[3]).to eq(row)
@@ -66,7 +66,7 @@ describe Pmc, type: :model, vcr: true do
       FactoryGirl.create(:fatal_error_report_with_admin_user)
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc"
       stub = stub_request(:get, url).to_return(:status => [404])
-      expect(subject.to_csv).to be_nil
+      expect(subject.to_csv(name: "pmc")).to be_nil
       expect(Alert.count).to eq(1)
       alert = Alert.first
       expect(alert.class_name).to eq("Faraday::ResourceNotFound")
