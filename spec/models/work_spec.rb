@@ -219,6 +219,31 @@ describe Work, type: :model, vcr: true do
     expect(CGI.escape(work.title.to_str).gsub("+", "%20")).to eq(work.title_escaped)
   end
 
+  it 'event_counts' do
+    work = FactoryGirl.create(:work_with_events)
+    expect(work.event_counts(["citeulike", "mendeley"])).to eq(100)
+  end
+
+  it 'viewed' do
+    work = FactoryGirl.create(:work_with_counter_citations)
+    expect(work.viewed).to eq(50)
+  end
+
+  it 'discussed' do
+    work = FactoryGirl.create(:work_with_tweets)
+    expect(work.discussed).to eq(50)
+  end
+
+  it 'saved' do
+    work = FactoryGirl.create(:work_with_events)
+    expect(work.saved).to eq(100)
+  end
+
+  it 'cited' do
+    work = FactoryGirl.create(:work_with_crossref_citations)
+    expect(work.cited).to eq(50)
+  end
+
   it "events count" do
     Work.all.each do |work|
       total = work.retrieval_statuses.reduce(0) { |sum, rs| sum + rs.event_count }

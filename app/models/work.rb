@@ -186,7 +186,7 @@ class Work < ActiveRecord::Base
   end
 
   def event_counts(names)
-    names.reduce(0) { |sum, source| event_count(source) }
+    names.reduce(0) { |sum, source| sum + event_count(source) }
   end
 
   def events_url(name)
