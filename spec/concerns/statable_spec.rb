@@ -71,7 +71,7 @@ describe Source do
       end
 
       describe "invalid source" do
-        subject { FactoryGirl.create(:source, state_event: "install", url: "") }
+        subject { FactoryGirl.create(:counter, state_event: "install", url_private: "") }
 
         it "should not change to :waiting on :activate" do
           subject.activate
