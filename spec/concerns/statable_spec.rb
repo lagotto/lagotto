@@ -76,7 +76,7 @@ describe Source do
         it "should not change to :waiting on :activate" do
           subject.activate
           expect(subject).to be_inactive
-          expect(subject.errors.full_messages.first).to eq("Url can't be blank")
+          expect(subject.errors.full_messages.first).to eq("Url private can't be blank")
         end
       end
     end
