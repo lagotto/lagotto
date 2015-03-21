@@ -16,6 +16,7 @@ before_script:
   - cp .env.example .env
   - mkdir -p tmp/pids
   - npm install -g istanbul
+  - npm install -g codeclimate-test-reporter
 
 script:
   - bundle exec rake db:setup RAILS_ENV=test
