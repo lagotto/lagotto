@@ -6,6 +6,7 @@ FactoryGirl.define do
     sequence(:pmcid) { |n| "256885#{n}" }
     sequence(:wos) { |n| "00023796690000#{n}" }
     sequence(:scp) { |n| "3384533872#{n}" }
+    sequence(:ark) { |n| "ark:/13030/m5br8st#{n}" }
     sequence(:canonical_url) { |n| "http://www.plosone.org/article/info:doi/10.1371/journal.pone.00000#{n}" }
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'

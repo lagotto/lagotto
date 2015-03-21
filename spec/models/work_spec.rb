@@ -81,6 +81,28 @@ describe Work, type: :model, vcr: true do
     end
   end
 
+  context "validate ark format" do
+    it "ark:/13030/m5br8stc" do
+      work = FactoryGirl.build(:work, :ark => "ark:/13030/m5br8stc")
+      expect(work).to be_valid
+    end
+
+    it "13030/m5br8stc" do
+      work = FactoryGirl.build(:work, :ark => " 13030/m5br8stc")
+      expect(work).not_to be_valid
+    end
+
+    it "ark:/13030" do
+      work = FactoryGirl.build(:work, :ark => "ark:/13030")
+      expect(work).not_to be_valid
+    end
+
+    it "ark:/1303x/m5br8stc" do
+      work = FactoryGirl.build(:work, :ark => "ark:/1303x/m5br8stc")
+      expect(work).not_to be_valid
+    end
+  end
+
   context "validate date " do
     before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
@@ -209,8 +231,13 @@ describe Work, type: :model, vcr: true do
       expect(work.to_param).to eq "scp/#{work.scp}"
     end
 
+    it 'for ark' do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil, scp: nil)
+      expect(work.to_param).to eq "ark/#{work.ark}"
+    end
+
     it 'for canonical_url' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil, scp: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil, scp: nil, ark: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
       expect(work.to_param).to eq "url/#{work.canonical_url}"
     end
   end

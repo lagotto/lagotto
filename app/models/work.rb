@@ -22,7 +22,8 @@ class Work < ActiveRecord::Base
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
   validates :canonical_url, uniqueness: true, format: { with: URL_FORMAT }, allow_blank: true
-  validates :pid, :pmid, :pmcid, uniqueness: true, allow_blank: true
+  validates :ark, uniqueness: true, format: { with: ARK_FORMAT }, allow_blank: true
+  validates :pid, :pmid, :pmcid, :wos, :scp, uniqueness: true, allow_blank: true
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
 
