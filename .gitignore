@@ -26,15 +26,15 @@ capybara-*.html
 /public/files/alm_report.zip
 /public/api/
 /public/api-docs.json
+/public/assets
 /coverage/
-/data/
+/node_modules
 /spec/tmp/
 /config/data_bags/*
 **.orig
 rerun.txt
 pickle-email-*.html
 .vagrant*
-/public/assets
 .idea/*
 erl_crash.dump
 optimise-db.txt

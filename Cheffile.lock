@@ -7,9 +7,9 @@ SITE
     ark (0.9.0)
       7-zip (>= 0.0.0)
       windows (>= 0.0.0)
-    aws (2.6.4)
-    build-essential (2.1.3)
-    chef-sugar (2.5.0)
+    aws (2.6.5)
+    build-essential (2.2.0)
+    chef-sugar (3.0.1)
     chef_handler (1.1.6)
     chocolatey (0.2.0)
       windows (~> 1.31)
@@ -54,7 +54,7 @@ SITE
     redisio (2.2.4)
       build-essential (>= 0.0.0)
       ulimit (>= 0.1.2)
-    runit (1.5.16)
+    runit (1.5.18)
       build-essential (>= 0.0.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
@@ -67,7 +67,7 @@ SITE
       yum (~> 3.0)
     yum-erlang_solutions (0.2.0)
       yum (~> 3.0)
-    yum-mysql-community (0.1.13)
+    yum-mysql-community (0.1.14)
       yum (>= 3.0)
 
 GIT
@@ -88,9 +88,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: ca62cea423a5fbea31de47de1d2caeb730e28ad6
+  sha: 1c1635e269e84208877ea1b5f249afc38badd58b
   specs:
-    lagotto (4.4.6)
+    lagotto (4.4.9)
       apt (>= 0.0.0)
       capistrano (~> 0.8.0)
       couchdb (>= 0.0.0)

@@ -91,7 +91,7 @@ end
 group :test, :development do
   gem "rspec-rails", "~> 3.1.0"
   gem 'spring-commands-rspec', '~> 1.0.4'
-  gem 'jasmine-rails', '~> 0.10.2'
+  gem 'teaspoon', '~> 0.9.1'
   gem "brakeman", "~> 2.6.0", :require => false
   gem 'rubocop', '~> 0.27.0'
   gem 'bullet', '~> 4.14.0'

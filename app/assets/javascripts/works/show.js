@@ -100,5 +100,5 @@ function showEvents(data, page) {
         .text(event.url);
     }
   }
-  paginate_events(data, page);
+  paginateEvents(data, page);
 }

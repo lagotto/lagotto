@@ -72,8 +72,8 @@ function worksViz(json) {
       .attr("class", "date")
       .text(formattedDate(date, date_parts.length) + ". ");
     d3.select("#results").append("a")
-      .attr("href", function() { return url_for(work); })
-      .text(url_for(work));
+      .attr("href", function() { return urlForWork(work); })
+      .text(urlForWork(work));
     d3.select("#results").append("p")
       .text(signpostsToString(work, source_id, order));
   }

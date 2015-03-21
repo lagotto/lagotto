@@ -62,7 +62,7 @@ function formattedDate(date, len) {
 }
 
 // pagination for events
-function paginate_events(data, page) {
+function paginateEvents(data, page) {
   if (data.length > 50) {
     var total = Math.ceil(data.length/50);
     var max_visible = 10;
@@ -109,13 +109,15 @@ function paginate(json) {
 }
 
 // link to individual work
-function url_for(work) {
+function urlForWork(work) {
   if (!!work.doi) {
     return "http://dx.doi.org/" + work.doi;
   } else if (!!work.pmid) {
     return "http://www.ncbi.nlm.nih.gov/pubmed/" + work.pmid;
   } else if (!!work.pmcid) {
     return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work.pmcid;
+  } else if (!!work.ark) {
+    return "http://n2t.net/" + work.ark;
   } else if (!!work.canonical_url) {
     return work.canonical_url;
   } else {
@@ -141,8 +143,10 @@ function signpostsToString(work, source_id, order) {
   if (b.length > 0) {
     a.push(b.join(" • "));
     return a.join(" | ");
-  } else {
+  } else if (a.length > 0) {
     return a;
+  } else {
+    return "";
   }
 }
 

@@ -18,6 +18,13 @@ before_script:
 script:
   - bundle exec rake db:setup RAILS_ENV=test
   - bundle exec rspec
+  - bundle exec teaspoon
+
+after_success:
+  - codeclimate < ./coverage/lcov.
+
+after_failure:
+  - cat /home/travis/build/articlemetrics/lagotto/tmp/capybara/*.html
 
 env:
   global:
