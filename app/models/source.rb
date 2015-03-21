@@ -32,6 +32,13 @@ class Source < ActiveRecord::Base
   # include hash helper
   include Hashie::Extensions::DeepFetch
 
+  BLANK_FIELDS = { "crossref" => [:username, :password, :openurl_username],
+                   "pmc" => [:journals, :username, :password],
+                   "facebook" => [:client_id, :client_secret, :url_linkstat, :access_token],
+                   "mendeley" => [:access_token],
+                   "twitter_search" => [:access_token],
+                   "scopus" => [:insttoken] }
+
   has_many :retrieval_statuses, :dependent => :destroy
   has_many :works, :through => :retrieval_statuses
   has_many :publishers, :through => :publisher_options
@@ -256,18 +263,16 @@ class Source < ActiveRecord::Base
     config_fields.select { |field| field =~ /url\z/ }
   end
 
+  def allowed_blank_fields
+    BLANK_FIELDS.fetch(name, [])
+  end
+
   # Custom validations that are triggered in state machine
   def validate_config_fields
     config_fields.each do |field|
 
       # Some fields can be blank
-      next if name == "crossref" && [:username, :password, :openurl_username].include?(field)
-      next if name == "pmc" && [:journals, :username, :password].include?(field)
-      next if name == "facebook" && [:client_id, :client_secret, :url_linkstat, :access_token].include?(field)
-      next if name == "mendeley" && field == :access_token
-      next if name == "twitter_search" && field == :access_token
-      next if name == "scopus" && field == :insttoken
-
+      next if allowed_blank_fields.include?(field)
       errors.add(field, "can't be blank") if send(field).blank?
     end
   end
