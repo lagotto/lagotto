@@ -74,7 +74,7 @@ Teaspoon.configure do |config|
 
     # Assets to be ignored when generating coverage reports. Accepts an array of filenames or regular expressions. The
     # default excludes assets from vendor, gems and support libraries.<br/><br/>
-    suite.no_coverage = [%r{/lib/ruby/gems/}, %r{/vendor/bundle/}, %r{/vendor/assets/}, %r{/support/}, %r{/(.+)jquery.}]
+    suite.no_coverage = [%r{/lib/ruby/gems/}, %r{/spec/javascripts/}, %r{/vendor/bundle/}, %r{/vendor/assets/}, %r{/support/}, %r{/(.+)jquery.}]
 
     # Hooks allow you to use `Teaspoon.hook("fixtures")` before, after, or during your spec run. This will make a
     # synchronous Ajax request to the server that will call all of the blocks you've defined for that hook name.
