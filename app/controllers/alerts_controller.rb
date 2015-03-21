@@ -32,7 +32,6 @@ class AlertsController < ApplicationController
     collection = collection.query(params[:q]) if params[:q]
 
     @alerts = collection.paginate(:page => params[:page])
-    respond_with @alerts
   end
 
   def create
@@ -46,7 +45,7 @@ class AlertsController < ApplicationController
       @alert.save
     end
 
-    respond_with(@alert) do |format|
+    respond_to do |format|
       format.json { render json: { error: @alert.public_message }, status: @alert.status }
       format.xml  { render xml: @alert.public_message, root: "error", status: @alert.status }
       format.html { render :show, status: @alert.status, layout: !request.xhr? }
@@ -85,17 +84,15 @@ class AlertsController < ApplicationController
     collection = collection.query(params[:q]) if params[:q]
 
     @alerts = collection.paginate(:page => params[:page])
-    respond_with(@alerts) do |format|
-      if params[:work_id]
-        format.js { render :alert }
-      else
-        format.js { render :index }
-      end
+
+    if params[:work_id]
+      render :alert
+    else
+      render :index
     end
   end
 
   def routing_error
-    @alert = Alert.new(message: "The page you are looking for doesn't exist.", status: 404)
-    render "alerts/show", status: 404
+    fail ActiveRecord::RecordNotFound
   end
 end
