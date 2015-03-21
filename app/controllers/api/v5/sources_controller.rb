@@ -1,4 +1,4 @@
-class Api::V5::SourcesController < Api::V5::BaseController
+class Api::V5::SourcesController < Api::BaseController
   swagger_controller :sources, "Sources"
 
   swagger_api :index do

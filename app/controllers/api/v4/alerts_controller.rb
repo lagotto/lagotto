@@ -1,4 +1,5 @@
-class Api::V4::AlertsController < Api::V4::BaseController
+class Api::V4::AlertsController < Api::BaseController
+  before_filter :authenticate_user_via_basic_authentication!,
   load_and_authorize_resource
 
   def index

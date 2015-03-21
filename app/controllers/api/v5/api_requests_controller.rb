@@ -1,4 +1,5 @@
-class Api::V5::ApiRequestsController < Api::V5::BaseController
+class Api::V5::ApiRequestsController < Api::BaseController
+  before_filter :authenticate_user_from_token!
   load_and_authorize_resource
 
   swagger_controller :api_requests, "API requests"

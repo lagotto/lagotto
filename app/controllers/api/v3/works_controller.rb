@@ -1,6 +1,8 @@
-class Api::V3::WorksController < Api::V3::BaseController
+class Api::V3::WorksController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
+
+  before_filter :authenticate_user_from_token!
 
   def index
     type = ["doi", "pmid", "pmcid"].find { |t| t == params[:type] } || "doi"

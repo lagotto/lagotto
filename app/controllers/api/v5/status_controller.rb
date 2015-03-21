@@ -1,4 +1,6 @@
-class Api::V5::StatusController < Api::V5::BaseController
+class Api::V5::StatusController < Api::BaseController
+  before_filter :authenticate_user_from_token!
+
   swagger_controller :status, "Status"
 
   swagger_api :index do

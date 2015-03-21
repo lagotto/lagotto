@@ -1,5 +1,5 @@
-class Api::V4::WorksController < Api::V4::BaseController
-  before_filter :load_work, only: [:update, :destroy]
+class Api::V4::WorksController < Api::BaseController
+  before_filter :authenticate_user_via_basic_authentication!, :load_work, only: [:update, :destroy]
 
   def create
     @work = Work.new(safe_params)
@@ -32,17 +32,6 @@ class Api::V4::WorksController < Api::V4::BaseController
     else
       render json: { error: "An error occured." }, status: :bad_request
     end
-  end
-
-  protected
-
-  def load_work
-    # Load one work given query params
-    id_hash = get_id_hash(params[:id])
-    key, value = id_hash.first
-    @work = Work.where(key => value).first
-
-    render json: { error: "Work not found." }.to_json, status: :not_found if @work.nil?
   end
 
   private
