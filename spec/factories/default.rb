@@ -294,7 +294,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Joe Smith#{n}" }
     password "joesmith"
     sequence(:authentication_token) { |n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
-    provider "persona"
+    provider "cas"
     sequence(:uid) { |n| "joe#{n}@example.com" }
     publisher_id 340
 
