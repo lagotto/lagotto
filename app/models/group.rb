@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Group < ActiveRecord::Base
   has_many :sources, -> { order(:display_name) }, :dependent => :nullify
 
