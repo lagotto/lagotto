@@ -19,5 +19,22 @@ module Repoable
 
       send(common_url) % { owner: owner, repo: repo }
     end
+
+    def parse_data(result, work, options={})
+      return result if result[:error]
+
+      shares = result.fetch("forks_count", 0)
+      likes = result.fetch(likes_key, 0)
+      total = shares + likes
+      events = result.slice(*events_key)
+      events_url = total > 0 ? get_events_url(work) : nil
+
+      { events: events,
+        events_by_day: [],
+        events_by_month: [],
+        events_url: events_url,
+        event_count: total,
+        event_metrics: get_event_metrics(shares: shares, likes: likes, total: total) }
+    end
   end
 end

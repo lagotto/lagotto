@@ -38,4 +38,12 @@ class Bitbucket < Source
   def repo_key
     "bitbucket.org"
   end
+
+  def likes_key
+    "followers_count"
+  end
+
+  def events_key
+    ["followers_count", "forks_count", "description", "utc_created_on"]
+  end
 end
