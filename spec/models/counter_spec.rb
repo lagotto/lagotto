@@ -83,7 +83,7 @@ describe Counter, type: :model, vcr: true do
       expect(Alert.count).to eq(1)
       alert = Alert.first
       expect(alert.class_name).to eq("Faraday::ResourceNotFound")
-      expect(alert.message).to eq("CouchDB report for Counter could not be retrieved.")
+      expect(alert.message).to eq("CouchDB report for counter could not be retrieved.")
       expect(alert.status).to eq(404)
     end
   end
