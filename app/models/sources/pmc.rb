@@ -129,44 +129,6 @@ class Pmc < Source
     events_url % { :pmcid => work.pmcid } if work.pmcid.present?
   end
 
-  # Format Pmc events for all works as csv
-  # Show historical data if options[:format] is used
-  # options[:format] can be "html", "pdf" or "combined"
-  # options[:month] and options[:year] are the starting month and year, default to last month
-  def to_csv(options = {})
-    if ["html", "pdf", "combined"].include? options[:format]
-      view = "pmc_#{options[:format]}_views"
-    else
-      view = "pmc"
-    end
-
-    service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/#{view}"
-
-    result = get_result(service_url, options.merge(timeout: 1800))
-    if result.blank? || result["rows"].blank?
-      Alert.create(exception: "", class_name: "Faraday::ResourceNotFound",
-                   message: "CouchDB report for PMC could not be retrieved.",
-                   source_id: id,
-                   status: 404,
-                   level: Alert::FATAL)
-      return nil
-    end
-
-    if view == "pmc"
-      CSV.generate do |csv|
-        csv << ["pid_type", "pid", "html", "pdf", "total"]
-        result["rows"].each { |row| csv << ["doi", row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
-      end
-    else
-      dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
-
-      CSV.generate do |csv|
-        csv << ["pid_type", "pid"] + dates
-        result["rows"].each { |row| csv << ["doi", row["key"]] + dates.map { |date| row["value"][date] || 0 } }
-      end
-    end
-  end
-
   def url
     url_db + "%{doi}"
   end
