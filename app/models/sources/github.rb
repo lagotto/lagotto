@@ -1,23 +1,6 @@
 class Github < Source
-  def get_query_url(work)
-    return nil unless work.canonical_url =~ /github.com/
-
-    # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
-    full_name = URI.parse(work.canonical_url).path[1..-1]
-    owner, repo = full_name.split('/')
-
-    url % { owner: owner, repo: repo }
-  end
-
-  def get_events_url(work)
-    return nil unless work.canonical_url =~ /github.com/
-
-    # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
-    full_name = URI.parse(work.canonical_url).path[1..-1]
-    owner, repo = full_name.split('/')
-
-    events_url % { owner: owner, repo: repo }
-  end
+  # include common methods for repos
+  include Repoable
 
   def request_options
     { bearer: personal_access_token }
@@ -63,5 +46,9 @@ class Github < Source
 
   def rate_limiting
     config.rate_limiting || 5000
+  end
+
+  def repo_key
+    "github.com"
   end
 end

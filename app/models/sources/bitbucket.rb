@@ -1,23 +1,6 @@
 class Bitbucket < Source
-  def get_query_url(work)
-    return nil unless work.canonical_url =~ /bitbucket.org/
-
-    # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
-    full_name = URI.parse(work.canonical_url).path[1..-1]
-    owner, repo = full_name.split('/')
-
-    url % { owner: owner, repo: repo }
-  end
-
-  def get_events_url(work)
-    return nil unless work.canonical_url =~ /bitbucket.org/
-
-    # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
-    full_name = URI.parse(work.canonical_url).path[1..-1]
-    owner, repo = full_name.split('/')
-
-    events_url % { owner: owner, repo: repo }
-  end
+  # include common methods for repos
+  include Repoable
 
   def parse_data(result, work, options={})
     return result if result[:error]
@@ -50,5 +33,9 @@ class Bitbucket < Source
 
   def rate_limiting
     config.rate_limiting || 30000
+  end
+
+  def repo_key
+    "bitbucket.org"
   end
 end
